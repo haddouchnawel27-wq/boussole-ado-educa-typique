@@ -1,9 +1,9 @@
 /* Service worker — met l'application en cache pour un usage hors-ligne. */
-var CACHE = "boussole-v2";
+var CACHE = "boussole-v3";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
   "./assets/css/styles.css",
-  "./assets/js/store.js", "./assets/js/ui.js", "./assets/js/app.js",
+  "./assets/js/store.js", "./assets/js/ui.js", "./assets/js/app.js", "./assets/js/suggestions.js",
   "./assets/js/tools/accueil.js", "./assets/js/tools/hub.js", "./assets/js/tools/profils.js",
   "./assets/js/tools/timer.js", "./assets/js/tools/sequenceur.js",
   "./assets/js/tools/emploi-du-temps.js", "./assets/js/tools/jetons.js",
@@ -11,7 +11,7 @@ var FICHIERS = [
   "./assets/js/tools/respiration.js", "./assets/js/tools/humeur.js",
   "./assets/js/tools/ancrage.js", "./assets/js/tools/securite.js",
   "./assets/js/tools/abc.js", "./assets/js/tools/gratitude.js",
-  "./assets/js/tools/accessibilite.js"
+  "./assets/js/tools/suivi.js", "./assets/js/tools/accessibilite.js"
 ];
 
 self.addEventListener("install", function (e) {

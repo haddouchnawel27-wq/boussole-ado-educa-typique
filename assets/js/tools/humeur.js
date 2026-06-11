@@ -73,7 +73,9 @@
         UI.el("button.btn.grand", { text: "💾 Enregistrer", onclick: function () {
           if (!niveauChoisi) { UI.toast("Choisis une humeur"); return; }
           Store.humeurs.ajouter({ profilId: ctx.profil ? ctx.profil.id : null, niveau: niveauChoisi, note: note.value.trim() });
-          UI.toast("Humeur enregistrée 💛"); Boussole.naviguer("humeur");
+          UI.toast("Humeur enregistrée 💛");
+          var niv = niveauChoisi;
+          if (!Boussole.suggererApresHumeur(niv)) Boussole.naviguer("humeur");
         }})
       ]));
 

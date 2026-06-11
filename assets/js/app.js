@@ -40,10 +40,44 @@
     });
   }
 
+  // ---- Favoris & récents ----
+  function favoris() { return Store.lire("favoris", []); }
+  function estFavori(id) { return favoris().indexOf(id) >= 0; }
+  function toggleFavori(id) {
+    var f = favoris(); var i = f.indexOf(id);
+    if (i >= 0) f.splice(i, 1); else f.push(id);
+    Store.ecrire("favoris", f); return i < 0;
+  }
+  function recents() {
+    return Store.lire("recents", []).map(outilParId).filter(Boolean);
+  }
+  function noterRecent(id) {
+    if (id === "accueil") return;
+    var r = Store.lire("recents", []).filter(function (x) { return x !== id; });
+    r.unshift(id);
+    Store.ecrire("recents", r.slice(0, 6));
+  }
+
   // ---- Construction de la navigation ----
   function construireNav() {
     var conteneur = document.getElementById("nav-groups");
     UI.vider(conteneur);
+
+    // Champ de recherche
+    var recherche = UI.el("input", { type: "search", placeholder: "🔍 Rechercher un outil…", "aria-label": "Rechercher un outil", style: "width:100%;padding:.55rem .7rem;border:1px solid var(--gris-clair);border-radius:10px;margin-bottom:.8rem;font-size:.95rem;font-family:inherit" });
+    recherche.addEventListener("input", function () {
+      var q = recherche.value.trim().toLowerCase();
+      document.querySelectorAll("#nav-groups .nav-link").forEach(function (a) {
+        var t = (a.textContent || "").toLowerCase();
+        a.style.display = (!q || t.indexOf(q) >= 0) ? "" : "none";
+      });
+      document.querySelectorAll("#nav-groups .nav-group").forEach(function (grp) {
+        var visibles = grp.querySelectorAll('.nav-link:not([style*="display: none"])').length;
+        grp.style.display = visibles ? "" : "none";
+      });
+    });
+    conteneur.appendChild(recherche);
+
     groupes.forEach(function (g) {
       var liste = outils.filter(function (o) { return o.groupe === g.id; });
       if (!liste.length) return;
@@ -76,6 +110,7 @@
     var vue = document.getElementById("vue");
     UI.vider(vue);
     marquerActif(outil.id);
+    noterRecent(outil.id);
     document.body.classList.remove("menu-ouvert");
     document.getElementById("contenu").focus();
     document.title = (outil.titre ? outil.titre + " — " : "") + "Boussole";
@@ -128,14 +163,21 @@
     routerVers();
   }
 
+  function outilParIdPublic(id) { return outilParId(id); }
+
   window.Boussole = {
     registerTool: registerTool,
     tousLesOutils: tousLesOutils,
+    outilParId: outilParIdPublic,
     nomGroupe: nomGroupe,
     naviguer: naviguer,
     profilActif: profilActif,
     setProfilActif: setProfilActif,
     rafraichirSelectProfil: rafraichirSelectProfil,
+    favoris: favoris,
+    estFavori: estFavori,
+    toggleFavori: toggleFavori,
+    recents: recents,
     start: start,
     // défini dans accessibilite.js, valeur par défaut sûre ici
     appliquerAccessibilite: function () {}

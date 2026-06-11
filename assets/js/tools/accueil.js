@@ -1,45 +1,107 @@
-/* Accueil — tableau de bord et accès aux outils */
+/* Accueil — tableau de bord intelligent */
 (function () {
   "use strict";
+
+  var NIV_EMO = ["", "😞", "🙁", "😐", "🙂", "😄"];
+
+  function salutation() {
+    var h = new Date().getHours();
+    if (h < 6) return "Bonne nuit";
+    if (h < 12) return "Bonjour";
+    if (h < 18) return "Bon après-midi";
+    return "Bonne soirée";
+  }
+
+  function tuileOutil(o, avecEtoile) {
+    var tuile = UI.el("a.tuile", { href: "#/" + o.id }, [
+      UI.el("span.tuile-ic", { text: o.icone, "aria-hidden": "true" }),
+      UI.el("h3", { text: o.titre }),
+      UI.el("p", { text: o.desc || "" })
+    ]);
+    if (avecEtoile) {
+      var fav = Boussole.estFavori(o.id);
+      var btn = UI.el("button.fav-btn", { text: fav ? "★" : "☆", title: fav ? "Retirer des favoris" : "Épingler", "aria-label": "Épingler " + o.titre });
+      btn.addEventListener("click", function (e) {
+        e.preventDefault(); e.stopPropagation();
+        Boussole.toggleFavori(o.id); Boussole.naviguer("accueil");
+      });
+      tuile.appendChild(btn);
+    }
+    return tuile;
+  }
 
   Boussole.registerTool({
     id: "accueil", groupe: "accueil", titre: "Accueil", icone: "🏠",
     render: function (vue, ctx) {
       vue.appendChild(UI.enTete(
-        "Bonjour 👋",
-        "Votre boîte à outils d'accompagnement. Choisissez un jeune en haut de l'écran, puis un outil ci-dessous. Tout reste privé, sur cet appareil."
+        salutation() + " 👋",
+        "Votre boîte à outils d'accompagnement. Tout reste privé, sur cet appareil."
       ));
 
-      if (!ctx.profil) {
+      // --- Bandeau jeune actif : aperçu + actions rapides ---
+      if (ctx.profil) {
+        var pid = ctx.profil.id;
+        var humeurs = Store.humeurs.filtre(function (h) { return h.profilId === pid; });
+        var derH = humeurs.slice().sort(function (a, b) { return new Date(b.cree) - new Date(a.cree); })[0];
+        var emos = Store.emotions.filtre(function (e) { return e.profilId === pid; });
+        var derE = emos.slice().sort(function (a, b) { return new Date(b.cree) - new Date(a.cree); })[0];
+        var solde = Store.jetonsEvts.filtre(function (j) { return j.profilId === pid; }).reduce(function (s, j) { return s + j.montant; }, 0);
+
+        var apercu = UI.el(".carte", { style: "background:var(--vert-clair);border-color:#cfe5df" });
+        apercu.appendChild(UI.el("div", { style: "display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between" }, [
+          UI.el("div", {}, [
+            UI.el("div", { style: "font-weight:800;font-size:1.2rem", text: "🧑 " + ctx.profil.prenom + (ctx.profil.age ? " · " + ctx.profil.age + " ans" : "") }),
+            UI.el("div.meta", { text: (derH ? "Humeur " + NIV_EMO[derH.niveau] + " (" + UI.dateFr(derH.cree) + ")" : "Pas encore d'humeur notée") + (derE ? " · Dernière émotion : " + derE.emoji + " " + derE.emotion : "") })
+          ]),
+          UI.el("div", { style: "text-align:center" }, [
+            UI.el("div", { style: "font-size:1.6rem;font-weight:800;color:var(--ambre)", text: "⭐ " + solde }),
+            UI.el("div.meta", { text: "jetons" })
+          ])
+        ]));
+        apercu.appendChild(UI.el("div.btn-rangee", { style: "margin:.9rem 0 0" }, [
+          UI.el("a.btn", { href: "#/emotions", text: "🌡️ Noter une émotion" }),
+          UI.el("a.btn.secondaire", { href: "#/humeur", text: "📈 Humeur du jour" }),
+          UI.el("a.btn.secondaire", { href: "#/respiration", text: "🫁 Respirer" }),
+          UI.el("a.btn.secondaire", { href: "#/suivi", text: "🗂️ Dossier de suivi" })
+        ]));
+        vue.appendChild(apercu);
+      } else {
         var a = UI.el(".alerte", {}, [
           UI.el("strong", { text: "Astuce : " }),
-          document.createTextNode("commencez par créer une fiche pour un jeune afin de relier ses émotions, jetons et suivis. Vous pouvez aussi utiliser les outils librement sans fiche.")
+          document.createTextNode("sélectionnez un jeune en haut de l'écran (ou créez une fiche) pour relier ses émotions, jetons et suivis. Les outils restent utilisables librement sans fiche.")
         ]);
         a.appendChild(UI.el("div.btn-rangee", { style: "margin-bottom:0" }, [
           UI.el("a.btn", { href: "#/profils", text: "➕ Créer une fiche jeune" })
         ]));
         vue.appendChild(a);
-      } else {
-        vue.appendChild(UI.el("p", {}, [
-          document.createTextNode("Jeune sélectionné·e : "),
-          UI.el("span.pilule", { text: ctx.profil.prenom + (ctx.profil.age ? " · " + ctx.profil.age + " ans" : "") })
-        ]));
       }
 
-      // Regrouper les tuiles par groupe
-      var groupes = ["tnd", "tcc", "secours", "spirituel", "pro"];
+      // --- Favoris ---
+      var favs = Boussole.favoris().map(Boussole.outilParId).filter(Boolean);
+      if (favs.length) {
+        vue.appendChild(UI.el("h2", { text: "⭐ Mes favoris", style: "margin:1.6rem 0 .6rem" }));
+        var gf = UI.el(".grille");
+        favs.forEach(function (o) { gf.appendChild(tuileOutil(o, true)); });
+        vue.appendChild(gf);
+      }
+
+      // --- Récemment utilisés ---
+      var rec = Boussole.recents().filter(function (o) { return o.id !== "accueil"; }).slice(0, 6);
+      if (rec.length) {
+        vue.appendChild(UI.el("h2", { text: "🕓 Repris récemment", style: "margin:1.6rem 0 .6rem" }));
+        var gr = UI.el(".grille");
+        rec.forEach(function (o) { gr.appendChild(tuileOutil(o, false)); });
+        vue.appendChild(gr);
+      }
+
+      // --- Catalogue complet par groupe (avec épinglage) ---
+      var groupes = ["ressources", "tnd", "tcc", "secours", "spirituel", "pro"];
       groupes.forEach(function (g) {
         var liste = Boussole.tousLesOutils().filter(function (o) { return o.groupe === g; });
         if (!liste.length) return;
         vue.appendChild(UI.el("h2", { text: Boussole.nomGroupe(g), style: "margin:1.6rem 0 .6rem" }));
         var grille = UI.el(".grille");
-        liste.forEach(function (o) {
-          grille.appendChild(UI.el("a.tuile", { href: "#/" + o.id }, [
-            UI.el("span.tuile-ic", { text: o.icone, "aria-hidden": "true" }),
-            UI.el("h3", { text: o.titre }),
-            UI.el("p", { text: o.desc || "" })
-          ]));
-        });
+        liste.forEach(function (o) { grille.appendChild(tuileOutil(o, true)); });
         vue.appendChild(grille);
       });
     }

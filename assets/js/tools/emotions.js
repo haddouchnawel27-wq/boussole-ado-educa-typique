@@ -50,7 +50,8 @@
           if (intensite === null) { UI.toast("Choisis l'intensité"); return; }
           Store.emotions.ajouter({ profilId: ctx.profil ? ctx.profil.id : null, emotion: emoChoisie.nom, emoji: emoChoisie.emoji, intensite: intensite, note: note.value.trim() });
           UI.toast("Ressenti enregistré 💛");
-          Boussole.naviguer("emotions");
+          var emo = emoChoisie.nom, inten = intensite;
+          if (!Boussole.suggererApresEmotion(emo, inten)) Boussole.naviguer("emotions");
         }})
       ]));
 

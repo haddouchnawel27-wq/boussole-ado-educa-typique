@@ -36,10 +36,24 @@ parental et secourisme en santé mentale.
 **Ancrage & spiritualité**
 - 🤲 **Carnet de gratitude** — cultiver le positif
 
+**Mes applications**
+- 🔗 **Hub** — rassemble en un seul endroit vos applications externes (liens
+  modifiables : ajout / édition / suppression)
+
 **Suivi & réglages**
+- 🗂️ **Dossier de suivi** — frise chronologique consolidée par jeune, notes de
+  séance, objectifs d'accompagnement, synthèse imprimable
 - 👤 **Fiches des jeunes** — suivi anonymisable
 - 🔍 **Journal ABC** — analyse fonctionnelle du comportement
-- ⚙️ **Réglages & données** — confort dys, taille, contraste, sauvegardes
+- ⚙️ **Réglages & données** — confort dys, taille, contraste, mode sombre, sauvegardes
+
+## 🧠 Intelligence d'usage
+
+- **Tableau de bord** : aperçu du jour par jeune (humeur, dernière émotion,
+  jetons) et actions rapides
+- **Suggestions bienveillantes** : après une émotion intense ou une humeur basse,
+  Boussole propose un outil d'apaisement (respiration, ancrage, plan de sécurité)
+- **Recherche d'outils**, **favoris** épinglables et **outils récents**
 
 ## ▶️ Utilisation
 

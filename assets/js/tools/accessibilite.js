@@ -2,12 +2,13 @@
 (function () {
   "use strict";
 
-  function prefs() { return Store.lire("prefs", { dys: false, taille: "normal", contraste: false }); }
+  function prefs() { return Store.lire("prefs", { dys: false, taille: "normal", contraste: false, sombre: false }); }
 
   function appliquer() {
     var p = prefs();
     document.body.classList.toggle("dys", !!p.dys);
     document.body.classList.toggle("contraste", !!p.contraste);
+    document.body.classList.toggle("sombre", !!p.sombre);
     document.body.classList.remove("txt-grand", "txt-tres-grand");
     if (p.taille === "grand") document.body.classList.add("txt-grand");
     if (p.taille === "tres-grand") document.body.classList.add("txt-tres-grand");
@@ -42,7 +43,11 @@
 
       var chkC = UI.el("input", { type: "checkbox", checked: p.contraste });
       chkC.addEventListener("change", function () { sauver({ contraste: chkC.checked }); });
-      carteA.appendChild(UI.el("label", { style: "display:flex;gap:.6rem;align-items:center;font-weight:600" }, [chkC, document.createTextNode("Contraste renforcé")]));
+      carteA.appendChild(UI.el("label", { style: "display:flex;gap:.6rem;align-items:center;font-weight:600;margin-bottom:.8rem" }, [chkC, document.createTextNode("Contraste renforcé")]));
+
+      var chkS = UI.el("input", { type: "checkbox", checked: p.sombre });
+      chkS.addEventListener("change", function () { sauver({ sombre: chkS.checked }); });
+      carteA.appendChild(UI.el("label", { style: "display:flex;gap:.6rem;align-items:center;font-weight:600" }, [chkS, document.createTextNode("🌙 Mode sombre (repos visuel)")]));
       vue.appendChild(carteA);
 
       // Données

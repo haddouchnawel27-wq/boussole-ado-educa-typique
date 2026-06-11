@@ -116,6 +116,44 @@
     emploisDuTemps: collection("emploisDuTemps"),
     plansSecurite: collection("plansSecurite"),
     abc: collection("abc"),
-    gratitudes: collection("gratitudes")
+    gratitudes: collection("gratitudes"),
+    notes: collection("notes"),
+    objectifs: collection("objectifs")
   };
+
+  // --- Agrégation : frise de suivi unifiée d'un jeune ---
+  // Fusionne tous les éléments datés (émotions, humeurs, pensées, ABC,
+  // jetons, gratitude, notes) en une liste typée et triée du + récent au + ancien.
+  function journalDuJeune(profilId) {
+    var NIV = ["", "Très bas", "Bas", "Moyen", "Bien", "Très bien"];
+    var NIV_EMO = ["", "😞", "🙁", "😐", "🙂", "😄"];
+    var items = [];
+    function pousser(arr, mapper) { arr.forEach(function (x) { if (profilId == null || x.profilId === profilId) items.push(mapper(x)); }); }
+
+    pousser(window.Store.emotions.tout(), function (e) {
+      return { type: "emotion", icone: e.emoji || "🌡️", date: e.cree, titre: e.emotion + " — " + e.intensite + "/10", detail: e.note || "", ref: e, outil: "emotions" };
+    });
+    pousser(window.Store.humeurs.tout(), function (h) {
+      return { type: "humeur", icone: NIV_EMO[h.niveau] || "📈", date: h.cree, titre: "Humeur : " + (NIV[h.niveau] || h.niveau), detail: h.note || "", ref: h, outil: "humeur" };
+    });
+    pousser(window.Store.pensees.tout(), function (p) {
+      return { type: "pensee", icone: "💭", date: p.cree, titre: "Pensée : " + (p.situation || "—"), detail: (p.alternative ? "💡 " + p.alternative : (p.pensee || "")), ref: p, outil: "pensees" };
+    });
+    pousser(window.Store.abc.tout(), function (o) {
+      return { type: "abc", icone: "🔍", date: o.cree, titre: "Comportement : " + o.comportement, detail: o.fonction ? "Fonction : " + o.fonction : "", ref: o, outil: "abc" };
+    });
+    pousser(window.Store.jetonsEvts.tout(), function (j) {
+      return { type: "jeton", icone: j.montant > 0 ? "⭐" : "🎁", date: j.cree, titre: (j.montant > 0 ? "+" : "") + j.montant + " jeton" + (Math.abs(j.montant) > 1 ? "s" : ""), detail: j.motif || "", ref: j, outil: "jetons" };
+    });
+    pousser(window.Store.gratitudes.tout(), function (g) {
+      return { type: "gratitude", icone: "🌸", date: g.cree, titre: "Gratitude", detail: g.texte || "", ref: g, outil: "gratitude" };
+    });
+    pousser(window.Store.notes.tout(), function (n) {
+      return { type: "note", icone: "📝", date: n.cree, titre: "Note de séance" + (n.titre ? " — " + n.titre : ""), detail: n.texte || "", ref: n, outil: "suivi" };
+    });
+
+    items.sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+    return items;
+  }
+  window.Store.journalDuJeune = journalDuJeune;
 })();
