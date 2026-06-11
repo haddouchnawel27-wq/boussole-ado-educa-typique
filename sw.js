@@ -1,10 +1,10 @@
 /* Service worker — met l'application en cache pour un usage hors-ligne. */
-var CACHE = "boussole-v1";
+var CACHE = "boussole-v2";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
   "./assets/css/styles.css",
   "./assets/js/store.js", "./assets/js/ui.js", "./assets/js/app.js",
-  "./assets/js/tools/accueil.js", "./assets/js/tools/profils.js",
+  "./assets/js/tools/accueil.js", "./assets/js/tools/hub.js", "./assets/js/tools/profils.js",
   "./assets/js/tools/timer.js", "./assets/js/tools/sequenceur.js",
   "./assets/js/tools/emploi-du-temps.js", "./assets/js/tools/jetons.js",
   "./assets/js/tools/emotions.js", "./assets/js/tools/pensees.js",

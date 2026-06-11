@@ -7,6 +7,7 @@
   var outils = [];
   var groupes = [
     { id: "accueil", nom: "" },
+    { id: "ressources", nom: "Mes applications" },
     { id: "tnd", nom: "TND · Dys · Neuropédagogie" },
     { id: "tcc", nom: "TCC · Émotions" },
     { id: "secours", nom: "Secourisme santé mentale" },
