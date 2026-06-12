@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermomètre du bruit — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{
+  background:linear-gradient(135deg,#8ED9D2,#CBB6F6);padding:1.8rem 1.5rem;text-align:center;position:relative;overflow:hidden;
+}
+.bandeau::after{content:"🔊";position:absolute;top:1rem;right:1.4rem;font-size:1.8rem;opacity:.6}
+.bandeau h1{color:#fff;margin:0;font-size:clamp(1.6rem,3vw,2.2rem);text-shadow:0 2px 4px rgba(0,0,0,.15)}
+.bandeau .sub{color:#fff;max-width:680px;margin:.5rem auto 0;font-size:1.02rem;opacity:.95}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.25);padding:.3em .9em;border-radius:999px}
+
+.container{max-width:1000px;margin:1.4rem auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.92rem;color:#5A4D6B;font-weight:600}
+
+.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c)}
+.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem}
+.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-thermo{--c:#2a9d8f}
+.bloc-strat{--c:#8ED9D2}
+.bloc-suivi{--c:#7c5cbf}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+
+/* Thermomètre visuel */
+.thermo-zone{display:grid;grid-template-columns:130px 1fr;gap:1.5rem;align-items:flex-start;margin-top:.6rem}
+@media (max-width:780px){.thermo-zone{grid-template-columns:80px 1fr;gap:1rem}}
+
+.thermo-visuel{
+  display:flex;flex-direction:column;border-radius:20px;overflow:hidden;
+  border:3px solid var(--texte);min-height:480px;width:100%;
+  position:sticky;top:1rem;
+}
+.thermo-zone-niveau{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#fff;font-weight:900;font-size:1.6rem;cursor:pointer;
+  transition:transform .15s, filter .15s;position:relative;
+}
+.thermo-zone-niveau:hover{filter:brightness(1.1)}
+.thermo-zone-niveau.actif::after{
+  content:"◀";position:absolute;left:-1.4rem;font-size:1.4rem;color:var(--texte);
+  filter:none;
+}
+.thermo-zone-niveau .ic{font-size:1.3rem}
+.thermo-zone-niveau .lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;opacity:.95;font-weight:700}
+
+/* Cards niveaux à droite */
+.niveau-cards{display:flex;flex-direction:column;gap:.5rem}
+.niveau-card{
+  background:#fff;border-radius:var(--r-md);padding:.8rem 1rem;
+  border-left:6px solid var(--c-niv);box-shadow:var(--shadow-sm);
+  cursor:pointer;transition:transform .15s, box-shadow .15s;
+}
+.niveau-card:hover{transform:translateX(4px);box-shadow:var(--shadow-md)}
+.niveau-card.selectionne{
+  background:linear-gradient(90deg, var(--c-niv-fond), #fff);
+  border-left-width:8px;box-shadow:var(--shadow-md);
+}
+.niveau-card .titre-niveau{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.3rem}
+.niveau-card h3{margin:0;color:var(--c-niv);font-size:1rem;font-family:var(--font-titre)}
+.niveau-card .num-niveau{background:var(--c-niv);color:#fff;border-radius:50%;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;flex-shrink:0}
+.niveau-card .desc-niveau{font-size:.92rem;color:var(--texte);margin:.2rem 0}
+.niveau-card .signes{font-size:.83rem;color:var(--muted);margin-top:.3rem;font-style:italic}
+.niveau-card .strategies-liste{
+  margin-top:.4rem;padding:.5rem .7rem;background:rgba(255,255,255,.7);
+  border-radius:var(--r-sm);font-size:.85rem;color:var(--texte);
+  display:none;
+}
+.niveau-card.selectionne .strategies-liste{display:block}
+.niveau-card .strategies-liste strong{display:block;color:var(--c-niv);margin-bottom:.2rem}
+.niveau-card .strategies-liste ul{margin:.2rem 0 0;padding-left:1.2rem}
+
+.niveau-0{--c-niv:#1b7a4a;--c-niv-fond:#e8f5ec}
+.niveau-1{--c-niv:#2a9d8f;--c-niv-fond:#e0f4f1}
+.niveau-2{--c-niv:#a87800;--c-niv-fond:#fff3e0}
+.niveau-3{--c-niv:#c25a30;--c-niv-fond:#fde6dc}
+.niveau-4{--c-niv:#a02040;--c-niv-fond:#f5d6dc}
+.niveau-5{--c-niv:#5a0a20;--c-niv-fond:#e8c2cc}
+
+.thermo-zone-0{background:#1b7a4a}
+.thermo-zone-1{background:#2a9d8f}
+.thermo-zone-2{background:#a87800}
+.thermo-zone-3{background:#c25a30}
+.thermo-zone-4{background:#a02040}
+.thermo-zone-5{background:#5a0a20}
+
+/* Strat perso */
+.cocher-strategies{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.4rem;margin-top:.5rem}
+.cocher-strategies label{
+  background:var(--beige);border-radius:var(--r-sm);padding:.5rem .7rem;
+  display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.88rem;
+}
+.cocher-strategies label:hover{background:#fff;border:1px solid var(--border)}
+.cocher-strategies input:checked + span{color:#2a9d8f;font-weight:700}
+
+/* Suivi tableau */
+.suivi-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.4rem}
+.suivi-table th, .suivi-table td{padding:.4em .6em;border:1px solid var(--border);text-align:left}
+.suivi-table th{background:var(--beige);color:#7c5cbf;font-weight:700;font-size:.78rem}
+.suivi-table td input{width:100%;padding:.2em;border:none;background:transparent;font-family:var(--font-body);font-size:.85rem}
+.suivi-table td input:focus{outline:1px solid var(--turquoise);background:#fff}
+.suivi-wrap{overflow-x:auto;margin-top:.4rem}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 1.5rem}
+.actions button{background:#fff;color:#2a9d8f;border:2px solid #2a9d8f}
+.actions button:hover{background:#2a9d8f;color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .retour, .actions, .dossiers{display:none !important}
+  body{background:#fff}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau::after{display:none}
+  .bandeau h1, .bandeau .sub{color:#2a9d8f !important;text-shadow:none}
+  .bloc{box-shadow:none}
+  .niveau-card .strategies-liste{display:block !important}
+  .thermo-visuel{position:static}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../ados.html">← Espace ados</a>
+  <h1>🔊 Thermomètre du bruit</h1>
+  <p class="sub">Le bruit, c'est pas pareil pour tout le monde. Apprends à connaître ton seuil, à repérer ta surcharge, et à choisir une stratégie.</p>
+</section>
+
+<div class="container">
+
+  <div class="posture">
+    💡 <strong>Posture :</strong> il n'y a pas de « bon » ou « mauvais » seuil de tolérance au bruit. Ton cerveau est cablé à sa manière. Ce thermomètre n'est pas là pour te juger — il sert à <strong>te reconnaître</strong>, et à dire aux adultes ce dont tu as besoin avec des mots clairs.
+  </div>
+
+  <!-- META -->
+  <section class="bloc bloc-meta">
+    <h2>Identité</h2>
+    <div class="grille">
+      <div class="champ"><label>Prénom</label><input data-k="prenom" type="text"></div>
+      <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+      <div class="champ"><label>Date</label><input data-k="date" type="date"></div>
+      <div class="champ"><label>Contexte mesuré</label>
+        <select data-k="contexte">
+          <option value="">—</option>
+          <option>Maison (chambre)</option>
+          <option>Maison (salon / cuisine)</option>
+          <option>Classe</option>
+          <option>Récréation</option>
+          <option>Cantine</option>
+          <option>Transports</option>
+          <option>Magasin / centre commercial</option>
+          <option>Anniversaire / fête</option>
+          <option>Sport / activité</option>
+          <option>Autre</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- THERMOMETRE INTERACTIF -->
+  <section class="bloc bloc-thermo">
+    <h2>🌡️ Mon niveau de bruit aujourd'hui</h2>
+    <p class="intro">Clique sur le niveau qui correspond à ce que tu ressens MAINTENANT — pas ce que tu « devrais » ressentir.</p>
+
+    <div class="thermo-zone">
+      <!-- Thermomètre visuel à gauche -->
+      <div class="thermo-visuel" id="thermo-visuel">
+        <!-- Du haut (5) au bas (0) -->
+        <div class="thermo-zone-niveau thermo-zone-5" data-niveau="5">
+          <div class="ic">😱</div>
+          <div>5</div>
+          <div class="lbl">crise</div>
+        </div>
+        <div class="thermo-zone-niveau thermo-zone-4" data-niveau="4">
+          <div class="ic">😣</div>
+          <div>4</div>
+          <div class="lbl">débordé</div>
+        </div>
+        <div class="thermo-zone-niveau thermo-zone-3" data-niveau="3">
+          <div class="ic">😖</div>
+          <div>3</div>
+          <div class="lbl">tendu</div>
+        </div>
+        <div class="thermo-zone-niveau thermo-zone-2" data-niveau="2">
+          <div class="ic">😐</div>
+          <div>2</div>
+          <div class="lbl">gênant</div>
+        </div>
+        <div class="thermo-zone-niveau thermo-zone-1" data-niveau="1">
+          <div class="ic">🙂</div>
+          <div>1</div>
+          <div class="lbl">léger</div>
+        </div>
+        <div class="thermo-zone-niveau thermo-zone-0" data-niveau="0">
+          <div class="ic">😌</div>
+          <div>0</div>
+          <div class="lbl">calme</div>
+        </div>
+      </div>
+
+      <!-- Cards des 6 niveaux à droite -->
+      <div class="niveau-cards" id="niveau-cards"></div>
+    </div>
+  </section>
+
+  <!-- MES STRATEGIES PERSO -->
+  <section class="bloc bloc-strat">
+    <h2>🎒 Ma trousse anti-bruit perso</h2>
+    <p class="intro">Coche ce qui marche pour TOI. Pas ce qui marche pour les autres. Et ajoute tes propres trucs en bas.</p>
+    <div class="cocher-strategies">
+      <label><input type="checkbox" data-k="s-casque"><span>🎧 Casque anti-bruit</span></label>
+      <label><input type="checkbox" data-k="s-bouchons"><span>🟠 Bouchons d'oreilles</span></label>
+      <label><input type="checkbox" data-k="s-musique"><span>🌧 Bruit blanc / bruit de pluie dans casque</span></label>
+      <label><input type="checkbox" data-k="s-isoler"><span>🚪 M'isoler dans une pièce calme</span></label>
+      <label><input type="checkbox" data-k="s-marcher"><span>🚶 Marcher dehors / bouger</span></label>
+      <label><input type="checkbox" data-k="s-respirer"><span>🌬️ Respiration carrée</span></label>
+      <label><input type="checkbox" data-k="s-eau"><span>💧 Boire de l'eau fraîche</span></label>
+      <label><input type="checkbox" data-k="s-lourd"><span>🛌 Couverture / coussin lesté</span></label>
+      <label><input type="checkbox" data-k="s-presser"><span>🤲 Pression profonde (auto-câlin)</span></label>
+      <label><input type="checkbox" data-k="s-dire"><span>💬 Dire à un adulte « j'ai besoin de pause »</span></label>
+      <label><input type="checkbox" data-k="s-carte"><span>🃏 Carte pause non verbale</span></label>
+      <label><input type="checkbox" data-k="s-dessiner"><span>✏️ Dessiner / écrire</span></label>
+      <label><input type="checkbox" data-k="s-mache"><span>🍬 Mâcher (gomme, chewy)</span></label>
+      <label><input type="checkbox" data-k="s-objet"><span>🪀 Manipuler un objet (fidget)</span></label>
+      <label><input type="checkbox" data-k="s-conter"><span>🔢 Compter à rebours</span></label>
+      <label><input type="checkbox" data-k="s-rappel"><span>🕊️ Invocation / rappel</span></label>
+    </div>
+    <div class="champ" style="margin-top:.7rem"><label>Mes stratégies perso à ajouter (que personne d'autre ne fait)</label><textarea data-k="s-perso" style="min-height:60px"></textarea></div>
+    <div class="champ" style="margin-top:.4rem"><label>Mon seuil personnel : à partir de quel niveau je dois agir ?</label>
+      <select data-k="seuil">
+        <option value="">—</option>
+        <option value="1">À partir de 1 (léger) — je suis très sensible</option>
+        <option value="2">À partir de 2 (gênant) — c'est mieux d'agir tôt</option>
+        <option value="3">À partir de 3 (tendu) — niveau classique</option>
+        <option value="4">À partir de 4 (débordé) — j'attends souvent trop</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- SUIVI -->
+  <section class="bloc bloc-suivi">
+    <h2>📈 Mon suivi sur la semaine</h2>
+    <p class="intro">Une ligne par jour. Note ton niveau max + ce qui l'a déclenché + ce que tu as fait. Au bout de 2 semaines, tu commenceras à voir tes patterns.</p>
+    <div class="suivi-wrap">
+      <table class="suivi-table">
+        <thead>
+          <tr><th>Jour</th><th>Niveau max</th><th>Contexte / déclencheur</th><th>Stratégie utilisée</th><th>Ça a aidé ?</th></tr>
+        </thead>
+        <tbody id="suivi-corps"></tbody>
+      </table>
+    </div>
+    <button id="btn-add-suivi" style="margin-top:.5rem;background:#fff;color:#7c5cbf;border:2px solid #7c5cbf;padding:.5em 1em;border-radius:999px;cursor:pointer;font-family:var(--font-body);font-weight:700">+ Ajouter une ligne</button>
+  </section>
+
+  <div class="actions">
+    <button id="btn-enregistrer">💾 Enregistrer</button>
+    <button id="btn-exporter">📄 Exporter (TXT)</button>
+    <button id="btn-imprimer">🖨️ Imprimer</button>
+    <button id="btn-vider" class="danger">🧹 Vider</button>
+  </div>
+
+  <div class="dossiers">
+    <h4>📂 Mesures enregistrées</h4>
+    <div id="liste-dossiers"></div>
+  </div>
+
+  <p style="text-align:center;color:var(--muted);padding:1rem 0;font-size:.85rem">
+    EducaTypique · Méthode Educa — <a href="../../ados.html">retour espace ados</a>
+  </p>
+
+</div>
+
+<script>
+const STORAGE = 'educatypique_thermo_bruit_v1';
+let currentId = null;
+let niveauChoisi = null;
+
+const NIVEAUX = [
+  { n:0, nom:'Silence / calme', desc:'Tout va bien. Je peux lire, réfléchir, dormir sans gêne.',
+    signes:'Respiration calme, corps détendu, tête tranquille.',
+    strategies:['Je profite de ce moment','Je peux apprendre / créer / me reposer','Je peux faire des choses qui demandent de la concentration'] },
+  { n:1, nom:'Bruit léger', desc:'Bruit de fond normal. Conversations basses, bruit blanc, voitures au loin, vent dans les feuilles.',
+    signes:'Pas de gêne. Je suis disponible.',
+    strategies:['Je continue ce que je fais','Si je veux me concentrer fort : casque ou pièce plus calme'] },
+  { n:2, nom:'Bruit gênant', desc:'Je commence à le remarquer. Plusieurs conversations en même temps, télé au salon, classe qui bavarde.',
+    signes:'Légère tension, perte de concentration, je dois relire 2 fois.',
+    strategies:['Je nomme : « ça commence à me gêner »','Je change de pièce si possible','Je mets un casque ou des bouchons','Je demande qu\'on baisse le son'] },
+  { n:3, nom:'Tendu', desc:'Le bruit me fatigue clairement. Cantine, récréation bruyante, magasin bondé, klaxons.',
+    signes:'Mal de tête léger, irritabilité, envie de partir, je deviens plus sec·he avec les autres.',
+    strategies:['Pause obligatoire (5-10 min seul·e)','Casque anti-bruit ou bouchons','Je m\'éloigne physiquement','Respiration profonde','Je préviens un adulte : « je sors un peu »'] },
+  { n:4, nom:'Débordé', desc:'Je suis en surcharge. Trop de bruit, trop d\'infos en même temps. Mon cerveau ne suit plus.',
+    signes:'Mains qui tremblent, gorge serrée, envie de pleurer ou de crier, larmes qui montent, je n\'écoute plus.',
+    strategies:['STOP immédiat — je sors du contexte','Pièce sombre et calme si possible','Pression profonde (couverture lestée, mur)','Respiration lente','Je dis à l\'adulte « je n\'en peux plus »','Pas d\'effort cognitif — laisser redescendre'] },
+  { n:5, nom:'Crise / overload', desc:'Saturation totale. Je ne contrôle plus. Le bruit fait mal physiquement.',
+    signes:'Cris, larmes, mains sur oreilles, fuite, je tape ou je me ferme totalement, dissociation possible.',
+    strategies:['Adulte de confiance prévient les autres','Isolement total — pièce sombre, silence absolu','Pas de discussion, pas de questions','Couverture lestée, position fœtale OK','Boisson fraîche après','Récupération : compter 30-60 min avant de pouvoir parler'] }
+];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// === Rendu des cards niveaux ===
+function renderNiveauCards(){
+  const cont = document.getElementById('niveau-cards');
+  cont.innerHTML = NIVEAUX.map(niv=>`
+    <div class="niveau-card niveau-${niv.n}" data-niveau="${niv.n}">
+      <div class="titre-niveau">
+        <h3>${esc(niv.nom)}</h3>
+        <span class="num-niveau">${niv.n}</span>
+      </div>
+      <div class="desc-niveau">${esc(niv.desc)}</div>
+      <div class="signes">🫀 ${esc(niv.signes)}</div>
+      <div class="strategies-liste">
+        <strong>🎯 Stratégies pour ce niveau :</strong>
+        <ul>${niv.strategies.map(s=>`<li>${esc(s)}</li>`).join('')}</ul>
+      </div>
+    </div>
+  `).join('');
+  cont.querySelectorAll('.niveau-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      niveauChoisi = parseInt(card.dataset.niveau);
+      majSelection();
+    });
+  });
+}
+
+function majSelection(){
+  document.querySelectorAll('.niveau-card').forEach(c=>{
+    c.classList.toggle('selectionne', parseInt(c.dataset.niveau) === niveauChoisi);
+  });
+  document.querySelectorAll('.thermo-zone-niveau').forEach(z=>{
+    z.classList.toggle('actif', parseInt(z.dataset.niveau) === niveauChoisi);
+  });
+}
+
+// Clic sur le thermomètre
+document.addEventListener('click', e=>{
+  if(e.target.closest('.thermo-zone-niveau')){
+    const z = e.target.closest('.thermo-zone-niveau');
+    niveauChoisi = parseInt(z.dataset.niveau);
+    majSelection();
+  }
+});
+
+// === Suivi rows ===
+const JOURS = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+function renderSuiviInit(){
+  const tbody = document.getElementById('suivi-corps');
+  tbody.innerHTML = '';
+  for(let i=0; i<7; i++){
+    ajouterLigneSuivi({ jour: JOURS[i] });
+  }
+}
+
+function ajouterLigneSuivi(d){
+  const tbody = document.getElementById('suivi-corps');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="text" data-suivi="jour" value="${esc(d?.jour||'')}"></td>
+    <td><select data-suivi="niv">
+      <option value="">—</option>
+      ${[0,1,2,3,4,5].map(n=>`<option value="${n}" ${d?.niv==n?'selected':''}>${n}</option>`).join('')}
+    </select></td>
+    <td><input type="text" data-suivi="ctx" value="${esc(d?.ctx||'')}" placeholder="ex : cantine"></td>
+    <td><input type="text" data-suivi="strat" value="${esc(d?.strat||'')}" placeholder="ex : casque + sortie"></td>
+    <td><select data-suivi="aide">
+      <option value="">—</option>
+      <option ${d?.aide=='oui'?'selected':''}>oui</option>
+      <option ${d?.aide=='un peu'?'selected':''}>un peu</option>
+      <option ${d?.aide=='non'?'selected':''}>non</option>
+    </select></td>
+  `;
+  tbody.appendChild(tr);
+}
+
+document.getElementById('btn-add-suivi').addEventListener('click', ()=> ajouterLigneSuivi({}));
+
+function collecterSuivi(){
+  return Array.from(document.querySelectorAll('#suivi-corps tr')).map(tr=>({
+    jour: tr.querySelector('[data-suivi="jour"]').value,
+    niv: tr.querySelector('[data-suivi="niv"]').value,
+    ctx: tr.querySelector('[data-suivi="ctx"]').value,
+    strat: tr.querySelector('[data-suivi="strat"]').value,
+    aide: tr.querySelector('[data-suivi="aide"]').value
+  }));
+}
+
+function appliquerSuivi(arr){
+  const tbody = document.getElementById('suivi-corps');
+  tbody.innerHTML = '';
+  if(arr && arr.length) arr.forEach(d=> ajouterLigneSuivi(d));
+  else renderSuiviInit();
+}
+
+// === Save / Load ===
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type==='checkbox' ? el.checked : el.value;
+  });
+  o.niveau_actuel = niveauChoisi;
+  o._suivi = collecterSuivi();
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  niveauChoisi = o.niveau_actuel ?? null;
+  majSelection();
+  appliquerSuivi(o._suivi || []);
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else el.value = '';
+  });
+  niveauChoisi = null;
+  majSelection();
+  renderSuiviInit();
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucune mesure enregistrée.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · ${esc((o.date||o._ts||'').slice(0,10))} · ${esc(o.contexte||'')} · niveau ${o.niveau_actuel ?? '—'}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire(); const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer cette mesure ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Mets ton prénom avant d\'enregistrer 😊'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr); rendreDossiers(); alert('Mesure enregistrée 🔊');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const l = ['Thermomètre du bruit — EducaTypique',''];
+  l.push((o.prenom||'Mon prénom')+' · '+(o.age||'—')+' · '+(o.date||'—'));
+  l.push('Contexte : '+(o.contexte||'—'));
+  l.push('Niveau actuel : '+(o.niveau_actuel ?? '—')+'/5');
+  l.push('Mon seuil personnel : '+(o.seuil||'—'));
+  l.push('');
+  l.push('== Ma trousse anti-bruit ==');
+  const strats = [
+    ['s-casque','Casque anti-bruit'],['s-bouchons','Bouchons'],['s-musique','Musique casque'],
+    ['s-isoler','Isolement'],['s-marcher','Marcher dehors'],['s-respirer','Respiration'],
+    ['s-eau','Eau fraîche'],['s-lourd','Couverture lestée'],['s-presser','Pression profonde'],
+    ['s-dire','Dire à un adulte'],['s-carte','Carte pause'],['s-dessiner','Dessiner / écrire'],
+    ['s-mache','Mâcher'],['s-objet','Fidget'],['s-conter','Compter à rebours'],['s-rappel','Invocation / rappel']
+  ];
+  strats.forEach(([k, lbl])=>{ if(o[k]) l.push('  ✓ '+lbl); });
+  if(o['s-perso']) l.push('Stratégies perso : '+o['s-perso']);
+  l.push('');
+  l.push('== Suivi semaine ==');
+  (o._suivi||[]).forEach(s=>{
+    if(s.niv || s.ctx) l.push('  '+s.jour+' : niv '+s.niv+' · '+s.ctx+' · '+s.strat+' · aidé : '+s.aide);
+  });
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'thermo-bruit-'+(o.prenom||'moi')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{ if(confirm('Vider le formulaire ?')) vider(); });
+
+// Init
+renderNiveauCards();
+renderSuiviInit();
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+</script>
+
+</body>
+</html>
