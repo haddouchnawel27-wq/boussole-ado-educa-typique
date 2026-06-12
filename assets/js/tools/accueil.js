@@ -33,10 +33,18 @@
   Boussole.registerTool({
     id: "accueil", groupe: "accueil", titre: "Accueil", icone: "🏠",
     render: function (vue, ctx) {
-      vue.appendChild(UI.enTete(
-        salutation() + " 👋",
-        "Votre boîte à outils d'accompagnement. Tout reste privé, sur cet appareil."
-      ));
+      var p = Boussole.perso ? Boussole.perso() : {};
+      var titre = (p.accueilMode === "fixe" && p.accueilTexte) ? p.accueilTexte : (salutation() + " 👋");
+      var sous = "Votre boîte à outils d'accompagnement. Tout reste privé, sur cet appareil.";
+      if (p.nomCabinet) sous = p.nomCabinet + " — " + sous;
+      vue.appendChild(UI.enTete(titre, sous));
+
+      // Bouton d'installation (si l'app n'est pas déjà installée)
+      if (Boussole.installDispo && Boussole.installDispo()) {
+        vue.appendChild(UI.el(".btn-rangee", {}, [
+          UI.el("button.btn", { text: "📲 Installer l'application sur cet appareil", onclick: function () { Boussole.lancerInstall(); } })
+        ]));
+      }
 
       // --- Bandeau jeune actif : aperçu + actions rapides ---
       if (ctx.profil) {
@@ -95,7 +103,7 @@
       }
 
       // --- Catalogue complet par groupe (avec épinglage) ---
-      var groupes = ["ressources", "tnd", "tcc", "secours", "spirituel", "pro"];
+      var groupes = ["ressources", "tnd", "tcc", "enfants", "secours", "spirituel", "pro"];
       groupes.forEach(function (g) {
         var liste = Boussole.tousLesOutils().filter(function (o) { return o.groupe === g; });
         if (!liste.length) return;

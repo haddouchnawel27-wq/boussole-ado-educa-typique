@@ -10,6 +10,7 @@
     { id: "ressources", nom: "Mes applications" },
     { id: "tnd", nom: "TND · Dys · Neuropédagogie" },
     { id: "tcc", nom: "TCC · Émotions" },
+    { id: "enfants", nom: "Enfants (6-12 ans)" },
     { id: "secours", nom: "Secourisme santé mentale" },
     { id: "spirituel", nom: "Ancrage & spiritualité" },
     { id: "pro", nom: "Suivi & réglages" }
@@ -156,8 +157,9 @@
       document.body.classList.remove("menu-ouvert");
     });
 
-    // Préférences d'accessibilité au chargement
+    // Préférences d'accessibilité et personnalisation au chargement
     Boussole.appliquerAccessibilite();
+    Boussole.appliquerPerso();
 
     window.addEventListener("hashchange", routerVers);
     routerVers();
@@ -179,7 +181,9 @@
     toggleFavori: toggleFavori,
     recents: recents,
     start: start,
-    // défini dans accessibilite.js, valeur par défaut sûre ici
-    appliquerAccessibilite: function () {}
+    // définis dans accessibilite.js / personnalisation.js, valeurs par défaut sûres ici
+    appliquerAccessibilite: function () {},
+    appliquerPerso: function () {},
+    perso: function () { return Store.lire("perso", {}); }
   };
 })();

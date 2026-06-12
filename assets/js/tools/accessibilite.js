@@ -12,6 +12,8 @@
     document.body.classList.remove("txt-grand", "txt-tres-grand");
     if (p.taille === "grand") document.body.classList.add("txt-grand");
     if (p.taille === "tres-grand") document.body.classList.add("txt-tres-grand");
+    // Réappliquer la couleur personnalisée (cohérence avec le mode sombre)
+    if (Boussole.appliquerPerso) Boussole.appliquerPerso();
   }
   // expose pour app.js (appel au démarrage)
   Boussole.appliquerAccessibilite = appliquer;
