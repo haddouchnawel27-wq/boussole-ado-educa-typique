@@ -12,9 +12,12 @@
     { id: "tcc", nom: "TCC · Émotions" },
     { id: "enfants", nom: "Enfants (6-12 ans)" },
     { id: "secours", nom: "Secourisme santé mentale" },
-    { id: "spirituel", nom: "Ancrage & spiritualité" },
+    { id: "spirituel", nom: "Coin spiritualité" },
     { id: "pro", nom: "Suivi & réglages" }
   ];
+
+  // Le coin spiritualité est masqué tant que la praticienne ne l'a pas activé.
+  function spiritualiteActive() { return Store.lire("coinSpiritualite", false); }
 
   // Un outil : { id, groupe, titre, icone, desc, render(vue, ctx), accueil:true/false }
   function registerTool(def) { outils.push(def); }
@@ -80,6 +83,7 @@
     conteneur.appendChild(recherche);
 
     groupes.forEach(function (g) {
+      if (g.id === "spirituel" && !spiritualiteActive()) return;
       var liste = outils.filter(function (o) { return o.groupe === g.id; });
       if (!liste.length) return;
       var bloc = UI.el(".nav-group");
@@ -180,6 +184,8 @@
     estFavori: estFavori,
     toggleFavori: toggleFavori,
     recents: recents,
+    spiritualiteActive: spiritualiteActive,
+    majNav: construireNav,
     start: start,
     // définis dans accessibilite.js / personnalisation.js, valeurs par défaut sûres ici
     appliquerAccessibilite: function () {},

@@ -105,6 +105,7 @@
       // --- Catalogue complet par groupe (avec épinglage) ---
       var groupes = ["ressources", "tnd", "tcc", "enfants", "secours", "spirituel", "pro"];
       groupes.forEach(function (g) {
+        if (g === "spirituel" && !Boussole.spiritualiteActive()) return;
         var liste = Boussole.tousLesOutils().filter(function (o) { return o.groupe === g; });
         if (!liste.length) return;
         vue.appendChild(UI.el("h2", { text: Boussole.nomGroupe(g), style: "margin:1.6rem 0 .6rem" }));

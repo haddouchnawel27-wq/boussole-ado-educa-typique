@@ -52,6 +52,19 @@
       carteA.appendChild(UI.el("label", { style: "display:flex;gap:.6rem;align-items:center;font-weight:600" }, [chkS, document.createTextNode("🌙 Mode sombre (repos visuel)")]));
       vue.appendChild(carteA);
 
+      // Coin spiritualité (activation réservée à la praticienne)
+      vue.appendChild(UI.el("h2", { text: "Coin spiritualité", style: "margin:1.4rem 0 .5rem" }));
+      var carteSpi = UI.el(".carte");
+      var chkSpi = UI.el("input", { type: "checkbox", checked: Store.lire("coinSpiritualite", false) });
+      chkSpi.addEventListener("change", function () {
+        Store.ecrire("coinSpiritualite", chkSpi.checked);
+        Boussole.majNav();
+        UI.toast(chkSpi.checked ? "🤲 Coin spiritualité activé" : "Coin spiritualité masqué");
+      });
+      carteSpi.appendChild(UI.el("label", { style: "display:flex;gap:.6rem;align-items:center;font-weight:600" }, [chkSpi, document.createTextNode("🤲 Activer le coin spiritualité")]));
+      carteSpi.appendChild(UI.el("p.aide", { style: "margin:.5rem 0 0", text: "Quand il est activé, un menu « Coin spiritualité » apparaît avec vos ressources d'ancrage spirituel. Masqué par défaut : à vous de choisir quand le proposer." }));
+      vue.appendChild(carteSpi);
+
       // Données
       vue.appendChild(UI.el("h2", { text: "Vos données", style: "margin:1.4rem 0 .5rem" }));
       vue.appendChild(UI.el(".carte", {}, [

@@ -12,7 +12,7 @@
   ];
 
   Boussole.registerTool({
-    id: "gratitude", groupe: "spirituel", titre: "Carnet de gratitude", icone: "🤲",
+    id: "gratitude", groupe: "tcc", titre: "Carnet de gratitude", icone: "🌸",
     desc: "Cultiver le positif et l'ancrage intérieur : noter chaque jour ce pour quoi on est reconnaissant·e.",
     render: function (vue, ctx) {
       vue.appendChild(UI.enTete("Carnet de gratitude", "Prendre un instant pour reconnaître le bon, même petit. Une pratique douce qui nourrit l'apaisement et le sens."));
