@@ -1,5 +1,5 @@
 /* Service worker — met l'application en cache pour un usage hors-ligne. */
-var CACHE = "boussole-v4";
+var CACHE = "boussole-v5";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
   "./assets/css/styles.css",
@@ -7,6 +7,8 @@ var FICHIERS = [
   "./assets/js/tools/accueil.js", "./assets/js/tools/hub.js", "./assets/js/tools/profils.js",
   "./assets/js/tools/timer.js", "./assets/js/tools/sequenceur.js",
   "./assets/js/tools/emploi-du-temps.js", "./assets/js/tools/jetons.js",
+  "./assets/js/tools/dys.js", "./assets/js/tools/profil-neuro.js",
+  "./assets/js/tools/pomodoro.js", "./assets/js/tools/organisateur.js",
   "./assets/js/tools/emotions.js", "./assets/js/tools/pensees.js",
   "./assets/js/tools/respiration.js", "./assets/js/tools/humeur.js",
   "./assets/js/tools/ancrage.js", "./assets/js/tools/securite.js",

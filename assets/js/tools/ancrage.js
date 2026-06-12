@@ -15,7 +15,7 @@
     { t: "💧 Eau froide", d: "Passe de l'eau froide sur les poignets / le visage. Active le calme." },
     { t: "🫁 Souffler la bougie", d: "Inspire par le nez, souffle lentement comme pour faire vaciller une bougie sans l'éteindre." },
     { t: "💪 Relâcher les muscles", d: "Serre les poings 5 sec, puis relâche. Remonte épaules, puis relâche. Sens la détente." },
-    { t: "🎵 Une chanson refuge", d: "Mets une musique qui apaise et chante / bouge dessus." },
+    { t: "🦶 Sentir ses appuis", d: "Pose bien les pieds au sol, sens le contact. Tu es là, maintenant, en sécurité." },
     { t: "📝 Vider la tête", d: "Écris tout ce qui passe, sans filtre, pendant 2 minutes." }
   ];
 

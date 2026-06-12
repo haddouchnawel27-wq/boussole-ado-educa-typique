@@ -118,7 +118,9 @@
     abc: collection("abc"),
     gratitudes: collection("gratitudes"),
     notes: collection("notes"),
-    objectifs: collection("objectifs")
+    objectifs: collection("objectifs"),
+    profilsNeuro: collection("profilsNeuro"),
+    taches: collection("taches")
   };
 
   // --- Agrégation : frise de suivi unifiée d'un jeune ---

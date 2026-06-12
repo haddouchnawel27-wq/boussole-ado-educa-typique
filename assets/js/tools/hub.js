@@ -13,10 +13,21 @@
     { id: "def-neuroped", emoji: "📚", titre: "Boîte neuro-pédagogique", desc: "Outils de neuropédagogie", url: "https://boite-neuro-ped-univ.netlify.app/" }
   ];
 
+  // Liens par défaut désormais couverts par un outil natif de Boussole
+  // (on évite les doublons dans l'application).
+  var RETIRES = ["def-emo612", "def-bobo", "def-cognitif", "def-neuroado"];
+
   function liens() {
     var perso = Store.lire("liens", null);
-    if (perso === null) { Store.ecrire("liens", PAR_DEFAUT.slice()); return PAR_DEFAUT.slice(); }
-    return perso;
+    if (perso === null) {
+      var def = PAR_DEFAUT.filter(function (l) { return RETIRES.indexOf(l.id) < 0; });
+      Store.ecrire("liens", def);
+      return def;
+    }
+    // Migration douce : retire les anciens liens en double, sans toucher aux liens ajoutés par l'utilisatrice.
+    var filtre = perso.filter(function (l) { return RETIRES.indexOf(l.id) < 0; });
+    if (filtre.length !== perso.length) Store.ecrire("liens", filtre);
+    return filtre;
   }
   function sauver(arr) { Store.ecrire("liens", arr); }
 
