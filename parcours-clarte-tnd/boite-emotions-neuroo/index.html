@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Boîte à Outils Émotions de Neuroo — Educa Typique</title>
+<meta name="description" content="Médiation thérapeutique des émotions pour les 6-10 ans. Neuroo ressent, Educa explique, Noury récapitule." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%A0%3C/text%3E%3C/svg%3E" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+<!-- Charte officielle Boîte NeuroPed -->
+<link rel="stylesheet" href="../assets/charte.css" />
+<style>
+  /* Aperçu — Boîte à Outils Émotions de Neuroo (s'appuie sur charte.css) */
+  body { padding-bottom: 60px; }
+  .ruban-apercu {
+    background: var(--lavande); color: var(--violet-fonce);
+    text-align: center; padding: .55rem 1rem; font-weight: 700; font-size: .9rem;
+    font-family: var(--font-titre);
+  }
+  .hero {
+    background: linear-gradient(135deg, var(--rose-clair), var(--lavande) 55%, var(--turquoise));
+    padding: 2.4rem 1.2rem 2.8rem; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero .marque { font-family: var(--font-titre); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: .8rem; color: var(--violet-fonce); }
+  .hero h1 { color: #fff; text-shadow: 0 2px 6px rgba(124,92,191,.35); margin: .3em 0 .2em; }
+  .hero .slogan { color: var(--violet-fonce); font-style: italic; font-weight: 600; max-width: 40ch; margin: 0 auto; }
+
+  /* Mascottes */
+  .mascottes { display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: center; margin: 1.8rem auto 0; max-width: 760px; }
+  .masc { flex: 1 1 200px; max-width: 230px; background: #fff; border-radius: var(--r-xl); padding: 1.2rem; box-shadow: var(--shadow-md); text-align: center; }
+  .masc-img-wrap {
+    width: 120px; height: 120px; margin: 0 auto .6rem; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 40% 35%, #fff, var(--beige));
+    border: 3px solid var(--menthe);
+  }
+  .masc-img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff; }
+  .masc-emoji { font-size: 3.2rem; }
+  .masc.neuroo .masc-img-wrap { border-color: var(--turquoise); }
+  .masc.educa  .masc-img-wrap { border-color: var(--lavande); }
+  .masc.noury  .masc-img-wrap { border-color: var(--rose-soutenu); }
+  .masc h3 { margin: .2em 0; }
+  .masc.neuroo h3 { color: var(--teal-titre); }
+  .masc.educa  h3 { color: var(--violet-titre); }
+  .masc.noury  h3 { color: var(--rose-titre); }
+  .masc .role { font-size: .82rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+  .masc p { font-size: .9rem; color: var(--texte); margin: .5em 0 0; }
+
+  /* Pédagogie cachée */
+  .pedago { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; align-items: center; margin: 1.6rem auto; }
+  .pedago .etape { background: #fff; border-radius: 999px; padding: .6em 1.2em; font-family: var(--font-titre); font-weight: 700; box-shadow: var(--shadow-sm); }
+  .pedago .etape.r { color: var(--teal-titre); } .pedago .etape.c { color: var(--violet-titre); } .pedago .etape.i { color: var(--rose-titre); }
+  .pedago .fleche { font-size: 1.4rem; color: var(--muted); }
+
+  .formule {
+    background: linear-gradient(135deg, #fff, var(--rose-clair)); border: 1px dashed var(--lavande);
+    border-radius: var(--r-lg); padding: 1.4rem 1.6rem; max-width: 640px; margin: 0 auto;
+    text-align: center; font-family: var(--font-titre); font-size: 1.15rem; line-height: 1.7; color: var(--texte);
+  }
+  .formule strong { color: var(--rose-titre); }
+
+  /* Modules */
+  .modules { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.1rem; }
+  .module-carte {
+    background: #fff; border-radius: var(--r-lg); padding: 1.3rem; box-shadow: var(--shadow-sm);
+    border-top: 6px solid var(--rose-soutenu); position: relative; transition: transform .15s, box-shadow .15s;
+  }
+  .module-carte:nth-child(6n+1){ border-top-color: var(--rose-soutenu); }
+  .module-carte:nth-child(6n+2){ border-top-color: var(--turquoise); }
+  .module-carte:nth-child(6n+3){ border-top-color: var(--lavande); }
+  .module-carte:nth-child(6n+4){ border-top-color: var(--peche); }
+  .module-carte:nth-child(6n+5){ border-top-color: var(--menthe); }
+  .module-carte:nth-child(6n+6){ border-top-color: var(--rose-clair); }
+  .module-carte:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .module-carte .num { position: absolute; top: 1rem; right: 1rem; width: 30px; height: 30px; border-radius: 50%; background: var(--beige); color: var(--violet-titre); display: flex; align-items: center; justify-content: center; font-family: var(--font-titre); font-weight: 800; font-size: .9rem; }
+  .module-carte .ic { font-size: 2.4rem; }
+  .module-carte h3 { margin: .3em 0 .2em; color: var(--violet-titre); }
+  .module-carte p { font-size: .9rem; color: var(--muted); margin: 0; }
+  .badge-bientot { display: inline-block; margin-top: .8rem; background: var(--menthe); color: var(--teal-fonce); font-family: var(--font-titre); font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: .3em .9em; border-radius: 999px; }
+  .badge-isl { border-top-color: var(--sable-or) !important; }
+  .badge-isl .ic { }
+  .module-carte.isl { background: linear-gradient(135deg, #fff, var(--sable-clair)); }
+  .module-carte.isl h3 { color: var(--sable-fonce); }
+  .module-carte.isl .badge-bientot { background: #efe2c4; color: var(--sable-fonce); }
+
+  .footer-et { text-align: center; color: var(--muted); font-style: italic; padding: 2rem 1rem; }
+  .footer-et strong { display: block; font-style: normal; font-family: var(--font-titre); color: var(--violet-titre); letter-spacing: 1px; text-transform: uppercase; font-size: .8rem; margin-top: .4rem; }
+</style>
+</head>
+<body>
+
+<div class="ruban-apercu">👀 Aperçu visuel à valider — les mascottes apparaîtront dès que les images seront déposées</div>
+
+<header class="hero">
+  <div class="marque">Educa Typique · Parcours Clarté TND</div>
+  <h1>🧠 La Boîte à Outils Émotions de Neuroo 💗</h1>
+  <p class="slogan">Médiation thérapeutique des émotions · enfants 6-10 ans · « Comprendre chaque enfant, valoriser chaque parcours »</p>
+
+  <div class="mascottes">
+    <div class="masc neuroo">
+      <div class="masc-img-wrap"><img src="../assets/mascottes/neuroo.png" alt="Neuroo" onerror="this.remove()"><span class="masc-emoji">🧠</span></div>
+      <div class="role">L'explorateur</div>
+      <h3>Neuroo</h3>
+      <p>Curieux et joueur. Il <strong>ressent</strong> et change d'expression avec l'émotion de l'enfant.</p>
+    </div>
+    <div class="masc educa">
+      <div class="masc-img-wrap"><img src="../assets/mascottes/educa.png" alt="Educa" onerror="this.remove()"><span class="masc-emoji">💜</span></div>
+      <div class="role">L'explicateuse</div>
+      <h3>Educa</h3>
+      <p>Bienveillante et structurée. Elle <strong>explique</strong> le pourquoi et propose les techniques.</p>
+    </div>
+    <div class="masc noury">
+      <div class="masc-img-wrap"><img src="../assets/mascottes/noury.png" alt="Noury" onerror="this.remove()"><span class="masc-emoji">🎀</span></div>
+      <div class="role">La récapitulatrice</div>
+      <h3>Noury</h3>
+      <p>Douce et organisée. Elle <strong>récapitule</strong> et valorise la progression dans son carnet.</p>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="pedago">
+    <span class="etape r">Ressentir 🧠</span><span class="fleche">→</span>
+    <span class="etape c">Comprendre 💜</span><span class="fleche">→</span>
+    <span class="etape i">Intégrer 🎀</span>
+  </div>
+
+  <div class="formule">
+    « Coucou ! 🌸 Aujourd'hui, on va apprendre à reconnaître <strong>tes émotions</strong> ensemble.<br>
+    <strong>Neuroo, Educa et Noury</strong> sont là, juste pour toi. »
+  </div>
+
+  <h2 style="text-align:center; margin-top:2.2rem;">🛠️ Les modules</h2>
+
+  <section class="modules">
+    <div class="module-carte">
+      <span class="num">1</span><div class="ic">🌡️</div>
+      <h3>Le Thermomètre des Émotions</h3>
+      <p>L'enfant pointe l'intensité de son émotion sur une échelle visuelle. Educa explique ce niveau.</p>
+      <span class="badge-bientot">À construire</span>
+    </div>
+    <div class="module-carte">
+      <span class="num">2</span><div class="ic">🎈</div>
+      <h3>La Bulle Magique</h3>
+      <p>Une bulle gonfle et dégonfle : Neuroo respire avec l'enfant. 3 cycles guidés.</p>
+      <span class="badge-bientot">À construire</span>
+    </div>
+    <div class="module-carte">
+      <span class="num">3</span><div class="ic">🧠</div>
+      <h3>Que ressent Neuroo aujourd'hui ?</h3>
+      <p>L'enfant choisit l'expression de Neuroo qui lui ressemble. Educa explique, Neuroo propose une technique.</p>
+      <span class="badge-bientot">À construire</span>
+    </div>
+    <div class="module-carte">
+      <span class="num">4</span><div class="ic">🎁</div>
+      <h3>Le Coffre aux Trésors</h3>
+      <p>Tirage d'une carte « trésor » : une technique surprise illustrée à essayer ensemble.</p>
+      <span class="badge-bientot">À construire</span>
+    </div>
+    <div class="module-carte">
+      <span class="num">5</span><div class="ic">⭐</div>
+      <h3>Le Carnet d'Étoiles de Noury</h3>
+      <p>En fin de séance, Noury range les apprentissages et l'enfant gagne une étoile.</p>
+      <span class="badge-bientot">À construire</span>
+    </div>
+    <div class="module-carte">
+      <span class="num">6</span><div class="ic">📖</div>
+      <h3>L'Histoire à Choix</h3>
+      <p>Mini-scénette du quotidien : « Que fait Neuroo ? » L'enfant choisit parmi 3 options.</p>
+      <span class="badge-bientot">À construire</span>
+    </div>
+    <div class="module-carte isl badge-isl">
+      <span class="num">🌙</span><div class="ic">🤲</div>
+      <h3>Variation Voie Chifā <span style="font-weight:400;font-size:.8rem;color:var(--muted)">(version musulmane)</span></h3>
+      <p>Dhikr doux, prophètes ayant ressenti la même émotion (Yūnus, Yūsuf, Maryam), notion de ṣabr en douceur.</p>
+      <span class="badge-bientot">Option activable</span>
+    </div>
+  </section>
+
+  <div class="footer-et">
+    « Comprendre chaque enfant, valoriser chaque parcours »
+    <strong>Neuroo × Educa × Noury · Nawel Haddouch · Educa Typique</strong>
+  </div>
+
+</main>
+
+</body>
+</html>
