@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Cahier des charges — Boîte à Outils Émotions Neuroo</title>
+<style>
+@page { size: A4; margin: 14mm; }
+body { font-family: 'Nunito', Georgia, serif; color: #3D2E5E; line-height: 1.55; max-width: 800px; margin: 0 auto; padding: 24px; background: #F7F2EC; }
+h1 { font-family: 'Poppins', sans-serif; font-size: 24px; color: #3D2E5E; text-align: center; margin: 0 0 4px; font-weight: 700; letter-spacing: 0.5px; }
+.subtitle { text-align: center; font-style: italic; color: #8B6DA8; font-size: 14px; margin-bottom: 6px; }
+.version-tag { text-align: center; font-size: 10.5px; color: #B89BD0; margin-bottom: 20px; letter-spacing: 1.5px; text-transform: uppercase; }
+.divider { text-align: center; color: #CBB6F6; margin: 14px 0; letter-spacing: 8px; font-size: 14px; }
+h2 { font-family: 'Poppins', sans-serif; font-size: 17px; margin: 24px 0 10px; padding: 9px 16px; border-radius: 10px; font-weight: 600; color: #3D2E5E; }
+.h2-identity { background: linear-gradient(90deg, #F8CFE0, #FFD6C2); }
+.h2-charte { background: linear-gradient(90deg, #BDEAD7, #8ED9D2); }
+.h2-narrative { background: linear-gradient(90deg, #CBB6F6, #F8CFE0); }
+.h2-modules { background: linear-gradient(90deg, #FFD6C2, #F39BC2); color: #fff; }
+.h2-roadmap { background: linear-gradient(90deg, #8ED9D2, #CBB6F6); color: #fff; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 8px; background: white; border: 1px solid #E6D9C7; border-radius: 10px; overflow: hidden }
+th { background: #F8CFE0; color: #3D2E5E; font-weight: 700; text-align: left; padding: 8px 11px; font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 1px solid #F39BC2 }
+td { padding: 9px 11px; border-bottom: 1px solid #F7F2EC; vertical-align: top }
+tr:last-child td { border-bottom: none }
+.tool { font-weight: 700; color: #3D2E5E }
+.card { background: white; border-radius: 14px; padding: 16px 20px; margin: 10px 0; border-left: 4px solid; box-shadow: 0 4px 12px rgba(155,108,200,0.06) }
+.card.neuroo { border-color: #8ED9D2 }
+.card.educa { border-color: #CBB6F6 }
+.card.noury { border-color: #F39BC2 }
+.card-title { font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px }
+.card.neuroo .card-title { color: #4A8576 }
+.card.educa .card-title { color: #6E5594 }
+.card.noury .card-title { color: #A8527A }
+.card-body { font-size: 12.5px; color: #5C4A78; line-height: 1.65 }
+.card-body em { color: #8B6DA8 }
+.palette-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; margin: 10px 0 4px }
+.color-box { padding: 26px 4px 8px; border-radius: 8px; text-align: center; color: #3D2E5E; font-size: 9.5px; font-weight: 600; font-family: 'Poppins',sans-serif }
+.formule { background: linear-gradient(135deg,#FFF6F0,#F7F2EC); border-radius: 14px; padding: 18px 22px; margin: 10px 0 12px; text-align: center; font-family: 'Poppins',sans-serif; font-size: 16px; color: #3D2E5E; line-height: 1.8; border: 1px dashed #CBB6F6; font-style: italic; font-weight: 500 }
+.formule strong { color: #F39BC2; font-weight: 700; font-style: normal }
+.emo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin: 6px 0 }
+.emo-card { background: white; border-radius: 10px; padding: 10px 12px; font-size: 11.5px; line-height: 1.5; border: 1px solid #F7F2EC; box-shadow: 0 2px 6px rgba(155,108,200,0.05) }
+.emo-card .emo-title { font-family: 'Poppins',sans-serif; font-weight: 700; color: #3D2E5E; font-size: 13px; margin-bottom: 3px; display: flex; gap: 6px; align-items: center }
+.emo-card .emo-desc { color: #6E5594; font-size: 11px; line-height: 1.5 }
+.module { background: white; border-radius: 12px; padding: 12px 16px; margin: 7px 0; border-left: 3px solid #F39BC2; font-size: 12.5px; line-height: 1.55 }
+.module .mod-title { font-family: 'Poppins',sans-serif; font-weight: 700; color: #3D2E5E; margin-bottom: 3px }
+.module .mod-desc { color: #6E5594; font-size: 12px }
+.roadmap-step { background: white; border-radius: 10px; padding: 11px 16px; margin: 6px 0; display: flex; align-items: center; gap: 12px; font-size: 12.5px; border: 1px solid #F7F2EC }
+.step-num { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg,#CBB6F6,#F8CFE0); color: white; display: flex; align-items: center; justify-content: center; font-family: 'Poppins',sans-serif; font-weight: 700; font-size: 14px; flex-shrink: 0 }
+.step-content { color: #3D2E5E; flex: 1 }
+.step-content strong { color: #F39BC2 }
+.tip { background: linear-gradient(135deg,#BDEAD7,#F8CFE0); padding: 12px 16px; border-radius: 10px; font-size: 12px; color: #3D2E5E; margin: 10px 0; line-height: 1.6 }
+.footer { text-align: center; font-size: 11.5px; color: #8B6DA8; font-style: italic; margin-top: 28px; padding-top: 16px; border-top: 1px dashed #CBB6F6 }
+.footer .brand { display: block; margin-top: 8px; font-style: normal; font-weight: 700; letter-spacing: 1.5px; color: #3D2E5E; font-size: 10.5px; text-transform: uppercase; font-family: 'Poppins',sans-serif }
+@media print { body { background: white; padding: 0 } }
+</style>
+</head>
+<body>
+
+<h1>🧠 Boîte à Outils Émotions de Neuroo 💗</h1>
+<div class="subtitle">Cahier des charges — Educa Typique</div>
+<div class="version-tag">Document de cadrage · 15 mai 2026</div>
+<div class="divider">✦ ✦ ✦</div>
+
+<!-- IDENTITÉ -->
+<h2 class="h2-identity">🌸 Identité du projet</h2>
+<table>
+<tr><td style="width:30%" class="tool">Nom de l'outil</td><td>La Boîte à Outils Émotions de Neuroo</td></tr>
+<tr><td class="tool">Marque</td><td>Educa Typique</td></tr>
+<tr><td class="tool">Public cible</td><td>Enfants 6-10 ans (élémentaire CP à CM2) avec adaptations</td></tr>
+<tr><td class="tool">Usage</td><td>Médiation thérapeutique en séance (toi pilote, enfant participe)</td></tr>
+<tr><td class="tool">Versions</td><td><strong>2 versions</strong> : tout public (laïque) + version musulmane (ISL)</td></tr>
+<tr><td class="tool">Compte de déploiement</td><td>Netlify Educa Typique</td></tr>
+</table>
+
+<!-- CHARTE -->
+<h2 class="h2-charte">🎨 Charte visuelle officielle</h2>
+
+<div style="margin: 8px 0 4px; font-size: 12px; font-family: 'Poppins',sans-serif; color: #4A8576; font-weight: 600">Palette de couleurs</div>
+<div class="palette-grid">
+<div class="color-box" style="background:#F8CFE0">Rose clair<br>#F8CFE0</div>
+<div class="color-box" style="background:#F39BC2; color:white">Rose soutenu<br>#F39BC2</div>
+<div class="color-box" style="background:#CBB6F6">Lavande<br>#CBB6F6</div>
+<div class="color-box" style="background:#BDEAD7">Menthe<br>#BDEAD7</div>
+<div class="color-box" style="background:#8ED9D2; color:white">Turquoise<br>#8ED9D2</div>
+<div class="color-box" style="background:#FFD6C2">Pêche<br>#FFD6C2</div>
+<div class="color-box" style="background:#F7F2EC">Beige<br>#F7F2EC</div>
+</div>
+
+<table style="margin-top: 10px">
+<tr><td style="width:30%" class="tool">Typographie titres</td><td>Poppins / Nunito Bold</td></tr>
+<tr><td class="tool">Typographie texte</td><td>Nunito / Quicksand</td></tr>
+<tr><td class="tool">Style visuel</td><td>Pédagogique · Chaleureux · Structuré · Ludique · Inclusif</td></tr>
+<tr><td class="tool">Ambiance</td><td>Doux, accueillant, non-infantilisant, esprit Studio Ghibli / Montessori</td></tr>
+<tr><td class="tool">Mascottes</td><td>Utiliser les <strong>vraies images IA</strong> de Neuroo, Educa et Noury (pas de SVG fait-main)</td></tr>
+</table>
+
+<!-- ARCHITECTURE NARRATIVE -->
+<h2 class="h2-narrative">🎭 Architecture narrative — Les 3 mascottes</h2>
+
+<div class="card neuroo">
+<div class="card-title">🧠 Neuroo — L'EXPLORATEUR</div>
+<div class="card-body">
+<em>Curieux, joueur et plein d'énergie.</em><br>
+<strong>Rôle :</strong> Toujours présent. C'est lui qui RESSENT et qui change d'expression selon l'émotion vécue par l'enfant.<br>
+<strong>Posture :</strong> "Je découvre avec toi"<br>
+<strong>Apparitions :</strong> Toutes les sections — il est le héros principal
+</div>
+</div>
+
+<div class="card educa">
+<div class="card-title">💜 Educa — L'EXPLICATEUSE</div>
+<div class="card-body">
+<em>Bienveillante, structurée et expérimentée.</em><br>
+<strong>Rôle :</strong> Donne les repères, explique le pourquoi de l'émotion, propose les techniques.<br>
+<strong>Posture :</strong> "Voici pourquoi tu ressens ça"<br>
+<strong>Apparitions :</strong> Sections d'explication / de psychoéducation / d'enseignement des techniques
+</div>
+</div>
+
+<div class="card noury">
+<div class="card-title">🎀 Noury — LA RÉCAPITULATRICE</div>
+<div class="card-body">
+<em>Douce, studieuse et organisée.</em><br>
+<strong>Rôle :</strong> Note dans son carnet, fixe les apprentissages, valorise la progression.<br>
+<strong>Posture :</strong> "On a appris que..."<br>
+<strong>Apparitions :</strong> Fins de modules, transitions, carnet d'étoiles
+</div>
+</div>
+
+<div class="tip">💡 <strong>Pédagogie cachée :</strong> Ressentir (Neuroo) → Comprendre (Educa) → Intégrer (Noury). C'est la séquence d'apprentissage neuropsychologique fondamentale appliquée à chaque émotion. Allāhumma bārik !</div>
+
+<!-- FORMULE D'ACCUEIL -->
+<h2 class="h2-narrative">💛 Formule d'accueil officielle</h2>
+
+<div class="formule">
+« Coucou ! 🌸<br>
+Aujourd'hui, on va apprendre à reconnaître <strong>tes émotions</strong> ensemble.<br>
+<strong>Neuroo, Educa et Noury</strong> sont là, juste pour toi. »
+</div>
+
+<!-- ÉMOTIONS -->
+<h2 class="h2-modules">🎭 Les 6 expressions de Neuroo</h2>
+
+<div class="tip" style="background: linear-gradient(135deg,#FFD6C2,#F8CFE0)">💡 <strong>Choix clé :</strong> 1 seul Neuroo qui change d'expression (pas 6 cerveaux différents). Message implicite à l'enfant : "Je suis le MÊME, même quand mes émotions changent" → soutien identitaire.</div>
+
+<div class="emo-grid">
+<div class="emo-card"><div class="emo-title">☀️ Joyeux·se</div><div class="emo-desc">Yeux qui brillent, grand sourire, joues très roses, étoiles autour</div></div>
+<div class="emo-card"><div class="emo-title">💧 Triste</div><div class="emo-desc">Yeux mi-clos, larme, sourire renversé, couleurs un peu pâlies</div></div>
+<div class="emo-card"><div class="emo-title">🌋 En colère</div><div class="emo-desc">Sourcils froncés, joues rouges, petite vapeur, mais pas effrayant</div></div>
+<div class="emo-card"><div class="emo-title">🌪️ Apeuré·e</div><div class="emo-desc">Grands yeux ronds, tremblement léger, mains près du corps</div></div>
+<div class="emo-card"><div class="emo-title">😴 Fatigué·e</div><div class="emo-desc">Paupières lourdes, bâillement, petits "Z" autour</div></div>
+<div class="emo-card"><div class="emo-title">🌿 Calme</div><div class="emo-desc">Yeux doux, demi-sourire, fleur sur le dessus, ambiance apaisée</div></div>
+</div>
+
+<!-- MODULES PRÉVUS -->
+<h2 class="h2-modules">🛠️ Modules thérapeutiques prévus</h2>
+
+<div class="module">
+<div class="mod-title">1. 🌡️ Le Thermomètre des Émotions</div>
+<div class="mod-desc">L'enfant pointe sur une échelle visuelle (5 niveaux) son intensité émotionnelle. Educa explique ce que dit ce niveau.</div>
+</div>
+
+<div class="module">
+<div class="mod-title">2. 🎈 La Bulle Magique (respiration)</div>
+<div class="mod-desc">Animation : une bulle gonfle (inspire) et dégonfle (expire). Neuroo respire avec l'enfant. 3 cycles guidés.</div>
+</div>
+
+<div class="module">
+<div class="mod-title">3. 🧠 Que ressent Neuroo aujourd'hui ?</div>
+<div class="mod-desc">L'enfant clique sur l'expression de Neuroo qui ressemble à ce qu'il vit. Educa explique l'émotion. Neuroo propose une technique.</div>
+</div>
+
+<div class="module">
+<div class="mod-title">4. 🎁 Le Coffre aux Trésors</div>
+<div class="mod-desc">Tirage aléatoire d'une "carte trésor" : technique surprise illustrée (respirer un nuage, dessiner sa colère, danser avec Neuroo…).</div>
+</div>
+
+<div class="module">
+<div class="mod-title">5. ⭐ Le Carnet d'Étoiles de Noury</div>
+<div class="mod-desc">À la fin de la séance, Noury propose à l'enfant de "ranger" ses apprentissages dans son carnet et de gagner une étoile.</div>
+</div>
+
+<div class="module">
+<div class="mod-title">6. 📖 L'Histoire à Choix (version courte)</div>
+<div class="mod-desc">Mini-scénette : "Imagine, tu es à la récré et... Que fait Neuroo ?" L'enfant choisit parmi 3 options.</div>
+</div>
+
+<div class="module" style="border-color: #CBB6F6">
+<div class="mod-title">7. 🌙 Variations version ISL <em style="color:#8B6DA8; font-weight: normal">(en plus pour la version musulmane)</em></div>
+<div class="mod-desc">Petits dhikr simples ("Yā Allāh, aide-moi"), évocation simple de prophètes ayant ressenti la même émotion (Yūnus / peur, Yūsuf / jalousie, Maryam / solitude), notion de patience (ṣabr) introduite avec douceur.</div>
+</div>
+
+<!-- FEUILLE DE ROUTE -->
+<h2 class="h2-roadmap">🗺️ Feuille de route — comment on va construire ensemble</h2>
+
+<div class="roadmap-step">
+<div class="step-num">1</div>
+<div class="step-content"><strong>Tu m'envoies</strong> les 3 vraies images IA de Neuroo, Educa et Noury (extraites de ta charte, ou versions individuelles si tu en as)</div>
+</div>
+
+<div class="roadmap-step">
+<div class="step-num">2</div>
+<div class="step-content"><strong>Je crée</strong> un nouvel aperçu visuel avec les vraies mascottes intégrées + ta vraie palette pastel + tes typographies</div>
+</div>
+
+<div class="roadmap-step">
+<div class="step-num">3</div>
+<div class="step-content"><strong>Tu valides</strong> la direction visuelle définitive (forme finale du fond, des cartes, des animations)</div>
+</div>
+
+<div class="roadmap-step">
+<div class="step-num">4</div>
+<div class="step-content"><strong>Je développe</strong> les 6 modules de la version TOUT PUBLIC (laïque) un par un</div>
+</div>
+
+<div class="roadmap-step">
+<div class="step-num">5</div>
+<div class="step-content"><strong>On teste ensemble</strong> et on ajuste</div>
+</div>
+
+<div class="roadmap-step">
+<div class="step-num">6</div>
+<div class="step-content"><strong>Je décline</strong> la version ISL avec les ajouts spirituels</div>
+</div>
+
+<div class="roadmap-step">
+<div class="step-num">7</div>
+<div class="step-content"><strong>Tu déploies</strong> les 2 versions sur Netlify Educa Typique (comme tu sais si bien faire maintenant 🌟)</div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+« Comprendre chaque enfant, valoriser chaque parcours »<br>
+<span style="font-size: 10px; color: #B89BD0">Slogan officiel Educa Typique</span>
+<span class="brand">Cahier des charges · Neuroo × Educa × Noury · Nawel Oum Mona</span>
+<span style="font-size: 10px; color: #B89BD0; display:block; margin-top: 4px">À reprendre prochaine session · in shā Allāh · مَا شَاءَ ٱللَّٰهُ</span>
+</div>
+
+</body>
+</html>
