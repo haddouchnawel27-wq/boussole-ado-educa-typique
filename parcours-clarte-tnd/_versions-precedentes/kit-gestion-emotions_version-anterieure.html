@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kit Gestion des Émotions — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap">
+<style>
+/* === Variables essentielles intégrées depuis charte.css (fichier rendu autonome) === */
+:root{
+  --font-titre:'Poppins','Nunito',sans-serif;
+  --r-sm:8px;
+  --r-md:14px;
+  --r-lg:22px;
+  --shadow-sm:0 2px 6px rgba(124,92,191,.08);
+  --shadow-md:0 6px 20px rgba(124,92,191,.12);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Nunito',system-ui,-apple-system,sans-serif;color:#3a2e4a;line-height:1.55;min-height:100vh}
+</style>
+<style>
+body{background:#fbf5ef}
+
+.bandeau{
+  background:linear-gradient(135deg,#e05a8a,#F39BC2 40%,#CBB6F6);
+  padding:2rem 1.5rem;text-align:center;color:#fff;position:relative;
+}
+.bandeau .retour{display:inline-block;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.22);padding:.35em 1em;border-radius:999px;font-size:.9rem}
+.bandeau .retour:hover{background:rgba(255,255,255,.35)}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin:.6rem 0 .3rem;opacity:.95}
+.bandeau h1{color:#fff;margin:.3rem 0;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.bandeau .sub{opacity:.95;max-width:700px;margin:.5rem auto 0;font-size:1.02rem}
+
+.container{max-width:1050px;margin:1.5rem auto;padding:0 1.2rem}
+
+details.apropos{background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin-bottom:1.2rem;border-left:5px solid #e05a8a}
+details.apropos summary{padding:1rem 1.2rem;cursor:pointer;font-weight:800;color:#a03a64;font-family:var(--font-titre);font-size:1.05rem;list-style:none}
+details.apropos summary::after{content:"▾";float:right;transition:transform .2s}
+details.apropos[open] summary::after{transform:rotate(180deg)}
+details.apropos .corps{padding:0 1.4rem 1.2rem}
+details.apropos h3{color:#a03a64;margin:1rem 0 .3rem;font-size:.9rem;text-transform:uppercase;letter-spacing:.5px}
+details.apropos p{margin:.3rem 0;font-size:.93rem;line-height:1.55}
+
+.sig-nawel{background:linear-gradient(135deg,#fff5f9,#f7f3fc);padding:1rem 1.2rem;border-radius:var(--r-md);margin-bottom:1.2rem;border-left:4px solid #e05a8a;font-size:.92rem;line-height:1.55;color:#555;font-style:italic}
+.sig-nawel strong{color:#a03a64;font-style:normal}
+
+.mode-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between}
+.toggle-pro{display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;padding:.4em 1em;background:#f7f3fc;border:1.5px solid #d8c9f0;border-radius:999px;font-weight:700;color:#5a3c8f;font-size:.88rem;font-family:inherit}
+.toggle-pro.active{background:#7c5cbf;color:#fff;border-color:#7c5cbf}
+
+.tabs{display:flex;gap:.3rem;margin-bottom:1.2rem;flex-wrap:wrap;background:#fff;padding:.4rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm)}
+.tabs button{flex:1;min-width:110px;padding:.55em .7em;border:none;background:transparent;color:#666;font-weight:700;font-family:inherit;cursor:pointer;border-radius:var(--r-sm);transition:all .15s;font-size:.82rem}
+.tabs button.active{background:linear-gradient(135deg,#e05a8a,#F39BC2);color:#fff;box-shadow:var(--shadow-sm)}
+.tabs button:hover:not(.active){background:#fff5f9}
+
+.section{display:none}
+.section.active{display:block}
+
+.fiche-card{background:#fff;border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--shadow-sm);margin-bottom:1.1rem;border-left:5px solid var(--fc,#e05a8a)}
+.fiche-card h2{color:var(--fc);margin:0 0 .8rem;font-size:1.3rem}
+.fiche-card h3{color:#444;margin:1.1rem 0 .4rem;font-size:1.05rem}
+.fiche-card p{line-height:1.65;font-size:.96rem;margin:.5rem 0}
+.fiche-card ul,.fiche-card ol{padding-left:1.4rem;line-height:1.7}
+.fiche-card strong{color:var(--fc)}
+
+.callout{background:linear-gradient(135deg,#fff5f9,#fef1e8);border-left:4px solid var(--fc);padding:1rem 1.2rem;border-radius:var(--r-md);margin:1rem 0}
+.callout.warn{background:#fff8e8;border-left-color:#e9a73a}
+.callout.success{background:#e8f7ed;border-left-color:#2a9d8f}
+.callout.danger{background:#fef0f0;border-left-color:#e05a5a}
+
+/* THERMOMÈTRE */
+.thermo{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.7rem;margin:1rem 0}
+.niveau{background:#fff;border-radius:var(--r-md);padding:1rem;border-left:5px solid var(--nc);box-shadow:var(--shadow-sm);cursor:pointer;transition:all .2s;position:relative}
+.niveau:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.niveau.active{outline:3px solid var(--nc);outline-offset:2px}
+.niveau h4{color:var(--nc);margin:0 0 .3rem;font-size:.95rem;display:flex;align-items:center;gap:.4rem}
+.niveau .level-num{display:inline-block;background:var(--nc);color:#fff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-size:.85rem;font-weight:800}
+.niveau p{font-size:.82rem;color:#666;margin:.2rem 0;line-height:1.4}
+
+.niveau-detail{background:linear-gradient(135deg,#fff,#fff5f9);padding:1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin:1rem 0;border-left:5px solid var(--nc);display:none}
+.niveau-detail.active{display:block}
+.niveau-detail h3{color:var(--nc);margin:0 0 .5rem}
+.niveau-detail .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin-top:.7rem}
+.niveau-detail .grid-3 .col{background:#fff;padding:.7rem;border-radius:var(--r-sm);border-top:3px solid var(--nc)}
+.niveau-detail .grid-3 .col h5{margin:0 0 .3rem;color:var(--nc);font-size:.85rem;text-transform:uppercase;letter-spacing:.3px}
+.niveau-detail .grid-3 .col ul{padding-left:1.1rem;font-size:.85rem;line-height:1.5;color:#444;margin:0}
+
+/* PROFIL PERSO THERMOMÈTRE */
+.perso-thermo{background:#fff;padding:1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin:1rem 0}
+.perso-thermo h3{color:#a03a64;margin:0 0 .6rem}
+.perso-thermo table{width:100%;border-collapse:collapse;font-size:.9rem}
+.perso-thermo th,.perso-thermo td{padding:.5em;text-align:left;border-bottom:1px solid #f0ebe5;vertical-align:top}
+.perso-thermo th{background:#fff5f9;color:#a03a64;font-weight:700;font-size:.85rem}
+.perso-thermo textarea{width:100%;min-height:50px;padding:.4em;border:1.5px solid #f3c8d9;border-radius:var(--r-sm);font-family:inherit;font-size:.85rem;resize:vertical;box-sizing:border-box}
+
+/* ROUE ÉMOTIONS */
+.roue-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem;margin:1rem 0}
+.emo-card{background:#fff;border-radius:var(--r-md);padding:1rem;border-top:5px solid var(--ec);box-shadow:var(--shadow-sm);cursor:pointer;transition:all .2s}
+.emo-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.emo-card h4{color:var(--ec);margin:0 0 .3rem;font-size:1.05rem;display:flex;align-items:center;gap:.4rem}
+.emo-card.colere{--ec:#e05a5a}
+.emo-card.tristesse{--ec:#5a8fc7}
+.emo-card.peur{--ec:#7c5cbf}
+.emo-card.joie{--ec:#f0c52e}
+.emo-card.degout{--ec:#2a9d8f}
+.emo-card.surprise{--ec:#e9a73a}
+.emo-card.honte{--ec:#a85578}
+
+.emo-detail{background:#fff;padding:1.4rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin:1rem 0;border-left:5px solid var(--ec);display:none}
+.emo-detail.active{display:block}
+.emo-detail h3{color:var(--ec);margin:0 0 .8rem;font-size:1.2rem}
+.emo-detail .nuances{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.emo-detail .nuance{background:#fff;border:1.5px solid var(--ec);color:var(--ec);padding:.3em .8em;border-radius:999px;font-size:.85rem;cursor:pointer}
+.emo-detail .nuance.selected{background:var(--ec);color:#fff}
+.emo-detail .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin-top:.8rem}
+.emo-detail .grid-2 .col{background:#fafafa;padding:.7rem 1rem;border-radius:var(--r-sm);border-top:3px solid var(--ec)}
+.emo-detail .grid-2 .col h5{margin:0 0 .3rem;color:var(--ec);font-size:.85rem;text-transform:uppercase;letter-spacing:.3px}
+.emo-detail .grid-2 .col ul{padding-left:1.1rem;font-size:.85rem;line-height:1.5;color:#444;margin:0}
+
+/* PROTOCOLE TEMPS */
+.temps-grid{display:grid;gap:1rem;margin:1rem 0}
+.temps-card{background:#fff;border-radius:var(--r-lg);padding:1.2rem;box-shadow:var(--shadow-sm);border-left:5px solid var(--tc)}
+.temps-card.avant{--tc:#e9a73a}
+.temps-card.pendant{--tc:#e05a5a}
+.temps-card.apres{--tc:#2a9d8f}
+.temps-card h3{color:var(--tc);margin:0 0 .5rem;font-size:1.15rem}
+.temps-card .objectif{font-style:italic;color:#666;margin-bottom:.7rem;font-size:.92rem}
+.temps-card ul{padding-left:1.2rem;line-height:1.65;font-size:.93rem}
+
+/* QUOI FAIRE / ÉVITER */
+.regles-list{display:grid;gap:.7rem;margin:1rem 0}
+.regle{background:#fff;border-radius:var(--r-md);padding:.9rem 1.1rem;border-left:4px solid var(--rc);box-shadow:var(--shadow-sm)}
+.regle.faire{--rc:#2a9d8f}
+.regle.eviter{--rc:#e05a5a}
+.regle h4{margin:0 0 .3rem;color:var(--rc);font-size:1rem}
+.regle p{margin:.2rem 0;font-size:.9rem;line-height:1.5}
+.regle .swap{background:#f7f3fc;padding:.5rem .8rem;border-radius:var(--r-sm);margin-top:.5rem;font-size:.85rem}
+.regle .swap strong{color:#5a3c8f}
+
+/* PLAN RETOUR AU CALME */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin:1rem 0}
+.plan-step{background:#fff;border-radius:var(--r-md);padding:1rem;border-top:5px solid var(--psc);box-shadow:var(--shadow-sm)}
+.plan-step h4{color:var(--psc);margin:0 0 .4rem;font-size:1rem;display:flex;align-items:center;gap:.4rem}
+.plan-step h4 .num{background:var(--psc);color:#fff;width:26px;height:26px;border-radius:50%;text-align:center;line-height:26px;font-weight:800;font-size:.85rem}
+.plan-step p{font-size:.85rem;line-height:1.45;color:#555;margin:.3rem 0}
+.plan-step ul{padding-left:1.2rem;font-size:.82rem;color:#555;margin:.3rem 0}
+
+.boite-calme{background:linear-gradient(135deg,#fff5f9,#f7f3fc);padding:1.2rem;border-radius:var(--r-lg);margin:1.2rem 0;border-left:5px solid #7c5cbf}
+.boite-calme h3{color:#5a3c8f;margin:0 0 .6rem}
+.outils-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.5rem;margin-top:.7rem}
+.outil-chip{background:#fff;border:1.5px solid #d8c9f0;color:#5a3c8f;padding:.5em .7em;border-radius:var(--r-sm);font-size:.85rem;cursor:pointer;text-align:center;transition:all .15s}
+.outil-chip:hover{background:#7c5cbf;color:#fff}
+.outil-chip.selected{background:#7c5cbf;color:#fff;border-color:#7c5cbf}
+
+/* GRILLE POST-CRISE */
+.post-crise{background:#fff;padding:1.4rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin:1rem 0}
+.post-crise h3{color:#2a9d8f;margin:0 0 .8rem}
+.post-crise .field{margin-bottom:.8rem}
+.post-crise .field label{display:block;font-weight:700;color:#444;font-size:.88rem;margin-bottom:.2rem}
+.post-crise input,.post-crise textarea,.post-crise select{
+  width:100%;padding:.5em .8em;border:1.5px solid #d8e8e2;border-radius:var(--r-sm);
+  font-family:inherit;font-size:.9rem;box-sizing:border-box;
+}
+.post-crise textarea{min-height:60px;resize:vertical}
+.post-crise .checkbox-list{display:flex;flex-wrap:wrap;gap:.4rem;margin:.3rem 0}
+.post-crise .checkbox-list label{display:inline-flex;align-items:center;gap:.3rem;background:#fff5f9;padding:.3em .7em;border-radius:999px;cursor:pointer;font-size:.85rem;border:1.5px solid #f3c8d9}
+.post-crise .checkbox-list input{width:auto}
+.post-crise .checkbox-list input:checked + span{font-weight:700;color:#a03a64}
+
+/* Mode Pro panel */
+.pro-panel{background:linear-gradient(135deg,#f7f3fc,#f0e8f5);border:2px dashed #7c5cbf;border-radius:var(--r-md);padding:1.1rem 1.3rem;margin-top:1.2rem;display:none}
+body.show-pro .pro-panel{display:block}
+.pro-panel h4{color:#5a3c8f;margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.pro-panel textarea{width:100%;min-height:70px;padding:.5em;border:1px solid #d8c9f0;border-radius:4px;font-family:inherit;font-size:.85rem;resize:vertical;box-sizing:border-box}
+
+/* Actions */
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.5rem 0}
+.actions button{padding:.65em 1.3em;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.92rem;font-family:inherit}
+.btn-export{background:linear-gradient(135deg,#e05a8a,#F39BC2);color:#fff}
+.btn-print{background:#fff;color:#a03a64;border:1.5px solid #f3c8d9}
+
+@media print{
+  .bandeau,.tabs,.mode-bar,.actions,details.apropos summary::after{display:none!important}
+  body{background:#fff}
+  .container{max-width:100%;padding:0}
+  .section{display:block!important;page-break-after:always}
+  .fiche-card,.temps-card,.regle{box-shadow:none;border:1px solid #ddd;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <div class="signature">💗 Création originale — Nawel Haddouch · EducaTypique</div>
+  <h1>💗 Kit Gestion des Émotions</h1>
+  <p class="sub">7 fiches interactives pour comprendre, contenir et accompagner les crises émotionnelles — sans rapport de force, sans humiliation.</p>
+</section>
+
+<div class="container">
+
+  <details class="apropos">
+    <summary>📖 À propos de ce kit</summary>
+    <div class="corps">
+      <h3>Pour qui</h3>
+      <p>Pour les parents épuisés par les crises répétées : devoirs, coucher, écrans, transitions, fratrie. Et pour les pros qui accompagnent ces familles.</p>
+      <h3>Pour quoi</h3>
+      <p>Pour <strong>arrêter d'improviser</strong> en pleine tempête. Avoir un protocole clair avant, pendant et après la crise. Réparer sans humilier.</p>
+      <h3>Comment ça marche</h3>
+      <p>7 fiches navigables par onglets, certaines interactives (thermomètre personnalisable, roue d'émotions cliquable, grille post-crise remplissable). Mode Pro 📋 pour les notes cliniques.</p>
+      <h3>Quand l'utiliser</h3>
+      <p>À froid d'abord — pour préparer la stratégie. Pendant la crise — pour appliquer le protocole minimal. Après la crise — pour réparer et préparer la prochaine fois.</p>
+      <h3>Combien de temps</h3>
+      <p>30-45 min pour parcourir tout le kit en première lecture. 5-10 min pour remplir la grille post-crise après chaque épisode.</p>
+      <h3>Ce que ça change</h3>
+      <p>Le parent reprend du pouvoir sans entrer en conflit. L'enfant développe ses propres stratégies. Les crises deviennent plus courtes, moins fréquentes, et surtout sans rancune.</p>
+      <h3>Ce que ça ne remplace pas</h3>
+      <p>Un suivi psychothérapeutique si les crises sont chroniques, violentes ou liées à un traumatisme. Cet outil n'est pas un soin de fond.</p>
+      <h3>Inspiration</h3>
+      <p>Création originale Nawel Haddouch (EducaTypique). S'appuie sur les TCC, la pédagogie positive, et 15+ ans d'accompagnement de familles TND.</p>
+    </div>
+  </details>
+
+  <div class="sig-nawel">
+    💗 <strong>Un mot de Nawel</strong> — Un parent peut avoir toutes les routines du monde. Si les émotions débordent tous les soirs, rien ne tient. Ce kit, c'est celui que j'aurais voulu avoir quand mes propres ados explosaient. Il ne supprime pas les crises. Il vous évite d'en ajouter une autre par-dessus.
+  </div>
+
+  <div class="mode-bar">
+    <span style="font-weight:700;color:#666;font-size:.9rem">📚 Mode lecture</span>
+    <button class="toggle-pro" id="btn-pro">📋 Activer le Mode Pro (notes perso)</button>
+  </div>
+
+  <div class="tabs">
+    <button class="active" data-tab="f1">🌡 1 · Thermomètre</button>
+    <button data-tab="f2">🌈 2 · Roue émotions</button>
+    <button data-tab="f3">⏱ 3 · Protocole crise</button>
+    <button data-tab="f4">✅ 4 · Quoi faire</button>
+    <button data-tab="f5">❌ 5 · Quoi éviter</button>
+    <button data-tab="f6">🌬 6 · Retour au calme</button>
+    <button data-tab="f7">📝 7 · Post-crise</button>
+  </div>
+
+  <!-- FICHE 1 — THERMOMÈTRE -->
+  <section id="f1" class="section active">
+    <div class="fiche-card" style="--fc:#e05a8a">
+      <h2>🌡 Fiche 1 — Thermomètre des émotions</h2>
+      <p>Repérer l'intensité de l'émotion <strong>avant qu'elle déborde</strong>. Un enfant ne passe pas de "calme" à "crise" en une seconde — il y a presque toujours des signes avant-coureurs.</p>
+
+      <div class="callout warn">
+        ⚠️ <strong>À ne pas faire</strong> : sortir le thermomètre en pleine explosion en disant "Alors, tu es à combien ?". Là, c'est trop tard. On ne fait pas remplir une fiche à quelqu'un qui brûle intérieurement.
+      </div>
+
+      <h3>Les 5 niveaux — clique pour voir les détails</h3>
+      <div class="thermo">
+        <div class="niveau" data-n="1" style="--nc:#2a9d8f"><h4><span class="level-num">1</span> Calme</h4><p>Disponible, peut écouter</p></div>
+        <div class="niveau" data-n="2" style="--nc:#f0c52e"><h4><span class="level-num">2</span> Gêné</h4><p>Agacé, fatigué, frustré</p></div>
+        <div class="niveau" data-n="3" style="--nc:#e9a73a"><h4><span class="level-num">3</span> Ça monte</h4><p>Cœur rapide, voix sèche</p></div>
+        <div class="niveau" data-n="4" style="--nc:#e05a5a"><h4><span class="level-num">4</span> Presque crise</h4><p>Crie, pleure, refuse tout</p></div>
+        <div class="niveau" data-n="5" style="--nc:#8b1538"><h4><span class="level-num">5</span> Explosion</h4><p>Submergé, hors contrôle</p></div>
+      </div>
+
+      <div id="niveau-detail" class="niveau-detail" style="--nc:#e05a8a"></div>
+
+      <div class="perso-thermo">
+        <h3>📋 Mon thermomètre personnel</h3>
+        <p style="font-size:.88rem;color:#666;font-style:italic">À remplir avec l'enfant, à froid. Sauvegardé automatiquement.</p>
+        <table id="perso-table">
+          <thead>
+            <tr><th>Niveau</th><th>Mes signes à moi</th><th>Ce qui m'aide</th><th>Ce que les adultes doivent éviter</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="callout success">
+        💡 <strong>À retenir</strong> : plus on intervient tôt, moins on a besoin d'intervenir fort.
+      </div>
+
+      <div class="pro-panel">
+        <h4>📋 Mes notes pro</h4>
+        <textarea data-note="f1" placeholder="Cas cliniques, ajustements observés, métaphores qui parlent à mes patients…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- FICHE 2 — ROUE -->
+  <section id="f2" class="section">
+    <div class="fiche-card" style="--fc:#F39BC2">
+      <h2>🌈 Fiche 2 — Roue des émotions</h2>
+      <p>Derrière "je suis énervé", il y a souvent : frustration, honte, peur, injustice, fatigue, tristesse, surcharge. Si le mot est flou, la réponse risque d'être mauvaise.</p>
+
+      <h3>7 grandes émotions — clique pour explorer</h3>
+      <div class="roue-grid">
+        <div class="emo-card colere" data-e="colere"><h4>😠 Colère</h4><p style="font-size:.82rem;color:#666;margin:.2rem 0">10 nuances</p></div>
+        <div class="emo-card tristesse" data-e="tristesse"><h4>😢 Tristesse</h4><p style="font-size:.82rem;color:#666;margin:.2rem 0">10 nuances</p></div>
+        <div class="emo-card peur" data-e="peur"><h4>😰 Peur / Anxiété</h4><p style="font-size:.82rem;color:#666;margin:.2rem 0">10 nuances</p></div>
+        <div class="emo-card joie" data-e="joie"><h4>😊 Joie</h4><p style="font-size:.82rem;color:#666;margin:.2rem 0">10 nuances</p></div>
+        <div class="emo-card degout" data-e="degout"><h4>😖 Dégoût / Rejet</h4><p style="font-size:.82rem;color:#666;margin:.2rem 0">8 nuances</p></div>
+        <div class="emo-card surprise" data-e="surprise"><h4>😲 Surprise</h4><p style="font-size:.82rem;color:#666;margin:.2rem 0">8 nuances</p></div>
+        <div class="emo-card honte" data-e="honte"><h4>😳 Honte</h4><p style="font-size:.82rem;color:#666;margin:.2rem 0">9 nuances</p></div>
+      </div>
+
+      <div id="emo-detail" class="emo-detail"></div>
+
+      <div class="callout warn">
+        ⚠️ <strong>À éviter absolument</strong> : "Ce n'est rien" · "Tu exagères" · "Arrête ton cinéma" · "Tu n'as aucune raison d'être triste" · "Calme-toi tout de suite" · "Regarde ton frère, lui il y arrive". Ces phrases ferment la porte. Parfois elles humilient.
+      </div>
+
+      <div class="pro-panel">
+        <h4>📋 Mes notes pro</h4>
+        <textarea data-note="f2" placeholder="Émotions souvent confondues en cabinet, stratégies de différenciation…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- FICHE 3 — PROTOCOLE 3 TEMPS -->
+  <section id="f3" class="section">
+    <div class="fiche-card" style="--fc:#7c5cbf">
+      <h2>⏱ Fiche 3 — Protocole de crise parent</h2>
+      <p>Une crise n'est pas le bon moment pour improviser. Voici les <strong>3 temps</strong> à connaître pour ne pas basculer soi-même.</p>
+
+      <div class="callout danger">
+        🛑 <strong>Principe absolu</strong> : on ne fait pas de pédagogie au milieu d'un incendie. <strong>On éteint d'abord le feu.</strong>
+      </div>
+
+      <div class="temps-grid">
+        <div class="temps-card avant">
+          <h3>⏰ Temps 1 — AVANT : prévenir la montée</h3>
+          <p class="objectif">Objectif : repérer les signes avant-coureurs</p>
+          <strong style="color:#666;font-size:.85rem;text-transform:uppercase">Signes à repérer (14)</strong>
+          <ul>
+            <li>Agitation · Soupirs · Regard fuyant · Crispation</li>
+            <li>"J'ai pas envie" · Opposition légère · Irritabilité</li>
+            <li>Questions répétées · Pleurs qui montent · Provocation</li>
+            <li>Accélération du débit verbal · Silence brutal · Besoin de contrôle · Hypersensibilité aux remarques</li>
+          </ul>
+          <strong style="color:#666;font-size:.85rem;text-transform:uppercase">Ce que le parent peut faire</strong>
+          <ul>
+            <li>Réduire les paroles · Donner UNE consigne</li>
+            <li>Proposer une pause courte · Prévenir avant transition</li>
+            <li>Utiliser le thermomètre · Baisser le niveau d'exigence sans abandonner</li>
+            <li>Proposer un choix limité · Nommer : "Je vois que ça commence à monter"</li>
+          </ul>
+        </div>
+
+        <div class="temps-card pendant">
+          <h3>🔥 Temps 2 — PENDANT : sécuriser et désescalader</h3>
+          <p class="objectif">Objectif : éviter que la crise devienne plus longue, violente ou humiliante</p>
+          <strong style="color:#666;font-size:.85rem;text-transform:uppercase">Sécurité d'abord</strong>
+          <ul>
+            <li>Éloigner les objets dangereux</li>
+            <li>Mettre la fratrie à distance</li>
+            <li>Garder une posture stable, parler peu</li>
+            <li>Ne pas bloquer physiquement (sauf danger immédiat)</li>
+          </ul>
+          <strong style="color:#666;font-size:.85rem;text-transform:uppercase">Phrases courtes utiles</strong>
+          <ul>
+            <li>"Je suis là." · "Tu es en sécurité."</li>
+            <li>"Je ne te laisse pas te faire mal."</li>
+            <li>"Je m'éloigne un peu, je reste disponible."</li>
+            <li>"On parlera quand ce sera redescendu."</li>
+            <li>"Là, on fait pause." · "Je ne discute pas pendant la crise."</li>
+          </ul>
+          <strong style="color:#666;font-size:.85rem;text-transform:uppercase">À ne PAS chercher pendant la crise</strong>
+          <ul>
+            <li>Obtenir des excuses · Faire avouer · Prouver qu'on a raison</li>
+            <li>Expliquer toute la règle · Menacer · Humilier · Comparer</li>
+            <li>Reparler des crises précédentes · Négocier 30 min</li>
+          </ul>
+        </div>
+
+        <div class="temps-card apres">
+          <h3>🌱 Temps 3 — APRÈS : réparer et apprendre</h3>
+          <p class="objectif">Objectif : transformer l'épisode en apprentissage, sans honte ni impunité</p>
+          <strong style="color:#666;font-size:.85rem;text-transform:uppercase">Signes que l'enfant est prêt</strong>
+          <ul>
+            <li>Respiration plus calme · Voix moins forte</li>
+            <li>Regard plus disponible · Accepte de boire ou s'asseoir</li>
+            <li>Peut répondre simplement · Ne crie plus · Ne fuit plus</li>
+          </ul>
+          <strong style="color:#666;font-size:.85rem;text-transform:uppercase">Discussion post-crise en 4 étapes</strong>
+          <ol>
+            <li><strong>Reconnecter</strong> : "C'était difficile. On va comprendre ensemble."</li>
+            <li><strong>Nommer sans accuser</strong> : "Tu étais très en colère quand les devoirs ont commencé."</li>
+            <li><strong>Responsabiliser sans humilier</strong> : "Tu as le droit d'être en colère. Tu n'as pas le droit de jeter le cahier."</li>
+            <li><strong>Réparer / préparer</strong> : "La prochaine fois, quand ça monte, tu peux dire 'pause'."</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="callout success">
+        💡 <strong>À retenir</strong> : en crise — sécurité d'abord, parole minimale, réparation ensuite.
+      </div>
+
+      <div class="pro-panel">
+        <h4>📋 Mes notes pro</h4>
+        <textarea data-note="f3" placeholder="Cas cliniques, variations du protocole selon profil (TDAH/TSA/anxieux)…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- FICHE 4 — QUOI FAIRE -->
+  <section id="f4" class="section">
+    <div class="fiche-card" style="--fc:#2a9d8f">
+      <h2>✅ Fiche 4 — Quoi faire pendant la crise (7 règles)</h2>
+      <p>Quand l'enfant est déjà débordé, l'objectif n'est pas d'éduquer ou de convaincre. C'est : <strong>sécuriser, réduire l'escalade, attendre que le cerveau redevienne disponible</strong>.</p>
+
+      <div class="regles-list">
+        <div class="regle faire">
+          <h4>1 · Sécurité d'abord</h4>
+          <p>Éloigner les objets dangereux. Mettre la fratrie à distance. Laisser une sortie. Éviter de coincer physiquement.</p>
+          <div class="swap"><strong>Phrase parent :</strong> "Je ne te laisse pas te faire mal ni faire mal aux autres."</div>
+        </div>
+        <div class="regle faire">
+          <h4>2 · Parler peu</h4>
+          <p>En crise, trop de mots = trop de carburant. Phrases courtes, voix basse, consigne unique, ton ferme et calme.</p>
+          <div class="swap"><strong>Phrases utiles :</strong> "Je suis là." · "On fait pause." · "Tu es en sécurité." · "Je parle peu." · "On verra après."</div>
+        </div>
+        <div class="regle faire">
+          <h4>3 · Baisser la stimulation</h4>
+          <p>Baisser le volume, éteindre les écrans, limiter les personnes autour, arrêter les questions.</p>
+          <div class="swap"><strong>Phrase parent :</strong> "On baisse le bruit. On se pose. On reprendra après."</div>
+        </div>
+        <div class="regle faire">
+          <h4>4 · Ne PAS négocier</h4>
+          <p>Pendant la crise, la négociation = autoroute vers l'escalade. Maintenir la limite, ne pas changer la règle sous la pression.</p>
+          <div class="swap"><strong>Exemple :</strong> "L'écran est terminé. Je sais que c'est difficile. On en reparle quand tu es calmé." (PAS "Bon, encore 5 min mais après tu arrêtes, promis ?")</div>
+        </div>
+        <div class="regle faire">
+          <h4>5 · Contenir sans humilier</h4>
+          <p>Contenir, ce n'est pas écraser. Reconnaître l'émotion + maintenir l'interdit. Séparer l'enfant de son comportement.</p>
+          <div class="swap"><strong>Phrases-clés :</strong> "Tu as le droit d'être très en colère. Tu n'as pas le droit de taper." · "L'émotion est autorisée. La violence ne l'est pas."</div>
+        </div>
+        <div class="regle faire">
+          <h4>6 · Utiliser le corps</h4>
+          <p>Quand le langage ne passe plus, le corps aide. <strong>On propose, on n'impose pas tout en bloc.</strong></p>
+          <div class="swap"><strong>Phrase parent :</strong> "Tu peux choisir : eau, coussin ou coin calme."</div>
+        </div>
+        <div class="regle faire">
+          <h4>7 · Attendre la descente</h4>
+          <p>La crise redescend rarement parce que le parent a trouvé LA phrase magique. Elle redescend souvent parce que le parent <strong>arrête d'alimenter</strong>.</p>
+          <div class="swap"><strong>Signes :</strong> voix moins forte, respiration calme, accepte de s'asseoir, prend de l'eau, arrête de jeter/taper.</div>
+        </div>
+      </div>
+
+      <div class="callout success">
+        💡 <strong>Mini-script complet</strong> :<br>
+        <em>"Je vois que c'est très fort. Je suis là. Je ne te laisse pas te faire mal ni faire mal. On fait pause. On parlera quand ce sera redescendu."</em><br>
+        Simple. Répétable. Efficace.
+      </div>
+
+      <div class="pro-panel">
+        <h4>📋 Mes notes pro</h4>
+        <textarea data-note="f4" placeholder="Adaptations selon âge, scripts perso…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- FICHE 5 — QUOI ÉVITER -->
+  <section id="f5" class="section">
+    <div class="fiche-card" style="--fc:#e05a5a">
+      <h2>❌ Fiche 5 — Quoi éviter pendant la crise (10 réflexes)</h2>
+      <p>Certains réflexes parentaux mettent de l'huile sur le feu. Pas parce que le parent est mauvais — parce qu'il est fatigué, inquiet, dépassé ou répète ce qu'il connaît.</p>
+
+      <div class="regles-list">
+        <div class="regle eviter">
+          <h4>1 · Les longs discours</h4>
+          <p>❌ "Tu te rends compte de ton comportement ? Après tout ce que je fais pour toi…"</p>
+          <div class="swap">✅ <strong>Remplacer par :</strong> "On fait pause. On parlera après."</div>
+        </div>
+        <div class="regle eviter">
+          <h4>2 · Les questions-pièges</h4>
+          <p>❌ "Pourquoi tu fais ça ?" · "Tu veux me rendre folle ?" · "Tu trouves ça normal ?"</p>
+          <div class="swap">✅ <strong>Remplacer par :</strong> "Là, c'est trop fort. On comprend après."</div>
+        </div>
+        <div class="regle eviter">
+          <h4>3 · Les menaces disproportionnées</h4>
+          <p>❌ "Tu n'auras plus jamais d'écran." · "Je vais tout jeter." · "Tu es privé pendant un mois."</p>
+          <div class="swap">✅ <strong>Remplacer par :</strong> "La règle reste la même. On en reparle quand tu es calmé."</div>
+        </div>
+        <div class="regle eviter">
+          <h4>4 · L'humiliation</h4>
+          <p>❌ "Tu es insupportable." · "Tu fais honte." · "Tu es vraiment bébé." · "Tu es méchant."</p>
+          <div class="swap">✅ <strong>Remplacer par :</strong> "Ton comportement n'est pas acceptable. Toi, tu restes mon enfant, et on va réparer."</div>
+        </div>
+        <div class="regle eviter">
+          <h4>5 · La comparaison</h4>
+          <p>❌ "Ta sœur y arrive très bien." · "Les autres enfants ne font pas ça." · "À ton âge, tu devrais…"</p>
+          <div class="swap">✅ <strong>Remplacer par :</strong> "On regarde ce qui est difficile pour toi et ce qu'on peut tester."</div>
+        </div>
+        <div class="regle eviter">
+          <h4>6 · Négocier pendant la crise</h4>
+          <p>❌ "Bon, si tu arrêtes de crier, tu peux avoir encore 10 minutes."</p>
+          <div class="swap">✅ <strong>Remplacer par :</strong> "Je comprends que tu sois frustré. La règle ne change pas pendant la crise."</div>
+        </div>
+        <div class="regle eviter">
+          <h4>7 · Exiger des excuses immédiates</h4>
+          <p>❌ "Dis pardon tout de suite." · "Excuse-toi maintenant sinon…"</p>
+          <div class="swap">✅ <strong>Remplacer par :</strong> "On réparera quand tu seras redescendu."</div>
+        </div>
+        <div class="regle eviter">
+          <h4>8 · Vouloir avoir raison</h4>
+          <p>❌ "Tu vois bien que j'avais raison." · "Je te l'avais dit." · "C'est toi qui as commencé."</p>
+          <div class="swap">✅ <strong>Remplacer par :</strong> "Le sujet maintenant, c'est de redescendre. On analysera après."</div>
+        </div>
+        <div class="regle eviter">
+          <h4>9 · Envahir physiquement</h4>
+          <p>❌ Se rapprocher trop près, bloquer la sortie, attraper l'enfant pour "le calmer", le suivre partout.</p>
+          <div class="swap">✅ <strong>Remplacer par :</strong> "Je te laisse de l'espace. Je reste proche si tu as besoin." (sauf danger réel)</div>
+        </div>
+        <div class="regle eviter">
+          <h4>10 · Relancer une 2ᵉ crise après la 1ʳᵉ</h4>
+          <p>❌ "Maintenant tu vas m'expliquer pourquoi tu as fait ça." (juste après la crise)</p>
+          <div class="swap">✅ <strong>Remplacer par :</strong> "On va boire un verre d'eau. On reparle dans quelques minutes."</div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        ⚠️ <strong>Auto-check parent</strong> : pendant les crises, j'ai tendance à… [crier · menacer · long discours · questions accusatrices · comparer · négocier · exiger excuses · vouloir avoir raison · m'approcher trop · revenir trop vite sur la crise]. <strong>Choisir UN seul réflexe à diminuer cette semaine.</strong>
+      </div>
+
+      <div class="pro-panel">
+        <h4>📋 Mes notes pro</h4>
+        <textarea data-note="f5" placeholder="Pièges fréquents observés chez les parents en consultation…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- FICHE 6 — RETOUR AU CALME -->
+  <section id="f6" class="section">
+    <div class="fiche-card" style="--fc:#7c5cbf">
+      <h2>🌬 Fiche 6 — Plan de retour au calme</h2>
+      <p>Le but n'est pas de supprimer l'émotion — c'est d'aider le corps et le cerveau à <strong>redescendre</strong>. Une émotion forte ne se coupe pas avec un ordre. Elle se traverse avec des repères.</p>
+
+      <div class="callout danger">
+        🛑 <strong>À éviter absolument</strong> : utiliser le retour au calme comme punition ou comme "va te calmer tout seul et reviens quand tu seras normal". Ça, ce n'est pas de la régulation. C'est de l'exclusion déguisée.
+      </div>
+
+      <h3>Les 4 étapes</h3>
+      <div class="plan-grid">
+        <div class="plan-step" style="--psc:#e05a5a"><h4><span class="num">1</span>Sécuriser</h4><p>Éloigner dangers, mettre fratrie à distance, environnement moins stimulant.</p></div>
+        <div class="plan-step" style="--psc:#e9a73a"><h4><span class="num">2</span>Réduire stimulations</h4><p>Baisser bruit, lumière, arrêter questions, distance physique.</p></div>
+        <div class="plan-step" style="--psc:#7c5cbf"><h4><span class="num">3</span>Stratégie corporelle</h4><p>Proposer 2 choix MAX. Pas un menu complet.</p></div>
+        <div class="plan-step" style="--psc:#2a9d8f"><h4><span class="num">4</span>Revenir doucement</h4><p>Boire, s'asseoir, nommer sobrement. Pas de morale immédiate.</p></div>
+      </div>
+
+      <div class="boite-calme">
+        <h3>🧰 Ma boîte de retour au calme</h3>
+        <p style="font-size:.88rem;color:#666;font-style:italic">Coche ce qui aide ton enfant (clic = sauvegardé)</p>
+        <div class="outils-grid" id="outils-calme"></div>
+      </div>
+
+      <h3>🎯 Plan personnalisé par niveau du thermomètre</h3>
+      <div class="post-crise">
+        <div class="field"><label>📍 Quand mon enfant est au niveau 2 ou 3, ce qui l'aide :</label><textarea data-perso="n23-aide" placeholder="Pause courte, boire, choix limité…"></textarea></div>
+        <div class="field"><label>🔥 Quand mon enfant est au niveau 4 ou 5, ce qui l'aide :</label><textarea data-perso="n45-aide" placeholder="Peu de mots, espace, couverture lourde…"></textarea></div>
+        <div class="field"><label>🚫 Ce que je dois éviter à tout prix avec mon enfant :</label><textarea data-perso="eviter" placeholder="Crier, faire un long discours, exiger des excuses…"></textarea></div>
+      </div>
+
+      <div class="callout success">
+        💡 <strong>À retenir</strong> : on ne calme pas un enfant en le dominant. On l'aide à redescendre en sécurisant, en simplifiant et en répétant.
+      </div>
+
+      <div class="pro-panel">
+        <h4>📋 Mes notes pro</h4>
+        <textarea data-note="f6" placeholder="Stratégies sensorielles validées, profils sensibles…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- FICHE 7 — POST-CRISE -->
+  <section id="f7" class="section">
+    <div class="fiche-card" style="--fc:#2a9d8f">
+      <h2>📝 Fiche 7 — Grille post-crise — comprendre et réparer sans humilier</h2>
+      <p>À remplir <strong>uniquement quand l'enfant est redescendu</strong>. Le but : répondre à 4 questions clés. Qu'est-ce qui a déclenché ? Qu'est-ce qui était inacceptable ? Qu'est-ce qui a aidé ? Qu'est-ce qu'on teste la prochaine fois ?</p>
+
+      <div class="post-crise">
+        <h3>1️⃣ Ce qui s'est passé</h3>
+        <div class="field"><label>📍 Où étions-nous ?</label><input type="text" data-pc="lieu" placeholder="Cuisine, chambre…"></div>
+        <div class="field"><label>⏰ Qu'est-ce qui se passait juste avant ?</label><textarea data-pc="avant" placeholder="Devoirs, arrêt écran, transition…"></textarea></div>
+        <div class="field"><label>🎯 Qu'est-ce qui a fait monter l'émotion ?</label><textarea data-pc="declencheur" placeholder="Consigne trop longue, fatigue, frustration…"></textarea></div>
+        <div class="field"><label>🌡 À combien était l'émotion sur 5 ?</label>
+          <select data-pc="intensite"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+        </div>
+        <div class="field"><label>💗 Quelle émotion était la plus forte ?</label>
+          <select data-pc="emotion">
+            <option value="">—</option>
+            <option>Colère</option><option>Tristesse</option><option>Peur/anxiété</option>
+            <option>Frustration</option><option>Honte</option><option>Découragement</option>
+            <option>Injustice</option><option>Surcharge</option><option>Autre</option>
+          </select>
+        </div>
+
+        <h3 style="margin-top:1.5rem">2️⃣ Ce que chacun a fait (faits, pas étiquettes)</h3>
+        <div class="field"><label>🧒 Ce que l'enfant a fait/dit :</label><textarea data-pc="enfant" placeholder="A crié, jeté le crayon, dit 'je suis nul'…"></textarea></div>
+        <div class="field"><label>👤 Ce que j'ai fait/dit :</label><textarea data-pc="parent" placeholder="J'ai élevé la voix, j'ai insisté, j'ai fait une pause…"></textarea></div>
+
+        <h3 style="margin-top:1.5rem">3️⃣ Ce qui n'était pas acceptable</h3>
+        <div class="checkbox-list">
+          <label><input type="checkbox" data-pc-c="taper"><span>Taper</span></label>
+          <label><input type="checkbox" data-pc-c="insulter"><span>Insulter</span></label>
+          <label><input type="checkbox" data-pc-c="casser"><span>Casser</span></label>
+          <label><input type="checkbox" data-pc-c="menacer"><span>Menacer</span></label>
+          <label><input type="checkbox" data-pc-c="jeter"><span>Jeter des objets</span></label>
+          <label><input type="checkbox" data-pc-c="humilier"><span>Humilier</span></label>
+          <label><input type="checkbox" data-pc-c="crier"><span>Crier longtemps</span></label>
+          <label><input type="checkbox" data-pc-c="faire-peur"><span>Faire peur</span></label>
+          <label><input type="checkbox" data-pc-c="se-mal"><span>Se faire mal</span></label>
+        </div>
+        <p style="font-size:.88rem;color:#666;font-style:italic;margin-top:.5rem">"L'émotion est autorisée. Certains comportements ne le sont pas."</p>
+
+        <h3 style="margin-top:1.5rem">4️⃣ Ce qui a aidé / aggravé</h3>
+        <div class="field"><label>✅ Ce qui a aidé à redescendre :</label><textarea data-pc="aide" placeholder="Pause, eau, parler doucement, baisser la lumière…"></textarea></div>
+        <div class="field"><label>❌ Ce qui a aggravé :</label><textarea data-pc="aggrave" placeholder="Long discours, menace, comparaison…"></textarea></div>
+
+        <h3 style="margin-top:1.5rem">5️⃣ Réparer (sans humilier)</h3>
+        <div class="checkbox-list">
+          <label><input type="checkbox" data-pc-c="ramasser"><span>Ramasser ce qui a été jeté</span></label>
+          <label><input type="checkbox" data-pc-c="ranger"><span>Ranger l'espace</span></label>
+          <label><input type="checkbox" data-pc-c="reparer-cassé"><span>Réparer/remplacer</span></label>
+          <label><input type="checkbox" data-pc-c="excuse-mot"><span>Mot/dessin d'excuse</span></label>
+          <label><input type="checkbox" data-pc-c="geste-gentil"><span>Geste gentil</span></label>
+          <label><input type="checkbox" data-pc-c="reprendre"><span>Reprendre une partie de la tâche</span></label>
+        </div>
+
+        <h3 style="margin-top:1.5rem">6️⃣ Préparer la prochaine fois</h3>
+        <div class="field"><label>🎯 La prochaine fois, l'enfant essaie :</label><textarea data-pc="enfant-test" placeholder="Dire 'pause', aller au coin calme, montrer le niveau 3…"></textarea></div>
+        <div class="field"><label>🎯 La prochaine fois, le parent essaie :</label><textarea data-pc="parent-test" placeholder="Pauser au lieu de répéter, baisser la voix, proposer 2 choix…"></textarea></div>
+      </div>
+
+      <div class="callout success">
+        💡 <strong>À retenir</strong> : comprendre n'excuse pas tout. Réparer n'humilie pas. Préparer évite de recommencer exactement pareil.
+      </div>
+
+      <div class="pro-panel">
+        <h4>📋 Mes notes pro</h4>
+        <textarea data-note="f7" placeholder="Cas cliniques, ajustements de la grille selon profils…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="btn-export" id="btn-export">📄 Exporter mes données en .txt</button>
+    <button class="btn-print" onclick="window.print()">🖨 Imprimer ce kit</button>
+  </div>
+
+</div>
+
+<script>
+const KEY='educatypique_kit_emotions_v1';
+let state={notes:{},perso:{},pc:{},pcCheckbox:{},outils:{},thermo:{}};
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=Object.assign(state,JSON.parse(r));}catch(e){}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+load();
+
+/* Tabs */
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(b.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+});
+
+/* Mode Pro */
+const btnPro=document.getElementById('btn-pro');
+btnPro.onclick=()=>{
+  document.body.classList.toggle('show-pro');
+  btnPro.classList.toggle('active');
+  btnPro.innerHTML=document.body.classList.contains('show-pro')?'📋 Mode Pro activé':'📋 Activer le Mode Pro (notes perso)';
+};
+
+/* Notes Pro */
+document.querySelectorAll('[data-note]').forEach(t=>{
+  const k=t.dataset.note;
+  t.value=state.notes[k]||'';
+  t.addEventListener('input',e=>{state.notes[k]=e.target.value;save();});
+});
+
+/* THERMO — Niveaux */
+const NIVEAUX={
+  1:{c:'#2a9d8f',n:'Calme',signes:['Respiration calme','Visage détendu','Corps relâché','Voix normale','Peut attendre'],aide:['Garder routine','Continuer tranquillement','Activité agréable','Consigne simple'],eviter:['Surcharge inutile','Stimulation excessive']},
+  2:{c:'#f0c52e',n:'Gêné',signes:['Bouge plus','Soupire','Fronce les sourcils','Parle moins/plus vite','"J\'ai pas envie"'],aide:['Pause courte','Consigne plus claire','Choix limité','Boire de l\'eau','Respirer','Dire "ça monte"'],eviter:['Presser','Insister','Multiplier les demandes']},
+  3:{c:'#e9a73a',n:'Ça monte',signes:['Cœur rapide','Mâchoire serrée','Mains tendues','Envie de crier','Répond sèchement','N\'écoute presque plus'],aide:['Arrêter de parler trop','Faire pause','Bouger','S\'isoler dans lieu calme','Objet sensoriel','Réduire la tâche'],eviter:['Sermon','Répétition','Questions','Insister sur la tâche']},
+  4:{c:'#e05a5a',n:'Presque crise',signes:['Crie','Pleure fort','Menace','Refuse tout','Claque une porte','Mots blessants','Ne réfléchit plus'],aide:['Peu de mots','Présence calme','Espace','Ne pas coincer','Ne pas faire la morale','Pas d\'explication exigée','Attendre'],eviter:['Bloquer physiquement','Crier en retour','Exiger excuses','Punition à chaud','Débat']},
+  5:{c:'#8b1538',n:'Explosion',signes:['Crise intense','Hurlements','Gestes agressifs','Fuite','Effondrement','Insultes','Panique','Perte coopération'],aide:['Sécurité d\'abord','Éloigner ce qui peut blesser','Réduire stimulations','Adulte calme','Phrases très courtes','Pas de débat','Retour au calme avant tout'],eviter:['Tout débat','Punition annoncée à chaud','Toucher l\'enfant sans nécessité','Avoir des spectateurs']}
+};
+
+document.querySelectorAll('.niveau').forEach(n=>{
+  n.onclick=()=>{
+    document.querySelectorAll('.niveau').forEach(x=>x.classList.remove('active'));
+    n.classList.add('active');
+    const d=NIVEAUX[n.dataset.n];
+    const detail=document.getElementById('niveau-detail');
+    detail.style.setProperty('--nc',d.c);
+    detail.innerHTML=`<h3>Niveau ${n.dataset.n} — ${d.n}</h3>
+      <div class="grid-3">
+        <div class="col"><h5>Signes dans le corps</h5><ul>${d.signes.map(s=>`<li>${s}</li>`).join('')}</ul></div>
+        <div class="col"><h5>Ce qui aide</h5><ul>${d.aide.map(s=>`<li>${s}</li>`).join('')}</ul></div>
+        <div class="col"><h5>Ce que les adultes doivent éviter</h5><ul>${d.eviter.map(s=>`<li>${s}</li>`).join('')}</ul></div>
+      </div>`;
+    detail.classList.add('active');
+  };
+});
+
+/* Thermo perso table */
+const persoTbody=document.querySelector('#perso-table tbody');
+[1,2,3,4,5].forEach(n=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td style="font-weight:700;color:${NIVEAUX[n].c}">N°${n}<br><span style="font-size:.8rem;font-weight:400">${NIVEAUX[n].n}</span></td>
+    <td><textarea data-thermo="${n}-signes" placeholder="Ses signes à lui/elle…"></textarea></td>
+    <td><textarea data-thermo="${n}-aide" placeholder="Ce qui l'aide à ce niveau…"></textarea></td>
+    <td><textarea data-thermo="${n}-eviter" placeholder="Ce que je dois éviter…"></textarea></td>`;
+  persoTbody.appendChild(tr);
+});
+document.querySelectorAll('[data-thermo]').forEach(t=>{
+  const k=t.dataset.thermo;
+  t.value=state.thermo[k]||'';
+  t.addEventListener('input',e=>{state.thermo[k]=e.target.value;save();});
+});
+
+/* ROUE émotions */
+const EMOS={
+  colere:{e:'😠',c:'#e05a5a',nuances:['frustré','énervé','injustement traité','jaloux','bloqué','envahi','humilié','impatient','provoqué','agressé'],corps:['poings serrés','voix forte','visage tendu','envie de taper','envie de crier','respiration rapide','corps agité'],besoins:['espace','pause','justice','limite claire','réparation','être entendu','faire sortir la tension sans blesser']},
+  tristesse:{e:'😢',c:'#5a8fc7',nuances:['déçu','seul','rejeté','découragé','blessé','abandonné','nul','fatigué','incompris','démotivé'],corps:['pleurs','boule dans la gorge','fatigue','regard baissé','envie de rester seul','voix faible','corps lourd'],besoins:['réconfort','douceur','présence','encouragement','repos','câlin si accepté','entendre que je ne suis pas mon échec']},
+  peur:{e:'😰',c:'#7c5cbf',nuances:['inquiet','stressé','paniqué','pas prêt','en danger','perdu','incapable','sous pression','bloqué','tendu'],corps:['ventre serré','cœur rapide','mains moites','agitation','envie de fuir','questions répétées','respiration courte'],besoins:['être rassuré','savoir ce qui va se passer','découper la tâche','être accompagné','respirer','avoir un plan','faire un premier petit pas']},
+  joie:{e:'😊',c:'#f0c52e',nuances:['content','fier','motivé','excité','léger','confiant','amusé','reconnaissant','satisfait','énergique'],corps:['sourire','rire','parler plus','bouger','envie de partager','regard lumineux','énergie'],besoins:['partager','célébrer','continuer','garder une trace','être encouragé','vivre un moment agréable']},
+  degout:{e:'😖',c:'#2a9d8f',nuances:['écœuré','dérangé','repoussé','mal à l\'aise','saturé','irrité','envahi','en refus'],corps:['grimace','recul','refus','envie de partir','tension','fermeture'],besoins:['distance','respect de ma limite','comprendre ce qui me dérange','adaptation sensorielle','choix limité','temps']},
+  surprise:{e:'😲',c:'#e9a73a',nuances:['étonné','confus','perdu','curieux','déstabilisé','pris de court','intéressé','inquiet'],corps:['yeux grands ouverts','arrêt du mouvement','questions','rire nerveux','agitation','silence'],besoins:['explication','temps pour comprendre','transition','répétition','repère clair']},
+  honte:{e:'😳',c:'#a85578',nuances:['nul','ridicule','exposé','inférieur','gêné','pas à la hauteur','humilié','coupable','trop différent'],corps:['se cacher','baisser les yeux','rougir','attaquer pour se défendre','dire "je m\'en fiche"','fuir','se fermer'],besoins:['sécurité','réparation sans humiliation','droit à l\'erreur','encouragement précis','discrétion','entendre : "tu as fait une erreur, tu n\'es pas une erreur"']}
+};
+
+document.querySelectorAll('.emo-card').forEach(c=>{
+  c.onclick=()=>{
+    const k=c.dataset.e;const d=EMOS[k];
+    const detail=document.getElementById('emo-detail');
+    detail.className='emo-detail '+k+' active';
+    detail.style.setProperty('--ec',d.c);
+    detail.innerHTML=`<h3>${d.e} ${k.charAt(0).toUpperCase()+k.slice(1)} — ${d.nuances.length} nuances</h3>
+      <p style="color:#666;font-size:.9rem">Choisis le mot le plus proche de ce que tu ressens :</p>
+      <div class="nuances">${d.nuances.map(n=>`<span class="nuance">${n}</span>`).join('')}</div>
+      <div class="grid-2">
+        <div class="col"><h5>Ce que mon corps peut faire</h5><ul>${d.corps.map(s=>`<li>${s}</li>`).join('')}</ul></div>
+        <div class="col"><h5>Ce dont j'ai peut-être besoin</h5><ul>${d.besoins.map(s=>`<li>${s}</li>`).join('')}</ul></div>
+      </div>`;
+    detail.querySelectorAll('.nuance').forEach(n=>{
+      n.onclick=()=>{n.classList.toggle('selected');};
+    });
+  };
+});
+
+/* Outils calme */
+const OUTILS_CALME=['💧 Boire de l\'eau','🤜 Pousser contre un mur','🚶 Marcher','💨 Respiration lente','🛋 Coin calme','🎧 Casque anti-bruit','🛏 Couverture lourde','🎨 Dessiner','🤗 Câlin (si accepté)','🪨 Balle anti-stress','📖 Lecture calme','🌬 Souffler bulles','⏳ Sablier 5 min','🌧 Bruit blanc / bruit de pluie','📝 Écrire ce que je ressens','🌳 Aller dehors'];
+const outilsContainer=document.getElementById('outils-calme');
+OUTILS_CALME.forEach(o=>{
+  const div=document.createElement('div');
+  div.className='outil-chip'+(state.outils[o]?' selected':'');
+  div.textContent=o;
+  div.onclick=()=>{
+    state.outils[o]=!state.outils[o];
+    div.classList.toggle('selected');
+    save();
+  };
+  outilsContainer.appendChild(div);
+});
+
+/* Perso (n23-aide etc.) */
+document.querySelectorAll('[data-perso]').forEach(t=>{
+  const k=t.dataset.perso;
+  t.value=state.perso[k]||'';
+  t.addEventListener('input',e=>{state.perso[k]=e.target.value;save();});
+});
+
+/* Post-crise */
+document.querySelectorAll('[data-pc]').forEach(el=>{
+  const k=el.dataset.pc;
+  el.value=state.pc[k]||'';
+  el.addEventListener('input',e=>{state.pc[k]=e.target.value;save();});
+});
+document.querySelectorAll('[data-pc-c]').forEach(el=>{
+  const k=el.dataset.pcC;
+  el.checked=state.pcCheckbox[k]||false;
+  el.addEventListener('change',e=>{state.pcCheckbox[k]=e.target.checked;save();});
+});
+
+/* Export */
+document.getElementById('btn-export').onclick=()=>{
+  const date=new Date().toLocaleDateString('fr-FR');
+  let txt=`KIT GESTION DES ÉMOTIONS — EducaTypique\nCréation originale Nawel Haddouch\nExporté le : ${date}\n${'='.repeat(60)}\n\n`;
+
+  txt+=`📋 MON THERMOMÈTRE PERSONNEL\n${'-'.repeat(60)}\n`;
+  [1,2,3,4,5].forEach(n=>{
+    const s=state.thermo[`${n}-signes`]||'';
+    const a=state.thermo[`${n}-aide`]||'';
+    const e=state.thermo[`${n}-eviter`]||'';
+    if(s||a||e){
+      txt+=`\nNiveau ${n} — ${NIVEAUX[n].n}\n`;
+      if(s)txt+=`  Signes : ${s}\n`;
+      if(a)txt+=`  Aide : ${a}\n`;
+      if(e)txt+=`  À éviter : ${e}\n`;
+    }
+  });
+
+  txt+=`\n\n🌬 PLAN DE RETOUR AU CALME\n${'-'.repeat(60)}\n`;
+  if(state.perso['n23-aide'])txt+=`N2-3 aide : ${state.perso['n23-aide']}\n`;
+  if(state.perso['n45-aide'])txt+=`N4-5 aide : ${state.perso['n45-aide']}\n`;
+  if(state.perso['eviter'])txt+=`À éviter : ${state.perso['eviter']}\n`;
+  const outils=Object.keys(state.outils).filter(k=>state.outils[k]);
+  if(outils.length)txt+=`Outils boîte calme : ${outils.join(' · ')}\n`;
+
+  txt+=`\n\n📝 GRILLE POST-CRISE\n${'-'.repeat(60)}\n`;
+  const pcLabels={lieu:'Lieu',avant:'Avant',declencheur:'Déclencheur',intensite:'Intensité /5',emotion:'Émotion',enfant:'Ce que l\'enfant a fait',parent:'Ce que j\'ai fait',aide:'Ce qui a aidé',aggrave:'Ce qui a aggravé','enfant-test':'Enfant teste','parent-test':'Parent teste'};
+  Object.entries(pcLabels).forEach(([k,l])=>{
+    if(state.pc[k])txt+=`${l} : ${state.pc[k]}\n`;
+  });
+  const pcChecked=Object.keys(state.pcCheckbox).filter(k=>state.pcCheckbox[k]);
+  if(pcChecked.length)txt+=`Cases cochées : ${pcChecked.join(' · ')}\n`;
+
+  const proLabels={f1:'Thermomètre',f2:'Roue',f3:'Protocole',f4:'Quoi faire',f5:'Quoi éviter',f6:'Retour au calme',f7:'Post-crise'};
+  let hasNotes=false;
+  Object.entries(proLabels).forEach(([k,l])=>{
+    if(state.notes[k]&&state.notes[k].trim()){
+      if(!hasNotes){txt+=`\n\n📋 MES NOTES PRO\n${'-'.repeat(60)}\n`;hasNotes=true;}
+      txt+=`\n## ${l}\n${state.notes[k]}\n`;
+    }
+  });
+
+  const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`kit-emotions_${date.replace(/\//g,'-')}.txt`;
+  a.click();URL.revokeObjectURL(url);
+};
+</script>
+
+</body>
+</html>

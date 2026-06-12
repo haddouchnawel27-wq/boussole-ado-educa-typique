@@ -1,0 +1,4575 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reprendre Confiance — Boussol Ados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple: #7C3AED;
+  --purple-deep: #5B21B6;
+  --purple-soft: #EDE9FE;
+  --purple-tint: #F5F3FF;
+  --pink: #EC4899;
+  --pink-soft: #FCE7F3;
+  --coral: #FB923C;
+  --coral-soft: #FFEDD5;
+  --mint: #14B8A6;
+  --mint-soft: #CCFBF1;
+  --sky: #0EA5E9;
+  --sky-soft: #E0F2FE;
+  --amber: #F59E0B;
+  --amber-soft: #FEF3C7;
+  --cream: #FEFCF8;
+  --cream-warm: #FDF8F2;
+  --ink: #1E1B2E;
+  --ink-soft: #4B4862;
+  --ink-light: #8B879D;
+  --line: #E8E5F1;
+  --line-soft: #F2F0F8;
+  --white: #FFFFFF;
+  --red-alert: #DC2626;
+  --green-ok: #16A34A;
+  --gold: #FBBF24;
+  --gold-soft: #FEF3C7;
+  --gold-deep: #B45309;
+
+  --shadow-sm: 0 2px 8px rgba(30, 27, 46, 0.04);
+  --shadow-md: 0 8px 24px rgba(30, 27, 46, 0.06);
+  --shadow-lg: 0 20px 50px rgba(30, 27, 46, 0.10);
+  --shadow-color: 0 12px 36px rgba(124, 58, 237, 0.18);
+  --shadow-gold: 0 8px 24px rgba(251, 191, 36, 0.25);
+
+  --radius-sm: 0.625rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Outfit', system-ui, -apple-system, sans-serif;
+
+  --nav-height: 76px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea { font-family: inherit; color: inherit; }
+input:focus, textarea:focus, button:focus-visible { outline: 2px solid var(--purple); outline-offset: 2px; }
+
+#app { min-height: 100vh; position: relative; padding-bottom: 0; }
+.with-nav { padding-bottom: calc(var(--nav-height) + 1.5rem); }
+
+/* ═══════════════ TRANSITIONS ÉCRANS ═══════════════ */
+.screen-wrap {
+  display: none;
+  animation: screenEnter 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.screen-wrap.active { display: block; }
+.screen-wrap.exiting { animation: screenExit 0.25s ease both; }
+
+@keyframes screenEnter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes screenExit {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ═══════════════ UTILITAIRES ═══════════════ */
+.container { max-width: 720px; margin: 0 auto; padding: 1.25rem; }
+.hidden { display: none !important; }
+.serif { font-family: var(--font-display); }
+
+/* ═══════════════ BOUTONS ═══════════════ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.95rem 1.5rem; border-radius: 9999px;
+  font-weight: 600; font-size: 0.95rem;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  letter-spacing: -0.01em;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--ink); color: var(--cream); box-shadow: var(--shadow-md); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.btn-primary:disabled { background: var(--line); color: var(--ink-light); cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-purple {
+  background: linear-gradient(135deg, var(--purple), var(--purple-deep));
+  color: white;
+  box-shadow: var(--shadow-color);
+}
+.btn-purple:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(124,58,237,0.25); }
+.btn-ghost {
+  background: transparent; color: var(--ink);
+  border: 1.5px solid var(--line);
+}
+.btn-ghost:hover { border-color: var(--ink); background: var(--cream-warm); }
+.btn-block { display: flex; width: 100%; }
+
+/* ═══════════════ COVER ═══════════════ */
+.cover {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem 1.25rem;
+  position: relative; overflow: hidden;
+  background: var(--cream);
+}
+.cover-bg-1, .cover-bg-2, .cover-bg-3 {
+  position: absolute; pointer-events: none; border-radius: 50%;
+  animation: blobFloat 18s ease-in-out infinite;
+}
+.cover-bg-1 {
+  top: -100px; right: -150px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, var(--purple-soft) 0%, transparent 70%);
+}
+.cover-bg-2 {
+  bottom: -100px; left: -150px;
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, var(--mint-soft) 0%, transparent 70%);
+  animation-delay: -6s;
+}
+.cover-bg-3 {
+  top: 30%; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(252, 231, 243, 0.5) 0%, transparent 70%);
+  animation-delay: -12s;
+}
+@keyframes blobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 25px) scale(0.95); }
+}
+
+.cover-content {
+  position: relative; z-index: 1;
+  max-width: 560px; width: 100%;
+  text-align: center;
+}
+
+.brand-row {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  padding: 0.375rem 0.875rem;
+  background: var(--white);
+  border-radius: 9999px;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;
+  color: var(--ink-soft); text-transform: uppercase;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.75rem;
+}
+.brand-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--purple);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.3); }
+}
+
+.cover-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 7vw, 4.25rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.25rem;
+}
+.cover-title em {
+  font-style: italic; font-weight: 400;
+  color: var(--purple);
+}
+
+.cover-sub {
+  font-size: 1.0625rem;
+  color: var(--ink-soft);
+  margin-bottom: 2.25rem;
+  max-width: 440px;
+  margin-left: auto; margin-right: auto;
+  line-height: 1.6;
+}
+
+.cover-actions {
+  display: flex; flex-direction: column; gap: 0.625rem;
+  max-width: 320px; margin: 0 auto;
+}
+
+.cover-meta {
+  margin-top: 2.25rem;
+  font-size: 0.78rem;
+  color: var(--ink-light);
+  display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.cover-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-light); }
+
+/* ═══════════════ SCREENS GÉNÉRIQUES ═══════════════ */
+.screen { min-height: 100vh; padding: 1.5rem 1.25rem 2rem; }
+
+.screen-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 0.75rem;
+}
+.btn-back {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.85rem; font-weight: 500; color: var(--ink-soft);
+  padding: 0.5rem 0.875rem;
+  border-radius: 9999px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  transition: all 0.15s;
+}
+.btn-back:hover { border-color: var(--ink); color: var(--ink); transform: translateX(-2px); }
+.screen-step {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--ink-light); text-transform: uppercase;
+}
+
+.h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 4.5vw, 2.625rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+.h1 em { font-style: italic; color: var(--purple); font-weight: 400; }
+
+.h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.5rem;
+}
+
+.lead {
+  font-size: 1rem; color: var(--ink-soft); line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+/* ═══════════════ ONBOARDING ═══════════════ */
+.onb-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 1rem;
+}
+.field-group { margin-bottom: 1.5rem; }
+.field-label {
+  display: block;
+  font-size: 0.82rem; font-weight: 600; color: var(--ink);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+.field-hint {
+  font-size: 0.78rem; color: var(--ink-light);
+  margin-top: 0.4rem;
+}
+.field-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  background: var(--cream-warm);
+  transition: border-color 0.15s, background 0.15s;
+}
+.field-input:focus {
+  outline: none;
+  border-color: var(--purple);
+  background: var(--white);
+}
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+@media (max-width: 480px) { .avatar-grid { grid-template-columns: repeat(4, 1fr); } }
+.avatar-option {
+  aspect-ratio: 1;
+  background: var(--cream-warm);
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  font-size: 1.75rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.avatar-option:hover { background: var(--purple-tint); transform: scale(1.08) rotate(-3deg); }
+.avatar-option.selected {
+  background: var(--purple-soft);
+  border-color: var(--purple);
+  transform: scale(1.05);
+}
+
+.mode-options { display: grid; gap: 0.75rem; }
+.mode-option {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  padding: 1rem;
+  background: var(--cream-warm);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+.mode-option:hover { background: var(--purple-tint); transform: translateX(2px); }
+.mode-option.selected {
+  background: var(--purple-soft);
+  border-color: var(--purple);
+}
+.mode-icon { font-size: 1.5rem; flex-shrink: 0; }
+.mode-content { flex: 1; }
+.mode-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.2rem; }
+.mode-desc { font-size: 0.8rem; color: var(--ink-soft); line-height: 1.45; }
+
+/* ═══════════════ DIAGNOSTIC ═══════════════ */
+.progress-track {
+  height: 6px;
+  background: var(--line-soft);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--purple), var(--pink));
+  border-radius: 9999px;
+  transition: width 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+  position: relative;
+  overflow: hidden;
+}
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+@keyframes shimmer {
+  to { transform: translateX(200%); }
+}
+
+.diag-question {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s;
+}
+.diag-question:hover { box-shadow: var(--shadow-md); }
+.diag-q-num {
+  font-family: var(--font-display);
+  font-size: 0.875rem; font-weight: 500; font-style: italic;
+  color: var(--purple);
+  margin-bottom: 0.4rem;
+}
+.diag-q-text {
+  font-family: var(--font-display);
+  font-size: 1.25rem; font-weight: 500;
+  line-height: 1.35; letter-spacing: -0.015em;
+  margin-bottom: 1.25rem;
+}
+.scale-options { display: flex; gap: 0.4rem; justify-content: space-between; }
+.scale-btn {
+  flex: 1;
+  aspect-ratio: 1;
+  max-width: 60px;
+  background: var(--cream-warm);
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink-soft);
+  transition: all 0.2s cubic-bezier(0.32, 0.72, 0, 1);
+  border: 2px solid transparent;
+}
+.scale-btn:hover { background: var(--purple-tint); transform: scale(1.08) translateY(-2px); }
+.scale-btn.selected {
+  background: var(--purple);
+  color: white;
+  border-color: var(--purple-deep);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-color);
+}
+.scale-labels {
+  display: flex; justify-content: space-between;
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  color: var(--ink-light);
+}
+
+/* ═══════════════ HUB ═══════════════ */
+.hub-header {
+  padding: 1.5rem 1.25rem 0.5rem;
+  text-align: left;
+}
+.hub-greeting {
+  font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 0.3rem;
+}
+.hub-title {
+  font-family: var(--font-display);
+  font-size: 2rem; font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+.hub-title em { font-style: italic; color: var(--purple); }
+.hub-sub { font-size: 0.95rem; color: var(--ink-soft); }
+
+/* ═══════════════ HUB LEVEL CARD ═══════════════ */
+.level-card {
+  max-width: 720px; margin: 1.5rem auto 1rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, var(--purple) 0%, var(--pink) 100%);
+  color: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-color);
+  position: relative;
+  overflow: hidden;
+}
+.level-card::before {
+  content: '';
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.level-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.875rem;
+  position: relative;
+}
+.level-badge {
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.level-emoji { font-size: 1.5rem; }
+.level-info { line-height: 1.2; }
+.level-name { font-family: var(--font-display); font-size: 1.0625rem; font-weight: 500; letter-spacing: -0.01em; }
+.level-num { font-size: 0.7rem; opacity: 0.85; letter-spacing: 0.08em; text-transform: uppercase; }
+.xp-row {
+  text-align: right;
+}
+.xp-current { font-size: 0.95rem; font-weight: 700; }
+.xp-next { font-size: 0.7rem; opacity: 0.8; }
+
+.xp-bar-track {
+  height: 6px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+.xp-bar-fill {
+  height: 100%;
+  background: white;
+  border-radius: 9999px;
+  transition: width 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ═══════════════ HUB GRID VOIES ═══════════════ */
+.hub-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.875rem;
+  max-width: 720px; margin: 0 auto;
+  padding: 0 1.25rem;
+}
+@media (max-width: 540px) {
+  .hub-grid { grid-template-columns: 1fr; }
+}
+
+.voie-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+  border: 1px solid var(--line-soft);
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.voie-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--voie-color, var(--purple));
+}
+.voie-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--voie-color, var(--purple));
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+.voie-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: var(--shadow-lg); }
+.voie-card:hover::after { opacity: 0.03; }
+.voie-emoji {
+  font-size: 2rem; margin-bottom: 0.875rem; display: block;
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.voie-card:hover .voie-emoji { transform: scale(1.15) rotate(-5deg); }
+.voie-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem; font-weight: 500;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.35rem;
+}
+.voie-desc { font-size: 0.83rem; color: var(--ink-soft); line-height: 1.45; }
+.voie-arrow {
+  margin-top: 1rem;
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--voie-color, var(--purple));
+  display: flex; align-items: center; gap: 0.3rem;
+  transition: gap 0.2s;
+}
+.voie-card:hover .voie-arrow { gap: 0.55rem; }
+
+.voie-card[data-voie="connaitre"] { --voie-color: var(--purple); }
+.voie-card[data-voie="projeter"] { --voie-color: var(--coral); }
+.voie-card[data-voie="booster"] { --voie-color: var(--mint); }
+.voie-card[data-voie="apaiser"] { --voie-color: var(--sky); }
+
+.voie-status {
+  position: absolute;
+  top: 0.75rem; right: 0.75rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.voie-status.new {
+  background: var(--gold-soft);
+  color: var(--gold-deep);
+}
+.voie-status.done {
+  background: var(--mint-soft);
+  color: #0F766E;
+}
+
+.sos-card {
+  margin: 1rem 1.25rem 0;
+  max-width: 720px; margin-left: auto; margin-right: auto;
+  background: linear-gradient(135deg, var(--pink-soft), var(--coral-soft));
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  display: flex; align-items: center; gap: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid rgba(236, 72, 153, 0.15);
+  width: calc(100% - 2.5rem);
+}
+.sos-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.sos-icon {
+  font-size: 1.75rem; flex-shrink: 0;
+  animation: heartbeat 2s ease-in-out infinite;
+}
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+.sos-content { flex: 1; }
+.sos-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.15rem; }
+.sos-desc { font-size: 0.78rem; color: var(--ink-soft); }
+.sos-arrow { font-size: 1.25rem; color: var(--pink); }
+
+/* ═══════════════ BADGES SECTION ═══════════════ */
+.badges-section {
+  max-width: 720px; margin: 1.5rem auto 0;
+  padding: 0 1.25rem;
+}
+.badges-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.badges-title {
+  font-family: var(--font-display);
+  font-size: 1.0625rem; font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.badges-count {
+  font-size: 0.75rem; color: var(--ink-soft);
+  font-weight: 600;
+}
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.5rem;
+}
+.badge {
+  aspect-ratio: 1;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 0.5rem;
+  text-align: center;
+  border: 1px solid var(--line-soft);
+  transition: all 0.2s;
+  cursor: help;
+  position: relative;
+}
+.badge.unlocked {
+  background: linear-gradient(135deg, var(--gold-soft), #FCD34D);
+  border-color: var(--gold);
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
+}
+.badge.unlocked:hover { transform: translateY(-3px) scale(1.05); box-shadow: var(--shadow-gold); }
+.badge.locked { opacity: 0.35; filter: grayscale(0.7); }
+.badge-emoji { font-size: 1.5rem; line-height: 1; margin-bottom: 0.2rem; }
+.badge-name {
+  font-size: 0.62rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--ink-soft);
+  letter-spacing: -0.01em;
+}
+.badge.unlocked .badge-name { color: var(--gold-deep); }
+
+/* ═══════════════ NAV BAR FIXE BAS ═══════════════ */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-top: 1px solid var(--line);
+  z-index: 100;
+  padding: 0.5rem 0.75rem max(0.5rem, env(safe-area-inset-bottom));
+  display: none;
+}
+.bottom-nav.visible { display: block; }
+
+.nav-row {
+  max-width: 720px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.25rem;
+}
+
+.nav-item {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0.5rem 0.25rem;
+  border-radius: var(--radius-md);
+  color: var(--ink-light);
+  transition: all 0.2s;
+  position: relative;
+}
+.nav-item:hover { color: var(--purple); background: var(--purple-tint); }
+.nav-item.active { color: var(--purple); }
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 24px; height: 3px;
+  background: var(--purple);
+  border-radius: 0 0 4px 4px;
+}
+.nav-icon {
+  font-size: 1.25rem;
+  margin-bottom: 0.15rem;
+  transition: transform 0.2s;
+}
+.nav-item:active .nav-icon { transform: scale(1.2); }
+.nav-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ═══════════════ VOIES (commun) ═══════════════ */
+.voie-intro {
+  background: var(--purple-tint);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--purple-soft);
+}
+.voie-intro-title {
+  font-family: var(--font-display); font-size: 1.125rem;
+  font-weight: 500; margin-bottom: 0.4rem;
+}
+
+.tool-list { display: grid; gap: 0.75rem; }
+.tool-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--line-soft);
+  display: flex; align-items: center; gap: 1rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.32, 0.72, 0, 1);
+  text-align: left;
+}
+.tool-card:hover {
+  transform: translateX(6px);
+  border-color: var(--purple);
+  box-shadow: var(--shadow-md);
+}
+.tool-emoji { font-size: 1.75rem; flex-shrink: 0; transition: transform 0.3s; }
+.tool-card:hover .tool-emoji { transform: scale(1.15) rotate(-5deg); }
+.tool-content { flex: 1; }
+.tool-name { font-family: var(--font-display); font-size: 1.0625rem; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 0.2rem; }
+.tool-meta { font-size: 0.78rem; color: var(--ink-light); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.tool-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-light); }
+.tool-external {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--purple); text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  background: var(--purple-soft);
+  border-radius: 9999px;
+}
+.tool-done {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+  color: #0F766E; text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  background: var(--mint-soft);
+  border-radius: 9999px;
+}
+.tool-arrow { color: var(--ink-light); transition: transform 0.2s; }
+.tool-card:hover .tool-arrow { transform: translateX(4px); }
+
+/* ═══════════════ MODE D'EMPLOI ═══════════════ */
+.mode-emploi-cover {
+  background: linear-gradient(135deg, var(--purple-tint), var(--pink-soft));
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative; overflow: hidden;
+}
+.mode-emploi-cover::before {
+  content: '';
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.mode-emploi-badge {
+  display: inline-block;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple-deep);
+  padding: 0.3rem 0.75rem;
+  background: var(--white);
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+}
+.mode-emploi-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 5vw, 2.5rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 0.75rem;
+}
+.mode-emploi-title em { font-style: italic; color: var(--purple); }
+.mode-emploi-desc {
+  font-size: 0.95rem; color: var(--ink-soft);
+  max-width: 420px; margin: 0 auto;
+  line-height: 1.55;
+}
+
+.me-section {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s;
+}
+.me-section:hover { box-shadow: var(--shadow-md); }
+.me-section-num {
+  font-family: var(--font-display);
+  font-size: 0.85rem; font-weight: 500; font-style: italic;
+  color: var(--purple);
+  margin-bottom: 0.3rem;
+}
+.me-section-title {
+  font-family: var(--font-display);
+  font-size: 1.375rem; font-weight: 500;
+  letter-spacing: -0.015em;
+  margin-bottom: 1.25rem;
+}
+
+.me-q { margin-bottom: 1.25rem; }
+.me-q:last-child { margin-bottom: 0; }
+.me-q-label {
+  display: block;
+  font-size: 0.9rem; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.55rem;
+  line-height: 1.4;
+}
+
+.me-input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  background: var(--cream-warm);
+  transition: all 0.15s;
+}
+.me-input:focus {
+  outline: none;
+  border-color: var(--purple);
+  background: var(--white);
+}
+.me-textarea {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  background: var(--cream-warm);
+  resize: vertical; min-height: 80px;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.me-textarea:focus {
+  outline: none;
+  border-color: var(--purple);
+  background: var(--white);
+}
+
+.me-checkbox-group { display: grid; gap: 0.5rem; grid-template-columns: 1fr 1fr; }
+@media (max-width: 480px) { .me-checkbox-group { grid-template-columns: 1fr; } }
+
+/* ═══════════════ BOUSSOL — 9 NIVEAUX ═══════════════ */
+.niveau-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  border-left: 4px solid var(--purple);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.niveau-card:hover { box-shadow: var(--shadow-md); }
+.niveau-card.filled { border-left-color: var(--mint); }
+
+/* Dégradé subtil de couleur de bordure par niveau (du rêve à l'action) */
+.niveau-card[data-niveau="1"] { border-left-color: #FBBF24; }  /* Or → Rêve */
+.niveau-card[data-niveau="2"] { border-left-color: #A78BFA; }  /* Violet doux */
+.niveau-card[data-niveau="3"] { border-left-color: #7C3AED; }  /* Violet */
+.niveau-card[data-niveau="4"] { border-left-color: #5B21B6; }  /* Violet profond */
+.niveau-card[data-niveau="5"] { border-left-color: #EC4899; }  /* Rose */
+.niveau-card[data-niveau="6"] { border-left-color: #FB923C; }  /* Coral */
+.niveau-card[data-niveau="7"] { border-left-color: #F59E0B; }  /* Amber */
+.niveau-card[data-niveau="8"] { border-left-color: #0EA5E9; }  /* Sky */
+.niveau-card[data-niveau="9"] { border-left-color: #14B8A6; }  /* Mint → Action */
+.niveau-card.filled[data-niveau] { border-left-width: 6px; }
+
+.niveau-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+.niveau-emoji-big {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.niveau-titles {
+  flex: 1;
+  min-width: 0;
+}
+.niveau-num {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--ink-light);
+  letter-spacing: 0.02em;
+}
+.niveau-titre {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  line-height: 1.15;
+}
+.niveau-question {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.45;
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+.niveau-cadre {
+  font-size: 0.82rem;
+  color: var(--ink-light);
+  line-height: 1.45;
+  margin-bottom: 0.85rem;
+}
+.niveau-jordan {
+  background: var(--cream-warm);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.8rem;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.4;
+}
+.niveau-jordan-icon {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+.niveau-jordan em {
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.niveau-textarea {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  background: var(--cream-warm);
+  resize: vertical;
+  min-height: 64px;
+  font-family: inherit;
+  color: var(--ink);
+  transition: all 0.15s;
+}
+.niveau-textarea:focus {
+  outline: none;
+  border-color: var(--purple);
+  background: var(--white);
+}
+.niveau-textarea::placeholder {
+  color: var(--ink-light);
+  font-style: italic;
+}
+
+/* Story Jordan dépliable */
+.jordan-story-card { cursor: pointer; }
+.jordan-story {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.5rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--coral);
+  animation: storyOpen 0.4s ease;
+}
+.jordan-story.hidden { display: none; }
+.jordan-story p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-bottom: 0.85rem;
+}
+.jordan-story p:last-child { margin-bottom: 0; }
+.jordan-story p strong { color: var(--ink); font-weight: 600; }
+.jordan-story p em { color: var(--purple); font-style: italic; }
+.jordan-story-moral {
+  background: var(--purple-tint);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1.1rem;
+  margin-top: 1rem !important;
+  border-left: 3px solid var(--purple);
+}
+@keyframes storyOpen {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.me-check {
+  display: flex; align-items: flex-start; gap: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  background: var(--cream-warm);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 0.875rem;
+  text-align: left;
+}
+.me-check:hover { background: var(--purple-tint); transform: translateX(2px); }
+.me-check.checked {
+  background: var(--purple-soft);
+  border-color: var(--purple);
+  color: var(--purple-deep);
+  font-weight: 500;
+}
+.me-check-box {
+  width: 18px; height: 18px; flex-shrink: 0;
+  border: 1.5px solid var(--ink-light);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; color: white;
+  margin-top: 1px;
+  transition: all 0.2s;
+}
+.me-check.checked .me-check-box {
+  background: var(--purple);
+  border-color: var(--purple);
+  transform: scale(1.1);
+}
+.me-trio-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
+@media (max-width: 480px) { .me-trio-fields { grid-template-columns: 1fr; } }
+
+.me-progress {
+  position: sticky; bottom: calc(var(--nav-height) + 0.75rem);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  padding: 0.75rem 1.25rem;
+  margin: 1.5rem auto 0;
+  max-width: 560px;
+  box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  z-index: 10;
+}
+.me-progress-text { font-size: 0.85rem; font-weight: 500; }
+.me-progress-actions { display: flex; gap: 0.5rem; }
+.me-progress-btn {
+  font-size: 0.82rem; font-weight: 600;
+  padding: 0.55rem 1rem;
+  border-radius: 9999px;
+  background: var(--ink);
+  color: white;
+  transition: all 0.15s;
+}
+.me-progress-btn:hover { transform: translateY(-1px); }
+.me-progress-btn.secondary {
+  background: var(--white); color: var(--ink); border: 1px solid var(--line);
+}
+
+/* ═══════════════ SÉCURITÉ ═══════════════ */
+.security-banner {
+  background: linear-gradient(135deg, var(--pink), var(--coral));
+  color: white;
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.security-banner::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 150px; height: 150px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.security-banner-icon {
+  font-size: 2.5rem; margin-bottom: 0.875rem;
+  animation: heartbeat 2.5s ease-in-out infinite;
+}
+.security-banner-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem; font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+.security-banner-desc {
+  font-size: 0.95rem;
+  opacity: 0.95;
+  max-width: 380px; margin: 0 auto;
+  line-height: 1.55;
+}
+
+.security-resource {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--line-soft);
+  display: flex; align-items: center; gap: 1rem;
+  transition: all 0.2s;
+}
+.security-resource:hover { transform: translateX(4px); border-color: var(--pink); }
+.security-resource-emoji { font-size: 1.5rem; }
+.security-resource-content { flex: 1; }
+.security-resource-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.15rem; }
+.security-resource-meta { font-size: 0.8rem; color: var(--ink-soft); }
+.security-resource-phone {
+  font-family: var(--font-display); font-style: italic;
+  color: var(--purple); font-weight: 500;
+  font-size: 1.0625rem;
+}
+
+/* ═══════════════ PRATICIENNE ═══════════════ */
+.prat-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  max-width: 440px; margin: 4rem auto;
+  text-align: center;
+}
+.prat-icon { font-size: 2rem; margin-bottom: 1rem; }
+.prat-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem; font-weight: 500;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.5rem;
+}
+.prat-desc { font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 1.5rem; }
+.prat-error {
+  background: #FEF2F2; color: var(--red-alert);
+  padding: 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem; font-weight: 500;
+  margin-top: 0.75rem;
+  display: none;
+}
+.prat-error.visible { display: block; animation: shake 0.4s; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.prat-dashboard { max-width: 800px; margin: 2rem auto; padding: 0 1.25rem; }
+.prat-section {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+.prat-section-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem; font-weight: 500;
+  letter-spacing: -0.015em;
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.prat-readonly {
+  background: var(--cream-warm);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  font-size: 0.88rem;
+  white-space: pre-wrap;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+}
+.prat-empty {
+  text-align: center; padding: 2rem;
+  color: var(--ink-light);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* ═══════════════ FOOTER ═══════════════ */
+.app-footer {
+  margin-top: 3rem;
+  padding: 2rem 1.25rem 1rem;
+  text-align: center;
+  border-top: 1px solid var(--line-soft);
+}
+.footer-mascots {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  opacity: 0.7;
+}
+.footer-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink-light);
+}
+.footer-meta {
+  font-size: 0.72rem;
+  color: var(--ink-light);
+  margin-top: 0.4rem;
+  letter-spacing: 0.04em;
+}
+
+/* ═══════════════ DIAGNOSTIC RÉSULTATS ═══════════════ */
+.diag-result-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+.diag-result-title {
+  font-family: var(--font-display);
+  font-size: 1.625rem; font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.25rem;
+}
+
+.diag-dim {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1rem;
+}
+.diag-dim-icon { font-size: 1.5rem; flex-shrink: 0; }
+.diag-dim-content { flex: 1; }
+.diag-dim-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem; }
+.diag-dim-bar {
+  height: 8px; background: var(--line-soft);
+  border-radius: 9999px; overflow: hidden;
+}
+.diag-dim-fill {
+  height: 100%; border-radius: 9999px;
+  transition: width 0.8s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.diag-dim-fill.low { background: linear-gradient(90deg, var(--coral), var(--amber)); }
+.diag-dim-fill.med { background: linear-gradient(90deg, var(--amber), var(--mint)); }
+.diag-dim-fill.high { background: linear-gradient(90deg, var(--mint), var(--sky)); }
+.diag-dim-score { font-size: 0.82rem; font-weight: 600; color: var(--ink-soft); }
+
+.diag-suggestion {
+  background: var(--purple-tint);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  border-left: 3px solid var(--purple);
+}
+.diag-suggestion-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple-deep);
+  margin-bottom: 0.4rem;
+}
+.diag-suggestion-text {
+  font-family: var(--font-display);
+  font-size: 1.0625rem; font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+}
+
+/* ═══════════════ TOAST / NOTIFICATIONS XP ═══════════════ */
+.toast-stack {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex; flex-direction: column; gap: 0.5rem;
+  pointer-events: none;
+}
+.toast {
+  background: linear-gradient(135deg, var(--purple), var(--purple-deep));
+  color: white;
+  padding: 0.85rem 1.5rem;
+  border-radius: 9999px;
+  box-shadow: var(--shadow-color);
+  font-weight: 600;
+  font-size: 0.92rem;
+  display: flex; align-items: center; gap: 0.5rem;
+  animation: toastIn 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  pointer-events: auto;
+}
+.toast.gold {
+  background: linear-gradient(135deg, var(--gold), #F59E0B);
+  color: var(--gold-deep);
+  box-shadow: var(--shadow-gold);
+}
+.toast.removing { animation: toastOut 0.3s ease both; }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes toastOut {
+  to { opacity: 0; transform: translateY(-20px); }
+}
+
+/* ═══════════════ MODAL LEVEL UP / BADGE ═══════════════ */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 27, 46, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 150;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+.modal-backdrop.visible { display: flex; }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 2rem;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  animation: modalIn 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.85) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-emoji {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  animation: bounce 1s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.modal-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 0.5rem;
+}
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.875rem; font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+.modal-desc {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin-bottom: 1.5rem;
+}
+.modal-close {
+  background: var(--ink);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: transform 0.15s;
+}
+.modal-close:hover { transform: translateY(-2px); }
+
+.modal-confetti {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 100px;
+  pointer-events: none;
+  overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  width: 8px; height: 8px;
+  top: -10px;
+  animation: confettiFall 2s ease-out forwards;
+}
+@keyframes confettiFall {
+  to {
+    transform: translateY(120px) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* ═══════════════ DECORATIVE ═══════════════ */
+.deco-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.0625rem;
+  color: var(--ink-soft);
+  text-align: center;
+  max-width: 480px;
+  margin: 2rem auto;
+  line-height: 1.5;
+  position: relative;
+  padding: 0 1.25rem;
+}
+.deco-quote::before, .deco-quote::after {
+  content: '"';
+  font-size: 1.5rem;
+  color: var(--purple);
+  opacity: 0.5;
+}
+
+/* ═══════════════ MES CONTRATS ═══════════════ */
+.hub-contracts {
+  max-width: 720px; margin: 1.5rem auto 0;
+  padding: 0 1.25rem;
+}
+
+.contracts-cta {
+  width: 100%;
+  background: linear-gradient(135deg, var(--purple-tint), var(--pink-soft));
+  border: 1px solid var(--purple-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  display: flex; align-items: center; gap: 1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+}
+.contracts-cta:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.contracts-cta-icon { font-size: 1.75rem; }
+.contracts-cta-content { flex: 1; }
+.contracts-cta-title { font-family: var(--font-display); font-size: 1.0625rem; font-weight: 500; margin-bottom: 0.15rem; }
+.contracts-cta-desc { font-size: 0.8rem; color: var(--ink-soft); line-height: 1.5; }
+.contracts-cta-arrow { font-size: 1.25rem; color: var(--purple); }
+
+.contracts-mini-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 0.5rem;
+}
+.contracts-mini-title { font-family: var(--font-display); font-size: 1.0625rem; font-weight: 500; }
+.contracts-mini-link { font-size: 0.78rem; font-weight: 600; color: var(--purple); }
+
+.contract-mini {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 0.875rem 1rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--line-soft);
+}
+.contract-mini-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.contract-mini-text { font-size: 0.9rem; font-weight: 500; line-height: 1.35; flex: 1; }
+.contract-mini-streak {
+  font-size: 0.78rem; font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  background: var(--purple-soft); color: var(--purple-deep);
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+.contract-mini-buttons { display: flex; gap: 0.4rem; }
+.contract-mini-done {
+  font-size: 0.78rem; color: var(--mint); font-weight: 600;
+}
+
+.contract-btn {
+  flex: 1; padding: 0.5rem;
+  background: var(--cream-warm);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 1.05rem;
+  transition: all 0.15s;
+}
+.contract-btn:hover { transform: scale(1.05); }
+.contract-btn.success:hover, .contract-btn.success.active { background: #DCFCE7; border-color: var(--green-ok); }
+.contract-btn.partial:hover, .contract-btn.partial.active { background: var(--amber-soft); border-color: var(--amber); }
+.contract-btn.fail:hover, .contract-btn.fail.active { background: #FEE2E2; border-color: var(--red-alert); }
+
+/* Écran Contrats */
+.contracts-empty {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  border: 1px solid var(--line-soft);
+}
+
+.contract-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--line-soft);
+  position: relative;
+  overflow: hidden;
+}
+.contract-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--purple), var(--pink));
+}
+.contract-card.archived { opacity: 0.55; }
+.contract-card.archived::before { background: var(--ink-light); }
+
+.contract-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.contract-text {
+  font-family: var(--font-display);
+  font-size: 1.125rem; font-weight: 500;
+  line-height: 1.3; letter-spacing: -0.01em;
+  flex: 1;
+}
+.contract-source-badge {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--purple-soft); color: var(--purple-deep);
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.contract-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+.contract-stat {
+  background: var(--cream-warm);
+  border-radius: var(--radius-sm);
+  padding: 0.625rem;
+  text-align: center;
+}
+.contract-stat-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.0625rem; font-weight: 600;
+  margin-bottom: 0.1rem;
+}
+.contract-stat-label {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--ink-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.contract-checkin {
+  background: var(--cream-warm);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.contract-checkin-label {
+  font-size: 0.82rem; font-weight: 600;
+  margin-bottom: 0.6rem;
+  color: var(--ink);
+}
+.contract-checkin-buttons {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem;
+}
+
+.contract-history {
+  margin-bottom: 1rem;
+}
+.history-row {
+  display: flex; gap: 3px;
+  margin-bottom: 0.25rem;
+}
+.history-day {
+  flex: 1;
+  aspect-ratio: 1;
+  border-radius: 3px;
+  background: var(--line-soft);
+  max-width: 18px;
+}
+.history-day.empty { background: var(--line-soft); }
+.history-day.success { background: var(--green-ok); }
+.history-day.partial { background: var(--amber); }
+.history-day.fail { background: #FCA5A5; }
+.history-label {
+  font-size: 0.65rem;
+  color: var(--ink-light);
+  text-align: right;
+  letter-spacing: 0.04em;
+}
+
+.contract-actions {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line-soft);
+}
+.contract-action {
+  font-size: 0.78rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  background: var(--cream-warm);
+  color: var(--ink-soft);
+  transition: all 0.15s;
+}
+.contract-action:hover { background: var(--line); color: var(--ink); }
+.contract-action.danger { color: var(--red-alert); }
+.contract-action.danger:hover { background: #FEE2E2; }
+
+/* ═══════════════ VAK PROFIL D'APPRENTISSAGE ═══════════════ */
+.vak-result-hero {
+  background: linear-gradient(135deg, var(--purple-tint), var(--mint-soft));
+  border-radius: var(--radius-xl);
+  padding: 2.25rem 1.75rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.vak-result-emoji {
+  font-size: 3.5rem; margin-bottom: 0.5rem;
+  display: inline-block;
+  animation: bounce 1.5s ease-in-out infinite;
+}
+.vak-result-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--purple-deep);
+  margin-bottom: 0.4rem;
+}
+.vak-result-title {
+  font-family: var(--font-display);
+  font-size: 2rem; font-weight: 500;
+  letter-spacing: -0.02em; line-height: 1.05;
+  margin-bottom: 0.6rem;
+}
+.vak-result-desc {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  max-width: 380px; margin: 0 auto;
+  line-height: 1.55;
+}
+
+.vak-scores {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+.vak-score { margin-bottom: 1rem; }
+.vak-score:last-child { margin-bottom: 0; }
+.vak-score-head {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+.vak-score-name { flex: 1; font-weight: 600; font-size: 0.95rem; }
+.vak-score-pct { font-family: var(--font-display); font-weight: 600; font-size: 1.0625rem; }
+.vak-score-bar {
+  height: 10px;
+  background: var(--line-soft);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+.vak-score-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.8s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.vak-tips {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+.vak-tips-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem; font-weight: 500;
+  letter-spacing: -0.015em;
+  margin-bottom: 1rem;
+}
+.vak-tips-list {
+  list-style: none;
+  padding: 0;
+  display: grid; gap: 0.75rem;
+}
+.vak-tips-list li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 0.92rem;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.vak-tips-list li::before {
+  content: '✦';
+  position: absolute; left: 0; top: 0;
+  color: var(--purple);
+  font-weight: 700;
+}
+
+/* Animation entrée séquencée */
+.stagger-fade > * { animation: fadeUp 0.5s ease backwards; }
+.stagger-fade > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-fade > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-fade > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-fade > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-fade > *:nth-child(5) { animation-delay: 0.25s; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hub actions */
+.hub-actions {
+  max-width: 720px; margin: 1.5rem auto 0;
+  padding: 0 1.25rem;
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+}
+.hub-action {
+  flex: 1; min-width: 130px;
+  padding: 0.7rem 1rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  font-size: 0.82rem; font-weight: 500;
+  color: var(--ink-soft);
+  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+  transition: all 0.15s;
+}
+.hub-action:hover { border-color: var(--ink); color: var(--ink); transform: translateY(-1px); }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- COVER                                                    -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-cover" class="screen-wrap active">
+    <div class="cover">
+      <div class="cover-bg-1"></div>
+      <div class="cover-bg-2"></div>
+      <div class="cover-bg-3"></div>
+
+      <div class="cover-content">
+        <div class="brand-row">
+          <span class="brand-dot"></span>
+          Boussol Ados · Educa Typique
+        </div>
+
+        <h1 class="cover-title">Reprendre <em>confiance</em></h1>
+
+        <p class="cover-sub">
+          Un espace pour <strong>te retrouver</strong>, sans étiquette, sans jugement. Tu choisis ce que tu explores, à ton rythme.
+        </p>
+
+        <div class="cover-actions">
+          <button class="btn btn-purple btn-block" onclick="startApp()">
+            <span id="cover-cta-text">Commencer</span> →
+          </button>
+          <button class="btn btn-ghost btn-block" onclick="showPraticienne()">
+            🔒 Espace praticienne
+          </button>
+        </div>
+
+        <div class="cover-meta">
+          <span>13–17 ans</span>
+          <span class="cover-meta-dot"></span>
+          <span>Privé · à toi</span>
+          <span class="cover-meta-dot"></span>
+          <span>Gamifié 🎮</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ONBOARDING                                               -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-onboarding" class="screen-wrap">
+    <div class="screen">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goCover()">← Retour</button>
+          <span class="screen-step">Étape 1 sur 3</span>
+        </div>
+
+        <h1 class="h1">Avant de <em>commencer</em>…</h1>
+        <p class="lead">Quelques infos pour personnaliser ton espace. Tu peux mettre un pseudo, ton prénom, ou ce que tu veux.</p>
+
+        <div class="onb-card">
+          <div class="field-group">
+            <label class="field-label" for="onb-name">Comment je veux qu'on m'appelle ici</label>
+            <input id="onb-name" class="field-input" type="text" placeholder="Pseudo, prénom, surnom…" maxlength="30">
+            <p class="field-hint">Tu peux changer plus tard</p>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Mon avatar</label>
+            <div class="avatar-grid" id="avatar-grid"></div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Mon mode</label>
+            <div class="mode-options">
+              <button class="mode-option" data-mode="prive" onclick="selectMode('prive')">
+                <span class="mode-icon">🔒</span>
+                <div class="mode-content">
+                  <div class="mode-title">Privé · juste pour moi</div>
+                  <div class="mode-desc">Mes réponses restent sur cet appareil, personne d'autre n'y a accès.</div>
+                </div>
+              </button>
+              <button class="mode-option" data-mode="partage" onclick="selectMode('partage')">
+                <span class="mode-icon">🤝</span>
+                <div class="mode-content">
+                  <div class="mode-title">Partage avec Nawel</div>
+                  <div class="mode-desc">Je peux exporter mes bilans pour les montrer à ma praticienne quand je veux.</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-purple btn-block" id="onb-continue" onclick="finishOnboarding()" disabled>
+          Continuer →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- DIAGNOSTIC                                               -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-diag" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goHub()">← Plus tard</button>
+          <span class="screen-step">Bilan rapide</span>
+        </div>
+
+        <h1 class="h1">Où j'en <em>suis</em> ?</h1>
+        <p class="lead">12 phrases pour faire le point en 2 minutes. Tu mets une note de 1 (pas du tout) à 5 (totalement).</p>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="diag-progress" style="width: 0%"></div>
+        </div>
+
+        <div id="diag-questions"></div>
+
+        <button class="btn btn-purple btn-block" id="diag-submit" onclick="finishDiag()" disabled style="margin-top: 1.5rem;">
+          Voir mon bilan ✨
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- DIAG RESULT                                              -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-diag-result" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <span class="screen-step">Ton bilan du moment</span>
+          <button class="btn-back" onclick="goHub()">Hub →</button>
+        </div>
+
+        <h1 class="h1">Voilà <em>où</em> tu en es</h1>
+        <p class="lead">Photo de l'instant. Rien de figé. Tu pourras refaire ce bilan quand tu veux.</p>
+
+        <div class="diag-result-card" id="diag-result-content"></div>
+
+        <button class="btn btn-purple btn-block" onclick="goHub()">
+          Découvrir mon espace →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- HUB                                                       -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-hub" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="hub-header container">
+        <p class="hub-greeting" id="hub-greeting">Salut <span id="hub-name">toi</span> 🌸</p>
+        <h1 class="hub-title">Ton <em>espace</em></h1>
+        <p class="hub-sub">Choisis la voie qui te parle. Tu peux passer de l'une à l'autre quand tu veux.</p>
+      </div>
+
+      <!-- LEVEL CARD -->
+      <div class="level-card">
+        <div class="level-row">
+          <div class="level-badge">
+            <span class="level-emoji" id="level-emoji">🌱</span>
+            <div class="level-info">
+              <div class="level-name" id="level-name">Explorateur·trice</div>
+              <div class="level-num">Niveau <span id="level-num">1</span></div>
+            </div>
+          </div>
+          <div class="xp-row">
+            <div class="xp-current"><span id="xp-current">0</span> XP</div>
+            <div class="xp-next" id="xp-next">prochain niveau dans 50 XP</div>
+          </div>
+        </div>
+        <div class="xp-bar-track">
+          <div class="xp-bar-fill" id="xp-bar-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="hub-grid stagger-fade">
+        <button class="voie-card" data-voie="connaitre" onclick="goVoie('connaitre')">
+          <span class="voie-status new" id="status-connaitre">Démarrer</span>
+          <span class="voie-emoji">🧭</span>
+          <div class="voie-name">Me connaître</div>
+          <div class="voie-desc">Comprendre comment je fonctionne. Mes forces, mes défis.</div>
+          <div class="voie-arrow">Explorer →</div>
+        </button>
+
+        <button class="voie-card" data-voie="projeter" onclick="goVoie('projeter')">
+          <span class="voie-status new" id="status-projeter">Démarrer</span>
+          <span class="voie-emoji">🎯</span>
+          <div class="voie-name">Me projeter</div>
+          <div class="voie-desc">Mes objectifs, où je veux aller, mon projet.</div>
+          <div class="voie-arrow">Explorer →</div>
+        </button>
+
+        <button class="voie-card" data-voie="booster" onclick="goVoie('booster')">
+          <span class="voie-status new" id="status-booster">Démarrer</span>
+          <span class="voie-emoji">⚡</span>
+          <div class="voie-name">Me booster</div>
+          <div class="voie-desc">Outils pour les devoirs, la concentration, la mémoire.</div>
+          <div class="voie-arrow">Explorer →</div>
+        </button>
+
+        <button class="voie-card" data-voie="apaiser" onclick="goVoie('apaiser')">
+          <span class="voie-status new" id="status-apaiser">Démarrer</span>
+          <span class="voie-emoji">🌊</span>
+          <div class="voie-name">M'apaiser</div>
+          <div class="voie-desc">Quand le stress, les émotions, la pression débordent.</div>
+          <div class="voie-arrow">Explorer →</div>
+        </button>
+      </div>
+
+      <button class="sos-card" onclick="goSecurity()">
+        <span class="sos-icon">🆘</span>
+        <div class="sos-content">
+          <div class="sos-title">Quand ça va vraiment pas</div>
+          <div class="sos-desc">Pour toi, ou pour aider un pote qui galère</div>
+        </div>
+        <span class="sos-arrow">→</span>
+      </button>
+
+      <!-- MES CONTRATS -->
+      <div class="hub-contracts" id="hub-contracts-wrapper"></div>
+
+      <!-- BADGES -->
+      <div class="badges-section">
+        <div class="badges-header">
+          <div class="badges-title">🏆 Mes badges</div>
+          <div class="badges-count"><span id="badges-count">0</span> / <span id="badges-total">10</span></div>
+        </div>
+        <div class="badges-grid" id="badges-grid"></div>
+      </div>
+
+      <div class="hub-actions">
+        <button class="hub-action" onclick="goDiag()">📊 Refaire bilan</button>
+        <button class="hub-action" onclick="exportData()">📤 Exporter</button>
+        <button class="hub-action" onclick="confirmReset()">↻ Tout effacer</button>
+      </div>
+
+      <p class="deco-quote">Tu es plus fort·e que ce que tu crois, plus aimé·e que tu ne le sens.</p>
+
+      <footer class="app-footer">
+        <div class="footer-mascots">🌿 ✨ 🌸</div>
+        <p class="footer-text">Boussol Ados · Educa Typique</p>
+        <p class="footer-meta">Conçu par Nawel Oum Mona</p>
+      </footer>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- VOIE ME CONNAÎTRE                                        -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-voie-connaitre" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goHub()">← Hub</button>
+          <span class="screen-step">🧭 Me connaître</span>
+        </div>
+
+        <h1 class="h1">Comprendre <em>comment</em> je fonctionne</h1>
+        <p class="lead">Pas pour te coller une étiquette. Pour découvrir tes super-pouvoirs, tes défis, et les outils qui te correspondent vraiment.</p>
+
+        <div class="voie-intro">
+          <p class="voie-intro-title">🌿 La pépite ici</p>
+          <p style="font-size: 0.92rem; color: var(--ink-soft); line-height: 1.55;">
+            Le <strong>Mode d'emploi de moi-même</strong> est un outil unique : tu construis ton propre manuel d'utilisation. Pour toi, pour ceux qui t'accompagnent. Tu pourras y revenir, le modifier, le partager.
+          </p>
+        </div>
+
+        <div class="tool-list">
+          <button class="tool-card" onclick="goModeEmploi()">
+            <span class="tool-emoji">📋</span>
+            <div class="tool-content">
+              <div class="tool-name">Mon Mode d'emploi</div>
+              <div class="tool-meta">
+                <span>6 sections</span>
+                <span class="tool-meta-dot"></span>
+                <span>~20 min</span>
+                <span class="tool-meta-dot"></span>
+                <span id="me-progress-label">À démarrer</span>
+              </div>
+            </div>
+            <span class="tool-arrow">→</span>
+          </button>
+
+          <a class="tool-card" href="https://mon-profil-cognitif.netlify.app/" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+            <span class="tool-emoji">🎯</span>
+            <div class="tool-content">
+              <div class="tool-name">Mon Profil Cognitif</div>
+              <div class="tool-meta">
+                <span>25 questions · ~10 min</span>
+                <span class="tool-meta-dot"></span>
+                <span class="tool-external">Satellite</span>
+              </div>
+            </div>
+            <span class="tool-arrow">↗</span>
+          </a>
+
+          <a class="tool-card" href="https://profil-neuro-ado.netlify.app/" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+            <span class="tool-emoji">🧠</span>
+            <div class="tool-content">
+              <div class="tool-name">Mon Profil Neuro</div>
+              <div class="tool-meta">
+                <span>42 questions · ~15 min</span>
+                <span class="tool-meta-dot"></span>
+                <span class="tool-external">Satellite</span>
+              </div>
+            </div>
+            <span class="tool-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- MODE D'EMPLOI                                            -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-mode-emploi" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goVoie('connaitre')">← Retour</button>
+          <span class="screen-step">Me connaître</span>
+        </div>
+
+        <div class="mode-emploi-cover">
+          <span class="mode-emploi-badge">📋 Outil signature Educa Typique</span>
+          <h1 class="mode-emploi-title">Mon mode d'emploi <em>de moi-même</em></h1>
+          <p class="mode-emploi-desc">
+            Un support pour mieux comprendre ce qui se passe quand tout va bien, quand ça monte, et ce qui aide vraiment.
+          </p>
+        </div>
+
+        <div id="me-content"></div>
+
+        <div class="me-progress">
+          <span class="me-progress-text" id="me-progress-text">Démarre où tu veux ↑</span>
+          <div class="me-progress-actions">
+            <button class="me-progress-btn secondary" onclick="saveMode()">💾 Sauver</button>
+            <button class="me-progress-btn" onclick="finishMode()">✓ Terminé</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- VOIE PROJETER (placeholder)                              -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-voie-projeter" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goHub()">← Hub</button>
+          <span class="screen-step">🎯 Me projeter</span>
+        </div>
+        <h1 class="h1">Mes <em>objectifs</em>, mon projet</h1>
+        <p class="lead">Tu te projettes pas en partant des contraintes. Tu pars de <strong>ton rêve</strong>, et tu redescends jusqu'à <strong>maintenant</strong>. L'outil ci-dessous t'aide à le faire en 9 niveaux.</p>
+
+        <div class="voie-intro">
+          <p class="voie-intro-title">🌿 La méthode</p>
+          <p style="font-size: 0.92rem; color: var(--ink-soft); line-height: 1.55;">
+            Pas de panique : tu n'es pas obligé·e d'avoir toutes les réponses. C'est un <strong>brouillon</strong> que tu peux remplir au stylo, revenir dessus, modifier. Le but : <strong>connecter</strong> ce qui te fait vibrer là-haut avec ce que tu fais aujourd'hui.
+          </p>
+        </div>
+
+        <div class="tool-list">
+          <button class="tool-card" onclick="goBoussol()">
+            <span class="tool-emoji">🧭</span>
+            <div class="tool-content">
+              <div class="tool-name">Mes 9 niveaux Boussol</div>
+              <div class="tool-meta">
+                <span>9 niveaux · ~15 min</span>
+                <span class="tool-meta-dot"></span>
+                <span>Rêve → Maintenant</span>
+                <span class="tool-meta-dot"></span>
+                <span id="boussol-status-label">À démarrer</span>
+              </div>
+            </div>
+            <span class="tool-arrow">→</span>
+          </button>
+
+          <button class="tool-card jordan-story-card" onclick="toggleJordanStory()">
+            <span class="tool-emoji">⛷️</span>
+            <div class="tool-content">
+              <div class="tool-name">L'histoire de Jordan, 15 ans</div>
+              <div class="tool-meta">
+                <span>Cas réel · ~2 min de lecture</span>
+                <span class="tool-meta-dot"></span>
+                <span>Inspiration</span>
+              </div>
+            </div>
+            <span class="tool-arrow" id="jordan-arrow">↓</span>
+          </button>
+
+          <div id="jordan-story" class="jordan-story hidden">
+            <p>Jordan a 15 ans. Il a une <strong>dyspraxie et une dyslexie</strong> — l'école, c'est compliqué pour lui depuis toujours.</p>
+            <p>L'an dernier, sans qu'il l'ait vraiment choisi, on l'a orienté en <strong>CAP ferronnerie</strong>. Pas par envie. Par défaut. Parce qu'il fallait bien le mettre quelque part. Résultat : zéro motivation, notes en chute, sentiment d'être à côté de sa vie.</p>
+            <p>Quand on a travaillé avec lui, on a fait l'inverse de ce qui se fait d'habitude. On n'a pas commencé par ses notes ou ses difficultés. On a commencé par : <em>« si tout était possible, tu serais quoi ? »</em></p>
+            <p>Sa réponse : <strong>« Moniteur de ski. »</strong></p>
+            <p>De là, on a redescendu les niveaux ensemble. Quel diplôme ? Le BPJEPS Ski. Quel parcours pour y aller ? Pas la ferronnerie. Quoi cette année ? Réorienter, garder une moyenne correcte, s'inscrire dans un club. Cette semaine ? Préparer un entretien d'orientation. Aujourd'hui ? Lister 3 questions.</p>
+            <p>D'un coup, tout ce qu'il faisait à l'école avait du <strong>sens</strong>. Pas parce que les profs étaient devenus géniaux, mais parce que c'était <em>relié</em> à quelque chose qui comptait pour lui.</p>
+            <p><strong>Aujourd'hui, Jordan est moniteur de ski.</strong></p>
+            <p class="jordan-story-moral">La morale n'est pas « il faut rêver grand ». C'est : <strong>quand ce que tu fais est relié à un projet qui te parle, tout devient plus simple.</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- OUTIL BOUSSOL — 9 NIVEAUX                                -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-boussol" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goVoie('projeter')">← Retour</button>
+          <span class="screen-step">Me projeter</span>
+        </div>
+
+        <div class="mode-emploi-cover">
+          <span class="mode-emploi-badge">🧭 Outil signature Educa Typique</span>
+          <h1 class="mode-emploi-title">Mes 9 niveaux <em>Boussol</em></h1>
+          <p class="mode-emploi-desc">
+            On commence en haut, dans le rêve. On redescend, niveau après niveau, jusqu'à <strong>maintenant</strong>. Pas besoin de tout remplir d'un coup — tu peux revenir, modifier, affiner.
+          </p>
+        </div>
+
+        <div id="boussol-content"></div>
+
+        <div class="me-progress">
+          <span class="me-progress-text" id="boussol-progress-text">Démarre où tu veux ↑</span>
+          <div class="me-progress-actions">
+            <button class="me-progress-btn secondary" onclick="saveBoussol()">💾 Sauver</button>
+            <button class="me-progress-btn" onclick="finishBoussol()">✓ Terminé</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- VOIE BOOSTER (placeholder, prochain chantier)            -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-voie-booster" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goHub()">← Hub</button>
+          <span class="screen-step">⚡ Me booster</span>
+        </div>
+        <h1 class="h1">Outils pour <em>cartonner</em></h1>
+        <p class="lead">Méthodo devoirs, organisation, mémorisation, concentration. Tu vas comprendre <strong>comment TON cerveau apprend</strong>, et utiliser les bons outils pour toi.</p>
+
+        <div class="voie-intro">
+          <p class="voie-intro-title">🎯 Par où commencer</p>
+          <p style="font-size: 0.92rem; color: var(--ink-soft); line-height: 1.55;">
+            On ne révise pas tous pareil. Certains ont besoin de voir, d'autres d'entendre, d'autres de bouger. Le <strong>Profil d'Apprentissage</strong> ci-dessous te dit lequel TU es — et te donne les techniques qui collent à ton cerveau.
+          </p>
+        </div>
+
+        <div class="tool-list">
+          <button class="tool-card" onclick="goVAK()">
+            <span class="tool-emoji">🧠</span>
+            <div class="tool-content">
+              <div class="tool-name">Mon Profil d'Apprentissage</div>
+              <div class="tool-meta">
+                <span>18 questions · ~6 min</span>
+                <span class="tool-meta-dot"></span>
+                <span>Visuel · Auditif · Kinesthésique</span>
+                <span class="tool-meta-dot"></span>
+                <span id="vak-status-label">À démarrer</span>
+              </div>
+            </div>
+            <span class="tool-arrow">→</span>
+          </button>
+        </div>
+
+        <div class="voie-intro" style="margin-top: 1rem;">
+          <p style="font-size: 0.9rem; color: var(--ink-soft);">
+            🔜 <strong>À venir bientôt</strong> : Planificateur révisions Ebbinghaus (J+12h / J+7 / J+30) · Mind maps · Cartable & matériel · Pomodoro & concentration · Mots qui aident vs mots qui freinent
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- VOIE APAISER                                             -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-voie-apaiser" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goHub()">← Hub</button>
+          <span class="screen-step">🌊 M'apaiser</span>
+        </div>
+        <h1 class="h1">Quand <em>ça déborde</em></h1>
+        <p class="lead">Outils pour traverser les vagues émotionnelles sans te noyer. Du calme, des techniques concrètes.</p>
+
+        <div class="tool-list">
+          <a class="tool-card" href="https://secours-emotionnel-ados.netlify.app/" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+            <span class="tool-emoji">🛟</span>
+            <div class="tool-content">
+              <div class="tool-name">Ma Boîte à Secours Émotionnelle</div>
+              <div class="tool-meta">
+                <span>6 émotions · 3 portes</span>
+                <span class="tool-meta-dot"></span>
+                <span class="tool-external">Satellite</span>
+              </div>
+            </div>
+            <span class="tool-arrow">↗</span>
+          </a>
+
+          <a class="tool-card" href="https://jouersonmatchinterieur.netlify.app/" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+            <span class="tool-emoji">🏀</span>
+            <div class="tool-content">
+              <div class="tool-name">Le Match Intérieur</div>
+              <div class="tool-meta">
+                <span>Vivre la journée comme un match</span>
+                <span class="tool-meta-dot"></span>
+                <span class="tool-external">Satellite</span>
+              </div>
+            </div>
+            <span class="tool-arrow">↗</span>
+          </a>
+        </div>
+
+        <div class="voie-intro" style="margin-top: 1rem;">
+          <p style="font-size: 0.9rem; color: var(--ink-soft);">
+            🔜 <strong>À venir</strong> : Thermomètre émotionnel 4 zones · Roue des émotions · Mon Radar de Crise · Module Respirer
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ÉCRAN MES CONTRATS                                       -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-contracts" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goHub()">← Hub</button>
+          <span class="screen-step">📜 Mes Contrats</span>
+        </div>
+
+        <h1 class="h1">Mes <em>contrats</em> avec moi-même</h1>
+        <p class="lead">Un contrat = un engagement précis que tu prends <strong>avec toi</strong>. Tu coches chaque jour si tu l'as tenu. Le streak grandit. Les badges débloqués ici sont les seuls qui comptent vraiment.</p>
+
+        <div id="contracts-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ÉCRAN VAK (questionnaire)                                -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-vak" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goVoie('booster')">← Retour</button>
+          <span class="screen-step">⚡ Me booster</span>
+        </div>
+
+        <h1 class="h1">Mon Profil <em>d'Apprentissage</em></h1>
+        <p class="lead">18 phrases pour découvrir comment TON cerveau apprend le mieux. Tu mets une note de 1 (pas du tout) à 5 (totalement). Vise honnête, pas idéal.</p>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="vak-progress" style="width: 0%"></div>
+        </div>
+
+        <div id="vak-questions"></div>
+
+        <button class="btn btn-purple btn-block" id="vak-submit" onclick="finishVAK()" disabled style="margin-top: 1.5rem;">
+          Voir mon profil ✨
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ÉCRAN VAK RESULT                                         -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-vak-result" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goVoie('booster')">← Me booster</button>
+          <span class="screen-step">Mon profil</span>
+        </div>
+
+        <div id="vak-result-content"></div>
+
+        <button class="btn btn-purple btn-block" onclick="goVoie('booster')" style="margin-top: 1.5rem;">
+          Retour à Me booster →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SÉCURITÉ                                                  -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-security" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goHub()">← Hub</button>
+          <span class="screen-step">🆘 Sécurité</span>
+        </div>
+
+        <div class="security-banner">
+          <div class="security-banner-icon">💛</div>
+          <h2 class="security-banner-title">Tu n'es pas seul·e</h2>
+          <p class="security-banner-desc">Si tu ne vas vraiment pas bien, ou si tu veux aider un pote qui galère, voici des gens à qui parler maintenant.</p>
+        </div>
+
+        <h2 class="h2" style="margin-top: 2rem;">📞 À qui parler tout de suite</h2>
+
+        <div class="security-resource">
+          <span class="security-resource-emoji">📞</span>
+          <div class="security-resource-content">
+            <div class="security-resource-name">Fil Santé Jeunes</div>
+            <div class="security-resource-meta">Gratuit · Anonyme · 9h–23h tous les jours</div>
+          </div>
+          <div class="security-resource-phone">0 800 235 236</div>
+        </div>
+
+        <div class="security-resource">
+          <span class="security-resource-emoji">🆘</span>
+          <div class="security-resource-content">
+            <div class="security-resource-name">3114 — Prévention du suicide</div>
+            <div class="security-resource-meta">24h/24 · 7j/7 · Pour toi ou un proche</div>
+          </div>
+          <div class="security-resource-phone">3114</div>
+        </div>
+
+        <div class="security-resource">
+          <span class="security-resource-emoji">👂</span>
+          <div class="security-resource-content">
+            <div class="security-resource-name">Ma praticienne Nawel</div>
+            <div class="security-resource-meta">Tu peux lui dire ce qui se passe en séance, ou par message</div>
+          </div>
+        </div>
+
+        <h2 class="h2" style="margin-top: 2rem;">🤝 Aider un pote qui ne va pas bien</h2>
+        <div class="voie-intro">
+          <p style="font-size: 0.92rem; color: var(--ink-soft); line-height: 1.6;">
+            <strong>Si un·e ami·e te dit qu'il/elle ne va pas bien :</strong>
+          </p>
+          <ul style="margin: 0.75rem 0 0 1.25rem; font-size: 0.9rem; color: var(--ink-soft); line-height: 1.7;">
+            <li>Écoute-le·la <strong>sans juger</strong>. Tu n'as pas à donner de solution.</li>
+            <li>Dis-lui que tu le·la <strong>prends au sérieux</strong>.</li>
+            <li>Prends ses paroles au mot — surtout s'il/elle parle de se faire du mal.</li>
+            <li>Encourage-le·la à <strong>parler à un adulte de confiance</strong> (parent, prof, infirmière scolaire, médecin).</li>
+            <li>Si c'est urgent, partage les numéros ci-dessus.</li>
+            <li>Ce n'est pas à toi de porter ça seul·e — préviens un adulte si tu as peur pour lui/elle.</li>
+          </ul>
+          <p style="font-size: 0.78rem; color: var(--ink-light); margin-top: 0.75rem; font-style: italic;">
+            Inspiré des Premiers Secours en Santé Mentale (PSSM) · © MHFA × PSSM France
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- PROFIL ADO (page nav)                                    -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-profil" class="screen-wrap">
+    <div class="screen with-nav">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goHub()">← Hub</button>
+          <span class="screen-step">Mon profil</span>
+        </div>
+
+        <h1 class="h1">Mon <em>profil</em></h1>
+        <p class="lead">Ton parcours, tes succès, tes infos.</p>
+
+        <div class="level-card" style="margin: 0 0 1.5rem;">
+          <div class="level-row">
+            <div class="level-badge">
+              <span class="level-emoji" id="profil-level-emoji">🌱</span>
+              <div class="level-info">
+                <div class="level-name" id="profil-level-name">Explorateur·trice</div>
+                <div class="level-num">Niveau <span id="profil-level-num">1</span></div>
+              </div>
+            </div>
+            <div class="xp-row">
+              <div class="xp-current"><span id="profil-xp-current">0</span> XP</div>
+              <div class="xp-next" id="profil-xp-next">prochain niveau dans 50 XP</div>
+            </div>
+          </div>
+          <div class="xp-bar-track">
+            <div class="xp-bar-fill" id="profil-xp-bar-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="onb-card">
+          <div class="field-group">
+            <label class="field-label">Mon prénom / pseudo</label>
+            <input id="profil-name" class="field-input" type="text" maxlength="30">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Mon avatar</label>
+            <div class="avatar-grid" id="profil-avatar-grid"></div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Mon mode</label>
+            <div class="mode-options">
+              <button class="mode-option" data-mode="prive" onclick="selectProfilMode('prive')">
+                <span class="mode-icon">🔒</span>
+                <div class="mode-content">
+                  <div class="mode-title">Privé · juste pour moi</div>
+                  <div class="mode-desc">Mes réponses restent sur cet appareil.</div>
+                </div>
+              </button>
+              <button class="mode-option" data-mode="partage" onclick="selectProfilMode('partage')">
+                <span class="mode-icon">🤝</span>
+                <div class="mode-content">
+                  <div class="mode-title">Partage avec Nawel</div>
+                  <div class="mode-desc">Je peux exporter mes bilans pour ma praticienne.</div>
+                </div>
+              </button>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block" onclick="saveProfile()">💾 Sauvegarder mon profil</button>
+        </div>
+
+        <div class="hub-actions" style="margin-top: 1.5rem; padding: 0;">
+          <button class="hub-action" onclick="exportData()">📤 Exporter mes données</button>
+          <button class="hub-action" onclick="confirmReset()" style="color: var(--red-alert);">↻ Tout effacer</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- PRATICIENNE LOGIN                                        -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-prat-login" class="screen-wrap">
+    <div class="screen">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goCover()">← Retour</button>
+          <span class="screen-step">Accès réservé</span>
+        </div>
+
+        <div class="prat-card">
+          <div class="prat-icon">🔒</div>
+          <h2 class="prat-title">Espace praticienne</h2>
+          <p class="prat-desc">Accès réservé à Nawel — Voie Chifā × Educa Typique</p>
+
+          <div class="field-group">
+            <input id="prat-code" class="field-input" type="password" placeholder="Code d'accès" onkeypress="if(event.key==='Enter') checkPraticienneCode()">
+            <div class="prat-error" id="prat-error">Code incorrect</div>
+          </div>
+
+          <button class="btn btn-purple btn-block" onclick="checkPraticienneCode()">Accéder au dashboard</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- PRATICIENNE DASHBOARD                                    -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section id="screen-prat-dashboard" class="screen-wrap">
+    <div class="screen">
+      <div class="container">
+        <div class="screen-header">
+          <button class="btn-back" onclick="goCover()">← Quitter</button>
+          <span class="screen-step">Dashboard praticienne</span>
+        </div>
+
+        <h1 class="h1">Dashboard <em>clinique</em></h1>
+        <p class="lead">Vue d'ensemble des bilans complétés par l'ado sur cet appareil. Mode lecture seule.</p>
+
+        <div class="prat-dashboard">
+          <div class="prat-section">
+            <div class="prat-section-title">👤 Profil ado</div>
+            <div class="prat-readonly" id="prat-profile">—</div>
+          </div>
+
+          <div class="prat-section">
+            <div class="prat-section-title">🎮 Engagement gamifié</div>
+            <div class="prat-readonly" id="prat-gamification">—</div>
+          </div>
+
+          <div class="prat-section">
+            <div class="prat-section-title">📊 Diagnostic "Où j'en suis ?"</div>
+            <div class="prat-readonly" id="prat-diag">—</div>
+          </div>
+
+          <div class="prat-section">
+            <div class="prat-section-title">📜 Mes Contrats (engagement & suivi)</div>
+            <div class="prat-readonly" id="prat-contracts">—</div>
+          </div>
+
+          <div class="prat-section">
+            <div class="prat-section-title">🧠 Profil d'Apprentissage (V/A/K)</div>
+            <div class="prat-readonly" id="prat-vak">—</div>
+          </div>
+
+          <div class="prat-section">
+            <div class="prat-section-title">📋 Mode d'emploi de moi-même</div>
+            <div class="prat-readonly" id="prat-mode">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- BOTTOM NAV                                                -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <div class="nav-row">
+      <button class="nav-item" data-nav="hub" onclick="goHub()">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Hub</span>
+      </button>
+      <button class="nav-item" data-nav="contracts" onclick="goContracts()">
+        <span class="nav-icon">📜</span>
+        <span class="nav-label">Contrats</span>
+      </button>
+      <button class="nav-item" data-nav="connaitre" onclick="goVoie('connaitre')">
+        <span class="nav-icon">📋</span>
+        <span class="nav-label">Moi</span>
+      </button>
+      <button class="nav-item" data-nav="security" onclick="goSecurity()">
+        <span class="nav-icon">🆘</span>
+        <span class="nav-label">SOS</span>
+      </button>
+      <button class="nav-item" data-nav="profil" onclick="goProfil()">
+        <span class="nav-icon">⭐</span>
+        <span class="nav-label">Profil</span>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-stack" id="toast-stack"></div>
+
+<!-- MODAL CONTAINER -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
+  <div class="modal" id="modal-content" onclick="event.stopPropagation()"></div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// STATE & STORAGE
+// ════════════════════════════════════════════════════════════
+const STORAGE_KEY = 'reprendre-confiance-state';
+const PRATICIENNE_CODE = 'Nawel2026';
+const AVATARS = ['🌸', '🌿', '✨', '🌙', '⭐', '🦋', '🌺', '🍃', '💫', '🌊', '🌈', '🔥'];
+
+// ─── Système de niveaux ───
+const LEVELS = [
+  { num: 1, emoji: '🌱', name: 'Explorateur·trice', min: 0, max: 50 },
+  { num: 2, emoji: '🌿', name: 'Aventurier·ère', min: 50, max: 150 },
+  { num: 3, emoji: '🌸', name: 'Découvreur·euse', min: 150, max: 300 },
+  { num: 4, emoji: '✨', name: 'Capitaine', min: 300, max: 500 },
+  { num: 5, emoji: '👑', name: 'Sage de soi', min: 500, max: 9999 }
+];
+
+// ─── Système de badges (UNIQUEMENT comportements suivis dans le temps) ───
+const BADGES = [
+  { id: 'spark', emoji: '🌱', name: 'Première étincelle', desc: 'Premier check-in d\'un contrat' },
+  { id: 'three_days', emoji: '🔥', name: 'Trois jours', desc: '3 jours d\'affilée à tenir un contrat' },
+  { id: 'one_week', emoji: '⚡', name: 'Une semaine', desc: '7 jours d\'affilée — bravo' },
+  { id: 'two_weeks', emoji: '💫', name: 'Deux semaines', desc: '14 jours d\'affilée' },
+  { id: 'habit_formed', emoji: '💎', name: 'Habitude formée', desc: '21 jours d\'affilée — c\'est ancré' },
+  { id: 'transformation', emoji: '👑', name: 'Transformation', desc: '90 jours d\'affilée — métamorphose' },
+  { id: 'first_contract', emoji: '📜', name: 'Premier contrat', desc: 'Un contrat avec toi-même créé' },
+  { id: 'multi_contract', emoji: '🎯', name: 'Plusieurs fronts', desc: '3 contrats actifs en même temps' },
+  { id: 'restart', emoji: '🔄', name: 'Recommencer', desc: 'Reprendre après une chute (rare courage)' },
+  { id: 'reflection', emoji: '🔍', name: 'Auto-observation', desc: '10 check-ins notés avec un mot personnel' }
+];
+
+// ─── XP UNIQUEMENT sur les check-ins de contrats (comportement réel) ───
+const XP = {
+  checkin_success: 5,
+  checkin_partial: 2,
+  checkin_fail: 0,
+  streak_milestone_3: 15,
+  streak_milestone_7: 30,
+  streak_milestone_21: 75,
+  streak_milestone_90: 200
+};
+
+const DEFAULT_STATE = {
+  name: '',
+  avatar: '',
+  mode: '',
+  onboarded: false,
+  xp: 0,
+  level: 1,
+  badges: [],
+  voiesVisited: [],
+  diagsCompleted: 0,
+  hasExported: false,
+  contracts: [],
+  contractsCreated: 0,
+  totalCheckins: 0,
+  reflectionCheckins: 0,
+  highestStreak: 0,
+  hasRestarted: false,
+  diag: { answers: {}, completed: false, results: null, timestamp: null },
+  modeEmploi: { answers: {}, completed: false, timestamp: null, sectionsCompleted: [] },
+  vak: { answers: {}, completed: false, results: null, timestamp: null },
+  boussol: { answers: {}, completed: false, timestamp: null }
+};
+
+let S = loadState();
+let currentScreen = 'screen-cover';
+let toastTimeout;
+
+function loadState() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) return { ...JSON.parse(JSON.stringify(DEFAULT_STATE)), ...JSON.parse(stored) };
+  } catch(e) { console.warn('Storage load failed', e); }
+  return JSON.parse(JSON.stringify(DEFAULT_STATE));
+}
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(S)); }
+  catch(e) { console.warn('Storage save failed', e); }
+}
+
+function resetState() {
+  S = JSON.parse(JSON.stringify(DEFAULT_STATE));
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+// ════════════════════════════════════════════════════════════
+// GAMIFICATION
+// ════════════════════════════════════════════════════════════
+function getCurrentLevel() {
+  return LEVELS.find(l => S.xp >= l.min && S.xp < l.max) || LEVELS[LEVELS.length - 1];
+}
+
+function gainXP(amount, reason) {
+  if (amount <= 0) return;
+  const oldLevel = getCurrentLevel();
+  S.xp += amount;
+  const newLevel = getCurrentLevel();
+  saveState();
+  updateLevelDisplay();
+
+  showToast(`+${amount} XP · ${reason}`, 'purple');
+
+  if (newLevel.num > oldLevel.num) {
+    setTimeout(() => showLevelUpModal(newLevel), 600);
+  }
+}
+
+function unlockBadge(id) {
+  if (S.badges.includes(id)) return;
+  S.badges.push(id);
+  saveState();
+  const badge = BADGES.find(b => b.id === id);
+  if (badge) {
+    setTimeout(() => showBadgeModal(badge), 300);
+  }
+  renderBadges();
+}
+
+function showToast(text, type) {
+  const stack = document.getElementById('toast-stack');
+  const t = document.createElement('div');
+  t.className = 'toast' + (type === 'gold' ? ' gold' : '');
+  t.innerHTML = type === 'gold' ? `🏆 ${text}` : `✨ ${text}`;
+  stack.appendChild(t);
+  setTimeout(() => {
+    t.classList.add('removing');
+    setTimeout(() => t.remove(), 300);
+  }, 2400);
+}
+
+function showLevelUpModal(level) {
+  const modal = document.getElementById('modal-content');
+  modal.innerHTML = `
+    <div class="modal-confetti" id="modal-confetti"></div>
+    <div class="modal-emoji">${level.emoji}</div>
+    <div class="modal-label">Niveau ${level.num} débloqué !</div>
+    <div class="modal-title">${level.name}</div>
+    <div class="modal-desc">Tu progresses bien. Continue, tu vas découvrir plein de trucs sur toi.</div>
+    <button class="modal-close" onclick="closeModal()">Continuer ✨</button>
+  `;
+  document.getElementById('modal-backdrop').classList.add('visible');
+  launchConfetti('modal-confetti');
+}
+
+function showBadgeModal(badge) {
+  const modal = document.getElementById('modal-content');
+  modal.innerHTML = `
+    <div class="modal-confetti" id="modal-confetti"></div>
+    <div class="modal-emoji">${badge.emoji}</div>
+    <div class="modal-label">🏆 Nouveau badge</div>
+    <div class="modal-title">${badge.name}</div>
+    <div class="modal-desc">${badge.desc}</div>
+    <button class="modal-close" onclick="closeModal()">Trop bien !</button>
+  `;
+  document.getElementById('modal-backdrop').classList.add('visible');
+  launchConfetti('modal-confetti');
+}
+
+function launchConfetti(containerId) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  const colors = ['#7C3AED', '#EC4899', '#FB923C', '#14B8A6', '#FBBF24'];
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.background = colors[i % colors.length];
+    p.style.left = `${Math.random() * 100}%`;
+    p.style.animationDelay = `${Math.random() * 0.5}s`;
+    p.style.animationDuration = `${1.5 + Math.random()}s`;
+    p.style.borderRadius = i % 2 ? '50%' : '2px';
+    c.appendChild(p);
+  }
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modal-backdrop')) return;
+  document.getElementById('modal-backdrop').classList.remove('visible');
+}
+
+function updateLevelDisplay() {
+  const lvl = getCurrentLevel();
+  const range = lvl.max - lvl.min;
+  const progress = S.xp - lvl.min;
+  const pct = Math.min(100, (progress / range) * 100);
+  const xpToNext = lvl.max - S.xp;
+
+  // Hub
+  const updateEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  updateEl('level-emoji', lvl.emoji);
+  updateEl('level-name', lvl.name);
+  updateEl('level-num', lvl.num);
+  updateEl('xp-current', S.xp);
+  const xpNextEl = document.getElementById('xp-next');
+  if (xpNextEl) xpNextEl.textContent = lvl.num === 5 ? 'Niveau max atteint ✨' : `prochain niveau dans ${xpToNext} XP`;
+  const bar = document.getElementById('xp-bar-fill');
+  if (bar) bar.style.width = `${pct}%`;
+
+  // Profil
+  updateEl('profil-level-emoji', lvl.emoji);
+  updateEl('profil-level-name', lvl.name);
+  updateEl('profil-level-num', lvl.num);
+  updateEl('profil-xp-current', S.xp);
+  const pn = document.getElementById('profil-xp-next');
+  if (pn) pn.textContent = lvl.num === 5 ? 'Niveau max atteint ✨' : `prochain niveau dans ${xpToNext} XP`;
+  const pb = document.getElementById('profil-xp-bar-fill');
+  if (pb) pb.style.width = `${pct}%`;
+}
+
+function renderBadges() {
+  const grid = document.getElementById('badges-grid');
+  if (!grid) return;
+  grid.innerHTML = BADGES.map(b => {
+    const unlocked = S.badges.includes(b.id);
+    return `
+      <div class="badge ${unlocked ? 'unlocked' : 'locked'}" title="${b.name} · ${b.desc}">
+        <div class="badge-emoji">${b.emoji}</div>
+        <div class="badge-name">${unlocked ? b.name : '???'}</div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('badges-count').textContent = S.badges.length;
+  document.getElementById('badges-total').textContent = BADGES.length;
+}
+
+function markVoieVisited(voie) {
+  if (!S.voiesVisited.includes(voie)) {
+    S.voiesVisited.push(voie);
+    saveState();
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════════════════
+function showScreen(id) {
+  if (currentScreen === id) return;
+  const oldScreen = document.getElementById(currentScreen);
+  const newScreen = document.getElementById(id);
+  if (!newScreen) return;
+
+  // Transition out + in
+  if (oldScreen) {
+    oldScreen.classList.add('exiting');
+    setTimeout(() => {
+      oldScreen.classList.remove('active', 'exiting');
+      newScreen.classList.add('active');
+      currentScreen = id;
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      updateNavActive();
+      updateNavVisibility();
+    }, 200);
+  } else {
+    newScreen.classList.add('active');
+    currentScreen = id;
+    updateNavActive();
+    updateNavVisibility();
+  }
+}
+
+function updateNavVisibility() {
+  const navHiddenScreens = ['screen-cover', 'screen-onboarding', 'screen-prat-login', 'screen-prat-dashboard'];
+  const nav = document.getElementById('bottom-nav');
+  if (navHiddenScreens.includes(currentScreen)) {
+    nav.classList.remove('visible');
+  } else {
+    nav.classList.add('visible');
+  }
+}
+
+function updateNavActive() {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const map = {
+    'screen-hub': 'hub',
+    'screen-diag': 'hub',
+    'screen-diag-result': 'hub',
+    'screen-contracts': 'contracts',
+    'screen-voie-connaitre': 'connaitre',
+    'screen-mode-emploi': 'connaitre',
+    'screen-voie-projeter': 'hub',
+    'screen-boussol': 'hub',
+    'screen-voie-booster': 'hub',
+    'screen-vak': 'hub',
+    'screen-vak-result': 'hub',
+    'screen-voie-apaiser': 'hub',
+    'screen-security': 'security',
+    'screen-profil': 'profil'
+  };
+  const key = map[currentScreen];
+  if (key) {
+    document.querySelector(`.nav-item[data-nav="${key}"]`)?.classList.add('active');
+  }
+}
+
+function goCover() { showScreen('screen-cover'); }
+
+function startApp() {
+  if (S.onboarded) {
+    goHub();
+  } else {
+    showScreen('screen-onboarding');
+    renderAvatars();
+    document.getElementById('onb-name').value = S.name || '';
+    validateOnboarding();
+  }
+}
+
+function goHub() {
+  showScreen('screen-hub');
+  updateHubDisplay();
+  updateLevelDisplay();
+  renderBadges();
+  updateMeProgress();
+  updateHubContracts();
+  updateVAKStatus();
+}
+
+function updateVAKStatus() {
+  const label = document.getElementById('vak-status-label');
+  if (!label) return;
+  if (S.vak.completed) {
+    const r = S.vak.results;
+    const dominant = ['V','A','K'].sort((a,b) => r[b] - r[a])[0];
+    label.textContent = `✓ Profil ${VAK_DIM_INFO[dominant].name}`;
+  } else {
+    label.textContent = 'À démarrer';
+  }
+}
+
+function goVoie(voie) {
+  markVoieVisited(voie);
+  if (voie === 'connaitre') showScreen('screen-voie-connaitre');
+  if (voie === 'projeter') showScreen('screen-voie-projeter');
+  if (voie === 'booster') showScreen('screen-voie-booster');
+  if (voie === 'apaiser') showScreen('screen-voie-apaiser');
+}
+
+function goDiag() {
+  // Si déjà fait, on permet de refaire
+  S.diag.answers = {};
+  S.diag.completed = false;
+  showScreen('screen-diag');
+  renderDiag();
+}
+
+function goModeEmploi() {
+  showScreen('screen-mode-emploi');
+  renderModeEmploi();
+}
+
+function goBoussol() {
+  showScreen('screen-boussol');
+  renderBoussol();
+}
+
+function toggleJordanStory() {
+  const story = document.getElementById('jordan-story');
+  const arrow = document.getElementById('jordan-arrow');
+  if (!story) return;
+  if (story.classList.contains('hidden')) {
+    story.classList.remove('hidden');
+    if (arrow) arrow.textContent = '↑';
+  } else {
+    story.classList.add('hidden');
+    if (arrow) arrow.textContent = '↓';
+  }
+}
+
+function goSecurity() {
+  showScreen('screen-security');
+}
+
+function goProfil() {
+  showScreen('screen-profil');
+  renderProfil();
+}
+
+function showPraticienne() {
+  showScreen('screen-prat-login');
+  document.getElementById('prat-code').value = '';
+  document.getElementById('prat-error').classList.remove('visible');
+}
+
+function checkPraticienneCode() {
+  const code = document.getElementById('prat-code').value;
+  if (code === PRATICIENNE_CODE) {
+    renderPraticienneDashboard();
+    showScreen('screen-prat-dashboard');
+  } else {
+    document.getElementById('prat-error').classList.add('visible');
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// ONBOARDING
+// ════════════════════════════════════════════════════════════
+function renderAvatars() {
+  const grid = document.getElementById('avatar-grid');
+  grid.innerHTML = AVATARS.map(a => `
+    <button class="avatar-option ${S.avatar === a ? 'selected' : ''}" onclick="selectAvatar('${a}')">${a}</button>
+  `).join('');
+}
+
+function selectAvatar(a) {
+  S.avatar = a;
+  renderAvatars();
+  validateOnboarding();
+}
+
+function selectMode(m) {
+  S.mode = m;
+  document.querySelectorAll('#screen-onboarding .mode-option').forEach(el => {
+    el.classList.toggle('selected', el.dataset.mode === m);
+  });
+  validateOnboarding();
+}
+
+function validateOnboarding() {
+  const name = document.getElementById('onb-name')?.value?.trim() || '';
+  const btn = document.getElementById('onb-continue');
+  if (btn) btn.disabled = !(name && S.avatar && S.mode);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('onb-name')?.addEventListener('input', e => {
+    S.name = e.target.value.trim();
+    validateOnboarding();
+  });
+});
+
+function finishOnboarding() {
+  S.name = document.getElementById('onb-name').value.trim();
+  S.onboarded = true;
+  saveState();
+  goDiag();
+}
+
+// ════════════════════════════════════════════════════════════
+// DIAGNOSTIC
+// ════════════════════════════════════════════════════════════
+const DIAG_QUESTIONS = [
+  { id: 'q1', dim: 'confiance', text: 'En ce moment, je me sens à ma place avec les autres.' },
+  { id: 'q2', dim: 'confiance', text: 'Je crois en mes capacités quand j\'attaque un truc nouveau.' },
+  { id: 'q3', dim: 'confiance', text: 'Je suis fier·e de qui je suis aujourd\'hui.' },
+  { id: 'q4', dim: 'scolaire', text: 'L\'école / le lycée, ça se passe globalement bien pour moi.' },
+  { id: 'q5', dim: 'scolaire', text: 'Mes résultats reflètent ce que je vaux vraiment.' },
+  { id: 'q6', dim: 'scolaire', text: 'J\'arrive à m\'organiser pour mes devoirs et révisions.' },
+  { id: 'q7', dim: 'emotions', text: 'Quand je suis énervé·e ou triste, je sais comment me calmer.' },
+  { id: 'q8', dim: 'emotions', text: 'Je dors bien en ce moment.' },
+  { id: 'q9', dim: 'emotions', text: 'Je trouve facilement à qui parler quand ça ne va pas.' },
+  { id: 'q10', dim: 'projection', text: 'Je sais à peu près où je veux aller dans ma vie.' },
+  { id: 'q11', dim: 'projection', text: 'J\'ai des envies, des passions qui me portent.' },
+  { id: 'q12', dim: 'projection', text: 'J\'arrive à imaginer mon futur de façon positive.' }
+];
+
+const DIM_INFO = {
+  confiance: { icon: '💛', name: 'Confiance en moi' },
+  scolaire: { icon: '📚', name: 'Vie scolaire' },
+  emotions: { icon: '🌊', name: 'Gestion émotionnelle' },
+  projection: { icon: '🌅', name: 'Projection / futur' }
+};
+
+function renderDiag() {
+  const container = document.getElementById('diag-questions');
+  container.innerHTML = DIAG_QUESTIONS.map((q, i) => `
+    <div class="diag-question">
+      <div class="diag-q-num">Q${i + 1} / ${DIAG_QUESTIONS.length}</div>
+      <div class="diag-q-text">${q.text}</div>
+      <div class="scale-options">
+        ${[1, 2, 3, 4, 5].map(v => `
+          <button class="scale-btn ${S.diag.answers[q.id] === v ? 'selected' : ''}" data-q="${q.id}" data-v="${v}" onclick="answerDiag('${q.id}', ${v})">${v}</button>
+        `).join('')}
+      </div>
+      <div class="scale-labels">
+        <span>Pas du tout</span>
+        <span>Totalement</span>
+      </div>
+    </div>
+  `).join('');
+  updateDiagProgress();
+}
+
+function answerDiag(qid, v) {
+  S.diag.answers[qid] = v;
+  document.querySelectorAll(`[data-q="${qid}"]`).forEach(btn => {
+    btn.classList.toggle('selected', parseInt(btn.dataset.v) === v);
+  });
+  saveState();
+  updateDiagProgress();
+}
+
+function updateDiagProgress() {
+  const done = Object.keys(S.diag.answers).length;
+  const total = DIAG_QUESTIONS.length;
+  document.getElementById('diag-progress').style.width = `${(done / total) * 100}%`;
+  document.getElementById('diag-submit').disabled = done < total;
+}
+
+function finishDiag() {
+  const results = {};
+  Object.keys(DIM_INFO).forEach(dim => {
+    const qs = DIAG_QUESTIONS.filter(q => q.dim === dim);
+    const sum = qs.reduce((acc, q) => acc + (S.diag.answers[q.id] || 0), 0);
+    const max = qs.length * 5;
+    results[dim] = Math.round((sum / max) * 100);
+  });
+
+  S.diag.results = results;
+  S.diag.completed = true;
+  S.diag.timestamp = new Date().toISOString();
+  S.diagsCompleted = (S.diagsCompleted || 0) + 1;
+  saveState();
+
+  renderDiagResult();
+  showScreen('screen-diag-result');
+}
+
+function renderDiagResult() {
+  const r = S.diag.results;
+  const dims = Object.keys(DIM_INFO);
+  const lowest = dims.reduce((min, d) => r[d] < r[min] ? d : min, dims[0]);
+
+  const suggestionMap = {
+    confiance: { voie: '🧭 Me connaître', text: 'Commence par mieux te comprendre. Le Mode d\'emploi de moi-même va te révéler tes super-pouvoirs invisibles.' },
+    scolaire: { voie: '⚡ Me booster', text: 'On va outiller ta scolarité : méthodo, organisation, mémorisation. Cette voie arrive bientôt.' },
+    emotions: { voie: '🌊 M\'apaiser', text: 'Plein d\'outils pour traverser les vagues. La Boîte à Secours Émotionnelle est déjà là pour toi.' },
+    projection: { voie: '🎯 Me projeter', text: 'Définir où tu veux aller, ça aide. Cette voie arrive très bientôt.' }
+  };
+
+  const sortedDims = dims.sort((a, b) => r[b] - r[a]);
+
+  document.getElementById('diag-result-content').innerHTML = `
+    <h2 class="diag-result-title">${escapeHtml(S.name)}, voilà ton image du moment</h2>
+    ${sortedDims.map(d => {
+      const score = r[d];
+      const level = score < 40 ? 'low' : score < 70 ? 'med' : 'high';
+      return `
+        <div class="diag-dim">
+          <span class="diag-dim-icon">${DIM_INFO[d].icon}</span>
+          <div class="diag-dim-content">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div class="diag-dim-name">${DIM_INFO[d].name}</div>
+              <div class="diag-dim-score">${score}%</div>
+            </div>
+            <div class="diag-dim-bar">
+              <div class="diag-dim-fill ${level}" style="width: ${score}%"></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('')}
+
+    <div class="diag-suggestion">
+      <div class="diag-suggestion-label">✨ Par où commencer aujourd'hui</div>
+      <div class="diag-suggestion-text">${suggestionMap[lowest].text}</div>
+      <div style="font-size: 0.82rem; color: var(--ink-soft); margin-top: 0.5rem;">→ Direction <strong>${suggestionMap[lowest].voie}</strong></div>
+    </div>
+  `;
+}
+
+// ════════════════════════════════════════════════════════════
+// MODE D'EMPLOI
+// ════════════════════════════════════════════════════════════
+
+// ─── BOUSSOL — 9 niveaux d'objectifs (méthode Anne Gramond adaptée Boussol Ados) ───
+const BOUSSOL_NIVEAUX = [
+  {
+    id: 1, emoji: '🌟', titre: 'Le Rêve',
+    question: "Si tout était possible — vraiment tout, sans contrainte d'argent, de famille, de notes — qu'est-ce qui te ferait briller ?",
+    cadre: "Ferme les yeux. Personne ne juge. Le truc qui te fait vibrer.",
+    jordan: "Moniteur de ski en montagne.",
+    placeholder: "Mon rêve, sans filtre…"
+  },
+  {
+    id: 2, emoji: '🚀', titre: 'Plus tard, je serai',
+    question: "Dans 10-15 ans, quand on te demande ce que tu fais dans la vie, tu réponds quoi ?",
+    cadre: "C'est ton rêve incarné dans un rôle, un métier, une place.",
+    jordan: "Je serai moniteur de ski.",
+    placeholder: "Je serai…"
+  },
+  {
+    id: 3, emoji: '🏔️', titre: 'Le long terme',
+    question: "D'ici 5 à 10 ans, où tu te vois ? Quelle grande étape tu auras franchie ?",
+    cadre: "Pas encore le sommet, mais déjà bien engagé sur le chemin.",
+    jordan: "J'aurai mon BPJEPS Ski et une première saison en station.",
+    placeholder: "D'ici 5-10 ans…"
+  },
+  {
+    id: 4, emoji: '🎓', titre: 'Le diplôme nécessaire',
+    question: "Pour devenir ça, quel diplôme ou quelle formation il te faut ?",
+    cadre: "C'est le sésame officiel. Vérifie qu'il existe vraiment, renseigne-toi.",
+    jordan: "BPJEPS Ski Alpin (et avant, un bac compatible avec une bonne forme physique).",
+    placeholder: "Le diplôme/la formation…"
+  },
+  {
+    id: 5, emoji: '📅', titre: 'Le moyen terme',
+    question: "D'ici 2 ou 3 ans, qu'est-ce qui doit être validé pour rester sur la trajectoire ?",
+    cadre: "Étape charnière. Si tu n'es pas ici à ce moment-là, le reste devient compliqué.",
+    jordan: "Avoir réorienté mon parcours (sortir du CAP ferronnerie par défaut) et viser une voie compatible avec le BPJEPS.",
+    placeholder: "D'ici 2-3 ans…"
+  },
+  {
+    id: 6, emoji: '📚', titre: 'Cette année',
+    question: "Cette année scolaire, qu'est-ce que tu dois réussir pour avancer vers ton rêve ?",
+    cadre: "Concret. Ce qui se joue de septembre à juin.",
+    jordan: "Travailler mon orientation avec le CIO, garder une moyenne correcte, m'inscrire dans un club de ski.",
+    placeholder: "Cette année…"
+  },
+  {
+    id: 7, emoji: '🎯', titre: 'Le court terme',
+    question: "Cette semaine ou ce mois-ci, qu'est-ce que tu vises concrètement ?",
+    cadre: "Petite victoire à portée de main.",
+    jordan: "Préparer mon entretien d'orientation de jeudi.",
+    placeholder: "Cette semaine/ce mois…"
+  },
+  {
+    id: 8, emoji: '☀️', titre: "Aujourd'hui",
+    question: "Aujourd'hui, qu'est-ce que tu fais qui te rapproche d'un cran ?",
+    cadre: "Une seule action. Pas dix. Une.",
+    jordan: "Lister 3 questions à poser au CIO.",
+    placeholder: "Aujourd'hui, je…"
+  },
+  {
+    id: 9, emoji: '⚡', titre: 'Maintenant',
+    question: "Là, dans les 10 prochaines minutes, tu fais quoi ?",
+    cadre: "L'instant. Pas demain, pas tout à l'heure. Maintenant.",
+    jordan: "J'ouvre un doc et j'écris ma première question.",
+    placeholder: "Maintenant, je…"
+  }
+];
+
+// ════════════════════════════════════════════════════════════
+// MODE D'EMPLOI
+// ════════════════════════════════════════════════════════════
+const ME_SECTIONS = [
+  {
+    id: 's1', num: 'Section 1', title: 'Moi en version normale',
+    questions: [
+      { type: 'trio', id: 'mots3', label: 'Trois mots qui me décrivent' },
+      { type: 'textarea', id: 'pas_compris', label: 'Ce que les adultes ne comprennent pas toujours chez moi' },
+      { type: 'textarea', id: 'reussite', label: 'Ce que je réussis bien, même si on ne le remarque pas assez' },
+      { type: 'checkbox', id: 'tranquille', label: 'Les moments où je me sens tranquille', options: [
+        'Quand je suis seul·e', 'Quand je joue / fais du sport',
+        'Quand je dessine / crée / écoute de la musique', 'Avec quelqu\'un de confiance',
+        'Quand personne ne me demande rien', 'Sur les réseaux sociaux',
+        'Dehors, dans la nature', 'Autre'
+      ]},
+      { type: 'text', id: 'capable', label: 'Une matière ou une activité où je me sens capable' }
+    ]
+  },
+  {
+    id: 's2', num: 'Section 2', title: 'Moi quand ça commence à monter',
+    questions: [
+      { type: 'checkbox', id: 'corps', label: 'Quand je commence à m\'énerver, mon corps me prévient comment ?', options: [
+        'Je serre les dents', 'J\'ai chaud', 'Je parle plus fort', 'Je souffle / je râle',
+        'Je bouge beaucoup', 'J\'ai envie de partir', 'J\'ai envie d\'insulter',
+        'Je coupe la parole', 'Je ne veux plus répondre', 'Mon ventre se serre'
+      ]},
+      { type: 'checkbox', id: 'tete', label: 'Dans ces moments-là, dans ma tête je me dis souvent', options: [
+        'C\'est injuste', 'On m\'accuse encore', 'Ils ne comprennent rien',
+        'Laisse-moi tranquille', 'Je vais exploser', 'Je m\'en fiche',
+        'Je vais leur montrer', 'Personne ne me comprend'
+      ]}
+    ]
+  },
+  {
+    id: 's3', num: 'Section 3', title: 'Ce qui appuie sur mes boutons',
+    questions: [
+      { type: 'checkbox', id: 'monter', label: 'Ce qui me fait monter vite', options: [
+        'Les remarques devant les autres', 'Les injustices', 'Les consignes longues',
+        'Le bruit', 'L\'écriture / les devoirs', 'Les changements de programme',
+        'Mon frère / ma sœur', 'Les adultes qui insistent', 'Les gens qui me provoquent',
+        'Les punitions que je trouve injustes', 'Quand je suis fatigué·e',
+        'Quand on me coupe dans ce que je fais', 'Les réseaux sociaux / un message'
+      ]},
+      { type: 'textarea', id: 'declencheur', label: 'Le déclencheur numéro 1 chez moi, c\'est' }
+    ]
+  },
+  {
+    id: 's4', num: 'Section 4', title: 'Mes réactions automatiques',
+    questions: [
+      { type: 'checkbox', id: 'reaction', label: 'Quand je suis à bout, je fais plutôt', options: [
+        'Je réponds mal', 'J\'insulte', 'Je refuse', 'Je pars',
+        'Je provoque', 'Je me ferme', 'Je rigole pour cacher',
+        'Je cherche à avoir le dernier mot', 'Je tape / pousse', 'Je menace',
+        'Je pleure mais je ne le montre pas', 'Je vais sur mon téléphone'
+      ]},
+      { type: 'checkbox', id: 'apres', label: 'Après coup, je ressens souvent', options: [
+        'Je m\'en veux', 'Je suis encore plus énervé·e', 'Je trouve que j\'avais raison',
+        'Je suis fatigué·e', 'Je fais comme si je m\'en fichais', 'Je suis triste',
+        'J\'ai honte', 'Je ne sais pas'
+      ]}
+    ]
+  },
+  {
+    id: 's5', num: 'Section 5', title: 'Ce qui peut m\'aider pour de vrai',
+    questions: [
+      { type: 'checkbox', id: 'aide', label: 'Quand je monte, ce qui peut m\'aider', options: [
+        'Qu\'on me laisse 10 minutes', 'Qu\'on me parle doucement',
+        'Qu\'on arrête de répéter', 'Qu\'on me donne un choix simple',
+        'Qu\'on m\'explique pourquoi', 'Qu\'on ne me parle pas devant tout le monde',
+        'Qu\'on me laisse écrire ou faire autrement', 'Qu\'on me propose de bouger',
+        'Qu\'on reconnaisse quand c\'est injuste', 'Qu\'on me laisse écouter de la musique'
+      ]},
+      { type: 'textarea', id: 'phrase_aide', label: 'La phrase qu\'un adulte pourrait me dire pour éviter que ça parte trop loin' },
+      { type: 'textarea', id: 'phrase_no', label: 'La phrase qu\'il ne faut surtout pas me dire quand je suis énervé·e' }
+    ]
+  },
+  {
+    id: 's6', num: 'Section 6', title: 'Mon mini-contrat',
+    questions: [
+      { type: 'checkbox', id: 'travailler', label: 'En ce moment, je veux surtout travailler sur', options: [
+        'Moins insulter', 'Moins exploser', 'Mieux gérer mon frère / ma sœur',
+        'Mieux gérer les remarques', 'Mieux dire ce que je ressens', 'Moins me faire punir',
+        'Moins refuser', 'Mieux dormir', 'Mieux comprendre ce qui se passe dans ma tête',
+        'Moins me comparer aux autres', 'Aller mieux émotionnellement'
+      ]},
+      { type: 'textarea', id: 'objectif_1', label: 'Mon objectif numéro 1, là, maintenant' }
+    ]
+  }
+];
+
+function renderModeEmploi() {
+  const container = document.getElementById('me-content');
+  container.innerHTML = ME_SECTIONS.map(section => `
+    <div class="me-section">
+      <div class="me-section-num">${section.num}</div>
+      <h2 class="me-section-title">${section.title}</h2>
+      ${section.questions.map(q => renderMeQuestion(section.id, q)).join('')}
+    </div>
+  `).join('');
+  attachMeListeners();
+  updateMeProgress();
+}
+
+function renderMeQuestion(sectionId, q) {
+  const key = `${sectionId}_${q.id}`;
+  const val = S.modeEmploi.answers[key];
+
+  if (q.type === 'text') {
+    return `
+      <div class="me-q">
+        <label class="me-q-label">${q.label}</label>
+        <input class="me-input" type="text" data-key="${key}" data-section="${sectionId}" value="${escapeHtml(val || '')}">
+      </div>
+    `;
+  }
+  if (q.type === 'textarea') {
+    return `
+      <div class="me-q">
+        <label class="me-q-label">${q.label}</label>
+        <textarea class="me-textarea" data-key="${key}" data-section="${sectionId}" rows="3">${escapeHtml(val || '')}</textarea>
+      </div>
+    `;
+  }
+  if (q.type === 'trio') {
+    const vals = val || ['', '', ''];
+    return `
+      <div class="me-q">
+        <label class="me-q-label">${q.label}</label>
+        <div class="me-trio-fields">
+          <input class="me-input" type="text" data-key="${key}" data-section="${sectionId}" data-trio="0" placeholder="1." value="${escapeHtml(vals[0] || '')}">
+          <input class="me-input" type="text" data-key="${key}" data-section="${sectionId}" data-trio="1" placeholder="2." value="${escapeHtml(vals[1] || '')}">
+          <input class="me-input" type="text" data-key="${key}" data-section="${sectionId}" data-trio="2" placeholder="3." value="${escapeHtml(vals[2] || '')}">
+        </div>
+      </div>
+    `;
+  }
+  if (q.type === 'checkbox') {
+    const checked = val || [];
+    return `
+      <div class="me-q">
+        <label class="me-q-label">${q.label}</label>
+        <div class="me-checkbox-group">
+          ${q.options.map(opt => `
+            <button class="me-check ${checked.includes(opt) ? 'checked' : ''}" data-key="${key}" data-section="${sectionId}" data-opt="${escapeHtml(opt)}" onclick="toggleMeCheck(this)">
+              <span class="me-check-box">${checked.includes(opt) ? '✓' : ''}</span>
+              <span>${opt}</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+  return '';
+}
+
+function escapeHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+function attachMeListeners() {
+  document.querySelectorAll('#me-content .me-input, #me-content .me-textarea').forEach(el => {
+    el.addEventListener('input', e => {
+      const key = e.target.dataset.key;
+      const section = e.target.dataset.section;
+      if (e.target.dataset.trio !== undefined) {
+        const idx = parseInt(e.target.dataset.trio);
+        const current = S.modeEmploi.answers[key] || ['', '', ''];
+        current[idx] = e.target.value;
+        S.modeEmploi.answers[key] = current;
+      } else {
+        S.modeEmploi.answers[key] = e.target.value;
+      }
+      saveState();
+      updateMeProgress();
+      checkSectionCompletion(section);
+    });
+  });
+}
+
+function toggleMeCheck(btn) {
+  const key = btn.dataset.key;
+  const section = btn.dataset.section;
+  const opt = btn.dataset.opt;
+  const current = S.modeEmploi.answers[key] || [];
+  const idx = current.indexOf(opt);
+  if (idx >= 0) {
+    current.splice(idx, 1);
+    btn.classList.remove('checked');
+    btn.querySelector('.me-check-box').textContent = '';
+  } else {
+    current.push(opt);
+    btn.classList.add('checked');
+    btn.querySelector('.me-check-box').textContent = '✓';
+  }
+  S.modeEmploi.answers[key] = current;
+  saveState();
+  updateMeProgress();
+  checkSectionCompletion(section);
+}
+
+function checkSectionCompletion(sectionId) {
+  const section = ME_SECTIONS.find(s => s.id === sectionId);
+  if (!section) return;
+  const totalQs = section.questions.length;
+  let doneQs = 0;
+  section.questions.forEach(q => {
+    const key = `${sectionId}_${q.id}`;
+    const val = S.modeEmploi.answers[key];
+    if (q.type === 'checkbox' && Array.isArray(val) && val.length > 0) doneQs++;
+    else if (q.type === 'trio' && Array.isArray(val) && val.some(v => v && v.trim())) doneQs++;
+    else if ((q.type === 'text' || q.type === 'textarea') && val && val.trim()) doneQs++;
+  });
+
+  if (!S.modeEmploi.sectionsCompleted) S.modeEmploi.sectionsCompleted = [];
+
+  // Section complète et pas déjà comptée
+  if (doneQs === totalQs && !S.modeEmploi.sectionsCompleted.includes(sectionId)) {
+    S.modeEmploi.sectionsCompleted.push(sectionId);
+    saveState();
+    // Si c'est la section 6 (mini-contrat), proposer de créer un contrat
+    if (sectionId === 's6') {
+      offerCreateContractFromMode();
+    }
+  }
+}
+
+function updateMeProgress() {
+  let totalQs = 0;
+  let doneQs = 0;
+  ME_SECTIONS.forEach(s => {
+    s.questions.forEach(q => {
+      totalQs++;
+      const key = `${s.id}_${q.id}`;
+      const val = S.modeEmploi.answers[key];
+      if (q.type === 'checkbox' && Array.isArray(val) && val.length > 0) doneQs++;
+      else if (q.type === 'trio' && Array.isArray(val) && val.some(v => v && v.trim())) doneQs++;
+      else if ((q.type === 'text' || q.type === 'textarea') && val && val.trim()) doneQs++;
+    });
+  });
+
+  const txt = document.getElementById('me-progress-text');
+  if (txt) txt.textContent = `${doneQs} / ${totalQs} questions complétées`;
+
+  const label = document.getElementById('me-progress-label');
+  if (label) {
+    if (doneQs === 0) label.textContent = 'À démarrer';
+    else if (doneQs === totalQs) label.textContent = '✓ Complet';
+    else label.textContent = `${doneQs}/${totalQs} en cours`;
+  }
+}
+
+function saveMode() {
+  saveState();
+  showToast('Sauvegardé · à tout moment tu peux revenir', 'purple');
+}
+
+function finishMode() {
+  const allDone = ME_SECTIONS.every(s => S.modeEmploi.sectionsCompleted?.includes(s.id));
+  if (allDone && !S.modeEmploi.completed) {
+    S.modeEmploi.completed = true;
+    S.modeEmploi.timestamp = new Date().toISOString();
+    saveState();
+  }
+  goVoie('connaitre');
+}
+
+// ════════════════════════════════════════════════════════════
+// BOUSSOL — 9 NIVEAUX
+// ════════════════════════════════════════════════════════════
+function renderBoussol() {
+  const container = document.getElementById('boussol-content');
+  container.innerHTML = BOUSSOL_NIVEAUX.map(n => {
+    const val = S.boussol.answers[`n${n.id}`] || '';
+    const filled = val.trim().length > 0;
+    return `
+      <div class="niveau-card ${filled ? 'filled' : ''}" data-niveau="${n.id}">
+        <div class="niveau-header">
+          <span class="niveau-emoji-big">${n.emoji}</span>
+          <div class="niveau-titles">
+            <div class="niveau-num">Niveau ${n.id}</div>
+            <div class="niveau-titre">${escapeHtml(n.titre)}</div>
+          </div>
+        </div>
+        <p class="niveau-question">« ${escapeHtml(n.question)} »</p>
+        <p class="niveau-cadre">${escapeHtml(n.cadre)}</p>
+        <div class="niveau-jordan">
+          <span class="niveau-jordan-icon">⛷️</span>
+          <span><strong>Jordan :</strong> <em>« ${escapeHtml(n.jordan)} »</em></span>
+        </div>
+        <textarea class="niveau-textarea" data-niveau="${n.id}" rows="2" placeholder="${escapeHtml(n.placeholder)}">${escapeHtml(val)}</textarea>
+      </div>
+    `;
+  }).join('');
+  attachBoussolListeners();
+  updateBoussolProgress();
+}
+
+function attachBoussolListeners() {
+  document.querySelectorAll('#boussol-content .niveau-textarea').forEach(el => {
+    el.addEventListener('input', e => {
+      const id = e.target.dataset.niveau;
+      S.boussol.answers[`n${id}`] = e.target.value;
+      saveState();
+      // Mise à jour visuelle de la carte (bordure mint si remplie)
+      const card = e.target.closest('.niveau-card');
+      if (card) {
+        if (e.target.value.trim().length > 0) card.classList.add('filled');
+        else card.classList.remove('filled');
+      }
+      updateBoussolProgress();
+    });
+  });
+}
+
+function updateBoussolProgress() {
+  const total = BOUSSOL_NIVEAUX.length;
+  let done = 0;
+  BOUSSOL_NIVEAUX.forEach(n => {
+    const v = S.boussol.answers[`n${n.id}`];
+    if (v && v.trim()) done++;
+  });
+
+  const txt = document.getElementById('boussol-progress-text');
+  if (txt) {
+    if (done === 0) txt.textContent = 'Démarre où tu veux ↑';
+    else if (done === total) txt.textContent = `✓ Les 9 niveaux sont remplis`;
+    else txt.textContent = `${done} / ${total} niveaux remplis`;
+  }
+
+  const label = document.getElementById('boussol-status-label');
+  if (label) {
+    if (done === 0) label.textContent = 'À démarrer';
+    else if (done === total) label.textContent = '✓ Complet';
+    else label.textContent = `${done}/${total} en cours`;
+  }
+}
+
+function saveBoussol() {
+  saveState();
+  showToast('Sauvegardé · tu peux revenir quand tu veux', 'purple');
+}
+
+function finishBoussol() {
+  const total = BOUSSOL_NIVEAUX.length;
+  let done = 0;
+  BOUSSOL_NIVEAUX.forEach(n => {
+    const v = S.boussol.answers[`n${n.id}`];
+    if (v && v.trim()) done++;
+  });
+
+  if (done === total && !S.boussol.completed) {
+    S.boussol.completed = true;
+    S.boussol.timestamp = new Date().toISOString();
+    saveState();
+  }
+
+  // Si l'ado a rempli au moins le niveau 9 (Maintenant) OU 8 (Aujourd'hui),
+  // on propose d'en faire un contrat suivi quotidiennement
+  const niveau9 = (S.boussol.answers.n9 || '').trim();
+  const niveau8 = (S.boussol.answers.n8 || '').trim();
+  if (niveau9 || niveau8) {
+    offerCreateContractFromBoussol();
+  } else {
+    goVoie('projeter');
+  }
+}
+
+function offerCreateContractFromBoussol() {
+  // Priorité au niveau "Aujourd'hui" (n8) pour le contrat, puis Maintenant (n9) en fallback
+  const niveau8 = (S.boussol.answers.n8 || '').trim();
+  const niveau9 = (S.boussol.answers.n9 || '').trim();
+  const objet = niveau8 || niveau9;
+  const niveauSource = niveau8 ? 'aujourd\'hui' : 'maintenant';
+  if (!objet) { goVoie('projeter'); return; }
+
+  // Déjà créé pour ce texte ?
+  const exists = S.contracts.find(c => c.source === 'boussol' && c.text === objet);
+  if (exists) {
+    showToast('Tu as déjà un contrat pour cet objectif 📜', 'purple');
+    setTimeout(() => goVoie('projeter'), 800);
+    return;
+  }
+
+  const modal = document.getElementById('modal-content');
+  modal.innerHTML = `
+    <div class="modal-emoji">📜</div>
+    <div class="modal-label">Passer un accord avec toi-même</div>
+    <div class="modal-title" style="font-size:1.5rem;">Tu veux en faire un vrai engagement ?</div>
+    <div class="modal-desc">Pour ton niveau <strong>${escapeHtml(niveauSource)}</strong>, tu as écrit : <em>« ${escapeHtml(objet)} »</em>.<br><br>On peut transformer ça en contrat avec toi-même : tu coches chaque jour si tu l'as tenu, tu vois ton streak grandir, et c'est <strong>là</strong> que tu gagnes vraiment des badges.</div>
+    <div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;">
+      <button class="modal-close" onclick="createContractFromBoussol()" style="background:var(--purple);">Créer le contrat 📜</button>
+      <button class="modal-close" onclick="closeBoussolModal()" style="background:var(--white);color:var(--ink);border:1px solid var(--line);">Plus tard</button>
+    </div>
+  `;
+  document.getElementById('modal-backdrop').classList.add('visible');
+}
+
+function createContractFromBoussol() {
+  const niveau8 = (S.boussol.answers.n8 || '').trim();
+  const niveau9 = (S.boussol.answers.n9 || '').trim();
+  const objet = niveau8 || niveau9;
+  if (!objet) { closeModal(); return; }
+  createContract(objet, 'boussol');
+  closeModal();
+  showToast('Contrat créé ! Check-in possible chaque jour 📜', 'purple');
+  setTimeout(() => goContracts(), 600);
+}
+
+function closeBoussolModal() {
+  closeModal();
+  setTimeout(() => goVoie('projeter'), 200);
+}
+
+// ════════════════════════════════════════════════════════════
+// HUB DISPLAY
+// ════════════════════════════════════════════════════════════
+function updateHubDisplay() {
+  const nameEl = document.getElementById('hub-name');
+  if (nameEl) nameEl.textContent = S.name || 'toi';
+  const greetEl = document.getElementById('hub-greeting');
+  if (greetEl && S.avatar) {
+    greetEl.innerHTML = `Salut <span id="hub-name">${escapeHtml(S.name || 'toi')}</span> ${S.avatar}`;
+  }
+
+  // Statuts voies
+  const setStatus = (voie, txt, cls) => {
+    const el = document.getElementById(`status-${voie}`);
+    if (el) {
+      el.textContent = txt;
+      el.className = `voie-status ${cls}`;
+    }
+  };
+
+  // Connaître
+  if (S.modeEmploi.completed) setStatus('connaitre', 'Complet ✓', 'done');
+  else if (S.voiesVisited.includes('connaitre')) setStatus('connaitre', 'En cours', 'new');
+  else setStatus('connaitre', 'Démarrer', 'new');
+
+  // Projeter
+  if (S.boussol.completed) setStatus('projeter', 'Complet ✓', 'done');
+  else {
+    let doneBoussol = 0;
+    BOUSSOL_NIVEAUX.forEach(n => {
+      const v = S.boussol.answers[`n${n.id}`];
+      if (v && v.trim()) doneBoussol++;
+    });
+    if (doneBoussol > 0) setStatus('projeter', `${doneBoussol}/9 en cours`, 'new');
+    else setStatus('projeter', 'Démarrer', 'new');
+  }
+
+  // Booster
+  setStatus('booster', S.voiesVisited.includes('booster') ? 'Vu' : 'Démarrer', 'new');
+
+  // Apaiser
+  setStatus('apaiser', S.voiesVisited.includes('apaiser') ? 'Vu' : 'Démarrer', 'new');
+}
+
+// ════════════════════════════════════════════════════════════
+// PROFIL
+// ════════════════════════════════════════════════════════════
+function renderProfil() {
+  document.getElementById('profil-name').value = S.name || '';
+
+  // Avatars
+  const grid = document.getElementById('profil-avatar-grid');
+  grid.innerHTML = AVATARS.map(a => `
+    <button class="avatar-option ${S.avatar === a ? 'selected' : ''}" onclick="selectProfilAvatar('${a}')">${a}</button>
+  `).join('');
+
+  // Mode
+  document.querySelectorAll('#screen-profil .mode-option').forEach(el => {
+    el.classList.toggle('selected', el.dataset.mode === S.mode);
+  });
+
+  updateLevelDisplay();
+}
+
+function selectProfilAvatar(a) {
+  S.avatar = a;
+  renderProfil();
+}
+
+function selectProfilMode(m) {
+  S.mode = m;
+  document.querySelectorAll('#screen-profil .mode-option').forEach(el => {
+    el.classList.toggle('selected', el.dataset.mode === m);
+  });
+}
+
+function saveProfile() {
+  S.name = document.getElementById('profil-name').value.trim();
+  saveState();
+  showToast('Profil sauvegardé', 'purple');
+  updateHubDisplay();
+}
+
+// ════════════════════════════════════════════════════════════
+// EXPORT / RESET
+// ════════════════════════════════════════════════════════════
+function exportData() {
+  const data = generateExportText();
+  const blob = new Blob([data], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().split('T')[0];
+  a.href = url;
+  a.download = `Reprendre-Confiance-${S.name || 'export'}-${date}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  if (!S.hasExported) {
+    S.hasExported = true;
+    saveState();
+  }
+}
+
+function generateExportText() {
+  const lvl = getCurrentLevel();
+  let txt = `╔══════════════════════════════════════════════════════════╗\n`;
+  txt += `  REPRENDRE CONFIANCE — Boussol Ados × Educa Typique\n`;
+  txt += `  Export pour ma praticienne Nawel\n`;
+  txt += `╚══════════════════════════════════════════════════════════╝\n\n`;
+  txt += `📅 Date : ${new Date().toLocaleDateString('fr-FR', { year:'numeric', month:'long', day:'numeric' })}\n`;
+  txt += `👤 Nom : ${S.name || '—'}\n`;
+  txt += `${S.avatar} Avatar : ${S.avatar || '—'}\n`;
+  txt += `🔒 Mode : ${S.mode === 'partage' ? 'Partage avec Nawel' : 'Privé'}\n`;
+  txt += `🎮 Niveau : ${lvl.num} ${lvl.emoji} ${lvl.name} · ${S.xp} XP (issus uniquement de check-ins de contrats)\n`;
+  txt += `🏆 Badges : ${S.badges.length} / ${BADGES.length}\n`;
+  txt += `📜 Contrats : ${S.contracts.filter(c => !c.archived).length} actifs · ${S.totalCheckins || 0} check-ins au total · meilleur streak : ${S.highestStreak || 0} jours\n\n`;
+
+  if (S.diag.completed) {
+    txt += `──── 📊 BILAN "OÙ J'EN SUIS ?" ────\n\n`;
+    Object.keys(DIM_INFO).forEach(d => {
+      txt += `${DIM_INFO[d].icon} ${DIM_INFO[d].name} : ${S.diag.results[d]}%\n`;
+    });
+    txt += `\n`;
+  }
+
+  if (S.vak.completed) {
+    txt += `──── 🧠 PROFIL D'APPRENTISSAGE (V/A/K) ────\n\n`;
+    Object.keys(VAK_DIM_INFO).forEach(d => {
+      txt += `${VAK_DIM_INFO[d].emoji} ${VAK_DIM_INFO[d].name} : ${S.vak.results[d]}%\n`;
+    });
+    txt += `\n`;
+  }
+
+  // Contrats
+  const activeContracts = S.contracts.filter(c => !c.archived);
+  if (activeContracts.length > 0) {
+    txt += `──── 📜 MES CONTRATS ACTIFS ────\n\n`;
+    activeContracts.forEach(c => {
+      txt += `▸ ${c.text}\n`;
+      txt += `   Source : ${c.source === 'mode_emploi' ? 'Mode d\'emploi' : 'Personnel'}\n`;
+      txt += `   Streak actuel : ${c.streak} jour(s) · Record : ${c.longestStreak} · Total check-ins : ${c.checkins.length}\n`;
+      // 7 derniers check-ins notés
+      const noted = c.checkins.filter(ci => ci.note).slice(-3);
+      if (noted.length) {
+        txt += `   Notes récentes :\n`;
+        noted.forEach(ci => {
+          txt += `     · ${ci.date} (${ci.status}) : ${ci.note}\n`;
+        });
+      }
+      txt += `\n`;
+    });
+  }
+
+  let hasMode = false;
+  ME_SECTIONS.forEach(s => {
+    s.questions.forEach(q => {
+      const key = `${s.id}_${q.id}`;
+      if (S.modeEmploi.answers[key]) hasMode = true;
+    });
+  });
+
+  if (hasMode) {
+    txt += `──── 📋 MODE D'EMPLOI DE MOI-MÊME ────\n\n`;
+    ME_SECTIONS.forEach(section => {
+      txt += `\n▸ ${section.title}\n`;
+      txt += '─'.repeat(50) + '\n';
+      section.questions.forEach(q => {
+        const key = `${section.id}_${q.id}`;
+        const val = S.modeEmploi.answers[key];
+        if (!val) return;
+        txt += `\n${q.label}\n`;
+        if (Array.isArray(val)) {
+          if (q.type === 'trio') {
+            const filled = val.filter(v => v && v.trim());
+            if (filled.length) txt += `  → ${filled.join(' · ')}\n`;
+          } else {
+            val.forEach(v => txt += `  ☑ ${v}\n`);
+          }
+        } else {
+          txt += `  → ${val}\n`;
+        }
+      });
+    });
+  }
+
+  txt += `\n\n══════════════════════════════════════════════════════════\n`;
+  txt += `Conçu par Nawel Oum Mona · Boussol Ados · Educa Typique\n`;
+  return txt;
+}
+
+function confirmReset() {
+  if (confirm('Tu veux vraiment tout effacer ? Tes réponses et tes badges seront perdus définitivement.')) {
+    resetState();
+    goCover();
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// SYSTÈME MES CONTRATS (gamification raisonnée)
+// ════════════════════════════════════════════════════════════
+function todayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function daysBetween(a, b) {
+  const d1 = new Date(a + 'T00:00:00');
+  const d2 = new Date(b + 'T00:00:00');
+  return Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+}
+
+function offerCreateContractFromMode() {
+  // Récupérer le texte de l'objectif n°1 de la section 6
+  const obj = S.modeEmploi.answers['s6_objectif_1'];
+  if (!obj || !obj.trim()) return;
+
+  // Déjà créé ?
+  const exists = S.contracts.find(c => c.source === 'mode_emploi' && c.text === obj.trim());
+  if (exists) return;
+
+  // Modal de proposition
+  const modal = document.getElementById('modal-content');
+  modal.innerHTML = `
+    <div class="modal-emoji">📜</div>
+    <div class="modal-label">Mini-contrat</div>
+    <div class="modal-title" style="font-size:1.5rem;">Tu veux en faire un vrai engagement ?</div>
+    <div class="modal-desc">Tu viens d'écrire : <em>« ${escapeHtml(obj.trim())} »</em>.<br><br>On peut transformer ça en contrat avec toi-même : tu coches chaque jour si tu l'as tenu, tu vois ton streak grandir, et c'est <strong>là</strong> que tu gagnes vraiment des badges.</div>
+    <div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;">
+      <button class="modal-close" onclick="createContractFromMode()" style="background:var(--purple);">Créer le contrat 📜</button>
+      <button class="modal-close" onclick="closeModal()" style="background:var(--white);color:var(--ink);border:1px solid var(--line);">Plus tard</button>
+    </div>
+  `;
+  document.getElementById('modal-backdrop').classList.add('visible');
+}
+
+function createContractFromMode() {
+  const obj = S.modeEmploi.answers['s6_objectif_1'];
+  if (!obj || !obj.trim()) { closeModal(); return; }
+  createContract(obj.trim(), 'mode_emploi');
+  closeModal();
+  showToast('Contrat créé ! Check-in possible chaque jour 📜', 'purple');
+  setTimeout(() => goContracts(), 600);
+}
+
+function createContract(text, source) {
+  const c = {
+    id: 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+    text: text,
+    source: source || 'manual',
+    createdAt: new Date().toISOString(),
+    streak: 0,
+    longestStreak: 0,
+    lastCheckin: null,
+    checkins: [],
+    archived: false
+  };
+  S.contracts.push(c);
+  S.contractsCreated = (S.contractsCreated || 0) + 1;
+  saveState();
+  // Premier contrat ?
+  if (S.contractsCreated === 1) unlockBadge('first_contract');
+  // 3 contrats actifs ?
+  const active = S.contracts.filter(c => !c.archived).length;
+  if (active >= 3) unlockBadge('multi_contract');
+  return c;
+}
+
+function getContract(id) {
+  return S.contracts.find(c => c.id === id);
+}
+
+function checkinContract(contractId, status, note) {
+  const c = getContract(contractId);
+  if (!c) return;
+  const today = todayKey();
+
+  // Déjà checked-in aujourd'hui ?
+  const existing = c.checkins.find(ci => ci.date === today);
+  if (existing) {
+    // Update
+    const wasSuccess = existing.status === 'success';
+    existing.status = status;
+    existing.note = note || existing.note;
+    existing.timestamp = new Date().toISOString();
+    // Re-calculer streak si on a changé un success en non-success
+    if (wasSuccess && status !== 'success') {
+      recomputeStreak(c);
+    } else if (!wasSuccess && status === 'success') {
+      recomputeStreak(c);
+    }
+  } else {
+    // Nouveau check-in
+    c.checkins.push({
+      date: today,
+      status: status,
+      note: note || null,
+      timestamp: new Date().toISOString()
+    });
+    c.lastCheckin = today;
+
+    // Streak update
+    if (status === 'success') {
+      // Vérifier si hier était aussi success (streak continue) ou pas (nouveau streak)
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yKey = `${yesterday.getFullYear()}-${String(yesterday.getMonth()+1).padStart(2,'0')}-${String(yesterday.getDate()).padStart(2,'0')}`;
+      const ySuccess = c.checkins.find(ci => ci.date === yKey && ci.status === 'success');
+      if (c.checkins.length === 1) {
+        // Premier check-in jamais
+        c.streak = 1;
+        unlockBadge('spark');
+      } else if (ySuccess) {
+        c.streak += 1;
+      } else {
+        // Streak cassée précédemment — on redémarre
+        if (c.streak === 0 && c.longestStreak > 0) {
+          // C'est un retour après chute
+          S.hasRestarted = true;
+          unlockBadge('restart');
+        }
+        c.streak = 1;
+      }
+      if (c.streak > c.longestStreak) c.longestStreak = c.streak;
+      if (c.streak > (S.highestStreak || 0)) S.highestStreak = c.streak;
+
+      // XP + badges paliers
+      gainXP(XP.checkin_success, 'Tu as tenu ton contrat 💪');
+      if (c.streak === 3) { gainXP(XP.streak_milestone_3, '3 jours d\'affilée'); unlockBadge('three_days'); }
+      else if (c.streak === 7) { gainXP(XP.streak_milestone_7, '1 semaine — bravo'); unlockBadge('one_week'); }
+      else if (c.streak === 14) { unlockBadge('two_weeks'); }
+      else if (c.streak === 21) { gainXP(XP.streak_milestone_21, '21 jours — habitude ancrée'); unlockBadge('habit_formed'); }
+      else if (c.streak === 90) { gainXP(XP.streak_milestone_90, '90 jours — transformation'); unlockBadge('transformation'); }
+    } else if (status === 'partial') {
+      gainXP(XP.checkin_partial, 'Demi-victoire — c\'est déjà ça');
+      // Partiel ne casse pas la streak mais ne l'incrémente pas non plus
+    } else {
+      // Pas tenu — streak reset
+      c.streak = 0;
+    }
+
+    S.totalCheckins = (S.totalCheckins || 0) + 1;
+    if (note && note.trim()) {
+      S.reflectionCheckins = (S.reflectionCheckins || 0) + 1;
+      if (S.reflectionCheckins >= 10) unlockBadge('reflection');
+    }
+  }
+  saveState();
+  renderContracts();
+  updateHubContracts();
+}
+
+function recomputeStreak(c) {
+  // Trie les check-ins par date, recalcule le streak actuel à partir du plus récent
+  const sorted = [...c.checkins].sort((a,b) => b.date.localeCompare(a.date));
+  let streak = 0;
+  let expectedDate = todayKey();
+  for (const ci of sorted) {
+    if (ci.date === expectedDate && ci.status === 'success') {
+      streak++;
+      const d = new Date(expectedDate + 'T00:00:00');
+      d.setDate(d.getDate() - 1);
+      expectedDate = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    } else if (ci.date === expectedDate && ci.status !== 'success') {
+      // partial ou fail aujourd'hui : on accepte mais on n'incrémente pas la streak du jour
+      if (ci.status === 'partial') {
+        // partial ne casse pas une streak qui vient d'avant
+      } else {
+        break;
+      }
+      const d = new Date(expectedDate + 'T00:00:00');
+      d.setDate(d.getDate() - 1);
+      expectedDate = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    } else if (ci.date < expectedDate) {
+      // Trou
+      break;
+    }
+  }
+  c.streak = streak;
+}
+
+function archiveContract(id) {
+  const c = getContract(id);
+  if (!c) return;
+  if (confirm('Tu veux archiver ce contrat ? Tu pourras toujours le revoir, mais il ne sera plus actif au quotidien.')) {
+    c.archived = true;
+    saveState();
+    renderContracts();
+    updateHubContracts();
+  }
+}
+
+function deleteContract(id) {
+  if (!confirm('Supprimer définitivement ce contrat ? Tu perdras tout son historique.')) return;
+  S.contracts = S.contracts.filter(c => c.id !== id);
+  saveState();
+  renderContracts();
+  updateHubContracts();
+}
+
+function goContracts() {
+  showScreen('screen-contracts');
+  renderContracts();
+}
+
+function getTodayStatus(c) {
+  const today = todayKey();
+  const ci = c.checkins.find(x => x.date === today);
+  return ci ? ci.status : null;
+}
+
+function renderContracts() {
+  const list = document.getElementById('contracts-list');
+  if (!list) return;
+
+  const active = S.contracts.filter(c => !c.archived);
+  const archived = S.contracts.filter(c => c.archived);
+
+  if (active.length === 0 && archived.length === 0) {
+    list.innerHTML = `
+      <div class="contracts-empty">
+        <div style="font-size:2.5rem;margin-bottom:0.5rem;">📜</div>
+        <div style="font-family:var(--font-display);font-size:1.25rem;font-weight:500;margin-bottom:0.5rem;">Pas encore de contrat</div>
+        <p style="color:var(--ink-soft);font-size:0.9rem;margin-bottom:1.25rem;">Un contrat, c'est un engagement <strong>avec toi-même</strong> sur quelque chose de précis que tu veux travailler. Pas un truc imposé par quelqu'un.</p>
+        <button class="btn btn-purple" onclick="showCreateContractForm()">+ Créer mon premier contrat</button>
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+
+  if (active.length > 0) {
+    html += '<div style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;color:var(--ink-light);text-transform:uppercase;margin-bottom:0.75rem;">Mes contrats actifs</div>';
+    html += active.map(c => renderContractCard(c)).join('');
+  }
+
+  html += `<button class="btn btn-ghost btn-block" onclick="showCreateContractForm()" style="margin-top:1rem;">+ Nouveau contrat</button>`;
+
+  if (archived.length > 0) {
+    html += '<div style="font-size:0.72rem;font-weight:600;letter-spacing:0.08em;color:var(--ink-light);text-transform:uppercase;margin:2rem 0 0.75rem;">Archive</div>';
+    html += archived.map(c => renderContractCard(c, true)).join('');
+  }
+
+  list.innerHTML = html;
+}
+
+function renderContractCard(c, archived) {
+  const todayStatus = getTodayStatus(c);
+  const streakEmoji = c.streak >= 90 ? '👑' : c.streak >= 21 ? '💎' : c.streak >= 7 ? '⚡' : c.streak >= 3 ? '🔥' : '🌱';
+  return `
+    <div class="contract-card ${archived ? 'archived' : ''}">
+      <div class="contract-header">
+        <div class="contract-text">${escapeHtml(c.text)}</div>
+        <div class="contract-source-badge">${c.source === 'mode_emploi' ? '📋 Mode emploi' : '✏️ Perso'}</div>
+      </div>
+
+      <div class="contract-stats">
+        <div class="contract-stat">
+          <span class="contract-stat-num">${streakEmoji} ${c.streak}</span>
+          <span class="contract-stat-label">jour${c.streak > 1 ? 's' : ''} d'affilée</span>
+        </div>
+        <div class="contract-stat">
+          <span class="contract-stat-num">⭐ ${c.longestStreak}</span>
+          <span class="contract-stat-label">record</span>
+        </div>
+        <div class="contract-stat">
+          <span class="contract-stat-num">📅 ${c.checkins.length}</span>
+          <span class="contract-stat-label">check-ins</span>
+        </div>
+      </div>
+
+      ${!archived ? `
+        <div class="contract-checkin">
+          <div class="contract-checkin-label">${todayStatus ? '✓ Déjà checké aujourd\'hui' : 'Aujourd\'hui, tu as tenu ?'}</div>
+          <div class="contract-checkin-buttons">
+            <button class="contract-btn success ${todayStatus === 'success' ? 'active' : ''}" onclick="openCheckinModal('${c.id}', 'success')">😀 Tenu</button>
+            <button class="contract-btn partial ${todayStatus === 'partial' ? 'active' : ''}" onclick="openCheckinModal('${c.id}', 'partial')">🤔 Partiel</button>
+            <button class="contract-btn fail ${todayStatus === 'fail' ? 'active' : ''}" onclick="openCheckinModal('${c.id}', 'fail')">😩 Pas tenu</button>
+          </div>
+        </div>
+
+        <div class="contract-history">${renderHistory(c)}</div>
+
+        <div class="contract-actions">
+          <button class="contract-action" onclick="archiveContract('${c.id}')">📦 Archiver</button>
+          <button class="contract-action danger" onclick="deleteContract('${c.id}')">🗑️ Supprimer</button>
+        </div>
+      ` : `
+        <div class="contract-actions">
+          <button class="contract-action" onclick="unarchiveContract('${c.id}')">↩️ Réactiver</button>
+          <button class="contract-action danger" onclick="deleteContract('${c.id}')">🗑️ Supprimer</button>
+        </div>
+      `}
+    </div>
+  `;
+}
+
+function unarchiveContract(id) {
+  const c = getContract(id);
+  if (!c) return;
+  c.archived = false;
+  saveState();
+  renderContracts();
+  updateHubContracts();
+}
+
+function renderHistory(c) {
+  // 14 derniers jours
+  const days = [];
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const ci = c.checkins.find(x => x.date === key);
+    let cls = 'history-day empty';
+    let title = `${d.getDate()}/${d.getMonth()+1}`;
+    if (ci) {
+      cls = `history-day ${ci.status}`;
+      title += ' · ' + (ci.status === 'success' ? 'Tenu' : ci.status === 'partial' ? 'Partiel' : 'Pas tenu');
+      if (ci.note) title += ' — ' + ci.note;
+    }
+    days.push(`<div class="${cls}" title="${title}"></div>`);
+  }
+  return `<div class="history-row">${days.join('')}</div><div class="history-label">14 derniers jours</div>`;
+}
+
+function openCheckinModal(contractId, defaultStatus) {
+  const c = getContract(contractId);
+  if (!c) return;
+  const todayCi = c.checkins.find(ci => ci.date === todayKey());
+  const currentNote = todayCi?.note || '';
+
+  const modal = document.getElementById('modal-content');
+  modal.innerHTML = `
+    <div class="modal-emoji">${defaultStatus === 'success' ? '😀' : defaultStatus === 'partial' ? '🤔' : '😩'}</div>
+    <div class="modal-label">Check-in du jour</div>
+    <div class="modal-title" style="font-size:1.5rem;">${escapeHtml(c.text)}</div>
+    <div class="modal-desc" style="text-align:left;font-size:0.92rem;">
+      <strong>Tu veux ajouter un mot ?</strong> Pas obligatoire — mais ça t'aide à voir ton propre fonctionnement.<br><br>
+      Exemples : "j'ai craqué quand X m'a parlé", "j'ai pris 5 respirations et ça a marché"…
+    </div>
+    <textarea id="checkin-note" class="me-textarea" placeholder="Optionnel — un mot pour toi-même" rows="3" style="margin-bottom:1rem;">${escapeHtml(currentNote)}</textarea>
+    <div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;">
+      <button class="modal-close" onclick="confirmCheckin('${contractId}', '${defaultStatus}')">Valider</button>
+      <button class="modal-close" onclick="closeModal()" style="background:var(--white);color:var(--ink);border:1px solid var(--line);">Annuler</button>
+    </div>
+  `;
+  document.getElementById('modal-backdrop').classList.add('visible');
+}
+
+function confirmCheckin(contractId, status) {
+  const note = document.getElementById('checkin-note')?.value?.trim() || '';
+  closeModal();
+  setTimeout(() => checkinContract(contractId, status, note), 200);
+}
+
+function showCreateContractForm() {
+  const modal = document.getElementById('modal-content');
+  modal.innerHTML = `
+    <div class="modal-emoji">📜</div>
+    <div class="modal-label">Nouveau contrat</div>
+    <div class="modal-title" style="font-size:1.5rem;">Avec toi-même</div>
+    <div class="modal-desc" style="text-align:left;font-size:0.92rem;">
+      <strong>Sois précis·e</strong>, mesurable, et réaliste.<br><br>
+      ✅ Bon : "Faire 5 respirations avant de répondre quand je suis énervé"<br>
+      ❌ Trop flou : "Être plus calme"
+    </div>
+    <textarea id="new-contract-text" class="me-textarea" placeholder="Ce que tu t'engages à faire ou ne pas faire…" rows="3" style="margin-bottom:1rem;"></textarea>
+    <div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;">
+      <button class="modal-close" onclick="confirmNewContract()">Créer</button>
+      <button class="modal-close" onclick="closeModal()" style="background:var(--white);color:var(--ink);border:1px solid var(--line);">Annuler</button>
+    </div>
+  `;
+  document.getElementById('modal-backdrop').classList.add('visible');
+  setTimeout(() => document.getElementById('new-contract-text')?.focus(), 300);
+}
+
+function confirmNewContract() {
+  const text = document.getElementById('new-contract-text')?.value?.trim();
+  if (!text || text.length < 5) {
+    alert('Sois un peu plus précis·e (au moins 5 caractères).');
+    return;
+  }
+  createContract(text, 'manual');
+  closeModal();
+  setTimeout(() => {
+    renderContracts();
+    updateHubContracts();
+    showToast('Contrat créé · check-in possible chaque jour', 'purple');
+  }, 200);
+}
+
+function updateHubContracts() {
+  const wrapper = document.getElementById('hub-contracts-wrapper');
+  if (!wrapper) return;
+  const active = S.contracts.filter(c => !c.archived);
+  if (active.length === 0) {
+    wrapper.innerHTML = `
+      <button class="contracts-cta" onclick="goContracts()">
+        <span class="contracts-cta-icon">📜</span>
+        <div class="contracts-cta-content">
+          <div class="contracts-cta-title">Mes contrats avec moi-même</div>
+          <div class="contracts-cta-desc">C'est ici que la vraie progression se joue. Engagement, streaks, badges réels.</div>
+        </div>
+        <span class="contracts-cta-arrow">→</span>
+      </button>
+    `;
+    return;
+  }
+
+  // Affichage compact des contrats actifs avec check-in rapide
+  let html = `
+    <div class="contracts-mini-header">
+      <div class="contracts-mini-title">📜 Mes contrats du jour</div>
+      <button class="contracts-mini-link" onclick="goContracts()">Tout voir →</button>
+    </div>
+  `;
+  html += active.slice(0, 3).map(c => {
+    const todayStatus = getTodayStatus(c);
+    const streakEmoji = c.streak >= 90 ? '👑' : c.streak >= 21 ? '💎' : c.streak >= 7 ? '⚡' : c.streak >= 3 ? '🔥' : '🌱';
+    return `
+      <div class="contract-mini">
+        <div class="contract-mini-top">
+          <div class="contract-mini-text">${escapeHtml(c.text)}</div>
+          <div class="contract-mini-streak">${streakEmoji} ${c.streak}j</div>
+        </div>
+        ${todayStatus ? `
+          <div class="contract-mini-done">✓ Aujourd'hui : <strong>${todayStatus === 'success' ? 'Tenu' : todayStatus === 'partial' ? 'Partiel' : 'Pas tenu'}</strong></div>
+        ` : `
+          <div class="contract-mini-buttons">
+            <button class="contract-btn success" onclick="openCheckinModal('${c.id}', 'success')">😀</button>
+            <button class="contract-btn partial" onclick="openCheckinModal('${c.id}', 'partial')">🤔</button>
+            <button class="contract-btn fail" onclick="openCheckinModal('${c.id}', 'fail')">😩</button>
+          </div>
+        `}
+      </div>
+    `;
+  }).join('');
+  wrapper.innerHTML = html;
+}
+
+// ════════════════════════════════════════════════════════════
+// PROFIL D'APPRENTISSAGE V/A/K (voie Me booster)
+// ════════════════════════════════════════════════════════════
+const VAK_QUESTIONS = [
+  // V = Visuel, A = Auditif, K = Kinesthésique
+  { id: 'v1', dim: 'V', text: 'Pour me souvenir d\'un cours, je préfère le relire plusieurs fois ou regarder des schémas.' },
+  { id: 'v2', dim: 'V', text: 'J\'aime surligner avec plein de couleurs, faire des cartes mentales.' },
+  { id: 'v3', dim: 'V', text: 'Je retiens mieux quand je vois une image, une vidéo, un graphique.' },
+  { id: 'v4', dim: 'V', text: 'Quand quelqu\'un me parle, je visualise mentalement ce qu\'il dit.' },
+  { id: 'v5', dim: 'V', text: 'J\'arrive à me souvenir précisément à quel endroit d\'une page une info était écrite.' },
+  { id: 'v6', dim: 'V', text: 'Je préfère lire les consignes plutôt que les entendre.' },
+
+  { id: 'a1', dim: 'A', text: 'Je retiens mieux ce que j\'entends que ce que je lis.' },
+  { id: 'a2', dim: 'A', text: 'J\'aime réciter à voix haute pour apprendre.' },
+  { id: 'a3', dim: 'A', text: 'J\'écoute parfois mes cours en audio, en podcast ou en m\'enregistrant.' },
+  { id: 'a4', dim: 'A', text: 'Je suis sensible à la musique, aux sons, aux voix.' },
+  { id: 'a5', dim: 'A', text: 'Je préfère qu\'on m\'explique de vive voix plutôt que de devoir lire.' },
+  { id: 'a6', dim: 'A', text: 'Je me parle dans ma tête quand j\'apprends ou je résous un problème.' },
+
+  { id: 'k1', dim: 'K', text: 'J\'apprends mieux en bougeant, en marchant, en bricolant.' },
+  { id: 'k2', dim: 'K', text: 'Je dois manipuler les choses pour bien les comprendre.' },
+  { id: 'k3', dim: 'K', text: 'Rester assis longtemps sans bouger, c\'est un calvaire pour apprendre.' },
+  { id: 'k4', dim: 'K', text: 'J\'apprends bien en faisant, en expérimentant, en testant.' },
+  { id: 'k5', dim: 'K', text: 'Je gribouille, je dessine, je touche des objets quand j\'écoute.' },
+  { id: 'k6', dim: 'K', text: 'Mon corps me dit beaucoup de choses sur ce que je ressens.' }
+];
+
+const VAK_DIM_INFO = {
+  V: { emoji: '👁️', name: 'Visuel', color: 'var(--purple)', desc: 'Tu apprends avec tes yeux.' },
+  A: { emoji: '👂', name: 'Auditif', color: 'var(--coral)', desc: 'Tu apprends avec tes oreilles.' },
+  K: { emoji: '✋', name: 'Kinesthésique', color: 'var(--mint)', desc: 'Tu apprends avec ton corps.' }
+};
+
+const VAK_TIPS = {
+  V: [
+    'Réorganise tes cours en cartes mentales (mind maps) avec couleurs et symboles.',
+    'Code-couleur tes matières : ex. rouge pour les définitions, bleu pour les exemples, vert pour les idées-clés.',
+    'Utilise des schémas, des dessins, des frises chronologiques.',
+    'Surligne les mots-clés, fais des fiches avec une mise en page aérée.',
+    'Regarde des vidéos éducatives (YouTube, sites de cours) en complément.',
+    'Imagine mentalement ce que tu lis : transforme les mots en images.'
+  ],
+  A: [
+    'Récite à voix haute, comme si tu expliquais le cours à quelqu\'un.',
+    'Enregistre-toi en train de réciter, ré-écoute en marchant ou avant de dormir.',
+    'Cherche des podcasts ou vidéos audio sur ton sujet.',
+    'Étudie en duo : explique l\'un à l\'autre.',
+    'Mets un fond sonore neutre (musique lo-fi sans paroles) si ça t\'aide à te concentrer.',
+    'Lis les consignes à voix basse pour mieux les intégrer.'
+  ],
+  K: [
+    'Marche pendant que tu révises — apprends en bougeant.',
+    'Fais des cartes recto-verso à manipuler (question d\'un côté, réponse de l\'autre).',
+    'Prends des pauses bouger toutes les 20-25 min (Pomodoro).',
+    'Si tu peux, debout face à un mur avec post-its plutôt qu\'assis devant un cahier.',
+    'Utilise tes mains : modélise, dessine, manipule des objets.',
+    'Apprends en faisant : exercices, expérimentations, applications concrètes.'
+  ]
+};
+
+function goVAK() {
+  showScreen('screen-vak');
+  renderVAK();
+}
+
+function renderVAK() {
+  const container = document.getElementById('vak-questions');
+  if (!container) return;
+  container.innerHTML = VAK_QUESTIONS.map((q, i) => `
+    <div class="diag-question">
+      <div class="diag-q-num">Q${i + 1} / ${VAK_QUESTIONS.length}</div>
+      <div class="diag-q-text">${q.text}</div>
+      <div class="scale-options">
+        ${[1, 2, 3, 4, 5].map(v => `
+          <button class="scale-btn ${S.vak.answers[q.id] === v ? 'selected' : ''}" data-q="${q.id}" data-v="${v}" onclick="answerVAK('${q.id}', ${v})">${v}</button>
+        `).join('')}
+      </div>
+      <div class="scale-labels"><span>Pas du tout</span><span>Totalement</span></div>
+    </div>
+  `).join('');
+  updateVAKProgress();
+}
+
+function answerVAK(qid, v) {
+  S.vak.answers[qid] = v;
+  document.querySelectorAll(`#vak-questions [data-q="${qid}"]`).forEach(btn => {
+    btn.classList.toggle('selected', parseInt(btn.dataset.v) === v);
+  });
+  saveState();
+  updateVAKProgress();
+}
+
+function updateVAKProgress() {
+  const done = Object.keys(S.vak.answers).length;
+  const total = VAK_QUESTIONS.length;
+  const el = document.getElementById('vak-progress');
+  if (el) el.style.width = `${(done / total) * 100}%`;
+  const btn = document.getElementById('vak-submit');
+  if (btn) btn.disabled = done < total;
+}
+
+function finishVAK() {
+  const results = { V: 0, A: 0, K: 0 };
+  ['V','A','K'].forEach(dim => {
+    const qs = VAK_QUESTIONS.filter(q => q.dim === dim);
+    const sum = qs.reduce((acc, q) => acc + (S.vak.answers[q.id] || 0), 0);
+    const max = qs.length * 5;
+    results[dim] = Math.round((sum / max) * 100);
+  });
+  S.vak.results = results;
+  S.vak.completed = true;
+  S.vak.timestamp = new Date().toISOString();
+  saveState();
+  renderVAKResult();
+  showScreen('screen-vak-result');
+}
+
+function renderVAKResult() {
+  const r = S.vak.results;
+  const sorted = ['V','A','K'].sort((a,b) => r[b] - r[a]);
+  const dominant = sorted[0];
+  const secondary = sorted[1];
+
+  const profile = r[dominant] - r[secondary] < 12 ? 'mixte' : 'dominant';
+
+  document.getElementById('vak-result-content').innerHTML = `
+    <div class="vak-result-hero">
+      <div class="vak-result-emoji">${VAK_DIM_INFO[dominant].emoji}</div>
+      <div class="vak-result-label">Ton profil dominant</div>
+      <div class="vak-result-title">${VAK_DIM_INFO[dominant].name}${profile === 'mixte' ? ' + ' + VAK_DIM_INFO[secondary].name : ''}</div>
+      <div class="vak-result-desc">${profile === 'mixte' ? 'Tu as un profil mixte. Tu peux piocher dans plusieurs approches selon le moment.' : VAK_DIM_INFO[dominant].desc}</div>
+    </div>
+
+    <div class="vak-scores">
+      ${['V','A','K'].map(d => {
+        const score = r[d];
+        return `
+          <div class="vak-score">
+            <div class="vak-score-head">
+              <span style="font-size:1.25rem;">${VAK_DIM_INFO[d].emoji}</span>
+              <span class="vak-score-name">${VAK_DIM_INFO[d].name}</span>
+              <span class="vak-score-pct">${score}%</span>
+            </div>
+            <div class="vak-score-bar">
+              <div class="vak-score-fill" style="width:${score}%;background:${VAK_DIM_INFO[d].color};"></div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <div class="vak-tips">
+      <h3 class="vak-tips-title">${VAK_DIM_INFO[dominant].emoji} 6 techniques pour TON profil</h3>
+      <ul class="vak-tips-list">
+        ${VAK_TIPS[dominant].map(t => `<li>${t}</li>`).join('')}
+      </ul>
+    </div>
+
+    ${profile === 'mixte' ? `
+      <div class="vak-tips" style="margin-top:1rem;">
+        <h3 class="vak-tips-title">${VAK_DIM_INFO[secondary].emoji} Aussi pour toi (profil secondaire)</h3>
+        <ul class="vak-tips-list">
+          ${VAK_TIPS[secondary].slice(0,3).map(t => `<li>${t}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+
+    <div class="diag-suggestion">
+      <div class="diag-suggestion-label">🎯 Pour aller plus loin</div>
+      <div class="diag-suggestion-text">Crée un mini-contrat dans "Mes Contrats" : choisis UNE technique de ta liste et engage-toi à la tester sur les 7 prochains jours de révisions.</div>
+    </div>
+  `;
+}
+
+
+function renderPraticienneDashboard() {
+  const lvl = getCurrentLevel();
+
+  document.getElementById('prat-profile').textContent =
+    `Nom : ${S.name || '—'}\nAvatar : ${S.avatar || '—'}\nMode : ${S.mode === 'partage' ? 'Partage' : S.mode === 'prive' ? 'Privé' : '—'}\nOnboardé : ${S.onboarded ? 'Oui' : 'Non'}`;
+
+  const activeContracts = S.contracts.filter(c => !c.archived);
+  document.getElementById('prat-gamification').textContent =
+    `Niveau ${lvl.num} ${lvl.emoji} ${lvl.name}\nXP cumulés : ${S.xp} (issus uniquement de check-ins de contrats)\nBadges débloqués : ${S.badges.length} / ${BADGES.length}\nContrats actifs : ${activeContracts.length}\nTotal check-ins : ${S.totalCheckins || 0}\nMeilleur streak : ${S.highestStreak || 0} jours\nA repris après une chute : ${S.hasRestarted ? 'Oui' : 'Non'}\nNotes personnelles ajoutées : ${S.reflectionCheckins || 0}`;
+
+  if (S.diag.completed) {
+    let diagTxt = `Complété : ${new Date(S.diag.timestamp).toLocaleString('fr-FR')}\n\n`;
+    Object.keys(DIM_INFO).forEach(d => {
+      diagTxt += `${DIM_INFO[d].icon} ${DIM_INFO[d].name} : ${S.diag.results[d]}%\n`;
+    });
+    document.getElementById('prat-diag').textContent = diagTxt;
+  } else {
+    document.getElementById('prat-diag').innerHTML = '<span class="prat-empty">Non complété</span>';
+  }
+
+  // Contrats détaillés
+  const contractsEl = document.getElementById('prat-contracts');
+  if (contractsEl) {
+    if (S.contracts.length === 0) {
+      contractsEl.innerHTML = '<span class="prat-empty">Aucun contrat créé</span>';
+    } else {
+      let ctxt = '';
+      S.contracts.forEach(c => {
+        ctxt += `\n▸ ${c.text} ${c.archived ? '[ARCHIVÉ]' : ''}\n`;
+        ctxt += `   Source : ${c.source === 'mode_emploi' ? 'Mode d\'emploi' : 'Manuel'}\n`;
+        ctxt += `   Créé le : ${new Date(c.createdAt).toLocaleDateString('fr-FR')}\n`;
+        ctxt += `   Streak actuel : ${c.streak} · Record : ${c.longestStreak} · Total : ${c.checkins.length}\n`;
+        // Stats par status
+        const stats = { success: 0, partial: 0, fail: 0 };
+        c.checkins.forEach(ci => stats[ci.status]++);
+        ctxt += `   Détail : ${stats.success} tenus · ${stats.partial} partiels · ${stats.fail} non tenus\n`;
+        // Notes
+        const noted = c.checkins.filter(ci => ci.note);
+        if (noted.length) {
+          ctxt += `   Notes (${noted.length}) :\n`;
+          noted.slice(-5).forEach(ci => {
+            ctxt += `     ${ci.date} (${ci.status}) : ${ci.note}\n`;
+          });
+        }
+      });
+      contractsEl.textContent = ctxt;
+    }
+  }
+
+  // VAK
+  const vakEl = document.getElementById('prat-vak');
+  if (vakEl) {
+    if (S.vak.completed) {
+      let vakTxt = `Complété : ${new Date(S.vak.timestamp).toLocaleString('fr-FR')}\n\n`;
+      Object.keys(VAK_DIM_INFO).forEach(d => {
+        vakTxt += `${VAK_DIM_INFO[d].emoji} ${VAK_DIM_INFO[d].name} : ${S.vak.results[d]}%\n`;
+      });
+      const sorted = ['V','A','K'].sort((a,b) => S.vak.results[b] - S.vak.results[a]);
+      vakTxt += `\nDominant : ${VAK_DIM_INFO[sorted[0]].name}`;
+      vakEl.textContent = vakTxt;
+    } else {
+      vakEl.innerHTML = '<span class="prat-empty">Non complété</span>';
+    }
+  }
+
+  let modeTxt = '';
+  ME_SECTIONS.forEach(section => {
+    let sectionHasContent = false;
+    let sectionTxt = `\n▸ ${section.title}\n`;
+    section.questions.forEach(q => {
+      const key = `${section.id}_${q.id}`;
+      const val = S.modeEmploi.answers[key];
+      if (!val || (Array.isArray(val) && val.length === 0)) return;
+      if (Array.isArray(val) && q.type === 'trio' && !val.some(v => v && v.trim())) return;
+      sectionHasContent = true;
+      sectionTxt += `\n  ${q.label}\n`;
+      if (Array.isArray(val)) {
+        if (q.type === 'trio') {
+          sectionTxt += `    → ${val.filter(v => v && v.trim()).join(' · ')}\n`;
+        } else {
+          val.forEach(v => sectionTxt += `    ☑ ${v}\n`);
+        }
+      } else {
+        sectionTxt += `    → ${val}\n`;
+      }
+    });
+    if (sectionHasContent) modeTxt += sectionTxt;
+  });
+  if (modeTxt.trim()) {
+    document.getElementById('prat-mode').textContent = modeTxt;
+  } else {
+    document.getElementById('prat-mode').innerHTML = '<span class="prat-empty">Pas encore commencé</span>';
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════
+function init() {
+  // Si déjà onboardé, on adapte le bouton cover
+  if (S.onboarded) {
+    document.getElementById('cover-cta-text').textContent = 'Reprendre';
+  }
+  updateNavVisibility();
+}
+init();
+</script>
+
+</body>
+</html>

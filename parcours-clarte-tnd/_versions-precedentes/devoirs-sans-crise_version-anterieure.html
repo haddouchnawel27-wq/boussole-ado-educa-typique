@@ -1,0 +1,3685 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devoirs Sans Crise — Educa Typique</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(180deg, #F7F2EC 0%, #FBF6F0 100%);
+  color: #3A3050;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding-bottom: 90px;
+}
+h1, h2, h3, h4, .heading {
+  font-family: 'Poppins', 'Nunito', sans-serif;
+  font-weight: 700;
+}
+
+/* ============ HEADER ============ */
+.app-header {
+  background: linear-gradient(135deg, #CBB6F6 0%, #BDEAD7 100%);
+  color: #3A3050;
+  padding: 14px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 16px rgba(203, 182, 246, 0.3);
+}
+.header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.header-brand .mascot-mini { width: 42px; height: 42px; flex-shrink: 0; }
+.header-brand .brand-text { line-height: 1.2; }
+.header-brand .brand-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: #3A3050;
+}
+.header-brand .brand-sub {
+  font-size: 11px;
+  color: #7568A0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.sos-btn {
+  background: #F39BC2;
+  color: #FFFFFF;
+  border: none;
+  padding: 11px 20px;
+  border-radius: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(243, 155, 194, 0.45);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sos-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(243, 155, 194, 0.55);
+}
+.sos-btn .sos-pulse {
+  width: 8px;
+  height: 8px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+/* ============ CONTAINER ============ */
+.app-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+/* ============ NAVIGATION INFÉRIEURE ============ */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-top: 2px solid #F8CFE0;
+  padding: 8px 0;
+  z-index: 100;
+  box-shadow: 0 -4px 16px rgba(203, 182, 246, 0.15);
+}
+.bottom-nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+}
+.nav-item {
+  flex: 1;
+  text-align: center;
+  padding: 6px 4px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: #B5A8D5;
+  transition: all 0.2s;
+  font-family: 'Nunito', sans-serif;
+}
+.nav-item.active { color: #7568A0; }
+.nav-item.active .nav-icon { transform: scale(1.15); }
+.nav-item .nav-icon {
+  font-size: 22px;
+  display: block;
+  margin-bottom: 2px;
+  transition: transform 0.2s;
+}
+.nav-item .nav-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* ============ ÉCRANS ============ */
+.screen { display: none; animation: fadeIn 0.35s ease; }
+.screen.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ ONBOARDING ============ */
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #CBB6F6 0%, #8ED9D2 50%, #F8CFE0 100%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.onboarding-card {
+  background: #FFFFFF;
+  border-radius: 28px;
+  padding: 36px 30px;
+  max-width: 460px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(58, 48, 80, 0.25);
+}
+.onboarding-card .mascot-large {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 16px;
+  display: block;
+}
+.onboarding-card h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
+  color: #3A3050;
+  text-align: center;
+  margin-bottom: 6px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.onboarding-card .welcome-by {
+  text-align: center;
+  font-size: 12px;
+  color: #7568A0;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.onboarding-card .welcome-sub {
+  text-align: center;
+  color: #6B5F8A;
+  font-size: 14px;
+  margin-bottom: 28px;
+  font-style: italic;
+}
+.form-group { margin-bottom: 18px; }
+.form-group label {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #7568A0;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 13px 16px;
+  border: 2px solid #F8CFE0;
+  border-radius: 14px;
+  font-size: 15px;
+  font-family: 'Nunito', sans-serif;
+  background: #FBF6F0;
+  transition: border-color 0.2s;
+  color: #3A3050;
+}
+.form-group input:focus, .form-group select:focus {
+  outline: none;
+  border-color: #CBB6F6;
+  background: #FFFFFF;
+}
+.profile-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.profile-chip {
+  padding: 9px 16px;
+  border: 2px solid #F8CFE0;
+  border-radius: 22px;
+  background: #FFFFFF;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #7568A0;
+  font-weight: 600;
+}
+.profile-chip.selected {
+  background: linear-gradient(135deg, #CBB6F6, #BDEAD7);
+  border-color: #CBB6F6;
+  color: #3A3050;
+  font-weight: 700;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #CBB6F6 0%, #8ED9D2 100%);
+  color: #FFFFFF;
+  border: none;
+  padding: 15px 28px;
+  border-radius: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 12px;
+  letter-spacing: 0.3px;
+  transition: all 0.2s;
+  box-shadow: 0 6px 18px rgba(203, 182, 246, 0.4);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(203, 182, 246, 0.55);
+}
+.btn-secondary {
+  background: #FFFFFF;
+  color: #7568A0;
+  border: 2px solid #CBB6F6;
+  padding: 13px 24px;
+  border-radius: 14px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { background: #F7F2EC; }
+
+/* ============ ACCUEIL ============ */
+.greeting-card {
+  background: linear-gradient(135deg, #FFD6C2 0%, #F8CFE0 50%, #CBB6F6 100%);
+  color: #3A3050;
+  padding: 28px 26px;
+  border-radius: 24px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(203, 182, 246, 0.25);
+}
+.greeting-card::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 160px;
+  height: 160px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+}
+.greeting-card::after {
+  content: "";
+  position: absolute;
+  bottom: -60px;
+  left: -60px;
+  width: 180px;
+  height: 180px;
+  background: rgba(189, 234, 215, 0.4);
+  border-radius: 50%;
+}
+.greeting-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 16px; }
+.greeting-card .mascot-greeting {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+.greeting-card .greeting-text { flex: 1; }
+.greeting-card h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 21px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+  color: #3A3050;
+}
+.greeting-card .greeting-msg {
+  font-size: 14px;
+  color: #4A3D6B;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  color: #7568A0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 28px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title::before {
+  content: "";
+  width: 28px;
+  height: 3px;
+  background: linear-gradient(90deg, #F39BC2, #CBB6F6);
+  border-radius: 3px;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+.tool-card {
+  background: #FFFFFF;
+  border: 2px solid #F7F2EC;
+  border-radius: 20px;
+  padding: 20px 18px;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.tool-card:hover {
+  transform: translateY(-4px);
+  border-color: #CBB6F6;
+  box-shadow: 0 12px 28px rgba(203, 182, 246, 0.2);
+}
+.tool-card .tool-num {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: linear-gradient(135deg, #BDEAD7, #8ED9D2);
+  color: #3A3050;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+}
+.tool-card .tool-mascot {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 10px;
+}
+.tool-card .tool-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+  display: block;
+}
+.tool-card .tool-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #3A3050;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.tool-card .tool-desc {
+  font-size: 12px;
+  color: #7568A0;
+  line-height: 1.4;
+}
+.tool-card.with-mascot-neuroo { background: linear-gradient(135deg, #FFFFFF 0%, #DAEFE5 100%); }
+.tool-card.with-mascot-educa { background: linear-gradient(135deg, #FFFFFF 0%, #F2E6FA 100%); }
+.tool-card.with-mascot-noury { background: linear-gradient(135deg, #FFFFFF 0%, #FCE3EE 100%); }
+
+/* ============ QUICK STATS ============ */
+.quick-stats {
+  background: #FFFFFF;
+  border: 2px solid #F7F2EC;
+  border-radius: 20px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  text-align: center;
+}
+.stat-item .stat-value {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #CBB6F6, #F39BC2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+}
+.stat-item .stat-label {
+  font-size: 10px;
+  color: #7568A0;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 700;
+}
+
+/* ============ ASTUCE MASCOTTE ============ */
+.astuce-mascotte {
+  background: linear-gradient(135deg, #BDEAD7 0%, #8ED9D2 100%);
+  border-radius: 18px;
+  padding: 16px 18px 16px 90px;
+  margin: 18px 0;
+  position: relative;
+  font-size: 13px;
+  color: #3A3050;
+  line-height: 1.55;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.astuce-mascotte .astuce-mascot-svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 58px;
+  height: 58px;
+}
+.astuce-mascotte strong {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  color: #3A3050;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+.astuce-mascotte.educa { background: linear-gradient(135deg, #F2E6FA 0%, #CBB6F6 100%); }
+.astuce-mascotte.noury { background: linear-gradient(135deg, #FCE3EE 0%, #F39BC2 100%); color: #FFFFFF; }
+.astuce-mascotte.noury strong { color: #FFFFFF; }
+
+/* ============ ÉCRAN OUTIL ============ */
+.tool-screen {
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 28px 24px;
+  border: 2px solid #F7F2EC;
+  box-shadow: 0 6px 20px rgba(58, 48, 80, 0.05);
+}
+.back-btn {
+  background: transparent;
+  border: none;
+  color: #7568A0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 6px 0;
+  margin-bottom: 14px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+.back-btn:hover { color: #F39BC2; }
+.tool-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+  border-bottom: 3px solid #F7F2EC;
+}
+.tool-header .tool-header-mascot {
+  width: 70px;
+  height: 70px;
+  flex-shrink: 0;
+}
+.tool-header-text { flex: 1; }
+.tool-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #BDEAD7, #8ED9D2);
+  color: #3A3050;
+  font-family: 'Poppins', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.tool-badge.educa { background: linear-gradient(135deg, #F2E6FA, #CBB6F6); }
+.tool-badge.noury { background: linear-gradient(135deg, #FCE3EE, #F39BC2); color: #FFFFFF; }
+.tool-badge.crisis { background: #F39BC2; color: #FFFFFF; }
+.tool-screen h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  color: #3A3050;
+  font-weight: 800;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+  line-height: 1.25;
+}
+.tool-screen .tool-subtitle {
+  font-size: 14px;
+  color: #7568A0;
+  font-style: italic;
+}
+
+.objectif-box {
+  background: linear-gradient(135deg, #F7F2EC 0%, #FCE3EE 100%);
+  border-left: 4px solid #CBB6F6;
+  padding: 14px 18px;
+  border-radius: 0 14px 14px 0;
+  margin: 18px 0;
+  font-size: 14px;
+  color: #4A3D6B;
+}
+.objectif-box strong {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  color: #7568A0;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.tool-screen h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  color: #3A3050;
+  margin: 22px 0 12px;
+  font-weight: 700;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #F8CFE0;
+}
+.tool-screen p { font-size: 14px; margin-bottom: 12px; color: #4A3D6B; }
+.tool-screen ul, .tool-screen ol { margin: 10px 0 14px 20px; }
+.tool-screen li { font-size: 14px; margin-bottom: 6px; color: #4A3D6B; }
+
+/* ============ OUTIL 1 — Cartes révélables ============ */
+.reveal-card {
+  background: #FBF6F0;
+  border: 2px solid #F7F2EC;
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin: 12px 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.reveal-card:hover { border-color: #CBB6F6; background: #FFFFFF; }
+.reveal-card .reveal-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #3A3050;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.reveal-card .reveal-arrow {
+  transition: transform 0.3s;
+  color: #F39BC2;
+  font-size: 18px;
+  font-weight: 700;
+}
+.reveal-card.open .reveal-arrow { transform: rotate(90deg); }
+.reveal-card .reveal-content {
+  display: none;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #F8CFE0;
+  font-size: 13px;
+  color: #4A3D6B;
+}
+.reveal-card.open .reveal-content { display: block; }
+
+/* ============ OUTIL 2 — Checklist ============ */
+.checklist-item {
+  background: #FBF6F0;
+  border: 2px solid #F7F2EC;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.checklist-item:hover { border-color: #BDEAD7; }
+.checklist-item.checked {
+  background: #FCE3EE;
+  border-color: #F39BC2;
+}
+.checklist-checkbox {
+  width: 26px;
+  height: 26px;
+  border-radius: 9px;
+  border: 2px solid #CBB6F6;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  transition: all 0.2s;
+  font-weight: 700;
+  color: #FFFFFF;
+  font-size: 15px;
+}
+.checklist-item.checked .checklist-checkbox {
+  background: #F39BC2;
+  border-color: #F39BC2;
+}
+.checklist-item.checked .checklist-checkbox::after { content: "✓"; }
+.checklist-label {
+  font-size: 14px;
+  color: #3A3050;
+  line-height: 1.4;
+  flex: 1;
+  font-weight: 500;
+}
+.checklist-comment {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid #F8CFE0;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  background: #FFFFFF;
+  resize: vertical;
+  min-height: 36px;
+  display: none;
+  color: #3A3050;
+}
+.checklist-item.checked .checklist-comment { display: block; }
+
+.analyse-box {
+  background: linear-gradient(135deg, #BDEAD7 0%, #8ED9D2 100%);
+  border-radius: 18px;
+  padding: 18px 20px 18px 90px;
+  margin-top: 20px;
+  position: relative;
+  min-height: 90px;
+}
+.analyse-box .analyse-mascot {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+}
+.analyse-box h4 {
+  font-family: 'Poppins', sans-serif;
+  color: #3A3050;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.analyse-box p { font-size: 13px; color: #2C3E36; margin: 0; }
+
+/* ============ OUTIL 3 — Routine ============ */
+.routine-step {
+  background: #FBF6F0;
+  border-left: 5px solid #CBB6F6;
+  border-radius: 0 16px 16px 0;
+  padding: 18px 20px;
+  margin: 14px 0;
+  transition: all 0.25s;
+}
+.routine-step.active {
+  background: #FCE3EE;
+  border-left-color: #F39BC2;
+  box-shadow: 0 6px 18px rgba(243, 155, 194, 0.15);
+}
+.routine-step.done {
+  background: #DAEFE5;
+  border-left-color: #8ED9D2;
+  opacity: 0.9;
+}
+.step-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.step-num {
+  background: #CBB6F6;
+  color: #FFFFFF;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.routine-step.active .step-num { background: #F39BC2; }
+.routine-step.done .step-num { background: #8ED9D2; color: #3A3050; }
+.step-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #3A3050;
+  flex: 1;
+}
+.step-duration {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  color: #7568A0;
+  background: #FFFFFF;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-weight: 700;
+}
+.step-content { font-size: 13px; color: #4A3D6B; }
+.step-content ul { margin: 8px 0 10px 18px; }
+.step-content li { margin-bottom: 4px; color: #4A3D6B; }
+.step-phrase {
+  background: #FFFFFF;
+  border-left: 4px solid #F39BC2;
+  padding: 12px 14px;
+  margin: 10px 0;
+  border-radius: 0 10px 10px 0;
+  font-style: italic;
+  font-size: 13px;
+  color: #4A3D6B;
+}
+.step-phrase::before {
+  content: "💬 ";
+  font-style: normal;
+}
+.step-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.step-btn {
+  background: #FFFFFF;
+  border: 2px solid #CBB6F6;
+  color: #7568A0;
+  padding: 8px 16px;
+  border-radius: 22px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.step-btn:hover { background: #CBB6F6; color: #FFFFFF; }
+.step-btn.done-btn { border-color: #8ED9D2; color: #4A8A82; }
+.step-btn.done-btn:hover { background: #8ED9D2; color: #3A3050; }
+
+.timer-box {
+  background: linear-gradient(135deg, #CBB6F6 0%, #F39BC2 100%);
+  color: #FFFFFF;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 16px 0;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(203, 182, 246, 0.3);
+}
+.timer-display {
+  font-family: 'Poppins', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1px;
+  margin: 6px 0 12px;
+}
+.timer-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.timer-btn {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #FFFFFF;
+  padding: 9px 16px;
+  border-radius: 22px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.timer-btn:hover { background: rgba(255,255,255,0.3); }
+.timer-btn.primary {
+  background: #FFFFFF;
+  color: #F39BC2;
+  border-color: #FFFFFF;
+}
+
+/* ============ OUTIL 4 — Carte enfant Neuroo ============ */
+.kid-card {
+  background: linear-gradient(135deg, #BDEAD7 0%, #8ED9D2 100%);
+  border-radius: 24px;
+  padding: 26px 22px;
+  border: 3px dashed #4A8A82;
+  margin: 18px 0;
+}
+.kid-card .kid-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.kid-card .kid-mascot {
+  width: 70px;
+  height: 70px;
+  flex-shrink: 0;
+}
+.kid-card .kid-greeting {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #2C3E36;
+  line-height: 1.2;
+}
+.kid-card .kid-greeting span {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4A8A82;
+  margin-top: 2px;
+  font-style: italic;
+}
+.kid-option {
+  background: #FFFFFF;
+  border: 2px solid #BDEAD7;
+  border-radius: 16px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #3A3050;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.kid-option:hover {
+  background: #FCE3EE;
+  border-color: #F39BC2;
+  transform: scale(1.02);
+}
+.kid-option .kid-emoji { font-size: 26px; }
+.kid-option.selected {
+  background: #F39BC2;
+  color: #FFFFFF;
+  border-color: #F39BC2;
+}
+.kid-message {
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 18px;
+  margin-top: 16px;
+  border: 2px solid #FFD6C2;
+  display: none;
+}
+.kid-message.show { display: block; animation: fadeIn 0.4s; }
+.kid-message .msg-block {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 0;
+}
+.kid-message .msg-block + .msg-block {
+  border-top: 1px dashed #FFD6C2;
+  margin-top: 6px;
+  padding-top: 14px;
+}
+.kid-message .msg-mascot {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+.kid-message .msg-content { flex: 1; }
+.kid-message .msg-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 10px;
+  color: #7568A0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.kid-message .msg-text {
+  font-size: 14px;
+  color: #3A3050;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ============ OUTIL 5 — Phrases parent ============ */
+.situation-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+}
+.situation-btn {
+  background: #FFFFFF;
+  border: 2px solid #F7F2EC;
+  padding: 14px;
+  border-radius: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4A3D6B;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  line-height: 1.3;
+}
+.situation-btn:hover { border-color: #CBB6F6; }
+.situation-btn.active {
+  background: linear-gradient(135deg, #CBB6F6, #BDEAD7);
+  color: #3A3050;
+  border-color: #CBB6F6;
+}
+.phrase-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+.phrase-col { border-radius: 16px; padding: 14px; }
+.phrase-col.avoid {
+  background: #FCE3EE;
+  border: 2px solid #F8CFE0;
+}
+.phrase-col.prefer {
+  background: #DAEFE5;
+  border: 2px solid #BDEAD7;
+}
+.phrase-col h4 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.phrase-col.avoid h4 { color: #B85A8A; }
+.phrase-col.prefer h4 { color: #4A8A82; }
+.phrase-col p {
+  font-size: 13px;
+  font-style: italic;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  background: #FFFFFF;
+  border-radius: 10px;
+  line-height: 1.4;
+}
+.phrase-col.avoid p { color: #8B4060; }
+.phrase-col.prefer p { color: #2C5048; }
+
+@media (max-width: 600px) {
+  .phrase-comparison, .situation-selector { grid-template-columns: 1fr; }
+}
+
+/* ============ OUTIL 6 — Plan anti-crise ============ */
+.crisis-screen {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FCE3EE 100%);
+}
+.crisis-step {
+  background: #FFFFFF;
+  border-left: 5px solid #F39BC2;
+  border-radius: 0 16px 16px 0;
+  padding: 18px 20px;
+  margin: 14px 0;
+  box-shadow: 0 6px 16px rgba(243, 155, 194, 0.1);
+  transition: all 0.25s;
+}
+.crisis-step.current {
+  background: #FCE3EE;
+  border-left-width: 6px;
+  transform: scale(1.01);
+}
+.crisis-step h4 {
+  font-family: 'Poppins', sans-serif;
+  color: #C9379E;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.crisis-phrase {
+  background: linear-gradient(135deg, #CBB6F6, #8ED9D2);
+  color: #FFFFFF;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-style: italic;
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+.crisis-next {
+  background: #F39BC2;
+  color: #FFFFFF;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(243, 155, 194, 0.4);
+}
+.crisis-next:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(243, 155, 194, 0.5); }
+
+/* ============ OUTIL 7 — Suivi (Noury) ============ */
+.day-card {
+  background: #FFFFFF;
+  border: 2px solid #F7F2EC;
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+}
+.day-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.day-name {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #3A3050;
+  font-size: 15px;
+}
+.day-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.day-field label {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #7568A0;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.day-field input, .day-field select, .day-field textarea {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid #F8CFE0;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  background: #FBF6F0;
+  color: #3A3050;
+}
+.day-field.full { grid-column: 1 / -1; }
+.tension-pills {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+.tension-pill {
+  flex: 1;
+  padding: 9px 0;
+  border-radius: 10px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.15s;
+}
+.tension-pill[data-val="0"] { background: #BDEAD7; color: #2C5048; }
+.tension-pill[data-val="1"] { background: #DAEFE5; color: #4A6850; }
+.tension-pill[data-val="2"] { background: #FFD6C2; color: #8B5A40; }
+.tension-pill[data-val="3"] { background: #F8CFE0; color: #8B4060; }
+.tension-pill[data-val="4"] { background: #F39BC2; color: #FFFFFF; }
+.tension-pill[data-val="5"] { background: #CBB6F6; color: #FFFFFF; }
+.tension-pill.selected { border-color: #7568A0; transform: scale(1.12); }
+
+.chart-container {
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 18px;
+  margin: 18px 0;
+  border: 2px solid #F7F2EC;
+}
+.chart-container h4 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  color: #7568A0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+.chart-svg { width: 100%; height: 180px; }
+
+/* ============ BILAN ============ */
+.bilan-card {
+  background: linear-gradient(135deg, #CBB6F6 0%, #F39BC2 100%);
+  color: #FFFFFF;
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 18px;
+}
+.bilan-card h3 {
+  font-family: 'Poppins', sans-serif;
+  color: #FFFFFF;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+  font-size: 16px;
+}
+.bilan-card p { font-size: 14px; opacity: 0.95; margin-bottom: 10px; color: #FFFFFF; }
+.bilan-card .bilan-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  font-size: 14px;
+}
+.bilan-card .bilan-stat:last-child { border-bottom: none; }
+.bilan-card .bilan-stat strong {
+  font-family: 'Poppins', sans-serif;
+  color: #FBF6F0;
+}
+
+.victory-badge {
+  background: linear-gradient(135deg, #FFD6C2 0%, #F8CFE0 100%);
+  color: #3A3050;
+  padding: 14px 18px 14px 50px;
+  border-radius: 14px;
+  margin: 10px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  position: relative;
+  font-weight: 500;
+}
+.victory-badge::before {
+  content: "🌟";
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+}
+
+/* ============ PROFIL ============ */
+.profile-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 2px solid #F7F2EC;
+}
+.profile-card .avatar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.profile-card .avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #CBB6F6, #BDEAD7, #FFD6C2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-bottom: 14px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.profile-card .profile-name {
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: #3A3050;
+  margin-bottom: 4px;
+}
+.profile-card .profile-info {
+  text-align: center;
+  font-size: 13px;
+  color: #7568A0;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+.profile-chips-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.profile-chips-display span {
+  background: #F7F2EC;
+  color: #7568A0;
+  padding: 5px 13px;
+  border-radius: 14px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.mascot-trio {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  background: linear-gradient(135deg, #F7F2EC 0%, #FCE3EE 100%);
+  padding: 20px;
+  border-radius: 18px;
+  margin: 14px 0;
+}
+.mascot-trio .trio-item { text-align: center; }
+.mascot-trio .trio-svg { width: 70px; height: 70px; }
+.mascot-trio .trio-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #3A3050;
+  margin-top: 4px;
+}
+.mascot-trio .trio-role {
+  font-size: 10px;
+  color: #7568A0;
+}
+
+/* ============ FOOTER ============ */
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 11px;
+  color: #7568A0;
+  border-top: 2px solid #F8CFE0;
+  margin-top: 30px;
+  line-height: 1.6;
+}
+.app-footer .footer-brand {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  background: linear-gradient(135deg, #CBB6F6, #F39BC2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+
+/* ============ MODAL ============ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(58, 48, 80, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.show { display: flex; animation: fadeIn 0.25s; }
+.modal-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 30px 26px;
+  max-width: 440px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  text-align: center;
+}
+.modal-card .modal-mascot {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 14px;
+}
+.modal-card h3 {
+  font-family: 'Poppins', sans-serif;
+  color: #3A3050;
+  font-size: 19px;
+  margin-bottom: 12px;
+  border: none;
+  padding: 0;
+}
+.modal-card p { font-size: 14px; margin-bottom: 12px; color: #4A3D6B; }
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.modal-actions button { flex: 1; }
+
+/* ============ RESPIRER (BREATHING) ============ */
+.breath-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, #E8F4F0 0%, #F4EBFA 50%, #FCE3EE 100%);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.breath-overlay.show { display: flex; animation: fadeIn 0.35s ease-out; }
+.breath-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: rgba(255,255,255,0.85);
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 16px;
+  color: #7568A0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  z-index: 5;
+}
+.breath-close:hover { background: #FFFFFF; }
+.breath-choice {
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 24px;
+  padding: 28px 24px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(80, 60, 130, 0.12);
+}
+.breath-choice h2 {
+  font-family: 'Poppins', sans-serif;
+  color: #3A3050;
+  font-size: 22px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.breath-choice .subtitle {
+  font-size: 14px;
+  color: #7568A0;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+.breath-section-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #8678AE;
+  font-weight: 700;
+  margin: 20px 0 10px;
+  text-align: left;
+}
+.breath-mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.breath-mode-btn {
+  background: #F7F2EC;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  padding: 14px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.breath-mode-btn:hover { background: #F0E8DC; }
+.breath-mode-btn.selected {
+  background: #FFFFFF;
+  border-color: #8ED9D2;
+  box-shadow: 0 4px 14px rgba(142, 217, 210, 0.3);
+}
+.breath-mode-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 6px;
+}
+.breath-mode-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  color: #3A3050;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.breath-mode-desc {
+  font-size: 11px;
+  color: #8678AE;
+  line-height: 1.35;
+}
+.breath-duration-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.breath-duration-btn {
+  flex: 1;
+  background: #F7F2EC;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 12px 6px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  color: #3A3050;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+.breath-duration-btn:hover { background: #F0E8DC; }
+.breath-duration-btn.selected {
+  background: #FFFFFF;
+  border-color: #CBB6F6;
+  color: #6B4FAA;
+  box-shadow: 0 4px 14px rgba(203, 182, 246, 0.3);
+}
+.breath-sound-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin: 10px 0 16px;
+}
+.breath-sound-btn {
+  background: #F7F2EC;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 10px 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+.breath-sound-btn:hover { background: #F0E8DC; }
+.breath-sound-btn.selected {
+  background: #FFFFFF;
+  border-color: #8ED9D2;
+  box-shadow: 0 3px 10px rgba(142, 217, 210, 0.25);
+}
+.breath-sound-btn .sound-icon {
+  font-size: 22px;
+  display: block;
+  margin-bottom: 4px;
+}
+.breath-sound-btn .sound-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 10px;
+  color: #3A3050;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+.breath-start-btn {
+  background: linear-gradient(135deg, #8ED9D2, #A8E0DA);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 28px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 18px rgba(142, 217, 210, 0.4);
+  margin-top: 4px;
+  transition: all 0.2s;
+}
+.breath-start-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(142, 217, 210, 0.5); }
+.breath-active {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 440px;
+}
+.breath-active.show { display: flex; }
+.breath-instruction {
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  color: #3A3050;
+  font-weight: 300;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+  text-align: center;
+  min-height: 42px;
+}
+.breath-visual-container {
+  width: 280px;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+.breath-visual {
+  width: 100%;
+  height: 100%;
+  transform: scale(0.42);
+  transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  filter: drop-shadow(0 6px 18px rgba(142, 217, 210, 0.25));
+}
+.breath-visual.inhale-parent { transform: scale(1.18); transition: transform 4s cubic-bezier(0.34, 0.05, 0.4, 1); }
+.breath-visual.exhale-parent { transform: scale(0.42); transition: transform 6s cubic-bezier(0.5, 0, 0.55, 1); }
+.breath-visual.inhale-kid { transform: scale(1.25); transition: transform 5s cubic-bezier(0.34, 0.05, 0.4, 1); }
+.breath-visual.exhale-kid { transform: scale(0.4); transition: transform 5s cubic-bezier(0.5, 0, 0.55, 1); }
+.breath-counter {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  color: #7568A0;
+  font-weight: 600;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+.breath-stop-btn {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1.5px solid #D0C5E8;
+  color: #7568A0;
+  border-radius: 10px;
+  padding: 9px 20px;
+  font-size: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+.breath-stop-btn:hover { background: #FFFFFF; }
+.breath-end {
+  display: none;
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 24px;
+  padding: 32px 26px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(80, 60, 130, 0.12);
+}
+.breath-end.show { display: block; animation: fadeIn 0.4s; }
+.breath-end .end-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+.breath-end h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  color: #3A3050;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+.breath-end p {
+  font-size: 14px;
+  color: #7568A0;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+.breath-home-card {
+  background: linear-gradient(135deg, #E8F4F0, #DEEBF1);
+  border-radius: 20px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1.5px solid rgba(142, 217, 210, 0.3);
+}
+.breath-home-card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(142, 217, 210, 0.2); }
+.breath-home-icon {
+  width: 48px;
+  height: 48px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(142, 217, 210, 0.25);
+}
+.breath-home-text { flex: 1; }
+.breath-home-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #2D5A55;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.breath-home-sub {
+  font-size: 12px;
+  color: #5A8580;
+  line-height: 1.4;
+}
+.breath-home-arrow {
+  color: #5A8580;
+  font-size: 18px;
+  font-weight: 700;
+}
+.btn-breath-crisis {
+  background: linear-gradient(135deg, #8ED9D2, #A8E0DA);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  padding: 11px 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 14px rgba(142, 217, 210, 0.35);
+  margin-top: 10px;
+  margin-right: 8px;
+}
+.btn-breath-crisis:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(142, 217, 210, 0.45); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 600px) {
+  .app-container { padding: 16px 14px 30px; }
+  .greeting-card { padding: 22px 18px; }
+  .greeting-content { flex-direction: column; text-align: center; gap: 10px; }
+  .greeting-card h2 { font-size: 18px; }
+  .tool-screen { padding: 22px 18px; }
+  .tool-header { flex-direction: column; gap: 10px; }
+  .tool-header .tool-header-mascot { width: 56px; height: 56px; }
+  .tool-screen h1 { font-size: 20px; }
+  .quick-stats { gap: 6px; }
+  .stat-item .stat-value { font-size: 20px; }
+  .header-brand .brand-title { font-size: 14px; }
+  .header-brand .brand-sub { font-size: 9px; }
+  .sos-btn { padding: 9px 14px; font-size: 11px; }
+  .day-fields { grid-template-columns: 1fr; }
+  .breath-instruction { font-size: 26px; }
+  .breath-visual-container { width: 240px; height: 240px; }
+  .breath-choice { padding: 24px 18px; }
+}
+</style>
+</head>
+<body>
+<!-- Bouton "← Boîte parents" retiré pour la version en ligne (menait vers ../../parents.html, absent du site Netlify = écran blanc). À réactiver avec le vrai lien en ligne si besoin. -->
+
+<!-- ============ SVG MASCOTTES — DÉFINITIONS RÉUTILISABLES ============ -->
+<svg width="0" height="0" style="position:absolute;">
+  <defs>
+    <!-- ===== NEUROO — cerveau menthe, énergique, enfant ===== -->
+    <symbol id="m-neuroo" viewBox="0 0 120 120">
+      <ellipse cx="60" cy="110" rx="32" ry="3" fill="rgba(74,138,130,0.15)"/>
+      <!-- Corps cerveau menthe -->
+      <path d="M32 58 Q26 38 46 30 Q56 22 60 30 Q64 22 74 30 Q94 38 88 58 Q96 68 88 80 Q78 94 60 92 Q42 94 32 80 Q24 68 32 58 Z"
+            fill="#BDEAD7" stroke="#4A8A82" stroke-width="2.5"/>
+      <!-- Sillons cerveau -->
+      <path d="M60 30 Q58 50 60 70 Q62 85 60 92" stroke="#7BC2B5" stroke-width="1.6" fill="none"/>
+      <path d="M42 42 Q47 47 44 52 M50 52 Q55 57 52 62 M70 52 Q75 57 72 62 M78 42 Q73 47 76 52"
+            stroke="#7BC2B5" stroke-width="1.4" fill="none"/>
+      <!-- Joues -->
+      <ellipse cx="42" cy="68" rx="4" ry="3" fill="#F8CFE0" opacity="0.75"/>
+      <ellipse cx="78" cy="68" rx="4" ry="3" fill="#F8CFE0" opacity="0.75"/>
+      <!-- Yeux -->
+      <circle cx="48" cy="58" r="7" fill="#FFFFFF" stroke="#3A3050" stroke-width="1.5"/>
+      <circle cx="72" cy="58" r="7" fill="#FFFFFF" stroke="#3A3050" stroke-width="1.5"/>
+      <circle cx="48" cy="59" r="3.5" fill="#3A3050"/>
+      <circle cx="72" cy="59" r="3.5" fill="#3A3050"/>
+      <circle cx="49.5" cy="57.5" r="1.2" fill="#FFFFFF"/>
+      <circle cx="73.5" cy="57.5" r="1.2" fill="#FFFFFF"/>
+      <!-- Bouche souriante -->
+      <path d="M53 72 Q60 78 67 72" stroke="#3A3050" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Crayon mignon -->
+      <g transform="translate(20, 60) rotate(-20)">
+        <rect x="0" y="0" width="6" height="22" fill="#F39BC2" rx="1"/>
+        <polygon points="0,22 6,22 3,28" fill="#3A3050"/>
+        <rect x="0" y="-3" width="6" height="3" fill="#CBB6F6"/>
+      </g>
+      <!-- Étincelles -->
+      <path d="M92 32 L95 29 M95 32 L92 29" stroke="#F39BC2" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="100" cy="48" r="2" fill="#CBB6F6"/>
+      <circle cx="22" cy="36" r="1.5" fill="#F39BC2"/>
+    </symbol>
+
+    <!-- ===== EDUCA — cerveau pêche, lunettes, nœud lavande, mature ===== -->
+    <symbol id="m-educa" viewBox="0 0 100 100">
+      <defs>
+        <radialGradient id="grad-e" cx="32%" cy="28%">
+          <stop offset="0%" stop-color="#F8F0FC"/>
+          <stop offset="60%" stop-color="#CBB6F6"/>
+          <stop offset="100%" stop-color="#9B82D9"/>
+        </radialGradient>
+      </defs>
+      <circle cx="50" cy="50" r="46" fill="url(#grad-e)" stroke="#7568A0" stroke-width="2.5"/>
+      <text x="50" y="62" text-anchor="middle" font-family="Poppins, sans-serif" font-size="32" font-weight="800" fill="#FFFFFF" letter-spacing="-1">Ed</text>
+      <text x="50" y="80" text-anchor="middle" font-family="Poppins, sans-serif" font-size="9" font-weight="700" fill="#FFFFFF" letter-spacing="2" opacity="0.85">EDUCA</text>
+    </symbol>
+
+    <!-- ===== NOURY — cerveau rose, nœud rose, sac à dos, studieuse ===== -->
+    <symbol id="m-noury" viewBox="0 0 100 100">
+      <defs>
+        <radialGradient id="grad-no" cx="32%" cy="28%">
+          <stop offset="0%" stop-color="#FFF0F7"/>
+          <stop offset="60%" stop-color="#F8CFE0"/>
+          <stop offset="100%" stop-color="#E599BE"/>
+        </radialGradient>
+      </defs>
+      <circle cx="50" cy="50" r="46" fill="url(#grad-no)" stroke="#B85A8A" stroke-width="2.5"/>
+      <text x="50" y="62" text-anchor="middle" font-family="Poppins, sans-serif" font-size="32" font-weight="800" fill="#FFFFFF" letter-spacing="-1">No</text>
+      <text x="50" y="80" text-anchor="middle" font-family="Poppins, sans-serif" font-size="9" font-weight="700" fill="#FFFFFF" letter-spacing="2" opacity="0.85">NOURY</text>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ ONBOARDING ============ -->
+<div class="onboarding-overlay" id="onboarding">
+  <div class="onboarding-card">
+    <svg class="mascot-large"><use href="#m-educa"/></svg>
+    <h1>Bienvenue !</h1>
+    <p class="welcome-by">Educa, Neuroo & Noury</p>
+    <p class="welcome-sub">Nous allons accompagner ton enfant et toi dans le moment des devoirs.</p>
+
+    <div class="form-group">
+      <label>Le prénom de ton enfant</label>
+      <input type="text" id="onb-name" placeholder="Ex. Léa, Sami..." maxlength="20">
+    </div>
+
+    <div class="form-group">
+      <label>Son âge</label>
+      <select id="onb-age">
+        <option value="">Choisis l'âge</option>
+        <option value="6">6 ans</option>
+        <option value="7">7 ans</option>
+        <option value="8">8 ans</option>
+        <option value="9">9 ans</option>
+        <option value="10">10 ans</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Ce qui le caractérise (plusieurs choix possibles)</label>
+      <div class="profile-chips" id="onb-profile">
+        <div class="profile-chip" data-profile="bouge">Besoin de bouger</div>
+        <div class="profile-chip" data-profile="distrait">Facilement distrait</div>
+        <div class="profile-chip" data-profile="frustre">Vite frustré</div>
+        <div class="profile-chip" data-profile="lent">Lent à démarrer</div>
+        <div class="profile-chip" data-profile="peur">Peur de se tromper</div>
+        <div class="profile-chip" data-profile="fatigue">Très fatigué après l'école</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="finishOnboarding()">Commencer l'aventure ✨</button>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="app-header">
+  <div class="header-inner">
+    <div class="header-brand" onclick="showScreen('home')">
+      <svg class="mascot-mini"><use href="#m-educa"/></svg>
+      <div class="brand-text">
+        <div class="brand-title">Devoirs Sans Crise</div>
+        <div class="brand-sub">Educa Typique</div>
+      </div>
+    </div>
+    <button class="sos-btn" onclick="showScreen('tool6')">
+      <span class="sos-pulse"></span>
+      SOS Crise
+    </button>
+  </div>
+</header>
+
+<div class="app-container">
+
+  <!-- ============ ACCUEIL ============ -->
+  <section class="screen active" id="screen-home">
+    <div class="greeting-card">
+      <div class="greeting-content">
+        <svg class="mascot-greeting"><use href="#m-educa"/></svg>
+        <div class="greeting-text">
+          <h2 id="greeting-title">Bonjour !</h2>
+          <p class="greeting-msg" id="greeting-msg">Prêt·e pour un moment de devoirs plus apaisé ?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-stats" id="quick-stats">
+      <div class="stat-item">
+        <span class="stat-value" id="stat-days">0</span>
+        <span class="stat-label">Jours suivis</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="stat-tension">—</span>
+        <span class="stat-label">Tension moy.</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="stat-victories">0</span>
+        <span class="stat-label">Victoires</span>
+      </div>
+    </div>
+
+    <div class="astuce-mascotte educa">
+      <svg class="astuce-mascot-svg"><use href="#m-educa"/></svg>
+      <strong>Astuce d'Educa</strong>
+      <span id="astuce-text">Mieux vaut 20 minutes cadrées qu'1h30 de tension. Choisis un seul objectif par jour, observe, ajuste.</span>
+    </div>
+
+    <div class="breath-home-card" onclick="openBreath()">
+      <div class="breath-home-icon">💨</div>
+      <div class="breath-home-text">
+        <div class="breath-home-title">Respirer un instant</div>
+        <div class="breath-home-sub">Seule ou avec ton enfant · 1, 3 ou 5 min</div>
+      </div>
+      <div class="breath-home-arrow">›</div>
+    </div>
+
+    <div class="section-title">La boîte à outils</div>
+    <div class="tools-grid">
+      <div class="tool-card with-mascot-educa" onclick="showScreen('tool1')">
+        <span class="tool-num">1</span>
+        <svg class="tool-mascot"><use href="#m-educa"/></svg>
+        <div class="tool-name">Comprendre les blocages</div>
+        <div class="tool-desc">Pourquoi mon enfant explose, refuse ou fuit ?</div>
+      </div>
+      <div class="tool-card with-mascot-educa" onclick="showScreen('tool2')">
+        <span class="tool-num">2</span>
+        <svg class="tool-mascot"><use href="#m-educa"/></svg>
+        <div class="tool-name">Identifier les déclencheurs</div>
+        <div class="tool-desc">Observer avant de corriger.</div>
+      </div>
+      <div class="tool-card with-mascot-educa" onclick="showScreen('tool3')">
+        <span class="tool-num">3</span>
+        <svg class="tool-mascot"><use href="#m-educa"/></svg>
+        <div class="tool-name">Routine en 5 étapes</div>
+        <div class="tool-desc">Un cadre court, prévisible et répétable.</div>
+      </div>
+      <div class="tool-card with-mascot-neuroo" onclick="showScreen('tool4')">
+        <span class="tool-num">4</span>
+        <svg class="tool-mascot"><use href="#m-neuroo"/></svg>
+        <div class="tool-name">Mon cerveau bloque</div>
+        <div class="tool-desc">Carte enfant pour exprimer le blocage.</div>
+      </div>
+      <div class="tool-card with-mascot-educa" onclick="showScreen('tool5')">
+        <span class="tool-num">5</span>
+        <svg class="tool-mascot"><use href="#m-educa"/></svg>
+        <div class="tool-name">Phrases parent</div>
+        <div class="tool-desc">Communiquer sans envenimer.</div>
+      </div>
+      <div class="tool-card with-mascot-educa" onclick="showScreen('tool6')">
+        <span class="tool-num">6</span>
+        <svg class="tool-mascot"><use href="#m-educa"/></svg>
+        <div class="tool-name">Plan anti-crise</div>
+        <div class="tool-desc">Quand le cerveau passe en alarme.</div>
+      </div>
+      <div class="tool-card with-mascot-noury" onclick="showScreen('tool7')">
+        <span class="tool-num">7</span>
+        <svg class="tool-mascot"><use href="#m-noury"/></svg>
+        <div class="tool-name">Suivi 7 jours</div>
+        <div class="tool-desc">Noury observe les progrès avec toi.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUTIL 1 — COMPRENDRE ============ -->
+  <section class="screen" id="screen-tool1">
+    <button class="back-btn" onclick="showScreen('home')">← Retour</button>
+    <div class="tool-screen">
+      <div class="tool-header">
+        <svg class="tool-header-mascot"><use href="#m-educa"/></svg>
+        <div class="tool-header-text">
+          <span class="tool-badge educa">Educa · Comprendre</span>
+          <h1>Comprendre les blocages</h1>
+          <p class="tool-subtitle">Pourquoi mon enfant explose, refuse ou fuit ?</p>
+        </div>
+      </div>
+
+      <div class="objectif-box">
+        <strong>Objectif</strong>
+        Comprendre ce qui se passe derrière les refus, les crises, l'agitation ou la lenteur extrême pendant les devoirs.
+      </div>
+
+      <h3>👀 Ce que le parent voit</h3>
+      <div class="reveal-card" onclick="this.classList.toggle('open')">
+        <div class="reveal-title">
+          Refus, cris, agitation, lenteur extrême
+          <span class="reveal-arrow">▸</span>
+        </div>
+        <div class="reveal-content">
+          L'enfant refuse de commencer, jette le crayon, fuit la table, provoque ou se met « en pause » sans bouger. Tu interprètes peut-être ça comme de la mauvaise volonté. Mais souvent, c'est autre chose.
+        </div>
+      </div>
+
+      <h3>🧠 Ce qui se passe en réalité</h3>
+      <div class="reveal-card" onclick="this.classList.toggle('open')">
+        <div class="reveal-title">Fatigue cognitive<span class="reveal-arrow">▸</span></div>
+        <div class="reveal-content">L'école a déjà épuisé les fonctions exécutives. Le cerveau de ton enfant est en surcharge avant même de commencer.</div>
+      </div>
+      <div class="reveal-card" onclick="this.classList.toggle('open')">
+        <div class="reveal-title">Difficulté à démarrer<span class="reveal-arrow">▸</span></div>
+        <div class="reveal-content">L'étape la plus coûteuse pour un cerveau TDAH, c'est le lancement. Il ne sait pas par quoi commencer, comment découper, par où entrer dans la tâche.</div>
+      </div>
+      <div class="reveal-card" onclick="this.classList.toggle('open')">
+        <div class="reveal-title">Peur de l'échec<span class="reveal-arrow">▸</span></div>
+        <div class="reveal-content">Avant même d'essayer, il anticipe la difficulté. Son cerveau confond difficulté et danger. Il préfère ne pas commencer plutôt que de se tromper.</div>
+      </div>
+      <div class="reveal-card" onclick="this.classList.toggle('open')">
+        <div class="reveal-title">Besoin de mouvement<span class="reveal-arrow">▸</span></div>
+        <div class="reveal-content">Son cerveau a besoin de bouger pour penser. L'immobilité forcée augmente l'agitation, pas l'inverse.</div>
+      </div>
+      <div class="reveal-card" onclick="this.classList.toggle('open')">
+        <div class="reveal-title">Consigne mal comprise<span class="reveal-arrow">▸</span></div>
+        <div class="reveal-content">Il refuse parce qu'il ne sait pas ce qu'on lui demande, mais il n'arrive pas à le formuler.</div>
+      </div>
+
+      <h3>❌ Ce qu'il faut arrêter de croire</h3>
+      <ul>
+        <li>« Il fait exprès. »</li>
+        <li>« Il est paresseux. »</li>
+        <li>« Il me manipule. »</li>
+        <li>« Il doit juste faire un effort. »</li>
+      </ul>
+
+      <h3>✅ Ce qu'on fait à la place</h3>
+      <ul>
+        <li>On fractionne la tâche en très petites étapes.</li>
+        <li>On réduit la quantité visible.</li>
+        <li>On guide le démarrage.</li>
+        <li>On prévoit des pauses courtes et cadrées.</li>
+        <li>On garde un cadre clair, sans le durcir.</li>
+      </ul>
+
+      <div class="astuce-mascotte educa">
+        <svg class="astuce-mascot-svg"><use href="#m-educa"/></svg>
+        <strong>Phrase-clé d'Educa</strong>
+        On ne supprime pas l'exigence. On la rend accessible.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUTIL 2 — DÉCLENCHEURS ============ -->
+  <section class="screen" id="screen-tool2">
+    <button class="back-btn" onclick="showScreen('home')">← Retour</button>
+    <div class="tool-screen">
+      <div class="tool-header">
+        <svg class="tool-header-mascot"><use href="#m-educa"/></svg>
+        <div class="tool-header-text">
+          <span class="tool-badge educa">Educa · Observer</span>
+          <h1>Identifier les déclencheurs</h1>
+          <p class="tool-subtitle">Observer avant de corriger.</p>
+        </div>
+      </div>
+
+      <div class="objectif-box">
+        <strong>Objectif</strong>
+        Repérer ce qui déclenche ou aggrave les tensions pendant les devoirs. Coche après la séance, pas pendant.
+      </div>
+
+      <div id="declencheurs-list"></div>
+
+      <div class="analyse-box" id="analyse-box" style="display:none;">
+        <svg class="analyse-mascot"><use href="#m-educa"/></svg>
+        <h4>Analyse personnalisée d'Educa</h4>
+        <p id="analyse-text"></p>
+      </div>
+
+      <button class="btn-primary" style="margin-top:18px;" onclick="saveDeclencheurs()">Enregistrer l'observation</button>
+    </div>
+  </section>
+
+  <!-- ============ OUTIL 3 — ROUTINE ============ -->
+  <section class="screen" id="screen-tool3">
+    <button class="back-btn" onclick="showScreen('home')">← Retour</button>
+    <div class="tool-screen">
+      <div class="tool-header">
+        <svg class="tool-header-mascot"><use href="#m-educa"/></svg>
+        <div class="tool-header-text">
+          <span class="tool-badge educa">Educa · Routine</span>
+          <h1>La routine en 5 étapes</h1>
+          <p class="tool-subtitle">Un cadre court, prévisible et répétable.</p>
+        </div>
+      </div>
+
+      <div class="objectif-box">
+        <strong>Objectif</strong>
+        Installer un déroulé simple pour éviter que les devoirs deviennent un combat quotidien. Active une étape pour commencer.
+      </div>
+
+      <div class="timer-box" id="timer-box">
+        <div style="font-family:'Poppins',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;opacity:0.9;">⏱ Minuteur</div>
+        <div class="timer-display" id="timer-display">00:00</div>
+        <div class="timer-controls">
+          <button class="timer-btn" onclick="setTimer(5)">5 min</button>
+          <button class="timer-btn" onclick="setTimer(10)">10 min</button>
+          <button class="timer-btn" onclick="setTimer(15)">15 min</button>
+          <button class="timer-btn primary" id="timer-toggle" onclick="toggleTimer()">▶ Démarrer</button>
+          <button class="timer-btn" onclick="resetTimer()">↻</button>
+        </div>
+      </div>
+
+      <div class="routine-step" data-step="1">
+        <div class="step-head">
+          <div class="step-num">1</div>
+          <div class="step-title">Décompression</div>
+          <div class="step-duration">15-30 min</div>
+        </div>
+        <div class="step-content">
+          <p>Avant les devoirs, prévoir un temps pour sortir du mode « école ».</p>
+          <ul>
+            <li>Goûter, boire, aller aux toilettes</li>
+            <li>Bouger, se poser, respirer</li>
+            <li>Éviter les écrans si la reprise devient impossible</li>
+          </ul>
+          <div class="step-phrase">« Tu as un temps pour souffler, puis on commence ensemble. »</div>
+          <div class="step-actions">
+            <button class="step-btn" onclick="activateStep(1)">Activer cette étape</button>
+            <button class="step-btn done-btn" onclick="markStepDone(1)">✓ Terminée</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="routine-step" data-step="2">
+        <div class="step-head">
+          <div class="step-num">2</div>
+          <div class="step-title">Préparation</div>
+          <div class="step-duration">3-5 min</div>
+        </div>
+        <div class="step-content">
+          <p>On prépare l'environnement <em>avant</em> de demander à l'enfant de travailler.</p>
+          <ul>
+            <li>Sortir uniquement le matériel nécessaire</li>
+            <li>Enlever les distractions</li>
+            <li>Poser un minuteur visible</li>
+            <li>Choisir ensemble par quoi commencer</li>
+          </ul>
+          <div class="step-phrase">« On ne commence pas tout. On choisit la première petite étape. »</div>
+          <div class="step-actions">
+            <button class="step-btn" onclick="activateStep(2)">Activer cette étape</button>
+            <button class="step-btn done-btn" onclick="markStepDone(2)">✓ Terminée</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="routine-step" data-step="3">
+        <div class="step-head">
+          <div class="step-num">3</div>
+          <div class="step-title">Micro-tâche</div>
+          <div class="step-duration">5-10 min</div>
+        </div>
+        <div class="step-content">
+          <p>L'enfant commence par une tâche très courte.</p>
+          <ul>
+            <li>Lire la consigne à voix haute</li>
+            <li>Écrire la date</li>
+            <li>Faire un seul exercice</li>
+            <li>Apprendre 3 mots, lire 5 lignes</li>
+          </ul>
+          <div class="step-phrase">« Ton objectif n'est pas de finir tout de suite. Ton objectif est de commencer. »</div>
+          <div class="step-actions">
+            <button class="step-btn" onclick="activateStep(3)">Activer cette étape</button>
+            <button class="step-btn done-btn" onclick="markStepDone(3)">✓ Terminée</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="routine-step" data-step="4">
+        <div class="step-head">
+          <div class="step-num">4</div>
+          <div class="step-title">Pause courte</div>
+          <div class="step-duration">2-3 min</div>
+        </div>
+        <div class="step-content">
+          <p>La pause doit être prévue, courte et cadrée.</p>
+          <ul>
+            <li>Mouvement, étirements</li>
+            <li>Boire un verre d'eau, respirer</li>
+            <li>Marcher dans la pièce</li>
+          </ul>
+          <div class="step-phrase">« Pause courte, puis on reprend la suite. »</div>
+          <div class="step-actions">
+            <button class="step-btn" onclick="activateStep(4)">Activer cette étape</button>
+            <button class="step-btn done-btn" onclick="markStepDone(4)">✓ Terminée</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="routine-step" data-step="5">
+        <div class="step-head">
+          <div class="step-num">5</div>
+          <div class="step-title">Validation et rangement</div>
+          <div class="step-duration">3-5 min</div>
+        </div>
+        <div class="step-content">
+          <p>On termine proprement, même si tout n'est pas parfait.</p>
+          <ul>
+            <li>Valoriser l'effort réel</li>
+            <li>Noter ce qui reste à faire</li>
+            <li>Ranger le matériel, préparer le cartable</li>
+            <li>Clôturer le moment devoirs explicitement</li>
+          </ul>
+          <div class="step-phrase">« Ce n'était pas parfait, mais tu as commencé, repris et terminé. C'est ça qu'on construit. »</div>
+          <div class="step-actions">
+            <button class="step-btn" onclick="activateStep(5)">Activer cette étape</button>
+            <button class="step-btn done-btn" onclick="markStepDone(5)">✓ Terminée</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="astuce-mascotte educa">
+        <svg class="astuce-mascot-svg"><use href="#m-educa"/></svg>
+        <strong>Rappel d'Educa</strong>
+        Mieux vaut 20 minutes cadrées qu'1h30 de tension.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUTIL 4 — CARTE ENFANT (NEUROO) ============ -->
+  <section class="screen" id="screen-tool4">
+    <button class="back-btn" onclick="showScreen('home')">← Retour</button>
+    <div class="tool-screen">
+      <div class="tool-header">
+        <svg class="tool-header-mascot"><use href="#m-neuroo"/></svg>
+        <div class="tool-header-text">
+          <span class="tool-badge">Neuroo · Carte enfant</span>
+          <h1>« Mon cerveau bloque »</h1>
+          <p class="tool-subtitle">Pour que ton enfant exprime ce qui bloque, avant que ça explose.</p>
+        </div>
+      </div>
+
+      <div class="objectif-box">
+        <strong>Mode d'emploi pour le parent</strong>
+        Passe le téléphone ou la tablette à ton enfant. Neuroo lui parle, il appuie sur ce qu'il ressent, et tu sauras quoi faire.
+      </div>
+
+      <div class="kid-card">
+        <div class="kid-header">
+          <svg class="kid-mascot"><use href="#m-neuroo"/></svg>
+          <div class="kid-greeting">
+            Salut, c'est Neuroo !
+            <span>Tape sur ce que tu ressens 👇</span>
+          </div>
+        </div>
+
+        <div class="kid-option" onclick="selectKidOption(this, 'start')">
+          <span class="kid-emoji">🤔</span>
+          Je ne sais pas par quoi commencer
+        </div>
+        <div class="kid-option" onclick="selectKidOption(this, 'consigne')">
+          <span class="kid-emoji">❓</span>
+          Je n'ai pas compris la consigne
+        </div>
+        <div class="kid-option" onclick="selectKidOption(this, 'long')">
+          <span class="kid-emoji">📚</span>
+          C'est trop long pour moi
+        </div>
+        <div class="kid-option" onclick="selectKidOption(this, 'peur')">
+          <span class="kid-emoji">😟</span>
+          J'ai peur de me tromper
+        </div>
+        <div class="kid-option" onclick="selectKidOption(this, 'nul')">
+          <span class="kid-emoji">😞</span>
+          Je me sens nul / nulle
+        </div>
+        <div class="kid-option" onclick="selectKidOption(this, 'fatigue')">
+          <span class="kid-emoji">😴</span>
+          Mon cerveau est fatigué
+        </div>
+        <div class="kid-option" onclick="selectKidOption(this, 'bouger')">
+          <span class="kid-emoji">🏃</span>
+          J'ai besoin de bouger
+        </div>
+        <div class="kid-option" onclick="selectKidOption(this, 'bruit')">
+          <span class="kid-emoji">🔊</span>
+          Il y a trop de bruit
+        </div>
+        <div class="kid-option" onclick="selectKidOption(this, 'enerve')">
+          <span class="kid-emoji">😤</span>
+          Je m'énerve parce que j'y arrive pas
+        </div>
+        <div class="kid-option" onclick="selectKidOption(this, 'pause')">
+          <span class="kid-emoji">⏸️</span>
+          J'ai besoin d'une pause
+        </div>
+
+        <div class="kid-message" id="kid-message">
+          <div class="msg-block">
+            <svg class="msg-mascot"><use href="#m-neuroo"/></svg>
+            <div class="msg-content">
+              <div class="msg-label">Neuroo te dit</div>
+              <div class="msg-text" id="kid-msg-text"></div>
+            </div>
+          </div>
+          <div class="msg-block">
+            <svg class="msg-mascot"><use href="#m-educa"/></svg>
+            <div class="msg-content">
+              <div class="msg-label">Educa souffle au parent</div>
+              <div class="msg-text" id="parent-msg-text"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUTIL 5 — PHRASES PARENT ============ -->
+  <section class="screen" id="screen-tool5">
+    <button class="back-btn" onclick="showScreen('home')">← Retour</button>
+    <div class="tool-screen">
+      <div class="tool-header">
+        <svg class="tool-header-mascot"><use href="#m-educa"/></svg>
+        <div class="tool-header-text">
+          <span class="tool-badge educa">Educa · Communiquer</span>
+          <h1>Phrases parent</h1>
+          <p class="tool-subtitle">Phrases à éviter, phrases à privilégier.</p>
+        </div>
+      </div>
+
+      <div class="objectif-box">
+        <strong>Comment ça marche</strong>
+        Choisis la situation. Educa te donne les phrases qui aident, et celles qui aggravent.
+      </div>
+
+      <div class="situation-selector">
+        <button class="situation-btn active" onclick="showPhrases('refuse', this)">L'enfant refuse de commencer</button>
+        <button class="situation-btn" onclick="showPhrases('enerve', this)">L'enfant s'énerve</button>
+        <button class="situation-btn" onclick="showPhrases('nul', this)">L'enfant dit « je suis nul »</button>
+        <button class="situation-btn" onclick="showPhrases('parent', this)">Je perds patience</button>
+      </div>
+
+      <div id="phrases-content"></div>
+
+      <div class="astuce-mascotte educa">
+        <svg class="astuce-mascot-svg"><use href="#m-educa"/></svg>
+        <strong>Phrase-clé d'Educa</strong>
+        Parler plus fort ne rend pas le cerveau plus disponible. Le parent n'a pas besoin d'être parfait. Il doit pouvoir réparer.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUTIL 6 — PLAN ANTI-CRISE ============ -->
+  <section class="screen" id="screen-tool6">
+    <button class="back-btn" onclick="showScreen('home')">← Retour</button>
+    <div class="tool-screen crisis-screen">
+      <div class="tool-header">
+        <svg class="tool-header-mascot"><use href="#m-educa"/></svg>
+        <div class="tool-header-text">
+          <span class="tool-badge crisis">🆘 Mode crise</span>
+          <h1>Plan anti-crise</h1>
+          <p class="tool-subtitle">Quand le cerveau passe en alarme. Educa te guide étape par étape.</p>
+        </div>
+      </div>
+
+      <div class="objectif-box" style="background:linear-gradient(135deg,#FCE3EE,#F8CFE0);border-left-color:#F39BC2;">
+        <strong style="color:#C9379E;">Respire d'abord</strong>
+        Tu es au bon endroit. Suis les étapes une à une. Le but n'est pas de finir les devoirs maintenant, mais de faire redescendre la tension.
+      </div>
+
+      <div class="crisis-step current" data-crisis="1">
+        <h4>1 · Stopper temporairement</h4>
+        <div class="crisis-phrase">« Là, ton cerveau est en alarme. On arrête deux minutes pour redescendre. »</div>
+        <p style="font-size:13px;"><strong>⚠ Important :</strong> on arrête temporairement, on n'abandonne pas automatiquement.</p>
+        <button class="crisis-next" onclick="nextCrisisStep(1)">Étape suivante ➝</button>
+      </div>
+
+      <div class="crisis-step" data-crisis="2" style="display:none;">
+        <h4>2 · Réduire les stimulations</h4>
+        <ul style="margin-left:18px;font-size:13px;">
+          <li>Parler moins, baisser le ton</li>
+          <li>Enlever le cahier quelques minutes</li>
+          <li>Éloigner les frères et sœurs si possible</li>
+          <li>Proposer un endroit calme</li>
+          <li>Éviter les grandes explications</li>
+        </ul>
+        <div class="crisis-phrase">« Je parle moins. On laisse ton corps redescendre. »</div>
+        <button class="crisis-next" onclick="nextCrisisStep(2)">Étape suivante ➝</button>
+      </div>
+
+      <div class="crisis-step" data-crisis="3" style="display:none;">
+        <h4>3 · Sécuriser le cadre</h4>
+        <div class="crisis-phrase">« Tu as le droit d'être en colère. Tu n'as pas le droit de crier sur moi, d'insulter ou de jeter les affaires. »</div>
+        <p style="font-size:13px;">S'il y a agressivité ou danger : priorité à la sécurité, pas aux devoirs.</p>
+        <button class="crisis-next" onclick="nextCrisisStep(3)">Étape suivante ➝</button>
+      </div>
+
+      <div class="crisis-step" data-crisis="4" style="display:none;">
+        <h4>4 · Retour au calme</h4>
+        <p style="font-size:13px;margin-bottom:8px;">Propose-lui une stratégie simple :</p>
+        <ul style="margin-left:18px;font-size:13px;">
+          <li>Boire un verre d'eau</li>
+          <li>Respirer lentement (4s inspirer, 6s expirer)</li>
+          <li>Marcher deux minutes</li>
+          <li>Serrer un coussin</li>
+          <li>S'asseoir dans un endroit calme</li>
+        </ul>
+        <div class="crisis-phrase">« On attend que ton corps redescende. Après, on reprend très petit. »</div>
+        <button class="btn-breath-crisis" onclick="openBreath()">💨 Respirer maintenant</button>
+        <button class="crisis-next" onclick="nextCrisisStep(4)">Étape suivante ➝</button>
+      </div>
+
+      <div class="crisis-step" data-crisis="5" style="display:none;">
+        <h4>5 · Reprise réduite</h4>
+        <p style="font-size:13px;">Quand l'enfant est disponible, reprends avec une tâche minuscule :</p>
+        <ul style="margin-left:18px;font-size:13px;">
+          <li>Lire seulement la consigne</li>
+          <li>Écrire la date</li>
+          <li>Faire un seul exercice</li>
+          <li>Apprendre 3 mots</li>
+          <li>Ranger le cahier avec une action claire</li>
+        </ul>
+        <div class="crisis-phrase">« On ne reprend pas tout. On reprend une petite marche. »</div>
+        <button class="crisis-next" onclick="nextCrisisStep(5)">Étape suivante ➝</button>
+      </div>
+
+      <div class="crisis-step" data-crisis="6" style="display:none;">
+        <h4>6 · Réparation après la crise</h4>
+        <p style="font-size:13px;">À faire <strong>après</strong>, pas pendant. Questions utiles :</p>
+        <ul style="margin-left:18px;font-size:13px;">
+          <li>Qu'est-ce qui a déclenché la crise ?</li>
+          <li>Qu'est-ce qui t'a aidé à redescendre ?</li>
+          <li>Qu'est-ce qu'on peut faire plus tôt la prochaine fois ?</li>
+          <li>Quelle petite réparation est nécessaire ?</li>
+        </ul>
+        <div class="crisis-phrase">« On ne va pas refaire le match pendant une heure. On comprend, on répare, on ajuste. »</div>
+        <button class="btn-primary" style="margin-top:10px;" onclick="finishCrisis()">J'ai géré la crise ✓</button>
+      </div>
+
+      <button class="btn-secondary" style="margin-top:20px;width:100%;" onclick="resetCrisis()">↻ Recommencer le protocole</button>
+    </div>
+  </section>
+
+  <!-- ============ OUTIL 7 — SUIVI (NOURY) ============ -->
+  <section class="screen" id="screen-tool7">
+    <button class="back-btn" onclick="showScreen('home')">← Retour</button>
+    <div class="tool-screen">
+      <div class="tool-header">
+        <svg class="tool-header-mascot"><use href="#m-noury"/></svg>
+        <div class="tool-header-text">
+          <span class="tool-badge noury">Noury · Suivi</span>
+          <h1>Suivi 7 jours</h1>
+          <p class="tool-subtitle">Noury prend les notes pour observer les progrès semaine après semaine.</p>
+        </div>
+      </div>
+
+      <div class="objectif-box">
+        <strong>Mode d'emploi</strong>
+        Chaque jour, 3 minutes après les devoirs. Tu cliques sur la tension, tu notes ce qui a aidé, ce qui a bloqué. Noury garde tout en mémoire.
+      </div>
+
+      <div class="chart-container">
+        <h4>📈 Courbe de tension de la semaine</h4>
+        <svg class="chart-svg" id="tension-chart" viewBox="0 0 700 180"></svg>
+      </div>
+
+      <div id="suivi-days"></div>
+
+      <button class="btn-primary" style="margin-top:16px;" onclick="saveSuivi()">Enregistrer la semaine</button>
+      <button class="btn-secondary" style="margin-top:10px;width:100%;" onclick="newWeek()">↻ Nouvelle semaine</button>
+
+      <div id="bilan-section"></div>
+    </div>
+  </section>
+
+  <!-- ============ PROGRÈS ============ -->
+  <section class="screen" id="screen-progress">
+    <div class="greeting-card">
+      <div class="greeting-content">
+        <svg class="mascot-greeting"><use href="#m-noury"/></svg>
+        <div class="greeting-text">
+          <h2>Tes progrès 🌱</h2>
+          <p class="greeting-msg">Chaque petit pas compte. Noury a tout noté.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-stats">
+      <div class="stat-item">
+        <span class="stat-value" id="prog-days">0</span>
+        <span class="stat-label">Jours suivis</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="prog-tension">—</span>
+        <span class="stat-label">Tension moy.</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="prog-crises">0</span>
+        <span class="stat-label">Crises gérées</span>
+      </div>
+    </div>
+
+    <div class="bilan-card">
+      <h3>🎯 Bilan global</h3>
+      <div id="bilan-global"></div>
+    </div>
+
+    <div class="section-title">Les déclencheurs les plus fréquents</div>
+    <div id="top-triggers"></div>
+
+    <div class="section-title">Victoires de la semaine</div>
+    <div id="victories-list"></div>
+  </section>
+
+  <!-- ============ PROFIL ============ -->
+  <section class="screen" id="screen-profile">
+    <div class="profile-card">
+      <div class="avatar-wrap">
+        <div class="avatar" id="profile-avatar">N</div>
+      </div>
+      <div class="profile-name" id="profile-name">—</div>
+      <div class="profile-info" id="profile-info">—</div>
+      <div class="profile-chips-display" id="profile-chips"></div>
+      <button class="btn-secondary" style="width:100%;" onclick="editProfile()">Modifier le profil</button>
+    </div>
+
+    <div class="profile-card">
+      <h3 style="font-family:'Poppins',sans-serif;font-size:14px;color:#3A3050;font-weight:700;margin-bottom:14px;">👋 Tes 3 compagnons</h3>
+      <div class="mascot-trio">
+        <div class="trio-item">
+          <svg class="trio-svg"><use href="#m-neuroo"/></svg>
+          <div class="trio-name">Neuroo</div>
+          <div class="trio-role">Compagnon enfant</div>
+        </div>
+        <div class="trio-item">
+          <svg class="trio-svg"><use href="#m-educa"/></svg>
+          <div class="trio-name">Educa</div>
+          <div class="trio-role">Guide parent</div>
+        </div>
+        <div class="trio-item">
+          <svg class="trio-svg"><use href="#m-noury"/></svg>
+          <div class="trio-name">Noury</div>
+          <div class="trio-role">Suivi & progrès</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <h3 style="font-family:'Poppins',sans-serif;font-size:14px;color:#3A3050;font-weight:700;margin-bottom:10px;">✨ Tes vraies mascottes 3D</h3>
+      <p style="font-size:13px;color:#7568A0;line-height:1.6;margin-bottom:16px;">Uploade tes 3 illustrations Neuro-Éduca. Elles remplaceront automatiquement les versions par défaut dans toute l'app.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <label style="cursor:pointer;text-align:center;display:block;">
+          <input type="file" accept="image/*" onchange="uploadMascot(event, 'neuroo')" style="display:none;">
+          <div id="upload-prev-neuroo" style="width:100%;aspect-ratio:1/1;background:#F7F2EC;border:2px dashed #CBB6F6;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:32px;color:#CBB6F6;font-weight:300;margin-bottom:6px;">+</div>
+          <div style="font-family:'Poppins',sans-serif;font-size:11px;color:#3A3050;font-weight:700;">Neuroo 🌿</div>
+        </label>
+        <label style="cursor:pointer;text-align:center;display:block;">
+          <input type="file" accept="image/*" onchange="uploadMascot(event, 'educa')" style="display:none;">
+          <div id="upload-prev-educa" style="width:100%;aspect-ratio:1/1;background:#F7F2EC;border:2px dashed #CBB6F6;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:32px;color:#CBB6F6;font-weight:300;margin-bottom:6px;">+</div>
+          <div style="font-family:'Poppins',sans-serif;font-size:11px;color:#3A3050;font-weight:700;">Educa 💜</div>
+        </label>
+        <label style="cursor:pointer;text-align:center;display:block;">
+          <input type="file" accept="image/*" onchange="uploadMascot(event, 'noury')" style="display:none;">
+          <div id="upload-prev-noury" style="width:100%;aspect-ratio:1/1;background:#F7F2EC;border:2px dashed #CBB6F6;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:32px;color:#CBB6F6;font-weight:300;margin-bottom:6px;">+</div>
+          <div style="font-family:'Poppins',sans-serif;font-size:11px;color:#3A3050;font-weight:700;">Noury 🌸</div>
+        </label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:8px;">
+        <button onclick="removeMascot('neuroo')" style="background:transparent;border:none;color:#B85A8A;font-family:'Nunito',sans-serif;font-size:10px;font-weight:600;cursor:pointer;text-decoration:underline;">retirer</button>
+        <button onclick="removeMascot('educa')" style="background:transparent;border:none;color:#B85A8A;font-family:'Nunito',sans-serif;font-size:10px;font-weight:600;cursor:pointer;text-decoration:underline;">retirer</button>
+        <button onclick="removeMascot('noury')" style="background:transparent;border:none;color:#B85A8A;font-family:'Nunito',sans-serif;font-size:10px;font-weight:600;cursor:pointer;text-decoration:underline;">retirer</button>
+      </div>
+      <p style="font-size:11px;color:#B5A8D5;line-height:1.5;margin-top:14px;font-style:italic;">💡 Format PNG transparent recommandé. Les images sont stockées localement sur ton appareil.</p>
+    </div>
+
+    <div class="profile-card">
+      <h3 style="font-family:'Poppins',sans-serif;font-size:14px;color:#3A3050;font-weight:700;margin-bottom:12px;">📚 Parcours Clarté TND</h3>
+      <p style="font-size:13px;color:#7568A0;line-height:1.6;">Cette application fait partie de la méthode <strong>Neuro-Éduca</strong> conçue par Nawel Haddouch.</p>
+      <p style="font-size:13px;color:#7568A0;line-height:1.6;margin-top:8px;">Pour aller plus loin : <strong>Parcours Clarté TND</strong> — 4 semaines pour décoder, apaiser, accompagner et structurer.</p>
+      <!-- Bouton "Découvrir le parcours" retiré pour la version en ligne (menait vers ../../parcours_clarte_tnd.html, absent du site = écran blanc). Donne-moi le vrai lien en ligne de Parcours Clarté TND et je le rebranche proprement. -->
+    </div>
+
+    <div class="profile-card">
+      <h3 style="font-family:'Poppins',sans-serif;font-size:14px;color:#3A3050;font-weight:700;margin-bottom:12px;">⚙️ Données</h3>
+      <p style="font-size:13px;color:#7568A0;line-height:1.6;">Toutes tes données restent sur ton appareil. Elles ne sont jamais envoyées sur internet.</p>
+      <button class="btn-secondary" style="width:100%;margin-top:12px;color:#B85A8A;border-color:#F8CFE0;" onclick="resetAllData()">Tout réinitialiser</button>
+    </div>
+
+    <div class="app-footer">
+      <div class="footer-brand">Educa Typique</div>
+      <div>Conçu par Nawel Haddouch · Conseillère spécialisée TND</div>
+      <!-- ======================================================================= -->
+      <!-- 👇 NAWEL : À CHAQUE FOIS que tu modifies ce fichier, change juste la     -->
+      <!--    date ci-dessous (jour/mois/année). C'est ton repère : tu compares     -->
+      <!--    cette date avec celle affichée sur ton lien en ligne. Si elles        -->
+      <!--    diffèrent → il faut re-déposer le fichier sur Netlify.                -->
+      <!-- ======================================================================= -->
+      <div id="app-version" style="margin-top:10px;font-weight:700;color:#7568A0;">📌 Version de cette page : 29/05/2026</div>
+      <div style="margin-top:8px;">© 2026 · Tous droits réservés</div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ NAVIGATION INFÉRIEURE ============ -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button class="nav-item active" data-screen="home" onclick="showScreen('home')">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Accueil</span>
+    </button>
+    <button class="nav-item" data-screen="tool3" onclick="showScreen('tool3')">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label">Routine</span>
+    </button>
+    <button class="nav-item" data-screen="tool7" onclick="showScreen('tool7')">
+      <span class="nav-icon">📊</span>
+      <span class="nav-label">Suivi</span>
+    </button>
+    <button class="nav-item" data-screen="progress" onclick="showScreen('progress')">
+      <span class="nav-icon">🌱</span>
+      <span class="nav-label">Progrès</span>
+    </button>
+    <button class="nav-item" data-screen="profile" onclick="showScreen('profile')">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Profil</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============ MODAL ============ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-card">
+    <svg class="modal-mascot" id="modal-mascot-svg"><use href="#m-educa"/></svg>
+    <h3 id="modal-title">Titre</h3>
+    <p id="modal-body">Contenu</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()" id="modal-cancel">Annuler</button>
+      <button class="btn-primary" onclick="confirmModal()" id="modal-confirm">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ BREATHING OVERLAY (RESPIRER) ============ -->
+<div class="breath-overlay" id="breath-overlay">
+  <button class="breath-close" onclick="closeBreath()" aria-label="Fermer">✕</button>
+
+  <!-- ÉCRAN DE CHOIX -->
+  <div class="breath-choice" id="breath-choice">
+    <h2>💨 Respirer</h2>
+    <p class="subtitle">Pour faire redescendre la tension, seule ou avec ton enfant. Quelques minutes suffisent.</p>
+
+    <div class="breath-section-label">Mode</div>
+    <div class="breath-mode-grid">
+      <div class="breath-mode-btn selected" data-mode="parent" onclick="selectBreathMode('parent')">
+        <span class="breath-mode-icon">🌸</span>
+        <div class="breath-mode-name">Moi d'abord</div>
+        <div class="breath-mode-desc">Parent seul · cohérence cardiaque</div>
+      </div>
+      <div class="breath-mode-btn" data-mode="kid" onclick="selectBreathMode('kid')">
+        <span class="breath-mode-icon">🫧</span>
+        <div class="breath-mode-name">Avec mon enfant</div>
+        <div class="breath-mode-desc">Co-régulation à deux</div>
+      </div>
+    </div>
+
+    <div class="breath-section-label">Durée</div>
+    <div class="breath-duration-row">
+      <button class="breath-duration-btn" data-duration="1" onclick="selectBreathDuration(1)">1 min</button>
+      <button class="breath-duration-btn selected" data-duration="3" onclick="selectBreathDuration(3)">3 min</button>
+      <button class="breath-duration-btn" data-duration="5" onclick="selectBreathDuration(5)">5 min</button>
+    </div>
+
+    <div class="breath-section-label">Ambiance sonore</div>
+    <div class="breath-sound-grid">
+      <div class="breath-sound-btn" data-sound="silence" onclick="selectBreathSound('silence')">
+        <span class="sound-icon">🔇</span>
+        <span class="sound-name">Silence</span>
+      </div>
+      <div class="breath-sound-btn selected" data-sound="bell" onclick="selectBreathSound('bell')">
+        <span class="sound-icon">🔔</span>
+        <span class="sound-name">Cloche</span>
+      </div>
+      <div class="breath-sound-btn" data-sound="water" onclick="selectBreathSound('water')">
+        <span class="sound-icon">💧</span>
+        <span class="sound-name">Eau</span>
+      </div>
+      <div class="breath-sound-btn" data-sound="bird" onclick="selectBreathSound('bird')">
+        <span class="sound-icon">🐦</span>
+        <span class="sound-name">Oiseau</span>
+      </div>
+    </div>
+
+    <button class="breath-start-btn" onclick="startBreath()">Commencer ▶</button>
+  </div>
+
+  <!-- ÉCRAN ACTIF -->
+  <div class="breath-active" id="breath-active">
+    <div class="breath-instruction" id="breath-instruction">Prépare-toi…</div>
+    <div class="breath-visual-container">
+      <svg class="breath-visual" id="breath-visual" viewBox="0 0 200 200"></svg>
+    </div>
+    <div class="breath-counter" id="breath-counter">— / —</div>
+    <button class="breath-stop-btn" onclick="stopBreathSession()">Arrêter</button>
+  </div>
+
+  <!-- ÉCRAN DE FIN -->
+  <div class="breath-end" id="breath-end">
+    <div class="end-icon">🌿</div>
+    <h3>Bravo, c'est fait</h3>
+    <p id="breath-end-msg">Ton système nerveux a pu redescendre. Tu peux reprendre quand tu te sens prête, à ton rythme.</p>
+    <button class="breath-start-btn" onclick="closeBreath()">Continuer ✓</button>
+  </div>
+</div>
+
+<script>
+// ====== ÉTAT APPLICATIF ======
+const state = {
+  profile: null,
+  routine: { activeStep: null, doneSteps: [] },
+  timer: { seconds: 0, running: false, interval: null, totalSet: 0 },
+  declencheurs: {},
+  declencheursHistory: [],
+  suivi: { current: {} },
+  suiviHistory: [],
+  crisesGered: 0,
+  crisisStep: 1,
+  victories: []
+};
+
+// ====== STORAGE (compatible Claude.ai et systeme.io) ======
+const storage = {
+  async get(key) {
+    try {
+      if (typeof window.storage !== 'undefined' && window.storage.get) {
+        const res = await window.storage.get(key);
+        return res ? res.value : null;
+      }
+    } catch (e) {}
+    try { return localStorage.getItem(key); } catch (e) { return null; }
+  },
+  async set(key, value) {
+    try {
+      if (typeof window.storage !== 'undefined' && window.storage.set) {
+        await window.storage.set(key, value);
+        return;
+      }
+    } catch (e) {}
+    try { localStorage.setItem(key, value); } catch (e) {}
+  },
+  async remove(key) {
+    try {
+      if (typeof window.storage !== 'undefined' && window.storage.delete) {
+        await window.storage.delete(key);
+        return;
+      }
+    } catch (e) {}
+    try { localStorage.removeItem(key); } catch (e) {}
+  }
+};
+
+// === GESTION DES MASCOTTES PERSONNALISÉES ===
+function applyCustomMascots() {
+  if (!state.customMascots) return;
+  document.querySelectorAll('svg').forEach(svg => {
+    if (svg.dataset.mascotReplaced === '1') return;
+    const use = svg.querySelector('use');
+    if (!use) return;
+    const href = use.getAttribute('href') || use.getAttribute('xlink:href');
+    if (!href) return;
+    const match = href.match(/^#m-(\w+)$/);
+    if (!match) return;
+    const type = match[1];
+    const customSrc = state.customMascots[type];
+    if (!customSrc) return;
+    const img = document.createElement('img');
+    img.src = customSrc;
+    img.alt = type;
+    img.style.objectFit = 'contain';
+    img.style.display = 'block';
+    img.className = svg.getAttribute('class') || '';
+    img.dataset.mascotReplaced = '1';
+    svg.parentNode.replaceChild(img, svg);
+  });
+}
+
+async function uploadMascot(e, type) {
+  const file = e.target.files[0];
+  if (!file) {
+    alert('Aucun fichier sélectionné');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onerror = () => alert('Erreur de lecture du fichier');
+  reader.onload = async () => {
+    if (!state.customMascots) state.customMascots = {};
+    state.customMascots[type] = reader.result;
+    await saveState();
+    // Remplacer toutes les instances SVG de cette mascotte par l'image
+    document.querySelectorAll('svg').forEach(svg => {
+      const use = svg.querySelector('use');
+      if (!use) return;
+      const href = use.getAttribute('href') || use.getAttribute('xlink:href');
+      if (href !== '#m-' + type) return;
+      const img = document.createElement('img');
+      img.src = reader.result;
+      img.alt = type;
+      img.style.objectFit = 'contain';
+      img.style.display = 'block';
+      img.className = svg.getAttribute('class') || '';
+      img.dataset.mascotReplaced = '1';
+      img.dataset.mascotType = type;
+      svg.parentNode.replaceChild(img, svg);
+    });
+    // Si déjà remplacé, mettre à jour le src
+    document.querySelectorAll(`img[data-mascot-type="${type}"]`).forEach(img => {
+      img.src = reader.result;
+    });
+    refreshProfile();
+    alert('✅ ' + type.charAt(0).toUpperCase() + type.slice(1) + ' a été uploadée ! Navigue dans l\'app pour la voir partout.');
+  };
+  reader.readAsDataURL(file);
+}
+
+async function removeMascot(type) {
+  if (!confirm('Retirer cette mascotte personnalisée ?')) return;
+  if (state.customMascots) {
+    delete state.customMascots[type];
+    await saveState();
+  }
+  alert('Mascotte retirée. Recharge la page pour voir la version par défaut.');
+  refreshProfile();
+}
+
+async function init() {
+  const saved = await storage.get('neuroo-state');
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      Object.assign(state, parsed);
+      state.timer = { seconds: 0, running: false, interval: null, totalSet: 0 };
+    } catch (e) {}
+  }
+  if (state.profile && state.profile.name) {
+    document.getElementById('onboarding').style.display = 'none';
+    refreshHome();
+  }
+  buildDeclencheurs();
+  buildSuiviDays();
+  renderTensionChart();
+  refreshProgress();
+  refreshProfile();
+  applyCustomMascots();
+}
+
+async function saveState() {
+  const toSave = { ...state };
+  toSave.timer = { seconds: 0, running: false };
+  await storage.set('neuroo-state', JSON.stringify(toSave));
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const screen = document.getElementById('screen-' + id);
+  if (screen) {
+    screen.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.screen === id);
+  });
+  if (id === 'progress') refreshProgress();
+  if (id === 'profile') refreshProfile();
+  if (id === 'home') refreshHome();
+  if (id === 'tool7') renderTensionChart();
+}
+
+// ====== ONBOARDING ======
+document.querySelectorAll('#onb-profile .profile-chip').forEach(chip => {
+  chip.addEventListener('click', () => chip.classList.toggle('selected'));
+});
+
+function finishOnboarding() {
+  const name = document.getElementById('onb-name').value.trim();
+  const age = document.getElementById('onb-age').value;
+  const selectedChips = [...document.querySelectorAll('#onb-profile .profile-chip.selected')].map(c => c.dataset.profile);
+  if (!name) { alert('Indique le prénom de ton enfant.'); return; }
+  if (!age) { alert("Indique l'âge de ton enfant."); return; }
+  state.profile = { name, age, profiles: selectedChips };
+  saveState();
+  document.getElementById('onboarding').style.display = 'none';
+  refreshHome();
+  refreshProfile();
+}
+
+function refreshHome() {
+  if (!state.profile) return;
+  const hour = new Date().getHours();
+  let greeting = 'Bonjour';
+  if (hour >= 12 && hour < 18) greeting = 'Bel après-midi';
+  if (hour >= 18) greeting = 'Bonsoir';
+  document.getElementById('greeting-title').textContent = `${greeting} ${state.profile.name} & son adulte !`;
+
+  const messages = [
+    "Aujourd'hui, on choisit un seul objectif. Pas trois.",
+    "Mieux vaut 20 minutes cadrées qu'1h30 de tension.",
+    "Observe d'abord. Corrige ensuite.",
+    "Une crise moins longue est déjà une victoire.",
+    "Nommer le blocage aide à éviter l'explosion.",
+    "Le parent n'a pas besoin d'être parfait. Il doit pouvoir réparer."
+  ];
+  document.getElementById('astuce-text').textContent = messages[Math.floor(Math.random() * messages.length)];
+
+  document.getElementById('stat-days').textContent = state.suiviHistory.length * 7 + Object.keys(state.suivi.current || {}).length;
+  document.getElementById('stat-victories').textContent = state.victories.length;
+
+  let totalTension = 0, count = 0;
+  state.suiviHistory.forEach(week => {
+    Object.values(week).forEach(d => {
+      if (d.tension !== undefined && d.tension !== '') { totalTension += parseInt(d.tension); count++; }
+    });
+  });
+  Object.values(state.suivi.current || {}).forEach(d => {
+    if (d.tension !== undefined && d.tension !== '') { totalTension += parseInt(d.tension); count++; }
+  });
+  document.getElementById('stat-tension').textContent = count > 0 ? (totalTension/count).toFixed(1) : '—';
+}
+
+// ====== DÉCLENCHEURS ======
+const declencheurs = [
+  { id: 'fatigue', label: 'Mon enfant est fatigué après l\'école' },
+  { id: 'faim', label: 'Il a faim ou soif' },
+  { id: 'bouger', label: 'Il a besoin de bouger avant de commencer' },
+  { id: 'consigne', label: 'La consigne n\'est pas claire pour lui' },
+  { id: 'long', label: 'La tâche semble trop longue' },
+  { id: 'peur', label: 'Il a peur de se tromper' },
+  { id: 'erreur', label: 'Il se décourage dès la première erreur' },
+  { id: 'vite', label: 'Il veut finir trop vite' },
+  { id: 'distrait', label: 'Il est distrait par l\'environnement' },
+  { id: 'demarrer', label: 'Il ne sait pas par quoi commencer' },
+  { id: 'repete', label: 'Je répète plusieurs fois la consigne' },
+  { id: 'tension', label: 'Je monte vite en tension moi aussi' }
+];
+
+function buildDeclencheurs() {
+  const container = document.getElementById('declencheurs-list');
+  if (!container) return;
+  container.innerHTML = '';
+  declencheurs.forEach(d => {
+    const checked = state.declencheurs[d.id]?.checked || false;
+    const comment = state.declencheurs[d.id]?.comment || '';
+    container.innerHTML += `
+      <div class="checklist-item ${checked ? 'checked' : ''}" data-id="${d.id}">
+        <div class="checklist-checkbox" onclick="toggleDeclencheur('${d.id}', event)"></div>
+        <div style="flex:1;">
+          <div class="checklist-label">${d.label}</div>
+          <textarea class="checklist-comment" placeholder="Remarque..." onchange="updateDeclencheurComment('${d.id}', this.value)">${comment}</textarea>
+        </div>
+      </div>`;
+  });
+}
+
+function toggleDeclencheur(id, e) {
+  e.stopPropagation();
+  if (!state.declencheurs[id]) state.declencheurs[id] = {};
+  state.declencheurs[id].checked = !state.declencheurs[id].checked;
+  buildDeclencheurs();
+}
+
+function updateDeclencheurComment(id, val) {
+  if (!state.declencheurs[id]) state.declencheurs[id] = {};
+  state.declencheurs[id].comment = val;
+}
+
+function saveDeclencheurs() {
+  const observed = Object.entries(state.declencheurs).filter(([k,v]) => v.checked).map(([k]) => k);
+  if (observed.length === 0) { alert('Coche au moins un déclencheur pour analyser.'); return; }
+  state.declencheursHistory.push({ date: new Date().toISOString(), items: observed });
+  let analyse = '';
+  if (observed.includes('fatigue') && observed.includes('tension')) {
+    analyse = `Le combo fatigue + tension parentale est fréquent en fin de journée. Essaie une vraie pause de décompression de 20 min avant les devoirs : goûter, mouvement libre, pas d'écran. Pour toi : 3 respirations longues avant de t'asseoir avec ${state.profile?.name || 'lui'}.`;
+  } else if (observed.includes('demarrer') || observed.includes('long')) {
+    analyse = `Le démarrage et la longueur sont les déclencheurs n°1 chez les enfants TDAH. Solution concrète : ne montre qu'un seul exercice à la fois (cache le reste avec une feuille blanche). L'objectif n'est pas de finir, c'est de commencer.`;
+  } else if (observed.includes('peur') || observed.includes('erreur')) {
+    analyse = `${state.profile?.name || 'Ton enfant'} associe difficulté à danger. Avant la séance, dis-lui : « Tu as le droit de te tromper. Les erreurs me montrent où je peux t'aider. » Et célèbre l'essai, pas le résultat.`;
+  } else if (observed.includes('bouger') || observed.includes('distrait')) {
+    analyse = `Son cerveau a besoin de mouvement pour penser. Autorise un coussin proprioceptif, un ballon, ou des pauses-mouvement toutes les 8-10 minutes. L'immobilité forcée augmente l'agitation.`;
+  } else if (observed.includes('tension') || observed.includes('repete')) {
+    analyse = `La boucle « je répète → je monte en tension → il se ferme » est un piège classique. Essaie de dire la consigne une fois, calmement, puis demande-lui de la reformuler. Si tu sens monter : pause pour toi d'abord.`;
+  } else {
+    analyse = `Tu as identifié ${observed.length} déclencheur(s). Choisis-en UN à travailler cette semaine. Pas deux, pas trois. Un seul changement stable vaut mieux qu'un grand plan impossible.`;
+  }
+  document.getElementById('analyse-text').textContent = analyse;
+  document.getElementById('analyse-box').style.display = 'block';
+  saveState();
+}
+
+// ====== ROUTINE & MINUTEUR ======
+function activateStep(n) {
+  state.routine.activeStep = n;
+  document.querySelectorAll('.routine-step').forEach(s => {
+    s.classList.remove('active');
+    if (parseInt(s.dataset.step) === n) s.classList.add('active');
+    if (state.routine.doneSteps.includes(parseInt(s.dataset.step))) s.classList.add('done');
+  });
+  saveState();
+}
+
+function markStepDone(n) {
+  if (!state.routine.doneSteps.includes(n)) state.routine.doneSteps.push(n);
+  document.querySelectorAll('.routine-step').forEach(s => {
+    if (parseInt(s.dataset.step) === n) { s.classList.add('done'); s.classList.remove('active'); }
+  });
+  if (state.routine.doneSteps.length === 5) {
+    state.victories.push({ date: new Date().toISOString(), label: 'Routine complète en 5 étapes terminée !' });
+    state.routine.doneSteps = [];
+    showModal('🎉 Bravo !', 'Tu as terminé les 5 étapes de la routine. C\'est exactement comme ça qu\'on construit une routine durable.');
+  }
+  saveState();
+}
+
+function setTimer(minutes) {
+  state.timer.seconds = minutes * 60;
+  state.timer.totalSet = minutes * 60;
+  if (state.timer.running) stopTimer();
+  updateTimerDisplay();
+}
+
+function toggleTimer() {
+  if (state.timer.seconds === 0 && state.timer.totalSet === 0) setTimer(10);
+  if (state.timer.running) stopTimer(); else startTimer();
+}
+
+function startTimer() {
+  state.timer.running = true;
+  document.getElementById('timer-toggle').textContent = '⏸ Pause';
+  state.timer.interval = setInterval(() => {
+    state.timer.seconds--;
+    if (state.timer.seconds <= 0) {
+      stopTimer();
+      state.timer.seconds = 0;
+      updateTimerDisplay();
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.frequency.value = 660; gain.gain.value = 0.1;
+        osc.start(); setTimeout(() => { osc.stop(); ctx.close(); }, 400);
+      } catch(e) {}
+      showModal('⏰ Temps écoulé', 'C\'est l\'heure de la prochaine étape. Pause ou reprise ?');
+    } else updateTimerDisplay();
+  }, 1000);
+}
+
+function stopTimer() {
+  state.timer.running = false;
+  clearInterval(state.timer.interval);
+  document.getElementById('timer-toggle').textContent = '▶ Démarrer';
+}
+
+function resetTimer() {
+  stopTimer();
+  state.timer.seconds = 0;
+  state.timer.totalSet = 0;
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(state.timer.seconds / 60);
+  const s = state.timer.seconds % 60;
+  document.getElementById('timer-display').textContent =
+    `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+// ====== CARTE ENFANT (NEUROO) ======
+const kidResponses = {
+  start: {
+    kid: "C'est normal ! Le démarrage, c'est le moment le plus dur pour ton cerveau. Demande à ton parent de te montrer la TOUTE première petite chose à faire.",
+    parent: "Mon enfant a besoin que je l'aide à démarrer. Je m'assois avec lui et je l'aide à faire UNE seule petite étape."
+  },
+  consigne: {
+    kid: "Pas de souci, ça arrive à tout le monde. Demande à ton parent de relire la consigne avec toi, en s'arrêtant après chaque phrase.",
+    parent: "La consigne n'est pas claire pour lui. Je la relis avec lui, mot par mot. Je lui demande de la reformuler."
+  },
+  long: {
+    kid: "Tu as raison de le dire ! On peut faire seulement une petite partie aujourd'hui. Le reste, on verra plus tard.",
+    parent: "La tâche lui paraît trop longue. Je cache tout sauf le premier exercice. Une seule chose à la fois."
+  },
+  peur: {
+    kid: "Tu as le droit de te tromper. Les erreurs, c'est comme ça que ton cerveau apprend. Personne ne va te disputer si tu te trompes.",
+    parent: "Il a peur de se tromper. Je lui dis que les erreurs m'aident à savoir où l'aider. Je valorise l'essai, pas le résultat."
+  },
+  nul: {
+    kid: "Tu te sens nul·le parce que c'est difficile MAINTENANT. Ça ne veut pas dire que tu es nul·le. C'est juste un moment dur.",
+    parent: "Il confond difficulté et identité. Je lui rappelle qu'il a déjà réussi des choses. On reprend très petit."
+  },
+  fatigue: {
+    kid: "Ton cerveau est fatigué, c'est vrai. Tu as le droit de faire une vraie pause : boire, bouger, respirer 5 minutes.",
+    parent: "Son cerveau est saturé. Vraie pause de 10-15 min avec mouvement et hydratation. Pas d'écran."
+  },
+  bouger: {
+    kid: "Ton cerveau a besoin de bouger pour réfléchir. Va sauter, faire un tour, t'étirer 2-3 minutes. Après, ce sera plus facile.",
+    parent: "Il a besoin de bouger. Pause-mouvement de 3 min. Puis on reprend avec un coussin proprioceptif s'il en a un."
+  },
+  bruit: {
+    kid: "Tu as raison, le bruit ça fatigue le cerveau. Demande à tes parents de baisser le son ou de te trouver un endroit plus calme.",
+    parent: "L'environnement est trop stimulant. Je réduis le bruit, j'éloigne les frères et sœurs, je trouve un coin plus calme."
+  },
+  enerve: {
+    kid: "C'est normal d'être en colère quand on n'y arrive pas. On va respirer ensemble, puis on reprendra avec quelque chose de plus petit.",
+    parent: "Il est en frustration. Je ne discute pas maintenant. Pause respiration, puis tâche réduite."
+  },
+  pause: {
+    kid: "Tu fais bien de le dire ! Pause courte de 2-3 minutes : bouger, boire, respirer. Puis on reprend une petite chose.",
+    parent: "Il demande une pause, c'est un excellent signal. Pause cadrée de 3 min max, puis reprise d'une micro-tâche."
+  }
+};
+
+function selectKidOption(el, key) {
+  document.querySelectorAll('.kid-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  const r = kidResponses[key];
+  document.getElementById('kid-msg-text').textContent = r.kid;
+  document.getElementById('parent-msg-text').textContent = r.parent;
+  document.getElementById('kid-message').classList.add('show');
+  document.getElementById('kid-message').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ====== PHRASES PARENT ======
+const phrases = {
+  refuse: [
+    { avoid: 'Dépêche-toi, tu fais exprès.', prefer: 'On ne fait pas tout. On commence par une petite étape.' },
+    { avoid: 'Tu es paresseux.', prefer: 'Ton cerveau bloque au démarrage. Je t\'aide à lancer la première étape.' },
+    { avoid: 'Tu m\'énerves.', prefer: 'Je suis là pour t\'aider, mais je garde le cadre.' },
+    { avoid: 'Tu vas rester ici jusqu\'à ce que ce soit fini.', prefer: 'On travaille 10 minutes, puis on fait une pause courte.' }
+  ],
+  enerve: [
+    { avoid: 'Calme-toi !', prefer: 'Je vois que ça monte. On baisse le volume et on respire.' },
+    { avoid: 'Arrête ton cinéma.', prefer: 'Tu peux être en colère, mais tu ne peux pas crier sur moi.' },
+    { avoid: 'Tu es insupportable.', prefer: 'Là, ton émotion prend toute la place. On réduit la tâche.' },
+    { avoid: 'Si tu continues, tu seras puni.', prefer: 'On fait une pause pour redescendre, puis on reprend une petite partie.' }
+  ],
+  nul: [
+    { avoid: 'Mais non, arrête de dire ça.', prefer: 'Tu te sens nul parce que c\'est difficile maintenant. Ça ne veut pas dire que tu es nul.' },
+    { avoid: 'Tu exagères.', prefer: 'Ton cerveau confond difficulté et danger. On avance petit morceau par petit morceau.' },
+    { avoid: 'Tu sais très bien le faire.', prefer: 'Tu l\'as déjà réussi parfois. Là, on va retrouver la première étape.' }
+  ],
+  parent: [
+    { avoid: 'Je continue à crier en pensant que ça va débloquer.', prefer: 'Je sens que je monte aussi. Je vais parler moins fort et on va reprendre plus simplement.' },
+    { avoid: 'Je fais comme si je n\'avais pas crié.', prefer: 'J\'ai crié, ce n\'était pas aidant. Je reprends calmement. Le cadre reste le même.' },
+    { avoid: 'Je supprime tous les devoirs pour avoir la paix.', prefer: 'On fait une pause maintenant. On reprendra une mini-étape plus tard.' }
+  ]
+};
+
+function showPhrases(key, btn) {
+  document.querySelectorAll('.situation-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const container = document.getElementById('phrases-content');
+  container.innerHTML = '';
+  phrases[key].forEach(p => {
+    container.innerHTML += `
+      <div class="phrase-comparison">
+        <div class="phrase-col avoid"><h4>❌ À éviter</h4><p>« ${p.avoid} »</p></div>
+        <div class="phrase-col prefer"><h4>✅ À dire plutôt</h4><p>« ${p.prefer} »</p></div>
+      </div>`;
+  });
+}
+
+// ====== PLAN ANTI-CRISE ======
+function nextCrisisStep(n) {
+  document.querySelector(`[data-crisis="${n}"]`).classList.remove('current');
+  const next = document.querySelector(`[data-crisis="${n+1}"]`);
+  if (next) {
+    next.style.display = 'block';
+    next.classList.add('current');
+    next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function finishCrisis() {
+  state.crisesGered++;
+  state.victories.push({ date: new Date().toISOString(), label: 'Une crise gérée jusqu\'au bout du protocole 💪' });
+  saveState();
+  showModal('🙌 Tu as géré la crise', 'C\'est exactement ça qu\'on construit. Pas la perfection. La capacité à traverser et réparer.\n\nQuand tu pourras, va faire l\'étape « Réparation » avec ton enfant.');
+  resetCrisis();
+  setTimeout(() => showScreen('home'), 1000);
+}
+
+function resetCrisis() {
+  document.querySelectorAll('.crisis-step').forEach((s, i) => {
+    s.style.display = i === 0 ? 'block' : 'none';
+    s.classList.toggle('current', i === 0);
+  });
+  state.crisisStep = 1;
+}
+
+// ====== SUIVI 7 JOURS ======
+const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+
+function buildSuiviDays() {
+  const container = document.getElementById('suivi-days');
+  if (!container) return;
+  container.innerHTML = '';
+  days.forEach(d => {
+    const data = state.suivi.current?.[d] || {};
+    container.innerHTML += `
+      <div class="day-card">
+        <div class="day-head"><div class="day-name">${d}</div></div>
+        <div class="day-fields">
+          <div class="day-field">
+            <label>Durée (min)</label>
+            <input type="number" min="0" max="180" value="${data.duree || ''}" onchange="updateDay('${d}', 'duree', this.value)">
+          </div>
+          <div class="day-field">
+            <label>Tension (0-5)</label>
+            <div class="tension-pills" data-day="${d}">
+              ${[0,1,2,3,4,5].map(n => `<div class="tension-pill ${data.tension == n ? 'selected' : ''}" data-val="${n}" onclick="setTension('${d}', ${n})">${n}</div>`).join('')}
+            </div>
+          </div>
+          <div class="day-field full">
+            <label>Ce qui a aidé</label>
+            <input type="text" value="${data.aide || ''}" placeholder="Ex. minuteur, pause mouvement..." onchange="updateDay('${d}', 'aide', this.value)">
+          </div>
+          <div class="day-field full">
+            <label>Ce qui a bloqué</label>
+            <input type="text" value="${data.bloque || ''}" placeholder="Ex. fatigue, écran avant..." onchange="updateDay('${d}', 'bloque', this.value)">
+          </div>
+        </div>
+      </div>`;
+  });
+}
+
+function updateDay(day, field, val) {
+  if (!state.suivi.current[day]) state.suivi.current[day] = {};
+  state.suivi.current[day][field] = val;
+  saveState();
+  renderTensionChart();
+  refreshHome();
+}
+
+function setTension(day, val) {
+  if (!state.suivi.current[day]) state.suivi.current[day] = {};
+  state.suivi.current[day].tension = val;
+  document.querySelectorAll(`[data-day="${day}"] .tension-pill`).forEach(p => {
+    p.classList.toggle('selected', parseInt(p.dataset.val) === val);
+  });
+  saveState();
+  renderTensionChart();
+  refreshHome();
+}
+
+function renderTensionChart() {
+  const svg = document.getElementById('tension-chart');
+  if (!svg) return;
+  const w = 700, h = 180, padL = 32, padR = 20, padT = 20, padB = 30;
+  const innerW = w - padL - padR;
+  const innerH = h - padT - padB;
+  let html = '';
+  for (let i = 0; i <= 5; i++) {
+    const y = padT + (innerH * i / 5);
+    html += `<line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}" stroke="#F7F2EC" stroke-width="1.5"/>`;
+    html += `<text x="${padL-8}" y="${y+4}" font-size="10" fill="#B5A8D5" text-anchor="end" font-family="Poppins, sans-serif" font-weight="600">${5-i}</text>`;
+  }
+  const data = state.suivi.current || {};
+  const points = [];
+  days.forEach((d, i) => {
+    const x = padL + (innerW * i / 6);
+    html += `<text x="${x}" y="${h-padB+18}" font-size="10" fill="#7568A0" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600">${d.substr(0,3)}</text>`;
+    if (data[d]?.tension !== undefined && data[d].tension !== '') {
+      const t = parseInt(data[d].tension);
+      const y = padT + (innerH * (5-t) / 5);
+      points.push({ x, y, t });
+    }
+  });
+  if (points.length > 1) {
+    const path = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+    html += `<path d="${path}" stroke="url(#chartgrad)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+  }
+  html += `<defs><linearGradient id="chartgrad" x1="0" x2="1"><stop offset="0%" stop-color="#CBB6F6"/><stop offset="100%" stop-color="#F39BC2"/></linearGradient></defs>`;
+  points.forEach(p => {
+    const color = p.t <= 1 ? '#8ED9D2' : p.t <= 2 ? '#FFD6C2' : p.t <= 3 ? '#F8CFE0' : p.t <= 4 ? '#F39BC2' : '#CBB6F6';
+    html += `<circle cx="${p.x}" cy="${p.y}" r="7" fill="${color}" stroke="#FFFFFF" stroke-width="2.5"/>`;
+  });
+  svg.innerHTML = html;
+}
+
+function saveSuivi() {
+  const filled = Object.keys(state.suivi.current).filter(d => state.suivi.current[d].tension !== undefined).length;
+  if (filled === 0) { alert('Renseigne au moins une journée avant d\'enregistrer.'); return; }
+  let totalT = 0, count = 0, totalDur = 0, durCount = 0;
+  Object.values(state.suivi.current).forEach(d => {
+    if (d.tension !== undefined && d.tension !== '') { totalT += parseInt(d.tension); count++; }
+    if (d.duree) { totalDur += parseInt(d.duree); durCount++; }
+  });
+  const avgT = count > 0 ? (totalT/count).toFixed(1) : '—';
+  const avgD = durCount > 0 ? Math.round(totalDur/durCount) : '—';
+  document.getElementById('bilan-section').innerHTML = `
+    <div class="bilan-card" style="margin-top:20px;">
+      <h3>🌱 Bilan de la semaine</h3>
+      <div class="bilan-stat"><span>Jours suivis</span><strong>${count}/7</strong></div>
+      <div class="bilan-stat"><span>Tension moyenne</span><strong>${avgT}/5</strong></div>
+      <div class="bilan-stat"><span>Durée moyenne</span><strong>${avgD} min</strong></div>
+    </div>`;
+  state.victories.push({ date: new Date().toISOString(), label: `Semaine suivie : ${count}/7 jours, tension moyenne ${avgT}/5` });
+  showModal('💚 Semaine enregistrée', 'Bravo pour cette régularité. Tu peux lancer une nouvelle semaine ou consulter tes progrès.');
+  saveState();
+  refreshHome();
+}
+
+function newWeek() {
+  if (Object.keys(state.suivi.current).length > 0) {
+    state.suiviHistory.push({ ...state.suivi.current, weekEnd: new Date().toISOString() });
+  }
+  state.suivi.current = {};
+  buildSuiviDays();
+  renderTensionChart();
+  document.getElementById('bilan-section').innerHTML = '';
+  saveState();
+}
+
+// ====== PROGRÈS ======
+function refreshProgress() {
+  document.getElementById('prog-days').textContent =
+    state.suiviHistory.length * 7 + Object.keys(state.suivi.current || {}).length;
+  document.getElementById('prog-crises').textContent = state.crisesGered;
+  let totalT = 0, count = 0;
+  state.suiviHistory.forEach(week => {
+    Object.values(week).forEach(d => {
+      if (d.tension !== undefined && d.tension !== '') { totalT += parseInt(d.tension); count++; }
+    });
+  });
+  Object.values(state.suivi.current || {}).forEach(d => {
+    if (d.tension !== undefined && d.tension !== '') { totalT += parseInt(d.tension); count++; }
+  });
+  document.getElementById('prog-tension').textContent = count > 0 ? (totalT/count).toFixed(1) : '—';
+  let bilanText = '';
+  if (count === 0) {
+    bilanText = '<p>Commence à remplir le suivi 7 jours pour voir tes premiers progrès apparaître ici. 🌱</p>';
+  } else {
+    const avg = totalT/count;
+    if (avg < 2) bilanText = `<p>Très belle progression. La tension moyenne reste basse, signe que le cadre s'installe. Continue à observer ce qui fonctionne et garde ces ancrages.</p>`;
+    else if (avg < 3.5) bilanText = `<p>Tu es en plein travail d'ajustement. Il y a des hauts et des bas, c'est normal. Choisis UN déclencheur à travailler cette semaine. Pas plus.</p>`;
+    else bilanText = `<p>Les séances sont encore tendues. Pas de découragement : c'est exactement pour ces moments que la routine et le plan anti-crise existent. Reprends la fiche 2 pour identifier le déclencheur principal.</p>`;
+  }
+  document.getElementById('bilan-global').innerHTML = bilanText;
+  const triggerCount = {};
+  state.declencheursHistory.forEach(h => { h.items.forEach(id => { triggerCount[id] = (triggerCount[id] || 0) + 1; }); });
+  const topTriggers = Object.entries(triggerCount).sort((a,b) => b[1]-a[1]).slice(0, 5);
+  const ttContainer = document.getElementById('top-triggers');
+  if (topTriggers.length === 0) ttContainer.innerHTML = '<p style="font-size:13px;color:#7568A0;">Aucun déclencheur encore enregistré. Utilise la fiche 2 pour commencer.</p>';
+  else {
+    ttContainer.innerHTML = topTriggers.map(([id, n]) => {
+      const label = declencheurs.find(d => d.id === id)?.label || id;
+      return `<div class="checklist-item checked"><div class="checklist-checkbox"></div><div style="flex:1;"><div class="checklist-label">${label}</div><div style="font-size:11px;color:#7568A0;margin-top:4px;font-weight:600;">Observé ${n} fois</div></div></div>`;
+    }).join('');
+  }
+  const vContainer = document.getElementById('victories-list');
+  const recentV = state.victories.slice(-5).reverse();
+  if (recentV.length === 0) vContainer.innerHTML = '<p style="font-size:13px;color:#7568A0;">Tes premières victoires apparaîtront ici dès que tu termines une routine, gères une crise, ou complètes une semaine de suivi.</p>';
+  else vContainer.innerHTML = recentV.map(v => `<div class="victory-badge">${v.label}</div>`).join('');
+}
+
+// ====== PROFIL ======
+const profileLabels = {
+  bouge: 'Besoin de bouger',
+  distrait: 'Facilement distrait',
+  frustre: 'Vite frustré',
+  lent: 'Lent à démarrer',
+  peur: 'Peur de se tromper',
+  fatigue: 'Très fatigué après l\'école'
+};
+
+function refreshProfile() {
+  if (!state.profile) return;
+  document.getElementById('profile-avatar').textContent = state.profile.name.charAt(0).toUpperCase();
+  document.getElementById('profile-name').textContent = state.profile.name;
+  document.getElementById('profile-info').textContent = `${state.profile.age} ans`;
+  document.getElementById('profile-chips').innerHTML = (state.profile.profiles || [])
+    .map(p => `<span>${profileLabels[p] || p}</span>`).join('');
+  ['neuroo', 'educa', 'noury'].forEach(type => {
+    const prev = document.getElementById('upload-prev-' + type);
+    if (prev) {
+      if (state.customMascots?.[type]) {
+        prev.innerHTML = `<img src="${state.customMascots[type]}" style="width:100%;height:100%;object-fit:contain;">`;
+        prev.style.cssText = 'width:100%;aspect-ratio:1/1;background:#FFFFFF;border:2px solid #BDEAD7;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:6px;';
+      } else {
+        prev.innerHTML = '+';
+        prev.style.cssText = 'width:100%;aspect-ratio:1/1;background:#F7F2EC;border:2px dashed #CBB6F6;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:32px;color:#CBB6F6;font-weight:300;margin-bottom:6px;';
+      }
+    }
+  });
+}
+
+function editProfile() {
+  document.getElementById('onb-name').value = state.profile.name;
+  document.getElementById('onb-age').value = state.profile.age;
+  document.querySelectorAll('#onb-profile .profile-chip').forEach(c => {
+    c.classList.toggle('selected', (state.profile.profiles || []).includes(c.dataset.profile));
+  });
+  document.getElementById('onboarding').style.display = 'flex';
+}
+
+async function resetAllData() {
+  if (!confirm('Es-tu sûre de vouloir tout effacer ? Cette action est irréversible.')) return;
+  await storage.remove('neuroo-state');
+  location.reload();
+}
+
+// ====== MODAL ======
+let modalCallback = null;
+function showModal(title, body, callback) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').textContent = body;
+  modalCallback = callback;
+  if (!callback) {
+    document.getElementById('modal-cancel').style.display = 'none';
+    document.getElementById('modal-confirm').textContent = 'OK';
+  } else {
+    document.getElementById('modal-cancel').style.display = 'block';
+    document.getElementById('modal-confirm').textContent = 'Confirmer';
+  }
+  document.getElementById('modal-overlay').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+  modalCallback = null;
+}
+function confirmModal() {
+  if (modalCallback) modalCallback();
+  closeModal();
+}
+
+// ============ RESPIRER (BREATHING MODULE) ============
+const breathState = {
+  mode: 'parent',
+  duration: 3,
+  cycle: 0,
+  totalCycles: 0,
+  active: false,
+  soundMode: 'bell',
+  timeout: null
+};
+
+function openBreath() {
+  document.getElementById('breath-overlay').classList.add('show');
+  resetBreathScreens();
+}
+
+function closeBreath() {
+  stopBreathSession();
+  document.getElementById('breath-overlay').classList.remove('show');
+}
+
+function resetBreathScreens() {
+  document.getElementById('breath-choice').style.display = 'block';
+  const act = document.getElementById('breath-active');
+  act.style.display = 'none';
+  act.classList.remove('show');
+  const end = document.getElementById('breath-end');
+  end.style.display = 'none';
+  end.classList.remove('show');
+  breathState.cycle = 0;
+}
+
+function selectBreathMode(mode) {
+  breathState.mode = mode;
+  document.querySelectorAll('.breath-mode-btn').forEach(b => {
+    b.classList.toggle('selected', b.dataset.mode === mode);
+  });
+}
+
+function selectBreathDuration(d) {
+  breathState.duration = d;
+  document.querySelectorAll('.breath-duration-btn').forEach(b => {
+    b.classList.toggle('selected', parseInt(b.dataset.duration) === d);
+  });
+}
+
+function selectBreathSound(sound) {
+  breathState.soundMode = sound;
+  document.querySelectorAll('.breath-sound-btn').forEach(b => {
+    b.classList.toggle('selected', b.dataset.sound === sound);
+  });
+}
+
+function getBreathSvg(mode) {
+  if (mode === 'parent') {
+    // Fleur — 6 pétales en vert menthe avec coeur lavande
+    let petals = '';
+    for (const angle of [0, 60, 120, 180, 240, 300]) {
+      petals += '<ellipse cx="0" cy="-44" rx="22" ry="42" fill="url(#brFlowerGrad)" opacity="0.82" transform="rotate(' + angle + ')"/>';
+    }
+    return '<defs>' +
+      '<radialGradient id="brFlowerGrad" cx="50%" cy="50%" r="50%">' +
+        '<stop offset="0%" stop-color="#C5ECE3"/>' +
+        '<stop offset="100%" stop-color="#8ED9D2"/>' +
+      '</radialGradient>' +
+      '<radialGradient id="brFlowerCenter" cx="50%" cy="50%" r="50%">' +
+        '<stop offset="0%" stop-color="#F4EBFA"/>' +
+        '<stop offset="100%" stop-color="#CBB6F6"/>' +
+      '</radialGradient>' +
+    '</defs>' +
+    '<g transform="translate(100,100)">' + petals + '<circle cx="0" cy="0" r="24" fill="url(#brFlowerCenter)"/></g>';
+  } else {
+    // Bulle — gradient irisé avec reflet
+    return '<defs>' +
+      '<radialGradient id="brBubbleGrad" cx="40%" cy="38%" r="62%">' +
+        '<stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>' +
+        '<stop offset="38%" stop-color="#D4ECF5" stop-opacity="0.7"/>' +
+        '<stop offset="78%" stop-color="#A8D6E8" stop-opacity="0.6"/>' +
+        '<stop offset="100%" stop-color="#7FBED4" stop-opacity="0.88"/>' +
+      '</radialGradient>' +
+      '<radialGradient id="brBubbleShine" cx="30%" cy="28%" r="22%">' +
+        '<stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>' +
+        '<stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>' +
+      '</radialGradient>' +
+    '</defs>' +
+    '<circle cx="100" cy="100" r="90" fill="url(#brBubbleGrad)" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.75"/>' +
+    '<ellipse cx="78" cy="72" rx="24" ry="20" fill="url(#brBubbleShine)"/>';
+  }
+}
+
+// === SONS — 3 ambiances naturelles + silence ===
+let _breathAudioCtx = null;
+function getBreathCtx() {
+  try {
+    if (!_breathAudioCtx || _breathAudioCtx.state === 'closed') {
+      _breathAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    return _breathAudioCtx;
+  } catch (e) { return null; }
+}
+
+function playBreathSound(type) {
+  if (breathState.soundMode === 'silence') return;
+  if (breathState.soundMode === 'bell') return playBellSoft(type);
+  if (breathState.soundMode === 'water') return playWaterTrickle(type);
+  if (breathState.soundMode === 'bird') return playBirdChirp(type);
+}
+
+// Cloche zen — fondamentale + harmoniques avec longue décroissance
+function playBellSoft(type) {
+  const ctx = getBreathCtx();
+  if (!ctx) return;
+  try {
+    const baseFreq = type === 'in' ? 396 : 285;  // fréquences solfeggio apaisantes
+    const harmonics = [1, 2.01, 3.03];
+    const amps = [0.022, 0.012, 0.006];
+    harmonics.forEach((mult, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.value = baseFreq * mult;
+      gain.gain.setValueAtTime(0, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(amps[i], ctx.currentTime + 0.06);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 2.6);
+      osc.start();
+      osc.stop(ctx.currentTime + 2.7);
+    });
+  } catch (e) {}
+}
+
+// Bruit d'eau — bruit filtré avec modulation, sensation de ruissellement
+function playWaterTrickle(type) {
+  const ctx = getBreathCtx();
+  if (!ctx) return;
+  try {
+    const dur = type === 'in' ? 1.1 : 1.4;
+    const bufferSize = Math.floor(ctx.sampleRate * dur);
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    // Bruit rose approximé (plus naturel que blanc)
+    let b0=0, b1=0, b2=0, b3=0, b4=0, b5=0, b6=0;
+    for (let i = 0; i < bufferSize; i++) {
+      const white = Math.random() * 2 - 1;
+      b0 = 0.99886 * b0 + white * 0.0555179;
+      b1 = 0.99332 * b1 + white * 0.0750759;
+      b2 = 0.96900 * b2 + white * 0.1538520;
+      b3 = 0.86650 * b3 + white * 0.3104856;
+      b4 = 0.55000 * b4 + white * 0.5329522;
+      b5 = -0.7616 * b5 - white * 0.0168980;
+      data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
+      b6 = white * 0.115926;
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = type === 'in' ? 1100 : 700;
+    filter.Q.value = 1.8;
+    const gain = ctx.createGain();
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    // Modulation douce du filtre pour effet "ruissellement"
+    filter.frequency.linearRampToValueAtTime(
+      type === 'in' ? 1600 : 500,
+      ctx.currentTime + dur
+    );
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.05, ctx.currentTime + 0.2);
+    gain.gain.linearRampToValueAtTime(0.04, ctx.currentTime + dur - 0.3);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + dur);
+    noise.start();
+    noise.stop(ctx.currentTime + dur + 0.05);
+  } catch (e) {}
+}
+
+// Chant d'oiseau — petits gazouillis modulés en fréquence
+function playBirdChirp(type) {
+  const ctx = getBreathCtx();
+  if (!ctx) return;
+  try {
+    // Inspirer : gazouillis montant joyeux. Expirer : descendant plus doux.
+    const chirps = type === 'in'
+      ? [[2100, 2900, 0.09], [2700, 3300, 0.11]]
+      : [[2400, 1900, 0.10], [2100, 1700, 0.13]];
+    let delay = 0.02;
+    chirps.forEach(([f1, f2, dur]) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.value = 4000;
+      osc.connect(lp);
+      lp.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(f1, ctx.currentTime + delay);
+      osc.frequency.linearRampToValueAtTime(f2, ctx.currentTime + delay + dur);
+      gain.gain.setValueAtTime(0, ctx.currentTime + delay);
+      gain.gain.linearRampToValueAtTime(0.04, ctx.currentTime + delay + 0.015);
+      gain.gain.linearRampToValueAtTime(0.025, ctx.currentTime + delay + dur - 0.02);
+      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + delay + dur);
+      osc.start(ctx.currentTime + delay);
+      osc.stop(ctx.currentTime + delay + dur + 0.05);
+      delay += dur + 0.06;
+    });
+  } catch (e) {}
+}
+
+function startBreath() {
+  const inh = breathState.mode === 'parent' ? 4 : 5;
+  const exh = breathState.mode === 'parent' ? 6 : 5;
+  const cycleLen = inh + exh;
+  breathState.totalCycles = Math.max(1, Math.floor(breathState.duration * 60 / cycleLen));
+  breathState.cycle = 0;
+  breathState.active = true;
+
+  // Injecter la bonne forme SVG
+  document.getElementById('breath-visual').innerHTML = getBreathSvg(breathState.mode);
+
+  // Basculer les écrans
+  document.getElementById('breath-choice').style.display = 'none';
+  const act = document.getElementById('breath-active');
+  act.style.display = 'flex';
+  act.classList.add('show');
+
+  // Préparation douce
+  document.getElementById('breath-instruction').textContent = 'Prépare-toi…';
+  document.getElementById('breath-counter').textContent = '0 / ' + breathState.totalCycles;
+
+  breathState.timeout = setTimeout(() => runBreathPhase('inhale'), 1500);
+}
+
+function runBreathPhase(phase) {
+  if (!breathState.active) return;
+  const visual = document.getElementById('breath-visual');
+  const instr = document.getElementById('breath-instruction');
+  const counter = document.getElementById('breath-counter');
+  const inh = breathState.mode === 'parent' ? 4 : 5;
+  const exh = breathState.mode === 'parent' ? 6 : 5;
+
+  if (phase === 'inhale') {
+    visual.className = 'breath-visual inhale-' + breathState.mode;
+    instr.textContent = breathState.mode === 'parent' ? 'Inspire' : 'La bulle gonfle';
+    playBreathSound('in');
+    counter.textContent = (breathState.cycle + 1) + ' / ' + breathState.totalCycles;
+    breathState.timeout = setTimeout(() => runBreathPhase('exhale'), inh * 1000);
+  } else {
+    visual.className = 'breath-visual exhale-' + breathState.mode;
+    instr.textContent = breathState.mode === 'parent' ? 'Expire' : 'La bulle se vide';
+    playBreathSound('out');
+    breathState.timeout = setTimeout(() => {
+      breathState.cycle++;
+      if (breathState.cycle >= breathState.totalCycles) endBreath();
+      else if (breathState.active) runBreathPhase('inhale');
+    }, exh * 1000);
+  }
+}
+
+function endBreath() {
+  breathState.active = false;
+  if (breathState.timeout) clearTimeout(breathState.timeout);
+  const act = document.getElementById('breath-active');
+  act.style.display = 'none';
+  act.classList.remove('show');
+  const end = document.getElementById('breath-end');
+  end.style.display = 'block';
+  end.classList.add('show');
+  // Adapter le message selon le mode
+  const msg = breathState.mode === 'parent'
+    ? 'Ton système nerveux a pu redescendre. Tu peux reprendre quand tu te sens prête, à ton rythme.'
+    : 'Bravo à toi et ton enfant. Vous avez fait redescendre la tension ensemble. C\'est précieux.';
+  document.getElementById('breath-end-msg').textContent = msg;
+  // Pas de son de fin pour rester sur l'ambiance choisie
+  if (breathState.soundMode === 'bell') playBellSoft('in');
+  // Enregistrer comme victoire
+  if (state.profile) {
+    const label = 'Respiration ' + breathState.duration + ' min (' + (breathState.mode === 'parent' ? 'parent' : 'avec enfant') + ') 💨';
+    state.victories.push({ date: new Date().toISOString(), label: label });
+    saveState();
+    refreshHome();
+  }
+}
+
+function stopBreathSession() {
+  breathState.active = false;
+  if (breathState.timeout) clearTimeout(breathState.timeout);
+  resetBreathScreens();
+}
+
+init();
+</script>
+</body>
+</html>
