@@ -77,6 +77,11 @@
     render: function (vue, ctx) {
       vue.appendChild(UI.enTete("Comment va ton cœur aujourd'hui ? 💛", "Choisis le visage qui te ressemble le plus en ce moment."));
 
+      // Ressource complémentaire : la Boîte à bobo émotionnel (universelle)
+      vue.appendChild(UI.el(".btn-rangee", {}, [
+        UI.el("a.btn.secondaire", { href: "https://boite-a-bobo-emotionnel-6-12-univ.netlify.app/", target: "_blank", rel: "noopener", text: "🩹 Ouvrir la Boîte à bobo émotionnel ↗" })
+      ]));
+
       // Réglage : coin spirituel (pour la praticienne)
       var ligneReglage = UI.el(".carte", { style: "display:flex;align-items:center;gap:.6rem;justify-content:space-between;flex-wrap:wrap" });
       var chk = UI.el("input", { type: "checkbox", checked: coinActif() });
