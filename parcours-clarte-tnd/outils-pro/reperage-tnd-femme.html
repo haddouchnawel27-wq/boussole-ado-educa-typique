@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionnaire Femmes Adultes — Educa Typique</title>
+<style>
+  :root{--teal:#2D7D9A;--teal-dark:#1A5C73;--teal-light:#E8F4F8;--teal-med:#B8DDE8;
+    --orange:#E07B3A;--orange-light:#FFF3EC;--dark:#0F1E24;--grey:#5A6A70;
+    --light:#F2F6F8;--white:#FFFFFF;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--light);color:var(--dark);}
+  #app{min-height:100vh;}
+  .btn-p{display:block;width:100%;padding:.95rem;border:none;border-radius:.875rem;
+    background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:white;
+    font-size:1rem;font-weight:800;cursor:pointer;font-family:inherit;
+    box-shadow:0 4px 18px rgba(45,125,154,.35);transition:opacity .2s;}
+  .btn-p:hover{opacity:.9;}
+  .btn-p:disabled{background:#CBD5E0;box-shadow:none;cursor:not-allowed;}
+  .btn-s{display:block;width:100%;padding:.875rem;border:2px solid var(--teal-med);
+    border-radius:.875rem;background:white;color:var(--teal);font-size:.9rem;
+    font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;}
+  .btn-s:hover{background:var(--teal-light);}
+  .fi{width:100%;padding:.65rem .9rem;border:2px solid var(--teal-med);border-radius:.6rem;
+    font-size:1rem;font-family:inherit;outline:none;background:var(--light);color:var(--dark);}
+  .fi:focus{border-color:var(--teal);}
+  .fl{font-size:.82rem;font-weight:700;display:block;margin-bottom:.3rem;}
+  .qh{position:sticky;top:0;z-index:100;background:var(--teal-dark);padding:.75rem 1rem;
+    box-shadow:0 2px 12px rgba(0,0,0,.15);}
+  .qhi{max-width:680px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+  .pbg{height:3px;background:rgba(255,255,255,.2);border-radius:9999px;overflow:hidden;
+    margin-top:.5rem;max-width:680px;margin-left:auto;margin-right:auto;}
+  .pfl{height:100%;background:var(--orange);border-radius:9999px;transition:width .4s;}
+  .bdg{background:var(--orange);color:white;padding:.2rem .6rem;border-radius:9999px;
+    font-size:.75rem;font-weight:700;}
+  .tbar{background:white;border-bottom:1px solid #E2ECF0;overflow-x:auto;}
+  .tinn{display:flex;gap:.25rem;padding:.6rem 1rem;max-width:680px;margin:0 auto;min-width:max-content;}
+  .tbtn{padding:.3rem .7rem;border-radius:9999px;border:none;cursor:pointer;white-space:nowrap;
+    font-size:.73rem;font-weight:700;font-family:inherit;transition:all .15s;}
+  .qbody{max-width:680px;margin:0 auto;padding:1.25rem 1rem 2rem;}
+  .dhero{border-radius:1.25rem;padding:1.25rem 1.5rem;margin-bottom:1.25rem;color:white;
+    position:relative;overflow:hidden;}
+  .dhbg{position:absolute;right:-20px;top:-20px;font-size:5rem;opacity:.12;pointer-events:none;}
+  .sbox{border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;display:flex;gap:.5rem;
+    align-items:flex-start;font-size:.82rem;line-height:1.5;}
+  .sleg{display:flex;gap:.3rem;margin-bottom:1.25rem;}
+  .spip{flex:1;text-align:center;padding:.35rem .2rem;border-radius:.5rem;
+    border:1px solid rgba(0,0,0,.06);}
+  .ql{display:flex;flex-direction:column;gap:.875rem;margin-bottom:1.5rem;}
+  .qc{background:white;border-radius:1rem;padding:1rem 1.125rem;
+    box-shadow:0 1px 6px rgba(0,0,0,.06);border:2px solid transparent;transition:border-color .2s;}
+  .qt{font-size:.92rem;line-height:1.6;font-weight:500;margin-bottom:.75rem;}
+  .qn{font-weight:800;margin-right:.35rem;}
+  .sbs{display:flex;gap:.35rem;}
+  .sb{flex:1;padding:.5rem .15rem;border-radius:.6rem;border:2.5px solid #DDE6EA;background:white;
+    font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit;transition:all .15s;line-height:1.3;}
+  .sb .sl{font-size:.55rem;font-weight:600;margin-top:.1rem;opacity:.85;}
+  .qnav{display:flex;gap:.75rem;margin-bottom:.75rem;}
+  .hint{text-align:center;color:var(--grey);font-size:.78rem;margin-top:.5rem;}
+  .mbg{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+  .mc{background:white;border-radius:1.5rem;padding:2.5rem 2rem;max-width:420px;width:100%;
+    box-shadow:0 25px 80px rgba(0,0,0,.25);text-align:center;}
+  .mov{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);
+    display:flex;align-items:center;justify-content:center;z-index:1000;padding:1.5rem;}
+  .moc{background:white;border-radius:1.25rem;padding:1.75rem 1.5rem;max-width:380px;
+    width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+  .rh{padding:1.5rem 1rem 3rem;text-align:center;}
+  .ri{max-width:680px;margin:-1.5rem auto 0;padding:0 1rem 3rem;position:relative;}
+  .sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:.75rem;margin-bottom:1.25rem;}
+  .sc{background:white;border-radius:1rem;padding:1rem 1.125rem;
+    box-shadow:0 2px 8px rgba(0,0,0,.07);}
+  .sbb{height:7px;background:#EEF2F5;border-radius:9999px;overflow:hidden;margin-bottom:.5rem;}
+  .sbf{height:100%;border-radius:9999px;}
+  .lb{display:inline-block;padding:.15rem .6rem;border-radius:9999px;font-size:.72rem;font-weight:700;}
+  .syc{background:white;border-radius:1.25rem;padding:1.25rem 1.5rem;
+    box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:1rem;border:1px solid var(--teal-med);}
+  .syh{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;padding-bottom:.875rem;
+    border-bottom:1px solid var(--teal-light);}
+  .sya{width:42px;height:42px;background:linear-gradient(135deg,var(--teal),var(--teal-dark));
+    border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+  .syt{font-size:.92rem;line-height:1.75;white-space:pre-wrap;}
+  .crb{background:#FDECEA;border:2px solid #C0392B;border-radius:1rem;padding:1rem 1.25rem;
+    margin-bottom:1rem;display:flex;gap:.75rem;align-items:flex-start;}
+  .sh{color:white;border-radius:.75rem;padding:.6rem 1rem;font-weight:800;
+    font-size:.85rem;margin-bottom:.75rem;margin-top:1.25rem;}
+  .akr{display:flex;gap:.5rem;margin-top:.5rem;}
+  @media print{
+    .qh,.tbar,.qnav,.hint,.mov,.api-ks,#actbtns{display:none!important;}
+    body{background:white!important;}
+    .rh{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .sh{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .sc,.syc{break-inside:avoid;}
+  }
+
+  .rh{background:linear-gradient(135deg,#1A3C4A,#2D7D9A)!important;}
+</style>
+</head>
+<body>
+<a href="../../parents.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#e05a8a;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(224,90,138,0.2)">← Boîte NeuroPed</a><!--data-back-link-injected-->
+<div id="app"></div>
+<div id="modal-root"></div>
+<script>
+const PWD = "NawelPro2025";
+const BRAND = "Educa Typique";
+const COVER_BG = "linear-gradient(160deg,#1A3C4A 0%,#2D7D9A 50%,#C2185B 100%)";
+const RES_BG = "linear-gradient(135deg,#1A3C4A,#2D7D9A)";
+const MERCI_EMOJI = "🌸";
+const MERCI_MSG = "Nawel va analyser votre profil en détail et en parler avec vous lors de votre prochain rendez-vous.";
+const AI_SYSTEM = `Tu es Nawel Haddouch, neuropédagogue et coach spécialisée TND, TCC, santé mentale des femmes adultes — Cabinet Educa Typique. Tu analyses les résultats d'un questionnaire clinique pour femmes adultes. Rédige une note clinique praticien structurée, professionnelle, bienveillante et orientée action. Sois particulièrement attentive aux profils féminins TND masqués (TDAH, TSA) et aux liens entre trauma, dysrégulation et identité. Max 500 mots. Français uniquement.`;
+
+const DOMAINS=[
+  {id:'tdah',tag:'TDAH',label:'Attention & Organisation',emoji:'⚡',color:'#2D7D9A',light:'#E8F4F8',
+   intro:"Le TDAH féminin est souvent masqué et intériorisé. Ces questions explorent votre vécu réel.",
+   questions:["J'ai du mal à maintenir mon attention sur une tâche longtemps, même importante","J'oublie fréquemment des rendez-vous, tâches ou objets malgré mes efforts","Je commence beaucoup de choses mais j'en termine peu","Je procrastine beaucoup, même pour des choses que je veux vraiment faire","Je suis très facilement distraite par ce qui m'entoure ou mes propres pensées","Mon niveau d'énergie et de concentration varie énormément d'un jour à l'autre","J'ai une hyperactivité mentale : ma tête ne s'arrête jamais, même la nuit","Je m'hyperfocalise sur certaines choses et perds la notion du temps","J'ai du mal à gérer les tâches administratives, les papiers, les délais","Je compense mes difficultés par des listes, des routines strictes ou une hyperorganisation","J'ai toujours eu besoin de beaucoup plus d'efforts que les autres pour les mêmes résultats","On m'a souvent dit que j'étais dans la lune, distraite ou imprévisible"]},
+  {id:'hpi',tag:'HPI',label:'Fonctionnement HPI',emoji:'🌟',color:'#5B3E8C',light:'#F0EBFF',
+   questions:["Je comprends et traite les informations plus vite que la plupart des gens autour de moi","Je m'ennuie rapidement et ai besoin de stimulation intellectuelle constante","Je ressens les injustices de manière très intense pour moi et pour les autres","Je remets souvent en question les conventions, les règles ou les systèmes en place","Je me sens souvent incomprise ou décalée par rapport à mon entourage","J'ai des passions très intenses qui peuvent occuper tout mon espace mental","Je fais des connexions entre des idées que les autres ne voient pas","Je peux passer du perfectionnisme total à la démotivation complète selon l'intérêt","Il y a un écart notable entre ma richesse intérieure et ce que je parviens à produire","Je porte souvent le sentiment d'avoir gâché mon potentiel ou de ne pas être à ma place"]},
+  {id:'tsa',tag:'TSA',label:'Profil TSA — Masquage féminin',emoji:'🌐',color:'#1565C0',light:'#E3F2FD',
+   intro:"Le TSA féminin est très souvent non diagnostiqué. Les femmes développent un masque social épuisant.",
+   questions:["Je dois faire beaucoup d'efforts conscients pour paraître normale en société","Après les interactions sociales, je suis épuisée et ai besoin de me retrouver seule","Je comprends mal les sous-entendus, l'ironie ou ce qui se dit entre les lignes","J'ai besoin de routines très stables pour fonctionner — les imprévus me déstabilisent fort","Certains bruits, lumières, textures ou odeurs me perturbent de manière intense","Mes intérêts sont très spécifiques et absorbants — je peux y passer des heures","J'ai souvent l'impression de jouer un rôle dans les relations sans me sentir vraiment moi","Je prends les choses au sens littéral — l'humour ou les métaphores m'échappent parfois","J'ai peu d'amies proches mais ces relations sont très intenses et importantes pour moi","Adolescente ou enfant, j'avais du mal à m'intégrer au groupe sans vraiment savoir pourquoi","Le contact physique inattendu ou le bruit me provoque des réactions plus fortes que chez d'autres","Je simule les émotions attendues en société même quand je ne les ressens pas"]},
+  {id:'dys',tag:'DYS',label:'Apprentissages & Dys',emoji:'📚',color:'#2E7D32',light:'#E8F5E9',
+   questions:["Je lis lentement ou dois relire plusieurs fois pour bien comprendre","J'ai toujours eu beaucoup de fautes d'orthographe malgré mes efforts","Mon écriture est peu lisible ou j'écris lentement avec fatigue","J'ai des difficultés persistantes avec les chiffres, les calculs ou la gestion budgétaire","Je suis maladroite ou me cogne fréquemment dans mon quotidien","Prendre des notes tout en écoutant est très difficile pour moi","Il y a un écart important entre ce que je comprends à l'oral et mes performances écrites","On m'a dit que j'étais intelligente mais paresseuse à l'école, alors que je faisais des efforts"]},
+  {id:'anxiete',tag:'Anxiété',label:'Anxiété & Pensées intrusives',emoji:'😰',color:'#E65100',light:'#FFF3E0',
+   questions:["Je m'inquiète souvent et pour beaucoup de choses à la fois","J'ai peur de mal faire, de décevoir ou d'être jugée","Je rumine en boucle les conversations ou situations passées","J'anticipe les scénarios négatifs avant chaque événement","J'ai des pensées intrusives difficiles à contrôler","J'évite certaines situations ou personnes pour éviter l'anxiété","J'ai des manifestations physiques du stress : tensions, maux de tête, problèmes digestifs","J'ai du mal à m'endormir parce que mon esprit ne s'arrête pas","Je suis parfois submergée par une anxiété qui semble disproportionnée","J'ai une peur du conflit ou de la confrontation qui me pousse à tout accepter"]},
+  {id:'depression',tag:'Humeur',label:'Humeur & Dépression',emoji:'🌧️',color:'#37474F',light:'#ECEFF1',sensitive:true,
+   questions:["Je me sens souvent triste, vide ou sans énergie sans raison claire","J'ai perdu de l'intérêt ou du plaisir pour des activités que j'aimais","Je me critique beaucoup et j'ai une image négative de moi-même","Je ressens une fatigue profonde qui ne disparaît pas avec le sommeil","J'ai du mal à me projeter dans le futur ou à voir des perspectives positives","Je pleure facilement ou j'ai envie de pleurer sans trop savoir pourquoi","J'alterne entre des périodes de grande énergie et des périodes d'effondrement","Il m'arrive d'avoir des pensées sombres ou de vouloir me faire du mal","Je me sens coupable de beaucoup de choses même quand ce n'est pas ma responsabilité","Je ressens parfois un sentiment de vide ou de dépersonnalisation"]},
+  {id:'burnout',tag:'Burnout',label:'Burnout & Épuisement',emoji:'🔥',color:'#BF360C',light:'#FBE9E7',
+   questions:["Je me sens épuisée la plupart du temps, même après avoir dormi","J'ai l'impression de fonctionner en mode survie depuis longtemps","Je donne beaucoup aux autres mais je ne reçois pas en retour","J'ai du mal à poser des limites — je dis oui alors que je veux dire non","Je m'oublie moi-même dans la gestion des besoins des autres","Je ressens un cynisme ou une indifférence croissante à ce que j'aimais","J'ai du mal à récupérer après un effort physique ou émotionnel","Je cumule plusieurs rôles (mère, professionnelle, aidante...) qui m'épuisent","Je ressens une déconnexion entre ce que je fais et le sens que cela a pour moi","J'ai l'impression de ne jamais en faire assez malgré tous mes efforts"]},
+  {id:'trauma',tag:'Trauma',label:'Histoire de vie & Trauma',emoji:'🌿',color:'#4A235A',light:'#F3E5F5',sensitive:true,
+   intro:"Ces questions sont confidentielles. Elles permettent de mieux comprendre l'impact de certains événements de vie.",
+   questions:["J'ai vécu des événements difficiles dans l'enfance qui continuent d'influencer ma vie","Je réagis parfois très fortement à des situations qui semblent anodines aux autres","J'ai des souvenirs intrusifs ou des flashbacks de situations passées","Je me mets facilement en mode alerte ou sur-vigilance dans certains contextes","J'ai du mal à faire confiance aux autres ou à me sentir en sécurité dans les relations","J'ai tendance à me dissocier dans les situations stressantes","J'ai des réactions physiques intenses face à certains rappels de mon passé","Je porte depuis longtemps un sentiment de honte lié à des expériences passées","J'ai vécu des situations de violence, d'abus ou de négligence","Mon rapport aux relations intimes a été affecté par des expériences passées"]},
+  {id:'corps',tag:'Corps',label:'Relation au corps & Alimentation',emoji:'🌸',color:'#C2185B',light:'#FCE4EC',sensitive:true,
+   questions:["Je suis en conflit avec mon image corporelle","Je pense fréquemment à mon alimentation, mon poids ou mon corps","Je mange parfois de façon compulsive pour gérer des émotions difficiles","Je me restreins dans mon alimentation de manière régulière","J'ai des comportements de compensation après avoir mangé","Mon rapport à l'alimentation est une source de stress ou de culpabilité","Je me déconnecte de mes sensations corporelles (faim, fatigue, douleur)","J'ai des difficultés à habiter mon corps ou à me sentir bien dans ma peau","J'ai des douleurs chroniques, des troubles fonctionnels ou une fatigue inexpliquée","Je prends soin des autres mais j'oublie ou je néglige mes propres besoins physiques"]},
+  {id:'emotions',tag:'Émotions',label:'Émotions & Hypersensibilité',emoji:'💙',color:'#0277BD',light:'#E1F5FE',
+   questions:["Je ressens les émotions de manière très intense — plus que la plupart des gens","J'absorbe les émotions des autres comme une éponge","J'ai du mal à identifier et nommer ce que je ressens précisément","Je passe d'un état émotionnel à un autre rapidement et difficilement","Je peux ressentir de la honte intense face à des situations anodines","Mes émotions influencent fortement mes décisions et mon comportement","J'ai du mal à gérer la colère — je l'exprime trop ou je la retourne contre moi","Je suis très sensible aux critiques, même constructives","Je me sens souvent débordée par l'intensité de ce que je vis intérieurement","J'utilise des stratégies pour engourdir ou éviter certaines émotions difficiles"]},
+  {id:'relations',tag:'Relations',label:'Relations & Attachement',emoji:'🤝',color:'#AD1457',light:'#FCE4EC',
+   questions:["J'ai peur d'être abandonnée ou rejetée dans mes relations","Je m'oublie facilement dans une relation pour répondre aux besoins de l'autre","J'ai du mal à poser des limites avec les personnes que j'aime","Je tolère des comportements qui ne me conviennent pas pour éviter le conflit","Je cherche à plaire ou à être validée par les autres pour me sentir bien","Mes relations ont parfois été marquées par des dynamiques déséquilibrées ou blessantes","J'ai du mal à demander de l'aide ou à exprimer mes besoins","Je me sens souvent seule même entourée de monde","Mes relations amicales ou amoureuses sont intenses et parfois instables","J'ai des difficultés avec les figures d'autorité ou les hiérarchies"]},
+  {id:'identite',tag:'Identité',label:'Identité & Estime de soi',emoji:'✨',color:'#6A1B9A',light:'#F3E5F5',
+   questions:["J'ai une image de moi-même négative ou instable","Je doute souvent de mes compétences, même reconnues par les autres","J'ai l'impression d'être une fraude qui va être démasquée","Je ne sais pas toujours ce que je veux vraiment ou qui je suis profondément","Je me compare constamment aux autres et je me trouve en dessous","Je relie souvent ma valeur à ce que je produis ou à ce que je donne","J'ai vécu toute ma vie en m'adaptant aux attentes des autres plutôt qu'aux miennes","J'ai du mal à recevoir des compliments ou de la reconnaissance","Je ressens un vide intérieur difficile à définir ou à combler","Je cherche encore ma place professionnellement, socialement ou spirituellement"]},
+];
+
+
+function buildSynth(){
+  const msgs={
+    tdah:"TDAH féminin adulte probable. Profil internalisé, masqué et compensé. Hyperactivité mentale, procrastination, instabilité attentionnelle. Évaluation neuropsychologique recommandée.",
+    hpi:"Profil HPI probable. Besoin intense de sens, injustice ressentie fortement, ennui cognitif, écart potentiel/production. Accompagnement centré sur les ressources.",
+    tsa:"Profil TSA féminin probable. Masquage social intensif, épuisement des interactions, sensorialité marquée. Souvent diagnostiqué tardivement. Orientation vers équipe spécialisée.",
+    dys:"Troubles Dys persistants. Impact sur la vie professionnelle et personnelle. Bilan neuropsychologique recommandé.",
+    anxiete:"Niveau d'anxiété élevé. Pensées intrusives, ruminations, évitement, somatisation. Travail TCC sur les schémas cognitifs anxieux.",
+    depression:"Signes dépressifs significatifs. Orientation psychologique ou psychiatrique selon l'intensité. Évaluation de la dangerosité si item 8 coté.",
+    burnout:"Burnout installé ou en cours. Épuisement des ressources, sacrifice de soi, perte de sens. Travail sur les limites et la reconnexion à soi.",
+    trauma:"Traces traumatiques probables. Hypervigilance, dissociation, honte. Approche trauma-informée indispensable. EMDR ou IFS à envisager.",
+    corps:"Rapport au corps difficile. Conflits alimentaires, déconnexion sensorielle. Approche intégrative corps-esprit recommandée. Vérifier présence TCA.",
+    emotions:"Dysrégulation émotionnelle marquée. Hypersensibilité, débordement fréquent. Travail DBT ou TCC émotionnelle.",
+    relations:"Difficultés d'attachement. Peur du rejet, oubli de soi, tolérance excessive. Explorer les schémas relationnels précoces.",
+    identite:"Identité fragile. Syndrome de l'imposteur, valeur conditionnelle, vide intérieur. Travail thérapeutique sur l'estime et la construction identitaire.",
+  };
+  const high=DOMAINS.filter(d=>lvl(sc(d.id),mx(d.id)).n>=2).map(d=>d.id);
+  const mod=DOMAINS.filter(d=>lvl(sc(d.id),mx(d.id)).n===1).map(d=>d.id);
+  if(!high.length&&!mod.length) return "ANALYSE — "+(S.name||"Cliente")+(S.age?" ("+S.age+" ans)":"")+"\n\nAucun domaine ne dépasse le seuil d'alerte. Rester attentif(ve) et réévaluer si le tableau clinique évolue.";
+  let t="ANALYSE CLINIQUE — "+(S.name||"Cliente")+(S.age?" ("+S.age+" ans)":"")+(S.extra?"\nSituation : "+S.extra:"")+"\n\n";
+  if(high.length){t+="▸ DOMAINES AVEC SIGNES MARQUÉS\n";high.forEach(id=>{t+="  • "+DOMAINS.find(d=>d.id===id).tag+" — "+DOMAINS.find(d=>d.id===id).label+"\n    "+msgs[id]+"\n\n";});}
+  if(mod.length){t+="▸ DOMAINES AVEC SIGNES PRÉSENTS\n";mod.forEach(id=>{t+="  • "+DOMAINS.find(d=>d.id===id).tag+" : présent, à surveiller\n";});t+="\n";}
+  const orient=[];
+  if(high.includes('tdah')||high.includes('tsa'))orient.push("Neuropsychologue / Médecin formé TND");
+  if(high.includes('dys'))orient.push("Orthophoniste / Neuropsychologue");
+  if(high.includes('trauma'))orient.push("Psychologue trauma-informé(e) — EMDR / IFS");
+  if(high.includes('corps'))orient.push("Nutritionniste TCA / Approche corps-esprit");
+  if(high.includes('depression'))orient.push("Psychiatre / Psychologue clinicien(ne)");
+  if(orient.length){t+="▸ ORIENTATIONS PRIORITAIRES\n";orient.forEach(o=>t+="  → "+o+"\n");t+="\n";}
+  t+="▸ RAPPEL\nCe questionnaire est un repérage clinique, pas un diagnostic. Croiser avec l'entretien et le contexte.";
+  return t;
+}
+
+
+function getCrisis(){
+  const hd=lvl(sc('depression'),mx('depression')).n>=2, ht=lvl(sc('trauma'),mx('trauma')).n>=2;
+  if(!hd&&!ht)return '';
+  return '<div class="crb"><span style="font-size:1.25rem;flex-shrink:0">🚨</span><div><div style="font-weight:800;color:#C0392B;font-size:.9rem;margin-bottom:.3rem">ALERTE — Souffrance psychique significative</div><p style="font-size:.83rem;color:#8B0000;line-height:1.6;margin:0">Scores élevés en '+(hd?'Humeur/Dépression':'')+(hd&&ht?' et ':'')+(ht?'Trauma':'')+'. Évaluation approfondie nécessaire. Si item 8 (Dépression) coté : évaluer la dangerosité. Rappel : 3114.</p></div></div>';
+}
+
+
+function coverHTML(){
+  const tags=DOMAINS.map(d=>'<span style="background:'+d.light+';color:'+d.color+';padding:.2rem .6rem;border-radius:9999px;font-size:.73rem;font-weight:700;border:1px solid rgba(0,0,0,.08)">'+d.emoji+' '+d.tag+'</span>').join('');
+  return '<div style="min-height:100vh;background:linear-gradient(160deg,#1A3C4A 0%,#2D7D9A 50%,#C2185B 100%);display:flex;align-items:center;justify-content:center;padding:1.5rem"><div style="background:white;border-radius:1.5rem;padding:2rem 2rem 2.5rem;max-width:480px;width:100%;box-shadow:0 25px 80px rgba(0,0,0,.3)">'
+    +'<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1.25rem"><div style="width:42px;height:42px;background:var(--teal-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">🌸</div><div><div style="font-weight:800;color:var(--teal);font-size:.9rem">Educa Typique</div><div style="font-size:.7rem;color:var(--grey)">Cabinet spécialisé — Haddouch Nawel</div></div></div>'
+    +'<h1 style="font-size:1.5rem;font-weight:900;color:var(--dark);line-height:1.2;margin-bottom:.25rem">Questionnaire<br><span style="color:var(--teal)">Profil adulte féminin</span></h1>'
+    +'<p style="color:var(--grey);font-size:.88rem;line-height:1.6;margin-bottom:1.25rem">Un espace pour mieux vous comprendre — en profondeur et sans jugement.</p>'
+    +'<div style="background:var(--orange-light);border:1px solid rgba(224,123,58,.4);border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1.25rem;display:flex;gap:.5rem;align-items:flex-start;font-size:.8rem;color:#7A3D0A;line-height:1.5"><span>🔒</span><div>Ce questionnaire est <strong>confidentiel</strong>. Il ne pose pas de diagnostic. Il aide votre praticienne à mieux cerner votre profil et vos besoins.</div></div>'
+    +'<div style="margin-bottom:1.25rem"><div style="margin-bottom:.6rem"><label class="fl">Votre prénom <span style="color:var(--grey);font-weight:400">(optionnel)</span></label><input id="inp-name" class="fi" placeholder="ex : Nawel" value="'+S.name+'"></div><div style="margin-bottom:.6rem"><label class="fl">Votre âge</label><input id="inp-age" class="fi" type="number" min="18" max="80" placeholder="ex : 35" value="'+S.age+'"></div><div><label class="fl">Situation actuelle <span style="color:var(--grey);font-weight:400">(optionnel)</span></label><input id="inp-extra" class="fi" placeholder="ex : mère de 3 enfants, en activité..." value="'+S.extra+'"></div></div>'
+    +'<div style="margin-bottom:1.25rem"><p style="font-size:.82rem;font-weight:700;color:var(--grey);margin-bottom:.6rem">Ce questionnaire explore :</p><div style="display:flex;flex-wrap:wrap;gap:.35rem">'+tags+'</div></div>'
+    +'<button class="btn-p" id="bstart">Commencer →</button>'
+    +'<p style="text-align:center;font-size:.72rem;color:var(--grey);margin-top:.875rem">~15 minutes · '+DOMAINS.reduce((a,d)=>a+d.questions.length,0)+' questions · '+DOMAINS.length+' domaines</p>'
+    +'</div></div>';
+}
+
+
+const SCALE=[
+  {val:0,label:'Jamais',  color:'#2D7D9A',bg:'#E8F4F8'},
+  {val:1,label:'Parfois', color:'#D4A017',bg:'#FFF8E1'},
+  {val:2,label:'Souvent', color:'#E07B3A',bg:'#FFF3EC'},
+  {val:3,label:'Toujours',color:'#C0392B',bg:'#FDECEA'},
+];
+const S={screen:'cover',name:'',age:'',extra:'',domIdx:0,answers:{},aiText:'',aiLoading:false,authOk:false,pwErr:''};
+function sc(id){return Object.values(S.answers[id]||{}).reduce((a,b)=>a+b,0);}
+function mx(id){return DOMAINS.find(d=>d.id===id).questions.length*3;}
+function done(id){return Object.keys(S.answers[id]||{}).length===DOMAINS.find(d=>d.id===id).questions.length;}
+function pct(){const t=DOMAINS.reduce((a,d)=>a+d.questions.length,0),a=DOMAINS.reduce((a,d)=>a+Object.keys(S.answers[d.id]||{}).length,0);return Math.round(a/t*100);}
+function lvl(s,m){const p=s/m;
+  if(p<.25)return{n:0,label:'Peu de signes', color:'#2E7D32',bg:'#E8F5E9',bar:'#4CAF50'};
+  if(p<.5) return{n:1,label:'Signes présents',color:'#D4A017',bg:'#FFF8E1',bar:'#FFC107'};
+  if(p<.75)return{n:2,label:'Signes notables',color:'#E07B3A',bg:'#FFF3EC',bar:'#FF9800'};
+  return          {n:3,label:'Signes marqués', color:'#C0392B',bg:'#FDECEA',bar:'#F44336'};}
+function getSynt(){return S.aiText||buildSynth();}
+function render(){document.getElementById('app').innerHTML=buildHTML();bindAll();}
+function buildHTML(){
+  if(S.screen==='cover')  return coverHTML();
+  if(S.screen==='quiz')   return quizHTML();
+  if(S.screen==='merci')  return merciHTML();
+  if(S.screen==='results')return resultsHTML();
+}
+function quizHTML(){
+  const d=DOMAINS[S.domIdx],da=S.answers[d.id]||{},dc=Object.keys(da).length,tot=d.questions.length,isDone=done(d.id),p=pct();
+  const tabs=DOMAINS.map((x,i)=>{const dn=done(x.id)&&i!==S.domIdx,ac=i===S.domIdx;
+    return '<button class="tbtn" data-tab="'+i+'" style="background:'+(ac?x.color:(dn?'#E8F5E9':'#F0F4F8'))+';color:'+(ac?'white':(dn?'#2E7D32':'var(--grey)'))+';outline:'+(ac?'2px solid '+x.color:'none')+';outline-offset:1px">'+x.emoji+' '+x.tag+(dn?' ✓':'')+'</button>';}).join('');
+  const sleg=SCALE.map(s=>'<div class="spip" style="background:'+s.bg+'"><div style="font-weight:800;font-size:.9rem;color:'+s.color+'">'+s.val+'</div><div style="font-size:.6rem;font-weight:600;color:'+s.color+';margin-top:.1rem;line-height:1.2">'+s.label+'</div></div>').join('');
+  const qs=d.questions.map((q,qi)=>{const ch=da[qi];
+    const btns=SCALE.map(s=>{const sel=ch===s.val;return '<button class="sb abt" data-q="'+qi+'" data-val="'+s.val+'" style="border-color:'+(sel?d.color:'#DDE6EA')+';background:'+(sel?d.color:s.bg)+';color:'+(sel?'white':s.color)+';transform:'+(sel?'scale(1.05)':'scale(1)')+'">'+s.val+'<div class="sl">'+s.label+'</div></button>';}).join('');
+    return '<div class="qc" style="border-color:'+(ch!==undefined?d.color+'55':'transparent')+'"><div class="qt"><span class="qn" style="color:'+d.color+'">'+(qi+1)+'.</span>'+q+'</div><div class="sbs">'+btns+'</div></div>';}).join('');
+  const sens=d.sensitive?'<div class="sbox" style="background:'+d.light+';border:1px solid '+d.color+'44;color:'+d.color+'"><span>🔒</span><span>'+(d.intro||'Ces questions sont confidentielles.')+'</span></div>':'';
+  const intro=d.intro&&!d.sensitive?'<div style="background:'+d.light+';border-radius:.75rem;padding:.7rem 1rem;margin-bottom:1rem;font-size:.82rem;color:'+d.color+';line-height:1.5;border:1px solid '+d.color+'33">ℹ️ '+d.intro+'</div>':'';
+  const ns=isDone?'background:linear-gradient(135deg,'+d.color+','+d.color+'CC);box-shadow:0 4px 15px '+d.color+'44':'';
+  const nl=S.domIdx===DOMAINS.length-1?'Terminer le questionnaire ✓':'Section suivante →';
+  return '<div><div class="qh"><div class="qhi"><span style="color:white;font-weight:800;font-size:.85rem">'+BRAND+'</span><div style="display:flex;align-items:center;gap:.75rem"><span style="color:var(--teal-med);font-size:.8rem">'+dc+'/'+tot+'</span><span class="bdg">'+(S.domIdx+1)+'/'+DOMAINS.length+'</span></div></div><div class="pbg"><div class="pfl" style="width:'+p+'%"></div></div></div>'
+    +'<div class="tbar"><div class="tinn">'+tabs+'</div></div>'
+    +'<div class="qbody"><div class="dhero" style="background:linear-gradient(135deg,'+d.color+','+d.color+'BB)"><div class="dhbg">'+d.emoji+'</div><div style="font-size:1.75rem;margin-bottom:.2rem">'+d.emoji+'</div><h2 style="font-size:1.1rem;font-weight:800;margin:0">'+d.label+'</h2><p style="margin:.2rem 0 0;font-size:.8rem;opacity:.8">Section '+(S.domIdx+1)+' sur '+DOMAINS.length+'</p></div>'
+    +sens+intro+'<div class="sleg">'+sleg+'</div><div class="ql">'+qs+'</div>'
+    +'<div class="qnav">'+(S.domIdx>0?'<button class="btn-s" id="bprev" style="flex:1">← Précédent</button>':'')+'<button class="btn-p" id="bnext" style="flex:2;'+ns+'" '+(isDone?'':'disabled')+'>'+nl+'</button></div>'
+    +(!isDone?'<p class="hint">'+dc+'/'+tot+' questions — complétez tout pour continuer</p>':'')
+    +'</div></div>';
+}
+function merciHTML(){
+  return '<div class="mbg" style="background:'+COVER_BG+'"><div class="mc">'
+    +'<div style="font-size:4rem;margin-bottom:1rem">'+MERCI_EMOJI+'</div>'
+    +'<h1 style="font-size:1.4rem;font-weight:900;color:var(--teal);margin-bottom:.75rem">'+(S.name?'Merci, '+S.name+' !':'Merci !')+'</h1>'
+    +'<p style="color:var(--grey);font-size:.95rem;line-height:1.7;margin-bottom:.5rem">Vous avez complété le questionnaire. Vos réponses ont bien été enregistrées.</p>'
+    +'<p style="color:var(--grey);font-size:.95rem;line-height:1.7;margin-bottom:2rem">'+MERCI_MSG+'</p>'
+    +'<div style="background:var(--teal-light);border-radius:1rem;padding:1rem;margin-bottom:2rem;font-size:.85rem;color:var(--teal-dark);line-height:1.6">💙 Si vous traversez une période difficile, appelez le <strong>3114</strong> — numéro national, gratuit, confidentiel.</div>'
+    +'<button class="btn-p" onclick="location.reload()">Nouvelle session</button>'
+    +'<div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid #EEF2F5"><p style="font-size:.7rem;color:#C8D4D8;text-align:center;cursor:pointer" id="lkprat">Espace praticien</p></div>'
+    +'</div></div>';
+}
+function showModal(){
+  document.getElementById('modal-root').innerHTML='<div class="mov" id="mov"><div class="moc">'
+    +'<div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem"><div style="width:40px;height:40px;background:var(--teal-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">🔐</div><div><div style="font-weight:800;font-size:1rem;color:var(--dark)">Espace praticien</div><div style="font-size:.75rem;color:var(--grey)">Accès réservé — Haddouch Nawel</div></div></div>'
+    +'<div style="margin-bottom:1rem"><label class="fl">Mot de passe</label><input id="mpw" class="fi" type="password" placeholder="••••••••">'+(S.pwErr?'<p style="color:#C0392B;font-size:.8rem;margin-top:.4rem">'+S.pwErr+'</p>':'')+'</div>'
+    +'<div style="display:flex;gap:.75rem"><button class="btn-s" id="mcancel" style="flex:1">Annuler</button><button class="btn-p" id="mok" style="flex:2">Accéder →</button></div>'
+    +'</div></div>';
+  const pw=document.getElementById('mpw');
+  if(pw){pw.addEventListener('keydown',e=>{if(e.key==='Enter')checkPw();});setTimeout(()=>pw.focus(),80);}
+  document.getElementById('mok')?.addEventListener('click',checkPw);
+  document.getElementById('mcancel')?.addEventListener('click',closeModal);
+  document.getElementById('mov')?.addEventListener('click',e=>{if(e.target===document.getElementById('mov'))closeModal();});
+}
+function closeModal(){document.getElementById('modal-root').innerHTML='';}
+function checkPw(){
+  const pw=(document.getElementById('mpw')||{}).value||'';
+  if(pw===PWD){S.authOk=true;S.pwErr='';closeModal();S.screen='results';render();window.scrollTo(0,0);}
+  else{S.pwErr='Mot de passe incorrect.';showModal();}
+}
+function resultsHTML(){
+  const scores=DOMAINS.map(d=>{const s=sc(d.id),m=mx(d.id),l=lvl(s,m),p=Math.round(s/m*100);
+    return '<div class="sc" style="border-top:4px solid '+d.color+'"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.6rem"><div><div style="font-size:.75rem;font-weight:800;color:'+d.color+';margin-bottom:.1rem">'+d.emoji+' '+d.tag+'</div><div style="font-size:.78rem;color:var(--grey)">'+d.label+'</div></div><div style="font-weight:900;font-size:1.1rem;color:'+l.color+'">'+s+'<small style="font-size:.7rem;color:var(--grey);font-weight:400">/'+m+'</small></div></div><div class="sbb"><div class="sbf" style="width:'+p+'%;background:'+l.bar+'"></div></div><span class="lb" style="background:'+l.bg+';color:'+l.color+'">'+l.label+'</span></div>';}).join('');
+  const crisis=getCrisis();
+  const details=DOMAINS.map(d=>{
+    const rows=d.questions.map((q,qi)=>{const val=((S.answers[d.id])||{})[qi],s=val!==undefined?SCALE[val]:null;
+      const bg=s?['#E8F4F8','#FFF8E1','#FFF3EC','#FDECEA'][s.val]:'#F9F9F9';
+      const col=s?[d.color,'#D4A017','#E07B3A','#C0392B'][s.val]:'#AAA';
+      return '<tr style="background:'+bg+'"><td style="padding:.4rem .6rem;font-size:.82rem;color:var(--dark);line-height:1.4">'+(qi+1)+'. '+q+'</td><td style="padding:.4rem .6rem;text-align:center;font-weight:800;font-size:.9rem;color:'+col+';white-space:nowrap">'+(s?s.val+' — '+s.label:'—')+'</td></tr>';}).join('');
+    return '<div style="margin-bottom:1.25rem"><div class="sh" style="background:'+d.color+'">'+d.emoji+' '+d.tag+' — '+d.label+' · '+sc(d.id)+'/'+mx(d.id)+'</div><div style="background:white;border-radius:.75rem;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.06)"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F0F4F8"><th style="padding:.4rem .6rem;text-align:left;font-size:.78rem;color:var(--grey);font-weight:700">Question</th><th style="padding:.4rem .6rem;text-align:center;font-size:.78rem;color:var(--grey);font-weight:700;width:130px">Réponse</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';}).join('');
+  const synt=S.aiLoading?'<div style="text-align:center;padding:2rem;color:var(--grey)">⏳ Analyse en cours...</div>':'<div class="syt">'+getSynt().replace(/
+/g,'<br>')+'</div>';
+  return '<div><div class="rh" style="background:'+RES_BG+'"><div style="font-size:2rem;margin-bottom:.5rem">🔐</div><h1 style="color:white;font-size:1.3rem;font-weight:900;margin:0">Espace praticien</h1><p style="color:var(--teal-med);margin:.3rem 0 0;font-size:.85rem">'+(S.name||'Cliente')+(S.age?' — '+S.age+' ans':'')+(S.extra?' · '+S.extra:'')+' · Confidentiel</p></div>'
+    +'<div class="ri">'+crisis
+    +'<div style="background:white;border-radius:.875rem;padding:.875rem 1rem;margin-bottom:1rem;font-size:.8rem;line-height:1.6;border-left:4px solid var(--orange)"><strong>Rappel :</strong> Document confidentiel — repérage clinique uniquement.</div>'
+    +'<div class="sh" style="background:var(--teal-dark);margin-top:0">📊 Vue d'ensemble</div>'
+    +'<div class="sg">'+scores+'</div>'
+    +'<div class="syc"><div class="syh"><div class="sya">📋</div><div><div style="font-weight:800;font-size:.95rem">Synthèse clinique</div><div style="font-size:.72rem;color:var(--grey)">Educa Typique · '+(S.name||'Cliente')+(S.age?' · '+S.age+' ans':'')+'</div></div></div>'
+    +synt
+    +'<div class="api-ks" style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--teal-light)"><p style="font-size:.78rem;color:var(--grey);margin-bottom:.4rem">Synthèse IA approfondie (clé API Anthropic, optionnel) :</p><div class="akr"><input id="iakey" class="fi" type="password" placeholder="sk-ant-..." style="flex:1;font-size:.85rem"><button id="bai" class="btn-p" style="width:auto;padding:.65rem 1rem;font-size:.85rem;flex-shrink:0">✨ IA</button></div></div>'
+    +'</div>'
+    +'<div class="sh" style="background:var(--teal-dark)">📝 Réponses détaillées</div>'+details
+    +'<div id="actbtns" style="display:flex;flex-direction:column;gap:.6rem;margin-top:1.5rem">'
+    +'<div style="display:flex;gap:.6rem"><button class="btn-p" id="bprint" style="flex:1;padding:.75rem;font-size:.85rem">🖨️ Imprimer / PDF</button><button class="btn-s" id="blogout" style="flex:1;padding:.75rem;font-size:.85rem">🔒 Déconnexion</button></div>'
+    +'<button id="bcopy" style="width:100%;padding:.75rem;border:2px solid #5B3E8C;border-radius:.875rem;background:white;color:#5B3E8C;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit">📋 Copier la synthèse</button>'
+    +'<button id="bemail" style="width:100%;padding:.75rem;border:2px solid #2E7D32;border-radius:.875rem;background:white;color:#2E7D32;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit">✉️ Envoyer par e-mail</button>'
+    +'</div>'
+    +'<p style="text-align:center;font-size:.7rem;color:var(--grey);margin-top:1rem">Cabinet Educa Typique · Haddouch Nawel · Document confidentiel</p>'
+    +'</div></div>';
+}
+async function callAI(key){
+  S.aiLoading=true;document.getElementById('app').innerHTML=buildHTML();bindResults();
+  const scores=DOMAINS.map(d=>d.tag+' ('+d.label+') : '+sc(d.id)+'/'+mx(d.id)+' — '+lvl(sc(d.id),mx(d.id)).label).join('\n');
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,
+        system:AI_SYSTEM,
+        messages:[{role:'user',content:'Cliente : '+(S.name||'?')+', '+(S.age||'?')+' ans.\n\nScores :\n'+scores+'\n\nNote clinique praticien.'}]})});
+    const data=await r.json();S.aiText=data.content?.[0]?.text||'';
+  }catch(e){S.aiText='';}
+  S.aiLoading=false;document.getElementById('app').innerHTML=buildHTML();bindResults();
+}
+function bindResults(){
+  const on=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('click',fn);};
+  on('bprint',()=>{
+    const s=document.createElement('style');s.id='pfix';
+    s.textContent='#actbtns,.api-ks,.mov{display:none!important;}';
+    document.head.appendChild(s);
+    window.print();
+    setTimeout(()=>{const x=document.getElementById('pfix');if(x)x.remove();},1200);
+  });
+  on('blogout',()=>{S.authOk=false;S.screen='merci';render();window.scrollTo(0,0);});
+  on('bcopy',()=>{
+    const t=getSynt();
+    const btn=document.getElementById('bcopy');
+    const ok=()=>{if(btn){btn.textContent='✅ Synthèse copiée !';btn.style.background='#E8F5E9';btn.style.borderColor='#2E7D32';setTimeout(()=>{btn.textContent='📋 Copier la synthèse';btn.style.background='white';btn.style.borderColor='#5B3E8C';},2500);}};
+    if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok).catch(()=>{fallbackCopy(t);ok();});}
+    else{fallbackCopy(t);ok();}
+  });
+  on('bemail',()=>{
+    const name=S.name||'Cliente';
+    const subj=encodeURIComponent('Synthèse clinique — '+name+(S.age?' ('+S.age+' ans)':''));
+    const body=encodeURIComponent('Bonjour,\n\nVeuillez trouver ci-dessous la synthèse clinique.\n\n---\n\n'+getSynt()+'\n\n---\nCabinet Educa Typique · Haddouch Nawel · Confidentiel');
+    window.location.href='mailto:?subject='+subj+'&body='+body;
+  });
+  on('bai',()=>{const k=(document.getElementById('iakey')||{}).value||'';if(k.startsWith('sk-'))callAI(k);else alert('Clé API invalide — elle doit commencer par sk-ant-...');});
+}
+function fallbackCopy(t){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
+function bindAll(){
+  const on=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('click',fn);};
+  if(S.screen==='cover'){
+    document.getElementById('inp-name')?.addEventListener('input',e=>S.name=e.target.value);
+    document.getElementById('inp-age')?.addEventListener('input',e=>S.age=e.target.value);
+    document.getElementById('inp-extra')?.addEventListener('input',e=>S.extra=e.target.value);
+    on('bstart',()=>{S.screen='quiz';S.domIdx=0;render();window.scrollTo(0,0);});
+  }
+  if(S.screen==='quiz'){
+    document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{S.domIdx=parseInt(b.dataset.tab);render();window.scrollTo(0,0);}));
+    document.querySelectorAll('.abt').forEach(b=>b.addEventListener('click',()=>{
+      const d=DOMAINS[S.domIdx],qi=parseInt(b.dataset.q),val=parseInt(b.dataset.val);
+      S.answers={...S.answers,[d.id]:{...(S.answers[d.id]||{}),[qi]:val}};render();
+    }));
+    on('bprev',()=>{S.domIdx--;render();window.scrollTo(0,0);});
+    on('bnext',()=>{if(S.domIdx<DOMAINS.length-1){S.domIdx++;render();window.scrollTo(0,0);}else{S.screen='merci';render();window.scrollTo(0,0);}});
+  }
+  if(S.screen==='merci'){on('lkprat',showModal);}
+  if(S.screen==='results'){bindResults();}
+}
+render();
+
+</script>
+</body>
+</html>

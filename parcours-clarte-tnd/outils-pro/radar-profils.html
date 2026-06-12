@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radar des profils — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{
+  background:linear-gradient(135deg,var(--rose-clair),var(--lavande));
+  padding:1.8rem 1.5rem;text-align:center;
+}
+.bandeau h1{color:var(--rose-titre);margin:0;font-size:clamp(1.6rem,3vw,2.2rem)}
+.bandeau .sub{color:var(--texte);max-width:680px;margin:.5rem auto 0;font-size:1.02rem}
+.retour{display:inline-block;margin:0 0 .6rem;color:var(--violet-titre);font-weight:700;text-decoration:none;background:rgba(255,255,255,.6);padding:.3em .9em;border-radius:999px}
+
+.container{max-width:1100px;margin:1.4rem auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid var(--rose-soutenu);border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:var(--rose-titre);font-family:var(--font-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:var(--rose-titre);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+section.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c)}
+section.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-radar{--c:var(--violet-titre)}
+.bloc-cotation{--c:var(--rose-titre)}
+.bloc-syn{--c:var(--teal-titre)}
+.bloc-orient{--c:var(--axe-A)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ textarea{min-height:70px;resize:vertical}
+.champ.full{grid-column:1/-1}
+
+/* Radar SVG */
+.radar-zone{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+@media (max-width:880px){.radar-zone{grid-template-columns:1fr}}
+.radar-svg-wrap{display:flex;justify-content:center;background:linear-gradient(135deg,#fff,var(--beige));border-radius:var(--r-lg);padding:1rem;border:1px solid var(--border)}
+#radar-svg{width:100%;max-width:480px;height:auto;display:block}
+.axe-label{font-family:var(--font-titre);font-size:11px;font-weight:700;fill:var(--texte)}
+.axe-line{stroke:#d0c8dc;stroke-width:1}
+.grid-poly{fill:none;stroke:#e8dff0;stroke-width:.8}
+.grid-poly.niv-5{stroke:#c8bce0;stroke-width:1.4}
+.value-poly{fill:rgba(243,155,194,.35);stroke:var(--rose-titre);stroke-width:2;stroke-linejoin:round}
+.value-point{fill:var(--rose-titre);stroke:#fff;stroke-width:2;cursor:pointer;transition:r .15s}
+.value-point:hover{r:8}
+.click-zone{fill:transparent;cursor:pointer}
+.click-zone:hover ~ .preview-point{opacity:.6}
+.grid-label{font-size:9px;fill:var(--muted);font-family:var(--font-body)}
+
+/* Curseurs de cotation */
+.cotation-liste{display:flex;flex-direction:column;gap:.5rem}
+.coter-row{background:var(--beige);border-radius:var(--r-md);padding:.6rem .8rem;border-left:5px solid var(--c-ax)}
+.coter-row .titre-ligne{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem}
+.coter-row .nom{font-weight:700;font-size:.92rem;color:var(--c-ax)}
+.coter-row .niveau-affiche{background:var(--c-ax);color:#fff;border-radius:999px;padding:.1em .55em;font-weight:800;font-size:.78rem;min-width:42px;text-align:center}
+.coter-row .echelle{display:flex;gap:.25rem}
+.coter-row .echelle label{flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:2px solid transparent;border-radius:var(--r-sm);padding:.3em 0;cursor:pointer;font-weight:700;font-size:.85rem;color:var(--muted);transition:all .15s}
+.coter-row .echelle label:hover{border-color:var(--c-ax)}
+.coter-row .echelle input{display:none}
+.coter-row .echelle input:checked + .v{background:var(--c-ax);color:#fff;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:var(--r-sm);margin:-.3em 0}
+.coter-row .echelle .v{display:flex;align-items:center;justify-content:center}
+
+.legende-radar{display:flex;justify-content:center;gap:.4rem;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin-top:.6rem}
+.legende-radar span{display:inline-flex;align-items:center;gap:.25rem;background:var(--beige);padding:.2em .55em;border-radius:999px}
+.legende-radar b{display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;background:var(--c-leg);color:#fff;border-radius:50%;font-size:.7rem}
+.leg-1{--c-leg:#a02040}.leg-2{--c-leg:#c25a30}.leg-3{--c-leg:#a87800}.leg-4{--c-leg:#2a9d8f}.leg-5{--c-leg:#1b7a4a}
+
+/* Synthèse */
+.synth-grille{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.4rem}
+@media (max-width:760px){.synth-grille{grid-template-columns:1fr}}
+.synth-card{background:var(--beige);border-radius:var(--r-md);padding:.8rem 1rem;border-left:5px solid var(--c-s)}
+.synth-card h3{margin:0 0 .3rem;color:var(--c-s);font-size:1rem}
+.synth-card textarea{width:100%;min-height:90px;padding:.5em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.92rem;resize:vertical}
+.s-forces{--c-s:#1b7a4a}
+.s-vigilance{--c-s:#c25a30}
+
+/* Orientation pros */
+.orient-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.3rem}
+.orient-chips label{background:var(--beige);border:2px solid transparent;border-radius:999px;padding:.35em .9em;cursor:pointer;font-size:.88rem;font-weight:700;color:var(--texte);transition:all .15s}
+.orient-chips label:hover{border-color:var(--axe-A)}
+.orient-chips input{display:none}
+.orient-chips input:checked + span{color:#fff}
+.orient-chips label:has(input:checked){background:var(--axe-A);border-color:var(--axe-A)}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:var(--rose-titre);border:2px solid var(--rose-titre)}
+.actions button:hover{background:var(--rose-titre);color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .retour, .actions, .dossiers, details.apropos{display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .radar-zone{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../parents.html">← Espace parents</a>
+  <h1>📊 Radar des profils</h1>
+  <p class="sub">Visualisez les forces et les fragilités de votre enfant en un coup d'œil. Cotez chaque domaine de <strong>1 (difficulté importante)</strong> à <strong>5 (aisance)</strong>.</p>
+</section>
+
+<div class="container">
+
+  <details class="apropos">
+    <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+    <div class="grid8">
+      <div><strong>1. Objectif</strong>Avoir une vue globale du fonctionnement de l'enfant : 8 domaines synthétiques visualisés en radar pour repérer forces et fragilités d'un seul regard.</div>
+      <div><strong>2. Quand l'utiliser</strong>En préparation d'un rendez-vous avec un pro · pour clarifier ce qu'on observe à la maison · pour suivre l'évolution dans le temps (refaire chaque trimestre).</div>
+      <div><strong>3. Pour quel profil TND</strong>Tous TND. Particulièrement utile quand on ne sait pas par où commencer : le radar fait émerger les domaines prioritaires.</div>
+      <div><strong>4. Mode d'emploi</strong>Cotez chaque domaine de 1 à 5 selon ce que vous observez sur les 4 dernières semaines. Si vous hésitez, choisissez le niveau inférieur.</div>
+      <div><strong>5. Grille à remplir</strong>8 domaines : langage · motricité · attention/FE · apprentissages · émotions · relations sociales · autonomie · sensorialité.</div>
+      <div><strong>6. Analyse</strong>Les zones avec 1-2 sont des fragilités à explorer. Les zones avec 4-5 sont des forces à valoriser. Pas de profil parfait — tous les enfants ont des hauts et des bas.</div>
+      <div><strong>7. Recommandations</strong>Notez les 3 forces principales (à célébrer) et les 3 pistes de vigilance (à observer). Orientez vers un pro si plusieurs domaines sont à 1-2.</div>
+      <div><strong>8. Phrase de synthèse</strong>"Le radar des profils met en évidence des forces sur … et des fragilités sur …. Une consultation est envisagée auprès de …."</div>
+    </div>
+  </details>
+
+  <div class="posture">
+    💡 <strong>Posture :</strong> ce radar n'est pas un diagnostic — c'est <strong>ce que VOUS observez</strong>, en tant que parent qui connaît son enfant. Pas de bon ou mauvais profil. Juste une photo, à un moment. Elle évoluera.
+  </div>
+
+  <!-- META -->
+  <section class="bloc bloc-meta">
+    <h2>Identité de l'enfant</h2>
+    <div class="grille">
+      <div class="champ"><label>Prénom de l'enfant</label><input data-k="prenom" type="text"></div>
+      <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+      <div class="champ"><label>Classe</label><input data-k="classe" type="text" placeholder="CE1, CM2, 6e…"></div>
+      <div class="champ"><label>Date de l'évaluation</label><input data-k="date" type="date"></div>
+      <div class="champ full"><label>Cotation faite par</label><input data-k="evaluateur" type="text" placeholder="ex : maman et papa ensemble, ou maman + enseignante…"></div>
+    </div>
+  </section>
+
+  <!-- RADAR + COTATION -->
+  <section class="bloc bloc-radar">
+    <h2>🎯 Le radar — 8 domaines</h2>
+    <p class="intro">Cliquez directement sur le radar pour ajuster, ou utilisez les curseurs ci-dessous. Tout se met à jour en temps réel.</p>
+
+    <div class="radar-zone">
+      <!-- SVG RADAR -->
+      <div class="radar-svg-wrap">
+        <svg id="radar-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+          <!-- Le contenu sera généré en JS -->
+        </svg>
+      </div>
+
+      <!-- CURSEURS COTATION -->
+      <div class="cotation-liste" id="cotation-liste"></div>
+    </div>
+
+    <div class="legende-radar">
+      <span><b class="leg-1">1</b> difficulté importante</span>
+      <span><b class="leg-2">2</b> fragile</span>
+      <span><b class="leg-3">3</b> moyen</span>
+      <span><b class="leg-4">4</b> bon</span>
+      <span><b class="leg-5">5</b> aisance</span>
+    </div>
+  </section>
+
+  <!-- SYNTHESE FORCES / VIGILANCE -->
+  <section class="bloc bloc-syn">
+    <h2>✍️ Synthèse personnelle</h2>
+    <div class="synth-grille">
+      <div class="synth-card s-forces">
+        <h3>🌟 3 forces principales</h3>
+        <textarea data-k="forces" placeholder="Ce qui marche bien, ce qui le porte, ce qu'il/elle aime faire…&#10;1.&#10;2.&#10;3."></textarea>
+      </div>
+      <div class="synth-card s-vigilance">
+        <h3>⚠️ 3 pistes de vigilance</h3>
+        <textarea data-k="vigilance" placeholder="Ce qui semble coûter, ce qu'on aimerait comprendre, ce qui nous inquiète…&#10;1.&#10;2.&#10;3."></textarea>
+      </div>
+    </div>
+    <div class="champ full" style="margin-top:.7rem"><label>Commentaires libres / observations</label><textarea data-k="commentaires"></textarea></div>
+  </section>
+
+  <!-- ORIENTATION -->
+  <section class="bloc bloc-orient">
+    <h2>📋 À en parler avec…</h2>
+    <p class="intro">Selon les observations, on peut envisager une consultation auprès de :</p>
+    <div class="orient-chips">
+      <label><input type="checkbox" data-k="o-medecin"><span>Médecin traitant / pédiatre</span></label>
+      <label><input type="checkbox" data-k="o-neuropsy"><span>Neuropsychologue</span></label>
+      <label><input type="checkbox" data-k="o-ortho"><span>Orthophoniste</span></label>
+      <label><input type="checkbox" data-k="o-psychomot"><span>Psychomotricien·ne</span></label>
+      <label><input type="checkbox" data-k="o-ergo"><span>Ergothérapeute</span></label>
+      <label><input type="checkbox" data-k="o-pedopsy"><span>Pédopsychiatre</span></label>
+      <label><input type="checkbox" data-k="o-psy"><span>Psychologue</span></label>
+      <label><input type="checkbox" data-k="o-neuroped"><span>Neuropédagogue</span></label>
+      <label><input type="checkbox" data-k="o-orthopt"><span>Orthoptiste</span></label>
+      <label><input type="checkbox" data-k="o-equipe"><span>Équipe éducative</span></label>
+    </div>
+    <div class="champ full" style="margin-top:.7rem"><label>Autres pros / précisions</label><input data-k="o-autres" type="text"></div>
+  </section>
+
+  <div class="actions">
+    <button id="btn-enregistrer">💾 Enregistrer</button>
+    <button id="btn-exporter">📄 Exporter (TXT)</button>
+    <button id="btn-imprimer">🖨️ Imprimer</button>
+    <button id="btn-vider" class="danger">🧹 Vider</button>
+  </div>
+
+  <div class="dossiers">
+    <h4>📂 Radars enregistrés</h4>
+    <div id="liste-dossiers"></div>
+  </div>
+
+  <div class="disclaimer">
+    Ce radar reflète votre observation en tant que parent. Il ne pose pas de diagnostic — il aide à voir clair et à préparer une consultation.
+  </div>
+
+  <p style="text-align:center;color:var(--muted);padding:1rem 0;font-size:.85rem">
+    EducaTypique · Méthode Educa — <a href="../../parents.html">retour espace parents</a>
+  </p>
+
+</div>
+
+<script>
+const STORAGE = 'educatypique_radar_profils_v1';
+let currentId = null;
+
+// === Configuration des 8 axes ===
+const AXES = [
+  { id:'langage',    nom:'Langage & communication',    couleur:'#7c5cbf', exemple:'parler, comprendre, raconter' },
+  { id:'motricite',  nom:'Motricité & coordination',    couleur:'#FFD6C2', exemple:'courir, écrire, gestes fins' },
+  { id:'attention',  nom:'Attention & fonctions exécutives', couleur:'#8ED9D2', exemple:'rester concentré, s\'organiser' },
+  { id:'apprentissages', nom:'Apprentissages',           couleur:'#2a9d8f', exemple:'lecture, écriture, calcul' },
+  { id:'emotions',   nom:'Émotions & régulation',       couleur:'#F39BC2', exemple:'gérer colère, anxiété, tristesse' },
+  { id:'social',     nom:'Relations sociales',          couleur:'#e05a8a', exemple:'amitiés, conflits, codes' },
+  { id:'autonomie',  nom:'Autonomie & organisation',    couleur:'#CBB6F6', exemple:'routines, devoirs, sac' },
+  { id:'sensoriel',  nom:'Sensorialité',                couleur:'#a87800', exemple:'bruit, lumière, textures' }
+];
+
+const CX = 250, CY = 250, RMAX = 180;
+
+// État courant des valeurs (1-5)
+const valeurs = {};
+AXES.forEach(a => valeurs[a.id] = 0); // 0 = non coté
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// === Calculs géométriques ===
+function angleFor(i){ return -Math.PI/2 + (i * 2*Math.PI/AXES.length); }
+function pointAt(i, level){
+  const a = angleFor(i);
+  const r = (level/5) * RMAX;
+  return { x: CX + r*Math.cos(a), y: CY + r*Math.sin(a) };
+}
+
+// === Rendu du SVG radar ===
+function renderRadar(){
+  const svg = document.getElementById('radar-svg');
+  let html = '';
+
+  // 1. Cercles concentriques (grilles 1 à 5)
+  for(let niv=1; niv<=5; niv++){
+    const pts = AXES.map((_,i)=>{
+      const p = pointAt(i, niv);
+      return `${p.x},${p.y}`;
+    }).join(' ');
+    html += `<polygon class="grid-poly ${niv===5?'niv-5':''}" points="${pts}"/>`;
+  }
+
+  // 2. Axes radiaux + zones cliquables (5 niveaux × 8 axes = 40 zones)
+  AXES.forEach((axe, i)=>{
+    const ext = pointAt(i, 5);
+    html += `<line class="axe-line" x1="${CX}" y1="${CY}" x2="${ext.x}" y2="${ext.y}"/>`;
+
+    // Zones cliquables : segments d'anneaux entre niveaux
+    for(let niv=1; niv<=5; niv++){
+      const pInt = pointAt(i, niv-0.5);
+      const pExt = pointAt(i, niv+0.5);
+      const aPrev = angleFor(i) - Math.PI/AXES.length;
+      const aNext = angleFor(i) + Math.PI/AXES.length;
+      const rInt = (Math.max(0, niv-0.5)/5) * RMAX;
+      const rExt = Math.min(((niv+0.5)/5) * RMAX, RMAX);
+      const p1 = { x: CX + rInt*Math.cos(aPrev), y: CY + rInt*Math.sin(aPrev) };
+      const p2 = { x: CX + rExt*Math.cos(aPrev), y: CY + rExt*Math.sin(aPrev) };
+      const p3 = { x: CX + rExt*Math.cos(aNext), y: CY + rExt*Math.sin(aNext) };
+      const p4 = { x: CX + rInt*Math.cos(aNext), y: CY + rInt*Math.sin(aNext) };
+      html += `<polygon class="click-zone" data-axe="${i}" data-niv="${niv}" points="${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y} ${p4.x},${p4.y}"/>`;
+    }
+  });
+
+  // 3. Labels des niveaux sur l'axe vertical (1,2,3,4,5)
+  for(let niv=1; niv<=5; niv++){
+    const p = pointAt(0, niv);
+    html += `<text class="grid-label" x="${p.x+5}" y="${p.y-2}">${niv}</text>`;
+  }
+
+  // 4. Labels des 8 axes (à l'extérieur)
+  AXES.forEach((axe,i)=>{
+    const a = angleFor(i);
+    const lblR = RMAX + 35;
+    const lx = CX + lblR*Math.cos(a);
+    const ly = CY + lblR*Math.sin(a);
+    let anchor = 'middle';
+    if(lx > CX + 10) anchor = 'start';
+    else if(lx < CX - 10) anchor = 'end';
+
+    // Wrap long labels
+    const mots = axe.nom.split(' ');
+    let l1 = '', l2 = '';
+    if(mots.length > 2){
+      l1 = mots.slice(0, Math.ceil(mots.length/2)).join(' ');
+      l2 = mots.slice(Math.ceil(mots.length/2)).join(' ');
+    } else {
+      l1 = axe.nom;
+    }
+    html += `<text class="axe-label" x="${lx}" y="${ly}" text-anchor="${anchor}" fill="${axe.couleur}">`;
+    html += `<tspan x="${lx}" dy="0">${esc(l1)}</tspan>`;
+    if(l2) html += `<tspan x="${lx}" dy="14">${esc(l2)}</tspan>`;
+    html += `</text>`;
+  });
+
+  // 5. Polygone des valeurs (utilisateur)
+  const valuesPts = AXES.map((axe,i)=>{
+    if(valeurs[axe.id] > 0){
+      const p = pointAt(i, valeurs[axe.id]);
+      return `${p.x},${p.y}`;
+    }
+    return null;
+  }).filter(Boolean);
+
+  if(valuesPts.length >= 3){
+    html += `<polygon class="value-poly" points="${valuesPts.join(' ')}"/>`;
+  }
+
+  // 6. Points sur chaque axe (si coté)
+  AXES.forEach((axe,i)=>{
+    if(valeurs[axe.id] > 0){
+      const p = pointAt(i, valeurs[axe.id]);
+      html += `<circle class="value-point" cx="${p.x}" cy="${p.y}" r="6" data-axe="${i}"><title>${esc(axe.nom)} : ${valeurs[axe.id]}/5</title></circle>`;
+    }
+  });
+
+  svg.innerHTML = html;
+
+  // Attacher les clics
+  svg.querySelectorAll('.click-zone').forEach(z=>{
+    z.addEventListener('click', ()=>{
+      const i = parseInt(z.dataset.axe);
+      const niv = parseInt(z.dataset.niv);
+      const axe = AXES[i];
+      valeurs[axe.id] = niv;
+      // Mettre à jour aussi le curseur radio
+      const radio = document.querySelector(`input[name="ax-${axe.id}"][value="${niv}"]`);
+      if(radio) radio.checked = true;
+      majCotationAffichage(axe.id);
+      renderRadar();
+    });
+  });
+}
+
+// === Cotation curseurs ===
+function renderCotation(){
+  const cont = document.getElementById('cotation-liste');
+  cont.innerHTML = AXES.map(axe=>`
+    <div class="coter-row" style="--c-ax:${axe.couleur}" id="coter-${axe.id}">
+      <div class="titre-ligne">
+        <div>
+          <div class="nom">${esc(axe.nom)}</div>
+          <div style="font-size:.78rem;color:var(--muted);font-style:italic">${esc(axe.exemple)}</div>
+        </div>
+        <div class="niveau-affiche" id="niv-${axe.id}">—</div>
+      </div>
+      <div class="echelle">
+        ${[1,2,3,4,5].map(v=>`
+          <label>
+            <input type="radio" name="ax-${axe.id}" value="${v}">
+            <span class="v">${v}</span>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  // Listeners
+  cont.querySelectorAll('input[type="radio"]').forEach(r=>{
+    r.addEventListener('change', ()=>{
+      const name = r.name; // ax-id
+      const id = name.replace('ax-', '');
+      valeurs[id] = parseInt(r.value);
+      majCotationAffichage(id);
+      renderRadar();
+    });
+  });
+}
+
+function majCotationAffichage(id){
+  const aff = document.getElementById('niv-'+id);
+  if(aff){
+    aff.textContent = valeurs[id] > 0 ? valeurs[id]+'/5' : '—';
+  }
+}
+
+// === Save / Load ===
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type==='checkbox' ? el.checked : el.value;
+  });
+  AXES.forEach(a => o['val_'+a.id] = valeurs[a.id]);
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  AXES.forEach(a=>{
+    valeurs[a.id] = o['val_'+a.id] || 0;
+    const radio = document.querySelector(`input[name="ax-${a.id}"][value="${valeurs[a.id]}"]`);
+    if(radio) radio.checked = true;
+    majCotationAffichage(a.id);
+  });
+  renderRadar();
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else el.value = '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=> r.checked = false);
+  AXES.forEach(a=>{ valeurs[a.id] = 0; majCotationAffichage(a.id); });
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+  renderRadar();
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucun radar enregistré.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · ${esc(o.classe||'')} · ${esc((o.date||o._ts||'').slice(0,10))}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire(); const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer ce radar ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseignez au moins le prénom de l\'enfant.'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr); rendreDossiers(); alert('Radar enregistré.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const l = ['Radar des profils — EducaTypique',''];
+  l.push('Enfant : '+(o.prenom||'—')+' · '+(o.age||'—')+' · '+(o.classe||'—')+' · Date : '+(o.date||'—'));
+  l.push('Cotation par : '+(o.evaluateur||'—'));
+  l.push('');
+  l.push('== Profil sur 8 domaines ==');
+  AXES.forEach(a=>{
+    const v = o['val_'+a.id];
+    l.push('  · '+a.nom+' : '+(v>0 ? v+'/5' : 'non coté'));
+  });
+  l.push('');
+  l.push('Forces : '+(o.forces||'—'));
+  l.push('Pistes de vigilance : '+(o.vigilance||'—'));
+  l.push('Commentaires : '+(o.commentaires||'—'));
+  l.push('');
+  l.push('== À en parler avec ==');
+  const orient = [
+    ['o-medecin','Médecin traitant / pédiatre'],['o-neuropsy','Neuropsychologue'],
+    ['o-ortho','Orthophoniste'],['o-psychomot','Psychomotricien·ne'],
+    ['o-ergo','Ergothérapeute'],['o-pedopsy','Pédopsychiatre'],
+    ['o-psy','Psychologue'],['o-neuroped','Neuropédagogue'],
+    ['o-orthopt','Orthoptiste'],['o-equipe','Équipe éducative']
+  ];
+  orient.forEach(([k, lbl])=>{ if(o[k]) l.push('  ✓ '+lbl); });
+  if(o['o-autres']) l.push('  Autres : '+o['o-autres']);
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'radar-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{ if(confirm('Vider le formulaire ?')) vider(); });
+
+// Init
+renderCotation();
+renderRadar();
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+</script>
+
+</body>
+</html>

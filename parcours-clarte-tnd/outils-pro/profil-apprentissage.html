@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Profil d'Apprentissage — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:#fbf5ef}
+
+.bandeau{
+  background:linear-gradient(135deg,#7c5cbf,#F39BC2 50%,#FFB87A);
+  padding:2rem 1.5rem;text-align:center;color:#fff;position:relative;
+}
+.bandeau .retour{display:inline-block;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.22);padding:.35em 1em;border-radius:999px;font-size:.9rem}
+.bandeau .retour:hover{background:rgba(255,255,255,.35)}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin:.6rem 0 .3rem;opacity:.95}
+.bandeau h1{color:#fff;margin:.3rem 0;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.bandeau .sub{opacity:.95;max-width:680px;margin:.5rem auto 0;font-size:1.02rem}
+
+.container{max-width:1000px;margin:1.5rem auto;padding:0 1.2rem}
+
+/* À propos */
+details.apropos{background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin-bottom:1.2rem;border-left:5px solid #7c5cbf}
+details.apropos summary{padding:1rem 1.2rem;cursor:pointer;font-weight:800;color:#5a3c8f;font-family:var(--font-titre);font-size:1.05rem;list-style:none}
+details.apropos summary::after{content:"▾";float:right;transition:transform .2s}
+details.apropos[open] summary::after{transform:rotate(180deg)}
+details.apropos .corps{padding:0 1.4rem 1.2rem}
+details.apropos h3{color:#5a3c8f;margin:1rem 0 .3rem;font-size:.9rem;text-transform:uppercase;letter-spacing:.5px}
+details.apropos p{margin:.3rem 0;font-size:.93rem;line-height:1.55}
+
+.sig-nawel{
+  background:linear-gradient(135deg,#fff5f9,#f7f3fc);
+  padding:1rem 1.2rem;border-radius:var(--r-md);
+  margin-bottom:1.2rem;border-left:4px solid #F39BC2;font-size:.92rem;
+  line-height:1.55;color:#555;font-style:italic;
+}
+.sig-nawel strong{color:#d36699;font-style:normal}
+
+/* Mode bar */
+.mode-bar{
+  background:#fff;padding:.9rem 1.1rem;border-radius:var(--r-md);
+  box-shadow:var(--shadow-sm);margin-bottom:1rem;
+  display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;
+}
+.mode-bar .lbl{font-weight:700;color:#666;font-size:.9rem}
+.mode-bar button{
+  padding:.4em .9em;background:#fff;border:1.5px solid #d8c9f0;color:#5a3c8f;
+  border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.85rem;
+}
+.mode-bar button.active{background:#7c5cbf;color:#fff;border-color:#7c5cbf}
+
+/* Progress bar */
+.progress-bar{
+  background:#fff;padding:.7rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);
+  margin-bottom:1rem;
+}
+.progress-bar .label{font-size:.85rem;color:#666;font-weight:700;margin-bottom:.4rem;display:flex;justify-content:space-between}
+.progress-bar .bar{height:10px;background:#f0ebe5;border-radius:5px;overflow:hidden}
+.progress-bar .bar div{height:100%;background:linear-gradient(90deg,#7c5cbf,#F39BC2,#FFB87A);transition:width .3s}
+
+/* Sections */
+.section{display:none}
+.section.active{display:block}
+
+/* Intro */
+.intro-card{
+  background:linear-gradient(135deg,#fff5f9,#f7f3fc);
+  padding:1.8rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);
+  margin-bottom:1.2rem;border-left:5px solid #7c5cbf;
+}
+.intro-card h2{color:#5a3c8f;margin:0 0 .8rem;font-size:1.4rem}
+.intro-card p{line-height:1.6;color:#555;margin:.5rem 0}
+.intro-card .phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem;margin:1rem 0}
+.intro-card .phase{
+  background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);border-top:3px solid var(--pc);
+}
+.intro-card .phase strong{display:block;color:var(--pc);font-size:.95rem;margin-bottom:.2rem}
+.intro-card .phase span{font-size:.82rem;color:#666}
+.intro-card .start-btn{
+  background:linear-gradient(135deg,#7c5cbf,#F39BC2);color:#fff;border:none;
+  padding:.8em 2em;border-radius:999px;font-weight:700;cursor:pointer;
+  font-family:inherit;font-size:1.05rem;box-shadow:var(--shadow-sm);
+  display:block;margin:1.2rem auto 0;
+}
+.intro-card .start-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+
+/* Question card */
+.q-card{
+  background:#fff;padding:1.4rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);
+  margin-bottom:1rem;border-left:5px solid var(--qc);
+}
+.q-card .q-num{font-size:.78rem;color:#999;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.q-card .q-text{font-weight:700;color:#333;margin:.5rem 0 1rem;font-size:1.02rem;line-height:1.5}
+
+.answers-vak{display:grid;gap:.5rem}
+.answers-vak button{
+  padding:.8em 1em;background:#fff5f9;border:1.5px solid #f3c8d9;color:#444;
+  border-radius:var(--r-md);cursor:pointer;font-family:inherit;font-size:.92rem;
+  text-align:left;line-height:1.4;transition:all .15s;
+}
+.answers-vak button:hover{background:#f7f3fc;border-color:#7c5cbf;transform:translateX(4px)}
+.answers-vak button.selected{background:#7c5cbf;color:#fff;border-color:#7c5cbf}
+.answers-vak button .ico{display:inline-block;margin-right:.5rem;font-size:1.1rem}
+
+.answers-likert{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;margin-top:.5rem}
+@media(max-width:600px){.answers-likert{grid-template-columns:repeat(2,1fr)}}
+.answers-likert button{
+  padding:.7em .5em;background:#fff;border:1.5px solid #d8c9f0;color:#5a3c8f;
+  border-radius:var(--r-md);cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:700;
+}
+.answers-likert button:hover{background:#f7f3fc}
+.answers-likert button.selected{background:#7c5cbf;color:#fff;border-color:#7c5cbf}
+
+/* Nav */
+.q-nav{margin-top:1.2rem;display:flex;justify-content:space-between;gap:.5rem}
+.q-nav button{
+  padding:.55em 1.3em;border:none;border-radius:var(--r-md);
+  font-weight:700;cursor:pointer;font-family:inherit;font-size:.92rem;
+}
+.q-nav .prev{background:#fff;color:#666;border:1.5px solid #ddd}
+.q-nav .next{background:#7c5cbf;color:#fff}
+.q-nav .next:disabled{opacity:.4;cursor:not-allowed}
+
+/* Phase header */
+.phase-header{
+  background:linear-gradient(135deg,var(--ph1),var(--ph2));
+  padding:1.2rem;border-radius:var(--r-lg);color:#fff;margin-bottom:1rem;
+  text-align:center;
+}
+.phase-header h2{color:#fff;margin:0 0 .3rem;font-size:1.3rem}
+.phase-header p{margin:0;opacity:.95;font-size:.95rem}
+
+/* RESULTS */
+.result-grid{display:grid;gap:1rem;margin-bottom:1.2rem}
+
+.result-card{
+  background:#fff;padding:1.5rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);
+  border-left:5px solid var(--rc);
+}
+.result-card h3{color:var(--rc);margin:0 0 .6rem;font-size:1.15rem;display:flex;align-items:center;gap:.5rem}
+.result-card .winner{font-size:1.4rem;font-weight:800;margin:.5rem 0;color:var(--rc)}
+.result-card p{line-height:1.6;color:#555;margin:.5rem 0;font-size:.95rem}
+
+.scores-mini{display:grid;gap:.4rem;margin-top:.8rem}
+.score-row{display:grid;grid-template-columns:130px 1fr 50px;gap:.5rem;align-items:center;font-size:.85rem}
+.score-row .name{font-weight:700;color:#444}
+.score-bar{height:12px;background:#f0ebe5;border-radius:6px;overflow:hidden}
+.score-bar div{height:100%;background:var(--rc);transition:width .3s}
+.score-row .val{font-weight:700;color:var(--rc);text-align:right;font-family:monospace}
+
+.recommendations{
+  background:linear-gradient(135deg,#fff5f9,#f7f3fc);
+  padding:1.4rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);
+  margin-bottom:1.2rem;border-left:5px solid #7c5cbf;
+}
+.recommendations h3{color:#5a3c8f;margin:0 0 .8rem}
+.recommendations ul{padding-left:1.2rem;line-height:1.7;color:#444}
+.recommendations ul li{margin:.4rem 0}
+
+/* Actions */
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.5rem 0}
+.actions button{padding:.65em 1.3em;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.92rem;font-family:inherit}
+.btn-export{background:linear-gradient(135deg,#7c5cbf,#F39BC2);color:#fff}
+.btn-print{background:#fff;color:#5a3c8f;border:1.5px solid #d8c9f0}
+.btn-restart{background:#fff;color:#999;border:1.5px solid #ddd}
+
+@media print{
+  .bandeau,.mode-bar,.progress-bar,.actions,.q-nav,details.apropos summary::after{display:none!important}
+  body{background:#fff}
+  .container{max-width:100%;padding:0}
+  .section{display:block!important;page-break-after:always}
+  .result-card,.recommendations{box-shadow:none;border:1px solid #ddd}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../ados.html">← Espace Ados</a>
+  <div class="signature">🧭 Création originale — Nawel Haddouch · EducaTypique</div>
+  <h1>🌈 Mon Profil d'Apprentissage</h1>
+  <p class="sub">3 dimensions en 1 quiz : Canal VAK · 8 Intelligences Multiples (Gardner) · 7 Profils de personnalité. Pour comprendre comment TON cerveau apprend le mieux.</p>
+</section>
+
+<div class="container">
+
+  <details class="apropos">
+    <summary>📖 À propos de cet outil</summary>
+    <div class="corps">
+      <h3>Pour qui</h3>
+      <p>Ados, parents qui répondent pour leur enfant, et pros qui utilisent en consultation. Adaptable selon l'âge.</p>
+      <h3>Pour quoi</h3>
+      <p>Pour <strong>identifier ton profil d'apprentissage complet</strong> sur 3 dimensions : ton canal sensoriel préféré (Visuel/Auditif/Kinesthésique), tes intelligences dominantes (parmi les 8 de Gardner), et ton profil de personnalité face à l'apprentissage (parmi 7 profils).</p>
+      <h3>Comment ça marche</h3>
+      <p>3 phases successives : 12 questions VAK + 24 questions intelligences + 14 questions personnalité = 50 questions au total. Tu peux faire pause et reprendre.</p>
+      <h3>Quand l'utiliser</h3>
+      <p>Au début d'un accompagnement. À chaque changement de cycle scolaire. Quand l'apprentissage devient pénible. Pour adapter tes méthodes de révision.</p>
+      <h3>Combien de temps</h3>
+      <p>15-20 minutes pour le quiz complet. 5 minutes pour relire le résultat.</p>
+      <h3>Ce que ça change</h3>
+      <p>Tu sors avec une <strong>carte d'identité d'apprenant</strong> précise et personnalisée — et 5-7 recommandations d'apprentissage adaptées à TON profil.</p>
+      <h3>Ce que ça ne remplace pas</h3>
+      <p>Un bilan psychologique ou neuropsychologique. C'est un outil d'orientation pédagogique, pas de diagnostic.</p>
+      <h3>Inspiration</h3>
+      <p>Création originale Nawel Haddouch (EducaTypique). S'appuie sur : la théorie des intelligences multiples de Howard Gardner (1983), les styles d'apprentissage VAK, et les 7 profils de personnalité issus de la pédagogie différenciée.</p>
+    </div>
+  </details>
+
+  <div class="sig-nawel">
+    🌈 <strong>Un mot de Nawel</strong> — Il n'y a pas de "bonne" ou de "mauvaise" façon d'apprendre. Il y a TA façon. Cet outil va t'aider à la découvrir précisément, pour que tu arrêtes d'essayer d'apprendre comme les autres, et que tu apprennes comme TOI.
+  </div>
+
+  <div class="mode-bar">
+    <span class="lbl">👤 Qui répond ?</span>
+    <button class="active" data-mode="ado">Ado seul·e</button>
+    <button data-mode="parent">Parent pour mon enfant</button>
+    <button data-mode="pro">Pro en consultation</button>
+  </div>
+
+  <div class="progress-bar" id="progress-bar" style="display:none">
+    <div class="label">
+      <span id="progress-label">Phase 1/3 — Canal VAK</span>
+      <span id="progress-count">0 / 50</span>
+    </div>
+    <div class="bar"><div id="progress-fill" style="width:0%"></div></div>
+  </div>
+
+  <!-- INTRO -->
+  <section id="intro" class="section active">
+    <div class="intro-card">
+      <h2>🌟 Bienvenue dans ton profil d'apprentissage</h2>
+      <p>Tu vas découvrir <strong>3 dimensions complémentaires</strong> de ta façon d'apprendre :</p>
+      <div class="phases">
+        <div class="phase" style="--pc:#7c5cbf"><strong>1. Canal VAK</strong><span>12 questions · 3 min</span></div>
+        <div class="phase" style="--pc:#F39BC2"><strong>2. Intelligences</strong><span>24 questions · 7 min</span></div>
+        <div class="phase" style="--pc:#FFB87A"><strong>3. Personnalité</strong><span>14 questions · 5 min</span></div>
+      </div>
+      <p>À la fin, tu obtiens ta <strong>carte d'identité d'apprenant</strong> avec des recommandations personnalisées.</p>
+      <p style="font-size:.88rem;color:#888"><em>Tes réponses sont sauvegardées en local sur ton appareil. Tu peux faire pause et reprendre.</em></p>
+      <button class="start-btn" id="btn-start">▶ Commencer le quiz</button>
+    </div>
+  </section>
+
+  <!-- PHASE 1 - VAK -->
+  <section id="phase1" class="section">
+    <div class="phase-header" style="--ph1:#7c5cbf;--ph2:#a987d6">
+      <h2>👁👂✋ Phase 1 — Canal VAK</h2>
+      <p>Visuel · Auditif · Kinesthésique — comment ton cerveau capte l'info</p>
+    </div>
+    <div id="vak-container"></div>
+  </section>
+
+  <!-- PHASE 2 - INTELLIGENCES -->
+  <section id="phase2" class="section">
+    <div class="phase-header" style="--ph1:#F39BC2;--ph2:#e05a8a">
+      <h2>🧠 Phase 2 — Intelligences Multiples</h2>
+      <p>Les 8 intelligences de Gardner — où sont tes forces naturelles</p>
+    </div>
+    <div id="int-container"></div>
+  </section>
+
+  <!-- PHASE 3 - PERSONNALITÉ -->
+  <section id="phase3" class="section">
+    <div class="phase-header" style="--ph1:#FFB87A;--ph2:#e9a73a">
+      <h2>💗 Phase 3 — Profil de personnalité</h2>
+      <p>7 profils — comment tu vis et préfères apprendre</p>
+    </div>
+    <div id="perso-container"></div>
+  </section>
+
+  <!-- RESULT -->
+  <section id="result" class="section">
+    <div class="phase-header" style="--ph1:#2a9d8f;--ph2:#5cb89e">
+      <h2>🌟 Ton profil d'apprentissage complet</h2>
+      <p>Voici ta carte d'identité d'apprenant — unique</p>
+    </div>
+
+    <div class="result-grid">
+      <div class="result-card" style="--rc:#7c5cbf">
+        <h3>👁👂✋ Mon canal VAK dominant</h3>
+        <div class="winner" id="r-vak">—</div>
+        <p id="r-vak-explain">—</p>
+        <div class="scores-mini" id="r-vak-scores"></div>
+      </div>
+
+      <div class="result-card" style="--rc:#F39BC2">
+        <h3>🧠 Mes 3 intelligences fortes</h3>
+        <div class="winner" id="r-int">—</div>
+        <p id="r-int-explain">—</p>
+        <div class="scores-mini" id="r-int-scores"></div>
+      </div>
+
+      <div class="result-card" style="--rc:#FFB87A">
+        <h3>💗 Mon profil de personnalité</h3>
+        <div class="winner" id="r-perso">—</div>
+        <p id="r-perso-explain">—</p>
+        <div class="scores-mini" id="r-perso-scores"></div>
+      </div>
+    </div>
+
+    <div class="recommendations">
+      <h3>🎯 Mes recommandations d'apprentissage personnalisées</h3>
+      <ul id="r-recos"></ul>
+    </div>
+
+    <div class="actions">
+      <button class="btn-export" id="btn-export">📄 Exporter mon profil en .txt</button>
+      <button class="btn-print" onclick="window.print()">🖨 Imprimer mon profil</button>
+      <button class="btn-restart" id="btn-restart">↻ Refaire le quiz</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const KEY='educatypique_profil_apprentissage_v1';
+
+const VAK_Q=[
+  {q:"Quand j'apprends quelque chose de nouveau, je préfère :",a:[
+    {t:"Voir des schémas, images ou vidéos",p:"V"},
+    {t:"Écouter quelqu'un m'expliquer",p:"A"},
+    {t:"Manipuler du matériel, expérimenter",p:"K"}]},
+  {q:"Pour retenir une information :",a:[
+    {t:"Je la dessine, fais une carte mentale",p:"V"},
+    {t:"Je la répète à voix haute",p:"A"},
+    {t:"Je l'écris ou je bouge en l'apprenant",p:"K"}]},
+  {q:"Quand on me donne une consigne, je préfère :",a:[
+    {t:"Qu'on me la montre, qu'on la dessine",p:"V"},
+    {t:"Qu'on me l'explique clairement",p:"A"},
+    {t:"Essayer directement en faisant",p:"K"}]},
+  {q:"Pour me souvenir d'un trajet :",a:[
+    {t:"Je revois les lieux, les couleurs",p:"V"},
+    {t:"Je me redis les directions",p:"A"},
+    {t:"Je me souviens du ressenti en marchant",p:"K"}]},
+  {q:"Pour me détendre, j'aime :",a:[
+    {t:"Regarder un film, dessiner",p:"V"},
+    {t:"Écouter de la musique",p:"A"},
+    {t:"Bouger, faire une activité physique",p:"K"}]},
+  {q:"En classe, je préfère :",a:[
+    {t:"Quand le prof écrit au tableau",p:"V"},
+    {t:"Quand le prof raconte, explique",p:"A"},
+    {t:"Quand on manipule, expérimente",p:"K"}]},
+  {q:"Pour apprendre un poème :",a:[
+    {t:"Je l'écris ou je le visualise",p:"V"},
+    {t:"Je le récite à voix haute plusieurs fois",p:"A"},
+    {t:"Je bouge ou je mime en l'apprenant",p:"K"}]},
+  {q:"Quand je suis stressé·e :",a:[
+    {t:"Je fixe quelque chose ou je dessine",p:"V"},
+    {t:"J'ai besoin de parler ou d'entendre quelqu'un",p:"A"},
+    {t:"Je bouge, je marche",p:"K"}]},
+  {q:"Pour comprendre un texte :",a:[
+    {t:"Je surligne, je fais un schéma",p:"V"},
+    {t:"Je le lis à voix haute",p:"A"},
+    {t:"Je prends des notes en écrivant",p:"K"}]},
+  {q:"Mon truc préféré pour apprendre :",a:[
+    {t:"Vidéos, schémas, mind maps",p:"V"},
+    {t:"Podcasts, discussions, lecture audio",p:"A"},
+    {t:"Manipulation, jeux, expériences",p:"K"}]},
+  {q:"Quand on me présente quelqu'un, je retiens surtout :",a:[
+    {t:"Son visage, ses vêtements",p:"V"},
+    {t:"Sa voix, son intonation",p:"A"},
+    {t:"Sa poignée de main, son énergie",p:"K"}]},
+  {q:"Pour faire un exercice nouveau :",a:[
+    {t:"J'ai besoin d'un exemple visuel",p:"V"},
+    {t:"J'ai besoin d'instructions orales",p:"A"},
+    {t:"J'ai besoin d'essayer et tester",p:"K"}]},
+];
+
+const INT_Q=[
+  {q:"J'aime lire et écrire des histoires.",p:"linguistique"},
+  {q:"Les jeux de mots et les énigmes verbales me plaisent.",p:"linguistique"},
+  {q:"Je m'exprime facilement à l'oral.",p:"linguistique"},
+  {q:"J'aime résoudre des problèmes logiques ou mathématiques.",p:"logico"},
+  {q:"Je cherche les patterns et les relations entre les choses.",p:"logico"},
+  {q:"J'aime classer, organiser, mesurer.",p:"logico"},
+  {q:"J'ai un bon sens de l'orientation.",p:"spatiale"},
+  {q:"J'aime dessiner, peindre, créer visuellement.",p:"spatiale"},
+  {q:"Je visualise facilement des objets en 3D.",p:"spatiale"},
+  {q:"J'aime chanter ou jouer d'un instrument.",p:"musicale"},
+  {q:"Je retiens facilement les chansons et les mélodies.",p:"musicale"},
+  {q:"Je suis sensible aux sons, au rythme.",p:"musicale"},
+  {q:"J'aime le sport, la danse, les activités physiques.",p:"corporelle"},
+  {q:"J'apprends mieux en bougeant ou en manipulant.",p:"corporelle"},
+  {q:"Je suis adroit·e avec mes mains (bricolage, art manuel).",p:"corporelle"},
+  {q:"J'aime travailler en groupe.",p:"inter"},
+  {q:"Je comprends facilement ce que ressentent les autres.",p:"inter"},
+  {q:"J'aime aider, conseiller, écouter mes amis.",p:"inter"},
+  {q:"Je connais bien mes émotions et mes valeurs.",p:"intra"},
+  {q:"J'aime être seul·e pour réfléchir.",p:"intra"},
+  {q:"Je tiens un journal ou j'aime l'introspection.",p:"intra"},
+  {q:"J'aime les animaux, les plantes, la nature.",p:"naturaliste"},
+  {q:"Je sais reconnaître des espèces (oiseaux, plantes…).",p:"naturaliste"},
+  {q:"J'aime être dehors, observer le vivant.",p:"naturaliste"},
+];
+
+const INT_NAMES={
+  linguistique:{n:"Linguistique",e:"📚",d:"Tu manipules les mots avec aisance. Tu retiens, exprimes, racontes. Métiers proches : écrivain, journaliste, avocat, prof, traducteur."},
+  logico:{n:"Logico-mathématique",e:"🧮",d:"Tu aimes raisonner, calculer, structurer. Métiers proches : scientifique, ingénieur, développeur, comptable, analyste."},
+  spatiale:{n:"Visuo-spatiale",e:"🎨",d:"Tu penses en images, en formes, en espace. Métiers proches : architecte, designer, peintre, pilote, chirurgien."},
+  musicale:{n:"Musicale",e:"🎵",d:"Tu vibres avec les sons, les rythmes, les mélodies. Métiers proches : musicien, compositeur, ingénieur du son, DJ."},
+  corporelle:{n:"Corporelle-kinesthésique",e:"💃",d:"Tu apprends par ton corps, par le mouvement. Métiers proches : sportif, danseur, artisan, chirurgien, kiné."},
+  inter:{n:"Interpersonnelle",e:"🤝",d:"Tu comprends et interagis avec les autres avec finesse. Métiers proches : psy, manager, prof, vendeur, médiateur."},
+  intra:{n:"Intrapersonnelle",e:"🪞",d:"Tu te connais profondément, tu réfléchis sur toi. Métiers proches : psychologue, philosophe, coach, écrivain, thérapeute."},
+  naturaliste:{n:"Naturaliste",e:"🌿",d:"Tu observes et comprends le vivant. Métiers proches : biologiste, vétérinaire, jardinier, écologiste, agriculteur."},
+};
+
+const PERSO_Q=[
+  {q:"J'aime quand l'apprentissage est ludique et drôle.",p:"enthousiaste"},
+  {q:"Je déteste les contraintes et le par cœur.",p:"enthousiaste"},
+  {q:"J'aime quand on m'explique les choses en profondeur.",p:"intellectuel"},
+  {q:"J'ai besoin de calme et de temps seul·e pour bien apprendre.",p:"intellectuel"},
+  {q:"J'aime quand on me lance des défis difficiles.",p:"rebel"},
+  {q:"Je me motive surtout quand on doute de moi.",p:"rebel"},
+  {q:"J'apprends mieux quand c'est rapide et actif.",p:"dynamique"},
+  {q:"J'aime gagner, être le meilleur dans ce que je fais.",p:"dynamique"},
+  {q:"J'apprends mieux quand je me sens en confiance affective.",p:"emotionnel"},
+  {q:"J'aime créer, exprimer, dessiner mes idées.",p:"emotionnel"},
+  {q:"J'aime que tout soit bien rangé, structuré, sans surprise.",p:"perfectionniste"},
+  {q:"J'ai peur de me tromper, je préfère bien faire.",p:"perfectionniste"},
+  {q:"J'aime quand le prof est doux, encourageant.",p:"aimable"},
+  {q:"Je préfère ne pas faire de vagues, rester discret·e.",p:"aimable"},
+];
+
+const PERSO_NAMES={
+  enthousiaste:{n:"L'Enthousiaste",e:"🎉",d:"Tu carbures au plaisir, à la liberté, à l'humour. Tu apprends à fond quand c'est ludique et que tu comprends à quoi ça sert."},
+  intellectuel:{n:"L'Intellectuel",e:"🧠",d:"Tu apprends en analysant, en structurant, en allant en profondeur. Tu as besoin de calme et de temps pour digérer."},
+  rebel:{n:"Le/La Rebel·le",e:"⚡",d:"Tu apprends quand on respecte ton autonomie ET qu'on te résiste calmement. Tu détestes l'ennui et la routine."},
+  dynamique:{n:"Le/La Dynamique",e:"🔥",d:"Tu as besoin d'action, de concret, de compétition. Tu apprends vite quand ça bouge."},
+  emotionnel:{n:"L'Émotionnel·le",e:"💗",d:"Tu apprends avec ton cœur. La relation au prof, la créativité, l'esthétique te portent. Tu peux décrocher si l'ambiance est froide."},
+  perfectionniste:{n:"Le/La Perfectionniste",e:"📐",d:"Tu as besoin d'ordre, de structure, d'exactitude. Tu vas lentement mais sûrement. La peur de l'erreur peut te freiner."},
+  aimable:{n:"L'Aimable",e:"🌸",d:"Tu apprends pour faire plaisir, éviter les conflits. Tu as besoin de douceur et d'encouragements. Attention au manque de confiance."},
+};
+
+const RECOS_VAK={
+  V:["Utilise <strong>cartes mentales, mind maps et schémas</strong> pour apprendre","Surligne avec des <strong>codes couleur</strong> systématiques","Regarde des <strong>vidéos explicatives</strong> avant de lire un cours","Crée des <strong>posters visuels</strong> pour mémoriser","Note tes idées avec <strong>dessins et icônes</strong>"],
+  A:["Lis tes leçons <strong>à voix haute</strong>","Enregistre-toi avec ton téléphone et <strong>réécoute</strong>","Privilégie les <strong>podcasts et audiolivres</strong>","Explique les choses <strong>à un·e ami·e</strong> pour mémoriser","Apprends en <strong>chantant ou rimant</strong>"],
+  K:["Apprends en <strong>bougeant</strong> (marche, balle anti-stress)","Utilise des <strong>flashcards à manipuler</strong>","Mime ou fais des <strong>gestes</strong> en révisant","Privilégie les <strong>expériences pratiques</strong>","Prends des <strong>pauses actives</strong> toutes les 15-20 min"],
+};
+
+let mode='ado';
+let answers={vak:{},int:{},perso:{}};
+let currentPhase='intro';
+let currentQ=0;
+
+function load(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);answers=d.answers||answers;mode=d.mode||mode;}}catch(e){}}
+function save(){localStorage.setItem(KEY,JSON.stringify({answers,mode}));}
+
+/* Mode */
+document.querySelectorAll('.mode-bar button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.mode-bar button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    mode=b.dataset.mode;save();
+  };
+});
+
+/* Start */
+document.getElementById('btn-start').onclick=()=>{
+  document.getElementById('progress-bar').style.display='block';
+  showPhase('phase1');
+};
+
+function showPhase(p){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(p).classList.add('active');
+  currentPhase=p;
+  if(p==='phase1'){currentQ=0;renderVAK();}
+  else if(p==='phase2'){currentQ=0;renderINT();}
+  else if(p==='phase3'){currentQ=0;renderPERSO();}
+  else if(p==='result'){renderResult();}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateProgress(){
+  let total=0;let done=0;let label='';
+  if(currentPhase==='phase1'){total=50;done=currentQ;label='Phase 1/3 — Canal VAK';}
+  else if(currentPhase==='phase2'){total=50;done=12+currentQ;label='Phase 2/3 — Intelligences';}
+  else if(currentPhase==='phase3'){total=50;done=12+24+currentQ;label='Phase 3/3 — Personnalité';}
+  else if(currentPhase==='result'){total=50;done=50;label='Résultat';}
+  if(label){
+    document.getElementById('progress-label').textContent=label;
+    document.getElementById('progress-count').textContent=`${done} / ${total}`;
+    document.getElementById('progress-fill').style.width=(done/total*100)+'%';
+  }
+}
+
+/* VAK */
+function renderVAK(){
+  const c=document.getElementById('vak-container');
+  const q=VAK_Q[currentQ];
+  let html=`<div class="q-card" style="--qc:#7c5cbf">
+    <div class="q-num">Question ${currentQ+1} / 12 — Canal VAK</div>
+    <div class="q-text">${q.q}</div>
+    <div class="answers-vak">`;
+  const icons={V:'👁',A:'👂',K:'✋'};
+  q.a.forEach((a,i)=>{
+    const sel=answers.vak[currentQ]===i?' selected':'';
+    html+=`<button class="${sel}" data-i="${i}"><span class="ico">${icons[a.p]}</span>${a.t}</button>`;
+  });
+  html+=`</div><div class="q-nav">
+    <button class="prev"${currentQ===0?' style="visibility:hidden"':''}>← Précédent</button>
+    <button class="next"${answers.vak[currentQ]===undefined?' disabled':''}>${currentQ===VAK_Q.length-1?'Phase suivante →':'Suivant →'}</button>
+  </div></div>`;
+  c.innerHTML=html;
+  c.querySelectorAll('.answers-vak button').forEach(b=>{
+    b.onclick=()=>{
+      c.querySelectorAll('.answers-vak button').forEach(x=>x.classList.remove('selected'));
+      b.classList.add('selected');
+      answers.vak[currentQ]=parseInt(b.dataset.i);save();
+      c.querySelector('.q-nav .next').disabled=false;
+    };
+  });
+  c.querySelector('.q-nav .prev').onclick=()=>{currentQ--;renderVAK();updateProgress();};
+  c.querySelector('.q-nav .next').onclick=()=>{
+    if(currentQ===VAK_Q.length-1){showPhase('phase2');}
+    else{currentQ++;renderVAK();}
+    updateProgress();
+  };
+  updateProgress();
+}
+
+/* INT */
+function renderINT(){
+  const c=document.getElementById('int-container');
+  const q=INT_Q[currentQ];
+  const labels=['Pas du tout','Un peu','Beaucoup','Tout à fait'];
+  let html=`<div class="q-card" style="--qc:#F39BC2">
+    <div class="q-num">Question ${currentQ+1} / 24 — Intelligences</div>
+    <div class="q-text">${q.q}</div>
+    <div class="answers-likert">`;
+  for(let i=0;i<4;i++){
+    const sel=answers.int[currentQ]===i?' selected':'';
+    html+=`<button class="${sel}" data-i="${i}">${labels[i]}<br><span style="font-size:.75rem;opacity:.7">${i} pt${i>1?'s':''}</span></button>`;
+  }
+  html+=`</div><div class="q-nav">
+    <button class="prev"${currentQ===0?' style="visibility:hidden"':''}>← Précédent</button>
+    <button class="next"${answers.int[currentQ]===undefined?' disabled':''}>${currentQ===INT_Q.length-1?'Phase suivante →':'Suivant →'}</button>
+  </div></div>`;
+  c.innerHTML=html;
+  c.querySelectorAll('.answers-likert button').forEach(b=>{
+    b.onclick=()=>{
+      c.querySelectorAll('.answers-likert button').forEach(x=>x.classList.remove('selected'));
+      b.classList.add('selected');
+      answers.int[currentQ]=parseInt(b.dataset.i);save();
+      c.querySelector('.q-nav .next').disabled=false;
+    };
+  });
+  c.querySelector('.q-nav .prev').onclick=()=>{currentQ--;renderINT();updateProgress();};
+  c.querySelector('.q-nav .next').onclick=()=>{
+    if(currentQ===INT_Q.length-1){showPhase('phase3');}
+    else{currentQ++;renderINT();}
+    updateProgress();
+  };
+  updateProgress();
+}
+
+/* PERSO */
+function renderPERSO(){
+  const c=document.getElementById('perso-container');
+  const q=PERSO_Q[currentQ];
+  const labels=['Pas du tout','Pas vraiment','Un peu','Tout à fait'];
+  let html=`<div class="q-card" style="--qc:#FFB87A">
+    <div class="q-num">Question ${currentQ+1} / 14 — Personnalité</div>
+    <div class="q-text">${q.q}</div>
+    <div class="answers-likert">`;
+  for(let i=0;i<4;i++){
+    const sel=answers.perso[currentQ]===i?' selected':'';
+    html+=`<button class="${sel}" data-i="${i}">${labels[i]}<br><span style="font-size:.75rem;opacity:.7">${i} pt${i>1?'s':''}</span></button>`;
+  }
+  html+=`</div><div class="q-nav">
+    <button class="prev"${currentQ===0?' style="visibility:hidden"':''}>← Précédent</button>
+    <button class="next"${answers.perso[currentQ]===undefined?' disabled':''}>${currentQ===PERSO_Q.length-1?'🌟 Voir mon profil':'Suivant →'}</button>
+  </div></div>`;
+  c.innerHTML=html;
+  c.querySelectorAll('.answers-likert button').forEach(b=>{
+    b.onclick=()=>{
+      c.querySelectorAll('.answers-likert button').forEach(x=>x.classList.remove('selected'));
+      b.classList.add('selected');
+      answers.perso[currentQ]=parseInt(b.dataset.i);save();
+      c.querySelector('.q-nav .next').disabled=false;
+    };
+  });
+  c.querySelector('.q-nav .prev').onclick=()=>{currentQ--;renderPERSO();updateProgress();};
+  c.querySelector('.q-nav .next').onclick=()=>{
+    if(currentQ===PERSO_Q.length-1){showPhase('result');}
+    else{currentQ++;renderPERSO();}
+    updateProgress();
+  };
+  updateProgress();
+}
+
+/* RESULT */
+function renderResult(){
+  // VAK scores
+  const vak={V:0,A:0,K:0};
+  Object.entries(answers.vak).forEach(([qi,ai])=>{
+    const q=VAK_Q[qi];if(q){vak[q.a[ai].p]++;}
+  });
+  const vakSorted=Object.entries(vak).sort((a,b)=>b[1]-a[1]);
+  const vakWinner=vakSorted[0][0];
+  const vakNames={V:'👁 Visuel',A:'👂 Auditif',K:'✋ Kinesthésique'};
+  document.getElementById('r-vak').innerHTML=vakNames[vakWinner];
+  const vakExpl={
+    V:"Ton cerveau capte et retient l'info <strong>par les yeux</strong>. Tu apprends en voyant, en visualisant, en organisant l'espace.",
+    A:"Ton cerveau capte et retient l'info <strong>par les oreilles</strong>. Tu apprends en écoutant, en récitant, en discutant.",
+    K:"Ton cerveau capte et retient l'info <strong>par le corps</strong>. Tu apprends en manipulant, en bougeant, en expérimentant."
+  };
+  document.getElementById('r-vak-explain').innerHTML=vakExpl[vakWinner];
+  let vakScoresHtml='';
+  const maxV=Math.max(vak.V,vak.A,vak.K);
+  vakSorted.forEach(([k,v])=>{
+    const pct=maxV>0?(v/maxV*100):0;
+    vakScoresHtml+=`<div class="score-row"><span class="name">${vakNames[k]}</span><div class="score-bar"><div style="width:${pct}%"></div></div><span class="val">${v}/12</span></div>`;
+  });
+  document.getElementById('r-vak-scores').innerHTML=vakScoresHtml;
+
+  // INT scores
+  const intScores={linguistique:0,logico:0,spatiale:0,musicale:0,corporelle:0,inter:0,intra:0,naturaliste:0};
+  Object.entries(answers.int).forEach(([qi,ai])=>{
+    const q=INT_Q[qi];if(q){intScores[q.p]+=ai;}
+  });
+  const intSorted=Object.entries(intScores).sort((a,b)=>b[1]-a[1]);
+  const top3=intSorted.slice(0,3);
+  document.getElementById('r-int').innerHTML=top3.map(([k])=>`${INT_NAMES[k].e} ${INT_NAMES[k].n}`).join(' · ');
+  document.getElementById('r-int-explain').innerHTML=top3.map(([k])=>`<strong>${INT_NAMES[k].n}</strong> : ${INT_NAMES[k].d}`).join('<br><br>');
+  let intScoresHtml='';
+  const maxI=Math.max(...Object.values(intScores));
+  intSorted.forEach(([k,v])=>{
+    const pct=maxI>0?(v/maxI*100):0;
+    intScoresHtml+=`<div class="score-row"><span class="name">${INT_NAMES[k].e} ${INT_NAMES[k].n}</span><div class="score-bar"><div style="width:${pct}%"></div></div><span class="val">${v}/9</span></div>`;
+  });
+  document.getElementById('r-int-scores').innerHTML=intScoresHtml;
+
+  // PERSO scores
+  const persoScores={enthousiaste:0,intellectuel:0,rebel:0,dynamique:0,emotionnel:0,perfectionniste:0,aimable:0};
+  Object.entries(answers.perso).forEach(([qi,ai])=>{
+    const q=PERSO_Q[qi];if(q){persoScores[q.p]+=ai;}
+  });
+  const persoSorted=Object.entries(persoScores).sort((a,b)=>b[1]-a[1]);
+  const persoWinner=persoSorted[0][0];
+  document.getElementById('r-perso').innerHTML=`${PERSO_NAMES[persoWinner].e} ${PERSO_NAMES[persoWinner].n}`;
+  document.getElementById('r-perso-explain').innerHTML=PERSO_NAMES[persoWinner].d;
+  let persoScoresHtml='';
+  const maxP=Math.max(...Object.values(persoScores));
+  persoSorted.forEach(([k,v])=>{
+    const pct=maxP>0?(v/maxP*100):0;
+    persoScoresHtml+=`<div class="score-row"><span class="name">${PERSO_NAMES[k].e} ${PERSO_NAMES[k].n}</span><div class="score-bar"><div style="width:${pct}%"></div></div><span class="val">${v}/6</span></div>`;
+  });
+  document.getElementById('r-perso-scores').innerHTML=persoScoresHtml;
+
+  // RECOS
+  const recos=[];
+  RECOS_VAK[vakWinner].forEach(r=>recos.push(r));
+  // Reco selon intelligence top 1
+  const intTop=top3[0][0];
+  const intRecos={
+    linguistique:"Joue avec les mots — débats, écriture créative, lectures variées",
+    logico:"Privilégie les problèmes, énigmes, jeux de logique pour mémoriser",
+    spatiale:"Fais des cartes mentales, mind maps, dessins pour structurer",
+    musicale:"Mets tes leçons en chanson, utilise des rythmes pour mémoriser",
+    corporelle:"Bouge, mime, manipule — apprends en faisant",
+    inter:"Étudie en groupe, explique aux autres pour consolider",
+    intra:"Aménage-toi des temps seul·e calmes pour digérer",
+    naturaliste:"Sors dehors pour réviser, fais des liens avec la nature"
+  };
+  recos.push(`<strong>Force ${INT_NAMES[intTop].e} ${INT_NAMES[intTop].n}</strong> : ${intRecos[intTop]}`);
+  // Reco selon perso
+  const persoRecos={
+    enthousiaste:"Demande à tes profs/parents de rendre les révisions plus ludiques",
+    intellectuel:"Réserve des plages calmes en autonomie pour digérer en profondeur",
+    rebel:"Cherche un défi par session de révision — ça te motivera",
+    dynamique:"Travaille en sessions courtes et intenses, alterne avec du mouvement",
+    emotionnel:"Choisis un environnement chaleureux et créatif pour étudier",
+    perfectionniste:"Accepte que 80 % bien fait vaut mieux que 100 % jamais fini",
+    aimable:"Affirme tes besoins pédagogiques — tu as le droit d'en avoir"
+  };
+  recos.push(`<strong>Profil ${PERSO_NAMES[persoWinner].n}</strong> : ${persoRecos[persoWinner]}`);
+  document.getElementById('r-recos').innerHTML=recos.map(r=>`<li>${r}</li>`).join('');
+
+  updateProgress();
+}
+
+/* Restart */
+document.getElementById('btn-restart').onclick=()=>{
+  if(confirm('Effacer toutes tes réponses et recommencer ?')){
+    answers={vak:{},int:{},perso:{}};save();
+    document.getElementById('progress-bar').style.display='none';
+    showPhase('intro');
+  }
+};
+
+/* Export */
+document.getElementById('btn-export').onclick=()=>{
+  const date=new Date().toLocaleDateString('fr-FR');
+  let txt=`MON PROFIL D'APPRENTISSAGE — EducaTypique\n`;
+  txt+=`Création originale Nawel Haddouch\n`;
+  txt+=`Exporté le : ${date}\n${'='.repeat(60)}\n\n`;
+  txt+=`👁👂✋ CANAL VAK : ${document.getElementById('r-vak').textContent}\n`;
+  txt+=`${document.getElementById('r-vak-explain').textContent.replace(/<[^>]+>/g,'')}\n\n`;
+  txt+=`🧠 MES 3 INTELLIGENCES FORTES : ${document.getElementById('r-int').textContent}\n`;
+  txt+=`${document.getElementById('r-int-explain').textContent.replace(/<[^>]+>/g,'')}\n\n`;
+  txt+=`💗 PROFIL DE PERSONNALITÉ : ${document.getElementById('r-perso').textContent}\n`;
+  txt+=`${document.getElementById('r-perso-explain').textContent.replace(/<[^>]+>/g,'')}\n\n`;
+  txt+=`🎯 MES RECOMMANDATIONS\n`;
+  document.querySelectorAll('#r-recos li').forEach((li,i)=>{txt+=`  ${i+1}. ${li.textContent}\n`;});
+  const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`profil-apprentissage_${date.replace(/\//g,'-')}.txt`;
+  a.click();URL.revokeObjectURL(url);
+};
+
+load();
+</script>
+
+</body>
+</html>
