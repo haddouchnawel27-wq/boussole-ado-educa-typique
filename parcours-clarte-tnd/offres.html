@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offres &amp; Accompagnement — Parcours Clarté TND · Educa Typique</title>
+<meta name="description" content="Choisis ton accompagnement : le Parcours Clarté TND en autonomie, accompagné, des consultations individuelles ou l'espace professionnel.">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_assets/charte.css">
+<style>
+  .bandeau{background:linear-gradient(135deg,var(--rose-clair),var(--lavande) 50%,var(--menthe));padding:2.4rem 1.5rem;text-align:center}
+  .retour{display:inline-block;margin-bottom:.6rem;color:var(--violet-fonce);font-weight:700;text-decoration:none;background:rgba(255,255,255,.55);padding:.3em .9em;border-radius:999px}
+  .bandeau h1{color:var(--violet-fonce);margin:.3rem 0;font-size:clamp(1.8rem,4.5vw,2.6rem)}
+  .bandeau .sub{color:var(--violet-titre);max-width:62ch;margin:.4rem auto 0;font-size:1.08rem}
+
+  /* Deux voies */
+  .voies{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;margin:1.6rem 0}
+  .voie{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--shadow-sm)}
+  .voie.solo{border-top:6px solid var(--turquoise)}
+  .voie.accomp{border-top:6px solid var(--rose-soutenu)}
+  .voie h2{margin:.2rem 0 .3rem}
+  .voie .pour{color:var(--muted);font-size:.92rem;margin:0 0 .6rem}
+
+  /* Tarifs */
+  .tarifs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;margin:1.4rem 0}
+  .plan{position:relative;background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:1.6rem 1.4rem;box-shadow:var(--shadow-sm);display:flex;flex-direction:column}
+  .plan.populaire{border:2px solid var(--rose-soutenu);box-shadow:var(--shadow-md)}
+  .plan .tag{position:absolute;top:-.8rem;left:50%;transform:translateX(-50%);background:var(--rose-soutenu);color:#fff;font-size:.72rem;font-weight:800;padding:.25em .9em;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
+  .plan h3{margin:.2rem 0;color:var(--violet-titre)}
+  .plan .prix{font-family:var(--font-titre);font-size:2rem;font-weight:800;color:var(--violet-fonce);margin:.4rem 0 .1rem}
+  .plan .prix small{font-size:.9rem;font-weight:600;color:var(--muted)}
+  .plan .apartir{font-size:.8rem;color:var(--muted);margin:0 0 .8rem}
+  .plan ul{list-style:none;padding:0;margin:.6rem 0 1rem;flex:1}
+  .plan li{padding:.35rem 0 .35rem 1.6rem;position:relative;font-size:.93rem;color:#444}
+  .plan li::before{content:"✓";position:absolute;left:0;color:var(--turquoise);font-weight:800}
+  .plan li.no{color:#aaa}
+  .plan li.no::before{content:"–";color:#ccc}
+  .btn{display:block;text-align:center;background:var(--rose-soutenu);color:#fff;font-weight:800;text-decoration:none;padding:.7em 1em;border-radius:999px;transition:filter .15s}
+  .btn:hover{filter:brightness(1.07)}
+  .btn.ghost{background:#fff;color:var(--rose-soutenu);border:2px solid var(--rose-soutenu)}
+
+  h2.sec{margin-top:2.4rem;color:var(--violet-fonce)}
+  .carte{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin:1rem 0}
+  .item{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1.1rem 1.2rem;box-shadow:var(--shadow-sm)}
+  .item h4{margin:.1rem 0 .3rem;color:var(--violet-titre)}
+  .item p{margin:0;color:var(--muted);font-size:.9rem}
+  .item .px{display:block;margin-top:.5rem;font-weight:800;color:var(--violet-fonce)}
+
+  .todo{background:#fff7e6;border:1px dashed #e0a93f;color:#8a6d1f;border-radius:10px;padding:.15em .5em;font-size:.82rem;font-weight:700}
+
+  .faq{margin:1rem 0}
+  .faq details{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);margin:.5rem 0;padding:.2rem .4rem}
+  .faq summary{cursor:pointer;font-weight:700;color:var(--violet-titre);padding:.7rem .8rem;list-style:none}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq p{padding:0 .9rem .8rem;color:#555;margin:0}
+
+  .contact{background:linear-gradient(135deg,var(--lavande),var(--menthe));border-radius:var(--r-lg);padding:2rem 1.5rem;text-align:center;margin:2rem 0 1rem}
+  .contact h2{color:var(--violet-fonce);margin:.2rem 0}
+  .contact p{color:var(--violet-titre);max-width:54ch;margin:.4rem auto 1rem}
+  .pied{text-align:center;color:var(--muted);padding:2rem 1rem;font-size:.85rem}
+</style>
+</head>
+<body>
+<section class="bandeau">
+  <a class="retour" href="index.html">← Accueil Parcours Clarté</a>
+  <h1>Choisis ton accompagnement</h1>
+  <p class="sub">Que tu avances en autonomie ou main dans la main avec moi, il y a une formule adaptée à ton rythme, ton besoin et ton budget.</p>
+</section>
+
+<div class="container">
+
+  <!-- DEUX VOIES -->
+  <div class="voies">
+    <div class="voie solo">
+      <h2>🧭 En autonomie</h2>
+      <p class="pour">Pour les familles autonomes qui veulent avancer à leur rythme, avec tous les outils en main.</p>
+      <p>Accès au <strong>Parcours Clarté TND</strong> : les outils interactifs, fiches, parcours pas-à-pas et programmes (dont <em>Protection Numérique</em>), 100&nbsp;% en ligne, disponibles 24h/24.</p>
+    </div>
+    <div class="voie accomp">
+      <h2>💞 Accompagné·e</h2>
+      <p class="pour">Pour celles et ceux qui veulent un soutien humain, du sur-mesure et un regard professionnel.</p>
+      <p>Tout l'autonomie <strong>+ des consultations</strong> avec moi : guidance parentale, approche TCC, neuropédagogie, et un suivi personnalisé étape par étape.</p>
+    </div>
+  </div>
+
+  <!-- TARIFS PRINCIPAUX -->
+  <h2 class="sec">💎 Les formules</h2>
+  <p style="color:var(--muted);margin-top:.2rem">Les montants sont à finaliser ensemble <span class="todo">à compléter</span> — la structure est prête.</p>
+  <div class="tarifs">
+
+    <div class="plan">
+      <h3>Découverte</h3>
+      <div class="prix">Gratuit</div>
+      <p class="apartir">pour commencer sans engagement</p>
+      <ul>
+        <li>Accès aux outils essentiels de la Boussole</li>
+        <li>Quelques fiches &amp; ressources offertes</li>
+        <li>Ebook « Dialoguer avec son ado »</li>
+        <li class="no">Programmes complets</li>
+        <li class="no">Accompagnement personnalisé</li>
+      </ul>
+      <a class="btn ghost" href="index.html">Explorer gratuitement</a>
+    </div>
+
+    <div class="plan populaire">
+      <span class="tag">Le plus choisi</span>
+      <h3>Parcours en autonomie</h3>
+      <div class="prix">__ €<small> / accès</small></div>
+      <p class="apartir"><span class="todo">à compléter</span> · paiement unique ou en plusieurs fois</p>
+      <ul>
+        <li>Tous les outils interactifs (parents &amp; ados)</li>
+        <li>Le parcours pas-à-pas complet</li>
+        <li>Programme <strong>Protection Numérique</strong></li>
+        <li>Fiches, guides &amp; ebooks</li>
+        <li>Mises à jour incluses</li>
+        <li class="no">Consultations individuelles</li>
+      </ul>
+      <a class="btn" href="#contact">Je veux ce parcours</a>
+    </div>
+
+    <div class="plan">
+      <h3>Parcours accompagné</h3>
+      <div class="prix">__ €<small> / pack</small></div>
+      <p class="apartir"><span class="todo">à compléter</span> · ex. parcours + 3 séances</p>
+      <ul>
+        <li>Tout le Parcours en autonomie</li>
+        <li><strong>Consultations</strong> avec Nawel</li>
+        <li>Plan d'accompagnement personnalisé</li>
+        <li>Guidance parentale &amp; approche TCC</li>
+        <li>Suivi entre les séances</li>
+      </ul>
+      <a class="btn" href="#contact">Être accompagné·e</a>
+    </div>
+
+  </div>
+
+  <!-- CONSULTATIONS A LA CARTE -->
+  <h2 class="sec">🗓️ Consultations à la carte</h2>
+  <div class="carte">
+    <div class="item"><h4>Séance découverte</h4><p>Faire connaissance, clarifier ton besoin et la marche à suivre.</p><span class="px">__ € <span class="todo">à compléter</span></span></div>
+    <div class="item"><h4>Guidance parentale</h4><p>Outils concrets pour le quotidien avec un enfant neuro-atypique.</p><span class="px">__ € <span class="todo">à compléter</span></span></div>
+    <div class="item"><h4>Accompagnement TCC</h4><p>Approche thérapeutique cognitivo-comportementale (psychopraticienne).</p><span class="px">__ € <span class="todo">à compléter</span></span></div>
+    <div class="item"><h4>Bilan / orientation neuropédagogique</h4><p>Comprendre le profil d'apprentissage et poser un plan.</p><span class="px">__ € <span class="todo">à compléter</span></span></div>
+    <div class="item"><h4>Forfait suivi (plusieurs séances)</h4><p>Un accompagnement dans la durée, à tarif préférentiel.</p><span class="px">__ € <span class="todo">à compléter</span></span></div>
+    <div class="item"><h4>Accompagnement spirituel (option)</h4><p>Sur demande, pour les familles qui le souhaitent (Voie Chifâ).</p><span class="px">sur demande</span></div>
+  </div>
+
+  <!-- ESPACE PRO -->
+  <h2 class="sec">🧑‍⚕️ Pour les professionnels</h2>
+  <div class="carte">
+    <div class="item"><h4>Accès Espace Pro</h4><p>Profils, repérages TND, outils cliniques &amp; fiches pour ta pratique.</p><span class="px">__ € <span class="todo">à compléter</span></span></div>
+    <div class="item"><h4>Formations</h4><p>Neurosciences, neuropédagogie, gestion émotionnelle…</p><span class="px">__ € <span class="todo">à compléter</span></span></div>
+    <div class="item"><h4>Licence / partenariat</h4><p>Utiliser les outils Educa Typique dans ta structure.</p><span class="px">sur devis</span></div>
+  </div>
+
+  <!-- FAQ -->
+  <h2 class="sec">❓ Questions fréquentes</h2>
+  <div class="faq">
+    <details><summary>Dois-je être accompagnée pour utiliser le parcours ?</summary><p>Non. Le parcours fonctionne en totale autonomie. L'accompagnement est un <em>plus</em> pour celles et ceux qui veulent un soutien humain et du sur-mesure.</p></details>
+    <details><summary>Les consultations se font-elles à distance ?</summary><p><span class="todo">à compléter</span> — Préciser : visio, présentiel, et zones géographiques.</p></details>
+    <details><summary>Puis-je payer en plusieurs fois ?</summary><p><span class="todo">à compléter</span> — Préciser les facilités de paiement proposées.</p></details>
+    <details><summary>Mes données sont-elles privées ?</summary><p>Oui. Les outils fonctionnent en local sur ton appareil : rien n'est envoyé en ligne, tes informations restent chez toi.</p></details>
+    <details><summary>Est-ce que cela remplace un diagnostic médical ?</summary><p>Non. Ces outils sont un appui éducatif et émotionnel ; ils ne remplacent ni un diagnostic, ni un suivi par un professionnel de santé.</p></details>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact" id="contact">
+    <h2>Envie d'avancer ensemble ?</h2>
+    <p>Écris-moi pour choisir la formule qui te correspond, ou réserver une séance découverte.</p>
+    <a class="btn" href="mailto:haddouchnawel27@gmail.com?subject=Parcours%20Clart%C3%A9%20TND%20%E2%80%94%20Demande%20d'information">✉️ Me contacter</a>
+    <p style="margin-top:1rem;font-size:.85rem"><span class="todo">à compléter</span> : lien de réservation (Calendly), réseaux sociaux, téléphone.</p>
+  </div>
+
+  <div class="disclaimer">Educa Typique · Nawel Haddouch — Psychopraticienne TCC, neuropédagogue TND, coach parental. Ces accompagnements ne remplacent pas un avis médical.</div>
+</div>
+
+<footer class="pied">Educa Typique · Nawel Haddouch — Parcours Clarté TND<br><span style="opacity:.7">© Cabinet Ladies Hub-LH Psycho-Éducatif</span></footer>
+</body>
+</html>
