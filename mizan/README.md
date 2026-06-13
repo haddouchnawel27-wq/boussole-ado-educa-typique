@@ -1,4 +1,4 @@
-# ⚖️ Mîzân — Mieux te comprendre, jour après jour
+# ⚖️ Mîzân — Retrouver l'équilibre, devenir alignée
 
 Application web **100 % locale et privée** pour accompagner les **femmes entrepreneures**
 sur le versant **émotions · fonctionnement · schémas · blocages**. Volet complémentaire d'un
