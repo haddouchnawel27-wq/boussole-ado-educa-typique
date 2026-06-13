@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protection Numérique — Parcours Clarté TND · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_assets/charte.css">
+<style>
+  :root{--pn:#6C5CE7;--pn-fonce:#4b3fb0;--pn-clair:#efeaff;--turq:#19b9b0}
+  body{background:#faf9ff}
+  .bandeau{background:linear-gradient(135deg,var(--pn),var(--pn-fonce));padding:1.9rem 1.5rem;text-align:center;color:#fff}
+  .bandeau h1{color:#fff;margin:.3rem 0;text-shadow:0 2px 4px rgba(0,0,0,.12)}
+  .bandeau .sub{opacity:.96;max-width:64ch;margin:.4rem auto 0}
+  .retour{display:inline-block;margin-bottom:.6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.22);padding:.3em .9em;border-radius:999px}
+  .pills{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-top:.9rem}
+  .pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);color:#fff;padding:.25em .8em;border-radius:999px;font-size:.82rem;font-weight:700}
+  .container{max-width:1000px}
+  h2{color:var(--pn-fonce);margin-top:2rem}
+  .lead{color:var(--muted);max-width:70ch}
+  .audience{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.2rem 0}
+  .card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:1.3rem;box-shadow:var(--shadow-sm)}
+  .card.ado{border-top:5px solid var(--turq)}
+  .card.parent{border-top:5px solid var(--pn)}
+  .card h3{margin:.1rem 0 .6rem;color:var(--pn-fonce)}
+  .card.ado h3{color:#0f8a83}
+  .card ul{margin:.4rem 0 0;padding-left:1.1rem;color:#444}
+  .card li{margin:.35rem 0}
+  /* Protocole étapes */
+  .etapes{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:.9rem;margin:1.1rem 0}
+  .etape{position:relative;background:#fff;border:1px solid var(--border);border-left:5px solid var(--pn);border-radius:14px;padding:1rem 1rem .9rem 2.8rem;box-shadow:var(--shadow-sm)}
+  .etape::before{counter-increment:s;content:counter(s);position:absolute;left:.7rem;top:.9rem;width:1.5rem;height:1.5rem;background:var(--pn);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem}
+  .etape strong{display:block;color:var(--pn-fonce);margin-bottom:.2rem}
+  .etape span{font-size:.9rem;color:#555}
+  /* Légal */
+  .legal{background:var(--pn-clair);border-radius:14px;padding:1.1rem 1.3rem;margin:1.1rem 0}
+  .legal h3{margin:.1rem 0 .5rem;color:var(--pn-fonce)}
+  .legal li{margin:.3rem 0}
+  /* Grilles ressources */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.8rem;margin:1rem 0}
+  .tool{display:flex;flex-direction:column;gap:.3rem;background:#fff;border:1px solid var(--border);border-radius:14px;padding:.95rem 1rem;text-decoration:none;color:inherit;box-shadow:var(--shadow-sm);transition:transform .15s,box-shadow .15s;border-top:4px solid var(--pn)}
+  .tool:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+  .tool .ic{font-size:1.6rem}
+  .tool h4{margin:0;color:var(--pn-fonce);font-size:1rem}
+  .tool p{margin:0;color:var(--muted);font-size:.84rem}
+  .urgences{background:#fff;border:2px dashed var(--pn);border-radius:16px;padding:1.2rem 1.4rem;margin:1.4rem 0}
+  .urgences h3{margin:.1rem 0 .6rem;color:var(--pn-fonce)}
+  .urgences .num{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.5rem}
+  .urgences .num b{background:var(--pn-clair);border-radius:10px;padding:.4em .8em;font-size:.9rem;color:var(--pn-fonce)}
+  /* Philosophie Inner Safe */
+  .philo{background:linear-gradient(135deg,#fff,var(--pn-clair));border:1px solid #e2dbff;border-radius:18px;padding:1.3rem 1.5rem;margin:1.3rem 0}
+  .philo h3{margin:.1rem 0 .5rem;color:var(--pn-fonce)}
+  .philo p{color:#444;max-width:72ch;margin:.4rem 0}
+  /* Accordéons synthèse */
+  details.mod{background:#fff;border:1px solid var(--border);border-radius:14px;margin:.6rem 0;box-shadow:var(--shadow-sm);overflow:hidden}
+  details.mod>summary{cursor:pointer;list-style:none;padding:.95rem 1.1rem;font-weight:800;color:var(--pn-fonce);display:flex;align-items:center;gap:.6rem;font-family:Poppins,sans-serif}
+  details.mod>summary::-webkit-details-marker{display:none}
+  details.mod>summary::after{content:"＋";margin-left:auto;color:var(--pn);font-weight:800}
+  details.mod[open]>summary::after{content:"−"}
+  details.mod>summary .ic{font-size:1.4rem}
+  .mod-body{padding:0 1.2rem 1.1rem;color:#444}
+  .mod-body p{margin:.5rem 0}
+  .mod-body ul{margin:.4rem 0;padding-left:1.1rem}
+  .mod-body li{margin:.3rem 0}
+  .mod-body .cle{background:var(--pn-clair);border-radius:10px;padding:.5em .8em;display:inline-block;font-size:.86rem;color:var(--pn-fonce);font-weight:700;margin:.2rem .2rem 0 0}
+  .phrases{display:flex;flex-wrap:wrap;gap:.4rem;margin:.5rem 0}
+  .phrases b{background:#eafaf8;color:#0f8a83;border-radius:999px;padding:.3em .8em;font-size:.85rem;font-weight:700}
+  .annexe{display:inline-flex;align-items:center;gap:.4rem;margin-top:.7rem;font-size:.85rem;color:var(--pn);font-weight:700;text-decoration:none;border:1px solid var(--pn);border-radius:999px;padding:.3em .9em}
+  .annexe:hover{background:var(--pn);color:#fff}
+  .stat{background:#fff4f4;border-left:4px solid #e07a7a;border-radius:10px;padding:.7em .9em;font-size:.9rem;margin:.5rem 0}
+  .pied{text-align:center;color:var(--muted);padding:2rem 1rem;font-size:.88rem}
+</style>
+</head>
+<body>
+<section class="bandeau">
+  <a class="retour" href="index.html">← Accueil Parcours Clarté</a>
+  <h1>🛡️ Protection Numérique</h1>
+  <p class="sub">Comprendre les dangers en ligne, prévenir, et savoir exactement quoi faire si ça arrive — sans panique, sans honte, cœur à cœur.</p>
+  <div class="pills"><span class="pill">👪 Parents</span><span class="pill">🧑 Ados</span><span class="pill">Espace commun</span></div>
+</section>
+
+<div class="container">
+  <p class="lead">Le numérique fait partie de la vie de nos ados. Plutôt que d'interdire ou de paniquer, cet espace donne des <strong>repères clairs</strong> et un <strong>réflexe de premiers secours</strong> partagé entre parents et ados. Ces situations <em>n'arrivent pas qu'aux autres</em> : en parler ouvertement, c'est déjà protéger.</p>
+
+  <div class="philo">
+    <h3>🧭 La philosophie : une « boussole intérieure »</h3>
+    <p>Protéger ne veut pas dire faire peur ni tout interdire. L'idée est de bâtir chez l'enfant une <strong>force intérieure qui veille, anticipe et protège</strong> — l'alliance entre <strong>vigilance et autonomie</strong> : apprendre à reconnaître les signaux d'alerte <em>sans sombrer dans l'angoisse</em>, et à évoluer avec confiance dans un monde rempli de pièges.</p>
+    <p>C'est une boussole qui guide vers des choix sûrs, tout en développant l'esprit critique et la confiance en soi. Une protection <strong>active et bienveillante</strong>, qui donne les outils pour se préserver tout en explorant le monde.</p>
+  </div>
+
+  <!-- ESPACE COMMUN : deux entrées -->
+  <div class="audience">
+    <div class="card ado">
+      <h3>🧑 Pour toi, l'ado</h3>
+      <ul>
+        <li><strong>Tu n'es jamais responsable</strong> de ce qu'un manipulateur te fait. Le coupable, c'est lui — pas toi.</li>
+        <li>Une photo, un message, un chantage… <strong>ce n'est jamais trop tard pour en parler</strong> à un adulte de confiance.</li>
+        <li>Parler n'est <strong>pas une trahison</strong> quand un ami se met en danger : c'est le protéger.</li>
+        <li>Si quelqu'un te met mal à l'aise : <strong>ne réponds plus, garde les preuves, bloque, signale</strong>.</li>
+        <li>Tu te sens seul·e ou en détresse ? Tu peux appeler le <strong>3114</strong> (gratuit, 24h/24) ou en parler à un adulte tout de suite.</li>
+      </ul>
+    </div>
+    <div class="card parent">
+      <h3>👪 Pour les parents</h3>
+      <ul>
+        <li>Le lien de confiance est ta meilleure protection : un ado qui se sent <strong>écouté sans jugement</strong> ose parler.</li>
+        <li>Garde un œil bienveillant (pas de contrôle extrême) et reste <strong>approchable</strong>.</li>
+        <li>Le jour où ton enfant te confie quelque chose de grave, ta première mission : <strong>rester calme</strong> et appliquer le protocole ci-dessous.</li>
+        <li>La honte et la culpabilité injectées s'ancrent à vie — <strong>on ne traite pas le mal par le mal</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PROTOCOLE PREMIERS SECOURS EMOTIONNEL -->
+  <h2>🚑 Le réflexe « Premiers Secours Émotionnel »</h2>
+  <p class="lead">Un protocole unique, valable pour toutes les situations (cyberharcèlement, grooming, sextorsion, photo intime…). À garder en tête <strong>avant</strong> d'en avoir besoin.</p>
+  <div class="etapes">
+    <div class="etape"><strong>Respire</strong><span>Ramène de l'oxygène au cerveau, ne réagis pas à chaud. Tes émotions, tu les traiteras plus tard. Là, tu es son pilier.</span></div>
+    <div class="etape"><strong>Accueille &amp; déculpabilise</strong><span>« Merci d'être venu m'en parler, tu as eu du courage. Tu n'as rien fait de mal, tu ne seras pas puni. » Amour inconditionnel ≠ laxisme.</span></div>
+    <div class="etape"><strong>Ne sur-questionne pas</strong><span>L'essentiel suffit. Des enquêteurs spécialisés poseront les bonnes questions plus tard, sans le traumatiser.</span></div>
+    <div class="etape"><strong>Sécurise les preuves</strong><span>Captures d'écran, pseudos, messages. ⚠️ Ne transfère JAMAIS les images sur un autre appareil (matériel illégal). Puis coupe le Wi-Fi et éteins le téléphone.</span></div>
+    <div class="etape"><strong>Bloque &amp; signale</strong><span>Bloque et signale sur la plateforme. Demande la suppression des images. Signale aux autorités si besoin.</span></div>
+    <div class="etape"><strong>Évalue le risque</strong><span>Surveille les signes de détresse : isolement, automutilation, propos suicidaires. En cas de doute, demande directement — et cherche de l'aide tout de suite.</span></div>
+    <div class="etape"><strong>Propose un soutien pro</strong><span>Garde la porte ouverte vers un professionnel, même en cas de refus au début. L'accompagnement peut être crucial pour toute la famille.</span></div>
+  </div>
+
+  <div class="legal">
+    <h3>⚖️ Repères légaux à connaître</h3>
+    <ul>
+      <li><strong>Grooming &amp; sextorsion</strong> sont des <strong>crimes punis par la loi</strong> : le signalement protège l'enfant et empêche la récidive.</li>
+      <li>Détenir des images intimes d'un <strong>mineur de moins de 16 ans</strong> = matériel pédopornographique, illégal.</li>
+      <li>Photo intime envoyée : si l'enfant a <strong>moins de 14 ans</strong>, examiner tout grooming/abus ; si <strong>15-16 ans et consenti</strong> avec un proche, réfléchir ensemble aux conséquences (tu n'as plus le contrôle des copies).</li>
+      <li>Ne pas transférer les preuves ; remettre l'appareil aux forces de l'ordre lors du dépôt de plainte.</li>
+    </ul>
+  </div>
+
+  <!-- FICHES SITUATIONS -->
+  <h2>🆘 Que faire si… (fiches détaillées)</h2>
+  <div class="grid">
+    <a class="tool" href="protection-numerique/pdf/premiers-secours-1-grooming-sextorsion.pdf"><div class="ic">🎣</div><h4>Victime de grooming / sextorsion</h4><p>Protocole complet en 8 étapes.</p></a>
+    <a class="tool" href="protection-numerique/pdf/premiers-secours-2-cyberharcelement.pdf"><div class="ic">💬</div><h4>Victime de cyberharcèlement</h4><p>+ remarque spéciale catfishing.</p></a>
+    <a class="tool" href="protection-numerique/pdf/premiers-secours-3-photo-intime-recue.pdf"><div class="ic">📥</div><h4>A reçu une photo intime</h4><p>Réagir et accompagner.</p></a>
+    <a class="tool" href="protection-numerique/pdf/premiers-secours-4-photo-intime-envoyee.pdf"><div class="ic">📤</div><h4>A envoyé une photo intime (nude)</h4><p>9 étapes + repères légaux.</p></a>
+    <a class="tool" href="protection-numerique/pdf/premiers-secours-5-entre-cousins-famille.pdf"><div class="ic">🏡</div><h4>Situations entre cousins / famille</h4><p>Cadre intrafamilial délicat.</p></a>
+  </div>
+
+  <!-- MODULES COMPRENDRE -->
+  <h2>🧠 Comprendre les menaces</h2>
+  <p class="lead">L'essentiel de chaque sujet, synthétisé. Clique pour déplier — la fiche complète reste disponible en annexe.</p>
+
+  <details class="mod">
+    <summary><span class="ic">☢️</span> Mesurer les risques (sans angoisser)</summary>
+    <div class="mod-body">
+      <p>Le but n'est pas d'activer la peur, mais la <strong>conscience</strong> : on regarde l'ampleur du danger pour mieux agir, puis on respire. Des solutions simples et accessibles existent.</p>
+      <div class="stat">📊 Près de <strong>9 familles sur 10</strong> font face, sous une forme ou une autre, à un dépassement de limites. Ce n'est pas une fatalité réservée « aux autres ».</div>
+      <p>Trois intentions : <strong>réduire</strong> ces situations, <strong>minimiser l'impact psychologique</strong>, et devenir un <strong>accompagnement de proximité</strong> à la maison. Le parent est en première ligne — non pour culpabiliser, mais pour devenir acteur de la protection.</p>
+      <a class="annexe" href="protection-numerique/pdf/module-02-mesurer-les-risques.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <details class="mod">
+    <summary><span class="ic">🔁</span> L'addiction (le piège de la dopamine)</summary>
+    <div class="mod-body">
+      <p>Jeux, réseaux, contenus en libre-service : chaque action (gagner, débloquer un skin, un niveau, un « pass de combat ») déclenche une <strong>décharge de dopamine</strong> qui pousse à continuer. L'enfant n'est pas « fautif » : il est pris dans un mécanisme neurologique conçu pour capter.</p>
+      <p>Les vrais « antidotes » sont des <strong>racines</strong>, pas des recettes :</p>
+      <ul>
+        <li>Un <strong>lien d'attachement solide</strong> ;</li>
+        <li>Savoir <strong>réparer</strong> après avoir craqué ;</li>
+        <li>Communiquer <strong>sans jugement</strong> ;</li>
+        <li>Tenir une <strong>vision à long terme</strong> du foyer.</li>
+      </ul>
+      <p>Sans posture éducative solide, les « outils » restent inefficaces.</p>
+      <a class="annexe" href="protection-numerique/pdf/module-10-addiction.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <details class="mod">
+    <summary><span class="ic">🕵️</span> Le grooming (manipulation prédatrice)</summary>
+    <div class="mod-body">
+      <p>Un adulte mal intentionné tisse une relation de confiance avec un mineur, en ligne, pour l'exploiter. <strong>Tout le monde n'est pas qui il prétend être.</strong> Le processus suit 4 étapes :</p>
+      <ul>
+        <li><strong>1. Créer un lien</strong> — il se montre amical, attentionné, intéressé par les passions de l'enfant.</li>
+        <li><strong>2. Isoler</strong> — il pousse à cacher les échanges aux parents et aux amis.</li>
+        <li><strong>3. Désensibiliser</strong> — il introduit peu à peu des sujets ou images inappropriés.</li>
+        <li><strong>4. Exploiter</strong> — il incite à envoyer des images, des vidéos, ou à se rencontrer.</li>
+      </ul>
+      <p>Repère clé : <strong>le secret imposé</strong> et l'isolement progressif.</p>
+      <a class="annexe" href="protection-numerique/pdf/module-11-grooming-online.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <details class="mod">
+    <summary><span class="ic">🚨</span> La sextorsion &amp; le contenu auto-généré</summary>
+    <div class="mod-body">
+      <p>Chantage sexuel : après avoir obtenu des images, l'agresseur menace de les diffuser pour obtenir plus de contenu, de l'argent, ou la soumission. Les enfants sont souvent ciblés <strong>seuls dans leur chambre</strong>.</p>
+      <div class="stat">📈 Rapport Internet Watch Foundation 2023 : <strong>92 %</strong> des images d'abus diffusées sont « auto-générées » ; les images d'enfants de <strong>7-10 ans ont bondi de 65 %</strong> (2022→2023) ; les <strong>11-13 ans</strong> sont les plus représentés.</div>
+      <p>Le message essentiel : <strong>en parler, et en parler souvent</strong>, avant que ça n'arrive. On minimise trop les risques.</p>
+      <a class="annexe" href="protection-numerique/pdf/module-12-sextorsion.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <details class="mod">
+    <summary><span class="ic">🎭</span> Les deepfakes (IA &amp; fausses images)</summary>
+    <div class="mod-body">
+      <p>L'IA permet de <strong>truquer</strong> images, vidéos et voix. Trois formes à connaître :</p>
+      <ul>
+        <li><strong>Échange de visage</strong> (face swap) — remplacer un visage par un autre, y compris pour de fausses vidéos compromettantes.</li>
+        <li><strong>Synchronisation labiale</strong> — faire « dire » à quelqu'un ce qu'il n'a jamais dit.</li>
+        <li><strong>Clonage de voix</strong> — copier une voix avec quelques secondes d'enregistrement (arnaques où l'on imite un proche).</li>
+      </ul>
+      <p>La parade : <strong>l'esprit critique</strong> — « ce que je vois/entends peut être faux » — et vérifier par un autre canal.</p>
+      <a class="annexe" href="protection-numerique/pdf/module-13-deepfakes.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <details class="mod">
+    <summary><span class="ic">🪝</span> Le catfishing (fausse identité)</summary>
+    <div class="mod-body">
+      <p>Une personne crée une <strong>fausse identité numérique</strong> pour tromper. Objectifs : gagner la confiance et manipuler émotionnellement, soutirer des <strong>infos personnelles</strong> (adresse, école, habitudes), obtenir des <strong>photos compromettantes</strong> (→ chantage/sextorsion), ou pousser à une <strong>rencontre réelle</strong>.</p>
+      <p>Prévention :</p>
+      <ul>
+        <li><strong>Prudence en ligne</strong> : on ne fait pas confiance à un inconnu, même gentil et compréhensif.</li>
+        <li><strong>Transparence sans jugement</strong> : l'ado doit pouvoir parler de ses interactions et oser demander de l'aide en cas de doute.</li>
+      </ul>
+      <a class="annexe" href="protection-numerique/pdf/module-14-catfishing.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <details class="mod">
+    <summary><span class="ic">💻</span> Cyberharcèlement &amp; santé mentale</summary>
+    <div class="mod-body">
+      <p>Internet est un outil puissant mais risqué — <strong>même sur WhatsApp ou Zoom</strong>, qui semblent anodins. L'exposition prolongée et aux contenus inappropriés (pornographie, violence, incitation à l'automutilation) affecte le <strong>bien-être émotionnel et mental</strong>, et la <strong>privation de sommeil</strong> aggrave tout.</p>
+      <p>Plus on est conscient des conséquences réelles, plus on tient la <strong>vigilance au quotidien</strong>. La question qui recadre tout : « <em>Si on ne les protège pas, qui le fera ?</em> »</p>
+      <a class="annexe" href="protection-numerique/pdf/module-15-cyberharcelement-sante-mentale.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <details class="mod">
+    <summary><span class="ic">🎯</span> Les « Tricky People » (au-delà du danger des inconnus)</summary>
+    <div class="mod-body">
+      <p>On dépasse le vieux « danger des inconnus » car <strong>plus de 90 % des abus</strong> sont commis par une personne <strong>connue</strong> de l'enfant. On apprend plutôt à repérer un <strong>comportement</strong>, pas une apparence :</p>
+      <ul>
+        <li><strong>Étrange</strong> ≠ dangereux : inhabituel mais qui ne met pas mal à l'aise (ex. quelqu'un qui danse dans la rue).</li>
+        <li><strong>« Tricky »</strong> : quelqu'un qui demande de <strong>garder un secret</strong>, d'<strong>aller quelque part sans prévenir</strong>, ou de <strong>faire une chose interdite</strong>.</li>
+      </ul>
+      <p>On donne à l'enfant l'<strong>autorisation explicite</strong> d'être gêné, confus, et de poser des questions inconfortables — sans être jugé ni grondé.</p>
+      <a class="annexe" href="protection-numerique/pdf/module-07-tricky-people.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <!-- MODULES EDUQUER -->
+  <h2>🌱 Éduquer &amp; responsabiliser</h2>
+
+  <details class="mod">
+    <summary><span class="ic">💞</span> Le style parental &amp; l'attachement</summary>
+    <div class="mod-body">
+      <p>Tout part de la <strong>sécurité affective</strong>. L'attachement (surtout avant 3 ans) est la base — mais si tu réalises qu'il a manqué, <strong>aucune fatalité</strong> : tout est remédiable, et « quand on ne sait pas, on ne sait pas » (donc pas de culpabilité).</p>
+      <p>Ton <strong>style parental donne le ton</strong> : un enfant qui se sent en sécurité avec toi viendra te parler quand ça dérape. C'est ça, la vraie première protection.</p>
+      <a class="annexe" href="protection-numerique/pdf/module-03-style-parental.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <details class="mod">
+    <summary><span class="ic">🤝</span> En pratique : limites &amp; connexion</summary>
+    <div class="mod-body">
+      <p>Intention quotidienne : <em>« une parentalité accessible, bienveillante et protectrice. »</em></p>
+      <ul>
+        <li><strong>Pause avant de réagir</strong> — gérer ses émotions avant de poser une limite.</li>
+        <li><strong>Connexion d'abord</strong> — regarder, ressentir. Derrière chaque comportement, un message : « j'ai peur d'être grondé », « j'ai peur que tu ne m'aimes plus ».</li>
+        <li><strong>Coaching, pas morale</strong> — devenir coach plutôt que donneuse de leçons.</li>
+        <li>Une limite, par définition, <strong>frustre</strong> : l'enfant n'est pas censé être d'accord, et c'est normal.</li>
+      </ul>
+      <a class="annexe" href="protection-numerique/pdf/module-04-en-pratique.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <details class="mod">
+    <summary><span class="ic">🌳</span> Faire de l'enfant une 2ᵉ ligne de défense</summary>
+    <div class="mod-body">
+      <p>On veut un enfant <strong>éduqué et conscient</strong> : il est alors moins susceptible d'être pris pour cible. Deux leviers :</p>
+      <ul>
+        <li><strong>Écouter les signes avant-coureurs</strong> — ces ressentis corporels d'alerte (« quelque chose ne va pas »). On apprend à les reconnaître, aussi dans les relations sociales.</li>
+        <li><strong>Poser des mots clairs sur les limites</strong> — ce qui nous semble « évident » ne l'est pas pour l'enfant tant qu'on ne l'a pas nommé.</li>
+      </ul>
+      <a class="annexe" href="protection-numerique/pdf/module-05-eduquer-responsabiliser.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <details class="mod">
+    <summary><span class="ic">🤚</span> Safe vs Unsafe Touch (mon corps, mes limites)</summary>
+    <div class="mod-body">
+      <p>L'enfant est le <strong>patron de son corps</strong> et a le droit de dire « non » à tout contact qui le met mal à l'aise — <strong>même venant d'un proche</strong>.</p>
+      <ul>
+        <li>« Fais un bisou » n'est <strong>pas une obligation</strong> : un bonjour ou un salam suffit.</li>
+        <li>Chez le médecin : on ne montre que la partie nécessaire, accompagné d'une figure de confiance.</li>
+        <li>Côté adulte : si <strong>tu</strong> as du mal à poser tes limites, ce sera dur de l'enseigner. Rassure ta « petite toi » : tu as le droit de dire non.</li>
+      </ul>
+      <a class="annexe" href="protection-numerique/pdf/module-06-safe-unsafe-touch.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <details class="mod">
+    <summary><span class="ic">✋</span> Le consentement (dès le plus jeune âge)</summary>
+    <div class="mod-body">
+      <p>Avec l'accès facile à la pornographie, enseigner le consentement <strong>tôt</strong> est crucial. Trois gestes simples :</p>
+      <ul>
+        <li><strong>Modéliser</strong> : demander avant un câlin (« Est-ce que je peux te faire un câlin ? ») et <strong>respecter le non</strong>.</li>
+        <li><strong>Un geste clair</strong> : lever la main devant soi en disant non.</li>
+        <li><strong>Des phrases courtes</strong> à répéter ensemble jusqu'à ce qu'elles deviennent réflexes :</li>
+      </ul>
+      <div class="phrases"><b>« Non, je ne veux pas. »</b><b>« Arrête, ça me dérange. »</b><b>« Je ne suis pas d'accord. »</b><b>« C'est mon corps, je décide. »</b></div>
+      <a class="annexe" href="protection-numerique/pdf/module-08-consentement.pdf">📄 Fiche complète</a>
+    </div>
+  </details>
+
+  <!-- OUTILS -->
+  <h2>📄 Outils pratiques à télécharger</h2>
+  <div class="grid">
+    <a class="tool" href="protection-numerique/pdf/outil-passer-un-accord-avec-son-ado.pdf"><div class="ic">🤝</div><h4>Passer un accord avec son ado</h4><p>Fiches-outil prêtes à compléter ensemble.</p></a>
+    <a class="tool" href="protection-numerique/pdf/workbook-3.pdf"><div class="ic">📓</div><h4>Workbook 3</h4><p>Cahier d'exercices pour ancrer les acquis.</p></a>
+    <a class="tool" href="protection-numerique/pdf/workbook-5.pdf"><div class="ic">📔</div><h4>Workbook 5</h4><p>Cahier d'exercices pour ancrer les acquis.</p></a>
+  </div>
+
+  <!-- URGENCES -->
+  <div class="urgences">
+    <h3>📞 Numéros utiles (France)</h3>
+    <p class="lead" style="margin:0">En cas de danger immédiat, n'hésite jamais à appeler.</p>
+    <div class="num">
+      <b>17 — Police / Secours</b>
+      <b>3018 — Harcèlement en ligne (gratuit)</b>
+      <b>119 — Enfance en danger</b>
+      <b>3114 — Souffrance psychique / prévention suicide</b>
+      <b>net-ecoute.fr</b>
+    </div>
+  </div>
+
+  <div class="disclaimer" style="margin-top:1.2rem">Ces ressources sont un appui éducatif et émotionnel. Elles ne remplacent ni un avis juridique, ni un dépôt de plainte, ni un suivi par un professionnel de santé.</div>
+</div>
+
+<footer class="pied">Protection Numérique · Parcours Clarté TND — Educa Typique · Nawel Haddouch</footer>
+</body>
+</html>
