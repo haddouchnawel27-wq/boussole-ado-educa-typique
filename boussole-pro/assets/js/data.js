@@ -396,6 +396,25 @@
     }
   );
 
+  BIBLIO.push(
+    {
+      id: "radar", titre: "Le radar de perception : entre l'événement et toi", emoji: "📡", duree: "2 min",
+      paras: [
+        "Entre un événement et ton émotion, il y a toujours un filtre : ta perception. L'enchaînement est ÉVÉNEMENT → PERCEPTION → ÉMOTION → PENSÉE. Ce n'est pas l'événement qui te fait souffrir, mais la lecture que tu en fais.",
+        "Ton cerveau fonctionne en trois étages : l'archaïque (survie, respiration), le limbique (émotions, mémoire affective) et le néocortex (réflexion). Sous le coup d'une émotion forte, le limbique prend le dessus et le raisonnement passe au second plan — c'est normal, pas un défaut.",
+        "Le levier de changement n'est donc pas « se forcer à penser positif », mais ajuster la PERCEPTION. Le même retard d'un client peut se lire « il me méprise » ou « il a eu un imprévu ». Changer la lecture change l'émotion — et c'est exactement le travail du journal des pensées."
+      ]
+    },
+    {
+      id: "discipline", titre: "Discipline douce : l'effet cumulé plutôt que le pic de motivation", emoji: "🌊", duree: "2 min",
+      paras: [
+        "La motivation est un pic : intense, puis ça retombe — et on s'en veut. La discipline douce, elle, mise sur de tout petits gestes réguliers. Ce n'est pas se tyranniser : c'est se rendre les choses faciles et constantes.",
+        "C'est l'effet cumulé : une micro-action répétée vaut bien plus qu'un grand élan suivi d'un long arrêt. « Les œuvres les plus aimées sont les plus constantes, même modestes. » Ton cerveau, lui aussi, renforce ce que tu répètes.",
+        "Et quand l'émotion déborde : RELATIVISE (imagine le pire scénario réaliste — souvent il est survivable, et ça dédramatise) et repère la SPIRALE (tristesse → découragement → désespoir). Plus tôt tu la nommes, plus tôt tu peux la couper avec une micro-action ou un appui."
+      ]
+    }
+  );
+
   window.Data = {
     DIMENSIONS: DIMENSIONS, ZONES: ZONES, BIBLIO: BIBLIO,
     EMOTIONS: EMOTIONS, HYGIENE: HYGIENE, SPIRITUEL: SPIRITUEL,
