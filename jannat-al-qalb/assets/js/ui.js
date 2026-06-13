@@ -1,5 +1,5 @@
 /* ============================================================
-   Mîzân — helpers d'interface (création DOM, toast, modal)
+   Jannat Al Qalb — helpers d'interface (création DOM, toast, modal)
    Léger, sans dépendance.
    ============================================================ */
 (function () {

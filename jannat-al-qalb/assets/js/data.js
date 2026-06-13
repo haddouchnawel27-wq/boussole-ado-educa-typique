@@ -1,5 +1,5 @@
 /* ============================================================
-   Mîzân — contenus & moteur de recommandations
+   Jannat Al Qalb — contenus & moteur de recommandations
    Ton : chaleureux, clair, non culpabilisant, non clinique.
    Ces contenus sont un soutien à la compréhension de soi —
    ils ne remplacent ni un diagnostic, ni un suivi médical.
@@ -118,24 +118,28 @@
   // ---- Recommandations génériques par dimension basse ----
   var RECOS_DIM = {
     energie: [
-      "Vise une seule chose aujourd'hui, la plus légère.",
-      "Découpe ta tâche en étapes de 5 minutes.",
-      "Bois un grand verre d'eau et bouge 2 minutes avant de t'y mettre."
+      "Choisis une seule chose aujourd'hui, la plus légère. Le reste attendra, et c'est ok.",
+      "Découpe ta tâche en mini-étapes de 5 minutes. On vise « commencer », pas « finir ».",
+      "Avant de t'y mettre : un grand verre d'eau, 3 respirations lentes, les épaules qui descendent.",
+      "Programme une vraie pause comme un rendez-vous : 10 min, sans écran, juste pour toi."
     ],
     humeur: [
-      "Commence par une action qui te fait du bien, pas la plus « utile ».",
-      "Note une chose, même petite, qui a été ok aujourd'hui.",
-      "Accorde-toi de la douceur : tu n'as pas à être au top pour avancer."
+      "Commence par un geste qui te fait du bien, pas le plus « utile » : une tisane, une fenêtre ouverte.",
+      "Note une chose, même minuscule, qui a été douce aujourd'hui.",
+      "Sois tendre avec toi : tu n'as pas à être au top pour avoir de la valeur.",
+      "Un message à une personne de confiance peut alléger ce que tu portes."
     ],
     clarte: [
-      "Vide ta tête sur papier avant de décider quoi que ce soit.",
-      "Choisis UNE priorité, range le reste pour plus tard.",
-      "Évite les décisions importantes tant que le brouillard est là."
+      "Vide ta tête sur papier avant toute décision. Tout sortir, sans trier d'abord.",
+      "Entoure UNE priorité. Range le reste pour plus tard, hors de ta vue.",
+      "Reporte les décisions importantes tant que le brouillard est là — il se lèvera.",
+      "Une seule chose à la fois. Le multitâche fatigue plus qu'il n'avance."
     ],
     elan: [
-      "Amorce avec une micro-action de 2 minutes (juste démarrer).",
-      "Relie la tâche à ton « pourquoi » : à quoi elle sert pour toi ?",
-      "Promets-toi le droit d'arrêter après 10 minutes — souvent, l'élan vient."
+      "Amorce avec une action de 2 minutes, ridiculement petite : juste ouvrir le fichier.",
+      "Relie la tâche à ton « pourquoi » : à quoi elle sert, pour toi, profondément ?",
+      "Donne-toi le droit d'arrêter après 10 minutes. Souvent, l'élan arrive en chemin.",
+      "Procrastiner, c'est souvent fuir une émotion, pas la tâche. Accueille-la, puis fais un petit pas."
     ]
   };
 
@@ -200,10 +204,10 @@
 
   function etatDuJour(checkin) {
     var m = moyenne(checkin);
-    if (m >= 4.2) return { score: m, label: "Belle énergie", emoji: "🌞", couleur: "#3a7d6e", message: "Profite de cette journée : c'est le moment d'avancer sur ce qui compte." };
-    if (m >= 3.2) return { score: m, label: "Plutôt ok", emoji: "🌤️", couleur: "#4a7fa5", message: "Tu as de quoi avancer en douceur. Inutile d'en faire trop." };
-    if (m >= 2.2) return { score: m, label: "Journée fragile", emoji: "🌥️", couleur: "#e8a33d", message: "Allège la barre aujourd'hui. Faire peu et bien, c'est déjà avancer." };
-    return { score: m, label: "Jour bas", emoji: "🌧️", couleur: "#e26d5c", message: "Ce n'est pas le jour pour te pousser. Prends soin de toi en priorité." };
+    if (m >= 4.2) return { score: m, label: "Belle énergie", emoji: "🌞", couleur: "#3a7d6e", message: "Quelle belle énergie aujourd'hui. Savoure-la, et avance sur ce qui compte vraiment pour toi." };
+    if (m >= 3.2) return { score: m, label: "Plutôt ok", emoji: "🌤️", couleur: "#4a7fa5", message: "Tu as de quoi avancer en douceur. Pas besoin d'en faire trop : ton rythme est le bon." };
+    if (m >= 2.2) return { score: m, label: "Journée plus fragile", emoji: "🌥️", couleur: "#e8a33d", message: "Allège la barre aujourd'hui, sans culpabiliser. Faire peu et avec soin, c'est déjà avancer." };
+    return { score: m, label: "Jour bas", emoji: "🌧️", couleur: "#e26d5c", message: "Ce n'est pas le jour pour te pousser, et c'est ok. Aujourd'hui, prendre soin de toi suffit largement." };
   }
 
   // ---- Moteur : recommandations adaptées au check-in ----

@@ -1,4 +1,4 @@
-# ⚖️ Mîzân — Retrouver l'équilibre, devenir alignée
+# 🌸 Jannat Al Qalb — Prendre soin de ton cœur, jour après jour
 
 Application web **100 % locale et privée** pour accompagner les **femmes entrepreneures**
 sur le versant **émotions · fonctionnement · schémas · blocages**. Volet complémentaire d'un
@@ -38,7 +38,7 @@ Pour mettre en ligne (et installer comme une appli, hors-ligne) : hébergez le d
 Vanilla JS, sans dépendance, 100 % statique (aucun build).
 
 ```
-mizan/
+jannat-al-qalb/
 ├── index.html
 ├── manifest.webmanifest · sw.js
 ├── CONCEPTION-V1.md          ← architecture, écrans, data model, backlog, hors-V1
