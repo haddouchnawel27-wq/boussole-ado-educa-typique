@@ -22,9 +22,9 @@ _Structure réelle du site : `/f0_fondations/<espace>/<outil>/`_
 | guide-tdah-top | ✅ récupéré (bonus, `apps/guide-tdah-top.html`) |
 | guide-consignes-efficaces | ✅ récupéré (bonus, `apps/guide-consignes-efficaces.html`) |
 | mdph-pas-a-pas | ❌ à récupérer *(j'ai le PDF de présentation, pas l'outil)* |
-| pyramide-7-niveaux | ❌ à récupérer |
-| profils-couple-educatif | ❌ à récupérer |
-| routines-educatypique | ❌ à récupérer |
+| pyramide-7-niveaux | ✅ récupéré (`apps/pyramide-7-niveaux.html`) |
+| profils-couple-educatif | ✅ récupéré (`apps/profils-couple-educatif.html`) |
+| routines-educatypique | ✅ récupéré (`apps/routines-educatypique.html`) |
 | matrice-urgent-important | ❌ à récupérer |
 | maman-neuro-atypique | ❌ à récupérer |
 | mon-equipe-de-soin | ❌ à récupérer *(cité par la Boussole diagnostic DYS)* |

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Pyramide du Développement — 7 niveaux · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#FFF8F0 0%,#F5F0F7 50%,#F0F7F5 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2D3E3A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:960px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes shimmer{0%,100%{opacity:0.6}50%{opacity:1}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(155,133,184,0.4)}50%{box-shadow:0 0 0 16px rgba(155,133,184,0)}}
+
+.hdr{text-align:center;padding:40px 24px 28px;margin-bottom:22px;background:linear-gradient(160deg,#FFF6EE 0%,#F5E8E2 35%,#F5E8F0 70%,#E8F0F5 100%);border-radius:24px;border:1px solid rgba(155,133,184,0.22);box-shadow:0 8px 28px rgba(155,133,184,0.08);position:relative;overflow:hidden}
+.hdr::before{content:'🏛️';position:absolute;top:18px;right:22px;font-size:50px;opacity:0.13;transform:rotate(-8deg)}
+.hdr::after{content:'⛰️';position:absolute;bottom:18px;left:22px;font-size:44px;opacity:0.13;transform:rotate(8deg)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#9B85B8,#D98C8C);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px;position:relative;z-index:1}
+.float-icon{font-size:52px;margin-bottom:6px;display:inline-block;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1}
+.hdr h1{font-family:Georgia,serif;font-size:30px;font-weight:400;color:#2D3E3A;margin-bottom:6px;position:relative;z-index:1}
+.hdr .baseline{font-family:Georgia,serif;font-size:14px;font-style:italic;color:#9B85B8;margin-bottom:10px;position:relative;z-index:1;letter-spacing:1.5px}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A6B66;position:relative;z-index:1;max-width:660px;margin:0 auto}
+
+.intro{background:#FFFFFF;border-radius:18px;padding:22px 24px;margin-bottom:20px;border:1px solid rgba(155,133,184,0.18);box-shadow:0 4px 14px rgba(155,133,184,0.06)}
+.intro p{font-size:15px;color:#3D4E4A;line-height:1.7;margin-bottom:10px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#9B85B8}
+.intro .principe{background:linear-gradient(135deg,#FFF6EE,#F5E8F0);border-radius:12px;padding:14px 18px;margin:12px 0;text-align:center;font-family:Georgia,serif;font-style:italic;font-size:15px;color:#6E5594;line-height:1.55}
+
+.dossier-bar{background:#FFFFFF;border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(155,133,184,0.06);border:1px solid rgba(155,133,184,0.15)}
+.dossier-bar label{font-size:13px;font-weight:600;color:#5A6B66}
+.dossier-bar input,.dossier-bar select{padding:7px 12px;border:1px solid rgba(155,133,184,0.25);border-radius:9px;font-size:13px;background:#FBF8F4;font-family:inherit;color:#2D3E3A;min-width:150px}
+.dossier-bar button{background:#F5F0F7;color:#6E5594;border:1px solid rgba(155,133,184,0.25);padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.dossier-bar button:hover{background:#E8D8E8}
+.dossier-bar .btn-export{background:linear-gradient(135deg,#9B85B8,#B59ECE);color:#fff;border:none}
+.dossier-bar .btn-print{background:linear-gradient(135deg,#6CA89E,#88B8AA);color:#fff;border:none}
+
+.nav{display:flex;gap:6px;background:#FFFFFF;padding:8px;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 12px rgba(155,133,184,0.08);overflow-x:auto;border:1px solid rgba(155,133,184,0.15)}
+.nav::-webkit-scrollbar{height:6px}
+.nav::-webkit-scrollbar-thumb{background:#D8C9E0;border-radius:3px}
+.nav button{background:transparent;color:#5A6B66;border:none;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.25s;white-space:nowrap;font-family:inherit;display:flex;align-items:center;gap:6px}
+.nav button:hover{background:#F5F0F7;color:#6E5594}
+.nav button.active{background:linear-gradient(135deg,#9B85B8,#B59ECE);color:#fff;box-shadow:0 4px 10px rgba(155,133,184,0.3)}
+
+.panel{display:none;animation:fadeIn 0.4s ease-out}
+.panel.active{display:block}
+.section{background:#FFFFFF;border-radius:20px;padding:26px 24px;margin-bottom:18px;border:1px solid rgba(155,133,184,0.18);box-shadow:0 4px 14px rgba(155,133,184,0.05)}
+.section h2{font-family:Georgia,serif;font-size:22px;font-weight:500;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#7A8782;font-style:italic;margin-bottom:18px;line-height:1.55}
+
+/* ============ PYRAMIDE VISUELLE ============ */
+.pyramid-wrap{margin:20px auto;display:flex;flex-direction:column;align-items:center;max-width:680px}
+.pyr-level{width:100%;padding:13px 18px;color:#fff;cursor:pointer;transition:all 0.3s;border-radius:8px;margin-bottom:5px;display:flex;align-items:center;justify-content:center;gap:12px;font-family:Georgia,serif;text-align:center;position:relative;font-weight:500;animation:pop 0.4s ease-out}
+.pyr-level:hover{transform:translateX(4px);box-shadow:0 6px 16px rgba(0,0,0,0.1)}
+.pyr-level.active{transform:scale(1.04);box-shadow:0 8px 22px rgba(0,0,0,0.15);animation:glow 2s infinite}
+.pyr-level .pyr-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:rgba(255,255,255,0.25);border-radius:50%;font-weight:700;font-size:14px;flex-shrink:0}
+.pyr-level .pyr-name{font-size:17px;font-weight:600}
+.pyr-level .pyr-icon{font-size:22px}
+
+.pyr-7{background:linear-gradient(135deg,#9B85B8,#C9A8D5);width:40%}
+.pyr-6{background:linear-gradient(135deg,#7AA0C6,#9BBED7);width:50%}
+.pyr-5{background:linear-gradient(135deg,#6CA89E,#88B8AA);width:60%}
+.pyr-4{background:linear-gradient(135deg,#E0B83E,#EBC55F);width:70%}
+.pyr-3{background:linear-gradient(135deg,#E89556,#F0AC7E);width:80%}
+.pyr-2{background:linear-gradient(135deg,#D98C8C,#E8A8A8);width:90%}
+.pyr-1{background:linear-gradient(135deg,#C9573A,#E0735C);width:100%}
+
+.pyr-status{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:14px}
+.pyr-status .legend{display:flex;align-items:center;gap:6px;font-size:12px;color:#5A6B66}
+.pyr-status .dot{display:inline-block;width:12px;height:12px;border-radius:50%}
+.dot-solide{background:#6CA89E}
+.dot-vigil{background:#E0B83E}
+.dot-fragile{background:#C9573A}
+
+/* DÉTAIL D'UN NIVEAU */
+.niv-detail{background:linear-gradient(135deg,#FFF8F0,#F5F0F7);border-radius:18px;padding:24px;margin-top:18px;border:1px solid rgba(155,133,184,0.22)}
+.niv-detail h3{font-family:Georgia,serif;font-size:22px;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:12px}
+.niv-detail h3 .ndot{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;color:#fff;font-weight:700;font-size:20px;font-family:Georgia,serif}
+.niv-detail .definition{font-size:14.5px;color:#3D4E4A;line-height:1.65;margin-bottom:14px;font-style:italic;padding:12px 16px;background:#fff;border-radius:10px;border-left:4px solid #9B85B8}
+.niv-detail h4{font-family:Georgia,serif;font-size:15px;color:#9B85B8;margin:14px 0 8px;text-transform:uppercase;letter-spacing:0.5px;font-size:12px;font-weight:700}
+.niv-signes{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.niv-signes span{background:#fff;padding:4px 10px;border-radius:14px;font-size:12.5px;color:#3D4E4A;border:1px solid rgba(155,133,184,0.18)}
+.niv-detail .besoin{background:#FFF6EE;padding:12px 16px;border-radius:10px;font-size:13.5px;color:#3D4E4A;line-height:1.55;border-left:3px solid #E89556}
+.niv-detail .besoin strong{color:#9B5C3A;display:block;margin-bottom:3px;font-size:11.5px;text-transform:uppercase;letter-spacing:0.4px}
+.niv-detail .actions{background:#F0F8F5;padding:12px 16px;border-radius:10px;font-size:13.5px;color:#3D4E4A;line-height:1.55;border-left:3px solid #6CA89E;margin-top:8px}
+.niv-detail .actions strong{color:#4A8576;display:block;margin-bottom:6px;font-size:11.5px;text-transform:uppercase;letter-spacing:0.4px}
+.niv-detail .actions ul{margin:0;padding-left:20px}
+.niv-detail .actions li{margin-bottom:4px;font-size:13px}
+
+/* ÉVALUATION DE MON ENFANT */
+.eval-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:18px}
+.eval-row{background:#FBF8F4;border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-left:5px solid}
+.eval-row .eval-info{flex:1;min-width:200px}
+.eval-row h4{font-family:Georgia,serif;font-size:15px;color:#2D3E3A;margin-bottom:3px;display:flex;align-items:center;gap:8px}
+.eval-row h4 .e-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#fff;color:#9B85B8;font-weight:700;font-size:12px}
+.eval-row .e-desc{font-size:12.5px;color:#5A6B66;font-style:italic;line-height:1.45}
+.eval-row .eval-input{display:flex;gap:6px;align-items:center}
+.eval-row .eval-input label{display:flex;flex-direction:column;align-items:center;cursor:pointer;font-size:10.5px;color:#7A6B66;font-weight:600;padding:6px 8px;background:#fff;border-radius:8px;transition:all 0.2s;border:2px solid transparent}
+.eval-row .eval-input label:hover{background:#F5F0F7}
+.eval-row .eval-input input[type=radio]{margin:0 0 3px;cursor:pointer}
+.eval-row .eval-input input[type=radio]:checked + .lbl-txt{font-weight:700}
+.eval-row.row-1{border-color:#C9573A}
+.eval-row.row-2{border-color:#D98C8C}
+.eval-row.row-3{border-color:#E89556}
+.eval-row.row-4{border-color:#E0B83E}
+.eval-row.row-5{border-color:#6CA89E}
+.eval-row.row-6{border-color:#7AA0C6}
+.eval-row.row-7{border-color:#9B85B8}
+
+.eval-result{background:linear-gradient(135deg,#FFF8F0,#F5F0F7);border-radius:18px;padding:24px;margin-top:18px;border:1px solid rgba(155,133,184,0.22)}
+.eval-result h3{font-family:Georgia,serif;font-size:18px;color:#6E5594;margin-bottom:12px}
+.eval-result .niveau-faible{background:#FCE2E2;padding:14px 18px;border-radius:12px;border-left:4px solid #C9573A;margin-bottom:10px}
+.eval-result .niveau-faible strong{color:#C9573A;display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.eval-result .niveau-vigil{background:#FFF6E8;padding:14px 18px;border-radius:12px;border-left:4px solid #E0B83E;margin-bottom:10px}
+.eval-result .niveau-vigil strong{color:#9B7E2A;display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.eval-result .niveau-solide{background:#E8F5EC;padding:14px 18px;border-radius:12px;border-left:4px solid #6CA89E}
+.eval-result .niveau-solide strong{color:#4A8576;display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.eval-result .reco{background:#fff;padding:14px 18px;border-radius:12px;margin-top:12px;font-size:13.5px;color:#3D4E4A;line-height:1.6}
+.eval-result .reco strong{color:#6E5594;display:block;margin-bottom:5px;font-size:12px;text-transform:uppercase;letter-spacing:0.5px}
+
+.notes-block{margin-top:18px}
+.notes-block label{display:block;font-size:13px;color:#6E5594;font-weight:600;margin-bottom:6px}
+.notes-block textarea{width:100%;padding:10px 14px;border:1px solid rgba(155,133,184,0.22);border-radius:10px;font-size:14px;color:#2D3E3A;background:#FBF8F4;font-family:inherit;line-height:1.55;min-height:80px;resize:vertical}
+
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif;animation:shimmer 5s ease-in-out infinite}
+.footer .brand-foot{color:#9B85B8;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .small{color:#8A9892;font-size:11px;margin-top:4px;display:block}
+
+@media print{
+body{background:#fff;padding:10px}
+.nav,.dossier-bar{display:none !important}
+.panel{display:block !important;page-break-after:always}
+.section,.niv-detail,.eval-row{box-shadow:none;page-break-inside:avoid}
+}
+
+@media (max-width:600px){
+.hdr{padding:30px 18px 22px}
+.hdr h1{font-size:22px}
+.section{padding:20px 18px}
+.pyr-level{padding:11px 14px}
+.pyr-level .pyr-name{font-size:14.5px}
+.eval-row .eval-input{width:100%;flex-wrap:wrap;justify-content:flex-start}
+}
+</style>
+</head>
+<body>
+<a href="../parents.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#9B85B8;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(155,133,184,0.2)">← Parents</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Méthode signature · EducaTypique</span>
+<div class="float-icon">🏛️</div>
+<h1>La Pyramide du Développement</h1>
+<div class="baseline">7 ÉTAGES · DE LA SÉCURITÉ AUX VALEURS</div>
+<p>Une pyramide hiérarchique des besoins et compétences de l'enfant. Pas un classement — un ordre de construction. On ne demande pas de discipline si l'attachement est fragile.</p>
+</div>
+
+<div class="intro">
+<p>Cette pyramide signature de la méthode <strong>R.A.H.M.A</strong> propose une hiérarchie de 7 étages. <strong>Chaque niveau doit être suffisamment stable pour que l'enfant puisse se construire sur le suivant.</strong> Ignorer un niveau inférieur, c'est construire sur des fondations fragiles.</p>
+<div class="principe">
+« Beaucoup de parents veulent corriger le comportement avant d'avoir construit les bases.<br>La pyramide rappelle l'ordre naturel. »
+</div>
+<p><strong>Comment utiliser cette boussole :</strong> consulte d'abord les 7 niveaux pour comprendre, puis fais le <strong>diagnostic personnalisé</strong> pour repérer où ton enfant a besoin que tu poses des cailloux. Tes données restent dans ton appareil.</p>
+</div>
+
+<div class="dossier-bar">
+<label>📁 Dossier :</label>
+<select id="dossierSelect" onchange="changeDossier()">
+<option value="default">Mon dossier</option>
+</select>
+<input type="text" id="newDossier" placeholder="Nouveau (ex: Sami, Léa...)">
+<button onclick="addDossier()">+ Créer</button>
+<button onclick="deleteDossier()">🗑 Supprimer</button>
+<button onclick="exportTXT()" class="btn-export">📥 Exporter en .txt</button>
+<button onclick="window.print()" class="btn-print">🖨️ Imprimer</button>
+</div>
+
+<div class="nav">
+<button class="active" data-tab="pyramide" onclick="switchTab('pyramide')">🏛️ La Pyramide</button>
+<button data-tab="diagnostic" onclick="switchTab('diagnostic')">🎯 Diagnostic enfant</button>
+<button data-tab="plan" onclick="switchTab('plan')">📝 Mon plan de construction</button>
+</div>
+
+<!-- ============================================================
+     PANEL 1 — PYRAMIDE
+     ============================================================ -->
+<div class="panel active" id="panel-pyramide">
+
+<div class="section">
+<h2>🏛️ La Pyramide en 7 étages</h2>
+<div class="sub">On construit du bas vers le haut. Clique sur un étage pour découvrir.</div>
+
+<div class="pyramid-wrap">
+<div class="pyr-level pyr-7 active" data-l="7" onclick="showLevel(7)">
+<span class="pyr-num">7</span>
+<span class="pyr-icon">🎯</span>
+<span class="pyr-name">Valeurs & Sens</span>
+</div>
+<div class="pyr-level pyr-6" data-l="6" onclick="showLevel(6)">
+<span class="pyr-num">6</span>
+<span class="pyr-icon">🦋</span>
+<span class="pyr-name">Autonomie</span>
+</div>
+<div class="pyr-level pyr-5" data-l="5" onclick="showLevel(5)">
+<span class="pyr-num">5</span>
+<span class="pyr-icon">⭐</span>
+<span class="pyr-name">Confiance en soi</span>
+</div>
+<div class="pyr-level pyr-4" data-l="4" onclick="showLevel(4)">
+<span class="pyr-num">4</span>
+<span class="pyr-icon">🛡️</span>
+<span class="pyr-name">Discipline</span>
+</div>
+<div class="pyr-level pyr-3" data-l="3" onclick="showLevel(3)">
+<span class="pyr-num">3</span>
+<span class="pyr-icon">🌊</span>
+<span class="pyr-name">Régulation émotionnelle</span>
+</div>
+<div class="pyr-level pyr-2" data-l="2" onclick="showLevel(2)">
+<span class="pyr-num">2</span>
+<span class="pyr-icon">💛</span>
+<span class="pyr-name">Attachement</span>
+</div>
+<div class="pyr-level pyr-1" data-l="1" onclick="showLevel(1)">
+<span class="pyr-num">1</span>
+<span class="pyr-icon">🏠</span>
+<span class="pyr-name">Sécurité</span>
+</div>
+</div>
+
+<div class="niv-detail" id="nivDetail">
+<!-- contenu dynamique -->
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 2 — DIAGNOSTIC
+     ============================================================ -->
+<div class="panel" id="panel-diagnostic">
+
+<div class="section">
+<h2>🎯 Où en est mon enfant ?</h2>
+<div class="sub">Pour chaque niveau, indique si la base est <strong>solide</strong>, <strong>en construction</strong>, ou <strong>fragile</strong>. Le résultat indique sur quel étage poser des cailloux en premier.</div>
+
+<div class="eval-grid">
+
+<div class="eval-row row-1">
+<div class="eval-info">
+<h4><span class="e-num">1</span>Sécurité</h4>
+<div class="e-desc">Mon enfant se sent en sécurité physique et émotionnelle dans son environnement quotidien. Pas de peur installée, pas d'imprévisibilité majeure.</div>
+</div>
+<div class="eval-input" data-niv="1">
+<label><input type="radio" name="n1" value="solide" onchange="updateDiag()"><span class="lbl-txt">🟢 Solide</span></label>
+<label><input type="radio" name="n1" value="vigil" onchange="updateDiag()"><span class="lbl-txt">🟡 En constr.</span></label>
+<label><input type="radio" name="n1" value="fragile" onchange="updateDiag()"><span class="lbl-txt">🔴 Fragile</span></label>
+</div>
+</div>
+
+<div class="eval-row row-2">
+<div class="eval-info">
+<h4><span class="e-num">2</span>Attachement</h4>
+<div class="e-desc">Mon enfant a un (ou plusieurs) lien(s) d'attachement sécurisant(s). Il sait à qui se référer, vient se réfugier vers nous en cas de besoin.</div>
+</div>
+<div class="eval-input" data-niv="2">
+<label><input type="radio" name="n2" value="solide" onchange="updateDiag()"><span class="lbl-txt">🟢 Solide</span></label>
+<label><input type="radio" name="n2" value="vigil" onchange="updateDiag()"><span class="lbl-txt">🟡 En constr.</span></label>
+<label><input type="radio" name="n2" value="fragile" onchange="updateDiag()"><span class="lbl-txt">🔴 Fragile</span></label>
+</div>
+</div>
+
+<div class="eval-row row-3">
+<div class="eval-info">
+<h4><span class="e-num">3</span>Régulation émotionnelle</h4>
+<div class="e-desc">Mon enfant arrive à reconnaître et nommer ses émotions, et à se calmer (seul ou avec aide) après une crise sans rester en débordement long.</div>
+</div>
+<div class="eval-input" data-niv="3">
+<label><input type="radio" name="n3" value="solide" onchange="updateDiag()"><span class="lbl-txt">🟢 Solide</span></label>
+<label><input type="radio" name="n3" value="vigil" onchange="updateDiag()"><span class="lbl-txt">🟡 En constr.</span></label>
+<label><input type="radio" name="n3" value="fragile" onchange="updateDiag()"><span class="lbl-txt">🔴 Fragile</span></label>
+</div>
+</div>
+
+<div class="eval-row row-4">
+<div class="eval-info">
+<h4><span class="e-num">4</span>Discipline</h4>
+<div class="e-desc">Mon enfant respecte un cadre clair, tolère certaines frustrations, accepte les limites quand elles sont posées avec bienveillance.</div>
+</div>
+<div class="eval-input" data-niv="4">
+<label><input type="radio" name="n4" value="solide" onchange="updateDiag()"><span class="lbl-txt">🟢 Solide</span></label>
+<label><input type="radio" name="n4" value="vigil" onchange="updateDiag()"><span class="lbl-txt">🟡 En constr.</span></label>
+<label><input type="radio" name="n4" value="fragile" onchange="updateDiag()"><span class="lbl-txt">🔴 Fragile</span></label>
+</div>
+</div>
+
+<div class="eval-row row-5">
+<div class="eval-info">
+<h4><span class="e-num">5</span>Confiance en soi</h4>
+<div class="e-desc">Mon enfant croit en ses capacités, ose essayer, accepte de faire des erreurs, persévère face aux difficultés.</div>
+</div>
+<div class="eval-input" data-niv="5">
+<label><input type="radio" name="n5" value="solide" onchange="updateDiag()"><span class="lbl-txt">🟢 Solide</span></label>
+<label><input type="radio" name="n5" value="vigil" onchange="updateDiag()"><span class="lbl-txt">🟡 En constr.</span></label>
+<label><input type="radio" name="n5" value="fragile" onchange="updateDiag()"><span class="lbl-txt">🔴 Fragile</span></label>
+</div>
+</div>
+
+<div class="eval-row row-6">
+<div class="eval-info">
+<h4><span class="e-num">6</span>Autonomie</h4>
+<div class="e-desc">Mon enfant prend des initiatives adaptées à son âge, fait des choix éclairés, organise certaines tâches seul, sait demander de l'aide.</div>
+</div>
+<div class="eval-input" data-niv="6">
+<label><input type="radio" name="n6" value="solide" onchange="updateDiag()"><span class="lbl-txt">🟢 Solide</span></label>
+<label><input type="radio" name="n6" value="vigil" onchange="updateDiag()"><span class="lbl-txt">🟡 En constr.</span></label>
+<label><input type="radio" name="n6" value="fragile" onchange="updateDiag()"><span class="lbl-txt">🔴 Fragile</span></label>
+</div>
+</div>
+
+<div class="eval-row row-7">
+<div class="eval-info">
+<h4><span class="e-num">7</span>Valeurs & Sens</h4>
+<div class="e-desc">Mon enfant développe une boussole intérieure, s'interroge sur ce qui est juste, trouve du sens à ses efforts, se sent partie d'un tout.</div>
+</div>
+<div class="eval-input" data-niv="7">
+<label><input type="radio" name="n7" value="solide" onchange="updateDiag()"><span class="lbl-txt">🟢 Solide</span></label>
+<label><input type="radio" name="n7" value="vigil" onchange="updateDiag()"><span class="lbl-txt">🟡 En constr.</span></label>
+<label><input type="radio" name="n7" value="fragile" onchange="updateDiag()"><span class="lbl-txt">🔴 Fragile</span></label>
+</div>
+</div>
+
+</div>
+
+<div class="eval-result" id="evalResult">
+<h3>🔍 Lecture du résultat</h3>
+<p style="font-size:14px;color:#5A6B66;font-style:italic">Remplis chaque ligne pour voir ton plan de construction personnalisé.</p>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 3 — PLAN DE CONSTRUCTION
+     ============================================================ -->
+<div class="panel" id="panel-plan">
+
+<div class="section">
+<h2>📝 Mon plan de construction</h2>
+<div class="sub">Pour chaque niveau, note ce que tu veux mettre en place + tes observations.</div>
+
+<div class="notes-block">
+<label>🏠 Niveau 1 — Sécurité : ce que je vais consolider</label>
+<textarea id="plan-1" placeholder="Ex: rituels prévisibles soir/matin, supprimer les surprises stressantes, expliquer en amont les changements."></textarea>
+</div>
+
+<div class="notes-block">
+<label>💛 Niveau 2 — Attachement : ce que je vais nourrir</label>
+<textarea id="plan-2" placeholder="Ex: 15 min spéciales sans écran chaque soir, dire « je t'aime » même quand c'est dur, ne plus menacer du retrait d'amour."></textarea>
+</div>
+
+<div class="notes-block">
+<label>🌊 Niveau 3 — Régulation émotionnelle : ce que je vais enseigner</label>
+<textarea id="plan-3" placeholder="Ex: nommer mes propres émotions devant lui/elle, introduire le thermomètre V/J/O/R, valider l'émotion avant de cadrer."></textarea>
+</div>
+
+<div class="notes-block">
+<label>🛡️ Niveau 4 — Discipline : ce que je vais structurer</label>
+<textarea id="plan-4" placeholder="Ex: 3 règles non-négociables claires, méthode R.A.H.M.A en réponse aux crises, conséquences éducatives plutôt que punitives."></textarea>
+</div>
+
+<div class="notes-block">
+<label>⭐ Niveau 5 — Confiance : ce que je vais valoriser</label>
+<textarea id="plan-5" placeholder="Ex: valoriser l'effort plutôt que le résultat, journal des réussites du soir, arrêter les comparaisons à la fratrie."></textarea>
+</div>
+
+<div class="notes-block">
+<label>🦋 Niveau 6 — Autonomie : ce que je vais déléguer</label>
+<textarea id="plan-6" placeholder="Ex: laisser choisir 2 vêtements le matin, déléguer une tâche ménagère adaptée à l'âge, accepter qu'il/elle fasse moins bien que moi."></textarea>
+</div>
+
+<div class="notes-block">
+<label>🎯 Niveau 7 — Valeurs & Sens : ce que je vais transmettre</label>
+<textarea id="plan-7" placeholder="Ex: parler en famille de ce qui nous tient à cœur, montrer mes engagements concrets, donner du sens à ce qu'on lui demande."></textarea>
+</div>
+
+<div class="notes-block">
+<label>📅 Mes 3 priorités cette semaine (les + urgentes — pas plus)</label>
+<textarea id="plan-prio" placeholder="Ex:
+1. Mettre en place 15 min sans écran chaque soir avec Léa (lien d'attachement)
+2. Introduire le thermomètre émotionnel à coller sur le frigo (régulation)
+3. Arrêter de comparer à sa sœur (confiance)"></textarea>
+</div>
+
+</div>
+</div>
+
+<div class="footer">
+« On ne demande pas à un enfant de discipline si l'attachement est fragile. »<br>
+« Construire la pyramide, c'est poser un caillou à la fois, dans le bon ordre. »
+<span class="brand-foot">Pyramide du Développement · Création originale Nawel Haddouch · EducaTypique</span>
+<span class="small">Adaptation de la méthode R.A.H.M.A · Mémoire locale, rien n'est envoyé en ligne</span>
+</div>
+
+</div>
+
+<script>
+// ============================================================
+// CONTENU DES 7 NIVEAUX
+// ============================================================
+var NIVEAUX = {
+  1: {
+    icon:'🏠', nom:'Sécurité', color:'#C9573A',
+    definition:"Le fondement de tout développement. Sécurité physique (nourriture, abri, protection contre le danger) ET émotionnelle (absence de peur, environnement prévisible, amour inconditionnel). Sans cette base, aucun autre niveau ne peut être solidement construit.",
+    signes:['Rythme prévisible','Sentiment de chez-soi','Pas de menaces fréquentes','Adultes calmes','Espace personnel respecté'],
+    besoin:"L'enfant a besoin de cohérence, de routines stables, d'un environnement émotionnel apaisé. Quand la sécurité fait défaut, l'enfant est en hypervigilance constante — son cerveau n'a aucune ressource pour apprendre, créer, se lier.",
+    actions:[
+      'Mettre en place des rituels prévisibles (matin, coucher, repas, retours école)',
+      'Annoncer les changements à l\'avance (visites, déménagement, séparations)',
+      'Diminuer les voix qui crient, le rythme effréné, les surprises stressantes',
+      'Vérifier les conditions matérielles de base (sommeil, alimentation, espace)',
+      'Soigner sa propre régulation d\'adulte — la sécurité commence chez l\'adulte'
+    ]
+  },
+  2: {
+    icon:'💛', nom:'Attachement', color:'#D98C8C',
+    definition:"La formation de liens sécurisants avec les figures parentales ou les adultes référents. Un attachement sécurisé procure un sentiment de base de sécurité et de valeur personnelle, permettant à l'enfant d'explorer le monde en sachant qu'il peut revenir à une base stable.",
+    signes:['Vient se réfugier en cas de besoin','Demande des câlins','Cherche notre regard','Tolère bien la séparation','Confiance en notre disponibilité'],
+    besoin:"L'enfant a besoin d'être vu, entendu, accueilli inconditionnellement. Pas pour ses performances, mais pour qu'il est. Quand l'attachement est fragile, l'enfant cherche désespérément l'approbation ou s'en détache pour se protéger.",
+    actions:[
+      'Moments dédiés sans écran (15 min « spécial » par jour)',
+      'Rituels d\'affection (réveil, départ, retour, coucher)',
+      'Dire « je t\'aime » même quand c\'est dur (surtout quand c\'est dur)',
+      'Ne JAMAIS menacer du retrait d\'amour (« si tu fais ça, je ne t\'aime plus »)',
+      'Réparer rapidement après les conflits (revenir, expliquer, s\'excuser si nécessaire)'
+    ]
+  },
+  3: {
+    icon:'🌊', nom:'Régulation émotionnelle', color:'#E89556',
+    definition:"Apprendre à reconnaître, comprendre et gérer ses émotions de manière saine. Cela inclut la capacité à se calmer, à exprimer ses sentiments de façon appropriée et à ne pas être submergé par ses réactions. Cette compétence est cruciale pour le bien-être et les relations sociales.",
+    signes:['Sait nommer ses émotions','Demande de l\'aide quand surchargé(e)','Retrouve son calme assez vite','Distingue émotion et action','Tolère la frustration'],
+    besoin:"L'enfant a besoin d'un adulte co-régulateur. La régulation ne se développe pas seule — elle se construit dans la relation. Quand cette base est fragile, on observe des explosions disproportionnées, des effondrements, ou au contraire un retrait complet.",
+    actions:[
+      'Nommer ses propres émotions devant l\'enfant (« je suis fatiguée, je vais souffler »)',
+      'Introduire un thermomètre émotionnel (V/J/O/R) visible à la maison',
+      'Valider l\'émotion AVANT de cadrer (« je vois que tu es très en colère »)',
+      'Enseigner des outils concrets : respiration 4-6, eau froide, coin calme',
+      'Faire le retour APRÈS la crise, jamais en plein débordement'
+    ]
+  },
+  4: {
+    icon:'🛡️', nom:'Discipline', color:'#E0B83E',
+    definition:"La capacité à respecter les règles, à gérer sa frustration, à différer la gratification et à adopter des comportements socialement acceptables. Elle ne s'acquiert qu'une fois la régulation émotionnelle maîtrisée — un enfant en proie à des émotions intenses ne peut pas faire preuve de discipline.",
+    signes:['Respecte les règles non-négociables','Accepte un « non » sans crise majeure','Tolère certaines frustrations','Comprend les conséquences','Coopère sur les routines'],
+    besoin:"L'enfant a besoin d'un cadre stable, prévisible, posé avec calme et fermeté — pas avec cris ou menaces. Discipline ≠ punition. Discipline = guider l'apprentissage des règles de la vie en société.",
+    actions:[
+      'Identifier 3 règles non-négociables claires (sécurité, respect, santé) et s\'y tenir',
+      'Utiliser la méthode R.A.H.M.A en réponse aux crises (Reconnaître/Accueillir/Harmoniser/Modéliser/Accompagner)',
+      'Privilégier les conséquences éducatives aux punitions arbitraires',
+      'Éviter les ordres multiples — une consigne à la fois',
+      'Modéliser le comportement attendu (l\'enfant apprend par l\'exemple, pas par les ordres)'
+    ]
+  },
+  5: {
+    icon:'⭐', nom:'Confiance en soi', color:'#6CA89E',
+    definition:"La croyance en ses propres capacités et en sa valeur en tant qu'individu. Elle permet de prendre des risques, d'apprendre de ses erreurs et de persévérer face aux défis. Une bonne estime de soi est le moteur de l'accomplissement personnel et social.",
+    signes:['Ose essayer','Accepte les erreurs','Persévère face à la difficulté','Demande de l\'aide sans honte','Se félicite quand il/elle réussit'],
+    besoin:"L'enfant a besoin de vivre des réussites concrètes, d'être valorisé pour son effort plus que pour son résultat, et de sentir que ses parents/adultes croient en lui. Quand la confiance fait défaut, l'enfant évite, abandonne, se compare en mal.",
+    actions:[
+      'Valoriser l\'EFFORT plutôt que le résultat (« j\'ai vu comme tu as essayé fort »)',
+      'Journal des réussites du soir (3 réussites, même petites)',
+      'Arrêter complètement les comparaisons à la fratrie ou aux camarades',
+      'Donner des défis ajustés (ni trop faciles, ni trop durs — la zone proximale)',
+      'Quand erreur : « qu\'est-ce que ça t\'apprend ? » plutôt que « tu vois, je l\'avais dit »'
+    ]
+  },
+  6: {
+    icon:'🦋', nom:'Autonomie', color:'#7AA0C6',
+    definition:"La capacité à prendre des initiatives, à faire des choix éclairés, à s'organiser et à résoudre des problèmes par soi-même. L'autonomie ne signifie pas l'indépendance totale, mais la capacité d'agir de manière responsable tout en sachant demander de l'aide.",
+    signes:['Prend des initiatives adaptées à son âge','Fait des choix éclairés','S\'organise sur certaines tâches','Sait demander de l\'aide','Tolère ses propres limites'],
+    besoin:"L'enfant a besoin qu'on lui DÉLÈGUE progressivement. Pas qu'on fasse à sa place « parce que c'est plus rapide ». Pas qu'on contrôle tout « pour son bien ». Une autonomie ne se décrète pas — elle se construit par la confiance accordée.",
+    actions:[
+      'Laisser choisir (vêtements, repas, activités) à hauteur de l\'âge',
+      'Déléguer une vraie responsabilité (mettre la table, ranger sa chambre, choisir un cadeau)',
+      'Accepter qu\'il/elle le fasse MOINS BIEN que vous — c\'est l\'apprentissage qui compte',
+      'Ne pas dépanner immédiatement quand bloqué — laisser tâtonner',
+      'Enseigner explicitement : « voilà comment je fais cette tâche, regarde et fais avec moi »'
+    ]
+  },
+  7: {
+    icon:'🎯', nom:'Valeurs & Sens', color:'#9B85B8',
+    definition:"Le sommet de la pyramide, où l'enfant/adolescent/adulte développe une boussole interne, un sens à sa vie et sa place dans le monde. C'est là que se forgent l'éthique, la moralité et la capacité à contribuer à quelque chose de plus grand que soi.",
+    signes:['Questionne ce qui est juste','S\'engage dans des projets qui le dépassent','Donne du sens à ses efforts','Sent qu\'il/elle compte dans le groupe','Boussole morale qui se construit'],
+    besoin:"L'enfant a besoin que ses parents/adultes incarnent ce qu'ils prêchent. Les valeurs ne se transmettent pas par des discours — elles se transmettent par l'exemple, le sens partagé, les histoires familiales, les rituels de transmission.",
+    actions:[
+      'Parler en famille de ce qui nous tient à cœur (justice, courage, foi, respect, créativité…)',
+      'Montrer ses propres engagements concrets (associations, votes, dons, gestes quotidiens)',
+      'Donner du sens à ce qu\'on demande (« on partage parce que c\'est important pour nous »)',
+      'Créer des rituels familiaux porteurs de sens (repas, transmission, fêtes, traditions)',
+      'Lire/raconter des histoires de figures inspirantes adaptées à l\'âge'
+    ]
+  }
+};
+
+// ============================================================
+// STORAGE
+// ============================================================
+var STORAGE_KEY = 'educatypique_pyramide_v1';
+var currentDossier = 'default';
+
+function loadStore(){
+  try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : { dossiers:{default:{}} }; }
+  catch(e){ return { dossiers:{default:{}} }; }
+}
+function saveStore(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
+function loadDossier(){ return loadStore().dossiers[currentDossier] || {}; }
+function saveDossier(d){ var s = loadStore(); s.dossiers[currentDossier] = d; saveStore(s); }
+
+// ============================================================
+// ONGLETS
+// ============================================================
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ============================================================
+// AFFICHAGE NIVEAU
+// ============================================================
+function showLevel(n){
+  document.querySelectorAll('.pyr-level').forEach(l=>l.classList.remove('active'));
+  document.querySelector('[data-l="'+n+'"]').classList.add('active');
+  var niv = NIVEAUX[n];
+  var html = '<h3><span class="ndot" style="background:'+niv.color+'">'+n+'</span>'+niv.icon+' '+niv.nom+'</h3>' +
+    '<div class="definition">'+niv.definition+'</div>' +
+    '<h4>🔍 Signes que cette base est solide</h4>' +
+    '<div class="niv-signes">' + niv.signes.map(s=>'<span>'+s+'</span>').join('') + '</div>' +
+    '<div class="besoin"><strong>💡 De quoi l\'enfant a vraiment besoin</strong>'+niv.besoin+'</div>' +
+    '<div class="actions"><strong>🛠️ Actions concrètes pour consolider</strong><ul>' +
+      niv.actions.map(a=>'<li>'+a+'</li>').join('') +
+    '</ul></div>';
+  document.getElementById('nivDetail').innerHTML = html;
+}
+showLevel(7);
+
+// ============================================================
+// DIAGNOSTIC
+// ============================================================
+function updateDiag(){
+  var result = document.getElementById('evalResult');
+  var faibles = [], vigils = [], solides = [];
+  for(var n=1;n<=7;n++){
+    var input = document.querySelector('input[name="n'+n+'"]:checked');
+    if(!input) continue;
+    var v = input.value;
+    if(v === 'fragile') faibles.push(n);
+    else if(v === 'vigil') vigils.push(n);
+    else if(v === 'solide') solides.push(n);
+  }
+  var totalRempli = faibles.length + vigils.length + solides.length;
+  if(totalRempli === 0){
+    result.innerHTML = '<h3>🔍 Lecture du résultat</h3><p style="font-size:14px;color:#5A6B66;font-style:italic">Remplis chaque ligne pour voir ton plan de construction personnalisé.</p>';
+    saveAll();
+    return;
+  }
+  var html = '<h3>🔍 Ton plan de construction personnalisé</h3>';
+  if(faibles.length > 0){
+    var prio = faibles.sort(function(a,b){return a-b;})[0]; // le plus bas
+    html += '<div class="niveau-faible"><strong>🔴 Priorité absolue — Niveau '+prio+'</strong>'+
+      '<strong style="color:#C9573A;margin-top:6px;font-size:14px;text-transform:none;letter-spacing:0">' + NIVEAUX[prio].icon + ' ' + NIVEAUX[prio].nom + '</strong>'+
+      '<p style="font-size:13.5px;color:#3D4E4A;line-height:1.55;margin-top:6px">C\'est ici que tu dois poser des cailloux EN PREMIER. Ignorer ce niveau, c\'est construire sur du sable. Travailler les étages supérieurs serait perdre ton énergie.</p></div>';
+    if(faibles.length > 1){
+      html += '<div class="niveau-faible"><strong>🔴 Autres niveaux fragiles à consolider ensuite</strong>'+
+        faibles.slice(1).map(function(n){return NIVEAUX[n].icon + ' ' + NIVEAUX[n].nom + ' (niv. '+n+')';}).join(' · ') +'</div>';
+    }
+  }
+  if(vigils.length > 0){
+    html += '<div class="niveau-vigil"><strong>🟡 En construction — à entretenir</strong>'+
+      vigils.map(function(n){return NIVEAUX[n].icon + ' ' + NIVEAUX[n].nom + ' (niv. '+n+')';}).join(' · ') +
+      '<p style="font-size:13px;color:#7A6B66;margin-top:6px">Ces étages sont en chemin. Continue à les nourrir, sans pression — mais ne les oublie pas.</p></div>';
+  }
+  if(solides.length > 0){
+    html += '<div class="niveau-solide"><strong>🟢 Solide — points d\'appui</strong>'+
+      solides.map(function(n){return NIVEAUX[n].icon + ' ' + NIVEAUX[n].nom + ' (niv. '+n+')';}).join(' · ') +
+      '<p style="font-size:13px;color:#5A6B66;margin-top:6px">Bravo. Ces étages sont stables. Tu peux t\'appuyer dessus pour construire le reste.</p></div>';
+  }
+  // recommandation
+  if(faibles.length > 0){
+    var prio = faibles.sort(function(a,b){return a-b;})[0];
+    html += '<div class="reco"><strong>📍 Conseil Nawel</strong>'+
+      'Va dans l\'onglet « La Pyramide », clique sur le niveau '+prio+' (' + NIVEAUX[prio].icon + ' ' + NIVEAUX[prio].nom + ') et lis les 5 actions concrètes proposées. ' +
+      'Puis va dans l\'onglet « Mon plan de construction » pour écrire ce que tu vas tester cette semaine.' +
+      '<br><br><em>Rappel : un niveau ne se consolide pas en 1 semaine. Compte plutôt 1 à 3 mois par étage.</em></div>';
+  } else if(vigils.length > 0) {
+    var prioV = vigils.sort(function(a,b){return a-b;})[0];
+    html += '<div class="reco"><strong>📍 Conseil Nawel</strong>'+
+      'Aucune base n\'est fragile chez ton enfant — c\'est déjà beaucoup. Le niveau ' + prioV + ' (' + NIVEAUX[prioV].icon + ' ' + NIVEAUX[prioV].nom + ') est en construction, c\'est sur lui que tu peux gentiment poser des cailloux dans les semaines à venir.</div>';
+  } else {
+    html += '<div class="reco"><strong>📍 Conseil Nawel</strong>'+
+      'Toutes les bases semblent solides chez ton enfant. Bravo. Continue à les entretenir comme un jardin — sans tenir pour acquis ce qui a été construit avec patience.</div>';
+  }
+  result.innerHTML = html;
+  saveAll();
+}
+
+// ============================================================
+// SAVE / RESTORE
+// ============================================================
+var FIELDS_PLAN = ['plan-1','plan-2','plan-3','plan-4','plan-5','plan-6','plan-7','plan-prio'];
+
+function getFormData(){
+  var d = { evals:{} };
+  for(var n=1;n<=7;n++){
+    var input = document.querySelector('input[name="n'+n+'"]:checked');
+    d.evals[n] = input ? input.value : '';
+  }
+  FIELDS_PLAN.forEach(function(id){
+    d[id] = document.getElementById(id).value;
+  });
+  return d;
+}
+function saveAll(){
+  var d = loadDossier();
+  d.form = getFormData();
+  saveDossier(d);
+}
+function restoreAll(){
+  var d = loadDossier();
+  var f = d.form || {};
+  for(var n=1;n<=7;n++){
+    document.querySelectorAll('input[name="n'+n+'"]').forEach(r=>r.checked=false);
+    var v = (f.evals||{})[n];
+    if(v){
+      var el = document.querySelector('input[name="n'+n+'"][value="'+v+'"]');
+      if(el) el.checked = true;
+    }
+  }
+  FIELDS_PLAN.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.value = f[id] || '';
+  });
+  updateDiag();
+}
+FIELDS_PLAN.forEach(function(id){
+  var el = document.getElementById(id);
+  if(el) el.addEventListener('input', saveAll);
+});
+
+// ============================================================
+// DOSSIERS
+// ============================================================
+function refreshDossierSelect(){
+  var s = loadStore();
+  var sel = document.getElementById('dossierSelect');
+  sel.innerHTML = '';
+  Object.keys(s.dossiers||{default:{}}).forEach(function(name){
+    var opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if(name === currentDossier) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+function changeDossier(){ currentDossier = document.getElementById('dossierSelect').value; restoreAll(); }
+function addDossier(){
+  var name = (document.getElementById('newDossier').value||'').trim();
+  if(!name) return;
+  var s = loadStore();
+  s.dossiers[name] = s.dossiers[name] || {};
+  saveStore(s);
+  currentDossier = name;
+  document.getElementById('newDossier').value='';
+  refreshDossierSelect(); restoreAll();
+}
+function deleteDossier(){
+  if(currentDossier==='default'){ alert('Le dossier « Mon dossier » ne peut pas être supprimé.'); return; }
+  if(!confirm('Supprimer le dossier « '+currentDossier+' » ?')) return;
+  var s = loadStore(); delete s.dossiers[currentDossier]; saveStore(s);
+  currentDossier='default'; refreshDossierSelect(); restoreAll();
+}
+
+// ============================================================
+// EXPORT TXT
+// ============================================================
+function exportTXT(){
+  var d = loadDossier();
+  var f = d.form || {};
+  var dt = new Date();
+  var dateStr = dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();
+  var out = '';
+  out += '═══════════════════════════════════════════════════\n';
+  out += '  LA PYRAMIDE DU DÉVELOPPEMENT (7 niveaux)\n';
+  out += '  Création originale : Nawel Haddouch · EducaTypique\n';
+  out += '  Dossier : '+currentDossier+'\n';
+  out += '  Exporté le : '+dateStr+'\n';
+  out += '═══════════════════════════════════════════════════\n\n';
+
+  out += '🎯  DIAGNOSTIC ENFANT\n';
+  out += '─────────────────────────────────────\n';
+  for(var n=7;n>=1;n--){
+    var status = (f.evals||{})[n] || '';
+    var icon = status==='solide'?'🟢':(status==='vigil'?'🟡':(status==='fragile'?'🔴':'⚪'));
+    var label = status==='solide'?'Solide':(status==='vigil'?'En construction':(status==='fragile'?'Fragile':'Non rempli'));
+    out += '  '+icon+' Niveau '+n+' — '+NIVEAUX[n].icon+' '+NIVEAUX[n].nom.padEnd(28, ' ')+' '+label+'\n';
+  }
+  out += '\n';
+
+  out += '📝  PLAN DE CONSTRUCTION\n';
+  out += '─────────────────────────────────────\n';
+  for(var n=1;n<=7;n++){
+    var planV = f['plan-'+n] || '';
+    if(planV) out += '\n  '+NIVEAUX[n].icon+' Niveau '+n+' — '+NIVEAUX[n].nom+'\n    '+planV.replace(/\n/g,'\n    ')+'\n';
+  }
+  if(f['plan-prio']){
+    out += '\n  📅 Mes 3 priorités cette semaine :\n    '+f['plan-prio'].replace(/\n/g,'\n    ')+'\n';
+  }
+
+  out += '\n═══════════════════════════════════════════════════\n';
+  out += '« On ne demande pas à un enfant de discipline si l\'attachement est fragile. »\n';
+  out += '« Construire la pyramide, c\'est poser un caillou à la fois, dans le bon ordre. »\n';
+  out += '\n— Création originale Nawel Haddouch · EducaTypique\n';
+  out += '═══════════════════════════════════════════════════\n';
+
+  var blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'Pyramide7_'+currentDossier+'_'+dt.getFullYear()+(dt.getMonth()+1)+dt.getDate()+'.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+refreshDossierSelect();
+restoreAll();
+</script>
+</body>
+</html>
