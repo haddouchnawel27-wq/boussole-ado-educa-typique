@@ -30,13 +30,39 @@ _Structure réelle du site : `/f0_fondations/<espace>/<outil>/`_
 | mon-equipe-de-soin | ✅ récupéré (`apps/mon-equipe-de-soin.html`) — **Espace Parents complet 🎉** |
 | ligne-du-temps-parcours-tnd | ✅ récupéré (`apps/ligne-du-temps-parcours-tnd.html`) |
 
-> 🔎 **Nouvel espace découvert** : `parents-musulmans.html` (Familles musulmanes / Voie Chifâ) — à inventorier.
+## 🤲 Voie Chifâ — `parents-musulmans.html` (espace optionnel) ✅ créé
+| Outil | Statut |
+|---|---|
+| dialoguer-avec-son-ado (ISL) | ✅ (`apps/dialoguer-avec-son-ado-ISL.html`) |
+| neuro-tarbiya & sabr reset | ✅ (`apps/neuro-tarbiya.html`) |
 
-## 🧑 Espace Ado — `f0_fondations/ados/` (à inventorier ensemble)
-_À compléter quand Nawel donne les URLs._
+## 🧑 Espace Ado — `outils-ado/` ✅ **complet (7 outils)**
+| Outil | Statut |
+|---|---|
+| app-emotions-vocabulaire | ✅ |
+| emotion-5-etapes | ✅ |
+| carnet-interoception | ✅ |
+| mes-valeurs-ado | ✅ |
+| module-joie | ✅ |
+| thermometre-bruit | ✅ |
+| boite-ado-tdah | ✅ |
 
-## 🧑‍⚕️ Espace Pro — `f0_fondations/professionnels/` (à inventorier ensemble)
-_À compléter quand Nawel donne les URLs._
+## 🧑‍⚕️ Espace Pro — `outils-pro/` ✅ **complet (17 outils)**
+| Outil | Statut |
+|---|---|
+| profil-cognitif / -neuro / -sensoriel | ✅ |
+| profil-fonctions-executives / -habiletes-sociales | ✅ |
+| profil-competences-scolaires / -acces-apprentissages / -apprentissage | ✅ |
+| radar-profils | ✅ |
+| reperage-tnd-enfant / -ado / -femme | ✅ |
+| roue-emotions-pro / thermometre-emotionnel | ✅ |
+| protocole-crise / premiers-secours-psy-ado-PRO | ✅ |
+| constellation-motivationnelle | ✅ |
+
+## ⏳ Reste à traiter (optionnel)
+- `kit-calme`, `detecteur-paroles-devoirs` (variantes contenu/marketing)
+- `Cahier_des_charges_Boite_Emotions_Neuroo` (doc de specs, pas un outil)
+- Images mascottes & kit réseaux (à envoyer en ZIP)
 
 ---
 
