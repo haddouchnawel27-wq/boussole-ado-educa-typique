@@ -13,16 +13,18 @@ _Structure réelle du site : `/f0_fondations/<espace>/<outil>/`_
 |---|---|
 | detecteur-paroles | ✅ récupéré (`apps/detecteur-de-paroles.html`) |
 | dialoguer-avec-son-ado | ✅ ebook récupéré (images) — *version interactive à confirmer* |
+| contrat-confiance-ado | ✅ récupéré (`apps/contrat-confiance-ado.html`) |
+| autonomie-ado | ✅ récupéré (`apps/autonomie-ado.html`) |
+| chrono-energies-maman | ✅ récupéré (`apps/chrono-energies-maman.html`) |
+| boussole-diagnostic-dys | ✅ récupéré (bonus, `apps/boussole-diagnostic-dys.html`) |
 | mdph-pas-a-pas | ❌ à récupérer *(j'ai le PDF de présentation, pas l'outil)* |
 | pyramide-7-niveaux | ❌ à récupérer |
 | profils-couple-educatif | ❌ à récupérer |
-| contrat-confiance-ado | ❌ à récupérer |
-| autonomie-ado | ❌ à récupérer |
 | routines-educatypique | ❌ à récupérer |
-| chrono-energies-maman | ❌ à récupérer *(cité par la Constellation motivationnelle)* |
 | matrice-urgent-important | ❌ à récupérer |
 | maman-neuro-atypique | ❌ à récupérer |
 | guide-hpi | ❌ à récupérer |
+| mon-equipe-de-soin | ❌ à récupérer *(cité par la Boussole diagnostic DYS)* |
 
 ## 🧑 Espace Ado — `f0_fondations/ados/` (à inventorier ensemble)
 _À compléter quand Nawel donne les URLs._
