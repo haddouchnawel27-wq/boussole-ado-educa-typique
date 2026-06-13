@@ -12,19 +12,24 @@ _Structure réelle du site : `/f0_fondations/<espace>/<outil>/`_
 | Outil (slug) | Statut |
 |---|---|
 | detecteur-paroles | ✅ récupéré (`apps/detecteur-de-paroles.html`) |
-| dialoguer-avec-son-ado | ✅ ebook récupéré (images) — *version interactive à confirmer* |
+| dialoguer-avec-son-ado | ✅ récupéré HTML + ebook (`apps/dialoguer-avec-son-ado.html`) |
+| dialoguer-avec-son-ado (ISL) | ✅ récupéré (`apps/dialoguer-avec-son-ado-ISL.html`) |
 | contrat-confiance-ado | ✅ récupéré (`apps/contrat-confiance-ado.html`) |
 | autonomie-ado | ✅ récupéré (`apps/autonomie-ado.html`) |
 | chrono-energies-maman | ✅ récupéré (`apps/chrono-energies-maman.html`) |
 | boussole-diagnostic-dys | ✅ récupéré (bonus, `apps/boussole-diagnostic-dys.html`) |
+| guide-hpi | ✅ récupéré (`apps/guide-hpi.html`) |
+| guide-tdah-top | ✅ récupéré (bonus, `apps/guide-tdah-top.html`) |
+| guide-consignes-efficaces | ✅ récupéré (bonus, `apps/guide-consignes-efficaces.html`) |
 | mdph-pas-a-pas | ❌ à récupérer *(j'ai le PDF de présentation, pas l'outil)* |
 | pyramide-7-niveaux | ❌ à récupérer |
 | profils-couple-educatif | ❌ à récupérer |
 | routines-educatypique | ❌ à récupérer |
 | matrice-urgent-important | ❌ à récupérer |
 | maman-neuro-atypique | ❌ à récupérer |
-| guide-hpi | ❌ à récupérer |
 | mon-equipe-de-soin | ❌ à récupérer *(cité par la Boussole diagnostic DYS)* |
+
+> 🔎 **Nouvel espace découvert** : `parents-musulmans.html` (Familles musulmanes / Voie Chifâ) — à inventorier.
 
 ## 🧑 Espace Ado — `f0_fondations/ados/` (à inventorier ensemble)
 _À compléter quand Nawel donne les URLs._

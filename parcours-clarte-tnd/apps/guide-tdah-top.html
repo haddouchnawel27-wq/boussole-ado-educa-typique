@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide Parents TDAH + TOP — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/charte.css">
+<style>
+body{background:#f9f5f0}
+
+.bandeau{
+  background:linear-gradient(135deg,var(--rose-soutenu),var(--lavande));
+  padding:2.2rem 1.5rem;text-align:center;
+}
+.bandeau .auteur{display:inline-block;background:rgba(255,255,255,.25);color:#fff;padding:.3em 1em;border-radius:999px;font-size:.85rem;font-weight:700;margin-bottom:.8rem}
+.bandeau h1{color:#fff;margin:0;font-size:clamp(1.7rem,3.3vw,2.4rem);text-shadow:0 2px 4px rgba(0,0,0,.15);font-family:var(--font-titre)}
+.bandeau .titre-sous{color:#fff;font-size:1.1rem;margin-top:.4rem;opacity:.95;font-style:italic;font-family:var(--font-titre);font-weight:600}
+.bandeau .sub{color:#fff;max-width:680px;margin:.7rem auto 0;font-size:.95rem;opacity:.92;line-height:1.5}
+.retour{display:inline-block;margin:0 0 1rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.25);padding:.3em .9em;border-radius:999px;font-size:.88rem}
+
+.layout{max-width:1200px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:260px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start;max-height:calc(100vh - 2rem);overflow-y:auto}
+.nav-sticky h3{color:var(--rose-titre);margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.9rem}
+.nav-sticky li{margin:.15rem 0}
+.nav-sticky a{display:block;padding:.45rem .7rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm);transition:background .15s}
+.nav-sticky a:hover{background:var(--rose-clair);color:var(--rose-titre)}
+.nav-sticky a.actif{background:var(--rose-titre);color:#fff;font-weight:700}
+.nav-sticky a.sub{padding-left:1.5rem;font-size:.85rem;color:var(--muted)}
+
+.contenu{display:flex;flex-direction:column;gap:1.3rem}
+
+/* Intro émotionnelle */
+.intro-bloc{
+  background:linear-gradient(135deg,#fff,var(--rose-clair));
+  border-radius:var(--r-xl);padding:1.6rem 2rem;border-left:8px solid var(--rose-titre);
+  box-shadow:var(--shadow-md);
+}
+.intro-bloc h2{color:var(--rose-titre);margin:0 0 .4rem;font-family:var(--font-titre)}
+.intro-bloc blockquote{
+  font-family:var(--font-titre);font-style:italic;font-size:1.1rem;line-height:1.6;
+  color:var(--texte);margin:.6rem 0 .8rem;padding-left:1rem;border-left:3px solid var(--rose-soutenu);
+}
+.intro-bloc p{color:var(--texte);line-height:1.6}
+
+/* Partie */
+section.partie{
+  background:#fff;border-radius:var(--r-lg);padding:1.4rem 1.7rem;
+  box-shadow:var(--shadow-sm);border-top:6px solid var(--c-p);scroll-margin-top:1rem;
+}
+section.partie > h2{color:var(--c-p);margin:0 0 .3rem;font-family:var(--font-titre);font-size:1.4rem;display:flex;align-items:center;gap:.5rem}
+section.partie > .ss-titre{color:var(--muted);font-style:italic;font-size:.95rem;margin-bottom:1rem}
+section.partie h3{color:var(--c-p);margin:1.2rem 0 .5rem;font-family:var(--font-titre)}
+section.partie h4{color:var(--texte);margin:.8rem 0 .3rem;font-family:var(--font-titre);font-size:1rem}
+section.partie p{line-height:1.65;color:var(--texte)}
+section.partie ul{line-height:1.7;color:var(--texte)}
+
+.p1{--c-p:#7c5cbf}
+.p2{--c-p:#e05a8a}
+.p3{--c-p:#c25a30}
+.p4{--c-p:#2a9d8f}
+.p5{--c-p:#a87800}
+.p6{--c-p:var(--rose-titre)}
+
+/* 1.1 Timeline parcours */
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin:.7rem 0}
+@media (max-width:760px){.timeline{grid-template-columns:1fr 1fr}}
+.timeline-step{background:var(--beige);border-radius:var(--r-md);padding:.8rem 1rem;border-top:4px solid var(--c-step);position:relative}
+.timeline-step::before{content:attr(data-n);position:absolute;top:-14px;right:.8rem;background:var(--c-step);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem}
+.timeline-step h4{margin:.3rem 0 .3rem;color:var(--c-step);font-size:.95rem}
+.timeline-step p{font-size:.83rem;margin:0;line-height:1.5}
+.ts-1{--c-step:#a87800}
+.ts-2{--c-step:#c25a30}
+.ts-3{--c-step:#a02040}
+.ts-4{--c-step:#2a9d8f}
+
+/* 1.2 Lois neuro */
+.lois-grille{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.7rem 0}
+@media (max-width:760px){.lois-grille{grid-template-columns:1fr}}
+.loi-card{background:linear-gradient(135deg,#fff,var(--c-fond));border-radius:var(--r-lg);padding:1.2rem 1.4rem;border-top:6px solid var(--c-loi);box-shadow:var(--shadow-sm)}
+.loi-card .num{font-size:.78rem;font-weight:800;color:var(--c-loi);text-transform:uppercase;letter-spacing:1px;margin-bottom:.3rem}
+.loi-card h3{margin:.2rem 0 .5rem;color:var(--c-loi);font-family:var(--font-titre);font-size:1.1rem}
+.loi-card p{font-size:.92rem;line-height:1.6}
+.loi-card .punchline{margin-top:.6rem;padding:.6rem .8rem;background:rgba(255,255,255,.7);border-radius:var(--r-sm);font-weight:700;color:var(--c-loi);font-size:.92rem;font-style:italic}
+.loi-1{--c-loi:#7c5cbf;--c-fond:#e8e0f5}
+.loi-2{--c-loi:#e05a8a;--c-fond:#fde6ef}
+
+/* 1.3 TDAH+TOP tableau "ce qu'on voit / ce qu'il se passe" */
+.voit-passe{margin:.6rem 0}
+.voit-passe-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;padding:.5rem 0;border-bottom:1px dashed var(--border)}
+@media (max-width:760px){.voit-passe-row{grid-template-columns:1fr}}
+.voit-passe-row .voit{background:#fdeaea;padding:.5rem .7rem;border-radius:var(--r-sm);border-left:4px solid #a02040;font-size:.92rem}
+.voit-passe-row .passe{background:#e0f4f1;padding:.5rem .7rem;border-radius:var(--r-sm);border-left:4px solid #2a9d8f;font-size:.92rem}
+.voit-passe-row .voit::before{content:"😬 Ce que vous voyez : ";color:#a02040;font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:.2rem}
+.voit-passe-row .passe::before{content:"💡 Ce qui se passe vraiment : ";color:#2a9d8f;font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:.2rem}
+
+.retenir{background:linear-gradient(135deg,var(--jaune-doux),#fff);border:2px solid #e6a800;border-radius:var(--r-md);padding:1rem 1.2rem;margin:1rem 0;font-weight:600;color:#5a4a00}
+.retenir h4{margin:0 0 .4rem;color:#a87800;display:flex;align-items:center;gap:.4rem;font-family:var(--font-titre)}
+
+/* Erreurs flip cards */
+.erreur-card{background:#fff;border-radius:var(--r-md);padding:1rem 1.2rem;border-left:6px solid var(--c-err);box-shadow:var(--shadow-sm);margin:.7rem 0}
+.erreur-card .erreur-titre{display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap}
+.erreur-card h4{margin:0;color:var(--c-err);font-family:var(--font-titre);font-size:1rem;flex:1}
+.erreur-card .erreur-num{background:var(--c-err);color:#fff;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0}
+.erreur-card .vu{margin-left:auto}
+.erreur-card .vu label{display:inline-flex;align-items:center;gap:.3rem;cursor:pointer;font-size:.8rem;font-weight:700;color:var(--muted);background:var(--beige);padding:.3em .7em;border-radius:999px}
+.erreur-card .vu input:checked + span{color:var(--c-err)}
+.erreur-card .pourquoi{margin-top:.5rem;padding:.5rem .7rem;background:var(--beige);border-radius:var(--r-sm);font-size:.9rem}
+.erreur-card .pourquoi strong{display:block;color:var(--c-err);font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+.erreur-card .alt{margin-top:.5rem;padding:.5rem .7rem;background:#e8f5ec;border-radius:var(--r-sm);font-size:.9rem;border-left:3px solid #1b7a4a}
+.erreur-card .alt strong{display:block;color:#1b7a4a;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+.err-rouge{--c-err:#c25a30}
+.err-orange{--c-err:#a87800}
+.err-bleu{--c-err:#7c5cbf}
+.err-vert{--c-err:#2a9d8f}
+
+/* Situation box */
+.situation-box{background:linear-gradient(135deg,#fff,var(--beige));border:2px solid var(--c-p);border-radius:var(--r-md);padding:1rem 1.2rem;margin:.8rem 0}
+.situation-box h3{margin:0 0 .3rem;color:var(--c-p)}
+.situation-box .age{display:inline-block;background:var(--c-p);color:#fff;padding:.15em .65em;border-radius:999px;font-size:.78rem;font-weight:700;margin-bottom:.3rem}
+.situation-box .cerveau{background:rgba(255,255,255,.6);padding:.7rem .9rem;border-radius:var(--r-sm);font-size:.9rem;margin-top:.3rem}
+.situation-box .cerveau strong{color:var(--c-p)}
+
+/* Indicateurs confusion émotionnelle */
+.indic-conf{display:grid;grid-template-columns:1fr;gap:.5rem;margin:.6rem 0}
+.indic-conf label{
+  background:linear-gradient(135deg,#fff,var(--beige));
+  border-left:5px solid #c25a30;border-radius:var(--r-md);
+  padding:.7rem 1rem;display:flex;align-items:flex-start;gap:.7rem;cursor:pointer;
+  transition:transform .15s;
+}
+.indic-conf label:hover{transform:translateX(3px)}
+.indic-conf input{margin-top:.2rem;flex-shrink:0}
+.indic-conf .indic-content{flex:1}
+.indic-conf .indic-titre{font-weight:800;color:#c25a30;display:block;margin-bottom:.2rem;font-size:.95rem}
+.indic-conf .indic-desc{font-size:.88rem;color:var(--muted)}
+.indic-conf input:checked + .indic-content{color:#c25a30}
+.indic-conf input:checked + .indic-content .indic-desc{color:#c25a30}
+
+.score-confusion{margin-top:.6rem;padding:.6rem .9rem;background:var(--beige);border-radius:var(--r-sm);font-size:.95rem;font-weight:700;color:var(--rose-titre)}
+
+/* Mécanisme spirale */
+.spirale{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem;margin:.6rem 0;position:relative}
+@media (max-width:880px){.spirale{grid-template-columns:1fr 1fr}}
+.spirale-step{background:#fff;border-radius:var(--r-md);padding:.7rem .8rem;border-top:4px solid var(--c-sp);position:relative;text-align:center;box-shadow:var(--shadow-sm)}
+.spirale-step .num-sp{background:var(--c-sp);color:#fff;width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:.3rem;font-size:.85rem}
+.spirale-step h4{margin:.2rem 0 .2rem;font-size:.85rem;color:var(--c-sp)}
+.spirale-step p{font-size:.78rem;margin:0;line-height:1.4;color:var(--texte)}
+.sp1{--c-sp:#7c5cbf}.sp2{--c-sp:#e05a8a}.sp3{--c-sp:#c25a30}.sp4{--c-sp:#a02040}.sp5{--c-sp:#6b5f7a}
+
+/* 4 piliers */
+.piliers-grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:.7rem 0}
+@media (max-width:760px){.piliers-grille{grid-template-columns:1fr}}
+.pilier-card{background:linear-gradient(135deg,#fff,var(--c-pil-fond));border-radius:var(--r-md);padding:1rem 1.2rem;border-left:6px solid var(--c-pil);box-shadow:var(--shadow-sm)}
+.pilier-card .num-pil{background:var(--c-pil);color:#fff;width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:.4rem;font-size:.95rem}
+.pilier-card h4{margin:.2rem 0 .3rem;color:var(--c-pil);font-family:var(--font-titre);font-size:1rem}
+.pilier-card p{font-size:.88rem;line-height:1.5}
+.pil-1{--c-pil:#7c5cbf;--c-pil-fond:#e8e0f5}
+.pil-2{--c-pil:#e05a8a;--c-pil-fond:#fde6ef}
+.pil-3{--c-pil:#2a9d8f;--c-pil-fond:#e0f4f1}
+.pil-4{--c-pil:#a87800;--c-pil-fond:#fff3e0}
+
+/* 3 petits pas atypiques - section phare */
+.pas-section{background:linear-gradient(135deg,var(--lavande),var(--rose-clair));border-radius:var(--r-xl);padding:1.4rem 1.6rem;margin:1rem 0;color:#fff}
+.pas-section h3{color:#fff;margin:0 0 .3rem;font-family:var(--font-titre);font-size:1.3rem;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.pas-section .pas-sous{color:#fff;opacity:.95;font-style:italic;font-size:.95rem;margin-bottom:.9rem}
+.pas-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+@media (max-width:760px){.pas-cards{grid-template-columns:1fr}}
+.pas-card{background:rgba(255,255,255,.95);border-radius:var(--r-md);padding:1rem 1.1rem;color:var(--texte)}
+.pas-card .num-pas{background:var(--rose-titre);color:#fff;width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;margin-bottom:.4rem}
+.pas-card h4{margin:.3rem 0 .3rem;color:var(--rose-titre);font-family:var(--font-titre);font-size:1.05rem}
+.pas-card p{font-size:.88rem;line-height:1.5;margin:0 0 .5rem}
+.pas-card .engagement{font-size:.78rem;color:var(--muted);font-weight:700;display:block;margin-bottom:.2rem}
+.pas-card textarea{width:100%;min-height:60px;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.88rem;resize:vertical}
+
+/* 5.1 Check-list semaine */
+.check-semaine{background:#fff;border-radius:var(--r-md);padding:1rem 1.2rem;border:2px dashed var(--violet-titre);margin:.6rem 0}
+.check-semaine h4{margin:0 0 .5rem;color:var(--violet-titre);font-family:var(--font-titre)}
+.check-semaine .q-block{margin-bottom:.5rem}
+.check-semaine .q-block label{display:block;font-weight:700;font-size:.88rem;color:var(--texte);margin-bottom:.2rem}
+.check-semaine .q-block textarea{width:100%;min-height:50px;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.9rem;resize:vertical}
+.check-semaine .date-input{margin-bottom:.6rem}
+.check-semaine input[type="date"]{padding:.4em .6em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.9rem}
+
+/* 5.2 Protocole écrans */
+.protocole{background:linear-gradient(135deg,#fff,#e0f4f1);border:2px solid #2a9d8f;border-radius:var(--r-md);padding:1rem 1.2rem;margin:.7rem 0}
+.protocole h4{margin:0 0 .5rem;color:#2a9d8f;font-family:var(--font-titre)}
+.protocole-steps{display:flex;flex-direction:column;gap:.4rem}
+.protocole-step{display:grid;grid-template-columns:90px 1fr;gap:.7rem;align-items:start;padding:.5rem .7rem;background:#fff;border-radius:var(--r-sm);border-left:4px solid #2a9d8f}
+.protocole-step .moment{font-weight:800;color:#2a9d8f;font-size:.9rem}
+.protocole-step .action{font-size:.88rem}
+@media (max-width:680px){.protocole-step{grid-template-columns:1fr}}
+
+/* 5.3 Sécurité relationnelle */
+.secu-rel{background:linear-gradient(135deg,#fff,var(--rose-clair));border-radius:var(--r-md);padding:1rem 1.2rem;margin:.7rem 0;border-left:5px solid var(--rose-titre)}
+.secu-rel h4{margin:0 0 .5rem;color:var(--rose-titre);font-family:var(--font-titre)}
+.secu-rel ul{margin:.3rem 0;padding-left:1.4rem;line-height:1.7;font-size:.92rem}
+
+/* Conclusion */
+.conclusion-bloc{background:linear-gradient(135deg,var(--lavande),var(--rose-soutenu));color:#fff;padding:2rem 2.2rem;border-radius:var(--r-xl);text-align:center;box-shadow:var(--shadow-md);margin-top:1rem}
+.conclusion-bloc h2{color:#fff;margin:0 0 .5rem;font-family:var(--font-titre);font-size:1.5rem;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.conclusion-bloc blockquote{font-size:1.1rem;font-family:var(--font-titre);font-style:italic;margin:1rem 0;padding:0 1rem;border-left:3px solid rgba(255,255,255,.5);text-align:left;line-height:1.6}
+.conclusion-bloc p{line-height:1.6;font-size:.95rem;text-align:left}
+.conclusion-bloc .signature{margin-top:1.2rem;font-weight:800;font-family:var(--font-titre);font-size:1rem}
+.conclusion-bloc .tagline{font-style:italic;opacity:.9;font-size:.88rem;margin-top:.2rem}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.4rem 0 2rem}
+.actions button{background:#fff;color:var(--rose-titre);border:2px solid var(--rose-titre)}
+.actions button:hover{background:var(--rose-titre);color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .retour{display:none !important}
+  body{background:#fff}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .titre-sous, .bandeau .sub, .bandeau .auteur{color:var(--rose-titre) !important;text-shadow:none;background:transparent !important}
+  .partie, .intro-bloc, .erreur-card, .loi-card, .pilier-card, .pas-card, .conclusion-bloc{box-shadow:none;page-break-inside:avoid}
+  .conclusion-bloc{background:#fff;color:var(--rose-titre);border:2px solid var(--rose-titre)}
+  .conclusion-bloc h2, .conclusion-bloc .signature{color:var(--rose-titre) !important}
+  .pas-section{background:#fff;color:var(--texte);border:2px solid var(--rose-titre)}
+  .pas-section h3, .pas-section .pas-sous{color:var(--rose-titre) !important;text-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../parents.html">← Espace parents</a>
+  <div class="auteur">© Par la Neuro-Pédagogue Nawel · EducaTypique</div>
+  <h1>Guide Parents TDAH + TOP</h1>
+  <p class="titre-sous">Comprendre, désamorcer et retrouver la sérénité</p>
+  <p class="sub">Un guide stratégique pour les parents épuisés qui veulent reconstruire le lien sans perdre pied.</p>
+</section>
+
+<div class="layout">
+
+  <aside class="nav-sticky">
+    <h3>📑 Sommaire</h3>
+    <ol id="nav">
+      <li><a href="#intro">Un mot avant de commencer</a></li>
+      <li><a href="#p1">Partie 1 — Comprendre</a></li>
+      <li><a href="#p1-1" class="sub">1.1 Le parcours du combattant</a></li>
+      <li><a href="#p1-2" class="sub">1.2 Les 2 lois neuro</a></li>
+      <li><a href="#p1-3" class="sub">1.3 TDAH + TOP</a></li>
+      <li><a href="#p2">Partie 2 — 2 situations concrètes</a></li>
+      <li><a href="#s1" class="sub">« Pose ton écran »</a></li>
+      <li><a href="#s2" class="sub">« Tout est une lutte »</a></li>
+      <li><a href="#p3">Partie 3 — Confusion émotionnelle</a></li>
+      <li><a href="#p4">Partie 4 — 4 piliers + 3 petits pas</a></li>
+      <li><a href="#p5">Partie 5 — Outils pratiques</a></li>
+      <li><a href="#conclusion">Pour conclure</a></li>
+    </ol>
+  </aside>
+
+  <main class="contenu">
+
+    <!-- INTRO -->
+    <section id="intro" class="intro-bloc">
+      <h2>💗 Un mot avant de commencer</h2>
+      <blockquote>
+        « Si vous tenez ce guide entre les mains, c'est probablement que vous avez déjà tout essayé. Vous avez crié, supplié, négocié, pleuré. Vous aimez votre enfant profondément — et pourtant chaque journée ressemble à une nouvelle bataille. »
+      </blockquote>
+      <p>Ce guide n'est <strong>pas là pour vous juger</strong>. Il est là pour vous donner des clés neuroscientifiques concrètes sur ce qui se passe réellement dans le cerveau de votre enfant TDAH avec TOP — et surtout, pour vous aider à <strong>reprendre pied dans la relation</strong>.</p>
+      <p>Vous découvrirez ici pourquoi vos réactions habituelles — même les mieux intentionnées — aggravent parfois les crises, et ce que vous pouvez faire différemment dès aujourd'hui.</p>
+    </section>
+
+    <!-- PARTIE 1 -->
+    <section id="p1" class="partie p1">
+      <h2>🧠 Partie 1 — Comprendre ce qui se joue vraiment</h2>
+
+      <h3 id="p1-1">1.1 Le parcours du combattant</h3>
+      <p>Avant d'analyser les situations concrètes, il est essentiel de nommer ce que vivent de nombreuses familles. Non pas pour raviver des blessures, mais parce que <strong>reconnaître le chemin parcouru est la première étape pour en sortir</strong>.</p>
+      <div class="timeline">
+        <div class="timeline-step ts-1" data-n="1">
+          <h4>Enfance</h4>
+          <p>Un décalage persistant : turbulent, inattentif, à côté… Les étiquettes s'accumulent (« pas concentré », « bouge trop », « impulsif »). Derrière chaque mot, un enfant qui souffre de ne pas comprendre pourquoi il est différent.</p>
+        </div>
+        <div class="timeline-step ts-2" data-n="2">
+          <h4>Diagnostic ~12 ans</h4>
+          <p>Le choc, le déni, la honte. Rejet du diagnostic. Rejet du traitement. Les conflits s'intensifient, les violences augmentent, l'estime de soi s'effondre.</p>
+        </div>
+        <div class="timeline-step ts-3" data-n="3">
+          <h4>Adolescence</h4>
+          <p>Phobie scolaire, addictions, colère, haine, dépression larvée, perte de goût, mal-être profond. Les parents sont épuisés, lessivés.</p>
+        </div>
+        <div class="timeline-step ts-4" data-n="4">
+          <h4>Le tournant</h4>
+          <p>Progressivement, l'enfant — et la famille — comprend. Les « 3 petits pas atypiques » permettent de retrouver, pas à pas, une sérénité possible.</p>
+        </div>
+      </div>
+
+      <h3 id="p1-2">1.2 Le cerveau TDAH + TOP : deux lois fondamentales</h3>
+      <p>Pour comprendre les comportements de votre enfant, vous devez d'abord comprendre <strong>deux lois neurobiologiques</strong> qui gouvernent son cerveau — sans exception.</p>
+      <div class="lois-grille">
+        <div class="loi-card loi-1">
+          <div class="num">⚡ Loi N°1</div>
+          <h3>Le cerveau TDAH est en quête permanente de dopamine</h3>
+          <p>Le cerveau TDAH souffre d'un <strong>déficit chronique de dopamine</strong> — le neurotransmetteur du plaisir, de la motivation et de la récompense. Pour combler ce manque, il cherche de l'intensité émotionnelle partout : dans les écrans, les jeux, les interdits… et même dans <strong>les conflits</strong>.</p>
+          <div class="punchline">👉 La colère, les crises, les provocations ne sont pas de la malveillance — ce sont des tentatives inconscientes de se « remplir » en dopamine.</div>
+        </div>
+        <div class="loi-card loi-2">
+          <div class="num">🧱 Loi N°2</div>
+          <h3>Le manque de structure interne crée un éternel insatisfait</h3>
+          <p>Le TDAH s'accompagne d'un problème de <strong>régulation des fonctions exécutives</strong> : mémoire de travail fragilisée, impulsivité non filtrée, mauvaise gestion du temps et des émotions. Sans structure interne stable, l'enfant est un navigateur sans boussole.</p>
+          <div class="punchline">👉 Il ne s'oppose pas pour le plaisir de s'opposer — il cherche désespérément un <strong>cadre externe</strong> assez solide pour compenser son manque de structure interne.</div>
+        </div>
+      </div>
+
+      <h3 id="p1-3">1.3 Quand le TOP vient s'ajouter au TDAH</h3>
+      <p>Le Trouble Oppositionnel avec Provocation (TOP) touche <strong>environ un enfant TDAH sur deux</strong>. C'est une combinaison particulièrement éprouvante pour les familles.</p>
+      <div class="voit-passe">
+        <div class="voit-passe-row"><div class="voit">Opposition systématique</div><div class="passe">Il cherche à reprendre le contrôle qu'il n'a pas sur lui-même</div></div>
+        <div class="voit-passe-row"><div class="voit">Attitude revancharde</div><div class="passe">Il tente de grandir et de s'affirmer</div></div>
+        <div class="voit-passe-row"><div class="voit">Intolérance à la frustration</div><div class="passe">Il se sent submergé par ses émotions ET par les vôtres</div></div>
+        <div class="voit-passe-row"><div class="voit">Conflits et violence verbale/physique</div><div class="passe">Il cherche une sécurité relationnelle qu'il ne trouve pas</div></div>
+        <div class="voit-passe-row"><div class="voit">Incapacité à se remettre en question</div><div class="passe">Il souffre d'une dysrégulation émotionnelle profonde</div></div>
+        <div class="voit-passe-row"><div class="voit">Sentiment d'injustice permanent</div><div class="passe">Il ne perçoit pas le monde comme vous le percevez</div></div>
+        <div class="voit-passe-row"><div class="voit">Relation vécue comme une tyrannie</div><div class="passe">Il marche sur des œufs… autant que vous</div></div>
+      </div>
+      <div class="retenir">
+        <h4>💡 À retenir absolument</h4>
+        Quand vous marchez sur des œufs, quand la relation se détériore, quand vous vous sentez sous tension constante — <strong>ce n'est pas parce que vous êtes mauvais parents</strong>. C'est parce que vous interagissez avec un système neurologique qui génère de l'instabilité. La bonne nouvelle : <em>vous pouvez apprendre à interagir différemment</em>.
+      </div>
+    </section>
+
+    <!-- PARTIE 2 -->
+    <section id="p2" class="partie p2">
+      <h2>🎯 Partie 2 — Analyse de 2 situations concrètes</h2>
+      <p class="ss-titre">Chaque erreur identifiée n'est pas un jugement — c'est une information précieuse pour agir autrement. Cochez celles que vous reconnaissez chez vous.</p>
+
+      <!-- SITUATION 1 -->
+      <div id="s1" class="situation-box">
+        <h3>📱 Situation 1 — « Pose ton écran »</h3>
+        <span class="age">Enfant de 8 à 12 ans</span>
+        <div class="cerveau">
+          <strong>Ce qui se passe dans son cerveau :</strong> l'écran est pour le cerveau TDAH une source <strong>massive et immédiate de dopamine</strong>. Y mettre fin ne signifie pas « arrêter de jouer » — c'est lui couper brutalement son alimentation neurochimique principale. Le cerveau passe de l'hyperactivation à l'effondrement (vide dopaminergique) sans pouvoir gérer la transition. Ce n'est pas de la mauvaise volonté.
+        </div>
+      </div>
+
+      <div class="erreur-card err-rouge">
+        <div class="erreur-titre">
+          <div class="erreur-num">1</div>
+          <h4>Pas d'activité de transition</h4>
+          <div class="vu"><label><input type="checkbox" data-k="s1-e1"><span>Je reconnais ça</span></label></div>
+        </div>
+        <div class="pourquoi"><strong>🔍 Ce qui se passe</strong>Le cerveau TDAH ne peut pas basculer d'un état d'hyperactivation à l'arrêt complet. Neurobiologiquement impossible sans préparation. Demander d'arrêter sans transition = couper le courant d'un appareil sous tension.</div>
+        <div class="alt"><strong>✅ À la place</strong>Annoncer 5 min avant : « Dans 5 minutes on s'arrête, et après tu pourras faire X. » Proposer une activité-tampon faible stimulation : marche, snack, musique. Le cerveau a besoin d'un <strong>sas de décompression</strong>.</div>
+      </div>
+
+      <div class="erreur-card err-orange">
+        <div class="erreur-titre">
+          <div class="erreur-num">2</div>
+          <h4>Usage de la force</h4>
+          <div class="vu"><label><input type="checkbox" data-k="s1-e2"><span>Je reconnais ça</span></label></div>
+        </div>
+        <div class="pourquoi"><strong>🔍 Ce qui se passe</strong>Retirer l'écran de force ou imposer physiquement votre autorité = message clair : « Agir par la force, ça marche. » Par mimétisme, il réutilisera exactement cette stratégie avec vous et les autres.</div>
+        <div class="alt"><strong>✅ À la place</strong>Poser le cadre AVANT la crise, pas pendant : « Ce soir, écran jusqu'à 18h30, puis on passe à table. » Si crise quand même, quitter la pièce plutôt que d'escalader.</div>
+      </div>
+
+      <div class="erreur-card err-bleu">
+        <div class="erreur-titre">
+          <div class="erreur-num">3</div>
+          <h4>Manque de cadre stable</h4>
+          <div class="vu"><label><input type="checkbox" data-k="s1-e3"><span>Je reconnais ça</span></label></div>
+        </div>
+        <div class="pourquoi"><strong>🔍 Ce qui se passe</strong>Un enfant qui manque déjà de structure interne a un besoin VITAL de structure externe prévisible. Si les règles changent selon votre humeur/fatigue, son cerveau enregistre un environnement instable — ce qui amplifie son anxiété et ses comportements de contrôle.</div>
+        <div class="alt"><strong>✅ À la place</strong>Règles écrans <strong>identiques chaque jour</strong>, posées dans un moment calme. Tableau visuel avec horaires. Être « hyper carré » n'est pas de la rigidité — c'est lui offrir la sécurité dont son cerveau a besoin.</div>
+      </div>
+
+      <div class="erreur-card err-vert">
+        <div class="erreur-titre">
+          <div class="erreur-num">4</div>
+          <h4>Pas de recul stratégique</h4>
+          <div class="vu"><label><input type="checkbox" data-k="s1-e4"><span>Je reconnais ça</span></label></div>
+        </div>
+        <div class="pourquoi"><strong>🔍 Ce qui se passe</strong>On reproduit les mêmes patterns sans jamais analyser ce qui ne fonctionne pas. La roue continue de tourner.</div>
+        <div class="alt"><strong>✅ À la place</strong>15 min/semaine pour analyser une situation difficile. 3 questions : Qu'est-ce qui a déclenché ? Comment ai-je réagi ? Qu'est-ce que j'aurais pu faire différemment ? C'est de la <strong>stratégie</strong>, pas de la culpabilité.</div>
+      </div>
+
+      <!-- SITUATION 2 -->
+      <div id="s2" class="situation-box" style="margin-top:1.4rem">
+        <h3>⚔️ Situation 2 — Tout est une lutte</h3>
+        <span class="age">Adolescent de 15 ans</span>
+        <div class="cerveau">
+          <strong>Ce qui se passe dans son cerveau :</strong> à 15 ans, le cerveau est en pleine reconfiguration. Pour un ado TDAH + TOP, le besoin d'autonomie est immense, mais les outils de régulation sont insuffisants. <strong>L'opposition n'est pas du refus de grandir — c'est une tentative maladroite de grandir justement.</strong> Trois besoins fondamentaux non comblés : sécurité relationnelle, sentiment de contrôle, contact émotionnel authentique.
+        </div>
+      </div>
+
+      <div class="erreur-card err-rouge">
+        <div class="erreur-titre">
+          <div class="erreur-num">1</div>
+          <h4>La mauvaise lecture du comportement</h4>
+          <div class="vu"><label><input type="checkbox" data-k="s2-e1"><span>Je reconnais ça</span></label></div>
+        </div>
+        <div class="pourquoi"><strong>🔍 Ce qui se passe</strong>« Il le fait exprès » ou « Il cherche le conflit » sont des lectures erronées. Son opposition répond à un <strong>besoin profond de contrôle</strong> — qui répond lui-même à un besoin de sécurité que vous êtes souvent la seule personne à pouvoir lui offrir.</div>
+        <div class="alt"><strong>✅ À la place</strong>Changer la question. Pas « pourquoi il fait ça ? » mais <strong>« de quoi a-t-il besoin maintenant ? »</strong> Souvent : être entendu, autonomie réelle, ne pas se sentir contrôlé. Lui donner des zones de décision totale (sa chambre, ses loisirs, sa tenue).</div>
+      </div>
+
+      <div class="erreur-card err-orange">
+        <div class="erreur-titre">
+          <div class="erreur-num">2</div>
+          <h4>Réagir depuis ses propres émotions</h4>
+          <div class="vu"><label><input type="checkbox" data-k="s2-e2"><span>Je reconnais ça</span></label></div>
+        </div>
+        <div class="pourquoi"><strong>🔍 Ce qui se passe</strong>Quand vous réagissez depuis votre peur/anxiété/colère, la relation devient à sens unique — c'est toujours vous qui allez vers lui. Les ados TDAH s'opposent <strong>davantage</strong> quand ils perçoivent qu'ils sont submergés par les émotions parentales. Votre état émotionnel devient le sien.</div>
+        <div class="alt"><strong>✅ À la place</strong>Identifier votre signal d'alarme interne (tension poitrine, voix qui monte, pensées catastrophistes). Quand il s'allume : <strong>sortir, respirer, revenir quand vous êtes régulé(e)</strong>. Une relation saine va dans les deux sens.</div>
+      </div>
+
+      <div class="erreur-card err-bleu">
+        <div class="erreur-titre">
+          <div class="erreur-num">3</div>
+          <h4>La force éducative qui déresponsabilise</h4>
+          <div class="vu"><label><input type="checkbox" data-k="s2-e3"><span>Je reconnais ça</span></label></div>
+        </div>
+        <div class="pourquoi"><strong>🔍 Ce qui se passe</strong>« Si tu ne sors pas, plus d'écrans » = relation de coercition. Il n'apprend pas à choisir par valeurs ou désir de relation — il apprend à subir ou contourner. La punition nourrit exactement le cycle de lutte de pouvoir.</div>
+        <div class="alt"><strong>✅ À la place</strong>Conséquences <strong>logiques et naturelles</strong>, pas arbitraires. « Si les devoirs ne sont pas faits, tu ne peux pas sortir » = logique. <strong>L'impliquer dans la définition des règles</strong> : un ado qui co-construit le cadre l'accepte mieux.</div>
+      </div>
+
+      <div class="erreur-card err-vert">
+        <div class="erreur-titre">
+          <div class="erreur-num">4</div>
+          <h4>Absence de rituel de recul</h4>
+          <div class="vu"><label><input type="checkbox" data-k="s2-e4"><span>Je reconnais ça</span></label></div>
+        </div>
+        <div class="pourquoi"><strong>🔍 Ce qui se passe</strong>Sans moment dédié à la réflexion stratégique, les mêmes erreurs se répètent indéfiniment. La fatigue parentale pousse à réagir dans l'urgence plutôt qu'à piloter consciemment.</div>
+        <div class="alt"><strong>✅ À la place</strong>15 min/semaine : Qu'est-ce qui a bien fonctionné ? Qu'est-ce qui a escaladé ? Quel ajustement je teste cette semaine ? <strong>Vous êtes le pilote</strong> — le pilote regarde ses instruments.</div>
+      </div>
+    </section>
+
+    <!-- PARTIE 3 -->
+    <section id="p3" class="partie p3">
+      <h2>🌀 Partie 3 — Le vrai problème : la confusion émotionnelle</h2>
+      <p>L'opposition et les conflits ne sont pas le problème — ils en sont la <strong>conséquence</strong>. Le vrai problème, c'est la <strong>confusion émotionnelle</strong> — quand les émotions du parent et celles de l'enfant se mélangent, créant une instabilité réactionnelle permanente.</p>
+
+      <h3>3.1 Les indicateurs d'alerte chez le parent</h3>
+      <p class="ss-titre">Avant d'observer les comportements de votre enfant, regardez honnêtement vos propres réactions. Cochez ce qui vous ressemble :</p>
+      <div class="indic-conf">
+        <label>
+          <input type="checkbox" data-k="ic-1">
+          <span class="indic-content">
+            <span class="indic-titre">⚠️ Je prends les comportements très personnellement</span>
+            <span class="indic-desc">La provocation semble me viser moi, pas la situation.</span>
+          </span>
+        </label>
+        <label>
+          <input type="checkbox" data-k="ic-2">
+          <span class="indic-content">
+            <span class="indic-titre">⚠️ J'ai du mal à discuter sans m'enflammer</span>
+            <span class="indic-desc">La conversation dérape rapidement vers le conflit.</span>
+          </span>
+        </label>
+        <label>
+          <input type="checkbox" data-k="ic-3">
+          <span class="indic-content">
+            <span class="indic-titre">⚠️ Je réagis sous le coup de l'émotion</span>
+            <span class="indic-desc">Les décisions prises dans ces moments aggravent souvent les tensions.</span>
+          </span>
+        </label>
+        <label>
+          <input type="checkbox" data-k="ic-4">
+          <span class="indic-content">
+            <span class="indic-titre">⚠️ Je ressens le besoin de tout contrôler</span>
+            <span class="indic-desc">Et j'ai l'impression de perdre ce contrôle sur mon enfant.</span>
+          </span>
+        </label>
+        <label>
+          <input type="checkbox" data-k="ic-5">
+          <span class="indic-content">
+            <span class="indic-titre">⚠️ La relation est devenue fusionnelle ou conflictuelle</span>
+            <span class="indic-desc">Pas de juste milieu — soit très proche, soit en guerre.</span>
+          </span>
+        </label>
+      </div>
+      <div class="score-confusion" id="score-confusion">Coche les indicateurs qui te ressemblent pour avoir une vue d'ensemble.</div>
+
+      <h3>3.2 Le mécanisme de la confusion émotionnelle</h3>
+      <p class="ss-titre">Comment la spirale se met en place :</p>
+      <div class="spirale">
+        <div class="spirale-step sp1"><div class="num-sp">1</div><h4>L'enfant en dysrégulation</h4><p>Son cerveau est débordé, il agit de façon impulsive.</p></div>
+        <div class="spirale-step sp2"><div class="num-sp">2</div><h4>Parent réagit depuis ses émotions</h4><p>Peur, honte, colère, anxiété.</p></div>
+        <div class="spirale-step sp3"><div class="num-sp">3</div><h4>L'enfant absorbe</h4><p>Le cerveau TDAH est hypersensible aux stimuli émotionnels.</p></div>
+        <div class="spirale-step sp4"><div class="num-sp">4</div><h4>Dysrégulation amplifiée</h4><p>Il s'emballe. Le parent escalade. Encore plus.</p></div>
+        <div class="spirale-step sp5"><div class="num-sp">5</div><h4>Le lien se fragilise</h4><p>Culpabilité, épuisement, perte de confiance.</p></div>
+      </div>
+    </section>
+
+    <!-- PARTIE 4 -->
+    <section id="p4" class="partie p4">
+      <h2>🌱 Partie 4 — Les 4 piliers pour retrouver la sérénité</h2>
+      <p>Sortir de la confusion émotionnelle ne se fait pas en un jour. Mais 4 piliers concrets, travaillés ensemble, permettent de transformer progressivement la dynamique familiale.</p>
+      <div class="piliers-grille">
+        <div class="pilier-card pil-1">
+          <div class="num-pil">1</div>
+          <h4>Gestion des émotions parentales</h4>
+          <p>Avant de réguler les émotions de votre enfant, vous devez apprendre à réguler les vôtres. Ce n'est pas un luxe — c'est la <strong>condition sine qua non</strong> de tout changement.</p>
+        </div>
+        <div class="pilier-card pil-2">
+          <div class="num-pil">2</div>
+          <h4>Communication bienveillante et structurée</h4>
+          <p>Communiquer sans déclencher de crises : choisir le bon moment, le bon ton, viser la <strong>connexion avant la correction</strong>.</p>
+        </div>
+        <div class="pilier-card pil-3">
+          <div class="num-pil">3</div>
+          <h4>La clarté parentale (le cadre solide)</h4>
+          <p>Poser des règles claires, prévisibles et cohérentes — non pas pour contrôler, mais pour offrir à votre enfant <strong>la structure externe dont son cerveau a besoin</strong>.</p>
+        </div>
+        <div class="pilier-card pil-4">
+          <div class="num-pil">4</div>
+          <h4>Actions simples et concrètes</h4>
+          <p>Des micro-changements testés, ajustés et répétés. Pas de révolution — <strong>une progression constante</strong> à travers les 3 petits pas atypiques.</p>
+        </div>
+      </div>
+
+      <!-- 3 PETITS PAS ATYPIQUES -->
+      <div class="pas-section">
+        <h3>✨ Les 3 Petits Pas Atypiques</h3>
+        <p class="pas-sous">La clé de voûte de la transformation. Petits intentionnellement — parce que les grands changements brutaux ne tiennent jamais face à l'épuisement parental.</p>
+        <div class="pas-cards">
+          <div class="pas-card">
+            <div class="num-pas">1</div>
+            <h4>S'arrêter</h4>
+            <p>Avant de réagir, marquer une pause consciente. Observer votre état interne. Respirer.</p>
+            <span class="engagement">Mon engagement perso :</span>
+            <textarea data-k="pas-1" placeholder="ex : Avant chaque conflit, je respire 3 fois. Je quitte la pièce 30 sec si je sens monter."></textarea>
+          </div>
+          <div class="pas-card">
+            <div class="num-pas">2</div>
+            <h4>Comprendre</h4>
+            <p>Se demander : « De quoi a-t-il besoin maintenant ? » — <strong>pas</strong> « Pourquoi fait-il ça ? »</p>
+            <span class="engagement">Mon engagement perso :</span>
+            <textarea data-k="pas-2" placeholder="ex : Je remplace les « pourquoi » par des « de quoi as-tu besoin ? ». Je note les besoins repérés."></textarea>
+          </div>
+          <div class="pas-card">
+            <div class="num-pas">3</div>
+            <h4>Agir avec clarté</h4>
+            <p>Répondre depuis le cadre et la relation — pas depuis la peur ou l'épuisement.</p>
+            <span class="engagement">Mon engagement perso :</span>
+            <textarea data-k="pas-3" placeholder="ex : Je dis ce que je veux qu'il fasse, pas ce que je veux qu'il arrête. Je tiens le cadre sans crier."></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARTIE 5 -->
+    <section id="p5" class="partie p5">
+      <h2>🛠️ Partie 5 — Outils pratiques</h2>
+      <p>Ce que vous pouvez faire dès maintenant.</p>
+
+      <h3>5.1 La check-list de la semaine</h3>
+      <p class="ss-titre">15 minutes par semaine pour piloter consciemment la relation.</p>
+      <div class="check-semaine">
+        <h4>📝 Ma check-list de la semaine</h4>
+        <div class="date-input">
+          <label>Semaine du </label>
+          <input type="date" data-k="cl-debut">
+          <label>au </label>
+          <input type="date" data-k="cl-fin">
+        </div>
+        <div class="q-block">
+          <label>1. Quelle situation difficile s'est produite cette semaine ?</label>
+          <textarea data-k="cl-q1"></textarea>
+        </div>
+        <div class="q-block">
+          <label>2. Comment ai-je réagi ? (sans jugement)</label>
+          <textarea data-k="cl-q2"></textarea>
+        </div>
+        <div class="q-block">
+          <label>3. Quel était le besoin non comblé de mon enfant ?</label>
+          <textarea data-k="cl-q3"></textarea>
+        </div>
+        <div class="q-block">
+          <label>4. Qu'est-ce qui a bien fonctionné ?</label>
+          <textarea data-k="cl-q4"></textarea>
+        </div>
+        <div class="q-block">
+          <label>5. Quel ajustement je teste la semaine prochaine ?</label>
+          <textarea data-k="cl-q5"></textarea>
+        </div>
+      </div>
+
+      <h3>5.2 Le protocole anti-crise (écrans)</h3>
+      <div class="protocole">
+        <h4>⏱️ Protocole en 5 temps</h4>
+        <div class="protocole-steps">
+          <div class="protocole-step">
+            <div class="moment">⏰ T-10 min</div>
+            <div class="action">Annoncer calmement : « Dans 10 minutes, on s'arrête. »</div>
+          </div>
+          <div class="protocole-step">
+            <div class="moment">⏰ T-5 min</div>
+            <div class="action">Rappel : « Plus que 5 minutes. » <strong>Pas de négociation.</strong></div>
+          </div>
+          <div class="protocole-step">
+            <div class="moment">🔔 Arrêt</div>
+            <div class="action">Proposer immédiatement une <strong>activité-tampon</strong> (snack, musique, air frais).</div>
+          </div>
+          <div class="protocole-step">
+            <div class="moment">🎯 Pendant</div>
+            <div class="action">Si crise : <strong>ne pas retirer l'écran de force</strong>. Quitter la pièce. Revenir quand c'est calme.</div>
+          </div>
+          <div class="protocole-step">
+            <div class="moment">📝 Après</div>
+            <div class="action">Noter ce qui a fonctionné ou non pour ajustement.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>5.3 Construire la sécurité relationnelle au quotidien</h3>
+      <div class="secu-rel">
+        <h4>💗 La sécurité relationnelle se construit dans les <em>petits</em> moments</h4>
+        <ul>
+          <li><strong>10 minutes par jour</strong> en tête-à-tête <em>sans agenda éducatif</em> — juste pour être ensemble.</li>
+          <li><strong>Valider ses émotions AVANT de corriger</strong> son comportement : « Je vois que tu es frustré » avant « Tu n'aurais pas dû… »</li>
+          <li>Chercher ses <strong>points de fierté</strong>, même minimes, et les nommer sincèrement.</li>
+          <li>Utiliser l'<strong>humour (sans sarcasme)</strong> pour désamorcer les tensions légères.</li>
+          <li>Lui montrer que vous <strong>prenez soin de vous</strong> — il apprend par mimétisme.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CONCLUSION -->
+    <section id="conclusion" class="conclusion-bloc">
+      <h2>💫 Pour conclure</h2>
+      <blockquote>
+        « Ce n'est pas votre enfant qu'il faut changer en premier. C'est le terrain sur lequel il évolue. Et ce terrain, c'est vous. Non pas parce que vous êtes responsable de son trouble — vous ne l'êtes pas. Mais parce que vous êtes la variable sur laquelle vous avez le plus de levier. Quand vous vous réglez, vous réglez le système entier. »
+      </blockquote>
+      <p>Ce guide vous a donné les bases pour comprendre la neurobiologie du TDAH + TOP, identifier les erreurs les plus fréquentes, et commencer à agir différemment. C'est <strong>un premier pas</strong>.</p>
+      <p>Le chemin est progressif. Il y aura des rechutes, des jours difficiles, des moments où tout ce que vous avez appris semble s'évaporer. <strong>C'est normal. C'est le processus.</strong></p>
+      <p>Ce qui compte, ce sont les 3 petits pas atypiques : <strong>s'arrêter, comprendre, agir avec clarté</strong>. Répétés chaque jour, ils transforment la relation.</p>
+      <p style="margin-top:1rem;font-weight:700">Vous n'avez pas à traverser ça seul·e.</p>
+      <div class="signature">EducaTypique</div>
+      <div class="tagline">Neuro-Pédagogie &amp; Accompagnement Parental<br>Accompagner les cerveaux atypiques avec bienveillance et expertise.</div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer ma progression</button>
+      <button id="btn-exporter">📄 Exporter mes notes (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer le guide</button>
+      <button id="btn-vider" class="danger">🧹 Tout vider</button>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'educatypique_guide_tdah_top_v1';
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function lireData(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE)) || {}; } catch(e){ return {}; }
+}
+function ecrireData(d){ localStorage.setItem(STORAGE, JSON.stringify(d)); }
+
+// === Score de confusion émotionnelle ===
+function majScoreConfusion(){
+  const total = [1,2,3,4,5].filter(i => document.querySelector(`[data-k="ic-${i}"]`)?.checked).length;
+  const el = document.getElementById('score-confusion');
+  if(total === 0){
+    el.style.background = 'var(--beige)';
+    el.style.color = 'var(--muted)';
+    el.style.fontWeight = '400';
+    el.textContent = '👋 Coche les indicateurs qui te ressemblent pour avoir une vue d\'ensemble.';
+  } else if(total <= 2){
+    el.style.background = '#e8f5ec'; el.style.color = '#1b7a4a';
+    el.style.fontWeight = '700';
+    el.textContent = `🌿 ${total}/5 indicateurs : vigilance modérée. Tu as déjà des outils de régulation. Continue à observer.`;
+  } else if(total === 3){
+    el.style.background = '#fff3e0'; el.style.color = '#a87800';
+    el.style.fontWeight = '700';
+    el.textContent = `⚠️ ${total}/5 indicateurs : confusion émotionnelle installée. C'est le moment de travailler le Pilier 1 (gestion des émotions parentales).`;
+  } else {
+    el.style.background = '#fdeaea'; el.style.color = '#a02040';
+    el.style.fontWeight = '700';
+    el.textContent = `🚨 ${total}/5 indicateurs : confusion émotionnelle marquée. Ne reste pas seul·e — accompagnement parental conseillé. Tu n'as pas à porter ça toute seule.`;
+  }
+}
+
+// === Save / Load ===
+function collecter(){
+  const o = {};
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type==='checkbox' ? el.checked : el.value;
+  });
+  return o;
+}
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  majScoreConfusion();
+}
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else el.value = '';
+  });
+  // Date semaine en cours
+  const today = new Date();
+  const lundi = new Date(today);
+  lundi.setDate(today.getDate() - (today.getDay()+6)%7);
+  const dimanche = new Date(lundi);
+  dimanche.setDate(lundi.getDate()+6);
+  document.querySelector('[data-k="cl-debut"]').valueAsDate = lundi;
+  document.querySelector('[data-k="cl-fin"]').valueAsDate = dimanche;
+  majScoreConfusion();
+}
+
+// Auto-save sur chaque modif
+document.addEventListener('input', ()=>{ ecrireData(collecter()); majScoreConfusion(); });
+document.addEventListener('change', ()=>{ ecrireData(collecter()); majScoreConfusion(); });
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  ecrireData(collecter());
+  alert('Ta progression est enregistrée 💗');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const l = ['Guide Parents TDAH + TOP — EducaTypique', '© Nawel Haddouch · Neuro-Pédagogue', ''];
+  l.push('== Auto-évaluation : confusion émotionnelle ==');
+  const labels = {
+    'ic-1':"Je prends les comportements très personnellement",
+    'ic-2':"J'ai du mal à discuter sans m'enflammer",
+    'ic-3':"Je réagis sous le coup de l'émotion",
+    'ic-4':"Je ressens le besoin de tout contrôler",
+    'ic-5':"La relation est devenue fusionnelle ou conflictuelle"
+  };
+  Object.entries(labels).forEach(([k,lbl])=>{ if(o[k]) l.push('  ✓ '+lbl); });
+  l.push('');
+  l.push('== Erreurs reconnues (Situation 1 - Écrans) ==');
+  ['s1-e1','s1-e2','s1-e3','s1-e4'].forEach((k,i)=>{ if(o[k]) l.push('  ✓ Erreur '+(i+1)); });
+  l.push('');
+  l.push('== Erreurs reconnues (Situation 2 - Lutte) ==');
+  ['s2-e1','s2-e2','s2-e3','s2-e4'].forEach((k,i)=>{ if(o[k]) l.push('  ✓ Erreur '+(i+1)); });
+  l.push('');
+  l.push('== Mes 3 petits pas atypiques — engagements ==');
+  l.push('1. S\'arrêter : '+(o['pas-1']||'—'));
+  l.push('2. Comprendre : '+(o['pas-2']||'—'));
+  l.push('3. Agir avec clarté : '+(o['pas-3']||'—'));
+  l.push('');
+  l.push('== Check-list semaine du '+(o['cl-debut']||'—')+' au '+(o['cl-fin']||'—')+' ==');
+  for(let i=1;i<=5;i++) l.push('Q'+i+' : '+(o['cl-q'+i]||'—'));
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'guide-tdah-top-notes-'+new Date().toISOString().slice(0,10)+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(!confirm('Effacer toutes tes notes et coches ?')) return;
+  localStorage.removeItem(STORAGE);
+  vider();
+});
+
+// Nav scroll
+const navLinks = document.querySelectorAll('#nav a');
+function majNav(){
+  const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 150) actif = c; });
+  navLinks.forEach(a=>{ a.classList.toggle('actif', actif && a.getAttribute('href') === '#'+actif.id); });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+// Init
+const saved = lireData();
+if(Object.keys(saved).length > 0){
+  appliquer(saved);
+} else {
+  vider();
+}
+majNav();
+</script>
+
+</body>
+</html>

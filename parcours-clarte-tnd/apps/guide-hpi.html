@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide HPI EducaTypique — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/charte.css">
+<style>
+body{background:#fbf5ef}
+
+.bandeau{
+  background:linear-gradient(135deg,#7c5cbf,#F39BC2 35%,#FFB87A 70%,#FFD97A);
+  padding:2.2rem 1.5rem;text-align:center;color:#fff;position:relative;overflow:hidden;
+}
+.bandeau::before{content:"🧠";position:absolute;font-size:8rem;opacity:.08;top:50%;left:5%;transform:translateY(-50%)}
+.bandeau::after{content:"✨";position:absolute;font-size:6rem;opacity:.1;top:20%;right:8%}
+.bandeau .retour{
+  display:inline-block;color:#fff;font-weight:700;text-decoration:none;
+  background:rgba(255,255,255,.22);padding:.35em 1em;border-radius:999px;font-size:.9rem;
+  position:relative;z-index:2;
+}
+.bandeau .retour:hover{background:rgba(255,255,255,.35)}
+.bandeau .signature{
+  font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;
+  margin:.6rem 0 .3rem;opacity:.95;position:relative;z-index:2;
+}
+.bandeau h1{
+  color:#fff;margin:.3rem 0;font-size:1.9rem;text-shadow:0 2px 10px rgba(0,0,0,.2);
+  position:relative;z-index:2;font-family:var(--font-titre);
+}
+.bandeau .sub{
+  opacity:.95;max-width:720px;margin:.5rem auto 0;font-size:1.02rem;
+  position:relative;z-index:2;
+}
+
+.container{max-width:1050px;margin:1.5rem auto;padding:0 1.2rem}
+
+/* À propos */
+details.apropos{
+  background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);
+  margin-bottom:1.2rem;border-left:5px solid #7c5cbf;
+}
+details.apropos summary{
+  padding:1rem 1.2rem;cursor:pointer;font-weight:800;color:#5a3c8f;
+  font-family:var(--font-titre);font-size:1.05rem;list-style:none;
+}
+details.apropos summary::after{content:"▾";float:right;transition:transform .2s}
+details.apropos[open] summary::after{transform:rotate(180deg)}
+details.apropos .corps{padding:0 1.4rem 1.2rem}
+details.apropos h3{color:#5a3c8f;margin:1rem 0 .3rem;font-size:.9rem;text-transform:uppercase;letter-spacing:.5px}
+details.apropos p{margin:.3rem 0;font-size:.93rem;line-height:1.55}
+
+.sig-nawel{
+  background:linear-gradient(135deg,#fff5f9,#f7f3fc);
+  padding:1rem 1.2rem;border-radius:var(--r-md);
+  margin-bottom:1.2rem;border-left:4px solid #F39BC2;font-size:.92rem;
+  line-height:1.55;color:#555;font-style:italic;
+}
+.sig-nawel strong{color:#d36699;font-style:normal}
+
+/* Mode toggle */
+.mode-bar{
+  background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);
+  box-shadow:var(--shadow-sm);margin-bottom:1rem;
+  display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between;
+}
+.mode-bar .toggle-pro{
+  display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;
+  padding:.4em 1em;background:#f7f3fc;border:1.5px solid #d8c9f0;
+  border-radius:999px;font-weight:700;color:#5a3c8f;font-size:.88rem;
+  font-family:inherit;
+}
+.mode-bar .toggle-pro.active{background:#7c5cbf;color:#fff;border-color:#7c5cbf}
+.mode-bar .toggle-pro:hover{transform:translateY(-1px)}
+.mode-bar .lbl{font-weight:700;color:#666;font-size:.9rem}
+
+/* Chapitres tabs */
+.chap-tabs{
+  display:flex;gap:.3rem;margin-bottom:1.2rem;flex-wrap:wrap;
+  background:#fff;padding:.4rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);
+}
+.chap-tabs button{
+  flex:1;min-width:100px;padding:.55em .7em;border:none;background:transparent;
+  color:#666;font-weight:700;font-family:inherit;cursor:pointer;border-radius:var(--r-sm);
+  transition:all .15s;font-size:.83rem;
+}
+.chap-tabs button.active{background:linear-gradient(135deg,#7c5cbf,#F39BC2);color:#fff;box-shadow:var(--shadow-sm)}
+.chap-tabs button:hover:not(.active){background:#f7f3fc}
+
+.section{display:none}
+.section.active{display:block}
+
+/* Chap card */
+.chap-card{
+  background:#fff;border-radius:var(--r-lg);padding:1.5rem;
+  box-shadow:var(--shadow-sm);margin-bottom:1.1rem;border-left:5px solid var(--cc,#7c5cbf);
+}
+.chap-card h2{color:var(--cc);margin:0 0 .8rem;font-size:1.3rem}
+.chap-card h3{color:#444;margin:1.1rem 0 .4rem;font-size:1.05rem}
+.chap-card p{line-height:1.65;font-size:.96rem;margin:.5rem 0}
+.chap-card ul,.chap-card ol{padding-left:1.4rem;line-height:1.7}
+.chap-card ul li,.chap-card ol li{margin:.3rem 0}
+.chap-card strong{color:var(--cc)}
+
+.callout{
+  background:linear-gradient(135deg,#fff5f9,#fef1e8);
+  border-left:4px solid var(--cc,#7c5cbf);
+  padding:1rem 1.2rem;border-radius:var(--r-md);margin:1rem 0;
+}
+.callout.info{background:#e8f4fc;border-left-color:#5a8fc7}
+.callout.warn{background:#fff8e8;border-left-color:#e9a73a}
+.callout.success{background:#e8f7ed;border-left-color:#2a9d8f}
+.callout.zebra{background:linear-gradient(135deg,#f7f3fc,#fff5f9);border-left-color:#7c5cbf}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+@media(max-width:680px){.two-col{grid-template-columns:1fr}}
+.col-card{
+  background:#fafafa;border-radius:var(--r-md);padding:.9rem 1.1rem;border-top:3px solid var(--cc);
+}
+.col-card h4{margin:0 0 .4rem;color:var(--cc);font-size:.95rem}
+
+.hpi-traits{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem;margin:.8rem 0}
+.trait{
+  background:linear-gradient(135deg,#fff,#f7f3fc);
+  border:1.5px solid #d8c9f0;padding:.6rem .8rem;border-radius:var(--r-md);
+  font-size:.88rem;line-height:1.4;
+}
+.trait strong{display:block;color:#5a3c8f;margin-bottom:.2rem;font-size:.92rem}
+
+/* Profils HPI - 6 cartes */
+.profils-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.2rem 0}
+.profil-card{
+  background:#fff;border-radius:var(--r-lg);padding:1.2rem;
+  box-shadow:var(--shadow-sm);border-top:5px solid var(--pc);
+  cursor:pointer;transition:all .2s;position:relative;
+}
+.profil-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.profil-card h3{color:var(--pc);margin:0 0 .3rem;font-size:1.1rem;display:flex;align-items:center;gap:.4rem}
+.profil-card .pc-sub{color:var(--muted);font-size:.85rem;font-style:italic;margin:0 0 .8rem}
+.profil-card details summary{cursor:pointer;font-weight:700;color:var(--pc);font-size:.88rem;list-style:none;padding:.3rem 0}
+.profil-card details summary::after{content:"▾";float:right;transition:transform .2s}
+.profil-card details[open] summary::after{transform:rotate(180deg)}
+.profil-card details ul{padding-left:1.2rem;font-size:.85rem;line-height:1.5;color:#555;margin:.3rem 0}
+.profil-card.brillant{--pc:#F39BC2}
+.profil-card.autonome{--pc:#5a8fc7}
+.profil-card.discret{--pc:#e9a73a}
+.profil-card.decrocheur{--pc:#999}
+.profil-card.provocateur{--pc:#e05a5a}
+.profil-card.double{--pc:#7c5cbf}
+
+/* Sensoriel grid */
+.sens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.6rem;margin:.8rem 0}
+.sens{
+  background:#fff;border:1.5px solid #f3c8d9;padding:.7rem;border-radius:var(--r-md);text-align:center;
+}
+.sens .ico{font-size:1.8rem;display:block;margin-bottom:.2rem}
+.sens strong{display:block;color:#d36699;font-size:.92rem;margin-bottom:.2rem}
+.sens span{font-size:.78rem;color:#555;line-height:1.3}
+
+/* QUIZ Profil */
+.quiz-intro{
+  background:linear-gradient(135deg,#fff5f9,#f7f3fc);
+  padding:1.5rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);
+  border-left:5px solid #7c5cbf;margin-bottom:1.2rem;
+}
+.quiz-intro h2{color:#5a3c8f;margin:0 0 .4rem}
+.quiz-intro p{color:#555;line-height:1.55;margin:.5rem 0}
+.quiz-intro .start-btn{
+  background:linear-gradient(135deg,#7c5cbf,#F39BC2);color:#fff;border:none;
+  padding:.8em 1.6em;border-radius:999px;font-weight:700;cursor:pointer;
+  font-family:inherit;font-size:1rem;box-shadow:var(--shadow-sm);margin-top:.8rem;
+}
+.quiz-intro .start-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+
+.quiz-q{
+  background:#fff;padding:1.3rem;border-radius:var(--r-lg);
+  box-shadow:var(--shadow-sm);margin-bottom:1rem;border-left:5px solid #7c5cbf;
+  display:none;
+}
+.quiz-q.active{display:block}
+.quiz-q .q-num{font-size:.82rem;color:#999;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.quiz-q .q-text{font-weight:700;color:#333;margin:.5rem 0 1rem;font-size:1.05rem;line-height:1.5}
+.quiz-q .answers{display:grid;gap:.5rem}
+.quiz-q .ans{
+  padding:.7em 1em;background:#fff5f9;border:1.5px solid #f3c8d9;color:#444;
+  border-radius:var(--r-md);cursor:pointer;font-family:inherit;font-size:.95rem;
+  text-align:left;line-height:1.4;transition:all .15s;
+}
+.quiz-q .ans:hover{background:#f7f3fc;border-color:#7c5cbf;transform:translateX(4px)}
+.quiz-q .ans.selected{background:#7c5cbf;color:#fff;border-color:#7c5cbf}
+.quiz-q .nav{margin-top:1rem;display:flex;justify-content:space-between;gap:.5rem}
+.quiz-q .nav button{
+  padding:.5em 1.2em;border:none;border-radius:var(--r-md);
+  font-weight:700;cursor:pointer;font-family:inherit;font-size:.9rem;
+}
+.quiz-q .nav .prev{background:#fff;color:#666;border:1.5px solid #ddd}
+.quiz-q .nav .next{background:#7c5cbf;color:#fff}
+.quiz-q .nav .next:disabled{opacity:.4;cursor:not-allowed}
+
+.quiz-result{
+  background:linear-gradient(135deg,#fff5f9,#f7f3fc);
+  padding:1.5rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);
+  margin-bottom:1.2rem;display:none;
+}
+.quiz-result.show{display:block}
+.quiz-result h2{color:#5a3c8f;margin:0 0 .5rem}
+.quiz-result .profil-found{font-size:1.5rem;font-weight:800;margin:.5rem 0}
+.quiz-result .scores{margin-top:1rem;display:grid;gap:.4rem}
+.quiz-result .score-row{display:grid;grid-template-columns:140px 1fr 40px;gap:.5rem;align-items:center;font-size:.85rem}
+.quiz-result .score-bar{height:14px;background:#f0ebe5;border-radius:7px;overflow:hidden}
+.quiz-result .score-bar div{height:100%;background:linear-gradient(90deg,#7c5cbf,#F39BC2)}
+.quiz-result .restart-btn{
+  background:#fff;border:1.5px solid #7c5cbf;color:#7c5cbf;
+  padding:.5em 1.2em;border-radius:var(--r-md);font-weight:700;cursor:pointer;
+  margin-top:1rem;font-family:inherit;
+}
+.quiz-result .restart-btn:hover{background:#7c5cbf;color:#fff}
+
+/* Sources */
+.sources-box{
+  background:#fff;padding:1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);
+  border-left:5px solid #5a8fc7;margin-bottom:1.2rem;
+}
+.sources-box h3{color:#3a6a9c;margin:0 0 .5rem}
+.sources-box ul{padding-left:1.2rem;font-size:.88rem;line-height:1.6;color:#555}
+.sources-box ul li{margin:.3rem 0}
+.sources-box a{color:#5a8fc7;text-decoration:none;font-weight:700}
+.sources-box a:hover{text-decoration:underline}
+
+/* Mode Pro panel */
+.pro-panel{
+  background:linear-gradient(135deg,#f7f3fc,#f0e8f5);
+  border:2px dashed #7c5cbf;border-radius:var(--r-md);
+  padding:1.1rem 1.3rem;margin-top:1.2rem;display:none;
+}
+body.show-pro .pro-panel{display:block}
+.pro-panel h4{color:#5a3c8f;margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:.4rem}
+.pro-panel .pro-grid{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:.7rem}
+.pro-block{background:#fff;padding:.8rem;border-radius:var(--r-sm);border-left:3px solid #7c5cbf}
+.pro-block h5{color:#5a3c8f;margin:0 0 .3rem;font-size:.82rem;text-transform:uppercase;letter-spacing:.3px}
+.pro-block ul{padding-left:1.1rem;font-size:.85rem;line-height:1.5;color:#444}
+.pro-block ul li{margin:.2rem 0}
+.pro-block textarea{
+  width:100%;min-height:60px;padding:.5em;border:1px solid #d8c9f0;
+  border-radius:4px;font-family:inherit;font-size:.85rem;resize:vertical;box-sizing:border-box;
+}
+.pro-block-full{grid-column:1/-1}
+
+/* Actions */
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.5rem 0}
+.actions button{
+  padding:.65em 1.3em;border:none;border-radius:var(--r-md);
+  font-weight:700;cursor:pointer;font-size:.92rem;font-family:inherit;
+}
+.btn-export{background:linear-gradient(135deg,#7c5cbf,#F39BC2);color:#fff}
+.btn-export:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.btn-print{background:#fff;color:#5a3c8f;border:1.5px solid #d8c9f0}
+.btn-print:hover{background:#f7f3fc}
+
+@media print{
+  .bandeau,.chap-tabs,.actions,.mode-bar,details.apropos summary::after,.quiz-intro .start-btn,.quiz-q .nav,.quiz-result .restart-btn{display:none!important}
+  body{background:#fff}
+  .container{max-width:100%;padding:0}
+  .section{display:block!important;page-break-after:always}
+  .chap-card,.profil-card,.sources-box,.quiz-result{box-shadow:none;border:1px solid #ddd;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../parents.html">← Espace Parents</a>
+  <div class="signature">🧠 Création originale — Nawel Haddouch · EducaTypique</div>
+  <h1>✨ Guide HPI — Comprendre & accompagner</h1>
+  <p class="sub">Pour les parents, les ados et les pros. 7 chapitres + un quiz pour identifier le profil HPI parmi les 6 profils de Betts & Neihart. Avec sources, posture EducaTypique et Mode Pro 📋.</p>
+</section>
+
+<div class="container">
+
+  <details class="apropos">
+    <summary>📖 À propos de ce guide</summary>
+    <div class="corps">
+      <h3>Pour qui</h3>
+      <p>Pour les parents d'enfants ou ados qui se demandent « est-ce qu'il/elle est HPI ? », ceux qui ont eu le diagnostic et veulent comprendre, et les pros qui accompagnent ces familles.</p>
+      <h3>Pour quoi</h3>
+      <p>Pour <strong>comprendre le fonctionnement HPI</strong> au-delà du cliché du « surdoué ». Identifier le profil de l'enfant (parmi 6) pour mieux savoir comment l'accompagner.</p>
+      <h3>Comment ça marche</h3>
+      <p>7 chapitres navigables + 1 <strong>quiz adaptatif</strong> qui calcule le profil HPI dominant de l'enfant. Mode Pro 📋 pour les cliniciens.</p>
+      <h3>Quand l'utiliser</h3>
+      <p>Avant ou après un bilan QI. À la sortie d'une consultation. Pour préparer une rentrée scolaire. Pour expliquer à l'école.</p>
+      <h3>Combien de temps</h3>
+      <p>30-45 min de lecture complète. 10 min pour le quiz profil.</p>
+      <h3>Ce que ça change</h3>
+      <p>De l'étiquette « surdoué » floue → à un profil clair (brillant / autonome / discret / décrocheur / provocateur / double étiquette) avec des pistes d'action concrètes.</p>
+      <h3>Ce que ça ne remplace pas</h3>
+      <p>Un bilan psychologique mené par un neuropsy ou un psy clinicien habilité (WPPSI-IV / WISC-V / WAIS-IV). Ce guide est un outil de compréhension, pas un test diagnostique.</p>
+      <h3>Inspiration</h3>
+      <p>Guide rédigé par Nawel Haddouch (EducaTypique). S'appuie sur Terrassier (dyssynchronie), Siaud-Facchin (HQI), Betts & Neihart (6 profils, 1988), Eduscol, ANPEIP, et les classifications WISC-V / WAIS-IV. Sources complètes au chapitre 8.</p>
+    </div>
+  </details>
+
+  <div class="sig-nawel">
+    🧠 <strong>Un mot de Nawel</strong> — Le HPI est souvent perçu comme un privilège. Mais quand on est dedans (ou parent d'un enfant HPI), on sait que c'est aussi <em>une particularité complexe</em>. Mon fils est HPI+TDAH+TOP, et moi j'ai accompagné des dizaines de familles. Ce guide, c'est ce que j'aurais aimé qu'on me donne quand j'ai commencé à comprendre.
+  </div>
+
+  <div class="mode-bar">
+    <span class="lbl">📚 Mode lecture</span>
+    <button class="toggle-pro" id="btn-pro">📋 Activer le Mode Pro (concepts cliniques + mes notes)</button>
+  </div>
+
+  <div class="chap-tabs">
+    <button class="active" data-tab="ch1">🧠 1 · Cerveau</button>
+    <button data-tab="ch2">📖 2 · Définition</button>
+    <button data-tab="ch3">📋 3 · Diagnostic</button>
+    <button data-tab="ch4">🚀 4 · Profils</button>
+    <button data-tab="quiz">🎯 Quiz profil</button>
+    <button data-tab="ch5">🏫 5 · École</button>
+    <button data-tab="ch6">🏡 6 · Maison</button>
+    <button data-tab="ch7">💗 7 · Psycho</button>
+    <button data-tab="ch8">📚 Sources</button>
+  </div>
+
+  <!-- CHAPITRE 1 : LE CERVEAU -->
+  <section id="ch1" class="section active">
+    <div class="chap-card" style="--cc:#7c5cbf">
+      <h2>🧠 1. Le cerveau HPI</h2>
+      <p>L'organisation cognitive de la pensée HPI repose sur une <strong>dominance hémisphérique différente</strong>. Là où l'école traditionnelle est conçue pour les penseurs séquentiels (cerveau gauche, ~70 %), le HPI fonctionne davantage en mode <strong>global et intuitif</strong> (cerveau droit, ~30 %).</p>
+
+      <h3>Les 2 hémisphères en bref</h3>
+      <div class="two-col">
+        <div class="col-card" style="--cc:#5a8fc7">
+          <h4>🧮 Cerveau gauche (logique)</h4>
+          <ul>
+            <li>Fonctionnement analytique</li>
+            <li>Traitement auditif, en mots</li>
+            <li>Pensée argumentée</li>
+            <li>Raisonnement, justification, rationalisation</li>
+            <li>Traitement séquentiel (élément par élément)</li>
+          </ul>
+        </div>
+        <div class="col-card" style="--cc:#F39BC2">
+          <h4>💗 Cerveau droit (émotionnel)</h4>
+          <ul>
+            <li>Fonctionnement analogique</li>
+            <li>Traitement visuel, en images</li>
+            <li>Pensée divergente</li>
+            <li>Intuition, créativité</li>
+            <li>Traitement simultané</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout zebra">
+        📚 <strong>Le piège scolaire</strong> : l'école est le terrain privilégié des compétences gauches (langage, logico-math, écrit). Un HPI à dominance droite peut être en <strong>handicap fonctionnel</strong> dans ce système, malgré ses capacités.
+      </div>
+
+      <h3>🌳 La pensée en arborescence</h3>
+      <p>Le HPI ne pense pas en ligne, il pense en <strong>branches</strong>. Une idée en déclenche 3, qui en déclenchent 9, etc.</p>
+      <div class="two-col">
+        <div class="col-card" style="--cc:#2a9d8f">
+          <h4>✨ Avantages</h4>
+          <ul>
+            <li>Vitesse de réflexion inédite</li>
+            <li>Flux continu d'idées</li>
+            <li>Liens improbables, créativité</li>
+            <li>Intuitions fulgurantes</li>
+          </ul>
+        </div>
+        <div class="col-card" style="--cc:#e9a73a">
+          <h4>⚠️ Inconvénients</h4>
+          <ul>
+            <li>Pensée sans limite, désorganisée</li>
+            <li>Discours confus pour les autres</li>
+            <li>Difficile de hiérarchiser l'important</li>
+            <li>Concepts difficiles à articuler</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>🪞 La métacognition</h3>
+      <p>C'est la capacité de <strong>réfléchir sur ses propres processus de pensée</strong>. Chez le HPI, elle peut être très développée — ou bloquée en mode binaire :</p>
+      <ul>
+        <li><strong>Métacognition positive</strong> : « Je sais et je peux » → toute-puissance, excès de confiance</li>
+        <li><strong>Métacognition négative</strong> : « Je ne sais pas et je ne peux pas » → évitement, peur de l'échec</li>
+      </ul>
+      <div class="callout success">
+        🌱 <strong>Levier majeur</strong> : aider l'enfant à <strong>comprendre comment il apprend</strong>. Lui poser des questions sur son fonctionnement. Faire un mini-quiz post-activité. C'est la base de l'estime de soi positive et de la réussite scolaire.
+      </div>
+
+      <div class="pro-panel">
+        <h4>📋 Mode Pro — Neurosciences HPI</h4>
+        <div class="pro-grid">
+          <div class="pro-block">
+            <h5>Bases neuro</h5>
+            <ul>
+              <li>Myélinisation plus dense (substance blanche)</li>
+              <li>Hyper-connectivité fronto-pariétale</li>
+              <li>Activation bilatérale plus marquée</li>
+              <li>Vitesse de conduction neuronale supérieure</li>
+            </ul>
+          </div>
+          <div class="pro-block">
+            <h5>Théories de référence</h5>
+            <ul>
+              <li>P-FIT (Parieto-Frontal Integration Theory)</li>
+              <li>Théorie du facteur g (Spearman, Jensen)</li>
+              <li>Intelligences multiples (Gardner) — débat</li>
+              <li>Surexcitabilités (Dabrowski, 1972)</li>
+            </ul>
+          </div>
+          <div class="pro-block pro-block-full">
+            <h5>📝 Mes notes perso (cabinet)</h5>
+            <textarea data-note="ch1" placeholder="Mes phrases-clés, métaphores qui parlent aux enfants, exemples concrets…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPITRE 2 : DÉFINITION -->
+  <section id="ch2" class="section">
+    <div class="chap-card" style="--cc:#F39BC2">
+      <h2>📖 2. Être HPI — qu'est-ce que c'est ?</h2>
+
+      <div class="callout zebra">
+        🧠 <strong>« Une bouteille à l'eau »</strong> — On m'appelle le doué, le surdoué, le précoce, le talentueux, le haut potentiel, le génial… mais je suis juste un enfant ! Un enfant qui a un fonctionnement différent. Qui déroute par ses questions, ses réflexions, ses réactions excessives, son hypersensibilité. Qui souffre de ne pas comprendre le monde. Qui doute. Qui peut décrocher malgré ses excellentes compétences. Qui a besoin avant tout d'être <strong>compris et accepté</strong>.
+      </div>
+
+      <h3>🎯 Les définitions techniques</h3>
+      <div class="hpi-traits">
+        <div class="trait"><strong>HPI</strong>Haut Potentiel Intellectuel (QI ≥ 130)</div>
+        <div class="trait"><strong>THQI</strong>Très Haut QI (≥ 145)</div>
+        <div class="trait"><strong>EIP</strong>Élève Intellectuellement Précoce</div>
+        <div class="trait"><strong>APIE</strong>Atypique Personne dans l'Intellect et l'Émotion</div>
+        <div class="trait"><strong>Surdouement / Précocité</strong>Termes équivalents</div>
+        <div class="trait"><strong>Douance</strong>Terme québécois (gifted)</div>
+      </div>
+
+      <h3>⚖️ Le QI : ce qu'il dit (et ne dit pas)</h3>
+      <ul>
+        <li>Le QI <strong>ne mesure pas l'intelligence</strong> — c'est un repère relatif comparant l'enfant à un groupe d'enfants de son âge.</li>
+        <li>Un QI ≥ 130 (les 2 % les plus élevés) classe en HPI.</li>
+        <li>Le QI <strong>doit être complété</strong> par d'autres facteurs et signes cliniques.</li>
+        <li>L'intelligence n'est qu'<strong>une composante</strong> de la personnalité.</li>
+      </ul>
+
+      <h3>👀 Sur le plan intellectuel</h3>
+      <p>Le HPI se distingue par la <strong>forme particulière</strong> de son intelligence — c'est l'aspect qualitatif qui compte. Être HPI ne signifie pas être <em>plus</em> intelligent, mais fonctionner avec un <strong>mode de pensée et une structure de raisonnement différents</strong>. Cette atypie rend souvent difficile l'adaptation scolaire et sociale.</p>
+
+      <h3>💗 Sur le plan affectif</h3>
+      <p>L'enfant HPI est <strong>une véritable éponge émotionnelle</strong>. Muni de multiples capteurs branchés en permanence, il perçoit et analyse avec acuité tout son environnement, ressent finement l'état émotionnel des autres. Il est <em>littéralement assailli</em> par des émotions, sensations, informations multiples — souvent difficiles à vivre. Il tente parfois de s'en protéger en se coupant de ses propres émotions, ce qui fragilise son développement affectif.</p>
+
+      <h3>🔊 L'hypersensibilité — les 5 sens en alerte</h3>
+      <div class="sens-grid">
+        <div class="sens"><span class="ico">👁</span><strong>Vue</strong><span>Détails précis, perception fine, fatigue visuelle</span></div>
+        <div class="sens"><span class="ico">👂</span><strong>Ouïe</strong><span>Sons multiples, fréquences larges, hypersensibilité au bruit</span></div>
+        <div class="sens"><span class="ico">👃</span><strong>Odorat</strong><span>Détecte les phéromones, associe parfums à des personnes</span></div>
+        <div class="sens"><span class="ico">👅</span><strong>Goût</strong><span>Palais fin, curiosité alimentaire ou sélectivité</span></div>
+        <div class="sens"><span class="ico">✋</span><strong>Toucher</strong><span>Besoin de toucher, étiquettes/textures insupportables</span></div>
+        <div class="sens" style="background:#fff5f9"><span class="ico">⚖️</span><strong>Justice</strong><span>Quête permanente, ne supporte pas le mensonge</span></div>
+        <div class="sens" style="background:#fff5f9"><span class="ico">😨</span><strong>Peur</strong><span>Hypervigilance externe et interne, anxiété</span></div>
+      </div>
+
+      <h3>💕 L'extrême empathie — un 6ᵉ sens</h3>
+      <p>Le HPI dispose d'une <strong>capacité d'empathie hors norme</strong>. Il ressent l'état émotionnel de l'autre avant même que celui-ci en soit conscient. Sa perception est instinctive, comparable à la perception animale. Atout extraordinaire mais aussi danger : <strong>aucune insouciance possible</strong>, anticipation constante, risque de tristesse et dépression.</p>
+
+      <div class="callout warn">
+        💡 <strong>Conseil clinique</strong> : un peu d'« égoïsme » est nécessaire pour se débrancher du ressenti des autres. Sinon = épuisement émotionnel profond.
+      </div>
+
+      <div class="pro-panel">
+        <h4>📋 Mode Pro — Concepts cliniques</h4>
+        <div class="pro-grid">
+          <div class="pro-block">
+            <h5>Théories de référence</h5>
+            <ul>
+              <li>Terrassier (dyssynchronie interne/externe)</li>
+              <li>Siaud-Facchin (HQI)</li>
+              <li>Dabrowski (5 surexcitabilités)</li>
+              <li>Gauvrit (HP et atypies)</li>
+              <li>Liratni & Pry (profils cognitifs)</li>
+            </ul>
+          </div>
+          <div class="pro-block">
+            <h5>HPI ≠ trouble</h5>
+            <ul>
+              <li>Le HPI n'est PAS classé comme TND dans le DSM-5-TR ni la CIM-11</li>
+              <li>MAIS peut générer un handicap fonctionnel</li>
+              <li>Reconnu comme « besoin éducatif particulier » (Eduscol)</li>
+              <li>Articles L 321-4 et L 332-4 du code de l'éducation</li>
+            </ul>
+          </div>
+          <div class="pro-block pro-block-full">
+            <h5>📝 Mes notes perso (cabinet)</h5>
+            <textarea data-note="ch2" placeholder="Mes outils pour expliquer le HPI sans étiqueter, gérer le déni parental…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPITRE 3 : DIAGNOSTIC -->
+  <section id="ch3" class="section">
+    <div class="chap-card" style="--cc:#5a8fc7">
+      <h2>📋 3. Le diagnostic HPI</h2>
+
+      <h3>🚨 Les premiers signes</h3>
+      <p>Il n'y a pas <strong>de signe prédéfini</strong> pour détecter un HPI — chaque enfant est unique. Les indicateurs varient. Quelques observations fréquentes :</p>
+      <ul>
+        <li>Tient sa tête et s'assoit précocement</li>
+        <li>Regard intense et scrutateur dès les premières semaines (parfois troublant)</li>
+        <li>Sommeil court / qualité variable</li>
+        <li>Développement linguistique rapide, vocabulaire riche et précis</li>
+        <li>Énergie vive, soif d'apprendre, questions précoces</li>
+        <li>Quête infinie de réponses, besoin de sens</li>
+      </ul>
+
+      <h3>⏰ Quand faire les tests ?</h3>
+      <div class="callout info">
+        🎯 <strong>Faire confiance à son instinct parent</strong> — selon les statistiques, les parents ont raison dans 80 % des cas. Dès que tu remarques quelque chose de différent, c'est légitime d'enquêter. Le test peut se faire <strong>dès le plus jeune âge</strong> en cas de soupçon. Expliquer la démarche à l'enfant pour l'optimiser.
+      </div>
+
+      <h3>👤 Qui peut faire le test ?</h3>
+      <p>Un <strong>neuropsychologue</strong> ou un <strong>psychologue clinicien habilité</strong> (formation aux tests Wechsler).</p>
+
+      <h3>🧪 Les tests d'intelligence — échelles de Wechsler</h3>
+      <ul>
+        <li><strong>WPPSI-IV</strong> — à partir de 2 ans et demi</li>
+        <li><strong>WISC-V</strong> — à partir de 6 ans</li>
+        <li><strong>WAIS-IV</strong> — à partir de 16 ans</li>
+      </ul>
+      <p>Le test ne mesure pas l'intelligence (notion abstraite) — il <strong>situe l'enfant</strong> par rapport à un groupe d'âge. <strong>Un QI ≥ 130 = HPI</strong> selon l'OMS.</p>
+
+      <h3>📊 Les 4 sous-échelles du WISC-V</h3>
+      <div class="hpi-traits">
+        <div class="trait"><strong>1. Compréhension verbale</strong>Conceptualisation, raisonnement verbal, adaptation sociale</div>
+        <div class="trait"><strong>2. Raisonnement perceptif</strong>Mobiliser ressources cognitives sur situations nouvelles</div>
+        <div class="trait"><strong>3. Mémoire de travail</strong>Concentration, attention, maintien d'information</div>
+        <div class="trait"><strong>4. Vitesse de traitement</strong>Traiter rapidement et séquentiellement l'info visuelle</div>
+      </div>
+
+      <div class="callout warn">
+        ⚠️ <strong>Attention au QIT</strong> : le QI total est de plus en plus remis en question. Quand les performances sont <strong>hétérogènes</strong> (ex: scores élevés en raisonnement fluide + faibles en vitesse de traitement), il faut analyser le <strong>profil</strong> des subtests, pas la moyenne — qui n'est pas représentative du potentiel (Grégoire, 2009).
+      </div>
+
+      <h3>🌟 Les 5 sous-catégories du QI (WISC-V)</h3>
+      <ol>
+        <li><strong>Intelligence cristallisée</strong> — utiliser ses connaissances/expériences (vocabulaire, culture, raisonnement verbal). Indice : <em>Compréhension verbale</em></li>
+        <li><strong>Intelligence visuo-spatiale</strong> — créer des images mentales, manipuler dans l'espace. Indice : <em>Visuo-spatial</em></li>
+        <li><strong>Intelligence fluide</strong> — résoudre des problèmes nouveaux sans connaissances préalables. Indice : <em>Raisonnement fluide</em></li>
+        <li><strong>Mémoire de travail</strong> — maintenir et manipuler temporairement une info. Indice : <em>Mémoire de travail</em></li>
+        <li><strong>Vitesse de traitement</strong> — penser et travailler vite sous contrainte temporelle. Indice : <em>Vitesse de traitement</em></li>
+      </ol>
+      <p style="font-size:.9rem;color:#666"><em>Quand un indice est dans les 2 % les plus élevés (sans que le QIT total ne soit ≥ 130) → on parle de <strong>surdouance locale</strong>.</em></p>
+
+      <div class="pro-panel">
+        <h4>📋 Mode Pro — Bilan psy</h4>
+        <div class="pro-grid">
+          <div class="pro-block">
+            <h5>Profil hétérogène</h5>
+            <ul>
+              <li>ICV >> IVT = profil HPI verbal classique</li>
+              <li>IRP >> ICV = HPI visuo-spatial (rare)</li>
+              <li>IRF élevé + IMT faible = piste TDAH</li>
+              <li>Tous les indices élevés = HPI laminaire</li>
+            </ul>
+          </div>
+          <div class="pro-block">
+            <h5>Diagnostic différentiel</h5>
+            <ul>
+              <li>HPI vs HPE (haut potentiel émotionnel)</li>
+              <li>HPI vs TSA haut niveau (Asperger)</li>
+              <li>HPI vs TDAH (souvent comorbides)</li>
+              <li>HPI vs précoce environnemental</li>
+            </ul>
+          </div>
+          <div class="pro-block pro-block-full">
+            <h5>📝 Mes notes perso (cabinet)</h5>
+            <textarea data-note="ch3" placeholder="Mes réseaux de neuropsy fiables, scripts pour annoncer le diag…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPITRE 4 : PROFILS HPI -->
+  <section id="ch4" class="section">
+    <div class="chap-card" style="--cc:#7c5cbf">
+      <h2>🚀 4. Les 6 profils HPI — Betts & Neihart (1988)</h2>
+      <p>Dès 1988, George Betts et Maureen Neihart ont proposé une <strong>classification en 6 grands profils</strong>. Elle permet de caractériser la plupart des élèves HPI. Les profils se construisent et se précisent en grandissant — bien moins nets en primaire qu'au collège ou lycée. <strong>Un profil domine souvent</strong>, mais l'enfant peut manifester des traits d'autres profils.</p>
+
+      <div class="callout info">
+        💡 <strong>Pourquoi ça compte</strong> : connaître le profil permet d'évaluer les besoins éducatifs et de repérer un élève HPI passé inaperçu.
+      </div>
+
+      <div class="profils-grid">
+
+        <div class="profil-card brillant">
+          <h3>🌟 Brillant</h3>
+          <p class="pc-sub">L'enfant que tout le monde apprécie — mais qui ne prend pas de risques.</p>
+          <details><summary>Psychologie</summary><ul><li>S'ennuie facilement</li><li>Dépendant</li><li>Image de soi positive</li><li>Souvent anxieux</li><li>Coupable face à l'échec</li><li>Masque ses émotions, autocritique</li></ul></details>
+          <details><summary>Comportement</summary><ul><li>Perfectionniste, très performant</li><li>Recherche l'approbation des enseignants</li><li>Ne prend pas de risque</li><li>Réussit, accepte les règles</li></ul></details>
+          <details><summary>Risques</summary><ul><li>Décrochage si échec inattendu</li><li>Pas de méthodes de travail</li><li>Manque de résilience</li><li>Bascule possible vers décrocheur à l'ado</li></ul></details>
+          <details><summary>Comment aider</summary><ul><li>Repérer ses faiblesses</li><li>Approfondissement, accélération</li><li>Développer autonomie + confiance</li><li>Lui assigner un mentor</li></ul></details>
+        </div>
+
+        <div class="profil-card autonome">
+          <h3>🦅 Autonome</h3>
+          <p class="pc-sub">Le profil rare et plein de qualités — mais attention à l'isolement.</p>
+          <details><summary>Psychologie</summary><ul><li>Forte confiance en soi</li><li>Acceptation de soi, enthousiaste</li><li>Accepte l'échec</li><li>Motivation interne</li><li>Accepte les autres</li></ul></details>
+          <details><summary>Comportement</summary><ul><li>Compétences sociales fortes</li><li>Autodidacte, persévérant</li><li>Explore ses passions à fond</li><li>Créatif, défend ses convictions, ose</li></ul></details>
+          <details><summary>Risques</summary><ul><li>Frustration si environnement insuffisant</li><li>Désillusion possible</li><li>Bascule vers provocateur à l'ado</li></ul></details>
+          <details><summary>Comment aider</summary><ul><li>Lever les freins à son autonomie</li><li>Activités liées à ses passions</li><li>Planifier ses études, projets perso</li><li>Bâtir un projet d'avenir avec lui</li></ul></details>
+        </div>
+
+        <div class="profil-card discret">
+          <h3>🤫 Discret</h3>
+          <p class="pc-sub">Profil souvent féminin — sacrifie ses capacités pour s'intégrer.</p>
+          <details><summary>Psychologie</summary><ul><li>Peu sûr·e de lui/elle</li><li>Sous pression constamment</li><li>Embarrassé·e, se sent coupable</li><li>Faible estime de soi</li></ul></details>
+          <details><summary>Comportement</summary><ul><li>Refuse d'admettre ses talents</li><li>Résiste aux défis</li><li>Veut s'intégrer socialement avant tout</li><li>Change brutalement d'amis</li></ul></details>
+          <details><summary>Risques</summary><ul><li>Dévalorisation durable</li><li>Harcèlement scolaire (mise en retrait)</li><li>Renoncement à l'excellence</li></ul></details>
+          <details><summary>Comment aider</summary><ul><li>Reconnaître sa valeur</li><li>Activités d'enrichissement</li><li>Modèles de réussite (femmes HPI)</li><li>Ne pas minimiser ses résultats</li></ul></details>
+        </div>
+
+        <div class="profil-card decrocheur">
+          <h3>💔 Décrocheur</h3>
+          <p class="pc-sub">Diagnostiqué tard (ou pas) — frustré, aigri, en colère.</p>
+          <details><summary>Psychologie</summary><ul><li>Ressentiment, colère</li><li>Dépression possible</li><li>Mauvaise image de lui</li><li>Sur la défensive, surmené</li></ul></details>
+          <details><summary>Comportement</summary><ul><li>Attention intermittente</li><li>N'achève pas ses tâches</li><li>S'isole, critique envers tous</li><li>Travaux inégaux, semble médiocre</li></ul></details>
+          <details><summary>Risques</summary><ul><li>Bascule vers provocateur</li><li>Échec scolaire</li><li>Estime de soi durablement atteinte</li><li>Épanouissement compromis à l'âge adulte</li></ul></details>
+          <details><summary>Comment aider</summary><ul><li>Combler les lacunes scolaires</li><li>Reconnaissance + méthodes</li><li>Donner du sens, dialoguer</li><li>Relation humaine avec un prof motivé</li></ul></details>
+        </div>
+
+        <div class="profil-card provocateur">
+          <h3>⚡ Provocateur</h3>
+          <p class="pc-sub">Pensée divergente et créativité — mais conteste tout.</p>
+          <details><summary>Psychologie</summary><ul><li>S'ennuie facilement, frustré</li><li>Faible estime de soi</li><li>Impatient, sur la défensive</li><li>Grande sensibilité</li><li>Méconnaît les codes sociaux</li></ul></details>
+          <details><summary>Comportement</summary><ul><li>Corrige les enseignants</li><li>Conteste les règles</li><li>Honnête et direct, sauts d'humeur</li><li>Créatif, bat pour ses convictions</li></ul></details>
+          <details><summary>Risques</summary><ul><li>Addictions, comportements à risque</li><li>Décrochage scolaire total</li><li>Isolement adulte</li></ul></details>
+          <details><summary>Comment aider</summary><ul><li>Tolérance bienveillante</li><li>Fermeté équilibrée</li><li>Utiliser sa créativité</li><li>Contrats de comportement</li><li>Responsabiliser</li></ul></details>
+        </div>
+
+        <div class="profil-card double">
+          <h3>🎭 Double étiquette</h3>
+          <p class="pc-sub">HPI + trouble associé (dys / TDAH / TSA) — souvent invisible.</p>
+          <details><summary>Psychologie</summary><ul><li>Impuissant, frustré</li><li>Faible estime de soi</li><li>Ignorant les causes de ses difficultés</li><li>En colère</li></ul></details>
+          <details><summary>Comportement</summary><ul><li>Travail irrégulier</li><li>Résultats moyens ou médiocres</li><li>Peut être perturbateur</li></ul></details>
+          <details><summary>Risques</summary><ul><li>Spirale d'échecs, décrochage</li><li>Harcèlement scolaire</li><li>Bascule vers provocateur</li><li>80 % des TDAH seraient HPI non diagnostiqués</li></ul></details>
+          <details><summary>Comment aider</summary><ul><li>Bilan psychologique en cas de doute</li><li>PPRE, PAP, PPS selon besoins</li><li>Travailler les points faibles avec les capacités cognitives</li><li>Accent sur les forces</li></ul></details>
+        </div>
+
+      </div>
+
+      <div class="callout warn">
+        ⚠️ <strong>3 erreurs à éviter</strong> :<br>
+        1. Cantonner le HPI au rôle de tuteur d'élèves en difficulté (leur façon de penser est différente → contre-productif)<br>
+        2. Le laisser en activités libres sans objectif (la lecture seule ne favorise pas l'épanouissement long terme)<br>
+        3. Oublier qu'il reste <strong>avant tout un enfant</strong> — sa maturité affective correspond à son âge réel.
+      </div>
+
+      <div class="pro-panel">
+        <h4>📋 Mode Pro — Profils & dyssynchronie</h4>
+        <div class="pro-grid">
+          <div class="pro-block">
+            <h5>Dyssynchronie (Terrassier)</h5>
+            <ul>
+              <li><strong>Interne</strong> : intelligence vs psychomotricité ; intelligence vs affectivité</li>
+              <li><strong>Sociale</strong> : à l'école, avec parents, avec pairs</li>
+              <li>Cause de souffrance majeure non-reconnue</li>
+            </ul>
+          </div>
+          <div class="pro-block">
+            <h5>Évolution des profils</h5>
+            <ul>
+              <li>Profils stabilisés après 8-10 ans</li>
+              <li>Bascules fréquentes à l'adolescence</li>
+              <li>Brillant → décrocheur (collège)</li>
+              <li>Décrocheur → provocateur</li>
+              <li>Autonome → désillusionné</li>
+            </ul>
+          </div>
+          <div class="pro-block pro-block-full">
+            <h5>📝 Mes notes perso (cabinet)</h5>
+            <textarea data-note="ch4" placeholder="Mes profils-types vus en consult, stratégies par profil…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ PROFIL -->
+  <section id="quiz" class="section">
+    <div class="quiz-intro" id="quiz-intro">
+      <h2>🎯 Quel profil HPI ?</h2>
+      <p>12 questions sur ton enfant (ou toi-même si tu te reconnais HPI adulte). À la fin, tu obtiens le <strong>profil dominant</strong> parmi les 6 de Betts & Neihart, avec un score sur chaque profil pour voir la nuance.</p>
+      <p style="font-size:.88rem;color:#666"><em>Ce quiz est un outil d'orientation, pas un diagnostic. Pour confirmer un HPI : bilan psychologique par un professionnel habilité.</em></p>
+      <button class="start-btn" id="btn-quiz-start">▶ Commencer le quiz</button>
+    </div>
+
+    <div id="quiz-container"></div>
+
+    <div class="quiz-result" id="quiz-result">
+      <h2>🌟 Résultat</h2>
+      <div class="profil-found" id="profil-found"></div>
+      <p id="profil-explain"></p>
+      <div class="scores" id="profil-scores"></div>
+      <p style="margin-top:1rem;font-size:.88rem;color:#666"><em>Tu peux ouvrir la fiche détaillée de ce profil dans l'onglet <strong>"🚀 4 · Profils"</strong>.</em></p>
+      <button class="restart-btn" id="btn-quiz-restart">↻ Refaire le quiz</button>
+    </div>
+  </section>
+
+  <!-- CHAPITRE 5 : ÉCOLE -->
+  <section id="ch5" class="section">
+    <div class="chap-card" style="--cc:#e9a73a">
+      <h2>🏫 5. HPI & école traditionnelle</h2>
+
+      <h3>📉 Le parcours scolaire type</h3>
+      <ul>
+        <li><strong>Primaire</strong> : il se débrouille grâce à ses capacités hors normes — il « surf » sur le programme</li>
+        <li><strong>6ème</strong> : niveau baisse un peu mais ça passe</li>
+        <li><strong>5ème</strong> : les difficultés commencent</li>
+        <li><strong>4ème</strong> : catastrophique — il n'a jamais appris à apprendre</li>
+        <li><strong>3ème</strong> : épuisement psychologique, échec ou mauvaise orientation</li>
+      </ul>
+
+      <div class="callout warn">
+        💔 <strong>Sans diagnostic ni accompagnement</strong>, le parcours d'un HPI sera difficile et épuisant — rempli de doutes, frustrations, échecs, souffrances. Il devra puiser toute sa vie dans sa résilience.
+      </div>
+
+      <h3>😴 L'ennui — signe d'alerte majeur</h3>
+      <p>L'ennui scolaire est l'un des problèmes les plus fréquents chez le HPI. Causes :</p>
+      <ul>
+        <li>Manque de stimulation intellectuelle</li>
+        <li>Présentation inadaptée du contenu (pas le contenu lui-même)</li>
+        <li>Répétition inutile (le HPI n'a pas besoin de répétition)</li>
+        <li>Attente forcée, inactivité</li>
+      </ul>
+
+      <h3>🎒 Les troubles associés (très fréquents)</h3>
+      <div class="hpi-traits">
+        <div class="trait"><strong>Dysgraphie</strong>Écriture difficile, crispation, décalage intellect/moteur</div>
+        <div class="trait"><strong>Dyslexie/Dysorthographie</strong>Apprentissage séquentiel ≠ pensée globale HPI</div>
+        <div class="trait"><strong>TDAH (TDAHP)</strong>80 % des TDAH seraient HPI non diagnostiqués</div>
+      </div>
+
+      <h3>🌟 Les 3 besoins fondamentaux du HPI à l'école</h3>
+      <div class="two-col">
+        <div class="col-card" style="--cc:#F39BC2">
+          <h4>🤲 Reconnaissance</h4>
+          <p>Identification du HPI, acceptation de son profil cognitif particulier, relation fructueuse avec l'enseignant.</p>
+        </div>
+        <div class="col-card" style="--cc:#5a8fc7">
+          <h4>🎯 Sens</h4>
+          <p>Comprendre <em>pourquoi</em> il apprend. L'absence de sens = démotivation, désengagement, décrochage.</p>
+        </div>
+      </div>
+      <div class="col-card" style="--cc:#2a9d8f;margin-top:.7rem">
+        <h4>🔥 Motivation</h4>
+        <p>Nourrir son grand appétit de connaissances et de découvertes — sinon il s'étiole en classe.</p>
+      </div>
+
+      <h3>🛠 Solutions et aménagements</h3>
+      <ul>
+        <li><strong>Approfondissement</strong> du programme (rendre plus complexes les situations)</li>
+        <li><strong>Enrichissement</strong> (varier les éclairages sur un même thème)</li>
+        <li><strong>Décloisonnement</strong> (cours d'une matière dans une classe d'un niveau supérieur)</li>
+        <li><strong>Accélération scolaire</strong> (saut de classe, compactage, classes à double niveau)</li>
+        <li><strong>PPRE / PAP / PPS</strong> selon besoins</li>
+      </ul>
+
+      <div class="callout info">
+        📋 <strong>Conseils aux enseignants</strong> : garder à l'esprit qu'il est un jeune avant tout · être bienveillant et juste · reconnaître les différences · cohérence dans les exigences · donner du sens · éviter les matières d'années supérieures imposées · formuler les consignes clairement · permettre une activité de concentration secondaire · planning de travail personnalisé.
+      </div>
+
+      <div class="pro-panel">
+        <h4>📋 Mode Pro — Aménagements</h4>
+        <div class="pro-grid">
+          <div class="pro-block">
+            <h5>Cadre légal</h5>
+            <ul>
+              <li>Articles L 321-4 et L 332-4 du code de l'éducation</li>
+              <li>Vademecum « Scolariser un élève à haut potentiel » (Eduscol)</li>
+              <li>Reconnaissance comme « besoin éducatif particulier »</li>
+            </ul>
+          </div>
+          <div class="pro-block">
+            <h5>Drapeaux rouges</h5>
+            <ul>
+              <li>Chute brutale des résultats au collège</li>
+              <li>Phobie scolaire</li>
+              <li>Repli sur soi, idées noires</li>
+              <li>Refus alimentaire / troubles du sommeil</li>
+            </ul>
+          </div>
+          <div class="pro-block pro-block-full">
+            <h5>📝 Mes notes perso (cabinet)</h5>
+            <textarea data-note="ch5" placeholder="Établissements partenaires, classes spécialisées, contacts pédagos…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPITRE 6 : MAISON -->
+  <section id="ch6" class="section">
+    <div class="chap-card" style="--cc:#2a9d8f">
+      <h2>🏡 6. À la maison — ce n'est pas toujours facile</h2>
+
+      <h3>🏠 L'IEF (Instruction En Famille) — une solution ?</h3>
+      <p>L'IEF peut être une option si nos valeurs ne correspondent pas à l'éducation conventionnelle et si on cherche plus de liberté sur la pédagogie et le programme. Particulièrement pour les HPI qui s'ennuient et se sentent limités.</p>
+
+      <div class="callout warn">
+        ❓ <strong>Avant de se lancer en IEF</strong> : suis-je prêt·e à m'investir, patienter, m'adapter, me former ? Endosser la double casquette parent/enseignant ? Si oui aux questions, l'IEF peut être très porteuse.
+      </div>
+
+      <h3>🚧 Le besoin de sentir les limites</h3>
+      <p>Pour le HPI, <strong>repousser les limites est une quête constante</strong>. Sa curiosité n'en a pas — il cherche des obstacles pour se rassurer. Les limites sont des barrières qui assurent sa sécurité, même s'il lutte contre elles.</p>
+
+      <div class="callout zebra">
+        💡 En testant les limites, il <strong>teste ton amour et ta fermeté</strong>. Si les limites ne sont pas solides → il se sentira tout-puissant, donc seul, donc en désespoir. Reste ferme, même quand c'est difficile. C'est protecteur.
+      </div>
+
+      <h3>⚡ L'exigence absolue</h3>
+      <p>Les enfants HPI sont souvent <strong>exigeants et impatients</strong>. Ils attendent une réponse rapide à leurs demandes — affectives, matérielles, ou de services. Ils peuvent être très frustrés par un refus, et réagir de manière excessive (claquer des portes, menaces, insultes).</p>
+      <p>Pour les parents : <strong>la fermeté doit être présente, les limites fixes</strong>, pour prévenir un comportement inadapté.</p>
+
+      <div class="pro-panel">
+        <h4>📋 Mode Pro — Posture parentale</h4>
+        <div class="pro-grid">
+          <div class="pro-block">
+            <h5>Outils TCC</h5>
+            <ul>
+              <li>Renforcement positif systématique</li>
+              <li>Économie de jetons (à adapter pour HPI)</li>
+              <li>Contrats de comportement</li>
+              <li>Time-out et retour calme</li>
+            </ul>
+          </div>
+          <div class="pro-block">
+            <h5>Posture EducaTypique</h5>
+            <ul>
+              <li>🔍 Comprendre avant corriger</li>
+              <li>👁 Observer avant interpréter</li>
+              <li>🧩 Adapter avant exiger</li>
+              <li>🌟 Rendre visible l'invisible</li>
+              <li>📈 Mesurer les progrès</li>
+            </ul>
+          </div>
+          <div class="pro-block pro-block-full">
+            <h5>📝 Mes notes perso (cabinet)</h5>
+            <textarea data-note="ch6" placeholder="Scripts pour les parents épuisés, conseils sur la fermeté bienveillante…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPITRE 7 : POINT PSYCHO -->
+  <section id="ch7" class="section">
+    <div class="chap-card" style="--cc:#d36699">
+      <h2>💗 7. Point psycho — estime de soi & émotions</h2>
+
+      <h3>🌱 L'estime de soi — 3 piliers à travailler dès l'enfance</h3>
+      <div class="hpi-traits">
+        <div class="trait"><strong>1. Suis-je aimable ?</strong>L'amour inconditionnel de la famille et de l'entourage offre une sécurité intérieure.</div>
+        <div class="trait"><strong>2. Suis-je valable ?</strong>La reconnaissance de la valeur unique de l'enfant — au-delà de ses performances.</div>
+        <div class="trait"><strong>3. Suis-je capable ?</strong>L'affirmation de soi découle de la confiance en ses capacités et compétences.</div>
+      </div>
+
+      <div class="callout zebra">
+        💡 <strong>Confiance en soi</strong> = une partie de l'<strong>estime de soi</strong>. L'estime de soi = l'image de soi globale. <em>« Mon passé me construit mais ne me définit pas. L'acceptation de soi passe par la connaissance de soi. »</em>
+      </div>
+
+      <h3>💗 HPI et émotions</h3>
+      <p>Dès la naissance, les enfants communiquent au travers de leurs émotions. Les HPI ressentent une <strong>forte intensité émotionnelle</strong> face aux événements et stimuli :</p>
+      <ul>
+        <li><strong>Émotions complexes simultanées</strong> (positives et négatives) → très déstabilisant</li>
+        <li><strong>Analyse poussée</strong> des émotions ressenties → débordements, somatisations</li>
+        <li><strong>Hypersensibilité à l'injustice</strong> et aux brimades → blessures profondes</li>
+        <li><strong>Pensée en arborescence</strong> → une réaction peut en cacher une autre (un ballon qui éclate peut rappeler la mort d'un grand-père)</li>
+      </ul>
+
+      <h3>🎭 HPI vs HPE — distinction importante</h3>
+      <div class="two-col">
+        <div class="col-card" style="--cc:#7c5cbf">
+          <h4>🧠 HPI (cognitif)</h4>
+          <p>Utilise ses habiletés mentales pour <strong>intellectualiser</strong> les émotions. Applique un filtre, met de la distance, cherche un sens logique. Peut occasionner des débordements et somatisations.</p>
+        </div>
+        <div class="col-card" style="--cc:#F39BC2">
+          <h4>💗 HPE (émotionnel)</h4>
+          <p>Émotions exacerbées, sensibilités accrues. Vagues émotionnelles, intensités alternées, grande instabilité. Risque d'épuisement émotionnel profond, dépression, dépendance affective.</p>
+        </div>
+      </div>
+
+      <h3>🏫 HPI et école — synthèse</h3>
+      <ul>
+        <li>Le professeur doit être averti de la particularité de l'enfant</li>
+        <li>Connaître le fonctionnement de son enfant pour <strong>contrôler la situation</strong>, pas la subir</li>
+        <li>L'enfant HPI a <strong>besoin de soutien</strong> — ce n'est pas parce qu'il a un QI élevé qu'il sait tout</li>
+        <li>Lui apprendre comment travailler, mettre une méthodologie</li>
+        <li>Attention au harcèlement scolaire — il doit apprendre à s'accepter</li>
+        <li><strong>L'enfant HPI reste un enfant</strong></li>
+      </ul>
+
+      <div class="pro-panel">
+        <h4>📋 Mode Pro — Risques psy</h4>
+        <div class="pro-grid">
+          <div class="pro-block">
+            <h5>Comorbidités psy fréquentes</h5>
+            <ul>
+              <li>Anxiété généralisée (très fréquent)</li>
+              <li>Troubles dépressifs</li>
+              <li>TOC</li>
+              <li>Troubles du sommeil</li>
+              <li>Phobies scolaires</li>
+            </ul>
+          </div>
+          <div class="pro-block">
+            <h5>Pièges thérapeutiques</h5>
+            <ul>
+              <li>Sur-intellectualiser en thérapie (le HPI le fait déjà)</li>
+              <li>Confondre HPI et résistance</li>
+              <li>Oublier le corps (somatisations fréquentes)</li>
+              <li>Sous-estimer la souffrance derrière la performance</li>
+            </ul>
+          </div>
+          <div class="pro-block pro-block-full">
+            <h5>📝 Mes notes perso (cabinet)</h5>
+            <textarea data-note="ch7" placeholder="Approches thérapeutiques qui marchent avec les HPI, signaux d'alerte…"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPITRE 8 : SOURCES -->
+  <section id="ch8" class="section">
+    <div class="sources-box">
+      <h3>📚 Sources & ressources</h3>
+      <p><strong>Livres :</strong></p>
+      <ul>
+        <li>Siaud-Facchin J. — <em>Guide de l'enfant surdoué</em></li>
+        <li><em>100 idées pour aider un enfant qui ne va pas bien</em></li>
+        <li><em>100 idées pour aider un enfant à haut potentiel</em></li>
+        <li>Terrassier J.-C. — <em>Les enfants surdoués ou la précocité embarrassante</em></li>
+        <li>Dabrowski K. — <em>La Théorie de la désintégration positive</em></li>
+      </ul>
+      <p style="margin-top:.8rem"><strong>Sites :</strong></p>
+      <ul>
+        <li><a href="https://anpeip.org" target="_blank">ANPEIP Sud</a> — Association nationale pour les enfants intellectuellement précoces</li>
+        <li><a href="https://eduscol.education.fr" target="_blank">Eduscol</a> — Vademecum « Scolariser un élève à haut potentiel »</li>
+        <li><a href="https://www.lazebrelle.fr/hpi-fonctionnements" target="_blank">La Zébrelle</a> — HPI et fonctionnements</li>
+        <li><a href="https://www.douance.be" target="_blank">Douance.be</a> — Enfants ados HP, dyssynchronie</li>
+        <li><a href="https://www.bilan-psychologique.com/wppsi.html" target="_blank">Bilan psychologique</a> — Tests Wechsler</li>
+        <li>Enfants Précoces Info — Entraide et informations autour du HPI</li>
+        <li>Hal Open Science — Travaux de Jean Vincens de Tapol</li>
+      </ul>
+      <p style="margin-top:.8rem"><strong>Auteurs scientifiques cités :</strong></p>
+      <ul>
+        <li><strong>George Betts & Maureen Neihart</strong> (1988) — Les 6 profils HPI</li>
+        <li><strong>Jean-Charles Terrassier</strong> — Le syndrome de dyssynchronie</li>
+        <li><strong>Jeanne Siaud-Facchin</strong> — HQI (Haut Quotient Intellectuel)</li>
+        <li><strong>Kazimierz Dabrowski</strong> — 5 surexcitabilités</li>
+        <li><strong>Nicolas Gauvrit</strong> — HP et atypies</li>
+        <li><strong>David Wechsler</strong> — Échelles WPPSI / WISC / WAIS</li>
+      </ul>
+    </div>
+
+    <div class="sig-nawel">
+      🌟 <strong>Un mot final de Nawel</strong> — Le HPI n'est pas une fatalité. Si l'enfance a été chaotique, on peut surmonter et sortir de cette situation. L'essentiel : <em>expliquer à l'enfant son mode de fonctionnement, l'accepter tel qu'il est, et encourager la connaissance de soi</em>. La précocité intellectuelle n'est pas une question de performance — c'est un état d'esprit, une façon particulière d'interroger le monde. Cette originalité est respectable, c'est un élément de la diversité et de la richesse humaines.
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="btn-export" id="btn-export">📄 Exporter mes notes pro en .txt</button>
+    <button class="btn-print" onclick="window.print()">🖨 Imprimer le guide</button>
+  </div>
+
+</div>
+
+<script>
+const NOTE_KEY='educatypique_guide_hpi_notes_v1';
+
+/* Tabs */
+document.querySelectorAll('.chap-tabs button').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.chap-tabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+});
+
+/* Mode Pro */
+const btnPro=document.getElementById('btn-pro');
+btnPro.onclick=()=>{
+  document.body.classList.toggle('show-pro');
+  if(document.body.classList.contains('show-pro')){
+    btnPro.classList.add('active');
+    btnPro.innerHTML='📋 Mode Pro activé (clic pour désactiver)';
+  } else {
+    btnPro.classList.remove('active');
+    btnPro.innerHTML='📋 Activer le Mode Pro (concepts cliniques + mes notes)';
+  }
+};
+
+/* Notes perso */
+function loadNotes(){try{const r=localStorage.getItem(NOTE_KEY);return r?JSON.parse(r):{}}catch(e){return{}}}
+function saveNotes(n){localStorage.setItem(NOTE_KEY,JSON.stringify(n))}
+const notes=loadNotes();
+document.querySelectorAll('[data-note]').forEach(t=>{
+  const k=t.dataset.note;t.value=notes[k]||'';
+  t.addEventListener('input',e=>{notes[k]=e.target.value;saveNotes(notes)});
+});
+
+/* QUIZ PROFIL */
+const PROFILS={
+  brillant:{emoji:'🌟',nom:'Brillant',color:'#F39BC2',explain:"L'enfant que tout le monde apprécie — performant, perfectionniste, recherche l'approbation, ne prend pas de risque. À surveiller : pas de méthode de travail solide, possible décrochage à l'adolescence si échec inattendu."},
+  autonome:{emoji:'🦅',nom:'Autonome',color:'#5a8fc7',explain:"Profil rare et plein de qualités — autodidacte, leader, résilient. Forte confiance en soi. Attention à l'isolement et à la frustration si l'environnement ne suit pas."},
+  discret:{emoji:'🤫',nom:'Discret',color:'#e9a73a',explain:"Souvent féminin — sacrifie ses capacités pour s'intégrer. Faible estime de soi, harcèlement possible. À aider en reconnaissant sa valeur sans minimiser ses résultats."},
+  decrocheur:{emoji:'💔',nom:'Décrocheur',color:'#999',explain:"Diagnostiqué tard ou pas du tout. Frustré, en colère, parfois dépressif. À aider en comblant les lacunes scolaires et en redonnant du sens via une relation humaine forte."},
+  provocateur:{emoji:'⚡',nom:'Provocateur',color:'#e05a5a',explain:"Créatif, conteste tout, sarcasme et obstination. Faible estime de soi cachée. À aider avec une fermeté bienveillante, en utilisant sa créativité, et en le responsabilisant."},
+  double:{emoji:'🎭',nom:'Double étiquette',color:'#7c5cbf',explain:"HPI + trouble associé (dys / TDAH / TSA). Souvent invisible car capacités et difficultés se compensent. À identifier au plus tôt — bilan psychologique. Aménagements PPRE/PAP/PPS."}
+};
+
+const QUIZ_Q=[
+  {q:"Comment ton enfant réagit-il face à une difficulté scolaire inattendue ?",
+   a:[{t:"Il s'effondre, n'a pas l'habitude — c'est rare",p:{brillant:2}},
+      {t:"Il cherche par lui-même, tente des stratégies",p:{autonome:2}},
+      {t:"Il baisse les bras et dit qu'il ne sait pas, qu'il n'y arrivera pas",p:{discret:2,double:1}},
+      {t:"Il s'énerve, accuse l'école ou le prof, abandonne",p:{decrocheur:2,provocateur:1}}]},
+  {q:"À quoi ressemble sa relation avec ses enseignants ?",
+   a:[{t:"Excellente — il cherche leur approbation",p:{brillant:2}},
+      {t:"Respectueuse mais distante — il fait son truc",p:{autonome:2}},
+      {t:"Discrète, presque invisible",p:{discret:2}},
+      {t:"Conflictuelle — il corrige les profs ou conteste",p:{provocateur:2}}]},
+  {q:"Comment ses résultats scolaires se présentent-ils ?",
+   a:[{t:"Excellents, réguliers, dans la moyenne haute",p:{brillant:2}},
+      {t:"Très inégaux — fulgurants dans ses passions, médiocres ailleurs",p:{autonome:1,decrocheur:1,double:1}},
+      {t:"Corrects mais moins que ce qu'il pourrait — il se sous-estime",p:{discret:2}},
+      {t:"Moyens à médiocres, en chute libre",p:{decrocheur:2,double:1}}]},
+  {q:"Qu'est-ce qui caractérise son rapport à l'effort ?",
+   a:[{t:"Travaille beaucoup, perfectionniste, peur de l'échec",p:{brillant:2}},
+      {t:"Persévère sur ce qui l'intéresse, lâche le reste",p:{autonome:2,provocateur:1}},
+      {t:"S'épuise à essayer de suivre comme les autres",p:{discret:1,double:2}},
+      {t:"Refuse l'effort, dit que c'est nul ou inutile",p:{decrocheur:2,provocateur:1}}]},
+  {q:"Comment décrirais-tu son estime de soi ?",
+   a:[{t:"Positive en façade, mais fragile sous pression",p:{brillant:2}},
+      {t:"Solide — il s'accepte tel qu'il est",p:{autonome:2}},
+      {t:"Faible, il se dévalorise, refuse d'admettre ses talents",p:{discret:2}},
+      {t:"Atteinte, en colère contre lui-même",p:{decrocheur:2,provocateur:1,double:1}}]},
+  {q:"Quel est son rapport au groupe / aux pairs ?",
+   a:[{t:"Apprécié, admiré, modèle pour les autres",p:{brillant:2}},
+      {t:"Leader naturel ou solitaire choisi",p:{autonome:2}},
+      {t:"Veut s'intégrer à tout prix, parfois en se reniant",p:{discret:2}},
+      {t:"Isolé, rejeté, perçu comme bizarre",p:{decrocheur:1,provocateur:1,double:2}}]},
+  {q:"Face aux règles et à l'autorité, comment se positionne-t-il ?",
+   a:[{t:"Les accepte facilement et s'y conforme",p:{brillant:2}},
+      {t:"Les comprend, mais les remet en question avec logique",p:{autonome:2}},
+      {t:"Les subit sans les contester, même injustes",p:{discret:2}},
+      {t:"Les conteste, les transgresse, parfois avec sarcasme",p:{provocateur:2,decrocheur:1}}]},
+  {q:"Sa créativité s'exprime…",
+   a:[{t:"De façon classique, dans les cadres attendus",p:{brillant:2}},
+      {t:"De façon affirmée, dans ses passions choisies",p:{autonome:2}},
+      {t:"Discrètement, parfois cachée par timidité",p:{discret:2}},
+      {t:"De façon explosive, parfois provocatrice ou décalée",p:{provocateur:2,decrocheur:1}}]},
+  {q:"Tu as remarqué chez lui/elle…",
+   a:[{t:"Une excellente mémoire, aucune difficulté apparente",p:{brillant:2,autonome:1}},
+      {t:"Une capacité d'apprendre seul·e, un autodidacte",p:{autonome:2}},
+      {t:"Une retenue, une réserve, peu d'affirmation",p:{discret:2}},
+      {t:"Des difficultés en lecture, écriture ou attention malgré son intelligence",p:{double:3}}]},
+  {q:"En famille, dans le quotidien…",
+   a:[{t:"Tout va bien, il/elle est agréable et coopératif·ve",p:{brillant:2,autonome:1}},
+      {t:"Il/elle prend des décisions seul·e, parfois trop tôt",p:{autonome:2}},
+      {t:"Il/elle s'efface, ne demande rien, parfois trop sage",p:{discret:2}},
+      {t:"C'est tendu — sauts d'humeur, oppositions, crises",p:{decrocheur:1,provocateur:2}}]},
+  {q:"Face à un échec ou un mauvais résultat…",
+   a:[{t:"Culpabilité énorme, peur du regard des parents",p:{brillant:2}},
+      {t:"Analyse ce qui n'a pas marché, ajuste pour la fois suivante",p:{autonome:2}},
+      {t:"Se résigne, dit que c'est normal pour lui/elle",p:{discret:2,double:1}},
+      {t:"Colère, ressentiment, accuse l'extérieur",p:{decrocheur:2,provocateur:1}}]},
+  {q:"Si tu devais choisir un mot pour le/la décrire…",
+   a:[{t:"Sage, doué·e, irréprochable",p:{brillant:2}},
+      {t:"Autonome, créatif·ve, libre",p:{autonome:2}},
+      {t:"Sensible, discret·e, fragile",p:{discret:2}},
+      {t:"Décalé·e, en marge, parfois en souffrance",p:{decrocheur:2,provocateur:1,double:1}}]},
+];
+
+let currentQ=0;
+let answers=new Array(QUIZ_Q.length).fill(null);
+const quizContainer=document.getElementById('quiz-container');
+
+function renderQuizQuestions(){
+  quizContainer.innerHTML='';
+  QUIZ_Q.forEach((qq,i)=>{
+    const div=document.createElement('div');
+    div.className='quiz-q'+(i===0?' active':'');
+    div.dataset.q=i;
+    let html=`<div class="q-num">Question ${i+1} / ${QUIZ_Q.length}</div>
+              <div class="q-text">${qq.q}</div>
+              <div class="answers">`;
+    qq.a.forEach((aa,j)=>{
+      html+=`<button class="ans" data-i="${j}">${aa.t}</button>`;
+    });
+    html+=`</div><div class="nav">
+              <button class="prev"${i===0?' style="visibility:hidden"':''}>← Précédent</button>
+              <button class="next" disabled>${i===QUIZ_Q.length-1?'Voir mon résultat 🎯':'Suivant →'}</button>
+            </div>`;
+    div.innerHTML=html;
+    quizContainer.appendChild(div);
+    div.querySelectorAll('.ans').forEach(b=>{
+      b.onclick=()=>{
+        div.querySelectorAll('.ans').forEach(x=>x.classList.remove('selected'));
+        b.classList.add('selected');
+        answers[i]=parseInt(b.dataset.i);
+        div.querySelector('.next').disabled=false;
+      };
+    });
+    div.querySelector('.prev').onclick=()=>showQ(i-1);
+    div.querySelector('.next').onclick=()=>{
+      if(i===QUIZ_Q.length-1)showResult();
+      else showQ(i+1);
+    };
+  });
+}
+
+function showQ(n){
+  document.querySelectorAll('.quiz-q').forEach(q=>q.classList.remove('active'));
+  const q=quizContainer.querySelector(`[data-q="${n}"]`);
+  if(q)q.classList.add('active');
+  if(answers[n]!==null){
+    q.querySelectorAll('.ans').forEach((a,i)=>{
+      if(i===answers[n])a.classList.add('selected');
+    });
+    q.querySelector('.next').disabled=false;
+  }
+  currentQ=n;
+}
+
+function showResult(){
+  quizContainer.querySelectorAll('.quiz-q').forEach(q=>q.classList.remove('active'));
+  document.getElementById('quiz-intro').style.display='none';
+  const scores={brillant:0,autonome:0,discret:0,decrocheur:0,provocateur:0,double:0};
+  answers.forEach((a,i)=>{
+    if(a!==null){
+      const pts=QUIZ_Q[i].a[a].p;
+      Object.keys(pts).forEach(k=>scores[k]+=pts[k]);
+    }
+  });
+  let winner=Object.keys(scores).reduce((a,b)=>scores[a]>scores[b]?a:b);
+  const p=PROFILS[winner];
+  document.getElementById('profil-found').innerHTML=`${p.emoji} <span style="color:${p.color}">${p.nom}</span>`;
+  document.getElementById('profil-explain').textContent=p.explain;
+  const max=Math.max(...Object.values(scores));
+  let scoresHtml='';
+  Object.entries(scores).sort((a,b)=>b[1]-a[1]).forEach(([k,v])=>{
+    const pct=max>0?(v/max*100):0;
+    scoresHtml+=`<div class="score-row">
+      <span>${PROFILS[k].emoji} ${PROFILS[k].nom}</span>
+      <div class="score-bar"><div style="width:${pct}%;background:${PROFILS[k].color}"></div></div>
+      <span style="font-weight:700;color:${PROFILS[k].color}">${v}</span>
+    </div>`;
+  });
+  document.getElementById('profil-scores').innerHTML=scoresHtml;
+  document.getElementById('quiz-result').classList.add('show');
+}
+
+document.getElementById('btn-quiz-start').onclick=()=>{
+  document.getElementById('quiz-intro').style.display='none';
+  renderQuizQuestions();
+};
+document.getElementById('btn-quiz-restart').onclick=()=>{
+  answers=new Array(QUIZ_Q.length).fill(null);
+  currentQ=0;
+  document.getElementById('quiz-result').classList.remove('show');
+  document.getElementById('quiz-intro').style.display='block';
+  quizContainer.innerHTML='';
+};
+
+/* Export */
+document.getElementById('btn-export').onclick=()=>{
+  const date=new Date().toLocaleDateString('fr-FR');
+  let txt=`GUIDE HPI EDUCATYPIQUE — Mes notes pro\n`;
+  txt+=`Création originale Nawel Haddouch · EducaTypique\n`;
+  txt+=`Exporté le : ${date}\n${'='.repeat(60)}\n\n`;
+  const labels={ch1:'1. Cerveau HPI',ch2:'2. Définition',ch3:'3. Diagnostic',ch4:'4. Profils',ch5:'5. École',ch6:'6. Maison',ch7:'7. Psycho'};
+  Object.entries(labels).forEach(([k,l])=>{
+    if(notes[k]&&notes[k].trim())txt+=`## ${l}\n${notes[k]}\n\n`;
+  });
+  if(!Object.values(notes).some(n=>n&&n.trim())){
+    txt+=`(Aucune note perso encore — active le Mode Pro 📋 et écris dans les champs.)\n`;
+  }
+  const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`guide-hpi_notes-pro_${date.replace(/\//g,'-')}.txt`;
+  a.click();URL.revokeObjectURL(url);
+};
+</script>
+
+</body>
+</html>
