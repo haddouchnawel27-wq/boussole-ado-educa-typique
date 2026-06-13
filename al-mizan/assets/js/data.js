@@ -1,5 +1,5 @@
 /* ============================================================
-   Jannat Al Qalb — contenus & moteur de recommandations
+   Al Mizan — contenus & moteur de recommandations
    Ton : chaleureux, clair, non culpabilisant, non clinique.
    Ces contenus sont un soutien à la compréhension de soi —
    ils ne remplacent ni un diagnostic, ni un suivi médical.
@@ -317,7 +317,7 @@
     hadith: "« L'affaire du croyant est étonnante : tout ce qui lui arrive est un bien. » (Muslim) — patience dans l'épreuve, gratitude dans le bonheur."
   };
 
-  // ---- Les 6 biais cognitifs (TCCI · Voie Chifâ, méthode en 5 étapes) ----
+  // ---- Les 6 biais cognitifs (TCCI, méthode en 5 étapes) ----
   // Un biais n'est PAS un défaut moral : c'est un raccourci mental.
   var BIAIS = [
     { id: "catastrophisme", famille: "Menace & certitude", nom: "Le catastrophisme", emoji: "🌪️",

@@ -1,4 +1,4 @@
-# 🌸 Jannat Al Qalb — Conception V1
+# ⚖️ Al Mizan — Conception V1
 
 > Outil d'auto-compréhension pour **femmes entrepreneures bloquées**, sur le versant
 > **émotions · fonctionnement · schémas · blocages** (prisme psycho).
@@ -6,7 +6,7 @@
 > ni au juridique, ni à un suivi médical ou psychologique**.
 
 Ton : chaleureux · clair · simple · non culpabilisant · non infantilisant · non clinique ·
-orienté **compréhension + action**. Inspiration intégrative : **Voie Chifâ** (TCCI),
+orienté **compréhension + action**. Inspiration intégrative : l'approche **TCCI** (thérapie cognitivo-comportementale d'inspiration islamique),
 médecine prophétique, et neurosciences (trauma, neuroplasticité).
 
 ---
@@ -31,7 +31,7 @@ semaines → exclue ou reportée en V2.
 
 ### Pile technique
 - **Front** : HTML/CSS/JS sans dépendance ni build. `assets/js/{store,ui,data,app}.js`.
-- **Données** : `localStorage` (préfixe `jannatalqalb.v1.`), export/import JSON.
+- **Données** : `localStorage` (préfixe `almizan.v1.`), export/import JSON.
 - **PDF** : impression navigateur (`window.print`) d'un gabarit HTML + SVG → « Enregistrer en PDF ».
 - **Hors-ligne** : `manifest.webmanifest` + `sw.js` (installable, PWA).
 - **Rappels** : préférence locale + invitation douce (toast) ; permission Notification facultative.
@@ -41,7 +41,7 @@ semaines → exclue ou reportée en V2.
 ## 2) Arborescence des écrans V1
 
 ```
-Jannat Al Qalb
+Al Mizan
 ├── Aujourd'hui            ← écran d'accueil (flux cœur)
 │   ├── Check-in (4 curseurs + zones + note)
 │   └── État du jour → priorités (1–3) → recommandations [+ appui spirituel*]
@@ -190,7 +190,7 @@ tendances 7 j / 30 j, état du jour, recommandations, résumé hebdomadaire, con
 
 ## Note éthique
 
-Jannat Al Qalb est un **outil de soutien à la compréhension de soi**. Les contenus
+Al Mizan est un **outil de soutien à la compréhension de soi**. Les contenus
 psychoéducatifs (émotions, biais, trauma, zones rouges) et l'appui spirituel optionnel
 **ne remplacent ni un diagnostic, ni un suivi médical ou psychologique**. Les situations
 sensibles renvoient explicitement vers un professionnel et, en cas de danger, vers les

@@ -1,8 +1,8 @@
-# 🌸 Jannat Al Qalb — Prendre soin de ton cœur, jour après jour
+# ⚖️ Al Mizan — Retrouver l'équilibre, devenir alignée
 
 Application web **100 % locale et privée** pour accompagner les **femmes entrepreneures**
 sur le versant **émotions · fonctionnement · schémas · blocages**. Volet complémentaire d'un
-accompagnement humain (Voie Chifâ) — elle n'intervient ni sur le business, ni sur le juridique.
+accompagnement humain — elle n'intervient ni sur le business, ni sur le juridique.
 
 > ⚠️ **Outil de soutien à la compréhension de soi.** Ne remplace ni un diagnostic, ni un suivi
 > médical ou psychologique.
@@ -38,7 +38,7 @@ Pour mettre en ligne (et installer comme une appli, hors-ligne) : hébergez le d
 Vanilla JS, sans dépendance, 100 % statique (aucun build).
 
 ```
-jannat-al-qalb/
+al-mizan/
 ├── index.html
 ├── manifest.webmanifest · sw.js
 ├── CONCEPTION-V1.md          ← architecture, écrans, data model, backlog, hors-V1

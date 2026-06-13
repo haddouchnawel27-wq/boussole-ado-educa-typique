@@ -1,18 +1,18 @@
 /* ============================================================
-   Jannat Al Qalb — couche de stockage local (localStorage)
+   Al Mizan — couche de stockage local (localStorage)
    100% local : aucune donnée ne quitte l'appareil.
    ============================================================ */
 (function () {
   "use strict";
 
-  var PREFIX = "jannatalqalb.v1.";
+  var PREFIX = "almizan.v1.";
 
   function lire(cle, defaut) {
     try {
       var brut = localStorage.getItem(PREFIX + cle);
       return brut === null ? defaut : JSON.parse(brut);
     } catch (e) {
-      console.warn("Jannat Al Qalb : lecture impossible", cle, e);
+      console.warn("Al Mizan : lecture impossible", cle, e);
       return defaut;
     }
   }
@@ -22,7 +22,7 @@
       localStorage.setItem(PREFIX + cle, JSON.stringify(valeur));
       return true;
     } catch (e) {
-      console.warn("Jannat Al Qalb : écriture impossible", cle, e);
+      console.warn("Al Mizan : écriture impossible", cle, e);
       return false;
     }
   }
@@ -74,7 +74,7 @@
         donnees[cle.slice(PREFIX.length)] = JSON.parse(localStorage.getItem(cle));
       }
     }
-    return { app: "Jannat Al Qalb", version: 1, exporte: new Date().toISOString(), donnees: donnees };
+    return { app: "Al Mizan", version: 1, exporte: new Date().toISOString(), donnees: donnees };
   }
 
   function importerTout(paquet) {

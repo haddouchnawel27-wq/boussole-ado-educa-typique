@@ -1,5 +1,5 @@
-/* Jannat Al Qalb — service worker minimal (hors-ligne). */
-var CACHE = "jannatalqalb-v1";
+/* Al Mizan — service worker minimal (hors-ligne). */
+var CACHE = "almizan-v1";
 var FICHIERS = [
   "./",
   "./index.html",
