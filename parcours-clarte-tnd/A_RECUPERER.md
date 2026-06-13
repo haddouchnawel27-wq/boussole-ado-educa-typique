@@ -27,7 +27,8 @@ _Structure réelle du site : `/f0_fondations/<espace>/<outil>/`_
 | routines-educatypique | ✅ récupéré (`apps/routines-educatypique.html`) |
 | matrice-urgent-important | ✅ récupéré (`apps/matrice-urgent-important.html`) |
 | maman-neuro-atypique | ✅ récupéré (`apps/maman-neuro-atypique.html`) |
-| mon-equipe-de-soin | ❌ à récupérer *(cité par la Boussole diagnostic DYS)* |
+| mon-equipe-de-soin | ✅ récupéré (`apps/mon-equipe-de-soin.html`) — **Espace Parents complet 🎉** |
+| ligne-du-temps-parcours-tnd | ✅ récupéré (`apps/ligne-du-temps-parcours-tnd.html`) |
 
 > 🔎 **Nouvel espace découvert** : `parents-musulmans.html` (Familles musulmanes / Voie Chifâ) — à inventorier.
 
