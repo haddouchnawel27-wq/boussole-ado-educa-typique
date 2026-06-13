@@ -1,5 +1,5 @@
-/* Boussole Pro — service worker minimal (hors-ligne). */
-var CACHE = "boussole-pro-v1";
+/* Mîzân — service worker minimal (hors-ligne). */
+var CACHE = "mizan-v1";
 var FICHIERS = [
   "./",
   "./index.html",

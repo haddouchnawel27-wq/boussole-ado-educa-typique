@@ -1,5 +1,5 @@
 /* ============================================================
-   Boussole Pro — application V1 (router + écrans)
+   Mîzân — application V1 (router + écrans)
    Flux cœur : check-in → état du jour → priorités → recommandations
    ============================================================ */
 (function () {
@@ -8,7 +8,7 @@
 
   // ---------- Navigation ----------
   var ONGLETS = [
-    { id: "accueil", nom: "Aujourd'hui", emoji: "🧭" },
+    { id: "accueil", nom: "Aujourd'hui", emoji: "⚖️" },
     { id: "tendances", nom: "Tendances", emoji: "📈" },
     { id: "zones", nom: "Zones rouges", emoji: "🛟" },
     { id: "pensees", nom: "Mes pensées", emoji: "💭" },
@@ -600,7 +600,7 @@
       row.push((c.note || "").replace(/[;\n]/g, " "));
       lignes.push(row.join(";"));
     });
-    telecharger("boussole-pro-export.csv", "﻿" + lignes.join("\n"), "text/csv");
+    telecharger("mizan-export.csv", "﻿" + lignes.join("\n"), "text/csv");
     UI.toast("Export CSV prêt 📄");
   }
 
@@ -618,14 +618,14 @@
     var prefs = Store.prefs();
     var courbe7 = blocCourbe("7 derniers jours", 7, checks).querySelector("svg");
     var courbe30 = blocCourbe("30 derniers jours", 30, checks).querySelector("svg");
-    var html = "<!DOCTYPE html><html lang='fr'><head><meta charset='utf-8'><title>Résumé — Boussole Pro</title><style>" +
+    var html = "<!DOCTYPE html><html lang='fr'><head><meta charset='utf-8'><title>Résumé — Mîzân</title><style>" +
       "body{font-family:Segoe UI,system-ui,sans-serif;color:#2d3436;max-width:760px;margin:24px auto;padding:0 16px;line-height:1.5}" +
       "h1{color:#3a7d6e}h2{color:#2c6055;border-bottom:2px solid #e7f2ef;padding-bottom:4px;margin-top:28px}" +
       ".pil{display:inline-block;background:#e7f2ef;color:#2c6055;border-radius:999px;padding:3px 12px;margin:3px;font-size:14px}" +
       "svg{max-width:100%;border:1px solid #eee;border-radius:10px;padding:8px}" +
       ".note{color:#6b7280;font-size:13px}table{width:100%;border-collapse:collapse;font-size:13px}td,th{border:1px solid #e5e7eb;padding:5px 7px;text-align:left}" +
       "</style></head><body>";
-    html += "<h1>🧭 Mon résumé — Boussole Pro</h1>";
+    html += "<h1>⚖️ Mon résumé — Mîzân</h1>";
     html += "<p class='note'>" + (prefs.prenom ? prefs.prenom + " — " : "") + "Édité le " + new Date().toLocaleDateString("fr-FR") + "</p>";
     html += "<h2>Synthèse</h2><p>";
     if (s7) html += "<span class='pil'>7 j : " + s7.etat.emoji + " " + s7.etat.label + " (" + s7.moy.toFixed(1) + "/5)</span>";
@@ -639,7 +639,7 @@
       html += "<tr><td>" + UI.dateFr(c.cree) + "</td>" + Data.DIMENSIONS.map(function (d) { return "<td>" + (c[d.cle] || "-") + "</td>"; }).join("") + "<td>" + Data.moyenne(c).toFixed(1) + "</td><td>" + (c.zones || []).map(function (z) { var x = Data.zoneParId(z); return x ? x.nom : z; }).join(", ") + "</td></tr>";
     });
     html += "</table>";
-    html += "<p class='note' style='margin-top:24px'>Boussole Pro est un outil de soutien à la compréhension de soi. Il ne remplace ni un diagnostic, ni un suivi médical ou psychologique.</p>";
+    html += "<p class='note' style='margin-top:24px'>Mîzân est un outil de soutien à la compréhension de soi. Il ne remplace ni un diagnostic, ni un suivi médical ou psychologique.</p>";
     html += "</body></html>";
     w.document.write(html); w.document.close();
     setTimeout(function () { w.print(); }, 350);
@@ -680,7 +680,7 @@
     carteData.appendChild(el("h3.bloc-titre", { text: "🔒 Mes données" }));
     carteData.appendChild(el(".btn-rangee", {}, [
       el("button.btn.secondaire", { text: "⬇️ Sauvegarder (JSON)", onclick: function () {
-        telecharger("boussole-pro-sauvegarde.json", JSON.stringify(Store.exporterTout(), null, 2), "application/json");
+        telecharger("mizan-sauvegarde.json", JSON.stringify(Store.exporterTout(), null, 2), "application/json");
         UI.toast("Sauvegarde téléchargée");
       } }),
       el("button.btn.ghost", { text: "🗑️ Tout effacer", onclick: function () {
@@ -689,7 +689,7 @@
     ]));
     vue.appendChild(carteData);
 
-    vue.appendChild(el("p.note", { style: "text-align:center;margin-top:1.5rem", text: "Boussole Pro — outil de soutien à la compréhension de soi. Ne remplace ni un diagnostic, ni un suivi médical ou psychologique." }));
+    vue.appendChild(el("p.note", { style: "text-align:center;margin-top:1.5rem", text: "Mîzân — outil de soutien à la compréhension de soi. Ne remplace ni un diagnostic, ni un suivi médical ou psychologique." }));
   };
 
   function interrupteur(label, actif, onChange) {
@@ -723,5 +723,5 @@
     }
   }
 
-  window.BoussolePro = { start: start, naviguer: naviguer, crise: ouvrirCrise };
+  window.Mizan = { start: start, naviguer: naviguer, crise: ouvrirCrise };
 })();

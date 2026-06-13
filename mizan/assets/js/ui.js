@@ -1,5 +1,5 @@
 /* ============================================================
-   Boussole Pro — helpers d'interface (création DOM, toast, modal)
+   Mîzân — helpers d'interface (création DOM, toast, modal)
    Léger, sans dépendance.
    ============================================================ */
 (function () {

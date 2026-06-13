@@ -1,5 +1,5 @@
 /* ============================================================
-   Boussole Pro — contenus & moteur de recommandations
+   Mîzân — contenus & moteur de recommandations
    Ton : chaleureux, clair, non culpabilisant, non clinique.
    Ces contenus sont un soutien à la compréhension de soi —
    ils ne remplacent ni un diagnostic, ni un suivi médical.

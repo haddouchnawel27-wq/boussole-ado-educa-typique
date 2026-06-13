@@ -1,4 +1,4 @@
-# 🧭 Boussole Pro — Mieux te comprendre, jour après jour
+# ⚖️ Mîzân — Mieux te comprendre, jour après jour
 
 Application web **100 % locale et privée** pour accompagner les **femmes entrepreneures**
 sur le versant **émotions · fonctionnement · schémas · blocages**. Volet complémentaire d'un
@@ -35,10 +35,10 @@ Pour mettre en ligne (et installer comme une appli, hors-ligne) : hébergez le d
 
 ## 🛠️ Architecture (pour faire évoluer)
 
-Vanilla JS, sans dépendance — réutilise le socle de l'appli Boussole (ados).
+Vanilla JS, sans dépendance, 100 % statique (aucun build).
 
 ```
-boussole-pro/
+mizan/
 ├── index.html
 ├── manifest.webmanifest · sw.js
 ├── CONCEPTION-V1.md          ← architecture, écrans, data model, backlog, hors-V1
