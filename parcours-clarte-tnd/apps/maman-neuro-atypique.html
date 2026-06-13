@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Je me découvre — Maman neuro-atypique · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#FFF6F0 0%,#FFF0E8 35%,#F5E8F0 70%,#FFF8F0 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#3D3032;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:920px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes shimmer{0%,100%{opacity:0.6}50%{opacity:1}}
+@keyframes pulse-rose{0%,100%{box-shadow:0 0 0 0 rgba(217,140,150,0.4)}50%{box-shadow:0 0 0 14px rgba(217,140,150,0)}}
+
+.hdr{text-align:center;padding:42px 24px 32px;margin-bottom:22px;background:linear-gradient(135deg,#FFF6EE 0%,#FFE8DC 40%,#F5DAE8 70%,#F0E0F0 100%);border-radius:24px;border:1px solid rgba(217,140,150,0.22);box-shadow:0 8px 28px rgba(217,140,150,0.1);position:relative;overflow:hidden}
+.hdr::before{content:'🌸';position:absolute;top:18px;right:22px;font-size:48px;opacity:0.15;transform:rotate(-12deg);animation:float 4s ease-in-out infinite}
+.hdr::after{content:'☕';position:absolute;bottom:18px;left:22px;font-size:42px;opacity:0.13;transform:rotate(8deg)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#D98C96,#B59ECE);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px;position:relative;z-index:1}
+.float-icon{font-size:54px;margin-bottom:4px;display:inline-block;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1}
+.hdr h1{font-family:Georgia,serif;font-size:32px;font-weight:400;color:#3D3032;margin-bottom:6px;position:relative;z-index:1;letter-spacing:0.3px}
+.hdr .baseline{font-family:Georgia,serif;font-size:14.5px;font-style:italic;color:#9B5C72;margin-bottom:10px;position:relative;z-index:1;letter-spacing:1.2px}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#6B5C5C;position:relative;z-index:1;max-width:660px;margin:0 auto;line-height:1.55}
+
+.intro{background:#FFFFFF;border-radius:18px;padding:24px;margin-bottom:20px;border:1px solid rgba(217,140,150,0.18);box-shadow:0 4px 14px rgba(217,140,150,0.06)}
+.intro p{font-size:15px;color:#3D3032;line-height:1.75;margin-bottom:10px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#9B5C72}
+.intro .miroir{background:linear-gradient(135deg,#FFF6EE,#F5DAE8);border-radius:14px;padding:18px 22px;margin:14px 0;text-align:center;font-family:Georgia,serif;font-style:italic;font-size:15px;color:#6E4D5C;line-height:1.65;border-left:5px solid #D98C96}
+.intro .disclaimer{background:#FFF8E8;border-left:4px solid #C8973A;padding:12px 16px;border-radius:8px;font-size:13.5px;color:#6B4F1A;margin-top:14px;line-height:1.55}
+
+.dossier-bar{background:#FFFFFF;border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(217,140,150,0.06);border:1px solid rgba(217,140,150,0.18)}
+.dossier-bar label{font-size:13px;font-weight:600;color:#6B5C5C}
+.dossier-bar input,.dossier-bar select{padding:7px 12px;border:1px solid rgba(217,140,150,0.25);border-radius:9px;font-size:13px;background:#FFFBF6;font-family:inherit;color:#3D3032;min-width:150px}
+.dossier-bar button{background:#F8E8E8;color:#9B5C72;border:1px solid rgba(217,140,150,0.25);padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.dossier-bar button:hover{background:#F0D8D8}
+.dossier-bar .btn-export{background:linear-gradient(135deg,#D98C96,#E8A8B0);color:#fff;border:none}
+.dossier-bar .btn-print{background:linear-gradient(135deg,#9B85B8,#B59ECE);color:#fff;border:none}
+
+.nav{display:flex;gap:6px;background:#FFFFFF;padding:8px;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 12px rgba(217,140,150,0.08);overflow-x:auto;border:1px solid rgba(217,140,150,0.18)}
+.nav::-webkit-scrollbar{height:6px}
+.nav::-webkit-scrollbar-thumb{background:#E8C9D0;border-radius:3px}
+.nav button{background:transparent;color:#6B5C5C;border:none;padding:11px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.25s;white-space:nowrap;font-family:inherit;display:flex;align-items:center;gap:6px}
+.nav button:hover{background:#F8E8E8;color:#9B5C72}
+.nav button.active{background:linear-gradient(135deg,#D98C96,#E8A8B0);color:#fff;box-shadow:0 4px 10px rgba(217,140,150,0.3)}
+
+.panel{display:none;animation:fadeIn 0.4s ease-out}
+.panel.active{display:block}
+.section{background:#FFFFFF;border-radius:20px;padding:26px 24px;margin-bottom:18px;border:1px solid rgba(217,140,150,0.18);box-shadow:0 4px 14px rgba(217,140,150,0.05)}
+.section h2{font-family:Georgia,serif;font-size:22px;font-weight:500;color:#3D3032;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#8A7878;font-style:italic;margin-bottom:18px;line-height:1.55}
+.section h3{font-family:Georgia,serif;font-size:17px;color:#9B5C72;margin:20px 0 10px;font-weight:600}
+
+/* ============ QUIZ AUTO-PORTRAIT ============ */
+.quiz-progress{height:8px;background:#F8E8E8;border-radius:4px;overflow:hidden;margin-bottom:18px}
+.quiz-progress-bar{height:100%;background:linear-gradient(90deg,#D98C96,#9B85B8);transition:width 0.3s ease}
+
+.cat-section{background:#FBF8F4;border-radius:14px;padding:16px 18px;margin-bottom:14px;border-left:5px solid}
+.cat-tdah{border-color:#608CB4}
+.cat-hpi{border-color:#9B85B8}
+.cat-sens{border-color:#D98C96}
+.cat-tsa{border-color:#6CA89E}
+.cat-anx{border-color:#E89556}
+.cat-fatig{border-color:#7AA0C6}
+.cat-section h3{font-family:Georgia,serif;font-size:16px;margin:0 0 10px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;color:#3D3032 !important}
+.cat-section h3 .score-tag{font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:10px;background:#fff;letter-spacing:0.3px}
+.cat-tdah h3 .score-tag{color:#608CB4}
+.cat-hpi h3 .score-tag{color:#9B85B8}
+.cat-sens h3 .score-tag{color:#D98C96}
+.cat-tsa h3 .score-tag{color:#4A8576}
+.cat-anx h3 .score-tag{color:#9B5C3A}
+.cat-fatig h3 .score-tag{color:#608CB4}
+.cat-section .cat-desc{font-size:12.5px;color:#6B5C5C;font-style:italic;margin-bottom:10px;line-height:1.5}
+
+.q-item{background:#fff;border-radius:10px;padding:11px 13px;margin-bottom:7px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+@media (max-width:580px){.q-item{grid-template-columns:1fr}}
+.q-text{font-size:13.5px;color:#3D3032;line-height:1.5}
+.q-scale{display:flex;gap:5px}
+.q-scale label{display:flex;flex-direction:column;align-items:center;cursor:pointer;font-size:10.5px;color:#8A7878;font-weight:600;width:38px;text-align:center}
+.q-scale input[type=radio]{accent-color:#9B5C72;cursor:pointer;width:16px;height:16px;margin:0 0 2px}
+.q-scale .lbl{font-size:10px}
+
+/* ============ RADAR ============ */
+.radar-wrap{background:#FBF8F4;border-radius:18px;padding:20px;margin-top:14px;text-align:center}
+.radar-svg{max-width:420px;width:100%;height:auto}
+.radar-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:14px;text-align:left}
+.rad-row{padding:10px 14px;border-radius:10px;background:#fff;border-left:4px solid}
+.rad-row .rad-cat{font-family:Georgia,serif;font-size:13px;font-weight:600;margin-bottom:3px}
+.rad-row .rad-val{font-size:12px;color:#6B5C5C}
+.rad-row .rad-verdict{display:inline-block;margin-top:4px;padding:2px 9px;border-radius:8px;font-size:11px;font-weight:700;letter-spacing:0.3px}
+.v-faible{background:#E8F5EC;color:#4A8576}
+.v-moyen{background:#FFF6E8;color:#9B7E2A}
+.v-marque{background:#FFEEDC;color:#9B5C3A}
+.v-fort{background:#FCE2E2;color:#C9573A}
+
+/* ============ DIFFICULTÉS ============ */
+.dif-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:14px}
+.dif-card{background:#FBF8F4;border-radius:14px;padding:16px 18px;border-left:4px solid #D98C96}
+.dif-card h4{font-family:Georgia,serif;font-size:15px;color:#9B5C72;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.dif-checklist{list-style:none;padding:0;margin:0}
+.dif-checklist li{padding:7px 10px;display:flex;align-items:flex-start;gap:9px;cursor:pointer;border-radius:7px;transition:all 0.2s;font-size:13px;color:#3D3032;line-height:1.5}
+.dif-checklist li:hover{background:#fff}
+.dif-checklist li.checked{background:linear-gradient(135deg,#F8E8E8,#F0E0E8);color:#6E4D5C;font-weight:500}
+.dif-checklist li .chk{width:18px;height:18px;border:2px solid #C9A8B5;border-radius:4px;flex-shrink:0;margin-top:1px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;color:transparent;font-weight:700}
+.dif-checklist li.checked .chk{background:#D98C96;border-color:#D98C96;color:#fff}
+.dif-checklist li.checked .chk::after{content:'✓'}
+
+.dif-libre{margin-top:14px}
+.dif-libre label{display:block;font-size:13px;color:#9B5C72;font-weight:600;margin-bottom:6px}
+.dif-libre textarea{width:100%;padding:11px 14px;border:1px solid rgba(217,140,150,0.25);border-radius:10px;font-size:14px;color:#3D3032;background:#FBF8F4;font-family:inherit;line-height:1.55;min-height:70px;resize:vertical}
+
+/* ============ MIROIR ENFANT ============ */
+.miroir-card{background:linear-gradient(135deg,#FFF6EE,#F5DAE8,#F0E0F0);border-radius:16px;padding:20px 22px;border:1px solid rgba(217,140,150,0.22)}
+.miroir-card h3{color:#6E4D5C !important;font-family:Georgia,serif;font-size:17px;margin-bottom:12px}
+.miroir-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+@media (max-width:680px){.miroir-grid{grid-template-columns:1fr}}
+.mir-col{background:#fff;border-radius:12px;padding:14px 16px}
+.mir-col h4{font-family:Georgia,serif;font-size:14px;margin-bottom:8px;display:flex;align-items:center;gap:6px;color:#9B5C72}
+.mir-col .mir-enfant h4{color:#608CB4}
+.mir-col ul{margin:0;padding-left:20px}
+.mir-col li{padding:3px 0;font-size:13px;color:#3D3032;line-height:1.55}
+
+/* ============ OUTILS POUR MOI ============ */
+.outil-card{background:#FBF8F4;border-radius:14px;padding:18px 20px;margin-bottom:14px;border-top:5px solid}
+.o-orga{border-color:#608CB4}
+.o-plan{border-color:#9B85B8}
+.o-charge{border-color:#D98C96}
+.o-emo{border-color:#E89556}
+.o-sommeil{border-color:#7AA0C6}
+.o-care{border-color:#6CA89E}
+.outil-card h3{font-family:Georgia,serif;font-size:16px;margin:0 0 10px;display:flex;align-items:center;gap:10px;color:#3D3032 !important}
+.outil-card .desc{font-size:13px;color:#6B5C5C;font-style:italic;margin-bottom:12px;line-height:1.55}
+.outil-card ul{margin:0;padding-left:22px}
+.outil-card li{font-size:13.5px;color:#3D3032;line-height:1.65;margin-bottom:4px}
+.outil-card li strong{color:#9B5C72}
+
+/* ============ PLAN D'ACTION DOUCE ============ */
+.plan-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
+.plan-block{background:#FBF8F4;border-radius:12px;padding:14px 18px;border-left:4px solid}
+.plan-1{border-color:#D98C96}
+.plan-2{border-color:#9B85B8}
+.plan-3{border-color:#6CA89E}
+.plan-block label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.plan-1 label{color:#9B5C72}
+.plan-2 label{color:#6E5594}
+.plan-3 label{color:#4A8576}
+.plan-block textarea{width:100%;padding:10px 14px;border:1px solid rgba(217,140,150,0.22);border-radius:10px;font-size:14px;color:#3D3032;background:#fff;font-family:inherit;line-height:1.55;min-height:60px;resize:vertical}
+
+.ressources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
+.res-card{background:#fff;border-radius:12px;padding:14px 16px;border-left:4px solid #9B85B8}
+.res-card h4{font-family:Georgia,serif;font-size:14px;color:#6E5594;margin-bottom:6px}
+.res-card p{font-size:13px;color:#3D3032;line-height:1.55;margin:0}
+
+.consult-box{background:#FFF6EE;border-radius:14px;padding:16px 20px;margin-top:14px;border-left:5px solid #E89556}
+.consult-box h4{font-family:Georgia,serif;font-size:14px;color:#9B5C3A;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+.consult-box ul{margin:0;padding-left:22px}
+.consult-box li{font-size:13px;color:#3D3032;line-height:1.6;margin-bottom:4px}
+
+.footer{text-align:center;padding:30px 16px 8px;color:#8A7878;font-size:12.5px;font-style:italic;font-family:Georgia,serif;animation:shimmer 5s ease-in-out infinite}
+.footer .brand-foot{color:#9B5C72;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .small{color:#A8989C;font-size:11px;margin-top:4px;display:block}
+
+.btn-retour-bas{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#D98C96,#9B85B8);color:#fff;text-decoration:none;padding:10px 22px;border-radius:22px;font-size:13.5px;font-weight:600;margin-top:18px;transition:all .2s}
+.btn-retour-bas:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(217,140,150,0.25);text-decoration:none;color:#fff}
+
+@media print{
+body{background:#fff;padding:10px}
+.nav,.dossier-bar{display:none !important}
+.panel{display:block !important;page-break-after:always}
+.section,.outil-card,.dif-card,.cat-section{box-shadow:none;page-break-inside:avoid}
+}
+
+@media (max-width:600px){
+.hdr{padding:32px 18px 22px}
+.hdr h1{font-size:22px}
+.section{padding:20px 18px}
+}
+</style>
+</head>
+<body>
+<a href="../parents.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#9B5C72;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(217,140,150,0.25)">← Parents</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Outil maman · EducaTypique</span>
+<div class="float-icon">🌸</div>
+<h1>Je me découvre — Maman neuro-atypique</h1>
+<div class="baseline">AUTO-PORTRAIT · DIFFICULTÉS · OUTILS · PLAN DOUCE</div>
+<p>Pour les mamans qui se reconnaissent en miroir de leur enfant TND. Pour celles qui s'épuisent à compenser, à masquer, à tenir. Pour celles qui veulent se comprendre et s'aimer mieux.</p>
+</div>
+
+<div class="intro">
+<p>Tu accompagnes un enfant TDAH, HPI, DYS, hypersensible, ou tu te demandes... Et en lisant ses fiches, tu te dis souvent : <strong>« mais ça, c'est moi ! »</strong> Tu n'es pas seule. Beaucoup de mamans se découvrent neuro-atypiques en miroir de leurs enfants — souvent vers 35-45 ans, après une vie de compensation invisible.</p>
+<div class="miroir">
+« On ne peut pas verser à partir d'une tasse vide.<br>Se découvrir, ce n'est pas un caprice — c'est un acte de soin pour soi ET pour les siens. »
+</div>
+<p>Ce questionnaire <strong>n'est pas un diagnostic</strong>. C'est une cartographie douce pour mieux te connaître. Tu sauras où en parler, quoi tester, et quand consulter. Tes réponses restent sur ton appareil (rien n'est envoyé en ligne).</p>
+<div class="disclaimer">⚠️ <strong>Pas un diagnostic.</strong> Si certains domaines sortent marqués/forts, prendre rendez-vous avec un(e) neuropsy ou un(e) psychiatre spécialiste TND adulte. Beaucoup de femmes restent non diagnostiquées toute leur vie — ce n'est pas grave d'attendre, c'est plus grave de souffrir en silence.</div>
+</div>
+
+<div class="dossier-bar">
+<label>📁 Dossier :</label>
+<select id="dossierSelect" onchange="changeDossier()">
+<option value="default">Mon dossier</option>
+</select>
+<input type="text" id="newDossier" placeholder="Nouveau (ex: 2026-mai)">
+<button onclick="addDossier()">+ Créer</button>
+<button onclick="deleteDossier()">🗑 Supprimer</button>
+<button onclick="exportTXT()" class="btn-export">📥 Exporter en .txt</button>
+<button onclick="window.print()" class="btn-print">🖨️ Imprimer</button>
+</div>
+
+<div class="nav">
+<button class="active" data-tab="portrait" onclick="switchTab('portrait')">🪞 Mon auto-portrait</button>
+<button data-tab="difficultes" onclick="switchTab('difficultes')">🔍 Mes difficultés</button>
+<button data-tab="miroir" onclick="switchTab('miroir')">👶 Miroir mère-enfant</button>
+<button data-tab="outils" onclick="switchTab('outils')">🛠️ Outils pour moi</button>
+<button data-tab="plan" onclick="switchTab('plan')">💛 Mon plan douce</button>
+</div>
+
+<!-- ============================================================
+     PANEL 1 — AUTO-PORTRAIT
+     ============================================================ -->
+<div class="panel active" id="panel-portrait">
+
+<div class="section">
+<h2>🪞 Mon auto-portrait neuro</h2>
+<div class="sub">36 questions sur 6 grandes dimensions. Réponds spontanément, en pensant à ces 4 dernières semaines.</div>
+
+<div class="quiz-progress"><div class="quiz-progress-bar" id="barPortrait" style="width:0%"></div></div>
+
+<div id="categoriesContainer">
+<!-- généré par JS -->
+</div>
+
+<div class="radar-wrap" id="radarWrap" style="display:none">
+<h3 style="font-family:Georgia,serif;font-size:16px;color:#9B5C72;margin-bottom:14px">📊 Ma carte neuro</h3>
+<svg class="radar-svg" viewBox="-220 -240 440 480" id="radarSvg" xmlns="http://www.w3.org/2000/svg">
+<g stroke="#E8C9D0" fill="none" stroke-width="1">
+<polygon id="ring1" points=""></polygon>
+<polygon id="ring2" points=""></polygon>
+<polygon id="ring3" points=""></polygon>
+<polygon id="ring4" points="" stroke="#D98C96" stroke-width="1.5"></polygon>
+</g>
+<g stroke="#E8C9D0" stroke-width="1" id="axesGroup"></g>
+<g font-family="Georgia,serif" font-size="11" fill="#3D3032" id="labelsGroup"></g>
+<polygon id="radarPoly" points="" fill="rgba(217,140,150,0.28)" stroke="#D98C96" stroke-width="2"></polygon>
+<g id="radarPoints"></g>
+</svg>
+<div class="radar-summary" id="radarSummary"></div>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 2 — DIFFICULTÉS
+     ============================================================ -->
+<div class="panel" id="panel-difficultes">
+
+<div class="section">
+<h2>🔍 Mes difficultés concrètes</h2>
+<div class="sub">Coche ce qui te parle. Pas de jugement — c'est une photo de toi maintenant. Tu peux revenir y ajouter des choses plus tard.</div>
+
+<div class="dif-grid">
+
+<div class="dif-card">
+<h4>🗂️ Organisation domestique</h4>
+<ul class="dif-checklist" data-cat="orga">
+<li onclick="toggleDif(this)"><span class="chk"></span>Mon intérieur n'est jamais comme je voudrais</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je commence le ménage et je passe à autre chose</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Le linge s'accumule, je le finis rarement (laver/sécher/plier/ranger)</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je perds mes clés, mon téléphone, mes papiers</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Mon sac est un trou noir</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je ne sais jamais où sont les affaires de tout le monde</li>
+</ul>
+</div>
+
+<div class="dif-card">
+<h4>📅 Planification semaine</h4>
+<ul class="dif-checklist" data-cat="plan">
+<li onclick="toggleDif(this)"><span class="chk"></span>J'oublie des RDV malgré agenda/rappels</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je sous-estime le temps que prennent les choses</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je fais tout en mode urgence / pompier</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je n'arrive pas à anticiper (courses, repas, vêtements)</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je n'ose plus dire oui aux invitations / projets</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je procrastine sur l'administratif jusqu'à panique</li>
+</ul>
+</div>
+
+<div class="dif-card">
+<h4>🧠 Charge mentale invisible</h4>
+<ul class="dif-checklist" data-cat="charge">
+<li onclick="toggleDif(this)"><span class="chk"></span>Je porte tout dans ma tête pour toute la famille</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>J'ai 1000 listes mentales qui tournent en boucle</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je ne sais plus me reposer même quand j'ai du temps</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je culpabilise dès que je m'arrête</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je délègue mal — c'est plus rapide si je fais</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Mon cerveau tourne tard le soir, je ne dors pas</li>
+</ul>
+</div>
+
+<div class="dif-card">
+<h4>😴 Sommeil & énergie</h4>
+<ul class="dif-checklist" data-cat="sommeil">
+<li onclick="toggleDif(this)"><span class="chk"></span>J'ai du mal à m'endormir, mes idées tournent</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je me réveille la nuit et je rumine</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Le matin je suis épuisée avant d'avoir commencé</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>J'ai des coups de fatigue intenses en pleine journée</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je tiens grâce au café / sucre / écran</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Mon corps me lâche par moments (somatique)</li>
+</ul>
+</div>
+
+<div class="dif-card">
+<h4>💔 Émotions</h4>
+<ul class="dif-checklist" data-cat="emo">
+<li onclick="toggleDif(this)"><span class="chk"></span>Je pleure souvent pour ce qui semble peu</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je crie sur les enfants puis je culpabilise</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je ressens l'injustice très intensément</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je ressens la fatigue/tension des autres avant la mienne</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je passe vite du rire aux larmes</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je me sens vide ou en pilote automatique régulièrement</li>
+</ul>
+</div>
+
+<div class="dif-card">
+<h4>👥 Relations</h4>
+<ul class="dif-checklist" data-cat="rel">
+<li onclick="toggleDif(this)"><span class="chk"></span>Je me sens souvent décalée / incomprise</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je me « caméléone » pour m'adapter aux autres</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je suis épuisée après les évènements sociaux</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je donne beaucoup et je m'oublie</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je n'ose pas demander de l'aide</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je dis oui alors que je veux dire non</li>
+</ul>
+</div>
+
+<div class="dif-card">
+<h4>💎 Estime de soi</h4>
+<ul class="dif-checklist" data-cat="estime">
+<li onclick="toggleDif(this)"><span class="chk"></span>Je me trouve nulle même quand je fais beaucoup</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je me compare aux autres mamans et je me sens en-dessous</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je masque ma fatigue / mes difficultés à l'extérieur</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je suis dure avec moi-même, indulgente avec les autres</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>J'ai un syndrome de l'imposteur (boulot ou maternité)</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je n'arrive pas à me valoriser même quand on me félicite</li>
+</ul>
+</div>
+
+<div class="dif-card">
+<h4>🌊 Sensoriel quotidien</h4>
+<ul class="dif-checklist" data-cat="sens">
+<li onclick="toggleDif(this)"><span class="chk"></span>Le bruit des enfants/de la maison me sature vite</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Les lumières fortes / néons me fatiguent</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Certaines textures de vêtements me sont insupportables</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je sature dans les magasins, foules, transports</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>Je sens les odeurs très fort (cuisine, parfums...)</li>
+<li onclick="toggleDif(this)"><span class="chk"></span>J'ai besoin de me retirer au calme régulièrement</li>
+</ul>
+</div>
+
+</div>
+
+<div class="dif-libre">
+<label>📝 Mes difficultés à moi (en mes propres mots)</label>
+<textarea id="dif-libre" placeholder="Ex : ce qui me pèse le plus c'est... / je n'arrive pas à... / ce qui m'épuise dans ma journée c'est..."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 3 — MIROIR MÈRE-ENFANT
+     ============================================================ -->
+<div class="panel" id="panel-miroir">
+
+<div class="section">
+<h2>👶 Le miroir mère-enfant</h2>
+<div class="sub">Beaucoup de mamans se découvrent en miroir : « ce qu'on dit de mon enfant, je le vois en moi aussi ». Voici les correspondances les plus fréquentes.</div>
+
+<div class="miroir-card">
+<h3>🪞 Ce qui se voit chez l'enfant — ce qu'on peut ressentir chez la maman</h3>
+
+<div class="miroir-grid" style="margin-top:14px">
+<div class="mir-col mir-enfant">
+<h4>👶 Chez l'enfant TDAH</h4>
+<ul>
+<li>Distrait, oublis fréquents</li>
+<li>Démarrage difficile des tâches</li>
+<li>Émotions montent vite et fort</li>
+<li>Hyperfocus sur ce qui passionne</li>
+<li>Bouge, ne tient pas en place</li>
+</ul>
+</div>
+<div class="mir-col">
+<h4>🌸 Chez la maman TDAH</h4>
+<ul>
+<li>Tête « dans le brouillard », perte d'objets</li>
+<li>Procrastination, paralysie devant l'admin</li>
+<li>Hypersensibilité émotionnelle, larmes/cris</li>
+<li>Passions intenses, intérêts changeants</li>
+<li>Hyperactivité INTERNE (cerveau en feu)</li>
+</ul>
+</div>
+</div>
+
+<div class="miroir-grid" style="margin-top:14px">
+<div class="mir-col mir-enfant">
+<h4>🌟 Chez l'enfant HPI</h4>
+<ul>
+<li>Pensée arborescente</li>
+<li>Ennui rapide</li>
+<li>Hyperempathie</li>
+<li>Sens aigu de l'injustice</li>
+<li>Décalage social</li>
+</ul>
+</div>
+<div class="mir-col">
+<h4>🌸 Chez la maman HPI</h4>
+<ul>
+<li>Sur-réflexion, idées qui partent dans tous les sens</li>
+<li>Pas faite pour les conversations superficielles</li>
+<li>Absorbe les émotions des autres</li>
+<li>Combat les injustices, militante intérieure</li>
+<li>Se sent rarement « comme tout le monde »</li>
+</ul>
+</div>
+</div>
+
+<div class="miroir-grid" style="margin-top:14px">
+<div class="mir-col mir-enfant">
+<h4>💧 Chez l'enfant hypersensible</h4>
+<ul>
+<li>Réagit fort aux bruits/lumières</li>
+<li>Empathique, ressent tout</li>
+<li>Fatigue après stimulation</li>
+<li>Pleure facilement</li>
+<li>Besoin de retraits au calme</li>
+</ul>
+</div>
+<div class="mir-col">
+<h4>🌸 Chez la maman hypersensible</h4>
+<ul>
+<li>Saturée par bruit famille / écrans / open space</li>
+<li>Lit les émotions des autres avant elle-même</li>
+<li>Épuisement après les fêtes, repas famille</li>
+<li>Émue par les films, la musique, les beautés</li>
+<li>Besoin VITAL de moments seule au calme</li>
+</ul>
+</div>
+</div>
+
+<div class="miroir-grid" style="margin-top:14px">
+<div class="mir-col mir-enfant">
+<h4>🌐 Chez l'enfant TSA léger</h4>
+<ul>
+<li>Comprend mal l'implicite</li>
+<li>Besoin de routines stables</li>
+<li>Intérêts spécifiques très investis</li>
+<li>Difficulté avec les changements</li>
+<li>Fatigue en interactions sociales</li>
+</ul>
+</div>
+<div class="mir-col">
+<h4>🌸 Chez la maman TSA / Asperger</h4>
+<ul>
+<li>Galère avec sous-entendus, second degré subtil</li>
+<li>Routines = sécurité, imprévu = épuisant</li>
+<li>Passions/expertise dans 1-2 domaines précis</li>
+<li>Les changements imprévus la mettent en panique</li>
+<li>Masking social : épuisement extrême après social</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div class="intro" style="margin-top:16px">
+<p><strong>👉 Si tu reconnais des choses dans ces colonnes</strong>, c'est très probable que tu sois aussi neuro-atypique. Ce n'est <strong>pas</strong> grave. Ce n'est <strong>pas</strong> ta faute. Ce n'est <strong>pas</strong> une mode.</p>
+<p>C'est juste une <strong>information précieuse</strong>. Beaucoup de femmes ne sont jamais diagnostiquées parce qu'elles ont passé leur vie à compenser, à masquer. Et elles s'épuisent.</p>
+<div class="miroir">
+« Comprendre qu'on est neuro-atypique adulte, ce n'est pas une étiquette de plus.<br>C'est enfin pouvoir poser des outils faits pour SOI. »
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 4 — OUTILS POUR MOI
+     ============================================================ -->
+<div class="panel" id="panel-outils">
+
+<div class="section">
+<h2>🛠️ Mes outils maman neuro-atypique</h2>
+<div class="sub">Pas les outils qu'on donne aux enfants. Les outils qu'ON, mamans neuroatypiques, on a réellement besoin. Choisis-en 2-3 max.</div>
+
+<div class="outil-card o-orga">
+<h3>🗂️ Organisation domestique — alléger</h3>
+<div class="desc">Pour les cerveaux qui sortent mal du « stockage actif ». L'externalisation est ta meilleure amie.</div>
+<ul>
+<li><strong>Un seul endroit</strong> pour les clés, le téléphone, les papiers (panier, crochet, plateau)</li>
+<li><strong>Routines visuelles</strong> au mur (matin · soir · WE) — pas dans ta tête, sur du papier</li>
+<li><strong>Règle « pose ou range »</strong> : on ne pose pas dans le passage, soit on prend, soit on range</li>
+<li><strong>Reset 10 min/jour</strong> à heure fixe (timer) — un endroit par jour</li>
+<li><strong>Tout en double</strong> si possible (ciseaux, chargeurs, brosses à cheveux dans plusieurs pièces)</li>
+<li><strong>Boîtes étiquetées</strong> > placards remplis n'importe comment</li>
+<li><strong>Liste de courses partagée</strong> sur appli (pas sur papier qu'on perd)</li>
+</ul>
+</div>
+
+<div class="outil-card o-plan">
+<h3>📅 Planification semaine — moins, mais ciblé</h3>
+<div class="desc">Le cerveau atypique gère mal les longues to-do. Vise 3 priorités par jour, pas 20.</div>
+<ul>
+<li><strong>3 priorités</strong> dans la journée — pas plus. Si elles sont faites, le reste est bonus.</li>
+<li><strong>Time-blocking visuel</strong> : créneaux dédiés à des tâches (admin, ménage, cerveau créatif)</li>
+<li><strong>Tâche admin = créneau fixe hebdo</strong> (ex : mardi 10h-11h, tout l'admin de la semaine)</li>
+<li><strong>Estimation x2</strong> : double systématiquement le temps que tu estimes</li>
+<li><strong>Rituel hebdo 30 min</strong> dimanche soir : vider la tête + planifier 3 priorités semaine</li>
+<li><strong>Apps utiles</strong> : Todoist, Notion, agenda Google avec rappels 24h ET 1h avant</li>
+<li><strong>NE PAS</strong> écrire « ranger la maison » → écrire « 10 min cuisine » (granulaire)</li>
+</ul>
+</div>
+
+<div class="outil-card o-charge">
+<h3>🧠 Charge mentale — externaliser, déléguer, accepter</h3>
+<div class="desc">La charge mentale invisible épuise. Pose-la sur du papier. Et arrête de croire que tu dois tout porter.</div>
+<ul>
+<li><strong>Brain dump</strong> : 1x/jour, vide TOUT ce qui est dans la tête sur une feuille (10 min)</li>
+<li><strong>Tableau « qui fait quoi »</strong> de la famille — visible pour tous</li>
+<li><strong>Déléguer mal vaut mieux que faire seule</strong> : c'est OK que ton conjoint plie le linge mal</li>
+<li><strong>Stop liste mentale</strong> : « si c'est important, c'est écrit. Sinon, je relâche. »</li>
+<li><strong>Permission de poser</strong> : 15 min pause/jour SANS culpabilité (programmer alarme)</li>
+<li><strong>Lister ce qu'on lâche</strong> : que peut-on laisser tomber ? (déco parfaite, repas variés tous les jours, etc.)</li>
+<li><strong>Mantra</strong> : « Je suis suffisante. Pas parfaite. Suffisante. »</li>
+</ul>
+</div>
+
+<div class="outil-card o-emo">
+<h3>💔 Émotions — réguler sans s'en vouloir</h3>
+<div class="desc">Tu cries puis tu culpabilises. Boucle classique TDAH/hypersensible. À couper sans honte.</div>
+<ul>
+<li><strong>Code météo familial</strong> : annoncer à ses enfants « maman est orange aujourd'hui »</li>
+<li><strong>Respi 4-6</strong> : inspire 4 sec, expire 6 sec — 3 cycles avant de réagir</li>
+<li><strong>Eau froide visage / mains</strong> 20 sec — reset parasympathique</li>
+<li><strong>Phrase de réparation</strong> : « Désolée j'ai crié, c'est mon stress qui a parlé, je t'aime »</li>
+<li><strong>5 min seule</strong> avant de répondre quand ça monte (« je reviens dans 5 min »)</li>
+<li><strong>Journal des émotions</strong> 2 min/soir : « aujourd'hui j'ai ressenti ... »</li>
+<li><strong>Stop la honte</strong> : crier 2x/semaine ≠ être une mauvaise mère. Réparer = aimer.</li>
+</ul>
+</div>
+
+<div class="outil-card o-sommeil">
+<h3>😴 Sommeil & énergie — sacré non négociable</h3>
+<div class="desc">Sans sommeil, ton cerveau atypique tourne à 30%. Priorité absolue.</div>
+<ul>
+<li><strong>Heure de coucher non négociable</strong> — alarme du SOIR (pas du matin)</li>
+<li><strong>Stop écrans</strong> 30 min avant — livre, douche, journal à la place</li>
+<li><strong>Routine d'endormissement</strong> : douche chaude + tisane + lecture 15 min</li>
+<li><strong>Brain dump</strong> avant coucher : vider les pensées qui tournent sur papier</li>
+<li><strong>Sieste flash</strong> 15-20 min si possible en journée (TDAH adore)</li>
+<li><strong>Pause sensorielle</strong> 5 min après école/travail : casque, yeux fermés, silence</li>
+<li><strong>NE PAS</strong> compenser sommeil par caféine/sucre — ça aggrave le crash</li>
+</ul>
+</div>
+
+<div class="outil-card o-care">
+<h3>💛 Prendre soin de moi — sans culpabiliser</h3>
+<div class="desc">Pas de la perfection. Du minimum vital pour rester debout et présente.</div>
+<ul>
+<li><strong>30 min/jour POUR MOI</strong> non négociable (douche compte, lecture compte, marche compte)</li>
+<li><strong>1 vrai temps copine</strong>/mois — pas mes enfants, pas le mari, juste moi</li>
+<li><strong>Mouvement 20 min × 3/sem</strong> : marche, étirements doux, ce qui te fait du bien</li>
+<li><strong>Nourriture stable</strong> : pas de saut de repas (ton cerveau s'écroule sans glucose)</li>
+<li><strong>Liste « plaisirs gratuits »</strong> à piocher quand vide : bain, dessin, livre, jardinage, bruits naturels</li>
+<li><strong>Demander de l'aide</strong> : famille, asso parents, voisine — ce n'est PAS un échec</li>
+<li><strong>Couvre-feu mental</strong> : à 21h, je ne règle plus rien, je glisse vers la nuit</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 5 — PLAN DOUCE
+     ============================================================ -->
+<div class="panel" id="panel-plan">
+
+<div class="section">
+<h2>💛 Mon plan d'action douce</h2>
+<div class="sub">Pas de marathon. 3 toutes petites choses. Que tu peux vraiment tenir 1 semaine. Le reste viendra avec.</div>
+
+<div class="plan-grid">
+
+<div class="plan-block plan-1">
+<label>1️⃣ Une chose à ALLÉGER cette semaine (que je vais lâcher / supprimer)</label>
+<textarea id="plan-alleger" placeholder="Ex : je laisse tomber le repassage des draps. / je dis non à la sortie du WE. / j'arrête de checker les mails après 20h."></textarea>
+</div>
+
+<div class="plan-block plan-2">
+<label>2️⃣ Une chose à RAJOUTER pour MOI (un soin tout petit)</label>
+<textarea id="plan-rajouter" placeholder="Ex : 15 min de lecture après le coucher des enfants. / un café au calme le matin. / une marche de 20 min seule samedi."></textarea>
+</div>
+
+<div class="plan-block plan-3">
+<label>3️⃣ Une chose à STRUCTURER (routine ou outil à tester)</label>
+<textarea id="plan-structurer" placeholder="Ex : brain dump 10 min chaque soir. / poser téléphone dans panier en rentrant. / 3 priorités notées chaque matin sur Post-it."></textarea>
+</div>
+
+</div>
+
+<h3 style="margin-top:24px">📚 Ressources externes utiles</h3>
+<div class="ressources-grid">
+<div class="res-card">
+<h4>📖 Livres</h4>
+<p>« Du calme ! » Anne Peymirat (TDAH adulte) · « Hypersensibles » Saverio Tomasella · « Trop intelligent pour être heureux » Jeanne Siaud-Facchin · « Parents épuisés » Stéphanie Hahusseau</p>
+</div>
+<div class="res-card">
+<h4>🎧 Podcasts</h4>
+<p>« La poudre » · « Bliss » · « Et pourtant elles sourient » · « Et puis » Sophie Dancourt (parentalité atypique)</p>
+</div>
+<div class="res-card">
+<h4>📱 Comptes Instagram</h4>
+<p>@educa_typique (Nawel) · @neurogirls.fr · @lamamzelle_psy · @epimamy · @lulutruc · @maman.dystinguee</p>
+</div>
+<div class="res-card">
+<h4>👩‍⚕️ Pros à consulter</h4>
+<p>Neuropsychologue (bilan complet) · Psychiatre spécialisé TDAH adulte (diagnostic + traitement éventuel) · Psy TCC pour anxiété/charge mentale</p>
+</div>
+</div>
+
+<div class="consult-box">
+<h4>⚠️ Quand consulter sans attendre</h4>
+<ul>
+<li><strong>Tu te sens en burn-out</strong> : épuisement, larmes fréquentes, cynisme, sentiment de vide → médecin généraliste + psy</li>
+<li><strong>Pensées noires</strong>, sentiment « tout serait mieux sans moi » → 3114 (numéro national prévention suicide, 24h/24) ou urgences</li>
+<li><strong>Tu cries / tapes</strong> tes enfants et tu ne peux plus t'arrêter → consultation psychologue + médecin · Ligne nationale parentalité 0 800 00 3456</li>
+<li><strong>Plusieurs domaines sortent « fort »</strong> dans ton auto-portrait → demander un bilan neuropsychologique</li>
+<li><strong>Anxiété qui ronge ta vie</strong> (sommeil, sorties évitées, somatique) → médecin généraliste + psy TCC</li>
+</ul>
+</div>
+
+<div class="intro" style="margin-top:18px">
+<div class="miroir">
+« Tu n'es pas une mauvaise mère.<br>Tu es une maman qui se découvre.<br>Et qui s'autorise enfin à se choisir un peu. »
+</div>
+</div>
+
+<div style="text-align:center;margin-top:24px">
+<a href="../parents.html" class="btn-retour-bas">← Retour à l'Espace Parents</a>
+</div>
+
+</div>
+</div>
+
+<div class="footer">
+« Comprendre qu'on est neuro-atypique, ce n'est pas une étiquette. C'est enfin pouvoir poser des outils faits pour SOI. »
+<span class="brand-foot">Je me découvre — Maman neuro-atypique · Création originale Nawel Haddouch · EducaTypique</span>
+<span class="small">Pas un diagnostic · Mémoire locale, rien n'est envoyé en ligne · Imprimable</span>
+</div>
+
+</div>
+
+<script>
+// ============================================================
+// CATÉGORIES + QUESTIONS AUTO-PORTRAIT
+// ============================================================
+var CATEGORIES = [
+  {id:'tdah',nom:'TDAH adulte',icon:'⚡',axe:'tdah',
+    desc:'Attention fluctuante, impulsivité interne, hyperactivité mentale — version adulte souvent inattentive chez les femmes.',
+    questions:[
+      "J'ai souvent l'esprit ailleurs, je décroche dans les conversations",
+      "Je commence des choses, je les laisse à moitié",
+      "Je perds mes affaires régulièrement (clés, téléphone, papiers)",
+      "Je sous-estime systématiquement le temps que prennent les tâches",
+      "Je suis incapable de m'asseoir vraiment au calme — il faut que je fasse quelque chose",
+      "Je procrastine puis je fais tout en panique de dernière minute"
+    ]
+  },
+  {id:'hpi',nom:'HPI / Pensée arborescente',icon:'🌟',axe:'hpi',
+    desc:'Vitesse de pensée, multiples idées simultanées, sens aigu, sensibilité aux injustices, décalage social.',
+    questions:[
+      "Je pense à 10 choses en même temps, mes idées partent dans tous les sens",
+      "Je m'ennuie très vite dans les conversations superficielles",
+      "Je remets en question les règles qui ne me semblent pas logiques",
+      "Je ressens les injustices très intensément (pour moi et les autres)",
+      "Je me sens souvent décalée, comme si je n'étais pas du même monde",
+      "Je doute énormément de moi malgré ce que les autres disent de mes capacités"
+    ]
+  },
+  {id:'sens',nom:'Hypersensibilité',icon:'🌸',axe:'sens',
+    desc:'Sensibilité sensorielle ET émotionnelle accrue. Capte tout. S\'épuise vite. Besoin vital de calme.',
+    questions:[
+      "Le bruit / la lumière / les foules me saturent très vite",
+      "Je ressens les émotions des autres comme si c'étaient les miennes",
+      "Je pleure facilement (films, musique, gentillesse, beauté)",
+      "Certaines textures / odeurs / sons me sont insupportables",
+      "J'ai besoin de me retirer au calme régulièrement, sinon je craque",
+      "Après une journée chargée, je suis vidée — tout me fatigue"
+    ]
+  },
+  {id:'tsa',nom:'TSA féminin léger',icon:'🌐',axe:'tsa',
+    desc:'Souvent invisible chez les femmes (masking). Difficulté implicite, besoin de routines, intérêts spécifiques, fatigue sociale.',
+    questions:[
+      "Je comprends mal le second degré, les sous-entendus, l'implicite",
+      "J'ai besoin de routines très stables pour me sentir bien",
+      "Les imprévus me déstabilisent fortement",
+      "J'ai une passion / un intérêt très spécifique qui prend beaucoup de place",
+      "Je joue un rôle social pour avoir l'air normale (« masking »)",
+      "Je suis totalement épuisée après les évènements sociaux, même agréables"
+    ]
+  },
+  {id:'anx',nom:'Anxiété / Charge mentale',icon:'🌧️',axe:'anx',
+    desc:'Inquiétudes anticipatoires, charge mentale invisible, ruminations, somatique. Très fréquent chez les mamans neuroatypiques.',
+    questions:[
+      "Je m'inquiète d'avance pour beaucoup de choses, j'anticipe le pire",
+      "Mon cerveau rumine, surtout le soir ou la nuit",
+      "Je porte mentalement tout pour la famille (RDV, papiers, courses, école...)",
+      "J'ai des douleurs physiques liées au stress (ventre, dos, tête...)",
+      "Je culpabilise dès que je m'arrête",
+      "Je dis oui pour faire plaisir alors que je voudrais dire non"
+    ]
+  },
+  {id:'fatig',nom:'Fatigue exécutive',icon:'😴',axe:'fatig',
+    desc:'Cerveau saturé qui ne récupère plus. Surcharge cognitive chronique. Burn-out parental qui rôde.',
+    questions:[
+      "Je suis fatiguée AVANT même de commencer ma journée",
+      "Je n'arrive plus à prendre des décisions, même petites (que cuisiner, quoi mettre...)",
+      "J'ai des moments de « pétage de plombs » incontrôlables",
+      "Je n'ai plus envie de rien faire qui me faisait plaisir avant",
+      "Mon corps me lâche par moments (vertiges, fatigue brutale, somatique)",
+      "Je me sens « vide », en pilote automatique"
+    ]
+  }
+];
+
+// ============================================================
+// STATE & STORAGE
+// ============================================================
+var STORAGE_KEY = 'educatypique_maman_neuroatypique_v1';
+var currentDossier = 'default';
+var answers = {};
+
+function loadStore(){
+  try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : { dossiers:{default:{}} }; }
+  catch(e){ return { dossiers:{default:{}} }; }
+}
+function saveStore(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
+function loadDossier(){ return loadStore().dossiers[currentDossier] || {}; }
+function saveDossier(d){ var s = loadStore(); s.dossiers[currentDossier] = d; saveStore(s); }
+
+// ============================================================
+// NAV
+// ============================================================
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ============================================================
+// QUIZ AUTO-PORTRAIT
+// ============================================================
+function renderQuiz(){
+  var cont = document.getElementById('categoriesContainer');
+  cont.innerHTML = '';
+  CATEGORIES.forEach(function(cat){
+    var div = document.createElement('div');
+    div.className = 'cat-section cat-'+cat.axe;
+    var html = '<h3>'+cat.icon+' '+cat.nom+' <span class="score-tag" id="tag-'+cat.id+'">— / '+(cat.questions.length*3)+'</span></h3>';
+    html += '<div class="cat-desc">'+cat.desc+'</div>';
+    cat.questions.forEach(function(q,qi){
+      var name = cat.id+'_'+qi;
+      html += '<div class="q-item"><div class="q-text">'+q+'</div>' +
+        '<div class="q-scale">' +
+          '<label><input type="radio" name="'+name+'" value="0" onchange="updateScore()"><span class="lbl">jamais</span></label>' +
+          '<label><input type="radio" name="'+name+'" value="1" onchange="updateScore()"><span class="lbl">parfois</span></label>' +
+          '<label><input type="radio" name="'+name+'" value="2" onchange="updateScore()"><span class="lbl">souvent</span></label>' +
+          '<label><input type="radio" name="'+name+'" value="3" onchange="updateScore()"><span class="lbl">toujours</span></label>' +
+        '</div></div>';
+    });
+    div.innerHTML = html;
+    cont.appendChild(div);
+  });
+}
+
+function getCatScore(cat){
+  var s = 0, n = 0;
+  cat.questions.forEach(function(q,qi){
+    var v = document.querySelector('input[name="'+cat.id+'_'+qi+'"]:checked');
+    if(v){ s += parseInt(v.value); n++; }
+  });
+  return {s:s,n:n,max:cat.questions.length*3};
+}
+
+function updateScore(){
+  var totalQ = 0, doneQ = 0;
+  var allCatsScores = [];
+  CATEGORIES.forEach(function(cat){
+    totalQ += cat.questions.length;
+    var r = getCatScore(cat);
+    doneQ += r.n;
+    document.getElementById('tag-'+cat.id).textContent = (r.n>0 ? r.s : '—') + ' / ' + r.max;
+    allCatsScores.push({cat:cat, r:r});
+  });
+  var pct = Math.round(doneQ/totalQ*100);
+  document.getElementById('barPortrait').style.width = pct + '%';
+
+  // Show radar if at least 50% rempli
+  if(pct >= 50){
+    document.getElementById('radarWrap').style.display = 'block';
+    updateRadar(allCatsScores);
+  }
+  saveAll();
+}
+
+function verdict(s, mx){
+  var p = s/mx;
+  if(p < 0.25) return {label:'Peu de signes', classe:'v-faible'};
+  if(p < 0.5) return {label:'Signes modérés', classe:'v-moyen'};
+  if(p < 0.75) return {label:'Signes marqués', classe:'v-marque'};
+  return {label:'Signes très marqués', classe:'v-fort'};
+}
+
+function updateRadar(scores){
+  var n = CATEGORIES.length, R = 180;
+  // axes
+  var axes = '';
+  for(var i=0;i<n;i++){
+    var ang = (Math.PI*2*i/n) - Math.PI/2;
+    var x = Math.cos(ang)*R, y = Math.sin(ang)*R;
+    axes += '<line x1="0" y1="0" x2="'+x.toFixed(2)+'" y2="'+y.toFixed(2)+'" />';
+  }
+  document.getElementById('axesGroup').innerHTML = axes;
+
+  // rings 1-4
+  for(var r=1;r<=4;r++){
+    var pts = []; var rr = R*r/4;
+    for(var i=0;i<n;i++){
+      var ang = (Math.PI*2*i/n) - Math.PI/2;
+      pts.push((Math.cos(ang)*rr).toFixed(2)+','+(Math.sin(ang)*rr).toFixed(2));
+    }
+    var el = document.getElementById('ring'+r);
+    if(el) el.setAttribute('points', pts.join(' '));
+  }
+
+  // labels
+  var lbl = '';
+  CATEGORIES.forEach(function(c,i){
+    var ang = (Math.PI*2*i/n) - Math.PI/2;
+    var x = Math.cos(ang)*(R+30), y = Math.sin(ang)*(R+30) + 4;
+    var anchor = x < -10 ? 'end' : (x > 10 ? 'start' : 'middle');
+    lbl += '<text x="'+x.toFixed(0)+'" y="'+y.toFixed(0)+'" text-anchor="'+anchor+'">'+c.icon+' '+c.nom+'</text>';
+  });
+  document.getElementById('labelsGroup').innerHTML = lbl;
+
+  // result polygon
+  var pts = [], pointsHtml = '';
+  scores.forEach(function(item,i){
+    var pct = item.r.n>0 ? (item.r.s/item.r.max) : 0;
+    var ang = (Math.PI*2*i/n) - Math.PI/2;
+    var rr = R * pct;
+    var x = Math.cos(ang)*rr, y = Math.sin(ang)*rr;
+    pts.push(x.toFixed(2)+','+y.toFixed(2));
+    if(pct>0) pointsHtml += '<circle cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="5" fill="#D98C96" stroke="#fff" stroke-width="2"/>';
+  });
+  document.getElementById('radarPoly').setAttribute('points', pts.join(' '));
+  document.getElementById('radarPoints').innerHTML = pointsHtml;
+
+  // summary
+  var sum = document.getElementById('radarSummary');
+  sum.innerHTML = '';
+  var catColors = {tdah:'#608CB4',hpi:'#9B85B8',sens:'#D98C96',tsa:'#6CA89E',anx:'#E89556',fatig:'#7AA0C6'};
+  scores.forEach(function(item){
+    if(item.r.n === 0) return;
+    var v = verdict(item.r.s, item.r.max);
+    var d = document.createElement('div');
+    d.className = 'rad-row';
+    d.style.borderColor = catColors[item.cat.axe];
+    d.innerHTML = '<div class="rad-cat">'+item.cat.icon+' '+item.cat.nom+'</div>' +
+      '<div class="rad-val">'+item.r.s+' / '+item.r.max+'</div>' +
+      '<span class="rad-verdict '+v.classe+'">'+v.label+'</span>';
+    sum.appendChild(d);
+  });
+}
+
+// ============================================================
+// DIFFICULTÉS — CHECKLIST
+// ============================================================
+function toggleDif(li){
+  li.classList.toggle('checked');
+  saveAll();
+}
+
+// ============================================================
+// SAVE / RESTORE
+// ============================================================
+function getFormData(){
+  var d = {answers:{}, difs:{}, libre:'', plan:{}};
+  CATEGORIES.forEach(function(cat){
+    cat.questions.forEach(function(q,qi){
+      var v = document.querySelector('input[name="'+cat.id+'_'+qi+'"]:checked');
+      if(v) d.answers[cat.id+'_'+qi] = v.value;
+    });
+  });
+  document.querySelectorAll('.dif-checklist').forEach(function(ul){
+    var catName = ul.dataset.cat;
+    d.difs[catName] = [];
+    ul.querySelectorAll('li.checked').forEach(function(li){
+      d.difs[catName].push(li.textContent.trim());
+    });
+  });
+  d.libre = document.getElementById('dif-libre').value;
+  d.plan.alleger = document.getElementById('plan-alleger').value;
+  d.plan.rajouter = document.getElementById('plan-rajouter').value;
+  d.plan.structurer = document.getElementById('plan-structurer').value;
+  return d;
+}
+
+function saveAll(){
+  var d = loadDossier();
+  d.form = getFormData();
+  saveDossier(d);
+}
+
+function restoreAll(){
+  var d = loadDossier();
+  var f = d.form || {};
+  // answers
+  Object.keys(f.answers || {}).forEach(function(key){
+    var el = document.querySelector('input[name="'+key+'"][value="'+f.answers[key]+'"]');
+    if(el) el.checked = true;
+  });
+  // difs
+  document.querySelectorAll('.dif-checklist').forEach(function(ul){
+    var catName = ul.dataset.cat;
+    var arr = (f.difs || {})[catName] || [];
+    ul.querySelectorAll('li').forEach(function(li){
+      li.classList.remove('checked');
+      if(arr.indexOf(li.textContent.trim()) !== -1) li.classList.add('checked');
+    });
+  });
+  // libre + plan
+  document.getElementById('dif-libre').value = f.libre || '';
+  document.getElementById('plan-alleger').value = (f.plan||{}).alleger || '';
+  document.getElementById('plan-rajouter').value = (f.plan||{}).rajouter || '';
+  document.getElementById('plan-structurer').value = (f.plan||{}).structurer || '';
+  updateScore();
+}
+
+['dif-libre','plan-alleger','plan-rajouter','plan-structurer'].forEach(function(id){
+  var el = document.getElementById(id);
+  if(el) el.addEventListener('input', saveAll);
+});
+
+// ============================================================
+// DOSSIERS
+// ============================================================
+function refreshDossierSelect(){
+  var s = loadStore();
+  var sel = document.getElementById('dossierSelect');
+  sel.innerHTML = '';
+  Object.keys(s.dossiers||{default:{}}).forEach(function(name){
+    var opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if(name === currentDossier) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+function changeDossier(){
+  currentDossier = document.getElementById('dossierSelect').value;
+  // reset all radios
+  document.querySelectorAll('input[type="radio"]').forEach(function(r){ r.checked=false; });
+  restoreAll();
+}
+function addDossier(){
+  var name = (document.getElementById('newDossier').value||'').trim();
+  if(!name) return;
+  var s = loadStore();
+  s.dossiers[name] = s.dossiers[name] || {};
+  saveStore(s);
+  currentDossier = name;
+  document.getElementById('newDossier').value='';
+  refreshDossierSelect();
+  document.querySelectorAll('input[type="radio"]').forEach(function(r){ r.checked=false; });
+  restoreAll();
+}
+function deleteDossier(){
+  if(currentDossier==='default'){ alert('Le dossier « Mon dossier » ne peut pas être supprimé.'); return; }
+  if(!confirm('Supprimer le dossier « '+currentDossier+' » ?')) return;
+  var s = loadStore(); delete s.dossiers[currentDossier]; saveStore(s);
+  currentDossier='default'; refreshDossierSelect();
+  document.querySelectorAll('input[type="radio"]').forEach(function(r){ r.checked=false; });
+  restoreAll();
+}
+
+// ============================================================
+// EXPORT TXT
+// ============================================================
+function exportTXT(){
+  var d = loadDossier();
+  var f = d.form || {};
+  var dt = new Date();
+  var dateStr = dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();
+  var out = '';
+  out += '═══════════════════════════════════════════════════\n';
+  out += '  JE ME DÉCOUVRE — Maman neuro-atypique\n';
+  out += '  Création originale : Nawel Haddouch · EducaTypique\n';
+  out += '  Dossier : '+currentDossier+'\n';
+  out += '  Exporté le : '+dateStr+'\n';
+  out += '═══════════════════════════════════════════════════\n\n';
+
+  out += '🪞 AUTO-PORTRAIT\n';
+  out += '─────────────────────────────────────\n';
+  CATEGORIES.forEach(function(cat){
+    var s = 0, n = 0;
+    cat.questions.forEach(function(q,qi){
+      var key = cat.id+'_'+qi;
+      if(f.answers && f.answers[key] !== undefined){ s += parseInt(f.answers[key]); n++; }
+    });
+    if(n>0){
+      var v = verdict(s, cat.questions.length*3);
+      out += '  '+cat.icon+' '+cat.nom.padEnd(28,' ')+' '+s+' / '+(cat.questions.length*3)+'  → '+v.label+'\n';
+    }
+  });
+  out += '\n';
+
+  out += '🔍 DIFFICULTÉS REPÉRÉES\n';
+  out += '─────────────────────────────────────\n';
+  var catLabels = {orga:'🗂️ Organisation',plan:'📅 Planification',charge:'🧠 Charge mentale',sommeil:'😴 Sommeil',emo:'💔 Émotions',rel:'👥 Relations',estime:'💎 Estime',sens:'🌊 Sensoriel'};
+  Object.keys(f.difs || {}).forEach(function(catName){
+    var arr = f.difs[catName];
+    if(arr.length === 0) return;
+    out += '\n  '+(catLabels[catName] || catName)+'\n';
+    arr.forEach(function(t){ out += '    ✓ '+t+'\n'; });
+  });
+  if(f.libre) out += '\n  📝 Mes mots : '+f.libre+'\n';
+  out += '\n';
+
+  out += '💛 MON PLAN DOUCE\n';
+  out += '─────────────────────────────────────\n';
+  out += '  1️⃣ Alléger : '+((f.plan||{}).alleger || '(vide)')+'\n\n';
+  out += '  2️⃣ Rajouter pour moi : '+((f.plan||{}).rajouter || '(vide)')+'\n\n';
+  out += '  3️⃣ Structurer : '+((f.plan||{}).structurer || '(vide)')+'\n\n';
+
+  out += '═══════════════════════════════════════════════════\n';
+  out += '« Tu n\'es pas une mauvaise mère.\n';
+  out += '  Tu es une maman qui se découvre.\n';
+  out += '  Et qui s\'autorise enfin à se choisir un peu. »\n';
+  out += '\n— Création originale Nawel Haddouch · EducaTypique\n';
+  out += '═══════════════════════════════════════════════════\n';
+
+  var blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'MamanNeuroAtypique_'+currentDossier+'_'+dt.getFullYear()+(dt.getMonth()+1)+dt.getDate()+'.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderQuiz();
+refreshDossierSelect();
+restoreAll();
+</script>
+</body>
+</html>

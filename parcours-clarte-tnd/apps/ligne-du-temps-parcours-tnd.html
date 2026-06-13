@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ligne du temps · Parcours TND — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#f5f0fa,#fff)}
+.bandeau{background:linear-gradient(135deg,#7c5cbf,#F39BC2,#e9a73a);padding:1.8rem 1.5rem;text-align:center;color:#fff;position:relative;overflow:hidden}
+.bandeau::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 80%,rgba(255,255,255,.2),transparent 60%);pointer-events:none}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem;position:relative;z-index:1}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15);position:relative;z-index:1}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto;position:relative;z-index:1}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9;position:relative;z-index:1}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid var(--violet-titre);line-height:1.55}
+.intro strong{color:var(--violet-fonce)}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar label{font-weight:700;color:var(--violet-fonce);font-size:.9rem}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #d8c9f0;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:var(--violet-titre);color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:var(--violet-fonce);border:1.5px solid #d8c9f0}
+
+.stats-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.5rem}
+.stat-cell{text-align:center;padding:.5rem;border-radius:var(--r-sm);background:#faf6fb;border-top:3px solid var(--c)}
+.stat-cell.s-fait{--c:#5fa040}
+.stat-cell.s-encours{--c:#e9a73a}
+.stat-cell.s-afaire{--c:#7c5cbf}
+.stat-cell.s-non{--c:#888}
+.stat-cell .lbl{font-size:.72rem;color:#888;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.stat-cell .val{font-size:1.6rem;font-weight:800;color:var(--c)}
+
+/* TIMELINE VERTICALE */
+.timeline{position:relative;padding-left:2.5rem;margin:1rem 0}
+.timeline::before{content:'';position:absolute;left:1rem;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--violet-titre) 0%,#F39BC2 50%,#e9a73a 100%);border-radius:999px}
+
+.etape-card{background:#fff;border-radius:var(--r-lg);padding:1rem 1.2rem;box-shadow:var(--shadow-sm);margin-bottom:1rem;position:relative;border-left:4px solid var(--c);transition:all .15s}
+.etape-card:hover{transform:translateX(2px);box-shadow:var(--shadow-md)}
+.etape-card::before{content:'';position:absolute;left:-2.55rem;top:1.2rem;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--c);z-index:2;transition:all .2s}
+.etape-card.s-fait::before{background:#5fa040;border-color:#3d6e25;box-shadow:0 0 0 4px rgba(95,160,64,.2)}
+.etape-card.s-encours::before{background:#e9a73a;border-color:#a87800;box-shadow:0 0 0 4px rgba(233,167,58,.2)}
+.etape-card.s-afaire::before{background:#7c5cbf;border-color:var(--violet-fonce);box-shadow:0 0 0 4px rgba(124,92,191,.2)}
+.etape-card.s-non::before{background:#fff;border-color:#aaa}
+
+.etape-head{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.4rem}
+.etape-head .ic{font-size:1.5rem;line-height:1}
+.etape-head h3{color:var(--c);margin:0;font-family:var(--font-titre);font-size:1.05rem;flex:1;min-width:160px}
+.etape-head .statut-select{padding:.25em .7em;border-radius:999px;font-weight:700;font-size:.8rem;border:1.5px solid var(--c);background:#fff;color:var(--c);font-family:inherit;cursor:pointer}
+.etape-head .statut-select.s-fait{background:#5fa040;color:#fff;border-color:#5fa040}
+.etape-head .statut-select.s-encours{background:#e9a73a;color:#fff;border-color:#e9a73a}
+.etape-head .statut-select.s-afaire{background:#7c5cbf;color:#fff;border-color:#7c5cbf}
+
+.etape-card .desc{font-size:.88rem;color:#666;font-style:italic;margin-bottom:.6rem;line-height:1.5}
+.etape-card .champs{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.4rem;margin-bottom:.4rem}
+.etape-card .champs label{display:flex;flex-direction:column;gap:.15rem;font-size:.78rem;color:#666;font-weight:700}
+.etape-card .champs input{padding:.35em .55em;border:1px solid #e0d8ec;border-radius:var(--r-sm);font-family:inherit;font-size:.88rem;background:#faf9fa}
+.etape-card .champs input:focus{outline:1.5px solid var(--c);background:#fff}
+.etape-card textarea{width:100%;padding:.4em .55em;border:1px solid #e0d8ec;border-radius:var(--r-sm);font-family:inherit;font-size:.88rem;background:#faf9fa;min-height:50px;resize:vertical;line-height:1.5;margin-top:.3rem}
+.etape-card textarea:focus{outline:1.5px solid var(--c);background:#fff}
+
+.outils-lies{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem}
+.outils-lies a{padding:.2em .55em;background:#faf6fb;border:1px solid var(--c);color:var(--c);border-radius:999px;font-size:.78rem;text-decoration:none;font-weight:700}
+.outils-lies a:hover{background:var(--c);color:#fff}
+
+/* Couleurs par étape (thématique parcours) */
+.e1{--c:#e05a8a}   /* Inquiétudes */
+.e2{--c:#7c5cbf}   /* Médecin */
+.e3{--c:#5a7a9f}   /* Vue/ouïe */
+.e4{--c:#9B85B8}   /* Pédopsy */
+.e5{--c:#2a9d8f}   /* Neuropsy */
+.e6{--c:#8ED9D2}   /* Orthophoniste */
+.e7{--c:#e9a73a}   /* Ergo/Psychomot */
+.e8{--c:#F39BC2}   /* MDPH */
+.e9{--c:#5fa040}   /* École PAP/PPS */
+.e10{--c:#c25a30}  /* Rééducations */
+.e11{--c:#9B85B8}  /* Suivi long terme */
+
+.encouragements{background:linear-gradient(135deg,#fff,#f5f0fa);border-left:4px solid #9B85B8;padding:.9rem 1.2rem;border-radius:var(--r-md);font-size:.92rem;color:#5A4D6B;line-height:1.6;margin-top:.5rem}
+.encouragements strong{color:var(--violet-fonce)}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid var(--violet-titre);background:#fff;color:var(--violet-fonce);border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:var(--violet-titre);color:#fff}
+.actions .primary{background:var(--violet-titre);color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+@media (max-width:600px){
+  .timeline{padding-left:2rem}
+  .timeline::before{left:.7rem}
+  .etape-card::before{left:-2.15rem;width:14px;height:14px}
+  .etape-head h3{font-size:.98rem}
+}
+
+@media print{
+  body{background:#fff}
+  .dossier-bar,.actions,.bandeau .retour{display:none!important}
+  .etape-card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../parents.html">← Espace parents</a>
+  <h1>🗓 Ligne du temps · Parcours TND</h1>
+  <p class="sub">Visualise où tu en es. Coche ce qui est fait. Note les pros consultés. Garde ton parcours sous les yeux — pas dans ta tête saturée.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🗓 <strong>Pourquoi cet outil ?</strong> Le parcours TND est un marathon avec beaucoup d'étapes — souvent étalées sur 1 à 3 ans. Sans support visuel, on se perd : <em>« qu'est-ce que j'ai déjà fait ? »</em> · <em>« qui me reste à voir ? »</em> · <em>« où j'en suis ? »</em>. Cette ligne du temps te permet de <strong>VOIR ton parcours d'un coup d'œil</strong> et de te rappeler le chemin déjà parcouru — souvent immense.
+  </div>
+
+  <div class="dossier-bar">
+    <label>📁 Enfant :</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouveau</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-cell s-fait"><div class="lbl">✅ Fait</div><div class="val" id="nb-fait">0</div></div>
+    <div class="stat-cell s-encours"><div class="lbl">🟡 En cours</div><div class="val" id="nb-encours">0</div></div>
+    <div class="stat-cell s-afaire"><div class="lbl">🔜 À faire</div><div class="val" id="nb-afaire">0</div></div>
+    <div class="stat-cell s-non"><div class="lbl">⬜ Pas concerné</div><div class="val" id="nb-non">0</div></div>
+  </div>
+
+  <div class="encouragements">
+    💛 <strong>Rappel Nawel :</strong> Si tu vois beaucoup de « fait » → célèbre, tu as déjà avancé énormément. Si tu vois beaucoup de « à faire » → commence par UNE étape, la plus accessible. <em>Le parcours TND n'est pas une course de vitesse — c'est une marche de fond.</em>
+  </div>
+
+  <div class="timeline" id="timeline"></div>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer A4</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Cet outil aide à structurer ton parcours. Pour les éléments officiels (dossier MDPH, PAP/PPS) → l'outil <a href="mdph-pas-a-pas.html" style="color:var(--violet-titre);font-weight:700">MDPH pas à pas</a> et <a href="mon-equipe-de-soin.html" style="color:var(--violet-titre);font-weight:700">Mon équipe de soin</a> sont complémentaires.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../parents.html" style="color:var(--violet-titre)">retour espace parents</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_ligne_du_temps_tnd_v1';
+let state={dossiers:{},dossier:null};
+
+const ETAPES = [
+  {id:'inquietudes', cl:'e1', ic:'💭', titre:"Premiers signes & inquiétudes",
+    desc:"Le moment où tu as commencé à remarquer que quelque chose était différent ou difficile. Pas un diagnostic — une intuition de parent.",
+    outils:[]},
+  {id:'medecin', cl:'e2', ic:'🩺', titre:"Médecin traitant / pédiatre",
+    desc:"Le pivot. Il/elle écoute tes inquiétudes, prescrit les premiers bilans, oriente vers les spécialistes.",
+    outils:[{t:'👥 Mon équipe de soin',l:'mon-equipe-de-soin.html'}]},
+  {id:'vue-ouie', cl:'e3', ic:'👁👂', titre:"Bilan vue & ouïe (ÉTAPE 0)",
+    desc:"⚠️ INDISPENSABLE avant tout bilan DYS ou TND. Beaucoup d'enfants étiquetés DYS avaient en fait un trouble visuel/auditif non corrigé.",
+    outils:[{t:'🧭 Boussole diagnostic DYS',l:'boussole-diagnostic-dys.html'}]},
+  {id:'pedopsy', cl:'e4', ic:'🧠', titre:"Pédopsychiatre / neuropédiatre",
+    desc:"Pour évaluation TDAH, TSA, anxiété. Il/elle pose le diagnostic médical et oriente les bilans complémentaires.",
+    outils:[]},
+  {id:'neuropsy', cl:'e5', ic:'🔬', titre:"Bilan neuropsychologique",
+    desc:"Bilan cognitif global (WISC) + fonctions exécutives. Donne le « tableau d'ensemble » du fonctionnement.",
+    outils:[]},
+  {id:'orthophoniste', cl:'e6', ic:'💬', titre:"Bilan orthophonique",
+    desc:"Langage oral, lecture, écriture, calcul, oralité. Premier pro à voir si DYS suspectée.",
+    outils:[]},
+  {id:'ergo-psychomot', cl:'e7', ic:'✋', titre:"Bilan ergo / psychomotricité",
+    desc:"Motricité fine, écriture, motricité globale, équilibre, sensoriel. Surtout si dyspraxie ou TSA suspectés.",
+    outils:[]},
+  {id:'mdph', cl:'e8', ic:'📋', titre:"Dossier MDPH",
+    desc:"Reconnaissance handicap + AEEH + aides humaines AESH + matériel adapté. Long (4-12 mois) mais possible avec accompagnement.",
+    outils:[{t:'📋 MDPH pas à pas',l:'mdph-pas-a-pas.html'}]},
+  {id:'ecole', cl:'e9', ic:'🏫', titre:"École — PAP / PPS / PAI / PPRE",
+    desc:"Aménagements pédagogiques. PPRE = sans MDPH · PAP = trouble DYS · PPS = handicap MDPH · PAI = médical.",
+    outils:[{t:'📋 MDPH pas à pas (école)',l:'mdph-pas-a-pas.html'}]},
+  {id:'reeduc', cl:'e10', ic:'🌱', titre:"Rééducations en cours",
+    desc:"Séances ortho, ergo, psychomot, psy. Souvent 1-2×/semaine, sur 1-2 ans.",
+    outils:[]},
+  {id:'suivi', cl:'e11', ic:'🔄', titre:"Suivi long terme & réévaluations",
+    desc:"Points réguliers avec pédopsy, ré-évaluation des bilans (tous les 2-3 ans), ajustement des aménagements selon l'évolution.",
+    outils:[]}
+];
+
+const STATUTS = {
+  'non':{ic:'⬜', label:'Pas concerné'},
+  'afaire':{ic:'🔜', label:'À faire'},
+  'encours':{ic:'🟡', label:'En cours'},
+  'fait':{ic:'✅', label:'Fait'}
+};
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {etapes:{}}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Enfant 1":blank()};state.dossier="Enfant 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function renderTimeline(){
+  const t=document.getElementById('timeline');
+  const d=current();
+  t.innerHTML=ETAPES.map(e=>{
+    const data=(d.etapes&&d.etapes[e.id])||{};
+    const statut=data.statut||'non';
+    return `<div class="etape-card ${e.cl} s-${statut}" data-id="${e.id}">
+      <div class="etape-head">
+        <span class="ic">${e.ic}</span>
+        <h3>${esc(e.titre)}</h3>
+        <select class="statut-select s-${statut}" data-st="${e.id}">
+          ${Object.entries(STATUTS).map(([k,v])=>`<option value="${k}" ${statut===k?'selected':''}>${v.ic} ${v.label}</option>`).join('')}
+        </select>
+      </div>
+      <div class="desc">${esc(e.desc)}</div>
+      <div class="champs">
+        <label>👤 Pro consulté<input type="text" data-f="${e.id}" data-k="pro" value="${esc(data.pro||'')}" placeholder="Nom du pro"></label>
+        <label>📅 Date<input type="text" data-f="${e.id}" data-k="date" value="${esc(data.date||'')}" placeholder="MM/AAAA"></label>
+        <label>📞 Contact<input type="text" data-f="${e.id}" data-k="contact" value="${esc(data.contact||'')}" placeholder="Tél / email"></label>
+      </div>
+      <textarea data-f="${e.id}" data-k="notes" placeholder="Notes : résultats, prochaine étape, ce qu'il/elle a dit...">${esc(data.notes||'')}</textarea>
+      ${e.outils&&e.outils.length?`<div class="outils-lies">${e.outils.map(o=>`<a href="${o.l}">${esc(o.t)} →</a>`).join('')}</div>`:''}
+    </div>`;
+  }).join('');
+  wireUp();
+  majStats();
+}
+
+function wireUp(){
+  document.querySelectorAll('[data-st]').forEach(sel=>sel.addEventListener('change',e=>{
+    const id=e.target.dataset.st;
+    const d=current();d.etapes=d.etapes||{};d.etapes[id]=d.etapes[id]||{};
+    d.etapes[id].statut=e.target.value;save();renderTimeline();
+  }));
+  document.querySelectorAll('[data-f][data-k]').forEach(el=>el.addEventListener('input',e=>{
+    const id=e.target.dataset.f;const k=e.target.dataset.k;
+    const d=current();d.etapes=d.etapes||{};d.etapes[id]=d.etapes[id]||{};
+    d.etapes[id][k]=e.target.value;save();
+  }));
+}
+
+function majStats(){
+  const d=current();
+  const comptes={fait:0,encours:0,afaire:0,non:0};
+  ETAPES.forEach(e=>{
+    const st=(d.etapes&&d.etapes[e.id]&&d.etapes[e.id].statut)||'non';
+    comptes[st]++;
+  });
+  document.getElementById('nb-fait').textContent=comptes.fait;
+  document.getElementById('nb-encours').textContent=comptes.encours;
+  document.getElementById('nb-afaire').textContent=comptes.afaire;
+  document.getElementById('nb-non').textContent=comptes.non;
+}
+
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();renderTimeline();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom de l\'enfant :','Enfant '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();renderTimeline();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible.');return}
+  if(confirm('Supprimer ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();renderTimeline();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();renderTimeline();}};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  let t=`LIGNE DU TEMPS · PARCOURS TND — ${state.dossier}\nEducaTypique · Création originale Nawel Haddouch\nÉdité le : ${new Date().toLocaleDateString('fr-FR')}\n\n`;
+  ETAPES.forEach((e,i)=>{
+    const data=(d.etapes&&d.etapes[e.id])||{};
+    const st=data.statut||'non';
+    t+=`${i+1}. ${e.ic} ${e.titre} [${STATUTS[st].ic} ${STATUTS[st].label}]\n`;
+    if(data.pro) t+=`   👤 ${data.pro}\n`;
+    if(data.date) t+=`   📅 ${data.date}\n`;
+    if(data.contact) t+=`   📞 ${data.contact}\n`;
+    if(data.notes) t+=`   📝 ${data.notes}\n`;
+    t+='\n';
+  });
+  const comptes={fait:0,encours:0,afaire:0,non:0};
+  ETAPES.forEach(e=>{const st=(d.etapes&&d.etapes[e.id]&&d.etapes[e.id].statut)||'non';comptes[st]++});
+  t+=`═══════════════\nRÉCAP : ${comptes.fait} fait · ${comptes.encours} en cours · ${comptes.afaire} à faire · ${comptes.non} pas concerné\n`;
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`ligne-temps-${state.dossier.replace(/[^a-z0-9]/gi,'_')}-${new Date().toISOString().slice(0,10)}.txt`;a.click();
+};
+
+load();refreshDossier();renderTimeline();
+</script>
+
+</body>
+</html>

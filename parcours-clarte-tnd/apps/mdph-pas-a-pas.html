@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Dossier MDPH pas à pas — Guide Parents · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#F0F5F8 0%,#F5F0F7 50%,#FEF6EF 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2D3E3A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:960px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes shimmer{0%,100%{opacity:0.6}50%{opacity:1}}
+
+/* ============ HEADER ============ */
+.hdr{text-align:center;padding:38px 24px 28px;margin-bottom:22px;background:linear-gradient(135deg,#F0F8F5 0%,#E8EEF5 50%,#FFF6F0 100%);border-radius:24px;border:1px solid rgba(96,140,180,0.22);box-shadow:0 8px 28px rgba(96,140,180,0.08);position:relative;overflow:hidden}
+.hdr::before{content:'📋';position:absolute;top:18px;right:24px;font-size:46px;opacity:0.13;transform:rotate(-8deg)}
+.hdr::after{content:'🛟';position:absolute;bottom:18px;left:22px;font-size:38px;opacity:0.13;transform:rotate(8deg)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#608CB4,#6CA89E);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px;position:relative;z-index:1}
+.float-icon{font-size:48px;margin-bottom:6px;display:inline-block;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1}
+.hdr h1{font-family:Georgia,serif;font-size:30px;font-weight:400;color:#2D3E3A;margin-bottom:8px;position:relative;z-index:1}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A6B66;position:relative;z-index:1;max-width:660px;margin:0 auto}
+
+/* ============ INTRO ============ */
+.intro{background:#FFFFFF;border-radius:18px;padding:22px 24px;margin-bottom:20px;border:1px solid rgba(96,140,180,0.18);box-shadow:0 4px 14px rgba(96,140,180,0.06);animation:fadeIn 0.6s ease-out}
+.intro p{font-size:15px;color:#3D4E4A;line-height:1.7;margin-bottom:8px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#608CB4}
+.intro .quote{font-family:Georgia,serif;font-style:italic;font-size:14px;color:#5A6B85;border-left:3px solid #C9A8D5;padding-left:14px;margin:14px 0 6px}
+.intro .disclaimer{background:#FFF6E8;border-left:4px solid #E0B83E;padding:12px 16px;border-radius:8px;font-size:13.5px;color:#7A5A2A;margin-top:14px;line-height:1.55}
+
+/* ============ NAV ONGLETS ============ */
+.nav{display:flex;gap:6px;background:#FFFFFF;padding:8px;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 12px rgba(96,140,180,0.08);overflow-x:auto;border:1px solid rgba(96,140,180,0.15);scrollbar-width:thin}
+.nav::-webkit-scrollbar{height:6px}
+.nav::-webkit-scrollbar-thumb{background:#C9D8E5;border-radius:3px}
+.nav button{background:transparent;color:#5A6B66;border:none;padding:11px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.25s;white-space:nowrap;font-family:inherit;display:flex;align-items:center;gap:6px}
+.nav button:hover{background:#F0F5F8;color:#608CB4}
+.nav button.active{background:linear-gradient(135deg,#608CB4,#7AA0C6);color:#fff;box-shadow:0 4px 10px rgba(96,140,180,0.3)}
+.nav .em{font-size:16px}
+
+/* ============ SECTIONS ============ */
+.panel{display:none;animation:fadeIn 0.4s ease-out}
+.panel.active{display:block}
+.section{background:#FFFFFF;border-radius:20px;padding:26px 24px;margin-bottom:18px;border:1px solid rgba(96,140,180,0.18);box-shadow:0 4px 14px rgba(96,140,180,0.05)}
+.section h2{font-family:Georgia,serif;font-size:22px;font-weight:500;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#7A8782;font-style:italic;margin-bottom:18px;line-height:1.55}
+.section h3{font-family:Georgia,serif;font-size:17px;color:#608CB4;margin:18px 0 10px;font-weight:600}
+.section p{margin-bottom:10px;font-size:14.5px}
+
+/* ============ INFO CARDS ============ */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:14px 0}
+.info-card{background:linear-gradient(135deg,#F8FBFD,#F0F5F8);border-radius:14px;padding:18px 18px;border-left:4px solid #608CB4}
+.info-card h4{font-family:Georgia,serif;font-size:15px;color:#608CB4;margin-bottom:8px;font-weight:600}
+.info-card p{font-size:13.5px;color:#3D4E4A;line-height:1.55;margin-bottom:0}
+.info-card ul{list-style:none;padding:0;margin:6px 0 0}
+.info-card li{padding:4px 0 4px 16px;position:relative;font-size:13px;color:#3D4E4A;line-height:1.5}
+.info-card li::before{content:'•';position:absolute;left:4px;color:#608CB4;font-weight:bold}
+
+.def-box{background:#F0F8F5;border-radius:12px;padding:14px 18px;margin:10px 0;border-left:4px solid #6CA89E}
+.def-box strong{display:block;color:#4A8576;font-size:13px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px}
+.def-box p{font-size:14px;color:#3D4E4A;margin-bottom:0;line-height:1.6}
+
+.alert-box{background:#FFF6E8;border-radius:12px;padding:14px 18px;margin:10px 0;border-left:4px solid #E0B83E}
+.alert-box strong{display:block;color:#9B7E2A;font-size:13px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px}
+.alert-box p{font-size:14px;color:#7A5A2A;margin-bottom:0;line-height:1.6}
+
+.green-box{background:linear-gradient(135deg,#E8F5EC,#DFF0E2);border-radius:12px;padding:14px 18px;margin:10px 0;border-left:4px solid #6CA89E}
+.green-box strong{display:block;color:#4A8576;font-size:13px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px}
+.green-box p{font-size:14px;color:#3D4E4A;margin-bottom:0;line-height:1.6}
+
+/* ============ QUIZ PARCOURS ============ */
+.quiz-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}
+.quiz-opt{background:#FBF8F4;border:2px solid transparent;border-radius:14px;padding:18px;cursor:pointer;transition:all 0.3s}
+.quiz-opt:hover{background:#F0F5F8;transform:translateY(-3px);box-shadow:0 8px 20px rgba(96,140,180,0.12)}
+.quiz-opt.selected{background:linear-gradient(135deg,#F0F8F5,#E0EEDF);border-color:#6CA89E;box-shadow:0 4px 14px rgba(108,168,158,0.18)}
+.quiz-opt h4{font-family:Georgia,serif;font-size:16px;color:#2D3E3A;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.quiz-opt p{font-size:13.5px;color:#5A6B66;line-height:1.55;margin-bottom:0}
+
+.quiz-result{display:none;background:linear-gradient(135deg,#FFF6F0,#F5E8F0);border-radius:16px;padding:22px;margin-top:18px;border:1px solid rgba(155,133,184,0.22);animation:fadeIn 0.4s}
+.quiz-result.show{display:block}
+.quiz-result h3{color:#9B85B8;font-family:Georgia,serif;font-size:18px;margin-bottom:12px}
+.quiz-result .sections-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:12px}
+.sect-chip{padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;background:#fff;border-left:4px solid}
+.sect-A{border-color:#608CB4;color:#608CB4}
+.sect-B{border-color:#6CA89E;color:#4A8576}
+.sect-C{border-color:#9B85B8;color:#6E5594}
+.sect-D{border-color:#608CB4;color:#608CB4}
+.sect-E{border-color:#6CA89E;color:#4A8576}
+.sect-F{border-color:#E0B83E;color:#9B7E2A}
+
+/* ============ CHECKLIST ============ */
+.checklist{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+.check-item{background:#FBF8F4;border-radius:12px;padding:13px 16px;display:flex;align-items:flex-start;gap:12px;cursor:pointer;transition:all 0.25s;border:2px solid transparent}
+.check-item:hover{background:#F5F0F7}
+.check-item.checked{background:linear-gradient(135deg,#E8F5EC,#DFF0E2);border-color:#6CA89E}
+.check-box{width:24px;height:24px;border:2px solid #C9A8D5;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;color:transparent;transition:all 0.25s;margin-top:2px}
+.check-item.checked .check-box{background:#6CA89E;border-color:#6CA89E;color:#fff}
+.check-item.checked .check-box::after{content:'✓'}
+.check-content{flex:1}
+.check-content h4{font-family:Georgia,serif;font-size:14.5px;color:#2D3E3A;margin-bottom:4px;font-weight:600}
+.check-content p{font-size:13px;color:#5A6B66;line-height:1.5;margin-bottom:0}
+.required-badge{display:inline-block;padding:1px 7px;background:#FCE2E2;color:#C9573A;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px;margin-left:6px;text-transform:uppercase}
+.optional-badge{display:inline-block;padding:1px 7px;background:#FFF6E8;color:#9B7E2A;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px;margin-left:6px;text-transform:uppercase}
+
+/* ============ AIDES / TABLEAU ============ */
+.aides-tabs{display:flex;gap:6px;margin-bottom:14px;background:#F8F4F6;padding:6px;border-radius:12px;overflow-x:auto}
+.aides-tab{background:transparent;border:none;padding:9px 14px;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;color:#5A6B66;font-family:inherit;white-space:nowrap;transition:all 0.25s}
+.aides-tab:hover{background:#fff}
+.aides-tab.active{background:linear-gradient(135deg,#6CA89E,#88B8AA);color:#fff}
+
+.aide-card{background:#FBF8F4;border-radius:14px;padding:18px 20px;margin-bottom:12px;border-left:4px solid #6CA89E;display:none}
+.aide-card.show{display:block;animation:fadeIn 0.4s}
+.aide-card h3{font-family:Georgia,serif;font-size:18px;color:#4A8576;margin-bottom:6px}
+.aide-card .montant{display:inline-block;background:#E8F5EC;color:#4A8576;padding:3px 10px;border-radius:8px;font-size:13px;font-weight:700;margin-bottom:10px}
+.aide-card .criteres{font-size:13.5px;color:#3D4E4A;line-height:1.65}
+.aide-card .criteres strong{display:block;color:#2D3E3A;margin-top:8px;font-size:12.5px;text-transform:uppercase;letter-spacing:0.5px}
+.aide-card .criteres ul{margin:4px 0 0;padding-left:20px}
+.aide-card .criteres li{margin-bottom:4px}
+
+.compl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:14px}
+.compl-card{background:#fff;border-radius:12px;padding:14px 16px;border-top:4px solid #6CA89E;box-shadow:0 2px 8px rgba(108,168,158,0.08)}
+.compl-card h4{font-family:Georgia,serif;font-size:15px;color:#2D3E3A;margin-bottom:4px;font-weight:600}
+.compl-card .compl-mt{display:inline-block;background:#F0F8F5;padding:2px 8px;border-radius:6px;font-size:11.5px;font-weight:700;color:#4A8576;margin-bottom:8px}
+.compl-card p{font-size:12.5px;color:#5A6B66;line-height:1.55;margin-bottom:0}
+
+.taux-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:680px){.taux-grid{grid-template-columns:1fr}}
+.taux-card{padding:18px 16px;border-radius:14px;border-top:5px solid}
+.taux-50{background:linear-gradient(135deg,#FFF9E8,#FCF3D8);border-color:#E0B83E}
+.taux-79{background:linear-gradient(135deg,#FFEEDC,#FCDBBE);border-color:#E89556}
+.taux-80{background:linear-gradient(135deg,#FCE2E2,#F5C9C9);border-color:#C9573A}
+.taux-card h4{font-family:Georgia,serif;font-size:17px;margin-bottom:8px}
+.taux-card p{font-size:13px;color:#3D4E4A;line-height:1.55}
+
+.cumul-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13.5px}
+.cumul-table th,.cumul-table td{padding:10px 12px;text-align:left;border-bottom:1px solid rgba(96,140,180,0.15)}
+.cumul-table th{background:#F0F5F8;color:#608CB4;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.6px}
+.cumul-table .ok{color:#4A8576;font-weight:600}
+.cumul-table .nok{color:#C9573A;font-weight:600}
+
+/* ============ TIMELINE PROCÉDURE ============ */
+.timeline{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-top:18px;position:relative}
+@media (max-width:680px){.timeline{grid-template-columns:1fr;gap:8px}}
+.tl-step{padding:16px 12px;text-align:center;position:relative;background:#FBF8F4;border-radius:0;border-top:4px solid #608CB4;font-size:12.5px}
+.tl-step:first-child{border-radius:14px 0 0 14px}
+.tl-step:last-child{border-radius:0 14px 14px 0}
+@media (max-width:680px){.tl-step,.tl-step:first-child,.tl-step:last-child{border-radius:14px}}
+.tl-step:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-size:18px;color:#608CB4;z-index:2;background:#fff;border-radius:50%;width:18px;height:18px;line-height:16px}
+@media (max-width:680px){.tl-step:not(:last-child)::after{display:none}}
+.tl-step .tl-num{display:inline-block;width:26px;height:26px;line-height:26px;background:linear-gradient(135deg,#608CB4,#7AA0C6);color:#fff;border-radius:50%;font-weight:700;font-size:13px;margin-bottom:8px}
+.tl-step h4{font-family:Georgia,serif;font-size:13px;color:#2D3E3A;margin-bottom:4px;font-weight:600}
+.tl-step p{font-size:11px;color:#5A6B66;line-height:1.4;margin-bottom:0}
+
+/* ============ LPI COMPARATEUR ============ */
+.lpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
+.lpi-card{background:#fff;border-radius:14px;padding:18px;border-top:5px solid;cursor:pointer;transition:all 0.3s}
+.lpi-card:hover{transform:translateY(-3px);box-shadow:0 6px 16px rgba(96,140,180,0.12)}
+.lpi-ppre{border-color:#6CA89E}
+.lpi-pps{border-color:#9B85B8}
+.lpi-pai{border-color:#E0B83E}
+.lpi-pap{border-color:#608CB4}
+.lpi-card h4{font-family:Georgia,serif;font-size:17px;margin-bottom:4px}
+.lpi-ppre h4{color:#4A8576}
+.lpi-pps h4{color:#6E5594}
+.lpi-pai h4{color:#9B7E2A}
+.lpi-pap h4{color:#608CB4}
+.lpi-card .full-name{font-size:11.5px;color:#7A8782;font-style:italic;margin-bottom:10px}
+.lpi-card .pour{font-size:13px;color:#3D4E4A;line-height:1.55;margin-bottom:8px}
+.lpi-card .pour strong{display:block;color:#2D3E3A;text-transform:uppercase;letter-spacing:0.5px;font-size:11.5px;margin-bottom:3px;margin-top:8px}
+
+/* ============ RAPO ============ */
+.rapo-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:14px}
+.rapo-step{background:linear-gradient(135deg,#FFF6F0,#F5E8F0);border-radius:14px;padding:16px 18px;border-left:4px solid #9B85B8}
+.rapo-step h4{font-family:Georgia,serif;font-size:15px;color:#6E5594;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.rapo-step p{font-size:13.5px;color:#3D4E4A;line-height:1.6;margin-bottom:6px}
+.rapo-step .delay{display:inline-block;background:#fff;padding:3px 10px;border-radius:8px;font-size:12px;font-weight:700;color:#6E5594;margin-bottom:8px}
+
+.conseils-list{counter-reset:tip;margin-top:14px}
+.conseil-item{background:#FBF8F4;border-radius:12px;padding:14px 16px 14px 50px;margin-bottom:10px;position:relative;counter-increment:tip;border-left:3px solid #6CA89E}
+.conseil-item::before{content:counter(tip);position:absolute;left:14px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:linear-gradient(135deg,#6CA89E,#88B8AA);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.conseil-item p{font-size:13.5px;color:#3D4E4A;line-height:1.55;margin-bottom:0}
+.conseil-item strong{color:#4A8576}
+
+/* ============ ALLIÉS ============ */
+.allies-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.allies-card{background:#fff;border-radius:14px;padding:18px;border-top:4px solid;box-shadow:0 4px 12px rgba(96,140,180,0.06)}
+.al-sante{border-color:#608CB4}
+.al-social{border-color:#6CA89E}
+.al-asso{border-color:#9B85B8}
+.allies-card h4{font-family:Georgia,serif;font-size:16px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.al-sante h4{color:#608CB4}
+.al-social h4{color:#4A8576}
+.al-asso h4{color:#6E5594}
+.allies-card ul{list-style:none;padding:0}
+.allies-card li{padding:5px 0 5px 16px;position:relative;font-size:13.5px;color:#3D4E4A;line-height:1.5}
+.allies-card li::before{content:'→';position:absolute;left:0;color:inherit;font-weight:bold;opacity:0.6}
+
+/* ============ DOSSIER + NOTES ============ */
+.dossier-bar{background:#FFFFFF;border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(96,140,180,0.06);border:1px solid rgba(96,140,180,0.15)}
+.dossier-bar label{font-size:13px;font-weight:600;color:#5A6B66}
+.dossier-bar input,.dossier-bar select{padding:7px 12px;border:1px solid rgba(96,140,180,0.25);border-radius:9px;font-size:13px;background:#FBF8F4;font-family:inherit;color:#2D3E3A;min-width:150px}
+.dossier-bar button{background:#F0F5F8;color:#608CB4;border:1px solid rgba(96,140,180,0.25);padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.dossier-bar button:hover{background:#E0EEDF}
+.dossier-bar .btn-export{background:linear-gradient(135deg,#608CB4,#7AA0C6);color:#fff;border:none}
+.dossier-bar .btn-print{background:linear-gradient(135deg,#6CA89E,#88B8AA);color:#fff;border:none}
+
+.notes-section{margin-top:14px}
+.notes-section label{display:block;font-size:13px;font-weight:600;color:#5A6B66;margin-bottom:6px}
+.notes-section textarea{width:100%;padding:12px 14px;border:1px solid rgba(96,140,180,0.25);border-radius:10px;font-size:14px;color:#2D3E3A;background:#FBF8F4;font-family:inherit;line-height:1.55;min-height:80px;resize:vertical}
+
+/* ============ FOOTER ============ */
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif;animation:shimmer 5s ease-in-out infinite}
+.footer .brand-foot{color:#608CB4;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .small{color:#8A9892;font-size:11px;margin-top:4px;display:block}
+
+/* ============ PRINT ============ */
+@media print{
+body{background:#fff;padding:10px}
+.nav,.dossier-bar,.aides-tabs{display:none !important}
+.panel{display:block !important;page-break-after:always}
+.section{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+.aide-card{display:block !important}
+.taux-card,.lpi-card,.compl-card,.allies-card,.tl-step{break-inside:avoid}
+}
+
+@media (max-width:600px){
+.hdr{padding:30px 18px 22px}
+.hdr h1{font-size:22px}
+.section{padding:20px 18px}
+.nav{padding:6px}
+.nav button{padding:9px 11px;font-size:11.5px}
+.info-grid{grid-template-columns:1fr}
+.quiz-options{grid-template-columns:1fr}
+.compl-grid{grid-template-columns:1fr}
+.cumul-table{font-size:12px}
+.cumul-table th,.cumul-table td{padding:7px 9px}
+}
+</style>
+</head>
+<body>
+<a href="../parents.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#608CB4;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(96,140,180,0.2)">← Parents</a>
+
+<div class="wrap">
+
+<!-- ============ HEADER ============ -->
+<div class="hdr">
+<span class="brand">Guide Parents · EducaTypique</span>
+<div class="float-icon">📋</div>
+<h1>Mon Dossier MDPH pas à pas</h1>
+<p>Boussole dans le désert administratif. Comprendre, choisir le bon parcours, ne rien oublier — sans s'épuiser.</p>
+</div>
+
+<!-- ============ INTRO ============ -->
+<div class="intro">
+<p>Le dossier MDPH peut paraître une montagne. Cette boussole le découpe en <strong>8 étapes claires</strong>. Tu peux la suivre dans l'ordre, ou aller directement à ce qui t'intéresse. <strong>Tes notes restent dans ton appareil</strong> (rien n'est envoyé en ligne).</p>
+<p class="quote">« Bien s'entourer de professionnels compétents et bien préparer votre dossier augmentera vos chances d'obtenir une évaluation favorable. »</p>
+<div class="disclaimer">⚠️ <strong>Ce guide est une aide à la compréhension.</strong> Il ne remplace pas l'accompagnement d'un professionnel (assistant social, association, médecin). En cas de doute, fais-toi accompagner.</div>
+</div>
+
+<!-- ============ DOSSIER BAR ============ -->
+<div class="dossier-bar">
+<label>📁 Dossier :</label>
+<select id="dossierSelect" onchange="changeDossier()">
+<option value="default">Mon dossier</option>
+</select>
+<input type="text" id="newDossier" placeholder="Nouveau (ex: Léa, Noor...)">
+<button onclick="addDossier()">+ Créer</button>
+<button onclick="deleteDossier()">🗑 Supprimer</button>
+<button onclick="exportTXT()" class="btn-export">📥 Exporter en .txt</button>
+<button onclick="window.print()" class="btn-print">🖨️ Imprimer</button>
+</div>
+
+<!-- ============ NAV ONGLETS ============ -->
+<div class="nav">
+<button class="active" data-tab="comprendre" onclick="switchTab('comprendre')"><span class="em">1️⃣</span> Comprendre</button>
+<button data-tab="parcours" onclick="switchTab('parcours')"><span class="em">2️⃣</span> Mon parcours</button>
+<button data-tab="pieces" onclick="switchTab('pieces')"><span class="em">3️⃣</span> Pièces</button>
+<button data-tab="aides" onclick="switchTab('aides')"><span class="em">4️⃣</span> Aides & AEEH</button>
+<button data-tab="procedure" onclick="switchTab('procedure')"><span class="em">5️⃣</span> Procédure</button>
+<button data-tab="lpi" onclick="switchTab('lpi')"><span class="em">6️⃣</span> École (LPI)</button>
+<button data-tab="recours" onclick="switchTab('recours')"><span class="em">7️⃣</span> Recours</button>
+<button data-tab="allies" onclick="switchTab('allies')"><span class="em">8️⃣</span> Mes alliés</button>
+</div>
+
+<!-- ============================================================
+     PANEL 1 — COMPRENDRE
+     ============================================================ -->
+<div class="panel active" id="panel-comprendre">
+
+<div class="section">
+<h2>1. Comprendre les acteurs</h2>
+<div class="sub">Le vocabulaire institutionnel devient clair en 5 minutes.</div>
+
+<div class="def-box">
+<strong>MDPH — Maison Départementale des Personnes Handicapées</strong>
+<p>Organisme local en France. Point d'entrée unique pour accéder à des aides et des services pour les personnes en situation de handicap. Tu déposes ton dossier à la MDPH du <strong>département où tu habites</strong>.</p>
+</div>
+
+<div class="def-box">
+<strong>CDAPH — Commission des Droits et de l'Autonomie</strong>
+<p>C'est la commission qui prend les décisions sur ton dossier. Elle est composée de représentants du département, de l'État, des caisses sociales (CAF, Sécu), et d'<strong>associations de familles</strong>. Elle se réunit à la MDPH.</p>
+</div>
+
+<div class="def-box">
+<strong>EPE — Équipe Pluridisciplinaire d'Évaluation</strong>
+<p>L'équipe qui examine ton dossier avant la CDAPH : référent d'insertion, correspondant de scolarisation, médecins, infirmiers, travailleurs médico-sociaux, ergothérapeutes, coordonnateur. Composition variable selon ta situation.</p>
+</div>
+
+<h3>📐 Définition du handicap</h3>
+<p>Selon la <strong>CIDPH</strong> (Convention Internationale ONU 2006, en France depuis 2010) :</p>
+<div style="background:#F0F5F8;padding:14px 18px;border-radius:12px;font-family:Georgia,serif;font-style:italic;color:#2D3E3A;text-align:center;font-size:15px;margin:10px 0">
+Handicap = <strong>altération de fonction(s)</strong> dans son environnement → <strong>limitation d'activité</strong> ou <strong>restriction de participation</strong> à la vie en société
+</div>
+
+<h3>📑 Les 6 catégories de handicap reconnues</h3>
+<div class="info-grid">
+<div class="info-card"><h4>🦽 Physique / Moteur</h4><p>Déficience touchant le mouvement, la motricité.</p></div>
+<div class="info-card"><h4>👁️ Sensoriel</h4><p>Déficience visuelle, déficience auditive.</p></div>
+<div class="info-card"><h4>🧠 Psychique</h4><p>Maladie mentale (névroses, psychoses…).</p></div>
+<div class="info-card"><h4>📚 Mental</h4><p>Déficience intellectuelle.</p></div>
+<div class="info-card"><h4>🎯 Cognitif</h4><p>Troubles des apprentissages : <strong>Dys, TDAH, TND</strong>.</p></div>
+<div class="info-card"><h4>🌈 Polyhandicap / Autisme</h4><p>Combinaisons + TSA.</p></div>
+</div>
+
+<h3>🎯 Le taux d'incapacité (Guide-barème CASF annexe 2-4)</h3>
+<p>Calculé sur 5 registres : conscience / capacités intellectuelles · capacités relationnelles & comportement · communication · vie quotidienne · autonomie & socialisation.</p>
+<div class="taux-grid">
+<div class="taux-card taux-50">
+<h4>🟡 Moins de 50%</h4>
+<p>Incapacité <strong>modérée</strong> : pas d'entrave notable dans la vie quotidienne.</p>
+</div>
+<div class="taux-card taux-79">
+<h4>🟠 50 à 79%</h4>
+<p>Incapacité <strong>importante</strong> : entrave notable dans la vie quotidienne de l'enfant et de sa famille.</p>
+</div>
+<div class="taux-card taux-80">
+<h4>🔴 80% et +</h4>
+<p>Incapacité <strong>majeure</strong> : entrave majeure dans la vie quotidienne et celle de la famille.</p>
+</div>
+</div>
+
+<div class="alert-box">
+<strong>📍 Exception DYS importante</strong>
+<p>Le taux est < 50% lorsque <strong>seuls les apprentissages scolaires sont perturbés</strong>, sans retentissement sur la vie quotidienne, l'insertion sociale ou professionnelle. <strong>MAIS</strong>, s'il y a une lourdeur effective des traitements/rééducations (orthophonie, psychomot, ergo, suivi psy intensifs), le taux peut passer <strong>au-dessus de 50%</strong> pendant une durée limitée — ouvrant droit à l'AEEH.</p>
+</div>
+
+<div class="notes-section">
+<label>📝 Mes premières questions / ce que je veux retenir</label>
+<textarea id="notes-comprendre" placeholder="Ex : Quel taux pour ma situation ? Qui contacter en premier ?"></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 2 — MON PARCOURS
+     ============================================================ -->
+<div class="panel" id="panel-parcours">
+
+<div class="section">
+<h2>2. Choisir mon parcours</h2>
+<div class="sub">Selon ta situation, les sections à remplir du formulaire CERFA 13788*01 ne sont pas les mêmes. Coche ta situation.</div>
+
+<div class="quiz-options">
+<div class="quiz-opt" data-q="1" onclick="selectQuiz(this)">
+<h4>1️⃣ Première demande</h4>
+<p>C'est la première fois que je dépose un dossier à la MDPH pour mon enfant.</p>
+</div>
+<div class="quiz-opt" data-q="2" onclick="selectQuiz(this)">
+<h4>2️⃣ Renouvellement</h4>
+<p>J'ai déjà une aide MDPH qui va bientôt s'arrêter. Je veux la prolonger sans changer.</p>
+</div>
+<div class="quiz-opt" data-q="3" onclick="selectQuiz(this)">
+<h4>3️⃣ Révision</h4>
+<p>La situation a changé (besoins augmentent, frais plus élevés…) — je veux que la MDPH ré-évalue.</p>
+</div>
+</div>
+
+<div class="quiz-result" id="quizResult">
+<!-- résultat affiché par JS -->
+</div>
+
+<h3 style="margin-top:24px">📑 Les 6 sections du formulaire CERFA 13788*01 (20 pages)</h3>
+<div class="info-grid">
+<div class="info-card" style="border-color:#608CB4"><h4 style="color:#608CB4">Section A — bleue</h4><p><strong>Identification</strong>. <span class="required-badge">obligatoire</span> Toujours à remplir.</p></div>
+<div class="info-card" style="border-color:#6CA89E"><h4 style="color:#4A8576">Section B — verte</h4><p><strong>Vie quotidienne</strong>. Obligatoire 1ère demande.</p></div>
+<div class="info-card" style="border-color:#9B85B8"><h4 style="color:#6E5594">Section C — violette</h4><p><strong>Vie scolaire / étudiante</strong>. Si concerne l'école / études.</p></div>
+<div class="info-card" style="border-color:#608CB4"><h4 style="color:#608CB4">Section D — bleue</h4><p><strong>Situation professionnelle</strong>. Si concerne un travail.</p></div>
+<div class="info-card" style="border-color:#6CA89E"><h4 style="color:#4A8576">Section E — verte</h4><p><strong>Demandes de droits / prestations</strong>. <span class="required-badge">obligatoire</span> Souvent obligatoire.</p></div>
+<div class="info-card" style="border-color:#E0B83E"><h4 style="color:#9B7E2A">Section F</h4><p><strong>Vie de l'aidant familial</strong>. Si vous êtes aidant.</p></div>
+</div>
+
+<div class="green-box">
+<strong>💡 Astuce conseillée par Nawel</strong>
+<p>Remplis ton dossier en <strong>version électronique</strong> (PDF interactif) et enregistre-le. Tu pourras le réutiliser tel quel au renouvellement, en modifiant uniquement ce qui a changé.</p>
+</div>
+
+<h3>✍️ Le « Projet de vie » — section libre cruciale</h3>
+<p>Certaines sections comportent des <strong>pointillés libres</strong> où tu peux noter tout ce qui te semble important. <strong>N'hésite pas à y exprimer ce qui te tient à cœur.</strong> Décris concrètement les difficultés dans la vie quotidienne : maison, école, loisirs, relations. C'est ce qui fera la différence entre un dossier « technique » et un dossier qui parle à l'EPE.</p>
+
+<div class="notes-section">
+<label>📝 Mon parcours + ce que je veux mettre dans le « projet de vie »</label>
+<textarea id="notes-parcours" placeholder="Ex : Première demande pour Sami (10 ans, TDAH + dysorthographie). Dans le projet de vie, insister sur la fatigue scolaire et les conflits aux devoirs."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 3 — PIÈCES
+     ============================================================ -->
+<div class="panel" id="panel-pieces">
+
+<div class="section">
+<h2>3. Pièces à joindre — checklist interactive</h2>
+<div class="sub">Coche au fur et à mesure que tu prépares tes documents. Les pièces obligatoires sont signalées.</div>
+
+<h3>📌 Pièces obligatoires</h3>
+<div class="checklist" id="checklistObl">
+<div class="check-item" onclick="toggleCheck(this,'obl-1')">
+<div class="check-box"></div>
+<div class="check-content">
+<h4>📋 Dossier de demande CERFA 13788*01 <span class="required-badge">obligatoire</span></h4>
+<p>20 pages, 6 sections. À récupérer à la MDPH ou télécharger en ligne.</p>
+</div>
+</div>
+<div class="check-item" onclick="toggleCheck(this,'obl-2')">
+<div class="check-box"></div>
+<div class="check-content">
+<h4>🏥 Certificat médical CERFA 15695*01 <span class="required-badge">obligatoire</span></h4>
+<p>Rempli par le médecin qui connaît bien le handicap de votre enfant. <strong>Moins d'un an.</strong> Modèle à demander à la MDPH ou sur <strong>www.cnsa.fr</strong>.</p>
+</div>
+</div>
+<div class="check-item" onclick="toggleCheck(this,'obl-3')">
+<div class="check-box"></div>
+<div class="check-content">
+<h4>🪪 Carte d'identité (ou titre de séjour) <span class="required-badge">obligatoire</span></h4>
+<p>Photocopie. Pour les ressortissants hors UE : titre de séjour valide.</p>
+</div>
+</div>
+<div class="check-item" onclick="toggleCheck(this,'obl-4')">
+<div class="check-box"></div>
+<div class="check-content">
+<h4>🏠 Justificatif de domicile <span class="required-badge">obligatoire</span></h4>
+<p>Facture d'électricité, de gaz, d'eau, ou attestation. Récent (moins de 3 mois en général).</p>
+</div>
+</div>
+</div>
+
+<h3>📌 Pièces situationnelles</h3>
+<div class="checklist">
+<div class="check-item" onclick="toggleCheck(this,'sit-1')">
+<div class="check-box"></div>
+<div class="check-content">
+<h4>⚖️ Photocopie du jugement de mesure de protection</h4>
+<p>Si un juge a mis en place une curatelle / tutelle pour la personne handicapée.</p>
+</div>
+</div>
+</div>
+
+<h3>💡 Pièces fortement conseillées (renforcent le dossier)</h3>
+<div class="checklist">
+<div class="check-item" onclick="toggleCheck(this,'add-1')">
+<div class="check-box"></div>
+<div class="check-content">
+<h4>📊 Bilans des professionnels <span class="optional-badge">conseillé</span></h4>
+<p>Orthophonie, psychomotricité, ergothérapie, psychologue/neuropsy, ophtalmo, ORL… <strong>Datés et signés.</strong></p>
+</div>
+</div>
+<div class="check-item" onclick="toggleCheck(this,'add-2')">
+<div class="check-box"></div>
+<div class="check-content">
+<h4>🏫 Rapports / observations de l'école <span class="optional-badge">conseillé</span></h4>
+<p>Compte-rendu de l'enseignant, de l'AESH actuelle, du psychologue scolaire, du médecin scolaire.</p>
+</div>
+</div>
+<div class="check-item" onclick="toggleCheck(this,'add-3')">
+<div class="check-box"></div>
+<div class="check-content">
+<h4>💸 Factures et devis <span class="optional-badge">conseillé</span></h4>
+<p>Frais non remboursés : psychologue, ergo, psychomot, transport vers cabinet, matériel adapté, séjour vacances adapté…</p>
+</div>
+</div>
+<div class="check-item" onclick="toggleCheck(this,'add-4')">
+<div class="check-box"></div>
+<div class="check-content">
+<h4>💼 Attestation employeur <span class="optional-badge">conseillé</span></h4>
+<p>Si l'un des parents a réduit son temps de travail, justifie la réduction et son origine (lien avec le handicap de l'enfant).</p>
+</div>
+</div>
+<div class="check-item" onclick="toggleCheck(this,'add-5')">
+<div class="check-box"></div>
+<div class="check-content">
+<h4>👨‍⚕️ Comptes-rendus d'hospitalisation / consultations spécialisées <span class="optional-badge">conseillé</span></h4>
+<p>Tout document médical qui éclaire la situation.</p>
+</div>
+</div>
+<div class="check-item" onclick="toggleCheck(this,'add-6')">
+<div class="check-box"></div>
+<div class="check-content">
+<h4>💝 Lettre de "projet de vie" personnalisée <span class="optional-badge">conseillé</span></h4>
+<p>Document libre où vous décrivez le quotidien, les difficultés, les besoins. Peut faire la différence avec un dossier "froid".</p>
+</div>
+</div>
+</div>
+
+<div class="alert-box" style="margin-top:18px">
+<strong>⚠️ Cas particulier exception DYS</strong>
+<p>Si votre enfant est concerné par les troubles DYS uniquement scolaires : <strong>insistez sur la lourdeur des rééducations</strong> (nombre d'heures/semaine d'orthophonie, ergo, psychomot, suivi psy) — c'est ce qui peut faire passer le taux au-dessus de 50% et ouvrir droit à l'AEEH.</p>
+</div>
+
+<div class="notes-section">
+<label>📝 Mes pièces à récupérer + chez qui</label>
+<textarea id="notes-pieces" placeholder="Ex : Demander bilan ortho à Dr Martin (RDV le 12). Récupérer facture psychomot du dernier semestre."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 4 — AIDES
+     ============================================================ -->
+<div class="panel" id="panel-aides">
+
+<div class="section">
+<h2>4. Les aides — AEEH + 6 compléments + PCH</h2>
+<div class="sub">Chaque aide a ses critères. Voici un tour d'horizon clair.</div>
+
+<div class="aides-tabs">
+<button class="aides-tab active" data-aide="aeeh" onclick="switchAide('aeeh')">AEEH de base</button>
+<button class="aides-tab" data-aide="compl" onclick="switchAide('compl')">6 compléments AEEH</button>
+<button class="aides-tab" data-aide="pch" onclick="switchAide('pch')">PCH & cumuls</button>
+<button class="aides-tab" data-aide="autres" onclick="switchAide('autres')">Autres aides</button>
+</div>
+
+<div class="aide-card show" id="aide-aeeh">
+<h3>👶 AEEH — Allocation d'Éducation de l'Enfant Handicapé</h3>
+<span class="montant">~ 130 €/mois (base)</span>
+<div class="criteres">
+<strong>Conditions d'attribution</strong>
+<ul>
+<li>Le taux d'incapacité de l'enfant doit être <strong>≥ 80%</strong></li>
+<li><strong>OU</strong> entre 50% et 79%, à condition que l'enfant fréquente un établissement / service médico-social <strong>OU</strong> que son état exige un dispositif adapté, un accompagnement, ou des soins préconisés par la MDPH</li>
+<li>Enfant <strong>de moins de 20 ans</strong></li>
+<li>Résidant en France de façon permanente</li>
+<li>Ne pas être placé en internat à temps plein</li>
+<li>L'enfant ne doit pas avoir de revenus professionnels supérieurs à 55% du SMIC</li>
+</ul>
+
+<strong>Durée d'attribution</strong>
+<ul>
+<li>Taux <strong>50-79%</strong> : AEEH base + complément de 2 à 5 ans</li>
+<li>Taux <strong>≥ 80%</strong> : AEEH base <strong>jusqu'aux 20 ans</strong> de l'enfant ; complément 3-5 ans</li>
+<li>Article R541-4 du Code de l'Action Sociale et des Familles</li>
+</ul>
+
+<strong>Versée par</strong>
+<ul>
+<li>La CAF (Caisse d'Allocations Familiales) ou MSA</li>
+<li>Mensuellement, à mois échu</li>
+<li>Droits ouverts au 1er jour du mois suivant le dépôt de la demande</li>
+</ul>
+</div>
+</div>
+
+<div class="aide-card" id="aide-compl">
+<h3>💰 Les 6 compléments AEEH</h3>
+<p>Le montant de base AEEH peut être majoré selon les frais engagés et l'aménagement de la vie professionnelle des parents.</p>
+
+<div class="compl-grid">
+
+<div class="compl-card">
+<h4>Complément 1</h4>
+<span class="compl-mt">Frais > 249,72 €/mois</span>
+<p>Le complément le plus accessible. Couvre les frais quotidiens liés au handicap.</p>
+</div>
+
+<div class="compl-card">
+<h4>Complément 2</h4>
+<span class="compl-mt">Frais > 432,55 €/mois</span>
+<p><strong>OU</strong> réduction temps de travail 20% <strong>OU</strong> recours à tierce personne rémunérée 8h/semaine.</p>
+</div>
+
+<div class="compl-card">
+<h4>Complément 3</h4>
+<span class="compl-mt">Frais > 552,95 €/mois</span>
+<p><strong>OU</strong> réduction temps de travail 20% + frais > 263,10€ <strong>OU</strong> 8h tierce-personne + frais > 263,10€ <strong>OU</strong> 50% temps travail <strong>OU</strong> 20h tierce-personne rémunérée.</p>
+</div>
+
+<div class="compl-card">
+<h4>Complément 4</h4>
+<span class="compl-mt">Frais > 778,46 €/mois</span>
+<p><strong>OU</strong> 20% temps + frais > 488,61€ <strong>OU</strong> 8h tierce-personne + frais > 488,61€ <strong>OU</strong> 50% temps + frais > 368,20€ <strong>OU</strong> 20h tierce-personne + frais > 368,20€ <strong>OU</strong> cessation travail <strong>OU</strong> tierce-personne temps plein.</p>
+</div>
+
+<div class="compl-card">
+<h4>Complément 5</h4>
+<span class="compl-mt">Cessation + frais > 319,46 €</span>
+<p>Cessation totale d'activité <strong>OU</strong> tierce-personne à temps plein + frais > 319,46€/mois.</p>
+</div>
+
+<div class="compl-card">
+<h4>Complément 6</h4>
+<span class="compl-mt">Cessation + contraintes permanentes</span>
+<p>Cessation de travail <strong>ET</strong> l'état de l'enfant impose des contraintes permanentes de surveillance et de soin à la charge de la famille.</p>
+</div>
+
+</div>
+
+<div class="green-box" style="margin-top:14px">
+<strong>🏡 Majoration parent isolé</strong>
+<p>Si vous êtes parent isolé ET que le complément a été accordé pour renonciation/cessation de travail, travail à temps partiel, ou recours à tierce personne rémunérée → vous bénéficiez d'une majoration supplémentaire.</p>
+</div>
+
+<div class="alert-box">
+<strong>🧾 Quels frais déclarer pour calculer les compléments ?</strong>
+<p>Frais non remboursés par l'Assurance Maladie (psychologue, psychomotricien, ergothérapeute, éducateur…) · Frais de transport vers les cabinets · Frais de couches (enfant en âge d'être propre) · Frais de formation (à mensualiser) · Matériel éducatif très spécifique · Séjour de vacances adapté.</p>
+</div>
+</div>
+
+<div class="aide-card" id="aide-pch">
+<h3>🤝 PCH — Prestation de Compensation du Handicap & cumuls</h3>
+<p>La PCH finance les besoins liés à la perte d'autonomie : aide humaine, aide technique, aménagement logement/véhicule, aide animalière, transport, autres charges.</p>
+
+<h4 style="margin-top:14px;color:#608CB4;font-family:Georgia,serif">Cumuls AEEH ↔ PCH</h4>
+<table class="cumul-table">
+<thead>
+<tr><th>Volet PCH</th><th>Cumul avec AEEH base</th><th>Cumul avec complément AEEH</th></tr>
+</thead>
+<tbody>
+<tr><td>Aide humaine</td><td class="ok">✓ Cumulable</td><td class="nok">✗ NON cumulable</td></tr>
+<tr><td>Aide technique</td><td class="ok">✓ Cumulable</td><td class="nok">✗ NON cumulable</td></tr>
+<tr><td>Aide spécifique / exceptionnelle</td><td class="ok">✓ Cumulable</td><td class="nok">✗ NON cumulable</td></tr>
+<tr><td>Aide animalière</td><td class="ok">✓ Cumulable</td><td class="nok">✗ NON cumulable</td></tr>
+<tr><td><strong>Aménagement logement / véhicule</strong></td><td class="ok">✓ Cumulable</td><td class="ok">✓ <strong>Cumulable</strong></td></tr>
+<tr><td><strong>Surcoût transport</strong></td><td class="ok">✓ Cumulable</td><td class="ok">✓ <strong>Cumulable</strong></td></tr>
+</tbody>
+</table>
+
+<div class="green-box" style="margin-top:14px">
+<strong>💡 Bonne pratique</strong>
+<p>En pratique, vous pouvez demander à la MDPH d'étudier vos droits <strong>à l'AEEH ET à la PCH</strong>. Elle vous proposera différentes options de combinaison et vous pourrez choisir la plus avantageuse.</p>
+</div>
+
+<h4 style="margin-top:14px;color:#608CB4;font-family:Georgia,serif">AJPP — Allocation Journalière Présence Parentale</h4>
+<p style="font-size:13.5px">Le complément AEEH (et la majoration parent isolé) <strong>ne sont pas cumulables avec l'AJPP</strong>. Mais l'AEEH de base ET l'AJPP sont cumulables. En pratique, la CAF vous verse ce qui est le plus avantageux.</p>
+</div>
+
+<div class="aide-card" id="aide-autres">
+<h3>📚 Autres aides à connaître</h3>
+
+<div class="info-grid">
+<div class="info-card"><h4>🚌 CMI — Carte Mobilité Inclusion</h4><p>Stationnement, priorité, invalidité. Demande dans le formulaire MDPH.</p></div>
+<div class="info-card"><h4>👨‍🦽 PCH (Prestation Compensation)</h4><p>Aide personnalisée perte d'autonomie : aide humaine/technique/logement.</p></div>
+<div class="info-card"><h4>🎓 AESH</h4><p>Accompagnement humain à la scolarisation (ex-AVS). Individuelle ou mutualisée.</p></div>
+<div class="info-card"><h4>📚 Matériel pédagogique adapté</h4><p>Ordinateur, logiciel, prêt sur cycle scolaire via MDPH.</p></div>
+<div class="info-card"><h4>🏥 Orientation établissement</h4><p>IME, ITEP, ULIS, SESSAD… selon les besoins.</p></div>
+<div class="info-card"><h4>💼 RQTH (à 16+ ans)</h4><p>Reconnaissance de la Qualité de Travailleur Handicapé pour insertion pro adaptée.</p></div>
+</div>
+</div>
+
+<div class="notes-section">
+<label>📝 Les aides qui me concernent + montants estimés</label>
+<textarea id="notes-aides" placeholder="Ex : Viser AEEH + complément 2 (réduction temps de travail 20% mère). Frais ergo non remboursés ~ 60€/mois."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 5 — PROCÉDURE
+     ============================================================ -->
+<div class="panel" id="panel-procedure">
+
+<div class="section">
+<h2>5. Procédure pas à pas (6 étapes)</h2>
+<div class="sub">De l'envoi du dossier à la décision finale. Délai moyen : 4 mois (parfois plus).</div>
+
+<div class="timeline">
+<div class="tl-step"><span class="tl-num">1</span><h4>Envoi dossier</h4><p>Par courrier ou dépôt à l'accueil MDPH du département.</p></div>
+<div class="tl-step"><span class="tl-num">2</span><h4>Instruction EPE</h4><p>L'Équipe Pluridisciplinaire d'Évaluation examine le dossier.</p></div>
+<div class="tl-step"><span class="tl-num">3</span><h4>Projet PPC</h4><p>La MDPH envoie le projet de Plan Personnalisé de Compensation aux parents.</p></div>
+<div class="tl-step"><span class="tl-num">4</span><h4>Observations</h4><p>Vous renvoyez vos observations à l'équipe pluridisciplinaire.</p></div>
+<div class="tl-step"><span class="tl-num">5</span><h4>CDAPH</h4><p>Soumission à la CDAPH pour décision (15 jours avant réunion).</p></div>
+<div class="tl-step"><span class="tl-num">6</span><h4>Notification</h4><p>Décision adressée aux parents par courrier (notification).</p></div>
+</div>
+
+<h3>📮 Comment envoyer le dossier ?</h3>
+<div class="info-grid">
+<div class="info-card"><h4>✉️ Par courrier</h4><p>Envoi avec accusé de réception conseillé. <strong>Gardez l'enveloppe avec le cachet de la poste</strong> — utile pour démarrer les délais de recours.</p></div>
+<div class="info-card"><h4>🏛️ Dépôt à l'accueil</h4><p>Vous obtenez immédiatement un <strong>accusé de réception</strong>. Gardez-le précieusement, c'est un papier important.</p></div>
+<div class="info-card"><h4>📧 Confirmation</h4><p>La MDPH vous envoie un papier "accusé de réception" qui confirme le dépôt.</p></div>
+</div>
+
+<div class="alert-box">
+<strong>⏱️ Délais à connaître</strong>
+<p>La MDPH a <strong>4 mois</strong> pour instruire votre dossier. Au-delà, vous pouvez considérer cela comme un <strong>rejet tacite</strong>. C'est utile pour les recours (voir onglet 7).</p>
+</div>
+
+<h3>🚨 Procédure d'urgence — possible pour la PCH</h3>
+<p>Article R245-36 du CASF + arrêté du 27/06/2006 : <strong>étude en 15 jours</strong> possible en urgence pour la PCH si la situation est reconnue comme urgente — quand le délai MDPH compromet le maintien à domicile, l'emploi, ou cause des frais conséquents qui ne peuvent attendre.</p>
+
+<div class="notes-section">
+<label>📝 Mes dates clés (dépôt, AR, réception PPC, etc.)</label>
+<textarea id="notes-procedure" placeholder="Ex : Dossier déposé le 12/03/2026. AR reçu le 18/03. Projet PPC attendu vers 12/07."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 6 — LPI ÉCOLE
+     ============================================================ -->
+<div class="panel" id="panel-lpi">
+
+<div class="section">
+<h2>6. Livret de Parcours Inclusif (LPI) — 4 outils scolaires</h2>
+<div class="sub">À l'école, plusieurs dispositifs existent selon la situation. Le bon choix change tout. Cliquez pour comparer.</div>
+
+<div class="lpi-grid">
+
+<div class="lpi-card lpi-ppre">
+<h4>📘 PPRE</h4>
+<div class="full-name">Programme Personnalisé de Réussite Éducative</div>
+<div class="pour">
+<strong>Pour qui ?</strong>
+Maîtrise insuffisante de connaissances ou compétences (sans handicap reconnu)
+<strong>Évaluation</strong>
+Pédagogique (pas médicale)
+<strong>Qui pilote ?</strong>
+Famille + équipe pédagogique sous le pilotage du directeur / chef d'établissement
+<strong>Contenu</strong>
+Aménagements et adaptations ciblés sur une courte période
+</div>
+</div>
+
+<div class="lpi-card lpi-pps">
+<h4>📙 PPS</h4>
+<div class="full-name">Projet Personnalisé de Scolarisation</div>
+<div class="pour">
+<strong>Pour qui ?</strong>
+Situation de handicap <strong>reconnue par la MDPH (CDAPH)</strong>
+<strong>Évaluation</strong>
+CDAPH
+<strong>Qui pilote ?</strong>
+Famille + équipe + ERSEH (Enseignant Référent) + médecin EN + infirmier EN
+<strong>Contenu</strong>
+Aménagements, adaptations, matériel pédagogique adapté, dispositif d'appui médico-social, aide humaine (AESH), examens compris
+</div>
+</div>
+
+<div class="lpi-card lpi-pai">
+<h4>📕 PAI</h4>
+<div class="full-name">Projet d'Accueil Individualisé</div>
+<div class="pour">
+<strong>Pour qui ?</strong>
+Pathologie chronique, maladie invalidante, intolérance, allergies
+<strong>Évaluation</strong>
+Avis médical (pas MDPH)
+<strong>Qui pilote ?</strong>
+Famille + équipe pédagogique + médecin EN + infirmier EN
+<strong>Contenu</strong>
+Aménagements de la scolarité, traitement médical, protocole d'urgence
+</div>
+</div>
+
+<div class="lpi-card lpi-pap">
+<h4>📗 PAP</h4>
+<div class="full-name">Plan d'Accompagnement Personnalisé</div>
+<div class="pour">
+<strong>Pour qui ?</strong>
+Trouble spécifique du langage et des apprentissages (DYS) — sans handicap reconnu
+<strong>Évaluation</strong>
+Avis médical
+<strong>Qui pilote ?</strong>
+Famille + équipe pédagogique (pilotage directeur / chef d'établissement)
+<strong>Contenu</strong>
+Aménagements et adaptations pédagogiques (examens compris)
+</div>
+</div>
+
+</div>
+
+<div class="green-box" style="margin-top:18px">
+<strong>🧭 Comment choisir ?</strong>
+<p>• Difficultés <strong>scolaires</strong> sans diagnostic médical → <strong>PPRE</strong><br>
+• Trouble <strong>DYS</strong> diagnostiqué sans handicap reconnu MDPH → <strong>PAP</strong><br>
+• Maladie / allergie / pathologie chronique → <strong>PAI</strong><br>
+• Handicap <strong>reconnu par la CDAPH</strong> → <strong>PPS</strong> (le plus complet, ouvre droit à AESH, matériel, etc.)</p>
+</div>
+
+<div class="alert-box">
+<strong>⚠️ Important</strong>
+<p>Le PPS est le seul dispositif qui ouvre droit à l'<strong>AESH</strong> (Accompagnant des Élèves en Situation de Handicap) et au <strong>matériel pédagogique adapté</strong> attribué par la MDPH.</p>
+</div>
+
+<div class="notes-section">
+<label>📝 Mon dispositif visé + démarches</label>
+<textarea id="notes-lpi" placeholder="Ex : Viser PPS pour avoir l'AESH. RDV ESS prévu le 15. Préparer notes pour l'ERSEH."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 7 — RECOURS
+     ============================================================ -->
+<div class="panel" id="panel-recours">
+
+<div class="section">
+<h2>7. Recours en cas de désaccord — RAPO et tribunal</h2>
+<div class="sub">Si la décision MDPH ne vous convient pas, plusieurs recours existent. Les délais sont stricts.</div>
+
+<div class="rapo-steps">
+
+<div class="rapo-step">
+<h4>⚖️ RAPO — Recours Administratif Préalable Obligatoire</h4>
+<span class="delay">Délai : 2 mois après réception décision</span>
+<p>Depuis le 01/01/2019, vous <strong>ne pouvez pas saisir directement le tribunal</strong>. Vous devez d'abord faire un RAPO auprès de la MDPH (ou du Conseil Départemental selon la décision). L'administration a 2 mois pour répondre.</p>
+</div>
+
+<div class="rapo-step">
+<h4>⏳ Réponse de l'administration</h4>
+<span class="delay">2 mois max</span>
+<p>Après ces 2 mois sans réponse, vous pouvez considérer que c'est un <strong>rejet tacite</strong> et saisir le tribunal. Ou vous pouvez attendre la réponse explicite et décider à ce moment-là.</p>
+</div>
+
+<div class="rapo-step">
+<h4>🏛️ Saisine du Tribunal Judiciaire — pôle social (ex-TGI)</h4>
+<span class="delay">2 mois max après rejet RAPO</span>
+<p>L'avocat <strong>n'est pas obligatoire</strong>. Une association peut vous représenter. Procédure dite "orale" mais argumentaire écrit + pièces justificatives sont fortement conseillés.</p>
+</div>
+
+</div>
+
+<div class="alert-box" style="margin-top:18px">
+<strong>💡 Astuce Nawel — recours préventif</strong>
+<p>Si vous craignez une décision défavorable et voulez raccourcir les délais : la MDPH a 4 mois pour instruire. Quand ce délai est dépassé, vous pouvez considérer que c'est un rejet tacite. Vous pouvez envoyer un <strong>recours préalable préventif dès l'expiration du délai de 4 mois</strong>. À réception de la décision MDPH, vous pourrez la considérer comme une réponse à votre recours. Si elle ne vous satisfait pas → saisine directe du tribunal, sans attendre.</p>
+</div>
+
+<h3>🛡️ 5 conseils Nawel pour ÉVITER d'en arriver au recours</h3>
+<div class="conseils-list">
+<div class="conseil-item"><p>Lors de la réunion d'<strong>ESS (Équipe de Suivi de la Scolarisation)</strong>, ne venez pas seul(e) : trouvez des <strong>alliés</strong> pour soutenir vos idées (autre parent, professionnel qui suit l'enfant, représentant de parents, représentant associatif).</p></div>
+<div class="conseil-item"><p>Assurez-vous que <strong>tout ce que vous avez à dire est bien écrit</strong> dans la section du <strong>GEVA-Sco</strong> qui vous est réservée. Demandez à le relire avant transmission à la MDPH.</p></div>
+<div class="conseil-item"><p>En cas de désaccord pendant l'ESS, demandez à <strong>rencontrer l'EPE de la MDPH</strong> pour clarifier la situation (article L146-8 du CASF).</p></div>
+<div class="conseil-item"><p><strong>Exigez de recevoir le projet de PPS au moins 15 jours avant la réunion de la CDAPH</strong> (article R146-29). En pratique, les MDPH ne le font presque jamais — il faut le réclamer.</p></div>
+<div class="conseil-item"><p>Si le projet de PPS ne vous convient pas, <strong>renvoyez vos observations</strong> et demandez à être <strong>présent(e) lors de la réunion de la CDAPH</strong>. Informez-vous sur sa composition et contactez les représentants susceptibles de vous soutenir.</p></div>
+</div>
+
+<h3>📋 Motifs fréquents de recours</h3>
+<div class="info-grid">
+<div class="info-card"><h4>👥 Aide humaine scolaire</h4><p>Refus d'aide humaine, AESH individuelle refusée mais octroi mutualisée seulement, nombre d'heures insuffisant.</p></div>
+<div class="info-card"><h4>🏫 Orientation</h4><p>Refus d'orientation en ULIS, orientation non souhaitée en IME.</p></div>
+<div class="info-card"><h4>💸 AEEH</h4><p>Prise en compte insuffisante des frais, prise en compte erronée de la réduction de temps de travail.</p></div>
+<div class="info-card"><h4>🏡 Majoration parent isolé</h4><p>Omission par la CAF du versement de la majoration parent isolé.</p></div>
+</div>
+
+<div class="notes-section">
+<label>📝 Mes points de vigilance / recours à préparer</label>
+<textarea id="notes-recours" placeholder="Ex : Si AESH refusée, contacter assoc XYZ. Préparer dossier de recours dans les 2 mois."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 8 — ALLIÉS
+     ============================================================ -->
+<div class="panel" id="panel-allies">
+
+<div class="section">
+<h2>8. Mes alliés — qui peut m'aider ?</h2>
+<div class="sub">Vous n'êtes pas seul(e). De nombreux professionnels et associations peuvent vous accompagner.</div>
+
+<div class="allies-grid">
+
+<div class="allies-card al-sante">
+<h4>📋 Professionnels de santé</h4>
+<ul>
+<li><strong>Médecin traitant</strong> ou médecin spécialiste (pédiatre, neuropédiatre, pédopsychiatre…)</li>
+<li><strong>Psychologue</strong> / neuropsychologue — handicaps psychiques ou cognitifs</li>
+<li><strong>Orthophoniste, ergothérapeute, psychomotricien</strong> — bilans utiles au dossier</li>
+<li><strong>Médecin scolaire</strong> — connaît la situation à l'école</li>
+<li><strong>Médecin de la PMI</strong> (pour les jeunes enfants)</li>
+</ul>
+</div>
+
+<div class="allies-card al-social">
+<h4>🤝 Travailleurs sociaux & institutionnels</h4>
+<ul>
+<li><strong>Assistant(e) de Service Social</strong> — conseils, aide à remplir le dossier</li>
+<li><strong>CAMSP / CMPP / SESSAD</strong> — accompagnement médico-social</li>
+<li><strong>ERSEH</strong> — Enseignant Référent Scolarisation Handicap (point de contact école/MDPH)</li>
+<li><strong>Référent MDPH</strong> — un agent peut vous être attribué pour suivre le dossier</li>
+<li><strong>CAF</strong> — pour les questions de versement AEEH</li>
+</ul>
+</div>
+
+<div class="allies-card al-asso">
+<h4>📞 Associations</h4>
+<ul>
+<li><strong>Associations spécifiques</strong> (par trouble : TDAH France, Dyspraxia, Autisme France, AFEP HPI, etc.)</li>
+<li><strong>Associations généralistes</strong> handicap (APF, UNAPEI…)</li>
+<li><strong>Associations parents d'élèves</strong> (FCPE, PEEP)</li>
+<li><strong>Maisons des Familles</strong> / lieux d'accueil parents</li>
+<li><strong>Ligne nationale parentalité</strong> : 0 800 00 3456</li>
+</ul>
+</div>
+
+</div>
+
+<div class="green-box" style="margin-top:18px">
+<strong>💡 Conseil Nawel</strong>
+<p>Il peut être utile de se faire <strong>accompagner par une personne expérimentée</strong> dans ce processus (assistant social, avocat spécialisé en droit des personnes handicapées, association). Beaucoup d'associations offrent ce service <strong>gratuitement</strong>.</p>
+</div>
+
+<div class="notes-section">
+<label>📝 Mes contacts utiles (nom · téléphone · email · ce qu'il fait)</label>
+<textarea id="notes-allies" placeholder="Ex :
+- Dr Martin (médecin traitant) — 01 XX XX XX XX — certificat médical
+- Sophie X. (AS du collège) — 06 XX XX XX XX — aide remplir dossier
+- Asso XYZ — 0800... — accompagnement recours"></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer">
+« Vous n'êtes pas seul(e). Bien s'entourer et bien préparer son dossier augmente vos chances. »
+<span class="brand-foot">Création originale · Nawel Haddouch · EducaTypique</span>
+<span class="small">Guide MDPH pas-à-pas pour parents · Données légales 2024-2026 · Mémoire locale, rien n'est envoyé en ligne</span>
+</div>
+
+</div>
+
+<script>
+// ============================================================
+// STORAGE
+// ============================================================
+var STORAGE_KEY = 'educatypique_mdph_v1';
+var currentDossier = 'default';
+
+function loadStore(){
+  try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : { dossiers:{default:{}} }; }
+  catch(e){ return { dossiers:{default:{}} }; }
+}
+function saveStore(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
+function loadDossier(){ return loadStore().dossiers[currentDossier] || {}; }
+function saveDossier(d){ var s = loadStore(); s.dossiers[currentDossier] = d; saveStore(s); }
+
+// ============================================================
+// ONGLETS
+// ============================================================
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ============================================================
+// QUIZ PARCOURS
+// ============================================================
+function selectQuiz(opt){
+  document.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+  opt.classList.add('selected');
+  var q = opt.dataset.q;
+  var result = document.getElementById('quizResult');
+  var html = '';
+  if(q==='1'){
+    html = '<h3>Première demande — sections à remplir</h3>' +
+      '<p style="font-size:14px;margin-bottom:10px">Tu remplis le dossier pour la première fois. Voici les sections à compléter :</p>' +
+      '<div class="sections-list">' +
+        '<div class="sect-chip sect-A">A · Identité <span style="font-size:11px">(obligatoire)</span></div>' +
+        '<div class="sect-chip sect-B">B · Vie quotidienne <span style="font-size:11px">(obligatoire)</span></div>' +
+        '<div class="sect-chip sect-C">C · Vie scolaire <span style="font-size:11px">(si école)</span></div>' +
+        '<div class="sect-chip sect-D">D · Situation pro <span style="font-size:11px">(si travail)</span></div>' +
+        '<div class="sect-chip sect-E">E · Droits & prestations <span style="font-size:11px">(obligatoire)</span></div>' +
+      '</div>' +
+      '<p style="font-size:13.5px;margin-top:14px;font-style:italic">💡 Profite de cette 1ère demande pour bien décrire le quotidien dans le « projet de vie ». Cela facilitera tous les renouvellements futurs.</p>';
+  } else if(q==='2'){
+    html = '<h3>Renouvellement — sections à remplir</h3>' +
+      '<p style="font-size:14px;margin-bottom:10px">L\'aide va s\'arrêter, tu veux la prolonger sans changer :</p>' +
+      '<div class="sections-list">' +
+        '<div class="sect-chip sect-A">A · Identité</div>' +
+        '<div class="sect-chip sect-E">E · Droits & prestations</div>' +
+      '</div>' +
+      '<p style="font-size:13.5px;margin-top:14px;font-style:italic">💡 Mentionne TRÈS CLAIREMENT « demande de renouvellement » sur le dossier. Au moins <strong>6 mois avant l\'échéance</strong> de vos droits actuels.</p>';
+  } else {
+    html = '<h3>Révision — sections à remplir</h3>' +
+      '<p style="font-size:14px;margin-bottom:10px">Ta situation a évolué (besoins augmentent, frais en plus, changement temps de travail…) :</p>' +
+      '<div class="sections-list">' +
+        '<div class="sect-chip sect-A">A · Identité</div>' +
+        '<div class="sect-chip sect-B">B · Vie quotidienne <span style="font-size:11px">(décrire ce qui a changé)</span></div>' +
+        '<div class="sect-chip sect-C">C · Vie scolaire <span style="font-size:11px">(si concerné)</span></div>' +
+        '<div class="sect-chip sect-D">D · Situation pro <span style="font-size:11px">(si concerné)</span></div>' +
+      '</div>' +
+      '<p style="font-size:13.5px;margin-top:14px;font-style:italic">⚠️ <strong>Attention</strong> : les nouveaux droits seront ouverts à compter du mois SUIVANT le dépôt. Ne demandez PAS de révision si vos droits actuels sont susceptibles de baisser. Mentionnez clairement « demande de RÉVISION ».</p>';
+  }
+  result.innerHTML = html;
+  result.classList.add('show');
+  saveAll();
+}
+
+// ============================================================
+// CHECKLIST
+// ============================================================
+function toggleCheck(item,id){
+  item.classList.toggle('checked');
+  saveAll();
+}
+
+// ============================================================
+// AIDES TABS
+// ============================================================
+function switchAide(a){
+  document.querySelectorAll('.aides-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-aide="'+a+'"]').classList.add('active');
+  document.querySelectorAll('.aide-card').forEach(c=>c.classList.remove('show'));
+  document.getElementById('aide-'+a).classList.add('show');
+}
+
+// ============================================================
+// SAVE / RESTORE
+// ============================================================
+function getFormData(){
+  return {
+    notes_comprendre: document.getElementById('notes-comprendre').value,
+    notes_parcours: document.getElementById('notes-parcours').value,
+    notes_pieces: document.getElementById('notes-pieces').value,
+    notes_aides: document.getElementById('notes-aides').value,
+    notes_procedure: document.getElementById('notes-procedure').value,
+    notes_lpi: document.getElementById('notes-lpi').value,
+    notes_recours: document.getElementById('notes-recours').value,
+    notes_allies: document.getElementById('notes-allies').value,
+    quiz_selected: document.querySelector('.quiz-opt.selected')?.dataset.q || '',
+    checks: Array.from(document.querySelectorAll('.check-item.checked')).map(el=>el.querySelector('h4').textContent.trim().substring(0,80))
+  };
+}
+function saveAll(){
+  var d = loadDossier();
+  d.form = getFormData();
+  saveDossier(d);
+}
+function restoreAll(){
+  var d = loadDossier();
+  var f = d.form || {};
+  ['notes-comprendre','notes-parcours','notes-pieces','notes-aides','notes-procedure','notes-lpi','notes-recours','notes-allies'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.value = f[id.replace('-','_')] || '';
+  });
+  document.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+  if(f.quiz_selected){
+    var opt = document.querySelector('.quiz-opt[data-q="'+f.quiz_selected+'"]');
+    if(opt) selectQuiz(opt);
+  } else {
+    document.getElementById('quizResult').classList.remove('show');
+  }
+  document.querySelectorAll('.check-item').forEach(c=>c.classList.remove('checked'));
+  (f.checks||[]).forEach(function(text){
+    document.querySelectorAll('.check-item').forEach(function(c){
+      if(c.querySelector('h4').textContent.trim().substring(0,80) === text) c.classList.add('checked');
+    });
+  });
+}
+
+['notes-comprendre','notes-parcours','notes-pieces','notes-aides','notes-procedure','notes-lpi','notes-recours','notes-allies'].forEach(function(id){
+  var el = document.getElementById(id);
+  if(el) el.addEventListener('input', saveAll);
+});
+
+// ============================================================
+// DOSSIERS
+// ============================================================
+function refreshDossierSelect(){
+  var s = loadStore();
+  var sel = document.getElementById('dossierSelect');
+  sel.innerHTML = '';
+  Object.keys(s.dossiers||{default:{}}).forEach(function(name){
+    var opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if(name === currentDossier) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+function changeDossier(){
+  currentDossier = document.getElementById('dossierSelect').value;
+  restoreAll();
+}
+function addDossier(){
+  var name = (document.getElementById('newDossier').value||'').trim();
+  if(!name) return;
+  var s = loadStore();
+  s.dossiers[name] = s.dossiers[name] || {};
+  saveStore(s);
+  currentDossier = name;
+  document.getElementById('newDossier').value='';
+  refreshDossierSelect();
+  restoreAll();
+}
+function deleteDossier(){
+  if(currentDossier==='default'){ alert('Le dossier « Mon dossier » ne peut pas être supprimé.'); return; }
+  if(!confirm('Supprimer le dossier « '+currentDossier+' » et toutes ses notes ?')) return;
+  var s = loadStore(); delete s.dossiers[currentDossier]; saveStore(s);
+  currentDossier='default'; refreshDossierSelect(); restoreAll();
+}
+
+// ============================================================
+// EXPORT TXT
+// ============================================================
+function exportTXT(){
+  var d = loadDossier();
+  var f = d.form || {};
+  var dt = new Date();
+  var dateStr = dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();
+  var out = '';
+  out += '═══════════════════════════════════════════════════\n';
+  out += '  MON DOSSIER MDPH PAS À PAS · EducaTypique\n';
+  out += '  Création originale : Nawel Haddouch\n';
+  out += '  Dossier : '+currentDossier+'\n';
+  out += '  Exporté le : '+dateStr+'\n';
+  out += '═══════════════════════════════════════════════════\n\n';
+
+  out += '1️⃣  COMPRENDRE\n';
+  out += '─────────────────────────────────────\n';
+  out += (f.notes_comprendre||'(vide)')+'\n\n';
+
+  out += '2️⃣  MON PARCOURS\n';
+  out += '─────────────────────────────────────\n';
+  var qLabels = {'1':'Première demande','2':'Renouvellement','3':'Révision'};
+  out += 'Situation : '+(qLabels[f.quiz_selected]||'(non choisie)')+'\n';
+  out += (f.notes_parcours||'(vide)')+'\n\n';
+
+  out += '3️⃣  PIÈCES À JOINDRE\n';
+  out += '─────────────────────────────────────\n';
+  if((f.checks||[]).length){
+    f.checks.forEach(function(t){ out += '   ✓ '+t+'\n'; });
+  } else { out += '(aucune pièce cochée)\n'; }
+  out += '\nNotes : '+(f.notes_pieces||'(vide)')+'\n\n';
+
+  out += '4️⃣  AIDES VISÉES\n';
+  out += '─────────────────────────────────────\n';
+  out += (f.notes_aides||'(vide)')+'\n\n';
+
+  out += '5️⃣  PROCÉDURE (dates clés)\n';
+  out += '─────────────────────────────────────\n';
+  out += (f.notes_procedure||'(vide)')+'\n\n';
+
+  out += '6️⃣  ÉCOLE — LPI (PPRE/PPS/PAI/PAP)\n';
+  out += '─────────────────────────────────────\n';
+  out += (f.notes_lpi||'(vide)')+'\n\n';
+
+  out += '7️⃣  RECOURS / VIGILANCE\n';
+  out += '─────────────────────────────────────\n';
+  out += (f.notes_recours||'(vide)')+'\n\n';
+
+  out += '8️⃣  MES ALLIÉS\n';
+  out += '─────────────────────────────────────\n';
+  out += (f.notes_allies||'(vide)')+'\n\n';
+
+  out += '═══════════════════════════════════════════════════\n';
+  out += 'Vous n\'êtes pas seul(e). Bien s\'entourer et bien préparer son\n';
+  out += 'dossier augmente vos chances d\'obtenir une évaluation favorable.\n';
+  out += '\n— Création originale Nawel Haddouch · EducaTypique\n';
+  out += '═══════════════════════════════════════════════════\n';
+
+  var blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'MonDossierMDPH_'+currentDossier+'_'+dt.getFullYear()+(dt.getMonth()+1)+dt.getDate()+'.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+refreshDossierSelect();
+restoreAll();
+</script>
+</body>
+</html>
