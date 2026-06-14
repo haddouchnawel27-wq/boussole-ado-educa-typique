@@ -270,7 +270,7 @@
     data.forEach(function (pt, i) { d += (i === 0 ? "M" : "L") + px(i) + "," + py(pt.valeur) + " "; });
     var path = document.createElementNS(ns, "path");
     path.setAttribute("d", d); path.setAttribute("fill", "none");
-    path.setAttribute("stroke", "#3a7d6e"); path.setAttribute("stroke-width", "3"); path.setAttribute("stroke-linejoin", "round");
+    path.setAttribute("stroke", "#8a9789"); path.setAttribute("stroke-width", "3"); path.setAttribute("stroke-linejoin", "round");
     svg.appendChild(path);
     data.forEach(function (pt, i) {
       var c = document.createElementNS(ns, "circle");
@@ -620,7 +620,7 @@
     var courbe30 = blocCourbe("30 derniers jours", 30, checks).querySelector("svg");
     var html = "<!DOCTYPE html><html lang='fr'><head><meta charset='utf-8'><title>Résumé — Al Mizan</title><style>" +
       "body{font-family:Segoe UI,system-ui,sans-serif;color:#2d3436;max-width:760px;margin:24px auto;padding:0 16px;line-height:1.5}" +
-      "h1{color:#3a7d6e}h2{color:#2c6055;border-bottom:2px solid #e7f2ef;padding-bottom:4px;margin-top:28px}" +
+      "h1{color:#8a9789}h2{color:#2c6055;border-bottom:2px solid #e7f2ef;padding-bottom:4px;margin-top:28px}" +
       ".pil{display:inline-block;background:#e7f2ef;color:#2c6055;border-radius:999px;padding:3px 12px;margin:3px;font-size:14px}" +
       "svg{max-width:100%;border:1px solid #eee;border-radius:10px;padding:8px}" +
       ".note{color:#6b7280;font-size:13px}table{width:100%;border-collapse:collapse;font-size:13px}td,th{border:1px solid #e5e7eb;padding:5px 7px;text-align:left}" +

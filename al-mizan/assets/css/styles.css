@@ -1,28 +1,28 @@
 /* ============================================================
    Al Mizan — feuille de styles
-   Ambiance chaleureuse (sable, ambre, terracotta), calme et lisible.
-   Le vert reste l'ancrage apaisant, les tons chauds adoucissent l'ensemble.
+   Palette de marque Jannat Al Qalb : sauge, amande, ivoire, rose argile,
+   taupe, cacao, or champagne. Douce, naturelle, apaisante.
    ============================================================ */
 :root {
-  --vert: #3a7d6e;
-  --vert-clair: #eaf2ee;
-  --vert-fonce: #2c6055;
-  --sable: #f6efe4;          /* sable chaud */
-  --sable-fonce: #efe5d4;
-  --ardoise: #3a3530;        /* brun-ardoise plus doux que le noir */
-  --gris: #7a7066;
-  --gris-clair: #e7ddcf;
-  --blanc: #fffdfa;          /* blanc cassé chaud */
-  --ambre: #d99a3a;
-  --or: #c98a2e;
-  --terre: #c46a4f;          /* terracotta */
-  --corail: #e26d5c;
-  --bleu: #6a8fa8;
-  --violet: #8a6bb0;
-  --rose: #e0a285;
+  --vert: #8a9789;           /* sauge — couleur principale */
+  --vert-clair: #e9ede6;     /* sauge clair : pastilles, onglet actif */
+  --vert-fonce: #5f6d5c;     /* sauge profond : titres, survol */
+  --sable: #f6f2ea;          /* ivoire (fond) */
+  --sable-fonce: #e8ddd1;    /* amande */
+  --ardoise: #3b2b23;        /* cacao (texte) */
+  --gris: #8a8077;           /* taupe-gris */
+  --gris-clair: #e2d8ca;     /* bordures (amande/taupe) */
+  --blanc: #fcfaf5;          /* ivoire clair (cartes) */
+  --ambre: #d8b77a;          /* or champagne */
+  --or: #c2a05f;
+  --terre: #c88e7f;          /* rose argile */
+  --corail: #c88e7f;         /* rose argile (alertes douces, crise) */
+  --bleu: #b9ada0;           /* taupe */
+  --violet: #a98ba0;         /* mauve doux (accents zones) */
+  --rose: #d8a892;
   --rayon: 18px;
-  --ombre: 0 2px 14px rgba(120, 90, 50, .10);
-  --ombre-forte: 0 12px 34px rgba(120, 80, 40, .18);
+  --ombre: 0 2px 14px rgba(90, 80, 60, .10);
+  --ombre-forte: 0 12px 34px rgba(80, 70, 50, .16);
   --police: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
 }
 * { box-sizing: border-box; }
@@ -30,7 +30,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0; font-family: var(--police); color: var(--ardoise);
   line-height: 1.55; -webkit-text-size-adjust: 100%;
-  background: linear-gradient(180deg, #f9f2e7 0%, var(--sable) 38%);
+  background: linear-gradient(180deg, #faf7f0 0%, var(--sable) 42%);
   background-attachment: fixed;
 }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
@@ -42,14 +42,14 @@ body {
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
   gap: 1rem; padding: .7rem 1rem;
-  background: linear-gradient(100deg, #fbf4e8, #f7ede0);
-  border-bottom: 1px solid #efe2cf;
+  background: linear-gradient(100deg, #f8f4ec, #f1ece1);
+  border-bottom: 1px solid #e7dccc;
   box-shadow: var(--ombre); position: sticky; top: 0; z-index: 50;
 }
-.brand { display: flex; align-items: center; gap: .5rem; text-decoration: none; color: var(--vert-fonce); font-weight: 700; font-size: 1.25rem; letter-spacing: .01em; }
+.brand { display: flex; align-items: center; gap: .5rem; text-decoration: none; color: var(--vert-fonce); font-weight: 700; font-size: 1.3rem; letter-spacing: .02em; }
 .brand-logo { font-size: 1.5rem; }
-.brand-name { background: linear-gradient(90deg, var(--vert-fonce), var(--or)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-.brand-name em { color: var(--ambre); font-style: normal; font-weight: 800; }
+.brand-name { color: var(--ardoise); font-weight: 700; }
+.brand-name em { color: var(--or); font-style: normal; font-weight: 800; }
 
 /* ---- Onglets ---- */
 .onglets {
