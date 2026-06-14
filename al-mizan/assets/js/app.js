@@ -708,9 +708,9 @@
   // ---------- Accueil tout doux (première visite) ----------
   function bienvenue() {
     var corps = el("div");
-    corps.appendChild(el("div", { style: "text-align:center;margin:.2rem 0 .8rem" }, [
+    corps.appendChild(el(".bienvenue-hero", {}, [
       el("img", { src: "assets/img/al-mizan-mark.svg", alt: "Al Mizan", width: 72, height: 72 }),
-      el("p", { style: "margin:.4rem 0 0;color:var(--or);font-weight:700;letter-spacing:.06em;font-size:.78rem", text: "ÉQUILIBRE INTÉRIEUR, CLARTÉ & SÉRÉNITÉ" })
+      el("p.bienvenue-sign", { text: "ÉQUILIBRE INTÉRIEUR, CLARTÉ & SÉRÉNITÉ" })
     ]));
     corps.appendChild(el("p", { text: "Al Mizan, c'est ton espace à toi. Un petit rituel quotidien pour mieux te comprendre, sans te juger, et retrouver ton équilibre — un jour après l'autre." }));
     var etapes = el("ul.liste-soignee", { style: "margin:.7rem 0" });
