@@ -1,5 +1,5 @@
 /* Service worker — met l'application en cache pour un usage hors-ligne. */
-var CACHE = "boussole-v7";
+var CACHE = "boussole-v8";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
   "./assets/css/styles.css",
@@ -32,6 +32,17 @@ self.addEventListener("activate", function (e) {
 
 self.addEventListener("fetch", function (e) {
   if (e.request.method !== "GET") return;
+
+  // Les sites vitrines (Educa Typique · Parcours Clarté, et Jannat Al Qalb)
+  // ne font PAS partie de l'application : on laisse le navigateur les charger
+  // directement depuis le réseau, sans jamais les remplacer par la coquille
+  // de l'appli ni les mettre dans le cache de l'appli.
+  var chemin = new URL(e.request.url).pathname;
+  if (chemin.indexOf("/parcours-clarte-tnd/") !== -1 ||
+      chemin.indexOf("/jannat-al-qalb/") !== -1) {
+    return;
+  }
+
   e.respondWith(
     caches.match(e.request).then(function (rep) {
       return rep || fetch(e.request).then(function (reseau) {
