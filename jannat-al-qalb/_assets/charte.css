@@ -1,0 +1,83 @@
+/* ============================================================
+   CHARTE — JANNAT AL QALB
+   Cabinet psycho-spirituel islamique · Nawel Haddouch
+   Palette douce : sauge · amande · ivoire · rose argile · or champagne
+   ============================================================ */
+
+:root{
+  /* === PALETTE === */
+  --sauge:#8A9789;
+  --sauge-fonce:#6f7d6f;
+  --amande:#E8DDD1;
+  --ivoire:#F6F2EA;
+  --rose-argile:#C88E7F;
+  --rose-argile-fonce:#a96f60;
+  --taupe:#B9ADA0;
+  --cacao:#3B2B23;
+  --or:#D8B77A;
+  --or-fonce:#bf9a53;
+
+  /* === TEXTE === */
+  --texte:#3B2B23;
+  --muted:#7a6e63;
+  --border:#e6ddd0;
+
+  /* === TYPOGRAPHIES === */
+  --font-titre:'Cormorant Garamond', Georgia, serif;
+  --font-corps:'Jost', system-ui, sans-serif;
+
+  /* === RAYONS & OMBRES === */
+  --r-md:14px;
+  --r-lg:22px;
+  --r-arche:120px;
+  --shadow-sm:0 4px 16px rgba(59,43,35,.07);
+  --shadow-md:0 10px 30px rgba(59,43,35,.12);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--font-corps);
+  color:var(--texte);
+  background:var(--ivoire);
+  line-height:1.7;
+  font-weight:300;
+}
+h1,h2,h3,h4{font-family:var(--font-titre);font-weight:600;line-height:1.2;margin:.2em 0 .4em;letter-spacing:.5px}
+a{color:var(--rose-argile-fonce)}
+img{max-width:100%}
+
+.container{max-width:1000px;margin:0 auto;padding:0 1.4rem}
+
+/* Lettrage d'enseigne */
+.marque{
+  font-family:var(--font-titre);
+  letter-spacing:1px;
+}
+.surtitre{
+  font-family:var(--font-corps);
+  text-transform:uppercase;
+  letter-spacing:4px;
+  font-size:.72rem;
+  color:var(--sauge-fonce);
+  font-weight:400;
+}
+
+/* Étoile / séparateur doré */
+.sep{display:flex;align-items:center;justify-content:center;gap:.8rem;color:var(--or);margin:1.4rem 0}
+.sep::before,.sep::after{content:"";height:1px;width:60px;background:linear-gradient(90deg,transparent,var(--or))}
+.sep::after{background:linear-gradient(90deg,var(--or),transparent)}
+
+/* Boutons */
+.btn{
+  display:inline-block;text-decoration:none;text-align:center;
+  background:var(--sauge);color:#fff;font-family:var(--font-corps);font-weight:400;
+  letter-spacing:1px;text-transform:uppercase;font-size:.82rem;
+  padding:.85em 1.8em;border-radius:999px;transition:background .2s,transform .15s;
+}
+.btn:hover{background:var(--sauge-fonce);transform:translateY(-2px)}
+.btn.or{background:var(--or);color:var(--cacao)}
+.btn.or:hover{background:var(--or-fonce)}
+.btn.ghost{background:transparent;color:var(--sauge-fonce);border:1px solid var(--sauge)}
+.btn.ghost:hover{background:var(--sauge);color:#fff}
