@@ -1,4 +1,4 @@
-# ⚖️ Al Mizan — Retrouver l'équilibre, devenir alignée
+# ⚖️ Al Mizan — Équilibre intérieur, clarté & sérénité
 
 Application web **100 % locale et privée** pour accompagner les **femmes entrepreneures**
 sur le versant **émotions · fonctionnement · schémas · blocages**. Volet complémentaire d'un

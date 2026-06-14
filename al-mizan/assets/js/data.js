@@ -30,7 +30,7 @@
       recos: ["Garde aujourd'hui 1 seule priorité, la plus simple.", "Note ce que tu ressens : tu reliras la régularité du cycle.", "Programme du repos comme un vrai rendez-vous."]
     },
     {
-      id: "fatigue", nom: "Fatigue", emoji: "😴", couleur: "#b9ada0",
+      id: "fatigue", nom: "Fatigue", emoji: "😴", couleur: "#b9a999",
       intro: "Quand le corps est fatigué, le cerveau exécutif (planifier, décider, prioriser) fonctionne au ralenti. Forcer coûte plus que ça ne rapporte.",
       signes: ["Difficulté à démarrer", "Tout paraît une montagne", "Irritabilité, larmes faciles", "Envie de tout repousser"],
       cequiaide: ["Réduire la liste à l'essentiel", "Découper en micro-étapes de 5 min", "Bouger un peu, t'hydrater", "Accepter une journée « minimum »"],
@@ -39,7 +39,7 @@
       recos: ["Choisis 1 micro-action de 5 minutes, juste pour amorcer.", "Autorise-toi une vraie pause sans écran.", "Repousse sans culpabilité ce qui peut attendre demain."]
     },
     {
-      id: "reprise", nom: "Reprise progressive", emoji: "🌱", couleur: "#8a9789",
+      id: "reprise", nom: "Reprise progressive", emoji: "🌱", couleur: "#8a9882",
       intro: "Après une pause (maladie, vacances, creux), reprendre à 100 % d'un coup mène souvent au mur. La reprise se fait par paliers.",
       signes: ["Sensation d'être « rouillée »", "Peur de ne plus y arriver", "Envie d'aller trop vite pour rattraper"],
       cequiaide: ["Recommencer petit et régulier", "Une seule chose remise en route par jour", "Célébrer chaque redémarrage"],
@@ -204,10 +204,10 @@
 
   function etatDuJour(checkin) {
     var m = moyenne(checkin);
-    if (m >= 4.2) return { score: m, label: "Belle énergie", emoji: "🌞", couleur: "#8a9789", message: "Quelle belle énergie aujourd'hui. Savoure-la, et avance sur ce qui compte vraiment pour toi." };
-    if (m >= 3.2) return { score: m, label: "Plutôt ok", emoji: "🌤️", couleur: "#b9ada0", message: "Tu as de quoi avancer en douceur. Pas besoin d'en faire trop : ton rythme est le bon." };
-    if (m >= 2.2) return { score: m, label: "Journée plus fragile", emoji: "🌥️", couleur: "#d8b77a", message: "Allège la barre aujourd'hui, sans culpabiliser. Faire peu et avec soin, c'est déjà avancer." };
-    return { score: m, label: "Jour bas", emoji: "🌧️", couleur: "#c88e7f", message: "Ce n'est pas le jour pour te pousser, et c'est ok. Aujourd'hui, prendre soin de toi suffit largement." };
+    if (m >= 4.2) return { score: m, label: "Belle énergie", emoji: "🌞", couleur: "#8a9882", message: "Quelle belle énergie aujourd'hui. Savoure-la, et avance sur ce qui compte vraiment pour toi." };
+    if (m >= 3.2) return { score: m, label: "Plutôt ok", emoji: "🌤️", couleur: "#b9a999", message: "Tu as de quoi avancer en douceur. Pas besoin d'en faire trop : ton rythme est le bon." };
+    if (m >= 2.2) return { score: m, label: "Journée plus fragile", emoji: "🌥️", couleur: "#c9b07a", message: "Allège la barre aujourd'hui, sans culpabiliser. Faire peu et avec soin, c'est déjà avancer." };
+    return { score: m, label: "Jour bas", emoji: "🌧️", couleur: "#c88e7a", message: "Ce n'est pas le jour pour te pousser, et c'est ok. Aujourd'hui, prendre soin de toi suffit largement." };
   }
 
   // ---- Moteur : recommandations adaptées au check-in ----
@@ -272,7 +272,7 @@
       declencheur: "Une frustration, une injustice ressentie, une limite franchie.",
       fonction: "Elle signale qu'une de tes limites ou de tes valeurs n'a pas été respectée. Elle te donne l'énergie de te défendre ou de poser un cadre.",
       aide: ["Mettre une pause AVANT d'agir ou d'écrire (l'impulsion retombe en quelques minutes)", "Bouger, respirer, boire de l'eau fraîche", "Identifier la limite touchée : « de quoi ai-je besoin ? »", "Reporter la réponse à tête reposée"] },
-    { id: "peur", nom: "La peur", emoji: "⚡", couleur: "#b9ada0",
+    { id: "peur", nom: "La peur", emoji: "⚡", couleur: "#b9a999",
       declencheur: "Un danger ou une menace, réels ou anticipés (peur de l'échec, du jugement).",
       fonction: "Elle augmente ta vigilance pour te protéger. En entrepreneuriat, elle pointe souvent un enjeu qui compte vraiment pour toi.",
       aide: ["Distinguer le danger réel de l'anticipation (« qu'est-ce qui est vrai MAINTENANT ? »)", "Découper l'action redoutée en un tout petit premier pas", "Respiration lente pour calmer le corps", "Te rappeler tes réussites passées face à la peur"] },
@@ -284,7 +284,7 @@
       declencheur: "Le sentiment de ne pas être à la hauteur, la peur du jugement, un écart à ses valeurs.",
       fonction: "Bien dosée, elle nous relie à nos valeurs. Excessive, elle paralyse et pousse à se cacher — surtout chez les entrepreneures perfectionnistes.",
       aide: ["Distinguer « j'ai fait une erreur » de « je suis nulle »", "Parler de la honte la désamorce (elle se nourrit du secret)", "Se rappeler que personne ne réussit sans rater", "Revenir à l'action concrète, petite et faisable"] },
-    { id: "joie", nom: "La joie", emoji: "☀️", couleur: "#d8b77a",
+    { id: "joie", nom: "La joie", emoji: "☀️", couleur: "#c9b07a",
       declencheur: "Un succès, une reconnaissance, un moment partagé, un sens retrouvé.",
       fonction: "Elle récompense, recharge et renforce les liens. Elle nourrit la motivation et la créativité — un carburant, pas un luxe.",
       aide: ["La savourer pleinement, même pour les petites victoires", "La noter (gratitude) pour la cultiver", "La partager avec ses proches", "S'en servir pour amorcer les tâches exigeantes"] },

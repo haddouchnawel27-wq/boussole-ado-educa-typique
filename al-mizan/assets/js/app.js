@@ -12,9 +12,9 @@
     { id: "tendances", nom: "Tendances", emoji: "📈" },
     { id: "zones", nom: "Zones rouges", emoji: "🛟" },
     { id: "pensees", nom: "Mes pensées", emoji: "💭" },
-    { id: "biblio", nom: "Comprendre", emoji: "📚" },
+    { id: "biblio", nom: "Ressources", emoji: "📚" },
     { id: "resume", nom: "Résumé", emoji: "📤" },
-    { id: "reglages", nom: "Réglages", emoji: "⚙️" }
+    { id: "reglages", nom: "Profil", emoji: "👤" }
   ];
 
   function construireNav() {
@@ -270,7 +270,7 @@
     data.forEach(function (pt, i) { d += (i === 0 ? "M" : "L") + px(i) + "," + py(pt.valeur) + " "; });
     var path = document.createElementNS(ns, "path");
     path.setAttribute("d", d); path.setAttribute("fill", "none");
-    path.setAttribute("stroke", "#8a9789"); path.setAttribute("stroke-width", "3"); path.setAttribute("stroke-linejoin", "round");
+    path.setAttribute("stroke", "#8a9882"); path.setAttribute("stroke-width", "3"); path.setAttribute("stroke-linejoin", "round");
     svg.appendChild(path);
     data.forEach(function (pt, i) {
       var c = document.createElementNS(ns, "circle");
@@ -620,7 +620,7 @@
     var courbe30 = blocCourbe("30 derniers jours", 30, checks).querySelector("svg");
     var html = "<!DOCTYPE html><html lang='fr'><head><meta charset='utf-8'><title>Résumé — Al Mizan</title><style>" +
       "body{font-family:Segoe UI,system-ui,sans-serif;color:#2d3436;max-width:760px;margin:24px auto;padding:0 16px;line-height:1.5}" +
-      "h1{color:#8a9789}h2{color:#2c6055;border-bottom:2px solid #e7f2ef;padding-bottom:4px;margin-top:28px}" +
+      "h1{color:#8a9882}h2{color:#2c6055;border-bottom:2px solid #e7f2ef;padding-bottom:4px;margin-top:28px}" +
       ".pil{display:inline-block;background:#e7f2ef;color:#2c6055;border-radius:999px;padding:3px 12px;margin:3px;font-size:14px}" +
       "svg{max-width:100%;border:1px solid #eee;border-radius:10px;padding:8px}" +
       ".note{color:#6b7280;font-size:13px}table{width:100%;border-collapse:collapse;font-size:13px}td,th{border:1px solid #e5e7eb;padding:5px 7px;text-align:left}" +
@@ -707,6 +707,10 @@
   // ---------- Accueil tout doux (première visite) ----------
   function bienvenue() {
     var corps = el("div");
+    corps.appendChild(el("div", { style: "text-align:center;margin:.2rem 0 .6rem" }, [
+      el("img", { src: "assets/img/al-mizan-mark.svg", alt: "Al Mizan", width: 76, height: 76 }),
+      el("p", { style: "margin:.3rem 0 0;color:var(--or);font-weight:600;letter-spacing:.03em;font-size:.85rem", text: "ÉQUILIBRE INTÉRIEUR, CLARTÉ & SÉRÉNITÉ" })
+    ]));
     corps.appendChild(el("p", { text: "Al Mizan, c'est ton espace à toi. Un petit rituel quotidien pour mieux te comprendre, sans te juger, et retrouver ton équilibre — un jour après l'autre." }));
     var etapes = el("ul.recos", { style: "margin:.6rem 0" });
     [
