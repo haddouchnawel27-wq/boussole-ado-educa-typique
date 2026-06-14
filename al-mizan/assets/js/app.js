@@ -11,7 +11,7 @@
   var ONGLETS = [
     { id: "accueil", nom: "Aujourd'hui" },
     { id: "tendances", nom: "Tendances" },
-    { id: "zones", nom: "Zones rouges" },
+    { id: "zones", nom: "Turbulences" },
     { id: "pensees", nom: "Mes pensées" },
     { id: "biblio", nom: "Ressources" },
     { id: "resume", nom: "Résumé" },
@@ -61,6 +61,12 @@
       el("strong.etat-label", { text: b.etat.label }),
       el("p.etat-msg", { text: b.soutien })
     ]));
+
+    // Ligne d'équilibre (discrète, animée) — où tu te situes aujourd'hui
+    var dot = el(".equilibre-dot", { style: "border-color:" + b.etat.couleur });
+    box.appendChild(el(".equilibre", { "aria-hidden": "true" }, [dot]));
+    var pct = Math.max(3, Math.min(97, (b.etat.score - 1) / 4 * 100));
+    setTimeout(function () { dot.style.left = pct + "%"; }, 90);
 
     // Priorités
     box.appendChild(el("h3.bloc-titre", { text: "Tes priorités du jour" }));
@@ -185,26 +191,47 @@
   }
 
   function ouvrirCrise() {
-    var etapes = el("div");
-    etapes.appendChild(el("p", { text: "On ne cherche pas à être productive. On cherche juste à traverser la vague. Une étape à la fois." }));
-    var liste = [
-      "Respire : inspire 4 secondes, souffle 6 secondes. Recommence cinq fois.",
-      "Ancrage 5-4-3-2-1 : 5 choses que tu vois, 4 que tu entends, 3 que tu touches, 2 que tu sens, 1 que tu goûtes.",
-      "Bois un verre d'eau, mets-toi au frais, desserre les épaules.",
-      "Aujourd'hui : une seule micro-action, la plus petite possible. Le reste attend.",
-      "Tu n'es pas seule : un message à une personne de confiance peut suffire."
-    ];
-    var ul = el("ul.liste-soignee");
-    liste.forEach(function (t) { ul.appendChild(el("li", { text: t })); });
-    etapes.appendChild(ul);
+    var ov = el(".crise-espace", { role: "dialog", "aria-label": "Espace d'apaisement" });
+
+    var orbe = el(".respi-orbe", { "aria-hidden": "true" });
+    var phase = el("p.respi-phase", { text: "Inspire" });
+    var consigne = el("p.respi-consigne", { text: "Laisse le cercle te guider : il grandit, tu inspires ; il s'apaise, tu souffles." });
+
+    var liste = el("ul.liste-soignee.crise-liste");
+    [
+      "Inspire quatre secondes, souffle six secondes — cinq fois.",
+      "Ancrage : cinq choses que tu vois, quatre que tu entends, trois que tu touches, deux que tu sens, une que tu goûtes.",
+      "Un verre d'eau, un peu de frais, les épaules qui descendent.",
+      "Une seule micro-action, la plus petite possible. Le reste attend.",
+      "Un message à une personne de confiance peut suffire."
+    ].forEach(function (t) { liste.appendChild(el("li", { text: t })); });
+
+    ov.appendChild(el("button.crise-fermer", { text: "Revenir", onclick: fermer }));
+    ov.appendChild(el("p.crise-titre", { text: "Un pas à la fois" }));
+    ov.appendChild(el("p.crise-sous", { text: "On ne cherche pas à être productive. Juste à traverser la vague, en douceur." }));
+    ov.appendChild(el(".respi", {}, [orbe, phase, consigne]));
+    ov.appendChild(liste);
     if (Store.prefs().spirituel) {
-      etapes.appendChild(el(".carte.spirituel", {}, [
+      ov.appendChild(el(".carte.spirituel", { style: "max-width:30rem;width:100%;text-align:left" }, [
         el("blockquote", { text: "« Allahumma la sahla illa ma ja'altahu sahla » — Ô Allah, il n'y a de facile que ce que Tu rends facile." }),
         el("p.meta", { text: "Du'a de l'apaisement — à répéter doucement." })
       ]));
     }
-    etapes.appendChild(el("p.note", { text: "Si tu penses à te faire du mal ou que le danger est immédiat, contacte le 3114 (prévention du suicide, 24h/24, gratuit) ou le 15." }));
-    UI.modal({ titre: "Mode crise — un pas à la fois", contenu: etapes, texteOk: "C'est noté", annuler: false });
+    ov.appendChild(el("p.crise-urgence", { text: "Danger immédiat, ou pensées de te faire du mal ? Appelle le 3114 (prévention du suicide, 24h/24, gratuit) ou le 15." }));
+
+    document.body.appendChild(ov);
+    document.body.style.overflow = "hidden";
+    var t0 = Date.now();
+    var timer = setInterval(function () {
+      var e = (Date.now() - t0) % 12000;
+      phase.textContent = e < 4000 ? "Inspire" : (e < 6000 ? "Retiens" : "Souffle");
+    }, 200);
+
+    function fermer() {
+      clearInterval(timer);
+      document.body.style.overflow = "";
+      if (ov.parentNode) ov.parentNode.removeChild(ov);
+    }
   }
 
   // ---------- Écran : Tendances (courbes 7 / 30 jours) ----------
@@ -297,7 +324,7 @@
   // ---------- Écran : Zones rouges ----------
   ECRANS.zones = function (vue, arg) {
     if (arg) return ecranZoneDetail(vue, arg);
-    vue.appendChild(UI.enTete("Zones rouges", "Des moments de vie qui changent ton rapport au travail et à l'énergie. Les comprendre, c'est arrêter de se juger."));
+    vue.appendChild(UI.enTete("Zones de turbulences", "Des moments de vie qui changent ton rapport au travail et à l'énergie. Les comprendre, c'est arrêter de se juger."));
     var grille = el(".cartes-grille");
     Data.ZONES.forEach(function (z) {
       grille.appendChild(el("button.carte.zone-carte", { style: "border-top:4px solid " + z.couleur, onclick: function () { naviguer("zones/" + z.id); } }, [
@@ -311,7 +338,7 @@
   function ecranZoneDetail(vue, id) {
     var z = Data.zoneParId(id);
     if (!z) { naviguer("zones"); return; }
-    vue.appendChild(el("button.lien-retour", { text: "← Toutes les zones", onclick: function () { naviguer("zones"); } }));
+    vue.appendChild(el("button.lien-retour", { text: "← Toutes les turbulences", onclick: function () { naviguer("zones"); } }));
     vue.appendChild(UI.enTete(z.nom, null));
     var c = el(".carte", { style: "border-top:4px solid " + z.couleur });
     c.appendChild(el("p", { text: z.intro }));
