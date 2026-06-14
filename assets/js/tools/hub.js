@@ -9,13 +9,14 @@
     { id: "def-emo612", emoji: "🧰", titre: "Boîte à outils émotions 6-12 ans", desc: "Gestion des émotions (approche islamique)", url: "https://boite-outil-emotions-6-12ans-isl.netlify.app/" },
     { id: "def-bobo", emoji: "🩹", titre: "Boîte à bobo émotionnel 6-12 ans", desc: "Apaiser les petits chagrins et émotions", url: "https://boite-a-bobo-emotionnel-6-12-univ.netlify.app/" },
     { id: "def-cognitif", emoji: "🧠", titre: "Mon profil cognitif", desc: "Construire le profil cognitif", url: "https://mon-profil-cognitif.netlify.app/" },
-    { id: "def-neuroado", emoji: "🧩", titre: "Profil neuro ado", desc: "Profil neurodéveloppemental de l'adolescent", url: "https://profil-neuro-ado.netlify.app/" },
-    { id: "def-neuroped", emoji: "📚", titre: "Boîte neuro-pédagogique", desc: "Outils de neuropédagogie", url: "https://boite-neuro-ped-univ.netlify.app/" }
+    { id: "def-neuroado", emoji: "🧩", titre: "Profil neuro ado", desc: "Profil neurodéveloppemental de l'adolescent", url: "https://profil-neuro-ado.netlify.app/" }
   ];
 
-  // Liens par défaut désormais couverts par un outil natif de Boussole
-  // (on évite les doublons dans l'application).
-  var RETIRES = ["def-emo612", "def-bobo", "def-cognitif", "def-neuroado"];
+  // Liens par défaut retirés de l'application :
+  //  - soit déjà couverts par un outil natif de Boussole (on évite les doublons) ;
+  //  - soit des applications à part, distinctes de Boussole (ex. la Boîte neuro-pédagogique).
+  // Ils sont aussi nettoyés des données déjà enregistrées sur l'appareil (migration douce).
+  var RETIRES = ["def-emo612", "def-bobo", "def-cognitif", "def-neuroado", "def-neuroped"];
 
   function liens() {
     var perso = Store.lire("liens", null);
