@@ -185,8 +185,8 @@
   // ---------- Mode crise (toujours accessible) ----------
   function rappelCrise() {
     return el(".rappel-crise", {}, [
-      el("span", { text: "Besoin d'une pause, là, maintenant ?" }),
-      el("button.btn.crise", { text: "Mode crise", onclick: ouvrirCrise })
+      el("span", { text: "Envie de souffler un instant ?" }),
+      el("button.btn.crise", { text: "Respirer", onclick: ouvrirCrise })
     ]);
   }
 

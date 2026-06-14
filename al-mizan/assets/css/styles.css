@@ -32,6 +32,7 @@ body {
   margin: 0; font-family: var(--police); color: var(--ardoise);
   line-height: 1.62; font-weight: 400; -webkit-text-size-adjust: 100%;
   background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84'%3E%3Cpath d='M42 30 C42 38 46 42 54 42 C46 42 42 46 42 54 C42 46 38 42 30 42 C38 42 42 38 42 30 Z' fill='%23c9b07a' fill-opacity='0.16'/%3E%3C/svg%3E") 0 0/84px 84px,
     radial-gradient(120% 60% at 50% -10%, #fbf7f0 0%, rgba(251,247,240,0) 60%),
     linear-gradient(180deg, #f8f4ec 0%, var(--sable) 46%);
   background-attachment: fixed;
@@ -51,7 +52,8 @@ body {
   position: sticky; top: 0; z-index: 50;
 }
 .brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; color: var(--ardoise); }
-.brand-logo { width: 38px; height: 38px; display: block; }
+.brand-logo { width: 38px; height: 38px; display: block; animation: flotte 6s ease-in-out infinite; }
+@keyframes flotte { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 .brand-name { font-family: var(--titre); font-weight: 600; font-size: 1.7rem; line-height: 1; letter-spacing: .5px; color: var(--ardoise); }
 .brand-name em { color: var(--or); font-style: normal; }
 
@@ -74,8 +76,14 @@ body {
 
 /* ---- Contenu ---- */
 .content { max-width: 720px; margin: 0 auto; padding: 1.4rem 1.15rem 3.5rem; }
-.vue { animation: apparait .35s ease; }
-@keyframes apparait { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+/* Apparition en cascade (effet premium, discret) */
+.vue > * { animation: monte .55s ease both; }
+.vue > *:nth-child(2) { animation-delay: .06s; }
+.vue > *:nth-child(3) { animation-delay: .12s; }
+.vue > *:nth-child(4) { animation-delay: .18s; }
+.vue > *:nth-child(5) { animation-delay: .24s; }
+.vue > *:nth-child(n+6) { animation-delay: .3s; }
+@keyframes monte { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
 .entete { margin: .4rem 0 1.6rem; }
 .entete h1 {
@@ -285,6 +293,7 @@ blockquote { margin: .5rem 0; padding-left: 1rem; border-left: 2px solid var(--a
 @media (prefers-reduced-motion: reduce) {
   .respi-orbe { animation: none; transform: scale(.85); }
   .equilibre-dot { transition: none; }
+  .brand-logo, .vue > * { animation: none !important; }
 }
 
 @media (min-width: 620px) {
