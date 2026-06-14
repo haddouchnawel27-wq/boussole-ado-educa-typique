@@ -87,7 +87,9 @@ body::before {
 
 /* ---- Contenu ---- */
 .content { max-width: 720px; margin: 0 auto; padding: 1.4rem 1.15rem 3.5rem; }
-/* Apparition en cascade (effet premium, discret) */
+/* Fondu doux entre les écrans + apparition en cascade (effet premium, discret) */
+.vue { animation: vueFondu .45s ease both; }
+@keyframes vueFondu { from { opacity: 0; } to { opacity: 1; } }
 .vue > * { animation: monte .55s ease both; }
 .vue > *:nth-child(2) { animation-delay: .06s; }
 .vue > *:nth-child(3) { animation-delay: .12s; }
@@ -99,8 +101,13 @@ body::before {
 .entete { margin: .4rem 0 1.6rem; }
 .entete h1 {
   font-family: var(--titre); font-weight: 600; font-size: 2.1rem; line-height: 1.15;
-  margin: 0 0 .35rem; color: var(--vert-fonce); letter-spacing: .2px;
+  margin: 0 0 .35rem; letter-spacing: .2px; color: var(--vert-fonce);
+  background: linear-gradient(100deg, var(--vert-fonce) 38%, var(--ambre) 50%, var(--vert-fonce) 62%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: reflet 7s ease-in-out 1s infinite;
 }
+@keyframes reflet { 0% { background-position: 130% 0; } 60%, 100% { background-position: -30% 0; } }
 .entete h1::after {
   content: ""; display: block; width: 46px; height: 2px; margin-top: .6rem; border-radius: 2px;
   background: linear-gradient(90deg, var(--ambre), rgba(201,176,122,0));
@@ -324,7 +331,8 @@ blockquote { margin: .5rem 0; padding-left: 1rem; border-left: 2px solid var(--a
   .respi-orbe { animation: none; transform: scale(.85); }
   .equilibre-dot { transition: none; }
   .equilibre-dot::after, body::before { animation: none; }
-  .brand-logo, .vue > * { animation: none !important; }
+  .entete h1 { animation: none; -webkit-text-fill-color: currentColor; }
+  .brand-logo, .vue, .vue > * { animation: none !important; }
 }
 
 @media (min-width: 620px) {
