@@ -1,24 +1,23 @@
-# 🌿 Jannat Al Qalb — à finaliser (notes pour reprendre)
+# 🌿 Jannat Al Qalb — état d'avancement
 
-_Liste des points restants, gardés en mémoire à la demande de Nawel (14/06/2026)._
+_Mis à jour le 16/06/2026._
 
-## ✅ Déjà fait
-- Mini-site Jannat Al Qalb dans sa charte (sauge · amande · ivoire · rose argile · or)
-- Logo SVG provisoire (arche + pousse + soleil + chemin)
+## ✅ Fait
+- Mini-site complet dans la charte (sauge · amande · ivoire · rose argile · or)
+- **Vrai logo** intégré (complet dans le hero + monogramme dans Contact / Qui suis-je) · favicon · aperçu social
 - Sous-titre **« Le Jardin du Cœur »**
-- Sections : Qui suis-je · Formations & qualifications · 4 piliers · Tarifs · Témoignages · FAQ · Contact
-- **11 formations** en 3 catégories + **4 cursus en cours** (Médecine Prophétique : Psychologie · Médecine prophétique · Maux de la femme · Maux des enfants) + TCC
-- Menu de tarifs complet repris de Voie Chifâ 2026
-- Liens reliés à Educa Typique (educatypique.com)
+- **Qui suis-je** avec les mots de Nawel (psychopraticienne, conseillère en psychologie islamique, conseillère d'éducation spécialisée TND & DYS)
+- **Formations & qualifications** : 11 formations en 3 catégories (noms des personnes retirés, instituts seuls) + 4 cursus en cours + TCC
+- **Tarifs** complets (repris de Voie Chifâ 2026)
+- 4 piliers · FAQ · Contact
+- **Vrais témoignages** : Seynabou 🌷 + Vanessa
+- Réservation reliée à **TidyCal** (`tidycal.com/haddouchnawel27`)
+- Liens reliés à Educa Typique → educatypique.com
 
-## 🎯 À finaliser (quand Nawel envoie les éléments)
-1. **🖼️ Vrai logo** — remplacer le SVG provisoire par le fichier réel (PNG/SVG).
-2. **💬 Vrais témoignages** — remplacer les 3 exemples par de vrais retours (avec accord des personnes).
-3. **📧 Email / Calendly définitif pour Jannat Al Qalb** — actuellement ce sont ceux d'Educa Typique
-   (educa.typique2@gmail.com + calendly.com/educatypique/rdv-decouverte).
-   Le PDF Voie Chifâ utilisait `voiechifa@gmail.com` → à trancher.
-4. **✍️ Personnaliser « Qui suis-je »** — réécrire avec les mots de Nawel (parcours, posture, ce qui l'anime).
+## ⏳ À confirmer / compléter par Nawel
+1. **Lien public TidyCal** — vérifier que `tidycal.com/haddouchnawel27` est le bon (ou donner le slug renommé, ex. `tidycal.com/jannat-al-qalb`). Possibilité d'ajouter un bouton par prestation.
+2. **Email de contact pour Jannat** — actuellement `educa.typique2@gmail.com`. Garder, ou en utiliser un dédié (ex. `voiechifa@gmail.com`) ?
+3. **Photo de Nawel** (optionnel) — si elle veut sa photo dans « Qui suis-je » à la place du monogramme.
 
-## 💡 Idées optionnelles évoquées
-- Reporter les qualifs enfance/neuropédagogie sur **Educa Typique** aussi.
-- Ajouter les **années** (2024-2026) à côté de chaque formation si souhaité.
+## 📌 Educa Typique (séparé)
+- Nouvelle section **Témoignages** ajoutée sur l'accueil : Khadija · Maman accompagnée (6 ans) · Parent (atelier) · Mme Mornas.
