@@ -4,22 +4,27 @@
    ============================================================ */
 
 :root {
-  --vert: #3a7d6e;
-  --vert-clair: #e7f2ef;
-  --vert-fonce: #2c6055;
-  --sable: #f7f4ee;
+  /* Charte Educa Typique : sarcelle, magenta, lavande, menthe, crème */
+  --vert: #2a9d8f;          /* bleu sarcelle — couleur principale */
+  --vert-clair: #e4f3ef;    /* fond doux sarcelle/menthe */
+  --vert-fonce: #21806f;    /* sarcelle foncé — survols, accents forts */
+  --sable: #fff9fb;         /* fond crème rosé */
   --ardoise: #2d3436;
   --gris: #6b7280;
   --gris-clair: #e5e7eb;
   --blanc: #ffffff;
-  --ambre: #e8a33d;
-  --corail: #e26d5c;
+  --magenta: #f39bc2;       /* rose magenta */
+  --lavande: #b19cd9;       /* lavande */
+  --menthe: #88c8a8;        /* menthe */
+  --ambre: #e8a33d;         /* accent chaud — favoris, mises en garde */
+  --corail: #e26d5c;        /* alertes / danger */
   --bleu: #4a7fa5;
-  --violet: #8a6bb0;
+  --violet: var(--lavande); /* alias hérité → lavande de la charte */
   --rayon: 14px;
   --ombre: 0 2px 10px rgba(0, 0, 0, .07);
   --ombre-forte: 0 8px 30px rgba(0, 0, 0, .15);
-  --police: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  --police: "Nunito", "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  --police-titre: "Poppins", "Quicksand", "Nunito", "Segoe UI", system-ui, sans-serif;
   --largeur-sidebar: 270px;
 }
 
@@ -36,9 +41,13 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Titres en Poppins (charte Educa Typique) */
+h1, h2, h3, h4, .vue-titre, .brand-name { font-family: var(--police-titre); }
+
 /* --- Accessibilité : mode dys --- */
 body.dys {
   --police: "Comic Sans MS", "Trebuchet MS", Verdana, sans-serif;
+  --police-titre: "Comic Sans MS", "Trebuchet MS", Verdana, sans-serif;
   letter-spacing: .04em;
   word-spacing: .12em;
   line-height: 1.9;

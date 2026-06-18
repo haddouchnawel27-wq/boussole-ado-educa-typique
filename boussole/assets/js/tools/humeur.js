@@ -37,13 +37,13 @@
       var d = "";
       data.forEach(function (h, i) { d += (i === 0 ? "M" : "L") + px(i) + "," + py(h.niveau) + " "; });
       var path = document.createElementNS(ns, "path");
-      path.setAttribute("d", d); path.setAttribute("fill", "none"); path.setAttribute("stroke", "#3a7d6e"); path.setAttribute("stroke-width", "3");
+      path.setAttribute("d", d); path.setAttribute("fill", "none"); path.setAttribute("stroke", "#2a9d8f"); path.setAttribute("stroke-width", "3");
       svg.appendChild(path);
     }
     data.forEach(function (h, i) {
       var c = document.createElementNS(ns, "circle");
       c.setAttribute("cx", px(i)); c.setAttribute("cy", py(h.niveau)); c.setAttribute("r", 6);
-      c.setAttribute("fill", "#3a7d6e");
+      c.setAttribute("fill", "#2a9d8f");
       var titre = document.createElementNS(ns, "title");
       titre.textContent = UI.dateFr(h.cree) + " — " + NIVEAUX[h.niveau - 1].label;
       c.appendChild(titre);

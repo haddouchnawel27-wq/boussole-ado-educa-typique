@@ -43,7 +43,7 @@
         }
         var e = ETAPES_54321[idx];
         carte.appendChild(UI.el("div.ancrage-sens", { text: e.sens }));
-        carte.appendChild(UI.el("div", { style: "font-size:2rem;font-weight:800;color:#3a7d6e", text: e.nb }));
+        carte.appendChild(UI.el("div", { style: "font-size:2rem;font-weight:800;color:#2a9d8f", text: e.nb }));
         carte.appendChild(UI.el("p", { text: e.consigne }));
         UI.vider(boutons);
         if (idx > 0) boutons.appendChild(UI.el("button.btn.ghost", { text: "← Précédent", onclick: function () { idx--; rendreEtape(); } }));
