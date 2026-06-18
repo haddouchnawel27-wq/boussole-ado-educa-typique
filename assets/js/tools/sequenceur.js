@@ -70,7 +70,7 @@
 
     var faites = {};
     var barre = UI.el("div", { style: "height:14px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin:1rem 0" }, [
-      UI.el("div", { style: "height:100%;width:0;background:#3a7d6e;transition:width .3s", id: "progress" })
+      UI.el("div", { style: "height:100%;width:0;background:#2a9d8f;transition:width .3s", id: "progress" })
     ]);
     vue.appendChild(barre);
 

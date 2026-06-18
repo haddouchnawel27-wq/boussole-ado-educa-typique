@@ -3,10 +3,11 @@
   "use strict";
 
   var COULEURS = {
-    vert:   { nom: "Vert sauge",  clair: "#e7f2ef", base: "#3a7d6e", fonce: "#2c6055" },
+    vert:   { nom: "Sarcelle",    clair: "#e4f3ef", base: "#2a9d8f", fonce: "#21806f" },
+    menthe: { nom: "Menthe",      clair: "#e8f5ee", base: "#88c8a8", fonce: "#5fae86" },
+    lavande:{ nom: "Lavande",     clair: "#efeaf7", base: "#b19cd9", fonce: "#9072c4" },
+    rose:   { nom: "Magenta",     clair: "#fdeaf2", base: "#f39bc2", fonce: "#e26ba0" },
     bleu:   { nom: "Bleu doux",   clair: "#e6eef5", base: "#4a7fa5", fonce: "#38617f" },
-    violet: { nom: "Violet",      clair: "#efe9f5", base: "#8a6bb0", fonce: "#6c4f91" },
-    rose:   { nom: "Rose",        clair: "#fbe9f0", base: "#d46a93", fonce: "#b34f78" },
     corail: { nom: "Corail",      clair: "#fdeceb", base: "#e26d5c", fonce: "#c9543f" },
     ambre:  { nom: "Ambre",       clair: "#fdf1e0", base: "#d98e2b", fonce: "#b5731f" },
     nuit:   { nom: "Bleu nuit",   clair: "#e7eaf2", base: "#3f4d7a", fonce: "#2c3760" }

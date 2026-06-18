@@ -32,7 +32,7 @@
       nouvelle();
     }
     function fin() {
-      affMot.textContent = "🎉"; affMot.style.color = "#3a7d6e";
+      affMot.textContent = "🎉"; affMot.style.color = "#2a9d8f";
       infos.innerHTML = "<strong>Terminé !</strong> Score : " + score + " / " + max;
       UI.vider(boutons);
       boutons.appendChild(UI.el("button.btn", { text: "↺ Rejouer", onclick: function () { jeuStroop(zone); } }));

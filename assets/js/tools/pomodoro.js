@@ -26,7 +26,7 @@
         var total = (phase === "pause" ? dureePause : dureeTravail) * 60;
         var pct = total ? (1 - restant / total) * 100 : 0;
         var pb = vue.querySelector("#pb");
-        if (pb) { pb.style.width = pct + "%"; pb.style.background = phase === "pause" ? "#4a7fa5" : "#3a7d6e"; }
+        if (pb) { pb.style.width = pct + "%"; pb.style.background = phase === "pause" ? "#4a7fa5" : "#2a9d8f"; }
       }
 
       function bip() {
@@ -44,7 +44,7 @@
         restant = (p === "pause" ? dureePause : dureeTravail) * 60;
         titrePhase.textContent = p === "pause" ? "☕ Pause" : "✏️ Au travail";
         sousTexte.textContent = "Séance " + (cycle + 1) + " sur " + cyclesPrevus;
-        titrePhase.style.color = p === "pause" ? "#4a7fa5" : "#3a7d6e";
+        titrePhase.style.color = p === "pause" ? "#4a7fa5" : "#2a9d8f";
         maj();
       }
 

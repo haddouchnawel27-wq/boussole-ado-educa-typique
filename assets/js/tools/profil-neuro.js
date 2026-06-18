@@ -65,13 +65,13 @@
     });
     dd += "Z";
     var aire = document.createElementNS(ns, "path");
-    aire.setAttribute("d", dd); aire.setAttribute("fill", "rgba(58,125,110,.28)"); aire.setAttribute("stroke", "#3a7d6e"); aire.setAttribute("stroke-width", "2.5");
+    aire.setAttribute("d", dd); aire.setAttribute("fill", "rgba(42,157,143,.28)"); aire.setAttribute("stroke", "#2a9d8f"); aire.setAttribute("stroke-width", "2.5");
     svg.appendChild(aire);
     DOMAINES.forEach(function (dom, i) {
       var v = scores[dom.cle] != null ? scores[dom.cle] : 0;
       var p = pt(i, R * v / MAX);
       var c = document.createElementNS(ns, "circle");
-      c.setAttribute("cx", p[0]); c.setAttribute("cy", p[1]); c.setAttribute("r", 4); c.setAttribute("fill", "#2c6055");
+      c.setAttribute("cx", p[0]); c.setAttribute("cy", p[1]); c.setAttribute("r", 4); c.setAttribute("fill", "#21806f");
       svg.appendChild(c);
     });
     return UI.el(".chart-wrap", { style: "display:flex;justify-content:center" }, [svg]);

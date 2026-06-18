@@ -25,7 +25,7 @@
 
       var saisie = UI.textarea({ value: EXEMPLE, placeholder: "Collez votre texte ici…", style: "min-height:90px" });
       var zone = UI.el("div", { tabindex: "0", style: "position:relative;padding:1.2rem;border-radius:12px;border:1px solid var(--gris-clair);white-space:pre-wrap;overflow:hidden" });
-      var regle = UI.el("div", { style: "position:absolute;left:0;right:0;height:2.2em;background:rgba(58,125,110,.18);border-top:2px solid #3a7d6e;border-bottom:2px solid #3a7d6e;pointer-events:none;display:none" });
+      var regle = UI.el("div", { style: "position:absolute;left:0;right:0;height:2.2em;background:rgba(42,157,143,.18);border-top:2px solid #2a9d8f;border-bottom:2px solid #2a9d8f;pointer-events:none;display:none" });
 
       function appliquer() {
         zone.textContent = saisie.value || "";
@@ -66,8 +66,8 @@
 
       var teintes = UI.el(".btn-rangee");
       TEINTES.forEach(function (t) {
-        var b = UI.el("button", { title: t.nom, "aria-label": "Fond " + t.nom, style: "width:38px;height:38px;border-radius:50%;border:2px solid " + (etat.teinte === t.bg ? "#3a7d6e" : "#ccc") + ";background:" + t.bg + ";cursor:pointer" });
-        b.addEventListener("click", function () { etat.teinte = t.bg; teintes.querySelectorAll("button").forEach(function (x) { x.style.borderColor = "#ccc"; }); b.style.borderColor = "#3a7d6e"; appliquer(); });
+        var b = UI.el("button", { title: t.nom, "aria-label": "Fond " + t.nom, style: "width:38px;height:38px;border-radius:50%;border:2px solid " + (etat.teinte === t.bg ? "#2a9d8f" : "#ccc") + ";background:" + t.bg + ";cursor:pointer" });
+        b.addEventListener("click", function () { etat.teinte = t.bg; teintes.querySelectorAll("button").forEach(function (x) { x.style.borderColor = "#ccc"; }); b.style.borderColor = "#2a9d8f"; appliquer(); });
         teintes.appendChild(b);
       });
 
