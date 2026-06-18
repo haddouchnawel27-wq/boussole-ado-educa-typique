@@ -3,91 +3,141 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Boussole — boîte à outils numérique pour l'accompagnement des ados (TCC, TND, dys, secourisme en santé mentale). 100% local et privé." />
+  <meta name="description" content="Nawel Haddouch — thérapeute praticienne. Deux cabinets : Voie Chifā (accompagnement psycho-spirituel) et Educa Typique (neuropédagogie TND, dys, HPI). Accédez à tous les espaces et outils." />
   <meta name="theme-color" content="#2a9d8f" />
-  <title>Boussole — Boîte à outils d'accompagnement</title>
+  <title>Nawel Haddouch — Voie Chifā & Educa Typique</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E" />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <!-- Polices charte Educa Typique (fallback système si hors-ligne) -->
+  <meta property="og:title" content="Nawel Haddouch — Voie Chifā & Educa Typique" />
+  <meta property="og:description" content="Deux cabinets, un même cœur : accompagnement psycho-spirituel et neuropédagogie TND. Tous les espaces et outils réunis." />
+  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Nunito:wght@400;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Pont entre les deux univers */
+      --creme: #fff9fb;
+      --encre: #2d3436;
+      --gris: #6b7280;
+      --blanc: #ffffff;
+      /* Educa Typique */
+      --sarcelle: #2a9d8f;
+      --magenta: #f39bc2;
+      --lavande: #b19cd9;
+      --menthe: #88c8a8;
+      /* Voie Chifā */
+      --sauge: #8a9789;
+      --or: #c3873c;
+      --rose-argile: #b46978;
+      --rayon: 18px;
+      --ombre: 0 6px 24px rgba(45, 52, 54, .10);
+      --ombre-forte: 0 14px 40px rgba(45, 52, 54, .16);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; color: var(--encre); background: var(--creme);
+      font-family: "Nunito", "Segoe UI", system-ui, sans-serif; line-height: 1.6;
+      -webkit-text-size-adjust: 100%;
+    }
+    h1, h2, h3 { font-family: "Poppins", "Nunito", sans-serif; line-height: 1.25; }
+    a { color: inherit; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: clamp(1.2rem, 4vw, 3rem); }
+
+    /* En-tête */
+    .hero { text-align: center; padding: clamp(1.5rem, 6vw, 3.5rem) 0 1rem; }
+    .hero .eyebrow { letter-spacing: .14em; text-transform: uppercase; font-size: .8rem; color: var(--gris); font-weight: 700; }
+    .hero h1 { font-size: clamp(1.9rem, 6vw, 3rem); margin: .4rem 0 .3rem; }
+    .hero .role { color: var(--gris); font-size: clamp(1rem, 3vw, 1.2rem); max-width: 36ch; margin: 0 auto; }
+    .hero .ruban { display:inline-block; height:4px; width:84px; border-radius:4px; margin:1.3rem auto 0;
+      background: linear-gradient(90deg, var(--sarcelle), var(--magenta), var(--lavande), var(--or)); }
+
+    /* Cartes cabinets */
+    .grille { display: grid; gap: 1.4rem; grid-template-columns: 1fr; margin-top: 2.2rem; }
+    @media (min-width: 760px) { .grille { grid-template-columns: 1fr 1fr; } }
+
+    .cabinet { background: var(--blanc); border-radius: var(--rayon); padding: clamp(1.3rem, 3vw, 2rem);
+      box-shadow: var(--ombre); border-top: 6px solid var(--sarcelle); display: flex; flex-direction: column; }
+    .cabinet.chifa { border-top-color: var(--or); }
+    .cabinet .pastille { font-size: 2.4rem; line-height: 1; }
+    .cabinet h2 { margin: .6rem 0 .15rem; font-size: 1.5rem; }
+    .cabinet .chifa-titre { font-family: "Cormorant Garamond", Georgia, serif; }
+    .cabinet .sous { color: var(--gris); margin: 0 0 1.1rem; font-size: .98rem; }
+    .cabinet .desc { margin: 0 0 1.3rem; }
+
+    .lien-app { display: flex; align-items: center; gap: .85rem; text-decoration: none;
+      background: var(--creme); border: 1px solid #efe7ec; border-radius: 12px;
+      padding: .85rem 1rem; margin-bottom: .7rem; transition: transform .12s, box-shadow .12s, border-color .12s; }
+    .lien-app:hover, .lien-app:focus-visible { transform: translateY(-2px); box-shadow: var(--ombre-forte); border-color: var(--sarcelle); outline: none; }
+    .cabinet.chifa .lien-app:hover, .cabinet.chifa .lien-app:focus-visible { border-color: var(--or); }
+    .lien-app .ic { font-size: 1.6rem; width: 2rem; text-align: center; flex-shrink: 0; }
+    .lien-app .txt { flex: 1; min-width: 0; }
+    .lien-app .txt strong { display: block; font-family: "Poppins", sans-serif; font-size: 1.02rem; }
+    .lien-app .txt span { color: var(--gris); font-size: .86rem; }
+    .lien-app .fleche { color: var(--gris); font-size: 1.2rem; }
+
+    .note { margin-top: auto; font-size: .82rem; color: var(--gris); padding-top: .4rem; }
+
+    footer { text-align: center; color: var(--gris); font-size: .85rem; margin-top: 2.6rem; padding-top: 1.4rem; border-top: 1px solid #efe7ec; }
+    footer .duaa { font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.05rem; color: var(--rose-argile); font-style: italic; }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
 </head>
 <body>
-  <a class="skip-link" href="#contenu">Aller au contenu</a>
+  <main class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Nawel Haddouch</p>
+      <h1>Deux cabinets, un même cœur</h1>
+      <p class="role">Thérapeute praticienne — accompagnement psycho-spirituel &amp; neuropédagogie des troubles neuro-développementaux.</p>
+      <span class="ruban" aria-hidden="true"></span>
+    </header>
 
-  <header class="topbar">
-    <button id="btn-menu" class="icon-btn" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
-    <a href="#/accueil" class="brand" aria-label="Accueil Boussole">
-      <span class="brand-logo" aria-hidden="true">🧭</span>
-      <span class="brand-name">Boussole</span>
-    </a>
-    <div class="topbar-right">
-      <label class="profil-select">
-        <span class="sr-only">Jeune accompagné·e</span>
-        <select id="profil-actif" aria-label="Jeune accompagné·e actuellement"></select>
-      </label>
+    <div class="grille">
+      <!-- Voie Chifā -->
+      <section class="cabinet chifa" aria-labelledby="t-chifa">
+        <span class="pastille" aria-hidden="true">🤲</span>
+        <h2 id="t-chifa" class="chifa-titre">Voie Chifā</h2>
+        <p class="sous">Le Jardin du Cœur · accompagnement psycho-spirituel</p>
+        <p class="desc">Un espace d'écoute et de soin du cœur, à la rencontre de la psychologie et de la sagesse prophétique.</p>
+        <a class="lien-app" href="jannat-al-qalb/">
+          <span class="ic" aria-hidden="true">🌸</span>
+          <span class="txt"><strong>Découvrir le cabinet</strong><span>Approche, accompagnements, prendre rendez-vous</span></span>
+          <span class="fleche" aria-hidden="true">→</span>
+        </a>
+        <p class="note">Cabinet psycho-spirituel islamique.</p>
+      </section>
+
+      <!-- Educa Typique -->
+      <section class="cabinet" aria-labelledby="t-educa">
+        <span class="pastille" aria-hidden="true">🌷</span>
+        <h2 id="t-educa">Educa Typique</h2>
+        <p class="sous">Neuropédagogie · TDAH · TSA · dys · HPI</p>
+        <p class="desc">Des outils concrets et bienveillants pour accompagner les enfants, les ados et leurs familles au quotidien.</p>
+        <a class="lien-app" href="parcours-clarte-tnd/">
+          <span class="ic" aria-hidden="true">🧩</span>
+          <span class="txt"><strong>Parcours Clarté TND</strong><span>Programme &amp; bibliothèque d'outils parents · ados · pros</span></span>
+          <span class="fleche" aria-hidden="true">→</span>
+        </a>
+        <a class="lien-app" href="boussole/">
+          <span class="ic" aria-hidden="true">🧭</span>
+          <span class="txt"><strong>Boussole</strong><span>Boîte à outils d'accompagnement des ados (100 % privée)</span></span>
+          <span class="fleche" aria-hidden="true">→</span>
+        </a>
+        <p class="note">Cabinet de neuropédagogie TND.</p>
+      </section>
     </div>
-  </header>
 
-  <div class="layout">
-    <nav id="sidebar" class="sidebar" aria-label="Navigation des outils">
-      <div id="nav-groups"></div>
-      <footer class="sidebar-foot">
-        <p>🔒 Données stockées uniquement sur cet appareil.</p>
-      </footer>
-    </nav>
-    <div id="backdrop" class="backdrop" hidden></div>
+    <footer>
+      <p class="duaa">« Qu'Allāh fasse de nous une cause de bien. »</p>
+      <p>© <span id="annee"></span> Nawel Haddouch — Voie Chifā &amp; Educa Typique</p>
+    </footer>
+  </main>
 
-    <main id="contenu" class="content" tabindex="-1">
-      <section id="vue" class="vue" aria-live="polite"></section>
-    </main>
-  </div>
-
-  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-  <div id="modal-root"></div>
-
-  <!-- Coeur de l'application -->
-  <script src="assets/js/store.js"></script>
-  <script src="assets/js/ui.js"></script>
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/suggestions.js"></script>
-  <script src="assets/js/install.js"></script>
-
-  <!-- Outils (chaque fichier s'enregistre auprès de Boussole) -->
-  <script src="assets/js/tools/accueil.js"></script>
-  <script src="assets/js/tools/hub.js"></script>
-  <script src="assets/js/tools/profils.js"></script>
-  <script src="assets/js/tools/timer.js"></script>
-  <script src="assets/js/tools/sequenceur.js"></script>
-  <script src="assets/js/tools/emploi-du-temps.js"></script>
-  <script src="assets/js/tools/jetons.js"></script>
-  <script src="assets/js/tools/dys.js"></script>
-  <script src="assets/js/tools/profil-neuro.js"></script>
-  <script src="assets/js/tools/pomodoro.js"></script>
-  <script src="assets/js/tools/organisateur.js"></script>
-  <script src="assets/js/tools/emotions.js"></script>
-  <script src="assets/js/tools/roue-emotions.js"></script>
-  <script src="assets/js/tools/besoins-corps.js"></script>
-  <script src="assets/js/tools/jeux-fe.js"></script>
-  <script src="assets/js/tools/pensees.js"></script>
-  <script src="assets/js/tools/respiration.js"></script>
-  <script src="assets/js/tools/humeur.js"></script>
-  <script src="assets/js/tools/ancrage.js"></script>
-  <script src="assets/js/tools/securite.js"></script>
-  <script src="assets/js/tools/abc.js"></script>
-  <script src="assets/js/tools/gratitude.js"></script>
-  <script src="assets/js/tools/spiritualite.js"></script>
-  <script src="assets/js/tools/enfants.js"></script>
-  <script src="assets/js/tools/suivi.js"></script>
-  <script src="assets/js/tools/modeles-pro.js"></script>
-  <script src="assets/js/tools/personnalisation.js"></script>
-  <script src="assets/js/tools/accessibilite.js"></script>
-
-  <!-- Démarrage -->
   <script>
-    Boussole.start();
+    document.getElementById("annee").textContent = new Date().getFullYear();
+    /* Service worker de nettoyage : remplace l'ancien SW de Boussole (qui occupait
+       la racine) et vide ses caches, pour que ce portail s'affiche bien à jour
+       chez les visiteurs déjà venus. Boussole conserve son propre SW dans /boussole/. */
     if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
       window.addEventListener("load", function () {
         navigator.serviceWorker.register("sw.js").catch(function () {});

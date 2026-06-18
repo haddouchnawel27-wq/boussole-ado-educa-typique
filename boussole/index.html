@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Boussole — boîte à outils numérique pour l'accompagnement des ados (TCC, TND, dys, secourisme en santé mentale). 100% local et privé." />
+  <meta name="theme-color" content="#2a9d8f" />
+  <title>Boussole — Boîte à outils d'accompagnement</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <!-- Polices charte Educa Typique (fallback système si hors-ligne) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="topbar">
+    <button id="btn-menu" class="icon-btn" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+    <a href="#/accueil" class="brand" aria-label="Accueil Boussole">
+      <span class="brand-logo" aria-hidden="true">🧭</span>
+      <span class="brand-name">Boussole</span>
+    </a>
+    <div class="topbar-right">
+      <label class="profil-select">
+        <span class="sr-only">Jeune accompagné·e</span>
+        <select id="profil-actif" aria-label="Jeune accompagné·e actuellement"></select>
+      </label>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav id="sidebar" class="sidebar" aria-label="Navigation des outils">
+      <div id="nav-groups"></div>
+      <footer class="sidebar-foot">
+        <p>🔒 Données stockées uniquement sur cet appareil.</p>
+      </footer>
+    </nav>
+    <div id="backdrop" class="backdrop" hidden></div>
+
+    <main id="contenu" class="content" tabindex="-1">
+      <section id="vue" class="vue" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <div id="modal-root"></div>
+
+  <!-- Coeur de l'application -->
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/suggestions.js"></script>
+  <script src="assets/js/install.js"></script>
+
+  <!-- Outils (chaque fichier s'enregistre auprès de Boussole) -->
+  <script src="assets/js/tools/accueil.js"></script>
+  <script src="assets/js/tools/hub.js"></script>
+  <script src="assets/js/tools/profils.js"></script>
+  <script src="assets/js/tools/timer.js"></script>
+  <script src="assets/js/tools/sequenceur.js"></script>
+  <script src="assets/js/tools/emploi-du-temps.js"></script>
+  <script src="assets/js/tools/jetons.js"></script>
+  <script src="assets/js/tools/dys.js"></script>
+  <script src="assets/js/tools/profil-neuro.js"></script>
+  <script src="assets/js/tools/pomodoro.js"></script>
+  <script src="assets/js/tools/organisateur.js"></script>
+  <script src="assets/js/tools/emotions.js"></script>
+  <script src="assets/js/tools/roue-emotions.js"></script>
+  <script src="assets/js/tools/besoins-corps.js"></script>
+  <script src="assets/js/tools/jeux-fe.js"></script>
+  <script src="assets/js/tools/pensees.js"></script>
+  <script src="assets/js/tools/respiration.js"></script>
+  <script src="assets/js/tools/humeur.js"></script>
+  <script src="assets/js/tools/ancrage.js"></script>
+  <script src="assets/js/tools/securite.js"></script>
+  <script src="assets/js/tools/abc.js"></script>
+  <script src="assets/js/tools/gratitude.js"></script>
+  <script src="assets/js/tools/spiritualite.js"></script>
+  <script src="assets/js/tools/enfants.js"></script>
+  <script src="assets/js/tools/suivi.js"></script>
+  <script src="assets/js/tools/modeles-pro.js"></script>
+  <script src="assets/js/tools/personnalisation.js"></script>
+  <script src="assets/js/tools/accessibilite.js"></script>
+
+  <!-- Démarrage -->
+  <script>
+    Boussole.start();
+    if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>
