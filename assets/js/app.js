@@ -32,6 +32,7 @@
     "dys": ["enfant", "ado"],
     "flashcards": ["enfant", "ado"],
     "carte-mentale": ["enfant", "ado"],
+    "aide-ecrire": ["enfant", "ado"],
     "emotions": ["enfant", "ado"],
     "roue-emotions": ["enfant", "ado"],
     "respiration": ["enfant", "ado"],
