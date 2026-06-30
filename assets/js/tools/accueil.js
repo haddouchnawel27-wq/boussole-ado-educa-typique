@@ -85,7 +85,7 @@
       }
 
       // --- Favoris ---
-      var favs = Boussole.favoris().map(Boussole.outilParId).filter(Boolean);
+      var favs = Boussole.favoris().map(Boussole.outilParId).filter(Boolean).filter(Boussole.outilVisible);
       if (favs.length) {
         vue.appendChild(UI.el("h2", { text: "⭐ Mes favoris", style: "margin:1.6rem 0 .6rem" }));
         var gf = UI.el(".grille");
@@ -94,7 +94,7 @@
       }
 
       // --- Récemment utilisés ---
-      var rec = Boussole.recents().filter(function (o) { return o.id !== "accueil"; }).slice(0, 6);
+      var rec = Boussole.recents().filter(function (o) { return o.id !== "accueil" && Boussole.outilVisible(o); }).slice(0, 6);
       if (rec.length) {
         vue.appendChild(UI.el("h2", { text: "🕓 Repris récemment", style: "margin:1.6rem 0 .6rem" }));
         var gr = UI.el(".grille");
@@ -106,7 +106,7 @@
       var groupes = ["ressources", "tnd", "tcc", "enfants", "secours", "spirituel", "pro"];
       groupes.forEach(function (g) {
         if (g === "spirituel" && !Boussole.spiritualiteActive()) return;
-        var liste = Boussole.tousLesOutils().filter(function (o) { return o.groupe === g; });
+        var liste = Boussole.tousLesOutils().filter(function (o) { return o.groupe === g && Boussole.outilVisible(o); });
         if (!liste.length) return;
         vue.appendChild(UI.el("h2", { text: Boussole.nomGroupe(g), style: "margin:1.6rem 0 .6rem" }));
         var grille = UI.el(".grille");
