@@ -460,6 +460,116 @@
   }
 
   /* ----------------------------------------------------------
+     Module 6 — Calcul posé (étapes guidées, dyscalculie)
+  ---------------------------------------------------------- */
+  var PLACES = ["unités", "dizaines", "centaines", "milliers", "dix-milliers"];
+  // Couleur par rang (0 = unités, à droite) — cohérent avec la Numération.
+  var COUL_RANG = ["#3a7d6e", "#4a7fa5", "#e26d5c", "#8a6bb0", "#c0392b"];
+
+  function chiffresDroite(n, largeur) {
+    var s = String(n).split("").reverse(); // index 0 = unités
+    while (s.length < largeur) s.push("");
+    return s;
+  }
+
+  function moduleCalcul(racine) {
+    var opSel = UI.select([{ value: "+", label: "Addition (+)" }, { value: "-", label: "Soustraction (−)" }], { style: "padding:.4rem;border:1px solid var(--gris-clair);border-radius:10px" });
+    var aIn = UI.el("input", { type: "number", min: 0, max: 9999, value: 248, style: "width:110px;font-size:1.3rem;text-align:right;padding:.4rem;border:1px solid var(--gris-clair);border-radius:10px" });
+    var bIn = UI.el("input", { type: "number", min: 0, max: 9999, value: 176, style: "width:110px;font-size:1.3rem;text-align:right;padding:.4rem;border:1px solid var(--gris-clair);border-radius:10px" });
+    var chkRes = UI.el("input", { type: "checkbox" });
+
+    var noteEl = UI.el("p.aide");
+    var poseEl = UI.el("div", { style: "overflow-x:auto" });
+    var etapesEl = UI.el("div");
+
+    function caseChiffre(txt, rang, fort) {
+      return UI.el("div", {
+        text: txt,
+        style: "width:2.4rem;height:2.8rem;display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:700;" +
+          "color:" + (txt === "" ? "transparent" : COUL_RANG[rang] || "#333") + ";" + (fort ? "border-bottom:3px solid #333;" : "")
+      });
+    }
+
+    function ligneCases(digits, prefix) {
+      var row = UI.el("div", { style: "display:flex;justify-content:flex-end;align-items:center;gap:.2rem" });
+      if (prefix !== undefined) row.appendChild(UI.el("div", { text: prefix, style: "width:1.6rem;text-align:center;font-size:1.6rem;font-weight:700;color:#555" }));
+      else row.appendChild(UI.el("div", { style: "width:1.6rem" }));
+      for (var i = digits.length - 1; i >= 0; i--) row.appendChild(caseChiffre(digits[i], i));
+      return row;
+    }
+
+    function maj() {
+      var a = Math.max(0, Math.min(9999, parseInt(aIn.value, 10) || 0));
+      var b = Math.max(0, Math.min(9999, parseInt(bIn.value, 10) || 0));
+      var op = opSel.value;
+      noteEl.textContent = "";
+      var x = a, y = b;
+      if (op === "-" && b > a) { x = b; y = a; noteEl.textContent = "Comme on ne peut pas enlever un grand nombre d'un plus petit, on calcule la différence (le grand moins le petit)."; }
+      var res = op === "+" ? x + y : x - y;
+      var largeur = Math.max(String(x).length, String(y).length, String(res).length);
+
+      var da = chiffresDroite(x, largeur), db = chiffresDroite(y, largeur), dr = chiffresDroite(res, largeur);
+
+      UI.vider(poseEl);
+      var bloc = UI.el("div", { style: "display:inline-block;background:#fff;border:1px solid var(--gris-clair);border-radius:12px;padding:1rem 1.2rem" });
+      bloc.appendChild(ligneCases(da));
+      bloc.appendChild(ligneCases(db, op === "+" ? "+" : "−"));
+      bloc.appendChild(UI.el("div", { style: "height:3px;background:#333;margin:.2rem 0 .3rem" }));
+      if (chkRes.checked) bloc.appendChild(ligneCases(dr));
+      else bloc.appendChild(UI.el("p.aide", { text: "Coche « Montrer le résultat » pour vérifier.", style: "text-align:right;margin:.3rem 0 0" }));
+      poseEl.appendChild(bloc);
+
+      UI.vider(etapesEl);
+      if (!chkRes.checked) return;
+      etapesEl.appendChild(UI.el("h2", { text: "Les étapes", style: "margin:1.2rem 0 .5rem" }));
+      var ol = UI.el("ol", { style: "padding-left:1.2rem;line-height:1.7" });
+      var i, txt;
+      if (op === "+") {
+        var ret = 0;
+        for (i = 0; i < largeur; i++) {
+          var va = parseInt(da[i] || "0", 10), vb = parseInt(db[i] || "0", 10);
+          var som = va + vb + ret;
+          var ecrit = som % 10; var nret = Math.floor(som / 10);
+          txt = "Les " + PLACES[i] + " : " + va + " + " + vb + (ret ? " + " + ret + " (retenue)" : "") + " = " + som + " → j'écris " + ecrit + (nret ? ", je retiens " + nret : "") + ".";
+          ol.appendChild(UI.el("li", { text: txt }));
+          ret = nret;
+        }
+        if (ret) ol.appendChild(UI.el("li", { text: "Il reste une retenue " + ret + ", je l'écris à gauche." }));
+      } else {
+        var emp = 0;
+        for (i = 0; i < largeur; i++) {
+          var na = parseInt(da[i] || "0", 10) - emp, nb = parseInt(db[i] || "0", 10);
+          var note = "";
+          if (na < nb) { na += 10; note = " (j'emprunte 10)"; var nemp = 1; } else { var nemp = 0; }
+          txt = "Les " + PLACES[i] + " : " + na + note + " − " + nb + " = " + (na - nb) + ".";
+          ol.appendChild(UI.el("li", { text: txt }));
+          emp = nemp;
+        }
+      }
+      etapesEl.appendChild(ol);
+    }
+
+    [aIn, bIn].forEach(function (el) { el.addEventListener("input", maj); });
+    opSel.addEventListener("change", maj);
+    chkRes.addEventListener("change", maj);
+
+    racine.appendChild(UI.el(".carte", {}, [
+      UI.champ("Opération", opSel),
+      UI.el("div", { style: "display:flex;gap:.8rem;align-items:center;flex-wrap:wrap" }, [
+        UI.el("label", { text: "Premier nombre", style: "font-weight:600;margin:0" }), aIn,
+        UI.el("label", { text: "Deuxième nombre", style: "font-weight:600;margin:0" }), bIn
+      ]),
+      UI.el("label", { style: "display:flex;gap:.5rem;align-items:center;font-weight:600;margin-top:.8rem" }, [chkRes, document.createTextNode("Montrer le résultat et les étapes")])
+    ]));
+    racine.appendChild(noteEl);
+    racine.appendChild(UI.el("h2", { text: "L'opération posée", style: "margin:1.1rem 0 .5rem" }));
+    racine.appendChild(UI.el("p.aide", { text: "Chaque colonne a sa couleur : vert = unités, bleu = dizaines, corail = centaines, violet = milliers." }));
+    racine.appendChild(poseEl);
+    racine.appendChild(etapesEl);
+    maj();
+  }
+
+  /* ----------------------------------------------------------
      Outil : onglets
   ---------------------------------------------------------- */
   Boussole.registerTool({
@@ -475,6 +585,7 @@
         { id: "voix", label: "Lecture à voix haute", rendu: moduleVoix },
         { id: "syllabes", label: "Syllabes colorées", rendu: moduleSyllabes },
         { id: "numeration", label: "Numération", rendu: moduleNumeration },
+        { id: "calcul", label: "Calcul posé", rendu: moduleCalcul },
         { id: "ecriture", label: "Écriture", rendu: moduleEcriture }
       ];
 

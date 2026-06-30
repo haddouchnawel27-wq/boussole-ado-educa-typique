@@ -31,6 +31,7 @@
     "edt": ["enfant", "ado"],
     "dys": ["enfant", "ado"],
     "flashcards": ["enfant", "ado"],
+    "carte-mentale": ["enfant", "ado"],
     "emotions": ["enfant", "ado"],
     "roue-emotions": ["enfant", "ado"],
     "respiration": ["enfant", "ado"],
