@@ -216,6 +216,52 @@
     racine.appendChild(clavier);
   }
 
+  /* ---------- Module 5 — Copie guidée (grande zone) ---------- */
+  var MODELES_COPIE = ["Le petit chat boit du lait.", "Aujourd'hui, il fait beau dehors.", "J'aime lire des histoires le soir.", "Demain, nous irons au marché."];
+
+  function moduleCopie(racine) {
+    var modeleInput = UI.input({ value: MODELES_COPIE[0], placeholder: "Phrase à recopier" });
+    var zoneModele = UI.el("div", { style: "font-size:1.7rem;line-height:2.1;padding:1rem 1.2rem;background:#fbf3df;border-radius:12px;min-height:2.4rem" });
+    var ecriture = UI.textarea({ placeholder: "Recopie ici, à ton rythme…", style: "min-height:120px;font-size:1.7rem;line-height:1.9" });
+    var prog = UI.el("p.meta", { style: "text-align:center" });
+    var nav = UI.el(".btn-rangee", { style: "justify-content:center" });
+    var mots = [], idx = 0;
+
+    function dessiner() {
+      UI.vider(zoneModele);
+      mots.forEach(function (m, i) {
+        zoneModele.appendChild(UI.el("span", { text: m + " ",
+          style: i === idx ? "background:var(--vert);color:#fff;border-radius:6px;padding:.05rem .25rem" : (i < idx ? "color:#9aa6a3" : "") }));
+      });
+      prog.textContent = mots.length ? (idx >= mots.length ? "Terminé — bravo !" : "Mot " + (idx + 1) + " / " + mots.length) : "";
+      UI.vider(nav);
+      nav.appendChild(UI.el("button.btn.secondaire", { text: "◀ Précédent", disabled: idx <= 0, onclick: function () { if (idx > 0) { idx--; dessiner(); } } }));
+      if (idx < mots.length - 1) nav.appendChild(UI.el("button.btn", { text: "Mot suivant ▶", onclick: function () { idx++; dessiner(); } }));
+      else if (mots.length) nav.appendChild(UI.el("button.btn", { text: "✓ Terminé", onclick: function () { idx = mots.length; dessiner(); UI.toast("Bravo, phrase recopiée !"); } }));
+    }
+    function demarrer() { mots = modeleInput.value.trim().split(/\s+/).filter(Boolean); idx = 0; dessiner(); }
+    modeleInput.addEventListener("input", demarrer);
+
+    var chips = UI.el(".btn-rangee", { style: "flex-wrap:wrap;gap:.35rem" });
+    MODELES_COPIE.forEach(function (m) {
+      chips.appendChild(UI.el("button.btn.ghost", { text: m.length > 22 ? m.slice(0, 22) + "…" : m, style: "font-size:.85rem", onclick: function () { modeleInput.value = m; demarrer(); } }));
+    });
+
+    racine.appendChild(UI.champ("Modèle à recopier", modeleInput));
+    racine.appendChild(UI.el("p.aide", { text: "Quelques modèles :" }));
+    racine.appendChild(chips);
+    racine.appendChild(UI.el("h2", { text: "À recopier", style: "margin:1rem 0 .4rem" }));
+    racine.appendChild(zoneModele);
+    racine.appendChild(prog);
+    racine.appendChild(nav);
+    racine.appendChild(UI.el("h2", { text: "Ma copie", style: "margin:1rem 0 .4rem" }));
+    racine.appendChild(ecriture);
+    racine.appendChild(UI.el(".btn-rangee", { style: "margin-top:.4rem" }, [
+      UI.el("button.btn.ghost", { text: "Effacer ma copie", onclick: function () { ecriture.value = ""; ecriture.focus(); } })
+    ]));
+    demarrer();
+  }
+
   /* ---------- Onglets ---------- */
   Boussole.registerTool({
     id: "aide-ecrire", groupe: "tnd", titre: "Aide à l'écriture", icone: "✍️",
@@ -226,6 +272,7 @@
         { id: "banque", label: "Banque de mots", rendu: moduleBanque },
         { id: "phrase", label: "Phrase modèle", rendu: moduleFrame },
         { id: "correcteur", label: "Correcteur simple", rendu: moduleCorrecteur },
+        { id: "copie", label: "Copie guidée", rendu: moduleCopie },
         { id: "clavier", label: "Clavier simplifié", rendu: moduleClavier }
       ];
       var barre = UI.el(".btn-rangee", { role: "tablist", style: "flex-wrap:wrap;gap:.4rem;margin-bottom:1.1rem" });

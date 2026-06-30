@@ -63,6 +63,7 @@
   var PUBLICS = [
     { id: "enfant", court: "Enfant", detail: "6-12 ans" },
     { id: "ado", court: "Ado", detail: "12-18 ans" },
+    { id: "parent", court: "Parent", detail: "vue famille" },
     { id: "pro", court: "Praticienne", detail: "tout voir" }
   ];
 
@@ -81,6 +82,9 @@
     var pub = publicEffectif();
     if (pub === "pro") return true; // mode praticienne : tout
     var aud = AUDIENCE.hasOwnProperty(o.id) ? AUDIENCE[o.id] : ["enfant", "ado"];
+    // Parent : voit tous les outils enfants ET ados (pour accompagner),
+    // mais pas les outils réservés à la praticienne (audience vide).
+    if (pub === "parent") return aud.indexOf("enfant") >= 0 || aud.indexOf("ado") >= 0;
     return aud.indexOf(pub) >= 0;
   }
 
@@ -138,6 +142,7 @@
     var cartes = [
       { id: "enfant", ic: "🧒", titre: "Un enfant", desc: "6-12 ans — outils visuels, pictogrammes, en douceur." },
       { id: "ado", ic: "🧑", titre: "Un·e ado", desc: "12-18 ans — émotions, pensées, autonomie." },
+      { id: "parent", ic: "👪", titre: "Un parent", desc: "Accompagner mon enfant : tous les outils enfants et ados." },
       { id: "pro", ic: "🧭", titre: "Moi, praticienne", desc: "Accès complet : tous les outils, fiches et suivi." }
     ];
     cartes.forEach(function (c) {
