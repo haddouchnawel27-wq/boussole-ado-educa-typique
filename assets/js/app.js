@@ -30,6 +30,7 @@
     "sequenceur": ["enfant", "ado"],
     "edt": ["enfant", "ado"],
     "dys": ["enfant", "ado"],
+    "flashcards": ["enfant", "ado"],
     "emotions": ["enfant", "ado"],
     "roue-emotions": ["enfant", "ado"],
     "respiration": ["enfant", "ado"],
