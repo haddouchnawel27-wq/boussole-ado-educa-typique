@@ -84,6 +84,20 @@
         vue.appendChild(a);
       }
 
+      // --- Par où commencer ? (Home par actions d'apprentissage) ---
+      if (Boussole.actionsApprendre) {
+        vue.appendChild(UI.el("h2", { text: "Par où commencer ?", style: "margin:1.6rem 0 .6rem" }));
+        var ga = UI.el(".grille");
+        Boussole.actionsApprendre.forEach(function (a) {
+          ga.appendChild(UI.el("a.tuile", { href: "#/apprendre/" + a.id, style: "border-top:5px solid " + a.couleur }, [
+            UI.el("span.tuile-ic", { text: a.icone, "aria-hidden": "true" }),
+            UI.el("h3", { text: a.titre }),
+            UI.el("p", { text: a.desc })
+          ]));
+        });
+        vue.appendChild(ga);
+      }
+
       // --- Favoris ---
       var favs = Boussole.favoris().map(Boussole.outilParId).filter(Boolean).filter(Boussole.outilVisible);
       if (favs.length) {
@@ -103,7 +117,7 @@
       }
 
       // --- Catalogue complet par groupe (avec épinglage) ---
-      var groupes = ["ressources", "tnd", "tcc", "enfants", "secours", "spirituel", "pro"];
+      var groupes = ["ressources", "tnd", "meta", "tcc", "enfants", "secours", "spirituel", "pro"];
       groupes.forEach(function (g) {
         if (g === "spirituel" && !Boussole.spiritualiteActive()) return;
         var liste = Boussole.tousLesOutils().filter(function (o) { return o.groupe === g && Boussole.outilVisible(o); });
