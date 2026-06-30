@@ -1,12 +1,11 @@
-# Al Mizan Al Qalb — build « Claude Design » (autonome)
+# Al Mizan Al Qalb — build « Claude Design » (fichier unique, autonome)
 
-Version visuelle conçue par Nawel avec Claude Design, rendue **100 % autonome** :
-React / ReactDOM sont servis **localement** (plus aucune dépendance Internet),
-les contrôles d'intégrité (SRI) liés aux CDN ont été neutralisés.
+Version visuelle conçue par Nawel avec Claude Design, transformée en **un seul
+fichier HTML autonome** :
+- React / ReactDOM **intégrés en ligne** (data URI) → aucune dépendance Internet ;
+- contrôles d'intégrité (SRI) liés aux CDN neutralisés ;
+- titre, couleur de thème et icône (arche) intégrés.
 
-Fonctionne hors-ligne, installable (manifest + icône). Pour publier :
-déposer le **contenu** de ce dossier (index.html à la racine) sur un hébergeur
-statique (Netlify Drop, GitHub Pages…).
-
-Fichiers : index.html · react.production.min.js · react-dom.production.min.js
-· manifest.webmanifest · al-mizan-icon.svg
+Résultat : `index.html` s'ouvre **en double-clic** (file://) **et** une fois hébergé
+(http/https), entièrement **hors-ligne**. Pour publier : déposer ce **seul fichier**
+sur un hébergeur statique (Netlify Drop, GitHub Pages…). Le rendu Design est inchangé.
