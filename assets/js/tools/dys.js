@@ -269,6 +269,91 @@
   }
 
   /* ----------------------------------------------------------
+     Module 3 bis — Photo → texte (OCR, dyslexie)
+     L'image est lue DANS le navigateur (Tesseract.js / WASM) : elle
+     n'est jamais envoyée sur un serveur. La bibliothèque se charge
+     depuis Internet à la première utilisation.
+  ---------------------------------------------------------- */
+  function chargerTesseract(ok, err) {
+    if (window.Tesseract) return ok();
+    var s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+    s.onload = function () { ok(); };
+    s.onerror = function () { err(); };
+    document.head.appendChild(s);
+  }
+
+  function moduleOCR(racine) {
+    racine.appendChild(UI.el("p.aide", { text: "Prends ou choisis une photo d'un texte (leçon, énoncé). Boussole le transforme en texte que tu peux lire, agrandir ou écouter. La photo reste sur cet appareil ; seule l'aide à la lecture se charge depuis Internet la première fois." }));
+
+    var fichier = UI.el("input", { type: "file", accept: "image/*", capture: "environment", style: "margin:.4rem 0" });
+    var apercu = UI.el("img", { alt: "Aperçu de la photo", style: "max-width:100%;max-height:240px;border-radius:10px;display:none;margin:.4rem 0" });
+    var etat = UI.el("p.meta");
+    var texte = UI.textarea({ placeholder: "Le texte lu apparaîtra ici…", style: "min-height:120px;font-size:1.1rem" });
+    var dataURL = null;
+
+    var btnLire = UI.el("button.btn", { type: "button", text: "Lire le texte de la photo", disabled: true });
+
+    fichier.addEventListener("change", function () {
+      var f = fichier.files && fichier.files[0];
+      if (!f) return;
+      var r = new FileReader();
+      r.onload = function () {
+        dataURL = r.result;
+        apercu.src = dataURL; apercu.style.display = "block";
+        btnLire.disabled = false; etat.textContent = "";
+      };
+      r.readAsDataURL(f);
+    });
+
+    btnLire.addEventListener("click", function () {
+      if (!dataURL) return;
+      btnLire.disabled = true;
+      etat.textContent = "Préparation de la lecture…";
+      chargerTesseract(function () {
+        etat.textContent = "Lecture de l'image en cours…";
+        window.Tesseract.recognize(dataURL, "fra", {
+          logger: function (m) {
+            if (m.status === "recognizing text") etat.textContent = "Lecture en cours… " + Math.round(m.progress * 100) + "%";
+          }
+        }).then(function (res) {
+          texte.value = (res.data.text || "").replace(/\n{3,}/g, "\n\n").trim();
+          etat.textContent = texte.value ? "Texte reconnu. Tu peux le corriger si besoin." : "Aucun texte n'a pu être lu sur cette image.";
+          btnLire.disabled = false;
+        }).catch(function () {
+          etat.textContent = "La lecture a échoué. Vérifie ta connexion Internet et réessaie.";
+          btnLire.disabled = false;
+        });
+      }, function () {
+        etat.textContent = "Impossible de charger l'aide à la lecture (Internet nécessaire la première fois).";
+        btnLire.disabled = false;
+      });
+    });
+
+    function lireVoix() {
+      if (!("speechSynthesis" in window) || !texte.value.trim()) { UI.toast("Rien à lire"); return; }
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(texte.value);
+      u.lang = "fr-FR";
+      window.speechSynthesis.speak(u);
+    }
+
+    racine.appendChild(UI.champ("Photo du texte", fichier));
+    racine.appendChild(apercu);
+    racine.appendChild(UI.el(".btn-rangee", {}, [btnLire]));
+    racine.appendChild(etat);
+    racine.appendChild(UI.el("h2", { text: "Texte lu", style: "margin:1rem 0 .5rem" }));
+    racine.appendChild(texte);
+    racine.appendChild(UI.el(".btn-rangee", { style: "margin-top:.4rem" }, [
+      UI.el("button.btn.secondaire", { type: "button", text: "Lire à voix haute", onclick: lireVoix }),
+      UI.el("button.btn.ghost", { type: "button", text: "Copier", onclick: function () {
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(texte.value).then(function () { UI.toast("Copié"); }, function () {});
+      }}),
+      UI.el("button.btn.ghost", { type: "button", text: "Arrêter la voix", onclick: function () { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } })
+    ]));
+  }
+
+  /* ----------------------------------------------------------
      Module 4 — Numération (dyscalculie)
   ---------------------------------------------------------- */
   var U_MOTS = ["zéro", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf"];
@@ -574,7 +659,7 @@
   ---------------------------------------------------------- */
   Boussole.registerTool({
     id: "dys", groupe: "tnd", titre: "Boîte à outils dys", icone: "🔤",
-    desc: "Aides dys : voix haute, syllabes colorées, confort de lecture, numération et page d'écriture.",
+    desc: "Aides dys : voix haute, photo → texte, syllabes, confort de lecture, numération, calcul et écriture.",
     render: function (vue) {
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
 
@@ -584,6 +669,7 @@
         { id: "confort", label: "Confort de lecture", rendu: moduleConfort },
         { id: "voix", label: "Lecture à voix haute", rendu: moduleVoix },
         { id: "syllabes", label: "Syllabes colorées", rendu: moduleSyllabes },
+        { id: "ocr", label: "Photo → texte", rendu: moduleOCR },
         { id: "numeration", label: "Numération", rendu: moduleNumeration },
         { id: "calcul", label: "Calcul posé", rendu: moduleCalcul },
         { id: "ecriture", label: "Écriture", rendu: moduleEcriture }
