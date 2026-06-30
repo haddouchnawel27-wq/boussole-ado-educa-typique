@@ -269,11 +269,202 @@
   }
 
   /* ----------------------------------------------------------
+     Module 4 — Numération (dyscalculie)
+  ---------------------------------------------------------- */
+  var U_MOTS = ["zéro", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf"];
+  var D_MOTS = ["", "dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingt", "quatre-vingt-dix"];
+
+  function frDeux(n) {
+    if (n < 20) return U_MOTS[n];
+    var t = Math.floor(n / 10), r = n % 10;
+    if (t === 7 || t === 9) {
+      var base = t === 7 ? "soixante" : "quatre-vingt";
+      if (r === 0) return t === 7 ? "soixante-dix" : "quatre-vingt-dix";
+      if (t === 7 && r === 1) return "soixante et onze";
+      return base + "-" + U_MOTS[10 + r];
+    }
+    var b = D_MOTS[t];
+    if (r === 0) return t === 8 ? "quatre-vingts" : b;
+    if (r === 1 && t !== 8) return b + " et un";
+    return b + "-" + U_MOTS[r];
+  }
+
+  function frNombre(n) {
+    if (n === 0) return "zéro";
+    var mots = [];
+    var mil = Math.floor(n / 1000), reste = n % 1000;
+    if (mil > 0) mots.push(mil === 1 ? "mille" : frDeux(mil) + " mille");
+    var cent = Math.floor(reste / 100), r2 = reste % 100;
+    if (cent > 0) mots.push(cent === 1 ? "cent" : U_MOTS[cent] + " cent" + (r2 === 0 ? "s" : ""));
+    if (r2 > 0) mots.push(frDeux(r2));
+    return mots.join(" ");
+  }
+
+  function moduleNumeration(racine) {
+    var saisie = UI.el("input", { type: "number", min: 0, max: 9999, value: 234, style: "font-size:1.6rem;width:140px;text-align:center;padding:.4rem;border:1px solid var(--gris-clair);border-radius:10px" });
+
+    var motsEl = UI.el("p", { style: "font-size:1.3rem;font-weight:600;color:var(--vert-fonce);margin:.2rem 0 0" });
+    var tableWrap = UI.el("div", { style: "overflow-x:auto" });
+    var blocsEl = UI.el("div", { style: "display:flex;flex-wrap:wrap;gap:1.2rem;align-items:flex-end" });
+    var ligneEl = UI.el("div");
+
+    function n() { return Math.max(0, Math.min(9999, parseInt(saisie.value, 10) || 0)); }
+
+    function tableNumeration(val) {
+      var s = String(val).padStart(4, "0").split("");
+      var cols = [["Milliers", "#8a6bb0"], ["Centaines", "#e26d5c"], ["Dizaines", "#4a7fa5"], ["Unités", "#3a7d6e"]];
+      var tr1 = UI.el("tr"), tr2 = UI.el("tr");
+      cols.forEach(function (c, i) {
+        tr1.appendChild(UI.el("th", { text: c[0], style: "padding:.4rem .7rem;font-size:.8rem;color:" + c[1] + ";border:1px solid var(--gris-clair);background:#fafafa" }));
+        tr2.appendChild(UI.el("td", { text: s[i], style: "padding:.5rem .7rem;font-size:1.8rem;font-weight:700;text-align:center;border:1px solid var(--gris-clair);color:" + c[1] }));
+      });
+      return UI.el("table", { style: "border-collapse:collapse;margin:.3rem 0" }, [UI.el("thead", {}, [tr1]), UI.el("tbody", {}, [tr2])]);
+    }
+
+    function grilleCentaine() {
+      var g = UI.el("div", { style: "display:grid;grid-template-columns:repeat(10,7px);grid-auto-rows:7px;gap:1px;padding:2px;background:#e26d5c;border-radius:3px" });
+      for (var i = 0; i < 100; i++) g.appendChild(UI.el("div", { style: "background:#fde0d9" }));
+      return g;
+    }
+    function barreDizaine() {
+      var g = UI.el("div", { style: "display:grid;grid-template-columns:7px;grid-auto-rows:7px;gap:1px;padding:2px;background:#4a7fa5;border-radius:3px" });
+      for (var i = 0; i < 10; i++) g.appendChild(UI.el("div", { style: "background:#dcecf7" }));
+      return g;
+    }
+    function pointUnite() {
+      return UI.el("div", { style: "width:11px;height:11px;border-radius:50%;background:#3a7d6e" });
+    }
+
+    function blocsBase10(val) {
+      UI.vider(blocsEl);
+      var mil = Math.floor(val / 1000), cent = Math.floor((val % 1000) / 100), diz = Math.floor((val % 100) / 10), uni = val % 10;
+      var i;
+      if (mil > 0) {
+        var colMil = UI.el("div", { style: "display:flex;gap:.3rem" });
+        for (i = 0; i < mil; i++) colMil.appendChild(UI.el("div", { text: "1000", style: "width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;background:#8a6bb0;border-radius:4px" }));
+        blocsEl.appendChild(colMil);
+      }
+      var colC = UI.el("div", { style: "display:flex;gap:.4rem" });
+      for (i = 0; i < cent; i++) colC.appendChild(grilleCentaine());
+      if (cent) blocsEl.appendChild(colC);
+      var colD = UI.el("div", { style: "display:flex;gap:.4rem" });
+      for (i = 0; i < diz; i++) colD.appendChild(barreDizaine());
+      if (diz) blocsEl.appendChild(colD);
+      var colU = UI.el("div", { style: "display:flex;flex-wrap:wrap;gap:.3rem;max-width:60px" });
+      for (i = 0; i < uni; i++) colU.appendChild(pointUnite());
+      if (uni) blocsEl.appendChild(colU);
+      if (!val) blocsEl.appendChild(UI.el("p.aide", { text: "Zéro : aucune unité à représenter." }));
+    }
+
+    function droiteNumerique(val) {
+      UI.vider(ligneEl);
+      var max = val <= 10 ? 10 : val <= 100 ? 100 : val <= 1000 ? 1000 : 10000;
+      var pct = (val / max) * 100;
+      var barre = UI.el("div", { style: "position:relative;height:4px;background:var(--gris-clair);border-radius:2px;margin:2.4rem .5rem 1.6rem" });
+      [0, 0.25, 0.5, 0.75, 1].forEach(function (f) {
+        barre.appendChild(UI.el("div", { style: "position:absolute;left:" + (f * 100) + "%;top:-4px;width:2px;height:12px;background:var(--gris);transform:translateX(-1px)" }));
+        barre.appendChild(UI.el("div", { text: Math.round(f * max), style: "position:absolute;left:" + (f * 100) + "%;top:12px;font-size:.75rem;color:var(--gris);transform:translateX(-50%)" }));
+      });
+      var marqueur = UI.el("div", { style: "position:absolute;left:" + pct + "%;top:-10px;width:16px;height:16px;border-radius:50%;background:var(--ambre);border:2px solid #fff;box-shadow:var(--ombre);transform:translateX(-8px)" });
+      var bulle = UI.el("div", { text: val, style: "position:absolute;left:" + pct + "%;top:-34px;background:var(--vert);color:#fff;font-weight:700;padding:.1rem .5rem;border-radius:8px;font-size:.9rem;transform:translateX(-50%)" });
+      barre.appendChild(marqueur); barre.appendChild(bulle);
+      ligneEl.appendChild(barre);
+    }
+
+    function maj() {
+      var val = n();
+      var mot = frNombre(val);
+      motsEl.textContent = mot.charAt(0).toUpperCase() + mot.slice(1);
+      UI.vider(tableWrap); tableWrap.appendChild(tableNumeration(val));
+      blocsBase10(val);
+      droiteNumerique(val);
+    }
+    saisie.addEventListener("input", maj);
+
+    racine.appendChild(UI.el(".carte", {}, [
+      UI.el("label", { text: "Écris un nombre (de 0 à 9999)", style: "font-weight:600;display:block;margin-bottom:.4rem" }),
+      saisie, motsEl
+    ]));
+    racine.appendChild(UI.el("h2", { text: "Dans le tableau", style: "margin:1.2rem 0 .4rem" }));
+    racine.appendChild(tableWrap);
+    racine.appendChild(UI.el("h2", { text: "Avec des objets (base 10)", style: "margin:1.2rem 0 .4rem" }));
+    racine.appendChild(UI.el("p.aide", { text: "Grand carré = 100, barre = 10, point = 1." }));
+    racine.appendChild(blocsEl);
+    racine.appendChild(UI.el("h2", { text: "Sur la droite numérique", style: "margin:1.4rem 0 .4rem" }));
+    racine.appendChild(ligneEl);
+    maj();
+  }
+
+  /* ----------------------------------------------------------
+     Module 5 — Page d'écriture (dysgraphie / dyspraxie)
+  ---------------------------------------------------------- */
+  function moduleEcriture(racine) {
+    var MODELES = {
+      simples: { nom: "Lignes simples", h: 44, css: "background:linear-gradient(to bottom,transparent 41px,#9aa6a3 41px,#9aa6a3 43px,transparent 43px);" },
+      large: { nom: "Interligne large", h: 64, css: "background:linear-gradient(to bottom,transparent 61px,#9aa6a3 61px,#9aa6a3 63px,transparent 63px);" },
+      seyes: { nom: "Seyès simplifié", h: 48, css: "background:linear-gradient(to bottom,transparent 11px,#cfe0ee 11px,#cfe0ee 12px,transparent 12px,transparent 23px,#cfe0ee 23px,#cfe0ee 24px,transparent 24px,transparent 35px,#cfe0ee 35px,#cfe0ee 36px,transparent 36px,transparent 45px,#4a7fa5 45px,#4a7fa5 47px,transparent 47px);" },
+      couleurs: { nom: "Lignes repères (3 couleurs)", h: 56, css: "background:linear-gradient(to bottom,transparent 9px,#4a7fa5 9px,#4a7fa5 11px,transparent 11px,transparent 31px,#e8a33d 31px,#e8a33d 32px,transparent 32px,transparent 51px,#3a7d6e 51px,#3a7d6e 53px,transparent 53px);" }
+    };
+
+    var presetSel = UI.select(Object.keys(MODELES).map(function (k) { return { value: k, label: MODELES[k].nom }; }), { style: "padding:.4rem;border:1px solid var(--gris-clair);border-radius:10px" });
+    var nbInput = UI.el("input", { type: "number", min: 3, max: 30, value: 12, style: "width:70px;padding:.4rem;border:1px solid var(--gris-clair);border-radius:10px" });
+    var modeleTxt = UI.input({ placeholder: "Mot ou phrase à recopier (facultatif)", style: "width:100%;padding:.5rem;border:1px solid var(--gris-clair);border-radius:10px" });
+
+    var feuille = UI.el("div", { style: "border:1px solid var(--gris-clair);border-radius:10px;padding:1rem;background:#fff;max-height:420px;overflow:auto" });
+
+    function construireFeuille(pourImpression) {
+      var k = presetSel.value, m = MODELES[k];
+      var nb = Math.max(3, Math.min(30, parseInt(nbInput.value, 10) || 12));
+      var cible = pourImpression ? document.createElement("div") : feuille;
+      UI.vider(cible);
+      if (modeleTxt.value.trim()) {
+        cible.appendChild(UI.el("div", { text: modeleTxt.value.trim(), style: "height:" + m.h + "px;line-height:" + m.h + "px;font-size:" + Math.round(m.h * 0.5) + "px;color:#b9c2c0;" + m.css }));
+      }
+      for (var i = 0; i < nb; i++) {
+        cible.appendChild(UI.el("div", { style: "height:" + m.h + "px;" + m.css }));
+      }
+      return cible;
+    }
+    presetSel.addEventListener("change", function () { construireFeuille(false); });
+    nbInput.addEventListener("input", function () { construireFeuille(false); });
+    modeleTxt.addEventListener("input", function () { construireFeuille(false); });
+
+    function imprimer() {
+      var contenu = construireFeuille(true);
+      var w = window.open("", "_blank");
+      if (!w) { UI.toast("Autorise les fenêtres pop-up pour imprimer."); return; }
+      w.document.write('<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Page d\'écriture</title>' +
+        '<style>@media print{body{margin:1.4cm}} body{font-family:Arial,sans-serif} .l{margin:0}</style></head><body></body></html>');
+      Array.prototype.forEach.call(contenu.children, function (child) {
+        var d = w.document.createElement("div");
+        d.setAttribute("style", child.getAttribute("style"));
+        d.className = "l"; d.textContent = child.textContent || "";
+        w.document.body.appendChild(d);
+      });
+      w.document.close(); w.focus();
+      setTimeout(function () { w.print(); }, 250);
+    }
+
+    racine.appendChild(UI.el(".carte", {}, [
+      UI.champ("Type de lignes", presetSel),
+      UI.champ("Nombre de lignes", nbInput),
+      UI.champ("Modèle à recopier", modeleTxt),
+      UI.el(".btn-rangee", { style: "margin-bottom:0" }, [
+        UI.el("button.btn", { type: "button", text: "Imprimer la page", onclick: imprimer })
+      ])
+    ]));
+    racine.appendChild(UI.el("p.aide", { text: "Aperçu ci-dessous. Le bouton « Imprimer » ouvre une page propre, prête à imprimer." }));
+    racine.appendChild(UI.el("h2", { text: "Aperçu", style: "margin:1rem 0 .5rem" }));
+    racine.appendChild(feuille);
+    construireFeuille(false);
+  }
+
+  /* ----------------------------------------------------------
      Outil : onglets
   ---------------------------------------------------------- */
   Boussole.registerTool({
     id: "dys", groupe: "tnd", titre: "Boîte à outils dys", icone: "🔤",
-    desc: "Trois aides de lecture : voix haute, syllabes colorées et confort d'affichage.",
+    desc: "Aides dys : voix haute, syllabes colorées, confort de lecture, numération et page d'écriture.",
     render: function (vue) {
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
 
@@ -282,7 +473,9 @@
       var onglets = [
         { id: "confort", label: "Confort de lecture", rendu: moduleConfort },
         { id: "voix", label: "Lecture à voix haute", rendu: moduleVoix },
-        { id: "syllabes", label: "Syllabes colorées", rendu: moduleSyllabes }
+        { id: "syllabes", label: "Syllabes colorées", rendu: moduleSyllabes },
+        { id: "numeration", label: "Numération", rendu: moduleNumeration },
+        { id: "ecriture", label: "Écriture", rendu: moduleEcriture }
       ];
 
       var barre = UI.el(".btn-rangee", { role: "tablist", style: "flex-wrap:wrap;gap:.4rem;margin-bottom:1.1rem" });
