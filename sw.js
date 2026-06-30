@@ -1,5 +1,8 @@
-/* Service worker — met l'application en cache pour un usage hors-ligne. */
-var CACHE = "boussole-v9";
+/* Service worker — met l'application en cache pour un usage hors-ligne.
+   Stratégie « stale-while-revalidate » : on sert vite depuis le cache,
+   puis on met à jour en arrière-plan, pour que les nouvelles versions
+   s'appliquent d'elles-mêmes à l'ouverture suivante. */
+var CACHE = "boussole-v10";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
   "./assets/css/styles.css",
@@ -17,7 +20,10 @@ var FICHIERS = [
   "./assets/js/tools/abc.js", "./assets/js/tools/gratitude.js",
   "./assets/js/tools/spiritualite.js",
   "./assets/js/tools/enfants.js", "./assets/js/tools/suivi.js",
-  "./assets/js/tools/personnalisation.js", "./assets/js/tools/accessibilite.js"
+  "./assets/js/tools/personnalisation.js", "./assets/js/tools/accessibilite.js",
+  "./assets/js/tools/flashcards.js", "./assets/js/tools/carte-mentale.js",
+  "./assets/js/tools/aide-ecrire.js", "./assets/js/tools/apprendre.js",
+  "./assets/js/tools/metacognition.js"
 ];
 
 self.addEventListener("install", function (e) {
@@ -32,22 +38,31 @@ self.addEventListener("activate", function (e) {
 
 self.addEventListener("fetch", function (e) {
   if (e.request.method !== "GET") return;
+  var url = new URL(e.request.url);
 
-  // Les sites vitrines (Educa Typique · Parcours Clarté, et Jannat Al Qalb)
-  // ne font PAS partie de l'application : on laisse le navigateur les charger
-  // directement depuis le réseau, sans jamais les remplacer par la coquille
-  // de l'appli ni les mettre dans le cache de l'appli.
-  var chemin = new URL(e.request.url).pathname;
-  if (chemin.indexOf("/parcours-clarte-tnd/") !== -1 ||
-      chemin.indexOf("/jannat-al-qalb/") !== -1) {
+  // Hors application : ressources d'une autre origine (ex. CDN de l'OCR) →
+  // réseau direct, jamais mises dans le cache de l'appli.
+  if (url.origin !== self.location.origin) return;
+
+  // Les sites vitrines (Parcours Clarté · Jannat Al Qalb) ne font PAS partie
+  // de l'application : on les laisse au réseau, sans cache ni coquille d'appli.
+  if (url.pathname.indexOf("/parcours-clarte-tnd/") !== -1 ||
+      url.pathname.indexOf("/jannat-al-qalb/") !== -1) {
     return;
   }
 
+  // Stale-while-revalidate : réponse immédiate depuis le cache si elle existe,
+  // et rafraîchissement en arrière-plan pour la prochaine fois ; sinon réseau,
+  // avec repli sur la coquille de l'appli hors-ligne.
   e.respondWith(
     caches.match(e.request).then(function (rep) {
-      return rep || fetch(e.request).then(function (reseau) {
-        return caches.open(CACHE).then(function (c) { c.put(e.request, reseau.clone()); return reseau; });
-      }).catch(function () { return caches.match("./index.html"); });
+      var reseau = fetch(e.request).then(function (r) {
+        if (r && r.status === 200) {
+          caches.open(CACHE).then(function (c) { c.put(e.request, r.clone()); });
+        }
+        return r;
+      }).catch(function () { return rep || caches.match("./index.html"); });
+      return rep || reseau;
     })
   );
 });
