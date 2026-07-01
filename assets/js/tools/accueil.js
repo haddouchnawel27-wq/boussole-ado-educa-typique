@@ -37,7 +37,18 @@
       var titre = (p.accueilMode === "fixe" && p.accueilTexte) ? p.accueilTexte : (salutation() + " 👋");
       var sous = "Votre boîte à outils d'accompagnement. Tout reste privé, sur cet appareil.";
       if (p.nomCabinet) sous = p.nomCabinet + " — " + sous;
-      vue.appendChild(UI.enTete(titre, sous));
+      var MASC = { enfant: "neuroo", ado: "noury", parent: "maman", pro: "educa" };
+      var pub = Boussole.publicActif ? Boussole.publicActif() : null;
+      if (pub && MASC[pub]) {
+        vue.appendChild(UI.el(".accueil-banniere", {}, [
+          UI.el("span.masc-vignette", { "aria-hidden": "true" }, [
+            UI.el("img", { src: "assets/img/mascotte-" + MASC[pub] + ".png", alt: "", loading: "lazy" })
+          ]),
+          UI.el("div", { style: "flex:1;min-width:0" }, [UI.enTete(titre, sous)])
+        ]));
+      } else {
+        vue.appendChild(UI.enTete(titre, sous));
+      }
 
       // Bouton d'installation (si l'app n'est pas déjà installée)
       if (Boussole.installDispo && Boussole.installDispo()) {
@@ -90,7 +101,7 @@
         var ga = UI.el(".grille");
         Boussole.actionsApprendre.forEach(function (a) {
           ga.appendChild(UI.el("a.tuile", { href: "#/apprendre/" + a.id, style: "border-top:5px solid " + a.couleur }, [
-            UI.el("span.tuile-ic", { text: a.icone, "aria-hidden": "true" }),
+            UI.el("span.tuile-ic", { text: a.icone, "aria-hidden": "true", style: "background:" + a.soft }),
             UI.el("h3", { text: a.titre }),
             UI.el("p", { text: a.desc })
           ]));

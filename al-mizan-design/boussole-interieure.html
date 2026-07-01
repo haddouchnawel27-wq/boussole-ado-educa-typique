@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boussole intérieure — Al Mizan Al Qalb</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,900;1,6..12,400&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F1EADD; --ivory:#FBF8F2; --sage:#8B9A80; --sage-deep:#74856A; --sage-soft:#E7EDE1;
+  --forest:#3E4A3A; --terra:#C07A61; --terra-deep:#A9664F; --terra-soft:#F3E3DC;
+  --gold:#C39A4B; --gold-deep:#B0863A; --gold-soft:#EFE6CE;
+  --ink:#4A443C; --ink-soft:#8A8275;
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Nunito Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{ font-family:var(--sans); color:var(--ink); background:var(--cream); line-height:1.6; -webkit-font-smoothing:antialiased; }
+.wrap{ max-width:640px; margin:0 auto; padding:20px 18px 60px; }
+button{ font-family:inherit; cursor:pointer; }
+.hidden{ display:none !important; }
+
+/* Barre supérieure façon sous-page d'Espace */
+.subhead{ display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+.closeb{ background:none; border:none; color:var(--forest); font-weight:700; font-size:15px; padding:6px 2px; }
+.eyebrow{ font-weight:900; font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold-deep); }
+
+h1{ font-family:var(--serif); font-weight:700; color:var(--forest); font-size:40px; line-height:1.04; margin:2px 0 4px; }
+.subtitle{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:19px; color:var(--sage-deep); margin:0 0 20px; }
+h2{ font-family:var(--serif); font-weight:700; color:var(--forest); font-size:25px; margin:0 0 2px; }
+.rule{ width:48px;height:2px;background:var(--gold);margin:16px auto; border:0; border-radius:2px; }
+
+.card{ background:var(--ivory); border-radius:20px; padding:20px 20px; margin:14px 0; box-shadow:0 2px 10px rgba(120,100,70,.05); }
+.card.tint-sage{ background:var(--sage-soft); }
+.card.tint-gold{ background:var(--gold-soft); }
+.card.tint-terra{ background:var(--terra-soft); }
+
+.intro-lead{ font-size:15.5px; }
+.pill-list{ list-style:none; margin:12px 0 0; padding:0; }
+.pill-list li{ display:flex; gap:10px; align-items:flex-start; margin:8px 0; font-size:14.5px; }
+.pill-list li::before{ content:"✿"; color:var(--gold); font-size:13px; margin-top:2px; }
+
+.disclaimer{ background:var(--terra-soft); border-radius:16px; padding:14px 16px; font-size:12.5px; color:var(--ink); }
+.disclaimer b{ color:var(--terra-deep); }
+
+.field label{ display:block; font-weight:700; font-size:13px; margin:0 0 7px; color:var(--ink); }
+.field input{ width:100%; padding:13px 15px; border:1.5px solid #e3d7c4; border-radius:14px; font-family:var(--sans); font-size:15px; color:var(--ink); background:var(--cream); }
+.field input:focus{ outline:none; border-color:var(--sage); }
+
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; background:var(--terra); color:#fff; border:none; border-radius:16px; padding:15px 26px; font-weight:700; font-size:15px; transition:background .15s, transform .05s; box-shadow:0 3px 10px rgba(192,122,97,.25); }
+.btn:hover{ background:var(--terra-deep); }
+.btn:active{ transform:translateY(1px); }
+.btn:disabled{ background:#d8ccbb; box-shadow:none; cursor:not-allowed; }
+.btn-sage{ background:var(--sage); box-shadow:0 3px 10px rgba(139,154,128,.25); }
+.btn-sage:hover{ background:var(--sage-deep); }
+.btn-ghost{ background:transparent; color:var(--sage-deep); border:1.5px solid #d8cdbb; box-shadow:none; }
+.btn-ghost:hover{ background:var(--sage-soft); }
+.btn-row{ display:flex; gap:12px; justify-content:space-between; align-items:center; margin-top:22px; }
+.btn-block{ width:100%; }
+.center{ text-align:center; }
+
+/* Progression */
+.progress-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
+.progress-head .step-label{ font-weight:900; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold-deep); }
+.progress-head .count{ font-family:var(--serif); font-size:20px; color:var(--forest); font-weight:600; }
+.bar{ height:6px; background:#e4d9c6; border-radius:99px; overflow:hidden; }
+.bar > i{ display:block; height:100%; background:linear-gradient(90deg,var(--gold),var(--gold-deep)); width:0; transition:width .35s ease; }
+
+.scale-legend{ display:flex; justify-content:space-between; font-size:12px; color:var(--ink-soft); margin:14px 2px 2px; font-weight:600; }
+.axis-title{ font-family:var(--serif); font-weight:700; font-size:27px; color:var(--forest); margin:16px 0 2px; }
+.axis-sub{ font-size:14px; color:var(--ink-soft); margin:0 0 4px; }
+
+.item{ padding:16px 0; border-top:1px solid #efe6d6; }
+.item:first-of-type{ border-top:none; }
+.item-q{ font-size:15.5px; margin:0 0 12px; }
+.scale{ display:flex; gap:8px; }
+.scale button{ flex:1; background:var(--cream); border:1.5px solid #e3d7c4; border-radius:14px; padding:14px 4px; font-family:var(--serif); font-size:20px; font-weight:600; color:var(--ink-soft); transition:all .12s; }
+.scale button:hover{ border-color:var(--terra); color:var(--terra); }
+.scale button.on{ background:var(--terra); border-color:var(--terra); color:#fff; box-shadow:0 3px 8px rgba(192,122,97,.3); }
+
+/* Résultats */
+.result-hero{ text-align:center; padding:6px 0 2px; }
+.bism{ font-family:'Amiri',serif; color:var(--gold-deep); font-size:20px; margin-bottom:8px; }
+.global-score{ font-family:var(--serif); font-weight:700; font-size:60px; line-height:1; color:var(--terra); }
+.global-score small{ font-size:22px; color:var(--ink-soft); font-weight:500; }
+.global-band{ font-family:var(--serif); font-style:italic; font-size:18px; color:var(--sage-deep); margin-top:2px; }
+.reading{ font-size:15.5px; }
+.reading .accent{ color:var(--terra-deep); font-weight:700; }
+
+.radar-holder{ display:flex; justify-content:center; margin:4px 0; }
+svg.radar{ width:100%; max-width:430px; height:auto; }
+
+.axis-card{ border-top:1px solid #efe6d6; padding:16px 0; }
+.axis-card:first-of-type{ border-top:none; }
+.axis-card .head{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+.axis-card .name{ font-family:var(--serif); font-weight:700; font-size:20px; color:var(--forest); }
+.axis-card .sc{ font-family:var(--serif); font-weight:700; font-size:22px; white-space:nowrap; }
+.axis-card .mini{ height:7px; background:#eaded0; border-radius:99px; overflow:hidden; margin:8px 0 10px; }
+.axis-card .mini > i{ display:block; height:100%; border-radius:99px; }
+.axis-card p{ margin:0; font-size:14.5px; }
+.tag-band{ font-weight:900; font-size:10px; letter-spacing:1.2px; text-transform:uppercase; padding:2px 9px; border-radius:99px; }
+
+.reco-list{ list-style:none; margin:0; padding:0; }
+.reco-list li{ display:flex; gap:12px; align-items:flex-start; padding:12px 0; border-top:1px dashed #e7dbc8; font-size:14.5px; }
+.reco-list li:first-child{ border-top:none; }
+.reco-list li .n{ font-family:var(--serif); font-weight:700; color:var(--terra); font-size:22px; line-height:1; }
+
+.spirit-note{ background:var(--sage-soft); border-radius:16px; padding:13px 16px; font-size:13px; font-style:italic; color:var(--ink); margin-top:14px; }
+
+.graine{ background:var(--gold-soft); border-radius:18px; padding:18px; text-align:center; margin-top:16px; }
+.graine .lab{ font-weight:900; font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold-deep); margin-bottom:8px; }
+.graine .ar{ font-family:'Amiri',serif; font-size:19px; direction:rtl; line-height:1.9; margin-bottom:6px; color:var(--forest); }
+.graine .fr{ font-family:var(--serif); font-style:italic; font-size:16px; color:var(--ink); }
+.graine .ref{ font-size:11px; color:var(--ink-soft); margin-top:6px; }
+
+.sign{ text-align:center; margin-top:22px; }
+.sign .n{ font-family:var(--serif); font-weight:600; font-size:19px; color:var(--forest); }
+.sign .r{ font-size:11px; color:var(--ink-soft); }
+.foot{ text-align:center; font-size:11px; color:var(--ink-soft); margin-top:30px; }
+.privacy{ text-align:center; font-size:12px; color:var(--ink-soft); margin-top:14px; }
+.privacy::before{ content:"🔒 "; }
+
+@media (max-width:480px){ h1{font-size:33px;} .global-score{font-size:50px;} .wrap{padding:18px 15px 52px;} }
+@media print{ .no-print{display:none!important;} body{background:#fff;} .card{box-shadow:none;border:1px solid #e0d6c4;} .axis-card,.card{page-break-inside:avoid;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- INTRO -->
+  <section id="screen-intro">
+    <div class="subhead">
+      <button class="closeb" onclick="history.length>1?history.back():location.href='index.html'">‹ Espace</button>
+      <span class="eyebrow">Bilan · 5 volets</span>
+    </div>
+    <h1>Boussole intérieure</h1>
+    <p class="subtitle">Un miroir doux de ton équilibre, à cet instant</p>
+
+    <div class="card">
+      <p class="intro-lead">Ce petit bilan explore <strong>cinq volets</strong> de ton bien-être — le corps, les émotions, le stress, les liens, et l'ancrage spirituel. Il ne te note pas : il t'offre un reflet, pour mieux voir où poser ton attention.</p>
+      <ul class="pill-list">
+        <li>Environ <strong>5 minutes</strong>, 20 questions, à ton rythme.</li>
+        <li>Pas de bonne ou mauvaise réponse — juste ton ressenti d'aujourd'hui.</li>
+        <li>Le volet spirituel reflète un <strong>ressenti d'appui</strong>, jamais une mesure de ta foi.</li>
+      </ul>
+    </div>
+
+    <div class="card field">
+      <label for="prenom">Ton prénom <span style="font-weight:400;color:var(--ink-soft)">(facultatif)</span></label>
+      <input id="prenom" type="text" placeholder="Pour personnaliser ta restitution" autocomplete="off">
+    </div>
+
+    <div class="disclaimer">
+      <b>À lire avant de commencer.</b> Ce bilan n'est pas un diagnostic médical ni psychologique. Il reflète ta perception à un instant donné — un jour de fatigue peut tout assombrir. Si un résultat t'étonne ou t'inquiète, parles-en à un professionnel de santé. En cas d'urgence : <b>15</b> (Samu) ou <b>3114</b> (souffrance psychique). Tu n'es pas seule.
+    </div>
+
+    <div class="center" style="margin-top:22px">
+      <button class="btn btn-block" onclick="start()">Commencer la boussole ✦</button>
+    </div>
+    <p class="privacy">Rien n'est enregistré ni envoyé. Tout reste sur cet appareil.</p>
+  </section>
+
+  <!-- QUESTIONNAIRE -->
+  <section id="screen-quiz" class="hidden">
+    <div class="progress-head">
+      <span class="step-label">Volet <span id="q-current">1</span> sur 5</span>
+      <span class="count" id="q-axisname"></span>
+    </div>
+    <div class="bar no-print"><i id="q-bar"></i></div>
+    <h2 class="axis-title" id="q-title"></h2>
+    <p class="axis-sub" id="q-sub"></p>
+    <div class="scale-legend"><span>1 · Pas du tout</span><span>5 · Tout à fait</span></div>
+    <div class="card" id="q-items"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="q-back" onclick="prevAxis()">← Retour</button>
+      <button class="btn" id="q-next" onclick="nextAxis()" disabled>Suivant →</button>
+    </div>
+  </section>
+
+  <!-- RÉSULTATS -->
+  <section id="screen-result" class="hidden">
+    <div class="result-hero">
+      <div class="bism">بِسْمِ اللَّهِ</div>
+      <h2 id="r-hello" style="color:var(--sage-deep);font-size:23px"></h2>
+      <div class="global-score"><span id="r-global">0</span><small>/10</small></div>
+      <div class="global-band" id="r-band"></div>
+    </div>
+    <hr class="rule">
+    <div class="radar-holder"><svg class="radar" id="r-radar" viewBox="0 0 400 360" role="img" aria-label="Radar de tes cinq volets"></svg></div>
+    <div class="card"><p class="reading" id="r-reading"></p></div>
+
+    <h2 style="font-size:22px;margin:24px 0 4px">Tes cinq volets, un à un</h2>
+    <div class="card" id="r-axes"></div>
+
+    <h2 style="font-size:22px;margin:24px 0 4px">Des pistes, pour commencer</h2>
+    <p class="axis-sub" style="margin-top:-2px">Choisies à partir de tes volets les plus tendus — à explorer sans te surcharger.</p>
+    <div class="card"><ul class="reco-list" id="r-recos"></ul></div>
+
+    <div class="spirit-note" id="r-spirit"></div>
+
+    <div class="graine">
+      <div class="lab">La graine du jour</div>
+      <div class="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
+      <div class="fr">« C'est dans le souvenir d'Allāh que les cœurs s'apaisent. »</div>
+      <div class="ref">Ar-Ra'd, 28</div>
+    </div>
+
+    <div class="disclaimer" style="margin-top:16px">
+      <b>Rappel.</b> Ce reflet n'est pas un diagnostic. Il t'appartient et n'a de valeur que la réflexion qu'il ouvre. Si quelque chose te pèse, parles-en — à ta praticienne, à un professionnel de santé. Urgence : <b>15</b> ou <b>3114</b>.
+    </div>
+
+    <div class="btn-row no-print">
+      <button class="btn btn-ghost" onclick="window.print()">Imprimer / PDF</button>
+      <button class="btn btn-sage" onclick="restart()">Recommencer</button>
+    </div>
+
+    <div class="sign">
+      <div class="n">Al Mizan Al Qalb</div>
+      <div class="r">Un compagnon doux du quotidien</div>
+    </div>
+    <p class="foot">Boussole intérieure · outil de réflexion non diagnostique · v1</p>
+  </section>
+
+</div>
+
+<script>
+const AXES = [
+  { key:'corps', nom:'Équilibre du corps', court:'Corps', sub:'Sommeil, énergie, alimentation, mouvement.',
+    items:[{t:"Je dors assez et mon sommeil me repose.",r:false},{t:"J'ai de l'énergie pour traverser mes journées.",r:false},{t:"Il m'arrive de sauter des repas ou de manger de façon irrégulière.",r:true},{t:"Je bouge ou je marche autant que j'en aurais besoin.",r:false}]},
+  { key:'emotions', nom:'Équilibre émotionnel', court:'Émotions', sub:'Accueillir et réguler ce qui se vit en soi.',
+    items:[{t:"J'arrive à reconnaître et nommer ce que je ressens.",r:false},{t:"Mes émotions me submergent plus que je ne le voudrais.",r:true},{t:"Quand une émotion forte monte, je sais m'apaiser.",r:false},{t:"Je garde mes émotions pour moi jusqu'à ce qu'elles débordent.",r:true}]},
+  { key:'stress', nom:'Stress & rapport au regard', court:'Stress', sub:'Face à la pression, à l\u2019évaluation, au jugement.',
+    items:[{t:"L'idée d'être jugé(e) ou évalué(e) me tend à l'avance.",r:true},{t:"Avant un rendez-vous important, l'anticipation m'envahit.",r:true},{t:"Je me sens capable de traverser les moments de pression.",r:false},{t:"Le regard des autres pèse sur ce que je pense de moi.",r:true}]},
+  { key:'lien', nom:'Lien & entourage', court:'Lien', sub:'Soutien, appartenance, qualité des liens.',
+    items:[{t:"Je peux compter sur des personnes de confiance.",r:false},{t:"Je me sens seul(e) face à mes épreuves.",r:true},{t:"Je me sens à ma place dans mes liens (famille, amis).",r:false},{t:"J'évite de demander de l'aide, même quand j'en aurais besoin.",r:true}]},
+  { key:'ruh', nom:'Ancrage spirituel', court:'Ancrage', sub:'Ressenti d\u2019appui intérieur — jamais une mesure de la foi.',
+    items:[{t:"Dans mes moments difficiles, l'évocation d'Allāh (dhikr) m'apaise.",r:false},{t:"Je ressens de la sakīna — une tranquillité intérieure — au moins par moments.",r:false},{t:"Face à l'épreuve, j'ai du mal à m'en remettre à Allāh (tawakkul).",r:true},{t:"Ma foi me donne du sens et un appui dans le quotidien.",r:false}]},
+];
+const NARR = {
+  corps:{bas:"Ton corps réclame de l'attention : le sommeil, l'énergie ou les repas semblent fragilisés. C'est souvent le premier levier — quelques repères simples peuvent déjà tout alléger.",moyen:"Ton équilibre corporel tient, avec des zones à consolider. Une régularité un peu plus tenue (sommeil, repas, mouvement) suffirait à gagner en stabilité.",haut:"Ton corps est un appui : de bonnes habitudes te soutiennent déjà. C'est une base solide sur laquelle le reste peut s'adosser."},
+  emotions:{bas:"Les émotions semblent parfois te déborder ou rester enfermées. Apprendre à les nommer et à les accueillir, doucement, peut te rendre beaucoup d'air.",moyen:"Tu sais reconnaître ce qui te traverse, même si certaines vagues restent difficiles à apaiser. Un ou deux outils de régulation renforceraient cet équilibre.",haut:"Tu accueilles et régules bien ce qui se vit en toi. C'est une ressource précieuse, à honorer."},
+  stress:{bas:"C'est ici que ça se tend le plus : l'anticipation et la peur du regard pèsent. Ce n'est pas une fatalité — ce nœud se travaille, et des appuis concrets existent.",moyen:"Le stress est présent sans t'envahir en permanence. Des rituels courts avant les moments sensibles pourraient désamorcer l'anticipation.",haut:"Tu traverses la pression avec une bonne solidité intérieure. Le regard des autres n'a pas le dernier mot sur toi — c'est un bel ancrage."},
+  lien:{bas:"Le sentiment de solitude ou la difficulté à demander de l'aide ressort. Nourrir un lien de confiance, oser tendre la main, peut changer beaucoup.",moyen:"Tu as des liens sur lesquels t'appuyer, avec parfois une réserve à demander. Cultiver ces appuis renforcerait ton sentiment d'être portée.",haut:"Tu te sens entourée et à ta place dans tes liens. Ce soutien est une richesse — un vrai socle dans l'épreuve."},
+  ruh:{bas:"L'appui spirituel semble moins accessible en ce moment — cela arrive dans les traversées difficiles, et ne dit rien de la valeur de ta foi. Renouer un petit geste régulier (un dhikr, un instant de calme) peut rouvrir la sakīna.",moyen:"Ta foi t'offre un appui, présent par moments. L'ancrer dans un rendez-vous quotidien, même bref, en ferait une ressource plus stable dans la tempête.",haut:"Ton ancrage spirituel est vivant : le dhikr t'apaise, la sakīna t'habite, le tawakkul te porte. C'est un appui profond — protège-le, il porte le reste."}
+};
+const RECO = {
+  corps:{titre:"Un repère pour le corps",texte:"Choisis un seul appui cette semaine : une heure de coucher régulière, une bouteille d'eau à portée, ou 2 marches de 20 minutes. Un geste, tenu."},
+  emotions:{titre:"Nommer avant que ça déborde",texte:"Une fois par jour, mets un mot sur ton émotion principale et une note de 0 à 10. Nommer, c'est déjà commencer à réguler."},
+  stress:{titre:"Le rituel des 3 appuis",texte:"Avant un moment qui te tend : respire 4-4-4 (le corps), redis-toi une pensée juste et douce (l'esprit), pose un bref dhikr (le cœur), puis entre."},
+  lien:{titre:"Un lien à nourrir",texte:"Identifie une personne de confiance et fais un pas vers elle cette semaine — un message, un appel. Oser recevoir de l'aide est une force."},
+  ruh:{titre:"Un rendez-vous de sakīna",texte:"Réserve chaque jour un court instant d'évocation d'Allāh, toujours au même moment. La régularité rouvre l'apaisement, doucement."}
+};
+
+const SCALE=["Pas du tout","Un peu","Moyennement","Beaucoup","Tout à fait"];
+let answers = AXES.map(a=>a.items.map(()=>null));
+let axisIdx=0, prenom="";
+
+function show(id){ ["screen-intro","screen-quiz","screen-result"].forEach(s=>document.getElementById(s).classList.toggle("hidden",s!==id)); window.scrollTo({top:0,behavior:'smooth'}); }
+function start(){ prenom=document.getElementById('prenom').value.trim(); axisIdx=0; renderAxis(); show("screen-quiz"); }
+
+function renderAxis(){
+  const a=AXES[axisIdx];
+  document.getElementById('q-current').textContent=axisIdx+1;
+  document.getElementById('q-axisname').textContent=a.court;
+  document.getElementById('q-bar').style.width=(axisIdx/AXES.length*100)+"%";
+  document.getElementById('q-title').textContent=a.nom;
+  document.getElementById('q-sub').textContent=a.sub;
+  const box=document.getElementById('q-items'); box.innerHTML="";
+  a.items.forEach((it,i)=>{
+    const item=document.createElement('div'); item.className="item";
+    const q=document.createElement('p'); q.className="item-q"; q.textContent=it.t; item.appendChild(q);
+    const scale=document.createElement('div'); scale.className="scale"; scale.setAttribute('role','radiogroup'); scale.setAttribute('aria-label',it.t);
+    for(let v=1;v<=5;v++){
+      const b=document.createElement('button');
+      b.setAttribute('role','radio'); b.setAttribute('aria-label',v+" — "+SCALE[v-1]);
+      b.className="opt"+(answers[axisIdx][i]===v?" on":""); b.setAttribute('aria-checked',answers[axisIdx][i]===v?"true":"false");
+      b.textContent=v;
+      b.onclick=()=>selectValue(scale,i,v);
+      scale.appendChild(b);
+    }
+    item.appendChild(scale); box.appendChild(item);
+  });
+  document.getElementById('q-back').style.visibility=axisIdx===0?"hidden":"visible";
+  updateNav();
+}
+function selectValue(scaleEl,i,v){
+  answers[axisIdx][i]=v;
+  scaleEl.querySelectorAll('button').forEach((b,idx)=>{const on=(idx+1)===v; b.classList.toggle('on',on); b.setAttribute('aria-checked',on?'true':'false');});
+  updateNav();
+}
+function updateNav(){
+  const done=answers[axisIdx].every(v=>v!==null);
+  const n=document.getElementById('q-next'); n.disabled=!done;
+  n.textContent=axisIdx===AXES.length-1?"Voir ma boussole ✦":"Suivant →";
+}
+function nextAxis(){ if(!answers[axisIdx].every(v=>v!==null))return; if(axisIdx<AXES.length-1){axisIdx++;renderAxis();window.scrollTo({top:0,behavior:'smooth'});}else{computeResult();show("screen-result");} }
+function prevAxis(){ if(axisIdx>0){axisIdx--;renderAxis();window.scrollTo({top:0,behavior:'smooth'});} }
+
+function axisScore(ai){ const a=AXES[ai]; let s=0; a.items.forEach((it,i)=>{let v=answers[ai][i]; if(it.r)v=6-v; s+=v;}); const m=s/a.items.length; return Math.round(((m-1)/4*10)*10)/10; }
+function band(s){ return s<4?"bas":(s<6.5?"moyen":"haut"); }
+function bandColor(s){ return s<4?"var(--terra)":(s<6.5?"var(--gold-deep)":"var(--sage-deep)"); }
+function bandRaw(s){ return s<4?"#C07A61":(s<6.5?"#B0863A":"#74856A"); }
+function bandLabel(s){ return s<4?"À soutenir":(s<6.5?"En chemin":"Appui"); }
+
+function computeResult(){
+  const scores=AXES.map((_,i)=>axisScore(i));
+  const global=Math.round((scores.reduce((a,b)=>a+b,0)/scores.length)*10)/10;
+  document.getElementById('r-hello').textContent=prenom?("Chère "+prenom+","):"Un mot pour toi,";
+  document.getElementById('r-global').textContent=global.toFixed(1).replace('.',',');
+  let gb; if(global<4)gb="Un déséquilibre qui demande de l'attention — sans dramatiser."; else if(global<6.5)gb="Un équilibre en construction — des ressources, des zones à soutenir."; else gb="Un bel équilibre d'ensemble — des appuis solides à entretenir.";
+  document.getElementById('r-band').textContent=gb;
+  const iMax=scores.indexOf(Math.max(...scores)), iMin=scores.indexOf(Math.min(...scores));
+  const rd=document.getElementById('r-reading');
+  if(iMax===iMin){ rd.innerHTML="Tes cinq volets se tiennent à un niveau proche. Regarde plus bas ce que chacun te murmure — et prends ce qui te parle, sans tout porter d'un coup."; }
+  else{ rd.innerHTML="Ce chiffre global cache surtout un contraste, et c'est là l'essentiel. Ton appui le plus clair est <span class=\"accent\">"+AXES[iMax].court.toLowerCase()+"</span> — une ressource sur laquelle t'adosser. Ta zone la plus tendue est <span class=\"accent\">"+AXES[iMin].court.toLowerCase()+"</span> — c'est là qu'on peut poser l'attention en premier, en douceur."; }
+  drawRadar(scores); renderAxisCards(scores); renderRecos(scores);
+  document.getElementById('r-spirit').innerHTML="Le volet <b>ancrage spirituel</b> reflète un ressenti d'appui à cet instant — il fluctue avec les épreuves et la fatigue. Ce n'est jamais une mesure de ta foi ni de ta valeur devant Allāh, qui ne se chiffrent pas.";
+}
+function renderAxisCards(scores){
+  const box=document.getElementById('r-axes'); box.innerHTML="";
+  AXES.forEach((a,i)=>{
+    const s=scores[i],b=band(s),col=bandColor(s),raw=bandRaw(s);
+    const c=document.createElement('div'); c.className="axis-card";
+    c.innerHTML='<div class="head"><span class="name">'+a.nom+'</span><span class="sc" style="color:'+col+'">'+s.toFixed(1).replace('.',',')+'<small style="font-size:13px;color:var(--ink-soft)">/10</small></span></div>'+
+      '<div style="margin-top:4px"><span class="tag-band" style="background:'+raw+'22;color:'+col+'">'+bandLabel(s)+'</span></div>'+
+      '<div class="mini"><i style="width:'+(s*10)+'%;background:'+raw+'"></i></div><p>'+NARR[a.key][b]+'</p>';
+    box.appendChild(c);
+  });
+}
+function renderRecos(scores){
+  const ul=document.getElementById('r-recos'); ul.innerHTML="";
+  const order=AXES.map((a,i)=>({i,s:scores[i]})).sort((x,y)=>x.s-y.s);
+  let picked=order.filter(o=>o.s<6.5).slice(0,3); if(picked.length===0)picked=order.slice(0,1);
+  picked.forEach((o,n)=>{ const r=RECO[AXES[o.i].key]; const li=document.createElement('li'); li.innerHTML='<span class="n">'+(n+1)+'</span><span><b>'+r.titre+'.</b> '+r.texte+'</span>'; ul.appendChild(li); });
+}
+function drawRadar(scores){
+  const svg=document.getElementById('r-radar'); const cx=200,cy=180,R=120,N=AXES.length;
+  const ang=k=>(-Math.PI/2)+k*(2*Math.PI/N); const pt=(k,r)=>[cx+r*Math.cos(ang(k)),cy+r*Math.sin(ang(k))];
+  let s='';
+  for(let ring=2;ring<=10;ring+=2){ const rr=R*ring/10; let d=''; for(let k=0;k<N;k++){const[x,y]=pt(k,rr); d+=(k===0?'M':'L')+x.toFixed(1)+' '+y.toFixed(1)+' ';} d+='Z'; s+='<path d="'+d+'" fill="none" stroke="#e2d6c1" stroke-width="1"/>'; }
+  for(let k=0;k<N;k++){ const[x,y]=pt(k,R); s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+x.toFixed(1)+'" y2="'+y.toFixed(1)+'" stroke="#dccbb2" stroke-width="1"/>';
+    const[lx,ly]=pt(k,R+26); let anchor=Math.abs(lx-cx)<8?'middle':(lx>cx?'start':'end'); let dy=ly<cy-8?'-2':(ly>cy+8?'12':'4');
+    s+='<text x="'+lx.toFixed(1)+'" y="'+(parseFloat(ly)+parseFloat(dy)).toFixed(1)+'" text-anchor="'+anchor+'" font-family="Nunito Sans,sans-serif" font-size="12.5" font-weight="700" fill="#3E4A3A">'+AXES[k].court+'</text>'; }
+  let dp=''; for(let k=0;k<N;k++){const[x,y]=pt(k,R*scores[k]/10); dp+=(k===0?'M':'L')+x.toFixed(1)+' '+y.toFixed(1)+' ';} dp+='Z';
+  s+='<path d="'+dp+'" fill="rgba(139,154,128,0.28)" stroke="#C07A61" stroke-width="2.5" stroke-linejoin="round"/>';
+  for(let k=0;k<N;k++){const[x,y]=pt(k,R*scores[k]/10); s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.4" fill="#C07A61"/>';}
+  svg.innerHTML=s;
+}
+function restart(){ answers=AXES.map(a=>a.items.map(()=>null)); axisIdx=0; document.getElementById('prenom').value=prenom; show("screen-intro"); }
+</script>
+</body>
+</html>
