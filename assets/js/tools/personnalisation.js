@@ -3,9 +3,9 @@
   "use strict";
 
   var COULEURS = {
+    violet: { nom: "Violet",      clair: "#EFE7FB", base: "#8259C0", fonce: "#6D46A8" },
     vert:   { nom: "Vert sauge",  clair: "#e7f2ef", base: "#3a7d6e", fonce: "#2c6055" },
     bleu:   { nom: "Bleu doux",   clair: "#e6eef5", base: "#4a7fa5", fonce: "#38617f" },
-    violet: { nom: "Violet",      clair: "#efe9f5", base: "#8a6bb0", fonce: "#6c4f91" },
     rose:   { nom: "Rose",        clair: "#fbe9f0", base: "#d46a93", fonce: "#b34f78" },
     corail: { nom: "Corail",      clair: "#fdeceb", base: "#e26d5c", fonce: "#c9543f" },
     ambre:  { nom: "Ambre",       clair: "#fdf1e0", base: "#d98e2b", fonce: "#b5731f" },
@@ -14,7 +14,7 @@
   var LOGOS = ["🧭", "🌟", "🌈", "💛", "🦋", "🌻", "🧸", "❤️", "🌿", "🕊️", "🌸", "✨"];
 
   function perso() {
-    return Object.assign({ couleur: "vert", logo: "🧭", accueilMode: "heure", accueilTexte: "", nomCabinet: "" }, Store.lire("perso", {}));
+    return Object.assign({ couleur: "violet", logo: "🧭", accueilMode: "heure", accueilTexte: "", nomCabinet: "" }, Store.lire("perso", {}));
   }
   function sauver(modifs) { var p = perso(); Object.assign(p, modifs); Store.ecrire("perso", p); appliquer(); }
 
