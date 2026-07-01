@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mes outils — Al Mizan Al Qalb</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cacao:#34261F; --ink:#4A3F36; --ink-soft:#8C7C70;
+  --sage:#8A9789; --sage-light:#A6B39D; --sage-deep:#5F6E58; --sage-soft:#E7EDE1;
+  --ivoire:#F7F3EE; --amande:#E7DDD1; --rose:#C88E7A; --rose-deep:#A96B5B; --rose-soft:#F3E5DD;
+  --taupe:#B9A999; --or:#C9B07A; --or-deep:#B0954E; --or-soft:#F0E7CF;
+  --page:#F1E9DC; --card:#FBF8F2;
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Jost',system-ui,sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:var(--sans); color:var(--ink); line-height:1.6; -webkit-font-smoothing:antialiased;
+  background:
+    radial-gradient(52% 34% at 18% 8%, rgba(166,179,157,.20), transparent 70%),
+    radial-gradient(46% 30% at 88% 4%, rgba(201,176,122,.18), transparent 72%),
+    linear-gradient(180deg, #F5EFE3 0%, var(--page) 55%, #ECE1CE 100%);
+  background-attachment:fixed; min-height:100vh;
+}
+button{ font-family:inherit; cursor:pointer; }
+.wrap{ max-width:660px; margin:0 auto; padding:20px 18px 72px; }
+.hidden{ display:none !important; }
+
+/* header */
+.subhead{ display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.closeb{ display:inline-flex; align-items:center; gap:6px; background:none; border:none; color:var(--sage-deep); font-weight:600; font-size:14.5px; padding:6px 2px; }
+.closeb:hover{ color:var(--cacao); }
+.eyebrow{ font-weight:600; font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--or-deep); }
+
+/* hero */
+.hero{ margin:4px 0 6px; }
+h1{ font-family:var(--serif); font-weight:600; font-size:42px; line-height:1.04; margin:2px 0 8px;
+  background:linear-gradient(100deg, var(--sage-deep) 0%, var(--sage-deep) 38%, var(--or) 50%, var(--sage-deep) 62%, var(--sage-deep) 100%);
+  background-size:220% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation:shine 7s var(--ease) infinite; }
+.lead{ font-size:15.5px; color:var(--ink); margin:0; max-width:520px; }
+@keyframes shine{ 0%{background-position:130% 0;} 55%,100%{background-position:-30% 0;} }
+@media (prefers-reduced-motion: reduce){ h1{ animation:none; background-position:0 0; } }
+
+/* golden rule — discreet */
+.rule{ display:flex; align-items:flex-start; gap:10px; background:var(--or-soft); border:1px solid #e7d7ac;
+  border-radius:14px; padding:12px 15px; margin:16px 0 4px; }
+.rule .star{ color:var(--or-deep); font-family:var(--serif); font-size:17px; line-height:1.4; flex:0 0 auto; }
+.rule p{ margin:0; font-family:var(--serif); font-style:italic; font-size:15px; color:var(--cacao); }
+
+/* stepper */
+.steps-nav{ display:flex; justify-content:center; gap:8px; margin:24px 0 22px; }
+.stepdot{ flex:1 1 0; background:none; border:none; text-align:center; padding:0; }
+.stepdot .c{ width:40px;height:40px;border-radius:50%; margin:0 auto 6px; display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif); font-size:17px; font-weight:600; color:var(--ink-soft); background:var(--card);
+  border:1.5px solid #e3d7c4; transition:all .3s var(--ease); }
+.stepdot .l{ font-weight:500; font-size:11.5px; letter-spacing:.02em; color:var(--ink-soft); transition:color .3s var(--ease); }
+.stepdot.on .c{ background:var(--sage); border-color:var(--sage); color:#fff; box-shadow:0 4px 12px rgba(138,151,137,.34); transform:translateY(-1px); }
+.stepdot.on .l{ color:var(--sage-deep); font-weight:600; }
+.stepdot.done .c{ background:var(--sage-soft); border-color:var(--sage-light); color:var(--sage-deep); }
+.stepdot .line{ height:1.5px; background:#e3d7c4; margin-top:19px; }
+
+.temps{ animation:rise .45s var(--ease) both; }
+@keyframes rise{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;} }
+.tempslabel{ font-weight:600; font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--or-deep); }
+.temps-h{ font-family:var(--serif); font-weight:600; color:var(--sage-deep); font-size:29px; margin:2px 0 6px; line-height:1.06; }
+.temps-sub{ font-size:14.5px; color:var(--ink-soft); margin:0 0 18px; max-width:500px; }
+
+/* welcome / dump */
+.welcome{ background:var(--sage-soft); border:1px solid #d6e0cd; border-radius:16px; padding:14px 17px; margin:0 0 14px; }
+.welcome p{ margin:0; font-family:var(--serif); font-style:italic; font-size:16.5px; color:var(--sage-deep); }
+textarea{ width:100%; min-height:190px; padding:16px; border:1.5px solid #e3d7c4; border-radius:18px;
+  font-family:var(--sans); font-size:15px; color:var(--ink); background:var(--card); resize:vertical; line-height:1.7; transition:border-color .2s; }
+textarea::placeholder{ color:#b7ab9c; }
+textarea:focus{ outline:none; border-color:var(--sage); box-shadow:0 0 0 3px rgba(201,176,122,.22); }
+.hint{ font-size:12.5px; color:var(--ink-soft); margin:9px 3px 0; }
+
+/* buttons */
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; background:var(--sage); color:#fff; border:none;
+  border-radius:16px; padding:15px 24px; font-weight:600; font-size:15px; box-shadow:0 4px 14px rgba(138,151,137,.28);
+  transition:background .18s, transform .12s var(--ease); }
+.btn:hover{ background:var(--sage-deep); } .btn:active{ transform:scale(.985); }
+.btn-rose{ background:var(--rose); box-shadow:0 4px 14px rgba(200,142,122,.28); } .btn-rose:hover{ background:var(--rose-deep); }
+.btn-block{ width:100%; margin-top:18px; }
+.ghost{ background:transparent; color:var(--sage-deep); border:1.5px solid #d8cdbb; border-radius:14px; padding:13px 18px; font-weight:600; font-size:14px; transition:background .18s; }
+.ghost:hover{ background:var(--sage-soft); }
+.nav-row{ display:flex; gap:12px; margin-top:22px; align-items:center; }
+.nav-row .btn, .nav-row .ghost{ flex:1; }
+.skip{ display:block; text-align:center; background:none; border:none; color:var(--ink-soft); font-weight:500; font-size:13px; margin:14px auto 0; text-decoration:underline; text-underline-offset:2px; }
+
+/* cards preview after dump */
+.mini-list{ display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 2px; }
+.mini{ background:var(--card); border:1px solid #ece2d3; border-radius:12px 12px 12px 4px; padding:8px 12px; font-size:13.5px; color:var(--ink);
+  box-shadow:0 2px 8px rgba(110,95,70,.06); animation:pop .32s var(--ease) both; max-width:100%; }
+@keyframes pop{ 0%{opacity:0; transform:scale(.94) translateY(4px);} 100%{opacity:1; transform:none;} }
+
+/* trier — columns */
+.inbox-wrap{ margin:0 0 18px; }
+.inbox-lab{ font-weight:600; font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-soft); margin:0 3px 8px; }
+.inbox{ display:flex; flex-direction:column; gap:9px; }
+.tcard{ background:var(--card); border:1px solid #ece2d3; border-radius:15px 15px 15px 6px; padding:12px 14px;
+  box-shadow:0 3px 12px rgba(110,95,70,.07); animation:pop .3s var(--ease) both; }
+.tcard.dragging{ opacity:.5; }
+.tcard .txt{ font-size:14.5px; color:var(--cacao); line-height:1.4; }
+.seg{ display:flex; gap:5px; margin-top:10px; }
+.seg button{ flex:1 1 0; min-width:0; padding:6px 4px; border-radius:9px; border:1.5px solid #e3d7c4; background:var(--ivoire);
+  font-family:var(--sans); font-size:11.5px; font-weight:500; color:var(--ink-soft); transition:all .16s; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.seg button:hover{ border-color:var(--sage-light); }
+.seg button.on{ color:#fff; }
+.seg button.on[data-b="today"]{ background:var(--sage); border-color:var(--sage); }
+.seg button.on[data-b="week"]{ background:var(--or); border-color:var(--or); }
+.seg button.on[data-b="later"]{ background:var(--taupe); border-color:var(--taupe); }
+.tcard .del{ background:none; border:none; color:#c3b7a8; font-size:12px; padding:4px; margin-left:auto; }
+.tcard .head{ display:flex; align-items:flex-start; gap:8px; }
+.tcard .head .txt{ flex:1; }
+
+.cols{ display:flex; flex-direction:column; gap:14px; }
+.col{ background:rgba(255,255,255,.5); border:1px solid #e6dccb; border-radius:20px; padding:14px 14px 6px; transition:background .2s, border-color .2s; }
+.col.over{ background:var(--sage-soft); border-color:var(--sage-light); }
+.col-head{ display:flex; align-items:baseline; justify-content:space-between; margin:0 2px 10px; }
+.col-title{ font-family:var(--serif); font-size:20px; font-weight:600; }
+.col-count{ font-size:12px; color:var(--ink-soft); font-weight:500; }
+.col[data-col="today"] .col-title{ color:var(--sage-deep); }
+.col[data-col="week"] .col-title{ color:var(--or-deep); }
+.col[data-col="later"] .col-title{ color:#9a8778; }
+.col-note{ font-family:var(--serif); font-style:italic; font-size:13.5px; color:var(--ink-soft); margin:0 2px 10px; }
+.col-body{ display:flex; flex-direction:column; gap:9px; min-height:14px; }
+.col-empty{ font-size:12.5px; color:#b7ab9c; padding:6px 2px 10px; font-style:italic; }
+.mv{ display:flex; gap:6px; margin-top:9px; flex-wrap:wrap; }
+.mv button{ background:var(--ivoire); border:1px solid #e3d7c4; border-radius:999px; padding:4px 11px; font-size:11.5px; font-weight:500; color:var(--sage-deep); transition:all .15s; }
+.mv button:hover{ background:var(--sage-soft); border-color:var(--sage-light); }
+
+/* sequencer */
+.picker{ display:flex; flex-direction:column; gap:9px; margin:2px 0 4px; }
+.pick{ text-align:left; background:var(--card); border:1.5px solid #e3d7c4; border-radius:15px; padding:13px 15px; font-size:14.5px; color:var(--cacao); transition:all .15s; }
+.pick:hover{ border-color:var(--sage-light); }
+.pick.on{ border-color:var(--sage); background:var(--sage-soft); box-shadow:0 3px 10px rgba(138,151,137,.2); }
+.chosen{ background:var(--sage-soft); border:1px solid #d6e0cd; border-radius:16px; padding:14px 17px; margin:0 0 16px; }
+.chosen .lab{ font-weight:600; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--sage-deep); margin-bottom:4px; }
+.chosen .t{ font-family:var(--serif); font-size:22px; font-weight:600; color:var(--cacao); line-height:1.15; }
+.chosen .change{ background:none; border:none; color:var(--sage-deep); font-size:12.5px; text-decoration:underline; text-underline-offset:2px; margin-top:6px; padding:0; }
+.stepline{ display:flex; align-items:center; gap:10px; margin:0 0 9px; }
+.stepline input{ flex:1; padding:12px 14px; border:1.5px solid #e3d7c4; border-radius:13px; font-family:var(--sans); font-size:14.5px; color:var(--ink); background:var(--card); }
+.stepline input:focus{ outline:none; border-color:var(--sage); }
+.stepline .add{ flex:0 0 auto; width:44px; height:44px; border-radius:13px; background:var(--sage); color:#fff; border:none; font-size:22px; display:flex; align-items:center; justify-content:center; }
+.steplist{ list-style:none; margin:6px 0 0; padding:0; }
+.steplist li{ display:flex; align-items:center; gap:10px; padding:11px 0; border-top:1px solid #efe6d6; font-size:14.5px; color:var(--ink); }
+.steplist li:first-child{ border-top:none; }
+.steplist li .n{ flex:0 0 auto; width:24px; height:24px; border-radius:50%; background:var(--or-soft); color:var(--or-deep); font-family:var(--serif); font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center; }
+.steplist li .rm{ margin-left:auto; background:none; border:none; color:#c3b7a8; font-size:12px; }
+
+/* one-step-at-a-time */
+.one{ text-align:center; padding:6px 0 0; }
+.one .pill{ display:inline-block; font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--or-deep); margin-bottom:10px; }
+.one .now{ background:var(--card); border:2px solid var(--sage-soft); border-radius:24px; padding:34px 26px; box-shadow:0 12px 34px rgba(110,95,70,.1); animation:pop .34s var(--ease) both; }
+.one .now .step-n{ font-family:var(--serif); font-size:13px; color:var(--ink-soft); margin-bottom:12px; letter-spacing:.02em; }
+.one .now .step-t{ font-family:var(--serif); font-size:30px; font-weight:600; color:var(--cacao); line-height:1.2; }
+.progress{ height:6px; border-radius:999px; background:#ece2d3; overflow:hidden; margin:20px 0 6px; }
+.progress .fill{ height:100%; border-radius:999px; background:linear-gradient(90deg, var(--sage-light), var(--or)); transition:width .5s var(--ease); }
+.echo{ font-family:var(--serif); font-style:italic; font-size:18px; color:var(--sage-deep); min-height:26px; margin:16px 0 4px; transition:opacity .3s; }
+.done-hero{ text-align:center; animation:rise .5s var(--ease) both; }
+.done-hero .orn{ font-family:var(--serif); color:var(--or-deep); font-size:26px; }
+.done-hero h2{ font-family:var(--serif); font-weight:600; font-size:32px; color:var(--sage-deep); margin:4px 0 8px; }
+.done-hero p{ font-size:15px; color:var(--ink-soft); max-width:420px; margin:0 auto 20px; }
+
+.foot-rule{ display:flex; align-items:flex-start; gap:10px; margin:30px 2px 0; padding-top:18px; border-top:1px solid #e3d7c4; }
+.foot-rule .star{ color:var(--or-deep); font-family:var(--serif); font-size:16px; flex:0 0 auto; }
+.foot-rule p{ margin:0; font-family:var(--serif); font-style:italic; font-size:14px; color:var(--ink-soft); }
+.privacy{ text-align:center; font-size:12px; color:var(--ink-soft); margin-top:22px; }
+
+@media(max-width:480px){ h1{font-size:34px;} .wrap{padding:18px 15px 60px;} .one .now .step-t{font-size:25px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="subhead">
+    <button class="closeb" onclick="goEspace()">‹ Espace</button>
+    <span class="eyebrow">Mes outils</span>
+  </div>
+
+  <div class="hero">
+    <h1>S'organiser en douceur</h1>
+    <p class="lead">Faire le point, comprendre, s'organiser — sans pression. Un parcours apaisé, en trois temps, pour poser ce qui t'encombre et avancer à ton rythme.</p>
+  </div>
+
+  <div class="rule">
+    <span class="star">✦</span>
+    <p>Jamais de retard, jamais de culpabilité. Ce qui n'est pas fait attend, et c'est ok.</p>
+  </div>
+
+  <!-- Stepper -->
+  <div class="steps-nav" id="stepper">
+    <button class="stepdot" data-step="0" onclick="goStep(0)"><div class="c">1</div><div class="l">Vider</div></button>
+    <div class="line" style="flex:0 0 24px"></div>
+    <button class="stepdot" data-step="1" onclick="goStep(1)"><div class="c">2</div><div class="l">Trier</div></button>
+    <div class="line" style="flex:0 0 24px"></div>
+    <button class="stepdot" data-step="2" onclick="goStep(2)"><div class="c">3</div><div class="l">Séquencer</div></button>
+  </div>
+
+  <!-- ===== TEMPS 1 : VIDER SA TÊTE ===== -->
+  <section id="temps-0" class="temps">
+    <div class="tempslabel">Temps 1 · déposer</div>
+    <div class="temps-h">Vider sa tête</div>
+    <p class="temps-sub">Rien à trier pour l'instant. Écris en vrac, dans l'ordre qui vient.</p>
+
+    <div class="welcome"><p>Pose ici tout ce qui t'encombre. On triera après, ensemble.</p></div>
+
+    <textarea id="dump" placeholder="Une pensée par ligne… ce que tu dois faire, ce qui te trotte dans la tête, un rendez-vous, une inquiétude. Tout a sa place ici."></textarea>
+    <p class="hint">Chaque ligne deviendra une petite carte, que tu pourras ranger tranquillement au temps suivant.</p>
+
+    <button class="btn btn-block" onclick="deposer()">Déposer, et respirer</button>
+
+    <div class="mini-list" id="dumpPreview"></div>
+    <div id="dumpCount" class="hint" style="display:none"></div>
+  </section>
+
+  <!-- ===== TEMPS 2 : TRIER EN DOUCEUR ===== -->
+  <section id="temps-1" class="temps hidden">
+    <div class="tempslabel">Temps 2 · ranger</div>
+    <div class="temps-h">Trier en douceur</div>
+    <p class="temps-sub">Place chaque carte là où elle respire le mieux. Tu peux tout changer, à tout moment.</p>
+
+    <div class="inbox-wrap" id="inboxWrap">
+      <div class="inbox-lab">À ranger</div>
+      <div class="inbox" id="inbox"></div>
+    </div>
+
+    <div class="cols" id="cols">
+      <div class="col" data-col="today">
+        <div class="col-head"><span class="col-title">Aujourd'hui</span><span class="col-count" id="c-today"></span></div>
+        <div class="col-note">3 choses pour aujourd'hui, c'est déjà beaucoup.</div>
+        <div class="col-body" id="body-today"></div>
+      </div>
+      <div class="col" data-col="week">
+        <div class="col-head"><span class="col-title">Cette semaine</span><span class="col-count" id="c-week"></span></div>
+        <div class="col-body" id="body-week"></div>
+      </div>
+      <div class="col" data-col="later">
+        <div class="col-head"><span class="col-title">Plus tard</span><span class="col-count" id="c-later"></span></div>
+        <div class="col-note">Ici, rien ne presse. Ce qui attend a le droit d'attendre.</div>
+        <div class="col-body" id="body-later"></div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="ghost" onclick="goStep(0)">‹ Ajouter</button>
+      <button class="btn" onclick="goStep(2)">Séquencer une tâche ›</button>
+    </div>
+  </section>
+
+  <!-- ===== TEMPS 3 : SÉQUENCER UNE TÂCHE ===== -->
+  <section id="temps-2" class="temps hidden">
+    <div class="tempslabel">Temps 3 · avancer</div>
+    <div class="temps-h">Séquencer une tâche</div>
+    <p class="temps-sub">Choisis une seule tâche, celle qui pèse le plus. On la découpe en tout petits pas.</p>
+
+    <!-- 3a : choisir -->
+    <div id="seq-pick">
+      <div class="picker" id="picker"></div>
+      <div class="stepline" style="margin-top:12px">
+        <input id="newTaskInput" type="text" placeholder="…ou nomme une autre tâche" onkeydown="if(event.key==='Enter'){chooseNewTask();}">
+        <button class="add" onclick="chooseNewTask()" aria-label="Choisir cette tâche">›</button>
+      </div>
+      <p class="hint">Une tâche lourde n'est qu'une suite de petits pas qu'on n'a pas encore posés.</p>
+    </div>
+
+    <!-- 3b : découper -->
+    <div id="seq-build" class="hidden">
+      <div class="chosen">
+        <div class="lab">La tâche choisie</div>
+        <div class="t" id="chosenText"></div>
+        <button class="change" onclick="changeTask()">Choisir une autre tâche</button>
+      </div>
+      <div class="tempslabel" style="color:var(--sage-deep)">Ses petits pas</div>
+      <p class="temps-sub" style="margin:4px 0 12px">Le plus petit premier pas possible. Puis le suivant. Rien de plus.</p>
+      <div class="stepline">
+        <input id="stepInput" type="text" placeholder="Un tout petit pas…" onkeydown="if(event.key==='Enter'){addStep();}">
+        <button class="add" onclick="addStep()" aria-label="Ajouter ce pas">+</button>
+      </div>
+      <ul class="steplist" id="stepList"></ul>
+      <button class="btn btn-rose btn-block" id="startSeqBtn" onclick="startSeq()">Un pas à la fois ›</button>
+    </div>
+
+    <!-- 3c : un pas à la fois -->
+    <div id="seq-run" class="hidden">
+      <div class="one">
+        <span class="pill" id="runTask"></span>
+        <div class="now">
+          <div class="step-n" id="runStepN"></div>
+          <div class="step-t" id="runStepT"></div>
+        </div>
+        <div class="progress"><div class="fill" id="runFill" style="width:0%"></div></div>
+        <div class="echo" id="runEcho"></div>
+        <button class="btn btn-block" id="runBtn" onclick="stepDone()">C'est fait — un pas de plus</button>
+        <button class="skip" onclick="backToBuild()">Revenir aux pas</button>
+      </div>
+    </div>
+
+    <!-- 3d : terminé -->
+    <div id="seq-done" class="hidden">
+      <div class="done-hero">
+        <div class="orn">✦</div>
+        <h2>Tu as avancé.</h2>
+        <p>Pas à pas, tu es allée au bout de cette tâche. Ce que tu viens de faire comptait — accorde-toi ce moment.</p>
+        <button class="btn" onclick="changeTask()">Séquencer une autre tâche</button>
+      </div>
+    </div>
+
+    <div class="nav-row" id="seq-backrow">
+      <button class="ghost" onclick="goStep(1)">‹ Trier</button>
+    </div>
+  </section>
+
+  <div class="foot-rule">
+    <span class="star">◆</span>
+    <p>Jamais de retard, jamais de culpabilité. Ce qui n'est pas fait attend, et c'est ok.</p>
+  </div>
+  <p class="privacy">🔒 Tout reste sur cet appareil. Rien n'est envoyé, rien n'est jugé.</p>
+
+</div>
+
+<script>
+/* ============ ÉTAT + PERSISTANCE (local) ============ */
+var KEY = 'almizan.mesoutils.v1';
+var S = { step:0, dump:'', cards:[], seq:{ taskId:null, taskText:'', steps:[], current:0, running:false } };
+var uid = function(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); };
+
+function load(){
+  try{ var raw = localStorage.getItem(KEY); if(raw){ var o = JSON.parse(raw); if(o && typeof o==='object'){ S = Object.assign(S, o); if(!S.seq) S.seq={ taskId:null,taskText:'',steps:[],current:0,running:false }; } } }catch(e){}
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+function goEspace(){
+  // Retour vers l'onglet Espace de l'app Al Mizan
+  if (window.history.length > 1) { window.history.back(); }
+  else { window.location.href = 'index.html'; }
+}
+
+/* ============ NAVIGATION ENTRE LES TEMPS ============ */
+function goStep(n){
+  S.step = n; save();
+  for(var i=0;i<3;i++){ document.getElementById('temps-'+i).classList.toggle('hidden', i!==n); }
+  var dots = document.querySelectorAll('.stepdot');
+  dots.forEach(function(d){ var s=+d.getAttribute('data-step'); d.classList.toggle('on', s===n); d.classList.toggle('done', s<n); });
+  if(n===1) renderTrier();
+  if(n===2) renderSeq();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ============ TEMPS 1 : VIDER ============ */
+function renderDumpPreview(){
+  var wrap = document.getElementById('dumpPreview');
+  var cnt = document.getElementById('dumpCount');
+  wrap.innerHTML='';
+  if(!S.cards.length){ cnt.style.display='none'; return; }
+  // aperçu des dernières cartes déposées
+  var recent = S.cards.slice(-8);
+  recent.forEach(function(c){ var el=document.createElement('div'); el.className='mini'; el.textContent=c.text; wrap.appendChild(el); });
+  cnt.style.display='block';
+  cnt.textContent = S.cards.length + (S.cards.length>1?' cartes déposées':' carte déposée') + ' · elles t\u2019attendent au temps « Trier ».';
+}
+function deposer(){
+  var ta = document.getElementById('dump');
+  var lines = ta.value.split('\n').map(function(l){ return l.trim(); }).filter(function(l){ return l.length; });
+  if(!lines.length){ ta.focus(); return; }
+  lines.forEach(function(t){ S.cards.push({ id:uid(), text:t, bucket:null }); });
+  S.dump=''; ta.value=''; save();
+  renderDumpPreview();
+  // petit délai pour laisser voir l'apparition, puis passer au tri
+  setTimeout(function(){ goStep(1); }, 650);
+}
+
+/* ============ TEMPS 2 : TRIER ============ */
+var BUCKETS = [ {k:'today', l:'Aujourd\u2019hui'}, {k:'week', l:'Cette semaine'}, {k:'later', l:'Plus tard'} ];
+
+function makeSeg(card){
+  var seg = document.createElement('div'); seg.className='seg';
+  BUCKETS.forEach(function(b){
+    var btn=document.createElement('button'); btn.setAttribute('data-b', b.k); btn.textContent=b.l;
+    if(card.bucket===b.k) btn.classList.add('on');
+    btn.onclick=function(){ card.bucket=b.k; save(); renderTrier(); };
+    seg.appendChild(btn);
+  });
+  return seg;
+}
+function cardEl(card, inColumn){
+  var el=document.createElement('div'); el.className='tcard'; el.setAttribute('draggable','true'); el.setAttribute('data-id', card.id);
+  var head=document.createElement('div'); head.className='head';
+  var txt=document.createElement('div'); txt.className='txt'; txt.textContent=card.text; head.appendChild(txt);
+  var del=document.createElement('button'); del.className='del'; del.textContent='retirer';
+  del.onclick=function(){ S.cards=S.cards.filter(function(c){return c.id!==card.id;}); save(); renderTrier(); };
+  head.appendChild(del);
+  el.appendChild(head);
+  if(inColumn){
+    // boutons de déplacement rapide entre colonnes
+    var mv=document.createElement('div'); mv.className='mv';
+    BUCKETS.forEach(function(b){ if(b.k===card.bucket) return; var mb=document.createElement('button'); mb.textContent='→ '+b.l; mb.onclick=function(){ card.bucket=b.k; save(); renderTrier(); }; mv.appendChild(mb); });
+    var mb2=document.createElement('button'); mb2.textContent='← à ranger'; mb2.onclick=function(){ card.bucket=null; save(); renderTrier(); }; mv.appendChild(mb2);
+    el.appendChild(mv);
+  } else {
+    el.appendChild(makeSeg(card));
+  }
+  // drag
+  el.addEventListener('dragstart', function(e){ dragId=card.id; el.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; });
+  el.addEventListener('dragend', function(){ dragId=null; el.classList.remove('dragging'); });
+  return el;
+}
+var dragId=null;
+function renderTrier(){
+  var inbox=document.getElementById('inbox');
+  var inboxWrap=document.getElementById('inboxWrap');
+  inbox.innerHTML='';
+  var unsorted=S.cards.filter(function(c){return !c.bucket;});
+  if(unsorted.length){ inboxWrap.classList.remove('hidden'); unsorted.forEach(function(c){ inbox.appendChild(cardEl(c,false)); }); }
+  else { inboxWrap.classList.add('hidden'); }
+
+  BUCKETS.forEach(function(b){
+    var body=document.getElementById('body-'+b.k); body.innerHTML='';
+    var list=S.cards.filter(function(c){return c.bucket===b.k;});
+    document.getElementById('c-'+b.k).textContent = list.length ? (list.length+'') : '';
+    if(!list.length){ var e=document.createElement('div'); e.className='col-empty'; e.textContent = b.k==='today'? 'Rien ici pour l\u2019instant, et c\u2019est parfait.' : 'Vide pour le moment.'; body.appendChild(e); }
+    else { list.forEach(function(c){ body.appendChild(cardEl(c,true)); }); }
+  });
+}
+// drop targets
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.col').forEach(function(col){
+    col.addEventListener('dragover', function(e){ e.preventDefault(); col.classList.add('over'); });
+    col.addEventListener('dragleave', function(){ col.classList.remove('over'); });
+    col.addEventListener('drop', function(e){ e.preventDefault(); col.classList.remove('over'); if(!dragId) return; var c=S.cards.find(function(x){return x.id===dragId;}); if(c){ c.bucket=col.getAttribute('data-col'); save(); renderTrier(); } });
+  });
+  var inboxWrap=document.getElementById('inboxWrap');
+  inboxWrap.addEventListener('dragover', function(e){ e.preventDefault(); });
+  inboxWrap.addEventListener('drop', function(e){ e.preventDefault(); if(!dragId) return; var c=S.cards.find(function(x){return x.id===dragId;}); if(c){ c.bucket=null; save(); renderTrier(); } });
+});
+
+/* ============ TEMPS 3 : SÉQUENCER ============ */
+function renderSeq(){
+  var q=S.seq;
+  document.getElementById('seq-pick').classList.toggle('hidden', !!q.taskId || !!q.taskText || q.running || q.done);
+  document.getElementById('seq-build').classList.toggle('hidden', !((q.taskId||q.taskText) && !q.running && !q.done));
+  document.getElementById('seq-run').classList.toggle('hidden', !q.running);
+  document.getElementById('seq-done').classList.toggle('hidden', !q.done);
+  document.getElementById('seq-backrow').classList.toggle('hidden', q.running || q.done);
+  if(!q.taskId && !q.taskText && !q.running && !q.done) renderPicker();
+  if((q.taskId||q.taskText) && !q.running && !q.done) renderBuild();
+  if(q.running) renderRun();
+}
+function taskLabel(){ var q=S.seq; if(q.taskText) return q.taskText; var c=S.cards.find(function(x){return x.id===q.taskId;}); return c?c.text:''; }
+function renderPicker(){
+  var p=document.getElementById('picker'); p.innerHTML='';
+  var pool=S.cards.filter(function(c){return c.bucket==='today'||c.bucket==='week'||!c.bucket;});
+  if(!pool.length){ var e=document.createElement('div'); e.className='hint'; e.style.margin='2px 3px 4px'; e.textContent='Aucune carte à séquencer pour l\u2019instant — nomme la tâche qui pèse ci-dessous.'; p.appendChild(e); return; }
+  pool.forEach(function(c){ var b=document.createElement('button'); b.className='pick'; b.textContent=c.text; b.onclick=function(){ S.seq.taskId=c.id; S.seq.taskText=''; if(!S.seq.steps) S.seq.steps=[]; save(); renderSeq(); }; p.appendChild(b); });
+}
+function chooseNewTask(){ var i=document.getElementById('newTaskInput'); var v=i.value.trim(); if(!v) { i.focus(); return; } S.seq.taskId=null; S.seq.taskText=v; S.seq.steps=[]; S.seq.current=0; i.value=''; save(); renderSeq(); }
+function changeTask(){ S.seq={ taskId:null, taskText:'', steps:[], current:0, running:false, done:false }; save(); renderSeq(); }
+function renderBuild(){
+  document.getElementById('chosenText').textContent = taskLabel();
+  var ul=document.getElementById('stepList'); ul.innerHTML='';
+  (S.seq.steps||[]).forEach(function(st, idx){
+    var li=document.createElement('li');
+    var n=document.createElement('span'); n.className='n'; n.textContent=(idx+1); li.appendChild(n);
+    var t=document.createElement('span'); t.textContent=st.text; t.style.flex='1'; li.appendChild(t);
+    var rm=document.createElement('button'); rm.className='rm'; rm.textContent='retirer'; rm.onclick=function(){ S.seq.steps.splice(idx,1); save(); renderBuild(); }; li.appendChild(rm);
+    ul.appendChild(li);
+  });
+  var btn=document.getElementById('startSeqBtn');
+  btn.style.display = (S.seq.steps && S.seq.steps.length) ? 'flex' : 'none';
+}
+function addStep(){ var i=document.getElementById('stepInput'); var v=i.value.trim(); if(!v){ i.focus(); return; } if(!S.seq.steps) S.seq.steps=[]; S.seq.steps.push({ text:v, done:false }); i.value=''; i.focus(); save(); renderBuild(); }
+function startSeq(){ if(!S.seq.steps||!S.seq.steps.length) return; S.seq.current=0; S.seq.running=true; S.seq.done=false; S.seq.steps.forEach(function(s){s.done=false;}); save(); renderSeq(); }
+function backToBuild(){ S.seq.running=false; save(); renderSeq(); }
+
+var ECHOES=['Un pas de plus.','Doucement, tu avances.','Un pas de plus — c\u2019est déjà beau.','Voilà. Encore un.'];
+function renderRun(){
+  var q=S.seq; var steps=q.steps||[];
+  document.getElementById('runTask').textContent = taskLabel();
+  var cur=steps[q.current];
+  var echo=document.getElementById('runEcho');
+  if(cur){
+    document.getElementById('runStepN').textContent = 'Pas '+(q.current+1)+' sur '+steps.length;
+    document.getElementById('runStepT').textContent = cur.text;
+    document.getElementById('runBtn').style.display='flex';
+  }
+  var doneCount = steps.filter(function(s){return s.done;}).length;
+  document.getElementById('runFill').style.width = Math.round((doneCount/steps.length)*100)+'%';
+}
+function stepDone(){
+  var q=S.seq; var steps=q.steps||[];
+  if(!steps[q.current]) return;
+  steps[q.current].done=true;
+  var echo=document.getElementById('runEcho');
+  echo.style.opacity=0;
+  setTimeout(function(){ echo.textContent = ECHOES[q.current % ECHOES.length]; echo.style.opacity=1; }, 160);
+  if(q.current+1 < steps.length){
+    q.current++; save();
+    setTimeout(function(){ renderRun(); }, 260);
+  } else {
+    // fini
+    document.getElementById('runFill').style.width='100%';
+    q.running=false; q.done=true; save();
+    setTimeout(function(){ renderSeq(); }, 900);
+  }
+}
+
+/* ============ INIT ============ */
+load();
+document.getElementById('dump').value = S.dump || '';
+document.getElementById('dump').addEventListener('input', function(e){ S.dump=e.target.value; save(); });
+renderDumpPreview();
+goStep(S.step || 0);
+</script>
+</body>
+</html>
