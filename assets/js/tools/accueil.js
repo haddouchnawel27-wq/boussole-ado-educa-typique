@@ -90,7 +90,7 @@
         var ga = UI.el(".grille");
         Boussole.actionsApprendre.forEach(function (a) {
           ga.appendChild(UI.el("a.tuile", { href: "#/apprendre/" + a.id, style: "border-top:5px solid " + a.couleur }, [
-            UI.el("span.tuile-ic", { text: a.icone, "aria-hidden": "true" }),
+            UI.el("span.tuile-ic", { text: a.icone, "aria-hidden": "true", style: "background:" + a.soft }),
             UI.el("h3", { text: a.titre }),
             UI.el("p", { text: a.desc })
           ]));

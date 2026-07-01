@@ -5,10 +5,10 @@
   "use strict";
 
   var ACTIONS = [
-    { id: "lire", titre: "Lire", icone: "📖", couleur: "#4a7fa5", desc: "Lire plus facilement : voix haute, syllabes, confort d'affichage.", outils: ["dys"] },
-    { id: "ecrire", titre: "Écrire", icone: "✍️", couleur: "#3a7d6e", desc: "Trouver les mots, construire ses phrases, écrire à grandes touches.", outils: ["aide-ecrire", "dys"] },
-    { id: "comprendre", titre: "Comprendre", icone: "💡", couleur: "#e8a33d", desc: "Organiser ses idées en carte mentale, comprendre les nombres.", outils: ["carte-mentale", "dys"] },
-    { id: "reviser", titre: "Réviser", icone: "🔁", couleur: "#8a6bb0", desc: "S'entraîner et garder en mémoire : cartes de révision, parcours.", outils: ["flashcards", "carte-mentale", "metacognition"] }
+    { id: "lire", titre: "Lire", icone: "📖", couleur: "#3FB8AF", soft: "#DBF3F0", desc: "Lire plus facilement : voix haute, syllabes, confort d'affichage.", outils: ["dys"] },
+    { id: "ecrire", titre: "Écrire", icone: "✍️", couleur: "#5AB98E", soft: "#DDF1E7", desc: "Trouver les mots, construire ses phrases, écrire à grandes touches.", outils: ["aide-ecrire", "dys"] },
+    { id: "comprendre", titre: "Comprendre", icone: "💡", couleur: "#F0996B", soft: "#FFE7DA", desc: "Organiser ses idées en carte mentale, comprendre les nombres.", outils: ["carte-mentale", "dys"] },
+    { id: "reviser", titre: "Réviser", icone: "🔁", couleur: "#9B7AD8", soft: "#EEE6FB", desc: "S'entraîner et garder en mémoire : cartes de révision, parcours.", outils: ["flashcards", "carte-mentale", "metacognition"] }
   ];
   Boussole.actionsApprendre = ACTIONS;
 
@@ -37,7 +37,7 @@
     var grille = UI.el(".grille");
     ACTIONS.forEach(function (a) {
       grille.appendChild(UI.el("a.tuile", { href: "#/apprendre/" + a.id, style: "border-top:5px solid " + a.couleur }, [
-        UI.el("span.tuile-ic", { text: a.icone, "aria-hidden": "true" }),
+        UI.el("span.tuile-ic", { text: a.icone, "aria-hidden": "true", style: "background:" + a.soft }),
         UI.el("h3", { text: a.titre }),
         UI.el("p", { text: a.desc })
       ]));
