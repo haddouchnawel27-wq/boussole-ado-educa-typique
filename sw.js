@@ -2,7 +2,7 @@
    Stratégie « stale-while-revalidate » : on sert vite depuis le cache,
    puis on met à jour en arrière-plan, pour que les nouvelles versions
    s'appliquent d'elles-mêmes à l'ouverture suivante. */
-var CACHE = "boussole-v12";
+var CACHE = "boussole-v13";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
   "./assets/css/styles.css",
@@ -23,7 +23,9 @@ var FICHIERS = [
   "./assets/js/tools/personnalisation.js", "./assets/js/tools/accessibilite.js",
   "./assets/js/tools/flashcards.js", "./assets/js/tools/carte-mentale.js",
   "./assets/js/tools/aide-ecrire.js", "./assets/js/tools/apprendre.js",
-  "./assets/js/tools/metacognition.js"
+  "./assets/js/tools/metacognition.js",
+  "./assets/img/mascotte-neuroo.png", "./assets/img/mascotte-noury.png",
+  "./assets/img/mascotte-maman.png", "./assets/img/mascotte-educa.png"
 ];
 
 self.addEventListener("install", function (e) {

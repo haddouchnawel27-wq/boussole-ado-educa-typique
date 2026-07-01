@@ -140,10 +140,10 @@
     ));
     var grille = UI.el(".grille");
     var cartes = [
-      { id: "enfant", ic: "🧒", titre: "Un enfant", desc: "6-12 ans — outils visuels, pictogrammes, en douceur.", accent: "#3FB8AF", soft: "#DBF3F0" },
-      { id: "ado", ic: "🧑", titre: "Un·e ado", desc: "12-18 ans — émotions, pensées, autonomie.", accent: "#E07BAA", soft: "#FCE4EF" },
-      { id: "parent", ic: "👪", titre: "Un parent", desc: "Accompagner mon enfant : tous les outils enfants et ados.", accent: "#F0996B", soft: "#FFE7DA" },
-      { id: "pro", ic: "🧭", titre: "Moi, praticienne", desc: "Accès complet : tous les outils, fiches et suivi.", accent: "#9B7AD8", soft: "#EEE6FB" }
+      { id: "enfant", ic: "🧒", masc: "neuroo", titre: "Un enfant", desc: "6-12 ans — outils visuels, pictogrammes, en douceur.", accent: "#3FB8AF", soft: "#DBF3F0" },
+      { id: "ado", ic: "🧑", masc: "noury", titre: "Un·e ado", desc: "12-18 ans — émotions, pensées, autonomie.", accent: "#E07BAA", soft: "#FCE4EF" },
+      { id: "parent", ic: "👪", masc: "maman", titre: "Un parent", desc: "Accompagner mon enfant : tous les outils enfants et ados.", accent: "#F0996B", soft: "#FFE7DA" },
+      { id: "pro", ic: "🧭", masc: "educa", titre: "Moi, praticienne", desc: "Accès complet : tous les outils, fiches et suivi.", accent: "#9B7AD8", soft: "#EEE6FB" }
     ];
     cartes.forEach(function (c) {
       grille.appendChild(UI.el("a.tuile", { href: "#/accueil", style: "border:2px solid " + c.soft, onclick: function (e) {
@@ -152,7 +152,9 @@
         naviguer("accueil");
         routerVers();
       }}, [
-        UI.el("span.tuile-ic", { text: c.ic, "aria-hidden": "true", style: "background:" + c.soft }),
+        UI.el("span.tuile-ic.masc", { "aria-hidden": "true", style: "background:" + c.soft }, [
+          UI.el("img", { src: "assets/img/mascotte-" + c.masc + ".png", alt: "", loading: "lazy" })
+        ]),
         UI.el("h3", { text: c.titre }),
         UI.el("p", { text: c.desc })
       ]));
