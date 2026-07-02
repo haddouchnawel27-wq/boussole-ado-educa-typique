@@ -1,0 +1,292 @@
+<style>
+  :root{
+    --cream:#F1EADD; --cream-hi:#F7F1E6; --paper:#FBF7EF;
+    --cacao:#34261F; --cacao-soft:#5C4B3F;
+    --sage:#8A9789; --sage-deep:#6E7C6C;
+    --terra:#C88E7A; --terra-deep:#C07A61;
+    --gold:#C39A4B; --gold-soft:#C9B07A;
+    --line:#E3D8C6;
+    --serif:"Palatino Linotype",Palatino,"Iowan Old Style","Book Antiqua",Georgia,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  .wrap{background:var(--cream);color:var(--cacao);font-family:var(--sans);
+    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap img,.wrap svg{max-width:100%}
+  .shell{max-width:960px;margin:0 auto;padding:0 22px}
+  .eyebrow{font-family:var(--sans);text-transform:uppercase;letter-spacing:.24em;
+    font-size:11.5px;font-weight:600;color:var(--gold)}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;text-wrap:balance;color:var(--cacao)}
+  .lead{color:var(--cacao-soft)}
+  .note{font-size:12.5px;color:var(--terra-deep);background:#F6ECE4;border:1px dashed #E4BCA9;
+    border-radius:10px;padding:3px 10px;display:inline-block}
+
+  /* HERO */
+  .hero{background:
+      radial-gradient(120% 90% at 50% -10%, var(--cream-hi), var(--cream) 60%);
+    padding:64px 0 54px;text-align:center;border-bottom:1px solid var(--line)}
+  .mark{width:104px;height:104px;margin:0 auto 26px;display:block;filter:drop-shadow(0 8px 20px rgba(120,95,60,.18))}
+  .hero h1{font-size:clamp(38px,7vw,62px);letter-spacing:.5px;margin:.15em 0 .08em}
+  .hero .arabic{font-family:var(--serif);font-size:15px;color:var(--sage-deep);letter-spacing:.05em}
+  .hero .tagline{font-family:var(--serif);font-style:italic;font-size:clamp(20px,3.4vw,26px);
+    color:var(--terra-deep);margin:.5em 0 0}
+  .hero p.lead{max-width:56ch;margin:22px auto 0;font-size:18px}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+  .btn{display:inline-block;font-family:var(--sans);font-weight:600;font-size:15px;
+    padding:14px 28px;border-radius:999px;text-decoration:none;cursor:pointer;border:1px solid transparent;
+    transition:transform .15s ease,box-shadow .15s ease}
+  .btn.primary{background:linear-gradient(160deg,var(--terra),var(--terra-deep));color:#FBF7EF;
+    box-shadow:0 10px 22px rgba(192,122,97,.28)}
+  .btn.ghost{background:transparent;border-color:var(--sage);color:var(--sage-deep)}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:focus-visible{outline:3px solid var(--gold-soft);outline-offset:3px}
+
+  section{padding:56px 0}
+  .band{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{max-width:60ch}
+  .sec-head .eyebrow{display:block;margin-bottom:12px}
+  .sec-head h2{font-size:clamp(26px,4.4vw,36px)}
+  .sec-head p{color:var(--cacao-soft);margin-top:12px;max-width:58ch}
+
+  /* POUR TOI list */
+  .foryou{display:grid;gap:14px;margin-top:26px;max-width:64ch}
+  .foryou li{list-style:none;display:flex;gap:14px;align-items:flex-start;
+    font-size:17px;color:var(--cacao-soft)}
+  .foryou .tick{flex:0 0 auto;width:26px;height:26px;border-radius:50%;margin-top:1px;
+    background:radial-gradient(circle at 38% 34%,#E7D7A6,var(--gold));display:grid;place-items:center}
+  .foryou .tick svg{width:14px;height:14px}
+
+  /* TOOLS grid */
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:30px}
+  .tool{background:var(--cream-hi);border:1px solid var(--line);border-radius:18px;padding:22px 20px;
+    border-top-left-radius:22px;border-bottom-right-radius:22px}
+  .tool .ic{width:42px;height:46px;border-radius:20px 20px 6px 20px;display:grid;place-items:center;
+    margin-bottom:14px;box-shadow:0 6px 14px rgba(120,95,60,.14)}
+  .tool .ic svg{width:22px;height:22px;stroke:#FBF7EF;fill:none;stroke-width:1.7;
+    stroke-linecap:round;stroke-linejoin:round}
+  .tool h3{font-size:20px;margin-bottom:5px}
+  .tool p{font-size:14.5px;color:var(--cacao-soft);line-height:1.5}
+  .i-sage{background:linear-gradient(160deg,#AFBEA9,var(--sage))}
+  .i-terra{background:linear-gradient(160deg,#E2BEB2,var(--terra))}
+  .i-gold{background:linear-gradient(160deg,#DBC48E,var(--gold))}
+
+  /* WHY features */
+  .why{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px 30px;margin-top:30px}
+  .why div h3{font-size:19px;margin-bottom:6px;display:flex;align-items:center;gap:9px}
+  .why div h3::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--terra);flex:0 0 auto}
+  .why div p{color:var(--cacao-soft);font-size:15.5px}
+
+  /* STEPS */
+  .steps{counter-reset:s;display:grid;gap:18px;margin-top:28px;max-width:60ch}
+  .steps li{list-style:none;counter-increment:s;display:flex;gap:18px;align-items:flex-start}
+  .steps li::before{content:counter(s);flex:0 0 auto;width:38px;height:38px;border-radius:50%;
+    background:var(--sage);color:#FBF7EF;font-family:var(--serif);font-size:19px;display:grid;place-items:center}
+  .steps li h3{font-size:18px;margin-bottom:2px}
+  .steps li p{color:var(--cacao-soft);font-size:15px}
+
+  /* OFFER */
+  .offer{max-width:460px;margin:32px auto 0;background:linear-gradient(165deg,var(--cream-hi),#F3E9D6);
+    border:1px solid var(--gold-soft);border-radius:26px;padding:36px 30px;text-align:center;
+    box-shadow:0 18px 40px rgba(150,120,70,.16)}
+  .offer .eyebrow{color:var(--sage-deep)}
+  .offer .price{font-family:var(--serif);font-size:48px;color:var(--cacao);margin:8px 0 2px}
+  .offer .price small{font-size:16px;color:var(--cacao-soft)}
+  .offer ul{list-style:none;margin:18px 0 24px;display:grid;gap:9px;text-align:left}
+  .offer ul li{display:flex;gap:10px;font-size:15px;color:var(--cacao-soft)}
+  .offer ul li::before{content:"✦";color:var(--gold);flex:0 0 auto}
+
+  /* TESTIMONIALS placeholder */
+  .quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:26px}
+  .quote{background:var(--cream-hi);border:1px solid var(--line);border-radius:18px;padding:24px;
+    font-family:var(--serif);font-style:italic;font-size:18px;color:var(--cacao-soft)}
+  .quote span{display:block;margin-top:14px;font-style:normal;font-family:var(--sans);
+    font-size:13px;letter-spacing:.04em;color:var(--sage-deep)}
+
+  /* FAQ */
+  .faq{margin-top:26px;max-width:64ch}
+  .faq details{border-bottom:1px solid var(--line);padding:16px 0}
+  .faq summary{font-family:var(--serif);font-size:19px;cursor:pointer;list-style:none;
+    display:flex;justify-content:space-between;gap:16px;align-items:center;color:var(--cacao)}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";color:var(--terra-deep);font-size:24px;line-height:1}
+  .faq details[open] summary::after{content:"–"}
+  .faq p{color:var(--cacao-soft);margin-top:10px;font-size:15.5px}
+
+  .final{text-align:center;background:
+      radial-gradient(120% 120% at 50% 120%, #EFE4CF, var(--cream) 65%)}
+  .final h2{font-size:clamp(28px,5vw,42px)}
+  .final p.lead{max-width:52ch;margin:14px auto 0}
+
+  footer{background:linear-gradient(165deg,#6E7C6C,#57634F);color:#EDE7D6;text-align:center;padding:34px 22px;font-size:13.5px}
+  footer .brand{font-family:var(--serif);font-size:18px;color:#FBF7EF;letter-spacing:.06em}
+  footer a{color:var(--gold-soft);text-decoration:none}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="shell">
+      <svg class="mark" viewBox="86 70 340 340" role="img" aria-label="Al Mizan Al Qalb">
+        <defs>
+          <radialGradient id="g" cx="36%" cy="32%" r="72%">
+            <stop offset="0%" stop-color="#EBD892"/><stop offset="48%" stop-color="#D8BC64"/><stop offset="100%" stop-color="#C2963A"/>
+          </radialGradient>
+        </defs>
+        <g stroke="#B3A48F" stroke-width="7" stroke-linecap="round" fill="none"><line x1="150" y1="196" x2="362" y2="196"/></g>
+        <circle cx="150" cy="196" r="8" fill="#B3A48F"/><circle cx="362" cy="196" r="8" fill="#B3A48F"/>
+        <line x1="256" y1="196" x2="256" y2="252" stroke="#B3A48F" stroke-width="6" stroke-linecap="round"/>
+        <g stroke-linecap="round" fill="none" stroke-width="8">
+          <path d="M150 200 L112 244" stroke="#A7BBA0"/><path d="M150 200 L134 250" stroke="#8FA98D"/><path d="M150 200 L158 252" stroke="#7E9A7C"/><path d="M150 200 L184 244" stroke="#9BB295"/>
+          <path d="M362 200 L328 244" stroke="#D8A192"/><path d="M362 200 L354 252" stroke="#C98A79"/><path d="M362 200 L378 250" stroke="#BE7C6A"/><path d="M362 200 L400 244" stroke="#D2988A"/>
+        </g>
+        <circle cx="256" cy="150" r="42" fill="url(#g)"/><ellipse cx="244" cy="138" rx="15" ry="11" fill="#F1E3AC" opacity=".55"/>
+        <path d="M198 322 Q256 372 314 322" fill="none" stroke="#B3A48F" stroke-width="9" stroke-linecap="round"/>
+      </svg>
+      <span class="eyebrow">Jannat Al Qalb · le jardin du cœur</span>
+      <h1>Al Mizan Al Qalb</h1>
+      <div class="arabic">ميزان القلب</div>
+      <p class="tagline">Le juste équilibre du cœur.</p>
+      <p class="lead">Un compagnon doux du quotidien, pensé pour les femmes qui portent beaucoup.
+        Pour poser la charge mentale, revenir à soi et retrouver l'équilibre — à ton rythme, en toute intimité.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#offre">Accéder à l'application</a>
+        <a class="btn ghost" href="#dedans">Voir ce qu'elle contient</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- POUR TOI -->
+  <section>
+    <div class="shell sec-head">
+      <span class="eyebrow">Est-ce pour toi</span>
+      <h2>Si ta tête ne s'arrête jamais, cet espace est pour toi.</h2>
+      <ul class="foryou">
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#4A3A1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></span>Tu portes mille choses à la fois, et la charge mentale ne te lâche pas.</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#4A3A1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></span>Tu t'oublies dans le soin des autres, et tu passes toujours en dernier.</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#4A3A1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></span>Tu cherches un endroit à toi — sans jugement, sans performance, sans écran de fumée.</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#4A3A1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></span>Tu veux de la douceur qui a du sens, jusque dans ta vie intérieure et spirituelle.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CE QU'ELLE CONTIENT -->
+  <section class="band" id="dedans">
+    <div class="shell">
+      <div class="sec-head">
+        <span class="eyebrow">Ce qu'elle contient</span>
+        <h2>Des appuis simples, pour chaque état du jour.</h2>
+        <p>Rien à apprendre, rien à performer. Tu ouvres, tu prends ce dont tu as besoin, tu refermes.</p>
+      </div>
+      <div class="tools">
+        <div class="tool"><div class="ic i-gold"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="3.4"/></svg></div><h3>Ton check-in du jour</h3><p>Un point rapide et bienveillant sur ton état, jour après jour, pour voir venir plutôt que subir.</p></div>
+        <div class="tool"><div class="ic i-sage"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="2.4"/></svg></div><h3>Boussole intérieure</h3><p>Un bilan doux en 5 volets — corps, émotions, stress, lien, spirituel — pour savoir où tu en es.</p></div>
+        <div class="tool"><div class="ic i-gold"><svg viewBox="0 0 24 24"><path d="M4 6h13M4 12h9M4 18h6"/><circle cx="20" cy="6" r="1.6"/><circle cx="16" cy="12" r="1.6"/><circle cx="12" cy="18" r="1.6"/></svg></div><h3>Vider, trier, avancer</h3><p>Pose ta charge mentale, trie l'essentiel, et avance d'un seul petit pas à la fois.</p></div>
+        <div class="tool"><div class="ic i-terra"><svg viewBox="0 0 24 24"><path d="M12 21C7 17 4 13.5 4 9.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8 2.5C20 13.5 17 17 12 21z"/></svg></div><h3>Face au regard</h3><p>Apaiser la peur du jugement, avec le rituel des trois appuis pour te sentir à nouveau posée.</p></div>
+        <div class="tool"><div class="ic i-sage"><svg viewBox="0 0 24 24"><path d="M12 20s-6-1-6-8V6l6-2 6 2v6c0 7-6 8-6 8z"/></svg></div><h3>Zones de turbulences</h3><p>Des repères pour les moments sensibles : fatigue, prémenstruel, post-partum, ménopause, burn-out.</p></div>
+        <div class="tool"><div class="ic i-terra"><svg viewBox="0 0 24 24"><path d="M12 21c5-2 8-6 8-11a4 4 0 0 0-8-1 4 4 0 0 0-8 1c0 5 3 9 8 11z"/><path d="M12 9v12"/></svg></div><h3>Le jardin &amp; les pensées</h3><p>Cultiver ce qui fait du bien, déposer ce qui pèse — un espace à toi pour respirer.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POURQUOI DIFFÉRENTE -->
+  <section>
+    <div class="shell">
+      <div class="sec-head">
+        <span class="eyebrow">Pourquoi elle est différente</span>
+        <h2>Un espace vraiment à toi — et rien qu'à toi.</h2>
+      </div>
+      <div class="why">
+        <div><h3>100 % privé</h3><p>Tout reste sur ton téléphone. Aucune donnée collectée, rien envoyé, rien stocké ailleurs. Ce qui est à toi le reste.</p></div>
+        <div><h3>Douce, sans culpabilité</h3><p>Aucune injonction, aucun score de performance. Juste des appuis, à prendre quand tu en as besoin.</p></div>
+        <div><h3>Une spiritualité en filigrane</h3><p>Pour celles que cela nourrit : un souffle du cœur, discret et respectueux, jamais imposé.</p></div>
+        <div><h3>Partout avec toi</h3><p>Elle s'installe sur ton écran d'accueil comme une vraie application, et fonctionne même hors connexion.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMENT ÇA SE PASSE -->
+  <section class="band">
+    <div class="shell">
+      <div class="sec-head">
+        <span class="eyebrow">Comment ça se passe</span>
+        <h2>Trois pas, et elle est à toi.</h2>
+      </div>
+      <ol class="steps">
+        <li><div><h3>Tu reçois ton accès</h3><p>Après ta commande, tu reçois ton lien personnel et ton code d'accès.</p></div></li>
+        <li><div><h3>Tu ouvres et tu entres</h3><p>Un simple code, et l'application s'ouvre — sur iPhone, Android ou ordinateur.</p></div></li>
+        <li><div><h3>Tu l'installes sur ton écran d'accueil</h3><p>Elle devient une vraie appli, toujours à portée de main, même sans connexion.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- OFFRE -->
+  <section id="offre">
+    <div class="shell">
+      <div class="sec-head" style="text-align:center;margin:0 auto">
+        <span class="eyebrow" style="display:block">L'accès</span>
+        <h2>Offre-toi cet espace de douceur.</h2>
+      </div>
+      <div class="offre offer">
+        <span class="eyebrow">Al Mizan Al Qalb · accès complet</span>
+        <div class="price">[ ton prix ] <small>€</small></div>
+        <p class="note">À personnaliser dans Systeme.io</p>
+        <ul>
+          <li>Accès à toute l'application, à vie</li>
+          <li>Toutes les mises à jour incluses</li>
+          <li>100 % privé, aucune donnée collectée</li>
+          <li>Sur téléphone et ordinateur, même hors ligne</li>
+        </ul>
+        <a class="btn primary" href="#" style="width:100%">Je m'offre Al Mizan</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TÉMOIGNAGES -->
+  <section class="band">
+    <div class="shell">
+      <div class="sec-head">
+        <span class="eyebrow">Elles en parlent</span>
+        <h2>Les mots de celles qui l'utilisent.</h2>
+        <p class="note">Emplacement à remplir avec de vrais témoignages de tes clientes.</p>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">« … »<span>Prénom · ce que ça lui a apporté</span></blockquote>
+        <blockquote class="quote">« … »<span>Prénom · ce que ça lui a apporté</span></blockquote>
+        <blockquote class="quote">« … »<span>Prénom · ce que ça lui a apporté</span></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="shell">
+      <div class="sec-head"><span class="eyebrow">Questions fréquentes</span><h2>Ce que tu te demandes peut-être.</h2></div>
+      <div class="faq">
+        <details open><summary>Mes données sont-elles en sécurité ?</summary><p>Oui, totalement. Tout ce que tu écris reste sur ton appareil. Rien n'est envoyé, rien n'est stocké ailleurs, rien n'est collecté. Personne d'autre que toi n'y a accès.</p></details>
+        <details><summary>Sur quel téléphone fonctionne-t-elle ?</summary><p>Sur iPhone et Android, et aussi sur ordinateur. Tu peux l'ajouter à ton écran d'accueil pour l'ouvrir comme une vraie application.</p></details>
+        <details><summary>Faut-il une connexion internet ?</summary><p>Seulement pour la toute première ouverture. Ensuite, elle fonctionne même hors connexion.</p></details>
+        <details><summary>La dimension spirituelle est-elle imposée ?</summary><p>Jamais. Elle est douce, discrète et optionnelle — présente pour celles que cela nourrit, invisible pour les autres.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="final">
+    <div class="shell">
+      <span class="eyebrow">Reviens à toi</span>
+      <h2>Ta valeur ne se mesure pas à ton rendement.</h2>
+      <p class="lead">Offre-toi un espace doux, privé et fidèle, qui t'accompagne dans les jours légers comme dans les turbulences.</p>
+      <div class="cta-row"><a class="btn primary" href="#offre">Accéder à Al Mizan Al Qalb</a></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="brand">Jannat Al Qalb</div>
+    <p style="margin-top:8px">Al Mizan Al Qalb — le compagnon doux des femmes qui portent beaucoup.</p>
+    <p style="margin-top:10px;opacity:.75">© Jannat Al Qalb · <a href="#">Mentions légales</a> · <a href="#">Confidentialité</a> · <a href="#">CGV</a></p>
+  </footer>
+
+</div>
