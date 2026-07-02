@@ -1,60 +1,79 @@
 # 🧭 État des lieux — reprise de session
 
-_Mémo pour reprendre sans rien perdre. Dernière mise à jour : 1 juillet 2026._
+_Mémo pour reprendre sans rien perdre. Dernière mise à jour : 2 juillet 2026 (soir)._
 
 ---
 
-## 🎒 BOUSSOLE (app à la racine du dépôt)
+## ✅ CE QUI EST EN LIGNE (3 applis, même site GitHub Pages)
 
-**Statut : finalisée + refonte visuelle + mascottes.** En ligne :
-https://haddouchnawel27-wq.github.io/boussole-ado-educa-typique/
+Tout est publié sur **GitHub Pages**, dossier par dossier, sans que les applis se gênent :
 
-- Parcours par âge/profil (Enfant · Ado · Parent · Praticienne) + accueil par actions.
-- Boîte à outils dys (7 onglets), Aide à l'écriture, Cartes de révision, Carte mentale, Métacognition.
-- **Refonte visuelle** (charte Claude Design : crème, violet, pastels, Poppins/Nunito).
-- **Mascottes intégrées** (Neuroo, Noury, Maman, Educa) sur l'écran d'entrée + bandeau d'accueil.
-- Service worker fiable (stale-while-revalidate, cache v13).
+| Appli | Lien | État |
+|---|---|---|
+| 🧭 **Boussole** (ados) | `.../boussole-ado-educa-typique/` | en ligne, inchangée |
+| 🌸 **Al Mizan Al Qalb** (femmes) | `.../boussole-ado-educa-typique/al-mizan/` | **en ligne** ✅ |
+| 🌙 **Souffle & Lumière** (Voie Chifa) | `.../boussole-ado-educa-typique/souffle-lumiere/` | **en ligne** ✅ (validé par Nawel) |
 
-⚠️ **Tout ce travail récent (redesign + mascottes + SW) est sur la branche `claude/lucid-dirac-zt93h3` (PR #5, PAS encore fusionnée).** Pour le mettre en ligne : fusionner PR #5, comme les précédentes.
+Base URL complète : `https://haddouchnawel27-wq.github.io/boussole-ado-educa-typique/`
 
----
+### Al Mizan — ce qui a été fait aujourd'hui
+- Le séquenceur **« Vider, trier, avancer »** est ajouté comme **3ᵉ carte dans « Faire le point »** (à côté de « Mon mode d'organisation » et « Boussole intérieure »). Injecté dans le bundle + testé (navigation OK).
+- Fichiers outils co-déployés dans `al-mizan/` : `boussole-interieure.html`, `face-au-regard.html`, `sequenceur.html` (+ alias `mes-outils`, `s-organiser`, `organiser`).
+- **Icône d'appli** (balance dorée) : `al-mizan/apple-touch-icon.png`.
 
-## 🌸 AL MIZAN (dossier `al-mizan-design/`)
+### Souffle & Lumière
+- **Icône d'appli** (arche + lumière) intégrée : `souffle-lumiere/apple-touch-icon.png` + métadonnées « écran d'accueil » iOS dans le `<head>`.
 
-App de Nawel = **bundle React** (Claude Design). Dernier export : `AlMizan_1.html` (fourni le 1 juil).
-5 onglets : Aujourd'hui · Tendances · Jardin · Pensées · **Espace**.
+### ⚠️ Piège rencontré : le CACHE
+Le gros blocage du jour n'était **pas** technique : c'était le **cache du téléphone/navigateur** (Nawel voyait l'ancienne version). Solutions qui marchent : **navigation privée**, **Ctrl+Maj+R** sur ordi, ou ajouter **`?v=3`** au bout du lien. À redire si ça se reproduit.
 
-### Fichiers dans le dépôt (`al-mizan-design/`)
-- `boussole-interieure.html` — bilan bien-être 5 volets (corps/émotions/stress/lien/spirituel). ✅ prêt
-- `face-au-regard.html` — fiche peur du regard + rituel des 3 appuis. ✅ prêt
-- `almizan-sequenceur.html` — **LA version de Nawel** du séquenceur « S'organiser en douceur » (Jost + cacao/sauge/rose/or, glisser-déposer, dégradé doré). = **le séquenceur canonique** (déjà dans son app). ✅
-- `sequenceur.html` + `mes-outils.html` — mes 1res versions (charte terra/Nunito). **Obsolètes** (remplacées par la version de Nawel ci-dessus).
-- `index.html` (785 Ko) — ancienne version autonome (30 juin).
-
-### Ce qui a été livré
-- Version **autonome** de son app (React embarqué) + bouton flottant **contextuel** « Mes outils » (visible uniquement sur l'onglet Espace) → livrée en zip `AlMizan-complet.zip`.
-
-### ⛔ EN PAUSE — plan de reprise (option B, validé par Nawel)
-Le vrai point à régler : **l'onglet Espace est trop chargé** (tout empilé). Décision prise :
-1. **Nawel refait l'Espace en HALL à 4 cartes dans Claude Design** (chaque carte → sa sous-page) :
-   - **S'organiser** → « S'organiser en douceur » (le séquenceur).
-   - **Comprendre** → mini-articles (Tes émotions, 6 biais, Charge mentale, Hygiène de vie…) **+ Face au regard**.
-   - **Faire le point** → « Mon mode d'organisation » **+ Boussole intérieure**.
-   - **Zones de turbulences** → moments de vie (prémenstruel, fatigue, burn-out, ménopause, post-partum…).
-2. Elle m'envoie le **nouvel export complet**.
-3. **Moi (à la reprise)** : rendre l'export autonome (vendor React+ReactDOM+Babel, cf. `scratchpad/patch`), **brancher `boussole-interieure.html` et `face-au-regard.html`** dans les bonnes cartes du hall, packager un dossier + guider le déploiement Netlify. (Le bouton flottant « Mes outils » ne sera plus nécessaire une fois le hall en place.)
-
-### Doublons à éviter (déjà repérés)
-- Son app a déjà « S'organiser en douceur » (= séquenceur) et « Mon mode d'organisation » (audit) qui **fonctionnent**. → Ne PAS les doubler. Mes ajouts nets = **Boussole intérieure** + **Face au regard**.
+### ⚠️ Déploiement Pages : échecs transitoires
+Le workflow `.github/workflows/deploy-pages.yml` (déclenché sur push vers `claude/gracious-davinci-t0zife`) a **échoué 2 fois** sur une erreur GitHub transitoire (« Deployment failed, try again later »), puis **réussi à la 3ᵉ**.
+- **Impossible de relancer le workflow via l'intégration** (`rerun`/`workflow_dispatch` → 403).
+- **Pour relancer : pousser un petit commit sur la branche de travail → PR → merge dans `claude/gracious-davinci-t0zife`** (le push sur la branche par défaut redéclenche le déploiement).
 
 ---
 
-## 🌙 SOUFFLE & LUMIÈRE (`VoieChifa.html`, non commité)
-App **séparée** : gestion des émotions + méditation, offerte avec ses accompagnements / le parcours **Méthode Rahma « Sortir du Brouillard »**. Bundle React aussi. **À traiter à son tour**, plus tard.
+## 💼 COMMERCIALISATION (le chantier en cours)
+
+**Modèle retenu :** l'appli reste en ligne, **protégée par un code d'accès** ; la cliente paie → reçoit **lien + code**. (Pas de vente en « fichier à télécharger » : mauvaise expérience sur iPhone.)
+
+Nawel **inclut déjà** les applis dans ses accompagnements payants. Elle veut **AUSSI** les vendre **à l'unité** (produits digitaux).
+
+**Comptes Systeme.io existants :**
+- Boussole → Systeme.io **Educa Typique**
+- Souffle & Lumière → Systeme.io **Voie Chifa**
+- Al Mizan → **Jannat Al Qalb** (page de vente à créer → voir ci-dessous)
+
+### ✅ Fait aujourd'hui : page de vente Al Mizan Al Qalb
+Maquette complète, dans la charte de l'appli (crème/cacao/sauge/terracotta/or), **pied de page vert sauge**, symbole balance recentré.
+- **Artifact (rendu en ligne) :** https://claude.ai/code/artifact/dd9be335-e758-4557-88d5-d355245bd807
+- **Source :** `scratchpad/vente-al-mizan.html` (éphémère — récupérable via l'artifact avec WebFetch).
+- Sections : hero + « Est-ce pour toi » + « Ce qu'elle contient » (6 outils) + « Pourquoi différente » (dont 100 % privé) + « Comment ça se passe » + offre + témoignages + FAQ + CTA.
+- **3 blancs à remplir** (repérés par étiquette rose) : **le prix**, **les vrais témoignages**, **les liens légaux** du bas.
+- → À recopier dans Systeme.io Jannat Al Qalb.
+
+### 📌 À FAIRE DEMAIN (dans l'ordre)
+1. **Textes légaux** pour compléter le bas de la page de vente : **mentions légales + politique de confidentialité + CGV**.
+   - Infos à demander à Nawel : **statut** (auto/micro-entreprise) + **SIRET**, **nom de facturation** (nom + « Jannat Al Qalb »), **e-mail de contact**.
+   - Argument fort à mettre en avant : appli **100 % locale/privée**, aucune donnée collectée (RGPD au top).
+2. **Page « code d'accès »** devant Al Mizan (et à décliner pour les autres si voulu) : un seul code que Nawel contrôle, donné à ses acheteuses ET à ses clientes d'accompagnement. ⚠️ Honnêteté : un code côté web n'est pas inviolable — suffisant pour son univers de confiance ; changer le code de temps en temps.
+3. (Optionnel) **Nom de domaine propre** (ex. `jannatalqalb.fr`) au lieu de l'adresse github — plus pro. GitHub Pages le permet.
+4. Nawel : renseigner **prix** + **témoignages réels** dans la page de vente.
+
+### QR codes (déjà livrés à Nawel)
+Générés pour les 3 applis (`scratchpad/QR-AlMizan.png`, `QR-Souffle-Lumiere.png`, `QR-Boussole.png`). Pratiques pour cabinet/fiches/flyers.
 
 ---
 
 ## 🔧 Repères techniques
-- Dépôt : `haddouchnawel27-wq/boussole-ado-educa-typique` · défaut `claude/gracious-davinci-t0zife` · travail `claude/lucid-dirac-zt93h3`.
-- Mascottes Boussole détourées : `assets/img/mascotte-{neuroo,noury,maman,educa}.png` (redimensionnées ~360px).
-- Dé-bundling des exports Claude Design : patcher l'asset qui contient les URLs `unpkg` (React/ReactDOM/Babel) → data-URIs vendorées (`scratchpad/vendor/`), blanchir les SRI. Scripts dans `scratchpad/`.
+- Dépôt : `haddouchnawel27-wq/boussole-ado-educa-typique` · défaut = **`claude/gracious-davinci-t0zife`** (c'est CE qui est publié par Pages) · branche de travail = `claude/lucid-dirac-zt93h3`.
+- SW Boussole `sw.js` v14 : exclut `/al-mizan/` et `/souffle-lumiere/` du cache Boussole (chaque appli reste indépendante).
+- Icônes recréées **en vectoriel** (les images collées dans le chat ne sont pas récupérables comme fichiers) : sources `scratchpad/icon.svg` (balance) et `scratchpad/icon-souffle.svg` (arche) ; PNG déployés dans les dossiers d'appli.
+- Dé-bundling des exports Claude Design (React inline) : Al Mizan `al-mizan/index.html` est autonome (React vendorisé). Souffle `souffle-lumiere/index.html` charge encore React depuis unpkg (marche en ligne ; à rendre autonome plus tard si besoin).
+
+---
+
+## 🌙 À traiter plus tard
+- Rendre **Souffle & Lumière** totalement autonome (hors-ligne) comme Al Mizan, si souhaité.
+- Vérifier en détail tous les outils de Boussole (Nawel voulait le faire « plus tard »).
