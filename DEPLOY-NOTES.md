@@ -1,4 +1,4 @@
 Déploiement Pages
 
-Marqueur de redéploiement (relance après un échec transitoire de GitHub Pages).
-Dernière relance : 2026-07-02.
+Marqueur de redéploiement (relance après échec transitoire de GitHub Pages).
+Relance n°2 : 2026-07-02.
