@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vider, trier, avancer — Al Mizan Al Qalb</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,900;1,6..12,400&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F1EADD; --ivory:#FBF8F2; --sage:#8B9A80; --sage-deep:#74856A; --sage-soft:#E7EDE1;
+  --forest:#3E4A3A; --terra:#C07A61; --terra-deep:#A9664F; --terra-soft:#F3E3DC;
+  --gold:#C39A4B; --gold-deep:#B0863A; --gold-soft:#EFE6CE;
+  --ink:#4A443C; --ink-soft:#8A8275;
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Nunito Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{ font-family:var(--sans); color:var(--ink); background:var(--cream); line-height:1.6; -webkit-font-smoothing:antialiased; }
+.wrap{ max-width:640px; margin:0 auto; padding:20px 18px 64px; }
+button{ font-family:inherit; cursor:pointer; }
+.hidden{ display:none !important; }
+
+.subhead{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+.closeb{ background:none; border:none; color:var(--forest); font-weight:700; font-size:15px; padding:6px 2px; }
+.eyebrow{ font-weight:900; font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold-deep); }
+
+h1{ font-family:var(--serif); font-weight:700; color:var(--forest); font-size:40px; line-height:1.04; margin:2px 0 6px; }
+.subtitle{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:19px; color:var(--sage-deep); margin:0 0 18px; }
+
+/* Stepper */
+.steps-nav{ display:flex; justify-content:center; gap:22px; margin:4px 0 20px; }
+.stepdot{ text-align:center; background:none; border:none; padding:0; }
+.stepdot .c{ width:44px;height:44px;border-radius:50%; margin:0 auto 6px; display:flex;align-items:center;justify-content:center; font-family:var(--serif); font-size:19px; font-weight:600; color:var(--ink-soft); background:var(--ivory); border:1.5px solid #e3d7c4; transition:all .18s; }
+.stepdot .l{ font-weight:700; font-size:12px; color:var(--ink-soft); transition:color .18s; }
+.stepdot.on .c{ background:var(--terra); border-color:var(--terra); color:#fff; box-shadow:0 3px 10px rgba(192,122,97,.28); transform:translateY(-1px); }
+.stepdot.on .l{ color:var(--forest); }
+.stepdot.done .c{ background:var(--sage-soft); border-color:var(--sage); color:var(--sage-deep); }
+
+.tempslabel{ font-weight:900; font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold-deep); text-align:center; }
+.temps-h{ font-family:var(--serif); font-weight:700; color:var(--forest); font-size:29px; text-align:center; margin:2px 0 6px; }
+.temps-sub{ text-align:center; font-size:15px; color:var(--ink-soft); margin:0 auto 18px; max-width:440px; }
+
+.card{ background:var(--ivory); border-radius:20px; padding:18px 18px; margin:12px 0; box-shadow:0 2px 10px rgba(120,100,70,.05); }
+
+textarea{ width:100%; min-height:120px; padding:15px; border:1.5px solid #e3d7c4; border-radius:16px; font-family:var(--sans); font-size:15px; color:var(--ink); background:var(--ivory); resize:vertical; line-height:1.6; }
+textarea:focus{ outline:none; border-color:var(--sage); }
+input[type=text]{ width:100%; padding:13px 15px; border:1.5px solid #e3d7c4; border-radius:14px; font-family:var(--sans); font-size:15px; color:var(--ink); background:var(--ivory); }
+input[type=text]:focus{ outline:none; border-color:var(--sage); }
+.hint{ font-size:13px; color:var(--ink-soft); margin:8px 2px 0; }
+
+.btn{ display:inline-flex;align-items:center;justify-content:center;gap:8px; background:var(--terra);color:#fff;border:none;border-radius:16px;padding:14px 24px;font-weight:700;font-size:15px; box-shadow:0 3px 10px rgba(192,122,97,.25); transition:background .15s,transform .05s; }
+.btn:hover{ background:var(--terra-deep);} .btn:active{transform:translateY(1px);}
+.btn:disabled{ background:#d8ccbb; box-shadow:none; cursor:not-allowed; }
+.btn-sage{ background:var(--sage); box-shadow:0 3px 10px rgba(139,154,128,.25);} .btn-sage:hover{ background:var(--sage-deep);}
+.btn-ghost{ background:transparent; color:var(--sage-deep); border:1.5px solid #d8cdbb; box-shadow:none; }
+.btn-ghost:hover{ background:var(--sage-soft); }
+.btn-block{ width:100%; }
+.btn-row{ display:flex; gap:12px; margin-top:20px; }
+.btn-row .btn{ flex:1; }
+
+/* Cartes-tâches */
+.tache{ display:flex; align-items:center; gap:10px; background:var(--ivory); border:1.5px solid #eee1cf; border-radius:15px; padding:12px 14px; margin:8px 0; animation:rise .28s ease; }
+@keyframes rise{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
+.tache .txt{ flex:1; min-width:0; font-size:15px; }
+.tache .mini{ background:none; border:none; color:var(--ink-soft); font-size:18px; line-height:1; padding:4px 6px; border-radius:8px; }
+.tache .mini:hover{ background:var(--sage-soft); color:var(--terra-deep); }
+.move-row{ display:flex; gap:6px; flex-wrap:wrap; margin-top:2px; }
+.chip{ background:var(--cream); border:1.5px solid #e3d7c4; border-radius:99px; padding:6px 12px; font-size:12.5px; font-weight:700; color:var(--sage-deep); transition:all .12s; }
+.chip:hover{ border-color:var(--sage); }
+.chip.on{ background:var(--sage); border-color:var(--sage); color:#fff; }
+
+/* Colonnes de tri */
+.col{ margin:14px 0; }
+.col-head{ display:flex; align-items:baseline; justify-content:space-between; margin:0 2px 6px; }
+.col-name{ font-family:var(--serif); font-weight:700; font-size:21px; color:var(--forest); }
+.col-count{ font-size:12.5px; color:var(--ink-soft); font-weight:700; }
+.col.today .col-name{ color:var(--terra-deep); }
+.col-zone{ background:var(--sage-soft); border-radius:16px; padding:8px 10px; min-height:44px; }
+.col.today .col-zone{ background:var(--terra-soft); }
+.col.later .col-zone{ background:var(--gold-soft); }
+.empty-note{ text-align:center; color:var(--ink-soft); font-size:13px; font-style:italic; padding:8px 4px; }
+.gentle{ background:var(--gold-soft); border-radius:12px; padding:9px 13px; font-size:12.5px; color:var(--gold-deep); font-weight:700; margin:2px 0 0; text-align:center; }
+
+/* Séquencer une tâche */
+.pick-current{ font-family:var(--serif); font-weight:700; font-size:22px; color:var(--forest); margin:4px 0 2px; }
+.etape{ display:flex; align-items:center; gap:10px; background:var(--ivory); border:1.5px solid #eee1cf; border-radius:15px; padding:12px 14px; margin:8px 0; }
+.etape .n{ flex:0 0 auto; width:30px;height:30px;border-radius:50%; background:var(--sage-soft); color:var(--sage-deep); display:flex;align-items:center;justify-content:center; font-family:var(--serif); font-weight:700; font-size:16px; }
+.etape .et{ flex:1; font-size:15px; }
+.etape.faite{ background:var(--sage-soft); border-color:var(--sage); }
+.etape.faite .n{ background:var(--sage); color:#fff; }
+.etape.faite .et{ color:var(--sage-deep); text-decoration:line-through; }
+
+/* Mode « un pas à la fois » */
+.focus-card{ background:var(--ivory); border-radius:22px; padding:28px 22px; text-align:center; box-shadow:0 8px 26px rgba(120,100,70,.08); margin:10px 0; animation:pop .3s ease; }
+@keyframes pop{ 0%{transform:scale(.96);opacity:0;} 100%{transform:scale(1);opacity:1;} }
+.focus-card .lab{ font-weight:900; font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold-deep); margin-bottom:10px; }
+.focus-card .txt{ font-family:var(--serif); font-weight:600; font-size:26px; color:var(--forest); line-height:1.2; }
+.focus-progress{ font-size:13px; color:var(--ink-soft); margin-top:12px; }
+.encourage{ font-family:var(--serif); font-style:italic; font-size:17px; color:var(--sage-deep); text-align:center; min-height:24px; margin:6px 0; transition:opacity .2s; }
+
+/* Clôture */
+.done-hero{ text-align:center; padding:8px 0; }
+.done-hero .bism{ font-family:'Amiri',serif; color:var(--gold-deep); font-size:20px; margin-bottom:8px; }
+.done-hero h2{ font-family:var(--serif); font-weight:700; font-size:32px; color:var(--forest); margin:2px 0 6px; }
+.graine{ background:var(--gold-soft); border-radius:18px; padding:18px; text-align:center; margin:16px 0; }
+.graine .ar{ font-family:'Amiri',serif; font-size:19px; direction:rtl; line-height:1.9; color:var(--forest); margin-bottom:6px; }
+.graine .fr{ font-family:var(--serif); font-style:italic; font-size:16px; }
+.graine .ref{ font-size:11px; color:var(--ink-soft); margin-top:6px; }
+
+.goldrule{ background:var(--sage-soft); border-radius:16px; padding:13px 16px; font-size:13px; font-style:italic; color:var(--ink); margin-top:22px; text-align:center; font-family:var(--serif); }
+.privacy{ text-align:center; font-size:12px; color:var(--ink-soft); margin-top:16px; }
+.privacy::before{ content:"🔒 "; }
+.foot{ text-align:center; font-size:11px; color:var(--ink-soft); margin-top:26px; }
+@media(max-width:480px){ h1{font-size:32px;} .wrap{padding:18px 15px 54px;} .steps-nav{gap:14px;} }
+@media (prefers-reduced-motion: reduce){ *{animation:none!important;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="subhead">
+    <button class="closeb" onclick="history.length>1?history.back():location.href='index.html'">‹ Espace</button>
+    <span class="eyebrow">Outil · charge mentale</span>
+  </div>
+  <h1>Vider, trier, avancer</h1>
+  <p class="subtitle">Un pas à la fois — sans te surcharger</p>
+
+  <div class="steps-nav">
+    <button class="stepdot" id="dot0" onclick="goStep(0)"><div class="c">1</div><div class="l">Vider</div></button>
+    <button class="stepdot" id="dot1" onclick="goStep(1)"><div class="c">2</div><div class="l">Trier</div></button>
+    <button class="stepdot" id="dot2" onclick="goStep(2)"><div class="c">3</div><div class="l">Séquencer</div></button>
+  </div>
+
+  <!-- TEMPS 1 — VIDER SA TÊTE -->
+  <section id="t-vider">
+    <div class="tempslabel">Temps 1 · vider sa tête</div>
+    <div class="temps-h">Pose tout ce qui tourne</div>
+    <p class="temps-sub">Écris en vrac, sans trier ni juger. Une idée par ligne. On rangera après, ensemble.</p>
+    <div class="card">
+      <textarea id="dump" placeholder="Ce qui t'encombre, tel que ça vient…
+(une ligne = une chose)"></textarea>
+      <button class="btn btn-block" style="margin-top:12px" onclick="viderTete()">Déposer ✦</button>
+    </div>
+    <div id="inbox-preview"></div>
+    <div class="btn-row">
+      <span style="flex:1"></span>
+      <button class="btn" id="toTri" onclick="goStep(1)">Trier en douceur →</button>
+    </div>
+  </section>
+
+  <!-- TEMPS 2 — TRIER EN DOUCEUR -->
+  <section id="t-trier" class="hidden">
+    <div class="tempslabel">Temps 2 · trier en douceur</div>
+    <div class="temps-h">Range à ton rythme</div>
+    <p class="temps-sub">Pour chaque chose, choisis un moment. Rien n'est en retard : ce qui attend, c'est très bien.</p>
+    <div id="tri-zones"></div>
+    <div class="btn-row">
+      <button class="btn btn-sage" onclick="goStep(0)">← Vider encore</button>
+      <button class="btn" onclick="goStep(2)">Séquencer une tâche →</button>
+    </div>
+  </section>
+
+  <!-- TEMPS 3 — SÉQUENCER -->
+  <section id="t-sequencer" class="hidden">
+    <div class="tempslabel">Temps 3 · séquencer une tâche</div>
+    <div class="temps-h">Une seule, en tout petits pas</div>
+    <p class="temps-sub">Choisis UNE chose qui te semble lourde. On la découpe, et tu avances un pas à la fois.</p>
+    <div id="seq-body"></div>
+  </section>
+
+  <div class="goldrule">« Jamais de retard, jamais de culpabilité. Ce qui n'est pas fait attend, et c'est ok. »</div>
+  <p class="privacy">Rien n'est envoyé. Tout reste sur cet appareil.</p>
+  <p class="foot">Al Mizan Al Qalb · séquenceur de tâches · v1</p>
+
+</div>
+
+<script>
+const KEY='almizan_sequenceur';
+const COLS=[
+  {id:'aujourdhui', nom:"Aujourd'hui", cls:'today'},
+  {id:'semaine', nom:"Cette semaine", cls:'week'},
+  {id:'plustard', nom:"Plus tard", cls:'later'}
+];
+let data = load();
+let step=0, seqId=null, focusIdx=-1;
+
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {taches:[]}; }catch(e){ return {taches:[]}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(data)); }catch(e){} }
+function uid(){ return 't'+Date.now().toString(36)+Math.floor(Math.random()*1e5).toString(36); }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function byId(id){ return data.taches.find(t=>t.id===id); }
+
+/* ---- Navigation ---- */
+function goStep(n){
+  step=n;
+  ['t-vider','t-trier','t-sequencer'].forEach((s,i)=>document.getElementById(s).classList.toggle('hidden', i!==n));
+  [0,1,2].forEach(i=>{ const d=document.getElementById('dot'+i); d.classList.toggle('on', i===n); d.classList.toggle('done', i<n); });
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---- Temps 1 : vider ---- */
+function viderTete(){
+  const ta=document.getElementById('dump');
+  const lignes=ta.value.split('\n').map(s=>s.trim()).filter(Boolean);
+  lignes.forEach(t=> data.taches.push({ id:uid(), texte:t, col:null, etapes:[] }));
+  ta.value=''; save(); render();
+}
+function renderInbox(){
+  const box=document.getElementById('inbox-preview'); box.innerHTML='';
+  const inbox=data.taches.filter(t=>!t.col);
+  if(!inbox.length){ return; }
+  const h=document.createElement('div'); h.className='hint'; h.style.margin='14px 2px 4px';
+  h.textContent=inbox.length+' chose'+(inbox.length>1?'s':'')+' déposée'+(inbox.length>1?'s':'')+' — prêtes à trier.';
+  box.appendChild(h);
+  inbox.slice(-6).reverse().forEach(t=> box.appendChild(carteTache(t, false)));
+}
+
+/* ---- Carte tâche ---- */
+function carteTache(t, withMove){
+  const el=document.createElement('div'); el.className='tache';
+  const txt=document.createElement('div'); txt.className='txt'; txt.textContent=t.texte;
+  const del=document.createElement('button'); del.className='mini'; del.title='Retirer'; del.textContent='✕';
+  del.onclick=()=>{ data.taches=data.taches.filter(x=>x.id!==t.id); save(); render(); };
+  const left=document.createElement('div'); left.style.flex='1'; left.appendChild(txt);
+  if(withMove){
+    const mv=document.createElement('div'); mv.className='move-row';
+    COLS.forEach(c=>{
+      const b=document.createElement('button'); b.className='chip'+(t.col===c.id?' on':''); b.textContent=c.nom;
+      b.onclick=()=>{ t.col=(t.col===c.id?null:c.id); save(); render(); };
+      mv.appendChild(b);
+    });
+    left.appendChild(mv);
+  }
+  el.appendChild(left); el.appendChild(del);
+  return el;
+}
+
+/* ---- Temps 2 : trier ---- */
+function renderTri(){
+  const box=document.getElementById('tri-zones'); box.innerHTML='';
+  // À trier
+  const inbox=data.taches.filter(t=>!t.col);
+  const col0=document.createElement('div'); col0.className='col';
+  col0.innerHTML='<div class="col-head"><span class="col-name">À trier</span><span class="col-count">'+inbox.length+'</span></div>';
+  const z0=document.createElement('div'); z0.className='col-zone'; z0.style.background='var(--ivory)';
+  if(!inbox.length){ z0.innerHTML='<div class="empty-note">Tout est rangé. Belle chose.</div>'; }
+  else inbox.forEach(t=> z0.appendChild(carteTache(t,true)));
+  col0.appendChild(z0); box.appendChild(col0);
+  // Colonnes
+  COLS.forEach(c=>{
+    const items=data.taches.filter(t=>t.col===c.id);
+    const col=document.createElement('div'); col.className='col '+c.cls;
+    col.innerHTML='<div class="col-head"><span class="col-name">'+c.nom+'</span><span class="col-count">'+items.length+'</span></div>';
+    const z=document.createElement('div'); z.className='col-zone';
+    if(!items.length){ z.innerHTML='<div class="empty-note">—</div>'; }
+    else items.forEach(t=> z.appendChild(carteTache(t,true)));
+    col.appendChild(z);
+    if(c.id==='aujourdhui' && items.length>3){
+      const g=document.createElement('div'); g.className='gentle'; g.textContent='3 choses pour aujourd’hui, c’est déjà beaucoup. Le reste peut attendre.';
+      col.appendChild(g);
+    }
+    box.appendChild(col);
+  });
+}
+
+/* ---- Temps 3 : séquencer ---- */
+function renderSeq(){
+  const body=document.getElementById('seq-body'); body.innerHTML='';
+  if(!data.taches.length){
+    body.innerHTML='<div class="card"><p style="margin:0;text-align:center;color:var(--ink-soft)">Commence par <b>vider ta tête</b> — tu pourras ensuite séquencer une tâche.</p></div>';
+    return;
+  }
+  if(!byId(seqId)) seqId=null; focusIdx=-1;
+  // Choix de la tâche
+  const pick=document.createElement('div'); pick.className='card';
+  const lab=document.createElement('label'); lab.style.cssText='display:block;font-weight:700;font-size:13px;margin-bottom:7px'; lab.textContent='Quelle tâche veux-tu découper ?';
+  const sel=document.createElement('select'); sel.style.cssText='width:100%;padding:12px 14px;border:1.5px solid #e3d7c4;border-radius:14px;font-family:var(--sans);font-size:15px;color:var(--ink);background:var(--ivory)';
+  sel.innerHTML='<option value="">— Choisir —</option>'+data.taches.map(t=>'<option value="'+t.id+'"'+(t.id===seqId?' selected':'')+'>'+esc(t.texte)+'</option>').join('');
+  sel.onchange=()=>{ seqId=sel.value||null; renderSeq(); };
+  pick.appendChild(lab); pick.appendChild(sel);
+  body.appendChild(pick);
+
+  const t=byId(seqId);
+  if(!t){ return; }
+
+  // Étapes
+  const wrap=document.createElement('div');
+  wrap.innerHTML='<div class="pick-current">'+esc(t.texte)+'</div>';
+  const list=document.createElement('div');
+  t.etapes.forEach((e,i)=>{
+    const el=document.createElement('div'); el.className='etape'+(e.faite?' faite':'');
+    el.innerHTML='<span class="n">'+(i+1)+'</span><span class="et">'+esc(e.texte)+'</span>';
+    const del=document.createElement('button'); del.className='mini'; del.textContent='✕'; del.title='Retirer';
+    del.onclick=()=>{ t.etapes.splice(i,1); save(); renderSeq(); };
+    el.appendChild(del); list.appendChild(el);
+  });
+  wrap.appendChild(list);
+
+  // Ajouter une étape
+  const add=document.createElement('div'); add.style.cssText='display:flex;gap:8px;margin-top:10px';
+  const inp=document.createElement('input'); inp.type='text'; inp.placeholder='Une toute petite étape…';
+  const bAdd=document.createElement('button'); bAdd.className='btn'; bAdd.textContent='Ajouter';
+  const doAdd=()=>{ const v=inp.value.trim(); if(!v)return; t.etapes.push({texte:v,faite:false}); inp.value=''; save(); renderSeq(); inp.focus(); };
+  bAdd.onclick=doAdd; inp.onkeydown=(e)=>{ if(e.key==='Enter') doAdd(); };
+  add.appendChild(inp); add.appendChild(bAdd);
+  wrap.appendChild(add);
+
+  // Bouton « un pas à la fois »
+  if(t.etapes.length){
+    const b=document.createElement('button'); b.className='btn btn-block'; b.style.marginTop='16px';
+    b.textContent='Un pas à la fois →';
+    b.onclick=()=>{ focusIdx=t.etapes.findIndex(e=>!e.faite); if(focusIdx<0)focusIdx=0; renderFocus(t); };
+    wrap.appendChild(b);
+  }
+  body.appendChild(wrap);
+}
+
+const ENCOURAGE=['Un pas de plus.','Doucement, ça avance.','Voilà. Rien que celui-là.','Tu y es.','C’est déjà ça de posé.'];
+function renderFocus(t){
+  const body=document.getElementById('seq-body'); body.innerHTML='';
+  const total=t.etapes.length;
+  const restantes=t.etapes.filter(e=>!e.faite).length;
+  if(focusIdx>=total || restantes===0){
+    // Clôture
+    const done=document.createElement('div');
+    done.innerHTML='<div class="done-hero"><div class="bism">بِسْمِ اللَّهِ</div><h2>Tâche traversée.</h2>'+
+      '<p class="temps-sub">Tu l’as découpée et avancée, pas à pas. C’est comme ça qu’on allège une montagne.</p></div>'+
+      '<div class="graine"><div class="ar">وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَىٰ</div>'+
+      '<div class="fr">« À l’être humain n’appartient que le fruit de ses efforts. »</div><div class="ref">An-Najm, 39</div></div>';
+    const row=document.createElement('div'); row.className='btn-row';
+    const again=document.createElement('button'); again.className='btn btn-sage'; again.textContent='Revenir aux étapes';
+    again.onclick=()=>renderSeq();
+    const finish=document.createElement('button'); finish.className='btn'; finish.textContent='Terminer';
+    finish.onclick=()=>{ goStep(2); };
+    row.appendChild(again); row.appendChild(finish); done.appendChild(row);
+    body.appendChild(done);
+    return;
+  }
+  const e=t.etapes[focusIdx];
+  const card=document.createElement('div'); card.className='focus-card';
+  card.innerHTML='<div class="lab">Étape '+(focusIdx+1)+' sur '+total+'</div><div class="txt">'+esc(e.texte)+'</div><div class="focus-progress">'+restantes+' à faire · un seul pas compte</div>';
+  const enc=document.createElement('div'); enc.className='encourage';
+  const row=document.createElement('div'); row.className='btn-row';
+  const skip=document.createElement('button'); skip.className='btn btn-ghost'; skip.textContent='Plus tard';
+  skip.onclick=()=>{ focusIdx=nextUndone(t, focusIdx); renderFocus(t); };
+  const done=document.createElement('button'); done.className='btn'; done.textContent='C’est fait ✦';
+  done.onclick=()=>{ e.faite=true; save(); enc.textContent=ENCOURAGE[Math.floor(Math.random()*ENCOURAGE.length)]; setTimeout(()=>{ focusIdx=nextUndone(t, focusIdx); renderFocus(t); }, 620); };
+  row.appendChild(skip); row.appendChild(done);
+  const back=document.createElement('button'); back.className='btn btn-sage btn-block'; back.style.marginTop='10px'; back.textContent='← Toutes les étapes';
+  back.onclick=()=>renderSeq();
+  body.appendChild(card); body.appendChild(enc); body.appendChild(row); body.appendChild(back);
+}
+function nextUndone(t, from){
+  for(let i=from+1;i<t.etapes.length;i++) if(!t.etapes[i].faite) return i;
+  for(let i=0;i<t.etapes.length;i++) if(!t.etapes[i].faite) return i;
+  return t.etapes.length;
+}
+
+/* ---- Rendu global ---- */
+function render(){
+  renderInbox();
+  renderTri();
+  if(step===2) renderSeq();
+}
+goStep(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Face au regard — Al Mizan Al Qalb</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,900;1,6..12,400&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F1EADD; --ivory:#FBF8F2; --sage:#8B9A80; --sage-deep:#74856A; --sage-soft:#E7EDE1;
+  --forest:#3E4A3A; --terra:#C07A61; --terra-deep:#A9664F; --terra-soft:#F3E3DC;
+  --gold:#C39A4B; --gold-deep:#B0863A; --gold-soft:#EFE6CE;
+  --ink:#4A443C; --ink-soft:#8A8275;
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Nunito Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{ font-family:var(--sans); color:var(--ink); background:var(--cream); line-height:1.6; -webkit-font-smoothing:antialiased; }
+.wrap{ max-width:640px; margin:0 auto; padding:20px 18px 60px; }
+button{ font-family:inherit; cursor:pointer; }
+.hidden{ display:none !important; }
+
+.subhead{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+.closeb{ background:none; border:none; color:var(--forest); font-weight:700; font-size:15px; padding:6px 2px; }
+.eyebrow{ font-weight:900; font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold-deep); }
+
+.emoji-top{ font-size:34px; margin:6px 0 6px; }
+h1{ font-family:var(--serif); font-weight:700; color:var(--forest); font-size:40px; line-height:1.04; margin:2px 0 10px; }
+.lead{ font-size:15.5px; margin:0 0 8px; }
+.section-h{ font-family:var(--serif); font-weight:600; color:var(--sage-deep); font-size:23px; margin:24px 0 10px; }
+
+.card{ background:var(--ivory); border-radius:20px; padding:6px 20px; margin:0 0 8px; box-shadow:0 2px 10px rgba(120,100,70,.05); }
+.blist{ list-style:none; margin:0; padding:0; }
+.blist li{ display:flex; gap:12px; align-items:flex-start; padding:15px 0; border-top:1px solid #efe6d6; font-size:15px; }
+.blist li:first-child{ border-top:none; }
+.blist li::before{ content:""; flex:0 0 auto; width:7px;height:7px;border-radius:50%; background:var(--gold); margin-top:8px; }
+
+.cta{ display:flex; width:100%; align-items:center; justify-content:center; gap:8px; background:var(--terra); color:#fff; border:none; border-radius:18px; padding:17px 22px; font-weight:700; font-size:15.5px; margin:18px 0 6px; box-shadow:0 3px 12px rgba(192,122,97,.28); transition:background .15s,transform .05s; text-align:center; }
+.cta:hover{ background:var(--terra-deep); } .cta:active{ transform:translateY(1px); }
+.ghost{ display:block; width:100%; background:transparent; color:var(--sage-deep); border:1.5px solid #d8cdbb; border-radius:16px; padding:15px; font-weight:700; font-size:15px; margin-top:12px; }
+.ghost:hover{ background:var(--sage-soft); }
+
+.repere{ background:var(--gold-soft); border-radius:16px; padding:15px 18px; margin:18px 0 4px; }
+.repere .lab{ font-weight:900; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gold-deep); margin-bottom:5px; }
+.repere p{ margin:0; font-family:var(--serif); font-style:italic; font-size:16.5px; color:var(--ink); }
+
+.safe{ background:var(--sage-soft); border-radius:16px; padding:14px 18px; margin:16px 0 0; }
+.safe p{ margin:0; font-family:var(--serif); font-style:italic; font-size:15px; color:var(--ink); }
+.safe b{ color:var(--terra-deep); font-style:normal; }
+
+/* ===== RITUEL ===== */
+.steps-nav{ display:flex; justify-content:center; gap:26px; margin:6px 0 22px; }
+.stepdot{ text-align:center; }
+.stepdot .c{ width:44px;height:44px;border-radius:50%; margin:0 auto 6px; display:flex;align-items:center;justify-content:center; font-family:var(--serif); font-size:18px; font-weight:600; color:var(--ink-soft); background:var(--ivory); border:1.5px solid #e3d7c4; }
+.stepdot .l{ font-weight:700; font-size:12px; color:var(--ink-soft); }
+.stepdot.on .c{ background:var(--gold); border-color:var(--gold); color:#fff; box-shadow:0 3px 8px rgba(195,154,75,.3); }
+.stepdot.on .l{ color:var(--forest); }
+.stepdot.done .c{ background:var(--sage-soft); border-color:var(--sage); color:var(--sage-deep); }
+
+.tempslabel{ font-weight:900; font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold-deep); text-align:center; }
+.temps-h{ font-family:var(--serif); font-weight:700; color:var(--forest); font-size:30px; text-align:center; margin:2px 0 6px; }
+.temps-sub{ text-align:center; font-size:15px; color:var(--ink-soft); margin:0 auto 18px; max-width:420px; }
+
+/* Orbe respiration */
+.orb-wrap{ display:flex; flex-direction:column; align-items:center; margin:10px 0 6px; }
+.orb-ring{ width:200px;height:200px; display:flex;align-items:center;justify-content:center; }
+.orb{ width:110px;height:110px;border-radius:50%;
+  background:radial-gradient(circle at 38% 34%, #a9b79f, var(--sage) 62%, var(--sage-deep));
+  box-shadow:0 0 0 18px rgba(139,154,128,.10), 0 0 0 40px rgba(139,154,128,.06);
+  animation:breathe 12s ease-in-out infinite; }
+@keyframes breathe{ 0%{transform:scale(.62)} 33%{transform:scale(1)} 66%{transform:scale(1)} 100%{transform:scale(.62)} }
+.orb-phase{ font-family:var(--serif); font-size:26px; color:var(--forest); margin-top:6px; min-height:34px; }
+.orb-count{ font-size:13px; color:var(--ink-soft); margin-top:2px; }
+@media (prefers-reduced-motion: reduce){ .orb{ animation:none; transform:scale(.85); } }
+
+textarea{ width:100%; min-height:120px; padding:15px; border:1.5px solid #e3d7c4; border-radius:16px; font-family:var(--sans); font-size:15px; color:var(--ink); background:var(--ivory); resize:vertical; line-height:1.55; }
+textarea:focus{ outline:none; border-color:var(--sage); }
+.hint{ font-size:13px; color:var(--ink-soft); margin:8px 2px 0; }
+
+.anchor-grid{ display:flex; flex-direction:column; gap:10px; margin:4px 0 10px; }
+.anchor{ text-align:left; background:var(--ivory); border:1.5px solid #e3d7c4; border-radius:16px; padding:14px 16px; transition:all .12s; }
+.anchor:hover{ border-color:var(--sage); }
+.anchor.on{ border-color:var(--sage); background:var(--sage-soft); box-shadow:0 3px 8px rgba(139,154,128,.18); }
+.anchor .ar{ font-family:'Amiri',serif; font-size:18px; direction:rtl; color:var(--forest); }
+.anchor .tr{ font-family:var(--serif); font-style:italic; font-size:15px; color:var(--sage-deep); margin-top:2px; }
+.anchor .fr{ font-size:13px; color:var(--ink-soft); margin-top:2px; }
+
+.btn{ display:inline-flex;align-items:center;justify-content:center;gap:8px; background:var(--terra);color:#fff;border:none;border-radius:16px;padding:15px 26px;font-weight:700;font-size:15px; box-shadow:0 3px 10px rgba(192,122,97,.25); transition:background .15s,transform .05s; }
+.btn:hover{ background:var(--terra-deep);} .btn:active{transform:translateY(1px);}
+.btn-sage{ background:var(--sage); box-shadow:0 3px 10px rgba(139,154,128,.25);} .btn-sage:hover{ background:var(--sage-deep);}
+.btn-block{ width:100%; }
+.btn-row{ display:flex; gap:12px; margin-top:22px; }
+.btn-row .btn{ flex:1; }
+.skip{ display:block; text-align:center; background:none;border:none; color:var(--ink-soft); font-weight:700; font-size:13px; margin:12px auto 0; text-decoration:underline; }
+
+/* Clôture */
+.close-hero{ text-align:center; }
+.close-hero .bism{ font-family:'Amiri',serif; color:var(--gold-deep); font-size:20px; margin-bottom:8px; }
+.close-hero h2{ font-family:var(--serif); font-weight:700; font-size:34px; color:var(--forest); margin:2px 0 6px; }
+.echo{ background:var(--ivory); border-radius:18px; padding:16px 18px; margin:14px 0; box-shadow:0 2px 10px rgba(120,100,70,.05); }
+.echo .lab{ font-weight:900; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gold-deep); margin-bottom:5px; }
+.echo p{ margin:0; font-family:var(--serif); font-style:italic; font-size:17px; color:var(--ink); }
+.echo .ar{ font-family:'Amiri',serif; font-style:normal; font-size:19px; direction:rtl; color:var(--forest); text-align:center; }
+.graine{ background:var(--gold-soft); border-radius:18px; padding:18px; text-align:center; margin:14px 0; }
+.graine .ar{ font-family:'Amiri',serif; font-size:19px; direction:rtl; line-height:1.9; color:var(--forest); margin-bottom:6px; }
+.graine .fr{ font-family:var(--serif); font-style:italic; font-size:16px; }
+.graine .ref{ font-size:11px; color:var(--ink-soft); margin-top:6px; }
+.foot{ text-align:center; font-size:11px; color:var(--ink-soft); margin-top:26px; }
+.privacy{ text-align:center; font-size:12px; color:var(--ink-soft); margin-top:14px; }
+.privacy::before{ content:"🔒 "; }
+@media(max-width:480px){ h1{font-size:33px;} .wrap{padding:18px 15px 52px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ========== FICHE : FACE AU REGARD ========== -->
+  <section id="view-concept">
+    <div class="subhead">
+      <button class="closeb" onclick="history.length>1?history.back():location.href='index.html'">‹ Espace</button>
+      <span class="eyebrow">Comprendre</span>
+    </div>
+    <div class="emoji-top">🌸</div>
+    <h1>Face au regard</h1>
+    <p class="lead">La peur du regard, c'est cette tension qui monte à l'idée d'être vue, jugée, évaluée. C'est humain, et très fréquent. Elle ne dit rien de ta valeur — elle dit seulement que ce moment compte pour toi.</p>
+
+    <div class="section-h">Ce que tu ressens</div>
+    <div class="card"><ul class="blist">
+      <li>l'anticipation qui monte, parfois bien avant le moment</li>
+      <li>le cœur qui se serre sous le regard des autres</li>
+      <li>la peur de « ne pas être à la hauteur »</li>
+      <li>des scénarios qui tournent en boucle</li>
+    </ul></div>
+
+    <div class="section-h">Ce qui l'entretient</div>
+    <div class="card"><ul class="blist">
+      <li>confondre une <b>anticipation</b> avec un fait déjà arrivé</li>
+      <li>croire <b>deviner</b> ce que l'autre pense de toi</li>
+      <li>faire du regard des autres le <b>juge de ta valeur</b></li>
+    </ul></div>
+    <p class="hint" style="margin-top:8px">↳ Ce sont trois de tes 6 biais : prédiction, lecture de pensée, personnalisation.</p>
+
+    <div class="section-h">Ce qui aide</div>
+    <div class="card"><ul class="blist">
+      <li>distinguer le <b>fait</b> de l'histoire que tu te racontes</li>
+      <li>te redire une pensée plus <b>juste</b>, plus douce</li>
+      <li>déplacer l'<b>appui</b> de ton cœur — vers ce qui est stable en toi</li>
+      <li>un petit <b>rituel</b> avant les moments qui te tendent</li>
+    </ul></div>
+
+    <button class="cta" onclick="openRituel()">Faire le rituel des 3 appuis →</button>
+
+    <div class="repere">
+      <div class="lab">Repère spirituel</div>
+      <p>Le regard qui compte n'est pas celui des créatures. Quand le cœur trouve son appui dans le souvenir d'Allāh, la peur perd sa prise.</p>
+    </div>
+
+    <div class="safe">
+      <p>Si l'anxiété t'envahit durablement ou t'empêche de vivre, un accompagnement (psychologue) aide à traverser. Le mode « Respirer » est là à tout moment. <b>Urgence : 15 ou 3114.</b></p>
+    </div>
+  </section>
+
+  <!-- ========== OUTIL : RITUEL DES 3 APPUIS ========== -->
+  <section id="view-rituel" class="hidden">
+    <div class="subhead">
+      <button class="closeb" onclick="backToConcept()">‹ Fermer</button>
+      <span class="eyebrow">Outil · en 3 appuis</span>
+    </div>
+    <h1 style="font-size:34px;margin-bottom:6px">Le rituel des 3 appuis</h1>
+
+    <div class="steps-nav">
+      <div class="stepdot" id="dot0"><div class="c">1</div><div class="l">Corps</div></div>
+      <div class="stepdot" id="dot1"><div class="c">2</div><div class="l">Esprit</div></div>
+      <div class="stepdot" id="dot2"><div class="c">3</div><div class="l">Cœur</div></div>
+    </div>
+
+    <!-- Temps 1 : Corps -->
+    <div id="temps-0">
+      <div class="tempslabel">Temps 1 · le corps</div>
+      <div class="temps-h">Respire, 4-4-4</div>
+      <p class="temps-sub">Suis l'orbe, à ton rythme. Le corps s'apaise le premier.</p>
+      <div class="orb-wrap">
+        <div class="orb-ring"><div class="orb"></div></div>
+        <div class="orb-phase" id="orbPhase">Inspire…</div>
+        <div class="orb-count" id="orbCount">cycle 1</div>
+      </div>
+      <button class="btn btn-block" style="margin-top:16px" onclick="goStep(1)">L'esprit maintenant →</button>
+    </div>
+
+    <!-- Temps 2 : Esprit -->
+    <div id="temps-1" class="hidden">
+      <div class="tempslabel">Temps 2 · l'esprit</div>
+      <div class="temps-h">Une pensée plus juste</div>
+      <p class="temps-sub">À la place de « je vais être jugée », quelle pensée plus juste veux-tu te redire ?</p>
+      <textarea id="reformulation" placeholder="Écris-la ici, avec tes mots…"></textarea>
+      <p class="hint">Ex. : « J'ai le droit d'être imparfaite. Ce moment ne décide pas de ma valeur. »</p>
+      <div class="btn-row">
+        <button class="btn btn-sage" onclick="goStep(0)">← Le corps</button>
+        <button class="btn" onclick="goStep(2)">Le cœur →</button>
+      </div>
+    </div>
+
+    <!-- Temps 3 : Cœur -->
+    <div id="temps-2" class="hidden">
+      <div class="tempslabel">Temps 3 · le cœur</div>
+      <div class="temps-h">Pose ton appui</div>
+      <p class="temps-sub">Un mot pour ton cœur, avant d'entrer. Choisis celui qui te parle.</p>
+      <div class="anchor-grid" id="anchors">
+        <button class="anchor" data-v="bismillah" onclick="pickAnchor(this)">
+          <div class="ar">بِسْمِ اللَّهِ</div><div class="tr">Bismillāh</div><div class="fr">Au nom d'Allāh — j'entre avec Lui.</div>
+        </button>
+        <button class="anchor" data-v="hasbunallah" onclick="pickAnchor(this)">
+          <div class="ar">حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ</div><div class="tr">Ḥasbunā-Llāh wa ni'ma-l-wakīl</div><div class="fr">Allāh nous suffit, et quel excellent garant. (Coran 3:173)</div>
+        </button>
+        <button class="anchor" data-v="appui" onclick="pickAnchor(this)">
+          <div class="tr">Je pose mon appui en Allāh.</div><div class="fr">Une phrase simple, à toi.</div>
+        </button>
+      </div>
+      <textarea id="anchorFree" placeholder="…ou écris ton propre mot d'ancrage" style="min-height:64px"></textarea>
+      <div class="btn-row">
+        <button class="btn btn-sage" onclick="goStep(1)">← L'esprit</button>
+        <button class="btn" onclick="finishRituel()">Je suis prête ✦</button>
+      </div>
+    </div>
+
+    <!-- Clôture -->
+    <div id="temps-close" class="hidden">
+      <div class="close-hero">
+        <div class="bism">بِسْمِ اللَّهِ</div>
+        <h2>Tu peux entrer.</h2>
+        <p class="temps-sub">Le corps apaisé, l'esprit plus juste, le cœur posé. La sakīna avec toi.</p>
+      </div>
+      <div class="echo" id="echoPensee">
+        <div class="lab">Ta pensée plus juste</div>
+        <p id="echoText"></p>
+      </div>
+      <div class="echo" id="echoAnchor" style="text-align:center">
+        <div class="lab">Ton appui</div>
+        <p id="echoAnchorText"></p>
+      </div>
+      <div class="graine">
+        <div class="ar">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
+        <div class="fr">« C'est dans le souvenir d'Allāh que les cœurs s'apaisent. »</div>
+        <div class="ref">Ar-Ra'd, 28</div>
+      </div>
+      <button class="btn btn-block" onclick="backToConcept()">Terminer</button>
+      <button class="skip" onclick="restartRituel()">Refaire le rituel</button>
+      <p class="privacy">Rien n'est enregistré. Ce moment reste à toi.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* Navigation fiche <-> rituel */
+function openRituel(){ document.getElementById('view-concept').classList.add('hidden'); document.getElementById('view-rituel').classList.remove('hidden'); goStep(0); window.scrollTo({top:0,behavior:'smooth'}); }
+function backToConcept(){ stopBreath(); document.getElementById('view-rituel').classList.add('hidden'); document.getElementById('view-concept').classList.remove('hidden'); window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* Étapes du rituel */
+let anchorChoice=null;
+function goStep(n){
+  [0,1,2].forEach(i=>{ document.getElementById('temps-'+i).classList.toggle('hidden', i!==n); });
+  document.getElementById('temps-close').classList.add('hidden');
+  [0,1,2].forEach(i=>{ const d=document.getElementById('dot'+i); d.classList.toggle('on', i===n); d.classList.toggle('done', i<n); });
+  if(n===0) startBreath(); else stopBreath();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* Respiration 4-4-4 */
+let breathTimer=null, phaseIdx=0, cycle=1;
+const PHASES=['Inspire…','Retiens…','Expire…'];
+function startBreath(){
+  stopBreath(); phaseIdx=0; cycle=1;
+  document.getElementById('orbPhase').textContent=PHASES[0];
+  document.getElementById('orbCount').textContent='cycle 1';
+  breathTimer=setInterval(()=>{
+    phaseIdx=(phaseIdx+1)%3;
+    if(phaseIdx===0){ cycle++; document.getElementById('orbCount').textContent='cycle '+cycle; }
+    document.getElementById('orbPhase').textContent=PHASES[phaseIdx];
+  },4000);
+}
+function stopBreath(){ if(breathTimer){ clearInterval(breathTimer); breathTimer=null; } }
+
+/* Ancrage */
+function pickAnchor(el){
+  document.querySelectorAll('.anchor').forEach(a=>a.classList.remove('on'));
+  el.classList.add('on'); anchorChoice=el;
+  document.getElementById('anchorFree').value='';
+}
+
+function finishRituel(){
+  const ref=document.getElementById('reformulation').value.trim();
+  document.getElementById('echoText').textContent = ref || "« Ce moment ne décide pas de ma valeur. »";
+  // ancre : texte libre prioritaire, sinon choix
+  const free=document.getElementById('anchorFree').value.trim();
+  const echoA=document.getElementById('echoAnchorText');
+  if(free){ echoA.textContent=free; }
+  else if(anchorChoice){
+    const ar=anchorChoice.querySelector('.ar'); const tr=anchorChoice.querySelector('.tr');
+    echoA.innerHTML = (ar?'<span class="ar">'+ar.textContent+'</span><br>':'') + (tr?tr.textContent:'');
+  } else { echoA.textContent="Je pose mon appui en Allāh."; }
+  [0,1,2].forEach(i=>document.getElementById('temps-'+i).classList.add('hidden'));
+  document.getElementById('temps-close').classList.remove('hidden');
+  [0,1,2].forEach(i=>{ const d=document.getElementById('dot'+i); d.classList.remove('on'); d.classList.add('done'); });
+  stopBreath(); window.scrollTo({top:0,behavior:'smooth'});
+}
+function restartRituel(){ document.getElementById('reformulation').value=''; document.getElementById('anchorFree').value=''; anchorChoice=null; document.querySelectorAll('.anchor').forEach(a=>a.classList.remove('on')); goStep(0); }
+</script>
+</body>
+</html>
