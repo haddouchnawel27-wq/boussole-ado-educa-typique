@@ -1,0 +1,233 @@
+<style>
+  :root{
+    --sage:#8A9789; --sage-deep:#57634F; --sage-soft:#AEBCA7;
+    --cream:#EFE8DA; --cream-hi:#F6F1E6; --paper:#F9F5EC;
+    --ink:#3B4238; --ink-soft:#5C6455;
+    --gold:#C39A4B; --gold-soft:#DBC48E;
+    --line:#DED4C2;
+    --serif:"Palatino Linotype",Palatino,"Iowan Old Style","Book Antiqua",Georgia,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  .wrap{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+  .shell{max-width:940px;margin:0 auto;padding:0 22px}
+  .eyebrow{text-transform:uppercase;letter-spacing:.24em;font-size:11.5px;font-weight:600;color:var(--gold)}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.14;text-wrap:balance;color:var(--ink)}
+  .lead{color:var(--ink-soft)}
+  .note{font-size:12.5px;color:#9A7A2E;background:#F3ECD8;border:1px dashed #D9C58C;border-radius:10px;padding:3px 10px;display:inline-block}
+
+  .hero{background:linear-gradient(170deg,#9AA894,#7C8A76 78%);color:#F4EFE2;padding:64px 0 56px;text-align:center}
+  .hero .mark{width:140px;height:140px;margin:0 auto 22px;display:block;filter:drop-shadow(0 10px 24px rgba(30,40,25,.3))}
+  .hero .eyebrow{color:var(--gold-soft)}
+  .hero h1{color:#FBF7EC;font-size:clamp(40px,7.4vw,66px);letter-spacing:.5px;margin:.12em 0 .06em}
+  .hero .arabic{font-family:var(--serif);font-size:15px;color:#E7E0CE;letter-spacing:.05em}
+  .hero .tagline{font-family:var(--serif);font-style:italic;font-size:clamp(20px,3.4vw,27px);color:#F1E6C6;margin:.5em 0 0}
+  .hero p.lead{color:#EFEADC;max-width:55ch;margin:20px auto 0;font-size:18px}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+  .btn{display:inline-block;font-weight:600;font-size:15px;padding:14px 28px;border-radius:999px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:transform .15s ease}
+  .btn.primary{background:linear-gradient(160deg,var(--gold-soft),var(--gold));color:#3B3620;box-shadow:0 10px 22px rgba(120,95,40,.3)}
+  .btn.ghost{background:transparent;border-color:#EFE6CE;color:#F4EFE2}
+  .btn.on-cream{background:linear-gradient(160deg,var(--sage),var(--sage-deep));color:#F6F1E6;box-shadow:0 10px 22px rgba(70,85,60,.25)}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+  section{padding:54px 0}
+  .band{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{max-width:60ch}
+  .sec-head .eyebrow{display:block;margin-bottom:10px}
+  .sec-head h2{font-size:clamp(26px,4.4vw,36px)}
+  .sec-head p{color:var(--ink-soft);margin-top:12px;max-width:58ch}
+
+  .foryou{display:grid;gap:14px;margin-top:24px;max-width:64ch}
+  .foryou li{list-style:none;display:flex;gap:14px;align-items:flex-start;font-size:17px;color:var(--ink-soft)}
+  .foryou .tick{flex:0 0 auto;width:26px;height:26px;border-radius:50%;margin-top:1px;background:radial-gradient(circle at 38% 34%,var(--gold-soft),var(--gold));display:grid;place-items:center}
+  .foryou .tick svg{width:14px;height:14px}
+
+  .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:28px}
+  .tool{background:var(--cream-hi);border:1px solid var(--line);border-radius:18px;padding:22px 20px}
+  .tool .ic{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;margin-bottom:13px;background:linear-gradient(160deg,var(--sage-soft),var(--sage))}
+  .tool .ic svg{width:23px;height:23px;stroke:#FBF7EC;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .tool h3{font-size:20px;margin-bottom:5px}
+  .tool p{font-size:14.5px;color:var(--ink-soft);line-height:1.5}
+
+  .why{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px 30px;margin-top:28px}
+  .why div h3{font-size:18px;margin-bottom:6px;display:flex;align-items:center;gap:9px}
+  .why div h3::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--gold);flex:0 0 auto}
+  .why div p{color:var(--ink-soft);font-size:15.5px}
+
+  .steps{counter-reset:s;display:grid;gap:16px;margin-top:26px;max-width:60ch}
+  .steps li{list-style:none;counter-increment:s;display:flex;gap:18px;align-items:flex-start}
+  .steps li::before{content:counter(s);flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--sage-deep);color:#F6F1E6;font-family:var(--serif);font-size:19px;display:grid;place-items:center}
+  .steps li h3{font-size:18px;margin-bottom:2px}
+  .steps li p{color:var(--ink-soft);font-size:15px}
+
+  .offer{max-width:460px;margin:30px auto 0;background:linear-gradient(165deg,var(--cream-hi),#F0E7D2);border:1px solid var(--gold-soft);border-radius:26px;padding:34px 30px;text-align:center;box-shadow:0 18px 40px rgba(120,100,55,.16)}
+  .offer .price{font-family:var(--serif);font-size:48px;color:var(--ink);margin:6px 0 0}
+  .offer .price small{font-size:16px;color:var(--ink-soft)}
+  .offer .sub{font-size:13px;color:var(--sage-deep);letter-spacing:.03em;margin-top:2px}
+  .offer ul{list-style:none;margin:18px 0 22px;display:grid;gap:9px;text-align:left}
+  .offer ul li{display:flex;gap:10px;font-size:15px;color:var(--ink-soft)}
+  .offer ul li::before{content:"✦";color:var(--gold);flex:0 0 auto}
+
+  .faq{margin-top:24px;max-width:64ch}
+  .faq details{border-bottom:1px solid var(--line);padding:16px 0}
+  .faq summary{font-family:var(--serif);font-size:19px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";color:var(--gold);font-size:24px}
+  .faq details[open] summary::after{content:"–"}
+  .faq p{color:var(--ink-soft);margin-top:10px;font-size:15.5px}
+
+  .final{text-align:center;background:linear-gradient(180deg,var(--cream),#E6DFCD)}
+  .final h2{font-size:clamp(28px,5vw,42px)}
+  .final p.lead{max-width:52ch;margin:14px auto 0}
+
+  footer{background:linear-gradient(165deg,#6E7C6C,#4C5744);color:#E9E1CE;text-align:center;padding:34px 22px;font-size:13.5px}
+  footer .brand{font-family:var(--serif);font-size:18px;color:#FBF7EC;letter-spacing:.06em}
+  footer a{color:var(--gold-soft);text-decoration:none}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="shell">
+      <svg class="mark" viewBox="0 0 512 512" role="img" aria-label="Souffle et Lumière">
+        <defs>
+          <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#FBEFC2" stop-opacity=".95"/><stop offset="38%" stop-color="#F0D98C" stop-opacity=".5"/><stop offset="100%" stop-color="#E7C86E" stop-opacity="0"/></radialGradient>
+          <radialGradient id="orb" cx="42%" cy="38%" r="66%"><stop offset="0%" stop-color="#FDF6D8"/><stop offset="42%" stop-color="#F3DE97"/><stop offset="100%" stop-color="#E1BE5E"/></radialGradient>
+          <linearGradient id="ledge" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#EFE6CC"/><stop offset="100%" stop-color="#CFC29B"/></linearGradient>
+        </defs>
+        <path d="M158 384 L158 232 A98 98 0 0 1 354 232 L354 384" fill="none" stroke="#EDE4C9" stroke-width="6" stroke-linecap="round" opacity=".95"/>
+        <path d="M176 384 L176 234 A80 80 0 0 1 336 234 L336 384" fill="none" stroke="#EDE4C9" stroke-width="2.4" stroke-linecap="round" opacity=".5"/>
+        <circle cx="256" cy="132" r="6.5" fill="#F1EAD0"/>
+        <circle cx="256" cy="300" r="120" fill="url(#glow)"/>
+        <circle cx="256" cy="300" r="52" fill="url(#orb)"/>
+        <ellipse cx="240" cy="284" rx="16" ry="12" fill="#FEFBEC" opacity=".6"/>
+        <rect x="140" y="380" width="232" height="17" rx="8.5" fill="url(#ledge)"/>
+        <rect x="150" y="373" width="212" height="9" rx="4.5" fill="#F3EAD0" opacity=".85"/>
+      </svg>
+      <span class="eyebrow">Jannat Al Qalb</span>
+      <h1>Souffle &amp; Lumière</h1>
+      <div class="arabic">نور وسكينة</div>
+      <p class="tagline">Retrouver le calme, une respiration à la fois.</p>
+      <p class="lead">Un espace doux de méditation, de respiration et d'apaisement des émotions — avec une lumière spirituelle en filigrane. Pour traverser les jours gris et revenir à la paix du cœur.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#offre">Accéder à l'application</a>
+        <a class="btn ghost" href="#dedans">Voir ce qu'elle offre</a>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="shell sec-head">
+      <span class="eyebrow">Est-ce pour toi</span>
+      <h2>Quand le cœur est lourd, tu mérites un endroit doux.</h2>
+      <ul class="foryou">
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#4A3A1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></span>Tes émotions te débordent, et tu cherches à les apaiser sans les fuir.</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#4A3A1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></span>Tu traverses une période de brouillard, de fatigue ou d'anxiété.</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#4A3A1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></span>Tu veux te reposer, respirer, méditer — dans un cadre qui a du sens.</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#4A3A1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></span>Tu chemines avec la Méthode Rahma et veux un compagnon au quotidien.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band" id="dedans">
+    <div class="shell">
+      <div class="sec-head">
+        <span class="eyebrow">Ce qu'elle offre</span>
+        <h2>Des appuis simples pour retrouver ta lumière.</h2>
+        <p>Rien à performer. Tu ouvres, tu respires, tu déposes ce qui pèse.</p>
+      </div>
+      <div class="tools">
+        <div class="tool"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 12c4-6 12-6 16 0-4 6-12 6-16 0z"/><circle cx="12" cy="12" r="2.5"/></svg></div><h3>Respiration guidée</h3><p>Des respirations douces pour ralentir, relâcher et retrouver ton calme en quelques instants.</p></div>
+        <div class="tool"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21c5-2 8-6 8-11a4 4 0 0 0-8-1 4 4 0 0 0-8 1c0 5 3 9 8 11z"/></svg></div><h3>Apaiser les émotions</h3><p>Accueillir ce que tu ressens, mettre des mots, et laisser l'orage passer sans te submerger.</p></div>
+        <div class="tool"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M17 7l2-2M5 19l2-2"/></svg></div><h3>Méditations &amp; lumière</h3><p>Des temps de recueillement pour te reconnecter à l'essentiel, avec une lumière spirituelle discrète.</p></div>
+        <div class="tool"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 21V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v14M9 9h6M9 13h6"/></svg></div><h3>Journal du cœur</h3><p>Déposer tes pensées, tes gratitudes et tes intentions, dans un espace rien qu'à toi.</p></div>
+        <div class="tool"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Ancrage &amp; présence</h3><p>Revenir à l'instant, poser tes pieds sur terre, quand tout va trop vite à l'intérieur.</p></div>
+        <div class="tool"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2 5 5 .7-3.7 3.6 1 5.2L12 15l-4.3 2.5 1-5.2L5 8.7 10 8z"/></svg></div><h3>Souffle du jour</h3><p>Une parole douce, une lumière quotidienne pour commencer ou clore ta journée.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shell">
+      <div class="sec-head"><span class="eyebrow">Pourquoi elle est différente</span><h2>Un refuge doux, privé et lumineux.</h2></div>
+      <div class="why">
+        <div><h3>100 % privé</h3><p>Tout reste sur ton téléphone. Aucune donnée collectée : ton intimité est protégée.</p></div>
+        <div><h3>Douce et sans pression</h3><p>Aucune injonction, aucun objectif à atteindre. Juste un espace pour souffler.</p></div>
+        <div><h3>Une spiritualité qui apaise</h3><p>Une lumière du cœur, discrète et respectueuse, pour celles et ceux que cela nourrit.</p></div>
+        <div><h3>Compagnon de la Méthode Rahma</h3><p>Pensée pour accompagner le chemin « Sortir du Brouillard », jour après jour.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="shell">
+      <div class="sec-head"><span class="eyebrow">Comment ça se passe</span><h2>Trois pas, et elle est à toi.</h2></div>
+      <ol class="steps">
+        <li><div><h3>Tu reçois ton accès</h3><p>Après ta commande, ton lien personnel et ton code d'accès.</p></div></li>
+        <li><div><h3>Tu ouvres et tu respires</h3><p>Un simple code, et l'espace s'ouvre — sur téléphone ou ordinateur.</p></div></li>
+        <li><div><h3>Tu l'installes sur ton écran d'accueil</h3><p>Ta lumière, toujours à portée de main, même hors connexion.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="offre">
+    <div class="shell">
+      <div class="sec-head" style="text-align:center;margin:0 auto"><span class="eyebrow" style="display:block">L'accès</span><h2>Offre-toi un temps de douceur.</h2></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:30px;align-items:stretch">
+        <div class="offer" style="margin:0;display:flex;flex-direction:column">
+          <span class="eyebrow" style="color:var(--sage-deep)">L'application seule</span>
+          <div class="price">29 <small>€</small></div>
+          <div class="sub">Accès à vie · tarif de lancement</div>
+          <ul style="flex:1">
+            <li>Toutes les méditations et respirations</li>
+            <li>Mises à jour incluses, à vie</li>
+            <li>100 % privé, aucune donnée collectée</li>
+            <li>Sur téléphone et ordinateur, même hors ligne</li>
+          </ul>
+          <a class="btn on-cream" href="#" style="width:100%">L'application seule</a>
+        </div>
+        <div class="offer" style="margin:0;display:flex;flex-direction:column;border-color:var(--gold);box-shadow:0 18px 44px rgba(120,100,55,.24);position:relative">
+          <span style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:#3B3620;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:4px 14px;border-radius:999px">Le plus complet</span>
+          <span class="eyebrow" style="color:var(--gold)">Le pack complet</span>
+          <div class="price">44 <small>€</small></div>
+          <div class="sub">App + e-book + workbook</div>
+          <ul style="flex:1">
+            <li>L'application complète</li>
+            <li>+ l'e-book (guide doux à lire)</li>
+            <li>+ le workbook (cahier à remplir)</li>
+            <li>Mises à jour incluses, à vie</li>
+          </ul>
+          <a class="btn primary" href="#" style="width:100%">Le pack complet</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="shell">
+      <div class="sec-head"><span class="eyebrow">Questions fréquentes</span><h2>Ce que tu te demandes peut-être.</h2></div>
+      <div class="faq">
+        <details open><summary>Mes données sont-elles en sécurité ?</summary><p>Oui, totalement. Tout ce que tu déposes reste sur ton appareil. Rien n'est envoyé, stocké ailleurs ni collecté.</p></details>
+        <details><summary>Faut-il déjà méditer pour l'utiliser ?</summary><p>Non. Tout est guidé, doux et accessible, même si tu débutes complètement.</p></details>
+        <details><summary>La dimension spirituelle est-elle imposée ?</summary><p>Jamais. Elle est douce, discrète et optionnelle — une lumière pour celles et ceux que cela apaise.</p></details>
+        <details><summary>Sur quel appareil ?</summary><p>iPhone, Android et ordinateur. On peut l'ajouter à l'écran d'accueil et l'utiliser hors connexion.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="shell">
+      <span class="eyebrow">Reviens à la paix</span>
+      <h2>Après chaque nuit, la lumière revient.</h2>
+      <p class="lead">Offre-toi un refuge doux et fidèle, qui t'accompagne dans le brouillard comme dans les jours clairs.</p>
+      <div class="cta-row"><a class="btn on-cream" href="#offre">Accéder à Souffle &amp; Lumière</a></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="brand">Jannat Al Qalb</div>
+    <p style="margin-top:8px">Souffle &amp; Lumière — un compagnon doux des émotions et de la méditation.</p>
+    <p style="margin-top:10px;opacity:.8">© Jannat Al Qalb · <a href="#">Mentions légales</a> · <a href="#">Confidentialité</a> · <a href="#">CGV</a></p>
+  </footer>
+</div>
