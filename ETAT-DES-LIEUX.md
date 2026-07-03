@@ -1,79 +1,109 @@
 # 🧭 État des lieux — reprise de session
 
-_Mémo pour reprendre sans rien perdre. Dernière mise à jour : 2 juillet 2026 (soir)._
+_Mémo pour reprendre sans rien perdre. Dernière mise à jour : 3 juillet 2026 (soir)._
 
 ---
 
-## ✅ CE QUI EST EN LIGNE (3 applis, même site GitHub Pages)
+## ⏭️ PROCHAINE SESSION (prioritaire) — Programme « Posture Sereine »
 
-Tout est publié sur **GitHub Pages**, dossier par dossier, sans que les applis se gênent :
+Nawel bâtit un **vrai programme d'accompagnement** pour **femmes entrepreneuses bloquées** :
+coaching + **TCC** + **psychologie islamique** (niyya, amanah, tawakkul actif, sabr, shukr, rahma ; tawhid, fitra, qalb, nafs, aql). Parcours **12 semaines**, 5 étapes : Observer → Réguler → Clarifier → Repositionner → Consolider.
+
+**Plan validé pour demain :**
+1. **On réfléchit d'abord ensemble** (structure de l'offre, cible, format) AVANT de construire.
+2. Puis on produit **3 documents cohérents** (charte Jannat Al Qalb, ton doux, PDF pro) :
+   - 📖 **Ebook** — basé sur le **programme d'accompagnement**.
+   - 📓 **Workbook**.
+   - 📋 **Questionnaire d'entrée** (candidature/clarification).
+
+**Fichiers source déjà fournis (uploads) — à réutiliser :**
+- `Programme_Formation_Accompagnement_Femmes_Entrepreneuses_Bloquees.docx` — parcours 12 semaines (colonne vertébrale).
+- `Posture_Sereine_Questionnaire_Candidature.docx` — questionnaire d'entrée (cadre de sécurité : ne remplace ni thérapie, ni ruqya, ni fatwa).
+- `Posture_Sereine_Workbook.docx` / `.pdf` — **workbook upgradé** (Fiche 0 Niyya + 5 étapes, dimension spirituelle).
+- `Ebook_Accompagner_Autoentrepreneuses_Bloquees.pdf` — **ebook PRO** (14 chapitres, riche : fenêtre de tolérance, trauma, attachement & business, posture pro) → matière première de l'ebook grand public.
+- `Parcours_Accompagnement_Mixte_Autoentrepreneuses.pdf` — architecture d'offre (4 formules : Autonomie / Groupe / Premium / Bootcamp ; rôle d'Al Mizan = compagnon quotidien).
+
+**⚠️ Points à trancher ensemble :**
+- **Deux workbooks existent** : `Posture Sereine — Mon carnet de parcours` (HTML doux, 8 fiches → pack **grand public**) VS `Workbook d'accompagnement` (spirituel/TCC → **programme accompagné**). Décider lequel va où.
+- **Ebook « Posture Sereine » grand public : JAMAIS reçu** — les fichiers envoyés étaient la note « ⚠️ Fichier remplacé ». Option retenue : **le créer à partir de l'ebook PRO**, adouci en charte Jannat Al Qalb.
+
+**Échelle d'offres repérée (le vrai levier de revenu) :**
+| Niveau | Contenu | Prix (ordre d'idée) |
+|---|---|---|
+| Autonomie | App + ebook + workbook | 59 € (pack digital) |
+| Groupe | + ateliers hebdo | 150–350 € |
+| Premium | + séances individuelles | 600–1500 € |
+| Bootcamp | sprint 14/30 j | selon format |
+→ Le pack digital = porte d'entrée ; l'accompagnement = le vrai revenu. L'ebook/workbook doivent **donner envie** de l'accompagnement (page ressources / clôture).
+
+---
+
+## ✅ CE QUI EST EN LIGNE (3 applis · GitHub Pages)
+
+Base : `https://haddouchnawel27-wq.github.io/boussole-ado-educa-typique/`
 
 | Appli | Lien | État |
 |---|---|---|
-| 🧭 **Boussole** (ados) | `.../boussole-ado-educa-typique/` | en ligne, inchangée |
-| 🌸 **Al Mizan Al Qalb** (femmes) | `.../boussole-ado-educa-typique/al-mizan/` | **en ligne** ✅ |
-| 🌙 **Souffle & Lumière** (Voie Chifa) | `.../boussole-ado-educa-typique/souffle-lumiere/` | **en ligne** ✅ (validé par Nawel) |
+| 🧭 Boussole (familles) | `/` | en ligne |
+| 🌸 Al Mizan Al Qalb | `/al-mizan/` | en ligne — séquenceur « Vider, trier, avancer » = 3ᵉ carte de « Faire le point » + icône balance |
+| 🌙 Souffle & Lumière | `/souffle-lumiere/` | en ligne — **rebrandée Jannat Al Qalb** (clôture + footer) ; étape Nom d'Allāh = **répétition libre** (plus de « /7 ») ; icône arche |
 
-Base URL complète : `https://haddouchnawel27-wq.github.io/boussole-ado-educa-typique/`
-
-### Al Mizan — ce qui a été fait aujourd'hui
-- Le séquenceur **« Vider, trier, avancer »** est ajouté comme **3ᵉ carte dans « Faire le point »** (à côté de « Mon mode d'organisation » et « Boussole intérieure »). Injecté dans le bundle + testé (navigation OK).
-- Fichiers outils co-déployés dans `al-mizan/` : `boussole-interieure.html`, `face-au-regard.html`, `sequenceur.html` (+ alias `mes-outils`, `s-organiser`, `organiser`).
-- **Icône d'appli** (balance dorée) : `al-mizan/apple-touch-icon.png`.
-
-### Souffle & Lumière
-- **Icône d'appli** (arche + lumière) intégrée : `souffle-lumiere/apple-touch-icon.png` + métadonnées « écran d'accueil » iOS dans le `<head>`.
-
-### ⚠️ Piège rencontré : le CACHE
-Le gros blocage du jour n'était **pas** technique : c'était le **cache du téléphone/navigateur** (Nawel voyait l'ancienne version). Solutions qui marchent : **navigation privée**, **Ctrl+Maj+R** sur ordi, ou ajouter **`?v=3`** au bout du lien. À redire si ça se reproduit.
-
-### ⚠️ Déploiement Pages : échecs transitoires
-Le workflow `.github/workflows/deploy-pages.yml` (déclenché sur push vers `claude/gracious-davinci-t0zife`) a **échoué 2 fois** sur une erreur GitHub transitoire (« Deployment failed, try again later »), puis **réussi à la 3ᵉ**.
-- **Impossible de relancer le workflow via l'intégration** (`rerun`/`workflow_dispatch` → 403).
-- **Pour relancer : pousser un petit commit sur la branche de travail → PR → merge dans `claude/gracious-davinci-t0zife`** (le push sur la branche par défaut redéclenche le déploiement).
+- Clé localStorage `voiechifa.v1` **conservée** (ne pas renommer = données préservées).
+- Boussole = **familles seulement** (Enfant/Ado/Parent). Le volet **praticiennes** sera une **appli dédiée** plus tard.
 
 ---
 
-## 💼 COMMERCIALISATION (le chantier en cours)
+## 💼 COMMERCIALISATION
 
-**Modèle retenu :** l'appli reste en ligne, **protégée par un code d'accès** ; la cliente paie → reçoit **lien + code**. (Pas de vente en « fichier à télécharger » : mauvaise expérience sur iPhone.)
+### Pages de vente — PUBLIÉES + artifacts
+- Public : `/vente-al-mizan/` · `/vente-boussole/` · `/vente-souffle/`
+- Artifacts (modèles) : Al Mizan `dd9be335-e758-4557-88d5-d355245bd807` · Boussole `f26c2afa-16be-4e6b-bb2c-9960ab65b0c3` · Souffle `83966fda-ad53-466b-8eb1-5e121404c454`
+- Sources : dossiers `vente-*/` + `al-mizan-design/vente-al-mizan.html`.
+- Chaque page : 2 offres (*appli seule* / *pack + ebook & workbook*).
 
-Nawel **inclut déjà** les applis dans ses accompagnements payants. Elle veut **AUSSI** les vendre **à l'unité** (produits digitaux).
+### 💶 Grille de prix (validée)
+| Produit | Seul | Pack |
+|---|---|---|
+| Al Mizan Al Qalb 🔝 | 44 € | 59 € |
+| Boussole (familles) | 39 € | 59 € |
+| Souffle & Lumière | 29 € | 44 € |
+| Pack des 3 apps | 99 € | — |
+| Pack des 3 complets | — | 129 € |
 
-**Comptes Systeme.io existants :**
-- Boussole → Systeme.io **Educa Typique**
-- Souffle & Lumière → Systeme.io **Voie Chifa**
-- Al Mizan → **Jannat Al Qalb** (page de vente à créer → voir ci-dessous)
+### 💳 Vente — décision
+- **Applis & packs → Stripe direct (Option 1)** : elle a déjà Stripe. Payment Link → bouton « acheter » des pages hébergées → **page code d'accès / merci** (À CONSTRUIRE) donnant lien + code. **Systeme.io PAS obligatoire.**
+- **Le reste** (tunnels, e-mails auto) → Systeme.io (comptes : Educa Typique, Voie Chifa).
 
-### ✅ Fait aujourd'hui : page de vente Al Mizan Al Qalb
-Maquette complète, dans la charte de l'appli (crème/cacao/sauge/terracotta/or), **pied de page vert sauge**, symbole balance recentré.
-- **Artifact (rendu en ligne) :** https://claude.ai/code/artifact/dd9be335-e758-4557-88d5-d355245bd807
-- **Source :** `scratchpad/vente-al-mizan.html` (éphémère — récupérable via l'artifact avec WebFetch).
-- Sections : hero + « Est-ce pour toi » + « Ce qu'elle contient » (6 outils) + « Pourquoi différente » (dont 100 % privé) + « Comment ça se passe » + offre + témoignages + FAQ + CTA.
-- **3 blancs à remplir** (repérés par étiquette rose) : **le prix**, **les vrais témoignages**, **les liens légaux** du bas.
-- → À recopier dans Systeme.io Jannat Al Qalb.
+### 📜 Textes légaux — FAITS
+- Artifact `c91838a3-44b1-40c5-916e-99f25a968cdb` · source `scratchpad/mentions-legales.html`.
+- **Naoual HADDOUCH (EI), SIRET 902 273 366 00028, APE 96.09Z, Nîmes, TVA art. 293 B**, marques Jannat Al Qalb + Educa Typique.
+- **Blancs à compléter** : e-mail de contact · adresse (domicile ou domiciliation) · **médiateur de la consommation** (adhésion obligatoire B2C) · dates.
 
-### 📌 À FAIRE DEMAIN (dans l'ordre)
-1. **Textes légaux** pour compléter le bas de la page de vente : **mentions légales + politique de confidentialité + CGV**.
-   - Infos à demander à Nawel : **statut** (auto/micro-entreprise) + **SIRET**, **nom de facturation** (nom + « Jannat Al Qalb »), **e-mail de contact**.
-   - Argument fort à mettre en avant : appli **100 % locale/privée**, aucune donnée collectée (RGPD au top).
-2. **Page « code d'accès »** devant Al Mizan (et à décliner pour les autres si voulu) : un seul code que Nawel contrôle, donné à ses acheteuses ET à ses clientes d'accompagnement. ⚠️ Honnêteté : un code côté web n'est pas inviolable — suffisant pour son univers de confiance ; changer le code de temps en temps.
-3. (Optionnel) **Nom de domaine propre** (ex. `jannatalqalb.fr`) au lieu de l'adresse github — plus pro. GitHub Pages le permet.
-4. Nawel : renseigner **prix** + **témoignages réels** dans la page de vente.
+### 📌 Reste à faire (vente)
+1. **Page code d'accès / merci** (arrivée après paiement Stripe).
+2. **Payment Links Stripe** (guider) + relier aux boutons des pages de vente.
+3. **Héberger les textes légaux** (`/mentions-legales/`) + wirer les liens en pied de page (actuellement `#`).
+4. Finaliser **ebook + workbook « Posture Sereine » en PDF** (voir section « Prochaine session »).
+5. (option) page **pack des 3** ; nom de domaine `jannatalqalb.fr`.
 
-### QR codes (déjà livrés à Nawel)
-Générés pour les 3 applis (`scratchpad/QR-AlMizan.png`, `QR-Souffle-Lumiere.png`, `QR-Boussole.png`). Pratiques pour cabinet/fiches/flyers.
+### e-books prêts (NE PAS publier publiquement — produits payants)
+- `Ebook_Souffle_de_Lumiere__Le_chemin_de_la_sakina.html` (Souffle & Lumière) — Jannat Al Qalb, prêt.
+- QR codes des 3 applis : `scratchpad/QR-*.png`.
 
 ---
 
 ## 🔧 Repères techniques
-- Dépôt : `haddouchnawel27-wq/boussole-ado-educa-typique` · défaut = **`claude/gracious-davinci-t0zife`** (c'est CE qui est publié par Pages) · branche de travail = `claude/lucid-dirac-zt93h3`.
-- SW Boussole `sw.js` v14 : exclut `/al-mizan/` et `/souffle-lumiere/` du cache Boussole (chaque appli reste indépendante).
-- Icônes recréées **en vectoriel** (les images collées dans le chat ne sont pas récupérables comme fichiers) : sources `scratchpad/icon.svg` (balance) et `scratchpad/icon-souffle.svg` (arche) ; PNG déployés dans les dossiers d'appli.
-- Dé-bundling des exports Claude Design (React inline) : Al Mizan `al-mizan/index.html` est autonome (React vendorisé). Souffle `souffle-lumiere/index.html` charge encore React depuis unpkg (marche en ligne ; à rendre autonome plus tard si besoin).
+- Dépôt : `haddouchnawel27-wq/boussole-ado-educa-typique` · défaut publié = **`claude/gracious-davinci-t0zife`** · branche de travail = `claude/lucid-dirac-zt93h3`.
+- **Déploiement Pages flaky** : `deploy-pages.yml` échoue régulièrement sur « Deployment failed, try again later » (transitoire GitHub). `rerun`/`workflow_dispatch` via l'intégration = **403**. **Pour relancer : petit commit → PR → merge dans le défaut** (le push redéclenche). Souvent OK à la 2ᵉ/3ᵉ tentative. (Un memo n'a pas besoin d'être publié → pas grave si son déploiement flanche.)
+- `sw.js` v15 : exclut `/al-mizan/`, `/souffle-lumiere/`, `/vente-*` du cache Boussole.
+- **Cache côté client** = piège récurrent : navigation privée / Ctrl+Maj+R / `?v=N`.
+- Icônes vectorielles : `scratchpad/icon.svg` (balance), `scratchpad/icon-souffle.svg` (arche).
+- Extraction PDF/DOCX en session : `pip install cffi` d'abord (sinon `cryptography` plante) ; puis `pdfminer.six` pour PDF, unzip `word/document.xml` pour DOCX.
+- Al Mizan `index.html` autonome (React vendorisé) ; Souffle charge React via unpkg (OK en ligne).
 
 ---
 
 ## 🌙 À traiter plus tard
-- Rendre **Souffle & Lumière** totalement autonome (hors-ligne) comme Al Mizan, si souhaité.
-- Vérifier en détail tous les outils de Boussole (Nawel voulait le faire « plus tard »).
+- Rendre **Souffle & Lumière** autonome hors-ligne (comme Al Mizan), si souhaité.
+- **Appli praticienne** dédiée (le volet pro sorti de Boussole).
+- Vérifier en détail tous les outils de Boussole.
