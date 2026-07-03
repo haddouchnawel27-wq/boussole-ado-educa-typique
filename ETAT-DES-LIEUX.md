@@ -38,6 +38,30 @@ coaching + **TCC** + **psychologie islamique** (niyya, amanah, tawakkul actif, s
 
 ---
 
+## 🧰 CHANTIER SUIVANT — Hub « Couteau Suisse » (unifier toutes les apps)
+
+_Brief complet chez Nawel (local) : `Bureau › Jannat Al Qalb › Projets › 🧰 Brief pour Code - Hub Couteau Suisse (Educa Typique x Jannat Al Qalb).md`. Je n'y ai PAS accès → lui redemander de coller le brief (surtout : URLs réelles, les 3 copies de la Boîte NeuroPed, décisions de fin de brief)._
+
+**Vision :** rattacher TOUTES ses apps en **un hub unique installable (PWA)** — une porte d'entrée, **deux univers distincts** + passerelles entre eux :
+- 🌷 **Educa Typique** : Boussole + **Boîte NeuroPed Universelle (106 outils)** + Parcours Clarté TND.
+- 🌿 **Jannat Al Qalb** (جنة القلب, « Le Jardin du Cœur ») : Al Mizan Al Qalb + satellites, Souffle & Lumière, **Boîte NeuroPed ISL**, Posture Sereine.
+
+**Architecture à anticiper :** un **3ᵉ espace à accès restreint « Praticiennes »** (projet futur — la matière existe : tous les outils praticiens de la Boîte NeuroPed).
+
+**Hébergement :** Nawel a **3 comptes Netlify** dispo (+ GitHub Pages actuel). → Je dois **proposer le meilleur setup**, surtout pour gérer les **accès payants** (packs 44-59 €, pack des 3 à 99/129 €).
+
+**Non négociables :** aucun diagnostic (disclaimer partout) · **100 % privé (localStorage)** · **installable + hors-ligne** · **aucune représentation humaine dans les icônes** · chartes respectées (Educa Typique + Jannat Al Qalb) · **pas de chiffres rituels sans dalil**.
+
+**Correctifs Souffle & Lumière (point 5 du brief) : ✅ DÉJÀ FAITS le 3 juil** — rebrand Jannat Al Qalb + « autant de fois que ton cœur en ressent le besoin » (à la place de « 7 fois »).
+
+**Ma Phase 1 (avant de coder) :**
+1. **Inventaire technique** : URLs réelles vs dossiers locaux ; **doublons** (la Boîte NeuroPed existe en **3 copies → demander laquelle fait foi**).
+2. **Contre-proposition d'architecture** (hub, univers, passerelles, espace praticiennes, accès payants) — à valider AVANT de coder.
+
+**Décisions qui reviennent à Nawel (lui faire mes recommandations) :** nom du hub · mécanisme de paiement · produits d'appel offerts.
+
+---
+
 ## ✅ CE QUI EST EN LIGNE (3 applis · GitHub Pages)
 
 Base : `https://haddouchnawel27-wq.github.io/boussole-ado-educa-typique/`
