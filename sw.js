@@ -2,7 +2,7 @@
    Stratégie « stale-while-revalidate » : on sert vite depuis le cache,
    puis on met à jour en arrière-plan, pour que les nouvelles versions
    s'appliquent d'elles-mêmes à l'ouverture suivante. */
-var CACHE = "boussole-v14";
+var CACHE = "boussole-v15";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
   "./assets/css/styles.css",
@@ -51,7 +51,8 @@ self.addEventListener("fetch", function (e) {
   if (url.pathname.indexOf("/parcours-clarte-tnd/") !== -1 ||
       url.pathname.indexOf("/jannat-al-qalb/") !== -1 ||
       url.pathname.indexOf("/al-mizan/") !== -1 ||
-      url.pathname.indexOf("/souffle-lumiere/") !== -1) {
+      url.pathname.indexOf("/souffle-lumiere/") !== -1 ||
+      url.pathname.indexOf("/vente-") !== -1) {
     return;
   }
 
