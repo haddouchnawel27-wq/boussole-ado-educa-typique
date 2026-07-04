@@ -60,6 +60,22 @@ _Brief complet chez Nawel (local) : `Bureau › Jannat Al Qalb › Projets › �
 
 **Décisions qui reviennent à Nawel (lui faire mes recommandations) :** nom du hub · mécanisme de paiement · produits d'appel offerts.
 
+### ✅ Phase 1 — inventaire GitHub FAIT (4 juil)
+Ce qui est en ligne dans le dépôt (Pages) :
+- 🌷 **Educa Typique** : Boussole (`/`) + **`/parcours-clarte-tnd/` = la Boîte NeuroPed / Parcours Clarté TND, 118 fichiers** (voir `parcours-clarte-tnd/INVENTAIRE.md`) :
+  - 7 pages d'accueil (index, parents, ados, professionnels, **parents-musulmans**, offres, protection-numerique)
+  - 26 apps · 7 outils-ado · **17 outils-pro** (profils, repérages TND, protocole crise…) · 44 ebooks-guides · 17 fiches · 11 formations · Boîte Émotions Neuroo · kit réseaux.
+  - Variantes **ISL** déjà présentes ici (parents-musulmans, dialoguer-ado-ISL, cartes émotions ISL).
+- 🌿 **Jannat Al Qalb** : Al Mizan (`/al-mizan/`) · Souffle & Lumière (`/souffle-lumiere/`) · vitrine (`/jannat-al-qalb/`) · Posture Sereine (programme, pas encore une app).
+- 🛍️ Ventes : `/vente-al-mizan/`, `/vente-boussole/`, `/vente-souffle/`.
+
+### ❓ Questions en attente (à demander à Nawel avant Phase 2 = archi)
+1. **Boîte NeuroPed « en 3 copies »** : je n'en vois qu'UNE (`parcours-clarte-tnd/`). Où sont les 2 autres (Netlify ? ZIP ?) et **laquelle fait foi** ?
+2. **3 comptes Netlify** : quoi déployé sur chacun + URLs ?
+3. **NeuroPed « Universelle » (Educa) vs « ISL » (Jannat)** : séparation à faire (tout est mélangé dans un dossier) ou existe déjà ailleurs ?
+4. **« Satellites » d'Al Mizan** : c'est quoi ?
+5. **Coller le brief `.md` complet** (surtout décisions de fin : nom hub · paiement · produits d'appel).
+
 ---
 
 ## ✅ CE QUI EST EN LIGNE (3 applis · GitHub Pages)
