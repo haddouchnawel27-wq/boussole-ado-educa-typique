@@ -143,6 +143,24 @@ Base : `https://haddouchnawel27-wq.github.io/boussole-ado-educa-typique/`
 
 ---
 
+## 🖨️ PIPELINE PDF (résolu le 5 juil — RÉUTILISER pour tous les docs Design)
+Les exports PDF de Design/Cowork sont décevants (polices manquantes + pages qui débordent → demi-pages vides). **Solution maison au point** (rendu Playwright headless) :
+1. **Embarquer les polices** : `curl` le CSS `fonts.googleapis.com/css2?...` avec un **User-Agent Chrome** → récupère les URLs woff2 gstatic → les télécharger → base64 → remplacer les `url()` → injecter le CSS `@font-face` inline à la place du `@import`. (Google Fonts est **joignable** depuis la sandbox ; c'était juste les mauvaises URLs.)
+2. **Caler chaque page à l'A4** (évite blancs ET débordements) : `@page{size:A4;margin:0}` ; `.page{width:794px;height:1123px;overflow:hidden;display:flex;flex-direction:column;justify-content:center;page-break-after:always}` ; envelopper le contenu de chaque `.page` dans un `.__pinner` avec **padding ~40-46px** (marges) ; si `inner.scrollHeight>1119` → `transform:scale(1119/h)` (réduction douce, contenu jamais coupé).
+3. `page.pdf({format:'A4',printBackground:true,margin:0,preferCSSPageSize:true})`.
+- Script : `scratchpad/pdf-fit.mjs <in.html> <out.pdf>` + `scratchpad/fonts-inline.css` (Cormorant Garamond + Lato + Amiri déjà téléchargés).
+- ⚠️ **Bug évité** : ne PAS lire `getComputedStyle(...).padding` APRÈS avoir forcé `.page{padding:0!important}` (renvoie 0 → texte collé aux bords). Mettre le padding en dur sur `.__pinner`.
+- Réglage retenu : padding `40px 46px` (bon compromis marges/rétrécissement ; ~1 page dense scale ~0.86, invisible).
+- ✅ Démo faite : `Souffle-de-Lumiere-ebook.pdf` (à partir de `uploads/d5840afb-...sakina.html`).
+
+### ⚠️ Réception des fichiers Nawel
+Nawel envoie souvent des **liens** (`file:///C:/...` ou `<a href="uploads/...">`) → **ne transmettent PAS le fichier**, juste le chemin. Lui redire : **joindre le fichier** (glisser-déposer / trombone) ou **ZIP**. Les pièces jointes réelles (html/pdf/docx) arrivent bien dans `/root/.claude/uploads/<session>/`.
+
+### 📌 Posture Sereine — fichiers à obtenir (en pièce jointe / ZIP)
+📖 Ebook (jamais reçu, placeholder) · 📓 Workbook (upgradé chez Design) · 📋 Questionnaire d'entrée · 📕 Manuel d'animation. → dès reçus, PDF via pipeline ci-dessus.
+
+---
+
 ## 🌙 À traiter plus tard
 - Rendre **Souffle & Lumière** autonome hors-ligne (comme Al Mizan), si souhaité.
 - **Appli praticienne** dédiée (le volet pro sorti de Boussole).
