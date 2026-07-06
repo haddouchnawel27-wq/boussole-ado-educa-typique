@@ -111,11 +111,23 @@
   .timer-big{font-family:'Quicksand',sans-serif;font-size:44px;text-align:center;color:var(--blanc);letter-spacing:2px;margin:8px 0;}
   .idee{background:var(--noir);border-radius:10px;padding:10px 14px;margin:6px 0;font-size:14px;display:flex;gap:10px;align-items:baseline;}
   .idee small{color:var(--gris);flex:0 0 auto;}
+  .accueil-overlay{position:fixed;inset:0;background:rgba(15,16,20,.95);z-index:200;display:flex;align-items:center;justify-content:center;padding:18px;}
+  .accueil-overlay .card{max-width:440px;width:100%;border-color:var(--jaune);}
   .toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--jaune);color:var(--noir);font-weight:900;padding:12px 22px;border-radius:12px;z-index:99;box-shadow:0 8px 30px rgba(0,0,0,.5);display:none;font-family:'Quicksand',sans-serif;max-width:92vw;text-align:center;}
   .disclaimer{color:#6b6f78;font-size:10px;text-align:center;margin-top:16px;line-height:1.5;}
 </style>
 </head>
 <body>
+<div class="accueil-overlay hidden" id="bienvenue">
+  <div class="card">
+    <div class="hazard"></div>
+    <h2 style="margin-top:12px;font-size:19px;">🚜 Salut, chef.</h2>
+    <p style="margin-top:8px;">Cette appli est en <b>version bêta</b>, et on cherche un vrai connaisseur d'engins pour la tester. C'est toi.<br><br>
+    Ici, <b>c'est TON chantier</b> : personne ne voit ce que tu fais, rien ne quitte ton téléphone, et c'est toi qui valides tes missions. Pas de notes, pas de contrôle, pas de piège.<br><br>
+    Ton job de bêta-testeur : explorer, prendre de l'XP, débloquer les engins… et surtout dire ce qui est nul, pour qu'on l'améliore.</p>
+    <button class="btn" onclick="entrer()">Entrer sur le chantier 🦺</button>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 <button class="sos-fab" id="sosFab" onclick="show('scr-sos')" aria-label="Procédure zone rouge">🚨</button>
 <div class="wrap">
@@ -198,7 +210,7 @@
     </div>
     <div class="card">
       <h2><span class="etape-num">2</span>🚪 Sortie-soupape</h2>
-      <p>Tu sors, tu prends l'air, tu bouges. Le moteur redescend tout seul quand on coupe les gaz.</p>
+      <p>Tu sors, tu prends l'air, tu bouges. <b>Compte 10 pour démarrer</b> — et retiens ça de pro : une vague de pression met <b>environ 90 secondes</b> à retomber quand on ne la relance pas. Tiens 2 minutes dehors, t'as gagné. Le moteur redescend tout seul quand on coupe les gaz.</p>
       <div class="timer-big hidden" id="sosTimer">10:00</div>
       <button class="btn orange" id="btnSortie" onclick="toggleSortie()">Lancer les 10 minutes</button>
     </div>
@@ -381,7 +393,8 @@ const MISSIONS=[
  {id:'m8',em:'💰',t:'Finir une semaine avec du carburant dans le réservoir',s:'Budget tenu sans passer dans le rouge = gestion de chef',xp:30},
  {id:'m9',em:'🎒',t:'Checklist d\'ouverture du chantier LYCÉE à 100 %',s:'Se valide toute seule quand tout est coché',xp:40},
  {id:'m10',em:'🚌',t:'Repérer mon trajet jusqu\'au lycée (horaires en photo)',s:'Un chef arrive sur site sans stress : il connaît sa route',xp:25},
- {id:'m11',em:'🎤',t:'Présenter un engin à quelqu\'un pendant 2 minutes',s:'Mode expert : c\'est TOI qui expliques, l\'autre qui écoute',xp:25}
+ {id:'m11',em:'🎤',t:'Présenter un engin à quelqu\'un pendant 2 minutes',s:'Mode expert : c\'est TOI qui expliques, l\'autre qui écoute',xp:25},
+ {id:'m12',em:'🔧',t:'Faire l\'atelier « Sous le capot » et repartir avec ma feuille de route',s:'Le poste d\'atelier se fait en binôme — ta feuille de route alimentera tes missions',xp:35}
 ];
 const CAUSES=[['🗣️','On m\'a donné un ordre / fait la morale'],['✍️','Un truc d\'école / d\'écrit'],['👥','Une embrouille avec quelqu\'un'],['🏠','Un truc à la maison'],['😤','Je sais pas trop, ça monte tout seul'],['✅','Rien — journée tranquille']];
 const CHECKS=[
@@ -612,6 +625,10 @@ function resetAll(){
  if(!confirm('Tout effacer ? XP, fiche, relevés, budget… Irréversible.'))return;
  if(!confirm('Sûr et certain, chef ?'))return;
  localStorage.removeItem('chantier');location.reload();}
+
+// ═══════════ PREMIÈRE VISITE ═══════════
+function entrer(){S.hello=1;save();document.getElementById('bienvenue').classList.add('hidden');}
+if(!S.hello)document.getElementById('bienvenue').classList.remove('hidden');
 
 render();
 if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0){
