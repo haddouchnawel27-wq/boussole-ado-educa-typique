@@ -38,6 +38,17 @@ coaching + **TCC** + **psychologie islamique** (niyya, amanah, tawakkul actif, s
 
 ---
 
+## 🚜 CHEF DE CHANTIER — appli d'accompagnement individuel (v2 · 6 juil)
+
+Appli pour le jeune que Nawel accompagne (futur lycée pro engins de chantier). **Stratégie de contact : il est recruté comme bêta-testeur expert, pas comme « accompagné »** — c'est lui qui juge l'appli.
+
+- **Emplacement :** `/chef-chantier/` (une seule page autonome + manifest + SW propre → installable, hors-ligne). Exclue du cache Boussole (`sw.js` racine → v16). Clé localStorage : `chantier` (compatible v1, migration douce — ne pas renommer).
+- **Dedans (v1)** : contrôle technique 12 questions (= recueil de besoins déguisé) · jauge de pression quotidienne + causes · missions XP auto-validées · codes radio · grades & engins à débloquer · fiche technique privée.
+- **Nouveau (v2)** : 🚨 **procédure zone rouge** (bouton flottant : annonce radio → sortie 10 min chrono → « purge du circuit » = respiration guidée 5 cycles, s'ouvre automatiquement si jauge ≥ 8) · 📈 **historique de jauge** (12 derniers relevés + série de jours) · 🎒 **chantier LYCÉE** (compte à rebours J-XX modifiable, checklist d'ouverture 10 points = +5 XP/case, plan zone rouge à négocier avec prof principal/CPE) · 💰 **paie de la semaine** (réservoir budget, dépenses par catégorie, objectif d'épargne, mission « semaine tenue ») · 🛠️ **boîte à idées bêta-testeur** (3 idées = mission validée) · XP jauge/SOS limitée à 1×/jour · 2 engins + 1 grade en plus (jusqu'à 450 XP) · bouton reset.
+- **⏳ En attente :** Nawel a un 2ᵉ artifact local `sous-le-capot.html` (Téléchargements) à **fusionner** avec celle-ci → lui demander de coller le contenu du fichier dans la conversation.
+
+---
+
 ## 🧰 CHANTIER SUIVANT — Hub « Couteau Suisse » (unifier toutes les apps)
 
 _Brief complet chez Nawel (local) : `Bureau › Jannat Al Qalb › Projets › 🧰 Brief pour Code - Hub Couteau Suisse (Educa Typique x Jannat Al Qalb).md`. Je n'y ai PAS accès → lui redemander de coller le brief (surtout : URLs réelles, les 3 copies de la Boîte NeuroPed, décisions de fin de brief)._
