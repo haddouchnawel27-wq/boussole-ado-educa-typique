@@ -1,11 +1,12 @@
 "use client";
+import Link from "next/link";
 import { useMode } from "@/lib/mode";
 
 const HUBS = [
-  { title: "Parents", kicker: "Hub", desc: "Guides, workbooks, Parcours Clarté TND, charge mentale.", accent: "border-t-et-teal" },
-  { title: "Enfants", kicker: "Hub", desc: "Émotions, histoires, jeux & routines (3·5·12).", accent: "border-t-et-magenta" },
-  { title: "Ados", kicker: "Hub", desc: "Attention, sommeil, estime de soi, protection numérique.", accent: "border-t-et-lavender" },
-  { title: "Professionnels", kicker: "Hub", desc: "Cockpit praticienne, protocoles, workbooks assignables.", accent: "border-t-gold" },
+  { slug: "parents", title: "Parents", kicker: "Hub", desc: "Guides, workbooks, Parcours Clarté TND, charge mentale.", accent: "border-t-et-teal" },
+  { slug: "enfants", title: "Enfants", kicker: "Hub", desc: "Émotions, histoires, jeux & routines (3·5·12).", accent: "border-t-et-magenta" },
+  { slug: "ados", title: "Ados", kicker: "Hub", desc: "Attention, sommeil, estime de soi, protection numérique.", accent: "border-t-et-lavender" },
+  { slug: "pro", title: "Professionnels", kicker: "Hub", desc: "Cockpit praticienne, protocoles, workbooks assignables.", accent: "border-t-gold" },
 ];
 
 export default function Home() {
@@ -61,11 +62,11 @@ export default function Home() {
         </p>
         <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
           {HUBS.map((h) => (
-            <div key={h.title} className={`rounded-2xl border border-shell-border ${h.accent} border-t-4 bg-shell-surface p-5 shadow-soft`}>
+            <Link key={h.title} href={`/hub/${h.slug}`} className={`rounded-2xl border border-shell-border ${h.accent} border-t-4 bg-shell-surface p-5 shadow-soft transition hover:-translate-y-1 hover:border-gold`}>
               <p className="text-xs font-semibold uppercase tracking-wide text-shell-muted">{h.kicker}</p>
               <h4 className="font-round text-lg font-bold text-shell-text">{h.title}</h4>
               <p className="mt-1 text-sm text-shell-muted">{h.desc}</p>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
