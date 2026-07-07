@@ -1,0 +1,427 @@
+<title>Les Deux Jardins — accueil de l'écosystème</title>
+<style>
+  :root{
+    /* --- Jannat al Qulûb --- */
+    --jq-green-deep:#3E4A38; --jq-sage:#7C8B6C; --jq-tender:#D9E4CB;
+    --jq-cream:#FBF7EF; --jq-gold:#C3873C; --jq-gold-dark:#B4782D; --jq-gold-light:#D4A050;
+    --jq-rose:#C48B93; --jq-ink:#43463F;
+    /* --- Educa Typique --- */
+    --et-teal:#3C6478; --et-magenta:#F050C8; --et-sky:#B4F0F0; --et-lavender:#C8A0F0;
+    --et-mint:#B4F0C8; --et-yellow:#F0F078; --et-charcoal:#4A4540; --et-taupe:#7D7269;
+    --et-beige:#F0E4D3; --et-offwhite:#FAF7F2;
+    /* --- shell tokens (light) — calibrés « thème v1 » --- */
+    --ground:#FBF7EF; --panel:#FFFFFF; --panel-2:#F4EFE4;
+    --ink:#43463F; --muted:#7D7269; --line:#E7D8B8; --gold:#C3873C;
+    /* atmosphère « jardin à l'aube » : sauge (Jannat) ⟵ lueur dorée ⟶ ciel/sarcelle (Educa) */
+    --garden-layers:
+      radial-gradient(760px 460px at 8% -4%, rgba(124,139,108,.26), transparent 62%),
+      radial-gradient(820px 480px at 94% 2%, rgba(150,196,208,.24), transparent 62%),
+      radial-gradient(1200px 720px at 50% -16%, rgba(212,160,80,.16), transparent 58%),
+      radial-gradient(1100px 900px at 50% 116%, rgba(217,228,203,.40), transparent 62%),
+      radial-gradient(600px 500px at 82% 88%, rgba(196,139,147,.12), transparent 66%);
+    --shadow:0 18px 40px -24px rgba(62,74,56,.45);
+    --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+    --round:"Segoe UI Rounded","Trebuchet MS",Verdana,system-ui,sans-serif;
+    --body:"Lato","Open Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+    --arab:"Amiri","Traditional Arabic","Scheherazade",serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --ground:#23281F; --panel:#2C3327; --panel-2:#333B2C;
+      --ink:#F1ECDD; --muted:#B7B29C; --line:rgba(212,160,80,.30); --gold:#D4A050;
+      --shadow:0 18px 44px -22px rgba(0,0,0,.6);
+      --garden-layers:
+        radial-gradient(760px 460px at 8% -4%, rgba(124,139,108,.22), transparent 62%),
+        radial-gradient(820px 480px at 94% 2%, rgba(60,100,120,.28), transparent 62%),
+        radial-gradient(1200px 720px at 50% -16%, rgba(212,160,80,.14), transparent 58%),
+        radial-gradient(1100px 900px at 50% 118%, rgba(62,74,56,.55), transparent 60%);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#23281F; --panel:#2C3327; --panel-2:#333B2C;
+    --ink:#F1ECDD; --muted:#B7B29C; --line:rgba(212,160,80,.30); --gold:#D4A050;
+    --shadow:0 18px 44px -22px rgba(0,0,0,.6);
+    --garden-layers:
+      radial-gradient(760px 460px at 8% -4%, rgba(124,139,108,.22), transparent 62%),
+      radial-gradient(820px 480px at 94% 2%, rgba(60,100,120,.28), transparent 62%),
+      radial-gradient(1200px 720px at 50% -16%, rgba(212,160,80,.14), transparent 58%),
+      radial-gradient(1100px 900px at 50% 118%, rgba(62,74,56,.55), transparent 60%);
+  }
+  :root[data-theme="light"]{
+    --ground:#FBF7EF; --panel:#FFFFFF; --panel-2:#F4EFE4;
+    --ink:#43463F; --muted:#7D7269; --line:#E7D8B8; --gold:#C3873C;
+    --shadow:0 18px 40px -24px rgba(62,74,56,.45);
+    --garden-layers:
+      radial-gradient(760px 460px at 8% -4%, rgba(124,139,108,.26), transparent 62%),
+      radial-gradient(820px 480px at 94% 2%, rgba(150,196,208,.24), transparent 62%),
+      radial-gradient(1200px 720px at 50% -16%, rgba(212,160,80,.16), transparent 58%),
+      radial-gradient(1100px 900px at 50% 116%, rgba(217,228,203,.40), transparent 62%),
+      radial-gradient(600px 500px at 82% 88%, rgba(196,139,147,.12), transparent 66%);
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background-color:var(--ground);color:var(--ink);
+    font-family:var(--body);line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    background-image:var(--garden-layers);
+    background-attachment:fixed;background-repeat:no-repeat;background-size:cover;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:clamp(20px,4vw,40px)}
+  a{color:inherit}
+  ::selection{background:rgba(195,135,60,.25)}
+
+  /* ---------- top bar ---------- */
+  .top{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;
+    padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:var(--serif);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(13px,1.6vw,16px);color:var(--jq-sage);font-weight:600}
+  :root[data-theme="dark"] .eyebrow{color:var(--jq-tender)}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .eyebrow{color:var(--jq-tender)}}
+
+  .controls{display:flex;gap:10px;align-items:center}
+  .theme-btn{background:transparent;border:1px solid var(--line);color:var(--muted);
+    border-radius:999px;width:38px;height:38px;cursor:pointer;font-size:16px;display:grid;place-items:center;
+    transition:.2s}
+  .theme-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+  /* ---------- mode toggle ---------- */
+  .mode{display:inline-flex;align-items:center;gap:0;background:var(--panel-2);
+    border:1px solid var(--line);border-radius:999px;padding:4px;position:relative;font-family:var(--serif)}
+  .mode button{position:relative;z-index:2;border:0;background:transparent;cursor:pointer;
+    font:inherit;font-size:15px;letter-spacing:.02em;padding:7px 16px;border-radius:999px;color:var(--muted);
+    transition:color .25s}
+  .mode .knob{position:absolute;z-index:1;top:4px;bottom:4px;border-radius:999px;
+    background:linear-gradient(135deg,var(--jq-gold-light),var(--jq-gold));
+    box-shadow:0 4px 12px -4px rgba(180,120,45,.7);transition:left .3s cubic-bezier(.5,.05,.2,1),width .3s}
+  [data-mode="universel"] .mode button.u,[data-mode="islamique"] .mode button.i{color:#fff;font-weight:600}
+
+  /* ---------- hero ---------- */
+  .hero{padding:clamp(30px,6vw,58px) 0 clamp(20px,3vw,30px);text-align:center}
+  .basmala{font-family:var(--arab);font-size:clamp(22px,3.4vw,30px);color:var(--gold);
+    margin:0 0 14px;direction:rtl;line-height:1.4}
+  .hero h1{font-family:var(--serif);font-weight:600;margin:.1em 0 .18em;
+    font-size:clamp(40px,8vw,74px);line-height:1.02;letter-spacing:.01em;text-wrap:balance;color:var(--ink)}
+  .hero h1 .amp{color:var(--gold);font-style:italic;font-weight:500}
+  .lede{max-width:56ch;margin:0 auto;color:var(--muted);font-size:clamp(16px,2vw,19px)}
+  .lede .swap b{color:var(--ink);font-weight:600}
+
+  .rule{display:flex;align-items:center;justify-content:center;gap:14px;margin:26px auto 0;max-width:340px}
+  .rule::before,.rule::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+  .rule svg{width:26px;height:26px;color:var(--gold);opacity:.9}
+
+  /* ---------- two gardens ---------- */
+  .gardens{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,26px);margin-top:clamp(26px,5vw,44px)}
+  @media(max-width:720px){.gardens{grid-template-columns:1fr}}
+  .garden{border-radius:22px;padding:clamp(22px,3vw,34px);position:relative;overflow:hidden;
+    box-shadow:var(--shadow);border:1px solid var(--line)}
+  .garden .kick{font-family:var(--serif);letter-spacing:.28em;text-transform:uppercase;font-size:12.5px;font-weight:600;opacity:.85}
+  .garden h2{margin:.35em 0 .1em;line-height:1.05}
+  .garden .ar{font-family:var(--arab);direction:rtl;font-size:24px;margin:0 0 2px;opacity:.92}
+  .garden .tag{font-family:var(--serif);font-style:italic;font-size:clamp(17px,2.2vw,21px);margin:.1em 0 .7em}
+  .garden p{margin:0;font-size:15px;line-height:1.62}
+  .garden .mark{width:96px;height:96px;margin-bottom:6px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+  .chip{font-size:12.5px;padding:5px 11px;border-radius:999px;font-weight:600;letter-spacing:.01em}
+
+  /* Jannat card */
+  .g-jq{background:
+      radial-gradient(120% 140% at 100% 0%, rgba(124,139,108,.16), transparent 55%),
+      var(--panel);border-left:4px solid var(--jq-sage)}
+  .g-jq .kick{color:var(--jq-sage)}
+  .g-jq h2{font-family:var(--serif);font-weight:600;font-size:clamp(30px,4.4vw,44px);color:var(--jq-green-deep)}
+  :root[data-theme="dark"] .g-jq h2{color:var(--jq-tender)}
+  @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .g-jq h2{color:var(--jq-tender)}}
+  .g-jq .tag{color:var(--jq-gold-dark)}
+  .g-jq .ar{color:var(--jq-gold)}
+  .g-jq .chip{background:var(--jq-tender);color:var(--jq-green-deep)}
+  :root[data-theme="dark"] .g-jq .chip{background:rgba(124,139,108,.28);color:var(--jq-tender)}
+
+  /* Educa card */
+  .g-et{background:
+      radial-gradient(120% 140% at 0% 0%, rgba(60,100,120,.14), transparent 55%),
+      var(--panel);border-top:4px solid var(--et-teal)}
+  .g-et .kick{color:var(--et-teal)}
+  :root[data-theme="dark"] .g-et .kick{color:var(--et-sky)}
+  .g-et h2{font-family:var(--round);font-weight:700;font-size:clamp(28px,4.2vw,42px);color:var(--et-teal);letter-spacing:-.01em}
+  :root[data-theme="dark"] .g-et h2{color:var(--et-sky)}
+  @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .g-et h2{color:var(--et-sky)}}
+  .g-et .tag{font-family:var(--round);font-style:normal;font-weight:600;color:var(--et-taupe)}
+  :root[data-theme="dark"] .g-et .tag{color:#c9c2b4}
+  .g-et .chip{background:var(--et-sky);color:#1f4353}
+  .g-et .chip.m{background:#fbd7f0;color:#9b2f7f}
+  .g-et .chip.l{background:#e6d5fb;color:#5f3d97}
+  :root[data-theme="dark"] .g-et .chip{background:rgba(60,100,120,.35);color:var(--et-sky)}
+  :root[data-theme="dark"] .g-et .chip.m{background:rgba(240,80,200,.22);color:#f4a8df}
+  :root[data-theme="dark"] .g-et .chip.l{background:rgba(200,160,240,.22);color:#d9c2f7}
+
+  /* ---------- hubs ---------- */
+  .section-head{display:flex;align-items:baseline;gap:14px;margin:clamp(38px,6vw,60px) 0 6px}
+  .section-head h3{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3.4vw,32px);margin:0;color:var(--ink)}
+  .section-head .n{font-family:var(--body);color:var(--muted);font-size:14px;letter-spacing:.04em}
+  .sub{color:var(--muted);margin:.2em 0 22px;max-width:60ch;font-size:15.5px}
+
+  .hubs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:860px){.hubs{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.hubs{grid-template-columns:1fr}}
+  .hub{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px 18px;
+    display:flex;flex-direction:column;gap:9px;transition:transform .2s,box-shadow .2s,border-color .2s;cursor:pointer}
+  .hub:hover,.hub:focus-visible{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--gold);outline:none}
+  .hub .ic{width:44px;height:44px}
+  .hub h4{margin:0;font-family:var(--round);font-weight:700;font-size:18px;color:var(--ink);letter-spacing:-.01em}
+  .hub small{color:var(--muted);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+  .hub p{margin:0;font-size:14px;color:var(--muted);line-height:1.55}
+
+  .cockpit{grid-column:1/-1;background:
+      linear-gradient(120deg, rgba(62,74,56,.06), rgba(195,135,60,.06)),var(--panel);
+    border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:18px;
+    padding:22px clamp(20px,3vw,30px);display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;margin-top:14px}
+  @media(max-width:640px){.cockpit{grid-template-columns:1fr;text-align:left}}
+  .cockpit .ic{width:52px;height:52px}
+  .cockpit h4{font-family:var(--serif);font-weight:600;font-size:clamp(20px,2.6vw,26px);margin:0 0 3px;color:var(--ink)}
+  .cockpit p{margin:0;color:var(--muted);font-size:14.5px;max-width:52ch}
+  .badge{align-self:start;font-family:var(--round);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    background:var(--gold);color:#fff;padding:6px 13px;border-radius:999px;white-space:nowrap}
+  .flow{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .flow span{font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 10px;background:var(--panel-2)}
+  .flow span b{color:var(--gold);font-weight:700}
+
+  /* ---------- mode explainer ---------- */
+  .modebar{margin-top:clamp(34px,5vw,52px);border:1px solid var(--line);border-radius:20px;overflow:hidden;
+    background:var(--panel)}
+  .modebar .head{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .modebar .head svg{width:22px;height:22px;color:var(--gold)}
+  .modebar .head strong{font-family:var(--serif);font-size:20px;font-weight:600}
+  .modebar .body{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+  @media(max-width:560px){.modebar .body{grid-template-columns:1fr}}
+  .modebar .cell{background:var(--panel);padding:20px 22px}
+  .modebar .cell h5{margin:0 0 8px;font-family:var(--round);font-weight:700;font-size:15px;letter-spacing:.02em;display:flex;align-items:center;gap:8px}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .modebar .cell.active{box-shadow:inset 0 0 0 2px var(--gold)}
+  .modebar ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px;line-height:1.7}
+  .modebar .cur{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+
+  /* validation flag for religious content */
+  .valider{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--jq-gold-dark);background:rgba(195,135,60,.14);border:1px dashed var(--gold);
+    border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:middle}
+
+  /* footer closing */
+  .closing{text-align:center;margin:clamp(40px,6vw,64px) 0 8px;padding-top:30px;border-top:1px solid var(--line)}
+  .closing .dua{font-family:var(--arab);direction:rtl;font-size:clamp(20px,3vw,26px);color:var(--gold);margin:0 0 8px}
+  .closing .fr{font-family:var(--serif);font-style:italic;font-size:clamp(18px,2.4vw,23px);color:var(--ink)}
+  .closing small{display:block;margin-top:14px;color:var(--muted);font-size:12.5px;letter-spacing:.04em}
+
+  .note{margin-top:26px;font-size:12px;color:var(--muted);text-align:center;opacity:.8;line-height:1.6}
+
+  /* mode visibility */
+  [data-mode="universel"] .i-only,[data-mode="universel"] .swap .i{display:none}
+  [data-mode="islamique"] .u-only,[data-mode="islamique"] .swap .u{display:none}
+  .swap .i,.swap .u{transition:opacity .2s}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap" id="app" data-mode="universel">
+
+  <!-- TOP BAR -->
+  <header class="top">
+    <span class="eyebrow">Les&nbsp;·&nbsp;Deux&nbsp;·&nbsp;Jardins</span>
+    <div class="controls">
+      <div class="mode" role="group" aria-label="Choisir le mode d'accompagnement">
+        <span class="knob" id="knob"></span>
+        <button class="u" data-mode-set="universel" aria-pressed="true">Universel</button>
+        <button class="i" data-mode-set="islamique" aria-pressed="false">Côté islamique</button>
+      </div>
+      <button class="theme-btn" id="theme" title="Basculer clair / sombre" aria-label="Basculer le thème clair ou sombre">◐</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="basmala i-only" aria-hidden="false">بِسْمِ اللَّٰهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+    <h1>Les Deux <span class="amp">Jardins</span></h1>
+    <p class="lede">
+      <span class="swap">
+        <span class="u">Un même soin qui relie la maman, l'enfant, l'ado et le·la professionnel·le — <b>fondé sur les preuves</b>, apaisant, pensé pour les esprits fatigués et atypiques.</span>
+        <span class="i">Un même soin qui relie la maman, l'enfant, l'ado et le·la professionnel·le — porté par la <b>sakīna</b>, la <b>baraka</b> et le respect de la <b>fiṭra</b>.</span>
+      </span>
+    </p>
+    <div class="rule" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2c1.5 3 1.5 5 0 7-1.5-2-1.5-4 0-7Z"/><path d="M12 9v13"/><path d="M12 14c-2-1-4-1-6 0 1.6 1.6 4 1.6 6 0Z"/><path d="M12 18c2-1 4-1 6 0-1.6 1.6-4 1.6-6 0Z"/></svg>
+    </div>
+  </section>
+
+  <!-- TWO GARDENS -->
+  <section class="gardens" aria-label="Les deux identités de l'écosystème">
+
+    <!-- JANNAT -->
+    <article class="garden g-jq">
+      <svg class="mark" viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="56" r="40" fill="none" stroke="var(--jq-gold)" stroke-width="1.5"/>
+        <path d="M40 44c-3-8 6-16 20-8 14-8 23 0 20 8 3 10-14 24-20 28-6-4-23-18-20-28Z" fill="var(--jq-sage)" stroke="var(--jq-gold)" stroke-width="2"/>
+        <path d="M60 34v34M60 44c-4-2-8-2-11 0M60 52c-4-2-9-2-13 0M60 44c4-2 8-2 11 0M60 52c4-2 9-2 13 0" stroke="var(--jq-tender)" stroke-width="1.3" fill="none" opacity=".8"/>
+        <g fill="var(--jq-gold)"><circle cx="60" cy="34" r="3.4"/><circle cx="55" cy="31" r="2.6"/><circle cx="65" cy="31" r="2.6"/><circle cx="57" cy="27" r="2.4"/><circle cx="63" cy="27" r="2.4"/><circle cx="60" cy="31" r="1.6" fill="var(--jq-cream)"/></g>
+        <path d="M60 72v22" stroke="var(--jq-sage)" stroke-width="3" fill="none"/>
+        <path d="M60 84c-6-3-12 0-14 5 6 2 12 0 14-5ZM60 90c6-3 12 0 14 5-6 2-12 0-14-5Z" fill="var(--jq-sage)"/>
+        <path d="M34 40l2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="var(--jq-gold-light)"/>
+        <path d="M92 66l1.4 3.5 3.5 1.4-3.5 1.4-1.4 3.5-1.4-3.5-3.5-1.4 3.5-1.4Z" fill="var(--jq-gold-light)"/>
+      </svg>
+      <span class="kick">Le Jardin du cœur</span>
+      <p class="ar">جنّة القلوب</p>
+      <h2>Jannat al Qulûb</h2>
+      <p class="tag">« Soigner les fleurs et les plantes »</p>
+      <p>Côté maman, femme, adulte — l'accompagnement <span class="swap"><span class="u">psychologique</span><span class="i">psycho-spirituel</span></span>. C'est aussi la charte du <b>cockpit praticienne</b>.</p>
+      <div class="chips">
+        <span class="chip">Psychologie</span>
+        <span class="chip">TCC</span>
+        <span class="chip i-only">Médecine prophétique</span>
+        <span class="chip">Accompagnement pro</span>
+      </div>
+    </article>
+
+    <!-- EDUCA -->
+    <article class="garden g-et">
+      <svg class="mark" viewBox="0 0 120 120" aria-hidden="true">
+        <rect x="18" y="18" width="84" height="84" rx="22" fill="var(--et-teal)"/>
+        <path d="M30 78a30 20 0 0 1 60 0Z" fill="#2c4d5e"/>
+        <path d="M60 48v30" stroke="var(--et-mint)" stroke-width="5" stroke-linecap="round"/>
+        <path d="M60 66c-9-2-16 2-19 9 8 3 16-1 19-9Z" fill="var(--et-mint)"/>
+        <path d="M60 60c8-2 15 1 18 7-7 3-15 0-18-7Z" fill="var(--et-yellow)"/>
+        <circle cx="60" cy="44" r="10" fill="var(--et-magenta)"/>
+        <circle cx="56" cy="40" r="3" fill="#fff" opacity=".85"/>
+      </svg>
+      <span class="kick">Le Jardin des graines</span>
+      <p class="ar" aria-hidden="true">&nbsp;</p>
+      <h2>Educa&#8202;Typique</h2>
+      <p class="tag">« Semer les petites graines »</p>
+      <p>Côté enfant, ado &amp; parentalité TND — la <b>neuropédagogie</b> au quotidien, du plus ludique au plus posé.</p>
+      <div class="chips">
+        <span class="chip">Parents</span>
+        <span class="chip m">Enfants 3·5·12</span>
+        <span class="chip l">Ados</span>
+        <span class="chip">Neuropédagogie</span>
+      </div>
+    </article>
+  </section>
+
+  <!-- HUBS -->
+  <div class="section-head">
+    <h3>Quatre hubs, un seul soin</h3>
+    <span class="n">chacun en mode Universel ou Islamique</span>
+  </div>
+  <p class="sub">Une même personne circule d'un espace à l'autre. Les outils grand public restent 100&nbsp;% privés (sur l'appareil) ; le cockpit relie tout le parcours.</p>
+
+  <div class="hubs">
+    <div class="hub" tabindex="0">
+      <svg class="ic" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M10 40a30 12 0 0 1 28 0Z" fill="var(--et-teal)" opacity=".18"/><path d="M24 20v18" stroke="var(--et-teal)" stroke-width="3" stroke-linecap="round"/><path d="M24 30c-6-2-11 1-13 6 6 2 11-1 13-6Z" fill="var(--et-mint)"/><circle cx="24" cy="16" r="6" fill="var(--et-teal)"/></svg>
+      <small>Hub</small><h4>Parents</h4>
+      <p>Guides, workbooks, Parcours Clarté TND, charge mentale, entraide.</p>
+    </div>
+    <div class="hub" tabindex="0">
+      <svg class="ic" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="32" r="10" fill="var(--et-yellow)" opacity=".5"/><path d="M24 30c-2-6 1-11 0-14M24 24c-4-1-7 1-8 4 4 1 7-1 8-4Z" stroke="var(--et-magenta)" stroke-width="2.4" fill="var(--et-magenta)"/><circle cx="24" cy="14" r="4.5" fill="var(--et-magenta)"/></svg>
+      <small>Hub</small><h4>Enfants</h4>
+      <p>Émotions, histoires, jeux &amp; routines. <span class="swap"><span class="u">Petits maux : hygiène de vie.</span><span class="i">Petits maux : médecine prophétique.</span></span></p>
+    </div>
+    <div class="hub" tabindex="0">
+      <svg class="ic" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 40V16" stroke="var(--et-lavender)" stroke-width="3" stroke-linecap="round"/><path d="M24 26c-7-2-13 1-15 7 7 2 13-1 15-7Z" fill="var(--et-lavender)"/><path d="M24 20c6-2 11 1 13 6-6 2-11-1-13-6Z" fill="var(--et-sky)"/><circle cx="24" cy="13" r="5" fill="var(--et-lavender)"/></svg>
+      <small>Hub</small><h4>Ados</h4>
+      <p>Attention, sommeil, estime de soi, journal d'humeur, brise-glace.</p>
+    </div>
+    <div class="hub" tabindex="0">
+      <svg class="ic" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="22" r="15" fill="none" stroke="var(--jq-gold)" stroke-width="1.4"/><path d="M15 20c-1-4 3-8 9-4 6-4 10 0 9 4 1 5-7 11-9 13-2-2-10-8-9-13Z" fill="var(--jq-sage)" stroke="var(--jq-gold)" stroke-width="1.6"/></svg>
+      <small>Hub</small><h4>Professionnels</h4>
+      <p>Protocoles cliniques &amp; <span class="swap"><span class="u">ancrages</span><span class="i">invocations</span></span>, workbooks, Relais Lumière.</p>
+    </div>
+
+    <!-- COCKPIT -->
+    <div class="cockpit" tabindex="0" aria-label="Cockpit praticienne — MVP prioritaire">
+      <svg class="ic" viewBox="0 0 52 52" fill="none" aria-hidden="true"><circle cx="26" cy="26" r="24" fill="none" stroke="var(--jq-gold)" stroke-width="1.3"/><path d="M14 24c-1-5 4-10 12-5 8-5 13 0 12 5 1 6-9 14-12 17-3-3-13-11-12-17Z" fill="var(--jq-sage)" stroke="var(--jq-gold)" stroke-width="1.8"/><path d="M26 14v22" stroke="var(--jq-tender)" stroke-width="1.4"/></svg>
+      <div>
+        <h4>Cockpit praticienne</h4>
+        <p>Le cœur fonctionnel : une fiche client unique relie tout le parcours, de l'accueil à la clôture. Les synthèses « Pour toi » ne partent <b>jamais</b> sans ta validation.</p>
+        <div class="flow" aria-hidden="true">
+          <span><b>1</b> Accueil</span><span><b>2</b> Bilan</span><span><b>3</b> Séances</span><span><b>4</b> Outils</span><span><b>5</b> Synthèse « Pour toi »</span><span><b>6</b> Suivi</span><span><b>7</b> Clôture</span>
+        </div>
+      </div>
+      <span class="badge">MVP · Jalon 1</span>
+    </div>
+  </div>
+
+  <!-- MODE EXPLAINER -->
+  <section class="modebar" aria-label="Le double mode">
+    <div class="head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v18M5 8l14 8M19 8L5 16"/></svg>
+      <strong>Un seul écosystème, deux voix au choix</strong>
+      <span class="cur" style="margin-left:auto">Mode actuel :
+        <span class="swap"><span class="u">Universel</span><span class="i">Côté islamique</span></span></span>
+    </div>
+    <div class="body">
+      <div class="cell" id="cell-u">
+        <h5><span class="dot" style="background:var(--et-teal)"></span>Universel</h5>
+        <ul>
+          <li>Langage laïque, fondé sur les preuves</li>
+          <li>« Ancrage », hygiène de vie</li>
+          <li>Aucun contenu confessionnel imposé</li>
+        </ul>
+      </div>
+      <div class="cell" id="cell-i">
+        <h5><span class="dot" style="background:var(--jq-gold)"></span>Côté islamique</h5>
+        <ul>
+          <li>Sakīna, baraka, fiṭra, tawakkul</li>
+          <li>Invocations &amp; du'ās <span class="valider">à valider</span>, médecine prophétique</li>
+          <li>Ornements dorés, option date hégirienne</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <footer class="closing">
+    <p class="dua i-only">وَقُل رَّبِّ زِدْنِي عِلْمًا <span class="valider">à valider</span></p>
+    <p class="fr">
+      <span class="swap">
+        <span class="u">Prends soin de toi. Un pas à la fois, une graine à la fois.</span>
+        <span class="i">Qu'Allāh mette la baraka dans ton cheminement. Une graine à la fois.</span>
+      </span>
+    </p>
+    <small>Les Deux Jardins — Jannat al Qulûb &amp; Educa Typique · Nawel (Oum Mona) · maquette Jalon 0</small>
+  </footer>
+
+  <p class="note">
+    Prototype visuel (Jalon 0). Polices approchées par des équivalents système — le rendu final utilisera Cormorant Garamond, Lato, Quicksand et Amiri. Le toggle « Universel / Côté islamique » est fonctionnel : essaie-le. Le bouton ◐ bascule clair / sombre.
+  </p>
+</div>
+
+<script>
+  var app=document.getElementById('app');
+  var knob=document.getElementById('knob');
+  var btns=document.querySelectorAll('[data-mode-set]');
+  function place(){
+    var active=app.getAttribute('data-mode');
+    var el=document.querySelector('.mode button.'+(active==='universel'?'u':'i'));
+    knob.style.left=el.offsetLeft+'px';
+    knob.style.width=el.offsetWidth+'px';
+    document.getElementById('cell-u').classList.toggle('active',active==='universel');
+    document.getElementById('cell-i').classList.toggle('active',active==='islamique');
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      app.setAttribute('data-mode',b.getAttribute('data-mode-set'));
+      btns.forEach(function(x){x.setAttribute('aria-pressed', x===b?'true':'false');});
+      place();
+    });
+  });
+  window.addEventListener('resize',place);
+  // theme toggle
+  var t=document.getElementById('theme');
+  t.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var next = cur==='dark' ? 'light' : (cur==='light' ? 'dark' :
+      (window.matchMedia('(prefers-color-scheme:dark)').matches?'light':'dark'));
+    document.documentElement.setAttribute('data-theme',next);
+  });
+  place();
+</script>
