@@ -1,5 +1,4 @@
 "use client";
-import { ModeToggle } from "@/components/ModeToggle";
 import { useMode } from "@/lib/mode";
 
 const HUBS = [
@@ -15,16 +14,8 @@ export default function Home() {
 
   return (
     <main className="mx-auto max-w-5xl px-5 py-8 sm:px-8 sm:py-10">
-      {/* top bar */}
-      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-shell-border pb-4">
-        <span className="font-serif text-sm font-semibold uppercase tracking-[0.4em] text-jq-sage">
-          Les&nbsp;·&nbsp;Deux&nbsp;·&nbsp;Jardins
-        </span>
-        <ModeToggle />
-      </header>
-
       {/* hero */}
-      <section className="py-10 text-center sm:py-14">
+      <section className="pb-10 pt-6 text-center sm:pb-14">
         {islamic && (
           <p className="mb-3 font-arab text-2xl text-gold" dir="rtl">
             بِسْمِ اللَّٰهِ الرَّحْمَٰنِ الرَّحِيمِ

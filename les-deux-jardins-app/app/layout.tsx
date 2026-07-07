@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ModeProvider } from "@/lib/mode";
+import { Nav } from "@/components/Nav";
 
 export const metadata: Metadata = {
   title: "Les Deux Jardins — Jannat al Qulûb & Educa Typique",
@@ -18,7 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr">
       <body>
-        <ModeProvider>{children}</ModeProvider>
+        <ModeProvider>
+          <Nav />
+          {children}
+        </ModeProvider>
       </body>
     </html>
   );
