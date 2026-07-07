@@ -1,0 +1,452 @@
+<title>Cockpit praticienne — Les Deux Jardins</title>
+<style>
+  :root{
+    --jq-green-deep:#3E4A38; --jq-sage:#7C8B6C; --jq-tender:#D9E4CB; --jq-rose:#C48B93;
+    --gold:#C3873C; --gold-dark:#B4782D; --gold-light:#D4A050;
+    --bg:#FBF7EF; --surface:#FFFFFF; --soft:#F4EFE4; --border:#E7D8B8;
+    --text:#43463F; --muted:#7D7269;
+    --ok:#5B8A5B; --warn:#C08A2E; --info:#5E7F8C;
+    --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+    --body:"Lato","Open Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+    --arab:"Amiri","Traditional Arabic",serif;
+    --shadow:0 12px 30px -18px rgba(62,74,56,.5);
+    --radius:18px;
+  }
+  :root[data-theme="dark"]{
+    --bg:#22271E; --surface:#2B3125; --soft:#333A2B; --border:rgba(212,160,80,.28);
+    --text:#F0EAD9; --muted:#B4AF98; --gold:#D4A050; --jq-tender:#c7d4b6;
+    --shadow:0 16px 40px -20px rgba(0,0,0,.65);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(680px 420px at 6% -6%, rgba(124,139,108,.20), transparent 60%),
+      radial-gradient(760px 460px at 98% 0%, rgba(212,160,80,.13), transparent 60%),
+      radial-gradient(900px 800px at 50% 120%, rgba(217,228,203,.30), transparent 62%);
+    background-attachment:fixed}
+  :root[data-theme="dark"] body{background-image:
+      radial-gradient(680px 420px at 6% -6%, rgba(124,139,108,.16), transparent 60%),
+      radial-gradient(760px 460px at 98% 0%, rgba(212,160,80,.10), transparent 60%),
+      radial-gradient(900px 800px at 50% 122%, rgba(62,74,56,.5), transparent 62%)}
+  button{font-family:inherit;cursor:pointer}
+  h1,h2,h3,h4{margin:0}
+
+  /* ---------- shell ---------- */
+  .app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+  @media(max-width:880px){.app{grid-template-columns:1fr}}
+
+  /* sidebar */
+  .side{border-right:1px solid var(--border);padding:20px 16px;display:flex;flex-direction:column;gap:16px;
+    background:linear-gradient(180deg,rgba(124,139,108,.06),transparent 30%)}
+  @media(max-width:880px){.side{border-right:0;border-bottom:1px solid var(--border)}}
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand svg{width:38px;height:38px;flex:none}
+  .brand .t{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.1;color:var(--jq-green-deep)}
+  :root[data-theme="dark"] .brand .t{color:var(--jq-tender)}
+  .brand .s{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .side .lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:2px 0 -4px}
+  .clients{display:flex;flex-direction:column;gap:8px}
+  .cli{display:flex;gap:11px;align-items:center;padding:10px 12px;border-radius:14px;border:1px solid transparent;
+    background:var(--surface);text-align:left;width:100%;transition:.15s}
+  .cli:hover{border-color:var(--border)}
+  .cli.on{border-color:var(--gold);box-shadow:var(--shadow)}
+  .ava{width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;font-family:var(--serif);
+    font-size:18px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--jq-sage),var(--jq-green-deep))}
+  .cli .nm{font-weight:700;font-size:14.5px}
+  .cli .mt{font-size:11.5px;color:var(--muted)}
+  .side .foot{margin-top:auto;font-size:11.5px;color:var(--muted);border-top:1px solid var(--border);padding-top:12px}
+  .pract{display:flex;gap:10px;align-items:center}
+  .pract .ava{width:32px;height:32px;font-size:14px;background:linear-gradient(135deg,var(--gold-light),var(--gold-dark))}
+
+  /* main */
+  .main{padding:22px clamp(16px,3vw,34px) 60px;max-width:1000px}
+  .topbar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .topbar h1{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3vw,32px);color:var(--jq-green-deep)}
+  :root[data-theme="dark"] .topbar h1{color:var(--jq-tender)}
+  .controls{display:flex;gap:10px;align-items:center}
+  .mode{display:inline-flex;background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:4px;position:relative;font-family:var(--serif)}
+  .mode button{position:relative;z-index:2;border:0;background:transparent;font-size:14px;padding:6px 14px;border-radius:999px;color:var(--muted);transition:color .25s}
+  .mode .knob{position:absolute;z-index:1;top:4px;bottom:4px;border-radius:999px;background:linear-gradient(135deg,var(--gold-light),var(--gold));transition:left .3s cubic-bezier(.5,.05,.2,1),width .3s}
+  [data-mode="universel"] .mode .u,[data-mode="islamique"] .mode .i{color:#fff;font-weight:600}
+  .icobtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--muted);display:grid;place-items:center;font-size:15px}
+  .icobtn:hover{border-color:var(--gold);color:var(--gold)}
+
+  /* client header card */
+  .fiche{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--jq-sage);
+    border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+  .fiche .row{display:flex;flex-wrap:wrap;gap:16px 26px;align-items:center}
+  .fiche .big{font-family:var(--serif);font-weight:600;font-size:26px;color:var(--jq-green-deep)}
+  :root[data-theme="dark"] .fiche .big{color:var(--jq-tender)}
+  .meta{display:flex;flex-direction:column;gap:1px}
+  .meta .k{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .meta .v{font-size:14px}
+  .pill{font-size:11.5px;font-weight:700;padding:4px 11px;border-radius:999px;display:inline-flex;gap:6px;align-items:center}
+  .pill .dot{width:8px;height:8px;border-radius:50%}
+  .pill.ok{background:rgba(91,138,91,.14);color:var(--ok)} .pill.ok .dot{background:var(--ok)}
+  .pill.warn{background:rgba(192,138,46,.16);color:var(--warn)} .pill.warn .dot{background:var(--warn)}
+
+  /* stepper */
+  .stepper{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:16px;scrollbar-width:thin}
+  .step{flex:none;display:flex;gap:9px;align-items:center;padding:9px 15px;border-radius:999px;border:1px solid var(--border);
+    background:var(--surface);color:var(--muted);font-size:13.5px;font-weight:600;white-space:nowrap;transition:.15s}
+  .step:hover{border-color:var(--gold-light)}
+  .step.on{background:var(--jq-green-deep);color:#fff;border-color:var(--jq-green-deep)}
+  :root[data-theme="dark"] .step.on{background:var(--gold);color:#26150a}
+  .step .num{width:20px;height:20px;border-radius:50%;background:var(--soft);color:var(--jq-green-deep);display:grid;place-items:center;font-size:12px;font-weight:800}
+  .step.on .num{background:rgba(255,255,255,.25);color:#fff}
+  .step.done .num{background:var(--jq-sage);color:#fff}
+
+  /* panels */
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(18px,2.5vw,26px);box-shadow:var(--shadow)}
+  .panel h2{font-family:var(--serif);font-weight:600;font-size:23px;color:var(--jq-green-deep);margin-bottom:3px}
+  :root[data-theme="dark"] .panel h2{color:var(--jq-tender)}
+  .panel .lead{color:var(--muted);margin-bottom:18px;font-size:14.5px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.grid2{grid-template-columns:1fr}}
+  .field{background:var(--soft);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+  .field .k{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:7px}
+  .field .val{font-size:14.5px}
+  textarea,input[type=text]{width:100%;font-family:inherit;font-size:14px;color:var(--text);background:var(--surface);
+    border:1px solid var(--border);border-radius:12px;padding:10px 12px;resize:vertical}
+  textarea:focus,input:focus{outline:2px solid var(--gold-light);outline-offset:1px;border-color:var(--gold)}
+  label.k{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700;display:block;margin:12px 0 5px}
+
+  .btn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:12px;padding:9px 16px;font-size:14px;font-weight:600;display:inline-flex;gap:8px;align-items:center}
+  .btn:hover{border-color:var(--gold)}
+  .btn.gold{background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold-dark));color:#fff;border:0;box-shadow:0 4px 14px rgba(195,135,60,.28)}
+  .btn.green{background:var(--jq-green-deep);color:#fff;border:0}
+  .btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+
+  /* séances */
+  .seance{border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:12px;background:var(--soft)}
+  .seance .hd{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .seance .dt{font-weight:700;font-size:14px}
+  .meteo{display:inline-flex;gap:7px;align-items:center;font-size:12.5px;font-weight:700;padding:4px 11px;border-radius:999px}
+  .m-beau{background:rgba(91,138,91,.16);color:#4d7a4d} .m-voile{background:rgba(94,127,140,.16);color:#4f6f7c}
+  .m-averse{background:rgba(192,138,46,.16);color:#a5751f} .m-orage{background:rgba(196,80,90,.16);color:#a94b54}
+  .seance .ax{font-size:13px;color:var(--muted);margin-top:6px}
+  .seance .ax b{color:var(--text)}
+  .metsel{display:flex;gap:6px;flex-wrap:wrap}
+  .metsel button{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:600;color:var(--muted)}
+  .metsel button.on{border-color:var(--gold);color:var(--text);background:var(--soft)}
+
+  /* library */
+  .tool{display:flex;gap:13px;align-items:flex-start;border:1px solid var(--border);border-radius:14px;padding:13px 15px;margin-bottom:10px;background:var(--surface)}
+  .tool .ic{width:38px;height:38px;border-radius:11px;flex:none;display:grid;place-items:center;background:var(--soft);color:var(--gold)}
+  .tool .nm{font-weight:700;font-size:14.5px}
+  .tool .ds{font-size:12.5px;color:var(--muted)}
+  .badge{font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:7px}
+  .b-clin{background:rgba(94,127,140,.15);color:var(--info)}
+  .b-spir{background:rgba(195,135,60,.16);color:var(--gold-dark)}
+  .b-draft{background:rgba(192,138,46,.16);color:var(--warn);border:1px dashed var(--gold)}
+  .b-val{background:rgba(91,138,91,.16);color:var(--ok)}
+  .assign{margin-left:auto;align-self:center}
+
+  /* synthèse lettre */
+  .letter{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:clamp(20px,3vw,34px);
+    margin-top:16px;font-size:14.5px;line-height:1.7;position:relative}
+  .letter .lh{text-align:center;border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:16px}
+  .letter .lh .mk{font-family:var(--serif);font-size:22px;color:var(--jq-green-deep);font-weight:600}
+  .letter .lh .sb{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .letter .open{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--gold-dark);text-align:center;margin-bottom:16px}
+  .letter .ar{font-family:var(--arab);direction:rtl;font-size:22px;color:var(--gold);text-align:center;margin-bottom:6px}
+  .lsec{margin-bottom:13px}
+  .lsec .st{font-family:var(--serif);font-weight:700;font-size:16px;color:var(--jq-green-deep);display:flex;gap:9px;align-items:baseline}
+  :root[data-theme="dark"] .lsec .st,:root[data-theme="dark"] .letter .lh .mk{color:var(--jq-tender)}
+  .lsec .st .n{color:var(--gold);font-family:var(--body);font-size:13px;font-weight:800}
+  .boussole{background:var(--soft);border-left:3px solid var(--gold);border-radius:10px;padding:12px 15px;margin:15px 0;font-style:italic}
+  .dua{background:rgba(195,135,60,.07);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:center;margin:15px 0}
+  .semaine{border:1px dashed var(--gold);border-radius:10px;padding:13px 16px;margin-top:15px}
+  .semaine .k{font-weight:800;color:var(--gold-dark);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+  .lfoot{margin-top:18px;padding-top:12px;border-top:1px solid var(--border);font-size:11.5px;color:var(--muted);text-align:center}
+  .valider{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+    color:var(--gold-dark);background:rgba(195,135,60,.14);border:1px dashed var(--gold);border-radius:6px;padding:1px 6px;margin-left:6px}
+
+  .status-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--soft);border:1px solid var(--border);
+    border-radius:12px;padding:12px 15px;margin-bottom:6px}
+  .status-bar .info{font-size:13px;color:var(--muted)}
+  .flow-pill{display:flex;gap:4px;align-items:center;font-size:11.5px;font-weight:700}
+  .flow-pill span{padding:3px 9px;border-radius:999px;background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+  .flow-pill span.cur{background:var(--gold);color:#fff;border-color:var(--gold)}
+
+  .callout{display:flex;gap:11px;background:rgba(94,127,140,.08);border:1px solid var(--border);border-radius:12px;padding:12px 15px;font-size:13px;color:var(--muted);margin-top:14px}
+  .callout svg{flex:none;width:18px;height:18px;color:var(--info);margin-top:2px}
+
+  .u-only{display:none} [data-mode="universel"] .u-only{display:revert}
+  [data-mode="universel"] .i-only{display:none}
+  .swap .i{display:none} [data-mode="islamique"] .swap .i{display:inline} [data-mode="islamique"] .swap .u{display:none}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+  /* print — only the letter */
+  @media print{
+    body{background:#fff}
+    .side,.topbar,.stepper,.status-bar,.btn-row,.fiche,.callout,.no-print{display:none!important}
+    .app{display:block} .main{max-width:none;padding:0}
+    .panel{border:0;box-shadow:none;padding:0}
+    .panel h2,.panel .lead{display:none}
+    .letter{border:0;box-shadow:none}
+  }
+</style>
+
+<div class="app" data-mode="universel" id="app">
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="brand">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="22" r="16" fill="none" stroke="var(--gold)" stroke-width="1.3"/><path d="M14 20c-1-4 4-9 10-4 6-5 11 0 10 4 1 5-8 12-10 15-2-3-11-10-10-15Z" fill="var(--jq-sage)" stroke="var(--gold)" stroke-width="1.6"/><path d="M24 12v24" stroke="var(--jq-tender)" stroke-width="1.2"/></svg>
+      <div><div class="t">Jannat al Qulûb</div><div class="s">Cockpit praticienne</div></div>
+    </div>
+    <div class="lbl">Mes accompagnées</div>
+    <div class="clients" id="clients"></div>
+    <div class="foot">
+      <div class="pract"><span class="ava">N</span><div><div style="font-weight:700;font-size:13px">Nawel · Oum Mona</div><div>Praticienne — Les Deux Jardins</div></div></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <h1>Cockpit praticienne</h1>
+      <div class="controls">
+        <div class="mode" role="group" aria-label="Mode d'accompagnement">
+          <span class="knob" id="knob"></span>
+          <button class="u" data-mode-set="universel">Universel</button>
+          <button class="i" data-mode-set="islamique">Islamique</button>
+        </div>
+        <button class="icobtn" id="theme" title="Clair / sombre" aria-label="Basculer le thème">◐</button>
+      </div>
+    </div>
+
+    <div id="fiche"></div>
+    <div class="stepper" id="stepper"></div>
+    <div id="panel"></div>
+  </main>
+</div>
+
+<script>
+//// ---------- DEMO DATA ----------
+var STEPS=[
+  {k:"accueil",n:1,t:"Accueil"},{k:"bilan",n:2,t:"Bilan / anamnèse"},{k:"seances",n:3,t:"Séances"},
+  {k:"outils",n:4,t:"Bibliothèque"},{k:"synthese",n:5,t:"Synthèse « Pour toi »"},
+  {k:"suivi",n:6,t:"Suivi"},{k:"cloture",n:7,t:"Clôture"}
+];
+var METEO={beau:{c:"m-beau",l:"Beau fixe"},voile:{c:"m-voile",l:"Voilé"},averse:{c:"m-averse",l:"Averses"},orage:{c:"m-orage",l:"Orageux"}};
+
+var clients=[
+  {id:"amina",nom:"Amina",initiale:"A",etape:5,consentement:true,
+   intention:"Retrouver de l'apaisement et de la clarté dans mon rôle de mère, sans culpabiliser.",
+   rdv:"Jeu. 10 juil · 14h00 (Zoom)",
+   bilan:{histoire:"Mère de 2 enfants (dont un TDAH). Charge mentale élevée depuis la rentrée.",
+     schemas:"Tendance au perfectionnisme ; auto-critique forte.",
+     neuro:"Se reconnaît des traits neuro-atypiques (hypersensibilité, hyperfocus).",
+     spirituel:"Cherche à relier son cheminement intérieur à sa foi, avec douceur."},
+   seances:[
+     {date:"26 juin", meteo:"averse", notes:"Semaine difficile : conflits aux devoirs, sentiment de débordement. A identifié le moment déclencheur (17h-18h).", axes:"Poser un rituel de transition avant les devoirs."},
+     {date:"3 juil", meteo:"voile", notes:"A testé le rituel de transition 3 soirs sur 5. Moins de cris. Reste la fatigue du vendredi.", axes:"Renforcer l'auto-compassion ; alléger le vendredi."}
+   ],
+   engagements:["Rituel de transition 5 min avant les devoirs","Une pause « pour moi » le vendredi"],
+   synthese:{status:"brouillon",ouverture:"",sections:[],boussole:"",semaine:""}
+  },
+  {id:"sara",nom:"Sara",initiale:"S",etape:2,consentement:false,
+   intention:"Sortir de l'épuisement et retrouver un cadre.",
+   rdv:"À planifier",
+   bilan:{histoire:"Auto-entrepreneuse, en surcharge. Sommeil perturbé.",schemas:"—",neuro:"—",spirituel:"—"},
+   seances:[], engagements:[], synthese:{status:"brouillon",ouverture:"",sections:[],boussole:"",semaine:""}
+  },
+  {id:"leila",nom:"Leïla",initiale:"L",etape:6,consentement:true,
+   intention:"Consolider les acquis et préparer l'autonomie.",
+   rdv:"Mar. 15 juil · 11h00",
+   bilan:{histoire:"Fin de parcours, nette amélioration de la régulation.",schemas:"Schémas assouplis.",neuro:"—",spirituel:"Ancrage spirituel stabilisant."},
+   seances:[{date:"1 juil",meteo:"beau",notes:"Séance sereine, bilan très positif.",axes:"Préparer la clôture."}],
+   engagements:["Maintenir la routine du matin"], synthese:{status:"validé",ouverture:"",sections:[],boussole:"",semaine:""}
+  }
+];
+
+var library=[
+  {nm:"Ancrage 5-4-3-2-1", ds:"Régulation express par les sens", type:"clin"},
+  {nm:"Respiration apaisante", ds:"Cohérence cardiaque guidée", type:"clin"},
+  {nm:"Fenêtre de tolérance", ds:"Repérer haut/bas d'activation", type:"clin"},
+  {nm:"Module invocations (du'ā)", ds:"Adab & conditions — corpus validé", type:"spir", relig:true}
+];
+
+//// ---------- STATE ----------
+var cur="amina", step="synthese";
+function C(){return clients.filter(function(c){return c.id===cur})[0];}
+
+//// ---------- RENDER ----------
+function renderClients(){
+  document.getElementById("clients").innerHTML=clients.map(function(c){
+    var et=STEPS.filter(function(s){return s.n===c.etape})[0];
+    return '<button class="cli '+(c.id===cur?"on":"")+'" onclick="selCli(\''+c.id+'\')">'+
+      '<span class="ava">'+c.initiale+'</span>'+
+      '<span><span class="nm">'+c.nom+'</span><br><span class="mt">Étape '+c.etape+' · '+et.t+'</span></span></button>';
+  }).join("");
+}
+function renderFiche(){
+  var c=C();
+  document.getElementById("fiche").innerHTML=
+   '<div class="fiche"><div class="row">'+
+     '<span class="big">'+c.nom+'</span>'+
+     '<div class="meta"><span class="k">Intention</span><span class="v">'+c.intention+'</span></div>'+
+     '<div class="meta"><span class="k">Prochain RDV</span><span class="v">'+c.rdv+'</span></div>'+
+     '<div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">'+
+       (c.consentement?'<span class="pill ok"><span class="dot"></span>Consentement recueilli</span>':'<span class="pill warn"><span class="dot"></span>Consentement à recueillir</span>')+
+     '</div>'+
+   '</div></div>';
+}
+function renderStepper(){
+  var c=C();
+  document.getElementById("stepper").innerHTML=STEPS.map(function(s){
+    var cls=s.k===step?"on":(s.n<c.etape?"done":"");
+    return '<button class="step '+cls+'" onclick="selStep(\''+s.k+'\')"><span class="num">'+s.n+'</span>'+s.t+'</button>';
+  }).join("");
+}
+function panel(html){document.getElementById("panel").innerHTML='<div class="panel">'+html+'</div>';}
+
+function renderPanel(){
+  var c=C();
+  if(step==="accueil"){
+    panel('<h2>Accueil</h2><p class="lead">Questionnaire d\'entrée, intention, consentement, prise de RDV — la fiche est créée automatiquement.</p>'+
+      '<div class="grid2">'+
+      '<div class="field"><div class="k">Intention exprimée</div><div class="val">'+c.intention+'</div></div>'+
+      '<div class="field"><div class="k">Prise de RDV</div><div class="val">'+c.rdv+' · <a href="#" class="no-print" onclick="return false" style="color:var(--gold)">Ouvrir Calendly</a></div></div>'+
+      '<div class="field"><div class="k">Consentement éclairé</div><div class="val">'+(c.consentement?'✔ Recueilli — accompagnement (ne remplace ni thérapie, ni ruqya, ni fatwa).':'⚠ À recueillir avant la 1re séance.')+'</div></div>'+
+      '<div class="field"><div class="k">Mode d\'accompagnement</div><div class="val swap"><span class="u">Universel — fondé sur les preuves</span><span class="i">Islamique — psycho-spirituel</span></div></div>'+
+      '</div>'+
+      '<div class="callout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Aucun diagnostic. L\'accompagnement complète, sans les remplacer, le suivi médical et l\'avis d\'un professionnel de santé.</span></div>');
+  }
+  else if(step==="bilan"){
+    var b=c.bilan;
+    panel('<h2>Bilan / anamnèse</h2><p class="lead">Recueil structuré : histoire, schémas, neuro-atypie, dimension spirituelle.</p>'+
+      '<div class="grid2">'+
+      '<div class="field"><div class="k">Histoire</div><div class="val">'+b.histoire+'</div></div>'+
+      '<div class="field"><div class="k">Schémas</div><div class="val">'+b.schemas+'</div></div>'+
+      '<div class="field"><div class="k">Neuro-atypie</div><div class="val">'+b.neuro+'</div></div>'+
+      '<div class="field"><div class="k swap"><span class="u">Ressources & valeurs</span><span class="i">Dimension spirituelle</span></div><div class="val">'+b.spirituel+'</div></div>'+
+      '</div>');
+  }
+  else if(step==="seances"){
+    var list=c.seances.map(function(s){var m=METEO[s.meteo];
+      return '<div class="seance"><div class="hd"><span class="dt">Séance · '+s.date+'</span><span class="meteo '+m.c+'">Météo émotionnelle : '+m.l+'</span></div>'+
+        '<div>'+s.notes+'</div><div class="ax"><b>Axe de travail :</b> '+s.axes+'</div></div>';}).join("")||'<p class="lead">Aucune séance pour l\'instant.</p>';
+    panel('<h2>Séances</h2><p class="lead">Notes de séance, « météo émotionnelle », axes de travail.</p>'+list+
+      '<label class="k">Nouvelle séance — météo émotionnelle</label>'+
+      '<div class="metsel" id="metsel">'+Object.keys(METEO).map(function(k){return '<button data-m="'+k+'" onclick="pickMeteo(\''+k+'\')">'+METEO[k].l+'</button>';}).join("")+'</div>'+
+      '<label class="k">Notes</label><textarea id="s-notes" rows="3" placeholder="Ce qui s\'est dit, observé…"></textarea>'+
+      '<label class="k">Axe de travail</label><input type="text" id="s-axes" placeholder="Le prochain petit pas…">'+
+      '<div class="btn-row"><button class="btn green" onclick="addSeance()">+ Enregistrer la séance</button></div>');
+    _meteoPick=null;
+  }
+  else if(step==="outils"){
+    panel('<h2>Bibliothèque d\'outils</h2><p class="lead">Protocoles, workbooks, ancrages — assignables à l\'accompagnée. En mode islamique, les ressources spirituelles portent leur statut de validation.</p>'+
+      library.map(function(t){
+        var show = t.type==="spir" ? '<span class="i-only">' : '<span>';
+        var badge = t.type==="clin"?'<span class="badge b-clin">Clinique</span>':'<span class="badge b-spir">Spirituel</span>';
+        var vstat = t.relig?' <span class="badge b-draft">Brouillon · à valider</span>':'';
+        return (t.type==="spir"?'<div class="tool i-only">':'<div class="tool">')+
+          '<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v14H4zM8 5v14"/></svg></span>'+
+          '<div><div class="nm">'+t.nm+'</div><div class="ds">'+t.ds+'</div><div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">'+badge+vstat+'</div></div>'+
+          '<button class="btn assign no-print" onclick="return false">Assigner</button></div>';
+      }).join("")+
+      '<div class="callout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg><span>Contenu religieux : jamais inventé — issu du corpus validé, cité, et publié seulement après ta validation (brouillon → validé → publié).</span></div>');
+  }
+  else if(step==="synthese"){ renderSynthese(); }
+  else if(step==="suivi"){
+    var eng=c.engagements.map(function(e){return '<li>'+e+'</li>';}).join("")||'<li>—</li>';
+    panel('<h2>Suivi & progression</h2><p class="lead">Tableau d\'évolution, engagements de la semaine, rappels automatiques.</p>'+
+      '<div class="grid2">'+
+      '<div class="field"><div class="k">Météo des dernières séances</div><div class="val">'+
+        (c.seances.map(function(s){return '<span class="meteo '+METEO[s.meteo].c+'" style="margin:3px 4px 0 0;display:inline-flex">'+s.date+' · '+METEO[s.meteo].l+'</span>';}).join("")||'—')+'</div></div>'+
+      '<div class="field"><div class="k swap"><span class="u">Engagements de la semaine</span><span class="i">Engagements de la semaine (niyya)</span></div><div class="val"><ul style="margin:4px 0 0;padding-left:18px">'+eng+'</ul></div></div>'+
+      '</div>'+
+      '<div class="callout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg><span>Un rappel doux sera proposé à J-1 du prochain RDV — jamais envoyé sans ton feu vert.</span></div>');
+  }
+  else if(step==="cloture"){
+    panel('<h2>Clôture</h2><p class="lead">Bilan de fin de parcours, témoignage, transmission, orientation Relais Lumière.</p>'+
+      '<div class="grid2">'+
+      '<div class="field"><div class="k">Bilan de parcours</div><div class="val">À compléter en fin d\'accompagnement.</div></div>'+
+      '<div class="field"><div class="k">Témoignage (avec accord)</div><div class="val">—</div></div>'+
+      '</div>'+
+      '<div class="callout" style="border-left:3px solid var(--gold)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21C7 17 4 14 4 9a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-3 8-8 12z"/></svg><span><b>Relais Lumière</b> — proposer, si la personne le souhaite, de transmettre à son tour (mécénat / tarif solidaire / Sadaqa).</span></div>');
+  }
+}
+
+//// ---------- SÉANCES ----------
+var _meteoPick=null;
+function pickMeteo(k){_meteoPick=k;document.querySelectorAll("#metsel button").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-m")===k);});}
+function addSeance(){
+  var c=C(), notes=document.getElementById("s-notes").value.trim(), axes=document.getElementById("s-axes").value.trim();
+  if(!_meteoPick||!notes){alert("Choisis une météo émotionnelle et saisis une note.");return;}
+  var d=new Date(); var mois=["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+  c.seances.push({date:d.getDate()+" "+mois[d.getMonth()],meteo:_meteoPick,notes:notes,axes:axes||"—"});
+  renderPanel();
+}
+
+//// ---------- SYNTHÈSE « POUR TOI » ----------
+function buildDraft(){
+  var c=C();
+  var derniere=c.seances[c.seances.length-1]||{notes:"",axes:""};
+  c.synthese.ouverture = c.nom;
+  c.synthese.sections=[
+    {t:"Ce que tu as traversé", x:c.seances.map(function(s){return s.notes;}).join(" ")},
+    {t:"Ce que j'ai observé de beau", x:"Ta lucidité et ta persévérance : tu as osé nommer ce qui déborde et tester de petits changements concrets."},
+    {t:"Là où tu en es", x:derniere.notes},
+    {t:"La prochaine marche", x:derniere.axes},
+    {t:"Ta ressource d'appui", x:"Le rituel de transition, à garder comme point d'ancrage."}
+  ];
+  c.synthese.boussole="Tu n'as pas à tout porter d'un coup. Une graine à la fois.";
+  c.synthese.semaine=c.engagements.join(" · ")||"Un petit pas, choisi par toi.";
+  c.synthese.status="brouillon";
+  renderPanel();
+}
+function validate(){ C().synthese.status="validé"; renderClients(); renderPanel(); }
+function reopen(){ C().synthese.status="brouillon"; renderPanel(); }
+
+function renderSynthese(){
+  var c=C(), s=c.synthese, has=s.sections.length>0;
+  var statusPill = s.status==="validé"
+    ? '<span class="pill ok"><span class="dot"></span>Validée — prête à relire &amp; envoyer</span>'
+    : (has?'<span class="pill warn"><span class="dot"></span>Brouillon — à relire</span>':'<span class="pill warn"><span class="dot"></span>Pas encore générée</span>');
+  var flow='<span class="flow-pill"><span class="'+(s.status==="brouillon"&&has?"cur":"")+'">brouillon</span><span class="'+(s.status==="validé"?"cur":"")+'">validé</span><span>publié</span></span>';
+
+  var html='<h2>Synthèse « Pour toi »</h2><p class="lead">Génération semi-automatique de la lettre post-séance à partir de tes notes. Tu relis, tu ajustes — <b>elle n\'est jamais envoyée sans ta validation</b>.</p>'+
+    '<div class="status-bar">'+statusPill+flow+'<div class="info" style="margin-left:auto">Format imposé · charte Jannat al Qulûb</div></div>'+
+    '<div class="btn-row no-print">'+
+      '<button class="btn gold" onclick="buildDraft()">'+(has?'↺ Régénérer le brouillon':'✨ Générer le brouillon')+'</button>'+
+      (has&&s.status!=="validé"?'<button class="btn green" onclick="validate()">✔ Valider la lettre</button>':'')+
+      (s.status==="validé"?'<button class="btn" onclick="reopen()">Rouvrir en brouillon</button><button class="btn gold" onclick="window.print()">⤓ Exporter en PDF</button>':'')+
+    '</div>';
+
+  if(has){
+    html+='<div class="letter" id="letter">'+
+      '<div class="lh"><div class="mk">Jannat al Qulûb</div><div class="sb">Le Jardin du cœur</div></div>'+
+      '<div class="i-only"><div class="ar">بِسْمِ اللَّٰهِ الرَّحْمَٰنِ الرَّحِيمِ</div></div>'+
+      '<div class="open"><span class="swap"><span class="u">Chère '+c.nom+',</span><span class="i">As-salāmu ʿalayki '+c.nom+',</span></span></div>'+
+      s.sections.map(function(sec,i){return '<div class="lsec"><div class="st"><span class="n">'+(i+1)+'.</span>'+sec.t+'</div><div>'+(sec.x||'…')+'</div></div>';}).join("")+
+      '<div class="boussole"><b>Ta boussole :</b> '+s.boussole+'</div>'+
+      '<div class="dua i-only"><div class="ar">اللَّٰهُمَّ …</div><div style="font-size:13px;color:var(--muted)">Invocation à insérer depuis le corpus validé <span class="valider">à valider — source</span></div></div>'+
+      '<div class="semaine"><div class="k">Pour cette semaine</div>'+s.semaine+'</div>'+
+      '<div class="lfoot">Document confidentiel — remis dans le cadre d\'un accompagnement. Ne remplace ni un diagnostic, ni un suivi médical.'+
+        '<span class="i-only"> · La guérison appartient à Allāh.</span></div>'+
+    '</div>';
+  } else {
+    html+='<div class="callout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20h9M3 20l1-4 11-11 3 3L7 19z"/></svg><span>Clique sur « Générer le brouillon » : la lettre se pré-remplit depuis les notes de séance, puis tu la relis et l\'ajustes.</span></div>';
+  }
+  panel(html);
+}
+
+//// ---------- NAV ----------
+function selCli(id){cur=id;var c=C();step=STEPS.filter(function(s){return s.n===c.etape})[0].k;renderAll();}
+function selStep(k){step=k;renderStepper();renderPanel();}
+function renderAll(){renderClients();renderFiche();renderStepper();renderPanel();}
+
+//// ---------- MODE / THEME ----------
+var app=document.getElementById("app"),knob=document.getElementById("knob");
+function placeKnob(){var m=app.getAttribute("data-mode");var el=document.querySelector(".mode ."+(m==="universel"?"u":"i"));knob.style.left=el.offsetLeft+"px";knob.style.width=el.offsetWidth+"px";}
+document.querySelectorAll("[data-mode-set]").forEach(function(b){b.addEventListener("click",function(){app.setAttribute("data-mode",b.getAttribute("data-mode-set"));placeKnob();});});
+document.getElementById("theme").addEventListener("click",function(){var cur=document.documentElement.getAttribute("data-theme");var next=cur==="dark"?"light":(cur==="light"?"dark":(matchMedia("(prefers-color-scheme:dark)").matches?"light":"dark"));document.documentElement.setAttribute("data-theme",next);});
+window.addEventListener("resize",placeKnob);
+
+renderAll();placeKnob();
+</script>
