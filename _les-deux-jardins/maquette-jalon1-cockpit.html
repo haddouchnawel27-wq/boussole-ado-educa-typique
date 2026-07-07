@@ -162,6 +162,17 @@
   .lfoot{margin-top:18px;padding-top:12px;border-top:1px solid var(--border);font-size:11.5px;color:var(--muted);text-align:center}
   .valider{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
     color:var(--gold-dark);background:rgba(195,135,60,.14);border:1px dashed var(--gold);border-radius:6px;padding:1px 6px;margin-left:6px}
+  .src-det{margin-top:9px;font-size:12px;color:var(--muted)}
+  .src-det summary{cursor:pointer;color:var(--gold-dark);font-weight:600;list-style:none;display:inline-block}
+  .src-det summary::-webkit-details-marker{display:none}
+  .src-det summary::before{content:"▸ voir la source"}
+  .src-det summary{font-size:0}
+  .src-det summary::before{font-size:12px}
+  .src-det[open] summary::before{content:"▾ source"}
+  .dua-pick{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--soft);
+    border:1px solid var(--border);border-radius:12px;padding:11px 14px;margin:14px 0 2px}
+  .dua-pick select{font-family:inherit;font-size:13px;color:var(--text);background:var(--surface);
+    border:1px solid var(--border);border-radius:9px;padding:6px 10px}
 
   .status-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--soft);border:1px solid var(--border);
     border-radius:12px;padding:12px 15px;margin-bottom:6px}
@@ -268,6 +279,30 @@ var library=[
   {nm:"Respiration apaisante", ds:"Cohérence cardiaque guidée", type:"clin"},
   {nm:"Fenêtre de tolérance", ds:"Repérer haut/bas d'activation", type:"clin"},
   {nm:"Module invocations (du'ā)", ds:"Adab & conditions — corpus validé", type:"spir", relig:true}
+];
+
+// Invocations RÉELLES issues du corpus « Guide du'ā » (Voie Chifā) — avec leur source.
+var duas=[
+  {etat:"Apaisement · déposer le contrôle (tawakkul)",
+   ar:"حَسْبِيَ اللَّٰهُ لَا إِلَٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ",
+   ph:"Ḥasbiya Llāhu lā ilāha illā Huwa, ʿalayhi tawakkaltu",
+   fr:"Allāh me suffit ; il n'y a de divinité que Lui. En Lui je place ma confiance.",
+   src:"Coran, at-Tawba (9:129)"},
+  {etat:"Charge, stress · ce qui semble difficile",
+   ar:"اللَّٰهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا",
+   ph:"Allāhumma lā sahla illā mā jaʿaltahu sahlan",
+   fr:"Ô Allāh, rien n'est facile sauf ce que Tu rends facile.",
+   src:"Invocation prophétique (rapportée par Ibn Ḥibbān)"},
+  {etat:"Fatigue, découragement, impuissance",
+   ar:"لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّٰهِ",
+   ph:"Lā ḥawla wa lā quwwata illā bi-Llāh",
+   fr:"Il n'y a ni force ni puissance si ce n'est par Allāh.",
+   src:"Hadith (al-Bukhārī, Muslim) — « trésor du Paradis »"},
+  {etat:"Détresse, oppression (du'ā de Yūnus)",
+   ar:"لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+   ph:"Lā ilāha illā Anta, subḥānaka, innī kuntu mina ẓ-ẓālimīn",
+   fr:"Il n'y a de divinité que Toi. Gloire à Toi ! J'ai été du nombre des injustes.",
+   src:"Coran, al-Anbiyāʾ (21:87)"}
 ];
 
 //// ---------- STATE ----------
@@ -403,8 +438,10 @@ function buildDraft(){
 function validate(){ C().synthese.status="validé"; renderClients(); renderPanel(); }
 function reopen(){ C().synthese.status="brouillon"; renderPanel(); }
 
+function setDua(i){C().synthese.duaIdx=+i;renderSynthese();}
 function renderSynthese(){
   var c=C(), s=c.synthese, has=s.sections.length>0;
+  var du=duas[s.duaIdx||0];
   var statusPill = s.status==="validé"
     ? '<span class="pill ok"><span class="dot"></span>Validée — prête à relire &amp; envoyer</span>'
     : (has?'<span class="pill warn"><span class="dot"></span>Brouillon — à relire</span>':'<span class="pill warn"><span class="dot"></span>Pas encore générée</span>');
@@ -419,13 +456,27 @@ function renderSynthese(){
     '</div>';
 
   if(has){
+    html+='<div class="dua-pick no-print i-only">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" style="width:18px;height:18px;color:var(--gold)"><path d="M12 3v18M5 8l14 8M19 8L5 16"/></svg>'+
+      '<span style="font-size:13px;color:var(--muted)">Invocation proposée (selon l\'état) :</span>'+
+      '<select onchange="setDua(this.value)" aria-label="Choisir l\'invocation">'+
+        duas.map(function(x,i){return '<option value="'+i+'"'+((s.duaIdx||0)===i?' selected':'')+'>'+x.etat+'</option>';}).join("")+
+      '</select>'+
+      '<span style="font-size:11.5px;color:var(--muted)">issue de ton guide du\'ā — source citée, non imposée</span>'+
+    '</div>';
     html+='<div class="letter" id="letter">'+
       '<div class="lh"><div class="mk">Jannat al Qulûb</div><div class="sb">Le Jardin du cœur</div></div>'+
       '<div class="i-only"><div class="ar">بِسْمِ اللَّٰهِ الرَّحْمَٰنِ الرَّحِيمِ</div></div>'+
       '<div class="open"><span class="swap"><span class="u">Chère '+c.nom+',</span><span class="i">As-salāmu ʿalayki '+c.nom+',</span></span></div>'+
       s.sections.map(function(sec,i){return '<div class="lsec"><div class="st"><span class="n">'+(i+1)+'.</span>'+sec.t+'</div><div>'+(sec.x||'…')+'</div></div>';}).join("")+
       '<div class="boussole"><b>Ta boussole :</b> '+s.boussole+'</div>'+
-      '<div class="dua i-only"><div class="ar">اللَّٰهُمَّ …</div><div style="font-size:13px;color:var(--muted)">Invocation à insérer depuis le corpus validé <span class="valider">à valider — source</span></div></div>'+
+      '<div class="dua i-only">'+
+        '<div style="font-size:12.5px;color:var(--muted);font-style:italic;margin-bottom:9px">Une invocation à porter, si ton cœur t\'y invite —</div>'+
+        '<div class="ar">'+du.ar+'</div>'+
+        '<div style="font-family:var(--serif);font-style:italic;color:var(--gold-dark);margin:3px 0 5px">'+du.ph+'</div>'+
+        '<div style="font-size:13.5px">'+du.fr+'</div>'+
+        '<details class="src-det"><summary>voir la source</summary>'+du.src+' &middot; <span class="valider">à valider par Nawel</span></details>'+
+      '</div>'+
       '<div class="semaine"><div class="k">Pour cette semaine</div>'+s.semaine+'</div>'+
       '<div class="lfoot">Document confidentiel — remis dans le cadre d\'un accompagnement. Ne remplace ni un diagnostic, ni un suivi médical.'+
         '<span class="i-only"> · La guérison appartient à Allāh.</span></div>'+
