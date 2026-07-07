@@ -102,6 +102,51 @@ photo optionnelle.
 | `outils-pro/premiers-secours-psy-ado-PRO.html` (l. 279, 325) | `../parents/premiers-secours-psy-ado.html` | dossier `parents/` inexistant |
 | `apps/routines-educatypique.html` (l. 495) | `../../D_regulation/parents/methode-rahma-prophetique.html` | dossier inexistant |
 
+## 🌐 DÉPLOIEMENTS NETLIFY (fournis par Nawel le 7 juil) — 16 apps
+
+> ⚠️ `*.netlify.app` est **bloqué (403)** par la politique réseau des sessions Code → je ne
+> peux pas ouvrir/vérifier ces sites ni récupérer leur code d'ici. Mapping fait **par recoupement
+> de noms** avec le dépôt. Légende : 🟢 = source dans le repo · 🟡 = apparenté/partiel dans le repo ·
+> ❌ = **source absente du repo** (à importer en ZIP, ou lien-only dans le Hub).
+
+### 🌷 Educa Typique
+| URL Netlify | App | Source dans le repo ? |
+|---|---|---|
+| `boite-neuro-ped-univ.netlify.app` | **Boîte NeuroPed Universelle (MASTER)** | 🟢 = version assemblée `parcours-clarte-tnd/` |
+| `mon-profil-cognitif.netlify.app` | Profil cognitif | 🟢 `outils-pro/profil-cognitif.html` |
+| `profil-neuro-ado.netlify.app` | Profil neuro ado | 🟢 `outils-pro/profil-neuro.html` |
+| `decodeur-profil-educa-typique.netlify.app` | Décodeur de profil | 🟡 apparenté `outils-pro/` profils + `radar-profils` |
+| `secours-emotionnel-ados.netlify.app` | Secours émotionnel ados | 🟡 apparenté `premiers-secours-psy-ado-PRO` + Boussole ancrage/sécurité |
+| `bilan-emotionnel.netlify.app` | Bilan émotionnel | 🟡 apparenté `thermometre-emotionnel` / Boussole émotions |
+| `boite-a-bobo-emotionnel-6-12-univ.netlify.app` | Boîte à bobo émotionnel 6-12 (Univ) | 🟡 apparenté `boite-emotions-neuroo/` + Boussole enfants |
+| `anamne-educa-typique.netlify.app` | Anamnèse Educa Typique | ❌ absent du repo (Boussole n'a que le modèle pro « anamnèse ») |
+
+### 🌿 Jannat Al Qalb / Voie Chifā (ISL + praticienne)
+| URL Netlify | App | Source dans le repo ? |
+|---|---|---|
+| `boussole-voiechifa.netlify.app` | Boussole (variante Voie Chifā) | 🟡 apparenté Boussole racine |
+| `boussoleado-souffle-lumiere-voiechifa.netlify.app` | Boussole ado × Souffle & Lumière | 🟡 apparenté Boussole + `souffle-lumiere/` |
+| `boite-outil-emotions-6-12ans-isl.netlify.app` | Boîte émotions 6-12 **ISL** | 🟡 variante ISL de `boite-emotions-neuroo` |
+| `referentielshifa-complet-voiechifa.netlify.app` | Référentiel Shifā complet | ❌ absent du repo |
+| `schemas-traumas-voiechifa.netlify.app` | Schémas & traumas | ❌ absent du repo |
+| `anamneses-cr-voiechifa.netlify.app` | Anamnèses + comptes-rendus | ❌ absent — **espace praticienne** |
+| `shifa-decodeur-voie-chifa-cr.netlify.app` | Shifā décodeur + CR | ❌ absent — **espace praticienne** |
+| `mon-assistante-nawel.netlify.app` | Mon assistante Nawel | ❌ absent — **espace praticienne** |
+
+_(+ 3 dernières apps mises de côté « qu'on ne retouche pas pour l'instant ».)_
+
+### 🎯 Ce que ça change
+- **Question « Boîte NeuroPed en 3 copies » tranchée** : le MASTER déployé = `boite-neuro-ped-univ`,
+  sa version assemblée dans le repo = `parcours-clarte-tnd/`.
+- **Fragmentation confirmée** : ~16 apps = 16 déploiements Netlify séparés (répartis sur 3 comptes) →
+  c'est précisément ce que le **Hub unique** doit rassembler.
+- **Contrainte clé pour AMÉLIORER/FUSIONNER** : je ne peux modifier que le code **présent dans le
+  dépôt**. Les apps ❌ (surtout l'**espace praticienne** : anamnèses, CR, décodeur, assistante) ne
+  sont pas dans le repo → il faut soit importer leurs sources (ZIP), soit se contenter de les **lier**
+  depuis le Hub sans toucher au code.
+- **Amorce de l'espace praticienne restreint** : `anamneses-cr`, `shifa-decodeur-cr`,
+  `mon-assistante-nawel`, `anamne-educa-typique` = le futur 3ᵉ espace à accès protégé.
+
 ## 🔀 CHEVAUCHEMENTS fonctionnels (à arbitrer pour le Hub)
 
 - **Émotions** — très redondant : Boussole (thermomètre + roue + boîte enfant + besoins) **ET**
