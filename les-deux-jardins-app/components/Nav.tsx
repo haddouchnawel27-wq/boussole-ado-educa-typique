@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./ModeToggle";
+import { useAuth } from "@/lib/auth";
 
 const LINKS = [
   { href: "/", label: "Accueil" },
@@ -39,10 +40,31 @@ export function Nav() {
           })}
         </div>
 
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-2">
+          <Account />
           <ModeToggle />
         </div>
       </div>
     </nav>
+  );
+}
+
+function Account() {
+  const { user, enabled, signOut } = useAuth();
+  if (!enabled) return null; // mode démo : rien à afficher
+  if (user)
+    return (
+      <button
+        onClick={() => signOut()}
+        title={user.email ?? ""}
+        className="rounded-full border border-shell-border px-3 py-1.5 text-[12.5px] font-semibold text-shell-muted hover:border-gold hover:text-gold-dark"
+      >
+        Déconnexion
+      </button>
+    );
+  return (
+    <Link href="/login" className="rounded-full bg-jq-deep px-3 py-1.5 text-[12.5px] font-semibold text-white">
+      Se connecter
+    </Link>
   );
 }
