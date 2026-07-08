@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useMode } from "@/lib/mode";
 import { DUAS, LIBRARY, METEO, STEPS } from "@/lib/demo";
 import type { Client, Meteo } from "@/lib/types";
-import { getClients, type Source } from "@/lib/data";
+import { addSeanceDb, createClientDb, getClients, saveSyntheseDb, type Source } from "@/lib/data";
 
 const METEO_KEYS = Object.keys(METEO) as Meteo[];
 
@@ -32,55 +32,118 @@ export default function Cockpit() {
 
   const c = useMemo(() => clients.find((x) => x.id === curId), [clients, curId]);
 
+  const live = source === "supabase";
+
   function update(id: string, fn: (cl: Client) => Client) {
     setClients((prev) => prev.map((cl) => (cl.id === id ? fn(cl) : cl)));
   }
 
-  function selectClient(id: string) {
-    setCurId(id);
-    const cl = clients.find((x) => x.id === id)!;
-    setStep(STEPS.find((s) => s.n === cl.etape)?.k ?? "accueil");
+  async function reload(keepId?: string) {
+    const r = await getClients();
+    setClients(r.clients);
+    setSource(r.source);
+    setCurId(keepId && r.clients.some((x) => x.id === keepId) ? keepId : r.clients[0]?.id ?? "");
   }
 
-  function addSeance() {
-    if (!mPick || !notes.trim()) return;
+  function selectClient(id: string) {
+    setCurId(id);
+    const cl = clients.find((x) => x.id === id);
+    setStep(STEPS.find((s) => s.n === (cl?.etape ?? 1))?.k ?? "accueil");
+  }
+
+  async function addClient() {
+    const nom = window.prompt("Prénom de l'accompagnée :")?.trim();
+    if (!nom) return;
+    if (live) {
+      const id = await createClientDb(nom, "");
+      await reload(id ?? undefined);
+      setStep("accueil");
+    } else {
+      const id = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : String(Math.random());
+      const nc: Client = { id, nom, initiale: nom.charAt(0).toUpperCase(), etape: 1, consentement: false, intention: "", rdv: "", bilan: { histoire: "", schemas: "", neuro: "", spirituel: "" }, seances: [], engagements: [], synthese: { status: "vierge", sections: [], boussole: "", semaine: "", duaIdx: 0 } };
+      setClients((prev) => [...prev, nc]);
+      setCurId(id);
+      setStep("accueil");
+    }
+  }
+
+  async function addSeance() {
+    if (!mPick || !notes.trim() || !c) return;
     const mois = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
     const d = new Date();
-    const date = `${d.getDate()} ${mois[d.getMonth()]}`;
-    update(curId, (cl) => ({ ...cl, seances: [...cl.seances, { date, meteo: mPick, notes: notes.trim(), axes: axes.trim() || "—" }] }));
+    const s = { date: `${d.getDate()} ${mois[d.getMonth()]}`, meteo: mPick, notes: notes.trim(), axes: axes.trim() || "—" };
+    if (live) {
+      await addSeanceDb(curId, s);
+      await reload(curId);
+    } else {
+      update(curId, (cl) => ({ ...cl, seances: [...cl.seances, s] }));
+    }
     setMPick(null);
     setNotes("");
     setAxes("");
   }
 
-  function buildDraft() {
-    update(curId, (cl) => {
-      const last = cl.seances[cl.seances.length - 1] ?? { notes: "", axes: "" };
-      return {
-        ...cl,
-        synthese: {
-          status: "brouillon",
-          duaIdx: cl.synthese.duaIdx,
-          sections: [
-            { t: "Ce que tu as traversé", x: cl.seances.map((s) => s.notes).join(" ") },
-            { t: "Ce que j'ai observé de beau", x: "Ta lucidité et ta persévérance : tu as osé nommer ce qui déborde et tester de petits changements concrets." },
-            { t: "Là où tu en es", x: last.notes },
-            { t: "La prochaine marche", x: last.axes },
-            { t: "Ta ressource d'appui", x: "Le rituel de transition, à garder comme point d'ancrage." },
-          ],
-          boussole: "Tu n'as pas à tout porter d'un coup. Une graine à la fois.",
-          semaine: cl.engagements.join(" · ") || "Un petit pas, choisi par toi.",
-        },
-      };
-    });
+  function computeDraft(cl: Client): Client["synthese"] {
+    const last = cl.seances[cl.seances.length - 1] ?? { notes: "", axes: "" };
+    return {
+      status: "brouillon",
+      duaIdx: cl.synthese.duaIdx,
+      sections: [
+        { t: "Ce que tu as traversé", x: cl.seances.map((s) => s.notes).join(" ") },
+        { t: "Ce que j'ai observé de beau", x: "Ta lucidité et ta persévérance : tu as osé nommer ce qui déborde et tester de petits changements concrets." },
+        { t: "Là où tu en es", x: last.notes },
+        { t: "La prochaine marche", x: last.axes },
+        { t: "Ta ressource d'appui", x: "Le rituel de transition, à garder comme point d'ancrage." },
+      ],
+      boussole: "Tu n'as pas à tout porter d'un coup. Une graine à la fois.",
+      semaine: cl.engagements.join(" · ") || "Un petit pas, choisi par toi.",
+    };
   }
 
-  const setDua = (i: number) => update(curId, (cl) => ({ ...cl, synthese: { ...cl.synthese, duaIdx: i } }));
-  const setStatus = (status: Client["synthese"]["status"]) =>
-    update(curId, (cl) => ({ ...cl, synthese: { ...cl.synthese, status } }));
+  async function buildDraft() {
+    if (!c) return;
+    const syn = computeDraft(c);
+    if (live) {
+      await saveSyntheseDb(curId, syn);
+      await reload(curId);
+    } else {
+      update(curId, (cl) => ({ ...cl, synthese: syn }));
+    }
+  }
+
+  async function setDua(i: number) {
+    if (!c) return;
+    const syn = { ...c.synthese, duaIdx: i };
+    if (live) {
+      await saveSyntheseDb(curId, syn);
+      await reload(curId);
+    } else {
+      update(curId, (cl) => ({ ...cl, synthese: { ...cl.synthese, duaIdx: i } }));
+    }
+  }
+
+  async function setStatus(status: Client["synthese"]["status"]) {
+    if (!c) return;
+    const syn = { ...c.synthese, status };
+    if (live) {
+      await saveSyntheseDb(curId, syn);
+      await reload(curId);
+    } else {
+      update(curId, (cl) => ({ ...cl, synthese: { ...cl.synthese, status } }));
+    }
+  }
 
   if (loading) return <div className="p-12 text-center text-shell-muted">Chargement…</div>;
-  if (!c) return <div className="p-12 text-center text-shell-muted">Aucune accompagnée pour l'instant.</div>;
+  if (!c)
+    return (
+      <main className="mx-auto max-w-md px-5 py-16 text-center">
+        <p className="font-serif text-2xl font-semibold text-jq-deep">Aucune accompagnée pour l&apos;instant</p>
+        <p className="mt-1 text-shell-muted">{live ? "Ton espace est prêt 🌸 Crée ta première fiche." : "Mode démonstration."}</p>
+        <button onClick={addClient} className="mt-5 rounded-xl bg-jq-deep px-5 py-2.5 text-sm font-semibold text-white">
+          + Créer une accompagnée
+        </button>
+      </main>
+    );
 
   return (
     <div className="grid min-h-screen grid-cols-1 md:grid-cols-[280px_1fr]">
@@ -113,6 +176,12 @@ export default function Cockpit() {
             );
           })}
         </div>
+        <button
+          onClick={addClient}
+          className="rounded-xl border border-dashed border-shell-border px-3 py-2 text-sm font-semibold text-shell-muted transition hover:border-gold hover:text-gold-dark"
+        >
+          + Nouvelle accompagnée
+        </button>
         <div className="mt-auto border-t border-shell-border pt-3 text-[11.5px] text-shell-muted">
           <div className="flex items-center gap-2.5">
             <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-gold-light to-gold-dark text-sm font-semibold text-white">N</span>

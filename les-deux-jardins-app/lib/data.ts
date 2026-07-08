@@ -33,9 +33,9 @@ export async function getClients(): Promise<{ clients: Client[]; source: Source 
       const { data: userData } = await sb.auth.getUser();
       if (userData?.user) {
         const { data: rows, error } = await sb.from("clients").select("*").order("created_at");
-        if (!error && rows && rows.length > 0) {
+        if (!error) {
           const clients = await Promise.all(
-            rows.map(async (c) => {
+            (rows ?? []).map(async (c) => {
               const cid = String((c as Record<string, unknown>).id);
               const { data: sRows } = await sb.from("seances").select("*").eq("client_id", cid).order("created_at");
               const seances: Seance[] = (sRows ?? []).map((s) => ({
@@ -65,4 +65,59 @@ export async function getClients(): Promise<{ clients: Client[]; source: Source 
     }
   }
   return { clients: demoClients(), source: "demo" };
+}
+
+/** Vrai mode « en ligne » : Supabase configuré ET praticienne connectée. */
+export async function liveUserId(): Promise<string | null> {
+  if (!supabaseEnabled || !supabase) return null;
+  const { data } = await supabase.auth.getUser();
+  return data?.user?.id ?? null;
+}
+
+/** Crée une accompagnée en base. Renvoie son id, ou null si hors-ligne. */
+export async function createClientDb(nom: string, intention: string): Promise<string | null> {
+  if (!supabase) return null;
+  const uid = await liveUserId();
+  if (!uid) return null;
+  const { data, error } = await supabase
+    .from("clients")
+    .insert({ practitioner_id: uid, nom, intention, etape: 1 })
+    .select("id")
+    .single();
+  if (error || !data) return null;
+  return String((data as Record<string, unknown>).id);
+}
+
+/** Ajoute une séance en base. */
+export async function addSeanceDb(clientId: string, s: Seance): Promise<boolean> {
+  if (!supabase) return false;
+  const { error } = await supabase.from("seances").insert({
+    client_id: clientId,
+    date: s.date,
+    meteo: s.meteo,
+    notes: s.notes,
+    axes: s.axes,
+  });
+  return !error;
+}
+
+/** Enregistre / met à jour la synthèse « Pour toi » d'une accompagnée. */
+export async function saveSyntheseDb(clientId: string, syn: Synthese): Promise<boolean> {
+  if (!supabase) return false;
+  const { data: existing } = await supabase.from("syntheses").select("id").eq("client_id", clientId).maybeSingle();
+  const payload = {
+    client_id: clientId,
+    status: syn.status,
+    sections: syn.sections,
+    boussole: syn.boussole,
+    semaine: syn.semaine,
+    dua_idx: syn.duaIdx,
+    updated_at: new Date().toISOString(),
+  };
+  if (existing) {
+    const { error } = await supabase.from("syntheses").update(payload).eq("id", (existing as Record<string, unknown>).id as string);
+    return !error;
+  }
+  const { error } = await supabase.from("syntheses").insert(payload);
+  return !error;
 }
