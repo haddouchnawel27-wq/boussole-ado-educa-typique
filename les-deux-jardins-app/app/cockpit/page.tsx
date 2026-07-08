@@ -1,16 +1,19 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMode } from "@/lib/mode";
-import { DUAS, LIBRARY, METEO, STEPS, demoClients } from "@/lib/demo";
+import { DUAS, LIBRARY, METEO, STEPS } from "@/lib/demo";
 import type { Client, Meteo } from "@/lib/types";
+import { getClients, type Source } from "@/lib/data";
 
 const METEO_KEYS = Object.keys(METEO) as Meteo[];
 
 export default function Cockpit() {
   const { mode } = useMode();
   const islamic = mode === "islamique";
-  const [clients, setClients] = useState<Client[]>(() => demoClients());
-  const [curId, setCurId] = useState("amina");
+  const [clients, setClients] = useState<Client[]>([]);
+  const [source, setSource] = useState<Source>("demo");
+  const [loading, setLoading] = useState(true);
+  const [curId, setCurId] = useState("");
   const [step, setStep] = useState("synthese");
 
   // formulaire séance
@@ -18,7 +21,16 @@ export default function Cockpit() {
   const [notes, setNotes] = useState("");
   const [axes, setAxes] = useState("");
 
-  const c = useMemo(() => clients.find((x) => x.id === curId)!, [clients, curId]);
+  useEffect(() => {
+    getClients().then((r) => {
+      setClients(r.clients);
+      setSource(r.source);
+      setCurId(r.clients[0]?.id ?? "");
+      setLoading(false);
+    });
+  }, []);
+
+  const c = useMemo(() => clients.find((x) => x.id === curId), [clients, curId]);
 
   function update(id: string, fn: (cl: Client) => Client) {
     setClients((prev) => prev.map((cl) => (cl.id === id ? fn(cl) : cl)));
@@ -67,6 +79,9 @@ export default function Cockpit() {
   const setStatus = (status: Client["synthese"]["status"]) =>
     update(curId, (cl) => ({ ...cl, synthese: { ...cl.synthese, status } }));
 
+  if (loading) return <div className="p-12 text-center text-shell-muted">Chargement…</div>;
+  if (!c) return <div className="p-12 text-center text-shell-muted">Aucune accompagnée pour l'instant.</div>;
+
   return (
     <div className="grid min-h-screen grid-cols-1 md:grid-cols-[280px_1fr]">
       {/* SIDEBAR */}
@@ -111,8 +126,17 @@ export default function Cockpit() {
 
       {/* MAIN */}
       <main className="max-w-4xl p-5 pb-16 sm:p-8">
-        <div className="mb-4">
+        <div className="mb-4 flex flex-wrap items-center gap-3">
           <h1 className="font-serif text-2xl font-semibold text-jq-deep sm:text-3xl">Cockpit praticienne</h1>
+          <span
+            className={
+              "rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide " +
+              (source === "supabase" ? "bg-[rgba(91,138,91,.15)] text-[#4d7a4d]" : "bg-shell-soft text-shell-muted")
+            }
+            title={source === "supabase" ? "Connecté à ta base Supabase" : "Mode démonstration (données non sauvegardées)"}
+          >
+            {source === "supabase" ? "● En ligne" : "Démo"}
+          </span>
         </div>
 
         {/* FICHE */}
