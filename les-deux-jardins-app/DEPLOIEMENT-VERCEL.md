@@ -1,5 +1,11 @@
 # 🚀 Passation — finir le déploiement de « Les Deux Jardins » (Vercel + Supabase)
 
+> **Statut (mis à jour) :** un 2ᵉ projet Vercel **`les-deux-jardins`** a été créé et
+> configuré (Boussole reste intacte sur son propre projet). Réglages vérifiés à l'écran :
+> Root Directory = `les-deux-jardins-app`, Production Branch = `claude/chef-chantier-upgrade-mawum3`,
+> 2 clés Supabase enregistrées, domaine `les-deux-jardins.vercel.app`.
+> Ce commit sert à **déclencher le 1er build Production** avec la bonne branche et le bon dossier.
+
 **But :** mettre l'app en ligne pour que Nawel l'utilise avec ses vraies données.
 L'app (Next.js) est **déjà codée, complète et poussée**. Supabase est **déjà créé** (tables + clés).
 Il reste : (A) déployer sur Vercel, (B) régler l'auth Supabase, (C) tester.
