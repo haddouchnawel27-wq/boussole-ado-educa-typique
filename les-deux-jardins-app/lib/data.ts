@@ -88,6 +88,16 @@ export async function createClientDb(nom: string, intention: string): Promise<st
   return String((data as Record<string, unknown>).id);
 }
 
+/** Met à jour les champs d'accueil / bilan d'une accompagnée (intention, RDV, consentement, bilan…). */
+export async function updateClientDb(
+  clientId: string,
+  patch: { intention?: string; rdv?: string; consentement?: boolean; etape?: number; bilan?: Client["bilan"]; engagements?: string[] }
+): Promise<boolean> {
+  if (!supabase) return false;
+  const { error } = await supabase.from("clients").update(patch).eq("id", clientId);
+  return !error;
+}
+
 /** Ajoute une séance en base. */
 export async function addSeanceDb(clientId: string, s: Seance): Promise<boolean> {
   if (!supabase) return false;

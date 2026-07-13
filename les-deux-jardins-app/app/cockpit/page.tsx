@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useMode } from "@/lib/mode";
 import { DUAS, LIBRARY, METEO, STEPS } from "@/lib/demo";
 import type { Client, Meteo } from "@/lib/types";
-import { addSeanceDb, createClientDb, getClients, saveSyntheseDb, type Source } from "@/lib/data";
+import { addSeanceDb, createClientDb, getClients, saveSyntheseDb, updateClientDb, type Source } from "@/lib/data";
 
 const METEO_KEYS = Object.keys(METEO) as Meteo[];
 
@@ -20,6 +20,8 @@ export default function Cockpit() {
   const [mPick, setMPick] = useState<Meteo | null>(null);
   const [notes, setNotes] = useState("");
   const [axes, setAxes] = useState("");
+  // saisie accueil / bilan
+  const [savedMsg, setSavedMsg] = useState("");
 
   useEffect(() => {
     getClients().then((r) => {
@@ -81,6 +83,23 @@ export default function Cockpit() {
     setMPick(null);
     setNotes("");
     setAxes("");
+  }
+
+  // édite un champ localement (l'input reste fluide), la sauvegarde se fait au bouton
+  function editClient(fn: (cl: Client) => Client) {
+    if (!curId) return;
+    update(curId, fn);
+  }
+
+  // enregistre les champs saisis (Accueil / Bilan) dans Supabase si en ligne
+  async function persistFields(fields: { intention?: string; rdv?: string; consentement?: boolean; bilan?: Client["bilan"] }) {
+    if (!c) return;
+    if (live) {
+      await updateClientDb(curId, fields);
+      await reload(curId);
+    }
+    setSavedMsg("✔ Enregistré");
+    window.setTimeout(() => setSavedMsg(""), 2500);
   }
 
   function computeDraft(cl: Client): Client["synthese"] {
@@ -245,25 +264,37 @@ export default function Cockpit() {
         {/* PANEL */}
         <div className="rounded-2xl border border-shell-border bg-shell-surface p-5 shadow-soft sm:p-7">
           {step === "accueil" && (
-            <Panel title="Accueil" lead="Questionnaire d'entrée, intention, consentement, prise de RDV — la fiche est créée automatiquement.">
+            <Panel title="Accueil" lead="Questionnaire d'entrée, intention, consentement, prise de RDV. Écris directement dans les champs, puis « Enregistrer ».">
               <div className="grid gap-3.5 sm:grid-cols-2">
-                <Field k="Intention exprimée" v={c.intention} />
-                <Field k="Prise de RDV" v={c.rdv} />
-                <Field k="Consentement éclairé" v={c.consentement ? "✔ Recueilli — accompagnement (ne remplace ni thérapie, ni ruqya, ni fatwa)." : "⚠ À recueillir avant la 1re séance."} />
+                <EditField k="Intention exprimée" v={c.intention} placeholder="Pourquoi vient-elle, en ses mots…" onChange={(val) => editClient((cl) => ({ ...cl, intention: val }))} />
+                <EditField k="Prise de RDV" v={c.rdv} placeholder="ex. Mar. 22 juil. · 14h" onChange={(val) => editClient((cl) => ({ ...cl, rdv: val }))} />
+              </div>
+              <div className="mt-3.5 grid gap-3.5 sm:grid-cols-2">
+                <div className="rounded-2xl border border-shell-border bg-shell-soft p-3.5">
+                  <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-shell-muted">Consentement éclairé</div>
+                  <button
+                    onClick={() => editClient((cl) => ({ ...cl, consentement: !cl.consentement }))}
+                    className={"w-full rounded-xl px-3 py-2 text-left text-[13px] font-semibold transition " + (c.consentement ? "bg-[rgba(91,138,91,.15)] text-[#4d7a4d]" : "border border-dashed border-gold bg-shell-surface text-gold-dark")}
+                  >
+                    {c.consentement ? "✔ Recueilli — cliquer pour annuler" : "⚠ À recueillir — cliquer quand c'est fait"}
+                  </button>
+                </div>
                 <Field k="Mode d'accompagnement" v={islamic ? "Islamique — psycho-spirituel" : "Universel — fondé sur les preuves"} />
               </div>
+              <SaveBar msg={savedMsg} onSave={() => persistFields({ intention: c.intention, rdv: c.rdv, consentement: c.consentement })} />
               <Callout>Aucun diagnostic. L'accompagnement complète, sans les remplacer, le suivi médical et l'avis d'un professionnel de santé.</Callout>
             </Panel>
           )}
 
           {step === "bilan" && (
-            <Panel title="Bilan / anamnèse" lead="Recueil structuré : histoire, schémas, neuro-atypie, dimension spirituelle.">
+            <Panel title="Bilan / anamnèse" lead="Recueil structuré : histoire, schémas, neuro-atypie, dimension spirituelle. Écris directement, puis « Enregistrer ».">
               <div className="grid gap-3.5 sm:grid-cols-2">
-                <Field k="Histoire" v={c.bilan.histoire} />
-                <Field k="Schémas" v={c.bilan.schemas} />
-                <Field k="Neuro-atypie" v={c.bilan.neuro} />
-                <Field k={islamic ? "Dimension spirituelle" : "Ressources & valeurs"} v={c.bilan.spirituel} />
+                <EditField k="Histoire" v={c.bilan.histoire} placeholder="Parcours, contexte, éléments marquants…" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, histoire: val } }))} />
+                <EditField k="Schémas" v={c.bilan.schemas} placeholder="Fonctionnements, croyances, boucles…" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, schemas: val } }))} />
+                <EditField k="Neuro-atypie" v={c.bilan.neuro} placeholder="TND, HPI, sensorialité… (si concerné)" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, neuro: val } }))} />
+                <EditField k={islamic ? "Dimension spirituelle" : "Ressources & valeurs"} v={c.bilan.spirituel} placeholder="Appuis, valeurs, foi, ressources…" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, spirituel: val } }))} />
               </div>
+              <SaveBar msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
             </Panel>
           )}
 
@@ -373,6 +404,28 @@ function Field({ k, v }: { k: string; v: string }) {
     <div className="rounded-2xl border border-shell-border bg-shell-soft p-3.5">
       <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-shell-muted">{k}</div>
       <div className="text-sm">{v}</div>
+    </div>
+  );
+}
+function EditField({ k, v, onChange, placeholder }: { k: string; v: string; onChange: (val: string) => void; placeholder?: string }) {
+  return (
+    <div className="rounded-2xl border border-shell-border bg-shell-soft p-3.5">
+      <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-shell-muted">{k}</div>
+      <textarea
+        value={v}
+        onChange={(e) => onChange(e.target.value)}
+        rows={2}
+        placeholder={placeholder}
+        className="w-full resize-y rounded-lg border border-shell-border bg-shell-surface p-2 text-sm outline-none focus:border-gold"
+      />
+    </div>
+  );
+}
+function SaveBar({ onSave, msg }: { onSave: () => void; msg: string }) {
+  return (
+    <div className="mt-4 flex items-center gap-3">
+      <button onClick={onSave} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">💾 Enregistrer</button>
+      {msg && <span className="text-[13px] font-semibold text-[#4d7a4d]">{msg}</span>}
     </div>
   );
 }
