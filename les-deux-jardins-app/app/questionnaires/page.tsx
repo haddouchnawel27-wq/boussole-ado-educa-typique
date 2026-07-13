@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useMode } from "@/lib/mode";
 import { QUESTIONNAIRES, scoreOf, type Questionnaire } from "@/lib/questionnaires";
+import { getClients, saveQuestionnaireResponseDb } from "@/lib/data";
 
 export default function QuestionnairesPage() {
   const [curId, setCurId] = useState<string | null>(null);
@@ -48,6 +49,45 @@ function Runner({ q, onExit }: { q: Questionnaire; onExit: () => void }) {
   const [submitted, setSubmitted] = useState(false);
   const allAnswered = q.questions.every((qq) => answers[qq.id] !== undefined);
   const res = scoreOf(q, answers);
+
+  // « Relier à la fiche client »
+  const [linking, setLinking] = useState(false);
+  const [loadingClients, setLoadingClients] = useState(false);
+  const [live, setLive] = useState(false);
+  const [clients, setClients] = useState<{ id: string; nom: string }[]>([]);
+  const [pick, setPick] = useState("");
+  const [savedTo, setSavedTo] = useState<string | null>(null);
+  const [linkErr, setLinkErr] = useState("");
+
+  async function openLink() {
+    setLinking(true);
+    setLinkErr("");
+    setLoadingClients(true);
+    const r = await getClients();
+    setLive(r.source === "supabase");
+    setClients(r.clients.map((cl) => ({ id: cl.id, nom: cl.nom })));
+    setPick(r.clients[0]?.id ?? "");
+    setLoadingClients(false);
+  }
+
+  async function confirmLink() {
+    if (!pick) return;
+    const ok = await saveQuestionnaireResponseDb(pick, q.id, answers, res.score, res.scoreMax);
+    if (ok) {
+      setSavedTo(clients.find((cl) => cl.id === pick)?.nom ?? "la fiche");
+      setLinking(false);
+    } else {
+      setLinkErr("La sauvegarde n'a pas pu se faire. Vérifie que tu es bien connectée à ton espace.");
+    }
+  }
+
+  function restart() {
+    setAnswers({});
+    setSubmitted(false);
+    setLinking(false);
+    setSavedTo(null);
+    setLinkErr("");
+  }
 
   return (
     <div className="mt-6">
@@ -117,13 +157,51 @@ function Runner({ q, onExit }: { q: Questionnaire; onExit: () => void }) {
               Ceci n'est <b>pas un diagnostic</b>, mais un repère de dialogue. Il ne remplace ni un bilan, ni l'avis d'un
               professionnel.{islamic && " La guérison appartient à Allāh."}
             </div>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <button className="rounded-xl bg-gradient-to-br from-gold-light to-gold-dark px-4 py-2.5 text-sm font-semibold text-white shadow" title="Démo — reliera le résultat à la fiche client">
-                ⤓ Relier à la fiche client
-              </button>
-              <button onClick={() => { setAnswers({}); setSubmitted(false); }} className="rounded-xl border border-shell-border px-4 py-2.5 text-sm font-semibold">
-                Recommencer
-              </button>
+            <div className="mt-4">
+              {savedTo ? (
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="rounded-xl border border-[rgba(91,138,91,.4)] bg-[rgba(91,138,91,.12)] px-4 py-2.5 text-sm font-semibold text-[#4d7a4d]">
+                    ✔ Résultat relié à la fiche de <b>{savedTo}</b>.
+                  </span>
+                  <button onClick={restart} className="rounded-xl border border-shell-border px-4 py-2.5 text-sm font-semibold">Recommencer</button>
+                </div>
+              ) : !linking ? (
+                <div className="flex flex-wrap gap-3">
+                  <button onClick={openLink} className="rounded-xl bg-gradient-to-br from-gold-light to-gold-dark px-4 py-2.5 text-sm font-semibold text-white shadow">
+                    ⤓ Relier à la fiche client
+                  </button>
+                  <button onClick={restart} className="rounded-xl border border-shell-border px-4 py-2.5 text-sm font-semibold">
+                    Recommencer
+                  </button>
+                </div>
+              ) : (
+                <div className="rounded-xl border border-shell-border bg-shell-soft p-4">
+                  {loadingClients ? (
+                    <p className="text-sm text-shell-muted">Chargement de tes accompagnées…</p>
+                  ) : !live ? (
+                    <p className="text-sm text-shell-muted">
+                      Connecte-toi à ton espace pour relier ce résultat à une vraie fiche.{" "}
+                      <a href="/login" className="font-semibold text-gold-dark underline">Se connecter</a>
+                    </p>
+                  ) : clients.length === 0 ? (
+                    <p className="text-sm text-shell-muted">
+                      Aucune accompagnée pour l'instant. Crée une fiche dans le <a href="/cockpit" className="font-semibold text-gold-dark underline">Cockpit</a>, puis reviens relier ce résultat.
+                    </p>
+                  ) : (
+                    <div className="flex flex-col gap-3">
+                      <label className="text-[11px] font-bold uppercase tracking-wide text-shell-muted">Relier à quelle accompagnée ?</label>
+                      <select value={pick} onChange={(e) => setPick(e.target.value)} className="rounded-lg border border-shell-border bg-shell-surface px-3 py-2 text-sm outline-none focus:border-gold">
+                        {clients.map((cl) => <option key={cl.id} value={cl.id}>{cl.nom}</option>)}
+                      </select>
+                      {linkErr && <p className="text-[13px] font-semibold text-[#a94b54]">{linkErr}</p>}
+                      <div className="flex flex-wrap gap-3">
+                        <button onClick={confirmLink} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">✔ Confirmer</button>
+                        <button onClick={() => setLinking(false)} className="rounded-xl border border-shell-border px-4 py-2.5 text-sm font-semibold">Annuler</button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         )}

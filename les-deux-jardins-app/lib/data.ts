@@ -111,6 +111,28 @@ export async function addSeanceDb(clientId: string, s: Seance): Promise<boolean>
   return !error;
 }
 
+/** Relie une réponse de questionnaire à une accompagnée (l'enregistre en base). */
+export async function saveQuestionnaireResponseDb(
+  clientId: string,
+  questionnaireId: string,
+  answers: Record<string, number>,
+  score: number,
+  scoreMax: number
+): Promise<boolean> {
+  if (!supabase) return false;
+  const uid = await liveUserId();
+  if (!uid) return false;
+  const { error } = await supabase.from("questionnaire_responses").insert({
+    client_id: clientId,
+    practitioner_id: uid,
+    questionnaire_id: questionnaireId,
+    answers,
+    score,
+    score_max: scoreMax,
+  });
+  return !error;
+}
+
 /** Enregistre / met à jour la synthèse « Pour toi » d'une accompagnée. */
 export async function saveSyntheseDb(clientId: string, syn: Synthese): Promise<boolean> {
   if (!supabase) return false;
