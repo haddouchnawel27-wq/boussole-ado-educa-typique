@@ -213,7 +213,7 @@ export default function Cockpit() {
       </aside>
 
       {/* MAIN */}
-      <main className="max-w-4xl p-5 pb-16 sm:p-8">
+      <main className="w-full min-w-0 max-w-4xl p-5 pb-16 sm:p-8">
         <div className="mb-4 flex flex-wrap items-center gap-3">
           <h1 className="font-serif text-2xl font-semibold text-jq-deep sm:text-3xl">Cockpit praticienne</h1>
           <span

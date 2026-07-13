@@ -70,6 +70,72 @@ export const QUESTIONNAIRES: Questionnaire[] = [
       { upTo: 1.01, titre: "Charge élevée — tu mérites du soutien", texte: "Tu portes beaucoup, et ça se voit dans les chiffres. Déléguer une seule chose, ou en parler en séance, allégera déjà le poids. Tu n'as pas à tout porter seule." },
     ],
   },
+  {
+    id: "anamnese-reperes",
+    titre: "Anamnèse — repères de départ",
+    univers: "jannat",
+    introU:
+      "Un tour d'horizon en douceur : ce qui, aujourd'hui, pèse encore ou demande de l'attention. Ce n'est pas un examen — juste une carte pour savoir par où commencer ensemble.",
+    introI:
+      "Un tour d'horizon en douceur, بِإِذْنِ اللّٰه : ce qui, aujourd'hui, pèse ou demande de l'attention. Pas un examen — une carte pour savoir par où commencer, avec bienveillance.",
+    questions: [
+      { id: "histoire", texte: "Mon histoire familiale ou mon enfance pèse encore sur mon présent.", ...ECH },
+      { id: "evenements", texte: "Des événements marquants (deuils, ruptures, chocs) restent vifs en moi.", ...ECH },
+      { id: "corps", texte: "Mon corps ou mon sommeil portent les traces du stress.", ...ECH },
+      { id: "relations", texte: "Mes relations actuelles sont une source de tension.", ...ECH },
+      { id: "appuis", texte: "Je me sens loin de mes appuis de sens (foi, valeurs, ressources).", ...ECH },
+      { id: "elan", texte: "J'ai du mal à retrouver de l'élan au quotidien.", ...ECH },
+    ],
+    bands: [
+      { upTo: 0.35, titre: "Un terrain plutôt apaisé", texte: "Peu de zones sont douloureuses aujourd'hui. On pourra avancer sereinement, en s'appuyant sur ce qui est déjà solide en toi." },
+      { upTo: 0.65, titre: "Quelques zones à explorer ensemble", texte: "Certains domaines demandent de l'attention. On les prendra un par un, à ton rythme, sans tout remuer d'un coup." },
+      { upTo: 1.01, titre: "Plusieurs appuis à reconstruire — en douceur", texte: "Plusieurs zones pèsent en même temps. C'est précieux de l'avoir nommé : on choisira d'abord la plus urgente à alléger, sans se presser. Tu n'es pas seule pour ça." },
+    ],
+  },
+  {
+    id: "biais-schemas",
+    titre: "Biais cognitifs & schémas",
+    univers: "jannat",
+    introU:
+      "Nos pensées prennent parfois des raccourcis qui nous font souffrir. Repérer ces habitudes, sans se juger, c'est déjà commencer à s'en libérer.",
+    introI:
+      "Nos pensées prennent parfois des raccourcis qui nous font souffrir. Les repérer sans se juger, c'est un premier pas vers l'apaisement, بِإِذْنِ اللّٰه.",
+    questions: [
+      { id: "toutrien", texte: "Je pense en « tout ou rien » : c'est parfait, ou c'est raté.", ...FREQ },
+      { id: "catastrophe", texte: "J'imagine le pire, même sans preuve réelle.", ...FREQ },
+      { id: "autocritique", texte: "Je me juge très durement quand je me trompe.", ...FREQ },
+      { id: "perfection", texte: "Je crois devoir être parfaite pour être acceptée.", ...FREQ },
+      { id: "lecture", texte: "Je suppose que les autres me jugent négativement.", ...FREQ },
+      { id: "generalisation", texte: "Un échec devient vite « je suis nulle », en général.", ...FREQ },
+    ],
+    bands: [
+      { upTo: 0.35, titre: "Des pensées plutôt souples", texte: "Tes schémas de pensée te laissent de la marge. On affinera juste quelques automatismes, pour gagner encore en liberté intérieure." },
+      { upTo: 0.65, titre: "Quelques automatismes à assouplir", texte: "Certaines pensées reviennent souvent et te pèsent. La bonne nouvelle : une pensée n'est pas un fait. On apprendra à les repérer et à les nuancer." },
+      { upTo: 1.01, titre: "Des schémas installés — et ça se travaille", texte: "Ces raccourcis de pensée sont fréquents et douloureux, mais ils s'assouplissent très bien avec de la pratique. Tu n'es pas « comme ça » : tu as pris des plis, et un pli, ça se déplie." },
+    ],
+  },
+  {
+    id: "dependance-affective",
+    titre: "Dépendance affective",
+    univers: "jannat",
+    introU:
+      "Aimer et avoir besoin des autres est sain. Parfois pourtant, le besoin de l'autre devient une source d'angoisse. Ce repère aide à situer où tu en es, sans étiquette.",
+    introI:
+      "Aimer et avoir besoin des autres est sain et humain. Parfois, le besoin de l'autre devient une angoisse. Ce repère t'aide à situer où tu en es, sans étiquette et sans jugement.",
+    questions: [
+      { id: "rassurance", texte: "J'ai besoin d'être rassurée souvent sur l'amour qu'on me porte.", ...FREQ },
+      { id: "abandon", texte: "La peur d'être abandonnée ou rejetée m'influence beaucoup.", ...FREQ },
+      { id: "decision", texte: "J'ai du mal à décider seule, sans l'approbation des autres.", ...FREQ },
+      { id: "oubli", texte: "Je m'oublie pour garder le lien ou faire plaisir.", ...FREQ },
+      { id: "humeur", texte: "Quand un proche est distant, mon humeur s'effondre.", ...FREQ },
+      { id: "liens", texte: "Je reste dans des liens qui me font du mal, par peur de la solitude.", ...FREQ },
+    ],
+    bands: [
+      { upTo: 0.35, titre: "Un lien à l'autre plutôt sécurisant", texte: "Tu sais t'appuyer sur les autres sans t'y perdre. On cultivera cette base sûre, précieuse pour toutes tes relations." },
+      { upTo: 0.65, titre: "Un besoin de l'autre qui pèse parfois", texte: "Le besoin de rassurance prend parfois beaucoup de place. On travaillera à nourrir ta sécurité intérieure, pour aimer sans t'oublier." },
+      { upTo: 1.01, titre: "Un attachement qui fait souffrir — ça s'apaise", texte: "La peur du rejet ou de la solitude pèse fort aujourd'hui. C'est un terrain qui se répare : en renforçant, pas à pas, ta valeur à tes propres yeux. Tu mérites des liens qui te reposent, pas qui t'angoissent." },
+    ],
+  },
 ];
 
 export function scoreOf(q: Questionnaire, answers: Record<string, number>) {
