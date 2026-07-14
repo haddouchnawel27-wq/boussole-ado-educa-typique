@@ -2,8 +2,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useMode } from "@/lib/mode";
 import { DUAS, LIBRARY, METEO, STEPS } from "@/lib/demo";
+import { bandForScore } from "@/lib/questionnaires";
 import type { Client, Meteo } from "@/lib/types";
-import { addSeanceDb, createClientDb, getClients, saveSyntheseDb, updateClientDb, type Source } from "@/lib/data";
+import { addSeanceDb, createClientDb, deleteClientDb, getClients, getQuestionnaireResponsesDb, saveSyntheseDb, updateClientDb, type QResponse, type Source } from "@/lib/data";
 
 const METEO_KEYS = Object.keys(METEO) as Meteo[];
 
@@ -22,6 +23,8 @@ export default function Cockpit() {
   const [axes, setAxes] = useState("");
   // saisie accueil / bilan
   const [savedMsg, setSavedMsg] = useState("");
+  // questionnaires reliés à la fiche courante
+  const [responses, setResponses] = useState<QResponse[]>([]);
 
   useEffect(() => {
     getClients().then((r) => {
@@ -35,6 +38,21 @@ export default function Cockpit() {
   const c = useMemo(() => clients.find((x) => x.id === curId), [clients, curId]);
 
   const live = source === "supabase";
+
+  // charge les questionnaires reliés à la fiche courante
+  useEffect(() => {
+    let active = true;
+    if (curId && live) {
+      getQuestionnaireResponsesDb(curId).then((rs) => {
+        if (active) setResponses(rs);
+      });
+    } else {
+      setResponses([]);
+    }
+    return () => {
+      active = false;
+    };
+  }, [curId, live]);
 
   function update(id: string, fn: (cl: Client) => Client) {
     setClients((prev) => prev.map((cl) => (cl.id === id ? fn(cl) : cl)));
@@ -83,6 +101,21 @@ export default function Cockpit() {
     setMPick(null);
     setNotes("");
     setAxes("");
+  }
+
+  // supprime définitivement la fiche courante
+  async function removeClient() {
+    if (!c) return;
+    if (!window.confirm(`Supprimer définitivement la fiche de « ${c.nom} » ? Cette action est irréversible.`)) return;
+    const id = curId;
+    if (live) {
+      await deleteClientDb(id);
+      await reload();
+    } else {
+      const rest = clients.filter((x) => x.id !== id);
+      setClients(rest);
+      setCurId(rest[0]?.id ?? "");
+    }
   }
 
   // édite un champ localement (l'input reste fluide), la sauvegarde se fait au bouton
@@ -233,13 +266,20 @@ export default function Cockpit() {
             <span className="font-serif text-2xl font-semibold text-jq-deep">{c.nom}</span>
             <Meta k="Intention" v={c.intention} />
             <Meta k="Prochain RDV" v={c.rdv} />
-            <span className="ml-auto">
+            <div className="ml-auto flex items-center gap-3">
               {c.consentement ? (
                 <Pill ok>Consentement recueilli</Pill>
               ) : (
                 <Pill>Consentement à recueillir</Pill>
               )}
-            </span>
+              <button
+                onClick={removeClient}
+                title="Supprimer définitivement cette fiche"
+                className="rounded-full border border-shell-border px-2.5 py-1 text-[12px] font-semibold text-shell-muted transition hover:border-[#a94b54] hover:text-[#a94b54]"
+              >
+                🗑 Supprimer
+              </button>
+            </div>
           </div>
         </div>
 
@@ -354,6 +394,33 @@ export default function Cockpit() {
                 <Field k="Météo des dernières séances" v={c.seances.map((s) => `${s.date} · ${METEO[s.meteo].label}`).join(" · ") || "—"} />
                 <Field k={islamic ? "Engagements (niyya)" : "Engagements de la semaine"} v={c.engagements.join(" · ") || "—"} />
               </div>
+
+              <Label>Questionnaires reliés à cette fiche</Label>
+              {responses.length === 0 ? (
+                <p className="text-sm text-shell-muted">
+                  Aucun questionnaire relié pour l'instant. Depuis l'onglet <b>Questionnaires</b>, remplis-en un puis clique « Relier à la fiche client ».
+                </p>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  {responses.map((r) => {
+                    const info = bandForScore(r.questionnaireId, r.score, r.scoreMax);
+                    return (
+                      <div key={r.id} className="rounded-xl border border-shell-border bg-shell-soft p-3.5">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <span className="text-sm font-bold text-shell-text">{info?.titre ?? r.questionnaireId}</span>
+                          <span className="text-[12px] text-shell-muted">{r.date} · score {r.score}/{r.scoreMax}</span>
+                        </div>
+                        {info && (
+                          <div className="mt-1.5 text-[13px] text-shell-muted">
+                            <b className="text-jq-deep">{info.band.titre}</b> — {info.band.texte}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
               <Callout>Un rappel doux sera proposé à J-1 du prochain RDV — jamais envoyé sans ton feu vert.</Callout>
             </Panel>
           )}

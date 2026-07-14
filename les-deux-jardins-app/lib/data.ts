@@ -111,6 +111,49 @@ export async function addSeanceDb(clientId: string, s: Seance): Promise<boolean>
   return !error;
 }
 
+/** Supprime définitivement une accompagnée (et, par cascade, ses séances/synthèses/réponses). */
+export async function deleteClientDb(clientId: string): Promise<boolean> {
+  if (!supabase) return false;
+  const { error } = await supabase.from("clients").delete().eq("id", clientId);
+  return !error;
+}
+
+export interface QResponse {
+  id: string;
+  questionnaireId: string;
+  score: number;
+  scoreMax: number;
+  date: string;
+}
+
+/** Récupère les réponses de questionnaires reliées à une accompagnée (plus récentes d'abord). */
+export async function getQuestionnaireResponsesDb(clientId: string): Promise<QResponse[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("questionnaire_responses")
+    .select("*")
+    .eq("client_id", clientId)
+    .order("created_at", { ascending: false });
+  if (error || !data) return [];
+  return data.map((r) => {
+    const rec = r as Record<string, unknown>;
+    const created = String(rec.created_at ?? "");
+    let date = created;
+    try {
+      date = new Date(created).toLocaleDateString("fr-FR");
+    } catch {
+      // on garde la valeur brute si le format échoue
+    }
+    return {
+      id: String(rec.id),
+      questionnaireId: String(rec.questionnaire_id ?? ""),
+      score: Number(rec.score ?? 0),
+      scoreMax: Number(rec.score_max ?? 0),
+      date,
+    };
+  });
+}
+
 /** Relie une réponse de questionnaire à une accompagnée (l'enregistre en base). */
 export async function saveQuestionnaireResponseDb(
   clientId: string,

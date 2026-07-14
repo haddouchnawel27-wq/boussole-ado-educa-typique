@@ -145,3 +145,12 @@ export function scoreOf(q: Questionnaire, answers: Record<string, number>) {
   const band = q.bands.find((b) => ratio <= b.upTo) ?? q.bands[q.bands.length - 1];
   return { score, scoreMax, ratio, band };
 }
+
+/** Retrouve titre + palier de restitution à partir d'un score déjà enregistré. */
+export function bandForScore(questionnaireId: string, score: number, scoreMax: number) {
+  const q = QUESTIONNAIRES.find((x) => x.id === questionnaireId);
+  if (!q) return null;
+  const ratio = scoreMax > 0 ? score / scoreMax : 0;
+  const band = q.bands.find((b) => ratio <= b.upTo) ?? q.bands[q.bands.length - 1];
+  return { titre: q.titre, band, ratio };
+}
