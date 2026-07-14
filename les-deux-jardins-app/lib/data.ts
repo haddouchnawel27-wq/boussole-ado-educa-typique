@@ -123,6 +123,7 @@ export interface QResponse {
   questionnaireId: string;
   score: number;
   scoreMax: number;
+  answers: Record<string, number>;
   date: string;
 }
 
@@ -149,6 +150,7 @@ export async function getQuestionnaireResponsesDb(clientId: string): Promise<QRe
       questionnaireId: String(rec.questionnaire_id ?? ""),
       score: Number(rec.score ?? 0),
       scoreMax: Number(rec.score_max ?? 0),
+      answers: (rec.answers as Record<string, number>) ?? {},
       date,
     };
   });

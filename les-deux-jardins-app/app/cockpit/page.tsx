@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useMode } from "@/lib/mode";
 import { DUAS, LIBRARY, METEO, STEPS } from "@/lib/demo";
-import { bandForScore } from "@/lib/questionnaires";
+import { evaluateStored } from "@/lib/questionnaires";
 import type { Client, Meteo } from "@/lib/types";
 import { addSeanceDb, createClientDb, deleteClientDb, getClients, getQuestionnaireResponsesDb, saveSyntheseDb, updateClientDb, type QResponse, type Source } from "@/lib/data";
 
@@ -403,9 +403,14 @@ export default function Cockpit() {
               ) : (
                 <div className="flex flex-col gap-2">
                   {responses.map((r) => {
-                    const info = bandForScore(r.questionnaireId, r.score, r.scoreMax);
+                    const info = evaluateStored(r.questionnaireId, r.answers);
+                    const hasRed = info?.alerts.some((a) => a.level === "rouge");
+                    const hasAlert = (info?.alerts.length ?? 0) > 0;
                     return (
-                      <div key={r.id} className="rounded-xl border border-shell-border bg-shell-soft p-3.5">
+                      <div
+                        key={r.id}
+                        className={"rounded-xl border bg-shell-soft p-3.5 " + (hasRed ? "border-[#a94b54]" : hasAlert ? "border-[#C08A2E]" : "border-shell-border")}
+                      >
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <span className="text-sm font-bold text-shell-text">{info?.titre ?? r.questionnaireId}</span>
                           <span className="text-[12px] text-shell-muted">{r.date} · score {r.score}/{r.scoreMax}</span>
@@ -415,6 +420,15 @@ export default function Cockpit() {
                             <b className="text-jq-deep">{info.band.titre}</b> — {info.band.texte}
                           </div>
                         )}
+                        {info?.alerts.map((a, i) => (
+                          <div
+                            key={i}
+                            className={"mt-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-semibold " + (a.level === "rouge" ? "bg-[rgba(169,75,84,.12)] text-[#a94b54]" : "bg-[rgba(192,138,46,.12)] text-[#8a6a1e]")}
+                          >
+                            {a.level === "rouge" ? "🚨 " : "⚠️ "}
+                            {a.titre}
+                          </div>
+                        ))}
                       </div>
                     );
                   })}

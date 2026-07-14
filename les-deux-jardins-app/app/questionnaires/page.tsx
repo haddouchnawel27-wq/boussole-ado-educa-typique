@@ -1,12 +1,15 @@
 "use client";
 import { useState } from "react";
 import { useMode } from "@/lib/mode";
-import { QUESTIONNAIRES, scoreOf, type Questionnaire } from "@/lib/questionnaires";
+import { QUESTIONNAIRES, evaluate, questionText, type Questionnaire } from "@/lib/questionnaires";
 import { getClients, saveQuestionnaireResponseDb } from "@/lib/data";
 
 export default function QuestionnairesPage() {
+  const { mode } = useMode();
+  const islamic = mode === "islamique";
   const [curId, setCurId] = useState<string | null>(null);
   const cur = QUESTIONNAIRES.find((q) => q.id === curId) ?? null;
+  const visibles = QUESTIONNAIRES.filter((q) => !q.islamicOnly || islamic);
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-10">
@@ -21,15 +24,18 @@ export default function QuestionnairesPage() {
 
       {!cur && (
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          {QUESTIONNAIRES.map((q) => (
+          {visibles.map((q) => (
             <button
               key={q.id}
               onClick={() => setCurId(q.id)}
               className="rounded-2xl border border-shell-border bg-shell-surface p-5 text-left shadow-soft transition hover:-translate-y-0.5 hover:border-gold"
             >
-              <span className={"rounded-md px-2 py-0.5 text-[10.5px] font-extrabold uppercase " + (q.univers === "jannat" ? "bg-jq-tender text-jq-deep" : "bg-et-sky text-[#1f5563]")}>
-                {q.univers === "jannat" ? "Jannat al Qulûb" : "Educa Typique"}
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={"rounded-md px-2 py-0.5 text-[10.5px] font-extrabold uppercase " + (q.univers === "jannat" ? "bg-jq-tender text-jq-deep" : "bg-et-sky text-[#1f5563]")}>
+                  {q.univers === "jannat" ? "Jannat al Qulûb" : "Educa Typique"}
+                </span>
+                {q.islamicOnly && <span className="rounded-md bg-[rgba(195,135,60,.16)] px-2 py-0.5 text-[10.5px] font-extrabold uppercase text-gold-dark">Mode islamique</span>}
+              </div>
               <h2 className="mt-2 font-round text-lg font-bold text-shell-text">{q.titre}</h2>
               <p className="mt-1 text-[13px] text-shell-muted">{q.questions.length} questions · restitution immédiate</p>
             </button>
@@ -48,7 +54,7 @@ function Runner({ q, onExit }: { q: Questionnaire; onExit: () => void }) {
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [submitted, setSubmitted] = useState(false);
   const allAnswered = q.questions.every((qq) => answers[qq.id] !== undefined);
-  const res = scoreOf(q, answers);
+  const ev = evaluate(q, answers);
 
   // « Relier à la fiche client »
   const [linking, setLinking] = useState(false);
@@ -72,7 +78,7 @@ function Runner({ q, onExit }: { q: Questionnaire; onExit: () => void }) {
 
   async function confirmLink() {
     if (!pick) return;
-    const ok = await saveQuestionnaireResponseDb(pick, q.id, answers, res.score, res.scoreMax);
+    const ok = await saveQuestionnaireResponseDb(pick, q.id, answers, ev.score, ev.scoreMax);
     if (ok) {
       setSavedTo(clients.find((cl) => cl.id === pick)?.nom ?? "la fiche");
       setLinking(false);
@@ -104,7 +110,7 @@ function Runner({ q, onExit }: { q: Questionnaire; onExit: () => void }) {
                 <div key={qq.id} className="rounded-xl border border-shell-border bg-shell-soft p-4">
                   <div className="mb-2.5 text-sm font-semibold text-shell-text">
                     <span className="mr-1.5 text-gold">{i + 1}.</span>
-                    {qq.texte}
+                    {questionText(qq, islamic)}
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="hidden w-24 shrink-0 text-right text-[11px] text-shell-muted sm:block">{qq.minLabel}</span>
@@ -146,13 +152,29 @@ function Runner({ q, onExit }: { q: Questionnaire; onExit: () => void }) {
         {submitted && (
           <div>
             <div className="mb-4 flex items-center gap-4">
-              <Gauge ratio={res.ratio} />
+              <Gauge ratio={ev.ratio} />
               <div>
-                <div className="font-serif text-xl font-semibold text-jq-deep">{res.band.titre}</div>
-                <div className="text-[13px] text-shell-muted">Score indicatif {res.score}/{res.scoreMax}</div>
+                <div className="font-serif text-xl font-semibold text-jq-deep">{ev.band.titre}</div>
+                <div className="text-[13px] text-shell-muted">Score indicatif {ev.score}/{ev.scoreMax}</div>
               </div>
             </div>
-            <p className="rounded-xl border-l-[3px] border-gold bg-shell-soft p-4 text-sm">{res.band.texte}</p>
+
+            {/* ALERTES DE SÉCURITÉ — priment sur le score, affichées en premier */}
+            {ev.alerts.map((a, i) => (
+              <div
+                key={i}
+                className={"mb-3 rounded-xl border-l-4 p-4 " + (a.level === "rouge" ? "border-[#a94b54] bg-[rgba(169,75,84,.10)]" : "border-[#C08A2E] bg-[rgba(192,138,46,.10)]")}
+              >
+                <div className={"text-sm font-bold " + (a.level === "rouge" ? "text-[#a94b54]" : "text-[#8a6a1e]")}>
+                  {a.level === "rouge" ? "🚨 " : "⚠️ "}
+                  {a.titre}
+                </div>
+                <div className="mt-1 text-[13.5px] text-shell-text">{a.message}</div>
+              </div>
+            ))}
+
+            <p className="rounded-xl border-l-[3px] border-gold bg-shell-soft p-4 text-sm">{ev.band.texte}</p>
+            {q.note && <p className="mt-3 rounded-xl border border-shell-border bg-[rgba(94,127,140,.06)] p-3.5 text-[13px] text-shell-muted">{q.note}</p>}
             <div className="mt-4 rounded-xl border border-shell-border bg-[rgba(94,127,140,.08)] p-3.5 text-[13px] text-shell-muted">
               Ceci n'est <b>pas un diagnostic</b>, mais un repère de dialogue. Il ne remplace ni un bilan, ni l'avis d'un
               professionnel.{islamic && " La guérison appartient à Allāh."}
