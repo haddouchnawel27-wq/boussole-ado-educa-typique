@@ -77,7 +77,7 @@ On change les **noms affichés** (libres, sans risque) ; les **adresses techniqu
 | ⚖️ Balance bien-être Al Mīzān (5 volets, radar) | Boussole intérieure | **L'Équilibre intérieur** |
 | 🕌 Version islamique de cette balance | boussole-voiechifa | → **version « Côté islamique » de « L'Équilibre intérieur »** (double mode, pas une app à part) |
 | 📝 Repérage Dys (Espace Parents) | boussole-diagnostic-dys | **Repérage Dys** |
-| 🌙 App ado islamique | boussoleado-souffle-lumiere | **Souffle Lumière** (ado · Côté islamique) |
+| 🌙 App ado islamique | boussoleado-souffle-lumiere | **Souffle Lumière** (ado · Côté islamique) — ⚠️ **NOM À REVOIR** (titille Nawel, à trancher ensemble) |
 
 **Correctif important : « Voie Chifā' » n'appartient PAS aux Deux Jardins** — c'est le cabinet de l'associée de Nawel. On le retire de l'écosystème ; seule la **méthode RAHMA** garde ce nom. Le versant islamique interne = le mode **🕌 Côté islamique**.
 **Orthographe UNIQUE partout : « Jannat al Qulûb »** (ni « Jannat Al Qalb », ni « Qulub » sans accent). ✅ Corrigé dans tout le dépôt le 15/07 (101 + 2 occurrences).
