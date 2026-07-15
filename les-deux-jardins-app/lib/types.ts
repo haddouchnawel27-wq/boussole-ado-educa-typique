@@ -29,7 +29,7 @@ export interface Client {
   consentement: boolean;
   intention: string;
   rdv: string;
-  bilan: { histoire: string; schemas: string; neuro: string; spirituel: string };
+  bilan: { histoire: string; schemas: string; neuro: string; spirituel: string; stabilise?: boolean };
   seances: Seance[];
   engagements: string[];
   synthese: Synthese;

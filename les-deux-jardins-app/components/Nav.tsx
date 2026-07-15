@@ -9,7 +9,6 @@ const LINKS = [
   { href: "/cockpit", label: "Cockpit" },
   { href: "/apps", label: "Applications" },
   { href: "/questionnaires", label: "Questionnaires" },
-  { href: "/parcours-shifa", label: "Parcours SHIFĀ'" },
 ];
 
 export function Nav() {

@@ -136,7 +136,14 @@ _Répartition : **Cowork** tient la doctrine + les contenus · **Code** fait le 
 
 **À unifier plus tard** : Nawel a 2 dossiers Bureau — « LES DEUX JARDINS » (référentiel clinique + garde-fous) et « Jannat Al Qalb » (produits, identité visuelle, RS, ventes). Briefs à relire dans « Jannat Al Qalb/Projets » (Hub Couteau Suisse, Consignes Écosystème).
 
-**⚠️ Ce que Code ne peut PAS atteindre** (sur le Bureau de Nawel, à lui envoyer) : `dashboard.html`, le projet **Posture Sereine** (Manuel/Workbook/Ebook), les 62 fiches SHIFA, les 2 dossiers Bureau.
+**⚠️ Ce que Code ne peut PAS atteindre** (sur le Bureau de Nawel, à lui envoyer) : le projet **Posture Sereine** (Manuel/Workbook/Ebook), les 62 fiches SHIFA, les 2 dossiers Bureau. *(le dashboard « Bienvenue chez toi » est maintenant importé ✅)*
+
+### 🩺 PARCOURS PRATICIENNE — la fiche = colonne vertébrale (choix : NATIF, pas de ponts)
+Étapes : **1 Accueil/anamnèse → 2 Évaluer** (Boussole de l'Âme/radar, Schémas, Bilan TCC) **→ 3 Formuler** (Décodeur, Référentiel) **→ 4 Cibler** (8 questionnaires /100) **→ 5 Restituer** (Synthèse + Suivi). Le tout dans l'**Espace Pro**.
+- ✅ **Phase 1 FAITE** : poste de pilotage dans la fiche (Cockpit) — fil des 5 étapes + bouton **« prochaine étape suggérée »** ; étapes 4 (questionnaires) et 5 (synthèse) déjà natives et reliées. Parcours SHIFĀ' retiré de la nav (→ Espace Pro).
+- 🔒 **RÈGLE DE SÉCURITÉ CÂBLÉE** : l'étape **4 Cibler** est **verrouillée** tant que la **stabilisation n'est pas confirmée** (« 4 feux verts » — *critères exacts à préciser avec Nawel*). Le bouton « prochaine étape » ne pousse jamais vers le ciblage trop tôt. Flag stocké dans `bilan.stabilise` (Supabase).
+- ⏳ **Phase 2** : moteur radar (Boussole de l'Âme = L'Équilibre intérieur, une seule fois). **Phase 3** : Schémas/Traumas + Bilan TCC natifs.
+- ⚠️ **Phase 4 — SHIFA Décodeur (API Claude) : NE PAS BRANCHER avant d'avoir tranché la confidentialité** (où vont les données patientes ? anonymisation ? secret professionnel). À discuter AVANT, avec Nawel.
 
 ---
 

@@ -118,6 +118,19 @@ export default function Cockpit() {
     }
   }
 
+  // confirme / annule la stabilisation (les « 4 feux verts ») — déverrouille l'étape Cibler
+  async function toggleStabilise() {
+    if (!c) return;
+    const newBilan = { ...c.bilan, stabilise: !c.bilan.stabilise };
+    update(curId, (cl) => ({ ...cl, bilan: newBilan }));
+    if (live) {
+      await updateClientDb(curId, { bilan: newBilan });
+      await reload(curId);
+    }
+    setSavedMsg(newBilan.stabilise ? "✔ Stabilisation confirmée" : "Stabilisation retirée");
+    window.setTimeout(() => setSavedMsg(""), 2500);
+  }
+
   // édite un champ localement (l'input reste fluide), la sauvegarde se fait au bouton
   function editClient(fn: (cl: Client) => Client) {
     if (!curId) return;
@@ -281,6 +294,88 @@ export default function Cockpit() {
               </button>
             </div>
           </div>
+        </div>
+
+        {/* PARCOURS — poste de pilotage */}
+        <div className="mb-4 rounded-2xl border border-shell-border bg-shell-soft p-4 sm:p-5">
+          {(() => {
+            const s1done = Boolean(c.intention?.trim() || c.consentement);
+            const stabilise = Boolean(c.bilan.stabilise);
+            const s4done = responses.length > 0;
+            const s5done = c.synthese.status === "valide";
+            type Stage = { n: number; t: string; state: "done" | "todo" | "locked" | "soon"; href?: string; onClick?: () => void; note?: string };
+            const stages: Stage[] = [
+              { n: 1, t: "Accueil / anamnèse", state: s1done ? "done" : "todo", onClick: () => setStep("accueil"), note: "Intention · consentement" },
+              { n: 2, t: "Évaluer", state: "soon", href: "/parcours-shifa", note: "Boussole de l'Âme · Schémas · Bilan TCC" },
+              { n: 3, t: "Formuler", state: "soon", href: "/parcours-shifa", note: "Décodeur · Référentiel" },
+              { n: 4, t: "Cibler", state: !stabilise ? "locked" : s4done ? "done" : "todo", href: stabilise ? "/questionnaires" : undefined, note: stabilise ? "8 questionnaires /100" : "après stabilisation" },
+              { n: 5, t: "Restituer", state: s5done ? "done" : "todo", onClick: () => setStep("synthese"), note: "Synthèse + Suivi" },
+            ];
+            const sug: { label: string; onClick?: () => void; href?: string; done?: boolean } = !s1done
+              ? { label: "Compléter l'accueil", onClick: () => setStep("accueil") }
+              : !stabilise
+              ? { label: "Confirmer la stabilisation avant de cibler", onClick: toggleStabilise }
+              : !s4done
+              ? { label: "Cibler avec un questionnaire", href: "/questionnaires" }
+              : !s5done
+              ? { label: "Rédiger la synthèse « Pour toi »", onClick: () => setStep("synthese") }
+              : { label: "Parcours complet — mā shā'a Llāh 🌸", done: true };
+            return (
+              <>
+                <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-shell-muted">Parcours de l&apos;accompagnée</span>
+                  {savedMsg && <span className="text-[12px] font-semibold text-[#4d7a4d]">{savedMsg}</span>}
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-1">
+                  {stages.map((st) => {
+                    const cls =
+                      "flex flex-none items-center gap-2 rounded-xl border px-3 py-2 text-left text-[12.5px] " +
+                      (st.state === "done"
+                        ? "border-[rgba(91,138,91,.4)] bg-[rgba(91,138,91,.10)] text-[#4d7a4d]"
+                        : st.state === "locked"
+                        ? "border-shell-border bg-shell-surface text-shell-muted"
+                        : st.state === "soon"
+                        ? "border-dashed border-gold/40 bg-shell-surface text-gold-dark"
+                        : "border-shell-border bg-shell-surface text-shell-text");
+                    const inner = (
+                      <>
+                        <span className="grid h-6 w-6 flex-none place-items-center rounded-full bg-white/70 text-[11px] font-extrabold">
+                          {st.state === "done" ? "✓" : st.state === "locked" ? "🔒" : st.n}
+                        </span>
+                        <span>
+                          <span className="block font-bold">{st.t}</span>
+                          {st.note && <span className="block text-[10.5px] text-shell-muted">{st.note}</span>}
+                        </span>
+                      </>
+                    );
+                    if (st.href) return <a key={st.n} href={st.href} className={cls + " transition hover:border-gold"}>{inner}</a>;
+                    if (st.onClick) return <button key={st.n} onClick={st.onClick} className={cls + " transition hover:border-gold"}>{inner}</button>;
+                    return <div key={st.n} className={cls}>{inner}</div>;
+                  })}
+                </div>
+                <div className="mt-3 flex flex-wrap items-center gap-3">
+                  {sug.done ? (
+                    <span className="rounded-xl bg-[rgba(91,138,91,.15)] px-4 py-2 text-sm font-semibold text-[#4d7a4d]">{sug.label}</span>
+                  ) : sug.href ? (
+                    <a href={sug.href} className="rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Prochaine étape : {sug.label}</a>
+                  ) : (
+                    <button onClick={sug.onClick} className="rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Prochaine étape : {sug.label}</button>
+                  )}
+                  <button
+                    onClick={toggleStabilise}
+                    className={"inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-[12.5px] font-semibold transition " + (stabilise ? "border-[rgba(91,138,91,.4)] bg-[rgba(91,138,91,.10)] text-[#4d7a4d]" : "border-dashed border-shell-border text-shell-muted hover:border-gold")}
+                  >
+                    {stabilise ? "✔ Stabilisation confirmée" : "☐ Confirmer la stabilisation (4 feux verts)"}
+                  </button>
+                </div>
+                {!stabilise && (
+                  <p className="mt-2 text-[11.5px] text-shell-muted">
+                    🔒 Le <b>ciblage</b> (questionnaires scorés) reste verrouillé tant que la stabilisation n&apos;est pas confirmée. <i>Les 4 critères exacts sont à préciser avec Nawel.</i>
+                  </p>
+                )}
+              </>
+            );
+          })()}
         </div>
 
         {/* STEPPER */}
