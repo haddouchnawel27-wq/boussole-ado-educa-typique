@@ -173,6 +173,10 @@ _Répartition : **Cowork** tient la doctrine + les contenus · **Code** fait le 
 - ⏳ **Phase 2** : moteur radar (Boussole de l'Âme = L'Équilibre intérieur, une seule fois). **Phase 3** : Schémas/Traumas + Bilan TCC natifs.
 - ⚠️ **Phase 4 — SHIFA Décodeur (API Claude) : NE PAS BRANCHER avant d'avoir tranché la confidentialité** (où vont les données patientes ? anonymisation ? secret professionnel). À discuter AVANT, avec Nawel.
 
+**🌱 Parcours Educa (Le Jardin des Graines) = MIROIR du parcours adulte** (validé par Nawel, carte du 15/07) :
+① **Repérer** (profil neuro-cognitif · thermomètre/roue émotions · grille repérage TND · besoins) → ② **Comprendre → Le Décodeur** (= même concept que le SHIFA Décodeur : lit les réponses → profil + pistes, **jamais un diagnostic**, **double vue** : jeune valorisante / toi clinique) → ③ **Agir** (outils Cap Educa/NeuroPed · méthode RAHMA adaptée jeune · **fiches SHIFA famille B** : TDAH/TSA/HPI/dys/TOP/refus scolaire · séances + plan). **Tout revient dans la fiche du jeune — un seul fil.**
+→ **CONSÉQUENCE : c'est le MÊME moteur fiche-centré pour les 2 jardins.** On le construit **une fois** ; seul le contenu diffère (famille B TND côté Educa · 8 troubles côté Jannat). Même vigilance confidentialité pour le Décodeur Educa s'il utilise une API.
+
 ---
 
 ## 🔤 LEXIQUE (pour ne plus se tromper)
