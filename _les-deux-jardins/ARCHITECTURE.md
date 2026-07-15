@@ -11,10 +11,10 @@ Beaucoup d'applis ont été créées ; on les **réorganise ensemble**. Cette pa
 
 | Monde | Marque | Pour qui | Esprit |
 |---|---|---|---|
-| 🌸 **Jannat al Qulûb** (Le Jardin du cœur) | adulte / praticienne / spirituel | femmes, accompagnement, Voie Chifā' | psycho-spirituel |
+| 🌸 **Jannat al Qulûb** (Le Jardin du cœur) | adulte / praticienne / spirituel | femmes, accompagnement | psycho-spirituel |
 | 🌱 **Educa Typique** (Le Jardin des graines) | enfants / ados / TND | familles, neuro-atypie | psycho-éducatif |
 
-> **Mode transversal** partout : **Universel ⇄ Islamique (Voie Chifā')**.
+> **Mode transversal** partout : **Universel ⇄ Islamique**. Le versant islamique porte la marque de Nawel : **Jannat al Qulûb** (le terme « Voie Chifā' » est retiré).
 
 ---
 
@@ -56,7 +56,7 @@ Routes : `/` (accueil) · `/cockpit` (praticienne, Supabase réel) · `/apps` ·
 
 _Détail exhaustif dans `REGISTRE-COMPLET.md`. Résumé :_
 - **Educa Typique** : Boussole (33 outils) · Parcours Clarté TND (Parents 26 · Ados 7 · **Pro 17, plein de questionnaires** dont repérages TND enfant/ado/femme) · Chef de Chantier (PR #15) · déploiements Netlify.
-- **Jannat al Qulûb** : **Al Mīzān** · souffle-lumiere · jannat-al-qalb (vitrine) · cockpit · déploiements Voie Chifā' (anamnèses, décodeur shifa…).
+- **Jannat al Qulûb** : **Al Mīzān** · souffle-lumiere · jannat-al-qalb (vitrine) · cockpit · déploiements islamiques (anamnèses, décodeur… — anciennement libellés « Voie Chifā' », noms techniques conservés).
 - **Corpus Drive** : Thérapie des Noms · Guide du'ā · médecine prophétique (9 modules) · santé de la femme · remèdes · TCC · dépendance affective · (Mal Occulte ⚠️ isolé).
 
 → **But de la réorganisation** : tout devient **natif** dans l'app (résultats reliés à la fiche, double mode, export), rangé par monde/hub.
@@ -72,9 +72,11 @@ On change les **noms affichés** (libres, sans risque) ; les **adresses techniqu
 |---|---|---|
 | 🧭 Boîte à outils Educa (33 outils enfant/ado, `boussole-ado-educa-typique`) | Boussole | **Cap Educa** |
 | ⚖️ Balance bien-être Al Mīzān (5 volets, radar) | Boussole intérieure | **L'Équilibre intérieur** |
-| 🕊️ Version Voie Chifā' de cette balance | boussole-voiechifa | → **mode Voie Chifā' de « L'Équilibre intérieur »** (double mode, pas une app à part) |
+| 🕊️ Version islamique de cette balance | boussole-voiechifa | → **mode Jannat al Qulûb de « L'Équilibre intérieur »** (double mode, pas une app à part) |
 | 📝 Repérage Dys (Espace Parents) | boussole-diagnostic-dys | **Repérage Dys** |
-| 🌙 App ado Voie Chifā' | boussoleado-souffle-lumiere | **Souffle Lumière** (ado · Voie Chifā') |
+| 🌙 App ado islamique | boussoleado-souffle-lumiere | **Souffle Lumière** (ado · Jannat al Qulûb) |
+
+**Autre renommage acté : « Voie Chifā' » est retiré → le versant islamique de l'écosystème porte la marque de Nawel, « Jannat al Qulûb ».**
 
 _À faire pareil plus tard pour les autres doublons (« profil… », « anamnèse… ») si on veut assainir tout le vocabulaire._
 
@@ -97,7 +99,7 @@ _À faire pareil plus tard pour les autres doublons (« profil… », « anamnè
 - [ ] **Upgrader le moteur multi-axes + radar** (pour que toutes les balances en héritent).
 - [ ] Puis **Balance Imposteur (6 axes)** sur ces rails.
 - [ ] Profils = hypothèses douces ✔ (principe validé, à confirmer)
-- [ ] Axe spirituel masquable (Voie Chifā') + alerte qunūṭ ✔ (à confirmer)
+- [ ] Axe spirituel masquable (mode Jannat al Qulûb / islamique) + alerte qunūṭ ✔ (à confirmer)
 - [ ] **Balance neuro-atypie** en feuille de route (orientation, jamais diagnostic).
 
 ---
