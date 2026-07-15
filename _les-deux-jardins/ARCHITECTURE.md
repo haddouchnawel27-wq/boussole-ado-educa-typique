@@ -86,6 +86,30 @@ _À faire pareil plus tard pour les autres doublons (« profil… », « anamnè
 
 ---
 
+## 🛡️ SÉCURITÉ DES ESPACES — 3 espaces × 2 modes (chantier week-end)
+
+**Constat Nawel (15/07) : les espaces existent PARTOUT mais rien n'est verrouillé.** À appliquer partout.
+
+**Le principe unique :**
+- 👨‍👩‍👧 **Famille** → **code léger** (dissuasion, client-side OK).
+- 🧒 **Ado** → **code léger** + **vue ado uniquement** (jamais la vue clinique).
+- 🔒 **PRO** → **vrai compte** (Supabase). Données patientes = **secret professionnel** — **jamais** protégé côté navigateur.
+
+**Architecture (le plus simple) : 2 mécanismes, pas 3 bricolages.**
+1. **Code léger** = UN bloc réutilisable, identique dans chaque app statique (Famille/Ado).
+2. **Compte réel (Pro)** = **centralisé dans Les Deux Jardins** (auth déjà construite). Le Pro ne doit **plus** être servi sur une URL statique ouverte.
+
+**✅ Déjà sûr :** les données patientes (Cockpit : fiches/séances/synthèses/questionnaires) sont **derrière le compte** (Supabase + RLS).
+
+**À corriger (les 3 exemples de Nawel) :**
+1. **Boîte NeuroPed** (netlify) : carte **Pro** retirée du site ouvert (→ pointe vers Pro connecté) ; Parents/Ados derrière code léger.
+2. **Cap Educa / Boussole** (racine) : **vue Ado par défaut** ; vue **Praticienne** sort du site ouvert (→ Cockpit). + **double vue du profil** (ado = valorisant · pro = clinique). *(Nawel listera les outils cassés/non adaptés ado.)*
+3. **Tableau de bord « Bienvenue chez toi »** : devient **page protégée dans l'app** (derrière compte). *Interim : n'expose que la liste d'outils, pas de données patientes.*
+
+⚠️ **Nuance :** protéger le lanceur ne protège pas les outils externes eux-mêmes (URLs ouvertes). Le vrai Pro devra **converger dans l'app connectée** au fil du temps.
+
+---
+
 ## 🛡️ LES RÈGLES NON NÉGOCIABLES (valables partout)
 
 1. **Jamais de diagnostic.** Un **niveau** + une **orientation**. Jamais un nom de trouble comme verdict.
