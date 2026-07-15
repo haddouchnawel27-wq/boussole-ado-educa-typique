@@ -51,7 +51,7 @@ Appli individuelle (PWA propre, SW v3). `index.html` (v2 : zone rouge, lycée, p
 
 ---
 
-## 🌿 Univers Jannat Al Qalb
+## 🌿 Univers Jannat al Qulûb
 
 ### 🌸 Al Mizan Al Qalb — `al-mizan/` (live) & `al-mizan-design/` (build source)
 **Deux builds du MÊME produit.** `al-mizan-design/` = build « Claude Design » de référence (source +
@@ -68,10 +68,10 @@ Clés : `almizan.v2` (état app), `almizan.taches`, `almizan_sequenceur`.
   `almizan-sequenceur.html` (séquenceur antérieur, police Jost → à archiver).
 
 ### 🌙 Souffle & Lumière — `souffle-lumiere/`
-SPA React (987 Ko). Site public du cabinet psycho-spirituel. Corps déjà rebrandé « Jannat Al Qalb ».
-**Clé `voiechifa.v1`** (héritage). Historique des noms : Voie Chifâ → Souffle & Lumière → Jannat Al Qalb.
+SPA React (987 Ko). Site public du cabinet psycho-spirituel. Corps déjà rebrandé « Jannat al Qulûb ».
+**Clé `voiechifa.v1`** (héritage). Historique des noms : Voie Chifâ → Souffle & Lumière → Jannat al Qulûb.
 
-### 🏛️ Vitrine Jannat Al Qalb — `jannat-al-qalb/`
+### 🏛️ Vitrine Jannat al Qulûb — `jannat-al-qalb/`
 Vitrine statique légère et propre (23,5 Ko, sans React) = version aboutie du rebrand. Charte
 sauge/amande/ivoire. Réservation TidyCal. **À finaliser (3 points)** : slug TidyCal, email de contact,
 photo optionnelle.
@@ -121,7 +121,7 @@ photo optionnelle.
 | `boite-a-bobo-emotionnel-6-12-univ.netlify.app` | Boîte à bobo émotionnel 6-12 (Univ) | 🟡 apparenté `boite-emotions-neuroo/` + Boussole enfants |
 | `anamne-educa-typique.netlify.app` | Anamnèse Educa Typique | ❌ absent du repo (Boussole n'a que le modèle pro « anamnèse ») |
 
-### 🌿 Jannat Al Qalb / Voie Chifā (ISL + praticienne)
+### 🌿 Jannat al Qulûb / Voie Chifā (ISL + praticienne)
 | URL Netlify | App | Source dans le repo ? |
 |---|---|---|
 | `boussole-voiechifa.netlify.app` | Boussole (variante Voie Chifā) | 🟡 apparenté Boussole racine |

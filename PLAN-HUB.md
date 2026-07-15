@@ -20,7 +20,7 @@ d'entrée installable, sans rien perdre ni casser. À valider par Nawel avant co
         (familles / neuro-éduc.)                    (psycho-spirituel)
         • Boussole                                  • Al Mizan Al Qalb
         • Parcours Clarté TND (Boîte NeuroPed)      • Souffle & Lumière
-        • Chef de Chantier                          • Vitrine Jannat Al Qalb
+        • Chef de Chantier                          • Vitrine Jannat al Qulûb
         • Décodeur profil, bilans, profils…         • Boussole/émotions Voie Chifā (ISL)
               └─────────────────────┬─────────────────────┘
                         🔒 ESPACE PRATICIENNE (accès restreint — futur)
@@ -45,7 +45,7 @@ d'entrée installable, sans rien perdre ni casser. À valider par Nawel avant co
   (`boussole.v1.`, `almizan.v2`, `voiechifa.v1`, `chantier`, `educatypique_*`, `neuroped_*`) — aucune migration destructive.
 - 📲 **Installable + hors-ligne** (manifest + service worker propre au Hub).
 - 🚫 **Aucune représentation humaine** dans les icônes.
-- 🎨 **Chartes respectées** : Educa Typique (rose/lavande/menthe) vs Jannat Al Qalb (sauge/amande/ivoire).
+- 🎨 **Chartes respectées** : Educa Typique (rose/lavande/menthe) vs Jannat al Qulûb (sauge/amande/ivoire).
 - ☪️ **Pas de chiffres rituels sans dalil**.
 
 ## 4. Accès payants (packs 44-59 € / pack des 3 à 99-129 €) — reco technique

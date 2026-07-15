@@ -46,7 +46,7 @@ self.addEventListener("fetch", function (e) {
   // réseau direct, jamais mises dans le cache de l'appli.
   if (url.origin !== self.location.origin) return;
 
-  // Les sites vitrines (Parcours Clarté · Jannat Al Qalb) ne font PAS partie
+  // Les sites vitrines (Parcours Clarté · Jannat al Qulûb) ne font PAS partie
   // de l'application : on les laisse au réseau, sans cache ni coquille d'appli.
   if (url.pathname.indexOf("/parcours-clarte-tnd/") !== -1 ||
       url.pathname.indexOf("/jannat-al-qalb/") !== -1 ||

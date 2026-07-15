@@ -11,7 +11,7 @@ coaching + **TCC** + **psychologie islamique** (niyya, amanah, tawakkul actif, s
 
 **Plan validé pour demain :**
 1. **On réfléchit d'abord ensemble** (structure de l'offre, cible, format) AVANT de construire.
-2. Puis on produit **3 documents cohérents** (charte Jannat Al Qalb, ton doux, PDF pro) :
+2. Puis on produit **3 documents cohérents** (charte Jannat al Qulûb, ton doux, PDF pro) :
    - 📖 **Ebook** — basé sur le **programme d'accompagnement**.
    - 📓 **Workbook**.
    - 📋 **Questionnaire d'entrée** (candidature/clarification).
@@ -25,7 +25,7 @@ coaching + **TCC** + **psychologie islamique** (niyya, amanah, tawakkul actif, s
 
 **⚠️ Points à trancher ensemble :**
 - **Deux workbooks existent** : `Posture Sereine — Mon carnet de parcours` (HTML doux, 8 fiches → pack **grand public**) VS `Workbook d'accompagnement` (spirituel/TCC → **programme accompagné**). Décider lequel va où.
-- **Ebook « Posture Sereine » grand public : JAMAIS reçu** — les fichiers envoyés étaient la note « ⚠️ Fichier remplacé ». Option retenue : **le créer à partir de l'ebook PRO**, adouci en charte Jannat Al Qalb.
+- **Ebook « Posture Sereine » grand public : JAMAIS reçu** — les fichiers envoyés étaient la note « ⚠️ Fichier remplacé ». Option retenue : **le créer à partir de l'ebook PRO**, adouci en charte Jannat al Qulûb.
 
 **Échelle d'offres repérée (le vrai levier de revenu) :**
 | Niveau | Contenu | Prix (ordre d'idée) |
@@ -53,19 +53,19 @@ Appli pour le jeune que Nawel accompagne (futur lycée pro engins de chantier). 
 
 ## 🧰 CHANTIER SUIVANT — Hub « Couteau Suisse » (unifier toutes les apps)
 
-_Brief complet chez Nawel (local) : `Bureau › Jannat Al Qalb › Projets › 🧰 Brief pour Code - Hub Couteau Suisse (Educa Typique x Jannat Al Qalb).md`. Je n'y ai PAS accès → lui redemander de coller le brief (surtout : URLs réelles, les 3 copies de la Boîte NeuroPed, décisions de fin de brief)._
+_Brief complet chez Nawel (local) : `Bureau › Jannat al Qulûb › Projets › 🧰 Brief pour Code - Hub Couteau Suisse (Educa Typique x Jannat al Qulûb).md`. Je n'y ai PAS accès → lui redemander de coller le brief (surtout : URLs réelles, les 3 copies de la Boîte NeuroPed, décisions de fin de brief)._
 
 **Vision :** rattacher TOUTES ses apps en **un hub unique installable (PWA)** — une porte d'entrée, **deux univers distincts** + passerelles entre eux :
 - 🌷 **Educa Typique** : Boussole + **Boîte NeuroPed Universelle (106 outils)** + Parcours Clarté TND.
-- 🌿 **Jannat Al Qalb** (جنة القلب, « Le Jardin du Cœur ») : Al Mizan Al Qalb + satellites, Souffle & Lumière, **Boîte NeuroPed ISL**, Posture Sereine.
+- 🌿 **Jannat al Qulûb** (جنة القلب, « Le Jardin du Cœur ») : Al Mizan Al Qalb + satellites, Souffle & Lumière, **Boîte NeuroPed ISL**, Posture Sereine.
 
 **Architecture à anticiper :** un **3ᵉ espace à accès restreint « Praticiennes »** (projet futur — la matière existe : tous les outils praticiens de la Boîte NeuroPed).
 
 **Hébergement :** Nawel a **3 comptes Netlify** dispo (+ GitHub Pages actuel). → Je dois **proposer le meilleur setup**, surtout pour gérer les **accès payants** (packs 44-59 €, pack des 3 à 99/129 €).
 
-**Non négociables :** aucun diagnostic (disclaimer partout) · **100 % privé (localStorage)** · **installable + hors-ligne** · **aucune représentation humaine dans les icônes** · chartes respectées (Educa Typique + Jannat Al Qalb) · **pas de chiffres rituels sans dalil**.
+**Non négociables :** aucun diagnostic (disclaimer partout) · **100 % privé (localStorage)** · **installable + hors-ligne** · **aucune représentation humaine dans les icônes** · chartes respectées (Educa Typique + Jannat al Qulûb) · **pas de chiffres rituels sans dalil**.
 
-**Correctifs Souffle & Lumière (point 5 du brief) : ✅ DÉJÀ FAITS le 3 juil** — rebrand Jannat Al Qalb + « autant de fois que ton cœur en ressent le besoin » (à la place de « 7 fois »).
+**Correctifs Souffle & Lumière (point 5 du brief) : ✅ DÉJÀ FAITS le 3 juil** — rebrand Jannat al Qulûb + « autant de fois que ton cœur en ressent le besoin » (à la place de « 7 fois »).
 
 **Ma Phase 1 (avant de coder) :**
 1. **Inventaire technique** : URLs réelles vs dossiers locaux ; **doublons** (la Boîte NeuroPed existe en **3 copies → demander laquelle fait foi**).
@@ -79,7 +79,7 @@ Ce qui est en ligne dans le dépôt (Pages) :
   - 7 pages d'accueil (index, parents, ados, professionnels, **parents-musulmans**, offres, protection-numerique)
   - 26 apps · 7 outils-ado · **17 outils-pro** (profils, repérages TND, protocole crise…) · 44 ebooks-guides · 17 fiches · 11 formations · Boîte Émotions Neuroo · kit réseaux.
   - Variantes **ISL** déjà présentes ici (parents-musulmans, dialoguer-ado-ISL, cartes émotions ISL).
-- 🌿 **Jannat Al Qalb** : Al Mizan (`/al-mizan/`) · Souffle & Lumière (`/souffle-lumiere/`) · vitrine (`/jannat-al-qalb/`) · Posture Sereine (programme, pas encore une app).
+- 🌿 **Jannat al Qulûb** : Al Mizan (`/al-mizan/`) · Souffle & Lumière (`/souffle-lumiere/`) · vitrine (`/jannat-al-qalb/`) · Posture Sereine (programme, pas encore une app).
 - 🛍️ Ventes : `/vente-al-mizan/`, `/vente-boussole/`, `/vente-souffle/`.
 
 ### ❓ Questions en attente (à demander à Nawel avant Phase 2 = archi)
@@ -99,7 +99,7 @@ Base : `https://haddouchnawel27-wq.github.io/boussole-ado-educa-typique/`
 |---|---|---|
 | 🧭 Boussole (familles) | `/` | en ligne |
 | 🌸 Al Mizan Al Qalb | `/al-mizan/` | en ligne — séquenceur « Vider, trier, avancer » = 3ᵉ carte de « Faire le point » + icône balance |
-| 🌙 Souffle & Lumière | `/souffle-lumiere/` | en ligne — **rebrandée Jannat Al Qalb** (clôture + footer) ; étape Nom d'Allāh = **répétition libre** (plus de « /7 ») ; icône arche |
+| 🌙 Souffle & Lumière | `/souffle-lumiere/` | en ligne — **rebrandée Jannat al Qulûb** (clôture + footer) ; étape Nom d'Allāh = **répétition libre** (plus de « /7 ») ; icône arche |
 
 - Clé localStorage `voiechifa.v1` **conservée** (ne pas renommer = données préservées).
 - Boussole = **familles seulement** (Enfant/Ado/Parent). Le volet **praticiennes** sera une **appli dédiée** plus tard.
@@ -129,7 +129,7 @@ Base : `https://haddouchnawel27-wq.github.io/boussole-ado-educa-typique/`
 
 ### 📜 Textes légaux — FAITS
 - Artifact `c91838a3-44b1-40c5-916e-99f25a968cdb` · source `scratchpad/mentions-legales.html`.
-- **Naoual HADDOUCH (EI), SIRET 902 273 366 00028, APE 96.09Z, Nîmes, TVA art. 293 B**, marques Jannat Al Qalb + Educa Typique.
+- **Naoual HADDOUCH (EI), SIRET 902 273 366 00028, APE 96.09Z, Nîmes, TVA art. 293 B**, marques Jannat al Qulûb + Educa Typique.
 - **Blancs à compléter** : e-mail de contact · adresse (domicile ou domiciliation) · **médiateur de la consommation** (adhésion obligatoire B2C) · dates.
 
 ### 📌 Reste à faire (vente)
@@ -140,7 +140,7 @@ Base : `https://haddouchnawel27-wq.github.io/boussole-ado-educa-typique/`
 5. (option) page **pack des 3** ; nom de domaine `jannatalqalb.fr`.
 
 ### e-books prêts (NE PAS publier publiquement — produits payants)
-- `Ebook_Souffle_de_Lumiere__Le_chemin_de_la_sakina.html` (Souffle & Lumière) — Jannat Al Qalb, prêt.
+- `Ebook_Souffle_de_Lumiere__Le_chemin_de_la_sakina.html` (Souffle & Lumière) — Jannat al Qulûb, prêt.
 - QR codes des 3 applis : `scratchpad/QR-*.png`.
 
 ---
