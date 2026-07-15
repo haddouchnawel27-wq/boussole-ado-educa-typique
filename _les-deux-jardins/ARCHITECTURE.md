@@ -103,7 +103,11 @@ _À faire pareil plus tard pour les autres doublons (« profil… », « anamnè
 
 **À corriger (les 3 exemples de Nawel) :**
 1. **Boîte NeuroPed** (netlify) : carte **Pro** retirée du site ouvert (→ pointe vers Pro connecté) ; Parents/Ados derrière code léger.
-2. **Cap Educa / Boussole** (racine) : **vue Ado par défaut** ; vue **Praticienne** sort du site ouvert (→ Cockpit). + **double vue du profil** (ado = valorisant · pro = clinique). *(Nawel listera les outils cassés/non adaptés ado.)*
+2. **Cap Educa / Boussole** (racine) — *audit Cowork : rien de cassé techniquement, le souci est la conception (mélange des publics).*
+   → **Boussole a sa PROPRE logique** (app statique, pas d'auth Supabase) → on **ne réutilise pas** le vrai compte dedans. **Le Pro n'est pas verrouillé DANS Boussole : il en est RETIRÉ.**
+   → **Option A (retenue, la + simple + sûre)** : Boussole = boîte **ADO/FAMILLE pure**. **Vue Ado par défaut** (fini « Praticienne · tout voir »). Les **4 outils pro RETIRÉS** → Fiches des jeunes · Journal ABC · Dossier de suivi · Modèles (anamnèse/PAI) → leur maison = **Cockpit Les Deux Jardins** (vrai compte).
+   → 🆘 **Contrôle de contenu** (avec Nawel) : Plan de sécurité / Trousse anti-crise côté ado — ton adapté à un ado **seul** ? Numéros d'urgence FR (15 · 3114) visibles ?
+   → + **double vue du profil** (ado = valorisant · pro = clinique).
 3. **Tableau de bord « Bienvenue chez toi »** : devient **page protégée dans l'app** (derrière compte). *Interim : n'expose que la liste d'outils, pas de données patientes.*
 
 ⚠️ **Nuance :** protéger le lanceur ne protège pas les outils externes eux-mêmes (URLs ouvertes). Le vrai Pro devra **converger dans l'app connectée** au fil du temps.
