@@ -19,6 +19,8 @@ Tout est commité + poussé sur `claude/chef-chantier-upgrade-mawum3` (PR #15). 
 5. **Phase 3** : Schémas/Traumas + Bilan TCC natifs.
 6. **Ranger** le Parcours SHIFĀ' dans l'Espace Pro (brief 3 espaces × 2 modes).
 7. **Nettoyer** `lib/apps.ts` (Cap Educa, doublons, lien github.io, « # » mort).
+8. **ACCUEIL — rendre les 2 mondes CLIQUABLES** : sur `app/page.tsx`, « Jannat al Qulûb » et « Educa Typique / Le Jardin des graines » sont de simples titres `<h2>`, pas des liens. Nawel veut cliquer dessus pour **entrer dans chaque monde**. → en faire des entrées (vers leurs hubs / sous-sections).
+9. **VÉRIFIER LES OUTILS UN PAR UN** (signalé par Nawel : « beaucoup ne fonctionnent pas ou mal ») — tester chaque lien des hubs `/hub/[slug]` + chaque app externe de `lib/apps.ts` + le hub `tableau-de-bord.html` : repérer cassés / mal rendus / doublons, réparer au fil. (Prévu explicitement pour le week-end.)
 
 ## ⚠️ VIGILANCES (ne pas oublier)
 - **SHIFA Décodeur (API Claude)** = données patientes → **trancher la confidentialité AVANT** de le brancher (Phase 4). Secret professionnel.
