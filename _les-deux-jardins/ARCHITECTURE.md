@@ -126,7 +126,10 @@ _Répartition : **Cowork** tient la doctrine + les contenus · **Code** fait le 
 1. **Orthographe** « Jannat Al Qalb » → « Jannat al Qulûb » partout — ✅ **FAIT** (dépôt entier, slugs préservés).
    Reste : le **dashboard.html** (« Bienvenue chez toi ») **n'est PAS dans le dépôt** → à récupérer du Bureau de Nawel. Y retirer aussi « Voie Chifā' » du **sélecteur d'activités**.
 2. **Vérifier les CONNEXIONS entre apps** (Cap Educa/Boussole · Les Deux Jardins · Al Mīzān · Souffle Lumière · Posture Sereine) :
-   le **tableau de bord « Bienvenue chez toi »** doit devenir **LA porte d'entrée unique** qui lance tous les outils. Auditer : liens qui marchent / morts / doublons.
+   le **tableau de bord « Bienvenue chez toi »** doit devenir **LA porte d'entrée unique** qui lance tous les outils.
+   ✅ **Dashboard importé** dans le dépôt : `les-deux-jardins-app/public/tableau-de-bord.html` → servi à **les-deux-jardins.vercel.app/tableau-de-bord.html**.
+   ✅ **« Voie Chifā' » retiré** du dashboard → rebrandé **Jannat al Qulûb** (affichage + ids + compteur). Garde Educa Typique + Jannat al Qulûb.
+   🔜 **À RECONNECTER ENSEMBLE** : les chemins vers les vraies apps en ligne. 6 URLs encore en `…voiechifa.netlify.app` (Souffle & Lumière, Boussole de l'Âme, Schémas/Traumas, Référentiel SHIFA, Anamnèses+CR, Trousse ados) + de nombreux outils en **local** (fichiers Bureau). À vérifier un par un avec Nawel.
 3. **Importer les 62 fiches SHIFA** comme **référentiel consultable**.
 4. **RLS Supabase** : chaque praticienne ne voit **QUE** ses fiches — **jamais testé**, à faire **avant** d'ouvrir à une 2ᵉ praticienne.
 5. **PWA installable** + **espace praticienne protégé**.
