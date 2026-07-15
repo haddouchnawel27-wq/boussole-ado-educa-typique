@@ -30,7 +30,7 @@ C'est **l'app de cartographie intérieure** : elle transforme chaque questionnai
 4. **Reverse-scoring** + paliers doux + **graine du jour** (verset/du'ā sourcé).
 
 **Pages Al Mīzān déjà prototypées** (dossier `al-mizan/`) : `index · boussole-interieure · face-au-regard · mes-outils · séquenceur`.
-→ **Boussole intérieure** = prototype HTML COMPLET (5 volets : corps · émotions · stress · lien · ancrage spirituel ; radar ; reverse-scoring ; garde-fous 15/3114). **C'est la référence de la 1re Balance à intégrer.**
+→ **L'Équilibre intérieur** (ex-« Boussole intérieure ») = prototype HTML COMPLET (5 volets : corps · émotions · stress · lien · ancrage spirituel ; radar ; reverse-scoring ; garde-fous 15/3114). **C'est la référence de la 1re Balance à intégrer.**
 
 ---
 
@@ -63,6 +63,23 @@ _Détail exhaustif dans `REGISTRE-COMPLET.md`. Résumé :_
 
 ---
 
+## 🔤 NOMMAGE OFFICIEL — fin des « Boussole » multiples (décidé le 15/07/2026)
+
+**Règle : « Boussole » est retiré. Chaque app/outil porte un nom selon sa nature.**
+On change les **noms affichés** (libres, sans risque) ; les **adresses techniques** (URL Vercel, dépôt) restent inchangées pour ne rien casser — migration propre plus tard si besoin.
+
+| Ce que c'est | Ancien nom | ✅ Nom officiel |
+|---|---|---|
+| 🧭 Boîte à outils Educa (33 outils enfant/ado, `boussole-ado-educa-typique`) | Boussole | **Cap Educa** |
+| ⚖️ Balance bien-être Al Mīzān (5 volets, radar) | Boussole intérieure | **L'Équilibre intérieur** |
+| 🕊️ Version Voie Chifā' de cette balance | boussole-voiechifa | → **mode Voie Chifā' de « L'Équilibre intérieur »** (double mode, pas une app à part) |
+| 📝 Repérage Dys (Espace Parents) | boussole-diagnostic-dys | **Repérage Dys** |
+| 🌙 App ado Voie Chifā' | boussoleado-souffle-lumiere | **Souffle Lumière** (ado · Voie Chifā') |
+
+_À faire pareil plus tard pour les autres doublons (« profil… », « anamnèse… ») si on veut assainir tout le vocabulaire._
+
+---
+
 ## 🛡️ LES RÈGLES NON NÉGOCIABLES (valables partout)
 
 1. **Jamais de diagnostic.** Un **niveau** + une **orientation**. Jamais un nom de trouble comme verdict.
@@ -87,7 +104,7 @@ _Détail exhaustif dans `REGISTRE-COMPLET.md`. Résumé :_
 
 ## 🧭 FEUILLE DE ROUTE AL MĪZĀN (ordre proposé)
 
-1. **Porter Boussole intérieure** (radar compris) → prouve l'architecture Balance.
+1. **Porter « L'Équilibre intérieur »** (ex-Boussole intérieure, radar compris) → prouve l'architecture Balance.
 2. **Moteur multi-axes** (sous-scores par axe).
 3. **Balance Imposteur** (6 axes).
 4. **Balance Fonctions exécutives & neuro-atypie** (partenaire de lecture croisée de l'imposteur).
@@ -103,4 +120,6 @@ _Détail exhaustif dans `REGISTRE-COMPLET.md`. Résumé :_
 - **Balance** = un questionnaire multi-axes avec radar (dans Al Mīzān).
 - **Repérage** = un questionnaire ciblé 1 thème (les 8 cliniques actuels).
 - **Cockpit** = l'espace praticienne (fiches accompagnées, Supabase).
-- **Boussole** = l'ancienne app Educa (statique, `boussole-ado-educa-typique`, gardée intacte).
+- **Cap Educa** (ex-« Boussole ») = la boîte à outils Educa (statique, `boussole-ado-educa-typique`, gardée intacte — nom technique conservé).
+- **L'Équilibre intérieur** (ex-« Boussole intérieure ») = la 1re Balance d'Al Mīzān.
+- ⚠️ Le mot **« Boussole » est retiré** du vocabulaire affiché (trop de doublons).
