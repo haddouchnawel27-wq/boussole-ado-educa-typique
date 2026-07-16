@@ -21,6 +21,8 @@ Tout est commité + poussé sur `claude/chef-chantier-upgrade-mawum3` (PR #15). 
 7. **Nettoyer** `lib/apps.ts` (Cap Educa, doublons, lien github.io, « # » mort).
 8. **ACCUEIL — rendre les 2 mondes CLIQUABLES** : sur `app/page.tsx`, « Jannat al Qulûb » et « Educa Typique / Le Jardin des graines » sont de simples titres `<h2>`, pas des liens. Nawel veut cliquer dessus pour **entrer dans chaque monde**. → en faire des entrées (vers leurs hubs / sous-sections).
 9. **VÉRIFIER LES OUTILS UN PAR UN** (signalé par Nawel : « beaucoup ne fonctionnent pas ou mal ») — tester chaque lien des hubs `/hub/[slug]` + chaque app externe de `lib/apps.ts` + le hub `tableau-de-bord.html` : repérer cassés / mal rendus / doublons, réparer au fil. (Prévu explicitement pour le week-end.)
+10. **🧭 RÉORGANISER TOUS LES QUESTIONNAIRES DES 2 JARDINS EN UNE PROGRESSION COHÉRENTE** (demande Nawel 16/07) — un **« état des lieux » qui s'approfondit étape par étape** (repérage léger → évaluation → analyse fine), **même logique côté Jannat (adultes) et côté Educa (enfants/ados)**. Relie au parcours (repérer → comprendre → agir). Objectif : cohérence d'ensemble, pas une pile de tests isolés. *(chantier de fond, à concevoir AVEC Nawel — c'est sa clinique.)*
+11. **🔌 « Bienvenue chez toi » : certaines applis NE RÉPONDENT PAS** (signalé 16/07) — vérifier/reconnecter les liens du dashboard (`public/tableau-de-bord.html`) un par un ; distinguer outils en ligne (URL à corriger) vs locaux (fichiers Bureau, ne s'ouvrent que chez Nawel).
 
 ## ⚠️ VIGILANCES (ne pas oublier)
 - **SHIFA Décodeur (API Claude)** = données patientes → **trancher la confidentialité AVANT** de le brancher (Phase 4). Secret professionnel.
