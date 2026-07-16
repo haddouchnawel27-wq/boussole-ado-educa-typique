@@ -34,7 +34,7 @@ export default function Home() {
 
       {/* two gardens */}
       <section className="grid gap-5 sm:grid-cols-2">
-        <article className="rounded-2xl border border-shell-border border-l-4 border-l-jq-sage bg-shell-surface p-6 shadow-soft sm:p-8">
+        <Link href="/jardin/coeur" className="group block rounded-2xl border border-shell-border border-l-4 border-l-jq-sage bg-shell-surface p-6 shadow-soft transition hover:-translate-y-1 hover:border-gold sm:p-8">
           <p className="font-serif text-xs font-semibold uppercase tracking-[0.28em] text-jq-sage">Le Jardin du cœur</p>
           <p className="mt-1 font-arab text-2xl text-gold" dir="rtl">جنّة القلوب</p>
           <h2 className="font-serif text-3xl font-semibold text-jq-deep sm:text-4xl">Jannat al Qulûb</h2>
@@ -42,16 +42,18 @@ export default function Home() {
           <p className="mt-3 text-sm text-shell-muted">
             Côté maman, femme, adulte — l'accompagnement {islamic ? "psycho-spirituel" : "psychologique"}. Charte du cockpit praticienne.
           </p>
-        </article>
+          <span className="mt-4 inline-block text-sm font-semibold text-gold-dark group-hover:underline">Entrer dans ce jardin →</span>
+        </Link>
 
-        <article className="rounded-2xl border border-shell-border border-t-4 border-t-et-teal bg-shell-surface p-6 shadow-soft sm:p-8">
+        <Link href="/jardin/graines" className="group block rounded-2xl border border-shell-border border-t-4 border-t-et-teal bg-shell-surface p-6 shadow-soft transition hover:-translate-y-1 hover:border-gold sm:p-8">
           <p className="font-round text-xs font-semibold uppercase tracking-[0.24em] text-et-teal">Le Jardin des graines</p>
           <h2 className="mt-1 font-round text-3xl font-bold tracking-tight text-et-teal sm:text-4xl">Educa Typique</h2>
           <p className="mt-1 font-round text-lg font-semibold text-shell-muted">« Semer les petites graines »</p>
           <p className="mt-3 text-sm text-shell-muted">
             Côté enfant, ado & parentalité TND — la neuropédagogie au quotidien, du plus ludique au plus posé.
           </p>
-        </article>
+          <span className="mt-4 inline-block text-sm font-semibold text-et-teal group-hover:underline">Entrer dans ce jardin →</span>
+        </Link>
       </section>
 
       {/* hubs */}

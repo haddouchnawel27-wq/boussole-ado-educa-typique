@@ -19,7 +19,7 @@ export interface AppEntry {
 
 export const APPS: AppEntry[] = [
   // ---------- 🌷 EDUCA TYPIQUE ----------
-  { nom: "Boussole (boîte à outils ados)", url: "https://haddouchnawel27-wq.github.io/boussole-ado-educa-typique/", univers: "educa", cat: "Boîte à outils", status: "interne" },
+  { nom: "Cap Educa (boîte à outils ados)", url: "https://boussole-ado-educa-typique.vercel.app/", univers: "educa", cat: "Boîte à outils", status: "interne", note: "ex-« Boussole »" },
   { nom: "Boîte NeuroPed Universelle (MASTER)", url: "https://boite-neuro-ped-univ.netlify.app/", univers: "educa", cat: "Parcours Clarté TND", status: "master", note: "= version assemblée dans le dépôt" },
   { nom: "Mon profil cognitif", url: "https://mon-profil-cognitif.netlify.app/", univers: "educa", cat: "Profil", status: "externe", questionnaire: true },
   { nom: "Profil neuro ado", url: "https://profil-neuro-ado.netlify.app/", univers: "educa", cat: "Profil", status: "externe", questionnaire: true },
@@ -38,10 +38,8 @@ export const APPS: AppEntry[] = [
   { nom: "Anamnèses + comptes-rendus", url: "https://anamneses-cr-voiechifa.netlify.app/", univers: "jannat", cat: "Anamnèse / CR", status: "externe", questionnaire: true, praticienne: true },
   { nom: "Shifā décodeur + CR", url: "https://shifa-decodeur-voie-chifa-cr.netlify.app/", univers: "jannat", cat: "Décodeur / CR", status: "externe", questionnaire: true, praticienne: true },
   { nom: "Mon assistante Nawel", url: "https://mon-assistante-nawel.netlify.app/", univers: "jannat", cat: "Assistante", status: "externe", praticienne: true },
-
-  // ---------- Mises de côté ----------
-  { nom: "3 apps mises de côté (à préciser)", url: "#", univers: "educa", cat: "En pause", status: "cote", note: "« qu'on ne retouche pas pour l'instant »" },
 ];
+// Note : 3 apps « mises de côté » existent (à préciser) — non listées ici pour éviter un lien mort.
 
 export const STATUS_LABEL: Record<AppStatus, string> = {
   interne: "Dans l'écosystème",
