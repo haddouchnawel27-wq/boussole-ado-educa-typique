@@ -99,6 +99,11 @@ _À faire pareil plus tard pour les autres doublons (« profil… », « anamnè
 1. **Code léger** = UN bloc réutilisable, identique dans chaque app statique (Famille/Ado).
 2. **Compte réel (Pro)** = **centralisé dans Les Deux Jardins** (auth déjà construite). Le Pro ne doit **plus** être servi sur une URL statique ouverte.
 
+**🔒 Précisions FINALES du brief (16/07) — tranchées :**
+- **UNE seule app, 3 étages verrouillés** — **PAS 3 apps séparées.** Les familles vivent les 2 mondes (enfant TND + maman) → **une seule porte** les garde ensemble. **Cloison stricte uniquement sur le Pro** (vrai compte). Famille ⇄ Ado ne sont pas durement séparés entre eux.
+- **Profil ado = double vue, MÊME socle de données** : vue **Ado** (ses forces, son fonctionnement — valorisant) · vue **Clinique** (l'analyse de Nawel — Pro seulement). L'ado voit **son** profil, **jamais** la lecture clinique.
+- Brief complet : `LES DEUX JARDINS/BRIEF CODE — 3 espaces` (Bureau Nawel).
+
 **✅ Déjà sûr :** les données patientes (Cockpit : fiches/séances/synthèses/questionnaires) sont **derrière le compte** (Supabase + RLS).
 
 **À corriger (les 3 exemples de Nawel) :**
