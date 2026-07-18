@@ -73,7 +73,7 @@ export default function Cockpit() {
   }
 
   async function addClient() {
-    const nom = window.prompt("Prénom de l'accompagnée :")?.trim();
+    const nom = window.prompt("Initiales ou prénom (jamais le nom complet ni de coordonnées) :")?.trim();
     if (!nom) return;
     if (live) {
       const id = await createClientDb(nom, "");
@@ -279,6 +279,7 @@ export default function Cockpit() {
         >
           + Nouvelle accompagnée
         </button>
+        <p className="px-1 text-[11px] leading-snug text-shell-muted">🛡️ Initiales / prénom uniquement — jamais nom complet ni coordonnées. Tes données ne sont visibles que par toi.</p>
         <div className="mt-auto border-t border-shell-border pt-3 text-[11.5px] text-shell-muted">
           <div className="flex items-center gap-2.5">
             <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-gold-light to-gold-dark text-sm font-semibold text-white">N</span>
