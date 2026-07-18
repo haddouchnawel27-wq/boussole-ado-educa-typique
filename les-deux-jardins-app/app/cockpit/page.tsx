@@ -5,23 +5,9 @@ import { DUAS, LIBRARY, METEO, STEPS } from "@/lib/demo";
 import { evaluateStored } from "@/lib/questionnaires";
 import type { Client, Meteo } from "@/lib/types";
 import { addSeanceDb, createClientDb, deleteClientDb, getClients, getQuestionnaireResponsesDb, saveSyntheseDb, updateClientDb, type QResponse, type Source } from "@/lib/data";
+import { ANAMNESE, anamneseAlerts, reperesSpirituels, type AnaField } from "@/lib/anamnese";
 
 const METEO_KEYS = Object.keys(METEO) as Meteo[];
-
-// Anamnèse universelle native — 10 sections. `legacy` récupère l'ancien champ bilan (aucune perte).
-type AnaSection = { key: string; label: string; labelU?: string; placeholder: string; placeholderU?: string; legacy?: "histoire" | "schemas" | "neuro" | "spirituel" };
-const ANAMNESE_SECTIONS: AnaSection[] = [
-  { key: "contexte", label: "1 · Identité & contexte de vie", placeholder: "Âge, situation familiale, enfants, travail, cadre de vie…" },
-  { key: "motif", label: "2 · Motif & intention", placeholder: "Ce qui l'amène, en ses mots. Ses attentes." },
-  { key: "histoire", label: "3 · Histoire & parcours", placeholder: "Événements marquants, ruptures, épreuves, antécédents…", legacy: "histoire" },
-  { key: "etat", label: "4 · État actuel", placeholder: "Émotions dominantes, corps, sommeil, appétit, énergie…" },
-  { key: "schemas", label: "5 · Fonctionnement & schémas", placeholder: "Croyances sur soi, boucles répétitives, déclencheurs…", legacy: "schemas" },
-  { key: "neuro", label: "6 · Neuro-atypie & santé", placeholder: "TND, HPI, sensorialité, suivi médical, traitements en cours…", legacy: "neuro" },
-  { key: "ressources", label: "7 · Ressources & soutien", placeholder: "Forces, entourage, ce qui aide, personnes-appui…" },
-  { key: "spirituel", label: "8 · Spiritualité & rapport à Allāh", labelU: "8 · Valeurs & sens", placeholder: "Foi qui apaise ou éloignement, prière refuge, sens de l'épreuve…", placeholderU: "Valeurs, ce qui donne du sens, ressources profondes…", legacy: "spirituel" },
-  { key: "reperage", label: "9 · Repérage des 8 troubles", placeholder: "Ce qui ressort ; questionnaires à faire passer (onglet Questionnaires)." },
-  { key: "synthese", label: "10 · Synthèse & protocole(s)", placeholder: "Mécanisme central · troubles prioritaires (1-3) · protocole(s) envisagé(s) · axes de travail." },
-];
 
 export default function Cockpit() {
   const { mode } = useMode();
@@ -167,15 +153,12 @@ export default function Cockpit() {
     update(curId, fn);
   }
 
-  // lecture d'une section d'anamnèse (avec repli sur l'ancien champ bilan → aucune perte)
-  function anaValue(s: AnaSection): string {
-    return c?.bilan.anamnese?.[s.key] ?? (s.legacy ? c?.bilan[s.legacy] : "") ?? "";
+  // lecture / écriture d'un champ d'anamnèse (clé du schéma)
+  function anaValue(key: string): string {
+    return c?.bilan.anamnese?.[key] ?? "";
   }
   function editAnamnese(key: string, val: string) {
     editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, anamnese: { ...(cl.bilan.anamnese ?? {}), [key]: val } } }));
-  }
-  function editScore(which: "soutien" | "relationAllah", val: number) {
-    editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, scores: { ...(cl.bilan.scores ?? {}), [which]: val } } }));
   }
 
   // enregistre les champs saisis (Accueil / Bilan) dans Supabase si en ligne
@@ -196,9 +179,9 @@ export default function Cockpit() {
     const last = cl.seances[cl.seances.length - 1] ?? { notes: "", axes: "" };
     const ana = cl.bilan.anamnese ?? {};
     // Repli sur l'anamnèse quand il n'y a pas encore de séance : le brouillon n'est jamais vide.
-    const traverse = cl.seances.map((s) => s.notes).join(" ") || ana.motif || ana.histoire || cl.bilan.histoire || cl.intention || "";
-    const ouEnEs = last.notes || ana.etat || "";
-    const marche = last.axes || ana.synthese || "";
+    const traverse = cl.seances.map((s) => s.notes).join(" ") || ana.s1_motif || ana.s5_trauma || cl.intention || "";
+    const ouEnEs = last.notes || ana.s10_pourquoi || "";
+    const marche = last.axes || ana.s10_objectif || "";
     return {
       status: "brouillon",
       duaIdx: cl.synthese.duaIdx,
@@ -343,6 +326,7 @@ export default function Cockpit() {
               </button>
             </div>
           </div>
+          <AnaAlertBanner anamnese={c.bilan.anamnese} />
         </div>
 
         {/* PARCOURS — poste de pilotage */}
@@ -471,28 +455,25 @@ export default function Cockpit() {
           )}
 
           {step === "bilan" && (
-            <Panel title="Anamnèse universelle" lead="Le recueil complet de la personne — 10 sections. C'est la colonne vertébrale de la fiche : tout s'enregistre dans le CR. Écris directement, puis « Enregistrer ».">
-              <div className="grid gap-3.5">
-                {ANAMNESE_SECTIONS.map((s) => (
-                  <EditField
-                    key={s.key}
-                    k={!islamic && s.labelU ? s.labelU : s.label}
-                    v={anaValue(s)}
-                    placeholder={!islamic && s.placeholderU ? s.placeholderU : s.placeholder}
-                    onChange={(val) => editAnamnese(s.key, val)}
-                  />
+            <Panel title="Anamnèse universelle" lead="Le recueil complet — 10 sections, ~70 items. Tout s'enregistre dans la fiche (CR). N'oublie pas « Enregistrer » en bas.">
+              <AnaAlertBanner anamnese={c.bilan.anamnese} />
+              <div className="flex flex-col gap-4">
+                {ANAMNESE.map((sec) => (
+                  <section key={sec.key} className="rounded-2xl border border-shell-border bg-shell-soft p-4">
+                    <h3 className="mb-3 font-serif text-lg font-semibold text-jq-deep">{sec.titre}</h3>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      {sec.fields.map((f) => (
+                        <AnaFieldInput key={f.key} f={f} v={anaValue(f.key)} onChange={(val) => editAnamnese(f.key, val)} />
+                      ))}
+                    </div>
+                  </section>
                 ))}
-              </div>
-
-              <div className="mt-4 grid gap-3.5 sm:grid-cols-2">
-                <ScoreField k="Sentiment d'être soutenue (0-10)" v={c.bilan.scores?.soutien ?? 0} onChange={(n) => editScore("soutien", n)} />
-                {islamic && <ScoreField k="Relation à Allāh (0-10)" hint="distante → proche / apaisante" v={c.bilan.scores?.relationAllah ?? 0} onChange={(n) => editScore("relationAllah", n)} />}
               </div>
 
               <ProtocolePanel responses={responses} live={live} />
 
               <SaveBar msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
-              <Callout>Aucun diagnostic. L&apos;anamnèse et les questionnaires sont des <b>repères de dialogue</b> : c&apos;est toi qui poses le ou les protocole(s), en section 10.</Callout>
+              <Callout>Aucun diagnostic. L&apos;anamnèse et les questionnaires sont des <b>repères de dialogue</b> — les alertes priment toujours sur le score.</Callout>
             </Panel>
           )}
 
@@ -674,15 +655,59 @@ function SaveBar({ onSave, msg }: { onSave: () => void; msg: string }) {
 function Label({ children }: { children: React.ReactNode }) {
   return <label className="mb-1.5 mt-3 block text-[11px] font-bold uppercase tracking-wide text-shell-muted">{children}</label>;
 }
-function ScoreField({ k, v, onChange, hint }: { k: string; v: number; onChange: (n: number) => void; hint?: string }) {
+// Bannière d'alertes de l'anamnèse (suicide §3, qunūṭ §9) — visible en haut de l'onglet + de la fiche.
+function AnaAlertBanner({ anamnese }: { anamnese?: Record<string, string> }) {
+  const alerts = anamneseAlerts(anamnese);
+  if (!alerts.length) return null;
   return (
-    <div className="rounded-2xl border border-shell-border bg-shell-soft p-3.5">
-      <div className="mb-1 flex items-baseline justify-between">
-        <span className="text-[11px] font-bold uppercase tracking-wide text-shell-muted">{k}</span>
-        <span className="font-serif text-lg font-semibold text-jq-deep">{v}<span className="text-[12px] text-shell-muted">/10</span></span>
-      </div>
-      <input type="range" min={0} max={10} step={1} value={v} onChange={(e) => onChange(Number(e.target.value))} className="w-full accent-jq-deep" />
-      {hint && <div className="mt-0.5 text-[11px] italic text-shell-muted">{hint}</div>}
+    <div className="mb-4 rounded-2xl border border-[#a94b54] bg-[rgba(169,75,84,.08)] p-3.5">
+      {alerts.map((a, i) => (
+        <div key={i} className="text-[13px] font-semibold text-[#a94b54]">🚨 {a.titre} — {a.message}</div>
+      ))}
+    </div>
+  );
+}
+// Un champ d'anamnèse rendu selon son type (texte, zone longue, boutons, échelle 0-10).
+function AnaFieldInput({ f, v, onChange }: { f: AnaField; v: string; onChange: (val: string) => void }) {
+  const full = f.type === "long" || f.type === "scale" || (f.type === "choice" && (f.options?.length ?? 0) > 3);
+  const label = (f.danger ? "🚨 " : f.star ? "⭐ " : "") + f.label;
+  return (
+    <div className={"rounded-2xl border p-3.5 " + (full ? "sm:col-span-2 " : "") + (f.danger ? "border-[#d8a3a8] bg-shell-surface" : "border-shell-border bg-shell-surface")}>
+      <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-shell-muted">{label}</div>
+      {f.type === "long" && (
+        <textarea value={v} onChange={(e) => onChange(e.target.value)} rows={2} className="w-full resize-y rounded-lg border border-shell-border bg-shell-soft p-2 text-sm outline-none focus:border-gold" />
+      )}
+      {f.type === "text" && (
+        <input value={v} onChange={(e) => onChange(e.target.value)} className="w-full rounded-lg border border-shell-border bg-shell-soft p-2 text-sm outline-none focus:border-gold" />
+      )}
+      {f.type === "choice" && (
+        <div className="flex flex-wrap gap-1.5">
+          {(f.options ?? []).map((opt) => {
+            const on = v === opt;
+            const danger = Boolean(f.danger) && on && opt !== (f.options ?? [])[0];
+            return (
+              <button
+                key={opt}
+                type="button"
+                onClick={() => onChange(on ? "" : opt)}
+                className={"rounded-full border px-3 py-1.5 text-[12.5px] font-semibold transition " + (danger ? "border-[#a94b54] bg-[rgba(169,75,84,.14)] text-[#a94b54]" : on ? "border-jq-deep bg-jq-deep text-white" : "border-shell-border bg-shell-soft text-shell-muted hover:border-gold")}
+              >
+                {opt}
+              </button>
+            );
+          })}
+        </div>
+      )}
+      {f.type === "scale" && (
+        <div>
+          <div className="mb-1 flex items-baseline justify-between gap-2">
+            <span className="text-[11px] text-shell-muted">{f.minLabel}</span>
+            <span className="font-serif text-lg font-semibold text-jq-deep">{v === "" ? "—" : v}<span className="text-[12px] text-shell-muted">/10</span></span>
+            <span className="text-[11px] text-shell-muted">{f.maxLabel}</span>
+          </div>
+          <input type="range" min={0} max={10} step={1} value={v === "" ? 0 : Number(v)} onChange={(e) => onChange(e.target.value)} className="w-full accent-jq-deep" />
+        </div>
+      )}
     </div>
   );
 }
@@ -724,17 +749,21 @@ function Callout({ children }: { children: React.ReactNode }) {
   return <div className="mt-3.5 rounded-xl border border-shell-border bg-[rgba(94,127,140,.08)] p-3.5 text-[13px] text-shell-muted">{children}</div>;
 }
 
-// CR praticienne : rassemble anamnèse + scores + questionnaires reliés. Copiable / imprimable.
+// CR praticienne : rassemble anamnèse (par section) + alertes + repères spirituels + questionnaires. Copiable / imprimable.
 function CRPanel({ c, islamic, responses, live }: { c: Client; islamic: boolean; responses: QResponse[]; live: boolean }) {
   const [copied, setCopied] = useState(false);
-  const sections = ANAMNESE_SECTIONS
-    .map((s) => ({ label: !islamic && s.labelU ? s.labelU : s.label, v: (c.bilan.anamnese?.[s.key] ?? (s.legacy ? c.bilan[s.legacy] : "") ?? "").trim() }))
-    .filter((x) => x.v);
+  const ana = c.bilan.anamnese;
+  const filledSections = ANAMNESE.map((sec) => ({
+    titre: sec.titre,
+    items: sec.fields.map((f) => ({ f, v: (ana?.[f.key] ?? "").trim() })).filter((x) => x.v !== ""),
+  })).filter((sec) => sec.items.length);
+  const anaAlerts = anamneseAlerts(ana);
+  const rep = reperesSpirituels(ana);
+  const repParts = [rep.espoir && `espoir ${rep.espoir}/10`, rep.tawakkul && `tawakkul ${rep.tawakkul}/10`, rep.qunut && `qunūṭ « ${rep.qunut} »`].filter(Boolean) as string[];
   const qs = responses
     .map((r) => ({ r, info: evaluateStored(r.questionnaireId, r.answers) }))
     .filter((x): x is { r: QResponse; info: NonNullable<ReturnType<typeof evaluateStored>> } => Boolean(x.info));
-  const soutien = c.bilan.scores?.soutien;
-  const relAllah = c.bilan.scores?.relationAllah;
+  const fmt = (f: AnaField, v: string) => (f.type === "scale" ? `${v}/10` : v);
 
   function buildText() {
     const L: string[] = [];
@@ -742,12 +771,20 @@ function CRPanel({ c, islamic, responses, live }: { c: Client; islamic: boolean;
     L.push(`Intention : ${c.intention || "—"}`);
     L.push(`Prochain RDV : ${c.rdv || "—"}`);
     L.push(`Consentement : ${c.consentement ? "recueilli" : "à recueillir"}`);
+    if (anaAlerts.length) {
+      L.push("");
+      anaAlerts.forEach((a) => L.push(`🚨 ${a.titre} — ${a.message}`));
+    }
     L.push("");
     L.push("== ANAMNÈSE ==");
-    if (sections.length) sections.forEach((s) => L.push(`${s.label}\n${s.v}\n`));
-    else L.push("(anamnèse vide)");
-    if (soutien != null) L.push(`Sentiment d'être soutenue : ${soutien}/10`);
-    if (islamic && relAllah != null) L.push(`Relation à Allāh : ${relAllah}/10`);
+    if (filledSections.length) {
+      filledSections.forEach((sec) => {
+        L.push(`— ${sec.titre} —`);
+        sec.items.forEach(({ f, v }) => L.push(`${f.label} : ${fmt(f, v)}`));
+        L.push("");
+      });
+    } else L.push("(anamnèse vide)");
+    if (repParts.length) L.push(`Repères spirituels : ${repParts.join(" · ")}`);
     L.push("");
     L.push("== QUESTIONNAIRES RELIÉS ==");
     if (qs.length) qs.forEach(({ r, info }) => L.push(`- ${info.titre} : ${r.score}/${r.scoreMax} — ${info.band.titre}${info.alerts.some((a) => a.level === "rouge") ? " ⚠️ ALERTE" : ""}`));
@@ -767,8 +804,9 @@ function CRPanel({ c, islamic, responses, live }: { c: Client; islamic: boolean;
   }
 
   return (
-    <Panel title="CR — compte-rendu praticienne" lead="Tout ce qui est dans la fiche, rassemblé : anamnèse + scores + questionnaires. Copie-le ou imprime-le. C'est ton « Vers CR », en natif.">
+    <Panel title="CR — compte-rendu praticienne" lead="Tout ce qui est dans la fiche, rassemblé : anamnèse + alertes + repères + questionnaires. Copie-le ou imprime-le. C'est ton « Vers CR », en natif.">
       {!live && <Callout>⚠️ Mode démonstration : connecte-toi pour que le CR reflète des données réellement enregistrées.</Callout>}
+      <AnaAlertBanner anamnese={ana} />
 
       <div className="mb-3 flex flex-wrap gap-2.5">
         <button onClick={copy} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">📋 Copier le compte-rendu</button>
@@ -783,12 +821,19 @@ function CRPanel({ c, islamic, responses, live }: { c: Client; islamic: boolean;
         </div>
 
         <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-shell-muted">Anamnèse</div>
-        {sections.length ? (
-          <div className="mb-3 flex flex-col gap-2">
-            {sections.map((s) => (
-              <div key={s.label}>
-                <div className="text-[13px] font-bold text-shell-text">{s.label}</div>
-                <div className="whitespace-pre-wrap text-sm text-shell-muted">{s.v}</div>
+        {filledSections.length ? (
+          <div className="mb-3 flex flex-col gap-3">
+            {filledSections.map((sec) => (
+              <div key={sec.titre}>
+                <div className="mb-1 text-[13px] font-bold text-jq-deep">{sec.titre}</div>
+                <div className="flex flex-col gap-0.5">
+                  {sec.items.map(({ f, v }) => (
+                    <div key={f.key} className="text-[13px]">
+                      <span className="text-shell-muted">{f.label} : </span>
+                      <span className="whitespace-pre-wrap text-shell-text">{fmt(f, v)}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -796,10 +841,9 @@ function CRPanel({ c, islamic, responses, live }: { c: Client; islamic: boolean;
           <p className="mb-3 text-sm text-shell-muted">Anamnèse vide — remplis l&apos;onglet <b>Bilan</b> puis « Enregistrer ».</p>
         )}
 
-        {(soutien != null || (islamic && relAllah != null)) && (
-          <div className="mb-3 flex flex-wrap gap-3 text-[13px]">
-            {soutien != null && <span>Soutien : <b className="text-jq-deep">{soutien}/10</b></span>}
-            {islamic && relAllah != null && <span>Relation à Allāh : <b className="text-jq-deep">{relAllah}/10</b></span>}
+        {repParts.length > 0 && (
+          <div className="mb-3 rounded-lg border border-gold/40 bg-[rgba(195,135,60,.06)] p-2.5 text-[13px]">
+            <b className="text-gold-dark">Repères spirituels</b> — {repParts.join(" · ")}
           </div>
         )}
 
