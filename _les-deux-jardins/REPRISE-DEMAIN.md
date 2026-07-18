@@ -24,6 +24,17 @@ Tout est commité + poussé sur `claude/chef-chantier-upgrade-mawum3` (PR #15). 
 10. **🧭 RÉORGANISER TOUS LES QUESTIONNAIRES DES 2 JARDINS EN UNE PROGRESSION COHÉRENTE** (demande Nawel 16/07) — un **« état des lieux » qui s'approfondit étape par étape** (repérage léger → évaluation → analyse fine), **même logique côté Jannat (adultes) et côté Educa (enfants/ados)**. Relie au parcours (repérer → comprendre → agir). Objectif : cohérence d'ensemble, pas une pile de tests isolés. *(chantier de fond, à concevoir AVEC Nawel — c'est sa clinique.)*
 11. **🔌 « Bienvenue chez toi » : certaines applis NE RÉPONDENT PAS** (signalé 16/07) — vérifier/reconnecter les liens du dashboard (`public/tableau-de-bord.html`) un par un ; distinguer outils en ligne (URL à corriger) vs locaux (fichiers Bureau, ne s'ouvrent que chez Nawel).
 
+## 🧭 DÉCISIONS À TRANCHER PAR NAWEL (Code n'agit pas seul)
+- **Les 2 listes de « 8 questionnaires »** diffèrent : côté Hub (Waswas, Choc émotionnel, Addictions, Dépression, Angoisse, Tristesse/Huzn, Deuil, Futûr) vs côté app Les Deux Jardins (Waswās, Trauma, Estime, Colère, Anxiété, Tristesse, Deuil, Futūr). **5 se recouvrent, 3 diffèrent.** → Quelle liste fait foi ? Fusionner (≈11) ou garder 2 jeux ? *C'est le chantier « grande cohérence des questionnaires ».*
+- **Licences des échelles cliniques** (avant l'abonnement Pro payant) : PHQ-9/GAD-7 = libres (citer la source) ; PSS-10 = OK non-commercial, à vérifier commercial ; **MBI = sous copyright / licence payante → à vérifier EN PRIORITÉ** ; LSAS = attribution requise, à confirmer. Remplacer par une échelle libre/maison si blocage.
+
+## ✅ FAIT le 18/07 (anamnèse native)
+- **Anamnèse universelle native** reconstruite à l'identique (`lib/anamnese.ts`) : 10 sections, ~70 items typés (texte, boutons, échelles 0-10), reliée à la fiche (CR).
+- **2 alertes câblées** : suicide (§3) + qunūṭ (§9), visibles sur la fiche + le CR.
+- **Onglet CR natif** (copier / imprimer) + ligne « Repères spirituels » (espoir/tawakkul/qunūṭ).
+- **« SHIFA/Voie Chifa »** retiré des noms affichés (dashboard + Applications) → Jannat al Qulûb. Parcours : « Shifā' » côté islamique seulement.
+- **Cockpit** : enregistrement honnête (plus de faux « ✔ »).
+
 ## ⚠️ VIGILANCES (ne pas oublier)
 - **SHIFA Décodeur (API Claude)** = données patientes → **trancher la confidentialité AVANT** de le brancher (Phase 4). Secret professionnel.
 - **Ciblage jamais trop tôt** : l'étape 4 reste derrière la stabilisation.
