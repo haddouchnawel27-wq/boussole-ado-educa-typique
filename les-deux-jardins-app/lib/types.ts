@@ -29,7 +29,17 @@ export interface Client {
   consentement: boolean;
   intention: string;
   rdv: string;
-  bilan: { histoire: string; schemas: string; neuro: string; spirituel: string; stabilise?: boolean };
+  bilan: {
+    histoire: string;
+    schemas: string;
+    neuro: string;
+    spirituel: string;
+    stabilise?: boolean;
+    // Anamnèse universelle native : 10 sections (clé → texte). Colonne JSON, rétro-compatible.
+    anamnese?: Record<string, string>;
+    // Scores d'appui 0-10 (sentiment d'être soutenue · relation à Allāh).
+    scores?: { soutien?: number; relationAllah?: number };
+  };
   seances: Seance[];
   engagements: string[];
   synthese: Synthese;

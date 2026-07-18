@@ -8,6 +8,21 @@ import { addSeanceDb, createClientDb, deleteClientDb, getClients, getQuestionnai
 
 const METEO_KEYS = Object.keys(METEO) as Meteo[];
 
+// Anamnèse universelle native — 10 sections. `legacy` récupère l'ancien champ bilan (aucune perte).
+type AnaSection = { key: string; label: string; labelU?: string; placeholder: string; placeholderU?: string; legacy?: "histoire" | "schemas" | "neuro" | "spirituel" };
+const ANAMNESE_SECTIONS: AnaSection[] = [
+  { key: "contexte", label: "1 · Identité & contexte de vie", placeholder: "Âge, situation familiale, enfants, travail, cadre de vie…" },
+  { key: "motif", label: "2 · Motif & intention", placeholder: "Ce qui l'amène, en ses mots. Ses attentes." },
+  { key: "histoire", label: "3 · Histoire & parcours", placeholder: "Événements marquants, ruptures, épreuves, antécédents…", legacy: "histoire" },
+  { key: "etat", label: "4 · État actuel", placeholder: "Émotions dominantes, corps, sommeil, appétit, énergie…" },
+  { key: "schemas", label: "5 · Fonctionnement & schémas", placeholder: "Croyances sur soi, boucles répétitives, déclencheurs…", legacy: "schemas" },
+  { key: "neuro", label: "6 · Neuro-atypie & santé", placeholder: "TND, HPI, sensorialité, suivi médical, traitements en cours…", legacy: "neuro" },
+  { key: "ressources", label: "7 · Ressources & soutien", placeholder: "Forces, entourage, ce qui aide, personnes-appui…" },
+  { key: "spirituel", label: "8 · Spiritualité & rapport à Allāh", labelU: "8 · Valeurs & sens", placeholder: "Foi qui apaise ou éloignement, prière refuge, sens de l'épreuve…", placeholderU: "Valeurs, ce qui donne du sens, ressources profondes…", legacy: "spirituel" },
+  { key: "reperage", label: "9 · Repérage des 8 troubles", placeholder: "Ce qui ressort ; questionnaires à faire passer (onglet Questionnaires)." },
+  { key: "synthese", label: "10 · Synthèse & protocole(s)", placeholder: "Mécanisme central · troubles prioritaires (1-3) · protocole(s) envisagé(s) · axes de travail." },
+];
+
 export default function Cockpit() {
   const { mode } = useMode();
   const islamic = mode === "islamique";
@@ -150,6 +165,17 @@ export default function Cockpit() {
   function editClient(fn: (cl: Client) => Client) {
     if (!curId) return;
     update(curId, fn);
+  }
+
+  // lecture d'une section d'anamnèse (avec repli sur l'ancien champ bilan → aucune perte)
+  function anaValue(s: AnaSection): string {
+    return c?.bilan.anamnese?.[s.key] ?? (s.legacy ? c?.bilan[s.legacy] : "") ?? "";
+  }
+  function editAnamnese(key: string, val: string) {
+    editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, anamnese: { ...(cl.bilan.anamnese ?? {}), [key]: val } } }));
+  }
+  function editScore(which: "soutien" | "relationAllah", val: number) {
+    editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, scores: { ...(cl.bilan.scores ?? {}), [which]: val } } }));
   }
 
   // enregistre les champs saisis (Accueil / Bilan) dans Supabase si en ligne
@@ -440,14 +466,28 @@ export default function Cockpit() {
           )}
 
           {step === "bilan" && (
-            <Panel title="Bilan / anamnèse" lead="Recueil structuré : histoire, schémas, neuro-atypie, dimension spirituelle. Écris directement, puis « Enregistrer ».">
-              <div className="grid gap-3.5 sm:grid-cols-2">
-                <EditField k="Histoire" v={c.bilan.histoire} placeholder="Parcours, contexte, éléments marquants…" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, histoire: val } }))} />
-                <EditField k="Schémas" v={c.bilan.schemas} placeholder="Fonctionnements, croyances, boucles…" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, schemas: val } }))} />
-                <EditField k="Neuro-atypie" v={c.bilan.neuro} placeholder="TND, HPI, sensorialité… (si concerné)" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, neuro: val } }))} />
-                <EditField k={islamic ? "Dimension spirituelle" : "Ressources & valeurs"} v={c.bilan.spirituel} placeholder="Appuis, valeurs, foi, ressources…" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, spirituel: val } }))} />
+            <Panel title="Anamnèse universelle" lead="Le recueil complet de la personne — 10 sections. C'est la colonne vertébrale de la fiche : tout s'enregistre dans le CR. Écris directement, puis « Enregistrer ».">
+              <div className="grid gap-3.5">
+                {ANAMNESE_SECTIONS.map((s) => (
+                  <EditField
+                    key={s.key}
+                    k={!islamic && s.labelU ? s.labelU : s.label}
+                    v={anaValue(s)}
+                    placeholder={!islamic && s.placeholderU ? s.placeholderU : s.placeholder}
+                    onChange={(val) => editAnamnese(s.key, val)}
+                  />
+                ))}
               </div>
+
+              <div className="mt-4 grid gap-3.5 sm:grid-cols-2">
+                <ScoreField k="Sentiment d'être soutenue (0-10)" v={c.bilan.scores?.soutien ?? 0} onChange={(n) => editScore("soutien", n)} />
+                {islamic && <ScoreField k="Relation à Allāh (0-10)" hint="distante → proche / apaisante" v={c.bilan.scores?.relationAllah ?? 0} onChange={(n) => editScore("relationAllah", n)} />}
+              </div>
+
+              <ProtocolePanel responses={responses} live={live} />
+
               <SaveBar msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
+              <Callout>Aucun diagnostic. L&apos;anamnèse et les questionnaires sont des <b>repères de dialogue</b> : c&apos;est toi qui poses le ou les protocole(s), en section 10.</Callout>
             </Panel>
           )}
 
@@ -626,6 +666,52 @@ function SaveBar({ onSave, msg }: { onSave: () => void; msg: string }) {
 }
 function Label({ children }: { children: React.ReactNode }) {
   return <label className="mb-1.5 mt-3 block text-[11px] font-bold uppercase tracking-wide text-shell-muted">{children}</label>;
+}
+function ScoreField({ k, v, onChange, hint }: { k: string; v: number; onChange: (n: number) => void; hint?: string }) {
+  return (
+    <div className="rounded-2xl border border-shell-border bg-shell-soft p-3.5">
+      <div className="mb-1 flex items-baseline justify-between">
+        <span className="text-[11px] font-bold uppercase tracking-wide text-shell-muted">{k}</span>
+        <span className="font-serif text-lg font-semibold text-jq-deep">{v}<span className="text-[12px] text-shell-muted">/10</span></span>
+      </div>
+      <input type="range" min={0} max={10} step={1} value={v} onChange={(e) => onChange(Number(e.target.value))} className="w-full accent-jq-deep" />
+      {hint && <div className="mt-0.5 text-[11px] italic text-shell-muted">{hint}</div>}
+    </div>
+  );
+}
+// Encart « Signaux → protocole(s) » : croise les questionnaires reliés à la fiche. Jamais un diagnostic.
+function ProtocolePanel({ responses, live }: { responses: QResponse[]; live: boolean }) {
+  const scored = responses
+    .map((r) => ({ r, info: evaluateStored(r.questionnaireId, r.answers) }))
+    .filter((x): x is { r: QResponse; info: NonNullable<ReturnType<typeof evaluateStored>> } => Boolean(x.info));
+  const ranked = [...scored].sort((a, b) => b.info.ratio - a.info.ratio);
+  const dominants = ranked.filter((x) => x.info.ratio >= 0.3 || x.info.alerts.some((a) => a.level === "rouge"));
+  return (
+    <div className="mt-4 rounded-2xl border border-gold/40 bg-[rgba(195,135,60,.07)] p-4">
+      <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-gold-dark">Signaux → protocole(s)</div>
+      {!live ? (
+        <p className="text-[13px] text-shell-muted">Une fois en ligne et des questionnaires reliés à cette fiche, les troubles dominants s&apos;afficheront ici pour t&apos;aider à poser le protocole.</p>
+      ) : scored.length === 0 ? (
+        <p className="text-[13px] text-shell-muted">Aucun questionnaire relié pour l&apos;instant. Depuis l&apos;onglet <b>Questionnaires</b>, remplis-en puis « Relier à la fiche ».</p>
+      ) : (
+        <>
+          <div className="flex flex-col gap-1.5">
+            {(dominants.length ? dominants : ranked.slice(0, 2)).map(({ r, info }) => {
+              const red = info.alerts.some((a) => a.level === "rouge");
+              return (
+                <div key={r.id} className="flex flex-wrap items-center gap-2 text-[13px]">
+                  <span className="font-bold text-shell-text">{info.titre}</span>
+                  <span className="text-shell-muted">— {info.band.titre}</span>
+                  {red && <span className="rounded bg-[rgba(169,75,84,.14)] px-1.5 py-0.5 text-[11px] font-bold text-[#a94b54]">🚨 alerte</span>}
+                </div>
+              );
+            })}
+          </div>
+          <p className="mt-2 text-[12px] italic text-shell-muted">→ À traduire en protocole(s) dans la <b>section 10</b> ci-dessus. Les alertes priment toujours sur le score.</p>
+        </>
+      )}
+    </div>
+  );
 }
 function Callout({ children }: { children: React.ReactNode }) {
   return <div className="mt-3.5 rounded-xl border border-shell-border bg-[rgba(94,127,140,.08)] p-3.5 text-[13px] text-shell-muted">{children}</div>;
