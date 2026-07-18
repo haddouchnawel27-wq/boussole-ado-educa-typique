@@ -53,7 +53,7 @@ const ETAPES: Etape[] = [
     emoji: "🔮",
     titre: "Décodage & synthèse",
     quand: "Pour relire l'ensemble et préparer la restitution.",
-    desc: "Décodeur clinique SHIFA enrichi (analyse assistée).",
+    desc: "Décodeur clinique enrichi (analyse assistée).",
     local: true,
   },
 ];
@@ -73,7 +73,7 @@ export default function ParcoursShifa() {
     <main className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-10">
       <header className="border-b border-shell-border pb-4">
         <p className="font-serif text-sm font-semibold uppercase tracking-[0.28em] text-jq-sage">Parcours praticienne</p>
-        <h1 className="mt-1 font-serif text-4xl font-semibold text-shell-text sm:text-5xl">Parcours SHIFĀ&apos;</h1>
+        <h1 className="mt-1 font-serif text-4xl font-semibold text-shell-text sm:text-5xl">{islamic ? "Parcours Shifā’" : "Parcours clinique"}</h1>
         {islamic && <p className="mt-1 font-arab text-lg text-gold" dir="rtl">شفاء</p>}
         <p className="mt-2 max-w-[62ch] text-shell-muted">
           Tes outils cliniques, reliés dans un ordre logique — de l&apos;accueil à la synthèse. Suis les étapes,
@@ -91,7 +91,7 @@ export default function ParcoursShifa() {
         <span className="grid h-11 w-11 flex-none place-items-center rounded-xl bg-shell-soft text-2xl">{REFERENTIEL.emoji}</span>
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-serif text-lg font-semibold text-jq-deep">{REFERENTIEL.titre}</span>
+            <span className="font-serif text-lg font-semibold text-jq-deep">{islamic ? "Référentiel Shifā’" : "Référentiel clinique"}</span>
             <span className="rounded-md bg-[rgba(195,135,60,.16)] px-2 py-0.5 text-[10.5px] font-extrabold uppercase text-gold-dark">Compagnon</span>
           </div>
           <p className="mt-0.5 text-[13.5px] text-shell-muted">{REFERENTIEL.desc}</p>
