@@ -473,6 +473,7 @@ export default function Cockpit() {
               <ProtocolePanel responses={responses} live={live} />
 
               <SaveBar msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
+              <AnamneseNextStep anamnese={c.bilan.anamnese} />
               <Callout>Aucun diagnostic. L&apos;anamnèse et les questionnaires sont des <b>repères de dialogue</b> — les alertes priment toujours sur le score.</Callout>
             </Panel>
           )}
@@ -711,6 +712,32 @@ function AnaFieldInput({ f, v, onChange }: { f: AnaField; v: string; onChange: (
     </div>
   );
 }
+// Pont après l'anamnèse : propose les questionnaires à cibler (d'après la section 9). Jamais un diagnostic.
+function AnamneseNextStep({ anamnese }: { anamnese?: Record<string, string> }) {
+  const a = anamnese ?? {};
+  const map: { key: string; q: string }[] = [
+    { key: "s9_anxiete", q: "Anxiété / stress" },
+    { key: "s9_tristesse", q: "Tristesse / ḥuzn" },
+    { key: "s9_colere", q: "Colère" },
+  ];
+  const sugg = map.filter((m) => Number(a[m.key] || 0) >= 6).map((m) => m.q);
+  const espoir = a.s9_espoir;
+  if (["Présent", "Envahissant — urgence"].includes(a.s9_qunut ?? "") || (espoir !== undefined && espoir !== "" && Number(espoir) <= 3)) sugg.push("Futūr (faiblesse de foi)");
+  return (
+    <div className="mt-4 rounded-2xl border border-jq-sage/50 bg-[rgba(124,139,108,.07)] p-4">
+      <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-jq-sage">Prochaine étape — après l&apos;anamnèse</div>
+      <p className="text-[13px] text-shell-muted">
+        L&apos;anamnèse est ton <b>état des lieux</b> — <b>jamais un diagnostic</b>. La suite : les <b>questionnaires ciblés</b> (scores /100, paliers, alertes), puis tout revient dans le CR.
+      </p>
+      {sugg.length > 0 && (
+        <p className="mt-2 text-[13px]">
+          <b className="text-jq-deep">D&apos;après la section 9, à envisager :</b> {sugg.join(" · ")}
+        </p>
+      )}
+      <a href="/questionnaires" className="mt-3 inline-block rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Aller aux questionnaires ciblés</a>
+    </div>
+  );
+}
 // Encart « Signaux → protocole(s) » : croise les questionnaires reliés à la fiche. Jamais un diagnostic.
 function ProtocolePanel({ responses, live }: { responses: QResponse[]; live: boolean }) {
   const scored = responses
@@ -720,7 +747,7 @@ function ProtocolePanel({ responses, live }: { responses: QResponse[]; live: boo
   const dominants = ranked.filter((x) => x.info.ratio >= 0.3 || x.info.alerts.some((a) => a.level === "rouge"));
   return (
     <div className="mt-4 rounded-2xl border border-gold/40 bg-[rgba(195,135,60,.07)] p-4">
-      <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-gold-dark">Signaux → protocole(s)</div>
+      <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-gold-dark">Décodeur — signaux → protocole(s)</div>
       {!live ? (
         <p className="text-[13px] text-shell-muted">Une fois en ligne et des questionnaires reliés à cette fiche, les troubles dominants s&apos;afficheront ici pour t&apos;aider à poser le protocole.</p>
       ) : scored.length === 0 ? (
