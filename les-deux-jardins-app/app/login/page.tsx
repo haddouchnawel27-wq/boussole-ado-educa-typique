@@ -35,7 +35,14 @@ export default function LoginPage() {
         router.push("/cockpit");
       }
     } catch (err) {
-      setMsg(err instanceof Error ? err.message : "Une erreur est survenue.");
+      const raw = err instanceof Error ? err.message : "";
+      let clear = raw || "Une erreur est survenue.";
+      if (/signups?\s+not\s+allowed/i.test(raw)) {
+        clear = "Les inscriptions sont désactivées côté Supabase. Active-les dans Supabase → Authentication → Providers → Email → « Allow new users to sign up », puis réessaie.";
+      } else if (/invalid login credentials/i.test(raw)) {
+        clear = "E-mail ou mot de passe incorrect.";
+      }
+      setMsg(clear);
     } finally {
       setBusy(false);
     }

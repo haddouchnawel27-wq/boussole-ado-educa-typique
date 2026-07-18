@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { useMode } from "@/lib/mode";
+import { useAuth } from "@/lib/auth";
+import { supabaseEnabled } from "@/lib/supabase";
 import { DUAS, LIBRARY, METEO, STEPS } from "@/lib/demo";
 import { evaluateStored } from "@/lib/questionnaires";
 import type { Client, Meteo } from "@/lib/types";
@@ -12,6 +14,9 @@ const METEO_KEYS = Object.keys(METEO) as Meteo[];
 export default function Cockpit() {
   const { mode } = useMode();
   const islamic = mode === "islamique";
+  const { user } = useAuth();
+  // Cockpit verrouillé : si Supabase est branché mais personne n'est connecté, aucune fiche n'est affichée.
+  const mustLogin = supabaseEnabled && !user;
   const [clients, setClients] = useState<Client[]>([]);
   const [source, setSource] = useState<Source>("demo");
   const [loading, setLoading] = useState(true);
@@ -27,14 +32,32 @@ export default function Cockpit() {
   // questionnaires reliés à la fiche courante
   const [responses, setResponses] = useState<QResponse[]>([]);
 
+  // (Re)charge à chaque changement d'utilisateur : la déconnexion vide immédiatement l'écran.
   useEffect(() => {
+    let active = true;
+    setLoading(true);
+    if (mustLogin) {
+      setClients([]);
+      setSource("demo");
+      setCurId("");
+      setResponses([]);
+      setLoading(false);
+      return () => {
+        active = false;
+      };
+    }
     getClients().then((r) => {
+      if (!active) return;
       setClients(r.clients);
       setSource(r.source);
       setCurId(r.clients[0]?.id ?? "");
       setLoading(false);
     });
-  }, []);
+    return () => {
+      active = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const c = useMemo(() => clients.find((x) => x.id === curId), [clients, curId]);
 
@@ -231,6 +254,17 @@ export default function Cockpit() {
   }
 
   if (loading) return <div className="p-12 text-center text-shell-muted">Chargement…</div>;
+  if (mustLogin)
+    return (
+      <main className="mx-auto max-w-md px-5 py-16 text-center">
+        <p className="font-serif text-sm font-semibold uppercase tracking-[0.24em] text-jq-sage">Espace praticienne verrouillé</p>
+        <p className="mt-2 font-serif text-2xl font-semibold text-jq-deep">🔒 Connecte-toi pour voir tes fiches</p>
+        <p className="mt-1 text-shell-muted">Tes accompagnées ne s&apos;affichent qu&apos;une fois connectée — jamais après déconnexion.</p>
+        <a href="/login" className="mt-5 inline-block rounded-xl bg-jq-deep px-5 py-2.5 text-sm font-semibold text-white">
+          Se connecter →
+        </a>
+      </main>
+    );
   if (!c)
     return (
       <main className="mx-auto max-w-md px-5 py-16 text-center">
