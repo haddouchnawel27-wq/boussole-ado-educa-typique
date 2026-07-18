@@ -93,7 +93,11 @@ export default function Cockpit() {
     const d = new Date();
     const s = { date: `${d.getDate()} ${mois[d.getMonth()]}`, meteo: mPick, notes: notes.trim(), axes: axes.trim() || "—" };
     if (live) {
-      await addSeanceDb(curId, s);
+      const ok = await addSeanceDb(curId, s);
+      if (!ok) {
+        flash("⚠️ Séance NON enregistrée — reconnecte-toi puis réessaie.");
+        return;
+      }
       await reload(curId);
     } else {
       update(curId, (cl) => ({ ...cl, seances: [...cl.seances, s] }));
@@ -101,6 +105,7 @@ export default function Cockpit() {
     setMPick(null);
     setNotes("");
     setAxes("");
+    flash("✔ Séance enregistrée");
   }
 
   // supprime définitivement la fiche courante
@@ -118,17 +123,27 @@ export default function Cockpit() {
     }
   }
 
+  // affiche un message de statut (vert si ✔, rouge si ⚠️) quelques secondes
+  function flash(msg: string) {
+    setSavedMsg(msg);
+    window.setTimeout(() => setSavedMsg(""), msg.startsWith("⚠️") ? 6000 : 2500);
+  }
+
   // confirme / annule la stabilisation (les « 4 feux verts ») — déverrouille l'étape Cibler
   async function toggleStabilise() {
     if (!c) return;
     const newBilan = { ...c.bilan, stabilise: !c.bilan.stabilise };
-    update(curId, (cl) => ({ ...cl, bilan: newBilan }));
     if (live) {
-      await updateClientDb(curId, { bilan: newBilan });
+      const ok = await updateClientDb(curId, { bilan: newBilan });
+      if (!ok) {
+        flash("⚠️ Non enregistré — reconnecte-toi puis réessaie.");
+        return;
+      }
       await reload(curId);
+    } else {
+      update(curId, (cl) => ({ ...cl, bilan: newBilan }));
     }
-    setSavedMsg(newBilan.stabilise ? "✔ Stabilisation confirmée" : "Stabilisation retirée");
-    window.setTimeout(() => setSavedMsg(""), 2500);
+    flash(newBilan.stabilise ? "✔ Stabilisation confirmée" : "Stabilisation retirée");
   }
 
   // édite un champ localement (l'input reste fluide), la sauvegarde se fait au bouton
@@ -141,11 +156,14 @@ export default function Cockpit() {
   async function persistFields(fields: { intention?: string; rdv?: string; consentement?: boolean; bilan?: Client["bilan"] }) {
     if (!c) return;
     if (live) {
-      await updateClientDb(curId, fields);
+      const ok = await updateClientDb(curId, fields);
+      if (!ok) {
+        flash("⚠️ NON enregistré — reconnecte-toi (Déconnexion → reconnexion) puis réessaie.");
+        return;
+      }
       await reload(curId);
     }
-    setSavedMsg("✔ Enregistré");
-    window.setTimeout(() => setSavedMsg(""), 2500);
+    flash("✔ Enregistré");
   }
 
   function computeDraft(cl: Client): Client["synthese"] {
@@ -324,7 +342,7 @@ export default function Cockpit() {
               <>
                 <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-shell-muted">Parcours de l&apos;accompagnée</span>
-                  {savedMsg && <span className="text-[12px] font-semibold text-[#4d7a4d]">{savedMsg}</span>}
+                  {savedMsg && <span className={"text-[12px] font-semibold " + (savedMsg.startsWith("⚠️") ? "text-[#a94b54]" : "text-[#4d7a4d]")}>{savedMsg}</span>}
                 </div>
                 <div className="flex gap-2 overflow-x-auto pb-1">
                   {stages.map((st) => {
@@ -456,8 +474,9 @@ export default function Cockpit() {
               <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="Ce qui s'est dit, observé…" className="w-full rounded-xl border border-shell-border bg-shell-surface p-2.5 text-sm outline-none focus:border-gold" />
               <Label>Axe de travail</Label>
               <input value={axes} onChange={(e) => setAxes(e.target.value)} placeholder="Le prochain petit pas…" className="w-full rounded-xl border border-shell-border bg-shell-surface p-2.5 text-sm outline-none focus:border-gold" />
-              <div className="mt-4">
+              <div className="mt-4 flex items-center gap-3">
                 <button onClick={addSeance} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">+ Enregistrer la séance</button>
+                {savedMsg && <span className={"text-[13px] font-semibold " + (savedMsg.startsWith("⚠️") ? "text-[#a94b54]" : "text-[#4d7a4d]")}>{savedMsg}</span>}
               </div>
             </Panel>
           )}
@@ -601,7 +620,7 @@ function SaveBar({ onSave, msg }: { onSave: () => void; msg: string }) {
   return (
     <div className="mt-4 flex items-center gap-3">
       <button onClick={onSave} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">💾 Enregistrer</button>
-      {msg && <span className="text-[13px] font-semibold text-[#4d7a4d]">{msg}</span>}
+      {msg && <span className={"text-[13px] font-semibold " + (msg.startsWith("⚠️") ? "text-[#a94b54]" : "text-[#4d7a4d]")}>{msg}</span>}
     </div>
   );
 }

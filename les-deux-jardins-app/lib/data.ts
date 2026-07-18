@@ -94,21 +94,23 @@ export async function updateClientDb(
   patch: { intention?: string; rdv?: string; consentement?: boolean; etape?: number; bilan?: Client["bilan"]; engagements?: string[] }
 ): Promise<boolean> {
   if (!supabase) return false;
-  const { error } = await supabase.from("clients").update(patch).eq("id", clientId);
-  return !error;
+  // .select() renvoie les lignes réellement modifiées : si 0 ligne (RLS, mauvais id,
+  // session expirée), on le sait et on ne prétend PAS que c'est enregistré.
+  const { data, error } = await supabase.from("clients").update(patch).eq("id", clientId).select("id");
+  return !error && Array.isArray(data) && data.length > 0;
 }
 
 /** Ajoute une séance en base. */
 export async function addSeanceDb(clientId: string, s: Seance): Promise<boolean> {
   if (!supabase) return false;
-  const { error } = await supabase.from("seances").insert({
+  const { data, error } = await supabase.from("seances").insert({
     client_id: clientId,
     date: s.date,
     meteo: s.meteo,
     notes: s.notes,
     axes: s.axes,
-  });
-  return !error;
+  }).select("id");
+  return !error && Array.isArray(data) && data.length > 0;
 }
 
 /** Supprime définitivement une accompagnée (et, par cascade, ses séances/synthèses/réponses). */
@@ -192,9 +194,9 @@ export async function saveSyntheseDb(clientId: string, syn: Synthese): Promise<b
     updated_at: new Date().toISOString(),
   };
   if (existing) {
-    const { error } = await supabase.from("syntheses").update(payload).eq("id", (existing as Record<string, unknown>).id as string);
-    return !error;
+    const { data, error } = await supabase.from("syntheses").update(payload).eq("id", (existing as Record<string, unknown>).id as string).select("id");
+    return !error && Array.isArray(data) && data.length > 0;
   }
-  const { error } = await supabase.from("syntheses").insert(payload);
-  return !error;
+  const { data, error } = await supabase.from("syntheses").insert(payload).select("id");
+  return !error && Array.isArray(data) && data.length > 0;
 }
