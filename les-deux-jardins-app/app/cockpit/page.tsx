@@ -194,14 +194,19 @@ export default function Cockpit() {
 
   function computeDraft(cl: Client): Client["synthese"] {
     const last = cl.seances[cl.seances.length - 1] ?? { notes: "", axes: "" };
+    const ana = cl.bilan.anamnese ?? {};
+    // Repli sur l'anamnèse quand il n'y a pas encore de séance : le brouillon n'est jamais vide.
+    const traverse = cl.seances.map((s) => s.notes).join(" ") || ana.motif || ana.histoire || cl.bilan.histoire || cl.intention || "";
+    const ouEnEs = last.notes || ana.etat || "";
+    const marche = last.axes || ana.synthese || "";
     return {
       status: "brouillon",
       duaIdx: cl.synthese.duaIdx,
       sections: [
-        { t: "Ce que tu as traversé", x: cl.seances.map((s) => s.notes).join(" ") },
+        { t: "Ce que tu as traversé", x: traverse },
         { t: "Ce que j'ai observé de beau", x: "Ta lucidité et ta persévérance : tu as osé nommer ce qui déborde et tester de petits changements concrets." },
-        { t: "Là où tu en es", x: last.notes },
-        { t: "La prochaine marche", x: last.axes },
+        { t: "Là où tu en es", x: ouEnEs },
+        { t: "La prochaine marche", x: marche },
         { t: "Ta ressource d'appui", x: "Le rituel de transition, à garder comme point d'ancrage." },
       ],
       boussole: "Tu n'as pas à tout porter d'un coup. Une graine à la fois.",
@@ -602,6 +607,8 @@ export default function Cockpit() {
               <Callout><b>Relais Lumière</b> — proposer, si la personne le souhaite, de transmettre à son tour (mécénat / tarif solidaire / Sadaqa).</Callout>
             </Panel>
           )}
+
+          {step === "cr" && <CRPanel c={c} islamic={islamic} responses={responses} live={live} />}
         </div>
       </main>
     </div>
@@ -715,6 +722,108 @@ function ProtocolePanel({ responses, live }: { responses: QResponse[]; live: boo
 }
 function Callout({ children }: { children: React.ReactNode }) {
   return <div className="mt-3.5 rounded-xl border border-shell-border bg-[rgba(94,127,140,.08)] p-3.5 text-[13px] text-shell-muted">{children}</div>;
+}
+
+// CR praticienne : rassemble anamnèse + scores + questionnaires reliés. Copiable / imprimable.
+function CRPanel({ c, islamic, responses, live }: { c: Client; islamic: boolean; responses: QResponse[]; live: boolean }) {
+  const [copied, setCopied] = useState(false);
+  const sections = ANAMNESE_SECTIONS
+    .map((s) => ({ label: !islamic && s.labelU ? s.labelU : s.label, v: (c.bilan.anamnese?.[s.key] ?? (s.legacy ? c.bilan[s.legacy] : "") ?? "").trim() }))
+    .filter((x) => x.v);
+  const qs = responses
+    .map((r) => ({ r, info: evaluateStored(r.questionnaireId, r.answers) }))
+    .filter((x): x is { r: QResponse; info: NonNullable<ReturnType<typeof evaluateStored>> } => Boolean(x.info));
+  const soutien = c.bilan.scores?.soutien;
+  const relAllah = c.bilan.scores?.relationAllah;
+
+  function buildText() {
+    const L: string[] = [];
+    L.push(`COMPTE-RENDU — ${c.nom}`);
+    L.push(`Intention : ${c.intention || "—"}`);
+    L.push(`Prochain RDV : ${c.rdv || "—"}`);
+    L.push(`Consentement : ${c.consentement ? "recueilli" : "à recueillir"}`);
+    L.push("");
+    L.push("== ANAMNÈSE ==");
+    if (sections.length) sections.forEach((s) => L.push(`${s.label}\n${s.v}\n`));
+    else L.push("(anamnèse vide)");
+    if (soutien != null) L.push(`Sentiment d'être soutenue : ${soutien}/10`);
+    if (islamic && relAllah != null) L.push(`Relation à Allāh : ${relAllah}/10`);
+    L.push("");
+    L.push("== QUESTIONNAIRES RELIÉS ==");
+    if (qs.length) qs.forEach(({ r, info }) => L.push(`- ${info.titre} : ${r.score}/${r.scoreMax} — ${info.band.titre}${info.alerts.some((a) => a.level === "rouge") ? " ⚠️ ALERTE" : ""}`));
+    else L.push("(aucun questionnaire relié)");
+    L.push("");
+    L.push("Document confidentiel — repère de dialogue, jamais un diagnostic.");
+    return L.join("\n");
+  }
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(buildText());
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2500);
+    } catch {
+      /* clipboard indisponible */
+    }
+  }
+
+  return (
+    <Panel title="CR — compte-rendu praticienne" lead="Tout ce qui est dans la fiche, rassemblé : anamnèse + scores + questionnaires. Copie-le ou imprime-le. C'est ton « Vers CR », en natif.">
+      {!live && <Callout>⚠️ Mode démonstration : connecte-toi pour que le CR reflète des données réellement enregistrées.</Callout>}
+
+      <div className="mb-3 flex flex-wrap gap-2.5">
+        <button onClick={copy} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">📋 Copier le compte-rendu</button>
+        <button onClick={() => window.print()} className="rounded-xl border border-shell-border px-4 py-2.5 text-sm font-semibold text-shell-text">🖨 Imprimer / PDF</button>
+        {copied && <span className="self-center text-[13px] font-semibold text-[#4d7a4d]">✔ Copié</span>}
+      </div>
+
+      <div className="rounded-2xl border border-shell-border p-5">
+        <div className="mb-3 border-b border-shell-border pb-2">
+          <div className="font-serif text-xl font-semibold text-jq-deep">{c.nom}</div>
+          <div className="text-[13px] text-shell-muted">Intention : {c.intention || "—"} · RDV : {c.rdv || "—"} · {c.consentement ? "Consentement recueilli" : "Consentement à recueillir"}</div>
+        </div>
+
+        <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-shell-muted">Anamnèse</div>
+        {sections.length ? (
+          <div className="mb-3 flex flex-col gap-2">
+            {sections.map((s) => (
+              <div key={s.label}>
+                <div className="text-[13px] font-bold text-shell-text">{s.label}</div>
+                <div className="whitespace-pre-wrap text-sm text-shell-muted">{s.v}</div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="mb-3 text-sm text-shell-muted">Anamnèse vide — remplis l&apos;onglet <b>Bilan</b> puis « Enregistrer ».</p>
+        )}
+
+        {(soutien != null || (islamic && relAllah != null)) && (
+          <div className="mb-3 flex flex-wrap gap-3 text-[13px]">
+            {soutien != null && <span>Soutien : <b className="text-jq-deep">{soutien}/10</b></span>}
+            {islamic && relAllah != null && <span>Relation à Allāh : <b className="text-jq-deep">{relAllah}/10</b></span>}
+          </div>
+        )}
+
+        <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-shell-muted">Questionnaires reliés</div>
+        {qs.length ? (
+          <div className="flex flex-col gap-1.5">
+            {qs.map(({ r, info }) => {
+              const red = info.alerts.some((a) => a.level === "rouge");
+              return (
+                <div key={r.id} className="flex flex-wrap items-center gap-2 text-[13px]">
+                  <span className="font-bold text-shell-text">{info.titre}</span>
+                  <span className="text-shell-muted">{r.score}/{r.scoreMax} — {info.band.titre}</span>
+                  {red && <span className="rounded bg-[rgba(169,75,84,.14)] px-1.5 py-0.5 text-[11px] font-bold text-[#a94b54]">🚨 alerte</span>}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <p className="text-sm text-shell-muted">Aucun questionnaire relié — onglet <b>Questionnaires</b> → « Relier à la fiche ».</p>
+        )}
+      </div>
+      <Callout>Document confidentiel — repère de dialogue, jamais un diagnostic.{islamic && " La guérison appartient à Allāh."}</Callout>
+    </Panel>
+  );
 }
 
 function Synthese({

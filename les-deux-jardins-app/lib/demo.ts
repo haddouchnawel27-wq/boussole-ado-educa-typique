@@ -8,6 +8,7 @@ export const STEPS: Step[] = [
   { k: "synthese", n: 5, t: "Synthèse « Pour toi »" },
   { k: "suivi", n: 6, t: "Suivi" },
   { k: "cloture", n: 7, t: "Clôture" },
+  { k: "cr", n: 8, t: "CR (compte-rendu)" },
 ];
 
 export const METEO: Record<Meteo, { cls: string; label: string }> = {
