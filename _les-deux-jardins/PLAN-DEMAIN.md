@@ -44,13 +44,14 @@ beaucoup d'outils d'un coup.**
 
 ---
 
-## 🔑 LA QUESTION QUI DÉBLOQUE TOUT (à répondre en 1er demain)
+## 🔑 RÉPONDU (19/07 soir) : ce sont des **projets Netlify SÉPARÉS**, pas des dossiers de ce dépôt. **Déploiement manuel très probable.** (Nawel confirme après vérif Netlify → Site configuration → Build & deploy.)
 
-**Ces apps Netlify se déploient depuis OÙ ?**
-- Si **projet séparé sur GitHub** → Code peut l'**ajouter à la session** (`add_repo`) et le réparer proprement.
-- Si **dossier de CE dépôt** (le dépôt contient déjà `parcours-clarte-tnd/`, `souffle-lumiere/`, `al-mizan/`…) → **Code répare tout de suite.**
+**Conséquence : Code ne peut PAS réparer ces apps directement** (leur code n'est ni dans ce dépôt, ni déployé depuis lui). Chemins possibles :
+1. 🔗 **Si l'app est sur un dépôt GitHub** → Nawel donne le lien → Code l'ajoute à la session (`add_repo`) → répare → Nawel redéploie.
+2. 📁 **Si déploiement 100% manuel** (glisser-déposer, source seulement sur le disque de Nawel) → Nawel **dépose le fichier source** de l'app buguée dans ce dépôt (ex. HTML de « Schémas Traumas », du « Décodeur 1973 », de « Jeu Chitane ») → Code le corrige → Nawel re-dépose sur Netlify.
+3. 🏗️ **Option de fond** (à décider) : rapatrier ces apps dans notre écosystème (Vercel/dépôt) pour ne plus dépendre de déploiements manuels dispersés.
 
-👉 Sans cette info, Code ne peut **pas** réparer les apps externes (il ne voit que le code de ce dépôt).
+👉 **À vérifier par Nawel demain :** pour chaque app buguée, est-elle liée à un dépôt GitHub (Netlify → Build & deploy → « Repository ») ou en manuel ? Ça décide du chemin (1) ou (2).
 
 ---
 
