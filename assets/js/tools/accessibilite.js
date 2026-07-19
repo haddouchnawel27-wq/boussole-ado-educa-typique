@@ -20,6 +20,12 @@
 
   function sauver(modifs) { var p = prefs(); Object.assign(p, modifs); Store.ecrire("prefs", p); appliquer(); }
 
+  // Sauvegarde locale : télécharge un fichier + mémorise la date (il n'y a PAS d'auto-save).
+  function exporter(nom) {
+    UI.telecharger(nom, JSON.stringify(Store.exporterTout(), null, 2));
+    Store.ecrire("derniereSauvegarde", new Date().toISOString());
+  }
+
   Boussole.registerTool({
     id: "reglages", groupe: "pro", titre: "Réglages & données", icone: "⚙️",
     desc: "Confort de lecture (police dys, taille, contraste) et gestion privée de vos données.",
@@ -72,8 +78,17 @@
         carteSpi.appendChild(UI.el("p.aide", { style: "margin:.5rem 0 0", text: "Quand il est activé, un menu « Coin spiritualité » apparaît avec vos ressources d'ancrage spirituel. Masqué par défaut : à vous de choisir quand le proposer." }));
         vue.appendChild(carteSpi);
 
-        // Données
+        // Données — sauvegarde manuelle (pas d'auto-save) + rappel de la dernière sauvegarde
         vue.appendChild(UI.el("h2", { text: "Vos données", style: "margin:1.4rem 0 .5rem" }));
+        var last = Store.lire("derniereSauvegarde", null);
+        var jours = last ? Math.floor((Date.now() - new Date(last).getTime()) / 86400000) : null;
+        var rappelWarn = (last === null) || (jours >= 7);
+        var rappelTxt = (last === null)
+          ? "⚠️ Aucune sauvegarde encore réalisée. Il n'y a PAS de sauvegarde automatique — exporte tes données dès maintenant et régulièrement."
+          : rappelWarn
+            ? ("⚠️ Dernière sauvegarde il y a " + jours + " jour(s), le " + new Date(last).toLocaleDateString("fr-FR") + ". Pense à en refaire une.")
+            : ("✔ Dernière sauvegarde : " + new Date(last).toLocaleDateString("fr-FR") + ".");
+
         var inputImport = UI.el("input", { type: "file", accept: "application/json", style: "display:none" });
         inputImport.addEventListener("change", function () {
           var f = inputImport.files[0]; if (!f) return;
@@ -86,23 +101,29 @@
         });
         vue.appendChild(UI.el(".carte", {}, [
           UI.el("p", { text: "Toutes les données (fiches, émotions, jetons, plans…) sont stockées uniquement dans ce navigateur, sur cet appareil. Rien n'est envoyé sur Internet." }),
-          UI.el("p.aide", { text: "Pensez à exporter régulièrement une sauvegarde, et avant de changer d'appareil ou de vider le navigateur." }),
+          UI.el("p", { style: "font-weight:700;margin:.4rem 0;color:" + (rappelWarn ? "#b23c17" : "#4d7a4d"), text: rappelTxt }),
+          UI.el("p.aide", { text: "Exporte une sauvegarde régulièrement, et toujours avant de changer d'appareil ou de vider le navigateur." }),
           UI.el(".btn-rangee", { style: "margin-bottom:0" }, [
-            UI.el("button.btn", { text: "⬇️ Exporter une sauvegarde", onclick: function () {
-              UI.telecharger("boussole-sauvegarde-" + new Date().toISOString().slice(0, 10) + ".json", JSON.stringify(Store.exporterTout(), null, 2));
-              UI.toast("Sauvegarde téléchargée");
+            UI.el("button.btn", { text: "⬇️ Sauvegarder mes données", onclick: function () {
+              exporter("boussole-sauvegarde-" + new Date().toISOString().slice(0, 10) + ".json");
+              UI.toast("Sauvegarde téléchargée ✓");
+              Boussole.naviguer("reglages");
             }}),
-            UI.el("button.btn.secondaire", { text: "⬆️ Importer une sauvegarde", onclick: function () { inputImport.click(); } }),
+            UI.el("button.btn.secondaire", { text: "⬆️ Restaurer une sauvegarde", onclick: function () { inputImport.click(); } }),
             inputImport
           ])
         ]));
 
         vue.appendChild(UI.el(".carte", { style: "margin-top:1rem;border-color:#f0c9c2" }, [
           UI.el("h3", { text: "Effacer toutes les données" }),
-          UI.el("p.aide", { text: "Action irréversible. Exportez d'abord une sauvegarde." }),
+          UI.el("p.aide", { text: "Action irréversible. Par sécurité, une sauvegarde est téléchargée automatiquement avant l'effacement." }),
           UI.el("button.btn.danger", { text: "🗑️ Tout effacer", onclick: function () {
-            UI.confirmer("Effacer définitivement toutes les données de Boussole sur cet appareil ?", { danger: true, texteOk: "Tout effacer", titre: "Attention" }).then(function (ok) {
-              if (ok) { Store.effacerTout(); Boussole.rafraichirSelectProfil(); appliquer(); UI.toast("Données effacées"); Boussole.naviguer("accueil"); }
+            UI.confirmer("Effacer définitivement toutes les données de Boussole sur cet appareil ? Une sauvegarde sera téléchargée avant.", { danger: true, texteOk: "Sauvegarder puis effacer", titre: "Attention" }).then(function (ok) {
+              if (ok) {
+                // filet de sécurité : on télécharge TOUJOURS une sauvegarde avant d'effacer
+                try { exporter("boussole-sauvegarde-avant-effacement-" + new Date().toISOString().slice(0, 10) + ".json"); } catch (e) {}
+                Store.effacerTout(); Boussole.rafraichirSelectProfil(); appliquer(); UI.toast("Sauvegarde téléchargée, puis données effacées"); Boussole.naviguer("accueil");
+              }
             });
           }})
         ]));
