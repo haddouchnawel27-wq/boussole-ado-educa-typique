@@ -672,7 +672,7 @@
 
     <div class="hero-stats">
       <div class="stat-pill"><strong id="statTotal">0</strong>outils au total</div>
-      <div class="stat-pill"><strong id="statChifa">0</strong>Jannat al Qulûb</div>
+      <div class="stat-pill"><strong id="statJannat">0</strong>Jannat al Qulûb</div>
       <div class="stat-pill"><strong id="statEduca">0</strong>Educa Typique</div>
     </div>
   </div>
@@ -1203,20 +1203,20 @@
   // ============ STATS ============
   function updateStats() {
     let totalTools = 0, liveTools = 0, localTools = 0;
-    let chifaTools = 0, educaTools = 0;
+    let jannatTools = 0, educaTools = 0;
 
     sections.forEach(s => {
       s.tools.forEach(t => {
         totalTools++;
         if (t.url) liveTools++;
         else localTools++;
-        if (s.id.startsWith('jannat')) chifaTools++;
+        if (s.id.startsWith('jannat')) jannatTools++;
         else if (s.id !== 'meta' && s.id !== 'a-venir') educaTools++;
       });
     });
 
     document.getElementById('statTotal').textContent = totalTools;
-    document.getElementById('statChifa').textContent = chifaTools;
+    document.getElementById('statJannat').textContent = jannatTools;
     document.getElementById('statEduca').textContent = educaTools;
     document.getElementById('liveCount').textContent = liveTools;
     document.getElementById('localCount').textContent = localTools;
