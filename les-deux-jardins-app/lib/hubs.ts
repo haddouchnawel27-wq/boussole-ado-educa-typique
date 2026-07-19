@@ -35,7 +35,7 @@ export const HUBS: Record<string, Hub> = {
         titre: "Comprendre & s'outiller",
         items: [
           { nom: "Parcours Clarté TND", desc: "La collection complète (guides, fiches, apps).", href: "https://boite-neuro-ped-univ.netlify.app/", externe: true },
-          { nom: "Devoirs sans crise", desc: "Accompagner les devoirs sans conflit.", soon: true },
+          { nom: "Devoirs sans crise", desc: "Accompagner les devoirs sans conflit.", href: "https://kit-devoirs-sans-crises.netlify.app/", externe: true },
           { nom: "Dialoguer avec son ado", desc: "Reformuler, désamorcer, relier.", soon: true },
         ],
       },

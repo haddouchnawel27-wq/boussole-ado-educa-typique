@@ -52,56 +52,61 @@
       carteA.appendChild(UI.el("label", { style: "display:flex;gap:.6rem;align-items:center;font-weight:600" }, [chkS, document.createTextNode("🌙 Mode sombre (repos visuel)")]));
       vue.appendChild(carteA);
 
-      // Coin spiritualité (activation réservée à la praticienne)
-      vue.appendChild(UI.el("h2", { text: "Coin spiritualité", style: "margin:1.4rem 0 .5rem" }));
-      var carteSpi = UI.el(".carte");
-      var chkSpi = UI.el("input", { type: "checkbox", checked: Store.lire("coinSpiritualite", false) });
-      chkSpi.addEventListener("change", function () {
-        Store.ecrire("coinSpiritualite", chkSpi.checked);
-        Boussole.majNav();
-        UI.toast(chkSpi.checked ? "🤲 Coin spiritualité activé" : "Coin spiritualité masqué");
-      });
-      carteSpi.appendChild(UI.el("label", { style: "display:flex;gap:.6rem;align-items:center;font-weight:600" }, [chkSpi, document.createTextNode("🤲 Activer le coin spiritualité")]));
-      carteSpi.appendChild(UI.el("p.aide", { style: "margin:.5rem 0 0", text: "Quand il est activé, un menu « Coin spiritualité » apparaît avec vos ressources d'ancrage spirituel. Masqué par défaut : à vous de choisir quand le proposer." }));
-      vue.appendChild(carteSpi);
+      // — Sections sensibles : réservées à la vue « Praticienne » —
+      // (le confort de lecture ci-dessus reste accessible à tous ; l'activation
+      //  du coin spiritualité, l'export/import et l'effacement ne le sont pas.)
+      var estPro = !!(Boussole.publicActif && Boussole.publicActif() === "pro");
+      if (!estPro) {
+        vue.appendChild(UI.el("p.aide", { style: "margin-top:1.4rem", html: "🔒 La gestion des données (sauvegarde, effacement) et le coin spiritualité sont réservés à la <strong>praticienne</strong> (vue « Praticienne »)." }));
+      } else {
+        // Coin spiritualité (activation réservée à la praticienne)
+        vue.appendChild(UI.el("h2", { text: "Coin spiritualité", style: "margin:1.4rem 0 .5rem" }));
+        var carteSpi = UI.el(".carte");
+        var chkSpi = UI.el("input", { type: "checkbox", checked: Store.lire("coinSpiritualite", false) });
+        chkSpi.addEventListener("change", function () {
+          Store.ecrire("coinSpiritualite", chkSpi.checked);
+          Boussole.majNav();
+          UI.toast(chkSpi.checked ? "🤲 Coin spiritualité activé" : "Coin spiritualité masqué");
+        });
+        carteSpi.appendChild(UI.el("label", { style: "display:flex;gap:.6rem;align-items:center;font-weight:600" }, [chkSpi, document.createTextNode("🤲 Activer le coin spiritualité")]));
+        carteSpi.appendChild(UI.el("p.aide", { style: "margin:.5rem 0 0", text: "Quand il est activé, un menu « Coin spiritualité » apparaît avec vos ressources d'ancrage spirituel. Masqué par défaut : à vous de choisir quand le proposer." }));
+        vue.appendChild(carteSpi);
 
-      // Données
-      vue.appendChild(UI.el("h2", { text: "Vos données", style: "margin:1.4rem 0 .5rem" }));
-      vue.appendChild(UI.el(".carte", {}, [
-        UI.el("p", { text: "Toutes les données (fiches, émotions, jetons, plans…) sont stockées uniquement dans ce navigateur, sur cet appareil. Rien n'est envoyé sur Internet." }),
-        UI.el("p.aide", { text: "Pensez à exporter régulièrement une sauvegarde, et avant de changer d'appareil ou de vider le navigateur." }),
-        UI.el(".btn-rangee", { style: "margin-bottom:0" }, [
-          UI.el("button.btn", { text: "⬇️ Exporter une sauvegarde", onclick: function () {
-            UI.telecharger("boussole-sauvegarde-" + new Date().toISOString().slice(0, 10) + ".json", JSON.stringify(Store.exporterTout(), null, 2));
-            UI.toast("Sauvegarde téléchargée");
-          }}),
-          (function () {
-            var input = UI.el("input", { type: "file", accept: "application/json", style: "display:none" });
-            input.addEventListener("change", function () {
-              var f = input.files[0]; if (!f) return;
-              var r = new FileReader();
-              r.onload = function () {
-                try { Store.importerTout(JSON.parse(r.result)); Boussole.rafraichirSelectProfil(); appliquer(); UI.toast("Sauvegarde importée ✓"); Boussole.naviguer("reglages"); }
-                catch (e) { UI.toast("Fichier invalide"); }
-              };
-              r.readAsText(f);
+        // Données
+        vue.appendChild(UI.el("h2", { text: "Vos données", style: "margin:1.4rem 0 .5rem" }));
+        var inputImport = UI.el("input", { type: "file", accept: "application/json", style: "display:none" });
+        inputImport.addEventListener("change", function () {
+          var f = inputImport.files[0]; if (!f) return;
+          var r = new FileReader();
+          r.onload = function () {
+            try { Store.importerTout(JSON.parse(r.result)); Boussole.rafraichirSelectProfil(); appliquer(); UI.toast("Sauvegarde importée ✓"); Boussole.naviguer("reglages"); }
+            catch (e) { UI.toast("Fichier invalide"); }
+          };
+          r.readAsText(f);
+        });
+        vue.appendChild(UI.el(".carte", {}, [
+          UI.el("p", { text: "Toutes les données (fiches, émotions, jetons, plans…) sont stockées uniquement dans ce navigateur, sur cet appareil. Rien n'est envoyé sur Internet." }),
+          UI.el("p.aide", { text: "Pensez à exporter régulièrement une sauvegarde, et avant de changer d'appareil ou de vider le navigateur." }),
+          UI.el(".btn-rangee", { style: "margin-bottom:0" }, [
+            UI.el("button.btn", { text: "⬇️ Exporter une sauvegarde", onclick: function () {
+              UI.telecharger("boussole-sauvegarde-" + new Date().toISOString().slice(0, 10) + ".json", JSON.stringify(Store.exporterTout(), null, 2));
+              UI.toast("Sauvegarde téléchargée");
+            }}),
+            UI.el("button.btn.secondaire", { text: "⬆️ Importer une sauvegarde", onclick: function () { inputImport.click(); } }),
+            inputImport
+          ])
+        ]));
+
+        vue.appendChild(UI.el(".carte", { style: "margin-top:1rem;border-color:#f0c9c2" }, [
+          UI.el("h3", { text: "Effacer toutes les données" }),
+          UI.el("p.aide", { text: "Action irréversible. Exportez d'abord une sauvegarde." }),
+          UI.el("button.btn.danger", { text: "🗑️ Tout effacer", onclick: function () {
+            UI.confirmer("Effacer définitivement toutes les données de Boussole sur cet appareil ?", { danger: true, texteOk: "Tout effacer", titre: "Attention" }).then(function (ok) {
+              if (ok) { Store.effacerTout(); Boussole.rafraichirSelectProfil(); appliquer(); UI.toast("Données effacées"); Boussole.naviguer("accueil"); }
             });
-            var b = UI.el("button.btn.secondaire", { text: "⬆️ Importer une sauvegarde", onclick: function () { input.click(); } });
-            var wrap = document.createDocumentFragment(); wrap.appendChild(b); wrap.appendChild(input);
-            return b.appendChild(input), b;
-          })()
-        ])
-      ]));
-
-      vue.appendChild(UI.el(".carte", { style: "margin-top:1rem;border-color:#f0c9c2" }, [
-        UI.el("h3", { text: "Effacer toutes les données" }),
-        UI.el("p.aide", { text: "Action irréversible. Exportez d'abord une sauvegarde." }),
-        UI.el("button.btn.danger", { text: "🗑️ Tout effacer", onclick: function () {
-          UI.confirmer("Effacer définitivement toutes les données de Boussole sur cet appareil ?", { danger: true, texteOk: "Tout effacer", titre: "Attention" }).then(function (ok) {
-            if (ok) { Store.effacerTout(); Boussole.rafraichirSelectProfil(); appliquer(); UI.toast("Données effacées"); Boussole.naviguer("accueil"); }
-          });
-        }})
-      ]));
+          }})
+        ]));
+      }
 
       vue.appendChild(UI.el("p.aide", { style: "margin-top:1.5rem", html: "🧭 <strong>Boussole</strong> — outil de soutien à l'accompagnement. Il ne remplace pas un diagnostic ni un avis médical." }));
     }
