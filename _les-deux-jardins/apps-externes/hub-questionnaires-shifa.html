@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Hub Questionnaires SHIFA — Voie Chifa</title>
+<style>
+  :root {
+    --gold: #C9A961;
+    --gold-light: #F5EBD0;
+    --gold-dark: #A8893F;
+    --navy: #1F3A5F;
+    --navy-light: #E8EEF5;
+    --bg: #FAFAF7;
+    --text: #1A1A1A;
+    --text-soft: #555;
+    --line: #DDD;
+    --line-soft: #EEE;
+    --success: #4A9D5F;
+    --warn: #D4A437;
+    --danger: #B23A48;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: inherit; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+    overflow: hidden;
+    font-size: 13px;
+  }
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--gold);
+  }
+  header h1 { font-size: 18px; font-weight: 700; }
+  header h1 .arabic { color: var(--gold); margin-right: 8px; font-size: 20px; }
+  header h1 .subtitle { font-size: 11px; color: var(--gold-light); font-style: italic; margin-left: 10px; font-weight: 400; }
+  header .actions { display: flex; gap: 8px; }
+  header button {
+    background: var(--gold); color: white; border: none;
+    padding: 7px 14px; border-radius: 4px;
+    font-size: 12px; cursor: pointer; font-weight: 600;
+  }
+  header button:hover { background: var(--gold-dark); }
+  header button.secondary {
+    background: transparent; border: 1px solid var(--gold-light); color: var(--gold-light);
+  }
+  header button.secondary:hover { background: rgba(255,255,255,0.1); }
+
+  main { display: grid; grid-template-columns: 310px 1fr; overflow: hidden; }
+  aside { background: white; border-right: 1px solid var(--line); overflow-y: auto; padding: 14px 12px; }
+  aside h2 {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-soft); font-weight: 700;
+    margin: 14px 8px 6px;
+  }
+  aside h2:first-child { margin-top: 4px; }
+  .q-item {
+    padding: 10px 12px;
+    margin-bottom: 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: background 0.12s, border-color 0.12s;
+  }
+  .q-item:hover { background: var(--navy-light); }
+  .q-item.active {
+    background: var(--gold-light);
+    border-left-color: var(--gold);
+  }
+  .q-item .q-icon { font-size: 16px; margin-right: 6px; }
+  .q-item .q-title { font-weight: 600; font-size: 13px; color: var(--navy); display: inline; }
+  .q-item .q-desc { font-size: 11px; color: var(--text-soft); margin-top: 3px; line-height: 1.4; }
+  .q-item.featured {
+    background: linear-gradient(135deg, var(--gold-light) 0%, white 100%);
+    border-left-color: var(--gold);
+    border: 1px solid var(--gold);
+  }
+  .q-item.featured .q-title { color: var(--gold-dark); }
+
+  .panel { overflow-y: auto; padding: 24px 32px 60px; background: var(--bg); }
+  .empty {
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--text-soft);
+  }
+  .empty .icon { font-size: 56px; display: block; margin-bottom: 14px; }
+  .empty h3 { color: var(--navy); font-size: 20px; margin-bottom: 10px; }
+  .empty p { font-size: 13px; line-height: 1.6; max-width: 560px; margin: 0 auto 8px; }
+
+  .qform {
+    background: white;
+    border-radius: 8px;
+    padding: 28px 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .qform-header {
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 16px;
+    margin-bottom: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .qform-header h2 { color: var(--navy); font-size: 22px; margin-bottom: 4px; }
+  .qform-header .desc { color: var(--text-soft); font-size: 12px; font-style: italic; }
+  .qform-header .meta { font-size: 11px; color: var(--text-soft); margin-top: 6px; }
+  .qform-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .btn {
+    border: none;
+    padding: 7px 12px;
+    border-radius: 5px;
+    font-size: 11px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .btn-gold { background: var(--gold); color: white; }
+  .btn-gold:hover { background: var(--gold-dark); }
+  .btn-navy { background: var(--navy); color: white; }
+  .btn-navy:hover { background: #2A4A7A; }
+  .btn-secondary { background: white; color: var(--navy); border: 1px solid var(--line); }
+  .btn-secondary:hover { background: var(--navy-light); }
+  .btn-success { background: var(--success); color: white; }
+
+  .patient-link {
+    background: var(--navy-light);
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+  }
+  .patient-link label {
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .patient-link input {
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 12px;
+    flex: 1;
+    max-width: 200px;
+  }
+  .patient-link .date {
+    font-size: 11px;
+    color: var(--text-soft);
+    margin-left: auto;
+  }
+
+  .qsection {
+    margin-bottom: 24px;
+    padding: 18px 22px;
+    background: var(--bg);
+    border-radius: 6px;
+    border-left: 4px solid var(--gold);
+  }
+  .qsection h3 {
+    color: var(--navy);
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  .qsection .section-desc {
+    font-size: 11px;
+    color: var(--text-soft);
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+  .qitem {
+    background: white;
+    padding: 12px 14px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    border: 1px solid var(--line-soft);
+  }
+  .qitem .qlabel {
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-size: 13px;
+    display: block;
+  }
+  .qitem .qlabel .num {
+    color: var(--gold-dark);
+    font-weight: 700;
+    margin-right: 6px;
+  }
+  .qitem input[type=text], .qitem input[type=number], .qitem textarea, .qitem select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: inherit;
+  }
+  .qitem textarea { min-height: 60px; resize: vertical; }
+  .qitem input:focus, .qitem textarea:focus, .qitem select:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-light);
+  }
+
+  /* Scale 0-10 */
+  .scale-0-10 {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .scale-0-10 .scale-btn {
+    background: white;
+    border: 1.5px solid var(--line);
+    padding: 6px 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.1s;
+  }
+  .scale-0-10 .scale-btn:hover { border-color: var(--gold); }
+  .scale-0-10 .scale-btn.selected {
+    background: var(--gold);
+    color: white;
+    border-color: var(--gold-dark);
+  }
+  .scale-0-10 .scale-btn[data-value="0"]:hover, .scale-0-10 .scale-btn[data-value="1"]:hover, .scale-0-10 .scale-btn[data-value="2"]:hover, .scale-0-10 .scale-btn[data-value="3"]:hover { background: var(--success); border-color: var(--success); color: white; }
+  .scale-labels { display: flex; justify-content: space-between; font-size: 9px; color: var(--text-soft); margin-top: 4px; padding: 0 4px; }
+
+  /* Radio */
+  .qradio { display: flex; flex-wrap: wrap; gap: 6px; }
+  .qradio .radio-opt {
+    background: white;
+    border: 1.5px solid var(--line);
+    padding: 6px 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.1s;
+  }
+  .qradio .radio-opt:hover { border-color: var(--gold); }
+  .qradio .radio-opt.selected {
+    background: var(--gold);
+    color: white;
+    border-color: var(--gold-dark);
+  }
+
+  /* Checkbox multi-choice */
+  .qcheckbox { display: flex; flex-wrap: wrap; gap: 6px; }
+  .qcheckbox .check-opt {
+    background: white;
+    border: 1.5px solid var(--line);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  .qcheckbox .check-opt:hover { border-color: var(--gold); }
+  .qcheckbox .check-opt.selected {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+
+  /* Scoring result */
+  .score-box {
+    background: linear-gradient(135deg, var(--gold-light) 0%, white 100%);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    border: 2px solid var(--gold);
+    text-align: center;
+  }
+  .score-box .score-value {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+  .score-box .score-max { font-size: 18px; color: var(--text-soft); }
+  .score-box .score-level {
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .score-box .score-level.normal { color: var(--success); }
+  .score-box .score-level.moderate { color: var(--warn); }
+  .score-box .score-level.severe { color: var(--danger); }
+  .score-box .score-info {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--text-soft);
+    font-style: italic;
+  }
+  .score-warn {
+    background: #FBE6E9;
+    border: 2px solid var(--danger);
+    color: var(--danger);
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-top: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .save-indicator {
+    position: fixed;
+    bottom: 60px;
+    right: 30px;
+    background: var(--success);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    font-size: 12px;
+    font-weight: 600;
+    transform: translateY(60px);
+    opacity: 0;
+    transition: transform 0.25s, opacity 0.25s;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .save-indicator.visible { transform: translateY(0); opacity: 1; }
+
+  footer {
+    background: white;
+    border-top: 1px solid var(--line);
+    padding: 8px 24px;
+    font-size: 10px;
+    color: var(--text-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer .quote { font-style: italic; }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.15s;
+  }
+  .modal-overlay.visible { opacity: 1; pointer-events: auto; }
+  .modal {
+    background: white;
+    border-radius: 8px;
+    padding: 24px 28px;
+    max-width: 560px;
+    width: 90%;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  }
+  .modal h3 { color: var(--navy); margin-bottom: 10px; font-size: 17px; }
+  .modal p { font-size: 12px; line-height: 1.5; color: var(--text-soft); margin-bottom: 12px; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+
+  @media print {
+    header, aside, footer, .qform-actions, .patient-link, .save-indicator { display: none !important; }
+    body { display: block; height: auto; overflow: auto; }
+    main { display: block; }
+    .panel { padding: 0; overflow: visible; }
+    .qform { box-shadow: none; padding: 0; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span class="arabic">شفاء</span>Hub Questionnaires<span class="subtitle">· SHIFA · Voie Chifa</span></h1>
+  <div class="actions">
+    <button class="secondary" id="btn-cr">↗ CR Patientes</button>
+    <button class="secondary" id="btn-app">↗ SHIFA App</button>
+  </div>
+</header>
+
+<main>
+  <aside>
+    <h2>📋 Anamnèse universelle</h2>
+    <div id="cat-anamnese"></div>
+
+    <h2>🎯 Voie Chifa (8 troubles)</h2>
+    <div id="cat-voie-chifa"></div>
+
+    <h2>🏥 Échelles cliniques</h2>
+    <div id="cat-clinique"></div>
+
+    <h2>👶 Enfance / Ado</h2>
+    <div id="cat-enfance"></div>
+  </aside>
+
+  <div class="panel" id="panel"></div>
+</main>
+
+<footer>
+  <div class="quote">« Et Nous faisons descendre du Coran ce qui est guérison et miséricorde pour les croyants » — 17:82</div>
+  <div>Données 100% locales · Aucun envoi sur internet</div>
+</footer>
+
+<div class="save-indicator" id="save-ind">✓ Enregistré</div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script>
+// ============= DATA — QUESTIONNAIRES =============
+// Voie Chifa palette niveaux universels
+const NIVEAUX_VC = (max) => [
+  { seuil: 0, label: "🟢 Léger / Normal", class: "normal" },
+  { seuil: max*0.31, label: "🟡 Modéré", class: "moderate" },
+  { seuil: max*0.61, label: "🔴 Élevé — orientation recommandée", class: "severe" },
+];
+
+const QUESTIONNAIRES = {
+
+  // ============ ANAMNÈSE UNIVERSELLE ============
+  "anamnese-universelle": {
+    id: "anamnese-universelle",
+    title: "Anamnèse universelle Voie Chifa",
+    icon: "📋",
+    category: "anamnese",
+    featured: true,
+    desc: "À utiliser pour toute nouvelle patiente. ~70 items répartis en 10 sections. Comptez 30-45 min.",
+    duration: "30-45 min",
+    sections: [
+      { title: "1. Identité & motif de consultation", items: [
+        { id: "id_initiales", label: "Initiales (confidentialité)", type: "text", placeholder: "F.M." },
+        { id: "id_age", label: "Âge", type: "number" },
+        { id: "id_genre", label: "Genre", type: "radio", options: ["Femme","Homme","Autre / préfère ne pas dire"] },
+        { id: "id_situation", label: "Situation familiale", type: "radio", options: ["Célibataire","En couple","Mariée","Divorcée / séparée","Veuve"] },
+        { id: "id_enfants", label: "Enfants (nombre + âges)", type: "text" },
+        { id: "id_profession", label: "Profession", type: "text" },
+        { id: "id_origines", label: "Origines culturelles", type: "text" },
+        { id: "id_motif", label: "Motif principal de consultation", type: "textarea" },
+        { id: "id_durée", label: "Depuis combien de temps ces difficultés ?", type: "text" },
+        { id: "id_attentes", label: "Attentes de la thérapie", type: "textarea" },
+        { id: "id_referral", label: "Comment avez-vous trouvé le cabinet ?", type: "text" },
+      ]},
+      { title: "2. Antécédents médicaux", items: [
+        { id: "med_chroniques", label: "Maladies chroniques actuelles", type: "textarea" },
+        { id: "med_hospitalisations", label: "Hospitalisations passées", type: "textarea" },
+        { id: "med_chirurgies", label: "Chirurgies", type: "textarea" },
+        { id: "med_allergies", label: "Allergies (médicaments, alimentaires)", type: "text" },
+        { id: "med_traitements", label: "Traitements actuels (avec dosage)", type: "textarea" },
+        { id: "med_bilan", label: "Dernier bilan biologique (date + résultats notables)", type: "textarea" },
+        { id: "med_cycle", label: "Cycle / hormonal (femmes — régulier ? troubles ? contraception ?)", type: "textarea" },
+        { id: "med_grossesse", label: "Grossesse en cours ou récente ?", type: "radio", options: ["Non","En cours","Récente <1 an","N/A"] },
+      ]},
+      { title: "3. Antécédents psy / psychiatriques", items: [
+        { id: "psy_suivi", label: "Suivis psy antérieurs (psychologue, psychiatre, autre)", type: "textarea" },
+        { id: "psy_hospi", label: "Hospitalisations psy", type: "textarea" },
+        { id: "psy_traitement", label: "Traitements psychotropes (actuels ou anciens)", type: "textarea" },
+        { id: "psy_diagnostics", label: "Diagnostic(s) psy déjà posé(s)", type: "text" },
+        { id: "psy_ts", label: "Tentatives de suicide ou idées suicidaires", type: "radio", options: ["Jamais","Idées passagères passées","Idées actuelles","Tentative passée","Tentative récente"] },
+        { id: "psy_famille", label: "ATCD psy dans la famille", type: "textarea" },
+      ]},
+      { title: "4. Antécédents spirituels & parcours de foi", items: [
+        { id: "spi_parcours", label: "Parcours de foi", type: "radio", options: ["Née musulmane, pratique stable","Née musulmane, pratique tardive","Reconvertie","Conversion à l'âge adulte"] },
+        { id: "spi_priere", label: "Régularité prières (5 par jour)", type: "scale-0-10", labels: ["Jamais","Toujours 5/5"] },
+        { id: "spi_coran", label: "Régularité lecture Coran", type: "radio", options: ["Quotidien","Plusieurs fois/sem","Hebdo","Rare","Jamais"] },
+        { id: "spi_adhkar", label: "Adhkâr matin/soir", type: "radio", options: ["Quotidien","Souvent","Parfois","Rarement","Jamais"] },
+        { id: "spi_trauma", label: "Trauma religieux (rigorisme blessant, secte, communauté toxique)", type: "textarea" },
+        { id: "spi_crise", label: "Crise de foi vécue", type: "textarea" },
+        { id: "spi_roqya", label: "Pratique roqya antérieure (qui, pour quoi, durée, résultat)", type: "textarea" },
+        { id: "spi_sentiment", label: "Sentiment actuel par rapport à Allah", type: "textarea" },
+      ]},
+      { title: "5. Histoire de vie & attachement", items: [
+        { id: "hist_enfance", label: "Comment décrivez-vous votre enfance ?", type: "radio", options: ["Heureuse","Mixte","Difficile","Très difficile / traumatique"] },
+        { id: "hist_pere", label: "Relation au père (enfance + actuelle)", type: "textarea" },
+        { id: "hist_mere", label: "Relation à la mère (enfance + actuelle)", type: "textarea" },
+        { id: "hist_fratrie", label: "Fratrie (rang, relations)", type: "textarea" },
+        { id: "hist_trauma", label: "Trauma majeurs (deuils, violences, accidents, agressions sexuelles)", type: "textarea" },
+        { id: "hist_deuils", label: "Deuils significatifs (qui, quand, vécu)", type: "textarea" },
+        { id: "hist_etapes", label: "Étapes-clés de la vie (mariage, divorce, déménagement, conversion…)", type: "textarea" },
+      ]},
+      { title: "6. Mode de vie actuel", items: [
+        { id: "mode_sommeil_h", label: "Sommeil — heures par nuit en moyenne", type: "number" },
+        { id: "mode_sommeil_qual", label: "Qualité du sommeil", type: "scale-0-10", labels: ["Très mauvaise","Excellente"] },
+        { id: "mode_alim", label: "Alimentation — équilibrée et régulière ?", type: "scale-0-10", labels: ["Pas du tout","Très"] },
+        { id: "mode_sport", label: "Activité physique (jours par semaine)", type: "number" },
+        { id: "mode_ecrans", label: "Écrans (heures par jour hors travail)", type: "number" },
+        { id: "mode_nature", label: "Sorties nature / lumière du jour", type: "radio", options: ["Quotidien","Plusieurs fois/sem","Hebdo","Rare","Jamais"] },
+        { id: "mode_cafe", label: "Café (tasses/j)", type: "number" },
+        { id: "mode_tabac", label: "Tabac", type: "radio", options: ["Non","Ex-fumeuse","Occasionnel","Régulier","Important"] },
+        { id: "mode_alcool", label: "Alcool / drogues", type: "textarea" },
+      ]},
+      { title: "7. Relations actuelles", items: [
+        { id: "rel_couple", label: "Couple — qualité actuelle", type: "scale-0-10", labels: ["Très mauvaise","Excellente"] },
+        { id: "rel_couple_detail", label: "Couple — points-clés (conflits, intimité, projets)", type: "textarea" },
+        { id: "rel_enfants_rel", label: "Relation aux enfants", type: "textarea" },
+        { id: "rel_famille", label: "Relations famille élargie (parents, beaux-parents, fratrie)", type: "textarea" },
+        { id: "rel_amis", label: "Réseau d'amis et soutien social", type: "scale-0-10", labels: ["Inexistant","Très solide"] },
+        { id: "rel_communaute", label: "Communauté / mosquée / halaqa", type: "textarea" },
+      ]},
+      { title: "8. Spiritualité actuelle (pratique vivante)", items: [
+        { id: "spia_priere_qual", label: "Présence dans la prière (khoushou')", type: "scale-0-10", labels: ["Aucune","Forte"] },
+        { id: "spia_coran_lien", label: "Lien actuel au Coran", type: "scale-0-10", labels: ["Distant","Très vivant"] },
+        { id: "spia_adhkar_quot", label: "Adhkâr matin/soir maintenus ?", type: "scale-0-10", labels: ["Jamais","Tous les jours"] },
+        { id: "spia_mosquee", label: "Fréquence mosquée / halaqa", type: "radio", options: ["Quotidien","Hebdo","Mensuel","Rare","Jamais"] },
+        { id: "spia_sadaqa", label: "Sadaqa régulière ?", type: "radio", options: ["Quotidienne","Hebdo","Mensuel","Occasionnelle","Rare"] },
+        { id: "spia_beaux_noms", label: "Beaux Noms d'Allah travaillés / médités", type: "textarea" },
+        { id: "spia_ressources", label: "Ressources spirituelles utilisées (lives, livres, podcasts)", type: "textarea" },
+      ]},
+      { title: "9. Évaluation symptômes globaux (subjectif)", items: [
+        { id: "sym_souffrance", label: "Niveau de souffrance global", type: "scale-0-10", labels: ["Aucune","Insupportable"] },
+        { id: "sym_anxiete", label: "Anxiété / angoisse", type: "scale-0-10", labels: ["Aucune","Constante"] },
+        { id: "sym_tristesse", label: "Tristesse / hozn", type: "scale-0-10", labels: ["Aucune","Profonde"] },
+        { id: "sym_colere", label: "Colère / irritabilité", type: "scale-0-10", labels: ["Aucune","Constante"] },
+        { id: "sym_espoir", label: "Espoir / rajâ'", type: "scale-0-10", labels: ["Aucun","Très présent"] },
+        { id: "sym_paix", label: "Paix intérieure (sakîna)", type: "scale-0-10", labels: ["Aucune","Profonde"] },
+        { id: "sym_estime", label: "Estime de soi", type: "scale-0-10", labels: ["Très basse","Très bonne"] },
+        { id: "sym_tawakkul", label: "Confiance en Allah (tawakkul)", type: "scale-0-10", labels: ["Difficile","Très forte"] },
+        { id: "sym_qunut", label: "Présence de désespoir (qunût) ?", type: "radio", options: ["Aucun","Passager","Présent","Envahissant — urgence"] },
+      ]},
+      { title: "10. Demande, objectifs & engagement", items: [
+        { id: "obj_maintenant", label: "Pourquoi maintenant ? (élément déclencheur)", type: "textarea" },
+        { id: "obj_essais", label: "Qu'avez-vous déjà essayé ? Qu'est-ce qui a aidé ?", type: "textarea" },
+        { id: "obj_principal", label: "Objectif principal de la thérapie", type: "textarea" },
+        { id: "obj_engagement", label: "Engagement personnel dans la démarche", type: "scale-0-10", labels: ["Très faible","Total"] },
+        { id: "obj_obstacles", label: "Obstacles potentiels (temps, finances, soutien…)", type: "textarea" },
+        { id: "obj_remarques", label: "Autres choses importantes à savoir", type: "textarea" },
+      ]},
+    ]
+  },
+
+  // ============ VOIE CHIFA (8 troubles) ============
+  "vc-waswas": {
+    id: "vc-waswas", title: "Waswas (TOC religieux)", icon: "🎯", category: "voie-chifa",
+    desc: "Échelle Voie Chifa — 10 items, score /100. Lié à la fiche A-01.",
+    duration: "3 min",
+    fiche_ref: "A-01",
+    type: "scoring", max: 100, cr_echelle_code: "VC-WASWAS",
+    items: [
+      "Je doute de ma pureté ou de mes ablutions de manière obsessionnelle",
+      "Je répète des actes rituels par crainte qu'ils soient invalides",
+      "J'ai des pensées blasphématoires intrusives qui me bouleversent",
+      "Je crains qu'Allah me déteste à cause de mes pensées",
+      "Je passe beaucoup de temps à vérifier mes obligations religieuses",
+      "Le doute religieux paralyse ma vie quotidienne",
+      "Je consulte de nombreux savants pour la même question sans être rassuré.e",
+      "Mes prières sont retardées par des doutes sur le wudu' ou la concentration",
+      "J'ai peur d'apostasier sans m'en rendre compte",
+      "Le waswas affecte mon sommeil ou mon humeur",
+    ],
+    niveaux: NIVEAUX_VC(100),
+  },
+  "vc-choc": {
+    id: "vc-choc", title: "Choc émotionnel", icon: "🎯", category: "voie-chifa",
+    desc: "Échelle Voie Chifa — 10 items. Lié à la fiche A-02.",
+    duration: "3 min", fiche_ref: "A-02", type: "scoring", max: 100, cr_echelle_code: "VC-CHOC",
+    items: [
+      "Je revis l'événement (images, pensées intrusives)",
+      "Je fais des cauchemars liés à l'événement",
+      "Je suis hypervigilant.e (peur permanente)",
+      "J'ai des sursauts exagérés",
+      "Je ressens une dissociation (sentiment d'irréalité)",
+      "Je me sens engourdi.e émotionnellement",
+      "Je dors mal depuis l'événement",
+      "Je m'isole socialement",
+      "J'ai du mal à me concentrer",
+      "Cela affecte ma foi et ma relation à Allah",
+    ],
+    niveaux: NIVEAUX_VC(100),
+  },
+  "vc-addictions": {
+    id: "vc-addictions", title: "Addictions", icon: "🎯", category: "voie-chifa",
+    desc: "Échelle Voie Chifa — 10 items. Lié à la fiche A-03.",
+    duration: "3 min", fiche_ref: "A-03", type: "scoring", max: 100, cr_echelle_code: "VC-ADDICT",
+    items: [
+      "Je consomme/utilise plus que je ne souhaite",
+      "Je ne peux plus contrôler ma consommation",
+      "J'ai des symptômes de manque (irritabilité, anxiété)",
+      "Je consacre beaucoup de temps à mon addiction",
+      "Mon addiction affecte ma vie pro/familiale",
+      "Je consomme/utilise pour fuir les émotions",
+      "J'ai essayé d'arrêter sans succès",
+      "Je cache ma consommation",
+      "Je culpabilise mais je continue",
+      "Mon addiction affecte ma pratique religieuse",
+    ],
+    niveaux: NIVEAUX_VC(100),
+  },
+  "vc-depression": {
+    id: "vc-depression", title: "Dépression", icon: "🎯", category: "voie-chifa",
+    desc: "Échelle Voie Chifa — 10 items. Lié à la fiche A-04.",
+    duration: "3 min", fiche_ref: "A-04", type: "scoring", max: 100, cr_echelle_code: "VC-DEPRESSION",
+    items: [
+      "Humeur triste / vide la majorité du temps",
+      "Anhédonie (plus de plaisir)",
+      "Fatigue, manque d'énergie",
+      "Troubles sommeil (insomnie ou hypersomnie)",
+      "Troubles appétit (perte ou gain)",
+      "Sentiment de dévalorisation, culpabilité",
+      "Difficultés concentration, indécision",
+      "Ralentissement / agitation",
+      "Pensées de mort, idées suicidaires",
+      "La foi semble distante, prière mécanique",
+    ],
+    niveaux: NIVEAUX_VC(100),
+    urgence_q: 8, // 0-indexed: Q9 = idées suicidaires (index 8)
+    urgence_seuil: 6,
+  },
+  "vc-angoisse": {
+    id: "vc-angoisse", title: "Angoisse / Anxiété", icon: "🎯", category: "voie-chifa",
+    desc: "Échelle Voie Chifa — 10 items. Lié à la fiche A-05.",
+    duration: "3 min", fiche_ref: "A-05", type: "scoring", max: 100, cr_echelle_code: "VC-ANGOISSE",
+    items: [
+      "Inquiétudes incontrôlables sur l'avenir",
+      "Tension permanente",
+      "Fatigue malgré le sommeil",
+      "Difficultés concentration",
+      "Irritabilité",
+      "Tensions musculaires (cervicales, dos)",
+      "Troubles sommeil",
+      "Somatique : palpitations, oppression",
+      "Évitement des situations anxiogènes",
+      "Le tawakkul me semble difficile",
+    ],
+    niveaux: NIVEAUX_VC(100),
+  },
+  "vc-tristesse": {
+    id: "vc-tristesse", title: "Tristesse / Huzn", icon: "🎯", category: "voie-chifa",
+    desc: "Échelle Voie Chifa — 10 items. Lié à la fiche F-03.",
+    duration: "3 min", fiche_ref: "F-03", type: "scoring", max: 100, cr_echelle_code: "VC-TRISTESSE",
+    items: [
+      "Tristesse profonde durable",
+      "Anhédonie",
+      "Vide / engourdissement",
+      "Pleurs sans cause",
+      "Pensées négatives sur soi",
+      "Isolement",
+      "Difficulté tâches simples",
+      "Fatigue après sommeil",
+      "« Tout ça ne sert à rien »",
+      "Affecte foi et relation à Allah",
+    ],
+    niveaux: NIVEAUX_VC(100),
+    urgence_q: 8, urgence_seuil: 6,
+  },
+  "vc-deuil": {
+    id: "vc-deuil", title: "Deuil compliqué", icon: "🎯", category: "voie-chifa",
+    desc: "Échelle Voie Chifa — 10 items. Lié à la fiche A-08.",
+    duration: "3 min", fiche_ref: "A-08", type: "scoring", max: 100, cr_echelle_code: "VC-DEUIL",
+    items: [
+      "La perte occupe encore l'esprit",
+      "Douleur vive à l'évocation",
+      "Difficulté à accepter le réel/définitif",
+      "Colère liée (envers soi/autres/Allah)",
+      "Culpabilité par rapport à la perte",
+      "Difficulté à se projeter",
+      "Difficulté à reparler de la personne/chose",
+      "Isolement (social, spirituel)",
+      "« Je ne devrais plus souffrir mais je souffre »",
+      "Modification foi et confiance en Allah",
+    ],
+    niveaux: NIVEAUX_VC(100),
+  },
+  "vc-foi": {
+    id: "vc-foi", title: "Faiblesse de foi / Futûr", icon: "🎯", category: "voie-chifa",
+    desc: "Échelle Voie Chifa — 10 items. Lié à la fiche G-01.",
+    duration: "3 min", fiche_ref: "G-01", type: "scoring", max: 100, cr_echelle_code: "VC-FOI",
+    items: [
+      "Pratique mécanique (5 prières mais sans goût)",
+      "Délaissement progressif des surérogatoires",
+      "Distance émotionnelle au Coran",
+      "Procrastination dans les actes d'adoration",
+      "Questionnements doctrinaux récurrents",
+      "Culpabilité sans amélioration",
+      "Pas/peu de larmes en prière, dhikr",
+      "Difficulté à ressentir Sa présence",
+      "Tahajjud, jeûnes surérogatoires délaissés",
+      "L'akhira semble lointaine, dunya envahit",
+    ],
+    niveaux: NIVEAUX_VC(100),
+  },
+
+  // ============ ÉCHELLES CLINIQUES ============
+  "phq9": {
+    id: "phq9", title: "PHQ-9 (dépression)", icon: "🏥", category: "clinique",
+    desc: "Patient Health Questionnaire — 9 items, score /27. Référence dépression.",
+    duration: "3 min", type: "scoring", max: 27, cr_echelle_code: "PHQ-9",
+    instruction: "Sur les 2 dernières semaines, à quelle fréquence avez-vous été gêné.e par :",
+    items: [
+      "Peu d'intérêt ou de plaisir à faire les choses",
+      "Sentiment de tristesse, déprime, désespoir",
+      "Difficulté à dormir ou trop dormir",
+      "Fatigue ou manque d'énergie",
+      "Manque d'appétit ou trop manger",
+      "Mauvaise image de soi, sentiment d'échec",
+      "Difficulté à se concentrer",
+      "Lenteur ou agitation perceptible par les autres",
+      "Pensées que vous seriez mieux mort.e ou de vous faire du mal",
+    ],
+    scale_max: 3,
+    scale_labels: ["Jamais", "Plusieurs jours", "Plus de la moitié des jours", "Presque tous les jours"],
+    niveaux: [
+      { seuil: 0, label: "🟢 Minimal", class: "normal" },
+      { seuil: 5, label: "🟢 Léger", class: "normal" },
+      { seuil: 10, label: "🟡 Modéré", class: "moderate" },
+      { seuil: 15, label: "🟠 Modérément sévère", class: "moderate" },
+      { seuil: 20, label: "🔴 Sévère", class: "severe" },
+    ],
+    urgence_q: 8, urgence_seuil: 1,
+  },
+  "gad7": {
+    id: "gad7", title: "GAD-7 (anxiété)", icon: "🏥", category: "clinique",
+    desc: "Generalized Anxiety Disorder — 7 items, score /21. Référence anxiété.",
+    duration: "2 min", type: "scoring", max: 21, cr_echelle_code: "GAD-7",
+    instruction: "Sur les 2 dernières semaines, à quelle fréquence avez-vous été gêné.e par :",
+    items: [
+      "Nervosité, anxiété, tension",
+      "Incapacité à arrêter ou contrôler les inquiétudes",
+      "Inquiétudes excessives à propos de différentes choses",
+      "Difficulté à se détendre",
+      "Agitation, difficulté à rester en place",
+      "Devenir facilement contrarié.e ou irritable",
+      "Avoir peur que quelque chose d'affreux puisse arriver",
+    ],
+    scale_max: 3,
+    scale_labels: ["Jamais", "Plusieurs jours", "Plus de la moitié des jours", "Presque tous les jours"],
+    niveaux: [
+      { seuil: 0, label: "🟢 Minimal", class: "normal" },
+      { seuil: 5, label: "🟢 Léger", class: "normal" },
+      { seuil: 10, label: "🟡 Modéré", class: "moderate" },
+      { seuil: 15, label: "🔴 Sévère", class: "severe" },
+    ],
+  },
+
+  // ============ STRESS / BURN-OUT (nouvelles) ============
+  "pss10": {
+    id: "pss10", title: "PSS-10 (stress perçu)", icon: "🏥", category: "clinique",
+    desc: "Perceived Stress Scale — 10 items, score /40. Référence stress perçu (lié à I-05).",
+    duration: "3 min", type: "scoring", max: 40, cr_echelle_code: "PSS-10",
+    instruction: "Sur le dernier mois, à quelle fréquence avez-vous :",
+    items: [
+      "Été contrarié.e à cause d'un événement imprévu",
+      "Senti que vous ne contrôliez pas les choses importantes de votre vie",
+      "Senti.e nerveux.se ou stressé.e",
+      "Géré avec succès les irritations quotidiennes (inverse)",
+      "Senti que vous faisiez face efficacement aux changements importants (inverse)",
+      "Senti.e confiant.e dans votre capacité à régler vos problèmes personnels (inverse)",
+      "Senti que les choses allaient comme vous le souhaitiez (inverse)",
+      "Trouvé que vous ne pouviez pas assumer toutes les choses à faire",
+      "Maîtrisé.e l'irritabilité de votre vie (inverse)",
+      "Senti que les difficultés s'accumulaient à un point insurmontable",
+    ],
+    scale_max: 4,
+    scale_labels: ["Jamais","Presque jamais","Parfois","Assez souvent","Très souvent"],
+    niveaux: [
+      { seuil: 0, label: "🟢 Stress faible", class: "normal" },
+      { seuil: 14, label: "🟡 Stress modéré", class: "moderate" },
+      { seuil: 27, label: "🔴 Stress élevé", class: "severe" },
+    ],
+  },
+
+  "mbi-court": {
+    id: "mbi-court", title: "MBI court (Burn-out)", icon: "🏥", category: "clinique",
+    desc: "Maslach Burnout Inventory version courte — 9 items × 3 axes. Référence burn-out (lié à I-01).",
+    duration: "3 min", type: "scoring", max: 54, cr_echelle_code: "MBI",
+    instruction: "À quelle fréquence ressentez-vous chaque énoncé concernant votre travail ?",
+    items: [
+      "Je me sens émotionnellement vidé.e par mon travail",
+      "Je me sens à bout à la fin de ma journée",
+      "Je me sens fatigué.e en me levant le matin face à une nouvelle journée de travail",
+      "Je traite certaines personnes (patientes/élèves/collègues) comme des objets impersonnels",
+      "Je suis devenu.e plus insensible aux gens depuis que j'ai ce travail",
+      "Je crains que ce travail ne m'endurcisse émotionnellement",
+      "J'accomplis beaucoup de choses qui en valent la peine dans ce travail (inverse)",
+      "Je peux comprendre facilement ce que mes patientes/élèves ressentent (inverse)",
+      "Je traite très efficacement les problèmes des personnes que j'accompagne (inverse)",
+    ],
+    scale_max: 6,
+    scale_labels: ["Jamais","Quelques fois/an","Une fois/mois","Quelques fois/mois","Une fois/sem","Quelques fois/sem","Tous les jours"],
+    niveaux: [
+      { seuil: 0, label: "🟢 Risque faible", class: "normal" },
+      { seuil: 18, label: "🟡 Risque modéré — vigilance", class: "moderate" },
+      { seuil: 30, label: "🔴 Score élevé — épuisement marqué. Point de vigilance : proposer un avis médical.", class: "severe" },
+    ],
+  },
+
+  "lsas-court": {
+    id: "lsas-court", title: "LSAS court (Phobie sociale)", icon: "🏥", category: "clinique",
+    desc: "Liebowitz Social Anxiety Scale version courte — 8 items × 2 (peur + évitement). Référence phobie sociale (A-10).",
+    duration: "5 min", type: "scoring", max: 48, cr_echelle_code: "LSAS",
+    instruction: "Pour chaque situation, indiquez votre niveau de peur (0 = aucune · 3 = sévère). Une situation peur ET évitement.",
+    items: [
+      "Parler en public devant un groupe",
+      "Aller à une fête",
+      "Manger en public (mariage, restaurant)",
+      "Prier en jamâ'a à la mosquée",
+      "Téléphoner à quelqu'un qu'on connaît peu",
+      "Croiser le regard / saluer quelqu'un de peu connu",
+      "Être au centre de l'attention",
+      "Donner son avis dans un groupe",
+    ],
+    scale_max: 3,
+    scale_labels: ["Aucune","Légère","Modérée","Sévère"],
+    niveaux: [
+      { seuil: 0, label: "🟢 Pas de phobie sociale", class: "normal" },
+      { seuil: 8, label: "🟡 Phobie sociale légère", class: "moderate" },
+      { seuil: 16, label: "🟠 Phobie sociale modérée", class: "moderate" },
+      { seuil: 24, label: "🔴 Phobie sociale sévère", class: "severe" },
+    ],
+  },
+
+  // ============ ENFANCE / ADO ============
+  "anamnese-tnd": {
+    id: "anamnese-tnd", title: "Anamnèse Educa-Typique (TND enfant)", icon: "👶", category: "enfance",
+    desc: "Anamnèse pour repérer signes de troubles des apprentissages / TND. Pour parents.",
+    duration: "20-30 min",
+    sections: [
+      { title: "1. Informations générales sur l'enfant", items: [
+        { id: "tnd_prenom", label: "Prénom (ou initiales)", type: "text" },
+        { id: "tnd_age", label: "Âge", type: "number" },
+        { id: "tnd_dn", label: "Date de naissance (JJ/MM/AAAA)", type: "text" },
+        { id: "tnd_classe", label: "Classe actuelle", type: "text" },
+        { id: "tnd_redoublement", label: "Redoublement / saut de classe ?", type: "radio", options: ["Non","Oui — redoublement","Oui — saut"] },
+        { id: "tnd_redoublement_detail", label: "Si oui, lequel et pourquoi", type: "textarea" },
+      ]},
+      { title: "2. Naissance & développement précoce", items: [
+        { id: "tnd_grossesse", label: "Grossesse (normale, complications, prématurité)", type: "textarea" },
+        { id: "tnd_accouchement", label: "Accouchement (terme, voie, complications)", type: "textarea" },
+        { id: "tnd_apgar", label: "Apgar / état néonatal connu ?", type: "text" },
+        { id: "tnd_acquisitions", label: "Acquisitions motrices (marche…) — âge", type: "text" },
+        { id: "tnd_langage", label: "Langage — premiers mots, premières phrases", type: "text" },
+        { id: "tnd_proprete", label: "Acquisition de la propreté — âge", type: "text" },
+      ]},
+      { title: "3. Scolarité", items: [
+        { id: "tnd_maternelle", label: "Maternelle — vécue comment ?", type: "textarea" },
+        { id: "tnd_primaire", label: "Primaire — points forts et difficultés", type: "textarea" },
+        { id: "tnd_lecture", label: "Apprentissage de la lecture", type: "radio", options: ["Fluide","Quelques difficultés","Difficultés importantes","Échec / blocage"] },
+        { id: "tnd_ecriture", label: "Écriture (graphie, fluidité)", type: "radio", options: ["Bon","Moyen","Difficile","Très difficile"] },
+        { id: "tnd_calcul", label: "Calcul / mathématiques", type: "radio", options: ["Bon","Moyen","Difficile","Très difficile"] },
+        { id: "tnd_attention", label: "Capacité d'attention en classe", type: "scale-0-10", labels: ["Très distraite","Très attentive"] },
+        { id: "tnd_pap", label: "PAP / PPS / aménagements en place ?", type: "textarea" },
+      ]},
+      { title: "4. Comportement & socialisation", items: [
+        { id: "tnd_humeur", label: "Humeur dominante", type: "radio", options: ["Joyeuse","Calme","Anxieuse","Irritable","Triste"] },
+        { id: "tnd_amis", label: "Amis / relations avec les pairs", type: "textarea" },
+        { id: "tnd_solitude", label: "Préfère la solitude ?", type: "radio", options: ["Non","Parfois","Souvent","Toujours"] },
+        { id: "tnd_opposition", label: "Opposition fréquente ?", type: "radio", options: ["Non","Parfois","Souvent","Toujours"] },
+        { id: "tnd_colères", label: "Crises de colère", type: "radio", options: ["Rares","Parfois","Fréquentes","Très fréquentes"] },
+        { id: "tnd_anxiete", label: "Anxiété visible (séparation, social, scolaire)", type: "textarea" },
+      ]},
+      { title: "5. Hygiène de vie", items: [
+        { id: "tnd_sommeil", label: "Sommeil — heures, qualité, cauchemars", type: "textarea" },
+        { id: "tnd_alim", label: "Alimentation — équilibre, sélectivité", type: "textarea" },
+        { id: "tnd_ecrans", label: "Écrans (heures par jour)", type: "number" },
+        { id: "tnd_sport", label: "Activité physique (sport, jeu extérieur)", type: "textarea" },
+      ]},
+      { title: "6. Antécédents médicaux & familiaux", items: [
+        { id: "tnd_pathos", label: "Pathologies / hospitalisations enfant", type: "textarea" },
+        { id: "tnd_traitements", label: "Traitements actuels", type: "textarea" },
+        { id: "tnd_famille_tnd", label: "ATCD familiaux TND (TDAH, autisme, dys, HPI…)", type: "textarea" },
+        { id: "tnd_bilans", label: "Bilans déjà réalisés (orthophonie, neuropsy, psychomot)", type: "textarea" },
+      ]},
+      { title: "7. Volet spirituel", items: [
+        { id: "tnd_spi_priere", label: "L'enfant prie-t-il ? À partir de quand ?", type: "textarea" },
+        { id: "tnd_spi_coran", label: "Mémorisation Coran / lecture", type: "textarea" },
+        { id: "tnd_spi_difficultes", label: "Difficultés liées à la pratique religieuse (concentration, motivation)", type: "textarea" },
+      ]},
+      { title: "8. Demande & objectifs", items: [
+        { id: "tnd_motif", label: "Motif principal de la consultation", type: "textarea" },
+        { id: "tnd_attente", label: "Qu'attendez-vous de cette anamnèse ?", type: "textarea" },
+        { id: "tnd_remarques", label: "Autres éléments à noter", type: "textarea" },
+      ]},
+    ]
+  },
+};
+
+// ============= STATE =============
+const STORAGE_KEY = "shifa_questionnaires_v1";
+let state = loadState();
+let currentId = null;
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { reponses: {} };
+    return JSON.parse(raw);
+  } catch(e) { return { reponses: {} }; }
+}
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  const el = document.getElementById("save-ind");
+  el.classList.add("visible");
+  clearTimeout(window._saveTimer);
+  window._saveTimer = setTimeout(() => el.classList.remove("visible"), 1500);
+}
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+// Each questionnaire entry indexed by ID gets a current draft (live values)
+function getDraft(qid) {
+  if (!state.reponses[qid]) {
+    state.reponses[qid] = { values: {}, patient: "", date: new Date().toISOString().slice(0,10), updated: Date.now() };
+  }
+  return state.reponses[qid];
+}
+
+// ============= SIDEBAR =============
+function renderSidebar() {
+  const buckets = { anamnese: "cat-anamnese", "voie-chifa": "cat-voie-chifa", clinique: "cat-clinique", enfance: "cat-enfance" };
+  Object.values(buckets).forEach(id => document.getElementById(id).innerHTML = "");
+  Object.values(QUESTIONNAIRES).forEach(q => {
+    const cont = document.getElementById(buckets[q.category]);
+    if (!cont) return;
+    const filled = state.reponses[q.id];
+    const status = filled ? `<span style="color:var(--success);font-size:10px;margin-left:5px">●</span>` : "";
+    const item = document.createElement("div");
+    item.className = "q-item" + (q.featured ? " featured" : "") + (currentId === q.id ? " active" : "");
+    item.dataset.qid = q.id;
+    item.innerHTML = `
+      <div><span class="q-icon">${q.icon}</span><span class="q-title">${escapeHtml(q.title)}</span>${status}</div>
+      <div class="q-desc">${escapeHtml(q.desc)} · ${q.duration || ""}</div>
+    `;
+    item.addEventListener("click", () => selectQ(q.id));
+    cont.appendChild(item);
+  });
+}
+
+function selectQ(qid) {
+  currentId = qid;
+  renderSidebar();
+  renderPanel();
+}
+
+// ============= PANEL =============
+function renderPanel() {
+  const panel = document.getElementById("panel");
+  if (!currentId) {
+    panel.innerHTML = `
+      <div class="empty">
+        <span class="icon">📋</span>
+        <h3>Hub Questionnaires SHIFA</h3>
+        <p>Tous les questionnaires Voie Chifa au même endroit : une <strong>anamnèse universelle</strong> pour toute nouvelle patiente, des <strong>questionnaires Voie Chifa</strong> orientés par trouble, des <strong>échelles cliniques</strong> de référence, et une <strong>anamnèse TND enfant</strong>.</p>
+        <p style="margin-top:10px"><strong>Pour commencer</strong> : clique sur un questionnaire dans la barre latérale gauche. Le plus courant : <em>📋 Anamnèse universelle Voie Chifa</em>.</p>
+      </div>`;
+    return;
+  }
+  const q = QUESTIONNAIRES[currentId];
+  if (!q) { currentId = null; renderPanel(); return; }
+  const draft = getDraft(currentId);
+
+  let bodyHtml = "";
+  if (q.sections) {
+    // Anamnèse with sections
+    bodyHtml = q.sections.map((sec, si) => `
+      <div class="qsection">
+        <h3>${escapeHtml(sec.title)}</h3>
+        ${sec.items.map((it, ii) => renderItem(q, it, draft.values[it.id])).join("")}
+      </div>
+    `).join("");
+  } else if (q.type === "scoring") {
+    const scaleMax = q.scale_max || 10;
+    const scaleLabels = q.scale_labels;
+    bodyHtml = `
+      <div class="qsection">
+        ${q.instruction ? `<div class="section-desc">${escapeHtml(q.instruction)}</div>` : '<div class="section-desc">Pour chaque item, indiquez votre score (' + (scaleMax === 10 ? "0 = pas du tout · 10 = constant" : "0 = jamais · " + scaleMax + " = presque toujours") + ').</div>'}
+        ${q.items.map((label, idx) => {
+          const val = draft.values["q"+idx];
+          return `<div class="qitem">
+            <span class="qlabel"><span class="num">${idx+1}.</span>${escapeHtml(label)}</span>
+            ${scaleMax === 10 ? renderScale10(idx, val) : renderScaleN(idx, val, scaleMax, scaleLabels)}
+          </div>`;
+        }).join("")}
+      </div>
+      <div id="score-result"></div>
+    `;
+  }
+
+  panel.innerHTML = `
+    <div class="qform">
+      <div class="qform-header">
+        <div>
+          <h2>${q.icon} ${escapeHtml(q.title)}</h2>
+          <div class="desc">${escapeHtml(q.desc)}</div>
+          <div class="meta">⏱ Durée estimée : ${q.duration || "—"}${q.fiche_ref ? " · Lié à la fiche " + q.fiche_ref : ""}</div>
+        </div>
+        <div class="qform-actions">
+          <button class="btn btn-secondary" id="btn-export-md">📥 Markdown</button>
+          <button class="btn btn-secondary" id="btn-export-word">📝 Word</button>
+          <button class="btn btn-secondary" onclick="window.print()">🖨 Imprimer</button>
+          <button class="btn btn-success" id="btn-save-to-cr">💾 Vers CR Patientes</button>
+          <button class="btn btn-gold" id="btn-send-patient">📤 Version patiente</button>
+          <button class="btn btn-secondary" id="btn-reset">↺ Réinitialiser</button>
+        </div>
+      </div>
+
+      <div class="patient-link">
+        <label>Patiente (initiales) :</label>
+        <input type="text" id="patient-input" placeholder="F.M." value="${escapeHtml(draft.patient || '')}">
+        <label>Date :</label>
+        <input type="date" id="date-input" value="${escapeHtml(draft.date || '')}">
+        <span class="date">Auto-sauvegarde activée ✓</span>
+      </div>
+
+      ${bodyHtml}
+    </div>
+  `;
+
+  // Wire patient/date
+  document.getElementById("patient-input").addEventListener("blur", (e) => { draft.patient = e.target.value; draft.updated = Date.now(); saveState(); });
+  document.getElementById("date-input").addEventListener("change", (e) => { draft.date = e.target.value; saveState(); });
+
+  // Wire items (sections-based)
+  if (q.sections) {
+    q.sections.forEach(sec => sec.items.forEach(it => wireItem(q, it, draft)));
+  } else if (q.type === "scoring") {
+    wireScoring(q, draft);
+  }
+
+  // Wire buttons
+  document.getElementById("btn-export-md").addEventListener("click", () => exportMd(q, draft));
+  document.getElementById("btn-export-word").addEventListener("click", () => exportWord(q, draft));
+  document.getElementById("btn-send-patient").addEventListener("click", () => generatePatientVersion(q));
+  document.getElementById("btn-save-to-cr").addEventListener("click", () => saveToCR(q, draft));
+  document.getElementById("btn-reset").addEventListener("click", () => {
+    if (!confirm("Effacer toutes les réponses de ce questionnaire ?")) return;
+    delete state.reponses[currentId];
+    saveState();
+    renderSidebar();
+    renderPanel();
+  });
+
+  if (q.type === "scoring") updateScoreDisplay(q, draft);
+}
+
+function renderItem(q, it, val) {
+  const v = val == null ? "" : val;
+  switch (it.type) {
+    case "text":
+      return `<div class="qitem"><span class="qlabel">${escapeHtml(it.label)}</span><input type="text" data-iid="${it.id}" value="${escapeHtml(v)}" placeholder="${escapeHtml(it.placeholder || '')}"></div>`;
+    case "number":
+      return `<div class="qitem"><span class="qlabel">${escapeHtml(it.label)}</span><input type="number" data-iid="${it.id}" value="${escapeHtml(v)}"></div>`;
+    case "textarea":
+      return `<div class="qitem"><span class="qlabel">${escapeHtml(it.label)}</span><textarea data-iid="${it.id}">${escapeHtml(v)}</textarea></div>`;
+    case "radio":
+      return `<div class="qitem"><span class="qlabel">${escapeHtml(it.label)}</span><div class="qradio" data-iid="${it.id}">${it.options.map(o => `<div class="radio-opt${v === o ? ' selected' : ''}" data-val="${escapeHtml(o)}">${escapeHtml(o)}</div>`).join("")}</div></div>`;
+    case "scale-0-10": {
+      const labels = it.labels || ["0","10"];
+      return `<div class="qitem"><span class="qlabel">${escapeHtml(it.label)}</span>
+        <div class="scale-0-10" data-iid="${it.id}">${Array.from({length:11}, (_,i) => `<div class="scale-btn${v === i ? ' selected' : ''}" data-value="${i}">${i}</div>`).join("")}</div>
+        <div class="scale-labels"><span>${escapeHtml(labels[0])}</span><span>${escapeHtml(labels[1])}</span></div>
+      </div>`;
+    }
+    default:
+      return "";
+  }
+}
+
+function wireItem(q, it, draft) {
+  if (it.type === "text" || it.type === "textarea" || it.type === "number") {
+    const el = document.querySelector(`[data-iid="${it.id}"]`);
+    if (!el) return;
+    el.addEventListener("blur", () => { draft.values[it.id] = el.value; draft.updated = Date.now(); saveState(); });
+  } else if (it.type === "radio") {
+    const cont = document.querySelector(`.qradio[data-iid="${it.id}"]`);
+    if (!cont) return;
+    cont.querySelectorAll(".radio-opt").forEach(opt => {
+      opt.addEventListener("click", () => {
+        cont.querySelectorAll(".radio-opt").forEach(o => o.classList.remove("selected"));
+        opt.classList.add("selected");
+        draft.values[it.id] = opt.dataset.val;
+        draft.updated = Date.now();
+        saveState();
+      });
+    });
+  } else if (it.type === "scale-0-10") {
+    const cont = document.querySelector(`.scale-0-10[data-iid="${it.id}"]`);
+    if (!cont) return;
+    cont.querySelectorAll(".scale-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        cont.querySelectorAll(".scale-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        draft.values[it.id] = parseInt(btn.dataset.value);
+        draft.updated = Date.now();
+        saveState();
+      });
+    });
+  }
+}
+
+function renderScale10(idx, val) {
+  return `<div class="scale-0-10" data-qidx="${idx}">${Array.from({length:11}, (_,i) => `<div class="scale-btn${val === i ? ' selected' : ''}" data-value="${i}">${i}</div>`).join("")}</div>
+    <div class="scale-labels"><span>0 — Jamais / pas du tout</span><span>10 — Constant / extrême</span></div>`;
+}
+function renderScaleN(idx, val, max, labels) {
+  return `<div class="qradio" data-qidx="${idx}">${labels.map((lab, i) => `<div class="radio-opt${val === i ? ' selected' : ''}" data-value="${i}">${escapeHtml(lab)}</div>`).join("")}</div>`;
+}
+
+function wireScoring(q, draft) {
+  const scaleMax = q.scale_max || 10;
+  document.querySelectorAll(`[data-qidx]`).forEach(cont => {
+    const idx = parseInt(cont.dataset.qidx);
+    const btnClass = scaleMax === 10 ? ".scale-btn" : ".radio-opt";
+    cont.querySelectorAll(btnClass).forEach(btn => {
+      btn.addEventListener("click", () => {
+        cont.querySelectorAll(btnClass).forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        draft.values["q"+idx] = parseInt(btn.dataset.value);
+        draft.updated = Date.now();
+        saveState();
+        updateScoreDisplay(q, draft);
+      });
+    });
+  });
+}
+
+function updateScoreDisplay(q, draft) {
+  const el = document.getElementById("score-result");
+  if (!el) return;
+  const scores = q.items.map((_, i) => draft.values["q"+i]).filter(v => v != null);
+  if (scores.length === 0) {
+    el.innerHTML = "";
+    return;
+  }
+  const total = scores.reduce((s,v) => s + v, 0);
+  let niveau = q.niveaux[0];
+  for (let i = q.niveaux.length - 1; i >= 0; i--) {
+    if (total >= q.niveaux[i].seuil) { niveau = q.niveaux[i]; break; }
+  }
+  const filled = scores.length;
+  const totalQ = q.items.length;
+
+  let urgenceHtml = "";
+  if (q.urgence_q != null && draft.values["q"+q.urgence_q] != null && draft.values["q"+q.urgence_q] >= q.urgence_seuil) {
+    urgenceHtml = `<div class="score-warn">⚠️ Réponse élevée à la question ${q.urgence_q+1} (idées suicidaires / autodestructrices) — <strong>orientation psychiatrique urgente</strong>. Numéro national prévention suicide : <strong>3114</strong>.</div>`;
+  }
+
+  el.innerHTML = `
+    <div class="score-box">
+      <div class="score-value">${total}<span class="score-max">/${q.max}</span></div>
+      <div class="score-level ${niveau.class}">${niveau.label}</div>
+      <div class="score-info">${filled}/${totalQ} questions complétées</div>
+      ${urgenceHtml}
+    </div>
+  `;
+}
+
+// ============= EXPORT MD =============
+function questionnaireToMd(q, draft) {
+  let md = `# ${q.title}\n\n`;
+  if (draft.patient) md += `**Patiente** : ${draft.patient}  \n`;
+  md += `**Date** : ${draft.date || "—"}  \n`;
+  md += `**Description** : ${q.desc}\n\n`;
+  if (q.sections) {
+    q.sections.forEach(sec => {
+      md += `## ${sec.title}\n\n`;
+      sec.items.forEach(it => {
+        const v = draft.values[it.id];
+        md += `**${it.label}** : ${v == null || v === "" ? "_—_" : v}\n\n`;
+      });
+    });
+  } else if (q.type === "scoring") {
+    md += `## Réponses\n\n`;
+    q.items.forEach((label, i) => {
+      const v = draft.values["q"+i];
+      md += `${i+1}. ${label} → **${v == null ? "—" : v}**\n`;
+    });
+    const scores = q.items.map((_, i) => draft.values["q"+i]).filter(v => v != null);
+    if (scores.length > 0) {
+      const total = scores.reduce((s,v) => s + v, 0);
+      let niveau = q.niveaux[0];
+      for (let i = q.niveaux.length - 1; i >= 0; i--) {
+        if (total >= q.niveaux[i].seuil) { niveau = q.niveaux[i]; break; }
+      }
+      md += `\n## Score\n\n**Total : ${total} / ${q.max}**  \n**Niveau : ${niveau.label}**\n`;
+    }
+  }
+  md += `\n---\n*Questionnaire SHIFA · Cabinet Voie Chifa · Méthode RAHMA4*`;
+  return md;
+}
+
+function downloadFile(filename, content, mime = "text/plain;charset=utf-8") {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function exportMd(q, draft) {
+  const md = questionnaireToMd(q, draft);
+  const patient = (draft.patient || "anon").replace(/[^a-zA-Z0-9]/g, "");
+  const filename = `Questionnaire_${q.id}_${patient}_${draft.date}.md`;
+  downloadFile(filename, md);
+}
+
+// ============= EXPORT WORD =============
+function questionnaireToWordHtml(q, draft) {
+  const escape = escapeHtml;
+  let body = `<h1>${escape(q.title)}</h1>
+    <div class="meta">
+      ${draft.patient ? `<div><strong>Patiente :</strong> ${escape(draft.patient)}</div>` : ''}
+      <div><strong>Date :</strong> ${escape(draft.date || '—')}</div>
+      <div><strong>Description :</strong> ${escape(q.desc)}</div>
+    </div>`;
+  if (q.sections) {
+    q.sections.forEach(sec => {
+      body += `<h2>${escape(sec.title)}</h2>`;
+      sec.items.forEach(it => {
+        const v = draft.values[it.id];
+        body += `<div class="qa"><div class="q"><strong>${escape(it.label)}</strong></div><div class="a">${v == null || v === "" ? "<em>—</em>" : escape(String(v))}</div></div>`;
+      });
+    });
+  } else if (q.type === "scoring") {
+    body += `<h2>Réponses</h2><ol>`;
+    q.items.forEach((label, i) => {
+      const v = draft.values["q"+i];
+      body += `<li>${escape(label)} → <strong>${v == null ? "—" : v}</strong></li>`;
+    });
+    body += `</ol>`;
+    const scores = q.items.map((_, i) => draft.values["q"+i]).filter(v => v != null);
+    if (scores.length > 0) {
+      const total = scores.reduce((s,v) => s + v, 0);
+      let niveau = q.niveaux[0];
+      for (let i = q.niveaux.length - 1; i >= 0; i--) {
+        if (total >= q.niveaux[i].seuil) { niveau = q.niveaux[i]; break; }
+      }
+      body += `<h2>Score</h2><div class="score">Total : <strong>${total} / ${q.max}</strong> — Niveau : <strong>${escape(niveau.label)}</strong></div>`;
+    }
+  }
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="utf-8"><title>${escape(q.title)}</title>
+<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->
+<style>
+@page WordSection1 { size: 21cm 29.7cm; margin: 2.5cm; }
+div.WordSection1 { page: WordSection1; }
+body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.5; color: #1A1A1A; }
+h1 { color: #1F3A5F; font-size: 20pt; border-bottom: 3pt solid #C9A961; padding-bottom: 6pt; }
+h2 { color: #1F3A5F; font-size: 14pt; margin-top: 16pt; border-bottom: 1pt solid #C9A961; padding-bottom: 4pt; }
+.meta { background: #F5EBD0; padding: 10pt 14pt; border-left: 3pt solid #C9A961; margin: 10pt 0 14pt; font-size: 10pt; }
+.qa { margin: 8pt 0; padding-left: 8pt; border-left: 2pt solid #DDD; }
+.qa .q { font-weight: bold; color: #1F3A5F; }
+.qa .a { color: #333; margin-top: 2pt; }
+.score { background: #F5EBD0; padding: 12pt 16pt; border-radius: 4pt; font-size: 13pt; margin: 14pt 0; }
+ol { padding-left: 20pt; }
+li { margin: 3pt 0; }
+</style></head>
+<body><div class="WordSection1">${body}<div style="margin-top:24pt;border-top:1pt solid #DDD;padding-top:8pt;color:#666;font-size:9pt;font-style:italic;text-align:center">Questionnaire SHIFA · Cabinet Voie Chifa · Méthode RAHMA4</div></div></body></html>`;
+  return html;
+}
+
+function exportWord(q, draft) {
+  const html = questionnaireToWordHtml(q, draft);
+  const patient = (draft.patient || "anon").replace(/[^a-zA-Z0-9]/g, "");
+  const filename = `Questionnaire_${q.id}_${patient}_${draft.date}.doc`;
+  downloadFile(filename, html, "application/msword");
+}
+
+// ============= VERSION PATIENTE (envoyable) =============
+function generatePatientVersion(q) {
+  // Generate a self-contained HTML file that the patient can fill and return
+  const html = buildPatientFormHtml(q);
+  const filename = `Questionnaire_PATIENTE_${q.id}.html`;
+  downloadFile(filename, html, "text/html");
+  // Show info to the user
+  showModal({
+    title: "📤 Version patiente générée",
+    html: `<p>Un fichier <strong>${escapeHtml(filename)}</strong> vient d'être téléchargé.</p>
+      <p>Envoie-le à ta patiente par <strong>email</strong> ou <strong>WhatsApp</strong> (clic droit sur le fichier dans Téléchargements → Envoyer → ou pièce jointe email).</p>
+      <p>Ta patiente ouvre le fichier dans son navigateur, remplit le questionnaire, et à la fin :</p>
+      <ul style="margin-left:18px;font-size:12px;color:var(--text-soft);line-height:1.7">
+        <li>Voit son score (si questionnaire de scoring)</li>
+        <li>Peut <strong>imprimer / sauver en PDF</strong> ses réponses</li>
+        <li>Peut <strong>copier-coller le résultat texte</strong> pour te l'envoyer par WhatsApp/email</li>
+      </ul>
+      <p style="margin-top:8px;font-size:11px;font-style:italic;color:var(--text-soft)">Le fichier est 100% autonome — ta patiente n'a besoin de rien d'autre que d'un navigateur (Chrome, Edge, Safari…) pour l'ouvrir.</p>`,
+  });
+}
+
+function buildPatientFormHtml(q) {
+  const qJson = JSON.stringify(q).replace(/<\/script>/g, "<\\/script>");
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>${escapeHtml(q.title)} — Voie Chifa</title>
+<style>
+:root{--gold:#C9A961;--gold-light:#F5EBD0;--gold-dark:#A8893F;--navy:#1F3A5F;--navy-light:#E8EEF5;--bg:#FAFAF7;--text:#1A1A1A;--text-soft:#555;--line:#DDD;--success:#4A9D5F;--warn:#D4A437;--danger:#B23A48}
+*{box-sizing:border-box;margin:0;padding:0;font-family:inherit}body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;font-size:14px;padding:0}
+.cover{background:linear-gradient(135deg,var(--navy)0%,#2A4A7A 100%);color:white;padding:40px 24px;text-align:center;border-bottom:4px solid var(--gold)}
+.cover .arabic{font-size:42px;color:var(--gold);margin-bottom:8px}
+.cover h1{font-size:26px;font-weight:700}.cover .subtitle{font-size:13px;color:var(--gold-light);font-style:italic;margin-top:4px}
+.container{max-width:780px;margin:0 auto;padding:30px 24px 60px}
+.intro{background:white;padding:20px 24px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-bottom:24px;border-left:4px solid var(--gold)}
+.intro h2{color:var(--navy);font-size:18px;margin-bottom:8px}.intro p{font-size:13px;color:var(--text-soft);line-height:1.6;margin-bottom:6px}
+.field{background:white;padding:14px 18px;border-radius:6px;box-shadow:0 1px 2px rgba(0,0,0,0.04);margin-bottom:10px}
+.field label{font-weight:500;font-size:13px;display:block;margin-bottom:8px}
+.field label .num{color:var(--gold-dark);font-weight:700;margin-right:6px}
+.field input,.field textarea,.field select{width:100%;padding:8px 11px;border:1px solid var(--line);border-radius:4px;font-size:13px;font-family:inherit}
+.field textarea{min-height:60px;resize:vertical}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-light)}
+.scale{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;margin-top:6px}
+.scale .b{background:white;border:1.5px solid var(--line);padding:8px 4px;border-radius:4px;cursor:pointer;text-align:center;font-size:13px;font-weight:600}
+.scale .b:hover{border-color:var(--gold)}
+.scale .b.sel{background:var(--gold);color:white;border-color:var(--gold-dark)}
+.scale-l{display:flex;justify-content:space-between;font-size:10px;color:var(--text-soft);margin-top:4px;padding:0 4px}
+.radio{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.radio .o{background:white;border:1.5px solid var(--line);padding:7px 14px;border-radius:16px;cursor:pointer;font-size:13px}
+.radio .o:hover{border-color:var(--gold)}.radio .o.sel{background:var(--gold);color:white;border-color:var(--gold-dark)}
+.section{background:linear-gradient(135deg,var(--gold-light)0%,white 50%);padding:14px 18px;border-radius:6px 6px 0 0;margin:24px 0 0;border-left:4px solid var(--gold)}
+.section h3{color:var(--navy);font-size:15px}
+.actions{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.btn{background:var(--gold);color:white;border:none;padding:11px 22px;border-radius:5px;font-size:13px;cursor:pointer;font-weight:600}
+.btn:hover{background:var(--gold-dark)}.btn.sec{background:white;color:var(--navy);border:1px solid var(--line)}.btn.sec:hover{background:var(--navy-light)}
+.score{background:linear-gradient(135deg,var(--gold-light)0%,white 100%);border:2px solid var(--gold);border-radius:8px;padding:24px;text-align:center;margin:24px 0}
+.score .v{font-size:48px;font-weight:800;color:var(--navy)}.score .l{font-size:18px;font-weight:700;margin-top:8px}
+.score .l.normal{color:var(--success)}.score .l.moderate{color:var(--warn)}.score .l.severe{color:var(--danger)}
+.warn{background:#FBE6E9;border:2px solid var(--danger);color:var(--danger);padding:14px 18px;border-radius:6px;margin-top:14px;font-size:13px;font-weight:600;text-align:center}
+.result-text{background:#F5F5F0;padding:14px 18px;border-radius:6px;border:1px solid var(--line);margin-top:14px;font-family:monospace;font-size:11px;white-space:pre-wrap;max-height:300px;overflow-y:auto}
+@media print{.actions,.cover{display:none}}
+</style></head>
+<body>
+<div class="cover">
+<div class="arabic">شفاء</div>
+<h1>${escapeHtml(q.title)}</h1>
+<div class="subtitle">Cabinet Voie Chifa · Méthode RAHMA4</div>
+</div>
+<div class="container">
+<div class="intro">
+<h2>👋 Bienvenue</h2>
+<p>Votre praticienne vous a envoyé ce questionnaire à remplir avant votre prochaine séance.</p>
+<p><strong>Prenez votre temps</strong> — ${escapeHtml(q.duration || '15-30 min')}. Vos réponses sont 100% locales (rien n'est envoyé sur internet).</p>
+<p>Quand vous avez fini, cliquez sur <strong>Voir mes réponses</strong> en bas, puis <strong>copiez-collez le texte</strong> à votre praticienne par email ou WhatsApp.</p>
+</div>
+<div class="field"><label>Vos initiales</label><input type="text" id="patient" placeholder="F.M."></div>
+<div class="field"><label>Date de remplissage</label><input type="date" id="date" value="${new Date().toISOString().slice(0,10)}"></div>
+<div id="form"></div>
+<div id="score-area"></div>
+<div class="actions">
+<button class="btn" id="see">📄 Voir mes réponses</button>
+<button class="btn sec" onclick="window.print()">🖨 Imprimer</button>
+</div>
+<div id="result"></div>
+</div>
+<script>
+const Q=${qJson};
+const values={};
+function r(html){const t=document.createElement('div');t.innerHTML=html;return t.firstElementChild}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+const form=document.getElementById('form');
+if(Q.sections){
+  Q.sections.forEach(sec=>{
+    form.appendChild(r('<div class="section"><h3>'+esc(sec.title)+'</h3></div>'));
+    sec.items.forEach(it=>renderItem(it));
+  });
+}else if(Q.type==='scoring'){
+  if(Q.instruction)form.appendChild(r('<p style="font-style:italic;color:var(--text-soft);margin:12px 0">'+esc(Q.instruction)+'</p>'));
+  Q.items.forEach((label,i)=>renderScoringItem(label,i));
+}
+function renderItem(it){
+  const w=document.createElement('div');w.className='field';
+  const lab=document.createElement('label');lab.textContent=it.label;w.appendChild(lab);
+  if(it.type==='text'||it.type==='number'){
+    const i=document.createElement('input');i.type=it.type;
+    if(it.placeholder)i.placeholder=it.placeholder;
+    i.oninput=()=>{values[it.id]=i.value};
+    w.appendChild(i);
+  }else if(it.type==='textarea'){
+    const i=document.createElement('textarea');i.oninput=()=>{values[it.id]=i.value};w.appendChild(i);
+  }else if(it.type==='radio'){
+    const c=document.createElement('div');c.className='radio';
+    it.options.forEach(o=>{
+      const b=document.createElement('div');b.className='o';b.textContent=o;
+      b.onclick=()=>{c.querySelectorAll('.o').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');values[it.id]=o};
+      c.appendChild(b);
+    });w.appendChild(c);
+  }else if(it.type==='scale-0-10'){
+    const c=document.createElement('div');c.className='scale';
+    for(let i=0;i<=10;i++){
+      const b=document.createElement('div');b.className='b';b.textContent=i;
+      b.onclick=()=>{c.querySelectorAll('.b').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');values[it.id]=i;updateScore()};
+      c.appendChild(b);
+    }
+    w.appendChild(c);
+    const l=document.createElement('div');l.className='scale-l';
+    l.innerHTML='<span>'+esc((it.labels||['0'])[0])+'</span><span>'+esc((it.labels||['','10'])[1])+'</span>';
+    w.appendChild(l);
+  }
+  form.appendChild(w);
+}
+function renderScoringItem(label,i){
+  const w=document.createElement('div');w.className='field';
+  const lab=document.createElement('label');lab.innerHTML='<span class="num">'+(i+1)+'.</span>'+esc(label);w.appendChild(lab);
+  const scaleMax=Q.scale_max||10;
+  if(scaleMax===10){
+    const c=document.createElement('div');c.className='scale';
+    for(let n=0;n<=10;n++){
+      const b=document.createElement('div');b.className='b';b.textContent=n;
+      b.onclick=()=>{c.querySelectorAll('.b').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');values['q'+i]=n;updateScore()};
+      c.appendChild(b);
+    }
+    w.appendChild(c);
+    const l=document.createElement('div');l.className='scale-l';l.innerHTML='<span>0 — Jamais</span><span>10 — Constant</span>';w.appendChild(l);
+  }else{
+    const c=document.createElement('div');c.className='radio';
+    (Q.scale_labels||[]).forEach((lab,n)=>{
+      const b=document.createElement('div');b.className='o';b.textContent=lab;
+      b.onclick=()=>{c.querySelectorAll('.o').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');values['q'+i]=n;updateScore()};
+      c.appendChild(b);
+    });
+    w.appendChild(c);
+  }
+  form.appendChild(w);
+}
+function updateScore(){
+  if(Q.type!=='scoring')return;
+  const sa=document.getElementById('score-area');
+  const arr=Q.items.map((_,i)=>values['q'+i]).filter(v=>v!=null);
+  if(arr.length===0){sa.innerHTML='';return}
+  const total=arr.reduce((s,v)=>s+v,0);
+  let niv=Q.niveaux[0];
+  for(let i=Q.niveaux.length-1;i>=0;i--)if(total>=Q.niveaux[i].seuil){niv=Q.niveaux[i];break}
+  let w='';
+  if(Q.urgence_q!=null&&values['q'+Q.urgence_q]!=null&&values['q'+Q.urgence_q]>=Q.urgence_seuil){
+    w='<div class="warn">⚠️ Vos réponses indiquent une situation préoccupante. Si vous avez des pensées de vous faire du mal, contactez immédiatement le <strong>3114</strong> (Numéro national prévention suicide, 24h/24, gratuit, anonyme).</div>';
+  }
+  sa.innerHTML='<div class="score"><div class="v">'+total+'<span style="font-size:22px;color:var(--text-soft)">/'+Q.max+'</span></div><div class="l '+niv.class+'">'+niv.label+'</div><div style="font-size:11px;color:var(--text-soft);margin-top:6px">'+arr.length+'/'+Q.items.length+' questions complétées</div></div>'+w;
+}
+document.getElementById('see').onclick=()=>{
+  let txt='QUESTIONNAIRE : '+Q.title+'\\n';
+  txt+='Patiente : '+(document.getElementById('patient').value||'—')+'\\n';
+  txt+='Date : '+document.getElementById('date').value+'\\n\\n';
+  if(Q.sections){
+    Q.sections.forEach(sec=>{
+      txt+='--- '+sec.title+' ---\\n';
+      sec.items.forEach(it=>{txt+=it.label+' : '+(values[it.id]==null?'—':values[it.id])+'\\n'});
+      txt+='\\n';
+    });
+  }else if(Q.type==='scoring'){
+    Q.items.forEach((label,i)=>{txt+=(i+1)+'. '+label+' → '+(values['q'+i]==null?'—':values['q'+i])+'\\n'});
+    const arr=Q.items.map((_,i)=>values['q'+i]).filter(v=>v!=null);
+    if(arr.length>0){
+      const total=arr.reduce((s,v)=>s+v,0);
+      let niv=Q.niveaux[0];
+      for(let i=Q.niveaux.length-1;i>=0;i--)if(total>=Q.niveaux[i].seuil){niv=Q.niveaux[i];break}
+      txt+='\\nSCORE TOTAL : '+total+' / '+Q.max+'\\nNIVEAU : '+niv.label;
+    }
+  }
+  const d=document.getElementById('result');
+  d.innerHTML='<div class="intro" style="border-left-color:var(--success);margin-top:24px"><h2>✅ Vos réponses</h2><p>Copiez-collez le texte ci-dessous et envoyez-le à votre praticienne par <strong>email</strong> ou <strong>WhatsApp</strong>.</p><div class="result-text" id="rt">'+esc(txt)+'</div><button class="btn" style="margin-top:10px" onclick="navigator.clipboard.writeText(document.getElementById(\\'rt\\').textContent).then(()=>alert(\\'Copié dans le presse-papier !\\'))">📋 Copier dans le presse-papier</button></div>';
+  d.scrollIntoView({behavior:'smooth'});
+};
+<\/script>
+</body></html>`;
+}
+
+// ============= INTÉGRATION CR PATIENTES =============
+const CR_STORAGE_KEY = "shifa_cr_data_v1";
+
+function loadCRData() {
+  try {
+    const raw = localStorage.getItem(CR_STORAGE_KEY);
+    if (!raw) return { patientes: [] };
+    return JSON.parse(raw);
+  } catch(e) { return { patientes: [] }; }
+}
+function saveCRData(data) {
+  localStorage.setItem(CR_STORAGE_KEY, JSON.stringify(data));
+}
+function crUid() { return "id-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7); }
+
+function buildEmptyCR(seance_num) {
+  return {
+    id: crUid(),
+    created: new Date().toISOString(),
+    date: new Date().toISOString().slice(0, 10),
+    seance_num: seance_num,
+    duree: "",
+    codes_shifa: [],
+    rahma_phase: "",
+    motif: "",
+    anamnese: "",
+    hypotheses: "",
+    echelles: [],
+    protocole: "",
+    devoirs: "",
+    prochain: "",
+    notes_privees: "",
+  };
+}
+
+function saveToCR(q, draft) {
+  // Validate patient
+  const patientInitials = (draft.patient || "").trim();
+  if (!patientInitials) {
+    showModal({
+      title: "⚠️ Initiales manquantes",
+      html: `<p>Renseigne les <strong>initiales de la patiente</strong> en haut du questionnaire avant d'enregistrer dans CR Patientes.</p>`,
+    });
+    return;
+  }
+
+  // Load CR data
+  const crData = loadCRData();
+
+  // Find patient by initials (case insensitive)
+  let patient = crData.patientes.find(p => p.initiales.trim().toLowerCase() === patientInitials.toLowerCase());
+
+  if (q.type === "scoring") {
+    saveScoringToCR(q, draft, crData, patient, patientInitials);
+  } else {
+    saveAnamneseToCR(q, draft, crData, patient, patientInitials);
+  }
+}
+
+function saveScoringToCR(q, draft, crData, patient, patientInitials) {
+  if (!q.cr_echelle_code) {
+    showModal({
+      title: "⚠️ Mapping manquant",
+      html: `<p>Ce questionnaire n'a pas de code d'échelle compatible avec CR Patientes.</p>`,
+    });
+    return;
+  }
+  const scores = q.items.map((_, i) => draft.values["q"+i]).filter(v => v != null);
+  if (scores.length === 0) {
+    showModal({
+      title: "⚠️ Aucune réponse",
+      html: `<p>Aucune question répondue. Complète au moins une question pour calculer le score.</p>`,
+    });
+    return;
+  }
+  const total = scores.reduce((s,v) => s + v, 0);
+
+  // Create patient if missing
+  if (!patient) {
+    if (!confirm(`Patiente "${patientInitials}" non trouvée dans CR Patientes.\n\nCréer la patiente ET un nouveau CR avec ce score ?`)) return;
+    patient = {
+      id: crUid(),
+      initiales: patientInitials,
+      nom_complet: "",
+      notes: "",
+      created: new Date().toISOString(),
+      crs: [],
+    };
+    crData.patientes.push(patient);
+  }
+
+  // Determine target CR
+  let cr;
+  if (patient.crs && patient.crs.length > 0) {
+    const lastCr = patient.crs[patient.crs.length - 1];
+    const target = confirm(
+      `Patiente "${patient.initiales}" trouvée (${patient.crs.length} CR existants).\n\n` +
+      `OK = ajouter le score au DERNIER CR (Séance ${lastCr.seance_num} du ${lastCr.date}).\n` +
+      `Annuler = créer un NOUVEAU CR pour cette évaluation.`
+    );
+    if (target) {
+      cr = lastCr;
+    } else {
+      cr = buildEmptyCR(patient.crs.length + 1);
+      patient.crs.push(cr);
+    }
+  } else {
+    cr = buildEmptyCR(1);
+    patient.crs.push(cr);
+  }
+
+  // Add or replace échelle entry
+  if (!cr.echelles) cr.echelles = [];
+  cr.echelles = cr.echelles.filter(e => e.code !== q.cr_echelle_code);
+  cr.echelles.push({ code: q.cr_echelle_code, score: total });
+
+  saveCRData(crData);
+
+  // Compute niveau for display
+  let niveau = q.niveaux[0];
+  for (let i = q.niveaux.length - 1; i >= 0; i--) {
+    if (total >= q.niveaux[i].seuil) { niveau = q.niveaux[i]; break; }
+  }
+
+  showModal({
+    title: "✅ Score enregistré dans CR Patientes",
+    html: `
+      <p>Le score <strong>${total} / ${q.max}</strong> (${escapeHtml(niveau.label)}) a été enregistré dans le CR de <strong>${escapeHtml(patient.initiales)}</strong> — Séance ${cr.seance_num} du ${cr.date}.</p>
+      <p style="margin-top:10px"><strong>Code échelle utilisé</strong> : ${escapeHtml(q.cr_echelle_code)}</p>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn btn-gold" onclick="openCRForPatient('${patient.id}')">↗ Ouvrir le CR maintenant</button>
+      </div>`,
+  });
+}
+
+function saveAnamneseToCR(q, draft, crData, patient, patientInitials) {
+  // Build a markdown summary of all the answers
+  const summary = anamneseToSummary(q, draft);
+
+  if (!patient) {
+    if (!confirm(`Patiente "${patientInitials}" non trouvée dans CR Patientes.\n\nCréer la patiente et lui ajouter cette anamnèse comme contexte général ?`)) return;
+    patient = {
+      id: crUid(),
+      initiales: patientInitials,
+      nom_complet: "",
+      notes: summary,
+      created: new Date().toISOString(),
+      crs: [],
+    };
+    crData.patientes.push(patient);
+    saveCRData(crData);
+    showModal({
+      title: "✅ Patiente créée + anamnèse enregistrée",
+      html: `<p>La patiente <strong>${escapeHtml(patient.initiales)}</strong> a été créée dans CR Patientes avec l'anamnèse universelle dans son <em>Contexte général</em>.</p>
+        <div style="margin-top:12px"><button class="btn btn-gold" onclick="openCRForPatient('${patient.id}')">↗ Ouvrir la patiente maintenant</button></div>`,
+    });
+    return;
+  }
+
+  // Patient exists — ask before overwriting
+  const hasContext = (patient.notes || "").trim().length > 0;
+  if (hasContext) {
+    const choice = prompt(
+      `Patiente "${patient.initiales}" a déjà un contexte général.\n\n` +
+      `Tape :\n` +
+      `  R = REMPLACER le contexte existant\n` +
+      `  A = AJOUTER à la suite du contexte existant\n` +
+      `  C = ANNULER\n\n` +
+      `Choix :`,
+      "A"
+    );
+    if (!choice) return;
+    const c = choice.trim().toUpperCase();
+    if (c === "R") {
+      patient.notes = summary;
+    } else if (c === "A") {
+      patient.notes = (patient.notes || "") + "\n\n---\n\n" + summary;
+    } else {
+      return;
+    }
+  } else {
+    patient.notes = summary;
+  }
+
+  saveCRData(crData);
+  showModal({
+    title: "✅ Anamnèse enregistrée",
+    html: `<p>L'anamnèse a été enregistrée dans le <em>Contexte général</em> de <strong>${escapeHtml(patient.initiales)}</strong>.</p>
+      <div style="margin-top:12px"><button class="btn btn-gold" onclick="openCRForPatient('${patient.id}')">↗ Ouvrir la patiente maintenant</button></div>`,
+  });
+}
+
+function anamneseToSummary(q, draft) {
+  let md = `## ${q.title}\n\n`;
+  md += `_Saisie le ${draft.date || new Date().toISOString().slice(0,10)} via le Hub Questionnaires_\n\n`;
+  if (q.sections) {
+    q.sections.forEach(sec => {
+      const sectionItems = sec.items.filter(it => {
+        const v = draft.values[it.id];
+        return v != null && v !== "";
+      });
+      if (sectionItems.length === 0) return;
+      md += `### ${sec.title}\n\n`;
+      sectionItems.forEach(it => {
+        md += `**${it.label}** : ${draft.values[it.id]}\n\n`;
+      });
+    });
+  }
+  return md.trim();
+}
+
+function openCRForPatient(patientId) {
+  // Close any modal
+  document.getElementById("modal-overlay").classList.remove("visible");
+  // Open the CR Patientes app — it will load the patient from localStorage automatically
+  const a = document.createElement("a");
+  a.href = "SHIFA_CR_patientes.html";
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.click();
+}
+window.openCRForPatient = openCRForPatient;
+
+// ============= MODAL =============
+function showModal({ title, html }) {
+  const overlay = document.getElementById("modal-overlay");
+  const content = document.getElementById("modal-content");
+  content.innerHTML = `
+    <h3>${escapeHtml(title)}</h3>
+    ${html}
+    <div class="modal-actions">
+      <button class="btn btn-gold" id="modal-close">OK</button>
+    </div>`;
+  overlay.classList.add("visible");
+  document.getElementById("modal-close").addEventListener("click", () => overlay.classList.remove("visible"));
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.classList.remove("visible"); });
+}
+
+// ============= GLOBAL =============
+document.getElementById("btn-cr").addEventListener("click", () => {
+  const a = document.createElement("a"); a.href = "SHIFA_CR_patientes.html"; a.target = "_blank"; a.rel = "noopener"; a.click();
+});
+document.getElementById("btn-app").addEventListener("click", () => {
+  const a = document.createElement("a"); a.href = "SHIFA_app.html"; a.target = "_blank"; a.rel = "noopener"; a.click();
+});
+
+renderSidebar();
+renderPanel();
+</script>
+</body>
+</html>
