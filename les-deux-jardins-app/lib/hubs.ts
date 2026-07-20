@@ -34,7 +34,7 @@ export const HUBS: Record<string, Hub> = {
       {
         titre: "Comprendre & s'outiller",
         items: [
-          { nom: "Parcours Clarté TND", desc: "La collection complète (guides, fiches, apps).", href: "https://boite-neuro-ped-univ.netlify.app/", externe: true },
+          { nom: "Parcours Clarté TND", desc: "La collection complète (guides, fiches, apps).", href: "https://boite-neuro-ped-univers.netlify.app/", externe: true },
           { nom: "Devoirs sans crise", desc: "Accompagner les devoirs sans conflit.", soon: true }, // NOTE: app kit-devoirs-sans-crises repond vide (test Ronron 19/07) — a re-brancher quand Nawel confirme qu'elle s'ouvre.
           { nom: "Dialoguer avec son ado", desc: "Reformuler, désamorcer, relier.", soon: true },
         ],

@@ -20,7 +20,7 @@ export interface AppEntry {
 export const APPS: AppEntry[] = [
   // ---------- 🌷 EDUCA TYPIQUE ----------
   { nom: "Cap Educa (boîte à outils ados)", url: "https://boussole-ado-educa-typique.vercel.app/", univers: "educa", cat: "Boîte à outils", status: "interne", note: "ex-« Boussole »" },
-  { nom: "Boîte NeuroPed Universelle (MASTER)", url: "https://boite-neuro-ped-univ.netlify.app/", univers: "educa", cat: "Parcours Clarté TND", status: "master", note: "= version assemblée dans le dépôt" },
+  { nom: "Boîte NeuroPed Universelle (MASTER)", url: "https://boite-neuro-ped-univers.netlify.app/", univers: "educa", cat: "Parcours Clarté TND", status: "master", note: "= version assemblée dans le dépôt" },
   { nom: "Mon profil cognitif", url: "https://mon-profil-cognitif.netlify.app/", univers: "educa", cat: "Profil", status: "externe", questionnaire: true },
   { nom: "Profil neuro ado", url: "https://profil-neuro-ado.netlify.app/", univers: "educa", cat: "Profil", status: "externe", questionnaire: true },
   { nom: "Décodeur de profil", url: "https://decodeur-profil-educa-typique.netlify.app/", univers: "educa", cat: "Profil", status: "externe", questionnaire: true },

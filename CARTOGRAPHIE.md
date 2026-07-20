@@ -112,7 +112,7 @@ photo optionnelle.
 ### 🌷 Educa Typique
 | URL Netlify | App | Source dans le repo ? |
 |---|---|---|
-| `boite-neuro-ped-univ.netlify.app` | **Boîte NeuroPed Universelle (MASTER)** | 🟢 = version assemblée `parcours-clarte-tnd/` |
+| `boite-neuro-ped-univers.netlify.app` | **Boîte NeuroPed Universelle (MASTER)** | 🟢 = version assemblée `parcours-clarte-tnd/` |
 | `mon-profil-cognitif.netlify.app` | Profil cognitif | 🟢 `outils-pro/profil-cognitif.html` |
 | `profil-neuro-ado.netlify.app` | Profil neuro ado | 🟢 `outils-pro/profil-neuro.html` |
 | `decodeur-profil-educa-typique.netlify.app` | Décodeur de profil | 🟡 apparenté `outils-pro/` profils + `radar-profils` |
