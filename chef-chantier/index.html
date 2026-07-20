@@ -42,6 +42,16 @@
   nav button span{display:block;font-size:21px;margin-bottom:2px;}
   /* bouton SOS flottant */
   .sos-fab{position:fixed;right:12px;bottom:64px;z-index:60;width:54px;height:54px;border-radius:50%;background:var(--rouge);color:#fff;border:2px solid #fff3;font-size:24px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.5);}
+  /* bouton installer PWA */
+  .btn-install{position:fixed;left:50%;transform:translateX(-50%);bottom:78px;z-index:60;background:var(--jaune);color:var(--noir);border:none;border-radius:26px;padding:13px 22px;font-family:inherit;font-weight:900;font-size:15px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.45);}
+  .btn-install:active{transform:translateX(-50%) scale(.96);}
+  .ios-overlay{position:fixed;inset:0;z-index:120;background:rgba(10,12,15,.85);display:flex;align-items:center;justify-content:center;padding:20px;}
+  .ios-box{background:var(--acier);color:var(--blanc);border:2px solid var(--jaune);border-radius:18px;padding:24px;max-width:400px;}
+  .ios-box h3{color:var(--jaune);margin:0 0 12px;font-size:19px;}
+  .ios-box ol{margin:12px 0;padding-left:20px;}
+  .ios-box li{margin:9px 0;}
+  .ios-note{color:var(--gris);font-size:13.5px;margin-top:14px;}
+  .ios-box .btn-install{position:static;transform:none;width:100%;margin-top:14px;}
   /* quiz */
   .q-count{color:var(--gris);font-size:12px;text-align:center;margin:6px 0;}
   .question{font-family:'Quicksand',sans-serif;font-size:19px;text-align:center;margin:16px 0 18px;line-height:1.35;}
@@ -821,6 +831,44 @@ if(!S.hello)document.getElementById('bienvenue').classList.remove('hidden');
 render();
 if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0){
  window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
+
+// ═══════════ INSTALLATION PWA ═══════════
+var promptInstall=null;
+function dejaInstallee(){return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;}
+function estIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream;}
+// Android / Chrome : le navigateur signale que l'app est installable
+window.addEventListener('beforeinstallprompt',function(e){
+ e.preventDefault();promptInstall=e;
+ if(!dejaInstallee()){var b=document.getElementById('btnInstall');if(b)b.hidden=false;}
+});
+// iOS : pas d'événement → on affiche le bouton pour montrer la notice
+if(estIOS()&&!dejaInstallee()){
+ document.addEventListener('DOMContentLoaded',function(){var _bi=document.getElementById('btnInstall');if(_bi)_bi.hidden=false;});
+}
+function lancerInstall(){
+ if(estIOS()){document.getElementById('iosInstall').hidden=false;return;}
+ if(!promptInstall)return;
+ promptInstall.prompt();
+ promptInstall.userChoice.then(function(){promptInstall=null;document.getElementById('btnInstall').hidden=true;});
+}
+function fermerIos(){document.getElementById('iosInstall').hidden=true;}
+window.addEventListener('appinstalled',function(){var b=document.getElementById('btnInstall');if(b)b.hidden=true;});
 </script>
+
+<!-- Bouton installer -->
+<button id="btnInstall" class="btn-install" onclick="lancerInstall()" hidden>📲 Installer l'appli</button>
+<!-- Notice iPhone -->
+<div id="iosInstall" class="ios-overlay" hidden>
+  <div class="ios-box">
+    <h3>📲 Installer sur iPhone</h3>
+    <p>Sur iPhone, l'installation se fait en 2 gestes :</p>
+    <ol>
+      <li>Appuie sur le bouton <b>Partager</b> ⬆️ en bas de Safari</li>
+      <li>Choisis <b>« Sur l'écran d'accueil »</b></li>
+    </ol>
+    <p class="ios-note">Après ça, Chef de Chantier s'ouvre comme une vraie appli — même sans connexion.</p>
+    <button class="btn-install" onclick="fermerIos()">OK, compris</button>
+  </div>
+</div>
 </body>
 </html>
