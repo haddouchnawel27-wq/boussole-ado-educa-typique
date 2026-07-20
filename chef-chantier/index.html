@@ -116,6 +116,10 @@
   .accueil-overlay .card{max-width:440px;width:100%;border-color:var(--jaune);}
   .toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--jaune);color:var(--noir);font-weight:900;padding:12px 22px;border-radius:12px;z-index:99;box-shadow:0 8px 30px rgba(0,0,0,.5);display:none;font-family:'Quicksand',sans-serif;max-width:92vw;text-align:center;}
   .disclaimer{color:#6b6f78;font-size:10px;text-align:center;margin-top:16px;line-height:1.5;}
+  /* facteur humain — comparatif ❌/✅ */
+  .vs{background:var(--noir);border-radius:10px;padding:9px 12px;margin:6px 0;font-size:13.5px;line-height:1.45;}
+  .vs .ko{color:var(--rouge);}
+  .vs .ok{color:var(--vert);margin-top:3px;}
 </style>
 </head>
 <body>
@@ -170,6 +174,11 @@
         📈 <b>Historique de jauge</b> + série de relevés<br>
         🛠️ Boîte à idées bêta-testeur dans « Ma fiche »
       </p>
+    </div>
+    <div class="card">
+      <h2>🆕 Nouveau poste — Le facteur humain 🤝</h2>
+      <p>L'équipe, après l'accident, le bon diagnostic. Les vraies compétences qui font un chef. <b>+100 XP à prendre.</b></p>
+      <button class="btn" onclick="show('scr-humain')">Ouvrir le poste « Humain »</button>
     </div>
     <p class="disclaimer">100 % privé : tout reste sur TON téléphone. Rien n'est envoyé nulle part.<br>Outil d'entraînement personnel — ne remplace aucun suivi médical ou psychologique.<br>Version BÊTA — ton avis d'expert compte : note ce qui est nul, on l'améliore.</p>
   </section>
@@ -333,12 +342,107 @@
     </div>
   </section>
 
+  <!-- ═══ ÉCRAN HUMAIN — le facteur humain sur le chantier ═══ -->
+  <section id="scr-humain" class="hidden">
+    <div class="hazard"></div>
+    <div class="card" style="margin-top:12px;">
+      <h2>🤝 Le facteur humain</h2>
+      <p>Un bon chef de chantier ne travaille jamais seul. Parler à son équipe, garder son sang-froid, réparer après un accident — <b>c'est une compétence du métier.</b></p>
+    </div>
+
+    <!-- ─── MODULE 1 · L'ÉQUIPE ─── -->
+    <div class="card">
+      <h2>🤝 Poste — L'équipe <span style="float:right;color:var(--vert);font-size:12px;">+30 XP</span></h2>
+      <p>Trois gestes de pro pour bosser avec les autres sans que ça parte en tonneau.</p>
+    </div>
+    <div class="card">
+      <h2>① Demander quelque chose</h2>
+      <p>La formule : « Est-ce que tu peux… <b>s'il te plaît</b> ? » — court, pas d'ordre, pas de reproche.</p>
+      <div class="vs"><div class="ko">❌ « Bouge de là. »</div><div class="ok">✅ « Tu peux me laisser passer ? »</div></div>
+      <div class="vs"><div class="ko">❌ « Arrête ça. »</div><div class="ok">✅ « Tu peux arrêter s'il te plaît ? Ça me soûle. »</div></div>
+      <div class="vs"><div class="ko">❌ « File-moi ça. »</div><div class="ok">✅ « Tu me le passes ? »</div></div>
+    </div>
+    <div class="card">
+      <h2>② Dire non</h2>
+      <p>Court. Ferme. <b>Sans se justifier.</b> Plus tu expliques, plus on insiste.</p>
+      <div class="fiche-item"><span>Versions courtes</span><b>« Non, ça me va pas. » · « Non merci. » · « Là non. »</b></div>
+      <p style="color:var(--jaune);font-size:13px;margin-top:8px;">Tu n'as pas à te justifier. Un non n'a pas besoin de mode d'emploi.</p>
+    </div>
+    <div class="card">
+      <h2>③ Désamorcer une provocation</h2>
+      <p>Celui qui provoque cherche <b>TA réaction</b>. S'il ne l'a pas, il s'arrête tout seul.</p>
+      <div class="fiche-item"><span>Options</span><b>Ne rien dire, partir · « Ouais, ok. » · « Je te réponds pas là. » · Voir un adulte</b></div>
+      <p style="color:var(--jaune);font-size:13px;margin-top:8px;">Ce n'est pas se dégonfler. C'est refuser de jouer à son jeu à lui.</p>
+      <button class="btn vert" id="btnEquipe" onclick="validEquipe()">✅ Compris, chef (+30 XP)</button>
+    </div>
+    <div class="card alerte">
+      <h2>🚨 Si ça tourne en boucle</h2>
+      <p>Si quelqu'un t'embête <b>EN BOUCLE</b>, ce n'est plus une blague — c'est du <b>harcèlement</b>. Ça se dit à un adulte, et vite. <b>Tu n'as pas à gérer ça seul.</b></p>
+      <button class="btn rouge" onclick="show('scr-sos')">🚨 Ouvrir la procédure zone rouge</button>
+    </div>
+
+    <!-- ─── MODULE 2 · APRÈS L'ACCIDENT ─── -->
+    <div class="hazard red"></div>
+    <div class="card" style="margin-top:12px;">
+      <h2>💥 Poste — Après l'accident <span style="float:right;color:var(--vert);font-size:12px;">+40 XP</span></h2>
+      <p>Sur un chantier, il y a des accidents. Ce qui distingue un pro, ce n'est pas de n'en avoir jamais — <b>c'est ce qu'il fait après.</b></p>
+    </div>
+    <div class="card"><h2><span class="etape-num">1</span>Je m'écarte</h2><p>Physiquement. Avant de faire ou dire plus.</p></div>
+    <div class="card"><h2><span class="etape-num">2</span>Je fais redescendre</h2><p>Respirer, marcher, boire. <b>Pas de discussion dans le rouge.</b></p></div>
+    <div class="card"><h2><span class="etape-num">3</span>Je regarde les dégâts</h2><p>Quelqu'un est touché ? Il faut prévenir ? <b>On le fait tout de suite.</b></p></div>
+    <div class="card"><h2><span class="etape-num">4</span>Je répare ce qui peut l'être</h2><p>Un mot, une excuse, un truc à recoller. <b>Réparer, ce n'est pas ramper.</b></p></div>
+    <div class="card"><h2><span class="etape-num">5</span>Je comprends — après</h2><p>Quand c'est froid, jamais pendant.</p></div>
+    <div class="card">
+      <h2>📝 Rapport d'incident</h2>
+      <p style="font-size:13px;">Remplir un rapport, c'est ce que fait un pro. <b>+40 XP au premier rempli.</b> (Privé, rien n'est envoyé.)</p>
+      <label class="lbl">Le déclencheur, c'était quoi ?</label>
+      <input type="text" id="rapDecl" maxlength="140" placeholder="…">
+      <label class="lbl">J'étais à combien sur ma jauge ? (0 à 10)</label>
+      <input type="number" id="rapJauge" min="0" max="10" inputmode="numeric" placeholder="0-10">
+      <label class="lbl">Y a-t-il eu un moment où j'aurais pu m'arrêter ?</label>
+      <input type="text" id="rapStop" maxlength="140" placeholder="…">
+      <label class="lbl">La prochaine fois, je teste quoi ? (une seule chose, petite)</label>
+      <input type="text" id="rapNext" maxlength="140" placeholder="…">
+      <button class="btn vert" onclick="submitRapport()">Enregistrer le rapport</button>
+      <div id="rapList"></div>
+    </div>
+    <div class="card">
+      <h2>💛 Ne rien ressentir, ça arrive</h2>
+      <p>Ne rien ressentir juste après, ça arrive plus souvent qu'on croit. <b>Ça ne veut pas dire que tu t'en fiches.</b> Le cerveau se met en pause quand c'est trop fort. Les émotions reviennent après — ou pas. <b>Les deux sont normaux. Et ça se travaille.</b></p>
+    </div>
+
+    <!-- ─── MODULE 3 · LE BON DIAGNOSTIC ─── -->
+    <div class="hazard"></div>
+    <div class="card" style="margin-top:12px;">
+      <h2>🎯 Poste — Le bon diagnostic <span style="float:right;color:var(--vert);font-size:12px;">+30 XP</span></h2>
+      <p>Avant de réparer une panne, un mécano identifie le bon problème. Pour les émotions, pareil : <b>mettre le bon mot fait déjà baisser la pression.</b></p>
+    </div>
+    <div class="card">
+      <h2>🔍 Le décodeur de pannes</h2>
+      <p style="font-size:13px;">Ce qu'on dit → ce qu'il y a peut-être dessous :</p>
+      <div id="decodeurZone"></div>
+    </div>
+    <div class="card">
+      <h2>Tu es à quoi, là ?</h2>
+      <p style="font-size:13px;">Touche l'émotion la plus proche.</p>
+      <div id="emoBtns"></div>
+      <div id="emoMsg"></div>
+    </div>
+    <div class="card">
+      <h2>🎮 Simulateur de chantier</h2>
+      <p style="font-size:13px;">4 situations. Choisis — et vois ce que ça donne. <b>+5 XP par scénario.</b></p>
+      <div id="scenZone"></div>
+    </div>
+    <button class="btn sec" onclick="show('scr-garage')">← Retour au garage</button>
+  </section>
+
   <nav>
     <button id="nav-garage" class="on" onclick="show('scr-garage')"><span>🏗️</span>Garage</button>
     <button id="nav-jauge" onclick="show('scr-jauge')"><span>🌡️</span>Jauge</button>
     <button id="nav-missions" onclick="show('scr-missions')"><span>🎯</span>Missions</button>
+    <button id="nav-humain" onclick="show('scr-humain')"><span>🤝</span>Équipe</button>
     <button id="nav-lycee" onclick="show('scr-lycee')"><span>🎒</span>Lycée</button>
-    <button id="nav-fiche" onclick="show('scr-fiche')"><span>📋</span>Ma fiche</button>
+    <button id="nav-fiche" onclick="show('scr-fiche')"><span>📋</span>Fiche</button>
   </nav>
 </div>
 
@@ -417,17 +521,18 @@ const CATS=['🍔 Bouffe','🎮 Jeux','👕 Sape','🚌 Transport','🏦 Épargn
 
 // ═══════════ ÉTAT (migration douce depuis la v1 — même clé) ═══════════
 const DEF={xp:0,fiche:{},missions:[],jauges:[],checks:[],idees:[],lyceeDate:'2026-09-01',
- paie:{montant:0,dep:[],objNom:'',objPrix:0,objMis:0},lastJaugeXP:'',lastSosXP:''};
+ paie:{montant:0,dep:[],objNom:'',objPrix:0,objMis:0},lastJaugeXP:'',lastSosXP:'',
+ mEquipe:0,diagVocab:0,diagDone:[],rapports:[]};
 let S=Object.assign({},DEF,JSON.parse(localStorage.getItem('chantier')||'{}'));
 S.paie=Object.assign({},DEF.paie,S.paie||{});
-['missions','jauges','checks','idees'].forEach(k=>{if(!Array.isArray(S[k]))S[k]=[];});
+['missions','jauges','checks','idees','diagDone','rapports'].forEach(k=>{if(!Array.isArray(S[k]))S[k]=[];});
 function save(){localStorage.setItem('chantier',JSON.stringify(S));}
 function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2400);}
 function addXP(n){S.xp+=n;save();render();toast('+'+n+' XP 🔧');}
 
 // ═══════════ NAVIGATION ═══════════
-const SCREENS=['scr-garage','scr-quiz','scr-jauge','scr-sos','scr-missions','scr-lycee','scr-paie','scr-fiche'];
+const SCREENS=['scr-garage','scr-quiz','scr-jauge','scr-sos','scr-missions','scr-lycee','scr-paie','scr-fiche','scr-humain'];
 function show(id){SCREENS.forEach(s=>document.getElementById(s).classList.add('hidden'));document.getElementById(id).classList.remove('hidden');
  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('on'));
  const map={'scr-paie':'nav-lycee'};const nb=document.getElementById(map[id]||('nav-'+id.replace('scr-','')));if(nb)nb.classList.add('on');
@@ -436,6 +541,7 @@ function show(id){SCREENS.forEach(s=>document.getElementById(s).classList.add('h
  if(id==='scr-lycee')renderLycee();
  if(id==='scr-paie')renderPaie();
  if(id==='scr-sos')resetSOS();
+ if(id==='scr-humain')renderHumain();
  window.scrollTo(0,0);}
 
 // ═══════════ RENDER ═══════════
@@ -623,6 +729,84 @@ function addIdee(){const inp=document.getElementById('ideeTxt');const t=inp.valu
  if(S.idees.length>=3)autoMission('m5','Mission bêta-testeur validée 🛠️');
  else toast('Idée transmise au bureau d\'études 📤 ('+S.idees.length+'/3)');}
 function renderIdees(){document.getElementById('ideeList').innerHTML=S.idees.slice().reverse().map(i=>'<div class="idee"><small>'+i.d.slice(8,10)+'/'+i.d.slice(5,7)+'</small>'+i.t.replace(/</g,'&lt;')+'</div>').join('');}
+
+// ═══════════ FACTEUR HUMAIN (équipe · après l'accident · diagnostic) ═══════════
+const DECODEUR=[
+ ['« Je suis énervé »','Je me sens traité injustement'],
+ ['« Je m\'en fous »','Je suis blessé mais je ne le montre pas'],
+ ['« Laisse-moi »','Je suis saturé'],
+ ['« Tu me soûles »','Je ne sais plus quoi répondre'],
+ ['« C\'est bon ! »','Je veux que la pression s\'arrête'],
+ ['« Tout le monde est contre moi »','Je me sens seul ou accusé']
+];
+const EMOTIONS=[
+ ['😡 En colère',"Légitime. La question n'est pas si tu as le droit — c'est combien tu laisses sortir."],
+ ['😳 Humilié',"Devant les autres, c'est le pire. Ta colère est normale. Écarte-toi avant de répondre."],
+ ['⚖️ Traité injustement',"C'est ton déclencheur n°1. Tu le sais — tu peux le voir arriver."],
+ ['🥱 Fatigué',"Fatigué = seuil qui descend. Tout monte plus vite. Sois plus vigilant."],
+ ['🧍 Seul',"Ça arrive, surtout loin de chez soi. Parles-en à quelqu'un."],
+ ['😞 Nul',"C'est un ressenti, pas un fait. Va relire ta fiche technique."]
+];
+const SCENARIOS=[
+ {t:"Un mec te met une claque derrière la tête en rigolant. Encore.",o:[
+  ['ko','Je me retourne et je le frappe',"Compréhensible — et ça te coûte cher : exclusion, sanction, et plus tard sur un chantier, un accident. Sa provocation devient TON problème."],
+  ['ok','Je m\'écarte et je vais voir un adulte',"Le plus solide. Ce n'est pas balancer — c'est refuser de payer pour lui."],
+  ['ok','« Arrête, là » et je m\'éloigne',"Court, ferme, et tu sors de la scène."],
+  ['mid','Je fais comme si de rien n\'était',"Ça marche une fois. Si ça se répète, c'est du harcèlement — et ça se dit à un adulte."]
+ ]},
+ {t:"En internat, quelqu'un prend tes affaires sans demander.",o:[
+  ['ko','Je crie dessus',"Tu as raison sur le fond, tu perds sur la forme. Et tu vas le recroiser tous les jours."],
+  ['ok','« C\'est à moi, tu demandes la prochaine fois. »',"Ferme, clair, sans agression."],
+  ['ko','Je ne dis rien et j\'accumule',"Le pire : ça recommencera, et un jour ça sortira d'un coup, en trop grand."]
+ ]},
+ {t:"Un prof te reprend devant toute la classe, injustement.",o:[
+  ['ko','Je réponds sec devant tout le monde',"Tu as peut-être raison — mais devant témoins, un prof ne peut pas reculer. Tu perds à tous les coups."],
+  ['ok','Je note, je respire, j\'en parle à la fin du cours',"Le plus intelligent. Tu gardes ton droit de dire, et tu choisis le moment. C'est du pilotage."],
+  ['ko','Je ne dis rien, jamais',"L'injustice non dite s'accumule. Dis-le — mais après, au calme."]
+ ]},
+ {t:"⭐ Sur un chantier, un collègue te cherche. Tu as un engin dans les mains.",o:[
+  ['ko','Je lâche tout et je vais le voir',"Un engin, ça ne se lâche pas sous le coup de la colère. C'est comme ça qu'on blesse quelqu'un."],
+  ['ok','Je finis ma manœuvre, je coupe, PUIS je vois',"C'est exactement le réflexe du métier. Sécurité d'abord, discussion ensuite. Tu penses déjà comme un pro."],
+  ['ko','Je réponds en continuant à manœuvrer',"Attention divisée = le moment où les accidents arrivent."]
+ ]}
+];
+function renderHumain(){
+ const be=document.getElementById('btnEquipe');
+ if(be){if(S.mEquipe){be.textContent='✅ Poste validé';be.className='btn sec';be.onclick=null;}}
+ document.getElementById('decodeurZone').innerHTML=DECODEUR.map(d=>'<div class="fiche-item"><span>'+d[0]+'</span><b style="color:var(--vert);">'+d[1]+'</b></div>').join('');
+ document.getElementById('emoBtns').innerHTML=EMOTIONS.map((e,i)=>'<button class="btn sec" style="margin:5px 0;" onclick="pickEmotion('+i+')">'+e[0]+'</button>').join('');
+ document.getElementById('scenZone').innerHTML=SCENARIOS.map((s,i)=>'<div class="card" style="background:var(--noir);margin:8px 0;"><p style="font-weight:700;color:var(--blanc);font-size:14px;">'+(i+1)+'. '+s.t+'</p>'+s.o.map((o,j)=>'<div class="choice" onclick="answerScen('+i+','+j+')">'+o[1]+'</div>').join('')+'<div id="scenR'+i+'"></div>'+(S.diagDone.includes(i)?'<p style="font-size:11px;color:var(--vert);text-align:right;margin-top:4px;">✔ +5 XP pris</p>':'')+'</div>').join('');
+ renderRapports();
+}
+function validEquipe(){if(S.mEquipe)return;S.mEquipe=1;addXP(30);renderHumain();}
+function pickEmotion(i){
+ document.getElementById('emoMsg').innerHTML='<div style="margin-top:10px;padding:12px;border-radius:10px;background:var(--noir);border-left:3px solid var(--jaune);font-size:14px;line-height:1.5;">'+EMOTIONS[i][1]+'</div>';
+ if(!S.diagVocab){S.diagVocab=1;S.xp+=10;save();render();toast('+10 XP · bon diagnostic 🎯');}
+}
+function answerScen(si,ci){
+ const o=SCENARIOS[si].o[ci];
+ const col=o[0]==='ok'?'var(--vert)':o[0]==='mid'?'var(--orange)':'var(--rouge)';
+ const ic=o[0]==='ok'?'✅':o[0]==='mid'?'⚠️':'❌';
+ document.getElementById('scenR'+si).innerHTML='<div style="margin-top:8px;padding:10px 12px;border-radius:10px;background:var(--acier);border-left:3px solid '+col+';font-size:13.5px;line-height:1.5;">'+ic+' '+o[2]+'</div>';
+ if(!S.diagDone.includes(si)){S.diagDone.push(si);S.xp+=5;save();render();toast('+5 XP · scénario analysé 🎯');}
+}
+function submitRapport(){
+ const decl=document.getElementById('rapDecl').value.trim();
+ const jauge=document.getElementById('rapJauge').value;
+ const stop=document.getElementById('rapStop').value.trim();
+ const next=document.getElementById('rapNext').value.trim();
+ if(!decl&&!next){toast('Remplis au moins le déclencheur et le prochain test 😉');return;}
+ S.rapports.push({d:today(),decl:decl,jauge:jauge,stop:stop,next:next});
+ const premier=S.rapports.length===1;if(premier)S.xp+=40;
+ save();render();
+ ['rapDecl','rapJauge','rapStop','rapNext'].forEach(id=>document.getElementById(id).value='');
+ renderRapports();
+ toast(premier?'+40 XP · premier rapport rempli, geste de pro 📝':'Rapport enregistré 📝');
+}
+function renderRapports(){
+ const z=document.getElementById('rapList');if(!z)return;
+ z.innerHTML=S.rapports.length?('<p style="font-size:12px;color:var(--gris);margin-top:10px;">Tes rapports (privés) :</p>'+S.rapports.slice().reverse().map(r=>'<div class="idee"><small>'+r.d.slice(8,10)+'/'+r.d.slice(5,7)+'</small>Déclencheur : '+(r.decl||'—').replace(/</g,'&lt;')+' → prochain test : '+(r.next||'—').replace(/</g,'&lt;')+'</div>').join('')):'';
+}
 
 // ═══════════ MAINTENANCE ═══════════
 function resetAll(){

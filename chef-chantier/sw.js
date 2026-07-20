@@ -1,6 +1,6 @@
 /* Service worker de Chef de Chantier — cache local pour usage hors-ligne.
    Périmètre limité au dossier /chef-chantier/ (le SW de la Boussole exclut ce chemin). */
-var CACHE = "chantier-v3";
+var CACHE = "chantier-v4";
 var FICHIERS = ["./", "./index.html", "./sous-le-capot.html", "./manifest.webmanifest"];
 
 self.addEventListener("install", function (e) {
