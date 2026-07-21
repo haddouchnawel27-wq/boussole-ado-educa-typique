@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   description:
     "Un espace doux pour observer son énergie, ses émotions, ses blocages et ses pensées. Un outil de soutien à l'observation de soi — jamais un diagnostic.",
   applicationName: "Al Mizan Al Qalb",
+  manifest: "/almizan.webmanifest",
   openGraph: {
     title: "Al Mizan Al Qalb — Revenir à soi au quotidien",
     description:

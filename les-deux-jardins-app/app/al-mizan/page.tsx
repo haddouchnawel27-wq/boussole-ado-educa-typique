@@ -45,7 +45,7 @@ const SPACES: { key: SpaceKey; label: string; icon: JSX.Element }[] = [
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 17c-2.5 0-4.5-1.9-4.5-4.3 0-2 1.4-3.7 3.3-4.2C6.7 5.7 9 4 11.7 4c3 0 5.5 2.2 5.9 5.1 1.9.3 3.4 1.9 3.4 3.9 0 2.2-1.9 4-4.2 4H7.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" /></svg>
   ) },
   { key: "espace", label: "Espace", icon: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h8M16 8h4M4 16h4M12 16h8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /><circle cx="14" cy="8" r="2.3" stroke="currentColor" strokeWidth="1.6" /><circle cx="10" cy="16" r="2.3" stroke="currentColor" strokeWidth="1.6" /></svg>
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 6.5C10.5 5.3 8.5 4.7 6 4.7c-1 0-1.9.1-2.7.3v13c.8-.2 1.7-.3 2.7-.3 2.5 0 4.5.6 6 1.8M12 6.5c1.5-1.2 3.5-1.8 6-1.8 1 0 1.9.1 2.7.3v13c-.8-.2-1.7-.3-2.7-.3-2.5 0-4.5.6-6 1.8M12 6.5v13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
   ) },
 ];
 

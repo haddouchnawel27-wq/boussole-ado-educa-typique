@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Sequenceur } from "./Sequenceur";
 import { FairePoint } from "./FairePoint";
 import { Reader } from "./Reader";
+import { InstallApp } from "./InstallApp";
 import { FICHES, ZONES, ARTICLES, type Fiche, type Article } from "./lib/espace-content";
 
 type Overlay =
@@ -103,6 +104,8 @@ export function Espace({
       <div className="amz-space">
         <div className="amz-space-row"><span>Mode actuel</span><strong>{demo ? "Découverte (exemples)" : "Mon espace"}</strong></div>
         <p className="amz-space-note">🔒 Tes données restent <strong>uniquement sur cet appareil</strong>. Aucun compte, aucun serveur.</p>
+
+        <InstallApp />
         {demo ? (
           <button className="amz-ob-btn primary" onClick={onSwitchReal}>Commencer mon espace personnel</button>
         ) : (
