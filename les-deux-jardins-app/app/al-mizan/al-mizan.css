@@ -568,6 +568,16 @@
 .amz-th-intens { margin-top: 12px; }
 .amz-th-intens-label { font-size: 13px; font-weight: 600; color: var(--amz-ink); }
 
+/* ── Méthode en 5 étapes (Pensées) ── */
+.amz-meth { margin-top: 16px; background: var(--amz-cream-2); border: 1px solid var(--amz-border); border-radius: 18px; padding: 8px 4px; }
+.amz-meth-list { list-style: none; margin: 0; padding: 0; }
+.amz-meth-etape { display: flex; align-items: center; gap: 12px; padding: 11px 13px; border-bottom: 1px solid var(--amz-border); }
+.amz-meth-etape:last-child { border-bottom: 0; }
+.amz-meth-n { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--amz-sage); color: #fff; font-family: var(--amz-serif); font-weight: 700; font-size: 15px; }
+.amz-meth-body { display: flex; flex-direction: column; gap: 1px; }
+.amz-meth-t { font-size: 14px; font-weight: 600; color: var(--amz-ink); }
+.amz-meth-d { font-size: 12.5px; color: var(--amz-ink-soft); }
+
 /* ── Journal des pensées : liste ── */
 .amz-th-list { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
 .amz-th-card {
@@ -596,21 +606,43 @@
 /* ── Jardin ── */
 .amz-garden { margin-top: 16px; }
 .amz-garden-scene {
-  border-radius: 18px; overflow: hidden; border: 1px solid var(--amz-border);
-  background: linear-gradient(180deg, #F3ECDC 0%, #EFE7D6 55%, #EAE0CB 100%);
+  position: relative; height: 190px; border-radius: 20px; overflow: hidden; border: 1px solid var(--amz-border);
 }
-.amz-garden-svg { display: block; width: 100%; height: auto; }
-.amz-garden-body { margin-top: 16px; }
-.amz-garden-name {
-  display: flex; align-items: center; gap: 8px;
-  font-family: var(--amz-serif); font-size: 22px; font-weight: 600; color: var(--amz-ink);
+.amz-garden-sky { position: absolute; inset: 0; background: linear-gradient(180deg, #F3ECDC 0%, #EFE7D6 60%, #EAE0CB 100%); }
+.amz-garden-mound {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 62%;
+  background: radial-gradient(120% 90% at 50% 120%, #7E8C72 0%, #6E7F5C 70%);
+  border-radius: 50% 50% 0 0 / 40% 40% 0 0;
 }
-.amz-garden-mot { margin-top: 6px; font-size: 14px; line-height: 1.6; color: var(--amz-ink-soft); }
+.amz-garden-plant { position: absolute; line-height: 1; transform: translateX(-50%); filter: drop-shadow(0 3px 4px rgba(60,50,40,.18)); }
+.amz-garden-seedhint {
+  position: absolute; left: 50%; bottom: 34%; transform: translateX(-50%);
+  font-family: var(--amz-serif); font-style: italic; font-size: 14px; color: #EDE4D2; white-space: nowrap;
+}
+.amz-garden-cap {
+  margin-top: 14px; text-align: center; font-family: var(--amz-serif); font-style: italic; font-size: 16px; color: var(--amz-ink-soft);
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px;
+}
+.amz-garden-cap strong { color: var(--amz-sage); font-style: normal; }
+.amz-garden-jh { font-family: var(--amz-serif); font-size: 20px; font-weight: 600; color: var(--amz-ink); margin: 24px 0 12px; }
+.amz-jalons { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.amz-jalon {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--amz-cream); border: 1px solid var(--amz-border); border-radius: 16px; padding: 13px 14px;
+}
+.amz-jalon.on { background: var(--amz-cream-2); }
+.amz-jalon-ico { flex: none; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; background: rgba(184,149,79,.14); opacity: .85; }
+.amz-jalon.on .amz-jalon-ico { opacity: 1; }
+.amz-jalon.on .amz-jalon-ico { background: rgba(138,151,137,.18); }
+.amz-jalon-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.amz-jalon-l { font-family: var(--amz-serif); font-size: 17px; font-weight: 600; color: var(--amz-ink); line-height: 1.15; }
+.amz-jalon-s { font-size: 12px; color: var(--amz-ink-soft); }
+.amz-jalon-tag { flex: none; font-size: 11px; font-weight: 700; color: var(--amz-ink-soft); background: var(--amz-cream-2); border: 1px solid var(--amz-border); border-radius: 999px; padding: 4px 10px; }
+.amz-jalon-tag.on { color: #fff; background: var(--amz-sage); border-color: var(--amz-sage); }
 .amz-garden-next {
-  margin-top: 12px; font-size: 13px; color: var(--amz-sage); font-weight: 600;
-  background: rgba(138,151,137,.1); border-radius: 10px; padding: 10px 12px;
+  margin-top: 14px; font-size: 13px; color: var(--amz-sage); font-weight: 600;
+  background: rgba(138,151,137,.1); border-radius: 10px; padding: 10px 12px; text-align: center;
 }
-.amz-garden-count { margin-top: 10px; font-size: 12px; color: var(--amz-gold-text); font-weight: 600; }
 
 /* ── Parcours questionnaire (plein écran) ── */
 .amz-quiz {

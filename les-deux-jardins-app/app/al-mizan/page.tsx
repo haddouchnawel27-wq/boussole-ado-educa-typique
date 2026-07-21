@@ -12,6 +12,7 @@ import { PenseesList } from "./PenseesList";
 import { Jardin } from "./Jardin";
 import { Boussole } from "./Boussole";
 import { Espace } from "./Espace";
+import { MethodePensees } from "./MethodePensees";
 import {
   getProfile,
   saveProfile,
@@ -276,12 +277,13 @@ export default function AlMizanPage() {
 
             {space === "pensees" && (
               <>
-                <p className="amz-lead">Une pensée vous pèse ? Regardez-la en douceur, en cinq temps. Rien n'est envoyé nulle part.</p>
+                <p className="amz-lead">Observer une pensée pour en retrouver une lecture plus juste. <em>Clarifier n'est pas se rassurer.</em></p>
                 {!demo && (
                   <button className="amz-cta" onClick={() => setThoughtOpen(true)}>
                     Observer une pensée
                   </button>
                 )}
+                <MethodePensees />
                 {demo && (
                   <div className="amz-demo-banner">
                     <span>🌱 <strong>Mode découverte</strong> — pensées d'exemple ci-dessous.</span>
