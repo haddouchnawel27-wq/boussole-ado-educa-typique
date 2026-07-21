@@ -73,7 +73,7 @@
     rafraichirSelectPublic();
     construireNav();
   }
-  function publicEffectif() { return publicActif() || "pro"; }
+  function publicEffectif() { return publicActif() || "ado"; } // défaut = vue ADO (jamais « tout voir » par défaut) — sécurité 3 espaces
 
   // Un outil est-il visible pour la tranche d'âge en cours ?
   function outilVisible(o) {
