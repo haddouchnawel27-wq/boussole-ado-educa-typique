@@ -5,6 +5,7 @@ import "./al-mizan.css";
 import { Onboarding } from "./Onboarding";
 import { CheckInModal } from "./CheckInModal";
 import { Questionnaire } from "./Questionnaire";
+import { Trends } from "./Trends";
 import {
   getProfile,
   saveProfile,
@@ -216,17 +217,7 @@ export default function AlMizanPage() {
             )}
 
             {space === "tendances" && (
-              nbCheckins >= 3 ? (
-                <>
-                  <p className="amz-lead">Vous avez déposé <strong>{nbCheckins}</strong> observations. Les courbes par dimension (énergie, humeur, clarté, élan) arriveront à la prochaine étape.</p>
-                  <p className="amz-caution">Ces tendances aident à observer des variations. Elles ne constituent ni une note ni un diagnostic.</p>
-                </>
-              ) : (
-                <div className="amz-empty">
-                  <p className="amz-empty-h">Pas encore assez de repères.</p>
-                  <p>Quelques observations de plus feront apparaître une tendance. En attendant, chaque passage compte déjà.</p>
-                </div>
-              )
+              <Trends checkIns={demo ? demoCheckIns() : checkIns} demo={demo} />
             )}
 
             {space === "jardin" && (
