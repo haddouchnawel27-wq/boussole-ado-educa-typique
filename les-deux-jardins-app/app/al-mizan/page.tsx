@@ -11,6 +11,7 @@ import { ThoughtModal } from "./ThoughtModal";
 import { PenseesList } from "./PenseesList";
 import { Jardin } from "./Jardin";
 import { Boussole } from "./Boussole";
+import { Espace } from "./Espace";
 import {
   getProfile,
   saveProfile,
@@ -202,7 +203,7 @@ export default function AlMizanPage() {
           <main id="amz-content" className="amz-main">
             <div className="amz-kicker">{dateStr || " "}</div>
             <h1 className="amz-h1" tabIndex={-1} ref={headingRef}>
-              {space === "aujourdhui" ? hello : current.label}
+              {space === "aujourdhui" ? hello : space === "espace" ? "Ton espace" : current.label}
             </h1>
 
             <div aria-live="polite">
@@ -292,19 +293,7 @@ export default function AlMizanPage() {
             )}
 
             {space === "espace" && (
-              <div className="amz-space">
-                <div className="amz-space-row"><span>Mode actuel</span><strong>{demo ? "Découverte (exemples)" : "Mon espace"}</strong></div>
-                <p className="amz-space-note">🔒 Vos données restent <strong>uniquement sur cet appareil</strong>. Rien n'est envoyé sur internet.</p>
-
-                {demo ? (
-                  <button className="amz-ob-btn primary" onClick={switchToReal}>Commencer mon espace personnel</button>
-                ) : (
-                  <button className="amz-ob-btn" onClick={doExport}>Exporter mes données (fichier)</button>
-                )}
-                <button className="amz-ob-btn danger" onClick={doDeleteAll}>Supprimer toutes mes données</button>
-
-                <p className="amz-space-foot">Al Mizan Al Qalb est un outil de soutien à l'observation de soi. Il ne remplace pas un professionnel de santé et ne fournit pas de diagnostic.</p>
-              </div>
+              <Espace demo={demo} onSwitchReal={switchToReal} onExport={doExport} onDeleteAll={doDeleteAll} />
             )}
           </main>
 
