@@ -13,6 +13,8 @@ const LINKS = [
 
 export function Nav() {
   const path = usePathname();
+  // Al Mizan est une app immersive plein écran : pas de barre d'écosystème.
+  if (path?.startsWith("/al-mizan")) return null;
   return (
     <nav className="sticky top-0 z-30 border-b border-shell-border bg-shell-bg/80 backdrop-blur">
       <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-4 gap-y-2 px-5 py-2.5 sm:px-8">
