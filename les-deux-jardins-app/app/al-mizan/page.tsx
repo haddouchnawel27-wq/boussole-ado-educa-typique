@@ -9,6 +9,7 @@ import { Trends } from "./Trends";
 import { Breathe } from "./Breathe";
 import { ThoughtModal } from "./ThoughtModal";
 import { PenseesList } from "./PenseesList";
+import { Jardin } from "./Jardin";
 import {
   getProfile,
   saveProfile,
@@ -251,7 +252,10 @@ export default function AlMizanPage() {
             )}
 
             {space === "jardin" && (
-              <div className="amz-empty"><p className="amz-empty-h">Votre jardin pousse doucement.</p><p>Cet espace s'ouvrira bientôt — chaque observation y plantera une graine.</p></div>
+              <>
+                <p className="amz-lead">Chaque observation déposée fait grandir votre jardin. Aucun objectif — seulement le vôtre.</p>
+                <Jardin count={nbCheckins} demo={demo} />
+              </>
             )}
 
             {space === "pensees" && (
