@@ -51,9 +51,33 @@ export function Trends({ checkIns, demo }: { checkIns: CheckIn[]; demo: boolean 
     );
   }
 
+  // Bien-être composite (moyenne des 4 dimensions) pour l'insight + les stats.
+  const compo = (c: CheckIn) => (c.energie + c.humeur + c.clarte + c.elan) / 4;
+  const all = [...checkIns].sort((a, b) => a.date.localeCompare(b.date));
+  const last7 = all.slice(-7);
+  const avg7 = Math.round((last7.reduce((s, c) => s + compo(c), 0) / last7.length) * 10) / 10;
+  const avgAll = all.reduce((s, c) => s + compo(c), 0) / all.length;
+  const delta = avg7 - avgAll;
+  const insight =
+    delta > 0.4
+      ? { emoji: "🌿", titre: "Une semaine plus claire", txt: "Ces derniers jours sont au-dessus de ta moyenne. Quelque chose t'a fait du bien — garde-le précieusement." }
+      : delta < -0.4
+      ? { emoji: "🤍", titre: "Une semaine plus dense", txt: "Ces jours sont sous ta moyenne. Sois douce avec toi — les creux font partie du chemin, ils ne durent pas." }
+      : { emoji: "🌱", titre: "Un rythme régulier", txt: "Tes jours se ressemblent, tranquillement. La constance discrète est déjà un soin." };
+
   return (
     <>
       <p className="amz-lead">Vos <strong>{n}</strong> dernières observations, domaine par domaine{demo ? " (exemples)" : ""}.</p>
+
+      <section className="amz-tr-insight" aria-label="Lecture de la semaine">
+        <div className="amz-tr-insight-h">{insight.titre} <span aria-hidden="true">{insight.emoji}</span></div>
+        <p className="amz-tr-insight-t">{insight.txt}</p>
+      </section>
+      <div className="amz-tr-stats">
+        <div className="amz-tr-stat"><div className="amz-tr-stat-n">{avg7}</div><div className="amz-tr-stat-l">moyenne 7 j · /10</div></div>
+        <div className="amz-tr-stat"><div className="amz-tr-stat-n">{checkIns.length}</div><div className="amz-tr-stat-l">observations</div></div>
+      </div>
+
       <div className="amz-trends">
         {DIMS.map((d) => {
           const vals = sorted.map((c) => c[d.key]);
@@ -70,8 +94,8 @@ export function Trends({ checkIns, demo }: { checkIns: CheckIn[]; demo: boolean 
         })}
       </div>
       <p className="amz-caution">
-        Ces tendances aident à observer des variations sur vos {n} derniers passages. Elles ne constituent
-        ni une note ni un diagnostic.
+        Une lecture, jamais un jugement — les jours bas font partie du chemin. Ces tendances observent
+        des variations sur vos {n} derniers passages ; elles ne constituent ni une note ni un diagnostic.
       </p>
     </>
   );
