@@ -25,6 +25,7 @@ export interface CheckIn {
   humeur: number; // 0-10
   clarte: number; // 0-10
   elan: number; // 0-10
+  contextes?: string[]; // ce qui colore la journée (facultatif)
   note?: string;
 }
 
@@ -90,7 +91,7 @@ export function getCheckIns(): CheckIn[] {
   return Array.isArray(list) ? list : [];
 }
 export function addCheckIn(
-  data: Pick<CheckIn, "energie" | "humeur" | "clarte" | "elan"> & { note?: string }
+  data: Pick<CheckIn, "energie" | "humeur" | "clarte" | "elan"> & { contextes?: string[]; note?: string }
 ): { ok: boolean; entry?: CheckIn } {
   const entry: CheckIn = {
     schema: SCHEMA_VERSION,
@@ -100,6 +101,7 @@ export function addCheckIn(
     humeur: data.humeur,
     clarte: data.clarte,
     elan: data.elan,
+    contextes: data.contextes && data.contextes.length ? data.contextes : undefined,
     note: data.note?.trim() || undefined,
   };
   const list = getCheckIns();

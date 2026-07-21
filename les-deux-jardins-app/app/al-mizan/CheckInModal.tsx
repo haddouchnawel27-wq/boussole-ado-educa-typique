@@ -21,6 +21,9 @@ function niveauMot(v: number): string {
   return "au maximum";
 }
 
+// Ce qui peut colorer une journée — facultatif, sans jugement.
+const CONTEXTES = ["Prémenstruel", "Fatigue", "Charge mentale", "Surcharge", "Solitude", "Reprise"];
+
 export function CheckInModal({
   onClose,
   onSaved,
@@ -29,7 +32,12 @@ export function CheckInModal({
   onSaved: (msg: string) => void;
 }) {
   const [vals, setVals] = useState({ energie: 5, humeur: 5, clarte: 5, elan: 5 });
+  const [contextes, setContextes] = useState<string[]>([]);
   const [err, setErr] = useState("");
+
+  function toggleCtx(c: string) {
+    setContextes((prev) => (prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]));
+  }
   const cardRef = useRef<HTMLDivElement>(null);
   const firstRef = useRef<HTMLButtonElement>(null);
   const openerRestore = useRef<HTMLElement | null>(null);
@@ -69,7 +77,7 @@ export function CheckInModal({
   }, [onClose]);
 
   function save() {
-    const res = addCheckIn(vals);
+    const res = addCheckIn({ ...vals, contextes });
     if (!res.ok) {
       setErr(
         "L'enregistrement n'a pas fonctionné (mémoire du navigateur indisponible). Vos réponses ne sont pas perdues — réessayez."
@@ -126,6 +134,26 @@ export function CheckInModal({
             );
           })}
         </div>
+
+        <fieldset className="amz-ctx">
+          <legend className="amz-ctx-legend">Quelque chose colore cette journée ? <span>(facultatif)</span></legend>
+          <div className="amz-ctx-chips">
+            {CONTEXTES.map((c) => {
+              const on = contextes.includes(c);
+              return (
+                <button
+                  key={c}
+                  type="button"
+                  className={"amz-chip" + (on ? " on" : "")}
+                  aria-pressed={on}
+                  onClick={() => toggleCtx(c)}
+                >
+                  {c}
+                </button>
+              );
+            })}
+          </div>
+        </fieldset>
 
         {err && <p className="amz-note" role="alert">⚠️ {err}</p>}
 
