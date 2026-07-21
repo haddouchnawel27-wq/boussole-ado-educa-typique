@@ -10,6 +10,7 @@ import { Breathe } from "./Breathe";
 import { ThoughtModal } from "./ThoughtModal";
 import { PenseesList } from "./PenseesList";
 import { Jardin } from "./Jardin";
+import { Boussole } from "./Boussole";
 import {
   getProfile,
   saveProfile,
@@ -80,6 +81,7 @@ export default function AlMizanPage() {
   const [checkOpen, setCheckOpen] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
   const [thoughtOpen, setThoughtOpen] = useState(false);
+  const [boussoleOpen, setBoussoleOpen] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const userNavigated = useRef(false);
 
@@ -254,6 +256,9 @@ export default function AlMizanPage() {
                 <button className="amz-cta secondary" onClick={() => setQuizOpen(true)}>
                   Où en êtes-vous vraiment ? · parcours guidé
                 </button>
+                <button className="amz-cta secondary" onClick={() => setBoussoleOpen(true)}>
+                  Boussole intérieure · faire le point en 5 axes
+                </button>
               </>
             )}
 
@@ -318,6 +323,7 @@ export default function AlMizanPage() {
       {quizOpen && <Questionnaire onClose={() => setQuizOpen(false)} />}
       {breatheOpen && <Breathe onClose={() => setBreatheOpen(false)} />}
       {thoughtOpen && <ThoughtModal onClose={() => setThoughtOpen(false)} onSaved={onThoughtSaved} />}
+      {boussoleOpen && <Boussole onClose={() => setBoussoleOpen(false)} />}
     </div>
   );
 }
