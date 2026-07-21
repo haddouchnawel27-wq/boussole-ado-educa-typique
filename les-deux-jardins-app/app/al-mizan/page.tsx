@@ -6,6 +6,7 @@ import { Onboarding } from "./Onboarding";
 import { CheckInModal } from "./CheckInModal";
 import { Questionnaire } from "./Questionnaire";
 import { Trends } from "./Trends";
+import { Breathe } from "./Breathe";
 import {
   getProfile,
   saveProfile,
@@ -65,7 +66,7 @@ export default function AlMizanPage() {
   const [checkIns, setCheckIns] = useState<CheckIn[]>([]);
   const [dateStr, setDateStr] = useState("");
   const [greeting, setGreeting] = useState("Bonjour");
-  const [breath, setBreath] = useState(false);
+  const [breatheOpen, setBreatheOpen] = useState(false);
   const [flash, setFlash] = useState("");
   const [checkOpen, setCheckOpen] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
@@ -165,7 +166,7 @@ export default function AlMizanPage() {
               <span className="amz-logo"><LogoMark /></span>
               <span className="amz-title">Al Mizan Al Qalb</span>
             </div>
-            <button type="button" className="amz-respirer" aria-label="Respirer — un temps de pause" onClick={() => setBreath((b) => !b)}>
+            <button type="button" className="amz-respirer" aria-label="Respirer — un temps de pause" onClick={() => setBreatheOpen(true)}>
               <span className="dot" aria-hidden="true" />
               Respirer
             </button>
@@ -178,9 +179,6 @@ export default function AlMizanPage() {
             </h1>
 
             <div aria-live="polite">
-              {breath && (
-                <p className="amz-note">🌬️ Bientôt : un court temps de respiration guidée, pour se poser. Rien à réussir.</p>
-              )}
               {flash && <p className="amz-flash">{flash}</p>}
             </div>
 
@@ -269,6 +267,7 @@ export default function AlMizanPage() {
 
       {checkOpen && <CheckInModal onClose={() => setCheckOpen(false)} onSaved={onCheckSaved} />}
       {quizOpen && <Questionnaire onClose={() => setQuizOpen(false)} />}
+      {breatheOpen && <Breathe onClose={() => setBreatheOpen(false)} />}
     </div>
   );
 }
