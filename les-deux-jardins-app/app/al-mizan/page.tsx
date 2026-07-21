@@ -125,7 +125,18 @@ export default function AlMizanPage() {
 
   // ─── Onboarding tant qu'il n'y a pas de profil ───
   if (profile === undefined) {
-    return <div className="amz-root"><div className="amz-wrap" /></div>; // évite le flash SSR
+    // Écran de chargement de marque (jamais blanc, même avant l'hydratation).
+    return (
+      <div className="amz-root">
+        <div className="amz-wrap">
+          <div className="amz-splash" aria-live="polite">
+            <span className="amz-logo amz-splash-logo"><LogoMark /></span>
+            <div className="amz-splash-title">Al Mizan Al Qalb</div>
+            <p className="amz-splash-txt">Un instant, votre espace s'ouvre…</p>
+          </div>
+        </div>
+      </div>
+    );
   }
   if (profile === null) {
     return (
