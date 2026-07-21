@@ -219,6 +219,113 @@
 .amz-tab:focus-visible { outline: 2px solid var(--amz-gold); outline-offset: -2px; border-radius: 10px; }
 .amz-respirer:focus-visible, .amz-skip:focus-visible { outline: 2px solid var(--amz-gold); outline-offset: 2px; }
 
+/* Message de confirmation (aria-live) */
+.amz-flash {
+  margin-top: 14px; font-size: 13px; line-height: 1.5;
+  color: var(--amz-sage); background: rgba(138,151,137,.14);
+  border: 1px solid rgba(138,151,137,.35); border-radius: 14px; padding: 12px 14px;
+}
+/* Bouton d'action principal (Aujourd'hui) */
+.amz-cta {
+  margin-top: 18px; width: 100%;
+  background: var(--amz-sage); color: #fff; border: none;
+  font-family: var(--amz-sans); font-weight: 600; font-size: 15px;
+  border-radius: 16px; padding: 15px; cursor: pointer; min-height: 48px;
+  transition: background .15s ease;
+}
+.amz-cta:hover { background: var(--amz-sage-3); }
+.amz-cta:focus-visible { outline: 2px solid var(--amz-gold); outline-offset: 2px; }
+
+/* États vides */
+.amz-empty {
+  margin-top: 18px; text-align: center; color: var(--amz-ink-soft);
+  font-size: 13px; line-height: 1.6;
+  border: 1px dashed var(--amz-border-2); border-radius: 16px; padding: 24px 18px;
+}
+.amz-empty-h { font-family: var(--amz-serif); font-size: 18px; color: var(--amz-sage); margin-bottom: 6px; }
+.amz-caution { margin-top: 12px; font-size: 12px; font-style: italic; color: var(--amz-ink-soft); }
+
+/* Bannière mode démo */
+.amz-demo-banner {
+  margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; justify-content: space-between;
+  background: linear-gradient(135deg, rgba(216,183,122,.16), rgba(138,151,137,.12));
+  border: 1px solid var(--amz-sand); border-radius: 14px; padding: 12px 14px;
+  font-size: 12.5px; color: var(--amz-ink);
+}
+
+/* Écran Espace */
+.amz-space { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+.amz-space-row { display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--amz-ink); background: var(--amz-cream); border: 1px solid var(--amz-border); border-radius: 12px; padding: 12px 14px; }
+.amz-space-note { font-size: 12.5px; color: var(--amz-ink-soft); line-height: 1.55; }
+.amz-space-foot { margin-top: 6px; font-size: 11.5px; font-style: italic; color: var(--amz-ink-soft); line-height: 1.55; border-top: 1px solid var(--amz-border); padding-top: 12px; }
+
+/* Boutons génériques (onboarding / modal / espace) */
+.amz-ob-btn {
+  font-family: var(--amz-sans); font-weight: 600; font-size: 14px;
+  border-radius: 14px; padding: 12px 18px; min-height: 46px; cursor: pointer;
+  border: 1px solid var(--amz-border-2); background: var(--amz-cream); color: var(--amz-ink);
+  transition: background .15s ease, opacity .15s ease;
+}
+.amz-ob-btn:hover { background: #fff; }
+.amz-ob-btn.primary { background: var(--amz-sage); color: #fff; border-color: var(--amz-sage); }
+.amz-ob-btn.primary:hover { background: var(--amz-sage-3); }
+.amz-ob-btn.ghost { background: transparent; border-color: var(--amz-border-2); color: var(--amz-sage); }
+.amz-ob-btn.danger { background: transparent; border-color: rgba(140,74,56,.5); color: var(--amz-terra-text); }
+.amz-ob-btn.small { min-height: 40px; padding: 8px 14px; font-size: 12.5px; }
+.amz-ob-btn:disabled { opacity: .5; cursor: not-allowed; }
+.amz-ob-btn:focus-visible { outline: 2px solid var(--amz-gold); outline-offset: 2px; }
+
+/* Onboarding (plein écran doux) */
+.amz-ob { width: min(100%, 460px); min-width: 0; flex: 1 1 auto; display: flex; align-items: center; }
+.amz-ob-card {
+  width: 100%; background: var(--amz-cream-2); border-radius: var(--amz-radius);
+  box-shadow: 0 40px 90px rgba(74,56,42,.2), 0 0 0 1px rgba(74,56,42,.08);
+  padding: clamp(22px, 6vw, 34px);
+}
+.amz-ob-steps { display: flex; gap: 7px; margin-bottom: 20px; }
+.amz-ob-dot { width: 26px; height: 5px; border-radius: 999px; background: var(--amz-border-2); }
+.amz-ob-dot.on { background: var(--amz-gold); }
+.amz-ob-h { font-family: var(--amz-serif); font-size: clamp(1.5rem, 6.5vw, 1.9rem); color: var(--amz-sage); line-height: 1.1; overflow-wrap: anywhere; }
+.amz-ob-h:focus { outline: none; }
+.amz-ob-p { margin-top: 12px; font-size: 13.5px; line-height: 1.6; color: var(--amz-ink-soft); }
+.amz-ob-p strong { color: var(--amz-ink); }
+.amz-ob-label { display: block; margin-top: 20px; margin-bottom: 6px; font-size: 12.5px; font-weight: 600; color: var(--amz-ink); }
+.amz-ob-input { width: 100%; padding: 12px 14px; border: 1px solid var(--amz-border-2); border-radius: 12px; font-family: var(--amz-sans); font-size: 15px; background: #fff; color: var(--amz-ink); }
+.amz-ob-input:focus-visible { outline: 2px solid var(--amz-gold); outline-offset: 1px; border-color: var(--amz-gold); }
+.amz-ob-input:disabled { opacity: .5; }
+.amz-ob-hint { margin-top: 6px; font-size: 11.5px; color: var(--amz-ink-soft); line-height: 1.5; }
+.amz-ob-check { display: flex; align-items: flex-start; gap: 9px; margin-top: 16px; font-size: 13px; color: var(--amz-ink); cursor: pointer; }
+.amz-ob-check input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--amz-sage); flex: 0 0 auto; }
+.amz-ob-actions { display: flex; gap: 10px; margin-top: 24px; }
+.amz-ob-actions .primary { margin-left: auto; }
+.amz-ob-choices { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
+.amz-ob-choice { text-align: left; background: var(--amz-cream); border: 1px solid var(--amz-border-2); border-radius: 16px; padding: 16px 18px; cursor: pointer; transition: border-color .15s ease, background .15s ease; }
+.amz-ob-choice:hover { border-color: var(--amz-gold); background: #fff; }
+.amz-ob-choice:focus-visible { outline: 2px solid var(--amz-gold); outline-offset: 2px; }
+.amz-ob-choice-t { display: block; font-family: var(--amz-serif); font-size: 18px; color: var(--amz-sage); }
+.amz-ob-choice-d { display: block; margin-top: 4px; font-size: 12.5px; color: var(--amz-ink-soft); line-height: 1.5; }
+
+/* Modal check-in */
+.amz-modal-ov { position: fixed; inset: 0; z-index: 200; background: rgba(59,43,35,.42); display: flex; align-items: flex-end; justify-content: center; padding: 12px; }
+.amz-modal { width: min(100%, 460px); min-width: 0; max-height: 92dvh; overflow-y: auto; background: var(--amz-cream-2); border-radius: 26px; box-shadow: 0 -10px 60px rgba(74,56,42,.35); padding: clamp(20px, 5.5vw, 28px); position: relative; }
+.amz-modal-x { position: absolute; top: 12px; right: 14px; width: 40px; height: 40px; border-radius: 50%; border: none; background: rgba(0,0,0,.04); color: var(--amz-ink); font-size: 22px; line-height: 1; cursor: pointer; }
+.amz-modal-x:focus-visible { outline: 2px solid var(--amz-gold); outline-offset: 2px; }
+.amz-modal-h { font-family: var(--amz-serif); font-size: clamp(1.4rem, 6vw, 1.7rem); color: var(--amz-sage); padding-right: 40px; }
+.amz-modal-d { margin-top: 8px; font-size: 13px; color: var(--amz-ink-soft); line-height: 1.55; }
+.amz-modal-actions { display: flex; gap: 10px; margin-top: 22px; }
+.amz-modal-actions .primary { margin-left: auto; }
+
+.amz-ci-fields { margin-top: 18px; display: flex; flex-direction: column; gap: 20px; }
+.amz-ci-field { min-width: 0; }
+.amz-ci-top { display: flex; align-items: baseline; justify-content: space-between; }
+.amz-ci-label { font-size: 14px; font-weight: 600; color: var(--amz-ink); }
+.amz-ci-val { font-family: var(--amz-serif); font-size: 17px; color: var(--amz-sage); font-weight: 700; }
+.amz-ci-range { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; margin-top: 10px; border-radius: 999px; background: linear-gradient(90deg, var(--amz-sage-2), var(--amz-gold-2)); cursor: pointer; }
+.amz-ci-range::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 3px solid var(--amz-gold); box-shadow: 0 2px 8px rgba(74,56,42,.28); cursor: pointer; }
+.amz-ci-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 3px solid var(--amz-gold); box-shadow: 0 2px 8px rgba(74,56,42,.28); cursor: pointer; }
+.amz-ci-range:focus-visible { outline: 2px solid var(--amz-gold); outline-offset: 4px; }
+.amz-ci-ends { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--amz-ink-soft); }
+
 @media (prefers-reduced-motion: reduce) {
   .amz-skip { transition: none; }
 }
