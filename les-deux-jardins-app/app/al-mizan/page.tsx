@@ -7,17 +7,22 @@ import { CheckInModal } from "./CheckInModal";
 import { Questionnaire } from "./Questionnaire";
 import { Trends } from "./Trends";
 import { Breathe } from "./Breathe";
+import { ThoughtModal } from "./ThoughtModal";
+import { PenseesList } from "./PenseesList";
 import {
   getProfile,
   saveProfile,
   getCheckIns,
+  getThoughts,
+  deleteThought,
   computeStreak,
   exportAll,
   deleteAllData,
   type Profile,
   type CheckIn,
+  type Thought,
 } from "./lib/storage";
-import { demoCheckIns, DEMO_STREAK } from "./lib/demo";
+import { demoCheckIns, demoThoughts, DEMO_STREAK } from "./lib/demo";
 
 type SpaceKey = "aujourdhui" | "tendances" | "jardin" | "pensees" | "espace";
 
@@ -64,18 +69,21 @@ export default function AlMizanPage() {
   const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
   const [space, setSpace] = useState<SpaceKey>("aujourdhui");
   const [checkIns, setCheckIns] = useState<CheckIn[]>([]);
+  const [thoughts, setThoughts] = useState<Thought[]>([]);
   const [dateStr, setDateStr] = useState("");
   const [greeting, setGreeting] = useState("Bonjour");
   const [breatheOpen, setBreatheOpen] = useState(false);
   const [flash, setFlash] = useState("");
   const [checkOpen, setCheckOpen] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
+  const [thoughtOpen, setThoughtOpen] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const userNavigated = useRef(false);
 
   useEffect(() => {
     setProfile(getProfile());
     setCheckIns(getCheckIns());
+    setThoughts(getThoughts());
     const now = new Date();
     setGreeting(now.getHours() >= 18 || now.getHours() < 5 ? "Bonsoir" : "Bonjour");
     setDateStr(now.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }));
@@ -104,12 +112,24 @@ export default function AlMizanPage() {
     saveProfile(p);
     setProfile(p);
     setCheckIns(getCheckIns());
+    setThoughts(getThoughts());
     setFlash("Votre espace personnel est prêt. Rien n'est encore rempli — à votre rythme.");
   }
 
   function onCheckSaved(msg: string) {
     setCheckIns(getCheckIns());
     setFlash(msg);
+  }
+
+  function onThoughtSaved(msg: string) {
+    setThoughts(getThoughts());
+    setFlash(msg);
+  }
+
+  function onThoughtDelete(id: string) {
+    deleteThought(id);
+    setThoughts(getThoughts());
+    setFlash("Pensée supprimée.");
   }
 
   function doExport() {
@@ -121,6 +141,7 @@ export default function AlMizanPage() {
     if (!window.confirm("Supprimer toutes vos données Al Mizan ? Cette action est définitive.")) return;
     deleteAllData();
     setCheckIns([]);
+    setThoughts([]);
     setProfile(null); // repart sur l'onboarding
   }
 
@@ -234,7 +255,21 @@ export default function AlMizanPage() {
             )}
 
             {space === "pensees" && (
-              <div className="amz-empty"><p className="amz-empty-h">Aucune pensée déposée pour l'instant.</p><p>Bientôt, vous pourrez observer une pensée en douceur, à votre rythme. Prenez ce qui vous aide, laissez le reste.</p></div>
+              <>
+                <p className="amz-lead">Une pensée vous pèse ? Regardez-la en douceur, en cinq temps. Rien n'est envoyé nulle part.</p>
+                {!demo && (
+                  <button className="amz-cta" onClick={() => setThoughtOpen(true)}>
+                    Observer une pensée
+                  </button>
+                )}
+                {demo && (
+                  <div className="amz-demo-banner">
+                    <span>🌱 <strong>Mode découverte</strong> — pensées d'exemple ci-dessous.</span>
+                    <button className="amz-ob-btn primary small" onClick={switchToReal}>Commencer mon espace</button>
+                  </div>
+                )}
+                <PenseesList thoughts={demo ? demoThoughts() : thoughts} demo={demo} onDelete={onThoughtDelete} />
+              </>
             )}
 
             {space === "espace" && (
@@ -268,6 +303,7 @@ export default function AlMizanPage() {
       {checkOpen && <CheckInModal onClose={() => setCheckOpen(false)} onSaved={onCheckSaved} />}
       {quizOpen && <Questionnaire onClose={() => setQuizOpen(false)} />}
       {breatheOpen && <Breathe onClose={() => setBreatheOpen(false)} />}
+      {thoughtOpen && <ThoughtModal onClose={() => setThoughtOpen(false)} onSaved={onThoughtSaved} />}
     </div>
   );
 }

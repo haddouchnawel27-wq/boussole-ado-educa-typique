@@ -28,8 +28,22 @@ export interface CheckIn {
   note?: string;
 }
 
+// Journal des pensées — accompagnement TCC en 5 temps, tout en douceur.
+export interface Thought {
+  schema: number;
+  id: string;
+  date: string; // ISO
+  situation: string;   // 1. Ce qui s'est passé
+  pensee: string;      // 2. La pensée automatique
+  emotion: string;     // 3. Ce que ça a fait ressentir
+  intensite: number;   // 3b. Intensité 0-10
+  regard: string;      // 4. Un regard plus juste
+  apres: string;       // 5. Comment je me sens après
+}
+
 const K_PROFILE = "almizan.profile.v1";
 const K_CHECKINS = "almizan.checkins.v1";
+const K_THOUGHTS = "almizan.thoughts.v1";
 
 // ---- utilitaires sûrs (SSR + quotas) ----
 function canStore(): boolean {
@@ -105,10 +119,39 @@ export function deleteCheckIn(id: string): boolean {
   return write(K_CHECKINS, list);
 }
 
+// ---- Pensées (journal TCC — réelles uniquement) ----
+export function getThoughts(): Thought[] {
+  const list = read<Thought[]>(K_THOUGHTS, []);
+  return Array.isArray(list) ? list : [];
+}
+export function addThought(
+  data: Pick<Thought, "situation" | "pensee" | "emotion" | "intensite" | "regard" | "apres">
+): { ok: boolean; entry?: Thought } {
+  const entry: Thought = {
+    schema: SCHEMA_VERSION,
+    id: uid(),
+    date: new Date().toISOString(),
+    situation: data.situation.trim(),
+    pensee: data.pensee.trim(),
+    emotion: data.emotion.trim(),
+    intensite: data.intensite,
+    regard: data.regard.trim(),
+    apres: data.apres.trim(),
+  };
+  const list = getThoughts();
+  list.unshift(entry); // la plus récente en tête
+  const ok = write(K_THOUGHTS, list);
+  return ok ? { ok, entry } : { ok: false };
+}
+export function deleteThought(id: string): boolean {
+  const list = getThoughts().filter((t) => t.id !== id);
+  return write(K_THOUGHTS, list);
+}
+
 // ---- Export / suppression (RGPD-friendly) ----
 export function exportAll(): string {
   return JSON.stringify(
-    { app: "Al Mizan Al Qalb", schema: SCHEMA_VERSION, exportedAt: new Date().toISOString(), profile: getProfile(), checkins: getCheckIns() },
+    { app: "Al Mizan Al Qalb", schema: SCHEMA_VERSION, exportedAt: new Date().toISOString(), profile: getProfile(), checkins: getCheckIns(), thoughts: getThoughts() },
     null,
     2
   );
@@ -118,6 +161,7 @@ export function deleteAllData(): void {
   try {
     window.localStorage.removeItem(K_PROFILE);
     window.localStorage.removeItem(K_CHECKINS);
+    window.localStorage.removeItem(K_THOUGHTS);
   } catch {
     /* rien à faire */
   }
