@@ -24,6 +24,7 @@ import {
   type Thought,
 } from "./lib/storage";
 import { demoCheckIns, demoThoughts, DEMO_STREAK } from "./lib/demo";
+import { graineDuJour } from "./lib/graines";
 
 type SpaceKey = "aujourdhui" | "tendances" | "jardin" | "pensees" | "espace";
 
@@ -73,6 +74,7 @@ export default function AlMizanPage() {
   const [thoughts, setThoughts] = useState<Thought[]>([]);
   const [dateStr, setDateStr] = useState("");
   const [greeting, setGreeting] = useState("Bonjour");
+  const [graine, setGraine] = useState("");
   const [breatheOpen, setBreatheOpen] = useState(false);
   const [flash, setFlash] = useState("");
   const [checkOpen, setCheckOpen] = useState(false);
@@ -88,6 +90,7 @@ export default function AlMizanPage() {
     const now = new Date();
     setGreeting(now.getHours() >= 18 || now.getHours() < 5 ? "Bonsoir" : "Bonjour");
     setDateStr(now.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }));
+    setGraine(graineDuJour(now));
   }, []);
 
   useEffect(() => {
@@ -211,6 +214,13 @@ export default function AlMizanPage() {
                     <span>🌱 <strong>Mode découverte</strong> — les données ci-dessous sont des exemples.</span>
                     <button className="amz-ob-btn primary small" onClick={switchToReal}>Commencer mon espace</button>
                   </div>
+                )}
+
+                {graine && (
+                  <section className="amz-graine" aria-label="Graine du jour">
+                    <span className="amz-graine-k">Graine du jour</span>
+                    <p className="amz-graine-t">{graine}</p>
+                  </section>
                 )}
 
                 {streak > 0 ? (
