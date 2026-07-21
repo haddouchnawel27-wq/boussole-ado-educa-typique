@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import "./al-mizan.css";
 import { Onboarding } from "./Onboarding";
 import { CheckInModal } from "./CheckInModal";
+import { Questionnaire } from "./Questionnaire";
 import {
   getProfile,
   saveProfile,
@@ -66,6 +67,7 @@ export default function AlMizanPage() {
   const [breath, setBreath] = useState(false);
   const [flash, setFlash] = useState("");
   const [checkOpen, setCheckOpen] = useState(false);
+  const [quizOpen, setQuizOpen] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const userNavigated = useRef(false);
 
@@ -207,6 +209,9 @@ export default function AlMizanPage() {
                 {!demo && nbCheckins > 0 && (
                   <p className="amz-lead">{nbCheckins} {nbCheckins > 1 ? "observations déposées" : "observation déposée"} jusqu'ici.</p>
                 )}
+                <button className="amz-cta secondary" onClick={() => setQuizOpen(true)}>
+                  Où en êtes-vous vraiment ? · parcours guidé
+                </button>
               </>
             )}
 
@@ -261,6 +266,7 @@ export default function AlMizanPage() {
       </div>
 
       {checkOpen && <CheckInModal onClose={() => setCheckOpen(false)} onSaved={onCheckSaved} />}
+      {quizOpen && <Questionnaire onClose={() => setQuizOpen(false)} />}
     </div>
   );
 }
