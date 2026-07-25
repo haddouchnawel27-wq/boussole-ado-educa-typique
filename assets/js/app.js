@@ -234,9 +234,16 @@
   // simple porte sur le routeur. Le code n'est JAMAIS stocké en clair : on ne
   // garde que son empreinte SHA-256 et on compare les empreintes.
   var PRO_VERROUILLES = ["profils", "suivi", "abc", "modeles-pro", "personnalisation"];
-  // Empreinte du code praticienne. Code PROVISOIRE « mizan2026 » — à remplacer
-  // par le vrai code choisi par Nawel (je recalcule l'empreinte avant déploiement).
+  // Empreinte du code praticienne PAR DÉFAUT (code provisoire « mizan2026 »).
+  // Nawel pose son VRAI code elle-même dans l'app (« Changer mon code ») : il est
+  // alors stocké — CHIFFRÉ (empreinte SHA-256), jamais en clair — uniquement sur
+  // son appareil (clé boussole.v1.codePraticienneHash) et remplace ce défaut.
   var CODE_PRATICIENNE_SHA256 = "320ddc16d29bfc2d27d54e282a27ea1862477fe94d782057858d7829a809ba1d";
+  // Empreinte active = celle posée par la praticienne (locale) si elle existe, sinon le défaut.
+  function codeActifHash() {
+    var h = Store.lire("codePraticienneHash", null);
+    return (typeof h === "string" && h.length === 64) ? h : CODE_PRATICIENNE_SHA256;
+  }
 
   function proDeverrouille() { try { return sessionStorage.getItem("boussole.pro.ouvert") === "1"; } catch (e) { return false; } }
   function ouvrirSessionPro() { try { sessionStorage.setItem("boussole.pro.ouvert", "1"); } catch (e) { /* session verrouillée : on ré-affichera le code */ } }
@@ -245,6 +252,46 @@
     return crypto.subtle.digest("SHA-256", enc).then(function (buf) {
       return Array.prototype.map.call(new Uint8Array(buf), function (b) { return b.toString(16).padStart(2, "0"); }).join("");
     });
+  }
+  // Formulaire EN LIGNE « poser / changer mon code praticienne » — la praticienne
+  // définit son propre code, de ses mains. Rien n'est transmis ; on ne stocke que
+  // l'empreinte, uniquement sur cet appareil. Contrôle total du flux (async-safe).
+  function ecranChangerCode(vue, outil) {
+    UI.vider(vue);
+    document.title = "Mon code praticienne — Boussole";
+    var actuel = UI.input({ type: "password", placeholder: "Code actuel" });
+    var neuf = UI.input({ type: "password", placeholder: "Nouveau code (min. 4 caractères)" });
+    var confirm = UI.input({ type: "password", placeholder: "Confirmer le nouveau code" });
+    [actuel, neuf, confirm].forEach(function (i) { i.setAttribute("autocomplete", "off"); });
+    var erreur = UI.el("p.pro-lock-err", { text: "", role: "alert" });
+    function enregistrer() {
+      var a = (actuel.value || "").trim(), n = (neuf.value || "").trim(), c = (confirm.value || "").trim();
+      erreur.textContent = "";
+      if (n.length < 4) { erreur.textContent = "Le nouveau code doit faire au moins 4 caractères."; neuf.focus(); return; }
+      if (n !== c) { erreur.textContent = "Les deux nouveaux codes ne correspondent pas."; confirm.focus(); return; }
+      empreinteSha256(a).then(function (ha) {
+        if (ha !== codeActifHash()) { erreur.textContent = "Code actuel incorrect."; actuel.value = ""; actuel.focus(); return; }
+        empreinteSha256(n).then(function (hn) {
+          Store.ecrire("codePraticienneHash", hn);
+          ouvrirSessionPro();
+          UI.toast("Votre code praticienne est enregistré ✓");
+          routerVers();
+        });
+      }).catch(function () { erreur.textContent = "Vérification impossible sur ce navigateur."; });
+    }
+    confirm.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); enregistrer(); } });
+    vue.appendChild(UI.el(".pro-lock", {}, [
+      UI.el("div.pro-lock-ic", { text: "🔑", "aria-hidden": "true" }),
+      UI.el("h1", { text: "Mon code praticienne" }),
+      UI.el("p.pro-lock-sub", { text: "Choisissez un code connu de vous seule. Il reste sur cet appareil, chiffré — personne ne peut le lire, pas même via ce site. Au premier usage, le « code actuel » est le code provisoire." }),
+      UI.champ("Code actuel", actuel),
+      UI.champ("Nouveau code", neuf),
+      UI.champ("Confirmer le nouveau code", confirm),
+      erreur,
+      UI.el("button.btn", { text: "Enregistrer mon code", onclick: enregistrer }),
+      UI.el("button.btn.ghost", { text: "← Retour", style: "margin-top:8px", onclick: function () { ecranProVerrouille(vue, outil); } })
+    ]));
+    setTimeout(function () { actuel.focus(); }, 50);
   }
   function ecranProVerrouille(vue, outil) {
     document.title = "Espace praticienne — Boussole";
@@ -257,7 +304,7 @@
       var val = (input.value || "").trim();
       if (!val) { input.focus(); return; }
       empreinteSha256(val).then(function (h) {
-        if (h === CODE_PRATICIENNE_SHA256) { ouvrirSessionPro(); routerVers(); }
+        if (h === codeActifHash()) { ouvrirSessionPro(); routerVers(); }
         else { erreur.textContent = "Code incorrect. Réessayez."; input.value = ""; input.focus(); }
       }).catch(function () { erreur.textContent = "Vérification impossible sur ce navigateur."; });
     }
@@ -269,6 +316,7 @@
       UI.champ("Code praticienne", input),
       erreur,
       UI.el("button.btn", { text: "Ouvrir mon espace", onclick: tenter }),
+      UI.el("button.btn.ghost", { text: "Définir / changer mon code", style: "margin-top:8px", onclick: function () { ecranChangerCode(vue, outil); } }),
       UI.el("p.pro-lock-note", { text: "Le code déverrouille les outils pro pour cette session. Rien n'est envoyé sur internet." })
     ]));
     setTimeout(function () { input.focus(); }, 50);
