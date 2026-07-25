@@ -393,7 +393,7 @@
     <div id="cat-anamnese"></div>
 
     <h2>🎯 Jannat al Qulûb (8 troubles)</h2>
-    <div id="cat-voie-chifa"></div>
+    <div id="cat-jannat"></div>
 
     <h2>🏥 Échelles cliniques</h2>
     <div id="cat-clinique"></div>
@@ -537,9 +537,9 @@ const QUESTIONNAIRES = {
     ]
   },
 
-  // ============ VOIE CHIFA (8 troubles) ============
+  // ============ JANNAT AL QULÛB (8 troubles) ============
   "vc-waswas": {
-    id: "vc-waswas", title: "Waswas (TOC religieux)", icon: "🎯", category: "voie-chifa",
+    id: "vc-waswas", title: "Waswas (TOC religieux)", icon: "🎯", category: "jannat",
     desc: "Échelle Jannat al Qulûb — 10 items, score /100. Lié à la fiche A-01.",
     duration: "3 min",
     fiche_ref: "A-01",
@@ -559,7 +559,7 @@ const QUESTIONNAIRES = {
     niveaux: NIVEAUX_VC(100),
   },
   "vc-choc": {
-    id: "vc-choc", title: "Choc émotionnel", icon: "🎯", category: "voie-chifa",
+    id: "vc-choc", title: "Choc émotionnel", icon: "🎯", category: "jannat",
     desc: "Échelle Jannat al Qulûb — 10 items. Lié à la fiche A-02.",
     duration: "3 min", fiche_ref: "A-02", type: "scoring", max: 100, cr_echelle_code: "VC-CHOC",
     items: [
@@ -577,7 +577,7 @@ const QUESTIONNAIRES = {
     niveaux: NIVEAUX_VC(100),
   },
   "vc-addictions": {
-    id: "vc-addictions", title: "Addictions", icon: "🎯", category: "voie-chifa",
+    id: "vc-addictions", title: "Addictions", icon: "🎯", category: "jannat",
     desc: "Échelle Jannat al Qulûb — 10 items. Lié à la fiche A-03.",
     duration: "3 min", fiche_ref: "A-03", type: "scoring", max: 100, cr_echelle_code: "VC-ADDICT",
     items: [
@@ -595,7 +595,7 @@ const QUESTIONNAIRES = {
     niveaux: NIVEAUX_VC(100),
   },
   "vc-depression": {
-    id: "vc-depression", title: "Dépression", icon: "🎯", category: "voie-chifa",
+    id: "vc-depression", title: "Dépression", icon: "🎯", category: "jannat",
     desc: "Échelle Jannat al Qulûb — 10 items. Lié à la fiche A-04.",
     duration: "3 min", fiche_ref: "A-04", type: "scoring", max: 100, cr_echelle_code: "VC-DEPRESSION",
     items: [
@@ -615,7 +615,7 @@ const QUESTIONNAIRES = {
     urgence_seuil: 6,
   },
   "vc-angoisse": {
-    id: "vc-angoisse", title: "Angoisse / Anxiété", icon: "🎯", category: "voie-chifa",
+    id: "vc-angoisse", title: "Angoisse / Anxiété", icon: "🎯", category: "jannat",
     desc: "Échelle Jannat al Qulûb — 10 items. Lié à la fiche A-05.",
     duration: "3 min", fiche_ref: "A-05", type: "scoring", max: 100, cr_echelle_code: "VC-ANGOISSE",
     items: [
@@ -633,7 +633,7 @@ const QUESTIONNAIRES = {
     niveaux: NIVEAUX_VC(100),
   },
   "vc-tristesse": {
-    id: "vc-tristesse", title: "Tristesse / Huzn", icon: "🎯", category: "voie-chifa",
+    id: "vc-tristesse", title: "Tristesse / Huzn", icon: "🎯", category: "jannat",
     desc: "Échelle Jannat al Qulûb — 10 items. Lié à la fiche F-03.",
     duration: "3 min", fiche_ref: "F-03", type: "scoring", max: 100, cr_echelle_code: "VC-TRISTESSE",
     items: [
@@ -652,7 +652,7 @@ const QUESTIONNAIRES = {
     urgence_q: 8, urgence_seuil: 6,
   },
   "vc-deuil": {
-    id: "vc-deuil", title: "Deuil compliqué", icon: "🎯", category: "voie-chifa",
+    id: "vc-deuil", title: "Deuil compliqué", icon: "🎯", category: "jannat",
     desc: "Échelle Jannat al Qulûb — 10 items. Lié à la fiche A-08.",
     duration: "3 min", fiche_ref: "A-08", type: "scoring", max: 100, cr_echelle_code: "VC-DEUIL",
     items: [
@@ -670,7 +670,7 @@ const QUESTIONNAIRES = {
     niveaux: NIVEAUX_VC(100),
   },
   "vc-foi": {
-    id: "vc-foi", title: "Faiblesse de foi / Futûr", icon: "🎯", category: "voie-chifa",
+    id: "vc-foi", title: "Faiblesse de foi / Futûr", icon: "🎯", category: "jannat",
     desc: "Échelle Jannat al Qulûb — 10 items. Lié à la fiche G-01.",
     duration: "3 min", fiche_ref: "G-01", type: "scoring", max: 100, cr_echelle_code: "VC-FOI",
     items: [
@@ -916,7 +916,7 @@ function getDraft(qid) {
 
 // ============= SIDEBAR =============
 function renderSidebar() {
-  const buckets = { anamnese: "cat-anamnese", "voie-chifa": "cat-voie-chifa", clinique: "cat-clinique", enfance: "cat-enfance" };
+  const buckets = { anamnese: "cat-anamnese", "jannat": "cat-jannat", clinique: "cat-clinique", enfance: "cat-enfance" };
   Object.values(buckets).forEach(id => document.getElementById(id).innerHTML = "");
   Object.values(QUESTIONNAIRES).forEach(q => {
     const cont = document.getElementById(buckets[q.category]);
