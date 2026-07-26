@@ -132,10 +132,10 @@
     });
   }
 
-  // ---- Écran de bienvenue : « Pour qui ouvre-t-on Boussole ? » ----
+  // ---- Écran de bienvenue : « Pour qui ouvre-t-on Cap Educa ? » ----
   function ecranChoixPublic(vue) {
     vue.appendChild(UI.enTete(
-      "Pour qui ouvre-t-on Boussole ?",
+      "Pour qui ouvre-t-on Cap Educa ?",
       "Choisissez la tranche d'âge : le menu s'adaptera pour rester clair et apaisant. Vous pourrez en changer à tout moment, en haut de l'écran."
     ));
     var grille = UI.el(".grille");
@@ -258,7 +258,7 @@
   // l'empreinte, uniquement sur cet appareil. Contrôle total du flux (async-safe).
   function ecranChangerCode(vue, outil) {
     UI.vider(vue);
-    document.title = "Mon code praticienne — Boussole";
+    document.title = "Mon code praticienne — Cap Educa";
     var actuel = UI.input({ type: "password", placeholder: "Code actuel" });
     var neuf = UI.input({ type: "password", placeholder: "Nouveau code (min. 4 caractères)" });
     var confirm = UI.input({ type: "password", placeholder: "Confirmer le nouveau code" });
@@ -294,7 +294,7 @@
     setTimeout(function () { actuel.focus(); }, 50);
   }
   function ecranProVerrouille(vue, outil) {
-    document.title = "Espace praticienne — Boussole";
+    document.title = "Espace praticienne — Cap Educa";
     marquerActif(outil.id);
     document.body.classList.remove("menu-ouvert");
     var input = UI.input({ type: "password", placeholder: "Code praticienne" });
@@ -336,7 +336,7 @@
     if (!publicActif()) {
       marquerActif("accueil");
       document.body.classList.remove("menu-ouvert");
-      document.title = "Boussole";
+      document.title = "Cap Educa";
       ecranChoixPublic(vue);
       window.scrollTo(0, 0);
       return;
@@ -353,7 +353,7 @@
     noterRecent(outil.id);
     document.body.classList.remove("menu-ouvert");
     document.getElementById("contenu").focus();
-    document.title = (outil.titre ? outil.titre + " — " : "") + "Boussole";
+    document.title = (outil.titre ? outil.titre + " — " : "") + "Cap Educa";
     try {
       outil.render(vue, { profil: profilActif(), arg: arg, naviguer: naviguer, refreshProfils: rafraichirSelectProfil });
     } catch (e) {
