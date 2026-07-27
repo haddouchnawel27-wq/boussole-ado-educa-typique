@@ -1,11 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMode } from "@/lib/mode";
 import { QUESTIONNAIRES, evaluate, questionText, type Questionnaire } from "@/lib/questionnaires";
 import { getClients, saveQuestionnaireResponseDb } from "@/lib/data";
 
 export default function QuestionnairesPage() {
   const { mode } = useMode();
+  const [dossierId, setDossierId] = useState("");
+  useEffect(() => {
+    setDossierId(new URLSearchParams(window.location.search).get("client") ?? "");
+  }, []);
   const islamic = mode === "islamique";
   const [curId, setCurId] = useState<string | null>(null);
   const cur = QUESTIONNAIRES.find((q) => q.id === curId) ?? null;
@@ -43,12 +47,12 @@ export default function QuestionnairesPage() {
         </div>
       )}
 
-      {cur && <Runner q={cur} onExit={() => setCurId(null)} />}
+      {cur && <Runner q={cur} dossierId={dossierId} onExit={() => setCurId(null)} />}
     </main>
   );
 }
 
-function Runner({ q, onExit }: { q: Questionnaire; onExit: () => void }) {
+function Runner({ q, dossierId, onExit }: { q: Questionnaire; dossierId: string; onExit: () => void }) {
   const { mode } = useMode();
   const islamic = mode === "islamique";
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -72,7 +76,7 @@ function Runner({ q, onExit }: { q: Questionnaire; onExit: () => void }) {
     const r = await getClients();
     setLive(r.source === "supabase");
     setClients(r.clients.map((cl) => ({ id: cl.id, nom: cl.nom })));
-    setPick(r.clients[0]?.id ?? "");
+    setPick(r.clients.find((cl) => cl.id === dossierId)?.id ?? r.clients[0]?.id ?? "");
     setLoadingClients(false);
   }
 
@@ -185,6 +189,7 @@ function Runner({ q, onExit }: { q: Questionnaire; onExit: () => void }) {
                   <span className="rounded-xl border border-[rgba(91,138,91,.4)] bg-[rgba(91,138,91,.12)] px-4 py-2.5 text-sm font-semibold text-[#4d7a4d]">
                     ✔ Résultat relié à la fiche de <b>{savedTo}</b>.
                   </span>
+                  {pick && <a href={`/cockpit?client=${encodeURIComponent(pick)}&etape=formuler`} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">➜ Retour au dossier : état des lieux</a>}
                   <button onClick={restart} className="rounded-xl border border-shell-border px-4 py-2.5 text-sm font-semibold">Recommencer</button>
                 </div>
               ) : !linking ? (
