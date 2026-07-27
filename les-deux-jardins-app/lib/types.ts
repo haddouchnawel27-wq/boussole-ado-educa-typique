@@ -34,6 +34,11 @@ export interface Client {
     schemas: string;
     neuro: string;
     spirituel: string;
+    // Étapes praticienne du Fil des Deux Jardins : champs de travail, jamais un diagnostic.
+    etatDesLieux?: string;
+    cartographie?: string;
+    hypotheses?: string;
+    objectifs?: string;
     stabilise?: boolean;
     // Anamnèse universelle native : 10 sections (clé → texte). Colonne JSON, rétro-compatible.
     anamnese?: Record<string, string>;

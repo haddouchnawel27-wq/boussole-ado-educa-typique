@@ -25,12 +25,24 @@ export default function Cockpit() {
 
   // formulaire séance
   const [mPick, setMPick] = useState<Meteo | null>(null);
+  const [sessionKind, setSessionKind] = useState<"seance" | "annulation" | "absence">("seance");
   const [notes, setNotes] = useState("");
   const [axes, setAxes] = useState("");
   // saisie accueil / bilan
   const [savedMsg, setSavedMsg] = useState("");
+  const [dirty, setDirty] = useState(false);
   // questionnaires reliés à la fiche courante
   const [responses, setResponses] = useState<QResponse[]>([]);
+
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
 
   // (Re)charge à chaque changement d'utilisateur : la déconnexion vide immédiatement l'écran.
   useEffect(() => {
@@ -50,7 +62,12 @@ export default function Cockpit() {
       if (!active) return;
       setClients(r.clients);
       setSource(r.source);
-      setCurId(r.clients[0]?.id ?? "");
+      const query = new URLSearchParams(window.location.search);
+      const requestedId = query.get("client");
+      const requestedStep = query.get("etape");
+      const requestedClient = r.clients.find((client) => client.id === requestedId);
+      setCurId(requestedClient?.id ?? r.clients[0]?.id ?? "");
+      if (requestedClient && requestedStep) setStep(requestedStep);
       setLoading(false);
     });
     return () => {
@@ -90,6 +107,7 @@ export default function Cockpit() {
   }
 
   function selectClient(id: string) {
+    if (dirty && !window.confirm("Cette fiche contient des modifications non enregistrées. Quitter sans enregistrer ?")) return;
     setCurId(id);
     const cl = clients.find((x) => x.id === id);
     setStep(STEPS.find((s) => s.n === (cl?.etape ?? 1))?.k ?? "accueil");
@@ -112,10 +130,25 @@ export default function Cockpit() {
   }
 
   async function addSeance() {
-    if (!mPick || !notes.trim() || !c) return;
+    if (!c) return;
+    if (sessionKind === "seance" && !mPick) {
+      flash("⚠️ Choisis la météo émotionnelle avant d'enregistrer la séance.");
+      return;
+    }
+    if (sessionKind === "seance" && !notes.trim()) {
+      flash("⚠️ Ajoute une note de séance avant d'enregistrer.");
+      return;
+    }
     const mois = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
     const d = new Date();
-    const s = { date: `${d.getDate()} ${mois[d.getMonth()]}`, meteo: mPick, notes: notes.trim(), axes: axes.trim() || "—" };
+    const prefix = sessionKind === "annulation" ? "[Rendez-vous annulé]" : sessionKind === "absence" ? "[Absence sans nouvelle]" : "";
+    const defaultNote = sessionKind === "annulation" ? "Rendez-vous annulé." : "Absence au rendez-vous ; pas de réponse aux sollicitations à ce stade.";
+    const s = {
+      date: `${d.getDate()} ${mois[d.getMonth()]}`,
+      meteo: mPick ?? "voile",
+      notes: [prefix, notes.trim() || defaultNote].filter(Boolean).join(" "),
+      axes: axes.trim() || "À réévaluer par la praticienne.",
+    };
     if (live) {
       const ok = await addSeanceDb(curId, s);
       if (!ok) {
@@ -127,6 +160,7 @@ export default function Cockpit() {
       update(curId, (cl) => ({ ...cl, seances: [...cl.seances, s] }));
     }
     setMPick(null);
+    setSessionKind("seance");
     setNotes("");
     setAxes("");
     flash("✔ Séance enregistrée");
@@ -153,27 +187,16 @@ export default function Cockpit() {
     window.setTimeout(() => setSavedMsg(""), msg.startsWith("⚠️") ? 6000 : 2500);
   }
 
-  // confirme / annule la stabilisation (les « 4 feux verts ») — déverrouille l'étape Cibler
-  async function toggleStabilise() {
-    if (!c) return;
-    const newBilan = { ...c.bilan, stabilise: !c.bilan.stabilise };
-    if (live) {
-      const ok = await updateClientDb(curId, { bilan: newBilan });
-      if (!ok) {
-        flash("⚠️ Non enregistré — reconnecte-toi puis réessaie.");
-        return;
-      }
-      await reload(curId);
-    } else {
-      update(curId, (cl) => ({ ...cl, bilan: newBilan }));
-    }
-    flash(newBilan.stabilise ? "✔ Stabilisation confirmée" : "Stabilisation retirée");
-  }
-
   // édite un champ localement (l'input reste fluide), la sauvegarde se fait au bouton
   function editClient(fn: (cl: Client) => Client) {
     if (!curId) return;
     update(curId, fn);
+    setDirty(true);
+  }
+
+  function goToStep(next: string) {
+    if (next !== step && dirty && !window.confirm("Cette fiche contient des modifications non enregistrées. Enregistrer avant de changer d'étape ?")) return;
+    setStep(next);
   }
 
   // lecture / écriture d'un champ d'anamnèse (clé du schéma)
@@ -195,6 +218,7 @@ export default function Cockpit() {
       }
       await reload(curId);
     }
+    setDirty(false);
     flash("✔ Enregistré");
   }
 
@@ -368,25 +392,28 @@ export default function Cockpit() {
         <div className="mb-4 rounded-2xl border border-shell-border bg-shell-soft p-4 sm:p-5">
           {(() => {
             const s1done = Boolean(c.intention?.trim() || c.consentement);
-            const stabilise = Boolean(c.bilan.stabilise);
-            const s4done = responses.length > 0;
+            const s2done = responses.length > 0;
+            const s3done = Boolean(c.bilan.cartographie?.trim() || c.bilan.hypotheses?.trim());
+            const s4done = Boolean(c.bilan.objectifs?.trim());
             const s5done = c.synthese.status === "valide";
             type Stage = { n: number; t: string; state: "done" | "todo" | "locked" | "soon"; href?: string; onClick?: () => void; note?: string };
             const stages: Stage[] = [
-              { n: 1, t: "Accueil / anamnèse", state: s1done ? "done" : "todo", onClick: () => setStep("accueil"), note: "Intention · consentement" },
-              { n: 2, t: "Évaluer", state: "soon", href: "/parcours-shifa", note: "Boussole de l'Âme · Schémas · Bilan TCC" },
-              { n: 3, t: "Formuler", state: "soon", href: "/parcours-shifa", note: "Décodeur · Référentiel" },
-              { n: 4, t: "Cibler", state: !stabilise ? "locked" : s4done ? "done" : "todo", href: stabilise ? "/questionnaires" : undefined, note: stabilise ? "8 questionnaires /100" : "après stabilisation" },
-              { n: 5, t: "Restituer", state: s5done ? "done" : "todo", onClick: () => setStep("synthese"), note: "Synthèse + Suivi" },
+              { n: 1, t: "Accueil / anamnèse", state: s1done ? "done" : "todo", onClick: () => goToStep("accueil"), note: "Intention · consentement" },
+              { n: 2, t: "Évaluer", state: !s1done ? "locked" : s2done ? "done" : "todo", href: s1done ? `/questionnaires?client=${encodeURIComponent(c.id)}` : undefined, note: "Questionnaires ciblés · décodeurs" },
+              { n: 3, t: "Formuler", state: !s2done ? "locked" : s3done ? "done" : "todo", onClick: s2done ? () => goToStep("formuler") : undefined, note: "État des lieux · cartographie · hypothèses" },
+              { n: 4, t: "Cibler", state: !s3done ? "locked" : s4done ? "done" : "todo", onClick: s3done ? () => goToStep("cibler") : undefined, note: "Objectifs · référentiel · protocoles" },
+              { n: 5, t: "Restituer", state: s5done ? "done" : "todo", onClick: () => goToStep("synthese"), note: "Synthèse + Suivi" },
             ];
             const sug: { label: string; onClick?: () => void; href?: string; done?: boolean } = !s1done
-              ? { label: "Compléter l'accueil", onClick: () => setStep("accueil") }
-              : !stabilise
-              ? { label: "Confirmer la stabilisation avant de cibler", onClick: toggleStabilise }
+              ? { label: "Compléter l'accueil", onClick: () => goToStep("accueil") }
+              : !s2done
+              ? { label: "Évaluer avec un questionnaire ciblé", href: `/questionnaires?client=${encodeURIComponent(c.id)}` }
+              : !s3done
+              ? { label: "Formuler l'état des lieux", onClick: () => goToStep("formuler") }
               : !s4done
-              ? { label: "Cibler avec un questionnaire", href: "/questionnaires" }
+              ? { label: "Cibler les objectifs et protocoles", onClick: () => goToStep("cibler") }
               : !s5done
-              ? { label: "Rédiger la synthèse « Pour toi »", onClick: () => setStep("synthese") }
+              ? { label: "Rédiger la synthèse « Pour toi »", onClick: () => goToStep("synthese") }
               : { label: "Parcours complet — mā shā'a Llāh 🌸", done: true };
             return (
               <>
@@ -429,18 +456,10 @@ export default function Cockpit() {
                   ) : (
                     <button onClick={sug.onClick} className="rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Prochaine étape : {sug.label}</button>
                   )}
-                  <button
-                    onClick={toggleStabilise}
-                    className={"inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-[12.5px] font-semibold transition " + (stabilise ? "border-[rgba(91,138,91,.4)] bg-[rgba(91,138,91,.10)] text-[#4d7a4d]" : "border-dashed border-shell-border text-shell-muted hover:border-gold")}
-                  >
-                    {stabilise ? "✔ Stabilisation confirmée" : "☐ Confirmer la stabilisation (4 feux verts)"}
-                  </button>
                 </div>
-                {!stabilise && (
-                  <p className="mt-2 text-[11.5px] text-shell-muted">
-                    🔒 Le <b>ciblage</b> (questionnaires scorés) reste verrouillé tant que la stabilisation n&apos;est pas confirmée. <i>Les 4 critères exacts sont à préciser avec Nawel.</i>
-                  </p>
-                )}
+                {!s2done && <p className="mt-2 text-[11.5px] text-shell-muted">L&apos;évaluation ciblée vient après l&apos;accueil/anamnèse : elle sert à choisir les questionnaires pertinents, jamais à poser un diagnostic.</p>}
+                {s2done && !s3done && <p className="mt-2 text-[11.5px] text-shell-muted">Les questionnaires sont reliés : la prochaine étape est l&apos;état des lieux et la cartographie par la praticienne.</p>}
+                {s3done && !s4done && <p className="mt-2 text-[11.5px] text-shell-muted">La cartographie est prête : tu peux maintenant choisir les objectifs et consulter le référentiel pour les protocoles adaptés.</p>}
               </>
             );
           })()}
@@ -454,7 +473,7 @@ export default function Cockpit() {
             return (
               <button
                 key={s.k}
-                onClick={() => setStep(s.k)}
+                onClick={() => goToStep(s.k)}
                 className={"flex flex-none items-center gap-2 whitespace-nowrap rounded-full border px-3.5 py-2 text-[13.5px] font-semibold transition " + (on ? "border-jq-deep bg-jq-deep text-white" : "border-shell-border bg-shell-surface text-shell-muted hover:border-gold-light")}
               >
                 <span className={"grid h-5 w-5 place-items-center rounded-full text-[12px] font-extrabold " + (on ? "bg-white/25 text-white" : done ? "bg-jq-sage text-white" : "bg-shell-soft text-jq-deep")}>{s.n}</span>
@@ -484,7 +503,7 @@ export default function Cockpit() {
                 </div>
                 <Field k="Mode d'accompagnement" v={islamic ? "Islamique — psycho-spirituel" : "Universel — fondé sur les preuves"} />
               </div>
-              <SaveBar msg={savedMsg} onSave={() => persistFields({ intention: c.intention, rdv: c.rdv, consentement: c.consentement })} />
+              <SaveBar dirty={dirty} msg={savedMsg} onSave={() => persistFields({ intention: c.intention, rdv: c.rdv, consentement: c.consentement })} />
               <Callout>Aucun diagnostic. L'accompagnement complète, sans les remplacer, le suivi médical et l'avis d'un professionnel de santé.</Callout>
             </Panel>
           )}
@@ -505,11 +524,50 @@ export default function Cockpit() {
                 ))}
               </div>
 
-              <ProtocolePanel responses={responses} live={live} />
-
-              <SaveBar msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
-              <AnamneseNextStep anamnese={c.bilan.anamnese} />
+              <SaveBar dirty={dirty} msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
+              <AnamneseNextStep anamnese={c.bilan.anamnese} clientId={c.id} />
               <Callout>Aucun diagnostic. L&apos;anamnèse et les questionnaires sont des <b>repères de dialogue</b> — les alertes priment toujours sur le score.</Callout>
+            </Panel>
+          )}
+
+          {step === "evaluer" && (
+            <Panel title="Évaluer — questionnaires et décodeurs ciblés" lead="À partir de l'accueil/anamnèse, choisis seulement les outils utiles à la demande. Les résultats sont des repères de dialogue, jamais un diagnostic.">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <a href={`/questionnaires?client=${encodeURIComponent(c.id)}`} className="rounded-2xl border border-jq-sage/50 bg-[rgba(124,139,108,.07)] p-4 transition hover:border-gold">
+                  <div className="text-sm font-bold text-jq-deep">Questionnaires ciblés</div>
+                  <p className="mt-1 text-[13px] text-shell-muted">Psychotrauma, émotions/TCC, psycho-spiritualité ou autre axe pertinent.</p>
+                </a>
+                <a href="https://decodeur-profil-educa-typique.netlify.app/" target="_blank" rel="noopener noreferrer" className="rounded-2xl border border-shell-border bg-shell-soft p-4 transition hover:border-gold">
+                  <div className="text-sm font-bold text-jq-deep">Décodeur neuroatypie ↗️</div>
+                  <p className="mt-1 text-[13px] text-shell-muted">À utiliser uniquement lorsqu'un axe neurodéveloppemental ou fonctionnel est pertinent.</p>
+                </a>
+              </div>
+              <div className="mt-3 rounded-2xl border border-shell-border bg-shell-soft p-4">
+                <div className="text-sm font-bold text-jq-deep">Décodeur clinique et synthèse</div>
+                <p className="mt-1 text-[13px] text-shell-muted">À consulter après les résultats pertinents, pour relire l'ensemble avant de formuler la cartographie. Les données sensibles ne doivent être transmises à aucun service externe sans validation de confidentialité.</p>
+                <a href="https://shifa-decodeur-voie-chifa-cr.netlify.app/" target="_blank" rel="noopener noreferrer" className="mt-3 inline-block rounded-xl border border-shell-border px-4 py-2 text-sm font-semibold text-jq-deep">Ouvrir le décodeur clinique ↗️</a>
+              </div>
+              <QuestionnaireResultsPanel responses={responses} live={live} />
+            </Panel>
+          )}
+
+          {step === "formuler" && (
+            <Panel title="Formuler — état des lieux et cartographie" lead="Relis les éléments recueillis, cartographie les difficultés et ressources, puis formule des hypothèses de travail prudentes. Cette étape relève de la praticienne.">
+              <EditField k="État des lieux" v={c.bilan.etatDesLieux ?? ""} placeholder="Demande, contexte, difficultés, ressources, facteurs de protection et questions ouvertes…" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, etatDesLieux: val } }))} />
+              <div className="mt-3.5"><EditField k="Cartographie" v={c.bilan.cartographie ?? ""} placeholder="Émotionnel · relationnel/familial · fonctionnel si pertinent · repères culturels/interculturels · sens/spiritualité si choisi · orientations…" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, cartographie: val } }))} /></div>
+              <div className="mt-3.5"><EditField k="Hypothèses de travail à vérifier et prioriser" v={c.bilan.hypotheses ?? ""} placeholder="Formuler comme des pistes : « les éléments recueillis invitent à explorer… »" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, hypotheses: val } }))} /></div>
+              <SaveBar dirty={dirty} msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
+              <Callout>Les repères culturels, familiaux, linguistiques, spirituels ou sociaux sont explorés à partir de ce que la personne choisit de partager ; ils ne sont jamais présumés.</Callout>
+            </Panel>
+          )}
+
+          {step === "cibler" && (
+            <Panel title="Cibler — objectifs, référentiel et protocoles" lead="À partir des hypothèses validées, choisir l'axe prioritaire, l'objectif concret, les outils ou protocoles adaptés, et les précautions nécessaires.">
+              <EditField k="Objectifs et plan proposé" v={c.bilan.objectifs ?? ""} placeholder="Axe prioritaire · objectif concret · outil/protocole envisagé · rythme · indicateur · vigilance/orientation…" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, objectifs: val } }))} />
+              <SaveBar dirty={dirty} msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
+              <ProtocolePanel responses={responses} live={live} />
+              <a href="https://referentielshifa-complet-voiechifa.netlify.app/" target="_blank" rel="noopener noreferrer" className="mt-4 inline-block rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">Consulter le Référentiel Jannat al Qulûb ↗️</a>
+              <Callout>Une suggestion d'outil ou de protocole reste toujours à valider, adapter ou écarter par la praticienne.</Callout>
             </Panel>
           )}
 
@@ -526,16 +584,28 @@ export default function Cockpit() {
                   <div className="mt-1.5 text-[13px] text-shell-muted"><b className="text-shell-text">Axe :</b> {s.axes}</div>
                 </div>
               ))}
-              <Label>Nouvelle séance — météo émotionnelle</Label>
+              <Label>Événement à consigner</Label>
               <div className="flex flex-wrap gap-1.5">
-                {METEO_KEYS.map((k) => (
-                  <button key={k} onClick={() => setMPick(k)} className={"rounded-full border px-3 py-1.5 text-[12.5px] font-semibold transition " + (mPick === k ? "border-gold bg-shell-soft text-shell-text" : "border-shell-border bg-shell-surface text-shell-muted")}>{METEO[k].label}</button>
+                {([
+                  ["seance", "Séance réalisée"],
+                  ["annulation", "Rendez-vous annulé"],
+                  ["absence", "Absence / sans nouvelle"],
+                ] as const).map(([kind, label]) => (
+                  <button key={kind} onClick={() => setSessionKind(kind)} className={"rounded-full border px-3 py-1.5 text-[12.5px] font-semibold transition " + (sessionKind === kind ? "border-gold bg-shell-soft text-shell-text" : "border-shell-border bg-shell-surface text-shell-muted")}>{label}</button>
                 ))}
               </div>
-              <Label>Notes</Label>
+              {sessionKind === "seance" && <>
+                <Label>Météo émotionnelle</Label>
+                <div className="flex flex-wrap gap-1.5">
+                  {METEO_KEYS.map((k) => (
+                    <button key={k} onClick={() => setMPick(k)} className={"rounded-full border px-3 py-1.5 text-[12.5px] font-semibold transition " + (mPick === k ? "border-gold bg-shell-soft text-shell-text" : "border-shell-border bg-shell-surface text-shell-muted")}>{METEO[k].label}</button>
+                  ))}
+                </div>
+              </>}
+              <Label>{sessionKind === "seance" ? "Notes de séance" : "Observation ou tentative de contact (facultatif)"}</Label>
               <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="Ce qui s'est dit, observé…" className="w-full rounded-xl border border-shell-border bg-shell-surface p-2.5 text-sm outline-none focus:border-gold" />
-              <Label>Axe de travail</Label>
-              <input value={axes} onChange={(e) => setAxes(e.target.value)} placeholder="Le prochain petit pas…" className="w-full rounded-xl border border-shell-border bg-shell-surface p-2.5 text-sm outline-none focus:border-gold" />
+              <Label>{sessionKind === "seance" ? "Axe de travail" : "Décision ou prochaine action (facultatif)"}</Label>
+              <input value={axes} onChange={(e) => setAxes(e.target.value)} placeholder={sessionKind === "seance" ? "Le prochain petit pas…" : "Ex. relance à prévoir / rappel du cadre si nécessaire"} className="w-full rounded-xl border border-shell-border bg-shell-surface p-2.5 text-sm outline-none focus:border-gold" />
               <div className="mt-4 flex items-center gap-3">
                 <button onClick={addSeance} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">+ Enregistrer la séance</button>
                 {savedMsg && <span className={"text-[13px] font-semibold " + (savedMsg.startsWith("⚠️") ? "text-[#a94b54]" : "text-[#4d7a4d]")}>{savedMsg}</span>}
@@ -680,10 +750,11 @@ function EditField({ k, v, onChange, placeholder }: { k: string; v: string; onCh
     </div>
   );
 }
-function SaveBar({ onSave, msg }: { onSave: () => void; msg: string }) {
+function SaveBar({ onSave, msg, dirty }: { onSave: () => void; msg: string; dirty: boolean }) {
   return (
     <div className="mt-4 flex items-center gap-3">
       <button onClick={onSave} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">💾 Enregistrer</button>
+      {dirty && <span className="text-[13px] font-semibold text-gold-dark">Modifications non enregistrées</span>}
       {msg && <span className={"text-[13px] font-semibold " + (msg.startsWith("⚠️") ? "text-[#a94b54]" : "text-[#4d7a4d]")}>{msg}</span>}
     </div>
   );
@@ -747,8 +818,8 @@ function AnaFieldInput({ f, v, onChange }: { f: AnaField; v: string; onChange: (
     </div>
   );
 }
-// Pont après l'anamnèse : propose les questionnaires à cibler (d'après la section 9). Jamais un diagnostic.
-function AnamneseNextStep({ anamnese }: { anamnese?: Record<string, string> }) {
+// Pont après l'anamnèse : propose une évaluation ciblée (d'après la section 9). Jamais un diagnostic.
+function AnamneseNextStep({ anamnese, clientId }: { anamnese?: Record<string, string>; clientId: string }) {
   const a = anamnese ?? {};
   const map: { key: string; q: string }[] = [
     { key: "s9_anxiete", q: "Anxiété / stress" },
@@ -760,16 +831,43 @@ function AnamneseNextStep({ anamnese }: { anamnese?: Record<string, string> }) {
   if (["Présent", "Envahissant — urgence"].includes(a.s9_qunut ?? "") || (espoir !== undefined && espoir !== "" && Number(espoir) <= 3)) sugg.push("Futūr (faiblesse de foi)");
   return (
     <div className="mt-4 rounded-2xl border border-jq-sage/50 bg-[rgba(124,139,108,.07)] p-4">
-      <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-jq-sage">Prochaine étape — après l&apos;anamnèse</div>
+      <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-jq-sage">Prochaine étape — évaluer après l&apos;anamnèse</div>
       <p className="text-[13px] text-shell-muted">
-        L&apos;anamnèse est ton <b>état des lieux</b> — <b>jamais un diagnostic</b>. La suite : les <b>questionnaires ciblés</b> (scores /100, paliers, alertes), puis tout revient dans le CR.
+        L&apos;anamnèse ouvre l&apos;<b>évaluation ciblée</b> — <b>jamais un diagnostic</b>. Les questionnaires utiles reviennent ensuite dans l&apos;état des lieux et la cartographie.
       </p>
       {sugg.length > 0 && (
         <p className="mt-2 text-[13px]">
           <b className="text-jq-deep">D&apos;après la section 9, à envisager :</b> {sugg.join(" · ")}
         </p>
       )}
-      <a href="/questionnaires" className="mt-3 inline-block rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Aller aux questionnaires ciblés</a>
+      <a href={`/questionnaires?client=${encodeURIComponent(clientId)}`} className="mt-3 inline-block rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Évaluer avec les questionnaires ciblés</a>
+    </div>
+  );
+}
+
+function QuestionnaireResultsPanel({ responses, live }: { responses: QResponse[]; live: boolean }) {
+  const scored = responses
+    .map((r) => ({ r, info: evaluateStored(r.questionnaireId, r.answers) }))
+    .filter((x): x is { r: QResponse; info: NonNullable<ReturnType<typeof evaluateStored>> } => Boolean(x.info));
+  return (
+    <div className="mt-4 rounded-2xl border border-shell-border bg-shell-soft p-4">
+      <div className="text-sm font-bold text-jq-deep">Résultats reliés à cette fiche</div>
+      {!live ? (
+        <p className="mt-1 text-[13px] text-shell-muted">Connecte-toi à l'espace praticienne pour relier et relire les résultats dans une fiche réelle.</p>
+      ) : scored.length === 0 ? (
+        <p className="mt-1 text-[13px] text-shell-muted">Aucun questionnaire relié pour l'instant. Une fois relié, son résultat apparaîtra ici avant la cartographie.</p>
+      ) : (
+        <div className="mt-3 flex flex-col gap-2">
+          {scored.map(({ r, info }) => (
+            <div key={r.id} className="rounded-xl border border-shell-border bg-shell-surface p-3">
+              <div className="flex flex-wrap items-center gap-2 text-[13px]">
+                <b>{info.titre}</b><span className="text-shell-muted">— {info.band.titre}</span>
+                {info.alerts.some((a) => a.level === "rouge") && <span className="rounded bg-[rgba(169,75,84,.14)] px-1.5 py-0.5 text-[11px] font-bold text-[#a94b54]">🚨 vigilance</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
