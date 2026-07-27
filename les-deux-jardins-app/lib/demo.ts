@@ -3,12 +3,15 @@ import type { Client, Dua, Meteo, Step } from "./types";
 export const STEPS: Step[] = [
   { k: "accueil", n: 1, t: "Accueil" },
   { k: "bilan", n: 2, t: "Bilan / anamnèse" },
-  { k: "seances", n: 3, t: "Séances" },
-  { k: "outils", n: 4, t: "Bibliothèque" },
-  { k: "synthese", n: 5, t: "Synthèse « Pour toi »" },
-  { k: "suivi", n: 6, t: "Suivi" },
-  { k: "cloture", n: 7, t: "Clôture" },
-  { k: "cr", n: 8, t: "CR (compte-rendu)" },
+  { k: "evaluer", n: 3, t: "Évaluer" },
+  { k: "formuler", n: 4, t: "Formuler" },
+  { k: "cibler", n: 5, t: "Cibler" },
+  { k: "seances", n: 6, t: "Séances" },
+  { k: "outils", n: 7, t: "Bibliothèque" },
+  { k: "synthese", n: 8, t: "Synthèse « Pour toi »" },
+  { k: "suivi", n: 9, t: "Suivi" },
+  { k: "cloture", n: 10, t: "Clôture" },
+  { k: "cr", n: 11, t: "CR (compte-rendu)" },
 ];
 
 export const METEO: Record<Meteo, { cls: string; label: string }> = {
