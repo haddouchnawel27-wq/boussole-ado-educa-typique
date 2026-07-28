@@ -35,6 +35,11 @@
     background:linear-gradient(165deg,var(--bg) 0%,#FBF9F2 100%);
     min-height:100vh;line-height:1.55;padding-bottom:env(safe-area-inset-bottom)}
   body.dys{letter-spacing:.03em;word-spacing:.08em;line-height:1.8}
+  body.lowsensory *{animation:none!important;transition:none!important}
+  body.lowsensory .btn{box-shadow:none}
+  .reco{display:inline-block;font-size:.7rem;font-weight:800;color:#fff;background:var(--primary);
+    border-radius:999px;padding:2px 9px;margin-left:8px;vertical-align:middle}
+  .opt.on{background:var(--primary-soft);border-color:var(--primary);color:var(--primary-dark)}
   .wrap{max-width:540px;margin:0 auto;padding:18px 16px 40px}
 
   h1,h2{font-family:var(--font-display);font-weight:600;letter-spacing:.01em;line-height:1.15}
@@ -237,9 +242,12 @@ const GLOBAL_TXT = {
    STORE — local uniquement (localStorage). Aucun réseau.
    ═══════════════════════════════════════════════════════════════════ */
 const KEY="lpj:v1";
-const DEFAULT={ history:[], draft:null, rescues:[], tools:{ dump:"", decoupe:{task:"",steps:[]}, checklist:[] }, prefs:{dys:false, spirit:false} };
+const DEFAULT={ history:[], draft:null, rescues:[], tools:{ dump:"", decoupe:{task:"",steps:[]}, checklist:[] }, prefs:{dys:false, spirit:false, profil:[], lowSensory:false} };
 let db = load();
-function load(){ try{ return Object.assign(structuredClone(DEFAULT), JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){ return structuredClone(DEFAULT); } }
+function load(){ let d; try{ d=Object.assign(structuredClone(DEFAULT), JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){ d=structuredClone(DEFAULT); }
+  d.prefs=Object.assign({dys:false,spirit:false,profil:[],lowSensory:false}, d.prefs||{});
+  if(!Array.isArray(d.prefs.profil)) d.prefs.profil=[];
+  return d; }
 function save(){ localStorage.setItem(KEY, JSON.stringify(db)); }
 function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),1700); }
 
@@ -291,6 +299,7 @@ function renderIntro(){
       <div class="discl">🤍 C'est un outil de <b>soutien</b>, pas un diagnostic. Il ne remplace pas l'avis d'un professionnel. Tout reste sur ton appareil — rien n'est envoyé.</div>
     </div>
     ${db.history.length? `<button class="linkbtn" id="hist">📊 Voir mes points précédents (${db.history.length})</button>`:""}
+    <button class="linkbtn" id="profil" style="margin-top:2px">🧠 Mon profil${db.prefs.profil.length?" ("+db.prefs.profil.length+")":" : à personnaliser"}</button>
     <div class="row" style="margin-top:6px">
       <button class="linkbtn" id="dys">🔤 Confort dys : ${db.prefs.dys?"activé":"désactivé"}</button>
       <button class="linkbtn" id="spirit">🕊️ Spirituel : ${db.prefs.spirit?"activé":"désactivé"}</button>
@@ -302,6 +311,7 @@ function renderIntro(){
   document.getElementById("dys").onclick = ()=>{ db.prefs.dys=!db.prefs.dys; save(); document.body.classList.toggle("dys",db.prefs.dys); renderIntro(); };
   document.getElementById("sos").onclick = ()=>startCoach({ needsReg:true, sos:true });
   document.getElementById("tools").onclick = ()=>renderTools();
+  document.getElementById("profil").onclick = renderProfil;
   document.getElementById("spirit").onclick = ()=>{ db.prefs.spirit=!db.prefs.spirit; save(); renderIntro(); };
 }
 
@@ -699,6 +709,59 @@ function startTimer(){
 function stopTimer(){ tOn=false; if(tTimer) clearTimeout(tTimer); const btn=document.getElementById("tbtn"); if(btn && tRemain>0) btn.textContent="▶︎ Reprendre"; }
 
 /* ═══════════════════════════════════════════════════════════════════
+   LE PROFIL LÉGER — tu dis comment tu fonctionnes, l'app met en avant
+   les bons outils (et un mode « moins d'agitation » optionnel).
+   Pas de routers, pas de diagnostic : juste des repères pour t'aider.
+   ═══════════════════════════════════════════════════════════════════ */
+const PROFILS=[
+  {id:"tdah", label:"TDAH", hint:"démarrer, ne pas se disperser", tools:["decoupe","timer","dump","checklist"]},
+  {id:"tda", label:"Attention fragile (TDA)", hint:"organiser, se souvenir", tools:["decoupe","priorite","checklist"]},
+  {id:"dys", label:"Dys", hint:"texte court, repères visuels", tools:["checklist","decoupe"], setDys:true},
+  {id:"sensoriel", label:"Sensible au bruit / à l'agitation", hint:"moins de stimuli", tools:["breath","priorite"], setLowSensory:true},
+  {id:"hpi", label:"Tête qui sur-réfléchit", hint:"trier, décider, alléger", tools:["priorite","dump"]}
+];
+function recoTools(){
+  const set=new Set();
+  db.prefs.profil.forEach(pid=>{ const p=PROFILS.find(x=>x.id===pid); if(p) p.tools.forEach(t=>set.add(t)); });
+  return set;
+}
+function renderProfil(){
+  app().innerHTML="";
+  const chips=PROFILS.map(p=>{ const on=db.prefs.profil.includes(p.id);
+    return `<button class="opt${on?" on":""}" data-p="${p.id}">
+      <span class="dot">${on?"✓":""}</span>
+      <span><b>${esc(p.label)}</b><br><span class="tiny">${esc(p.hint)}</span></span>
+    </button>`; }).join("");
+  app().appendChild(el(`<section class="screen">
+    <div class="toolbar"><button class="linkbtn" id="home">‹ Accueil</button></div>
+    <div class="card">
+      <h2 style="margin-top:0">🧠 Mon profil</h2>
+      <p class="muted">Comment fonctionnes-tu ? Coche ce qui te ressemble (autant que tu veux, ou rien). Ça met en avant les <b>outils faits pour toi</b> — sans rien t'imposer.</p>
+      <div class="opts" style="margin-top:8px">${chips}</div>
+      <label class="opt" id="lowrow" style="margin-top:12px;cursor:pointer">
+        <span class="dot">${db.prefs.lowSensory?"✓":""}</span>
+        <span><b>Mode « moins d'agitation »</b><br><span class="tiny">Coupe les animations et adoucit l'affichage.</span></span>
+      </label>
+      <p class="tiny muted" style="margin-top:12px">🤍 Ce n'est pas un diagnostic — juste des repères pour t'aider, gardés sur ton appareil.</p>
+    </div>
+    <button class="btn ghost" id="tools">🧰 Voir ma boîte à outils</button>
+  </section>`));
+  document.getElementById("home").onclick=renderIntro;
+  app().querySelectorAll("[data-p]").forEach(b=> b.onclick=()=>{
+    const pid=b.getAttribute("data-p"); const i=db.prefs.profil.indexOf(pid);
+    if(i>=0) db.prefs.profil.splice(i,1); else {
+      db.prefs.profil.push(pid);
+      const p=PROFILS.find(x=>x.id===pid);
+      if(p&&p.setDys){ db.prefs.dys=true; document.body.classList.add("dys"); }
+      if(p&&p.setLowSensory){ db.prefs.lowSensory=true; document.body.classList.add("lowsensory"); }
+    }
+    save(); renderProfil();
+  });
+  document.getElementById("lowrow").onclick=()=>{ db.prefs.lowSensory=!db.prefs.lowSensory; document.body.classList.toggle("lowsensory",db.prefs.lowSensory); save(); renderProfil(); };
+  document.getElementById("tools").onclick=()=>renderTools();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    LA BOÎTE À OUTILS — mini-outils concrets, 100% hors-ligne.
    Un seul outil visible à la fois, jamais tout d'un coup. Tout est gardé
    sur l'appareil. Chaque outil = un petit pas faisable, pas la montagne.
@@ -729,11 +792,13 @@ const TOOLS=[
 function renderTools(focusTool){
   stopToolTimer(); stopBreath();
   app().innerHTML="";
-  const cards=TOOLS.map(t=>`<button class="opt" data-t="${t.id}" style="align-items:flex-start">
+  const reco=recoTools();
+  const ordered=TOOLS.slice().sort((a,b)=> (reco.has(b.id)?1:0)-(reco.has(a.id)?1:0));
+  const cards=ordered.map(t=>`<button class="opt" data-t="${t.id}" style="align-items:flex-start">
       <span style="font-size:1.5rem;line-height:1.2">${t.icon}</span>
-      <span><b style="color:var(--primary-dark)">${esc(t.title)}</b><br><span class="tiny">${esc(t.desc)}</span></span>
+      <span><b style="color:var(--primary-dark)">${esc(t.title)}</b>${reco.has(t.id)?'<span class="reco">pour toi</span>':""}<br><span class="tiny">${esc(t.desc)}</span></span>
     </button>`).join("");
-  const hint = focusTool ? `<p class="tiny muted">Vu ton point du jour, l'outil <b>${esc((TOOLS.find(x=>x.id===focusTool)||{}).title||"")}</b> pourrait bien t'aider — mais tu choisis.</p>` : "";
+  const hint = focusTool ? `<p class="tiny muted">Vu ton point du jour, l'outil <b>${esc((TOOLS.find(x=>x.id===focusTool)||{}).title||"")}</b> pourrait bien t'aider — mais tu choisis.</p>` : (reco.size? `<p class="tiny muted">✨ Les outils marqués <span class="reco">pour toi</span> correspondent à ton profil.</p>`:"");
   app().appendChild(el(`<section class="screen">
     <div class="toolbar"><button class="linkbtn" id="home">‹ Accueil</button></div>
     <div class="card">
@@ -928,6 +993,7 @@ function toolBreath(){
    ═══════════════════════════════════════════════════════════════════ */
 if("serviceWorker" in navigator){ window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
 document.body.classList.toggle("dys", !!db.prefs.dys);
+document.body.classList.toggle("lowsensory", !!db.prefs.lowSensory);
 renderIntro();
 </script>
 </body>
