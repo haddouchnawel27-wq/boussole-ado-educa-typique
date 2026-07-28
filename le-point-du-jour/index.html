@@ -81,6 +81,13 @@
     display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff}
   .opt.sel .dot{background:var(--primary);border-color:var(--primary)}
 
+  textarea,input[type=text]{width:100%;padding:14px 15px;border-radius:12px;border:1.5px solid var(--border);
+    background:var(--input);color:var(--text);font-family:var(--font);font-size:1rem}
+  textarea{min-height:110px;resize:vertical;line-height:1.5}
+  textarea:focus,input[type=text]:focus{outline:none;border-color:var(--primary)}
+  .recap-row{margin:10px 0}.recap-row b{display:block;color:var(--primary-dark);font-size:.9rem}
+  .recap-row .v{background:var(--input);border-radius:10px;padding:10px 12px;margin-top:4px;white-space:pre-wrap}
+  .tdisp{font-size:2.4rem;font-family:var(--font-display);color:var(--primary-dark)}
   .sec-intro{font-family:var(--font-display);font-style:italic;font-size:1.2rem;color:var(--text-soft)}
 
   /* respiration mini (route crise) */
@@ -230,7 +237,7 @@ const GLOBAL_TXT = {
    STORE — local uniquement (localStorage). Aucun réseau.
    ═══════════════════════════════════════════════════════════════════ */
 const KEY="lpj:v1";
-const DEFAULT={ history:[], draft:null, prefs:{dys:false} };
+const DEFAULT={ history:[], draft:null, rescues:[], prefs:{dys:false, spirit:false} };
 let db = load();
 function load(){ try{ return Object.assign(structuredClone(DEFAULT), JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){ return structuredClone(DEFAULT); } }
 function save(){ localStorage.setItem(KEY, JSON.stringify(db)); }
@@ -278,18 +285,22 @@ function renderIntro(){
       <h2 style="margin-top:0">Prends 30 secondes 🌿</h2>
       <p class="muted">Ce petit point t'aide à voir <b>où tu en es aujourd'hui</b>, et te propose le bon niveau d'aide — sans rien te demander de plus que ce que tu peux donner, là, maintenant.</p>
       <button class="btn" id="start" style="margin-top:8px">Commencer en douceur →</button>
+      <button class="btn secondary" id="sos" style="margin-top:10px">🛟 J'ai besoin d'aide, maintenant</button>
       ${resume}
       <div class="discl">🤍 C'est un outil de <b>soutien</b>, pas un diagnostic. Il ne remplace pas l'avis d'un professionnel. Tout reste sur ton appareil — rien n'est envoyé.</div>
     </div>
     ${db.history.length? `<button class="linkbtn" id="hist">📊 Voir mes points précédents (${db.history.length})</button>`:""}
     <div class="row" style="margin-top:6px">
       <button class="linkbtn" id="dys">🔤 Confort dys : ${db.prefs.dys?"activé":"désactivé"}</button>
+      <button class="linkbtn" id="spirit">🕊️ Spirituel : ${db.prefs.spirit?"activé":"désactivé"}</button>
     </div>
   </section>`));
   document.getElementById("start").onclick = ()=>{ newSession(); buildEtatFlow(); renderStep(); };
   const r=document.getElementById("resume"); if(r) r.onclick = resumeDraft;
   const h=document.getElementById("hist"); if(h) h.onclick = renderHistory;
   document.getElementById("dys").onclick = ()=>{ db.prefs.dys=!db.prefs.dys; save(); document.body.classList.toggle("dys",db.prefs.dys); renderIntro(); };
+  document.getElementById("sos").onclick = ()=>startCoach({ needsReg:true, sos:true });
+  document.getElementById("spirit").onclick = ()=>{ db.prefs.spirit=!db.prefs.spirit; save(); renderIntro(); };
 }
 
 function progressHead(labelExtra){
@@ -388,6 +399,11 @@ function renderSummary(){
   const gl=globalLevel(sum, scored.length);
   const gtxt=GLOBAL_TXT[gl];
 
+  // profil pour le Sauveteur (routeur d'actions gradué)
+  let focusSid=null, focusV=-1; scored.forEach(sid=>{ if(scores[sid]>focusV){ focusV=scores[sid]; focusSid=sid; } });
+  const needsReg = (gl==="surcharge"||gl==="crise"||scores.surcharge_emotionnelle>=9||scores.dysregulation_emotionnelle>=9||scores.anxiete>=9);
+  const focusLabel = (focusV>=5 && focusSid)? SECTIONS[focusSid].label : null;
+
   // mode conseillé
   const highs=scored.filter(sid=> sectionLevel(scores[sid])==="high"||sectionLevel(scores[sid])==="very_high");
   let conseil="Tu peux avancer à ton rythme — une chose à la fois.";
@@ -426,7 +442,8 @@ function renderSummary(){
       ${secHtml}
       <p class="tiny" style="margin-top:10px">Repère : <b>${sum}</b> ${S.mode==="bref"?"(mode bref — lecture partielle, c'est normal)":""}. Plus la barre est courte, plus ça va de ce côté-là.</p>
     </div>
-    ${gl==="crise"? `<button class="btn secondary" id="calme">🫧 Revenir au calme (1 min)</button>`:""}
+    <button class="btn" id="coach" style="margin-top:8px">🛟 Prends-moi par la main</button>
+    ${gl==="crise"? `<button class="btn secondary" id="calme" style="margin-top:8px">🫧 Revenir au calme (1 min)</button>`:""}
     <div class="row" style="margin-top:8px">
       <button class="btn ghost small" id="again">↺ Refaire</button>
       <button class="btn ghost small" id="home">🏠 Accueil</button>
@@ -434,6 +451,7 @@ function renderSummary(){
     <div class="discl">🤍 Soutien, pas diagnostic. Ce qui compte : t'orienter avec douceur vers ce dont tu as besoin aujourd'hui.</div>
   </section>`));
   const c=document.getElementById("calme"); if(c) c.onclick=()=>{ S.flow=[{k:"crisis"}]; S.i=0; renderStep(); };
+  document.getElementById("coach").onclick=()=>startCoach({ needsReg, focus: focusLabel });
   document.getElementById("again").onclick=()=>{ newSession(); buildEtatFlow(); renderStep(); };
   document.getElementById("home").onclick=renderIntro;
 }
@@ -495,6 +513,184 @@ function renderHistory(){
 function autosave(){ if(S){ db.draft={ answers:S.answers, flow:S.flow, i:S.i, mode:S.mode, scored:S.scored }; save(); } }
 function saveDraftExit(){ autosave(); toast("Gardé — reviens quand tu veux 🌿"); renderIntro(); }
 function resumeDraft(){ if(!db.draft) return renderIntro(); S={ answers:db.draft.answers, flow:db.draft.flow, i:db.draft.i, mode:db.draft.mode, scored:db.draft.scored }; renderStep(); }
+
+async function copyText(txt){ if(!txt){toast("Rien à copier");return;} try{ await navigator.clipboard.writeText(txt); toast("Gardé ✓ (copié)"); }catch(e){ toast("Copie impossible"); } }
+
+/* ═══════════════════════════════════════════════════════════════════
+   LE SAUVETEUR — coach qui te prend par la main (passage à l'action)
+   Routeur d'actions gradué : régulation → poser le sac → une bouée →
+   premier geste → alléger → plan de sauvetage. Ton chaleureux, marin.
+   ═══════════════════════════════════════════════════════════════════ */
+const NOMS_COACH=[
+  {ar:"As-Salām", fr:"La Source de la Paix", note:"Il apaise ce qui s'agite en toi."},
+  {ar:"Al-Fattāḥ", fr:"Celui qui ouvre", note:"Il dénoue les blocages et ouvre les portes."},
+  {ar:"Al-Laṭīf", fr:"Le Doux, le Subtil", note:"Il connaît la douceur dont tu as besoin."},
+  {ar:"Al-Wakīl", fr:"Celui à qui l'on s'en remet", note:"Fais ta part, et remets-Lui le reste."}
+];
+let C=null;
+function startCoach(profile){
+  C={ profile:profile||{}, step:0, data:{} };
+  C.keys=["intro"];
+  if(C.profile.needsReg) C.keys.push("reg");
+  if(db.prefs.spirit) C.keys.push("spirit");
+  C.keys.push("dump","priorite","geste","lacher","fin");
+  renderCoach();
+}
+function coachHead(txt){
+  const total=Math.max(1,C.keys.length-1);
+  const pct=Math.round(C.step/total*100);
+  return `<div class="toolbar"><button class="linkbtn" id="cback">‹ Retour</button><button class="linkbtn" id="chome">🏠 Accueil</button></div>
+    <div class="progress"><i style="width:${pct}%"></i></div>
+    <div class="steplab">🛟 Le Sauveteur · ${txt||""}</div>`;
+}
+function wireCoachHead(){
+  const b=document.getElementById("cback"); if(b) b.onclick=()=>{ stopBreath(); stopTimer(); if(C.step>0){ C.step--; renderCoach(); } else renderIntro(); };
+  const h=document.getElementById("chome"); if(h) h.onclick=()=>{ stopBreath(); stopTimer(); renderIntro(); };
+}
+function coachNext(){ stopBreath(); stopTimer(); C.step++; renderCoach(); }
+function renderCoach(){
+  const key=C.keys[C.step]; if(!key){ renderIntro(); return; }
+  ({ intro:coachIntro, reg:coachReg, spirit:coachSpirit, dump:coachDump, priorite:coachPriorite, geste:coachGeste, lacher:coachLacher, fin:coachFin }[key])();
+}
+function coachIntro(){
+  const sos = C.profile.sos;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("Je te tiens")}
+    <div class="card center" style="border-left:5px solid var(--c-teal)">
+      <div style="font-size:2.1rem">🛟</div>
+      <h2 style="margin:.2em 0">Je suis là.</h2>
+      <p class="muted">${sos? "Tu sens que tu coules ? Respire — je plonge avec toi. ":""}On va sortir de l'eau <b>ensemble</b>, une brasse à la fois. Tu n'as rien à porter seule, et tu n'as pas besoin de tout régler. Juste : sortir la tête, poser le sac, choisir un cap.</p>
+      <button class="btn" id="go" style="margin-top:8px">Je te suis, prends ma main →</button>
+    </div></section>`));
+  wireCoachHead(); document.getElementById("go").onclick=coachNext;
+}
+function coachReg(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("On remonte à la surface")}
+    <div class="card center" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Respire avec moi 🫧</h2>
+      <p class="muted">La bulle grandit : tu inspires. Elle rétrécit : tu souffles. Quelques cycles, rien d'autre à faire.</p>
+      <div class="breath"><div class="bubble" id="bubble"></div><div class="breath-word" id="bw">Prête ?</div></div>
+      <button class="btn secondary small" id="bbtn">▶︎ Respirer</button>
+      <p class="tiny" style="margin-top:14px">Pose tes deux pieds au sol. Sens l'appui. Tu es sur le radeau, maintenant. 🌿</p>
+      <button class="btn" id="go" style="margin-top:8px">Je respire mieux →</button>
+    </div></section>`));
+  wireCoachHead(); document.getElementById("bbtn").onclick=toggleBreath; document.getElementById("go").onclick=coachNext;
+}
+function coachSpirit(){
+  const n=NOMS_COACH[C.step % NOMS_COACH.length];
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("Un ancrage")}
+    <div class="card center" style="border-left:5px solid var(--c-teal)">
+      <div style="font-family:var(--font-display);font-size:1.8rem;color:var(--primary-dark)">${esc(n.ar)}</div>
+      <div class="muted" style="font-style:italic">${esc(n.fr)}</div>
+      <p class="tiny" style="margin-top:6px">${esc(n.note)}</p>
+      <p style="font-style:italic;margin-top:10px">« Ô Toi qui apaises les cœurs, allège ce qui me semble lourd, et facilite pour moi le premier pas. »</p>
+      <p class="tiny muted">Je ne suis qu'une cause — le résultat Lui appartient.</p>
+      <button class="btn" id="go" style="margin-top:8px">Je me sens plus posée →</button>
+    </div></section>`));
+  wireCoachHead(); document.getElementById("go").onclick=coachNext;
+}
+function coachDump(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("On pose le sac")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Vide la tête 🎒</h2>
+      <p class="muted">Écris en vrac tout ce qui pèse — pas d'ordre, pas de tri, personne ne lit. Le déposer, ça allège déjà.</p>
+      <textarea id="dump" placeholder="Tout ce qui tourne dans ma tête…">${esc(C.data.dump||"")}</textarea>
+      <button class="btn" id="go" style="margin-top:12px">C'est déposé →</button>
+      <button class="btn ghost" id="skip" style="margin-top:8px">Passer, ça va</button>
+    </div></section>`));
+  wireCoachHead();
+  document.getElementById("go").onclick=()=>{ C.data.dump=document.getElementById("dump").value; coachNext(); };
+  document.getElementById("skip").onclick=coachNext;
+}
+function coachPriorite(){
+  const focus = C.profile.focus? `<p class="tiny muted">Vu ton point du jour, ça vient sûrement du côté « ${esc(C.profile.focus)} » — mais tu choisis.</p>`:"";
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("Une seule bouée")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Ta seule chose 🛟</h2>
+      <p class="muted">On ne sauve pas tout le bateau d'un coup. Là, maintenant, <b>une seule</b> chose compte. Le reste attend — promis, je te le garde.</p>
+      ${focus}
+      <input type="text" id="prio" placeholder="La seule chose qui compte, là…" value="${esc(C.data.priorite||"")}" />
+      <button class="btn" id="go" style="margin-top:12px">C'est ma bouée →</button>
+    </div></section>`));
+  wireCoachHead();
+  document.getElementById("go").onclick=()=>{ const v=document.getElementById("prio").value.trim(); if(!v){ toast("Une petite chose, même minuscule 🌿"); return; } C.data.priorite=v; coachNext(); };
+}
+function coachGeste(){
+  tRemain=120;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("Le premier pas")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Le tout premier geste 👣</h2>
+      <p class="muted">Si petit qu'il en est presque ridicule. Pas la tâche entière — juste le premier pas vers « ${esc(C.data.priorite||"ta bouée")} ».</p>
+      <input type="text" id="geste" placeholder="Mon tout premier petit geste…" value="${esc(C.data.geste||"")}" />
+      <div class="center" id="timerbox" style="display:none;margin-top:14px">
+        <div class="tdisp" id="tdisp">2:00</div>
+        <button class="btn secondary small" id="tbtn">▶︎ On y va</button>
+      </div>
+      <button class="btn ghost small" id="together" style="margin-top:12px">🤝 On le fait ensemble (2 min)</button>
+      <button class="btn" id="go" style="margin-top:8px">C'est noté →</button>
+    </div></section>`));
+  wireCoachHead();
+  document.getElementById("together").onclick=()=>{ document.getElementById("timerbox").style.display="block"; };
+  document.getElementById("tbtn").onclick=toggleTimer;
+  document.getElementById("go").onclick=()=>{ const v=document.getElementById("geste").value.trim(); if(!v){ toast("Un tout petit geste suffit 🌿"); return; } C.data.geste=v; coachNext(); };
+}
+function coachLacher(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("On allège")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Ce que tu relâches 🍃</h2>
+      <p class="muted">Pour respirer : qu'est-ce que tu t'autorises à lâcher ou reporter aujourd'hui, sans culpabiliser ? Lâcher, c'est aussi avancer.</p>
+      <input type="text" id="lacher" placeholder="Ce que je relâche pour aujourd'hui…" value="${esc(C.data.lacher||"")}" />
+      <button class="btn" id="go" style="margin-top:12px">Voilà →</button>
+      <button class="btn ghost" id="skip" style="margin-top:8px">Rien à lâcher, ça va</button>
+    </div></section>`));
+  wireCoachHead();
+  document.getElementById("go").onclick=()=>{ C.data.lacher=document.getElementById("lacher").value.trim(); coachNext(); };
+  document.getElementById("skip").onclick=coachNext;
+}
+function coachFin(){
+  const rec={ date:new Date().toISOString(), priorite:C.data.priorite||"", geste:C.data.geste||"", lacher:C.data.lacher||"" };
+  db.rescues.unshift(rec); if(db.rescues.length>40) db.rescues.pop(); save();
+  const plan="🛟 Mon plan de sauvetage\n\n🛟 Ma bouée : "+(rec.priorite||"—")+"\n👣 Mon premier geste : "+(rec.geste||"—")+"\n🍃 Ce que je relâche : "+(rec.lacher||"—");
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("Tu as un cap")}
+    <div class="card center" style="border-left:5px solid var(--primary)">
+      <div style="font-size:2rem">🕊️</div>
+      <h2 style="margin:.2em 0">Tu n'es plus en train de couler.</h2>
+      <p class="muted">Tu as un cap. Fais juste le premier geste — le reste suivra, ou pas, et ce sera OK.</p>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0;font-size:1.2rem">Ton plan de sauvetage</h2>
+      <div class="recap-row"><b>🛟 Ta bouée</b><div class="v">${esc(rec.priorite||"—")}</div></div>
+      <div class="recap-row"><b>👣 Ton premier geste</b><div class="v">${esc(rec.geste||"—")}</div></div>
+      <div class="recap-row"><b>🍃 Ce que tu relâches</b><div class="v">${esc(rec.lacher||"—")}</div></div>
+    </div>
+    <button class="btn" id="copy">📋 Garder ce plan</button>
+    <div class="row" style="margin-top:8px"><button class="btn ghost small" id="home">🏠 Accueil</button></div>
+    <div class="discl">🤍 Je reste sur le rivage. Reviens quand tu veux — un geste à la fois.</div>
+  </section>`));
+  wireCoachHead();
+  document.getElementById("copy").onclick=()=>copyText(plan);
+  document.getElementById("home").onclick=renderIntro;
+}
+
+/* mini-minuteur 2 min ("on le fait ensemble") */
+let tRemain=120, tTimer=null, tOn=false;
+function toggleTimer(){ tOn?stopTimer():startTimer(); }
+function startTimer(){
+  tOn=true; const btn=document.getElementById("tbtn"); if(btn) btn.textContent="⏸ Pause";
+  const tick=()=>{ if(!tOn) return; const d=document.getElementById("tdisp");
+    if(d) d.textContent=Math.floor(tRemain/60)+":"+String(tRemain%60).padStart(2,"0");
+    if(tRemain<=0){ tOn=false; if(d) d.textContent="Bravo 🌿"; const b=document.getElementById("tbtn"); if(b) b.textContent="✓ Fait"; toast("Tu l'as fait 🌿"); return; }
+    tRemain--; tTimer=setTimeout(tick,1000); };
+  tick();
+}
+function stopTimer(){ tOn=false; if(tTimer) clearTimeout(tTimer); const btn=document.getElementById("tbtn"); if(btn && tRemain>0) btn.textContent="▶︎ Reprendre"; }
 
 /* ═══════════════════════════════════════════════════════════════════
    PWA + INIT
