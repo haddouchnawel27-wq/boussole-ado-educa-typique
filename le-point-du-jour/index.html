@@ -295,11 +295,11 @@ function renderIntro(){
       <button class="btn" id="start" style="margin-top:8px">Commencer en douceur →</button>
       <button class="btn secondary" id="sos" style="margin-top:10px">🛟 J'ai besoin d'aide, maintenant</button>
       <button class="btn ghost" id="tools" style="margin-top:10px">🧰 Ma boîte à outils</button>
+      <button class="btn ghost" id="profil" style="margin-top:10px">🧠 Mon profil${db.prefs.profil.length?" ("+db.prefs.profil.length+")":""} — personnaliser</button>
       ${resume}
       <div class="discl">🤍 C'est un outil de <b>soutien</b>, pas un diagnostic. Il ne remplace pas l'avis d'un professionnel. Tout reste sur ton appareil — rien n'est envoyé.</div>
     </div>
     ${db.history.length? `<button class="linkbtn" id="hist">📊 Voir mes points précédents (${db.history.length})</button>`:""}
-    <button class="linkbtn" id="profil" style="margin-top:2px">🧠 Mon profil${db.prefs.profil.length?" ("+db.prefs.profil.length+")":" : à personnaliser"}</button>
     <div class="row" style="margin-top:6px">
       <button class="linkbtn" id="dys">🔤 Confort dys : ${db.prefs.dys?"activé":"désactivé"}</button>
       <button class="linkbtn" id="spirit">🕊️ Spirituel : ${db.prefs.spirit?"activé":"désactivé"}</button>
@@ -637,12 +637,27 @@ function coachPriorite(){
 }
 function coachGeste(){
   tRemain=120;
+  if(!Array.isArray(C.data.microsteps)) C.data.microsteps=[];
+  const ms=C.data.microsteps;
+  const reco=recoTools().has("decoupe");
+  const listHtml = ms.length ? `<p class="tiny" style="margin:14px 0 4px"><b>Tes petits pas</b> — le 1er devient ton geste 👣</p>
+    <div class="opts">${ms.map((s,i)=>`<div class="opt" style="cursor:default">
+        <span class="dot" style="${i===0?'background:var(--primary);border-color:var(--primary);color:#fff':''}">${i+1}</span>
+        <span style="flex:1">${esc(s)}</span>
+        <span class="linkbtn" data-del="${i}" style="color:var(--text-mute);padding:0 4px">✕</span>
+      </div>`).join("")}</div>` : "";
   app().innerHTML="";
   app().appendChild(el(`<section class="screen">${coachHead("Le premier pas")}
     <div class="card" style="border-left:5px solid var(--c-teal)">
       <h2 style="margin-top:0">Le tout premier geste 👣</h2>
       <p class="muted">Si petit qu'il en est presque ridicule. Pas la tâche entière — juste le premier pas vers « ${esc(C.data.priorite||"ta bouée")} ».</p>
       <input type="text" id="geste" placeholder="Mon tout premier petit geste…" value="${esc(C.data.geste||"")}" />
+      ${listHtml}
+      <div class="row" style="margin-top:10px">
+        <input type="text" id="msinput" placeholder="Trop gros ? Découpe en petits pas…" style="flex:2" />
+        <button class="btn small" id="msadd" style="flex:1">🪜 Découper</button>
+      </div>
+      ${reco?`<p class="tiny muted" style="margin-top:6px">🧠 Vu ton profil, découper en tout petits pas peut vraiment aider.</p>`:""}
       <div class="center" id="timerbox" style="display:none;margin-top:14px">
         <div class="tdisp" id="tdisp">2:00</div>
         <button class="btn secondary small" id="tbtn">▶︎ On y va</button>
@@ -651,9 +666,23 @@ function coachGeste(){
       <button class="btn" id="go" style="margin-top:8px">C'est noté →</button>
     </div></section>`));
   wireCoachHead();
+  const gesteInput=document.getElementById("geste");
+  const addMs=()=>{ const inp=document.getElementById("msinput"); const v=inp.value.trim(); if(!v){ inp.focus(); return; }
+    C.data.geste=gesteInput.value; C.data.microsteps.push(v);
+    if(C.data.microsteps.length===1 && !C.data.geste.trim()) C.data.geste=v;
+    coachGeste(); };
+  document.getElementById("msadd").onclick=addMs;
+  document.getElementById("msinput").addEventListener("keydown",e=>{ if(e.key==="Enter") addMs(); });
+  app().querySelectorAll("[data-del]").forEach(x=> x.onclick=()=>{ C.data.microsteps.splice(+x.getAttribute("data-del"),1); coachGeste(); });
   document.getElementById("together").onclick=()=>{ document.getElementById("timerbox").style.display="block"; };
   document.getElementById("tbtn").onclick=toggleTimer;
-  document.getElementById("go").onclick=()=>{ const v=document.getElementById("geste").value.trim(); if(!v){ toast("Un tout petit geste suffit 🌿"); return; } C.data.geste=v; coachNext(); };
+  document.getElementById("go").onclick=()=>{
+    const v=gesteInput.value.trim() || (C.data.microsteps[0]||"");
+    if(!v){ toast("Un tout petit geste suffit 🌿"); return; }
+    C.data.geste=v;
+    if(C.data.microsteps.length){ const t=ensureTools(); t.decoupe={ task:(C.data.priorite||"Mon plan de sauvetage"), steps:C.data.microsteps.map(s=>({t:s,done:false})) }; save(); }
+    coachNext();
+  };
 }
 function coachLacher(){
   app().innerHTML="";
@@ -670,9 +699,12 @@ function coachLacher(){
   document.getElementById("skip").onclick=coachNext;
 }
 function coachFin(){
-  const rec={ date:new Date().toISOString(), priorite:C.data.priorite||"", geste:C.data.geste||"", lacher:C.data.lacher||"" };
+  const ms=Array.isArray(C.data.microsteps)?C.data.microsteps.filter(Boolean):[];
+  const rec={ date:new Date().toISOString(), priorite:C.data.priorite||"", geste:C.data.geste||"", lacher:C.data.lacher||"", steps:ms };
   db.rescues.unshift(rec); if(db.rescues.length>40) db.rescues.pop(); save();
-  const plan="🛟 Mon plan de sauvetage\n\n🛟 Ma bouée : "+(rec.priorite||"—")+"\n👣 Mon premier geste : "+(rec.geste||"—")+"\n🍃 Ce que je relâche : "+(rec.lacher||"—");
+  const stepsTxt = ms.length? "\n🪜 Mes petits pas :\n- "+ms.join("\n- ") : "";
+  const plan="🛟 Mon plan de sauvetage\n\n🛟 Ma bouée : "+(rec.priorite||"—")+"\n👣 Mon premier geste : "+(rec.geste||"—")+stepsTxt+"\n🍃 Ce que je relâche : "+(rec.lacher||"—");
+  const stepsRecap = ms.length? `<div class="recap-row"><b>🪜 Tes petits pas</b><div class="v">${ms.map((s,i)=>(i+1)+". "+esc(s)).join("\n")}</div></div>` : "";
   app().innerHTML="";
   app().appendChild(el(`<section class="screen">${coachHead("Tu as un cap")}
     <div class="card center" style="border-left:5px solid var(--primary)">
@@ -684,14 +716,17 @@ function coachFin(){
       <h2 style="margin-top:0;font-size:1.2rem">Ton plan de sauvetage</h2>
       <div class="recap-row"><b>🛟 Ta bouée</b><div class="v">${esc(rec.priorite||"—")}</div></div>
       <div class="recap-row"><b>👣 Ton premier geste</b><div class="v">${esc(rec.geste||"—")}</div></div>
+      ${stepsRecap}
       <div class="recap-row"><b>🍃 Ce que tu relâches</b><div class="v">${esc(rec.lacher||"—")}</div></div>
     </div>
     <button class="btn" id="copy">📋 Garder ce plan</button>
+    ${ms.length? `<button class="btn secondary" id="continue" style="margin-top:8px">🪜 Continuer le découpage dans la boîte</button>`:""}
     <div class="row" style="margin-top:8px"><button class="btn ghost small" id="home">🏠 Accueil</button></div>
     <div class="discl">🤍 Je reste sur le rivage. Reviens quand tu veux — un geste à la fois.</div>
   </section>`));
   wireCoachHead();
   document.getElementById("copy").onclick=()=>copyText(plan);
+  const cont=document.getElementById("continue"); if(cont) cont.onclick=()=>openTool("decoupe");
   document.getElementById("home").onclick=renderIntro;
 }
 
