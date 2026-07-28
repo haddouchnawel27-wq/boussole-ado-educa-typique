@@ -237,7 +237,7 @@ const GLOBAL_TXT = {
    STORE — local uniquement (localStorage). Aucun réseau.
    ═══════════════════════════════════════════════════════════════════ */
 const KEY="lpj:v1";
-const DEFAULT={ history:[], draft:null, rescues:[], prefs:{dys:false, spirit:false} };
+const DEFAULT={ history:[], draft:null, rescues:[], tools:{ dump:"", decoupe:{task:"",steps:[]}, checklist:[] }, prefs:{dys:false, spirit:false} };
 let db = load();
 function load(){ try{ return Object.assign(structuredClone(DEFAULT), JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){ return structuredClone(DEFAULT); } }
 function save(){ localStorage.setItem(KEY, JSON.stringify(db)); }
@@ -286,6 +286,7 @@ function renderIntro(){
       <p class="muted">Ce petit point t'aide à voir <b>où tu en es aujourd'hui</b>, et te propose le bon niveau d'aide — sans rien te demander de plus que ce que tu peux donner, là, maintenant.</p>
       <button class="btn" id="start" style="margin-top:8px">Commencer en douceur →</button>
       <button class="btn secondary" id="sos" style="margin-top:10px">🛟 J'ai besoin d'aide, maintenant</button>
+      <button class="btn ghost" id="tools" style="margin-top:10px">🧰 Ma boîte à outils</button>
       ${resume}
       <div class="discl">🤍 C'est un outil de <b>soutien</b>, pas un diagnostic. Il ne remplace pas l'avis d'un professionnel. Tout reste sur ton appareil — rien n'est envoyé.</div>
     </div>
@@ -300,6 +301,7 @@ function renderIntro(){
   const h=document.getElementById("hist"); if(h) h.onclick = renderHistory;
   document.getElementById("dys").onclick = ()=>{ db.prefs.dys=!db.prefs.dys; save(); document.body.classList.toggle("dys",db.prefs.dys); renderIntro(); };
   document.getElementById("sos").onclick = ()=>startCoach({ needsReg:true, sos:true });
+  document.getElementById("tools").onclick = ()=>renderTools();
   document.getElementById("spirit").onclick = ()=>{ db.prefs.spirit=!db.prefs.spirit; save(); renderIntro(); };
 }
 
@@ -403,6 +405,8 @@ function renderSummary(){
   let focusSid=null, focusV=-1; scored.forEach(sid=>{ if(scores[sid]>focusV){ focusV=scores[sid]; focusSid=sid; } });
   const needsReg = (gl==="surcharge"||gl==="crise"||scores.surcharge_emotionnelle>=9||scores.dysregulation_emotionnelle>=9||scores.anxiete>=9);
   const focusLabel = (focusV>=5 && focusSid)? SECTIONS[focusSid].label : null;
+  const TOOL_FOR={ blocages:"decoupe", charge_travail:"priorite", anxiete:"breath", dysregulation_emotionnelle:"breath", surcharge_emotionnelle:"breath" };
+  const focusTool = (focusV>=5 && focusSid)? (TOOL_FOR[focusSid]||null) : null;
 
   // mode conseillé
   const highs=scored.filter(sid=> sectionLevel(scores[sid])==="high"||sectionLevel(scores[sid])==="very_high");
@@ -443,6 +447,7 @@ function renderSummary(){
       <p class="tiny" style="margin-top:10px">Repère : <b>${sum}</b> ${S.mode==="bref"?"(mode bref — lecture partielle, c'est normal)":""}. Plus la barre est courte, plus ça va de ce côté-là.</p>
     </div>
     <button class="btn" id="coach" style="margin-top:8px">🛟 Prends-moi par la main</button>
+    <button class="btn secondary" id="tools" style="margin-top:8px">🧰 Ouvrir un outil concret</button>
     ${gl==="crise"? `<button class="btn secondary" id="calme" style="margin-top:8px">🫧 Revenir au calme (1 min)</button>`:""}
     <div class="row" style="margin-top:8px">
       <button class="btn ghost small" id="again">↺ Refaire</button>
@@ -452,6 +457,7 @@ function renderSummary(){
   </section>`));
   const c=document.getElementById("calme"); if(c) c.onclick=()=>{ S.flow=[{k:"crisis"}]; S.i=0; renderStep(); };
   document.getElementById("coach").onclick=()=>startCoach({ needsReg, focus: focusLabel });
+  document.getElementById("tools").onclick=()=>renderTools(focusTool);
   document.getElementById("again").onclick=()=>{ newSession(); buildEtatFlow(); renderStep(); };
   document.getElementById("home").onclick=renderIntro;
 }
@@ -691,6 +697,231 @@ function startTimer(){
   tick();
 }
 function stopTimer(){ tOn=false; if(tTimer) clearTimeout(tTimer); const btn=document.getElementById("tbtn"); if(btn && tRemain>0) btn.textContent="▶︎ Reprendre"; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   LA BOÎTE À OUTILS — mini-outils concrets, 100% hors-ligne.
+   Un seul outil visible à la fois, jamais tout d'un coup. Tout est gardé
+   sur l'appareil. Chaque outil = un petit pas faisable, pas la montagne.
+   ═══════════════════════════════════════════════════════════════════ */
+function ensureTools(){ if(!db.tools||typeof db.tools!=="object") db.tools={}; const t=db.tools;
+  if(typeof t.dump!=="string") t.dump="";
+  if(!t.decoupe||typeof t.decoupe!=="object") t.decoupe={task:"",steps:[]};
+  if(!Array.isArray(t.decoupe.steps)) t.decoupe.steps=[];
+  if(!Array.isArray(t.checklist)) t.checklist=[];
+  return t;
+}
+function toolHead(txt){
+  return `<div class="toolbar"><button class="linkbtn" id="tkback">‹ Boîte à outils</button><button class="linkbtn" id="tkhome">🏠 Accueil</button></div>
+    <div class="steplab">🧰 ${esc(txt||"")}</div>`;
+}
+function wireToolHead(){
+  const b=document.getElementById("tkback"); if(b) b.onclick=()=>{ stopBreath(); stopToolTimer(); renderTools(); };
+  const h=document.getElementById("tkhome"); if(h) h.onclick=()=>{ stopBreath(); stopToolTimer(); renderIntro(); };
+}
+const TOOLS=[
+  {id:"dump", icon:"🎒", title:"Vide-tête", desc:"Déposer tout ce qui tourne, pour alléger la tête."},
+  {id:"decoupe", icon:"🪜", title:"Découper une tâche", desc:"Casser une grosse tâche en micro-pas faisables."},
+  {id:"priorite", icon:"🛟", title:"Choisir UNE priorité", desc:"Quand tout semble urgent : n'en garder qu'une."},
+  {id:"timer", icon:"⏱️", title:"Timer « on démarre »", desc:"Juste commencer, quelques minutes, pas plus."},
+  {id:"checklist", icon:"✅", title:"Checklist express", desc:"Une petite liste à cocher, ça soulage la mémoire."},
+  {id:"breath", icon:"🫧", title:"Respirer", desc:"Faire redescendre la tension, ici et maintenant."}
+];
+function renderTools(focusTool){
+  stopToolTimer(); stopBreath();
+  app().innerHTML="";
+  const cards=TOOLS.map(t=>`<button class="opt" data-t="${t.id}" style="align-items:flex-start">
+      <span style="font-size:1.5rem;line-height:1.2">${t.icon}</span>
+      <span><b style="color:var(--primary-dark)">${esc(t.title)}</b><br><span class="tiny">${esc(t.desc)}</span></span>
+    </button>`).join("");
+  const hint = focusTool ? `<p class="tiny muted">Vu ton point du jour, l'outil <b>${esc((TOOLS.find(x=>x.id===focusTool)||{}).title||"")}</b> pourrait bien t'aider — mais tu choisis.</p>` : "";
+  app().appendChild(el(`<section class="screen">
+    <div class="toolbar"><button class="linkbtn" id="home">‹ Accueil</button></div>
+    <div class="card">
+      <h2 style="margin-top:0">🧰 Ta boîte à outils</h2>
+      <p class="muted">Des petits outils concrets, quand tu veux. Choisis-en <b>un seul</b> — celui qui t'aide là, maintenant.</p>
+      ${hint}
+      <div class="opts" style="margin-top:10px">${cards}</div>
+    </div>
+    <div class="discl">🤍 Tout reste sur ton appareil. Aucun outil ne te demande de tout faire — juste le prochain petit pas.</div>
+  </section>`));
+  document.getElementById("home").onclick=renderIntro;
+  app().querySelectorAll("[data-t]").forEach(b=> b.onclick=()=>openTool(b.getAttribute("data-t")));
+}
+function openTool(id){ ({ dump:toolDump, decoupe:toolDecoupe, priorite:toolPriorite, timer:toolTimer, checklist:toolChecklist, breath:toolBreath }[id]||renderTools)(); }
+
+/* 🎒 Vide-tête */
+function toolDump(){
+  const t=ensureTools();
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Vide-tête")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Vide la tête 🎒</h2>
+      <p class="muted">Écris en vrac, sans ordre ni tri — personne ne lit. C'est gardé sur ton appareil, tu le retrouveras.</p>
+      <textarea id="dump" placeholder="Tout ce qui pèse, là…">${esc(t.dump)}</textarea>
+      <div class="row" style="margin-top:12px">
+        <button class="btn small" id="save">💾 Garder</button>
+        <button class="btn secondary small" id="copy">📋 Copier</button>
+      </div>
+      <button class="btn ghost small" id="clear" style="margin-top:8px">🗑️ Effacer</button>
+    </div></section>`));
+  wireToolHead();
+  const ta=document.getElementById("dump");
+  document.getElementById("save").onclick=()=>{ t.dump=ta.value; save(); toast("Gardé 🌿"); };
+  document.getElementById("copy").onclick=()=>copyText(ta.value);
+  document.getElementById("clear").onclick=()=>{ if(confirm("Effacer le vide-tête ?")){ t.dump=""; save(); toolDump(); } };
+}
+
+/* 🪜 Découper une tâche en micro-pas */
+function toolDecoupe(){
+  const t=ensureTools(), d=t.decoupe;
+  const done=d.steps.filter(s=>s.done).length, tot=d.steps.length;
+  const stepsHtml = tot ? d.steps.map((s,idx)=>`<button class="opt${s.done?" sel":""}" data-i="${idx}" style="justify-content:space-between">
+      <span style="display:flex;align-items:center;gap:12px"><span class="dot">${s.done?"✓":""}</span><span style="${s.done?'text-decoration:line-through;opacity:.6':''}">${esc(s.t)}</span></span>
+      <span class="linkbtn" data-del="${idx}" style="color:var(--text-mute);padding:0 4px">✕</span>
+    </button>`).join("") : `<p class="tiny center" style="padding:8px">Ajoute un tout petit premier pas ci-dessous 🌿</p>`;
+  const allDone = tot>0 && done===tot;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Découper une tâche")}
+    <div class="card" style="border-left:5px solid var(--c-purple)">
+      <h2 style="margin-top:0">Découper 🪜</h2>
+      <p class="muted">Une grosse tâche fait peur. Coupée en micro-pas (presque ridicules de petitesse), elle devient faisable.</p>
+      <input type="text" id="task" placeholder="La tâche qui pèse…" value="${esc(d.task)}" />
+      <p class="tiny" style="margin:14px 0 4px"><b>Les micro-pas</b>${tot?` · ${done}/${tot}`:""}</p>
+      ${tot?`<div class="progress"><i style="width:${Math.round(done/tot*100)}%"></i></div>`:""}
+      <div class="opts" id="steps" style="margin-top:8px">${stepsHtml}</div>
+      ${allDone?`<div class="banner" style="background:var(--primary-soft);border:1px solid var(--primary);color:var(--primary-dark)"><span class="t">Tout est coché 🎉</span>Tu l'as fait, pas à pas. Bravo.</div>`:""}
+      <div class="row" style="margin-top:10px">
+        <input type="text" id="newstep" placeholder="Un tout petit pas…" style="flex:2" />
+        <button class="btn small" id="add" style="flex:1">+ Ajouter</button>
+      </div>
+      <button class="btn ghost small" id="reset" style="margin-top:10px">↺ Nouvelle tâche</button>
+    </div></section>`));
+  wireToolHead();
+  const taskInput=document.getElementById("task");
+  taskInput.onchange=()=>{ d.task=taskInput.value; save(); };
+  const add=()=>{ const ns=document.getElementById("newstep"); const v=ns.value.trim(); if(!v){ ns.focus(); return; } d.task=taskInput.value; d.steps.push({t:v,done:false}); save(); toolDecoupe(); };
+  document.getElementById("add").onclick=add;
+  document.getElementById("newstep").addEventListener("keydown",e=>{ if(e.key==="Enter") add(); });
+  app().querySelectorAll("#steps [data-i]").forEach(b=> b.onclick=(e)=>{
+    if(e.target.hasAttribute("data-del")){ d.steps.splice(+e.target.getAttribute("data-del"),1); save(); toolDecoupe(); return; }
+    const i=+b.getAttribute("data-i"); d.steps[i].done=!d.steps[i].done; save(); toolDecoupe(); });
+  document.getElementById("reset").onclick=()=>{ if(confirm("Vider cette tâche et ses pas ?")){ d.task=""; d.steps=[]; save(); toolDecoupe(); } };
+}
+
+/* 🛟 Choisir UNE priorité (décision, non stockée) */
+function toolPriorite(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Choisir UNE priorité")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Une seule chose 🛟</h2>
+      <p class="muted">Écris tout ce qui te tire (une ligne par chose). Puis on n'en garde <b>qu'une</b> — le reste attend, promis.</p>
+      <textarea id="cands" placeholder="Une chose par ligne…"></textarea>
+      <button class="btn" id="show" style="margin-top:12px">Voir mes options →</button>
+      <div id="picker" style="margin-top:12px"></div>
+    </div></section>`));
+  wireToolHead();
+  document.getElementById("show").onclick=()=>{
+    const lines=document.getElementById("cands").value.split("\n").map(s=>s.trim()).filter(Boolean);
+    const box=document.getElementById("picker"); box.innerHTML="";
+    if(!lines.length){ toast("Écris au moins une chose 🌿"); return; }
+    box.appendChild(el(`<p class="tiny muted">Laquelle, si tu ne pouvais en faire qu'<b>une</b> ?</p>`));
+    const opts=el(`<div class="opts"></div>`);
+    lines.forEach(l=>{
+      const b=el(`<button class="opt"><span class="dot"></span><span>${esc(l)}</span></button>`);
+      b.onclick=()=>{ box.innerHTML="";
+        box.appendChild(el(`<div class="card center" style="border-left:5px solid var(--primary);margin:6px 0 0">
+          <p class="tiny" style="margin:0">Ta seule chose, maintenant :</p>
+          <h2 style="margin:.2em 0">${esc(l)}</h2>
+          <p class="muted">Le reste attend — vraiment. Fais juste le premier pas vers celle-là. 🌿</p></div>`));
+      };
+      opts.appendChild(b);
+    });
+    box.appendChild(opts);
+  };
+}
+
+/* ⏱️ Timer « on démarre » */
+let ttRemain=300, ttTimer=null, ttOn=false;
+function toolTimer(){
+  stopToolTimer(); ttRemain=300;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Timer « on démarre »")}
+    <div class="card center" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">On démarre ⏱️</h2>
+      <p class="muted">Pas pour tout finir — juste pour <b>commencer</b>. Choisis une petite durée et lance-toi.</p>
+      <div class="row" id="durs">
+        <button class="btn ghost small" data-m="2">2 min</button>
+        <button class="btn ghost small" data-m="5">5 min</button>
+        <button class="btn ghost small" data-m="10">10 min</button>
+      </div>
+      <div class="tdisp" id="ttdisp" style="margin:16px 0 6px">5:00</div>
+      <div class="row">
+        <button class="btn small" id="ttbtn">▶︎ On y va</button>
+        <button class="btn ghost small" id="ttreset" style="flex:0 0 auto;padding-left:18px;padding-right:18px">↺</button>
+      </div>
+      <p class="tiny" style="margin-top:12px">Quand ça sonne, tu as déjà commencé — c'est ça, la victoire. 🌿</p>
+    </div></section>`));
+  wireToolHead();
+  app().querySelectorAll("#durs [data-m]").forEach(b=> b.onclick=()=>{ stopToolTimer(); ttRemain=(+b.getAttribute("data-m"))*60; renderTT(); });
+  document.getElementById("ttbtn").onclick=()=> ttOn?stopToolTimer(true):startToolTimer();
+  document.getElementById("ttreset").onclick=()=>{ stopToolTimer(); renderTT(); const b=document.getElementById("ttbtn"); if(b) b.textContent="▶︎ On y va"; };
+  renderTT();
+}
+function renderTT(){ const d=document.getElementById("ttdisp"); if(d) d.textContent=Math.floor(ttRemain/60)+":"+String(Math.max(0,ttRemain)%60).padStart(2,"0"); }
+function startToolTimer(){
+  ttOn=true; const btn=document.getElementById("ttbtn"); if(btn) btn.textContent="⏸ Pause";
+  const tick=()=>{ if(!ttOn) return; renderTT();
+    if(ttRemain<=0){ ttOn=false; const d=document.getElementById("ttdisp"); if(d) d.textContent="Bravo 🌿"; const b=document.getElementById("ttbtn"); if(b) b.textContent="✓ Fait"; toast("Tu as commencé 🌿"); return; }
+    ttRemain--; ttTimer=setTimeout(tick,1000); };
+  tick();
+}
+function stopToolTimer(pause){ ttOn=false; if(ttTimer){ clearTimeout(ttTimer); ttTimer=null; } if(pause){ const b=document.getElementById("ttbtn"); if(b) b.textContent="▶︎ Reprendre"; } }
+
+/* ✅ Checklist express */
+function toolChecklist(){
+  const t=ensureTools();
+  const done=t.checklist.filter(x=>x.done).length, tot=t.checklist.length;
+  const itemsHtml = tot ? t.checklist.map((x,i)=>`<button class="opt${x.done?" sel":""}" data-i="${i}" style="justify-content:space-between">
+      <span style="display:flex;align-items:center;gap:12px"><span class="dot">${x.done?"✓":""}</span><span style="${x.done?'text-decoration:line-through;opacity:.6':''}">${esc(x.t)}</span></span>
+      <span class="linkbtn" data-del="${i}" style="color:var(--text-mute);padding:0 4px">✕</span>
+    </button>`).join("") : `<p class="tiny center" style="padding:8px">Liste vide. Ajoute une première ligne 🌿</p>`;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Checklist express")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Checklist ✅</h2>
+      <p class="muted">Sors-le de ta tête et coche au fur et à mesure. ${tot?`<b>${done}/${tot}</b>`:""}</p>
+      ${tot?`<div class="progress"><i style="width:${Math.round(done/tot*100)}%"></i></div>`:""}
+      <div class="opts" id="items" style="margin-top:8px">${itemsHtml}</div>
+      <div class="row" style="margin-top:10px">
+        <input type="text" id="newitem" placeholder="Une chose à faire…" style="flex:2" />
+        <button class="btn small" id="add" style="flex:1">+ Ajouter</button>
+      </div>
+      ${tot?`<button class="btn ghost small" id="clear" style="margin-top:10px">🗑️ Tout effacer</button>`:""}
+    </div></section>`));
+  wireToolHead();
+  const add=()=>{ const ni=document.getElementById("newitem"); const v=ni.value.trim(); if(!v){ ni.focus(); return; } t.checklist.push({t:v,done:false}); save(); toolChecklist(); };
+  document.getElementById("add").onclick=add;
+  document.getElementById("newitem").addEventListener("keydown",e=>{ if(e.key==="Enter") add(); });
+  app().querySelectorAll("#items [data-i]").forEach(b=> b.onclick=(e)=>{
+    if(e.target.hasAttribute("data-del")){ t.checklist.splice(+e.target.getAttribute("data-del"),1); save(); toolChecklist(); return; }
+    const i=+b.getAttribute("data-i"); t.checklist[i].done=!t.checklist[i].done; save(); toolChecklist(); });
+  const c=document.getElementById("clear"); if(c) c.onclick=()=>{ if(confirm("Effacer toute la checklist ?")){ t.checklist=[]; save(); toolChecklist(); } };
+}
+
+/* 🫧 Respirer (réutilise la bulle de respiration) */
+function toolBreath(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Respirer")}
+    <div class="card center" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Respire 🫧</h2>
+      <p class="muted">La bulle grandit : tu inspires. Elle rétrécit : tu souffles. Rien d'autre à faire.</p>
+      <div class="breath"><div class="bubble" id="bubble"></div><div class="breath-word" id="bw">Prête ?</div></div>
+      <button class="btn secondary small" id="bbtn">▶︎ Respirer</button>
+      <p class="tiny" style="margin-top:14px">Pose tes deux pieds au sol. Sens l'appui. 🌿</p>
+    </div></section>`));
+  wireToolHead();
+  document.getElementById("bbtn").onclick=toggleBreath;
+}
 
 /* ═══════════════════════════════════════════════════════════════════
    PWA + INIT
