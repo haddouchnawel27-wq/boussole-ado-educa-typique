@@ -1,7 +1,7 @@
 /* Service worker — Le point du jour
    Cache l'app pour un usage 100% hors-ligne (installable en PWA).
    Stratégie : cache-first, avec mise en cache au vol des requêtes GET. */
-const CACHE = 'lpj-v5';
+const CACHE = 'lpj-v6';
 const ASSETS = [
   './',
   './index.html',

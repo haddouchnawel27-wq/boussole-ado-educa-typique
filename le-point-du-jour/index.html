@@ -242,11 +242,12 @@ const GLOBAL_TXT = {
    STORE — local uniquement (localStorage). Aucun réseau.
    ═══════════════════════════════════════════════════════════════════ */
 const KEY="lpj:v1";
-const DEFAULT={ history:[], draft:null, rescues:[], tools:{ dump:"", decoupe:{task:"",steps:[]}, checklist:[] }, prefs:{dys:false, spirit:false, profil:[], lowSensory:false} };
+const DEFAULT={ history:[], draft:null, rescues:[], wins:[], tools:{ dump:"", decoupe:{task:"",steps:[]}, checklist:[] }, prefs:{dys:false, spirit:false, profil:[], lowSensory:false} };
 let db = load();
 function load(){ let d; try{ d=Object.assign(structuredClone(DEFAULT), JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){ d=structuredClone(DEFAULT); }
   d.prefs=Object.assign({dys:false,spirit:false,profil:[],lowSensory:false}, d.prefs||{});
   if(!Array.isArray(d.prefs.profil)) d.prefs.profil=[];
+  if(!Array.isArray(d.wins)) d.wins=[];
   return d; }
 function save(){ localStorage.setItem(KEY, JSON.stringify(db)); }
 function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),1700); }
@@ -294,7 +295,10 @@ function renderIntro(){
       <p class="muted">Ce petit point t'aide à voir <b>où tu en es aujourd'hui</b>, et te propose le bon niveau d'aide — sans rien te demander de plus que ce que tu peux donner, là, maintenant.</p>
       <button class="btn" id="start" style="margin-top:8px">Commencer en douceur →</button>
       <button class="btn secondary" id="sos" style="margin-top:10px">🛟 J'ai besoin d'aide, maintenant</button>
-      <button class="btn ghost" id="tools" style="margin-top:10px">🧰 Ma boîte à outils</button>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost small" id="tools">🧰 Boîte à outils</button>
+        <button class="btn ghost small" id="wins">🏆 Mes réussites</button>
+      </div>
       <button class="btn ghost" id="profil" style="margin-top:10px">🧠 Mon profil${db.prefs.profil.length?" ("+db.prefs.profil.length+")":""} — personnaliser</button>
       ${resume}
       <div class="discl">🤍 C'est un outil de <b>soutien</b>, pas un diagnostic. Il ne remplace pas l'avis d'un professionnel. Tout reste sur ton appareil — rien n'est envoyé.</div>
@@ -311,6 +315,7 @@ function renderIntro(){
   document.getElementById("dys").onclick = ()=>{ db.prefs.dys=!db.prefs.dys; save(); document.body.classList.toggle("dys",db.prefs.dys); renderIntro(); };
   document.getElementById("sos").onclick = ()=>startCoach({ needsReg:true, sos:true });
   document.getElementById("tools").onclick = ()=>renderTools();
+  document.getElementById("wins").onclick = renderWins;
   document.getElementById("profil").onclick = renderProfil;
   document.getElementById("spirit").onclick = ()=>{ db.prefs.spirit=!db.prefs.spirit; save(); renderIntro(); };
 }
@@ -1021,6 +1026,53 @@ function toolBreath(){
     </div></section>`));
   wireToolHead();
   document.getElementById("bbtn").onclick=toggleBreath;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MES RÉUSSITES — la done list qui célèbre le « fait », pas le « parfait ».
+   Noter les micro-victoires, regarder dans le rétro quand ça va moins.
+   ═══════════════════════════════════════════════════════════════════ */
+function winsAccomplished(){
+  const t=ensureTools();
+  return { steps: t.checklist.filter(x=>x.done).length + t.decoupe.steps.filter(s=>s.done).length, plans: db.rescues.length };
+}
+function renderWins(){
+  if(!Array.isArray(db.wins)) db.wins=[];
+  const acc=winsAccomplished();
+  const now=new Date(); const startToday=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+  const weekAgo=startToday - 6*86400000;
+  const groups={today:[],week:[],before:[]};
+  db.wins.forEach((w,idx)=>{ const t=new Date(w.date).getTime(); (t>=startToday?groups.today:(t>=weekAgo?groups.week:groups.before)).push(Object.assign({idx},w)); });
+  const grp=(title,arr)=> arr.length? `<p class="tiny" style="margin:14px 0 6px;font-weight:800;color:var(--primary-dark)">${title}</p>`+arr.map(w=>`
+      <div class="secrow" style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:1px solid var(--border);padding-bottom:8px">
+        <span>🌟 ${esc(w.text)}<br><span class="tiny">${frDate(w.date)}</span></span>
+        <button class="linkbtn" data-del="${w.idx}" style="color:var(--text-mute);padding:0 4px">✕</button>
+      </div>`).join("") : "";
+  const listHtml = db.wins.length
+    ? grp("Aujourd'hui",groups.today)+grp("Ces derniers jours",groups.week)+grp("Avant",groups.before)
+    : `<p class="tiny center" style="padding:14px">Rien encore ? Note ta première, même toute petite : t'être levée, avoir bu de l'eau, ouvert cette app… tout compte 🌱</p>`;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">
+    <div class="toolbar"><button class="linkbtn" id="home">‹ Accueil</button></div>
+    <div class="card">
+      <h2 style="margin-top:0">🏆 Mes réussites</h2>
+      <p class="muted">Ici on célèbre le <b>« fait »</b>, jamais le « parfait ». Note ce que tu as accompli — même minuscule. Ton cerveau a besoin de voir les preuves. 🌱</p>
+      <div class="row" style="margin-top:6px">
+        <input type="text" id="winput" placeholder="Ce que j'ai fait…" style="flex:2" />
+        <button class="btn small" id="add" style="flex:1">🎉 Je l'ai fait</button>
+      </div>
+      ${(acc.steps||acc.plans)? `<p class="tiny muted" style="margin-top:10px">🌿 Déjà là, sans même les noter : <b>${acc.steps}</b> pas coché${acc.steps>1?"s":""}${acc.plans?` · <b>${acc.plans}</b> plan${acc.plans>1?"s":""} de sauvetage`:""}.</p>`:""}
+      ${listHtml}
+    </div>
+    ${db.wins.length? `<button class="btn ghost small" id="clear">🗑️ Effacer mes réussites</button>`:""}
+    <div class="discl">🤍 Regarde ici quand ça va moins fort : la preuve que tu avances, elle est là.</div>
+  </section>`));
+  document.getElementById("home").onclick=renderIntro;
+  const add=()=>{ const inp=document.getElementById("winput"); const v=inp.value.trim(); if(!v){ inp.focus(); return; } db.wins.unshift({date:new Date().toISOString(), text:v}); if(db.wins.length>200) db.wins.pop(); save(); toast("Bravo, c'est noté 🌟"); renderWins(); };
+  document.getElementById("add").onclick=add;
+  document.getElementById("winput").addEventListener("keydown",e=>{ if(e.key==="Enter") add(); });
+  app().querySelectorAll("[data-del]").forEach(b=> b.onclick=()=>{ db.wins.splice(+b.getAttribute("data-del"),1); save(); renderWins(); });
+  const c=document.getElementById("clear"); if(c) c.onclick=()=>{ if(confirm("Effacer toutes tes réussites ?")){ db.wins=[]; save(); renderWins(); } };
 }
 
 /* ═══════════════════════════════════════════════════════════════════
