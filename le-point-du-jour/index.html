@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#7E9B87" />
+<meta name="description" content="Le point du jour — un baromètre doux de ton fonctionnement du moment. 100% local et hors-ligne." />
+<title>Le point du jour</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%8C%A4%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Le point du jour" />
+<style>
+  /* ═══════════════════════════════════════════════════════════════
+     Le point du jour — 100% local, hors-ligne, sans dépendance.
+     Charte douce pré-alignée Al Mizan (sauge / amande / ivoire)
+     pour un transfert trivial ensuite. Polices système (sans réseau).
+     ═══════════════════════════════════════════════════════════════ */
+  :root{
+    --bg:#F7F4EC; --card:#FFFFFF; --card2:#FCFBF6; --input:#F2EEE2;
+    --primary:#7E9B87; --primary-dark:#5F7D69; --primary-soft:#E6EDE6;
+    --accent:#9BA7C9; --amber:#E8C9A0; --rose:#D9A7A7; --teal:#8FB9B0;
+    --text:#3E4A42; --text-soft:#6E7A70; --text-mute:#9AA69C;
+    --border:#E3DECF; --shadow:rgba(95,125,105,.12); --shadow-h:rgba(95,125,105,.22);
+    --radius:18px; --scale:1;
+    --font:"Nunito","Segoe UI",system-ui,-apple-system,sans-serif;
+    --font-display:"Cormorant Garamond","Georgia",serif;
+    --c-blue:#9BA7C9; --c-purple:#B0A0C9; --c-amber:#E8C9A0; --c-red:#D99A8F; --c-rose:#D9A7A7; --c-teal:#8FB9B0;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{font-size:calc(16px * var(--scale))}
+  body{margin:0;font-family:var(--font);color:var(--text);
+    background:linear-gradient(165deg,var(--bg) 0%,#FBF9F2 100%);
+    min-height:100vh;line-height:1.55;padding-bottom:env(safe-area-inset-bottom)}
+  body.dys{letter-spacing:.03em;word-spacing:.08em;line-height:1.8}
+  .wrap{max-width:540px;margin:0 auto;padding:18px 16px 40px}
+
+  h1,h2{font-family:var(--font-display);font-weight:600;letter-spacing:.01em;line-height:1.15}
+  h1{font-size:2.1rem;margin:.1em 0;color:var(--primary-dark)}
+  h2{font-size:1.5rem;margin:.2em 0 .4em}
+  .tagline{font-family:var(--font-display);font-style:italic;font-size:1.15rem;color:var(--text-soft);margin:.1em 0}
+  p{margin:.5em 0}.muted{color:var(--text-soft)}.tiny{font-size:.82rem;color:var(--text-mute)}
+  .center{text-align:center}
+
+  header.app{text-align:center;padding:10px 0 6px}
+  header.app .mascot{font-size:2.3rem;line-height:1}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:22px;margin:16px 0;box-shadow:0 6px 26px var(--shadow)}
+  .card.accented{border-left:5px solid var(--sc,var(--primary))}
+
+  button{font-family:var(--font);cursor:pointer;border:none;font-size:1rem}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;width:100%;
+    padding:16px 20px;border-radius:14px;font-weight:700;
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;
+    box-shadow:0 6px 18px var(--shadow-h);transition:transform .15s ease,opacity .15s}
+  .btn:active{transform:translateY(1px)}
+  .btn.secondary{background:var(--card);color:var(--primary-dark);border:1.5px solid var(--primary)}
+  .btn.ghost{background:var(--input);color:var(--text-soft);border:1.5px solid var(--border);box-shadow:none}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.small{width:auto;padding:11px 16px;font-size:.92rem;border-radius:12px}
+  .row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1}
+
+  /* progression */
+  .progress{height:8px;border-radius:8px;background:var(--input);overflow:hidden;margin:6px 0 2px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--primary),var(--teal));transition:width .3s ease}
+  .steplab{font-size:.78rem;color:var(--text-mute);font-weight:700}
+
+  /* question */
+  .qtext{font-family:var(--font-display);font-size:1.45rem;line-height:1.25;margin:6px 0 4px;color:var(--text)}
+  .helper{font-size:.9rem;color:var(--text-soft);margin-bottom:14px}
+  .opts{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+  .opt{display:flex;align-items:center;gap:12px;padding:15px 16px;border-radius:14px;
+    border:1.5px solid var(--border);background:var(--input);color:var(--text);
+    font-weight:600;text-align:left;transition:all .15s ease;width:100%}
+  .opt:hover{border-color:var(--primary)}
+  .opt.sel{background:var(--primary-soft);border-color:var(--primary);color:var(--primary-dark)}
+  .opt .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff}
+  .opt.sel .dot{background:var(--primary);border-color:var(--primary)}
+
+  .sec-intro{font-family:var(--font-display);font-style:italic;font-size:1.2rem;color:var(--text-soft)}
+
+  /* respiration mini (route crise) */
+  .breath{display:flex;flex-direction:column;align-items:center;gap:12px;margin:14px 0}
+  .bubble{width:120px;height:120px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#fff,var(--teal));
+    box-shadow:0 8px 26px rgba(143,185,176,.4);transition:transform 4s ease-in-out;transform:scale(.6)}
+  .bubble.big{transform:scale(1)}
+  .breath-word{font-family:var(--font-display);font-size:1.3rem;color:var(--primary-dark);min-height:1.4em}
+
+  /* synthèse */
+  .badge{display:inline-block;padding:5px 14px;border-radius:999px;font-weight:800;font-size:.85rem;color:#fff}
+  .b-stable{background:var(--teal)}.b-vigilance{background:var(--amber);color:#6b5326}
+  .b-surcharge{background:var(--c-red)}.b-crise{background:#B85C4E}
+  .scorebar{height:12px;border-radius:8px;background:var(--input);overflow:hidden;margin:8px 0 2px}
+  .scorebar > i{display:block;height:100%;border-radius:8px}
+  .lvl-low{background:var(--teal)}.lvl-moderate{background:var(--amber)}
+  .lvl-high{background:var(--c-red)}.lvl-very_high{background:#B85C4E}
+  .secrow{margin:14px 0}
+  .secrow .top{display:flex;justify-content:space-between;align-items:baseline;font-weight:700}
+  .secrow .msg{font-size:.9rem;color:var(--text-soft);margin-top:4px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .chip{padding:7px 13px;border-radius:999px;background:var(--primary-soft);color:var(--primary-dark);
+    font-weight:700;font-size:.82rem;border:1px solid var(--border)}
+
+  .banner{border-radius:14px;padding:14px 16px;margin:14px 0;font-weight:600}
+  .banner .t{font-weight:800;display:block;margin-bottom:2px}
+  .ban-vigilance{background:#FBF1DE;border:1px solid var(--amber);color:#6b5326}
+  .ban-surcharge{background:#FBE7E2;border:1px solid var(--c-red);color:#8a3d30}
+  .ban-crise{background:#F7DED8;border:1px solid #B85C4E;color:#7a2e22}
+
+  .discl{font-size:.78rem;color:var(--text-mute);background:var(--input);border-radius:12px;padding:11px 13px;margin-top:14px}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:10px}
+  .linkbtn{background:none;border:none;color:var(--text-soft);font-weight:700;font-size:.9rem;padding:6px 4px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;
+    background:var(--text);color:#fff;padding:11px 18px;border-radius:999px;font-weight:700;font-size:.9rem;
+    transition:all .25s ease;z-index:40;pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .screen{animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+  .footer{text-align:center;margin-top:26px;font-family:var(--font-display);font-style:italic;font-size:.85rem;color:var(--text-mute)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="app">
+    <div class="mascot">🌤️</div>
+    <h1>Le point du jour</h1>
+    <p class="tagline">Où tu en es, là, maintenant — sans jugement.</p>
+  </header>
+  <main id="app"></main>
+  <div class="footer">Le point du jour · 100% local, sans wifi 🌿</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   SCHÉMA — source de vérité (questionnaire fonctionnement_jour v1.3.0)
+   ═══════════════════════════════════════════════════════════════════ */
+const SCALE = ["jamais","parfois","souvent","presque toujours"]; // 0..3
+
+const ETAT = {
+  em0:{ text:"Comment te sens-tu globalement aujourd'hui ?",
+        helper:"Choisis l'état qui te ressemble le plus, maintenant.",
+        choices:["bien","fatiguée","stressée","débordée","en crise"] },
+  em1:{ text:"Quel est ton niveau d'énergie en ce moment ?",
+        helper:"Ça aide à estimer ta capacité réelle à agir.",
+        choices:["très faible","faible","moyen","bon","très bon"] },
+  em2:{ text:"Ta capacité de concentration est-elle disponible ?",
+        helper:"Ça permet d'adapter la longueur du questionnaire.",
+        choices:["pas du tout","un peu","moyennement","oui","très disponible"] }
+};
+
+const SECTIONS = {
+  blocages:{ label:"Blocages", color:"var(--c-purple)",
+    intro:"On regarde ce qui empêche d'avancer, sans jugement.",
+    items:[
+      ["b1","Je sais ce que je dois faire, mais je n'arrive pas à commencer."],
+      ["b2","La tâche me paraît floue ou trop grande."],
+      ["b3","J'hésite longtemps avant d'agir."],
+      ["b4","J'évite certaines tâches parce qu'elles me fatiguent d'avance."],
+      ["b5","Je me sens bloquée sans savoir exactement pourquoi."]
+    ],
+    msg:"Réduire le flou, découper en micro-étapes, choisir une seule action de départ.",
+    action:"Découper" },
+  anxiete:{ label:"Anxiété", color:"var(--c-amber)",
+    intro:"On évalue la pression intérieure et l'anticipation.",
+    items:[
+      ["a1","Je crains de mal faire."],
+      ["a2","J'ai peur d'être jugée ou critiquée."],
+      ["a3","J'anticipe que cela va mal se passer."],
+      ["a4","Mon corps se tend quand j'y pense."],
+      ["a5","Je rumine beaucoup autour de cette tâche ou situation."]
+    ],
+    msg:"Baisser la pression, sécuriser le contexte, éviter les décisions lourdes à chaud.",
+    action:"Rassurer" },
+  dysregulation_emotionnelle:{ label:"Dysrégulation émotionnelle", color:"var(--c-red)",
+    intro:"On regarde comment tes émotions circulent en ce moment.",
+    items:[
+      ["d1","Mes émotions montent très vite."],
+      ["d2","Je me sens vite débordée."],
+      ["d3","Une émotion forte me bloque complètement."],
+      ["d4","Je passe facilement de la tension à l'épuisement."],
+      ["d5","J'ai du mal à revenir au calme seule."]
+    ],
+    msg:"Ne pas planifier tout de suite : redescendre d'abord l'intensité, revenir au corps.",
+    action:"Revenir au corps" },
+  surcharge_emotionnelle:{ label:"Surcharge émotionnelle", color:"var(--c-rose)",
+    intro:"Si tu es en saturation, on passe en mode très simple.",
+    items:[
+      ["s1","J'ai l'impression d'être à saturation."],
+      ["s2","Je n'ai plus de place mentale disponible."],
+      ["s3","Je supporte mal les sollicitations."],
+      ["s4","J'ai besoin de me retirer ou de ralentir."],
+      ["s5","Je me sens trop pleine pour penser clairement."]
+    ],
+    msg:"Passer en mode protection : alléger, reporter, réduire les sollicitations.",
+    action:"Alléger" },
+  charge_travail:{ label:"Charge de travail", color:"var(--c-teal)",
+    intro:"On regarde ce que la charge de travail demande réellement.",
+    items:[
+      ["t1","Ma liste de tâches me semble trop lourde."],
+      ["t2","Je ne sais pas par où commencer parmi tout ce que j'ai à faire."],
+      ["t3","Mes échéances me mettent sous pression."],
+      ["t4","Je manque de temps réel pour faire ce qui est demandé."],
+      ["t5","Le volume de travail dépasse ma capacité du moment."]
+    ],
+    msg:"Revoir la charge : prioriser, replanifier, déléguer ou annuler si nécessaire.",
+    action:"Prioriser" }
+};
+const FULL_SCORED = ["blocages","anxiete","dysregulation_emotionnelle","surcharge_emotionnelle","charge_travail"];
+const BRIEF_SCORED = ["blocages","anxiete","surcharge_emotionnelle"]; // route BRIEF_MODE (hors état)
+
+/* seuils section (0..15) et global (proportionnel, calé sur /75) */
+function sectionLevel(v){ if(v<=4)return"low"; if(v<=8)return"moderate"; if(v<=12)return"high"; return"very_high"; }
+function globalLevel(sum,n){ const p = n? sum/(15*n) : 0;
+  if(p<=0.24)return"stable"; if(p<=0.47)return"vigilance"; if(p<=0.69)return"surcharge"; return"crise"; }
+const GLOBAL_TXT = {
+  stable:{badge:"Stable", ban:null},
+  vigilance:{badge:"Vigilance", ban:{cls:"vigilance",t:"Vigilance",m:"Ta charge augmente. Avance en mode réduit, une chose à la fois."}},
+  surcharge:{badge:"Surcharge", ban:{cls:"surcharge",t:"Surcharge",m:"Ta charge dépasse probablement ta capacité du moment. Allège et reporte ce qui peut l'être."}},
+  crise:{badge:"Mode protection", ban:{cls:"crise",t:"Mode protection",m:"Ton système est en saturation. On réduit les demandes et on revient au calme."}}
+};
+
+/* ═══════════════════════════════════════════════════════════════════
+   STORE — local uniquement (localStorage). Aucun réseau.
+   ═══════════════════════════════════════════════════════════════════ */
+const KEY="lpj:v1";
+const DEFAULT={ history:[], draft:null, prefs:{dys:false} };
+let db = load();
+function load(){ try{ return Object.assign(structuredClone(DEFAULT), JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){ return structuredClone(DEFAULT); } }
+function save(){ localStorage.setItem(KEY, JSON.stringify(db)); }
+function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),1700); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   ÉTAT DE SESSION
+   ═══════════════════════════════════════════════════════════════════ */
+let S = null; // {answers:{}, flow:[], i:0, mode:""}
+
+function newSession(){ S={ answers:{}, flow:[], i:0, mode:"" }; }
+
+/* construit le flux : intro état (3 items) puis, une fois l'état connu,
+   on appende les sections selon le mode. */
+function buildEtatFlow(){
+  S.flow = [ {k:"etat", id:"em0"}, {k:"etat", id:"em1"}, {k:"etat", id:"em2"} ];
+}
+function decideModeAndAppend(){
+  const eIdx = ETAT.em1.choices.indexOf(S.answers.em1); // 0 très faible .. 4 très bon
+  const fIdx = ETAT.em2.choices.indexOf(S.answers.em2); // 0 pas du tout .. 4 très disponible
+  const brief = (eIdx<=1) || (fIdx<=1) || S.answers.em0==="débordée";
+  S.mode = brief ? "bref" : "complet";
+  const scored = brief ? BRIEF_SCORED : FULL_SCORED;
+  scored.forEach(sid=>{
+    S.flow.push({k:"secintro", id:sid});
+    SECTIONS[sid].items.forEach(([iid])=> S.flow.push({k:"item", sid, id:iid}));
+  });
+  S.flow.push({k:"summary"});
+  S.scored = scored;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RENDU
+   ═══════════════════════════════════════════════════════════════════ */
+const app = ()=>document.getElementById("app");
+function el(html){ const d=document.createElement("div"); d.innerHTML=html.trim(); return d.firstElementChild; }
+function esc(s){ return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function renderIntro(){
+  const resume = db.draft ? `<button class="btn secondary" style="margin-top:10px" id="resume">↩︎ Reprendre là où j'en étais</button>` : "";
+  app().innerHTML = "";
+  app().appendChild(el(`
+  <section class="screen">
+    <div class="card center">
+      <h2 style="margin-top:0">Prends 30 secondes 🌿</h2>
+      <p class="muted">Ce petit point t'aide à voir <b>où tu en es aujourd'hui</b>, et te propose le bon niveau d'aide — sans rien te demander de plus que ce que tu peux donner, là, maintenant.</p>
+      <button class="btn" id="start" style="margin-top:8px">Commencer en douceur →</button>
+      ${resume}
+      <div class="discl">🤍 C'est un outil de <b>soutien</b>, pas un diagnostic. Il ne remplace pas l'avis d'un professionnel. Tout reste sur ton appareil — rien n'est envoyé.</div>
+    </div>
+    ${db.history.length? `<button class="linkbtn" id="hist">📊 Voir mes points précédents (${db.history.length})</button>`:""}
+    <div class="row" style="margin-top:6px">
+      <button class="linkbtn" id="dys">🔤 Confort dys : ${db.prefs.dys?"activé":"désactivé"}</button>
+    </div>
+  </section>`));
+  document.getElementById("start").onclick = ()=>{ newSession(); buildEtatFlow(); renderStep(); };
+  const r=document.getElementById("resume"); if(r) r.onclick = resumeDraft;
+  const h=document.getElementById("hist"); if(h) h.onclick = renderHistory;
+  document.getElementById("dys").onclick = ()=>{ db.prefs.dys=!db.prefs.dys; save(); document.body.classList.toggle("dys",db.prefs.dys); renderIntro(); };
+}
+
+function progressHead(labelExtra){
+  const total=S.flow.length||1;
+  const pct=Math.round((S.i)/total*100);
+  return `
+    <div class="toolbar">
+      <button class="linkbtn" id="back">‹ Retour</button>
+      <button class="linkbtn" id="later">⏸ Je reviens plus tard</button>
+    </div>
+    <div class="progress"><i style="width:${pct}%"></i></div>
+    <div class="steplab">${labelExtra||""}</div>`;
+}
+
+function wireHead(){
+  const b=document.getElementById("back"); if(b) b.onclick=()=>{ if(S.i>0){ S.i--; renderStep(); } else renderIntro(); };
+  const l=document.getElementById("later"); if(l) l.onclick=saveDraftExit;
+}
+
+function renderStep(){
+  const step = S.flow[S.i];
+  if(!step){ renderIntro(); return; }
+  autosave();
+  if(step.k==="etat") return renderEtat(step.id);
+  if(step.k==="secintro") return renderSecIntro(step.id);
+  if(step.k==="item") return renderItem(step.sid, step.id);
+  if(step.k==="summary") return renderSummary();
+  if(step.k==="crisis") return renderCrisis();
+}
+
+function renderEtat(id){
+  const q=ETAT[id]; const cur=S.answers[id];
+  app().innerHTML="";
+  const scr=el(`<section class="screen">${progressHead("État du moment")}
+    <div class="card accented" style="--sc:var(--c-blue)">
+      <div class="qtext">${esc(q.text)}</div>
+      <div class="helper">${esc(q.helper)}</div>
+      <div class="opts" id="opts"></div>
+    </div></section>`);
+  app().appendChild(scr); wireHead();
+  const opts=scr.querySelector("#opts");
+  q.choices.forEach(ch=>{
+    const b=el(`<button class="opt${cur===ch?" sel":""}"><span class="dot">${cur===ch?"✓":""}</span><span>${esc(ch)}</span></button>`);
+    b.onclick=()=>{
+      S.answers[id]=ch;
+      if(id==="em0" && ch==="en crise"){ S.flow=[{k:"crisis"}]; S.i=0; return renderStep(); }
+      if(id==="em2"){ decideModeAndAppend(); }
+      S.i++; renderStep();
+    };
+    opts.appendChild(b);
+  });
+}
+
+function renderSecIntro(sid){
+  const s=SECTIONS[sid];
+  const pos=S.scored.indexOf(sid)+1, tot=S.scored.length;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${progressHead("Bloc "+pos+" sur "+tot)}
+    <div class="card accented center" style="--sc:${s.color}">
+      <h2 style="margin-top:4px">${esc(s.label)}</h2>
+      <p class="sec-intro">${esc(s.intro)}</p>
+      <button class="btn" id="go" style="margin-top:10px">Continuer →</button>
+    </div></section>`));
+  wireHead();
+  document.getElementById("go").onclick=()=>{ S.i++; renderStep(); };
+}
+
+function renderItem(sid,iid){
+  const s=SECTIONS[sid];
+  const item=s.items.find(x=>x[0]===iid);
+  const cur=S.answers[iid];
+  const pos=S.scored.indexOf(sid)+1, tot=S.scored.length;
+  app().innerHTML="";
+  const scr=el(`<section class="screen">${progressHead(s.label+" · bloc "+pos+" sur "+tot)}
+    <div class="card accented" style="--sc:${s.color}">
+      <div class="qtext">${esc(item[1])}</div>
+      <div class="helper">Depuis quelque temps, à quelle fréquence ?</div>
+      <div class="opts" id="opts"></div>
+    </div></section>`);
+  app().appendChild(scr); wireHead();
+  const opts=scr.querySelector("#opts");
+  SCALE.forEach((lab,val)=>{
+    const b=el(`<button class="opt${cur===val?" sel":""}"><span class="dot">${cur===val?"✓":""}</span><span>${esc(lab)}</span></button>`);
+    b.onclick=()=>{ S.answers[iid]=val; S.i++; renderStep(); };
+    opts.appendChild(b);
+  });
+}
+
+/* ─── scores ─── */
+function sectionScore(sid){ return SECTIONS[sid].items.reduce((sum,[iid])=> sum + (typeof S.answers[iid]==="number"? S.answers[iid]:0), 0); }
+
+function renderSummary(){
+  const scored=S.scored;
+  const scores={}; let sum=0;
+  scored.forEach(sid=>{ scores[sid]=sectionScore(sid); sum+=scores[sid]; });
+  const gl=globalLevel(sum, scored.length);
+  const gtxt=GLOBAL_TXT[gl];
+
+  // mode conseillé
+  const highs=scored.filter(sid=> sectionLevel(scores[sid])==="high"||sectionLevel(scores[sid])==="very_high");
+  let conseil="Tu peux avancer à ton rythme — une chose à la fois.";
+  if(gl==="crise") conseil="Priorité : te protéger et revenir au calme. Le reste peut attendre.";
+  else if(scores.surcharge_emotionnelle>=9 || scores.dysregulation_emotionnelle>=9) conseil="Mode débordé : protège-toi, allège, reviens au corps avant de planifier.";
+  else if(scores.anxiete>=9) conseil="Mode anxieux : baisse la pression, sécurise le contexte, pas de décision lourde à chaud.";
+  else if(scores.charge_travail>=9) conseil="Mode charge forte : priorise 1 à 3 choses, replanifie le reste.";
+  else if(scores.blocages>=9) conseil="Découpe en micro-étapes et choisis UNE seule action de départ.";
+
+  // enregistrer dans l'historique
+  const rec={ date:new Date().toISOString(), mode:S.mode, etat:S.answers.em0||"", energie:S.answers.em1||"", concentration:S.answers.em2||"", scores, sum, level:gl };
+  db.history.unshift(rec); if(db.history.length>60) db.history.pop(); db.draft=null; save();
+
+  let secHtml="";
+  scored.forEach(sid=>{
+    const s=SECTIONS[sid]; const v=scores[sid]; const lv=sectionLevel(v);
+    const flag = (lv==="high"||lv==="very_high");
+    secHtml += `<div class="secrow">
+      <div class="top"><span>${esc(s.label)}</span><span style="color:var(--text-soft)">${v}/15</span></div>
+      <div class="scorebar"><i class="lvl-${lv}" style="width:${Math.round(v/15*100)}%"></i></div>
+      ${flag? `<div class="msg">${esc(s.msg)}</div><div class="chips"><span class="chip">${esc(s.action)}</span></div>`:""}
+    </div>`;
+  });
+
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">
+    <div class="card center" style="border-top:4px solid var(--primary)">
+      <p class="tiny" style="margin:0">Ton point du jour</p>
+      <h2 style="margin:.1em 0">État global</h2>
+      <span class="badge b-${gl}">${gtxt.badge}</span>
+      <p class="muted" style="margin-top:12px">${esc(conseil)}</p>
+      ${gtxt.ban? `<div class="banner ban-${gtxt.ban.cls}"><span class="t">${esc(gtxt.ban.t)}</span>${esc(gtxt.ban.m)}</div>`:""}
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0;font-size:1.2rem">Par domaine</h2>
+      ${secHtml}
+      <p class="tiny" style="margin-top:10px">Repère : <b>${sum}</b> ${S.mode==="bref"?"(mode bref — lecture partielle, c'est normal)":""}. Plus la barre est courte, plus ça va de ce côté-là.</p>
+    </div>
+    ${gl==="crise"? `<button class="btn secondary" id="calme">🫧 Revenir au calme (1 min)</button>`:""}
+    <div class="row" style="margin-top:8px">
+      <button class="btn ghost small" id="again">↺ Refaire</button>
+      <button class="btn ghost small" id="home">🏠 Accueil</button>
+    </div>
+    <div class="discl">🤍 Soutien, pas diagnostic. Ce qui compte : t'orienter avec douceur vers ce dont tu as besoin aujourd'hui.</div>
+  </section>`));
+  const c=document.getElementById("calme"); if(c) c.onclick=()=>{ S.flow=[{k:"crisis"}]; S.i=0; renderStep(); };
+  document.getElementById("again").onclick=()=>{ newSession(); buildEtatFlow(); renderStep(); };
+  document.getElementById("home").onclick=renderIntro;
+}
+
+/* ─── route crise / retour au calme ─── */
+let bTimer=null, bOn=false;
+function renderCrisis(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">
+    <div class="card center" style="border-left:5px solid #B85C4E">
+      <h2 style="margin-top:0">On ralentit ensemble 🤍</h2>
+      <p class="muted">Ton système est saturé, et c'est OK. On ne demande rien de plus. On respire, doucement.</p>
+      <div class="breath"><div class="bubble" id="bubble"></div><div class="breath-word" id="bw">Prête ?</div></div>
+      <button class="btn secondary small" id="bbtn">▶︎ Respirer</button>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0;font-size:1.15rem">Si tu as besoin de parler, tout de suite</h2>
+      <p style="margin:.3em 0"><b>3114</b> — numéro national de prévention (gratuit, 24h/24, 7j/7).</p>
+      <p style="margin:.3em 0"><b>15</b> (SAMU) ou <b>112</b> (urgences) en cas de danger immédiat.</p>
+      <p class="tiny">Tu n'es pas seule. Demander de l'aide, c'est une force.</p>
+    </div>
+    <button class="btn ghost" id="home">🏠 Revenir à l'accueil</button>
+    <div class="discl">🤍 Cet outil est un soutien, pas un diagnostic ni un service d'urgence.</div>
+  </section>`));
+  document.getElementById("home").onclick=()=>{ stopBreath(); renderIntro(); };
+  document.getElementById("bbtn").onclick=toggleBreath;
+}
+function toggleBreath(){ bOn?stopBreath():startBreath(); }
+function startBreath(){
+  bOn=true; const btn=document.getElementById("bbtn"); if(btn) btn.textContent="⏸ Pause";
+  const seq=[["Inspire…",5,true],["Expire…",5,false]]; let i=0;
+  const run=()=>{ if(!bOn)return; const [w,sec,big]=seq[i%seq.length];
+    const bub=document.getElementById("bubble"), bw=document.getElementById("bw");
+    if(bw) bw.textContent=w; if(bub){ bub.style.transitionDuration=sec+"s"; bub.classList.toggle("big",big); }
+    i++; bTimer=setTimeout(run, sec*1000); };
+  run();
+}
+function stopBreath(){ bOn=false; if(bTimer) clearTimeout(bTimer); const bw=document.getElementById("bw"); if(bw) bw.textContent="Bien 🌿"; const btn=document.getElementById("bbtn"); if(btn) btn.textContent="▶︎ Respirer"; }
+
+/* ─── historique ─── */
+function frDate(iso){ try{ return new Date(iso).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})+" "+new Date(iso).toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}); }catch(e){ return iso; } }
+function renderHistory(){
+  app().innerHTML="";
+  let rows = db.history.length? db.history.map(r=>`
+    <div class="secrow" style="border-bottom:1px solid var(--border);padding-bottom:10px">
+      <div class="top"><span>${frDate(r.date)}</span><span class="badge b-${r.level}" style="font-size:.72rem">${GLOBAL_TXT[r.level].badge}</span></div>
+      <div class="tiny">état : ${esc(r.etat||"—")} · énergie : ${esc(r.energie||"—")} · repère ${r.sum}${r.mode==="bref"?" (bref)":""}</div>
+    </div>`).join("") : `<div class="tiny center" style="padding:20px">Aucun point encore. Reviens quand tu veux 🌿</div>`;
+  app().appendChild(el(`<section class="screen">
+    <button class="linkbtn" id="home">‹ Accueil</button>
+    <div class="card"><h2 style="margin-top:0">Mes points précédents</h2>${rows}</div>
+    ${db.history.length? `<button class="btn ghost small" id="clear">🗑️ Effacer l'historique</button>`:""}
+  </section>`));
+  document.getElementById("home").onclick=renderIntro;
+  const c=document.getElementById("clear"); if(c) c.onclick=()=>{ if(confirm("Effacer tout l'historique ?")){ db.history=[]; save(); renderHistory(); } };
+}
+
+/* ─── brouillon / pause ─── */
+function autosave(){ if(S){ db.draft={ answers:S.answers, flow:S.flow, i:S.i, mode:S.mode, scored:S.scored }; save(); } }
+function saveDraftExit(){ autosave(); toast("Gardé — reviens quand tu veux 🌿"); renderIntro(); }
+function resumeDraft(){ if(!db.draft) return renderIntro(); S={ answers:db.draft.answers, flow:db.draft.flow, i:db.draft.i, mode:db.draft.mode, scored:db.draft.scored }; renderStep(); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   PWA + INIT
+   ═══════════════════════════════════════════════════════════════════ */
+if("serviceWorker" in navigator){ window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
+document.body.classList.toggle("dys", !!db.prefs.dys);
+renderIntro();
+</script>
+</body>
+</html>
