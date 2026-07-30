@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { APPS, STATUS_LABEL, type AppEntry, type Univers } from "@/lib/apps";
 import { useMode } from "@/lib/mode";
 import { labelsForMode } from "@/lib/mode-labels";
+import { ProfessionalGate } from "@/components/ProfessionalGate";
 
 const STATUS_STYLE: Record<string, string> = {
   interne: "bg-[rgba(91,138,91,.15)] text-[#4d7a4d]",
@@ -28,7 +29,8 @@ export default function AppsPage() {
   ];
 
   return (
-    <main className="mx-auto max-w-4xl px-5 py-8 sm:px-8 sm:py-10">
+    <ProfessionalGate>
+      <main className="mx-auto max-w-4xl px-5 py-8 sm:px-8 sm:py-10">
       <header className="border-b border-shell-border pb-4">
         <p className="font-serif text-sm font-semibold uppercase tracking-[0.28em] text-jq-sage">Le grand rattachement</p>
         <h1 className="mt-1 font-serif text-4xl font-semibold text-shell-text sm:text-5xl">Mes applications</h1>
@@ -71,7 +73,8 @@ export default function AppsPage() {
         <b className="text-shell-text">Garantie « rien oublié »</b> — cette page est la checklist d'intégration. Le hub ne sera « complet »
         que lorsque chaque carte « à importer » sera devenue native. Le détail : <code>_les-deux-jardins/REGISTRE-COMPLET.md</code>.
       </footer>
-    </main>
+      </main>
+    </ProfessionalGate>
   );
 }
 
