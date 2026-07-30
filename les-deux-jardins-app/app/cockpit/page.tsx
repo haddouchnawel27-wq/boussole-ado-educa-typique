@@ -8,14 +8,21 @@ import { evaluateStored } from "@/lib/questionnaires";
 import type { Client, Meteo } from "@/lib/types";
 import { addSeanceDb, createClientDb, deleteClientDb, getClients, getQuestionnaireResponsesDb, saveSyntheseDb, updateClientDb, type QResponse, type Source } from "@/lib/data";
 import { anamneseAlerts, anamneseFieldLabel, anamneseForMode, anamneseSectionTitle, reperesSpirituels, type AnaField } from "@/lib/anamnese";
+import { labelsForMode } from "@/lib/mode-labels";
 
 const METEO_KEYS = Object.keys(METEO) as Meteo[];
 
 export default function Cockpit() {
   const { mode } = useMode();
   const islamic = mode === "islamique";
+  const labels = labelsForMode(mode);
   const visibleAnamnese = useMemo(() => anamneseForMode(islamic), [islamic]);
   const { user } = useAuth();
+  const practitionerName =
+    (typeof user?.user_metadata?.nom === "string" && user.user_metadata.nom.trim()) ||
+    user?.email?.split("@")[0] ||
+    "Praticienne";
+  const practitionerInitial = practitionerName.trim().charAt(0).toUpperCase() || "P";
   // Cockpit verrouillé : si Supabase est branché mais personne n'est connecté, aucune fiche n'est affichée.
   const mustLogin = supabaseEnabled && !user;
   const [clients, setClients] = useState<Client[]>([]);
@@ -306,9 +313,9 @@ export default function Cockpit() {
       {/* SIDEBAR */}
       <aside className="flex flex-col gap-4 border-b border-shell-border bg-gradient-to-b from-[rgba(124,139,108,.06)] to-transparent p-4 md:border-b-0 md:border-r">
         <div className="flex items-center gap-3">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-jq-sage font-serif text-lg font-semibold text-white">ج</span>
+          <span className="grid h-9 w-9 place-items-center rounded-xl bg-jq-sage font-serif text-lg font-semibold text-white">{islamic ? "ج" : "2J"}</span>
           <div>
-            <div className="font-serif text-lg font-semibold text-jq-deep">Jannat al Qulûb</div>
+            <div className="font-serif text-lg font-semibold text-jq-deep">{labels.cockpitBrand}</div>
             <div className="text-[11px] uppercase tracking-wider text-shell-muted">Cockpit praticienne</div>
           </div>
         </div>
@@ -341,9 +348,9 @@ export default function Cockpit() {
         <p className="px-1 text-[11px] leading-snug text-shell-muted">🛡️ Initiales / prénom uniquement — jamais nom complet ni coordonnées. Tes données ne sont visibles que par toi.</p>
         <div className="mt-auto border-t border-shell-border pt-3 text-[11.5px] text-shell-muted">
           <div className="flex items-center gap-2.5">
-            <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-gold-light to-gold-dark text-sm font-semibold text-white">N</span>
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-gold-light to-gold-dark text-sm font-semibold text-white">{practitionerInitial}</span>
             <div>
-              <div className="text-[13px] font-bold text-shell-text">Nawel · Oum Mona</div>
+              <div className="text-[13px] font-bold text-shell-text">{practitionerName}</div>
               <div>Praticienne — Les Deux Jardins</div>
             </div>
           </div>
@@ -573,7 +580,7 @@ export default function Cockpit() {
               <EditField k="Objectifs et plan proposé" v={c.bilan.objectifs ?? ""} placeholder="Axe prioritaire · objectif concret · outil/protocole envisagé · rythme · indicateur · vigilance/orientation…" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, objectifs: val } }))} />
               <SaveBar dirty={dirty} msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
               <ProtocolePanel responses={responses} live={live} />
-              <a href="https://referentielshifa-complet-voiechifa.netlify.app/" target="_blank" rel="noopener noreferrer" className="mt-4 inline-block rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">Consulter le Référentiel Jannat al Qulûb ↗️</a>
+              {islamic && <a href="https://referentielshifa-complet-voiechifa.netlify.app/" target="_blank" rel="noopener noreferrer" className="mt-4 inline-block rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">Consulter le Référentiel Jannat al Qulûb ↗️</a>}
               <Callout>Une suggestion d'outil ou de protocole reste toujours à valider, adapter ou écarter par la praticienne.</Callout>
             </Panel>
           )}
@@ -1080,7 +1087,7 @@ function Synthese({
             <span key={f} className={"rounded-full border px-2.5 py-0.5 " + ((i === 0 && s.status === "brouillon" && has) || (i === 1 && s.status === "valide") ? "border-gold bg-gold text-white" : "border-shell-border bg-shell-surface text-shell-muted")}>{f}</span>
           ))}
         </span>
-        <span className="ml-auto text-[13px] text-shell-muted">Format imposé · charte Jannat al Qulûb</span>
+        <span className="ml-auto text-[13px] text-shell-muted">{islamic ? "Format imposé · charte Jannat al Qulûb" : "Format professionnel · Les Deux Jardins"}</span>
       </div>
 
       <div className="mb-1 flex flex-wrap gap-2.5">
@@ -1106,8 +1113,8 @@ function Synthese({
       {has && (
         <div className="mt-4 rounded-2xl border border-shell-border p-5 sm:p-8">
           <div className="mb-4 border-b border-shell-border pb-3.5 text-center">
-            <div className="font-serif text-xl font-semibold text-jq-deep">Jannat al Qulûb</div>
-            <div className="text-[11px] uppercase tracking-[0.2em] text-shell-muted">Le Jardin du cœur</div>
+            <div className="font-serif text-xl font-semibold text-jq-deep">{islamic ? "Jannat al Qulûb" : "Les Deux Jardins"}</div>
+            <div className="text-[11px] uppercase tracking-[0.2em] text-shell-muted">{islamic ? "Le Jardin du cœur" : "Lettre d’accompagnement"}</div>
           </div>
           {islamic && <div className="mb-1.5 text-center font-arab text-2xl text-gold" dir="rtl">بِسْمِ اللَّٰهِ الرَّحْمَٰنِ الرَّحِيمِ</div>}
           <div className="mb-4 text-center font-serif text-lg italic text-gold-dark">{islamic ? `As-salāmu ʿalayki ${c.nom},` : `Chère ${c.nom},`}</div>

@@ -5,9 +5,9 @@ import { AuthProvider } from "@/lib/auth";
 import { Nav } from "@/components/Nav";
 
 export const metadata: Metadata = {
-  title: "Les Deux Jardins — Jannat al Qulûb & Educa Typique",
+  title: "Les Deux Jardins — Espace professionnel",
   description:
-    "Écosystème d'accompagnement psycho-éducatif et spirituel. 100% respectueux, double mode Universel / Islamique.",
+    "Application professionnelle d’accompagnement et de suivi, avec mode universel par défaut et mode islamique sur choix explicite.",
 };
 
 export const viewport: Viewport = {

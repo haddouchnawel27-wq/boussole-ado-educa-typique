@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useMode } from "@/lib/mode";
 import { QUESTIONNAIRES, evaluate, questionText, type Questionnaire } from "@/lib/questionnaires";
 import { getClients, saveQuestionnaireResponseDb } from "@/lib/data";
+import { labelsForMode } from "@/lib/mode-labels";
 
 export default function QuestionnairesPage() {
   const { mode } = useMode();
@@ -11,6 +12,7 @@ export default function QuestionnairesPage() {
     setDossierId(new URLSearchParams(window.location.search).get("client") ?? "");
   }, []);
   const islamic = mode === "islamique";
+  const labels = labelsForMode(mode);
   const [curId, setCurId] = useState<string | null>(null);
   const cur = QUESTIONNAIRES.find((q) => q.id === curId) ?? null;
   const visibles = QUESTIONNAIRES.filter((q) => !q.islamicOnly || islamic);
@@ -36,7 +38,7 @@ export default function QuestionnairesPage() {
             >
               <div className="flex flex-wrap items-center gap-2">
                 <span className={"rounded-md px-2 py-0.5 text-[10.5px] font-extrabold uppercase " + (q.univers === "jannat" ? "bg-jq-tender text-jq-deep" : "bg-et-sky text-[#1f5563]")}>
-                  {q.univers === "jannat" ? "Jannat al Qulûb" : "Educa Typique"}
+                  {q.univers === "jannat" ? labels.adultGroup : labels.youthGroup}
                 </span>
                 {q.islamicOnly && <span className="rounded-md bg-[rgba(195,135,60,.16)] px-2 py-0.5 text-[10.5px] font-extrabold uppercase text-gold-dark">Mode islamique</span>}
               </div>

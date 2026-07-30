@@ -4,10 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase, supabaseEnabled } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
+import { useMode } from "@/lib/mode";
+import { labelsForMode } from "@/lib/mode-labels";
 
 export default function LoginPage() {
   const router = useRouter();
   const { user, enabled } = useAuth();
+  const { mode: productMode } = useMode();
+  const labels = labelsForMode(productMode);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [nom, setNom] = useState("");
   const [email, setEmail] = useState("");
@@ -63,7 +67,7 @@ export default function LoginPage() {
   return (
     <main className="mx-auto max-w-md px-5 py-12 sm:py-16">
       <div className="rounded-2xl border border-shell-border bg-shell-surface p-6 shadow-soft sm:p-8">
-        <p className="font-serif text-sm font-semibold uppercase tracking-[0.24em] text-jq-sage">Jannat al Qulûb</p>
+        <p className="font-serif text-sm font-semibold uppercase tracking-[0.24em] text-jq-sage">{labels.cockpitBrand}</p>
         <h1 className="mt-1 font-serif text-3xl font-semibold text-jq-deep">
           {mode === "signin" ? "Se connecter" : "Créer mon espace"}
         </h1>

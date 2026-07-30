@@ -1,6 +1,8 @@
 "use client";
 import { useMemo, useState } from "react";
 import { APPS, STATUS_LABEL, type AppEntry, type Univers } from "@/lib/apps";
+import { useMode } from "@/lib/mode";
+import { labelsForMode } from "@/lib/mode-labels";
 
 const STATUS_STYLE: Record<string, string> = {
   interne: "bg-[rgba(91,138,91,.15)] text-[#4d7a4d]",
@@ -10,15 +12,19 @@ const STATUS_STYLE: Record<string, string> = {
 };
 
 export default function AppsPage() {
+  const { mode } = useMode();
+  const islamic = mode === "islamique";
+  const labels = labelsForMode(mode);
   const [qOnly, setQOnly] = useState(false);
-  const list = useMemo(() => (qOnly ? APPS.filter((a) => a.questionnaire) : APPS), [qOnly]);
-  const total = APPS.length;
-  const nbQ = APPS.filter((a) => a.questionnaire).length;
-  const nbExt = APPS.filter((a) => a.status === "externe").length;
+  const compatibleApps = useMemo(() => APPS.filter((a) => islamic || a.univers !== "jannat"), [islamic]);
+  const list = useMemo(() => (qOnly ? compatibleApps.filter((a) => a.questionnaire) : compatibleApps), [compatibleApps, qOnly]);
+  const total = compatibleApps.length;
+  const nbQ = compatibleApps.filter((a) => a.questionnaire).length;
+  const nbExt = compatibleApps.filter((a) => a.status === "externe").length;
 
   const groups: { key: Univers; title: string; emoji: string }[] = [
-    { key: "educa", title: "Educa Typique — Le Jardin des graines", emoji: "🌱" },
-    { key: "jannat", title: "Jannat al Qulûb — Le Jardin du cœur", emoji: "🌸" },
+    { key: "educa", title: labels.youthGroup, emoji: "🌱" },
+    { key: "jannat", title: labels.adultGroup, emoji: "🌸" },
   ];
 
   return (

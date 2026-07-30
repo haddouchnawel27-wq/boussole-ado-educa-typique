@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useMode } from "@/lib/mode";
+import { labelsForMode } from "@/lib/mode-labels";
 
 // Page d'un « monde » (jardin) : on y entre depuis l'accueil, elle présente le monde
 // et ses hubs. Deux mondes : coeur (Jannat al Qulûb) · graines (Educa Typique).
@@ -49,6 +50,7 @@ export default function JardinPage() {
   const w = WORLDS[slug];
   const { mode } = useMode();
   const islamic = mode === "islamique";
+  const labels = labelsForMode(mode);
 
   if (!w) {
     return (
@@ -60,21 +62,25 @@ export default function JardinPage() {
   }
 
   const isJq = w.tone === "jq";
+  const brand = isJq ? labels.adultBrand : labels.youthBrand;
+  const kicker = isJq ? labels.adultKicker : labels.youthKicker;
+  const tagline = isJq ? labels.adultTagline : labels.youthTagline;
+  const description = isJq ? labels.adultDescription : labels.youthDescription;
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-10">
       <Link href="/" className="text-sm font-semibold text-gold-dark hover:underline">← Les Deux Jardins</Link>
 
       <header className={"mt-4 rounded-2xl border border-shell-border bg-shell-surface p-6 shadow-soft sm:p-8 " + (isJq ? "border-l-4 border-l-jq-sage" : "border-t-4 border-t-et-teal")}>
-        <p className={"font-serif text-xs font-semibold uppercase tracking-[0.28em] " + (isJq ? "text-jq-sage" : "text-et-teal")}>{w.kicker}</p>
+        <p className={"font-serif text-xs font-semibold uppercase tracking-[0.28em] " + (isJq ? "text-jq-sage" : "text-et-teal")}>{kicker}</p>
         {isJq && islamic && w.arabic && <p className="mt-1 font-arab text-2xl text-gold" dir="rtl">{w.arabic}</p>}
-        <h1 className={"mt-1 font-semibold sm:text-5xl " + (isJq ? "font-serif text-4xl text-jq-deep" : "font-round text-4xl tracking-tight text-et-teal")}>{w.brand}</h1>
-        <p className={"mt-1 text-lg italic " + (isJq ? "font-serif text-gold-dark" : "font-round font-semibold text-shell-muted")}>{w.tagline}</p>
-        <p className="mt-3 text-sm text-shell-muted">{w.desc}</p>
+        <h1 className={"mt-1 font-semibold sm:text-5xl " + (isJq ? "font-serif text-4xl text-jq-deep" : "font-round text-4xl tracking-tight text-et-teal")}>{brand}</h1>
+        <p className={"mt-1 text-lg italic " + (isJq ? "font-serif text-gold-dark" : "font-round font-semibold text-shell-muted")}>{tagline}</p>
+        <p className="mt-3 text-sm text-shell-muted">{description}</p>
       </header>
 
       <section className="mt-8">
-        <h2 className="font-serif text-2xl font-semibold text-shell-text">Entrer dans ce jardin</h2>
+        <h2 className="font-serif text-2xl font-semibold text-shell-text">{islamic ? "Entrer dans ce jardin" : "Entrer dans cet espace"}</h2>
         <p className="mb-4 mt-1 text-sm text-shell-muted">Choisis l&apos;espace qui te concerne — tout reste relié.</p>
         <div className="grid gap-3.5 sm:grid-cols-2">
           {w.hubs.map((h) => (
