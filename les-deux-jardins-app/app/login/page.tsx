@@ -12,8 +12,6 @@ export default function LoginPage() {
   const { user, enabled } = useAuth();
   const { mode: productMode } = useMode();
   const labels = labelsForMode(productMode);
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
-  const [nom, setNom] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
@@ -28,16 +26,9 @@ export default function LoginPage() {
     }
     setBusy(true);
     try {
-      if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({ email, password, options: { data: { nom } } });
-        if (error) throw error;
-        setMsg("Compte créé ✅ Tu peux te connecter (vérifie tes mails si une confirmation est demandée).");
-        setMode("signin");
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        router.push("/cockpit");
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      router.push("/cockpit");
     } catch (err) {
       const raw = err instanceof Error ? err.message : "";
       let clear = raw || "Une erreur est survenue.";
@@ -69,7 +60,7 @@ export default function LoginPage() {
       <div className="rounded-2xl border border-shell-border bg-shell-surface p-6 shadow-soft sm:p-8">
         <p className="font-serif text-sm font-semibold uppercase tracking-[0.24em] text-jq-sage">{labels.cockpitBrand}</p>
         <h1 className="mt-1 font-serif text-3xl font-semibold text-jq-deep">
-          {mode === "signin" ? "Se connecter" : "Créer mon espace"}
+          Se connecter
         </h1>
         <p className="mt-1 text-sm text-shell-muted">Espace praticienne — tes accompagnées, en sécurité.</p>
 
@@ -80,12 +71,6 @@ export default function LoginPage() {
         )}
 
         <form onSubmit={submit} className="mt-5 flex flex-col gap-3">
-          {mode === "signup" && (
-            <label className="text-sm">
-              <span className="mb-1 block font-semibold text-shell-text">Ton nom</span>
-              <input value={nom} onChange={(e) => setNom(e.target.value)} className="w-full rounded-xl border border-shell-border bg-white px-3 py-2.5 outline-none focus:border-gold" placeholder="Nawel" />
-            </label>
-          )}
           <label className="text-sm">
             <span className="mb-1 block font-semibold text-shell-text">E-mail</span>
             <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-xl border border-shell-border bg-white px-3 py-2.5 outline-none focus:border-gold" placeholder="toi@exemple.com" />
@@ -96,18 +81,15 @@ export default function LoginPage() {
           </label>
 
           <button disabled={busy} className="mt-1 rounded-xl bg-gradient-to-br from-gold-light to-gold-dark px-5 py-2.5 text-sm font-semibold text-white shadow disabled:opacity-60">
-            {busy ? "…" : mode === "signin" ? "Se connecter" : "Créer mon espace"}
+            {busy ? "…" : "Se connecter"}
           </button>
         </form>
 
         {msg && <p className="mt-3 rounded-xl border border-shell-border bg-shell-soft p-3 text-[13px] text-shell-muted">{msg}</p>}
 
-        <button
-          onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setMsg(null); }}
-          className="mt-4 text-[13px] font-semibold text-gold-dark hover:underline"
-        >
-          {mode === "signin" ? "Pas encore d'espace ? Créer mon compte" : "J'ai déjà un espace — me connecter"}
-        </button>
+        <p className="mt-4 text-[13px] text-shell-muted">
+          Les comptes sont délivrés aux praticiennes autorisées après validation de leur accès.
+        </p>
       </div>
     </main>
   );

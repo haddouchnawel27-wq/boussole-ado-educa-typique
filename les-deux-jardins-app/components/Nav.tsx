@@ -13,6 +13,8 @@ const LINKS = [
 
 export function Nav() {
   const path = usePathname();
+  const { user } = useAuth();
+  const visibleLinks = user ? LINKS : LINKS.filter((link) => link.href === "/");
   // Al Mizan est une app immersive plein écran : pas de barre d'écosystème.
   if (path?.startsWith("/al-mizan")) return null;
   return (
@@ -28,7 +30,7 @@ export function Nav() {
         </Link>
 
         <div className="order-3 flex w-full items-center gap-1 sm:order-none sm:w-auto">
-          {LINKS.map((l) => {
+          {visibleLinks.map((l) => {
             const active = l.href === "/" ? path === "/" : path.startsWith(l.href);
             return (
               <Link

@@ -4,6 +4,7 @@ import { useMode } from "@/lib/mode";
 import { QUESTIONNAIRES, evaluate, questionText, type Questionnaire } from "@/lib/questionnaires";
 import { getClients, saveQuestionnaireResponseDb } from "@/lib/data";
 import { labelsForMode } from "@/lib/mode-labels";
+import { ProfessionalGate } from "@/components/ProfessionalGate";
 
 export default function QuestionnairesPage() {
   const { mode } = useMode();
@@ -18,7 +19,8 @@ export default function QuestionnairesPage() {
   const visibles = QUESTIONNAIRES.filter((q) => !q.islamicOnly || islamic);
 
   return (
-    <main className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-10">
+    <ProfessionalGate>
+      <main className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-10">
       <header className="border-b border-shell-border pb-4">
         <p className="font-serif text-sm font-semibold uppercase tracking-[0.28em] text-jq-sage">Moteur de questionnaires</p>
         <h1 className="mt-1 font-serif text-4xl font-semibold text-shell-text sm:text-5xl">Questionnaires</h1>
@@ -50,7 +52,8 @@ export default function QuestionnairesPage() {
       )}
 
       {cur && <Runner q={cur} dossierId={dossierId} onExit={() => setCurId(null)} />}
-    </main>
+      </main>
+    </ProfessionalGate>
   );
 }
 
