@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { useMode } from "@/lib/mode";
 import { useAuth } from "@/lib/auth";
 import { supabaseEnabled } from "@/lib/supabase";
@@ -7,13 +7,14 @@ import { DUAS, LIBRARY, METEO, STEPS } from "@/lib/demo";
 import { evaluateStored } from "@/lib/questionnaires";
 import type { Client, Meteo } from "@/lib/types";
 import { addSeanceDb, createClientDb, deleteClientDb, getClients, getQuestionnaireResponsesDb, saveSyntheseDb, updateClientDb, type QResponse, type Source } from "@/lib/data";
-import { ANAMNESE, anamneseAlerts, reperesSpirituels, type AnaField } from "@/lib/anamnese";
+import { anamneseAlerts, anamneseFieldLabel, anamneseForMode, anamneseSectionTitle, reperesSpirituels, type AnaField } from "@/lib/anamnese";
 
 const METEO_KEYS = Object.keys(METEO) as Meteo[];
 
 export default function Cockpit() {
   const { mode } = useMode();
   const islamic = mode === "islamique";
+  const visibleAnamnese = useMemo(() => anamneseForMode(islamic), [islamic]);
   const { user } = useAuth();
   // Cockpit verrouillé : si Supabase est branché mais personne n'est connecté, aucune fiche n'est affichée.
   const mustLogin = supabaseEnabled && !user;
@@ -509,15 +510,21 @@ export default function Cockpit() {
           )}
 
           {step === "bilan" && (
-            <Panel title="Anamnèse universelle" lead="Le recueil complet — 10 sections, ~70 items. Tout s'enregistre dans la fiche (CR). N'oublie pas « Enregistrer » en bas.">
+            <Panel
+              title={islamic ? "Anamnèse psycho-spirituelle" : "Anamnèse universelle"}
+              lead={`Le recueil complet — ${visibleAnamnese.length} sections adaptées au mode choisi. Tout s'enregistre dans la fiche (CR). N'oublie pas « Enregistrer » en bas.`}
+            >
               <AnaAlertBanner anamnese={c.bilan.anamnese} />
+              <div className="mb-4 rounded-2xl border border-[#d8a3a8] bg-[rgba(169,75,84,.06)] p-3.5 text-[13px] text-shell-muted">
+                <b className="text-[#a94b54]">Sécurité :</b> en cas de danger immédiat ou d&apos;idées suicidaires actuelles, interrompre le questionnaire et appliquer le protocole d&apos;urgence ou d&apos;orientation adapté.
+              </div>
               <div className="flex flex-col gap-4">
-                {ANAMNESE.map((sec) => (
+                {visibleAnamnese.map((sec, sectionIndex) => (
                   <section key={sec.key} className="rounded-2xl border border-shell-border bg-shell-soft p-4">
-                    <h3 className="mb-3 font-serif text-lg font-semibold text-jq-deep">{sec.titre}</h3>
+                    <h3 className="mb-3 font-serif text-lg font-semibold text-jq-deep">{anamneseSectionTitle(sec, sectionIndex, islamic)}</h3>
                     <div className="grid gap-3 sm:grid-cols-2">
                       {sec.fields.map((f) => (
-                        <AnaFieldInput key={f.key} f={f} v={anaValue(f.key)} onChange={(val) => editAnamnese(f.key, val)} />
+                        <AnaFieldInput key={f.key} f={f} v={anaValue(f.key)} islamic={islamic} onChange={(val) => editAnamnese(f.key, val)} />
                       ))}
                     </div>
                   </section>
@@ -737,10 +744,12 @@ function Field({ k, v }: { k: string; v: string }) {
   );
 }
 function EditField({ k, v, onChange, placeholder }: { k: string; v: string; onChange: (val: string) => void; placeholder?: string }) {
+  const id = useId();
   return (
     <div className="rounded-2xl border border-shell-border bg-shell-soft p-3.5">
-      <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-shell-muted">{k}</div>
+      <label htmlFor={id} className="mb-1.5 block text-[11px] font-bold uppercase tracking-wide text-shell-muted">{k}</label>
       <textarea
+        id={id}
         value={v}
         onChange={(e) => onChange(e.target.value)}
         rows={2}
@@ -775,44 +784,55 @@ function AnaAlertBanner({ anamnese }: { anamnese?: Record<string, string> }) {
   );
 }
 // Un champ d'anamnèse rendu selon son type (texte, zone longue, boutons, échelle 0-10).
-function AnaFieldInput({ f, v, onChange }: { f: AnaField; v: string; onChange: (val: string) => void }) {
+function AnaFieldInput({ f, v, islamic, onChange }: { f: AnaField; v: string; islamic: boolean; onChange: (val: string) => void }) {
   const full = f.type === "long" || f.type === "scale" || (f.type === "choice" && (f.options?.length ?? 0) > 3);
-  const label = (f.danger ? "🚨 " : f.star ? "⭐ " : "") + f.label;
+  const label = (f.danger ? "🚨 " : f.star && islamic ? "⭐ " : "") + anamneseFieldLabel(f, islamic);
+  const inputId = `ana-${f.key}`;
   return (
     <div className={"rounded-2xl border p-3.5 " + (full ? "sm:col-span-2 " : "") + (f.danger ? "border-[#d8a3a8] bg-shell-surface" : "border-shell-border bg-shell-surface")}>
-      <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-shell-muted">{label}</div>
       {f.type === "long" && (
-        <textarea value={v} onChange={(e) => onChange(e.target.value)} rows={2} className="w-full resize-y rounded-lg border border-shell-border bg-shell-soft p-2 text-sm outline-none focus:border-gold" />
+        <>
+          <label htmlFor={inputId} className="mb-1.5 block text-[11px] font-bold uppercase tracking-wide text-shell-muted">{label}</label>
+          <textarea id={inputId} value={v} onChange={(e) => onChange(e.target.value)} rows={2} className="w-full resize-y rounded-lg border border-shell-border bg-shell-soft p-2 text-sm outline-none focus:border-gold" />
+        </>
       )}
       {f.type === "text" && (
-        <input value={v} onChange={(e) => onChange(e.target.value)} className="w-full rounded-lg border border-shell-border bg-shell-soft p-2 text-sm outline-none focus:border-gold" />
+        <>
+          <label htmlFor={inputId} className="mb-1.5 block text-[11px] font-bold uppercase tracking-wide text-shell-muted">{label}</label>
+          <input id={inputId} value={v} onChange={(e) => onChange(e.target.value)} className="w-full rounded-lg border border-shell-border bg-shell-soft p-2 text-sm outline-none focus:border-gold" />
+        </>
       )}
       {f.type === "choice" && (
-        <div className="flex flex-wrap gap-1.5">
-          {(f.options ?? []).map((opt) => {
-            const on = v === opt;
-            const danger = Boolean(f.danger) && on && opt !== (f.options ?? [])[0];
-            return (
-              <button
-                key={opt}
-                type="button"
-                onClick={() => onChange(on ? "" : opt)}
-                className={"rounded-full border px-3 py-1.5 text-[12.5px] font-semibold transition " + (danger ? "border-[#a94b54] bg-[rgba(169,75,84,.14)] text-[#a94b54]" : on ? "border-jq-deep bg-jq-deep text-white" : "border-shell-border bg-shell-soft text-shell-muted hover:border-gold")}
-              >
-                {opt}
-              </button>
-            );
-          })}
-        </div>
+        <fieldset>
+          <legend className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-shell-muted">{label}</legend>
+          <div className="flex flex-wrap gap-1.5">
+            {(f.options ?? []).map((opt) => {
+              const on = v === opt;
+              const danger = Boolean(f.danger) && on && opt !== (f.options ?? [])[0];
+              return (
+                <button
+                  key={opt}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => onChange(on ? "" : opt)}
+                  className={"rounded-full border px-3 py-1.5 text-[12.5px] font-semibold transition " + (danger ? "border-[#a94b54] bg-[rgba(169,75,84,.14)] text-[#a94b54]" : on ? "border-jq-deep bg-jq-deep text-white" : "border-shell-border bg-shell-soft text-shell-muted hover:border-gold")}
+                >
+                  {opt}
+                </button>
+              );
+            })}
+          </div>
+        </fieldset>
       )}
       {f.type === "scale" && (
         <div>
+          <label htmlFor={inputId} className="mb-1.5 block text-[11px] font-bold uppercase tracking-wide text-shell-muted">{label}</label>
           <div className="mb-1 flex items-baseline justify-between gap-2">
             <span className="text-[11px] text-shell-muted">{f.minLabel}</span>
             <span className="font-serif text-lg font-semibold text-jq-deep">{v === "" ? "—" : v}<span className="text-[12px] text-shell-muted">/10</span></span>
             <span className="text-[11px] text-shell-muted">{f.maxLabel}</span>
           </div>
-          <input type="range" min={0} max={10} step={1} value={v === "" ? 0 : Number(v)} onChange={(e) => onChange(e.target.value)} className="w-full accent-jq-deep" />
+          <input id={inputId} type="range" min={0} max={10} step={1} value={v === "" ? 0 : Number(v)} onChange={(e) => onChange(e.target.value)} className="w-full accent-jq-deep" />
         </div>
       )}
     </div>
@@ -823,12 +843,12 @@ function AnamneseNextStep({ anamnese, clientId }: { anamnese?: Record<string, st
   const a = anamnese ?? {};
   const map: { key: string; q: string }[] = [
     { key: "s9_anxiete", q: "Anxiété / stress" },
-    { key: "s9_tristesse", q: "Tristesse / ḥuzn" },
+    { key: "s9_tristesse", q: "Tristesse" },
     { key: "s9_colere", q: "Colère" },
   ];
   const sugg = map.filter((m) => Number(a[m.key] || 0) >= 6).map((m) => m.q);
   const espoir = a.s9_espoir;
-  if (["Présent", "Envahissant — urgence"].includes(a.s9_qunut ?? "") || (espoir !== undefined && espoir !== "" && Number(espoir) <= 3)) sugg.push("Futūr (faiblesse de foi)");
+  if (["Présent", "Envahissant — urgence"].includes(a.s9_qunut ?? "") || (espoir !== undefined && espoir !== "" && Number(espoir) <= 3)) sugg.push("Évaluation du désespoir et de la sécurité");
   return (
     <div className="mt-4 rounded-2xl border border-jq-sage/50 bg-[rgba(124,139,108,.07)] p-4">
       <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-jq-sage">Prochaine étape — évaluer après l&apos;anamnèse</div>
@@ -913,13 +933,16 @@ function Callout({ children }: { children: React.ReactNode }) {
 function CRPanel({ c, islamic, responses, live }: { c: Client; islamic: boolean; responses: QResponse[]; live: boolean }) {
   const [copied, setCopied] = useState(false);
   const ana = c.bilan.anamnese;
-  const filledSections = ANAMNESE.map((sec) => ({
-    titre: sec.titre,
+  const modeSections = anamneseForMode(islamic);
+  const filledSections = modeSections.map((sec, sectionIndex) => ({
+    titre: anamneseSectionTitle(sec, sectionIndex, islamic),
     items: sec.fields.map((f) => ({ f, v: (ana?.[f.key] ?? "").trim() })).filter((x) => x.v !== ""),
   })).filter((sec) => sec.items.length);
   const anaAlerts = anamneseAlerts(ana);
   const rep = reperesSpirituels(ana);
-  const repParts = [rep.espoir && `espoir ${rep.espoir}/10`, rep.tawakkul && `tawakkul ${rep.tawakkul}/10`, rep.qunut && `qunūṭ « ${rep.qunut} »`].filter(Boolean) as string[];
+  const repParts = islamic
+    ? [rep.espoir && `espoir ${rep.espoir}/10`, rep.tawakkul && `tawakkul ${rep.tawakkul}/10`, rep.qunut && `qunūṭ « ${rep.qunut} »`].filter(Boolean) as string[]
+    : [];
   const qs = responses
     .map((r) => ({ r, info: evaluateStored(r.questionnaireId, r.answers) }))
     .filter((x): x is { r: QResponse; info: NonNullable<ReturnType<typeof evaluateStored>> } => Boolean(x.info));
@@ -940,7 +963,7 @@ function CRPanel({ c, islamic, responses, live }: { c: Client; islamic: boolean;
     if (filledSections.length) {
       filledSections.forEach((sec) => {
         L.push(`— ${sec.titre} —`);
-        sec.items.forEach(({ f, v }) => L.push(`${f.label} : ${fmt(f, v)}`));
+        sec.items.forEach(({ f, v }) => L.push(`${anamneseFieldLabel(f, islamic)} : ${fmt(f, v)}`));
         L.push("");
       });
     } else L.push("(anamnèse vide)");
@@ -989,7 +1012,7 @@ function CRPanel({ c, islamic, responses, live }: { c: Client; islamic: boolean;
                 <div className="flex flex-col gap-0.5">
                   {sec.items.map(({ f, v }) => (
                     <div key={f.key} className="text-[13px]">
-                      <span className="text-shell-muted">{f.label} : </span>
+                      <span className="text-shell-muted">{anamneseFieldLabel(f, islamic)} : </span>
                       <span className="whitespace-pre-wrap text-shell-text">{fmt(f, v)}</span>
                     </div>
                   ))}

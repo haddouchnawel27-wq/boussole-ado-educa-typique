@@ -48,6 +48,7 @@ create table if not exists syntheses (
   updated_at timestamptz not null default now()
 );
 create index if not exists syntheses_client_idx on syntheses(client_id);
+create unique index if not exists syntheses_client_unique_idx on syntheses(client_id);
 
 -- ───────── Réponses aux questionnaires ─────────
 create table if not exists questionnaire_responses (
@@ -70,26 +71,51 @@ alter table syntheses enable row level security;
 alter table questionnaire_responses enable row level security;
 
 -- Une praticienne ne gère que SA fiche
+drop policy if exists "own practitioner" on practitioners;
 create policy "own practitioner" on practitioners
   for all using (id = auth.uid()) with check (id = auth.uid());
 
 -- ...et que SES clientes
+drop policy if exists "own clients" on clients;
 create policy "own clients" on clients
   for all using (practitioner_id = auth.uid()) with check (practitioner_id = auth.uid());
 
 -- Séances / synthèses : accessibles si la cliente appartient à la praticienne
+drop policy if exists "own seances" on seances;
 create policy "own seances" on seances for all using (
   exists (select 1 from clients c where c.id = seances.client_id and c.practitioner_id = auth.uid())
 ) with check (
   exists (select 1 from clients c where c.id = seances.client_id and c.practitioner_id = auth.uid())
 );
+drop policy if exists "own syntheses" on syntheses;
 create policy "own syntheses" on syntheses for all using (
   exists (select 1 from clients c where c.id = syntheses.client_id and c.practitioner_id = auth.uid())
 ) with check (
   exists (select 1 from clients c where c.id = syntheses.client_id and c.practitioner_id = auth.uid())
 );
+drop policy if exists "own responses" on questionnaire_responses;
 create policy "own responses" on questionnaire_responses
-  for all using (practitioner_id = auth.uid()) with check (practitioner_id = auth.uid());
+  for all using (
+    practitioner_id = auth.uid()
+    and (
+      client_id is null
+      or exists (
+        select 1 from clients c
+        where c.id = questionnaire_responses.client_id
+          and c.practitioner_id = auth.uid()
+      )
+    )
+  ) with check (
+    practitioner_id = auth.uid()
+    and (
+      client_id is null
+      or exists (
+        select 1 from clients c
+        where c.id = questionnaire_responses.client_id
+          and c.practitioner_id = auth.uid()
+      )
+    )
+  );
 
 -- ───────── Création auto du profil praticienne à l'inscription ─────────
 create or replace function handle_new_user() returns trigger
