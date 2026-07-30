@@ -1,7 +1,7 @@
 /* Service worker — Mon Chargé de Com
    Cache l'app pour un usage 100% hors-ligne (installable en PWA).
    Stratégie : cache-first, avec mise en cache au vol des requêtes GET. */
-const CACHE = 'mcc-v2';
+const CACHE = 'mcc-v3';
 const ASSETS = [
   './',
   './index.html',

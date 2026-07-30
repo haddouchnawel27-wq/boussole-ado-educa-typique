@@ -216,12 +216,22 @@
     <label class="field">🪝 Une accroche (clique pour l'utiliser)</label>
     <div id="hooks-list"></div>
 
+    <div class="btn-row">
+      <button class="btn ghost small" onclick="shuffleHooks()">🎲 D'autres accroches</button>
+    </div>
+
     <label class="field">✏️ Ton brouillon</label>
     <textarea id="atelier-draft" placeholder="Ton accroche apparaîtra ici, puis tu continues avec tes mots…"></textarea>
 
     <div class="btn-row">
       <button class="btn menthe small" onclick="assembleDraft()">🧱 Squelette prêt-à-remplir</button>
       <button class="btn ghost small" onclick="copyText(document.getElementById('atelier-draft').value)">📋 Copier</button>
+    </div>
+
+    <label class="field">✨ Finitions (clique pour ajouter à la fin)</label>
+    <div class="pill-row" id="atelier-cta"></div>
+    <div class="btn-row">
+      <button class="btn ghost small" onclick="addHashtags()"># Suggérer des hashtags</button>
     </div>
     <div class="btn-row">
       <button class="btn secondary" onclick="saveDraftToLibrary()">💾 Garder dans ma bibliothèque</button>
@@ -543,12 +553,34 @@ const ANGLES=[
 const HOOKS=[
   "Tu n'as pas besoin d'être parfaite pour publier.",
   "Personne ne t'a dit ça sur [SUJET], et pourtant…",
-  "Si tu ressens [ÉMOTION], lis ça jusqu'au bout.",
-  "J'ai longtemps cru que [CROYANCE]. J'avais tort.",
+  "Si tu te sens dépassée par [SUJET], lis ça jusqu'au bout.",
+  "J'ai longtemps cru que [SUJET] devait être compliqué. J'avais tort.",
   "3 choses que j'aurais aimé savoir sur [SUJET].",
-  'Arrête de [MAUVAISE HABITUDE]. Voici pourquoi.',
+  "Arrête de culpabiliser avec [SUJET]. Voici pourquoi.",
   "La vérité que personne n'ose dire sur [SUJET].",
-  "Petit rappel doux pour aujourd'hui : [MESSAGE].",
+  "Petit rappel doux pour aujourd'hui : tu fais déjà de ton mieux.",
+  "On m'a souvent demandé comment je gère [SUJET]. Voici ma vraie réponse.",
+  "[SUJET] : ce qui a tout changé pour moi (et personne n'en parle).",
+  "Si tu ne devais retenir qu'une chose sur [SUJET], ce serait ça.",
+  "Le conseil sur [SUJET] que j'aurais aimé recevoir plus tôt.",
+  "Spoiler : [SUJET], ce n'est pas une question de motivation.",
+  "Tu n'es pas seule à galérer avec [SUJET]. Vraiment.",
+  "J'ai testé pendant des mois pour [SUJET]. Voici ce qui marche.",
+  "Ce petit détail sur [SUJET] change tout, et il est gratuit.",
+  "Avant, [SUJET] me stressait. Aujourd'hui, voilà comment je fais.",
+  "Et si [SUJET] était plus simple qu'on te l'a fait croire ?",
+  "Ce que j'aurais dit à la moi d'il y a 5 ans sur [SUJET].",
+  "Un rappel pour celle qui doute ce soir à propos de [SUJET].",
+];
+const CTAS=[
+  "📌 Enregistre ce post pour le relire quand tu en auras besoin.",
+  "💬 Dis-moi en commentaire : et toi, comment tu vis ça ?",
+  "🔁 Partage à une amie qui a besoin de lire ça aujourd'hui.",
+  "👉 Écris-moi « OUI » en commentaire si ça te parle.",
+  "❤️ Un petit like si tu veux plus de contenus comme celui-ci.",
+  "📩 Envoie-moi un message si tu veux qu'on en parle ensemble.",
+  "🔖 Abonne-toi pour ne pas rater la suite.",
+  "🌸 Prends soin de toi, et reviens quand tu veux.",
 ];
 let atelier={platform:'Instagram',angle:null};
 function startAtelier(){ renderAtelier(); go('atelier'); }
@@ -559,12 +591,37 @@ function renderAtelier(){
   const an=document.getElementById('atelier-angle'); an.innerHTML='';
   ANGLES.forEach(a=>{ const b=document.createElement('button'); b.className='pill'+(atelier.angle===a.name?' on':''); b.textContent=a.name;
     b.title=a.hint; b.onclick=()=>{atelier.angle=a.name; renderAtelier();}; an.appendChild(b); });
+  if(!atelier._hooks) atelier._hooks = HOOKS.slice(0,6);
+  const topic=(document.getElementById('atelier-topic').value||'').trim();
+  const fill=h=> topic? h.replace(/\[SUJET\]/g, topic) : h.replace(/\[SUJET\]/g, '[ton sujet]');
   const hl=document.getElementById('hooks-list'); hl.innerHTML='';
-  HOOKS.forEach(h=>{ const d=document.createElement('div'); d.className='item'; d.style.cursor='pointer';
-    d.innerHTML=`<div class="body" style="margin:0">${h}</div>`;
+  atelier._hooks.forEach(h0=>{ const h=fill(h0); const d=document.createElement('div'); d.className='item'; d.style.cursor='pointer';
+    d.innerHTML=`<div class="body" style="margin:0">${escapeHtml(h)}</div>`;
     d.onclick=()=>{ const ta=document.getElementById('atelier-draft');
       ta.value = h + (ta.value?'\n\n'+ta.value:'\n\n'); toast('Accroche ajoutée ✓'); ta.focus(); };
     hl.appendChild(d); });
+  const cta=document.getElementById('atelier-cta');
+  if(cta){ cta.innerHTML='';
+    CTAS.forEach(c=>{ const b=document.createElement('button'); b.className='pill'; b.textContent=c;
+      b.onclick=()=>{ const ta=document.getElementById('atelier-draft');
+        ta.value=(ta.value?ta.value.replace(/\s+$/,'')+'\n\n':'')+c; toast('CTA ajouté ✓'); ta.focus(); };
+      cta.appendChild(b); });
+  }
+}
+function shuffleHooks(){
+  const pool=HOOKS.slice();
+  for(let i=pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
+  atelier._hooks=pool.slice(0,6); renderAtelier(); toast('De nouvelles accroches 🎲');
+}
+function addHashtags(){
+  const topic=(document.getElementById('atelier-topic').value||'').trim();
+  const stop=new Set(['de','la','le','les','des','du','un','une','à','a','au','aux','en','et','ou','sa','son','ses','ma','mon','mes','pour','avec','sans','sur','dans','par','se','ce','que','qui','comment']);
+  const words=topic.toLowerCase().replace(/[^a-zà-ÿ0-9\s]/gi,' ').split(/\s+/).filter(w=>w.length>2 && !stop.has(w));
+  const fromTopic=words.slice(0,4).map(w=>'#'+w.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,''));
+  const generic=['#chargedecom','#reseauxsociaux','#communaute','#partage','#bienveillance'];
+  const tags=[...new Set([...fromTopic, ...generic])].filter(Boolean).slice(0,8).join(' ');
+  const ta=document.getElementById('atelier-draft');
+  ta.value=(ta.value?ta.value.replace(/\s+$/,'')+'\n\n':'')+tags; toast('Hashtags ajoutés #'); ta.focus();
 }
 function assembleDraft(){
   const topic=document.getElementById('atelier-topic').value.trim()||'[ton sujet]';
