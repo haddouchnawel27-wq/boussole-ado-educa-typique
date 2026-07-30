@@ -116,8 +116,8 @@ export async function addSeanceDb(clientId: string, s: Seance): Promise<boolean>
 /** Supprime définitivement une accompagnée (et, par cascade, ses séances/synthèses/réponses). */
 export async function deleteClientDb(clientId: string): Promise<boolean> {
   if (!supabase) return false;
-  const { error } = await supabase.from("clients").delete().eq("id", clientId);
-  return !error;
+  const { data, error } = await supabase.from("clients").delete().eq("id", clientId).select("id");
+  return !error && Array.isArray(data) && data.length > 0;
 }
 
 export interface QResponse {

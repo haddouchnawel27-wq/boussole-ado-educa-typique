@@ -1,4 +1,4 @@
-// Anamnèse universelle — schéma clinique natif (miroir fidèle de l'outil « Voie Chifa »).
+// Anamnèse structurée native (miroir fidèle de l'outil « Voie Chifa »).
 // ~70 items, 10 sections. Stockée dans la fiche (colonne bilan.anamnese : clé → valeur).
 // Jamais un diagnostic : un recueil structuré. Les alertes priment toujours sur le reste.
 
@@ -13,12 +13,15 @@ export interface AnaField {
   maxLabel?: string; // pour "scale" (10)
   star?: boolean; // ⭐ repère spirituel
   danger?: boolean; // 🚨 item sensible
+  islamicOnly?: boolean;
+  universalLabel?: string;
 }
 
 export interface AnaSection {
   key: string;
   titre: string;
   fields: AnaField[];
+  islamicOnly?: boolean;
 }
 
 export const ANAMNESE: AnaSection[] = [
@@ -29,7 +32,7 @@ export const ANAMNESE: AnaSection[] = [
       { key: "s1_initiales", label: "Initiales (confidentialité)", type: "text" },
       { key: "s1_age", label: "Âge", type: "text" },
       { key: "s1_genre", label: "Genre", type: "choice", options: ["Femme", "Homme", "Autre / préfère ne pas dire"] },
-      { key: "s1_famille", label: "Situation familiale", type: "choice", options: ["Célibataire", "En couple", "Mariée", "Divorcée / séparée", "Veuve"] },
+      { key: "s1_famille", label: "Situation familiale", type: "choice", options: ["Célibataire", "En couple", "Marié·e", "Divorcé·e / séparé·e", "Veuf·ve"] },
       { key: "s1_enfants", label: "Enfants (nombre + âges)", type: "text" },
       { key: "s1_profession", label: "Situation professionnelle (si utile pour la demande)", type: "text" },
       { key: "s1_reperes_interculturels", label: "Repères culturels, familiaux, linguistiques ou spirituels dont la personne souhaite que l'on tienne compte", type: "long" },
@@ -71,6 +74,7 @@ export const ANAMNESE: AnaSection[] = [
   {
     key: "s4",
     titre: "4 · Antécédents spirituels & parcours de foi",
+    islamicOnly: true,
     fields: [
       { key: "s4_parcours", label: "Parcours de foi", type: "choice", options: ["Née musulmane, pratique stable", "Née musulmane, pratique tardive", "Reconvertie", "Conversion à l'âge adulte"] },
       { key: "s4_prieres", label: "Régularité prières (5 par jour)", type: "scale", minLabel: "Jamais", maxLabel: "Toujours 5/5" },
@@ -91,7 +95,7 @@ export const ANAMNESE: AnaSection[] = [
       { key: "s5_mere", label: "Relation à la mère (enfance + actuelle)", type: "long" },
       { key: "s5_fratrie", label: "Fratrie (rang, relations)", type: "long" },
       { key: "s5_trauma", label: "Trauma majeurs (deuils, violences, accidents, agressions sexuelles)", type: "long" },
-      { key: "s5_etapes", label: "Étapes-clés de la vie (mariage, divorce, déménagement, conversion…)", type: "long" },
+      { key: "s5_etapes", label: "Étapes-clés de la vie (mariage, divorce, déménagement, conversion…)", universalLabel: "Étapes-clés de la vie (mariage, séparation, deuil, déménagement…)", type: "long" },
     ],
   },
   {
@@ -118,12 +122,13 @@ export const ANAMNESE: AnaSection[] = [
       { key: "s7_enfants", label: "Relation aux enfants", type: "long" },
       { key: "s7_famille", label: "Relations famille élargie (parents, beaux-parents, fratrie)", type: "long" },
       { key: "s7_amis", label: "Réseau d'amis et soutien social", type: "scale", minLabel: "Aucun", maxLabel: "Très fort" },
-      { key: "s7_communaute", label: "Communauté / mosquée / halaqa", type: "long" },
+      { key: "s7_communaute", label: "Communauté / mosquée / halaqa", universalLabel: "Réseau communautaire, associatif ou spirituel si pertinent", type: "long" },
     ],
   },
   {
     key: "s8",
     titre: "8 · Spiritualité actuelle (pratique vivante)",
+    islamicOnly: true,
     fields: [
       { key: "s8_khoushou", label: "Présence dans la prière (khoushou')", type: "scale", minLabel: "Aucune", maxLabel: "Forte" },
       { key: "s8_coran", label: "Lien actuel au Coran", type: "scale", minLabel: "Distant", maxLabel: "Très vivant" },
@@ -140,12 +145,12 @@ export const ANAMNESE: AnaSection[] = [
     fields: [
       { key: "s9_souffrance", label: "Niveau de souffrance global", type: "scale", minLabel: "Aucune", maxLabel: "Insupportable" },
       { key: "s9_anxiete", label: "Anxiété / angoisse", type: "scale", minLabel: "Aucune", maxLabel: "Constante" },
-      { key: "s9_tristesse", label: "Tristesse / hozn", type: "scale", minLabel: "Aucune", maxLabel: "Profonde" },
+      { key: "s9_tristesse", label: "Tristesse / ḥuzn", universalLabel: "Tristesse", type: "scale", minLabel: "Aucune", maxLabel: "Profonde" },
       { key: "s9_colere", label: "Colère / irritabilité", type: "scale", minLabel: "Aucune", maxLabel: "Constante" },
-      { key: "s9_espoir", label: "Espoir / rajā'", type: "scale", star: true, minLabel: "Aucun", maxLabel: "Très présent" },
-      { key: "s9_sakina", label: "Paix intérieure (sakīna)", type: "scale", minLabel: "Aucune", maxLabel: "Très bonne" },
-      { key: "s9_tawakkul", label: "Confiance en Allāh (tawakkul)", type: "scale", star: true, minLabel: "Difficile", maxLabel: "Très forte" },
-      { key: "s9_qunut", label: "Présence de désespoir (qunūṭ) ?", type: "choice", danger: true, options: ["Aucun", "Passager", "Présent", "Envahissant — urgence"] },
+      { key: "s9_espoir", label: "Espoir / rajā'", universalLabel: "Espoir", type: "scale", star: true, minLabel: "Aucun", maxLabel: "Très présent" },
+      { key: "s9_sakina", label: "Paix intérieure (sakīna)", universalLabel: "Paix intérieure", type: "scale", minLabel: "Aucune", maxLabel: "Très bonne" },
+      { key: "s9_tawakkul", label: "Confiance en Allāh (tawakkul)", type: "scale", star: true, islamicOnly: true, minLabel: "Difficile", maxLabel: "Très forte" },
+      { key: "s9_qunut", label: "Présence de désespoir (qunūṭ) ?", universalLabel: "Présence de désespoir ?", type: "choice", danger: true, options: ["Aucun", "Passager", "Présent", "Envahissant — urgence"] },
     ],
   },
   {
@@ -168,6 +173,24 @@ export interface AnaAlert {
   message: string;
 }
 
+export function anamneseForMode(islamic: boolean): AnaSection[] {
+  return ANAMNESE
+    .filter((section) => islamic || !section.islamicOnly)
+    .map((section) => ({
+      ...section,
+      fields: section.fields.filter((field) => islamic || !field.islamicOnly),
+    }));
+}
+
+export function anamneseFieldLabel(field: AnaField, islamic: boolean): string {
+  return islamic ? field.label : field.universalLabel ?? field.label;
+}
+
+export function anamneseSectionTitle(section: AnaSection, index: number, islamic: boolean): string {
+  if (islamic) return section.titre;
+  return `${index + 1} · ${section.titre.replace(/^\d+\s*·\s*/, "")}`;
+}
+
 /**
  * Alertes de sécurité de l'anamnèse — priment sur tout le reste.
  *  1) Item suicide (§3) : idées actuelles / tentative passée / tentative récente.
@@ -176,11 +199,13 @@ export interface AnaAlert {
 export function anamneseAlerts(a: Record<string, string> | undefined): AnaAlert[] {
   const out: AnaAlert[] = [];
   const v = a ?? {};
-  if (["Idées actuelles", "Tentative passée", "Tentative récente"].includes(v.s3_suicide)) {
-    out.push({ level: "rouge", titre: "Risque suicidaire signalé (section 3)", message: "Point de vigilance — à évaluer en priorité." });
+  if (["Idées actuelles", "Tentative récente"].includes(v.s3_suicide)) {
+    out.push({ level: "rouge", titre: "Risque suicidaire actuel signalé (section 3)", message: "Interrompre le questionnaire, évaluer immédiatement la sécurité et appliquer le protocole d'urgence ou d'orientation adapté." });
+  } else if (v.s3_suicide === "Tentative passée") {
+    out.push({ level: "rouge", titre: "Antécédent suicidaire signalé (section 3)", message: "Explorer le risque actuel en priorité et prévoir l'orientation adaptée." });
   }
   if (["Présent", "Envahissant — urgence"].includes(v.s9_qunut)) {
-    out.push({ level: "rouge", titre: "Désespoir (qunūṭ) signalé (section 9)", message: "Point de vigilance — à évaluer en priorité." });
+    out.push({ level: "rouge", titre: "Désespoir signalé (section 9)", message: "Évaluer la sécurité et le risque suicidaire en priorité avant de poursuivre l'accompagnement." });
   }
   return out;
 }
