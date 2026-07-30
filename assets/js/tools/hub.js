@@ -97,7 +97,7 @@
       });
       vue.appendChild(grille);
 
-      vue.appendChild(UI.el("p.aide", { style: "margin-top:1.2rem", text: "Astuce : ces applications restent hébergées de leur côté. Plus tard, je peux aussi recréer certains de ces outils directement dans Boussole pour un usage hors-ligne et un suivi centralisé." }));
+      vue.appendChild(UI.el("p.aide", { style: "margin-top:1.2rem", text: "Astuce : ces applications restent hébergées de leur côté. Plus tard, je peux aussi recréer certains de ces outils directement dans Cap Educa pour un usage hors-ligne et un suivi centralisé." }));
     }
   });
 })();

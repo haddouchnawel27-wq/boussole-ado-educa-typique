@@ -73,7 +73,7 @@
     rafraichirSelectPublic();
     construireNav();
   }
-  function publicEffectif() { return publicActif() || "pro"; }
+  function publicEffectif() { return publicActif() || "ado"; } // défaut = vue ADO (jamais « tout voir » par défaut) — sécurité 3 espaces
 
   // Un outil est-il visible pour la tranche d'âge en cours ?
   function outilVisible(o) {
@@ -132,10 +132,10 @@
     });
   }
 
-  // ---- Écran de bienvenue : « Pour qui ouvre-t-on Boussole ? » ----
+  // ---- Écran de bienvenue : « Pour qui ouvre-t-on Cap Educa ? » ----
   function ecranChoixPublic(vue) {
     vue.appendChild(UI.enTete(
-      "Pour qui ouvre-t-on Boussole ?",
+      "Pour qui ouvre-t-on Cap Educa ?",
       "Choisissez la tranche d'âge : le menu s'adaptera pour rester clair et apaisant. Vous pourrez en changer à tout moment, en haut de l'écran."
     ));
     var grille = UI.el(".grille");
@@ -228,6 +228,100 @@
     });
   }
 
+  // ---- Garde « espace praticienne » (décision 22/07/2026) ----
+  // Les 5 outils pro deviennent accessibles uniquement derrière un code.
+  // ⚠️ NON DESTRUCTIF : aucune donnée n'est supprimée ni déplacée — c'est une
+  // simple porte sur le routeur. Le code n'est JAMAIS stocké en clair : on ne
+  // garde que son empreinte SHA-256 et on compare les empreintes.
+  var PRO_VERROUILLES = ["profils", "suivi", "abc", "modeles-pro", "personnalisation"];
+  // Empreinte du code praticienne PAR DÉFAUT (code provisoire « mizan2026 »).
+  // Nawel pose son VRAI code elle-même dans l'app (« Changer mon code ») : il est
+  // alors stocké — CHIFFRÉ (empreinte SHA-256), jamais en clair — uniquement sur
+  // son appareil (clé boussole.v1.codePraticienneHash) et remplace ce défaut.
+  var CODE_PRATICIENNE_SHA256 = "320ddc16d29bfc2d27d54e282a27ea1862477fe94d782057858d7829a809ba1d";
+  // Empreinte active = celle posée par la praticienne (locale) si elle existe, sinon le défaut.
+  function codeActifHash() {
+    var h = Store.lire("codePraticienneHash", null);
+    return (typeof h === "string" && h.length === 64) ? h : CODE_PRATICIENNE_SHA256;
+  }
+
+  function proDeverrouille() { try { return sessionStorage.getItem("boussole.pro.ouvert") === "1"; } catch (e) { return false; } }
+  function ouvrirSessionPro() { try { sessionStorage.setItem("boussole.pro.ouvert", "1"); } catch (e) { /* session verrouillée : on ré-affichera le code */ } }
+  function empreinteSha256(txt) {
+    var enc = new TextEncoder().encode(txt);
+    return crypto.subtle.digest("SHA-256", enc).then(function (buf) {
+      return Array.prototype.map.call(new Uint8Array(buf), function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+    });
+  }
+  // Formulaire EN LIGNE « poser / changer mon code praticienne » — la praticienne
+  // définit son propre code, de ses mains. Rien n'est transmis ; on ne stocke que
+  // l'empreinte, uniquement sur cet appareil. Contrôle total du flux (async-safe).
+  function ecranChangerCode(vue, outil) {
+    UI.vider(vue);
+    document.title = "Mon code praticienne — Cap Educa";
+    var actuel = UI.input({ type: "password", placeholder: "Code actuel" });
+    var neuf = UI.input({ type: "password", placeholder: "Nouveau code (min. 4 caractères)" });
+    var confirm = UI.input({ type: "password", placeholder: "Confirmer le nouveau code" });
+    [actuel, neuf, confirm].forEach(function (i) { i.setAttribute("autocomplete", "off"); });
+    var erreur = UI.el("p.pro-lock-err", { text: "", role: "alert" });
+    function enregistrer() {
+      var a = (actuel.value || "").trim(), n = (neuf.value || "").trim(), c = (confirm.value || "").trim();
+      erreur.textContent = "";
+      if (n.length < 4) { erreur.textContent = "Le nouveau code doit faire au moins 4 caractères."; neuf.focus(); return; }
+      if (n !== c) { erreur.textContent = "Les deux nouveaux codes ne correspondent pas."; confirm.focus(); return; }
+      empreinteSha256(a).then(function (ha) {
+        if (ha !== codeActifHash()) { erreur.textContent = "Code actuel incorrect."; actuel.value = ""; actuel.focus(); return; }
+        empreinteSha256(n).then(function (hn) {
+          Store.ecrire("codePraticienneHash", hn);
+          ouvrirSessionPro();
+          UI.toast("Votre code praticienne est enregistré ✓");
+          routerVers();
+        });
+      }).catch(function () { erreur.textContent = "Vérification impossible sur ce navigateur."; });
+    }
+    confirm.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); enregistrer(); } });
+    vue.appendChild(UI.el(".pro-lock", {}, [
+      UI.el("div.pro-lock-ic", { text: "🔑", "aria-hidden": "true" }),
+      UI.el("h1", { text: "Mon code praticienne" }),
+      UI.el("p.pro-lock-sub", { text: "Choisissez un code connu de vous seule. Il reste sur cet appareil, chiffré — personne ne peut le lire, pas même via ce site. Au premier usage, le « code actuel » est le code provisoire." }),
+      UI.champ("Code actuel", actuel),
+      UI.champ("Nouveau code", neuf),
+      UI.champ("Confirmer le nouveau code", confirm),
+      erreur,
+      UI.el("button.btn", { text: "Enregistrer mon code", onclick: enregistrer }),
+      UI.el("button.btn.ghost", { text: "← Retour", style: "margin-top:8px", onclick: function () { ecranProVerrouille(vue, outil); } })
+    ]));
+    setTimeout(function () { actuel.focus(); }, 50);
+  }
+  function ecranProVerrouille(vue, outil) {
+    document.title = "Espace praticienne — Cap Educa";
+    marquerActif(outil.id);
+    document.body.classList.remove("menu-ouvert");
+    var input = UI.input({ type: "password", placeholder: "Code praticienne" });
+    input.setAttribute("autocomplete", "off");
+    var erreur = UI.el("p.pro-lock-err", { text: "", role: "alert" });
+    function tenter() {
+      var val = (input.value || "").trim();
+      if (!val) { input.focus(); return; }
+      empreinteSha256(val).then(function (h) {
+        if (h === codeActifHash()) { ouvrirSessionPro(); routerVers(); }
+        else { erreur.textContent = "Code incorrect. Réessayez."; input.value = ""; input.focus(); }
+      }).catch(function () { erreur.textContent = "Vérification impossible sur ce navigateur."; });
+    }
+    input.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); tenter(); } });
+    vue.appendChild(UI.el(".pro-lock", {}, [
+      UI.el("div.pro-lock-ic", { text: "🔒", "aria-hidden": "true" }),
+      UI.el("h1", { text: "Espace praticienne" }),
+      UI.el("p.pro-lock-sub", { text: "Cet outil est réservé à la praticienne. Entrez votre code pour y accéder — vos dossiers restent intacts sur cet appareil." }),
+      UI.champ("Code praticienne", input),
+      erreur,
+      UI.el("button.btn", { text: "Ouvrir mon espace", onclick: tenter }),
+      UI.el("button.btn.ghost", { text: "Définir / changer mon code", style: "margin-top:8px", onclick: function () { ecranChangerCode(vue, outil); } }),
+      UI.el("p.pro-lock-note", { text: "Le code déverrouille les outils pro pour cette session. Rien n'est envoyé sur internet." })
+    ]));
+    setTimeout(function () { input.focus(); }, 50);
+  }
+
   // ---- Routeur (hash) ----
   function routerVers() {
     var hash = location.hash.replace(/^#\/?/, "") || "accueil";
@@ -242,8 +336,15 @@
     if (!publicActif()) {
       marquerActif("accueil");
       document.body.classList.remove("menu-ouvert");
-      document.title = "Boussole";
+      document.title = "Cap Educa";
       ecranChoixPublic(vue);
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // Garde praticienne : outils pro derrière un code (aucune donnée touchée).
+    if (PRO_VERROUILLES.indexOf(outil.id) >= 0 && !proDeverrouille()) {
+      ecranProVerrouille(vue, outil);
       window.scrollTo(0, 0);
       return;
     }
@@ -252,7 +353,7 @@
     noterRecent(outil.id);
     document.body.classList.remove("menu-ouvert");
     document.getElementById("contenu").focus();
-    document.title = (outil.titre ? outil.titre + " — " : "") + "Boussole";
+    document.title = (outil.titre ? outil.titre + " — " : "") + "Cap Educa";
     try {
       outil.render(vue, { profil: profilActif(), arg: arg, naviguer: naviguer, refreshProfils: rafraichirSelectProfil });
     } catch (e) {

@@ -2,7 +2,7 @@
    Stratégie « stale-while-revalidate » : on sert vite depuis le cache,
    puis on met à jour en arrière-plan, pour que les nouvelles versions
    s'appliquent d'elles-mêmes à l'ouverture suivante. */
-var CACHE = "boussole-v15";
+var CACHE = "boussole-v16";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
   "./assets/css/styles.css",
@@ -46,12 +46,13 @@ self.addEventListener("fetch", function (e) {
   // réseau direct, jamais mises dans le cache de l'appli.
   if (url.origin !== self.location.origin) return;
 
-  // Les sites vitrines (Parcours Clarté · Jannat Al Qalb) ne font PAS partie
+  // Les sites vitrines (Parcours Clarté · Jannat al Qulûb) ne font PAS partie
   // de l'application : on les laisse au réseau, sans cache ni coquille d'appli.
   if (url.pathname.indexOf("/parcours-clarte-tnd/") !== -1 ||
       url.pathname.indexOf("/jannat-al-qalb/") !== -1 ||
       url.pathname.indexOf("/al-mizan/") !== -1 ||
       url.pathname.indexOf("/souffle-lumiere/") !== -1 ||
+      url.pathname.indexOf("/chef-chantier/") !== -1 ||
       url.pathname.indexOf("/vente-") !== -1) {
     return;
   }
