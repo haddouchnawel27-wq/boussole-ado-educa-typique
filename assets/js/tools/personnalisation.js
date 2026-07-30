@@ -36,9 +36,9 @@
 
   Boussole.registerTool({
     id: "personnalisation", groupe: "pro", titre: "Personnalisation", icone: "🎨",
-    desc: "Adaptez Boussole à votre image : couleur, logo et message d'accueil.",
+    desc: "Adaptez Cap Educa à votre image : couleur, logo et message d'accueil.",
     render: function (vue) {
-      vue.appendChild(UI.enTete("Personnalisation", "Rendez Boussole vraiment vôtre. Les changements s'appliquent immédiatement et sont gardés sur cet appareil."));
+      vue.appendChild(UI.enTete("Personnalisation", "Rendez Cap Educa vraiment vôtre. Les changements s'appliquent immédiatement et sont gardés sur cet appareil."));
       var p = perso();
 
       // --- Couleur ---

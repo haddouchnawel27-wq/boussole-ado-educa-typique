@@ -12,7 +12,7 @@
   });
   window.addEventListener("appinstalled", function () {
     promptDiffere = null; dejaInstallee = true;
-    if (window.UI) UI.toast("🎉 Boussole est installée !");
+    if (window.UI) UI.toast("🎉 Cap Educa est installée !");
   });
 
   function instructionsManuelles() {
@@ -20,7 +20,7 @@
     var iOS = /iPad|iPhone|iPod/.test(ua);
     var contenu = UI.el("div");
     if (dejaInstallee) {
-      contenu.appendChild(UI.el("p", { text: "✅ Boussole est déjà installée sur cet appareil ! Vous la trouverez avec vos autres applications." }));
+      contenu.appendChild(UI.el("p", { text: "✅ Cap Educa est déjà installée sur cet appareil ! Vous la trouverez avec vos autres applications." }));
     } else if (iOS) {
       contenu.appendChild(UI.el("p", { html: "Sur <strong>iPhone / iPad</strong> (Safari) :" }));
       contenu.appendChild(UI.el("ol", { html:
@@ -35,7 +35,7 @@
         "<li>Confirmez avec <strong>« Installer »</strong>.</li>" }));
       contenu.appendChild(UI.el("p", { html: "Sur <strong>ordinateur</strong> (Chrome / Edge) : cliquez sur l'icône <strong>d'installation</strong> (un écran avec une flèche ⤓) tout à droite de la barre d'adresse, puis <strong>« Installer »</strong>." }));
     }
-    UI.modal({ titre: "📲 Installer Boussole", contenu: contenu, annuler: false, texteOk: "Compris" });
+    UI.modal({ titre: "📲 Installer Cap Educa", contenu: contenu, annuler: false, texteOk: "Compris" });
   }
 
   // Lance l'invite native si dispo, sinon affiche les instructions.

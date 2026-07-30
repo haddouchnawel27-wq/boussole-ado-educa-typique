@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#7E9B87" />
+<meta name="description" content="Le point du jour — un baromètre doux de ton fonctionnement du moment. 100% local et hors-ligne." />
+<title>Le point du jour</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%8C%A4%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Le point du jour" />
+<style>
+  /* ═══════════════════════════════════════════════════════════════
+     Le point du jour — 100% local, hors-ligne, sans dépendance.
+     Charte douce pré-alignée Al Mizan (sauge / amande / ivoire)
+     pour un transfert trivial ensuite. Polices système (sans réseau).
+     ═══════════════════════════════════════════════════════════════ */
+  :root{
+    --bg:#F7F4EC; --card:#FFFFFF; --card2:#FCFBF6; --input:#F2EEE2;
+    --primary:#7E9B87; --primary-dark:#5F7D69; --primary-soft:#E6EDE6;
+    --accent:#9BA7C9; --amber:#E8C9A0; --rose:#D9A7A7; --teal:#8FB9B0;
+    --text:#3E4A42; --text-soft:#6E7A70; --text-mute:#9AA69C;
+    --border:#E3DECF; --shadow:rgba(95,125,105,.12); --shadow-h:rgba(95,125,105,.22);
+    --radius:18px; --scale:1;
+    --font:"Nunito","Segoe UI",system-ui,-apple-system,sans-serif;
+    --font-display:"Cormorant Garamond","Georgia",serif;
+    --c-blue:#9BA7C9; --c-purple:#B0A0C9; --c-amber:#E8C9A0; --c-red:#D99A8F; --c-rose:#D9A7A7; --c-teal:#8FB9B0;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{font-size:calc(16px * var(--scale))}
+  body{margin:0;font-family:var(--font);color:var(--text);
+    background:linear-gradient(165deg,var(--bg) 0%,#FBF9F2 100%);
+    min-height:100vh;line-height:1.55;padding-bottom:env(safe-area-inset-bottom)}
+  body.dys{letter-spacing:.03em;word-spacing:.08em;line-height:1.8}
+  body.lowsensory *{animation:none!important;transition:none!important}
+  body.lowsensory .btn{box-shadow:none}
+  .reco{display:inline-block;font-size:.7rem;font-weight:800;color:#fff;background:var(--primary);
+    border-radius:999px;padding:2px 9px;margin-left:8px;vertical-align:middle}
+  .opt.on{background:var(--primary-soft);border-color:var(--primary);color:var(--primary-dark)}
+  .wrap{max-width:540px;margin:0 auto;padding:18px 16px 40px}
+
+  h1,h2{font-family:var(--font-display);font-weight:600;letter-spacing:.01em;line-height:1.15}
+  h1{font-size:2.1rem;margin:.1em 0;color:var(--primary-dark)}
+  h2{font-size:1.5rem;margin:.2em 0 .4em}
+  .tagline{font-family:var(--font-display);font-style:italic;font-size:1.15rem;color:var(--text-soft);margin:.1em 0}
+  p{margin:.5em 0}.muted{color:var(--text-soft)}.tiny{font-size:.82rem;color:var(--text-mute)}
+  .center{text-align:center}
+
+  header.app{text-align:center;padding:10px 0 6px}
+  header.app .mascot{font-size:2.3rem;line-height:1}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:22px;margin:16px 0;box-shadow:0 6px 26px var(--shadow)}
+  .card.accented{border-left:5px solid var(--sc,var(--primary))}
+
+  button{font-family:var(--font);cursor:pointer;border:none;font-size:1rem}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;width:100%;
+    padding:16px 20px;border-radius:14px;font-weight:700;
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;
+    box-shadow:0 6px 18px var(--shadow-h);transition:transform .15s ease,opacity .15s}
+  .btn:active{transform:translateY(1px)}
+  .btn.secondary{background:var(--card);color:var(--primary-dark);border:1.5px solid var(--primary)}
+  .btn.ghost{background:var(--input);color:var(--text-soft);border:1.5px solid var(--border);box-shadow:none}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.small{width:auto;padding:11px 16px;font-size:.92rem;border-radius:12px}
+  .row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1}
+
+  /* progression */
+  .progress{height:8px;border-radius:8px;background:var(--input);overflow:hidden;margin:6px 0 2px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--primary),var(--teal));transition:width .3s ease}
+  .steplab{font-size:.78rem;color:var(--text-mute);font-weight:700}
+
+  /* question */
+  .qtext{font-family:var(--font-display);font-size:1.45rem;line-height:1.25;margin:6px 0 4px;color:var(--text)}
+  .helper{font-size:.9rem;color:var(--text-soft);margin-bottom:14px}
+  .opts{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+  .opt{display:flex;align-items:center;gap:12px;padding:15px 16px;border-radius:14px;
+    border:1.5px solid var(--border);background:var(--input);color:var(--text);
+    font-weight:600;text-align:left;transition:all .15s ease;width:100%}
+  .opt:hover{border-color:var(--primary)}
+  .opt.sel{background:var(--primary-soft);border-color:var(--primary);color:var(--primary-dark)}
+  .opt .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff}
+  .opt.sel .dot{background:var(--primary);border-color:var(--primary)}
+
+  textarea,input[type=text]{width:100%;padding:14px 15px;border-radius:12px;border:1.5px solid var(--border);
+    background:var(--input);color:var(--text);font-family:var(--font);font-size:1rem}
+  textarea{min-height:110px;resize:vertical;line-height:1.5}
+  textarea:focus,input[type=text]:focus{outline:none;border-color:var(--primary)}
+  .recap-row{margin:10px 0}.recap-row b{display:block;color:var(--primary-dark);font-size:.9rem}
+  .recap-row .v{background:var(--input);border-radius:10px;padding:10px 12px;margin-top:4px;white-space:pre-wrap}
+  .tdisp{font-size:2.4rem;font-family:var(--font-display);color:var(--primary-dark)}
+  .sec-intro{font-family:var(--font-display);font-style:italic;font-size:1.2rem;color:var(--text-soft)}
+
+  /* respiration mini (route crise) */
+  .breath{display:flex;flex-direction:column;align-items:center;gap:12px;margin:14px 0}
+  .bubble{width:120px;height:120px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#fff,var(--teal));
+    box-shadow:0 8px 26px rgba(143,185,176,.4);transition:transform 4s ease-in-out;transform:scale(.6)}
+  .bubble.big{transform:scale(1)}
+  .breath-word{font-family:var(--font-display);font-size:1.3rem;color:var(--primary-dark);min-height:1.4em}
+
+  /* synthèse */
+  .badge{display:inline-block;padding:5px 14px;border-radius:999px;font-weight:800;font-size:.85rem;color:#fff}
+  .b-stable{background:var(--teal)}.b-vigilance{background:var(--amber);color:#6b5326}
+  .b-surcharge{background:var(--c-red)}.b-crise{background:#B85C4E}
+  .scorebar{height:12px;border-radius:8px;background:var(--input);overflow:hidden;margin:8px 0 2px}
+  .scorebar > i{display:block;height:100%;border-radius:8px}
+  .lvl-low{background:var(--teal)}.lvl-moderate{background:var(--amber)}
+  .lvl-high{background:var(--c-red)}.lvl-very_high{background:#B85C4E}
+  .secrow{margin:14px 0}
+  .secrow .top{display:flex;justify-content:space-between;align-items:baseline;font-weight:700}
+  .secrow .msg{font-size:.9rem;color:var(--text-soft);margin-top:4px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .chip{padding:7px 13px;border-radius:999px;background:var(--primary-soft);color:var(--primary-dark);
+    font-weight:700;font-size:.82rem;border:1px solid var(--border)}
+
+  .banner{border-radius:14px;padding:14px 16px;margin:14px 0;font-weight:600}
+  .banner .t{font-weight:800;display:block;margin-bottom:2px}
+  .ban-vigilance{background:#FBF1DE;border:1px solid var(--amber);color:#6b5326}
+  .ban-surcharge{background:#FBE7E2;border:1px solid var(--c-red);color:#8a3d30}
+  .ban-crise{background:#F7DED8;border:1px solid #B85C4E;color:#7a2e22}
+
+  .discl{font-size:.78rem;color:var(--text-mute);background:var(--input);border-radius:12px;padding:11px 13px;margin-top:14px}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:10px}
+  .linkbtn{background:none;border:none;color:var(--text-soft);font-weight:700;font-size:.9rem;padding:6px 4px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;
+    background:var(--text);color:#fff;padding:11px 18px;border-radius:999px;font-weight:700;font-size:.9rem;
+    transition:all .25s ease;z-index:40;pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .screen{animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+  .footer{text-align:center;margin-top:26px;font-family:var(--font-display);font-style:italic;font-size:.85rem;color:var(--text-mute)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="app">
+    <div class="mascot">🌤️</div>
+    <h1>Le point du jour</h1>
+    <p class="tagline">Où tu en es, là, maintenant — sans jugement.</p>
+  </header>
+  <main id="app"></main>
+  <div class="footer">Le point du jour · 100% local, sans wifi 🌿</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   SCHÉMA — source de vérité (questionnaire fonctionnement_jour v1.3.0)
+   ═══════════════════════════════════════════════════════════════════ */
+const SCALE = ["jamais","parfois","souvent","presque toujours"]; // 0..3
+
+const ETAT = {
+  em0:{ text:"Comment te sens-tu globalement aujourd'hui ?",
+        helper:"Choisis l'état qui te ressemble le plus, maintenant.",
+        choices:["bien","fatiguée","stressée","débordée","en crise"] },
+  em1:{ text:"Quel est ton niveau d'énergie en ce moment ?",
+        helper:"Ça aide à estimer ta capacité réelle à agir.",
+        choices:["très faible","faible","moyen","bon","très bon"] },
+  em2:{ text:"Ta capacité de concentration est-elle disponible ?",
+        helper:"Ça permet d'adapter la longueur du questionnaire.",
+        choices:["pas du tout","un peu","moyennement","oui","très disponible"] }
+};
+
+const SECTIONS = {
+  blocages:{ label:"Blocages", color:"var(--c-purple)",
+    intro:"On regarde ce qui empêche d'avancer, sans jugement.",
+    items:[
+      ["b1","Je sais ce que je dois faire, mais je n'arrive pas à commencer."],
+      ["b2","La tâche me paraît floue ou trop grande."],
+      ["b3","J'hésite longtemps avant d'agir."],
+      ["b4","J'évite certaines tâches parce qu'elles me fatiguent d'avance."],
+      ["b5","Je me sens bloquée sans savoir exactement pourquoi."]
+    ],
+    msg:"Réduire le flou, découper en micro-étapes, choisir une seule action de départ.",
+    action:"Découper" },
+  anxiete:{ label:"Anxiété", color:"var(--c-amber)",
+    intro:"On évalue la pression intérieure et l'anticipation.",
+    items:[
+      ["a1","Je crains de mal faire."],
+      ["a2","J'ai peur d'être jugée ou critiquée."],
+      ["a3","J'anticipe que cela va mal se passer."],
+      ["a4","Mon corps se tend quand j'y pense."],
+      ["a5","Je rumine beaucoup autour de cette tâche ou situation."]
+    ],
+    msg:"Baisser la pression, sécuriser le contexte, éviter les décisions lourdes à chaud.",
+    action:"Rassurer" },
+  dysregulation_emotionnelle:{ label:"Dysrégulation émotionnelle", color:"var(--c-red)",
+    intro:"On regarde comment tes émotions circulent en ce moment.",
+    items:[
+      ["d1","Mes émotions montent très vite."],
+      ["d2","Je me sens vite débordée."],
+      ["d3","Une émotion forte me bloque complètement."],
+      ["d4","Je passe facilement de la tension à l'épuisement."],
+      ["d5","J'ai du mal à revenir au calme seule."]
+    ],
+    msg:"Ne pas planifier tout de suite : redescendre d'abord l'intensité, revenir au corps.",
+    action:"Revenir au corps" },
+  surcharge_emotionnelle:{ label:"Surcharge émotionnelle", color:"var(--c-rose)",
+    intro:"Si tu es en saturation, on passe en mode très simple.",
+    items:[
+      ["s1","J'ai l'impression d'être à saturation."],
+      ["s2","Je n'ai plus de place mentale disponible."],
+      ["s3","Je supporte mal les sollicitations."],
+      ["s4","J'ai besoin de me retirer ou de ralentir."],
+      ["s5","Je me sens trop pleine pour penser clairement."]
+    ],
+    msg:"Passer en mode protection : alléger, reporter, réduire les sollicitations.",
+    action:"Alléger" },
+  charge_travail:{ label:"Charge de travail", color:"var(--c-teal)",
+    intro:"On regarde ce que la charge de travail demande réellement.",
+    items:[
+      ["t1","Ma liste de tâches me semble trop lourde."],
+      ["t2","Je ne sais pas par où commencer parmi tout ce que j'ai à faire."],
+      ["t3","Mes échéances me mettent sous pression."],
+      ["t4","Je manque de temps réel pour faire ce qui est demandé."],
+      ["t5","Le volume de travail dépasse ma capacité du moment."]
+    ],
+    msg:"Revoir la charge : prioriser, replanifier, déléguer ou annuler si nécessaire.",
+    action:"Prioriser" }
+};
+const FULL_SCORED = ["blocages","anxiete","dysregulation_emotionnelle","surcharge_emotionnelle","charge_travail"];
+const BRIEF_SCORED = ["blocages","anxiete","surcharge_emotionnelle"]; // route BRIEF_MODE (hors état)
+
+/* seuils section (0..15) et global (proportionnel, calé sur /75) */
+function sectionLevel(v){ if(v<=4)return"low"; if(v<=8)return"moderate"; if(v<=12)return"high"; return"very_high"; }
+function globalLevel(sum,n){ const p = n? sum/(15*n) : 0;
+  if(p<=0.24)return"stable"; if(p<=0.47)return"vigilance"; if(p<=0.69)return"surcharge"; return"crise"; }
+const GLOBAL_TXT = {
+  stable:{badge:"Stable", ban:null},
+  vigilance:{badge:"Vigilance", ban:{cls:"vigilance",t:"Vigilance",m:"Ta charge augmente. Avance en mode réduit, une chose à la fois."}},
+  surcharge:{badge:"Surcharge", ban:{cls:"surcharge",t:"Surcharge",m:"Ta charge dépasse probablement ta capacité du moment. Allège et reporte ce qui peut l'être."}},
+  crise:{badge:"Mode protection", ban:{cls:"crise",t:"Mode protection",m:"Ton système est en saturation. On réduit les demandes et on revient au calme."}}
+};
+
+/* ═══════════════════════════════════════════════════════════════════
+   STORE — local uniquement (localStorage). Aucun réseau.
+   ═══════════════════════════════════════════════════════════════════ */
+const KEY="lpj:v1";
+const DEFAULT={ history:[], draft:null, rescues:[], wins:[], tools:{ dump:"", decoupe:{task:"",steps:[]}, checklist:[] }, prefs:{dys:false, spirit:false, profil:[], lowSensory:false} };
+let db = load();
+function load(){ let d; try{ d=Object.assign(structuredClone(DEFAULT), JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){ d=structuredClone(DEFAULT); }
+  d.prefs=Object.assign({dys:false,spirit:false,profil:[],lowSensory:false}, d.prefs||{});
+  if(!Array.isArray(d.prefs.profil)) d.prefs.profil=[];
+  if(!Array.isArray(d.wins)) d.wins=[];
+  return d; }
+function save(){ localStorage.setItem(KEY, JSON.stringify(db)); }
+function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),1700); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   ÉTAT DE SESSION
+   ═══════════════════════════════════════════════════════════════════ */
+let S = null; // {answers:{}, flow:[], i:0, mode:""}
+
+function newSession(){ S={ answers:{}, flow:[], i:0, mode:"" }; }
+
+/* construit le flux : intro état (3 items) puis, une fois l'état connu,
+   on appende les sections selon le mode. */
+function buildEtatFlow(){
+  S.flow = [ {k:"etat", id:"em0"}, {k:"etat", id:"em1"}, {k:"etat", id:"em2"} ];
+}
+function decideModeAndAppend(){
+  const eIdx = ETAT.em1.choices.indexOf(S.answers.em1); // 0 très faible .. 4 très bon
+  const fIdx = ETAT.em2.choices.indexOf(S.answers.em2); // 0 pas du tout .. 4 très disponible
+  const brief = (eIdx<=1) || (fIdx<=1) || S.answers.em0==="débordée";
+  S.mode = brief ? "bref" : "complet";
+  const scored = brief ? BRIEF_SCORED : FULL_SCORED;
+  scored.forEach(sid=>{
+    S.flow.push({k:"secintro", id:sid});
+    SECTIONS[sid].items.forEach(([iid])=> S.flow.push({k:"item", sid, id:iid}));
+  });
+  S.flow.push({k:"summary"});
+  S.scored = scored;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RENDU
+   ═══════════════════════════════════════════════════════════════════ */
+const app = ()=>document.getElementById("app");
+function el(html){ const d=document.createElement("div"); d.innerHTML=html.trim(); return d.firstElementChild; }
+function esc(s){ return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function renderIntro(){
+  const resume = db.draft ? `<button class="btn secondary" style="margin-top:10px" id="resume">↩︎ Reprendre là où j'en étais</button>` : "";
+  app().innerHTML = "";
+  app().appendChild(el(`
+  <section class="screen">
+    <div class="card center">
+      <h2 style="margin-top:0">Prends 30 secondes 🌿</h2>
+      <p class="muted">Ce petit point t'aide à voir <b>où tu en es aujourd'hui</b>, et te propose le bon niveau d'aide — sans rien te demander de plus que ce que tu peux donner, là, maintenant.</p>
+      <button class="btn" id="start" style="margin-top:8px">Commencer en douceur →</button>
+      <button class="btn secondary" id="sos" style="margin-top:10px">🛟 J'ai besoin d'aide, maintenant</button>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost small" id="tools">🧰 Boîte à outils</button>
+        <button class="btn ghost small" id="wins">🏆 Mes réussites</button>
+      </div>
+      <button class="btn ghost" id="profil" style="margin-top:10px">🧠 Mon profil${db.prefs.profil.length?" ("+db.prefs.profil.length+")":""} — personnaliser</button>
+      ${resume}
+      <div class="discl">🤍 C'est un outil de <b>soutien</b>, pas un diagnostic. Il ne remplace pas l'avis d'un professionnel. Tout reste sur ton appareil — rien n'est envoyé.</div>
+    </div>
+    ${db.history.length? `<button class="linkbtn" id="hist">📊 Voir mes points précédents (${db.history.length})</button>`:""}
+    <div class="row" style="margin-top:6px">
+      <button class="linkbtn" id="dys">🔤 Confort dys : ${db.prefs.dys?"activé":"désactivé"}</button>
+      <button class="linkbtn" id="spirit">🕊️ Spirituel : ${db.prefs.spirit?"activé":"désactivé"}</button>
+    </div>
+  </section>`));
+  document.getElementById("start").onclick = ()=>{ newSession(); buildEtatFlow(); renderStep(); };
+  const r=document.getElementById("resume"); if(r) r.onclick = resumeDraft;
+  const h=document.getElementById("hist"); if(h) h.onclick = renderHistory;
+  document.getElementById("dys").onclick = ()=>{ db.prefs.dys=!db.prefs.dys; save(); document.body.classList.toggle("dys",db.prefs.dys); renderIntro(); };
+  document.getElementById("sos").onclick = ()=>startCoach({ needsReg:true, sos:true });
+  document.getElementById("tools").onclick = ()=>renderTools();
+  document.getElementById("wins").onclick = renderWins;
+  document.getElementById("profil").onclick = renderProfil;
+  document.getElementById("spirit").onclick = ()=>{ db.prefs.spirit=!db.prefs.spirit; save(); renderIntro(); };
+}
+
+function progressHead(labelExtra){
+  const total=S.flow.length||1;
+  const pct=Math.round((S.i)/total*100);
+  return `
+    <div class="toolbar">
+      <button class="linkbtn" id="back">‹ Retour</button>
+      <button class="linkbtn" id="later">⏸ Je reviens plus tard</button>
+    </div>
+    <div class="progress"><i style="width:${pct}%"></i></div>
+    <div class="steplab">${labelExtra||""}</div>`;
+}
+
+function wireHead(){
+  const b=document.getElementById("back"); if(b) b.onclick=()=>{ if(S.i>0){ S.i--; renderStep(); } else renderIntro(); };
+  const l=document.getElementById("later"); if(l) l.onclick=saveDraftExit;
+}
+
+function renderStep(){
+  const step = S.flow[S.i];
+  if(!step){ renderIntro(); return; }
+  autosave();
+  if(step.k==="etat") return renderEtat(step.id);
+  if(step.k==="secintro") return renderSecIntro(step.id);
+  if(step.k==="item") return renderItem(step.sid, step.id);
+  if(step.k==="summary") return renderSummary();
+  if(step.k==="crisis") return renderCrisis();
+}
+
+function renderEtat(id){
+  const q=ETAT[id]; const cur=S.answers[id];
+  app().innerHTML="";
+  const scr=el(`<section class="screen">${progressHead("État du moment")}
+    <div class="card accented" style="--sc:var(--c-blue)">
+      <div class="qtext">${esc(q.text)}</div>
+      <div class="helper">${esc(q.helper)}</div>
+      <div class="opts" id="opts"></div>
+    </div></section>`);
+  app().appendChild(scr); wireHead();
+  const opts=scr.querySelector("#opts");
+  q.choices.forEach(ch=>{
+    const b=el(`<button class="opt${cur===ch?" sel":""}"><span class="dot">${cur===ch?"✓":""}</span><span>${esc(ch)}</span></button>`);
+    b.onclick=()=>{
+      S.answers[id]=ch;
+      if(id==="em0" && ch==="en crise"){ S.flow=[{k:"crisis"}]; S.i=0; return renderStep(); }
+      if(id==="em2"){ decideModeAndAppend(); }
+      S.i++; renderStep();
+    };
+    opts.appendChild(b);
+  });
+}
+
+function renderSecIntro(sid){
+  const s=SECTIONS[sid];
+  const pos=S.scored.indexOf(sid)+1, tot=S.scored.length;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${progressHead("Bloc "+pos+" sur "+tot)}
+    <div class="card accented center" style="--sc:${s.color}">
+      <h2 style="margin-top:4px">${esc(s.label)}</h2>
+      <p class="sec-intro">${esc(s.intro)}</p>
+      <button class="btn" id="go" style="margin-top:10px">Continuer →</button>
+    </div></section>`));
+  wireHead();
+  document.getElementById("go").onclick=()=>{ S.i++; renderStep(); };
+}
+
+function renderItem(sid,iid){
+  const s=SECTIONS[sid];
+  const item=s.items.find(x=>x[0]===iid);
+  const cur=S.answers[iid];
+  const pos=S.scored.indexOf(sid)+1, tot=S.scored.length;
+  app().innerHTML="";
+  const scr=el(`<section class="screen">${progressHead(s.label+" · bloc "+pos+" sur "+tot)}
+    <div class="card accented" style="--sc:${s.color}">
+      <div class="qtext">${esc(item[1])}</div>
+      <div class="helper">Depuis quelque temps, à quelle fréquence ?</div>
+      <div class="opts" id="opts"></div>
+    </div></section>`);
+  app().appendChild(scr); wireHead();
+  const opts=scr.querySelector("#opts");
+  SCALE.forEach((lab,val)=>{
+    const b=el(`<button class="opt${cur===val?" sel":""}"><span class="dot">${cur===val?"✓":""}</span><span>${esc(lab)}</span></button>`);
+    b.onclick=()=>{ S.answers[iid]=val; S.i++; renderStep(); };
+    opts.appendChild(b);
+  });
+}
+
+/* ─── scores ─── */
+function sectionScore(sid){ return SECTIONS[sid].items.reduce((sum,[iid])=> sum + (typeof S.answers[iid]==="number"? S.answers[iid]:0), 0); }
+
+function renderSummary(){
+  const scored=S.scored;
+  const scores={}; let sum=0;
+  scored.forEach(sid=>{ scores[sid]=sectionScore(sid); sum+=scores[sid]; });
+  const gl=globalLevel(sum, scored.length);
+  const gtxt=GLOBAL_TXT[gl];
+
+  // profil pour le Sauveteur (routeur d'actions gradué)
+  let focusSid=null, focusV=-1; scored.forEach(sid=>{ if(scores[sid]>focusV){ focusV=scores[sid]; focusSid=sid; } });
+  const needsReg = (gl==="surcharge"||gl==="crise"||scores.surcharge_emotionnelle>=9||scores.dysregulation_emotionnelle>=9||scores.anxiete>=9);
+  const focusLabel = (focusV>=5 && focusSid)? SECTIONS[focusSid].label : null;
+  const TOOL_FOR={ blocages:"decoupe", charge_travail:"priorite", anxiete:"breath", dysregulation_emotionnelle:"breath", surcharge_emotionnelle:"breath" };
+  const focusTool = (focusV>=5 && focusSid)? (TOOL_FOR[focusSid]||null) : null;
+
+  // mode conseillé
+  const highs=scored.filter(sid=> sectionLevel(scores[sid])==="high"||sectionLevel(scores[sid])==="very_high");
+  let conseil="Tu peux avancer à ton rythme — une chose à la fois.";
+  if(gl==="crise") conseil="Priorité : te protéger et revenir au calme. Le reste peut attendre.";
+  else if(scores.surcharge_emotionnelle>=9 || scores.dysregulation_emotionnelle>=9) conseil="Mode débordé : protège-toi, allège, reviens au corps avant de planifier.";
+  else if(scores.anxiete>=9) conseil="Mode anxieux : baisse la pression, sécurise le contexte, pas de décision lourde à chaud.";
+  else if(scores.charge_travail>=9) conseil="Mode charge forte : priorise 1 à 3 choses, replanifie le reste.";
+  else if(scores.blocages>=9) conseil="Découpe en micro-étapes et choisis UNE seule action de départ.";
+
+  // enregistrer dans l'historique
+  const rec={ date:new Date().toISOString(), mode:S.mode, etat:S.answers.em0||"", energie:S.answers.em1||"", concentration:S.answers.em2||"", scores, sum, level:gl };
+  db.history.unshift(rec); if(db.history.length>60) db.history.pop(); db.draft=null; save();
+
+  let secHtml="";
+  scored.forEach(sid=>{
+    const s=SECTIONS[sid]; const v=scores[sid]; const lv=sectionLevel(v);
+    const flag = (lv==="high"||lv==="very_high");
+    secHtml += `<div class="secrow">
+      <div class="top"><span>${esc(s.label)}</span><span style="color:var(--text-soft)">${v}/15</span></div>
+      <div class="scorebar"><i class="lvl-${lv}" style="width:${Math.round(v/15*100)}%"></i></div>
+      ${flag? `<div class="msg">${esc(s.msg)}</div><div class="chips"><span class="chip">${esc(s.action)}</span></div>`:""}
+    </div>`;
+  });
+
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">
+    <div class="card center" style="border-top:4px solid var(--primary)">
+      <p class="tiny" style="margin:0">Ton point du jour</p>
+      <h2 style="margin:.1em 0">État global</h2>
+      <span class="badge b-${gl}">${gtxt.badge}</span>
+      <p class="muted" style="margin-top:12px">${esc(conseil)}</p>
+      ${gtxt.ban? `<div class="banner ban-${gtxt.ban.cls}"><span class="t">${esc(gtxt.ban.t)}</span>${esc(gtxt.ban.m)}</div>`:""}
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0;font-size:1.2rem">Par domaine</h2>
+      ${secHtml}
+      <p class="tiny" style="margin-top:10px">Repère : <b>${sum}</b> ${S.mode==="bref"?"(mode bref — lecture partielle, c'est normal)":""}. Plus la barre est courte, plus ça va de ce côté-là.</p>
+    </div>
+    <button class="btn" id="coach" style="margin-top:8px">🛟 Prends-moi par la main</button>
+    <button class="btn secondary" id="tools" style="margin-top:8px">🧰 Ouvrir un outil concret</button>
+    ${gl==="crise"? `<button class="btn secondary" id="calme" style="margin-top:8px">🫧 Revenir au calme (1 min)</button>`:""}
+    <div class="row" style="margin-top:8px">
+      <button class="btn ghost small" id="again">↺ Refaire</button>
+      <button class="btn ghost small" id="home">🏠 Accueil</button>
+    </div>
+    <div class="discl">🤍 Soutien, pas diagnostic. Ce qui compte : t'orienter avec douceur vers ce dont tu as besoin aujourd'hui.</div>
+  </section>`));
+  const c=document.getElementById("calme"); if(c) c.onclick=()=>{ S.flow=[{k:"crisis"}]; S.i=0; renderStep(); };
+  document.getElementById("coach").onclick=()=>startCoach({ needsReg, focus: focusLabel });
+  document.getElementById("tools").onclick=()=>renderTools(focusTool);
+  document.getElementById("again").onclick=()=>{ newSession(); buildEtatFlow(); renderStep(); };
+  document.getElementById("home").onclick=renderIntro;
+}
+
+/* ─── route crise / retour au calme ─── */
+let bTimer=null, bOn=false;
+function renderCrisis(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">
+    <div class="card center" style="border-left:5px solid #B85C4E">
+      <h2 style="margin-top:0">On ralentit ensemble 🤍</h2>
+      <p class="muted">Ton système est saturé, et c'est OK. On ne demande rien de plus. On respire, doucement.</p>
+      <div class="breath"><div class="bubble" id="bubble"></div><div class="breath-word" id="bw">Prête ?</div></div>
+      <button class="btn secondary small" id="bbtn">▶︎ Respirer</button>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0;font-size:1.15rem">Si tu as besoin de parler, tout de suite</h2>
+      <p style="margin:.3em 0"><b>3114</b> — numéro national de prévention (gratuit, 24h/24, 7j/7).</p>
+      <p style="margin:.3em 0"><b>15</b> (SAMU) ou <b>112</b> (urgences) en cas de danger immédiat.</p>
+      <p class="tiny">Tu n'es pas seule. Demander de l'aide, c'est une force.</p>
+    </div>
+    <button class="btn ghost" id="home">🏠 Revenir à l'accueil</button>
+    <div class="discl">🤍 Cet outil est un soutien, pas un diagnostic ni un service d'urgence.</div>
+  </section>`));
+  document.getElementById("home").onclick=()=>{ stopBreath(); renderIntro(); };
+  document.getElementById("bbtn").onclick=toggleBreath;
+}
+function toggleBreath(){ bOn?stopBreath():startBreath(); }
+function startBreath(){
+  bOn=true; const btn=document.getElementById("bbtn"); if(btn) btn.textContent="⏸ Pause";
+  const seq=[["Inspire…",5,true],["Expire…",5,false]]; let i=0;
+  const run=()=>{ if(!bOn)return; const [w,sec,big]=seq[i%seq.length];
+    const bub=document.getElementById("bubble"), bw=document.getElementById("bw");
+    if(bw) bw.textContent=w; if(bub){ bub.style.transitionDuration=sec+"s"; bub.classList.toggle("big",big); }
+    i++; bTimer=setTimeout(run, sec*1000); };
+  run();
+}
+function stopBreath(){ bOn=false; if(bTimer) clearTimeout(bTimer); const bw=document.getElementById("bw"); if(bw) bw.textContent="Bien 🌿"; const btn=document.getElementById("bbtn"); if(btn) btn.textContent="▶︎ Respirer"; }
+
+/* ─── historique ─── */
+function frDate(iso){ try{ return new Date(iso).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})+" "+new Date(iso).toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}); }catch(e){ return iso; } }
+function renderHistory(){
+  app().innerHTML="";
+  let rows = db.history.length? db.history.map(r=>`
+    <div class="secrow" style="border-bottom:1px solid var(--border);padding-bottom:10px">
+      <div class="top"><span>${frDate(r.date)}</span><span class="badge b-${r.level}" style="font-size:.72rem">${GLOBAL_TXT[r.level].badge}</span></div>
+      <div class="tiny">état : ${esc(r.etat||"—")} · énergie : ${esc(r.energie||"—")} · repère ${r.sum}${r.mode==="bref"?" (bref)":""}</div>
+    </div>`).join("") : `<div class="tiny center" style="padding:20px">Aucun point encore. Reviens quand tu veux 🌿</div>`;
+  app().appendChild(el(`<section class="screen">
+    <button class="linkbtn" id="home">‹ Accueil</button>
+    <div class="card"><h2 style="margin-top:0">Mes points précédents</h2>${rows}</div>
+    ${db.history.length? `<button class="btn ghost small" id="clear">🗑️ Effacer l'historique</button>`:""}
+  </section>`));
+  document.getElementById("home").onclick=renderIntro;
+  const c=document.getElementById("clear"); if(c) c.onclick=()=>{ if(confirm("Effacer tout l'historique ?")){ db.history=[]; save(); renderHistory(); } };
+}
+
+/* ─── brouillon / pause ─── */
+function autosave(){ if(S){ db.draft={ answers:S.answers, flow:S.flow, i:S.i, mode:S.mode, scored:S.scored }; save(); } }
+function saveDraftExit(){ autosave(); toast("Gardé — reviens quand tu veux 🌿"); renderIntro(); }
+function resumeDraft(){ if(!db.draft) return renderIntro(); S={ answers:db.draft.answers, flow:db.draft.flow, i:db.draft.i, mode:db.draft.mode, scored:db.draft.scored }; renderStep(); }
+
+async function copyText(txt){ if(!txt){toast("Rien à copier");return;} try{ await navigator.clipboard.writeText(txt); toast("Gardé ✓ (copié)"); }catch(e){ toast("Copie impossible"); } }
+
+/* ═══════════════════════════════════════════════════════════════════
+   LE SAUVETEUR — coach qui te prend par la main (passage à l'action)
+   Routeur d'actions gradué : régulation → poser le sac → une bouée →
+   premier geste → alléger → plan de sauvetage. Ton chaleureux, marin.
+   ═══════════════════════════════════════════════════════════════════ */
+const NOMS_COACH=[
+  {ar:"As-Salām", fr:"La Source de la Paix", note:"Il apaise ce qui s'agite en toi."},
+  {ar:"Al-Fattāḥ", fr:"Celui qui ouvre", note:"Il dénoue les blocages et ouvre les portes."},
+  {ar:"Al-Laṭīf", fr:"Le Doux, le Subtil", note:"Il connaît la douceur dont tu as besoin."},
+  {ar:"Al-Wakīl", fr:"Celui à qui l'on s'en remet", note:"Fais ta part, et remets-Lui le reste."}
+];
+let C=null;
+function startCoach(profile){
+  C={ profile:profile||{}, step:0, data:{} };
+  C.keys=["intro"];
+  if(C.profile.needsReg) C.keys.push("reg");
+  if(db.prefs.spirit) C.keys.push("spirit");
+  C.keys.push("dump","priorite","geste","lacher","fin");
+  renderCoach();
+}
+function coachHead(txt){
+  const total=Math.max(1,C.keys.length-1);
+  const pct=Math.round(C.step/total*100);
+  return `<div class="toolbar"><button class="linkbtn" id="cback">‹ Retour</button><button class="linkbtn" id="chome">🏠 Accueil</button></div>
+    <div class="progress"><i style="width:${pct}%"></i></div>
+    <div class="steplab">🛟 Le Sauveteur · ${txt||""}</div>`;
+}
+function wireCoachHead(){
+  const b=document.getElementById("cback"); if(b) b.onclick=()=>{ stopBreath(); stopTimer(); if(C.step>0){ C.step--; renderCoach(); } else renderIntro(); };
+  const h=document.getElementById("chome"); if(h) h.onclick=()=>{ stopBreath(); stopTimer(); renderIntro(); };
+}
+function coachNext(){ stopBreath(); stopTimer(); C.step++; renderCoach(); }
+function renderCoach(){
+  const key=C.keys[C.step]; if(!key){ renderIntro(); return; }
+  ({ intro:coachIntro, reg:coachReg, spirit:coachSpirit, dump:coachDump, priorite:coachPriorite, geste:coachGeste, lacher:coachLacher, fin:coachFin }[key])();
+}
+function coachIntro(){
+  const sos = C.profile.sos;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("Je te tiens")}
+    <div class="card center" style="border-left:5px solid var(--c-teal)">
+      <div style="font-size:2.1rem">🛟</div>
+      <h2 style="margin:.2em 0">Je suis là.</h2>
+      <p class="muted">${sos? "Tu sens que tu coules ? Respire — je plonge avec toi. ":""}On va sortir de l'eau <b>ensemble</b>, une brasse à la fois. Tu n'as rien à porter seule, et tu n'as pas besoin de tout régler. Juste : sortir la tête, poser le sac, choisir un cap.</p>
+      <button class="btn" id="go" style="margin-top:8px">Je te suis, prends ma main →</button>
+    </div></section>`));
+  wireCoachHead(); document.getElementById("go").onclick=coachNext;
+}
+function coachReg(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("On remonte à la surface")}
+    <div class="card center" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Respire avec moi 🫧</h2>
+      <p class="muted">La bulle grandit : tu inspires. Elle rétrécit : tu souffles. Quelques cycles, rien d'autre à faire.</p>
+      <div class="breath"><div class="bubble" id="bubble"></div><div class="breath-word" id="bw">Prête ?</div></div>
+      <button class="btn secondary small" id="bbtn">▶︎ Respirer</button>
+      <p class="tiny" style="margin-top:14px">Pose tes deux pieds au sol. Sens l'appui. Tu es sur le radeau, maintenant. 🌿</p>
+      <button class="btn" id="go" style="margin-top:8px">Je respire mieux →</button>
+    </div></section>`));
+  wireCoachHead(); document.getElementById("bbtn").onclick=toggleBreath; document.getElementById("go").onclick=coachNext;
+}
+function coachSpirit(){
+  const n=NOMS_COACH[C.step % NOMS_COACH.length];
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("Un ancrage")}
+    <div class="card center" style="border-left:5px solid var(--c-teal)">
+      <div style="font-family:var(--font-display);font-size:1.8rem;color:var(--primary-dark)">${esc(n.ar)}</div>
+      <div class="muted" style="font-style:italic">${esc(n.fr)}</div>
+      <p class="tiny" style="margin-top:6px">${esc(n.note)}</p>
+      <p style="font-style:italic;margin-top:10px">« Ô Toi qui apaises les cœurs, allège ce qui me semble lourd, et facilite pour moi le premier pas. »</p>
+      <p class="tiny muted">Je ne suis qu'une cause — le résultat Lui appartient.</p>
+      <button class="btn" id="go" style="margin-top:8px">Je me sens plus posée →</button>
+    </div></section>`));
+  wireCoachHead(); document.getElementById("go").onclick=coachNext;
+}
+function coachDump(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("On pose le sac")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Vide la tête 🎒</h2>
+      <p class="muted">Écris en vrac tout ce qui pèse — pas d'ordre, pas de tri, personne ne lit. Le déposer, ça allège déjà.</p>
+      <textarea id="dump" placeholder="Tout ce qui tourne dans ma tête…">${esc(C.data.dump||"")}</textarea>
+      <button class="btn" id="go" style="margin-top:12px">C'est déposé →</button>
+      <button class="btn ghost" id="skip" style="margin-top:8px">Passer, ça va</button>
+    </div></section>`));
+  wireCoachHead();
+  document.getElementById("go").onclick=()=>{ C.data.dump=document.getElementById("dump").value; coachNext(); };
+  document.getElementById("skip").onclick=coachNext;
+}
+function coachPriorite(){
+  const focus = C.profile.focus? `<p class="tiny muted">Vu ton point du jour, ça vient sûrement du côté « ${esc(C.profile.focus)} » — mais tu choisis.</p>`:"";
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("Une seule bouée")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Ta seule chose 🛟</h2>
+      <p class="muted">On ne sauve pas tout le bateau d'un coup. Là, maintenant, <b>une seule</b> chose compte. Le reste attend — promis, je te le garde.</p>
+      ${focus}
+      <input type="text" id="prio" placeholder="La seule chose qui compte, là…" value="${esc(C.data.priorite||"")}" />
+      <button class="btn" id="go" style="margin-top:12px">C'est ma bouée →</button>
+    </div></section>`));
+  wireCoachHead();
+  document.getElementById("go").onclick=()=>{ const v=document.getElementById("prio").value.trim(); if(!v){ toast("Une petite chose, même minuscule 🌿"); return; } C.data.priorite=v; coachNext(); };
+}
+function coachGeste(){
+  tRemain=120;
+  if(!Array.isArray(C.data.microsteps)) C.data.microsteps=[];
+  const ms=C.data.microsteps;
+  const reco=recoTools().has("decoupe");
+  const listHtml = ms.length ? `<p class="tiny" style="margin:14px 0 4px"><b>Tes petits pas</b> — le 1er devient ton geste 👣</p>
+    <div class="opts">${ms.map((s,i)=>`<div class="opt" style="cursor:default">
+        <span class="dot" style="${i===0?'background:var(--primary);border-color:var(--primary);color:#fff':''}">${i+1}</span>
+        <span style="flex:1">${esc(s)}</span>
+        <span class="linkbtn" data-del="${i}" style="color:var(--text-mute);padding:0 4px">✕</span>
+      </div>`).join("")}</div>` : "";
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("Le premier pas")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Le tout premier geste 👣</h2>
+      <p class="muted">Si petit qu'il en est presque ridicule. Pas la tâche entière — juste le premier pas vers « ${esc(C.data.priorite||"ta bouée")} ».</p>
+      <input type="text" id="geste" placeholder="Mon tout premier petit geste…" value="${esc(C.data.geste||"")}" />
+      ${listHtml}
+      <div class="row" style="margin-top:10px">
+        <input type="text" id="msinput" placeholder="Trop gros ? Découpe en petits pas…" style="flex:2" />
+        <button class="btn small" id="msadd" style="flex:1">🪜 Découper</button>
+      </div>
+      ${reco?`<p class="tiny muted" style="margin-top:6px">🧠 Vu ton profil, découper en tout petits pas peut vraiment aider.</p>`:""}
+      <div class="center" id="timerbox" style="display:none;margin-top:14px">
+        <div class="tdisp" id="tdisp">2:00</div>
+        <button class="btn secondary small" id="tbtn">▶︎ On y va</button>
+      </div>
+      <button class="btn ghost small" id="together" style="margin-top:12px">🤝 On le fait ensemble (2 min)</button>
+      <button class="btn" id="go" style="margin-top:8px">C'est noté →</button>
+    </div></section>`));
+  wireCoachHead();
+  const gesteInput=document.getElementById("geste");
+  const addMs=()=>{ const inp=document.getElementById("msinput"); const v=inp.value.trim(); if(!v){ inp.focus(); return; }
+    C.data.geste=gesteInput.value; C.data.microsteps.push(v);
+    if(C.data.microsteps.length===1 && !C.data.geste.trim()) C.data.geste=v;
+    coachGeste(); };
+  document.getElementById("msadd").onclick=addMs;
+  document.getElementById("msinput").addEventListener("keydown",e=>{ if(e.key==="Enter") addMs(); });
+  app().querySelectorAll("[data-del]").forEach(x=> x.onclick=()=>{ C.data.microsteps.splice(+x.getAttribute("data-del"),1); coachGeste(); });
+  document.getElementById("together").onclick=()=>{ document.getElementById("timerbox").style.display="block"; };
+  document.getElementById("tbtn").onclick=toggleTimer;
+  document.getElementById("go").onclick=()=>{
+    const v=gesteInput.value.trim() || (C.data.microsteps[0]||"");
+    if(!v){ toast("Un tout petit geste suffit 🌿"); return; }
+    C.data.geste=v;
+    if(C.data.microsteps.length){ const t=ensureTools(); t.decoupe={ task:(C.data.priorite||"Mon plan de sauvetage"), steps:C.data.microsteps.map(s=>({t:s,done:false})) }; save(); }
+    coachNext();
+  };
+}
+function coachLacher(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("On allège")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Ce que tu relâches 🍃</h2>
+      <p class="muted">Pour respirer : qu'est-ce que tu t'autorises à lâcher ou reporter aujourd'hui, sans culpabiliser ? Lâcher, c'est aussi avancer.</p>
+      <input type="text" id="lacher" placeholder="Ce que je relâche pour aujourd'hui…" value="${esc(C.data.lacher||"")}" />
+      <button class="btn" id="go" style="margin-top:12px">Voilà →</button>
+      <button class="btn ghost" id="skip" style="margin-top:8px">Rien à lâcher, ça va</button>
+    </div></section>`));
+  wireCoachHead();
+  document.getElementById("go").onclick=()=>{ C.data.lacher=document.getElementById("lacher").value.trim(); coachNext(); };
+  document.getElementById("skip").onclick=coachNext;
+}
+function coachFin(){
+  const ms=Array.isArray(C.data.microsteps)?C.data.microsteps.filter(Boolean):[];
+  const rec={ date:new Date().toISOString(), priorite:C.data.priorite||"", geste:C.data.geste||"", lacher:C.data.lacher||"", steps:ms };
+  db.rescues.unshift(rec); if(db.rescues.length>40) db.rescues.pop(); save();
+  const stepsTxt = ms.length? "\n🪜 Mes petits pas :\n- "+ms.join("\n- ") : "";
+  const plan="🛟 Mon plan de sauvetage\n\n🛟 Ma bouée : "+(rec.priorite||"—")+"\n👣 Mon premier geste : "+(rec.geste||"—")+stepsTxt+"\n🍃 Ce que je relâche : "+(rec.lacher||"—");
+  const stepsRecap = ms.length? `<div class="recap-row"><b>🪜 Tes petits pas</b><div class="v">${ms.map((s,i)=>(i+1)+". "+esc(s)).join("\n")}</div></div>` : "";
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${coachHead("Tu as un cap")}
+    <div class="card center" style="border-left:5px solid var(--primary)">
+      <div style="font-size:2rem">🕊️</div>
+      <h2 style="margin:.2em 0">Tu n'es plus en train de couler.</h2>
+      <p class="muted">Tu as un cap. Fais juste le premier geste — le reste suivra, ou pas, et ce sera OK.</p>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0;font-size:1.2rem">Ton plan de sauvetage</h2>
+      <div class="recap-row"><b>🛟 Ta bouée</b><div class="v">${esc(rec.priorite||"—")}</div></div>
+      <div class="recap-row"><b>👣 Ton premier geste</b><div class="v">${esc(rec.geste||"—")}</div></div>
+      ${stepsRecap}
+      <div class="recap-row"><b>🍃 Ce que tu relâches</b><div class="v">${esc(rec.lacher||"—")}</div></div>
+    </div>
+    <button class="btn" id="copy">📋 Garder ce plan</button>
+    ${ms.length? `<button class="btn secondary" id="continue" style="margin-top:8px">🪜 Continuer le découpage dans la boîte</button>`:""}
+    <div class="row" style="margin-top:8px"><button class="btn ghost small" id="home">🏠 Accueil</button></div>
+    <div class="discl">🤍 Je reste sur le rivage. Reviens quand tu veux — un geste à la fois.</div>
+  </section>`));
+  wireCoachHead();
+  document.getElementById("copy").onclick=()=>copyText(plan);
+  const cont=document.getElementById("continue"); if(cont) cont.onclick=()=>openTool("decoupe");
+  document.getElementById("home").onclick=renderIntro;
+}
+
+/* mini-minuteur 2 min ("on le fait ensemble") */
+let tRemain=120, tTimer=null, tOn=false;
+function toggleTimer(){ tOn?stopTimer():startTimer(); }
+function startTimer(){
+  tOn=true; const btn=document.getElementById("tbtn"); if(btn) btn.textContent="⏸ Pause";
+  const tick=()=>{ if(!tOn) return; const d=document.getElementById("tdisp");
+    if(d) d.textContent=Math.floor(tRemain/60)+":"+String(tRemain%60).padStart(2,"0");
+    if(tRemain<=0){ tOn=false; if(d) d.textContent="Bravo 🌿"; const b=document.getElementById("tbtn"); if(b) b.textContent="✓ Fait"; toast("Tu l'as fait 🌿"); return; }
+    tRemain--; tTimer=setTimeout(tick,1000); };
+  tick();
+}
+function stopTimer(){ tOn=false; if(tTimer) clearTimeout(tTimer); const btn=document.getElementById("tbtn"); if(btn && tRemain>0) btn.textContent="▶︎ Reprendre"; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   LE PROFIL LÉGER — tu dis comment tu fonctionnes, l'app met en avant
+   les bons outils (et un mode « moins d'agitation » optionnel).
+   Pas de routers, pas de diagnostic : juste des repères pour t'aider.
+   ═══════════════════════════════════════════════════════════════════ */
+const PROFILS=[
+  {id:"tdah", label:"TDAH", hint:"démarrer, ne pas se disperser", tools:["decoupe","timer","dump","checklist"]},
+  {id:"tda", label:"Attention fragile (TDA)", hint:"organiser, se souvenir", tools:["decoupe","priorite","checklist"]},
+  {id:"dys", label:"Dys", hint:"texte court, repères visuels", tools:["checklist","decoupe"], setDys:true},
+  {id:"sensoriel", label:"Sensible au bruit / à l'agitation", hint:"moins de stimuli", tools:["breath","priorite"], setLowSensory:true},
+  {id:"hpi", label:"Tête qui sur-réfléchit", hint:"trier, décider, alléger", tools:["priorite","dump"]}
+];
+function recoTools(){
+  const set=new Set();
+  db.prefs.profil.forEach(pid=>{ const p=PROFILS.find(x=>x.id===pid); if(p) p.tools.forEach(t=>set.add(t)); });
+  return set;
+}
+function renderProfil(){
+  app().innerHTML="";
+  const chips=PROFILS.map(p=>{ const on=db.prefs.profil.includes(p.id);
+    return `<button class="opt${on?" on":""}" data-p="${p.id}">
+      <span class="dot">${on?"✓":""}</span>
+      <span><b>${esc(p.label)}</b><br><span class="tiny">${esc(p.hint)}</span></span>
+    </button>`; }).join("");
+  app().appendChild(el(`<section class="screen">
+    <div class="toolbar"><button class="linkbtn" id="home">‹ Accueil</button></div>
+    <div class="card">
+      <h2 style="margin-top:0">🧠 Mon profil</h2>
+      <p class="muted">Comment fonctionnes-tu ? Coche ce qui te ressemble (autant que tu veux, ou rien). Ça met en avant les <b>outils faits pour toi</b> — sans rien t'imposer.</p>
+      <div class="opts" style="margin-top:8px">${chips}</div>
+      <label class="opt" id="lowrow" style="margin-top:12px;cursor:pointer">
+        <span class="dot">${db.prefs.lowSensory?"✓":""}</span>
+        <span><b>Mode « moins d'agitation »</b><br><span class="tiny">Coupe les animations et adoucit l'affichage.</span></span>
+      </label>
+      <p class="tiny muted" style="margin-top:12px">🤍 Ce n'est pas un diagnostic — juste des repères pour t'aider, gardés sur ton appareil.</p>
+    </div>
+    <button class="btn ghost" id="tools">🧰 Voir ma boîte à outils</button>
+  </section>`));
+  document.getElementById("home").onclick=renderIntro;
+  app().querySelectorAll("[data-p]").forEach(b=> b.onclick=()=>{
+    const pid=b.getAttribute("data-p"); const i=db.prefs.profil.indexOf(pid);
+    if(i>=0) db.prefs.profil.splice(i,1); else {
+      db.prefs.profil.push(pid);
+      const p=PROFILS.find(x=>x.id===pid);
+      if(p&&p.setDys){ db.prefs.dys=true; document.body.classList.add("dys"); }
+      if(p&&p.setLowSensory){ db.prefs.lowSensory=true; document.body.classList.add("lowsensory"); }
+    }
+    save(); renderProfil();
+  });
+  document.getElementById("lowrow").onclick=()=>{ db.prefs.lowSensory=!db.prefs.lowSensory; document.body.classList.toggle("lowsensory",db.prefs.lowSensory); save(); renderProfil(); };
+  document.getElementById("tools").onclick=()=>renderTools();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LA BOÎTE À OUTILS — mini-outils concrets, 100% hors-ligne.
+   Un seul outil visible à la fois, jamais tout d'un coup. Tout est gardé
+   sur l'appareil. Chaque outil = un petit pas faisable, pas la montagne.
+   ═══════════════════════════════════════════════════════════════════ */
+function ensureTools(){ if(!db.tools||typeof db.tools!=="object") db.tools={}; const t=db.tools;
+  if(typeof t.dump!=="string") t.dump="";
+  if(!t.decoupe||typeof t.decoupe!=="object") t.decoupe={task:"",steps:[]};
+  if(!Array.isArray(t.decoupe.steps)) t.decoupe.steps=[];
+  if(!Array.isArray(t.checklist)) t.checklist=[];
+  return t;
+}
+function toolHead(txt){
+  return `<div class="toolbar"><button class="linkbtn" id="tkback">‹ Boîte à outils</button><button class="linkbtn" id="tkhome">🏠 Accueil</button></div>
+    <div class="steplab">🧰 ${esc(txt||"")}</div>`;
+}
+function wireToolHead(){
+  const b=document.getElementById("tkback"); if(b) b.onclick=()=>{ stopBreath(); stopToolTimer(); renderTools(); };
+  const h=document.getElementById("tkhome"); if(h) h.onclick=()=>{ stopBreath(); stopToolTimer(); renderIntro(); };
+}
+const TOOLS=[
+  {id:"dump", icon:"🎒", title:"Vide-tête", desc:"Déposer tout ce qui tourne, pour alléger la tête."},
+  {id:"decoupe", icon:"🪜", title:"Découper une tâche", desc:"Casser une grosse tâche en micro-pas faisables."},
+  {id:"priorite", icon:"🛟", title:"Choisir UNE priorité", desc:"Quand tout semble urgent : n'en garder qu'une."},
+  {id:"timer", icon:"⏱️", title:"Timer « on démarre »", desc:"Juste commencer, quelques minutes, pas plus."},
+  {id:"checklist", icon:"✅", title:"Checklist express", desc:"Une petite liste à cocher, ça soulage la mémoire."},
+  {id:"breath", icon:"🫧", title:"Respirer", desc:"Faire redescendre la tension, ici et maintenant."}
+];
+function renderTools(focusTool){
+  stopToolTimer(); stopBreath();
+  app().innerHTML="";
+  const reco=recoTools();
+  const ordered=TOOLS.slice().sort((a,b)=> (reco.has(b.id)?1:0)-(reco.has(a.id)?1:0));
+  const cards=ordered.map(t=>`<button class="opt" data-t="${t.id}" style="align-items:flex-start">
+      <span style="font-size:1.5rem;line-height:1.2">${t.icon}</span>
+      <span><b style="color:var(--primary-dark)">${esc(t.title)}</b>${reco.has(t.id)?'<span class="reco">pour toi</span>':""}<br><span class="tiny">${esc(t.desc)}</span></span>
+    </button>`).join("");
+  const hint = focusTool ? `<p class="tiny muted">Vu ton point du jour, l'outil <b>${esc((TOOLS.find(x=>x.id===focusTool)||{}).title||"")}</b> pourrait bien t'aider — mais tu choisis.</p>` : (reco.size? `<p class="tiny muted">✨ Les outils marqués <span class="reco">pour toi</span> correspondent à ton profil.</p>`:"");
+  app().appendChild(el(`<section class="screen">
+    <div class="toolbar"><button class="linkbtn" id="home">‹ Accueil</button></div>
+    <div class="card">
+      <h2 style="margin-top:0">🧰 Ta boîte à outils</h2>
+      <p class="muted">Des petits outils concrets, quand tu veux. Choisis-en <b>un seul</b> — celui qui t'aide là, maintenant.</p>
+      ${hint}
+      <div class="opts" style="margin-top:10px">${cards}</div>
+    </div>
+    <div class="discl">🤍 Tout reste sur ton appareil. Aucun outil ne te demande de tout faire — juste le prochain petit pas.</div>
+  </section>`));
+  document.getElementById("home").onclick=renderIntro;
+  app().querySelectorAll("[data-t]").forEach(b=> b.onclick=()=>openTool(b.getAttribute("data-t")));
+}
+function openTool(id){ ({ dump:toolDump, decoupe:toolDecoupe, priorite:toolPriorite, timer:toolTimer, checklist:toolChecklist, breath:toolBreath }[id]||renderTools)(); }
+
+/* 🎒 Vide-tête */
+function toolDump(){
+  const t=ensureTools();
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Vide-tête")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Vide la tête 🎒</h2>
+      <p class="muted">Écris en vrac, sans ordre ni tri — personne ne lit. C'est gardé sur ton appareil, tu le retrouveras.</p>
+      <textarea id="dump" placeholder="Tout ce qui pèse, là…">${esc(t.dump)}</textarea>
+      <div class="row" style="margin-top:12px">
+        <button class="btn small" id="save">💾 Garder</button>
+        <button class="btn secondary small" id="copy">📋 Copier</button>
+      </div>
+      <button class="btn ghost small" id="clear" style="margin-top:8px">🗑️ Effacer</button>
+    </div></section>`));
+  wireToolHead();
+  const ta=document.getElementById("dump");
+  document.getElementById("save").onclick=()=>{ t.dump=ta.value; save(); toast("Gardé 🌿"); };
+  document.getElementById("copy").onclick=()=>copyText(ta.value);
+  document.getElementById("clear").onclick=()=>{ if(confirm("Effacer le vide-tête ?")){ t.dump=""; save(); toolDump(); } };
+}
+
+/* 🪜 Découper une tâche en micro-pas */
+function toolDecoupe(){
+  const t=ensureTools(), d=t.decoupe;
+  const done=d.steps.filter(s=>s.done).length, tot=d.steps.length;
+  const stepsHtml = tot ? d.steps.map((s,idx)=>`<button class="opt${s.done?" sel":""}" data-i="${idx}" style="justify-content:space-between">
+      <span style="display:flex;align-items:center;gap:12px"><span class="dot">${s.done?"✓":""}</span><span style="${s.done?'text-decoration:line-through;opacity:.6':''}">${esc(s.t)}</span></span>
+      <span class="linkbtn" data-del="${idx}" style="color:var(--text-mute);padding:0 4px">✕</span>
+    </button>`).join("") : `<p class="tiny center" style="padding:8px">Ajoute un tout petit premier pas ci-dessous 🌿</p>`;
+  const allDone = tot>0 && done===tot;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Découper une tâche")}
+    <div class="card" style="border-left:5px solid var(--c-purple)">
+      <h2 style="margin-top:0">Découper 🪜</h2>
+      <p class="muted">Une grosse tâche fait peur. Coupée en micro-pas (presque ridicules de petitesse), elle devient faisable.</p>
+      <input type="text" id="task" placeholder="La tâche qui pèse…" value="${esc(d.task)}" />
+      <p class="tiny" style="margin:14px 0 4px"><b>Les micro-pas</b>${tot?` · ${done}/${tot}`:""}</p>
+      ${tot?`<div class="progress"><i style="width:${Math.round(done/tot*100)}%"></i></div>`:""}
+      <div class="opts" id="steps" style="margin-top:8px">${stepsHtml}</div>
+      ${allDone?`<div class="banner" style="background:var(--primary-soft);border:1px solid var(--primary);color:var(--primary-dark)"><span class="t">Tout est coché 🎉</span>Tu l'as fait, pas à pas. Bravo.</div>`:""}
+      <div class="row" style="margin-top:10px">
+        <input type="text" id="newstep" placeholder="Un tout petit pas…" style="flex:2" />
+        <button class="btn small" id="add" style="flex:1">+ Ajouter</button>
+      </div>
+      <button class="btn ghost small" id="reset" style="margin-top:10px">↺ Nouvelle tâche</button>
+    </div></section>`));
+  wireToolHead();
+  const taskInput=document.getElementById("task");
+  taskInput.onchange=()=>{ d.task=taskInput.value; save(); };
+  const add=()=>{ const ns=document.getElementById("newstep"); const v=ns.value.trim(); if(!v){ ns.focus(); return; } d.task=taskInput.value; d.steps.push({t:v,done:false}); save(); toolDecoupe(); };
+  document.getElementById("add").onclick=add;
+  document.getElementById("newstep").addEventListener("keydown",e=>{ if(e.key==="Enter") add(); });
+  app().querySelectorAll("#steps [data-i]").forEach(b=> b.onclick=(e)=>{
+    if(e.target.hasAttribute("data-del")){ d.steps.splice(+e.target.getAttribute("data-del"),1); save(); toolDecoupe(); return; }
+    const i=+b.getAttribute("data-i"); d.steps[i].done=!d.steps[i].done; save(); toolDecoupe(); });
+  document.getElementById("reset").onclick=()=>{ if(confirm("Vider cette tâche et ses pas ?")){ d.task=""; d.steps=[]; save(); toolDecoupe(); } };
+}
+
+/* 🛟 Choisir UNE priorité (décision, non stockée) */
+function toolPriorite(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Choisir UNE priorité")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Une seule chose 🛟</h2>
+      <p class="muted">Écris tout ce qui te tire (une ligne par chose). Puis on n'en garde <b>qu'une</b> — le reste attend, promis.</p>
+      <textarea id="cands" placeholder="Une chose par ligne…"></textarea>
+      <button class="btn" id="show" style="margin-top:12px">Voir mes options →</button>
+      <div id="picker" style="margin-top:12px"></div>
+    </div></section>`));
+  wireToolHead();
+  document.getElementById("show").onclick=()=>{
+    const lines=document.getElementById("cands").value.split("\n").map(s=>s.trim()).filter(Boolean);
+    const box=document.getElementById("picker"); box.innerHTML="";
+    if(!lines.length){ toast("Écris au moins une chose 🌿"); return; }
+    box.appendChild(el(`<p class="tiny muted">Laquelle, si tu ne pouvais en faire qu'<b>une</b> ?</p>`));
+    const opts=el(`<div class="opts"></div>`);
+    lines.forEach(l=>{
+      const b=el(`<button class="opt"><span class="dot"></span><span>${esc(l)}</span></button>`);
+      b.onclick=()=>{ box.innerHTML="";
+        box.appendChild(el(`<div class="card center" style="border-left:5px solid var(--primary);margin:6px 0 0">
+          <p class="tiny" style="margin:0">Ta seule chose, maintenant :</p>
+          <h2 style="margin:.2em 0">${esc(l)}</h2>
+          <p class="muted">Le reste attend — vraiment. Fais juste le premier pas vers celle-là. 🌿</p></div>`));
+      };
+      opts.appendChild(b);
+    });
+    box.appendChild(opts);
+  };
+}
+
+/* ⏱️ Timer « on démarre » */
+let ttRemain=300, ttTimer=null, ttOn=false;
+function toolTimer(){
+  stopToolTimer(); ttRemain=300;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Timer « on démarre »")}
+    <div class="card center" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">On démarre ⏱️</h2>
+      <p class="muted">Pas pour tout finir — juste pour <b>commencer</b>. Choisis une petite durée et lance-toi.</p>
+      <div class="row" id="durs">
+        <button class="btn ghost small" data-m="2">2 min</button>
+        <button class="btn ghost small" data-m="5">5 min</button>
+        <button class="btn ghost small" data-m="10">10 min</button>
+      </div>
+      <div class="tdisp" id="ttdisp" style="margin:16px 0 6px">5:00</div>
+      <div class="row">
+        <button class="btn small" id="ttbtn">▶︎ On y va</button>
+        <button class="btn ghost small" id="ttreset" style="flex:0 0 auto;padding-left:18px;padding-right:18px">↺</button>
+      </div>
+      <p class="tiny" style="margin-top:12px">Quand ça sonne, tu as déjà commencé — c'est ça, la victoire. 🌿</p>
+    </div></section>`));
+  wireToolHead();
+  app().querySelectorAll("#durs [data-m]").forEach(b=> b.onclick=()=>{ stopToolTimer(); ttRemain=(+b.getAttribute("data-m"))*60; renderTT(); });
+  document.getElementById("ttbtn").onclick=()=> ttOn?stopToolTimer(true):startToolTimer();
+  document.getElementById("ttreset").onclick=()=>{ stopToolTimer(); renderTT(); const b=document.getElementById("ttbtn"); if(b) b.textContent="▶︎ On y va"; };
+  renderTT();
+}
+function renderTT(){ const d=document.getElementById("ttdisp"); if(d) d.textContent=Math.floor(ttRemain/60)+":"+String(Math.max(0,ttRemain)%60).padStart(2,"0"); }
+function startToolTimer(){
+  ttOn=true; const btn=document.getElementById("ttbtn"); if(btn) btn.textContent="⏸ Pause";
+  const tick=()=>{ if(!ttOn) return; renderTT();
+    if(ttRemain<=0){ ttOn=false; const d=document.getElementById("ttdisp"); if(d) d.textContent="Bravo 🌿"; const b=document.getElementById("ttbtn"); if(b) b.textContent="✓ Fait"; toast("Tu as commencé 🌿"); return; }
+    ttRemain--; ttTimer=setTimeout(tick,1000); };
+  tick();
+}
+function stopToolTimer(pause){ ttOn=false; if(ttTimer){ clearTimeout(ttTimer); ttTimer=null; } if(pause){ const b=document.getElementById("ttbtn"); if(b) b.textContent="▶︎ Reprendre"; } }
+
+/* ✅ Checklist express */
+function toolChecklist(){
+  const t=ensureTools();
+  const done=t.checklist.filter(x=>x.done).length, tot=t.checklist.length;
+  const itemsHtml = tot ? t.checklist.map((x,i)=>`<button class="opt${x.done?" sel":""}" data-i="${i}" style="justify-content:space-between">
+      <span style="display:flex;align-items:center;gap:12px"><span class="dot">${x.done?"✓":""}</span><span style="${x.done?'text-decoration:line-through;opacity:.6':''}">${esc(x.t)}</span></span>
+      <span class="linkbtn" data-del="${i}" style="color:var(--text-mute);padding:0 4px">✕</span>
+    </button>`).join("") : `<p class="tiny center" style="padding:8px">Liste vide. Ajoute une première ligne 🌿</p>`;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Checklist express")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Checklist ✅</h2>
+      <p class="muted">Sors-le de ta tête et coche au fur et à mesure. ${tot?`<b>${done}/${tot}</b>`:""}</p>
+      ${tot?`<div class="progress"><i style="width:${Math.round(done/tot*100)}%"></i></div>`:""}
+      <div class="opts" id="items" style="margin-top:8px">${itemsHtml}</div>
+      <div class="row" style="margin-top:10px">
+        <input type="text" id="newitem" placeholder="Une chose à faire…" style="flex:2" />
+        <button class="btn small" id="add" style="flex:1">+ Ajouter</button>
+      </div>
+      ${tot?`<button class="btn ghost small" id="clear" style="margin-top:10px">🗑️ Tout effacer</button>`:""}
+    </div></section>`));
+  wireToolHead();
+  const add=()=>{ const ni=document.getElementById("newitem"); const v=ni.value.trim(); if(!v){ ni.focus(); return; } t.checklist.push({t:v,done:false}); save(); toolChecklist(); };
+  document.getElementById("add").onclick=add;
+  document.getElementById("newitem").addEventListener("keydown",e=>{ if(e.key==="Enter") add(); });
+  app().querySelectorAll("#items [data-i]").forEach(b=> b.onclick=(e)=>{
+    if(e.target.hasAttribute("data-del")){ t.checklist.splice(+e.target.getAttribute("data-del"),1); save(); toolChecklist(); return; }
+    const i=+b.getAttribute("data-i"); t.checklist[i].done=!t.checklist[i].done; save(); toolChecklist(); });
+  const c=document.getElementById("clear"); if(c) c.onclick=()=>{ if(confirm("Effacer toute la checklist ?")){ t.checklist=[]; save(); toolChecklist(); } };
+}
+
+/* 🫧 Respirer (réutilise la bulle de respiration) */
+function toolBreath(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Respirer")}
+    <div class="card center" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Respire 🫧</h2>
+      <p class="muted">La bulle grandit : tu inspires. Elle rétrécit : tu souffles. Rien d'autre à faire.</p>
+      <div class="breath"><div class="bubble" id="bubble"></div><div class="breath-word" id="bw">Prête ?</div></div>
+      <button class="btn secondary small" id="bbtn">▶︎ Respirer</button>
+      <p class="tiny" style="margin-top:14px">Pose tes deux pieds au sol. Sens l'appui. 🌿</p>
+    </div></section>`));
+  wireToolHead();
+  document.getElementById("bbtn").onclick=toggleBreath;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MES RÉUSSITES — la done list qui célèbre le « fait », pas le « parfait ».
+   Noter les micro-victoires, regarder dans le rétro quand ça va moins.
+   ═══════════════════════════════════════════════════════════════════ */
+function winsAccomplished(){
+  const t=ensureTools();
+  return { steps: t.checklist.filter(x=>x.done).length + t.decoupe.steps.filter(s=>s.done).length, plans: db.rescues.length };
+}
+function renderWins(){
+  if(!Array.isArray(db.wins)) db.wins=[];
+  const acc=winsAccomplished();
+  const now=new Date(); const startToday=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+  const weekAgo=startToday - 6*86400000;
+  const groups={today:[],week:[],before:[]};
+  db.wins.forEach((w,idx)=>{ const t=new Date(w.date).getTime(); (t>=startToday?groups.today:(t>=weekAgo?groups.week:groups.before)).push(Object.assign({idx},w)); });
+  const grp=(title,arr)=> arr.length? `<p class="tiny" style="margin:14px 0 6px;font-weight:800;color:var(--primary-dark)">${title}</p>`+arr.map(w=>`
+      <div class="secrow" style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:1px solid var(--border);padding-bottom:8px">
+        <span>🌟 ${esc(w.text)}<br><span class="tiny">${frDate(w.date)}</span></span>
+        <button class="linkbtn" data-del="${w.idx}" style="color:var(--text-mute);padding:0 4px">✕</button>
+      </div>`).join("") : "";
+  const listHtml = db.wins.length
+    ? grp("Aujourd'hui",groups.today)+grp("Ces derniers jours",groups.week)+grp("Avant",groups.before)
+    : `<p class="tiny center" style="padding:14px">Rien encore ? Note ta première, même toute petite : t'être levée, avoir bu de l'eau, ouvert cette app… tout compte 🌱</p>`;
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">
+    <div class="toolbar"><button class="linkbtn" id="home">‹ Accueil</button></div>
+    <div class="card">
+      <h2 style="margin-top:0">🏆 Mes réussites</h2>
+      <p class="muted">Ici on célèbre le <b>« fait »</b>, jamais le « parfait ». Note ce que tu as accompli — même minuscule. Ton cerveau a besoin de voir les preuves. 🌱</p>
+      <div class="row" style="margin-top:6px">
+        <input type="text" id="winput" placeholder="Ce que j'ai fait…" style="flex:2" />
+        <button class="btn small" id="add" style="flex:1">🎉 Je l'ai fait</button>
+      </div>
+      ${(acc.steps||acc.plans)? `<p class="tiny muted" style="margin-top:10px">🌿 Déjà là, sans même les noter : <b>${acc.steps}</b> pas coché${acc.steps>1?"s":""}${acc.plans?` · <b>${acc.plans}</b> plan${acc.plans>1?"s":""} de sauvetage`:""}.</p>`:""}
+      ${listHtml}
+    </div>
+    ${db.wins.length? `<button class="btn ghost small" id="clear">🗑️ Effacer mes réussites</button>`:""}
+    <div class="discl">🤍 Regarde ici quand ça va moins fort : la preuve que tu avances, elle est là.</div>
+  </section>`));
+  document.getElementById("home").onclick=renderIntro;
+  const add=()=>{ const inp=document.getElementById("winput"); const v=inp.value.trim(); if(!v){ inp.focus(); return; } db.wins.unshift({date:new Date().toISOString(), text:v}); if(db.wins.length>200) db.wins.pop(); save(); toast("Bravo, c'est noté 🌟"); renderWins(); };
+  document.getElementById("add").onclick=add;
+  document.getElementById("winput").addEventListener("keydown",e=>{ if(e.key==="Enter") add(); });
+  app().querySelectorAll("[data-del]").forEach(b=> b.onclick=()=>{ db.wins.splice(+b.getAttribute("data-del"),1); save(); renderWins(); });
+  const c=document.getElementById("clear"); if(c) c.onclick=()=>{ if(confirm("Effacer toutes tes réussites ?")){ db.wins=[]; save(); renderWins(); } };
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PWA + INIT
+   ═══════════════════════════════════════════════════════════════════ */
+if("serviceWorker" in navigator){ window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
+document.body.classList.toggle("dys", !!db.prefs.dys);
+document.body.classList.toggle("lowsensory", !!db.prefs.lowSensory);
+renderIntro();
+</script>
+</body>
+</html>

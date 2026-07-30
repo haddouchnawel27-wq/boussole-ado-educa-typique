@@ -135,7 +135,7 @@
   // ---- Écran de bienvenue : « Pour qui ouvre-t-on Boussole ? » ----
   function ecranChoixPublic(vue) {
     vue.appendChild(UI.enTete(
-      "Pour qui ouvre-t-on Boussole ?",
+      "Pour qui ouvre-t-on Cap Educa ?",
       "Choisissez la tranche d'âge : le menu s'adaptera pour rester clair et apaisant. Vous pourrez en changer à tout moment, en haut de l'écran."
     ));
     var grille = UI.el(".grille");
@@ -242,7 +242,7 @@
     if (!publicActif()) {
       marquerActif("accueil");
       document.body.classList.remove("menu-ouvert");
-      document.title = "Boussole";
+      document.title = "Cap Educa";
       ecranChoixPublic(vue);
       window.scrollTo(0, 0);
       return;
@@ -252,7 +252,7 @@
     noterRecent(outil.id);
     document.body.classList.remove("menu-ouvert");
     document.getElementById("contenu").focus();
-    document.title = (outil.titre ? outil.titre + " — " : "") + "Boussole";
+    document.title = (outil.titre ? outil.titre + " — " : "") + "Cap Educa";
     try {
       outil.render(vue, { profil: profilActif(), arg: arg, naviguer: naviguer, refreshProfils: rafraichirSelectProfil });
     } catch (e) {
