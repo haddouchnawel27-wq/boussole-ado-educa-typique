@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useMode } from "@/lib/mode";
+import { labelsForMode } from "@/lib/mode-labels";
 
 const HUBS = [
   { slug: "parents", title: "Parents", kicker: "Hub", desc: "Guides, workbooks, Parcours Clarté TND, charge mentale.", accent: "border-t-et-teal" },
@@ -12,6 +13,7 @@ const HUBS = [
 export default function Home() {
   const { mode } = useMode();
   const islamic = mode === "islamique";
+  const labels = labelsForMode(mode);
 
   return (
     <main className="mx-auto max-w-5xl px-5 py-8 sm:px-8 sm:py-10">
@@ -26,39 +28,35 @@ export default function Home() {
           Les Deux <span className="italic text-gold">Jardins</span>
         </h1>
         <p className="mx-auto mt-4 max-w-[56ch] text-shell-muted sm:text-lg">
-          {islamic
-            ? "Un même soin qui relie la maman, l'enfant, l'ado et le·la professionnel·le — porté par la sakīna, la baraka et le respect de la fiṭra."
-            : "Un même soin qui relie la maman, l'enfant, l'ado et le·la professionnel·le — fondé sur les preuves, apaisant, pensé pour les esprits fatigués et atypiques."}
+          {labels.hero}
         </p>
       </section>
 
       {/* two gardens */}
       <section className="grid gap-5 sm:grid-cols-2">
         <Link href="/jardin/coeur" className="group block rounded-2xl border border-shell-border border-l-4 border-l-jq-sage bg-shell-surface p-6 shadow-soft transition hover:-translate-y-1 hover:border-gold sm:p-8">
-          <p className="font-serif text-xs font-semibold uppercase tracking-[0.28em] text-jq-sage">Le Jardin du cœur</p>
-          <p className="mt-1 font-arab text-2xl text-gold" dir="rtl">جنّة القلوب</p>
-          <h2 className="font-serif text-3xl font-semibold text-jq-deep sm:text-4xl">Jannat al Qulûb</h2>
-          <p className="mt-1 font-serif text-lg italic text-gold-dark">« Soigner les fleurs et les plantes »</p>
-          <p className="mt-3 text-sm text-shell-muted">
-            Côté maman, femme, adulte — l'accompagnement {islamic ? "psycho-spirituel" : "psychologique"}. Charte du cockpit praticienne.
-          </p>
-          <span className="mt-4 inline-block text-sm font-semibold text-gold-dark group-hover:underline">Entrer dans ce jardin →</span>
+          <p className="font-serif text-xs font-semibold uppercase tracking-[0.28em] text-jq-sage">{labels.adultKicker}</p>
+          {islamic && <p className="mt-1 font-arab text-2xl text-gold" dir="rtl">جنّة القلوب</p>}
+          <h2 className="font-serif text-3xl font-semibold text-jq-deep sm:text-4xl">{labels.adultBrand}</h2>
+          <p className="mt-1 font-serif text-lg italic text-gold-dark">{labels.adultTagline}</p>
+          <p className="mt-3 text-sm text-shell-muted">{labels.adultDescription}</p>
+          <span className="mt-4 inline-block text-sm font-semibold text-gold-dark group-hover:underline">Entrer dans cet espace →</span>
         </Link>
 
         <Link href="/jardin/graines" className="group block rounded-2xl border border-shell-border border-t-4 border-t-et-teal bg-shell-surface p-6 shadow-soft transition hover:-translate-y-1 hover:border-gold sm:p-8">
-          <p className="font-round text-xs font-semibold uppercase tracking-[0.24em] text-et-teal">Le Jardin des graines</p>
-          <h2 className="mt-1 font-round text-3xl font-bold tracking-tight text-et-teal sm:text-4xl">Educa Typique</h2>
-          <p className="mt-1 font-round text-lg font-semibold text-shell-muted">« Semer les petites graines »</p>
-          <p className="mt-3 text-sm text-shell-muted">
-            Côté enfant, ado & parentalité TND — la neuropédagogie au quotidien, du plus ludique au plus posé.
-          </p>
-          <span className="mt-4 inline-block text-sm font-semibold text-et-teal group-hover:underline">Entrer dans ce jardin →</span>
+          <p className="font-round text-xs font-semibold uppercase tracking-[0.24em] text-et-teal">{labels.youthKicker}</p>
+          <h2 className="mt-1 font-round text-3xl font-bold tracking-tight text-et-teal sm:text-4xl">{labels.youthBrand}</h2>
+          <p className="mt-1 font-round text-lg font-semibold text-shell-muted">{labels.youthTagline}</p>
+          <p className="mt-3 text-sm text-shell-muted">{labels.youthDescription}</p>
+          <span className="mt-4 inline-block text-sm font-semibold text-et-teal group-hover:underline">Entrer dans cet espace →</span>
         </Link>
       </section>
 
       {/* hubs */}
       <section className="mt-12">
-        <h3 className="font-serif text-2xl font-semibold text-shell-text sm:text-3xl">Quatre hubs, un seul soin</h3>
+        <h3 className="font-serif text-2xl font-semibold text-shell-text sm:text-3xl">
+          {islamic ? "Quatre hubs, un seul soin" : "Quatre champs d’accompagnement, un seul suivi"}
+        </h3>
         <p className="mb-5 mt-1 max-w-[60ch] text-sm text-shell-muted">
           Une même personne circule d'un espace à l'autre. Le cockpit relie tout le parcours, de l'accueil à la clôture.
         </p>
@@ -74,7 +72,7 @@ export default function Home() {
       </section>
 
       <footer className="mt-14 border-t border-shell-border pt-6 text-center text-xs text-shell-muted">
-        Les Deux Jardins — Jannat al Qulûb & Educa Typique · socle Jalon 0 (build réel)
+        {islamic ? "Les Deux Jardins — Jannat al Qulûb & Educa Typique" : "Les Deux Jardins — Espace professionnel"}
       </footer>
     </main>
   );
