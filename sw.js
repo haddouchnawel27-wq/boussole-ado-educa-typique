@@ -2,7 +2,7 @@
    Stratégie « stale-while-revalidate » : on sert vite depuis le cache,
    puis on met à jour en arrière-plan, pour que les nouvelles versions
    s'appliquent d'elles-mêmes à l'ouverture suivante. */
-var CACHE = "boussole-v15";
+var CACHE = "cap-educa-v16";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
   "./assets/css/styles.css",

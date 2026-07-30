@@ -284,7 +284,7 @@
   }
 
   function moduleOCR(racine) {
-    racine.appendChild(UI.el("p.aide", { text: "Prends ou choisis une photo d'un texte (leçon, énoncé). Boussole le transforme en texte que tu peux lire, agrandir ou écouter. La photo reste sur cet appareil ; seule l'aide à la lecture se charge depuis Internet la première fois." }));
+    racine.appendChild(UI.el("p.aide", { text: "Prends ou choisis une photo d'un texte (leçon, énoncé). Cap Educa le transforme en texte que tu peux lire, agrandir ou écouter. La photo reste sur cet appareil ; seule l'aide à la lecture se charge depuis Internet la première fois." }));
 
     var fichier = UI.el("input", { type: "file", accept: "image/*", capture: "environment", style: "margin:.4rem 0" });
     var apercu = UI.el("img", { alt: "Aperçu de la photo", style: "max-width:100%;max-height:240px;border-radius:10px;display:none;margin:.4rem 0" });

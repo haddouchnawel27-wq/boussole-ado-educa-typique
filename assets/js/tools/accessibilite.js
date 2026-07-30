@@ -97,13 +97,13 @@
         UI.el("h3", { text: "Effacer toutes les données" }),
         UI.el("p.aide", { text: "Action irréversible. Exportez d'abord une sauvegarde." }),
         UI.el("button.btn.danger", { text: "🗑️ Tout effacer", onclick: function () {
-          UI.confirmer("Effacer définitivement toutes les données de Boussole sur cet appareil ?", { danger: true, texteOk: "Tout effacer", titre: "Attention" }).then(function (ok) {
+          UI.confirmer("Effacer définitivement toutes les données de Cap Educa sur cet appareil ?", { danger: true, texteOk: "Tout effacer", titre: "Attention" }).then(function (ok) {
             if (ok) { Store.effacerTout(); Boussole.rafraichirSelectProfil(); appliquer(); UI.toast("Données effacées"); Boussole.naviguer("accueil"); }
           });
         }})
       ]));
 
-      vue.appendChild(UI.el("p.aide", { style: "margin-top:1.5rem", html: "🧭 <strong>Boussole</strong> — outil de soutien à l'accompagnement. Il ne remplace pas un diagnostic ni un avis médical." }));
+      vue.appendChild(UI.el("p.aide", { style: "margin-top:1.5rem", html: "🧭 <strong>Cap Educa</strong> — outil de soutien à l'accompagnement. Il ne remplace pas un diagnostic ni un avis médical." }));
     }
   });
 })();
