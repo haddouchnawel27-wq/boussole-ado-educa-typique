@@ -1,7 +1,7 @@
-# État des lieux — Code face au Cahier des charges v1.0
+# État des lieux — Code face au Cahier des charges v2.0
 
 _Analyse d'écart produite par Code (Claude) le 2026-07-31._
-_Référence : [`CAHIER-DES-CHARGES.md`](CAHIER-DES-CHARGES.md)._
+_Référence : [`CAHIER-DES-CHARGES.md`](CAHIER-DES-CHARGES.md) (v2.0, qui remplace la v1.0 et ajoute le module Étincelle, l'inventaire Canva, l'état technique et les décisions ouvertes)._
 
 > But de ce document : mettre le **code actuel** de Cap Educa en face de chaque
 > décision non négociable, pour distinguer ce que Code peut faire tout de suite,
@@ -72,14 +72,32 @@ Code **ne doit pas** trancher ces points seul :
 
 ---
 
-## 4. Autre dépôt / autre chantier
+## 4. Autre branche / autre chantier
 
-- **Les Deux Jardins** (parcours pro, Supabase, RLS, MFA — §6, §7, Phases 2/3/6)
-  est un **produit séparé** qui n'existe pas dans ce dépôt. Il demande un nouveau
-  projet (Supabase + front dédié). À cadrer avec Codex/Cowork avant tout code.
+- **Les Deux Jardins** existe déjà — mais **sur une autre branche**. D'après la
+  §12 du CDC v2.0, l'app vit dans `les-deux-jardins-app/` sur la branche
+  `claude/fil-deux-jardins-propre` (dernier commit poussé `4a0d752` ; un commit
+  `730e169` prêt mais **non poussé faute de jeton GitHub à jour** — action de Nawel).
+  Elle demande Supabase + RLS + MFA (§9, Phases 2/3/6). À cadrer avec Codex/Cowork.
+- **➡️ Ceci explique l'échec CI Vercel de la PR #19** : le projet Vercel
+  `les-deux-jardins` construit `les-deux-jardins-app/`, un dossier présent sur
+  `claude/fil-deux-jardins-propre` mais **absent de cette branche et de la base**.
+  Le déploiement échoue donc à chaque commit ici, sans lien avec cette PR de doc.
+  Résolution côté Vercel (Nawel), non bloquante pour cette PR.
 - La **migration des 4 outils pro** (Phase 3) ne peut se terminer (retrait de
   Cap Educa) qu'une fois leur équivalent **fonctionnel et testé** dans Les Deux
   Jardins — règle « aucune suppression avant validation de la destination ».
+
+## 4bis. Nouveau depuis la v2.0 — module Étincelle (Phase 5bis)
+
+- **Étincelle** = développement complet de **AD-09** (orientation / intelligences
+  multiples), relié à AD-03 (métacognition) et AD-05 (valeurs). Six blocs
+  (ET-01 → ET-06). Aucun code aujourd'hui : c'est un **chantier de contenu d'abord**
+  (Cowork réutilise le matériel Canva déjà rédigé — inventaire §11), avant écran.
+- Rigueur exigée : distinguer le cadre **validé** (RIASEC/Holland) de l'outil
+  **ludique** (Gardner) ; jamais « un » métier imposé ; valoriser les profils atypiques.
+- **Décision de nommage ouverte** : « Étincelle » (blog homonyme existant) vs
+  « Les Octufuns » vs autre — à trancher par Nawel avant intégration (§15).
 
 ---
 
