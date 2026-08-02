@@ -1,5 +1,6 @@
 "use client";
 import { useMode } from "@/lib/mode";
+import { ProfessionalGate } from "@/components/ProfessionalGate";
 
 // Parcours praticienne SHIFĀ' — enchaîne les outils cliniques dans un ordre logique.
 // Niveau 1 : parcours guidé (ordre + quand-utiliser + ouverture). Les résultats ne remontent pas
@@ -65,7 +66,11 @@ const REFERENTIEL = {
   url: "https://referentielshifa-complet-voiechifa.netlify.app/",
 };
 
-export default function ParcoursShifa() {
+export default function ParcoursShifaPage() {
+  return <ProfessionalGate><ParcoursShifa /></ProfessionalGate>;
+}
+
+function ParcoursShifa() {
   const { mode } = useMode();
   const islamic = mode === "islamique";
 

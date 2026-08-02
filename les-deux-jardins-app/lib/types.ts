@@ -21,6 +21,28 @@ export interface Synthese {
   duaIdx: number;
 }
 
+export type SrcaCriterion = "securite" | "regulation" | "continuite" | "alliance";
+export type SrcaState = Record<SrcaCriterion, boolean> & {
+  conduiteTenirEffectuee: boolean;
+};
+
+export type ObjectifClotureStatut = "atteint" | "partiellement_atteint" | "non_atteint";
+export interface ObjectifCloture {
+  id: string;
+  texte: string;
+  statut: ObjectifClotureStatut;
+}
+export interface BilanCloture {
+  demandeInitiale: string;
+  objectifs: ObjectifCloture[];
+  ressourcesMobilisees: string[];
+  outilsConserves: string[];
+  autonomieRelais: { notes: string; relaisNecessaire: boolean };
+  reorientation: { necessaire: boolean; details: string };
+  dateCloture: string;
+  praticienneValidation: { nom: string; valideAt: string };
+}
+
 export interface Client {
   id: string;
   nom: string;
@@ -44,7 +66,9 @@ export interface Client {
     anamnese?: Record<string, string>;
     // Scores d'appui 0-10 (sentiment d'être soutenue · relation à Allāh).
     scores?: { soutien?: number; relationAllah?: number };
+    srca?: SrcaState;
   };
+  bilanCloture?: BilanCloture;
   seances: Seance[];
   engagements: string[];
   synthese: Synthese;
@@ -56,6 +80,11 @@ export interface Dua {
   ph: string;
   fr: string;
   src: string;
+  source_type: "quran" | "hadith" | "validated_corpus";
+  reference: string;
+  verification_status: "verified" | "pending" | "excluded";
+  verified_by: string;
+  verified_at: string;
 }
 
 export interface Step {

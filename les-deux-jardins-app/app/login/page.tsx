@@ -9,7 +9,7 @@ import { labelsForMode } from "@/lib/mode-labels";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { user, enabled } = useAuth();
+  const { user, enabled, aal, mfaLoading } = useAuth();
   const { mode: productMode } = useMode();
   const labels = labelsForMode(productMode);
   const [email, setEmail] = useState("");
@@ -28,7 +28,7 @@ export default function LoginPage() {
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      router.push("/cockpit");
+      router.push("/mfa");
     } catch (err) {
       const raw = err instanceof Error ? err.message : "";
       let clear = raw || "Une erreur est survenue.";
@@ -44,12 +44,13 @@ export default function LoginPage() {
   }
 
   if (user) {
+    const secure = !mfaLoading && aal === "aal2";
     return (
       <main className="mx-auto max-w-md px-5 py-16 text-center">
         <p className="font-serif text-2xl text-jq-deep">Tu es connectée 🌸</p>
         <p className="mt-1 text-shell-muted">{user.email}</p>
-        <Link href="/cockpit" className="mt-5 inline-block rounded-xl bg-jq-deep px-5 py-2.5 text-sm font-semibold text-white">
-          Aller au cockpit →
+        <Link href={secure ? "/cockpit" : "/mfa"} className="mt-5 inline-block rounded-xl bg-jq-deep px-5 py-2.5 text-sm font-semibold text-white">
+          {mfaLoading ? "Vérification…" : secure ? "Aller au cockpit →" : "Sécuriser ma connexion →"}
         </Link>
       </main>
     );

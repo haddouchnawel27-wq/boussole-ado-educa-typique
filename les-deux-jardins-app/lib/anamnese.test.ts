@@ -3,6 +3,7 @@ import {
   anamneseAlerts,
   anamneseFieldLabel,
   anamneseForMode,
+  verifiedReligiousContent,
 } from "./anamnese";
 
 describe("anamnèse selon le mode", () => {
@@ -25,6 +26,8 @@ describe("anamnèse selon le mode", () => {
     expect(keys).toContain("s4");
     expect(keys).toContain("s8");
     expect(fieldKeys).toContain("s9_tawakkul");
+    expect(sections.find((section) => section.key === "s4")?.titre).toContain("Parcours et posture spirituels");
+    expect(sections.find((section) => section.key === "s8")?.titre).toContain("Ressources, pratiques et rappels spirituels");
   });
 
   it("emploie un libellé neutre en mode universel", () => {
@@ -43,15 +46,31 @@ describe("alertes de sécurité", () => {
     const alerts = anamneseAlerts({ s3_suicide: "Idées actuelles" });
 
     expect(alerts).toHaveLength(1);
-    expect(alerts[0].titre).toContain("actuel");
-    expect(alerts[0].message).toContain("immédiatement");
+    expect(alerts[0].titre).toContain("Risque suicidaire");
+    expect(alerts[0].message).toContain("15");
   });
 
   it("signale le désespoir sans l'assimiler à une faiblesse de foi", () => {
     const alerts = anamneseAlerts({ s9_qunut: "Envahissant — urgence" });
 
     expect(alerts).toHaveLength(1);
-    expect(alerts[0].titre).toBe("Désespoir signalé (section 9)");
-    expect(alerts[0].message).toContain("sécurité");
+    expect(alerts[0].titre).toContain("Risque suicidaire");
+    expect(alerts[0].message).toContain("3114");
+  });
+
+  it("fusionne les deux déclencheurs dans une seule alerte", () => {
+    expect(anamneseAlerts({ s3_suicide: "Idées actuelles", s9_qunut: "Présent" })).toHaveLength(1);
+  });
+});
+
+describe("traçabilité religieuse", () => {
+  it("n'affiche que les contenus explicitement vérifiés et tracés", () => {
+    const base = { source_type: "quran" as const, reference: "9:129", verified_by: "Nawel", verified_at: "2026-08-01" };
+    const result = verifiedReligiousContent([
+      { ...base, verification_status: "verified" as const },
+      { ...base, verification_status: "pending" as const },
+      { ...base, verification_status: "excluded" as const },
+    ]);
+    expect(result).toHaveLength(1);
   });
 });
