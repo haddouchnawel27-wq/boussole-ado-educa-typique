@@ -2,11 +2,12 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
+import { nonClinicalPilotMode } from "@/lib/pilot";
 
 export function ProfessionalGate({ children }: { children: ReactNode }) {
   const { user, loading, mfaLoading, aal, enabled } = useAuth();
 
-  if (loading || (user && mfaLoading)) {
+  if (loading || (!nonClinicalPilotMode && user && mfaLoading)) {
     return <main className="mx-auto max-w-md px-5 py-16 text-center text-shell-muted">Vérification de l’accès professionnel…</main>;
   }
 
@@ -25,7 +26,7 @@ export function ProfessionalGate({ children }: { children: ReactNode }) {
     );
   }
 
-  if (aal !== "aal2") {
+  if (!nonClinicalPilotMode && aal !== "aal2") {
     return (
       <main className="mx-auto max-w-md px-5 py-16 text-center">
         <p className="text-xs font-bold uppercase tracking-[0.22em] text-jq-sage">Dernière étape de sécurité</p>

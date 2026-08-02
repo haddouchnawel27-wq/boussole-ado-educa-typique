@@ -25,4 +25,16 @@ describe("mode pilote sans données cliniques", () => {
     expect(source("app/cockpit/page.tsx")).toContain("Code fictif uniquement");
     expect(source("app/questionnaires/page.tsx")).toContain("Résultat non sauvegardé");
   });
+
+  it("ne bloque pas l'accès pilote sur une MFA indisponible", () => {
+    expect(source("components/ProfessionalGate.tsx")).toContain(
+      '!nonClinicalPilotMode && aal !== "aal2"'
+    );
+    expect(source("app/login/page.tsx")).toContain(
+      'router.push(nonClinicalPilotMode ? "/cockpit" : "/mfa")'
+    );
+    expect(source("app/mfa/page.tsx")).toContain(
+      'router.replace(user ? "/cockpit" : "/login")'
+    );
+  });
 });

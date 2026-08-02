@@ -26,7 +26,7 @@ describe("architecture strictement professionnelle", () => {
 
     expect(login).not.toContain("signUp(");
     expect(login).toContain("praticiennes autorisées");
-    expect(login).toContain('router.push("/mfa")');
+    expect(login).toContain('router.push(nonClinicalPilotMode ? "/cockpit" : "/mfa")');
   });
 
   it("exige une session MFA AAL2 dans l’interface et dans les politiques RLS", () => {
@@ -34,7 +34,8 @@ describe("architecture strictement professionnelle", () => {
     const mfa = source("app/mfa/page.tsx");
     const policy = source("supabase/migrations/20260801170000_require_mfa_aal2.sql");
 
-    expect(gate).toContain('aal !== "aal2"');
+    expect(gate).toContain('!nonClinicalPilotMode && aal !== "aal2"');
+    expect(gate).toContain('!nonClinicalPilotMode && user && mfaLoading');
     expect(mfa).toContain("challengeAndVerify");
     expect(mfa).toContain("refreshMfa");
     expect(policy.match(/as restrictive for all to authenticated/g)).toHaveLength(5);
