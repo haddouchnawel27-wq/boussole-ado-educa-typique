@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
+import { nonClinicalPilotMode } from "@/lib/pilot";
 
 type Phase = "loading" | "setup" | "enrolling" | "challenge";
 
@@ -38,7 +39,12 @@ export default function MfaPage() {
   }, [user]);
 
   useEffect(() => {
-    if (loading || mfaLoading) return;
+    if (loading) return;
+    if (nonClinicalPilotMode) {
+      router.replace(user ? "/cockpit" : "/login");
+      return;
+    }
+    if (mfaLoading) return;
     if (user && aal === "aal2") {
       router.replace("/cockpit");
       return;
@@ -96,6 +102,10 @@ export default function MfaPage() {
     } finally {
       setBusy(false);
     }
+  }
+
+  if (nonClinicalPilotMode) {
+    return <main className="mx-auto max-w-md px-5 py-16 text-center text-shell-muted">Ouverture du mode pilote…</main>;
   }
 
   if (!enabled) {

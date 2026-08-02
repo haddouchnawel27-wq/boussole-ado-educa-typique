@@ -6,6 +6,7 @@ import { supabase, supabaseEnabled } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 import { useMode } from "@/lib/mode";
 import { labelsForMode } from "@/lib/mode-labels";
+import { nonClinicalPilotMode } from "@/lib/pilot";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function LoginPage() {
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      router.push("/mfa");
+      router.push(nonClinicalPilotMode ? "/cockpit" : "/mfa");
     } catch (err) {
       const raw = err instanceof Error ? err.message : "";
       let clear = raw || "Une erreur est survenue.";
@@ -44,13 +45,13 @@ export default function LoginPage() {
   }
 
   if (user) {
-    const secure = !mfaLoading && aal === "aal2";
+    const secure = nonClinicalPilotMode || (!mfaLoading && aal === "aal2");
     return (
       <main className="mx-auto max-w-md px-5 py-16 text-center">
         <p className="font-serif text-2xl text-jq-deep">Tu es connectée 🌸</p>
         <p className="mt-1 text-shell-muted">{user.email}</p>
         <Link href={secure ? "/cockpit" : "/mfa"} className="mt-5 inline-block rounded-xl bg-jq-deep px-5 py-2.5 text-sm font-semibold text-white">
-          {mfaLoading ? "Vérification…" : secure ? "Aller au cockpit →" : "Sécuriser ma connexion →"}
+          {!nonClinicalPilotMode && mfaLoading ? "Vérification…" : secure ? "Aller au cockpit →" : "Sécuriser ma connexion →"}
         </Link>
       </main>
     );
