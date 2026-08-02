@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { ProfessionalGate } from "@/components/ProfessionalGate";
 import "./al-mizan.css";
 import { Onboarding } from "./Onboarding";
 import { CheckInModal } from "./CheckInModal";
@@ -71,6 +72,10 @@ function download(filename: string, content: string, mime: string) {
 }
 
 export default function AlMizanPage() {
+  return <ProfessionalGate><AlMizan /></ProfessionalGate>;
+}
+
+function AlMizan() {
   const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
   const [space, setSpace] = useState<SpaceKey>("aujourdhui");
   const [checkIns, setCheckIns] = useState<CheckIn[]>([]);

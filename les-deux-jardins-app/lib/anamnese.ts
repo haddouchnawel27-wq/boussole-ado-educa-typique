@@ -24,6 +24,14 @@ export interface AnaSection {
   islamicOnly?: boolean;
 }
 
+export interface ReligiousTraceability {
+  source_type: "quran" | "hadith" | "validated_corpus";
+  reference: string;
+  verification_status: "verified" | "pending" | "excluded";
+  verified_by: string;
+  verified_at: string;
+}
+
 export const ANAMNESE: AnaSection[] = [
   {
     key: "s1",
@@ -73,7 +81,7 @@ export const ANAMNESE: AnaSection[] = [
   },
   {
     key: "s4",
-    titre: "4 · Antécédents spirituels & parcours de foi",
+    titre: "4 · Parcours et posture spirituels",
     islamicOnly: true,
     fields: [
       { key: "s4_parcours", label: "Parcours de foi", type: "choice", options: ["Née musulmane, pratique stable", "Née musulmane, pratique tardive", "Reconvertie", "Conversion à l'âge adulte"] },
@@ -127,7 +135,7 @@ export const ANAMNESE: AnaSection[] = [
   },
   {
     key: "s8",
-    titre: "8 · Spiritualité actuelle (pratique vivante)",
+    titre: "8 · Ressources, pratiques et rappels spirituels",
     islamicOnly: true,
     fields: [
       { key: "s8_khoushou", label: "Présence dans la prière (khoushou')", type: "scale", minLabel: "Aucune", maxLabel: "Forte" },
@@ -197,17 +205,18 @@ export function anamneseSectionTitle(section: AnaSection, index: number, islamic
  *  2) Désespoir qunūṭ (§9) : « Présent » ou « Envahissant — urgence ».
  */
 export function anamneseAlerts(a: Record<string, string> | undefined): AnaAlert[] {
-  const out: AnaAlert[] = [];
   const v = a ?? {};
-  if (["Idées actuelles", "Tentative récente"].includes(v.s3_suicide)) {
-    out.push({ level: "rouge", titre: "Risque suicidaire actuel signalé (section 3)", message: "Interrompre le questionnaire, évaluer immédiatement la sécurité et appliquer le protocole d'urgence ou d'orientation adapté." });
-  } else if (v.s3_suicide === "Tentative passée") {
-    out.push({ level: "rouge", titre: "Antécédent suicidaire signalé (section 3)", message: "Explorer le risque actuel en priorité et prévoir l'orientation adaptée." });
-  }
-  if (["Présent", "Envahissant — urgence"].includes(v.s9_qunut)) {
-    out.push({ level: "rouge", titre: "Désespoir signalé (section 9)", message: "Évaluer la sécurité et le risque suicidaire en priorité avant de poursuivre l'accompagnement." });
-  }
-  return out;
+  const triggered = ["Idées actuelles", "Tentative passée", "Tentative récente"].includes(v.s3_suicide) || ["Présent", "Envahissant — urgence"].includes(v.s9_qunut);
+  if (!triggered) return [];
+  return [{
+    level: "rouge",
+    titre: "Risque suicidaire ou antécédent signalé",
+    message: "Interromps la suite du parcours et évalue sans délai la situation. En cas de danger imminent ou de risque vital, appelle le 15 ou le 112 et ne laisse pas la personne seule jusqu’à la prise du relais. Le 114 est accessible lorsqu’il est impossible de parler. En cas de doute ou de risque non imminent, appelle le 3114 avec la personne. Documente sobrement les faits, les décisions et le relais organisé.",
+  }];
+}
+
+export function verifiedReligiousContent<T extends ReligiousTraceability>(items: T[]): T[] {
+  return items.filter((item) => item.verification_status === "verified" && Boolean(item.verified_by) && Boolean(item.verified_at));
 }
 
 /** Repères spirituels à afficher côte à côte dans le CR (aucun verdict, juste les 3 valeurs). */

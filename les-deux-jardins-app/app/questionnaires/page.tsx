@@ -5,12 +5,21 @@ import { QUESTIONNAIRES, evaluate, questionText, type Questionnaire } from "@/li
 import { getClients, saveQuestionnaireResponseDb } from "@/lib/data";
 import { labelsForMode } from "@/lib/mode-labels";
 import { ProfessionalGate } from "@/components/ProfessionalGate";
+import { srcaReadiness } from "@/lib/clinical-rules";
+import { nonClinicalPilotMode, pilotStorageNotice } from "@/lib/pilot";
 
 export default function QuestionnairesPage() {
   const { mode } = useMode();
   const [dossierId, setDossierId] = useState("");
+  const [dossierUnlocked, setDossierUnlocked] = useState<boolean | null>(null);
   useEffect(() => {
-    setDossierId(new URLSearchParams(window.location.search).get("client") ?? "");
+    const id = new URLSearchParams(window.location.search).get("client") ?? "";
+    setDossierId(id);
+    if (!id) { setDossierUnlocked(true); return; }
+    getClients().then(({ clients }) => {
+      const client = clients.find((item) => item.id === id);
+      setDossierUnlocked(Boolean(client && srcaReadiness(client.bilan.anamnese, client.bilan.srca).canEvaluate));
+    });
   }, []);
   const islamic = mode === "islamique";
   const labels = labelsForMode(mode);
@@ -30,7 +39,11 @@ export default function QuestionnairesPage() {
         </p>
       </header>
 
-      {!cur && (
+      {nonClinicalPilotMode && <div role="status" className="mt-5 rounded-2xl border border-gold bg-[rgba(192,138,46,.10)] p-4 text-sm text-[#6f5621]"><b>Mode pilote.</b> {pilotStorageNotice} Les résultats restent uniquement à l’écran et ne peuvent pas être reliés à une fiche.</div>}
+
+      {dossierUnlocked === false && <div role="alert" className="mt-6 rounded-2xl border border-[#a94b54] bg-[rgba(169,75,84,.08)] p-4 text-sm font-semibold text-[#a94b54]">🔒 Évaluation verrouillée pour ce dossier : retourne au Bilan et valide les quatre critères S·R·C·A.</div>}
+
+      {dossierUnlocked !== false && !cur && (
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           {visibles.map((q) => (
             <button
@@ -51,7 +64,7 @@ export default function QuestionnairesPage() {
         </div>
       )}
 
-      {cur && <Runner q={cur} dossierId={dossierId} onExit={() => setCurId(null)} />}
+      {dossierUnlocked !== false && cur && <Runner q={cur} dossierId={dossierId} onExit={() => setCurId(null)} />}
       </main>
     </ProfessionalGate>
   );
@@ -80,8 +93,9 @@ function Runner({ q, dossierId, onExit }: { q: Questionnaire; dossierId: string;
     setLoadingClients(true);
     const r = await getClients();
     setLive(r.source === "supabase");
-    setClients(r.clients.map((cl) => ({ id: cl.id, nom: cl.nom })));
-    setPick(r.clients.find((cl) => cl.id === dossierId)?.id ?? r.clients[0]?.id ?? "");
+    const eligible = r.clients.filter((cl) => srcaReadiness(cl.bilan.anamnese, cl.bilan.srca).canEvaluate);
+    setClients(eligible.map((cl) => ({ id: cl.id, nom: cl.nom })));
+    setPick(eligible.find((cl) => cl.id === dossierId)?.id ?? eligible[0]?.id ?? "");
     setLoadingClients(false);
   }
 
@@ -195,6 +209,11 @@ function Runner({ q, dossierId, onExit }: { q: Questionnaire; dossierId: string;
                     ✔ Résultat relié à la fiche de <b>{savedTo}</b>.
                   </span>
                   {pick && <a href={`/cockpit?client=${encodeURIComponent(pick)}&etape=formuler`} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">➜ Retour au dossier : état des lieux</a>}
+                  <button onClick={restart} className="rounded-xl border border-shell-border px-4 py-2.5 text-sm font-semibold">Recommencer</button>
+                </div>
+              ) : nonClinicalPilotMode ? (
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="rounded-xl border border-gold bg-[rgba(192,138,46,.10)] px-4 py-2.5 text-sm font-semibold text-[#6f5621]">Résultat non sauvegardé — mode pilote</span>
                   <button onClick={restart} className="rounded-xl border border-shell-border px-4 py-2.5 text-sm font-semibold">Recommencer</button>
                 </div>
               ) : !linking ? (

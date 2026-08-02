@@ -5,14 +5,21 @@ import { useAuth } from "@/lib/auth";
 import { supabaseEnabled } from "@/lib/supabase";
 import { DUAS, LIBRARY, METEO, STEPS } from "@/lib/demo";
 import { evaluateStored } from "@/lib/questionnaires";
-import type { Client, Meteo } from "@/lib/types";
+import type { BilanCloture, Client, Meteo, SrcaCriterion } from "@/lib/types";
 import { addSeanceDb, createClientDb, deleteClientDb, getClients, getQuestionnaireResponsesDb, saveSyntheseDb, updateClientDb, type QResponse, type Source } from "@/lib/data";
-import { anamneseAlerts, anamneseFieldLabel, anamneseForMode, anamneseSectionTitle, reperesSpirituels, type AnaField } from "@/lib/anamnese";
+import { anamneseAlerts, anamneseFieldLabel, anamneseForMode, anamneseSectionTitle, reperesSpirituels, verifiedReligiousContent, type AnaField } from "@/lib/anamnese";
 import { labelsForMode } from "@/lib/mode-labels";
+import { ProfessionalGate } from "@/components/ProfessionalGate";
+import { EMPTY_SRCA, guardedClinicalStep, srcaAfterRiskFieldChange, srcaReadiness, validateBilanCloture } from "@/lib/clinical-rules";
+import { nonClinicalPilotMode, pilotStorageNotice } from "@/lib/pilot";
 
 const METEO_KEYS = Object.keys(METEO) as Meteo[];
 
-export default function Cockpit() {
+export default function CockpitPage() {
+  return <ProfessionalGate><Cockpit /></ProfessionalGate>;
+}
+
+function Cockpit() {
   const { mode } = useMode();
   const islamic = mode === "islamique";
   const labels = labelsForMode(mode);
@@ -75,7 +82,16 @@ export default function Cockpit() {
       const requestedStep = query.get("etape");
       const requestedClient = r.clients.find((client) => client.id === requestedId);
       setCurId(requestedClient?.id ?? r.clients[0]?.id ?? "");
-      if (requestedClient && requestedStep) setStep(requestedStep);
+      if (requestedClient && requestedStep) {
+        const unlocked = srcaReadiness(requestedClient.bilan.anamnese, requestedClient.bilan.srca).canEvaluate;
+        const safeStep = guardedClinicalStep(requestedStep, unlocked);
+        setStep(safeStep);
+        if (safeStep !== requestedStep) {
+          query.set("client", requestedClient.id);
+          query.set("etape", safeStep);
+          window.history.replaceState(null, "", `${window.location.pathname}?${query.toString()}`);
+        }
+      }
       setLoading(false);
     });
     return () => {
@@ -87,6 +103,7 @@ export default function Cockpit() {
   const c = useMemo(() => clients.find((x) => x.id === curId), [clients, curId]);
 
   const live = source === "supabase";
+  const readiness = srcaReadiness(c?.bilan.anamnese, c?.bilan.srca);
 
   // charge les questionnaires reliés à la fiche courante
   useEffect(() => {
@@ -118,11 +135,18 @@ export default function Cockpit() {
     if (dirty && !window.confirm("Cette fiche contient des modifications non enregistrées. Quitter sans enregistrer ?")) return;
     setCurId(id);
     const cl = clients.find((x) => x.id === id);
-    setStep(STEPS.find((s) => s.n === (cl?.etape ?? 1))?.k ?? "accueil");
+    const requested = STEPS.find((s) => s.n === (cl?.etape ?? 1))?.k ?? "accueil";
+    const unlocked = cl ? srcaReadiness(cl.bilan.anamnese, cl.bilan.srca).canEvaluate : false;
+    const safeStep = guardedClinicalStep(requested, unlocked);
+    setStep(safeStep);
+    const query = new URLSearchParams(window.location.search);
+    query.set("client", id);
+    query.set("etape", safeStep);
+    window.history.replaceState(null, "", `${window.location.pathname}?${query.toString()}`);
   }
 
   async function addClient() {
-    const nom = window.prompt("Initiales ou prénom (jamais le nom complet ni de coordonnées) :")?.trim();
+    const nom = window.prompt("Code fictif temporaire, sans initiales ni lien avec l’identité (ex. Jardin 12) :")?.trim();
     if (!nom) return;
     if (live) {
       const id = await createClientDb(nom, "");
@@ -171,7 +195,7 @@ export default function Cockpit() {
     setSessionKind("seance");
     setNotes("");
     setAxes("");
-    flash("✔ Séance enregistrée");
+    flash(live ? "✔ Séance enregistrée" : "✔ Ajouté pour cette session — rien n’est sauvegardé en ligne");
   }
 
   // supprime définitivement la fiche courante
@@ -203,8 +227,22 @@ export default function Cockpit() {
   }
 
   function goToStep(next: string) {
+    const safeStep = guardedClinicalStep(next, readiness.canEvaluate);
+    if (safeStep !== next) {
+      flash("⚠️ Étape verrouillée — valide d’abord les quatre critères S·R·C·A dans le Bilan.");
+      setStep("bilan");
+      const query = new URLSearchParams(window.location.search);
+      if (curId) query.set("client", curId);
+      query.set("etape", "bilan");
+      window.history.replaceState(null, "", `${window.location.pathname}?${query.toString()}`);
+      return;
+    }
     if (next !== step && dirty && !window.confirm("Cette fiche contient des modifications non enregistrées. Enregistrer avant de changer d'étape ?")) return;
     setStep(next);
+    const query = new URLSearchParams(window.location.search);
+    if (curId) query.set("client", curId);
+    query.set("etape", next);
+    window.history.replaceState(null, "", `${window.location.pathname}?${query.toString()}`);
   }
 
   // lecture / écriture d'un champ d'anamnèse (clé du schéma)
@@ -212,7 +250,63 @@ export default function Cockpit() {
     return c?.bilan.anamnese?.[key] ?? "";
   }
   function editAnamnese(key: string, val: string) {
-    editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, anamnese: { ...(cl.bilan.anamnese ?? {}), [key]: val } } }));
+    editClient((cl) => ({
+      ...cl,
+      bilan: {
+        ...cl.bilan,
+        anamnese: { ...(cl.bilan.anamnese ?? {}), [key]: val },
+        srca: srcaAfterRiskFieldChange(key, cl.bilan.srca),
+      },
+    }));
+  }
+
+  function editSrca(key: SrcaCriterion | "conduiteTenirEffectuee", value: boolean) {
+    editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, srca: { ...(cl.bilan.srca ?? EMPTY_SRCA), [key]: value } } }));
+  }
+
+  function editCloture(fn: (b: BilanCloture) => BilanCloture) {
+    if (!c || c.bilanCloture?.praticienneValidation.valideAt) return;
+    const initial: BilanCloture = c.bilanCloture ?? {
+      demandeInitiale: c.intention || c.bilan.anamnese?.s1_motif || "",
+      objectifs: (c.bilan.objectifs ?? "").split(/\r?\n/).map((texte) => texte.trim()).filter(Boolean).map((texte) => ({ id: crypto.randomUUID(), texte, statut: "partiellement_atteint" as const })),
+      ressourcesMobilisees: [], outilsConserves: [],
+      autonomieRelais: { notes: "", relaisNecessaire: false },
+      reorientation: { necessaire: false, details: "" },
+      dateCloture: "",
+      praticienneValidation: { nom: "", valideAt: "" },
+    };
+    update(curId, (cl) => ({ ...cl, bilanCloture: fn(initial) }));
+    setDirty(true);
+  }
+
+  async function validateCloture() {
+    if (!c) return;
+    const draft = c.bilanCloture;
+    if (!draft) { flash("⚠️ Complète le bilan de clôture avant de le valider."); return; }
+    const validationCandidate = { ...draft, dateCloture: new Date().toISOString() };
+    const errors = validateBilanCloture(validationCandidate);
+    if (errors.length) { flash(`⚠️ ${errors[0]}`); return; }
+    if (!window.confirm("Valider définitivement ce bilan ? Il ne pourra plus être modifié.")) return;
+    const now = new Date().toISOString();
+    const validated = { ...draft, dateCloture: now, praticienneValidation: { nom: practitionerName, valideAt: now } };
+    if (live) {
+      const ok = await updateClientDb(curId, { bilan_cloture: validated });
+      if (!ok) { flash("⚠️ Bilan NON enregistré — reconnecte-toi puis réessaie."); return; }
+      await reload(curId);
+    } else update(curId, (cl) => ({ ...cl, bilanCloture: validated }));
+    setDirty(false);
+    flash(live ? "✔ Bilan de clôture validé et figé" : "✔ Validé pour cette session — rien n’est sauvegardé en ligne");
+  }
+
+  async function saveClotureDraft() {
+    if (!c?.bilanCloture || c.bilanCloture.praticienneValidation.valideAt) return;
+    if (live) {
+      const ok = await updateClientDb(curId, { bilan_cloture: c.bilanCloture });
+      if (!ok) { flash("⚠️ Brouillon NON enregistré — reconnecte-toi puis réessaie."); return; }
+      await reload(curId);
+    }
+    setDirty(false);
+    flash(live ? "✔ Brouillon de clôture enregistré" : "✔ Conservé pour cette session — rien n’est sauvegardé en ligne");
   }
 
   // enregistre les champs saisis (Accueil / Bilan) dans Supabase si en ligne
@@ -227,7 +321,7 @@ export default function Cockpit() {
       await reload(curId);
     }
     setDirty(false);
-    flash("✔ Enregistré");
+    flash(live ? "✔ Enregistré" : "✔ Conservé pour cette session — rien n’est sauvegardé en ligne");
   }
 
   function computeDraft(cl: Client): Client["synthese"] {
@@ -300,10 +394,10 @@ export default function Cockpit() {
   if (!c)
     return (
       <main className="mx-auto max-w-md px-5 py-16 text-center">
-        <p className="font-serif text-2xl font-semibold text-jq-deep">Aucune accompagnée pour l&apos;instant</p>
-        <p className="mt-1 text-shell-muted">{live ? "Ton espace est prêt 🌸 Crée ta première fiche." : "Mode démonstration."}</p>
+        <p className="font-serif text-2xl font-semibold text-jq-deep">Aucun dossier temporaire pour l&apos;instant</p>
+        <p className="mt-1 text-shell-muted">{live ? "Ton espace est prêt 🌸 Crée ta première fiche." : "Mode pilote sans sauvegarde : les saisies disparaissent au rechargement."}</p>
         <button onClick={addClient} className="mt-5 rounded-xl bg-jq-deep px-5 py-2.5 text-sm font-semibold text-white">
-          + Créer une accompagnée
+          + Créer un dossier temporaire
         </button>
       </main>
     );
@@ -343,9 +437,9 @@ export default function Cockpit() {
           onClick={addClient}
           className="rounded-xl border border-dashed border-shell-border px-3 py-2 text-sm font-semibold text-shell-muted transition hover:border-gold hover:text-gold-dark"
         >
-          + Nouvelle accompagnée
+          + Nouveau dossier temporaire
         </button>
-        <p className="px-1 text-[11px] leading-snug text-shell-muted">🛡️ Initiales / prénom uniquement — jamais nom complet ni coordonnées. Tes données ne sont visibles que par toi.</p>
+        <p className="px-1 text-[11px] leading-snug text-shell-muted">🛡️ Code fictif uniquement — jamais d’initiales, de nom, de coordonnées ou de récit clinique. Rien n’est sauvegardé en ligne.</p>
         <div className="mt-auto border-t border-shell-border pt-3 text-[11.5px] text-shell-muted">
           <div className="flex items-center gap-2.5">
             <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-gold-light to-gold-dark text-sm font-semibold text-white">{practitionerInitial}</span>
@@ -359,6 +453,11 @@ export default function Cockpit() {
 
       {/* MAIN */}
       <main className="w-full min-w-0 max-w-4xl p-5 pb-16 sm:p-8">
+        {nonClinicalPilotMode && (
+          <div role="status" className="mb-4 rounded-2xl border border-gold bg-[rgba(192,138,46,.10)] p-4 text-sm leading-relaxed text-[#6f5621]">
+            <b>Mode pilote sans sauvegarde.</b> {pilotStorageNotice}
+          </div>
+        )}
         <div className="mb-4 flex flex-wrap items-center gap-3">
           <h1 className="font-serif text-2xl font-semibold text-jq-deep sm:text-3xl">Cockpit praticienne</h1>
           <span
@@ -366,9 +465,9 @@ export default function Cockpit() {
               "rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide " +
               (source === "supabase" ? "bg-[rgba(91,138,91,.15)] text-[#4d7a4d]" : "bg-shell-soft text-shell-muted")
             }
-            title={source === "supabase" ? "Connecté à ta base Supabase" : "Mode démonstration (données non sauvegardées)"}
+            title={source === "supabase" ? "Connecté à ta base Supabase" : "Mode pilote : aucune donnée clinique lue ou écrite dans Supabase"}
           >
-            {source === "supabase" ? "● En ligne" : "Démo"}
+            {source === "supabase" ? "● En ligne" : "Pilote sans sauvegarde"}
           </span>
         </div>
 
@@ -399,14 +498,14 @@ export default function Cockpit() {
         {/* PARCOURS — poste de pilotage */}
         <div className="mb-4 rounded-2xl border border-shell-border bg-shell-soft p-4 sm:p-5">
           {(() => {
-            const s1done = Boolean(c.intention?.trim() || c.consentement);
+            const s1done = readiness.canEvaluate;
             const s2done = responses.length > 0;
             const s3done = Boolean(c.bilan.cartographie?.trim() || c.bilan.hypotheses?.trim());
             const s4done = Boolean(c.bilan.objectifs?.trim());
             const s5done = c.synthese.status === "valide";
             type Stage = { n: number; t: string; state: "done" | "todo" | "locked" | "soon"; href?: string; onClick?: () => void; note?: string };
             const stages: Stage[] = [
-              { n: 1, t: "Accueil / anamnèse", state: s1done ? "done" : "todo", onClick: () => goToStep("accueil"), note: "Intention · consentement" },
+              { n: 1, t: "Accueil / anamnèse", state: s1done ? "done" : "todo", onClick: () => goToStep("bilan"), note: "S·R·C·A · sécurité" },
               { n: 2, t: "Évaluer", state: !s1done ? "locked" : s2done ? "done" : "todo", href: s1done ? `/questionnaires?client=${encodeURIComponent(c.id)}` : undefined, note: "Questionnaires ciblés · décodeurs" },
               { n: 3, t: "Formuler", state: !s2done ? "locked" : s3done ? "done" : "todo", onClick: s2done ? () => goToStep("formuler") : undefined, note: "État des lieux · cartographie · hypothèses" },
               { n: 4, t: "Cibler", state: !s3done ? "locked" : s4done ? "done" : "todo", onClick: s3done ? () => goToStep("cibler") : undefined, note: "Objectifs · référentiel · protocoles" },
@@ -482,6 +581,7 @@ export default function Cockpit() {
               <button
                 key={s.k}
                 onClick={() => goToStep(s.k)}
+                aria-disabled={s.n >= 3 && !readiness.canEvaluate}
                 className={"flex flex-none items-center gap-2 whitespace-nowrap rounded-full border px-3.5 py-2 text-[13.5px] font-semibold transition " + (on ? "border-jq-deep bg-jq-deep text-white" : "border-shell-border bg-shell-surface text-shell-muted hover:border-gold-light")}
               >
                 <span className={"grid h-5 w-5 place-items-center rounded-full text-[12px] font-extrabold " + (on ? "bg-white/25 text-white" : done ? "bg-jq-sage text-white" : "bg-shell-soft text-jq-deep")}>{s.n}</span>
@@ -538,8 +638,10 @@ export default function Cockpit() {
                 ))}
               </div>
 
+              <SrcaPanel state={c.bilan.srca} readiness={readiness} onChange={editSrca} />
+
               <SaveBar dirty={dirty} msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
-              <AnamneseNextStep anamnese={c.bilan.anamnese} clientId={c.id} />
+              <AnamneseNextStep anamnese={c.bilan.anamnese} clientId={c.id} unlocked={readiness.canEvaluate} />
               <Callout>Aucun diagnostic. L&apos;anamnèse et les questionnaires sont des <b>repères de dialogue</b> — les alertes priment toujours sur le score.</Callout>
             </Panel>
           )}
@@ -629,7 +731,7 @@ export default function Cockpit() {
 
           {step === "outils" && (
             <Panel title="Bibliothèque d'outils" lead="Protocoles, workbooks, ancrages — assignables. Les ressources spirituelles portent leur statut de validation et n'apparaissent qu'en mode islamique.">
-              {LIBRARY.filter((t) => t.type !== "spir" || islamic).map((t) => (
+              {LIBRARY.filter((t) => t.type !== "spir" || (islamic && verifiedReligiousContent([t]).length === 1)).map((t) => (
                 <div key={t.nm} className="mb-2.5 flex items-start gap-3 rounded-2xl border border-shell-border bg-shell-surface p-3.5">
                   <span className="grid h-9 w-9 flex-none place-items-center rounded-xl bg-shell-soft text-gold">✦</span>
                   <div>
@@ -637,7 +739,7 @@ export default function Cockpit() {
                     <div className="text-[12.5px] text-shell-muted">{t.ds}</div>
                     <div className="mt-1.5 flex flex-wrap gap-1.5">
                       <span className={"rounded-md px-2 py-0.5 text-[10.5px] font-extrabold uppercase " + (t.type === "clin" ? "bg-[rgba(94,127,140,.15)] text-[#5e7f8c]" : "bg-[rgba(195,135,60,.16)] text-gold-dark")}>{t.type === "clin" ? "Clinique" : "Spirituel"}</span>
-                      {t.relig && <span className="rounded-md border border-dashed border-gold bg-[rgba(192,138,46,.16)] px-2 py-0.5 text-[10.5px] font-extrabold uppercase text-[#C08A2E]">Brouillon · à valider</span>}
+                      {t.relig && <span className="rounded-md border border-gold bg-[rgba(91,138,91,.14)] px-2 py-0.5 text-[10.5px] font-extrabold uppercase text-[#4d7a4d]">Vérifié · {t.reference}</span>}
                     </div>
                   </div>
                 </div>
@@ -700,13 +802,7 @@ export default function Cockpit() {
           )}
 
           {step === "cloture" && (
-            <Panel title="Clôture" lead="Bilan de fin de parcours, témoignage, transmission, orientation Relais Lumière.">
-              <div className="grid gap-3.5 sm:grid-cols-2">
-                <Field k="Bilan de parcours" v="À compléter en fin d'accompagnement." />
-                <Field k="Témoignage (avec accord)" v="—" />
-              </div>
-              <Callout><b>Relais Lumière</b> — proposer, si la personne le souhaite, de transmettre à son tour (mécénat / tarif solidaire / Sadaqa).</Callout>
-            </Panel>
+            <CloturePanel c={c} practitionerName={practitionerName} onEdit={editCloture} onSave={saveClotureDraft} onValidate={validateCloture} msg={savedMsg} />
           )}
 
           {step === "cr" && <CRPanel c={c} islamic={islamic} responses={responses} live={live} />}
@@ -717,6 +813,51 @@ export default function Cockpit() {
 }
 
 /* ---------- sous-composants ---------- */
+function SrcaPanel({ state, readiness, onChange }: { state: Client["bilan"]["srca"]; readiness: ReturnType<typeof srcaReadiness>; onChange: (key: SrcaCriterion | "conduiteTenirEffectuee", value: boolean) => void }) {
+  const s = state ?? EMPTY_SRCA;
+  const criteria: { key: SrcaCriterion; title: string; question: string; action: string }[] = [
+    { key: "securite", title: "Sécurité", question: "Aucun danger actuel non traité — violence, emprise, urgence médicale, mariage forcé ou risque suicidaire actif.", action: "En cas d’alerte, effectuer la conduite à tenir et organiser le relais avant toute réévaluation." },
+    { key: "regulation", title: "Régulation", question: "Au moins un outil d’apaisement a déjà produit un effet, même minime.", action: "Stabiliser et différer les questionnaires scorés si nécessaire." },
+    { key: "continuite", title: "Continuité", question: "La personne peut participer suffisamment continûment, sans dissociation manifeste ni effondrement interrompant l’échange.", action: "Revenir à l’ancrage si la continuité devient insuffisante." },
+    { key: "alliance", title: "Alliance", question: "Elle comprend le cadre, adhère librement et n’est pas là sous la contrainte d’un tiers.", action: "Clarifier le cadre, le consentement et le droit de ne pas répondre." },
+  ];
+  return <section className="mt-4 rounded-2xl border border-jq-sage/50 bg-[rgba(124,139,108,.07)] p-4" aria-labelledby="srca-title">
+    <h3 id="srca-title" className="font-serif text-lg font-semibold text-jq-deep">Verrou S·R·C·A avant Évaluer</h3>
+    {readiness.redAlert && <label className="mt-3 flex gap-2 rounded-xl border border-[#a94b54] bg-shell-surface p-3 text-[13px] font-semibold text-[#a94b54]"><input type="checkbox" checked={s.conduiteTenirEffectuee} onChange={(e) => onChange("conduiteTenirEffectuee", e.target.checked)} />Conduite à tenir effectuée et relais organisé</label>}
+    <div className="mt-3 grid gap-2 sm:grid-cols-2">{criteria.map((item) => {
+      const disabled = item.key === "securite" && !readiness.safetyCanBeAssessed;
+      return <label key={item.key} className="rounded-xl border border-shell-border bg-shell-surface p-3 text-[13px]">
+        <span className="flex gap-2 font-bold text-jq-deep"><input type="checkbox" checked={s[item.key]} disabled={disabled} onChange={(e) => onChange(item.key, e.target.checked)} />{item.title}</span>
+        <span className="mt-1 block text-shell-text">{item.question}</span><span className="mt-1 block text-[12px] text-shell-muted">{item.action}</span>
+      </label>;
+    })}</div>
+    <p className={"mt-3 text-sm font-semibold " + (readiness.canEvaluate ? "text-[#4d7a4d]" : "text-[#a94b54]")}>{readiness.canEvaluate ? "✔ Les quatre critères sont validés : Évaluer est accessible." : "🔒 Évaluer reste inaccessible."}</p>
+  </section>;
+}
+
+function CloturePanel({ c, practitionerName, onEdit, onSave, onValidate, msg }: { c: Client; practitionerName: string; onEdit: (fn: (b: BilanCloture) => BilanCloture) => void; onSave: () => void; onValidate: () => void; msg: string }) {
+  const b = c.bilanCloture;
+  if (!b) return <Panel title="Clôture" lead="Bilan clinique structuré, distinct du bilan courant et figé après validation."><Field k="Demande initiale" v={c.intention || c.bilan.anamnese?.s1_motif || "—"} /><button onClick={() => onEdit((draft) => draft)} className="mt-4 rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">Commencer le bilan de clôture</button></Panel>;
+  const locked = Boolean(b.praticienneValidation.valideAt);
+  const setList = (key: "ressourcesMobilisees" | "outilsConserves", value: string) => onEdit((x) => ({ ...x, [key]: value.split(/\r?\n/).map((v) => v.trim()).filter(Boolean) }));
+  const attained = b.objectifs.filter((o) => o.statut === "atteint");
+  const ongoing = b.objectifs.filter((o) => o.statut !== "atteint");
+  return <Panel title="Clôture" lead="Bilan clinique structuré, distinct de Restituer et du bilan clinique courant.">
+    {locked && <div className="mb-4 rounded-xl border border-[rgba(91,138,91,.4)] bg-[rgba(91,138,91,.10)] p-3 text-sm font-semibold text-[#4d7a4d]">🔒 Validé par {b.praticienneValidation.nom} le {new Date(b.praticienneValidation.valideAt).toLocaleString("fr-FR")} — bilan non modifiable.</div>}
+    <Label>Demande initiale (lecture seule)</Label><textarea readOnly value={b.demandeInitiale} rows={3} className="w-full rounded-xl border border-shell-border bg-shell-soft p-2.5 text-sm" />
+    <Label>Objectifs du parcours</Label>
+    <div className="space-y-2">{b.objectifs.map((o) => <div key={o.id} className="grid gap-2 sm:grid-cols-[1fr_210px]"><input disabled={locked} value={o.texte} onChange={(e) => onEdit((x) => ({ ...x, objectifs: x.objectifs.map((v) => v.id === o.id ? { ...v, texte: e.target.value } : v) }))} className="rounded-xl border border-shell-border bg-shell-surface p-2.5 text-sm" /><select disabled={locked} value={o.statut} onChange={(e) => onEdit((x) => ({ ...x, objectifs: x.objectifs.map((v) => v.id === o.id ? { ...v, statut: e.target.value as typeof v.statut } : v) }))} className="rounded-xl border border-shell-border bg-shell-surface p-2.5 text-sm"><option value="atteint">Atteint</option><option value="partiellement_atteint">Partiellement atteint</option><option value="non_atteint">Non atteint</option></select></div>)}</div>
+    {!locked && <button onClick={() => onEdit((x) => ({ ...x, objectifs: [...x.objectifs, { id: crypto.randomUUID(), texte: "", statut: "partiellement_atteint" }] }))} className="mt-2 rounded-lg border border-shell-border px-3 py-1.5 text-sm font-semibold">+ Ajouter un objectif</button>}
+    <div className="mt-3 grid gap-3 sm:grid-cols-2"><Field k="Objectifs atteints" v={attained.map((o) => o.texte).filter(Boolean).join(" · ") || "—"} /><Field k="En cours / à poursuivre" v={ongoing.map((o) => o.texte).filter(Boolean).join(" · ") || "—"} /></div>
+    <div className="grid gap-3 sm:grid-cols-2"><div><Label>Ressources mobilisées (une par ligne)</Label><textarea disabled={locked} value={b.ressourcesMobilisees.join("\n")} onChange={(e) => setList("ressourcesMobilisees", e.target.value)} rows={4} className="w-full rounded-xl border border-shell-border p-2.5 text-sm" /></div><div><Label>Outils conservés (un par ligne)</Label><textarea disabled={locked} value={b.outilsConserves.join("\n")} onChange={(e) => setList("outilsConserves", e.target.value)} rows={4} className="w-full rounded-xl border border-shell-border p-2.5 text-sm" /></div></div>
+    <Label>Autonomie et relais</Label><textarea disabled={locked} value={b.autonomieRelais.notes} onChange={(e) => onEdit((x) => ({ ...x, autonomieRelais: { ...x.autonomieRelais, notes: e.target.value } }))} rows={3} className="w-full rounded-xl border border-shell-border p-2.5 text-sm" /><label className="mt-2 flex gap-2 text-sm"><input disabled={locked} type="checkbox" checked={b.autonomieRelais.relaisNecessaire} onChange={(e) => onEdit((x) => ({ ...x, autonomieRelais: { ...x.autonomieRelais, relaisNecessaire: e.target.checked } }))} />Relais nécessaire</label>
+    <Label>Réorientation nécessaire</Label><label className="flex gap-2 text-sm"><input disabled={locked} type="checkbox" checked={b.reorientation.necessaire} onChange={(e) => onEdit((x) => ({ ...x, reorientation: { ...x.reorientation, necessaire: e.target.checked } }))} />Oui</label>{b.reorientation.necessaire && <textarea disabled={locked} aria-label="Détail de la réorientation" value={b.reorientation.details} onChange={(e) => onEdit((x) => ({ ...x, reorientation: { ...x.reorientation, details: e.target.value } }))} rows={2} placeholder="Professionnel ou dispositif" className="mt-2 w-full rounded-xl border border-shell-border p-2.5 text-sm" />}
+    <details className="mt-4 rounded-xl border border-shell-border bg-shell-soft p-3"><summary className="cursor-pointer font-bold text-jq-deep">Prévisualiser la synthèse de clôture</summary><div className="mt-3 whitespace-pre-wrap text-sm">{`Demande initiale : ${b.demandeInitiale}\n\nObjectifs atteints : ${attained.map((o) => o.texte).join(" · ") || "—"}\nObjectifs en cours / à poursuivre : ${ongoing.map((o) => o.texte).join(" · ") || "—"}\nRessources mobilisées : ${b.ressourcesMobilisees.join(" · ") || "—"}\nOutils conservés : ${b.outilsConserves.join(" · ") || "—"}\nAutonomie et relais : ${b.autonomieRelais.notes || "—"}\nRéorientation : ${b.reorientation.necessaire ? b.reorientation.details : "Non"}`}</div></details>
+    {!locked && <div className="mt-4 flex flex-wrap gap-2"><button onClick={onSave} className="rounded-xl border border-jq-deep px-4 py-2.5 text-sm font-semibold text-jq-deep">Enregistrer le brouillon</button><button onClick={onValidate} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">Valider et clôturer le dossier</button></div>}
+    {!locked && <p className="mt-2 text-xs text-shell-muted">La validation utilisera l’identité authentifiée « {practitionerName} » et horodatera automatiquement la clôture.</p>}{msg && <p className="mt-2 text-sm font-semibold">{msg}</p>}
+  </Panel>;
+}
+
 function Meta({ k, v }: { k: string; v: string }) {
   return (
     <div className="flex flex-col">
@@ -783,10 +924,14 @@ function AnaAlertBanner({ anamnese }: { anamnese?: Record<string, string> }) {
   const alerts = anamneseAlerts(anamnese);
   if (!alerts.length) return null;
   return (
-    <div className="mb-4 rounded-2xl border border-[#a94b54] bg-[rgba(169,75,84,.08)] p-3.5">
+    <div role="alert" aria-live="assertive" className="mb-4 rounded-2xl border border-[#a94b54] bg-[rgba(169,75,84,.08)] p-3.5">
       {alerts.map((a, i) => (
         <div key={i} className="text-[13px] font-semibold text-[#a94b54]">🚨 {a.titre} — {a.message}</div>
       ))}
+      <details className="mt-2 text-[12.5px] text-shell-text">
+        <summary className="cursor-pointer font-bold">Aide contextuelle — points à évaluer</summary>
+        <p className="mt-1">Idées actuelles, intention, scénario, moyen envisagé et accessibilité, échéance, gestes préparatoires, antécédents, facteurs de protection et entourage disponible. Le 3919 n’est pas un numéro d’urgence. L’évaluation clinique relève de professionnels formés ; l’application ne remplace ni la formation ni l’évaluation spécialisée. Ne promets pas une confidentialité absolue lorsque la sécurité impose de mobiliser des secours ou un tiers.</p>
+      </details>
     </div>
   );
 }
@@ -846,7 +991,7 @@ function AnaFieldInput({ f, v, islamic, onChange }: { f: AnaField; v: string; is
   );
 }
 // Pont après l'anamnèse : propose une évaluation ciblée (d'après la section 9). Jamais un diagnostic.
-function AnamneseNextStep({ anamnese, clientId }: { anamnese?: Record<string, string>; clientId: string }) {
+function AnamneseNextStep({ anamnese, clientId, unlocked }: { anamnese?: Record<string, string>; clientId: string; unlocked: boolean }) {
   const a = anamnese ?? {};
   const map: { key: string; q: string }[] = [
     { key: "s9_anxiete", q: "Anxiété / stress" },
@@ -867,7 +1012,7 @@ function AnamneseNextStep({ anamnese, clientId }: { anamnese?: Record<string, st
           <b className="text-jq-deep">D&apos;après la section 9, à envisager :</b> {sugg.join(" · ")}
         </p>
       )}
-      <a href={`/questionnaires?client=${encodeURIComponent(clientId)}`} className="mt-3 inline-block rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Évaluer avec les questionnaires ciblés</a>
+      {unlocked ? <a href={`/questionnaires?client=${encodeURIComponent(clientId)}`} className="mt-3 inline-block rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Évaluer avec les questionnaires ciblés</a> : <p className="mt-3 font-semibold text-[#a94b54]">🔒 Évaluer reste verrouillé jusqu’à validation des quatre critères S·R·C·A.</p>}
     </div>
   );
 }
@@ -1077,7 +1222,8 @@ function Synthese({
 }) {
   const s = c.synthese;
   const has = s.sections.length > 0;
-  const du = DUAS[s.duaIdx] ?? DUAS[0];
+  const verifiedDuas = verifiedReligiousContent(DUAS);
+  const du = verifiedDuas[s.duaIdx] ?? verifiedDuas[0];
   return (
     <Panel title="Synthèse « Pour toi »" lead="Génération semi-automatique de la lettre post-séance à partir de tes notes. Tu relis, tu ajustes — elle n'est jamais envoyée sans ta validation.">
       <div className="mb-2 flex flex-wrap items-center gap-3 rounded-xl border border-shell-border bg-shell-soft p-3">
