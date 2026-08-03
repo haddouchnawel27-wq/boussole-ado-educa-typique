@@ -3,9 +3,12 @@
 import { supabase, supabaseEnabled } from "./supabase";
 import { demoClients } from "./demo";
 import { nonClinicalPilotMode } from "./pilot";
-import type { Client, Seance, Synthese } from "./types";
+import { mutateLocalVault, readLocalVault } from "./local-vault";
+import type { Client, QResponse, Seance, Synthese } from "./types";
 
-export type Source = "supabase" | "demo";
+export type { QResponse } from "./types";
+
+export type Source = "supabase" | "local" | "demo";
 
 function rowToClient(c: Record<string, unknown>, seances: Seance[], synthese: Synthese): Client {
   const bilan = (c.bilan as Client["bilan"]) ?? { histoire: "", schemas: "", neuro: "", spirituel: "" };
@@ -27,9 +30,19 @@ function rowToClient(c: Record<string, unknown>, seances: Seance[], synthese: Sy
 
 const emptySynthese = (duaIdx = 0): Synthese => ({ status: "vierge", sections: [], boussole: "", semaine: "", duaIdx });
 
+async function authenticatedScope(): Promise<string | null> {
+  if (!supabaseEnabled || !supabase) return null;
+  const { data } = await supabase.auth.getUser();
+  return data?.user?.id ?? null;
+}
+
 /** Charge les accompagnées : Supabase (si connectée), sinon démo. Ne casse jamais. */
 export async function getClients(): Promise<{ clients: Client[]; source: Source }> {
-  if (nonClinicalPilotMode) return { clients: [], source: "demo" };
+  if (nonClinicalPilotMode) {
+    const scope = await authenticatedScope();
+    const vault = scope ? readLocalVault(scope) : null;
+    return { clients: vault?.clients ?? [], source: vault ? "local" : "demo" };
+  }
   if (supabaseEnabled && supabase) {
     try {
       const sb = supabase;
@@ -80,7 +93,26 @@ export async function liveUserId(): Promise<string | null> {
 
 /** Crée une accompagnée en base. Renvoie son id, ou null si hors-ligne. */
 export async function createClientDb(nom: string, intention: string): Promise<string | null> {
-  if (nonClinicalPilotMode) return null;
+  if (nonClinicalPilotMode) {
+    const scope = await authenticatedScope();
+    if (!scope) return null;
+    const id = crypto.randomUUID();
+    const client: Client = {
+      id,
+      nom,
+      initiale: nom.charAt(0).toUpperCase(),
+      etape: 1,
+      consentement: false,
+      intention,
+      rdv: "",
+      bilan: { histoire: "", schemas: "", neuro: "", spirituel: "" },
+      seances: [],
+      engagements: [],
+      synthese: emptySynthese(),
+    };
+    const ok = await mutateLocalVault(scope, (draft) => { draft.clients.push(client); });
+    return ok ? id : null;
+  }
   if (!supabase) return null;
   const uid = await liveUserId();
   if (!uid) return null;
@@ -98,7 +130,23 @@ export async function updateClientDb(
   clientId: string,
   patch: { intention?: string; rdv?: string; consentement?: boolean; etape?: number; bilan?: Client["bilan"]; bilan_cloture?: Client["bilanCloture"]; engagements?: string[] }
 ): Promise<boolean> {
-  if (nonClinicalPilotMode) return false;
+  if (nonClinicalPilotMode) {
+    const scope = await authenticatedScope();
+    if (!scope) return false;
+    return mutateLocalVault(scope, (draft) => {
+      const client = draft.clients.find((item) => item.id === clientId);
+      if (!client) return;
+      if (patch.intention !== undefined) client.intention = patch.intention;
+      if (patch.rdv !== undefined) client.rdv = patch.rdv;
+      if (patch.consentement !== undefined) client.consentement = patch.consentement;
+      if (patch.etape !== undefined) client.etape = patch.etape;
+      if (patch.bilan !== undefined) client.bilan = patch.bilan;
+      if (patch.engagements !== undefined) client.engagements = patch.engagements;
+      if (patch.bilan_cloture !== undefined && !client.bilanCloture?.praticienneValidation.valideAt) {
+        client.bilanCloture = patch.bilan_cloture;
+      }
+    });
+  }
   if (!supabase) return false;
   // .select() renvoie les lignes réellement modifiées : si 0 ligne (RLS, mauvais id,
   // session expirée), on le sait et on ne prétend PAS que c'est enregistré.
@@ -108,7 +156,14 @@ export async function updateClientDb(
 
 /** Ajoute une séance en base. */
 export async function addSeanceDb(clientId: string, s: Seance): Promise<boolean> {
-  if (nonClinicalPilotMode) return false;
+  if (nonClinicalPilotMode) {
+    const scope = await authenticatedScope();
+    if (!scope) return false;
+    return mutateLocalVault(scope, (draft) => {
+      const client = draft.clients.find((item) => item.id === clientId);
+      if (client) client.seances.push(s);
+    });
+  }
   if (!supabase) return false;
   const { data, error } = await supabase.from("seances").insert({
     client_id: clientId,
@@ -122,24 +177,26 @@ export async function addSeanceDb(clientId: string, s: Seance): Promise<boolean>
 
 /** Supprime définitivement une accompagnée (et, par cascade, ses séances/synthèses/réponses). */
 export async function deleteClientDb(clientId: string): Promise<boolean> {
-  if (nonClinicalPilotMode) return false;
+  if (nonClinicalPilotMode) {
+    const scope = await authenticatedScope();
+    if (!scope) return false;
+    return mutateLocalVault(scope, (draft) => {
+      draft.clients = draft.clients.filter((item) => item.id !== clientId);
+      delete draft.questionnaireResponses[clientId];
+    });
+  }
   if (!supabase) return false;
   const { data, error } = await supabase.from("clients").delete().eq("id", clientId).select("id");
   return !error && Array.isArray(data) && data.length > 0;
 }
 
-export interface QResponse {
-  id: string;
-  questionnaireId: string;
-  score: number;
-  scoreMax: number;
-  answers: Record<string, number>;
-  date: string;
-}
-
 /** Récupère les réponses de questionnaires reliées à une accompagnée (plus récentes d'abord). */
 export async function getQuestionnaireResponsesDb(clientId: string): Promise<QResponse[]> {
-  if (nonClinicalPilotMode) return [];
+  if (nonClinicalPilotMode) {
+    const scope = await authenticatedScope();
+    const vault = scope ? readLocalVault(scope) : null;
+    return vault?.questionnaireResponses[clientId] ?? [];
+  }
   if (!supabase) return [];
   const { data, error } = await supabase
     .from("questionnaire_responses")
@@ -175,7 +232,24 @@ export async function saveQuestionnaireResponseDb(
   score: number,
   scoreMax: number
 ): Promise<boolean> {
-  if (nonClinicalPilotMode) return false;
+  if (nonClinicalPilotMode) {
+    const scope = await authenticatedScope();
+    if (!scope) return false;
+    const response: QResponse = {
+      id: crypto.randomUUID(),
+      questionnaireId,
+      answers,
+      score,
+      scoreMax,
+      date: new Date().toLocaleDateString("fr-FR"),
+    };
+    return mutateLocalVault(scope, (draft) => {
+      draft.questionnaireResponses[clientId] = [
+        response,
+        ...(draft.questionnaireResponses[clientId] ?? []),
+      ];
+    });
+  }
   if (!supabase) return false;
   const uid = await liveUserId();
   if (!uid) return false;
@@ -192,7 +266,14 @@ export async function saveQuestionnaireResponseDb(
 
 /** Enregistre / met à jour la synthèse « Pour toi » d'une accompagnée. */
 export async function saveSyntheseDb(clientId: string, syn: Synthese): Promise<boolean> {
-  if (nonClinicalPilotMode) return false;
+  if (nonClinicalPilotMode) {
+    const scope = await authenticatedScope();
+    if (!scope) return false;
+    return mutateLocalVault(scope, (draft) => {
+      const client = draft.clients.find((item) => item.id === clientId);
+      if (client) client.synthese = syn;
+    });
+  }
   if (!supabase) return false;
   const { data: existing } = await supabase.from("syntheses").select("id").eq("client_id", clientId).maybeSingle();
   const payload = {

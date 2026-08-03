@@ -39,7 +39,7 @@ export default function QuestionnairesPage() {
         </p>
       </header>
 
-      {nonClinicalPilotMode && <div role="status" className="mt-5 rounded-2xl border border-gold bg-[rgba(192,138,46,.10)] p-4 text-sm text-[#6f5621]"><b>Mode pilote.</b> {pilotStorageNotice} Les résultats restent uniquement à l’écran et ne peuvent pas être reliés à une fiche.</div>}
+      {nonClinicalPilotMode && <div role="status" className="mt-5 rounded-2xl border border-gold bg-[rgba(192,138,46,.10)] p-4 text-sm text-[#6f5621]"><b>Coffre local chiffré.</b> {pilotStorageNotice} Les résultats peuvent être reliés à une fiche du coffre.</div>}
 
       {dossierUnlocked === false && <div role="alert" className="mt-6 rounded-2xl border border-[#a94b54] bg-[rgba(169,75,84,.08)] p-4 text-sm font-semibold text-[#a94b54]">🔒 Évaluation verrouillée pour ce dossier : retourne au Bilan et valide les quatre critères S·R·C·A.</div>}
 
@@ -81,7 +81,7 @@ function Runner({ q, dossierId, onExit }: { q: Questionnaire; dossierId: string;
   // « Relier à la fiche client »
   const [linking, setLinking] = useState(false);
   const [loadingClients, setLoadingClients] = useState(false);
-  const [live, setLive] = useState(false);
+  const [stored, setStored] = useState(false);
   const [clients, setClients] = useState<{ id: string; nom: string }[]>([]);
   const [pick, setPick] = useState("");
   const [savedTo, setSavedTo] = useState<string | null>(null);
@@ -92,7 +92,7 @@ function Runner({ q, dossierId, onExit }: { q: Questionnaire; dossierId: string;
     setLinkErr("");
     setLoadingClients(true);
     const r = await getClients();
-    setLive(r.source === "supabase");
+    setStored(r.source === "supabase" || r.source === "local");
     const eligible = r.clients.filter((cl) => srcaReadiness(cl.bilan.anamnese, cl.bilan.srca).canEvaluate);
     setClients(eligible.map((cl) => ({ id: cl.id, nom: cl.nom })));
     setPick(eligible.find((cl) => cl.id === dossierId)?.id ?? eligible[0]?.id ?? "");
@@ -211,11 +211,6 @@ function Runner({ q, dossierId, onExit }: { q: Questionnaire; dossierId: string;
                   {pick && <a href={`/cockpit?client=${encodeURIComponent(pick)}&etape=formuler`} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">➜ Retour au dossier : état des lieux</a>}
                   <button onClick={restart} className="rounded-xl border border-shell-border px-4 py-2.5 text-sm font-semibold">Recommencer</button>
                 </div>
-              ) : nonClinicalPilotMode ? (
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="rounded-xl border border-gold bg-[rgba(192,138,46,.10)] px-4 py-2.5 text-sm font-semibold text-[#6f5621]">Résultat non sauvegardé — mode pilote</span>
-                  <button onClick={restart} className="rounded-xl border border-shell-border px-4 py-2.5 text-sm font-semibold">Recommencer</button>
-                </div>
               ) : !linking ? (
                 <div className="flex flex-wrap gap-3">
                   <button onClick={openLink} className="rounded-xl bg-gradient-to-br from-gold-light to-gold-dark px-4 py-2.5 text-sm font-semibold text-white shadow">
@@ -229,10 +224,10 @@ function Runner({ q, dossierId, onExit }: { q: Questionnaire; dossierId: string;
                 <div className="rounded-xl border border-shell-border bg-shell-soft p-4">
                   {loadingClients ? (
                     <p className="text-sm text-shell-muted">Chargement de tes accompagnées…</p>
-                  ) : !live ? (
+                  ) : !stored ? (
                     <p className="text-sm text-shell-muted">
-                      Connecte-toi à ton espace pour relier ce résultat à une vraie fiche.{" "}
-                      <a href="/login" className="font-semibold text-gold-dark underline">Se connecter</a>
+                      Ouvre ton coffre local pour relier ce résultat à une fiche.{" "}
+                      <a href="/cockpit" className="font-semibold text-gold-dark underline">Ouvrir le coffre</a>
                     </p>
                   ) : clients.length === 0 ? (
                     <p className="text-sm text-shell-muted">

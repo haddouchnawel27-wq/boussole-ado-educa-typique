@@ -3,6 +3,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./ModeToggle";
 import { useAuth } from "@/lib/auth";
+import { useLocalVault } from "@/lib/local-vault-context";
+import { exportLocalVault } from "@/lib/local-vault";
 
 const LINKS = [
   { href: "/", label: "Accueil" },
@@ -55,16 +57,47 @@ export function Nav() {
 
 function Account() {
   const { user, enabled, signOut } = useAuth();
+  const { scope, unlocked, lock } = useLocalVault();
+  function downloadBackup() {
+    const encrypted = scope ? exportLocalVault(scope) : null;
+    if (!encrypted) return;
+    const blob = new Blob([encrypted], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `les-deux-jardins-coffre-chiffre-${new Date().toISOString().slice(0, 10)}.ldj`;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
   if (!enabled) return null; // mode démo : rien à afficher
   if (user)
     return (
-      <button
-        onClick={() => signOut()}
-        title={user.email ?? ""}
-        className="rounded-full border border-shell-border px-3 py-1.5 text-[12.5px] font-semibold text-shell-muted hover:border-gold hover:text-gold-dark"
-      >
-        Déconnexion
-      </button>
+      <div className="flex items-center gap-1.5">
+        {unlocked && (
+          <>
+            <button
+              onClick={downloadBackup}
+              title="Télécharger une copie chiffrée du coffre"
+              className="rounded-full border border-shell-border px-3 py-1.5 text-[12.5px] font-semibold text-shell-muted hover:border-gold hover:text-gold-dark"
+            >
+              Copie chiffrée
+            </button>
+            <button
+              onClick={lock}
+              className="rounded-full border border-shell-border px-3 py-1.5 text-[12.5px] font-semibold text-shell-muted hover:border-gold hover:text-gold-dark"
+            >
+              Verrouiller
+            </button>
+          </>
+        )}
+        <button
+          onClick={() => { lock(); void signOut(); }}
+          title={user.email ?? ""}
+          className="rounded-full border border-shell-border px-3 py-1.5 text-[12.5px] font-semibold text-shell-muted hover:border-gold hover:text-gold-dark"
+        >
+          Déconnexion
+        </button>
+      </div>
     );
   return (
     <Link href="/login" className="rounded-full bg-jq-deep px-3 py-1.5 text-[12.5px] font-semibold text-white">

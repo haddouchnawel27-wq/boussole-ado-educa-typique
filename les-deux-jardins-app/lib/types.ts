@@ -21,6 +21,15 @@ export interface Synthese {
   duaIdx: number;
 }
 
+export interface QResponse {
+  id: string;
+  questionnaireId: string;
+  score: number;
+  scoreMax: number;
+  answers: Record<string, number>;
+  date: string;
+}
+
 export type SrcaCriterion = "securite" | "regulation" | "continuite" | "alliance";
 export type SrcaState = Record<SrcaCriterion, boolean> & {
   conduiteTenirEffectuee: boolean;
