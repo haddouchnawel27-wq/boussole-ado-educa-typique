@@ -10,4 +10,4 @@ export const nonClinicalPilotMode =
   process.env.NEXT_PUBLIC_LDJ_CLINICAL_STORAGE !== "enabled";
 
 export const pilotStorageNotice =
-  "Mode pilote sans sauvegarde : utilise uniquement un code fictif sans lien avec l’identité. N’écris ni initiales, ni nom, ni coordonnées, ni dates exactes, ni récit clinique ou autre donnée sensible. Les saisies disparaissent au rechargement.";
+  "Coffre local chiffré : les dossiers sont conservés uniquement dans ce navigateur sur cet ordinateur. Ils ne sont ni synchronisés ni envoyés vers Supabase. Utilise un code pseudonymisé sans nom, coordonnées ou initiales.";

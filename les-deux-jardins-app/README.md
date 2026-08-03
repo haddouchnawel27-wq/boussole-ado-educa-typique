@@ -3,6 +3,17 @@
 App **Next.js 14 + TypeScript + Tailwind** de l'écosystème *Jannat al Qulûb 🌸 & Educa Typique 🌱*.
 Socle **Jalon 0** : app-shell, design system (thème v1), moteur de double mode Universel ⇄ Islamique.
 
+## Mode actuellement autorisé
+
+- usage individuel par Nawel sur son ordinateur ;
+- connexion praticienne obligatoire ;
+- dossiers pseudonymisés conservés dans un coffre local AES-GCM ;
+- clé dérivée d'une phrase secrète qui n'est jamais enregistrée ;
+- aucune lecture ni écriture de données cliniques dans Supabase ;
+- aucune synchronisation entre appareils ;
+- le stockage clinique cloud reste verrouillé tant que le chantier HDS/RGPD
+  n'a pas été formellement validé.
+
 > Graine du futur **dépôt privé dédié** (déployable sur Vercel). Voir `../_les-deux-jardins/` pour le
 > brief, le design system, le registre complet et le plan technique.
 

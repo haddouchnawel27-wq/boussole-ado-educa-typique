@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ModeProvider } from "@/lib/mode";
 import { AuthProvider } from "@/lib/auth";
+import { LocalVaultProvider } from "@/lib/local-vault-context";
 import { Nav } from "@/components/Nav";
 
 export const metadata: Metadata = {
@@ -21,10 +22,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr">
       <body>
         <AuthProvider>
-          <ModeProvider>
-            <Nav />
-            {children}
-          </ModeProvider>
+          <LocalVaultProvider>
+            <ModeProvider>
+              <Nav />
+              {children}
+            </ModeProvider>
+          </LocalVaultProvider>
         </AuthProvider>
       </body>
     </html>
