@@ -13,11 +13,13 @@ Les deux Décodeurs existants sont fusionnés dans **Les Deux Jardins** :
 - Décodeur Educa Typique :
   `C:\Users\haddo\Downloads\decodeur-educa-typique.html`.
 
-Ils ne deviennent pas une troisième application indépendante. Ils alimentent
-un moteur natif commun, accessible depuis chaque dossier professionnel.
+Ils alimentent un moteur natif commun, accessible depuis chaque dossier
+professionnel. **Une version autonome de continuité est également conservée**
+pour que Nawel puisse utiliser les Décodeurs même si Les Deux Jardins est
+momentanément indisponible.
 
-Les sources ne sont ni supprimées ni désactivées avant la migration complète,
-la recette et le feu vert explicite de Nawel.
+Les sources ne sont ni supprimées ni désactivées. Après la migration, elles
+restent conservées et maintenues comme solution de secours indépendante.
 
 ## 2. Autorité clinique
 
@@ -282,8 +284,9 @@ hypothèse non validée.
 8. Tester avec des cas entièrement fictifs Jannat et Educa.
 9. Faire relire les contenus cliniques, neuro-éducatifs et religieux retenus.
 10. Obtenir le feu vert de Nawel.
-11. Archiver les anciens Décodeurs seulement lorsque leurs fonctions utiles
-    sont retrouvées dans Les Deux Jardins.
+11. Vérifier que toutes leurs fonctions utiles sont retrouvées dans Les Deux
+    Jardins.
+12. Conserver et tester les Décodeurs autonomes comme solution de continuité.
 
 ## 14. Critères de réussite
 
@@ -299,3 +302,33 @@ hypothèse non validée.
 - fonctionnement suffisamment simple pour être utilisé pendant ou après une
   séance sans surcharge technique.
 
+## 15. Continuité d’utilisation — accès autonome obligatoire
+
+Les Deux Jardins est l’outil principal, mais ne constitue jamais le seul moyen
+d’accéder aux fonctions d’analyse.
+
+Un **Kit Décodeurs autonomes** doit être conservé avec deux portes :
+
+1. **Jannat al Qalb — Décodeur autonome** ;
+2. **Educa Typique — Décodeur autonome**.
+
+Ce kit respecte les règles suivantes :
+
+- ouverture indépendante de Les Deux Jardins ;
+- absence de connexion au compte Les Deux Jardins ;
+- possibilité de saisir ou coller un contenu sans ouvrir un dossier ;
+- fonctionnement local pour les questionnaires, grilles, cartographies et
+  formulations manuelles ;
+- export ou copie de la synthèse produite ;
+- conservation des versions sources ;
+- mise à jour contrôlée lorsque le moteur principal évolue ;
+- test régulier des deux portes.
+
+Les fonctions reposant sur une IA distante nécessitent encore une connexion à
+Internet et le service concerné. En cas d’indisponibilité de l’IA, le kit doit
+laisser accessibles les grilles structurées, les questionnaires, les champs de
+formulation et les protocoles déjà validés.
+
+Le kit autonome est un **plan de continuité**, pas une troisième base de
+dossiers : les contenus peuvent être utilisés ponctuellement puis copiés dans
+le dossier principal lorsque Les Deux Jardins redevient disponible.
