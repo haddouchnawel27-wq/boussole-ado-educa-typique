@@ -1,6 +1,7 @@
 import type { Client, QResponse } from "./types";
 
-const STORAGE_PREFIX = "les-deux-jardins.coffre-local.v1";
+const STORAGE_PREFIX = "les-deux-jardins.sauvegarde-locale.v2";
+const DEVICE_SECRET_PREFIX = "les-deux-jardins.cle-appareil.v2";
 const ITERATIONS = 310_000;
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
@@ -30,6 +31,10 @@ let activeVault: ActiveVault | null = null;
 
 function storageKey(scope: string) {
   return `${STORAGE_PREFIX}.${scope}`;
+}
+
+function deviceSecretKey(scope: string) {
+  return `${DEVICE_SECRET_PREFIX}.${scope}`;
 }
 
 function storage(): Storage {
@@ -122,6 +127,24 @@ export function localVaultExists(scope: string): boolean {
 
 export function localVaultIsUnlocked(scope: string): boolean {
   return activeVault?.scope === scope;
+}
+
+/**
+ * Initialise la sauvegarde locale sans demander un second mot de passe.
+ * La clé aléatoire est liée à ce profil de navigateur : la connexion
+ * praticienne et la session Windows restent les protections visibles.
+ */
+export async function ensureAutomaticLocalVault(scope: string): Promise<void> {
+  let deviceSecret = storage().getItem(deviceSecretKey(scope));
+  if (!deviceSecret) {
+    deviceSecret = toBase64(crypto.getRandomValues(new Uint8Array(32)));
+    storage().setItem(deviceSecretKey(scope), deviceSecret);
+  }
+  if (localVaultExists(scope)) {
+    await unlockLocalVault(scope, deviceSecret);
+  } else {
+    await createLocalVault(scope, deviceSecret);
+  }
 }
 
 export async function createLocalVault(scope: string, passphrase: string): Promise<void> {

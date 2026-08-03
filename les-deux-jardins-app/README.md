@@ -7,8 +7,8 @@ Socle **Jalon 0** : app-shell, design system (thème v1), moteur de double mode 
 
 - usage individuel par Nawel sur son ordinateur ;
 - connexion praticienne obligatoire ;
-- dossiers pseudonymisés conservés dans un coffre local AES-GCM ;
-- clé dérivée d'une phrase secrète qui n'est jamais enregistrée ;
+- dossiers pseudonymisés sauvegardés automatiquement dans ce navigateur ;
+- protection technique locale automatique, sans phrase supplémentaire à saisir ;
 - aucune lecture ni écriture de données cliniques dans Supabase ;
 - aucune synchronisation entre appareils ;
 - le stockage clinique cloud reste verrouillé tant que le chantier HDS/RGPD

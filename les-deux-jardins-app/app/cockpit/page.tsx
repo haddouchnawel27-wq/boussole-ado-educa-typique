@@ -195,7 +195,7 @@ function Cockpit() {
     setSessionKind("seance");
     setNotes("");
     setAxes("");
-    flash(stored ? "✔ Séance enregistrée dans le coffre local chiffré" : "⚠️ Séance non enregistrée");
+    flash(stored ? "✔ Séance enregistrée automatiquement sur cet ordinateur" : "⚠️ Séance non enregistrée");
   }
 
   // supprime définitivement la fiche courante
@@ -321,7 +321,7 @@ function Cockpit() {
       await reload(curId);
     }
     setDirty(false);
-    flash(stored ? "✔ Enregistré dans le coffre local chiffré" : "⚠️ NON enregistré");
+    flash(stored ? "✔ Enregistré automatiquement sur cet ordinateur" : "⚠️ NON enregistré");
   }
 
   function computeDraft(cl: Client): Client["synthese"] {
@@ -394,8 +394,8 @@ function Cockpit() {
   if (!c)
     return (
       <main className="mx-auto max-w-md px-5 py-16 text-center">
-        <p className="font-serif text-2xl font-semibold text-jq-deep">Aucun dossier dans ce coffre</p>
-        <p className="mt-1 text-shell-muted">Ton coffre local chiffré est prêt 🌸 Crée ta première fiche pseudonymisée.</p>
+        <p className="font-serif text-2xl font-semibold text-jq-deep">Aucun dossier enregistré</p>
+        <p className="mt-1 text-shell-muted">La sauvegarde locale est prête 🌸 Crée ta première fiche pseudonymisée.</p>
         <button onClick={addClient} className="mt-5 rounded-xl bg-jq-deep px-5 py-2.5 text-sm font-semibold text-white">
           + Créer un dossier local
         </button>
@@ -1025,7 +1025,7 @@ function QuestionnaireResultsPanel({ responses, stored }: { responses: QResponse
     <div className="mt-4 rounded-2xl border border-shell-border bg-shell-soft p-4">
       <div className="text-sm font-bold text-jq-deep">Résultats reliés à cette fiche</div>
       {!stored ? (
-        <p className="mt-1 text-[13px] text-shell-muted">Ouvre ton coffre local pour relier et relire les résultats dans cette fiche.</p>
+        <p className="mt-1 text-[13px] text-shell-muted">Les résultats reliés à cette fiche seront sauvegardés automatiquement.</p>
       ) : scored.length === 0 ? (
         <p className="mt-1 text-[13px] text-shell-muted">Aucun questionnaire relié pour l'instant. Une fois relié, son résultat apparaîtra ici avant la cartographie.</p>
       ) : (
@@ -1054,7 +1054,7 @@ function ProtocolePanel({ responses, stored }: { responses: QResponse[]; stored:
     <div className="mt-4 rounded-2xl border border-gold/40 bg-[rgba(195,135,60,.07)] p-4">
       <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-gold-dark">Décodeur — signaux → protocole(s)</div>
       {!stored ? (
-        <p className="text-[13px] text-shell-muted">Une fois le coffre ouvert et des questionnaires reliés à cette fiche, les repères dominants s&apos;afficheront ici pour t&apos;aider à poser le protocole.</p>
+        <p className="text-[13px] text-shell-muted">Une fois des questionnaires reliés à cette fiche, les repères dominants s&apos;afficheront ici pour t&apos;aider à poser le protocole.</p>
       ) : scored.length === 0 ? (
         <p className="text-[13px] text-shell-muted">Aucun questionnaire relié pour l&apos;instant. Depuis l&apos;onglet <b>Questionnaires</b>, remplis-en puis « Relier à la fiche ».</p>
       ) : (
@@ -1140,7 +1140,7 @@ function CRPanel({ c, islamic, responses, stored }: { c: Client; islamic: boolea
 
   return (
     <Panel title="CR — compte-rendu praticienne" lead="Tout ce qui est dans la fiche, rassemblé : anamnèse + alertes + repères + questionnaires. Copie-le ou imprime-le. C'est ton « Vers CR », en natif.">
-      {!stored && <Callout>⚠️ Ouvre ton coffre local pour que le CR reflète des données réellement enregistrées.</Callout>}
+      {!stored && <Callout>⚠️ La sauvegarde locale doit être disponible pour que le compte rendu reflète les données enregistrées.</Callout>}
       <AnaAlertBanner anamnese={ana} />
 
       <div className="mb-3 flex flex-wrap gap-2.5">

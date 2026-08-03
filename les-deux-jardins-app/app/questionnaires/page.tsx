@@ -39,7 +39,7 @@ export default function QuestionnairesPage() {
         </p>
       </header>
 
-      {nonClinicalPilotMode && <div role="status" className="mt-5 rounded-2xl border border-gold bg-[rgba(192,138,46,.10)] p-4 text-sm text-[#6f5621]"><b>Coffre local chiffré.</b> {pilotStorageNotice} Les résultats peuvent être reliés à une fiche du coffre.</div>}
+      {nonClinicalPilotMode && <div role="status" className="mt-5 rounded-2xl border border-gold bg-[rgba(192,138,46,.10)] p-4 text-sm text-[#6f5621]"><b>Sauvegarde locale.</b> {pilotStorageNotice} Les résultats peuvent être reliés à une fiche.</div>}
 
       {dossierUnlocked === false && <div role="alert" className="mt-6 rounded-2xl border border-[#a94b54] bg-[rgba(169,75,84,.08)] p-4 text-sm font-semibold text-[#a94b54]">🔒 Évaluation verrouillée pour ce dossier : retourne au Bilan et valide les quatre critères S·R·C·A.</div>}
 
@@ -226,8 +226,8 @@ function Runner({ q, dossierId, onExit }: { q: Questionnaire; dossierId: string;
                     <p className="text-sm text-shell-muted">Chargement de tes accompagnées…</p>
                   ) : !stored ? (
                     <p className="text-sm text-shell-muted">
-                      Ouvre ton coffre local pour relier ce résultat à une fiche.{" "}
-                      <a href="/cockpit" className="font-semibold text-gold-dark underline">Ouvrir le coffre</a>
+                      Ouvre le cockpit pour relier ce résultat à une fiche.{" "}
+                      <a href="/cockpit" className="font-semibold text-gold-dark underline">Ouvrir le cockpit</a>
                     </p>
                   ) : clients.length === 0 ? (
                     <p className="text-sm text-shell-muted">
