@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   createLocalVault,
+  ensureAutomaticLocalVault,
   exportLocalVault,
   localVaultExists,
   localVaultIsUnlocked,
@@ -61,5 +62,14 @@ describe("coffre local chiffré", () => {
     await expect(unlockLocalVault(scope, "mauvaise phrase secrète")).rejects.toThrow();
     await unlockLocalVault(scope, passphrase);
     expect(readLocalVault(scope)?.questionnaireResponses.dossier12[0].questionnaireId).toBe("contenu-secret");
+  });
+
+  it("ouvre automatiquement la sauvegarde locale sans demander de phrase", async () => {
+    await ensureAutomaticLocalVault(scope);
+    expect(localVaultExists(scope)).toBe(true);
+    expect(localVaultIsUnlocked(scope)).toBe(true);
+    lockLocalVault();
+    await ensureAutomaticLocalVault(scope);
+    expect(localVaultIsUnlocked(scope)).toBe(true);
   });
 });

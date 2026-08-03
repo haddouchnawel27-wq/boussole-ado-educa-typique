@@ -10,7 +10,7 @@ function source(path: string) {
 describe("mode local sans stockage clinique cloud", () => {
   it("est verrouillé par défaut", () => {
     expect(nonClinicalPilotMode).toBe(true);
-    expect(pilotStorageNotice).toContain("Coffre local chiffré");
+    expect(pilotStorageNotice).toContain("Sauvegarde locale automatique");
     expect(pilotStorageNotice).toContain("code pseudonymisé");
   });
 

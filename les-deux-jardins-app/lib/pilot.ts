@@ -10,4 +10,4 @@ export const nonClinicalPilotMode =
   process.env.NEXT_PUBLIC_LDJ_CLINICAL_STORAGE !== "enabled";
 
 export const pilotStorageNotice =
-  "Coffre local chiffré : les dossiers sont conservés uniquement dans ce navigateur sur cet ordinateur. Ils ne sont ni synchronisés ni envoyés vers Supabase. Utilise un code pseudonymisé sans nom, coordonnées ou initiales.";
+  "Sauvegarde locale automatique : les dossiers restent uniquement dans ce navigateur sur cet ordinateur. Ils ne sont ni synchronisés ni envoyés vers Supabase. Utilise un code pseudonymisé sans nom, coordonnées ou initiales.";
