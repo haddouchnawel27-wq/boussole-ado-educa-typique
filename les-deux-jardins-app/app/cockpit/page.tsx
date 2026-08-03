@@ -5,9 +5,10 @@ import { useAuth } from "@/lib/auth";
 import { supabaseEnabled } from "@/lib/supabase";
 import { DUAS, LIBRARY, METEO, STEPS } from "@/lib/demo";
 import { evaluateStored } from "@/lib/questionnaires";
-import type { BilanCloture, Client, Meteo, SrcaCriterion } from "@/lib/types";
+import type { AnalysisDoor, AnalysisDraft, BilanCloture, Client, HypothesisDecision, Meteo, SrcaCriterion } from "@/lib/types";
 import { addSeanceDb, createClientDb, deleteClientDb, getClients, getQuestionnaireResponsesDb, saveSyntheseDb, updateClientDb, type QResponse, type Source } from "@/lib/data";
 import { anamneseAlerts, anamneseFieldLabel, anamneseForMode, anamneseSectionTitle, reperesSpirituels, verifiedReligiousContent, type AnaField } from "@/lib/anamnese";
+import { buildAnalysisPacket, formulationFromAnalysis, generateAnalysisDraft } from "@/lib/analysis-engine";
 import { labelsForMode } from "@/lib/mode-labels";
 import { ProfessionalGate } from "@/components/ProfessionalGate";
 import { EMPTY_SRCA, guardedClinicalStep, srcaAfterRiskFieldChange, srcaReadiness, validateBilanCloture } from "@/lib/clinical-rules";
@@ -264,6 +265,82 @@ function Cockpit() {
     editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, srca: { ...(cl.bilan.srca ?? EMPTY_SRCA), [key]: value } } }));
   }
 
+  async function saveAnalysis(analysis: AnalysisDraft, message: string, refreshFormulation = true) {
+    if (!c) return;
+    const prefill = refreshFormulation ? formulationFromAnalysis(analysis) : {};
+    const nextBilan: Client["bilan"] = { ...c.bilan, ...prefill, analysis };
+    update(curId, (cl) => ({ ...cl, bilan: nextBilan }));
+    if (stored) {
+      const ok = await updateClientDb(curId, { bilan: nextBilan });
+      if (!ok) { flash("⚠️ Analyse NON enregistrée — réessaie sans quitter la fiche."); return; }
+      await reload(curId);
+    }
+    setDirty(false);
+    flash(message);
+  }
+
+  async function runAnalysis(door: AnalysisDoor) {
+    if (!c) return;
+    const analysis = generateAnalysisDraft(c, responses, door, islamic);
+    await saveAnalysis(analysis, `✔ Pré-analyse ${door === "jannat" ? "Jannat al Qalb" : "Educa Typique"} créée et envoyée vers Formuler`);
+  }
+
+  async function decideHypothesis(id: string, decision: HypothesisDecision) {
+    if (!c?.bilan.analysis) return;
+    const analysis: AnalysisDraft = {
+      ...c.bilan.analysis,
+      formulationStatus: "a_revoir",
+      formulationConfirmedAt: undefined,
+      hypotheses: c.bilan.analysis.hypotheses.map((item) => item.id === id ? { ...item, decision } : item),
+    };
+    await saveAnalysis(analysis, "✔ Décision enregistrée et pré-formulation mise à jour");
+  }
+
+  function editHypothesisNote(id: string, practitionerNote: string) {
+    editClient((cl) => cl.bilan.analysis ? ({
+      ...cl,
+      bilan: {
+        ...cl.bilan,
+        analysis: {
+          ...cl.bilan.analysis,
+          formulationStatus: "a_revoir",
+          formulationConfirmedAt: undefined,
+          hypotheses: cl.bilan.analysis.hypotheses.map((item) => item.id === id ? { ...item, practitionerNote } : item),
+        },
+      },
+    }) : cl);
+  }
+
+  async function saveAnalysisNotes() {
+    if (!c?.bilan.analysis) return;
+    await saveAnalysis(c.bilan.analysis, "✔ Notes praticienne enregistrées et pré-formulation mise à jour");
+  }
+
+  function editFormulation(field: "etatDesLieux" | "cartographie" | "hypotheses", value: string) {
+    editClient((cl) => ({
+      ...cl,
+      bilan: {
+        ...cl.bilan,
+        [field]: value,
+        analysis: cl.bilan.analysis ? { ...cl.bilan.analysis, formulationStatus: "a_revoir", formulationConfirmedAt: undefined } : undefined,
+      },
+    }));
+  }
+
+  async function confirmFormulation() {
+    if (!c?.bilan.analysis) return;
+    const analysis = { ...c.bilan.analysis, formulationStatus: "confirmee" as const, formulationConfirmedAt: new Date().toISOString() };
+    const nextBilan = { ...c.bilan, analysis };
+    update(curId, (cl) => ({ ...cl, bilan: nextBilan }));
+    if (stored) {
+      const ok = await updateClientDb(curId, { bilan: nextBilan });
+      if (!ok) { flash("⚠️ Pré-formulation NON confirmée — réessaie."); return; }
+      await reload(curId);
+    }
+    setDirty(false);
+    flash("✔ Pré-formulation confirmée par la praticienne");
+  }
+
   function editCloture(fn: (b: BilanCloture) => BilanCloture) {
     if (!c || c.bilanCloture?.praticienneValidation.valideAt) return;
     const initial: BilanCloture = c.bilanCloture ?? {
@@ -439,7 +516,7 @@ function Cockpit() {
         >
           + Nouveau dossier local
         </button>
-        <p className="px-1 text-[11px] leading-snug text-shell-muted">🛡️ Code pseudonymisé uniquement — jamais de nom, coordonnées ou initiales. Le contenu est chiffré et conservé uniquement dans ce navigateur.</p>
+        <p className="px-1 text-[11px] leading-snug text-shell-muted">🛡️ Code pseudonymisé uniquement — jamais de nom ni coordonnées. Le contenu est enregistré automatiquement dans ce navigateur.</p>
         <div className="mt-auto border-t border-shell-border pt-3 text-[11.5px] text-shell-muted">
           <div className="flex items-center gap-2.5">
             <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-gold-light to-gold-dark text-sm font-semibold text-white">{practitionerInitial}</span>
@@ -455,7 +532,7 @@ function Cockpit() {
       <main className="w-full min-w-0 max-w-4xl p-5 pb-16 sm:p-8">
         {nonClinicalPilotMode && (
           <div role="status" className="mb-4 rounded-2xl border border-gold bg-[rgba(192,138,46,.10)] p-4 text-sm leading-relaxed text-[#6f5621]">
-            <b>Coffre local chiffré.</b> {pilotStorageNotice}
+            <b>Sauvegarde locale automatique.</b> {pilotStorageNotice}
           </div>
         )}
         <div className="mb-4 flex flex-wrap items-center gap-3">
@@ -465,7 +542,7 @@ function Cockpit() {
               "rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide " +
               (stored ? "bg-[rgba(91,138,91,.15)] text-[#4d7a4d]" : "bg-shell-soft text-shell-muted")
             }
-            title={source === "supabase" ? "Connecté à la base Supabase" : source === "local" ? "Coffre chiffré conservé dans ce navigateur" : "Aucun stockage ouvert"}
+            title={source === "supabase" ? "Connecté à la base Supabase" : source === "local" ? "Données conservées dans ce navigateur" : "Aucun stockage ouvert"}
           >
             {source === "supabase" ? "● En ligne" : source === "local" ? "🔒 Sauvegarde locale" : "Non enregistré"}
           </span>
@@ -499,14 +576,14 @@ function Cockpit() {
         <div className="mb-4 rounded-2xl border border-shell-border bg-shell-soft p-4 sm:p-5">
           {(() => {
             const s1done = readiness.canEvaluate;
-            const s2done = responses.length > 0;
+            const s2done = responses.length > 0 || Boolean(c.bilan.analysis);
             const s3done = Boolean(c.bilan.cartographie?.trim() || c.bilan.hypotheses?.trim());
             const s4done = Boolean(c.bilan.objectifs?.trim());
             const s5done = c.synthese.status === "valide";
             type Stage = { n: number; t: string; state: "done" | "todo" | "locked" | "soon"; href?: string; onClick?: () => void; note?: string };
             const stages: Stage[] = [
               { n: 1, t: "Accueil / anamnèse", state: s1done ? "done" : "todo", onClick: () => goToStep("bilan"), note: "S·R·C·A · sécurité" },
-              { n: 2, t: "Évaluer", state: !s1done ? "locked" : s2done ? "done" : "todo", href: s1done ? `/questionnaires?client=${encodeURIComponent(c.id)}` : undefined, note: "Questionnaires ciblés · décodeurs" },
+              { n: 2, t: "Évaluer", state: !s1done ? "locked" : s2done ? "done" : "todo", onClick: s1done ? () => goToStep("evaluer") : undefined, note: "Deux Décodeurs · questionnaires en complément" },
               { n: 3, t: "Formuler", state: !s2done ? "locked" : s3done ? "done" : "todo", onClick: s2done ? () => goToStep("formuler") : undefined, note: "État des lieux · cartographie · hypothèses" },
               { n: 4, t: "Cibler", state: !s3done ? "locked" : s4done ? "done" : "todo", onClick: s3done ? () => goToStep("cibler") : undefined, note: "Objectifs · référentiel · protocoles" },
               { n: 5, t: "Restituer", state: s5done ? "done" : "todo", onClick: () => goToStep("synthese"), note: "Synthèse + Suivi" },
@@ -514,7 +591,7 @@ function Cockpit() {
             const sug: { label: string; onClick?: () => void; href?: string; done?: boolean } = !s1done
               ? { label: "Compléter l'accueil", onClick: () => goToStep("accueil") }
               : !s2done
-              ? { label: "Évaluer avec un questionnaire ciblé", href: `/questionnaires?client=${encodeURIComponent(c.id)}` }
+              ? { label: "Choisir un Décodeur", onClick: () => goToStep("evaluer") }
               : !s3done
               ? { label: "Formuler l'état des lieux", onClick: () => goToStep("formuler") }
               : !s4done
@@ -564,7 +641,7 @@ function Cockpit() {
                     <button onClick={sug.onClick} className="rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Prochaine étape : {sug.label}</button>
                   )}
                 </div>
-                {!s2done && <p className="mt-2 text-[11.5px] text-shell-muted">L&apos;évaluation ciblée vient après l&apos;accueil/anamnèse : elle sert à choisir les questionnaires pertinents, jamais à poser un diagnostic.</p>}
+                {!s2done && <p className="mt-2 text-[11.5px] text-shell-muted">L&apos;anamnèse passe d&apos;abord par l&apos;une des deux portes d&apos;analyse. Les questionnaires restent facultatifs et complètent la lecture lorsque c&apos;est utile.</p>}
                 {s2done && !s3done && <p className="mt-2 text-[11.5px] text-shell-muted">Les questionnaires sont reliés : la prochaine étape est l&apos;état des lieux et la cartographie par la praticienne.</p>}
                 {s3done && !s4done && <p className="mt-2 text-[11.5px] text-shell-muted">La cartographie est prête : tu peux maintenant choisir les objectifs et consulter le référentiel pour les protocoles adaptés.</p>}
               </>
@@ -641,38 +718,54 @@ function Cockpit() {
               <SrcaPanel state={c.bilan.srca} readiness={readiness} onChange={editSrca} />
 
               <SaveBar dirty={dirty} msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
+              <AnamneseTransferPanel c={c} islamic={islamic} responses={responses} />
               <AnamneseNextStep anamnese={c.bilan.anamnese} clientId={c.id} unlocked={readiness.canEvaluate} />
               <Callout>Aucun diagnostic. L&apos;anamnèse et les questionnaires sont des <b>repères de dialogue</b> — les alertes priment toujours sur le score.</Callout>
             </Panel>
           )}
 
           {step === "evaluer" && (
-            <Panel title="Évaluer — questionnaires et décodeurs ciblés" lead="À partir de l'accueil/anamnèse, choisis seulement les outils utiles à la demande. Les résultats sont des repères de dialogue, jamais un diagnostic.">
-              <div className="grid gap-3 sm:grid-cols-2">
-                <a href={`/questionnaires?client=${encodeURIComponent(c.id)}`} className="rounded-2xl border border-jq-sage/50 bg-[rgba(124,139,108,.07)] p-4 transition hover:border-gold">
-                  <div className="text-sm font-bold text-jq-deep">Questionnaires ciblés</div>
-                  <p className="mt-1 text-[13px] text-shell-muted">Psychotrauma, émotions/TCC, psycho-spiritualité ou autre axe pertinent.</p>
-                </a>
-                <a href="https://decodeur-profil-educa-typique.netlify.app/" target="_blank" rel="noopener noreferrer" className="rounded-2xl border border-shell-border bg-shell-soft p-4 transition hover:border-gold">
-                  <div className="text-sm font-bold text-jq-deep">Décodeur neuroatypie ↗️</div>
-                  <p className="mt-1 text-[13px] text-shell-muted">À utiliser uniquement lorsqu'un axe neurodéveloppemental ou fonctionnel est pertinent.</p>
-                </a>
-              </div>
-              <div className="mt-3 rounded-2xl border border-shell-border bg-shell-soft p-4">
-                <div className="text-sm font-bold text-jq-deep">Décodeur clinique et synthèse</div>
-                <p className="mt-1 text-[13px] text-shell-muted">À consulter après les résultats pertinents, pour relire l'ensemble avant de formuler la cartographie. Les données sensibles ne doivent être transmises à aucun service externe sans validation de confidentialité.</p>
-                <a href="https://shifa-decodeur-voie-chifa-cr.netlify.app/" target="_blank" rel="noopener noreferrer" className="mt-3 inline-block rounded-xl border border-shell-border px-4 py-2 text-sm font-semibold text-jq-deep">Ouvrir le décodeur clinique ↗️</a>
+            <Panel title="Évaluer — choisir la porte d’analyse" lead="L’anamnèse arrive ici automatiquement. Choisis la lecture Jannat al Qalb ou Educa Typique ; le moteur prépare des pistes que toi seule peux retenir, nuancer, attendre ou réfuter.">
+              <AnamneseTransferPanel c={c} islamic={islamic} responses={responses} open />
+              <AnalysisPanel
+                analysis={c.bilan.analysis}
+                onGenerate={runAnalysis}
+                onDecision={decideHypothesis}
+                onNote={editHypothesisNote}
+                onSaveNotes={saveAnalysisNotes}
+                onFormulate={() => goToStep("formuler")}
+                dirty={dirty}
+              />
+              <div className="mt-4 rounded-2xl border border-shell-border bg-shell-soft p-4">
+                <div className="text-sm font-bold text-jq-deep">Questionnaires ciblés — facultatifs</div>
+                <p className="mt-1 text-[13px] text-shell-muted">Ajoute un questionnaire seulement s’il éclaire une question précise. L’analyse peut déjà être préparée à partir de l’anamnèse.</p>
+                <a href={`/questionnaires?client=${encodeURIComponent(c.id)}`} className="mt-3 inline-block rounded-xl border border-shell-border px-4 py-2 text-sm font-semibold text-jq-deep">Ouvrir les questionnaires</a>
               </div>
               <QuestionnaireResultsPanel responses={responses} stored={stored} />
             </Panel>
           )}
 
           {step === "formuler" && (
-            <Panel title="Formuler — état des lieux et cartographie" lead="Relis les éléments recueillis, cartographie les difficultés et ressources, puis formule des hypothèses de travail prudentes. Cette étape relève de la praticienne.">
-              <EditField k="État des lieux" v={c.bilan.etatDesLieux ?? ""} placeholder="Demande, contexte, difficultés, ressources, facteurs de protection et questions ouvertes…" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, etatDesLieux: val } }))} />
-              <div className="mt-3.5"><EditField k="Cartographie" v={c.bilan.cartographie ?? ""} placeholder="Émotionnel · relationnel/familial · fonctionnel si pertinent · repères culturels/interculturels · sens/spiritualité si choisi · orientations…" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, cartographie: val } }))} /></div>
-              <div className="mt-3.5"><EditField k="Hypothèses de travail à vérifier et prioriser" v={c.bilan.hypotheses ?? ""} placeholder="Formuler comme des pistes : « les éléments recueillis invitent à explorer… »" onChange={(val) => editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, hypotheses: val } }))} /></div>
+            <Panel title="Formuler — confirmer, modifier ou compléter" lead="La pré-formulation vient du Décodeur choisi et reste entièrement modifiable. L’anamnèse demeure consultable ici ; rien ne devient définitif sans ta confirmation.">
+              <AnamneseTransferPanel c={c} islamic={islamic} responses={responses} />
+              {!c.bilan.analysis ? (
+                <div className="mt-4 rounded-2xl border border-gold/50 bg-[rgba(195,135,60,.07)] p-4">
+                  <p className="text-sm text-shell-text">Aucune pré-analyse n’a encore été préparée.</p>
+                  <button onClick={() => goToStep("evaluer")} className="mt-3 rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white">← Choisir un Décodeur</button>
+                </div>
+              ) : (
+                <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl border border-shell-border bg-shell-soft p-3 text-[13px]">
+                  <b className="text-jq-deep">Pré-formulation {c.bilan.analysis.door === "jannat" ? "Jannat al Qalb" : "Educa Typique"}</b>
+                  <span className={c.bilan.analysis.formulationStatus === "confirmee" ? "rounded-full bg-[rgba(91,138,91,.15)] px-2 py-1 font-semibold text-[#4d7a4d]" : "rounded-full bg-[rgba(192,138,46,.13)] px-2 py-1 font-semibold text-[#8a6a1e]"}>
+                    {c.bilan.analysis.formulationStatus === "confirmee" ? "Confirmée par la praticienne" : "À relire / compléter"}
+                  </span>
+                </div>
+              )}
+              <div className="mt-3.5"><EditField k="État des lieux" v={c.bilan.etatDesLieux ?? ""} placeholder="Demande, contexte, difficultés, ressources, facteurs de protection et questions ouvertes…" onChange={(val) => editFormulation("etatDesLieux", val)} /></div>
+              <div className="mt-3.5"><EditField k="Cartographie" v={c.bilan.cartographie ?? ""} placeholder="Émotionnel · relationnel/familial · fonctionnel si pertinent · repères culturels/interculturels · sens/spiritualité si choisi · orientations…" onChange={(val) => editFormulation("cartographie", val)} /></div>
+              <div className="mt-3.5"><EditField k="Hypothèses de travail à vérifier et prioriser" v={c.bilan.hypotheses ?? ""} placeholder="Formuler comme des pistes : « les éléments recueillis invitent à explorer… »" onChange={(val) => editFormulation("hypotheses", val)} /></div>
               <SaveBar dirty={dirty} msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
+              {c.bilan.analysis && <button onClick={confirmFormulation} className="mt-3 rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">✔ Confirmer cette pré-formulation</button>}
               <Callout>Les repères culturels, familiaux, linguistiques, spirituels ou sociaux sont explorés à partir de ce que la personne choisit de partager ; ils ne sont jamais présumés.</Callout>
             </Panel>
           )}
@@ -1014,6 +1107,98 @@ function AnamneseNextStep({ anamnese, clientId, unlocked }: { anamnese?: Record<
       )}
       {unlocked ? <a href={`/questionnaires?client=${encodeURIComponent(clientId)}`} className="mt-3 inline-block rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Évaluer avec les questionnaires ciblés</a> : <p className="mt-3 font-semibold text-[#a94b54]">🔒 Évaluer reste verrouillé jusqu’à validation des quatre critères S·R·C·A.</p>}
     </div>
+  );
+}
+
+function AnamneseTransferPanel({ c, islamic, responses, open = false }: { c: Client; islamic: boolean; responses: QResponse[]; open?: boolean }) {
+  const [copied, setCopied] = useState(false);
+  const packet = useMemo(() => buildAnalysisPacket(c, responses, islamic), [c, responses, islamic]);
+  const filled = Object.values(c.bilan.anamnese ?? {}).filter((value) => value.trim()).length;
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(packet);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2200);
+    } catch {
+      setCopied(false);
+    }
+  }
+  return (
+    <details open={open} className="mt-4 rounded-2xl border border-jq-sage/50 bg-[rgba(124,139,108,.06)] p-4">
+      <summary className="cursor-pointer text-sm font-bold text-jq-deep">Anamnèse disponible ici · {filled} réponse{filled > 1 ? "s" : ""}</summary>
+      <p className="mt-2 text-[13px] text-shell-muted">Elle reste dans la fiche et alimente directement les deux Décodeurs. Tu peux aussi la relire ou la copier.</p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <button onClick={copy} className="rounded-xl border border-shell-border bg-shell-surface px-3 py-2 text-[13px] font-semibold text-jq-deep">📋 Copier l’anamnèse et les notes</button>
+        {copied && <span className="self-center text-[13px] font-semibold text-[#4d7a4d]">✔ Copié</span>}
+      </div>
+      <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap rounded-xl border border-shell-border bg-shell-surface p-3 text-[12px] leading-relaxed text-shell-text">{packet}</pre>
+    </details>
+  );
+}
+
+function AnalysisPanel({ analysis, onGenerate, onDecision, onNote, onSaveNotes, onFormulate, dirty }: {
+  analysis: AnalysisDraft | undefined;
+  onGenerate: (door: AnalysisDoor) => void;
+  onDecision: (id: string, decision: HypothesisDecision) => void;
+  onNote: (id: string, note: string) => void;
+  onSaveNotes: () => void;
+  onFormulate: () => void;
+  dirty: boolean;
+}) {
+  const decisions: { value: HypothesisDecision; label: string }[] = [
+    { value: "retained", label: "Retenir" },
+    { value: "nuanced", label: "Nuancer" },
+    { value: "pending", label: "Attendre" },
+    { value: "refuted", label: "Réfuter" },
+  ];
+  return (
+    <section className="mt-4" aria-labelledby="analysis-title">
+      <h3 id="analysis-title" className="font-serif text-xl font-semibold text-jq-deep">Les deux portes d’analyse</h3>
+      <p className="mt-1 text-[13px] text-shell-muted">La dernière lecture choisie devient la pré-formulation active. Aucune piste n’est validée automatiquement.</p>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <button onClick={() => onGenerate("jannat")} className={"rounded-2xl border p-4 text-left transition hover:border-gold " + (analysis?.door === "jannat" ? "border-gold bg-[rgba(195,135,60,.08)]" : "border-shell-border bg-shell-soft")}>
+          <span className="block font-serif text-lg font-semibold text-jq-deep">Jannat al Qalb</span>
+          <span className="mt-1 block text-[13px] text-shell-muted">Clinique intégrative · émotions · histoire · relations · transculturalité · psychologie islamique si choisie.</span>
+          <span className="mt-2 block text-[12px] font-bold text-gold-dark">Préparer cette analyse →</span>
+        </button>
+        <button onClick={() => onGenerate("educa")} className={"rounded-2xl border p-4 text-left transition hover:border-gold " + (analysis?.door === "educa" ? "border-gold bg-[rgba(94,127,140,.08)]" : "border-shell-border bg-shell-soft")}>
+          <span className="block font-serif text-lg font-semibold text-[#426473]">Educa Typique</span>
+          <span className="mt-1 block text-[13px] text-shell-muted">Lecture neurofonctionnelle · attention · fonctions exécutives · apprentissages · sensoriel · environnement.</span>
+          <span className="mt-2 block text-[12px] font-bold text-[#426473]">Préparer cette analyse →</span>
+        </button>
+      </div>
+      {!analysis ? (
+        <div className="mt-3 rounded-xl border border-dashed border-shell-border p-4 text-sm text-shell-muted">Choisis une porte : le moteur utilisera l’anamnèse enregistrée et préparera l’écran « Formuler ».</div>
+      ) : (
+        <>
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
+            <div><div className="text-sm font-bold text-jq-deep">Pistes proposées · {analysis.door === "jannat" ? "Jannat al Qalb" : "Educa Typique"}</div><div className="text-[12px] text-shell-muted">À décider une par une par la praticienne.</div></div>
+            <button onClick={onFormulate} className="rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white">Voir la pré-formulation →</button>
+          </div>
+          <div className="mt-3 flex flex-col gap-3">
+            {analysis.hypotheses.map((item) => (
+              <article key={item.id} className={"rounded-2xl border p-4 " + (item.decision === "refuted" ? "border-shell-border bg-shell-soft opacity-70" : item.priority === "priority" || item.priority === "orientation" ? "border-gold bg-[rgba(195,135,60,.05)]" : "border-shell-border bg-shell-surface")}>
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div><div className="text-[11px] font-bold uppercase tracking-wide text-shell-muted">{item.domain}</div><h4 className="mt-0.5 text-sm font-bold text-jq-deep">{item.title}</h4></div>
+                  <span className="rounded-full bg-shell-soft px-2 py-1 text-[10.5px] font-bold uppercase text-shell-muted">{item.priority === "priority" ? "prioritaire" : item.priority === "orientation" ? "orientation" : item.priority === "monitor" ? "à surveiller" : "à explorer"}</span>
+                </div>
+                <p className="mt-2 text-[13px] leading-relaxed text-shell-text">{item.rationale}</p>
+                {item.supports.length > 0 && <p className="mt-2 text-[12.5px] text-shell-muted"><b className="text-shell-text">Éléments d’appui :</b> {item.supports.join(" · ")}</p>}
+                {item.missing.length > 0 && <p className="mt-1 text-[12.5px] text-shell-muted"><b className="text-shell-text">À compléter :</b> {item.missing.join(" · ")}</p>}
+                {item.axes.length > 0 && <p className="mt-1 text-[12.5px] text-shell-muted"><b className="text-shell-text">Axes possibles :</b> {item.axes.join(" · ")}</p>}
+                <div className="mt-3 flex flex-wrap gap-1.5" role="group" aria-label={`Décision pour ${item.title}`}>
+                  {decisions.map((decision) => <button key={decision.value} onClick={() => onDecision(item.id, decision.value)} className={"rounded-full border px-3 py-1.5 text-[12px] font-semibold transition " + (item.decision === decision.value ? "border-jq-deep bg-jq-deep text-white" : "border-shell-border bg-shell-surface text-shell-muted hover:border-gold hover:text-shell-text")}>{decision.label}</button>)}
+                </div>
+                <label className="mt-3 block text-[12px] font-bold text-shell-muted">Note ou nuance de la praticienne
+                  <textarea value={item.practitionerNote} onChange={(event) => onNote(item.id, event.target.value)} rows={2} placeholder="Ce que je confirme, précise, modifie ou souhaite vérifier…" className="mt-1 w-full rounded-xl border border-shell-border bg-shell-surface p-2.5 text-[13px] font-normal text-shell-text outline-none focus:border-gold" />
+                </label>
+              </article>
+            ))}
+          </div>
+          {dirty && <button onClick={onSaveNotes} className="mt-3 rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white">Enregistrer mes notes et mettre à jour Formuler</button>}
+        </>
+      )}
+    </section>
   );
 }
 

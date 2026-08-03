@@ -10,6 +10,7 @@ import {
   readLocalVault,
   unlockLocalVault,
 } from "./local-vault";
+import type { Client } from "./types";
 
 class MemoryStorage implements Storage {
   private values = new Map<string, string>();
@@ -71,5 +72,38 @@ describe("coffre local chiffré", () => {
     lockLocalVault();
     await ensureAutomaticLocalVault(scope);
     expect(localVaultIsUnlocked(scope)).toBe(true);
+  });
+
+  it("retrouve après actualisation l'anamnèse, l'analyse et la pré-formulation d'un dossier fictif", async () => {
+    await ensureAutomaticLocalVault(scope);
+    const fictional: Client = {
+      id: "jardin-fictif", nom: "Jardin test", initiale: "J", etape: 4,
+      consentement: true, intention: "Test sans donnée réelle", rdv: "",
+      bilan: {
+        histoire: "", schemas: "", neuro: "", spirituel: "",
+        anamnese: { s1_motif: "Situation entièrement fictive" },
+        etatDesLieux: "Pré-formulation fictive à relire",
+        cartographie: "Régulation · contexte",
+        hypotheses: "[Proposée] piste fictive",
+        analysis: {
+          version: 1, door: "jannat", generatedAt: "2026-08-03T10:00:00.000Z",
+          inputSummary: "Situation entièrement fictive", formulationStatus: "a_revoir",
+          hypotheses: [{
+            id: "jannat-test", door: "jannat", domain: "Test", title: "Piste fictive",
+            rationale: "Uniquement pour tester la continuité.", supports: ["donnée fictive"], nuances: [], missing: [], alternatives: [],
+            axes: ["vérifier"], protocols: [], priority: "explore", decision: "retained", practitionerNote: "confirmé pour le test", source: "test",
+          }],
+        },
+      },
+      seances: [], engagements: [], synthese: { status: "vierge", sections: [], boussole: "", semaine: "", duaIdx: 0 },
+    };
+    await mutateLocalVault(scope, (draft) => { draft.clients.push(fictional); });
+    lockLocalVault();
+    await ensureAutomaticLocalVault(scope);
+
+    const restored = readLocalVault(scope)?.clients.find((client) => client.id === "jardin-fictif");
+    expect(restored?.bilan.anamnese?.s1_motif).toBe("Situation entièrement fictive");
+    expect(restored?.bilan.analysis?.hypotheses[0].decision).toBe("retained");
+    expect(restored?.bilan.etatDesLieux).toContain("Pré-formulation fictive");
   });
 });

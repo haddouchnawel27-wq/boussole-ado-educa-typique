@@ -14,7 +14,7 @@ describe("mode local sans stockage clinique cloud", () => {
     expect(pilotStorageNotice).toContain("code pseudonymisé");
   });
 
-  it("redirige les lectures et écritures vers le coffre local", () => {
+  it("redirige les lectures et écritures vers la sauvegarde locale", () => {
     const data = source("lib/data.ts");
     expect(data.match(/if \(nonClinicalPilotMode\)/g)?.length).toBeGreaterThanOrEqual(8);
     expect(data).toContain('source: vault ? "local" : "demo"');
@@ -22,7 +22,7 @@ describe("mode local sans stockage clinique cloud", () => {
   });
 
   it("annonce clairement les limites dans le cockpit et les questionnaires", () => {
-    expect(source("app/cockpit/page.tsx")).toContain("Coffre local chiffré");
+    expect(source("app/cockpit/page.tsx")).toContain("Sauvegarde locale automatique");
     expect(source("app/cockpit/page.tsx")).toContain("Code pseudonymisé uniquement");
     expect(source("app/questionnaires/page.tsx")).toContain("Les résultats peuvent être reliés");
   });

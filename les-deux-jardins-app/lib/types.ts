@@ -52,6 +52,42 @@ export interface BilanCloture {
   praticienneValidation: { nom: string; valideAt: string };
 }
 
+export type AnalysisDoor = "jannat" | "educa";
+export type HypothesisDecision = "proposed" | "retained" | "nuanced" | "pending" | "refuted";
+export type AnalysisPriority = "explore" | "document" | "monitor" | "priority" | "orientation";
+
+/**
+ * Une carte proposée par le moteur commun. Elle reste une hypothèse de travail
+ * tant que la praticienne ne l'a pas explicitement retenue ou nuancée.
+ */
+export interface AnalysisHypothesis {
+  id: string;
+  door: AnalysisDoor;
+  domain: string;
+  title: string;
+  rationale: string;
+  supports: string[];
+  nuances: string[];
+  missing: string[];
+  alternatives: string[];
+  axes: string[];
+  protocols: string[];
+  priority: AnalysisPriority;
+  decision: HypothesisDecision;
+  practitionerNote: string;
+  source: string;
+}
+
+export interface AnalysisDraft {
+  version: 1;
+  door: AnalysisDoor;
+  generatedAt: string;
+  inputSummary: string;
+  hypotheses: AnalysisHypothesis[];
+  formulationStatus: "a_revoir" | "confirmee";
+  formulationConfirmedAt?: string;
+}
+
 export interface Client {
   id: string;
   nom: string;
@@ -76,6 +112,8 @@ export interface Client {
     // Scores d'appui 0-10 (sentiment d'être soutenue · relation à Allāh).
     scores?: { soutien?: number; relationAllah?: number };
     srca?: SrcaState;
+    // Proposition issue du moteur commun ; jamais validée automatiquement.
+    analysis?: AnalysisDraft;
   };
   bilanCloture?: BilanCloture;
   seances: Seance[];

@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHIFA · Le Décodeur — Voie Chifā</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #F5EDE0;
+    --bg-warm: #FAF4EA;
+    --paper: #FDF8F0;
+    --ink: #2C2316;
+    --ink-soft: #5C4B36;
+    --ink-mute: #8B7A5F;
+    --sage: #6B7F5A;
+    --sage-dark: #57684A;
+    --sage-soft: rgba(107, 127, 90, 0.1);
+    --terracotta: #B85842;
+    --gold: #C9A961;
+    --gold-soft: #E4D4A3;
+    --line: rgba(107, 127, 90, 0.2);
+    --line-soft: rgba(107, 127, 90, 0.08);
+    --shadow: 0 1px 3px rgba(44, 35, 22, 0.06), 0 8px 24px rgba(44, 35, 22, 0.05);
+    --shadow-soft: 0 1px 2px rgba(44, 35, 22, 0.04);
+    --green: #6B7F5A;
+    --orange: #C28840;
+    --red: #B04A3E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background:
+      radial-gradient(ellipse at top, rgba(228, 212, 163, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(107, 127, 90, 0.08) 0%, transparent 50%),
+      var(--bg);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    min-height: 100vh;
+    padding: 32px 20px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 880px; margin: 0 auto; }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .badge {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+
+  .badge::before, .badge::after {
+    content: '·';
+    margin: 0 8px;
+    color: var(--gold);
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .icon-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .icon-btn:hover {
+    border-color: var(--sage);
+    color: var(--sage);
+    background: var(--sage-soft);
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 6vw, 64px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+
+  /* SETTINGS PANEL */
+  .settings {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+    display: none;
+  }
+  .settings.open { display: block; animation: slideDown 0.3s ease-out; }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .settings-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .settings-hint {
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-bottom: 18px;
+    line-height: 1.6;
+  }
+
+  .key-row {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  .key-input {
+    flex: 1;
+    min-width: 250px;
+    padding: 12px 14px;
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+
+  .key-input:focus {
+    outline: none;
+    border-color: var(--sage);
+    box-shadow: 0 0 0 3px var(--sage-soft);
+  }
+
+  .key-status {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--sage-dark);
+    padding: 10px 14px;
+    background: var(--sage-soft);
+    border-radius: 4px;
+    border-left: 3px solid var(--sage);
+    display: none;
+  }
+  .key-status.show { display: block; }
+  .key-status.error {
+    color: var(--red);
+    background: rgba(176, 74, 62, 0.08);
+    border-left-color: var(--red);
+  }
+
+  /* INPUT CARD */
+  .input-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 36px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .card-hint {
+    font-size: 14px;
+    color: var(--ink-mute);
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 220px;
+    padding: 18px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    resize: vertical;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--sage);
+    box-shadow: 0 0 0 3px var(--sage-soft);
+  }
+
+  textarea::placeholder {
+    color: var(--ink-mute);
+    font-style: italic;
+  }
+
+  .actions { margin-top: 20px; }
+
+  .btn-primary {
+    display: block;
+    width: 100%;
+    padding: 16px 24px;
+    background: var(--sage);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.05s;
+  }
+
+  .btn-primary:hover:not(:disabled) { background: var(--sage-dark); }
+  .btn-primary:active:not(:disabled) { transform: scale(0.99); }
+  .btn-primary:disabled {
+    background: var(--ink-mute);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .confidentiality {
+    margin-top: 20px;
+    padding: 14px 18px;
+    background: var(--sage-soft);
+    border-left: 3px solid var(--sage);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .confidentiality strong { color: var(--sage-dark); font-weight: 600; }
+
+  /* STATUS */
+  .status {
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.5;
+    display: none;
+  }
+  .status.show { display: block; }
+  .status.loading {
+    background: rgba(201, 169, 97, 0.12);
+    border-left: 3px solid var(--gold);
+    color: var(--ink-soft);
+  }
+  .status.error {
+    background: rgba(176, 74, 62, 0.08);
+    border-left: 3px solid var(--red);
+    color: var(--red);
+  }
+
+  .loading-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    margin: 0 2px;
+    animation: pulse 1.4s ease-in-out infinite both;
+  }
+  .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+  .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+  @keyframes pulse {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+
+  /* RESULTS */
+  .results { display: none; animation: fadeIn 0.5s ease-out; }
+  .results.show { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .results-header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+
+  .results-header::before, .results-header::after {
+    content: '❋';
+    color: var(--gold);
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .results-header::before { left: calc(50% - 80px); }
+  .results-header::after { right: calc(50% - 80px); }
+
+  .results-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .analysis {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+  }
+
+  .analysis h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--sage-dark);
+    margin-top: 36px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line-soft);
+    position: relative;
+  }
+  .analysis h2:first-child { margin-top: 0; }
+
+  .analysis h2::before {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--sage);
+  }
+
+  .analysis h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-top: 22px;
+    margin-bottom: 10px;
+  }
+
+  .analysis p {
+    margin-bottom: 14px;
+    color: var(--ink);
+    line-height: 1.75;
+  }
+
+  .analysis ul, .analysis ol {
+    margin: 12px 0 18px 0;
+    padding-left: 24px;
+  }
+  .analysis li { margin-bottom: 8px; line-height: 1.7; }
+  .analysis li::marker { color: var(--sage); }
+
+  .analysis strong { color: var(--ink); font-weight: 600; }
+  .analysis em { color: var(--ink-soft); font-style: italic; }
+
+  .analysis code {
+    background: var(--sage-soft);
+    color: var(--sage-dark);
+    padding: 1px 7px;
+    border-radius: 3px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.9em;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .analysis blockquote {
+    border-left: 3px solid var(--gold);
+    padding: 8px 18px;
+    margin: 18px 0;
+    background: rgba(228, 212, 163, 0.15);
+    color: var(--ink-soft);
+    font-style: italic;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .analysis table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 22px 0;
+    font-size: 14.5px;
+  }
+
+  .analysis th {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--sage-soft);
+    border-bottom: 2px solid var(--line);
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .analysis td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line-soft);
+    vertical-align: top;
+  }
+  .analysis tr:last-child td { border-bottom: none; }
+
+  /* RESULT ACTIONS */
+  .result-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+
+  .btn-secondary {
+    padding: 12px 22px;
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--sage);
+    color: var(--sage);
+    background: var(--paper);
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 40px 20px 20px;
+    margin-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+
+  .verse {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  .verse-ref {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+  }
+
+  .footer-brand {
+    margin-top: 24px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s;
+    z-index: 1000;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    body { padding: 20px 14px; }
+    .input-card, .analysis, .settings { padding: 24px; }
+    h1 { font-size: 42px; }
+    .analysis h2 { font-size: 22px; }
+    .results-header::before, .results-header::after { display: none; }
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: white; padding: 0; }
+    .input-card, .result-actions, .footer, .header .badge, .header-actions, .settings, .confidentiality { display: none !important; }
+    .analysis { border: none; box-shadow: none; padding: 0; }
+    .results-header { border: none; padding: 0 0 20px; }
+    .results-header::before, .results-header::after { display: none; }
+    .analysis h2 { color: var(--ink); break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="header">
+    <div class="header-top">
+      <div class="badge">Praticienne uniquement · Outil privé</div>
+      <div class="header-actions">
+        <button class="icon-btn" id="settingsToggle">⚙ Clé API</button>
+      </div>
+    </div>
+    <h1>Le Décodeur</h1>
+    <p class="subtitle">Analyse clinique intégrative — Voie Chifā</p>
+  </header>
+
+  <!-- SETTINGS PANEL (clé API) -->
+  <section class="settings" id="settingsPanel">
+    <div class="settings-title">🔑 Clé API Anthropic</div>
+    <p class="settings-hint">
+      Votre clé est stockée <strong>uniquement</strong> dans la mémoire de Chrome sur ce PC (<em>localStorage</em>). Elle n'est jamais transmise ailleurs qu'à l'API Anthropic (HTTPS chiffré). Elle reste valide jusqu'à ce que vous l'effaciez ou changiez de navigateur.
+    </p>
+    <div class="key-row">
+      <input type="password" class="key-input" id="keyInput" placeholder="sk-ant-api03-..." autocomplete="off">
+      <button class="btn-secondary" id="saveKeyBtn" style="white-space:nowrap;">💾 Enregistrer</button>
+      <button class="btn-secondary" id="clearKeyBtn" style="white-space:nowrap;">🗑 Effacer</button>
+    </div>
+    <div class="key-status" id="keyStatus"></div>
+  </section>
+
+  <!-- INPUT -->
+  <section class="input-card">
+    <div class="card-label">Coller le bilan à analyser</div>
+    <p class="card-hint">Bilan Émotionnel, Questionnaire des Schémas, Boussole de l'Âme, CR de séance, notes cliniques ou tout autre questionnaire.</p>
+
+    <textarea
+      id="bilanInput"
+      placeholder="Coller ici le texte du bilan, du CR ou des notes…&#10;&#10;Le décodeur peut analyser n'importe quel format : copier-coller depuis l'app Bilan Émotionnel, le Questionnaire des Schémas, vos notes manuscrites retranscrites, ou un mélange."
+      spellcheck="false"></textarea>
+
+    <div class="actions">
+      <button class="btn-primary" id="analyzeBtn">Analyser ce bilan</button>
+      <div class="status" id="status"></div>
+    </div>
+
+    <div class="confidentiality">
+      <strong>Confidentialité totale :</strong> ce fichier tourne uniquement sur votre PC. Aucune donnée n'est stockée. Les bilans transitent uniquement vers l'API Anthropic en HTTPS chiffré, le temps de l'analyse. Aucun serveur intermédiaire, aucun site, aucun cloud.
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="results" id="results">
+    <div class="results-header">
+      <h2 class="results-title">Synthèse intégrative</h2>
+    </div>
+
+    <article class="analysis" id="analysisContent"></article>
+
+    <div class="result-actions">
+      <button class="btn-secondary" id="copyBtn">📋 Copier la synthèse</button>
+      <button class="btn-secondary" id="printBtn">🖨 Imprimer</button>
+      <button class="btn-secondary" id="resetBtn">↻ Nouveau bilan</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p class="verse">« Et c'est dans le rappel d'Allāh que les cœurs trouvent leur quiétude »</p>
+    <p class="verse-ref">Sourate Ar-Ra'd · 13 : 28</p>
+    <p class="footer-brand">Voie Chifā — Cabinet psycho-spirituel · SHIFA Decodeur v2.0</p>
+  </footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================================
+   LE DÉCODEUR — VOIE CHIFĀ · Version locale autonome
+   ========================================================================= */
+
+const $ = (id) => document.getElementById(id);
+const STORAGE_KEY = 'voiechifa_decodeur_apikey';
+
+/* ---------- CADRE CLINIQUE EMBARQUÉ ---------- */
+const SYSTEM_PROMPT = `Tu es **Le Décodeur Clinique** du cabinet **Voie Chifā** — cabinet psycho-spirituel intégratif fondé par Nawel Haddouch (méthode signature RAHMA4).
+
+# TON RÔLE
+
+Tu analyses des bilans, questionnaires, comptes-rendus de séance et notes cliniques collés par la praticienne, et tu produis une **analyse intégrative rigoureuse** selon le cadre Voie Chifā : Tibb Nabawi + Neurosciences + TCC + Phytothérapie + Spiritualité islamique.
+
+Tu n'es **pas** un assistant conversationnel : tu produis directement la synthèse demandée, sans préambule, sans question, sans répétition du bilan. Tu écris pour une praticienne expérimentée, en langage clinique précis et nuancé.
+
+# LE CADRE D'ANALYSE VOIE CHIFĀ
+
+## 1. ANAMNÈSE GÉNÉRALE (Livret Clinique — Partie 1)
+Sept dimensions : Profil/contexte · Motif (intensité 0-10, durée, déclencheurs) · Histoire de vie & traumatismes (enfance, événements, abandon/rejet, violence, abus, négligence, deuils précoces) · Vie quotidienne & domaines d'impact (pro, familial, conjugal, social, spirituel, corporel — 0-10 chacun) · Ressources internes & externes · Spiritualité & rapport à Allāh (apaisé / éloigné / coupable / en recherche) · Synthèse praticien.
+
+## 2. BILAN ÉMOTIONNEL (7 étapes — outil web Voie Chifā)
+Identification · Motif (durée, accompagnements antérieurs) · Ressenti — 6 émotions notées 0-10 : **anxiété, tristesse, colère, fatigue, peur, vide intérieur** · Symptômes corporels (sommeil, tensions, palpitations, digestif, céphalées, appétit) et émotionnels/mentaux (ruminations, hyper-réactivité, concentration, débordement, motivation, larmes) · Pensées récurrentes, évitements, impact quotidien · Spirituel (rapport à la foi : apaisée/fluctuante/tendue/en recherche ; pratiques : salât, Coran, dhikr, du'â, tafakkur ; verset/hadith porteur) · Ressources & objectifs.
+
+## 3. QUESTIONNAIRE DES SCHÉMAS (28 questions, échelle 1-6 — Young adapté Voie Chifā)
+- Schéma 1 — **Abandon / Instabilité** (Q1-Q4) : peur de perdre les proches
+- Schéma 2 — **Méfiance / Abus** (Q5-Q7) : conviction qu'on cherchera à blesser/trahir
+- Schéma 3 — **Imperfection / Honte** (Q8-Q11) : sentiment d'être fondamentalement défectueuse
+- Schéma 4 — **Échec** (Q12-Q14) : conviction d'incapacité
+- Schéma 5 — **Dépendance / Incompétence** (Q15-Q17) : ne pas pouvoir fonctionner seule
+- Schéma 6 — **Sacrifice de soi** (Q18-Q21) : autres avant soi, culpabilité du non
+- Schéma 7 — **Exigence / Perfectionnisme** (Q22-Q25) : standards très hauts, auto-critique
+- Schéma 8 — **Contrôle insuffisant** (Q26-Q28) : difficulté à se discipliner, procrastination
+
+Lecture : **1-2** absent · **2-3.5** présent à explorer · **3.5-5** marqué, à travailler · **5-6** dominant, prioritaire.
+
+## 4. 8 TROUBLES PSYCHO-SPIRITUELS (Livret Clinique — Partie 2, score /100)
+
+| # | Trouble | Mots-clés | Ancrage spirituel | Phyto |
+|---|---|---|---|---|
+| 1 | **Waswas / Pensées intrusives** | pensées répétitives, doute prière/wudu, peur d'impiété, refait actes | Sourate An-Nâs, dhikr, certitude > doute | Rhodiola + Safran |
+| 2 | **Colère** | fréquence, intensité, criant, corps alerte, rumination, regrets | Algorithme 90s, taire/changer/wudu | Griffonia + Magnésium + Talbina |
+| 3 | **Anxiété / Stress chronique** | inquiétude permanente, scénarios catastrophiques, oppression, panique, évitement, épuisement | Ar-Ra'd 13:28, tawakkul, dhikr quotidien | Ashwagandha + Magnésium + Zinc |
+| 4 | **Tristesse / Huzn** | tristesse durable, anhédonie, vide, pleurs, pensées négatives sur soi, isolement, fatigue | Talbina + Safran + Oméga3, marche, dhikr du huzn | Talbina + Safran + Oméga3 |
+| 5 | **Traumatisme / Choc émotionnel** | flashbacks, déclencheurs, hyperalerte, cauchemars, dissociation, évitement | Coran 2:286, EFT, refuge intérieur | — |
+| 6 | **Estime de soi / Imposteur** | ne pas mériter, voix critique interne, imposture, sabotage, aversion de soi | Coran 17:70, Rahma divine, lettre à l'enfant intérieur | — |
+| 7 | **Deuil / Perte** | perte présente à l'esprit, non-acceptation, colère liée, culpabilité, isolement | Coran 2:156 (Inna lillahi), autoriser les larmes, Qadar | — |
+| 8 | **Crise psycho-spirituelle** | éloignement d'Allāh, prière devenue charge, culpabilité religieuse, honte spi | Al-Jabbar, Al-Latif, histoire Nabi Yusuf | — |
+
+**Seuils universels par trouble :** 🟢 **0-30** léger (suivi régulier, prévention) · 🟠 **31-65** modéré (protocole complet, hebdomadaire) · 🔴 **66-100** sévère (urgence clinique, orientation spécialiste obligatoire).
+
+## 5. 62 FICHES SHIFA (catalogue clinique — référencer par code)
+
+**Famille A — Psychiatrie adulte (16)** :
+A-01 Waswas · A-02 Choc émotionnel · A-03 Addictions · A-04 Dépression · A-05 Angoisse/TAG · A-06 Attaques de panique · A-07 TOC (hors waswas) · A-08 Deuil compliqué · A-09 Traumatismes/SSPT · A-10 Phobie sociale · A-11 Phobies spécifiques · A-12 Agoraphobie · A-13 Hypersensibilité émotionnelle (HPE) · A-14 TCA · A-15 Borderline · A-16 Procrastination chronique
+
+**Famille B — Enfance/Adolescence (8)** :
+B-01 TDAH enfant · B-02 TSA · B-03 HPI · B-04 Dyslexie/dys · B-05 Refus scolaire · B-06 TOP · B-07 Anxiété de séparation · B-08 Phobie scolaire complexe
+
+**Famille C — Spirituel / atteintes occultes (3)** :
+C-01 'Ayn (mauvais œil) · C-02 Sihr (sorcellerie) · C-03 Mass (atteinte djinn)
+
+**Famille D — Conjugal / familial (5)** :
+D-01 Conflits conjugaux · D-02 Sihr conjugal · D-03 Communication conjugale · D-04 Parentalité positive · D-05 Violences conjugales
+
+**Famille E — Santé femme (9)** :
+E-01 Endométriose · E-02 SOPK · E-03 Thyroïde · E-04 Fibromyalgie · E-05 Ménopause · E-06 Fausse couche · E-07 Troubles menstruels · E-08 Stérilité/PMA · E-09 Désir/dysfonctions sexuelles
+
+**Famille F — Émotions / cœur (7)** :
+F-01 Colère · F-02 Peur excessive · F-03 Tristesse/chagrin · F-04 Jalousie/hasad · F-05 Orgueil/kibr · F-06 Désespoir/qunût · F-07 Dureté du cœur
+
+**Famille G — Foi (4)** :
+G-01 Faiblesse de foi · G-02 Difficultés dans la prière · G-03 Tiédeur spirituelle (futur) · G-04 Addiction au péché
+
+**Famille H — Somatique (5)** :
+H-01 Céphalées · H-02 Insomnie · H-03 Fatigue chronique · H-04 SNA dérégulé/dystonie · H-05 Troubles psychosomatiques
+
+**Famille I — Stress (5)** :
+I-01 Burn-out professionnel · I-02 Surmenage chronique · I-03 Surcharge cognitive · I-04 Charge mentale · I-05 Stress aigu/chronique
+
+Chaque fiche SHIFA contient 12 rubriques : Définition · Symptômes · Diagnostic différentiel · Causes · Évaluation · Protocole MÉDICAL · Protocole SPIRITUEL (roqya, adhkâr, du'â, Beaux Noms) · Protocole NATUREL (phyto, médecine prophétique) · Protocole TCC/RAHMA4 · Fiche patiente · Suivi · Sources.
+
+## 6. MÉTHODE RAHMA4 (phases d'accompagnement)
+- **R** — Identifier (cartographier la souffrance, anamnèse, écoute)
+- **A** — Comprendre (sens, schémas, histoire, hypothèses)
+- **HM** — Réguler (corps, SNC, émotions, phyto, dhikr)
+- **A** — Transformer (intégration, nouveau récit, autonomie spirituelle)
+
+## 7. COMORBIDITÉS FRÉQUENTES AU CABINET
+- **Tristesse + Deuil** non traité → tristesse chronique
+- **Trauma + Colère** → colère réactionnelle (traiter trauma d'abord — P1 avant TCC colère)
+- **Trauma + Estime** → P1 puis P2 en parallèle (trauma infantile = 1ère cause d'estime faible)
+- **Waswas + Anxiété** → traiter waswas d'abord (protection spi), puis réguler anxiété
+- **Crise spirituelle + Estime** → P4 toujours avec P2, **jamais seul**
+- **Colère + Tristesse** → la colère masque souvent la tristesse cachée
+- **Estime + Sacrifice de soi** (schéma 6) → fréquente chez femmes consultantes
+
+## 8. SIGNAUX D'ORIENTATION SPÉCIALISTE (à signaler EXPLICITEMENT)
+- Q9 du bilan Tristesse ≥ 6 **OU** mention de pensées autodestructrices, suicidaires, "ne sert à rien", "je veux disparaître" → **évaluation de sécurité immédiate + orientation psychiatre OBLIGATOIRE**
+- Trauma ≥ 66 → orientation EMDR / Somatic Experiencing
+- Anxiété ≥ 66 ou crises panique répétées → orientation psychiatrique
+- Dépression probable (anhédonie + retentissement) → psychiatre/psychologue clinicien
+- Dissociation, déréalisation, sentiment d'être étrangère à soi → trauma-thérapeute spécialisé
+- Rupture totale avec la foi + refus de toute référence islamique → adapter, ne pas forcer
+- Non-évolution après 4 séances → réévaluer hypothèses + comorbidités + orientation
+- Violences conjugales actives (D-05) → mise en sécurité prioritaire
+
+# STRUCTURE DE TA RÉPONSE
+
+Tu réponds **uniquement** en Markdown, avec les sections suivantes **dans cet ordre exact** et **avec ces titres exacts**. Pas de préambule, pas de conclusion hors structure.
+
+## Profil global
+3 à 5 phrases denses. Qui est la personne (âge, situation, motif). Ce qu'elle traverse au cœur. **Niveau d'urgence global** (🟢 / 🟠 / 🔴) avec une justification courte. Trouble/dimension dominant(e).
+
+## Carte intégrative
+Croisement systématique des 4 dimensions cliniques :
+- **Émotionnel** — quelles émotions dominent et à quels niveaux (du bilan ou inférés)
+- **Schémas profonds** — schémas de Young actifs (avec scores si présents)
+- **Troubles psycho-spirituels** — quels troubles VC sont actifs et à quel niveau (🟢/🟠/🔴)
+- **Spirituel** — état du rapport à Allāh, ressources et fragilités spirituelles
+- **Corporel/somatique** — manifestations corporelles présentes
+
+## Corrélations inter-dimensionnelles
+2 à 4 corrélations cliniques précises, formulées comme des **hypothèses de liens**. Exemple : *"Le schéma Sacrifice de soi (5.2/6) entretient l'épuisement (8/10) et la difficulté à dire non — il alimente probablement aussi le sentiment d'imposteur noté en zone modérée."* Chaque corrélation doit être **actionnable**.
+
+## Hypothèses diagnostiques
+3 à 5 hypothèses **ordonnées par probabilité**, formulées avec prudence (*évoque*, *présente des éléments compatibles avec*, *à explorer*). **Toujours référencer les codes SHIFA pertinents** entre backticks (\`A-04\`, \`F-03\`, \`H-03\`…). Sourcer chaque hypothèse sur des éléments précis du bilan.
+
+## Axes thérapeutiques prioritaires
+Maximum **3 axes** pour rester actionnable. Pour chaque axe :
+- **Titre court** + code SHIFA principal
+- **Phase RAHMA4** dominante (R / A / HM / A)
+- **Durée indicative** (en séances)
+- **Leviers concrets** dans 3-4 dimensions : médical · spirituel · naturel/phyto · TCC/comportemental
+- Référence coranique/sunna porteuse (sobre, comme ressource clinique)
+
+## Points de vigilance
+Liste à puces. Inclure obligatoirement :
+- Tout **signal d'orientation spécialiste** repéré, marqué ⚠️ en début de ligne
+- Comorbidités probables à explorer
+- Contre-indications éventuelles
+- Limites du bilan (ce qui manque pour affiner les hypothèses)
+
+## Ressources identifiées
+Ce sur quoi la personne peut s'appuyer dès maintenant : foi (préciser la qualité du rapport), entourage nommé, traits de caractère, vécus de résilience, pratiques spirituelles déjà installées, soutien médical en cours.
+
+# RÈGLES IMPORTANTES — À RESPECTER STRICTEMENT
+
+1. **JAMAIS** poser un diagnostic psychiatrique formel. Utiliser : *"évoque"*, *"présente des éléments compatibles avec"*, *"à explorer"*, *"hypothèse de"*.
+2. **TOUJOURS** mentionner les codes SHIFA pertinents (\`A-04\`, \`F-03\`, etc., entre backticks).
+3. Privilégier l'**analyse intégrative** à la catégorisation rigide.
+4. Quand un **signal d'orientation spécialiste** est présent, le signaler EXPLICITEMENT dans *Points de vigilance* avec ⚠️ et préciser l'urgence et le type de spécialiste.
+5. Tonalité : **clinique, respectueuse, intégrative**. Pas de jargon inutile. Pas de moralisation religieuse. Pas de "ma sœur", "qu'Allāh te facilite" — tu écris pour une praticienne.
+6. Références coraniques/sunna : **sobres**, comme outils cliniques. Toujours pertinentes, jamais décoratives.
+7. Si le bilan est **trop pauvre/incomplet** → poser des hypothèses prudentes ET noter ce qui manque dans *Points de vigilance*.
+8. Si le bilan évoque des **mineurs** : adapter aux fiches Famille B, signaler les éléments d'autorité parentale et de protection.
+9. Si le bilan évoque des **violences actives** : prioriser la sécurité, mentionner 3919 (femmes victimes de violences) ou 119 (enfance en danger), ne pas se limiter au cadre thérapeutique.
+10. Ta réponse doit être **directement copiable/imprimable** par la praticienne pour son dossier patient. Soigne la lisibilité.`;
+
+/* ---------- ÉTAT ---------- */
+let apiKey = localStorage.getItem(STORAGE_KEY) || '';
+let rawMarkdown = '';
+
+/* ---------- UI HELPERS ---------- */
+function showStatus(message, type = 'loading') {
+  const status = $('status');
+  status.className = 'status show ' + type;
+  status.innerHTML = type === 'loading'
+    ? message + ' <span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span>'
+    : message;
+}
+
+function hideStatus() {
+  const status = $('status');
+  status.className = 'status';
+  status.innerHTML = '';
+}
+
+function showToast(message) {
+  const toast = $('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+function showKeyStatus(message, isError = false) {
+  const ks = $('keyStatus');
+  ks.className = 'key-status show' + (isError ? ' error' : '');
+  ks.textContent = message;
+}
+
+/* ---------- GESTION CLÉ API ---------- */
+function updateKeyUI() {
+  if (apiKey) {
+    const last4 = apiKey.slice(-4);
+    showKeyStatus(`✓ Clé enregistrée (se termine par …${last4})`, false);
+    $('keyInput').value = '';
+    $('keyInput').placeholder = `Clé déjà enregistrée — coller une nouvelle pour la remplacer`;
+  } else {
+    $('keyStatus').className = 'key-status';
+    $('keyInput').placeholder = 'sk-ant-api03-...';
+  }
+}
+
+$('settingsToggle').addEventListener('click', () => {
+  $('settingsPanel').classList.toggle('open');
+});
+
+$('saveKeyBtn').addEventListener('click', () => {
+  const val = $('keyInput').value.trim();
+  if (!val) {
+    showKeyStatus('Veuillez coller une clé avant d\'enregistrer.', true);
+    return;
+  }
+  if (!val.startsWith('sk-ant-')) {
+    showKeyStatus('Format de clé inattendu — une clé Anthropic commence par "sk-ant-".', true);
+    return;
+  }
+  apiKey = val;
+  localStorage.setItem(STORAGE_KEY, apiKey);
+  updateKeyUI();
+  showToast('Clé API enregistrée 🌿');
+});
+
+$('clearKeyBtn').addEventListener('click', () => {
+  if (!confirm('Effacer la clé API enregistrée ?')) return;
+  apiKey = '';
+  localStorage.removeItem(STORAGE_KEY);
+  updateKeyUI();
+  showToast('Clé effacée');
+});
+
+/* ---------- APPEL API ANTHROPIC (direct depuis le navigateur) ---------- */
+async function callAnthropic(bilan) {
+  const userMessage = `Voici le bilan / questionnaire / CR à analyser selon le cadre Voie Chifā :\n\n---\n\n${bilan}\n\n---\n\nProduis la synthèse intégrative complète selon la structure définie.`;
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 4096,
+      system: SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: userMessage }]
+    })
+  });
+
+  if (!response.ok) {
+    let errorMessage = 'Erreur API Anthropic (HTTP ' + response.status + ')';
+    try {
+      const errData = await response.json();
+      if (errData.error && errData.error.message) {
+        errorMessage = errData.error.message;
+      }
+    } catch {}
+
+    if (response.status === 401) {
+      throw new Error('Clé API invalide ou expirée. Vérifiez-la dans le panneau ⚙ Clé API en haut.');
+    } else if (response.status === 429) {
+      throw new Error('Limite de débit atteinte. Réessayez dans quelques secondes.');
+    } else if (response.status === 529) {
+      throw new Error('Service Anthropic temporairement surchargé. Réessayez dans une minute.');
+    }
+    throw new Error(errorMessage);
+  }
+
+  const data = await response.json();
+  const textBlocks = (data.content || [])
+    .filter((b) => b.type === 'text')
+    .map((b) => b.text);
+  const text = textBlocks.join('\n\n').trim();
+
+  if (!text) throw new Error('Réponse vide de l\'analyseur');
+  return text;
+}
+
+/* ---------- ANALYSE ---------- */
+async function analyze() {
+  if (!apiKey) {
+    showStatus('⚠ Aucune clé API enregistrée. Cliquez sur ⚙ Clé API en haut pour la configurer.', 'error');
+    $('settingsPanel').classList.add('open');
+    $('settingsPanel').scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+
+  const bilan = $('bilanInput').value.trim();
+  if (bilan.length < 30) {
+    showStatus('⚠ Le bilan est trop court. Collez au moins quelques phrases.', 'error');
+    return;
+  }
+
+  const btn = $('analyzeBtn');
+  btn.disabled = true;
+  btn.textContent = 'Analyse en cours…';
+  showStatus('Analyse intégrative en cours — environ 15 à 30 secondes', 'loading');
+  $('results').classList.remove('show');
+
+  try {
+    const analysisText = await callAnthropic(bilan);
+    rawMarkdown = analysisText;
+    $('analysisContent').innerHTML = marked.parse(analysisText, { breaks: true, gfm: true });
+    hideStatus();
+    $('results').classList.add('show');
+    $('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (err) {
+    console.error(err);
+    showStatus('⚠ ' + (err.message || 'Erreur lors de l\'analyse.'), 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Analyser ce bilan';
+  }
+}
+
+/* ---------- ÉVÉNEMENTS ---------- */
+$('analyzeBtn').addEventListener('click', analyze);
+
+$('copyBtn').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(rawMarkdown);
+    showToast('Synthèse copiée dans le presse-papier 🌿');
+  } catch {
+    showToast('Impossible de copier — sélectionnez le texte manuellement');
+  }
+});
+
+$('printBtn').addEventListener('click', () => window.print());
+
+$('resetBtn').addEventListener('click', () => {
+  $('bilanInput').value = '';
+  $('results').classList.remove('show');
+  rawMarkdown = '';
+  hideStatus();
+  $('bilanInput').focus();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+$('bilanInput').addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') analyze();
+});
+
+/* ---------- INIT ---------- */
+updateKeyUI();
+if (!apiKey) {
+  // Premier lancement : ouvrir le panneau Clé API
+  setTimeout(() => $('settingsPanel').classList.add('open'), 500);
+}
+</script>
+
+</body>
+</html>
