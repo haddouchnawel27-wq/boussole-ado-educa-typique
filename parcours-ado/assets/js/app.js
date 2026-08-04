@@ -31,7 +31,7 @@
         { code: "AD-02", ico: "🌤️", titre: "Comment je vais aujourd'hui", desc: "Un check-in de 2 minutes", vue: "ad02", etat: "dispo" },
         { code: "AD-03", ico: "🧭", titre: "Mode d'emploi de Moi", desc: "Ce qui m'aide, ce qui me coûte", vue: "ad03", etat: "dispo" },
         { code: "AD-04", ico: "🎭", titre: "Mes émotions", desc: "Ma météo intérieure — la honte comprise", vue: "ad04", etat: "dispo" },
-        { code: "AD-05", ico: "⭐", titre: "Mes valeurs", desc: "Ce qui compte vraiment pour moi", etat: "bientot" }
+        { code: "AD-05", ico: "⭐", titre: "Mes valeurs", desc: "Ce qui compte vraiment pour moi", vue: "ad05", etat: "dispo" }
       ]
     },
     {
