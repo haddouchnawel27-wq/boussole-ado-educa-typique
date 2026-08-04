@@ -29,7 +29,7 @@
       ecrans: [
         { code: "AD-01", ico: "🔐", titre: "Mon espace & mes droits", desc: "C'est ton espace. Tu choisis.", vue: "ad01", etat: "dispo" },
         { code: "AD-02", ico: "🌤️", titre: "Comment je vais aujourd'hui", desc: "Un check-in de 2 minutes", vue: "ad02", etat: "dispo" },
-        { code: "AD-03", ico: "🧭", titre: "Mode d'emploi de Moi", desc: "Ce qui m'aide, ce qui me coûte", etat: "bientot" },
+        { code: "AD-03", ico: "🧭", titre: "Mode d'emploi de Moi", desc: "Ce qui m'aide, ce qui me coûte", vue: "ad03", etat: "dispo" },
         { code: "AD-04", ico: "🎭", titre: "Mes émotions", desc: "Ma météo intérieure — la honte comprise", etat: "bientot" },
         { code: "AD-05", ico: "⭐", titre: "Mes valeurs", desc: "Ce qui compte vraiment pour moi", etat: "bientot" }
       ]
@@ -45,9 +45,10 @@
     },
     {
       id: 3, couleur: "var(--ciel)", titre: "Je construis la suite",
-      sous: "Mon quotidien, mes forces, mon avenir.",
+      sous: "Mon quotidien, mes forces, mes études et mon avenir.",
       ecrans: [
-        { code: "AD-09", ico: "🧩", titre: "Mon quotidien & mon avenir", desc: "Mes forces, mes intérêts, ma projection", etat: "bientot" },
+        { code: "AD-09", ico: "🧩", titre: "Mon quotidien & mes forces", desc: "Ma semaine, mon organisation, mes intérêts", etat: "bientot" },
+        { code: "ET", ico: "🧭", titre: "Mon orientation", desc: "Études & métiers : intelligences, intérêts (RIASEC), style d'apprentissage", etat: "bientot" },
         { code: "AD-10", ico: "✉️", titre: "Ma demande d'accompagnement", desc: "Dire ce dont j'ai besoin, à mon rythme", etat: "bientot" },
         { code: "AD-11", ico: "🔀", titre: "Centre de partage", desc: "Je choisis quoi partager, et avec qui", etat: "bientot" }
       ]
@@ -129,26 +130,38 @@
   /* ===========================================================================
      RENDU
      =========================================================================== */
+  var SCREENS = {}; // modules d'écrans enregistrés (ex. AD-03), voir MEM.register
+
   function render() {
     var app = $("#app");
     var html;
-    switch (S.vue) {
-      case "bienvenue": html = vueBienvenue(); break;
-      case "verrou":    html = vueVerrou(); break;
-      case "accueil":   html = coquille(vueAccueil()); break;
-      case "ad01":      html = coquille(vueAD01()); break;
-      case "ad02":      html = coquille(vueAD02()); break;
-      case "ad02-fin":  html = coquille(vueAD02Fin()); break;
-      case "ad02-histo":html = coquille(vueAD02Histo()); break;
-      case "reglages":  html = coquille(vueReglages()); break;
-      default:          html = vueGarde();
+    if (SCREENS[S.vue]) {
+      html = coquille(SCREENS[S.vue].render());
+    } else {
+      switch (S.vue) {
+        case "bienvenue": html = vueBienvenue(); break;
+        case "verrou":    html = vueVerrou(); break;
+        case "accueil":   html = coquille(vueAccueil()); break;
+        case "ad01":      html = coquille(vueAD01()); break;
+        case "ad02":      html = coquille(vueAD02()); break;
+        case "ad02-fin":  html = coquille(vueAD02Fin()); break;
+        case "ad02-histo":html = coquille(vueAD02Histo()); break;
+        case "reglages":  html = coquille(vueReglages()); break;
+        default:          html = vueGarde();
+      }
     }
     app.innerHTML = html + (S.modale ? modaleAide() : "");
     // Bouton d'aide flottant permanent (sauf écran de chargement)
     if (S.vue !== "garde") app.insertAdjacentHTML("beforeend", boutonAideFlottant());
     bind();
-    var main = $("#contenu"); if (main) main.focus();
-    if (S.vue !== S._last) window.scrollTo(0, 0);
+    if (SCREENS[S.vue]) {
+      if (SCREENS[S.vue].enter) SCREENS[S.vue].enter();
+      if (SCREENS[S.vue].bind) SCREENS[S.vue].bind();
+    }
+    if (S.vue !== S._last) {
+      var main = $("#contenu"); if (main) main.focus();
+      window.scrollTo(0, 0);
+    }
     S._last = S.vue;
   }
 
@@ -721,5 +734,15 @@
     render();
   }
 
-  global.MEM = { start: start };
+  /* API exposée aux modules d'écrans (ex. screens/ad03.js) */
+  global.MEM = {
+    start: start,
+    register: function (id, def) { SCREENS[id] = def; },
+    go: aller,
+    render: render,
+    esc: esc,
+    toast: toast,
+    auj: auj,
+    dateJolie: dateJolie
+  };
 })(window);
