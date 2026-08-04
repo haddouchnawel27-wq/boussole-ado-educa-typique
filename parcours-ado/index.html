@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Mode d'Emploi de Moi — l'espace privé des ados (13-17 ans) d'Educa Typique. 100% local, chiffré, hors-ligne. Aucun diagnostic." />
+  <meta name="theme-color" content="#3C6478" />
+  <title>Mode d'Emploi de Moi — Educa Typique</title>
+  <link rel="icon" href="assets/icon.svg" />
+  <link rel="apple-touch-icon" href="assets/icon.svg" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+  <div id="app"></div>
+
+  <script src="assets/js/vault.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    MEM.start();
+    if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>

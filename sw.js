@@ -2,7 +2,7 @@
    Stratégie « stale-while-revalidate » : on sert vite depuis le cache,
    puis on met à jour en arrière-plan, pour que les nouvelles versions
    s'appliquent d'elles-mêmes à l'ouverture suivante. */
-var CACHE = "cap-educa-v16";
+var CACHE = "cap-educa-v17";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
   "./assets/css/styles.css",
@@ -49,6 +49,7 @@ self.addEventListener("fetch", function (e) {
   // Les sites vitrines (Parcours Clarté · Jannat Al Qalb) ne font PAS partie
   // de l'application : on les laisse au réseau, sans cache ni coquille d'appli.
   if (url.pathname.indexOf("/parcours-clarte-tnd/") !== -1 ||
+      url.pathname.indexOf("/parcours-ado/") !== -1 ||
       url.pathname.indexOf("/jannat-al-qalb/") !== -1 ||
       url.pathname.indexOf("/al-mizan/") !== -1 ||
       url.pathname.indexOf("/souffle-lumiere/") !== -1 ||
