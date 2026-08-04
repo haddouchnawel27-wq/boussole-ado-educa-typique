@@ -348,6 +348,54 @@ personnalisées · **rapport final automatisé de plusieurs pages**.
 
 ---
 
-_Source : brainstorm, version développée & vision 360° de Nawel (Educa Typique)
-+ compléments d'implémentation. À relire et reformuler avec les mots de Nawel
-avant codage, comme pour AD-03._
+---
+
+## 10. Cahier d'outils — version adolescent (12 outils)
+
+> Version workbook fournie par Nawel. **Principe cardinal** : ces outils
+> **n'enferment jamais dans une étiquette** — ils font émerger des **hypothèses**
+> et des **pistes**. À réaliser **en plusieurs séances**, jamais tout d'un coup.
+> Types : questionnaires · échelles · grilles d'observation · choix forcés ·
+> exercices projectifs · **passage à l'action réel**.
+
+| # | Outil | Type | Écran de destination |
+|---|---|---|---|
+| 1 | **La roue de ma vie d'ado** (10 domaines notés 0-10 + 1 action prioritaire) | échelle + action | AD-09 (quotidien) |
+| 2 | **La carte de mes forces** (comprendre/créer/aider/agir/organiser) + **regard croisé** parent/prof (comparer, sans « qui a raison ») | cases + ouvertes | Orientation (forces) ↔ AD-03 |
+| 3 | **Mon histoire de réussites** (3 réussites × situation/difficulté/action/ressources/résultat/apprentissage) | récit guidé | Orientation (forces par l'expérience) |
+| 4 | **Le journal d'énergie** (7 jours : activités +/=/− , énergie avant/après) | grille d'observation | AD-09 / Orientation (conditions) |
+| 5 | **Les familles d'intérêts** (6 familles = **RIASEC** : réaliser, rechercher, créer, aider, entreprendre, organiser) | échelle 4 niveaux | Orientation **ET-02** |
+| 6 | **Mon profil d'apprentissage** (mise en situation + échelle 1-5 + « mon mode d'emploi ») | mixte | Orientation **ET-03** ↔ AD-03 |
+| 7 | **Le test des environnements** (12 choix forcés + projection) | choix forcés | Orientation (conditions de travail) |
+| 8 | **Mes valeurs** (20 valeurs → 10 → 5 → 3, *Spiritualité* incluse, jamais imposée) | tri progressif | **AD-05 Mes valeurs** |
+| 9 | **La journée idéale dans 10 ans** (récit + repérage activités/personnes/lieux/émotions/valeurs) | projectif | Orientation (projection) |
+| 10 | **Le défi des micro-expériences** (interviewer, observer, mini-projet… + fiche d'expérimentation) | passage à l'action | Orientation (relais externe) |
+| 11 | **Le conseil de mes futurs moi** (moi à 1 an / 5 ans / 10 ans → 1 action cette semaine) | projectif | AD-05 / Orientation |
+| 12 | **Le plan d'orientation en 4 étapes** (je me connais → j'explore → je compare → j'agis) | plan d'action | Orientation (synthèse) |
+
+### 10.1 Synthèse ado — règle de rédaction **non-négociable**
+Le portrait final (1-2 pages) **ne conclut jamais** « Tu es fait pour devenir… ».
+Il formule toujours au conditionnel ouvert :
+- « Ton profil semble **actuellement** attiré par… »
+- « Tu pourrais **explorer**… »
+- « Les environnements qui **pourraient** te convenir sont… »
+- « Les prochaines **expériences utiles** seraient… »
+
+### 10.2 ＋ Ce que ce cahier confirme / précise
+- **OUTIL 8 = AD-05** : ce module donne directement le contenu de l'écran
+  « Mes valeurs » (Programme 1) — tri 10→5→3 + questions de mise en lien.
+- **OUTILS 2-3-4-5-6-7-9-10-12 = le module Orientation** (étape finale) ; ils
+  s'appuient sur AD-03 (pont métacognition) et AD-09.
+- **Passage à l'action réel** (OUTIL 10) = la vraie valeur : remplacer les
+  suppositions par des micro-expériences ; c'est là que le **relais externe**
+  (Onisep, L'Étudiant…) prend le relais.
+- **Grilles d'observation sur plusieurs jours** (OUTIL 4) ⇒ prévoir un petit
+  outil de **suivi dans le temps**, pas seulement un formulaire ponctuel.
+- Tout reste **privé/chiffré** ; le **regard croisé** (OUTIL 2) et tout partage
+  passent par **AD-11** (consentement), jamais automatiquement.
+
+---
+
+_Source : brainstorm, version développée, vision 360° & cahier d'outils ado de
+Nawel (Educa Typique) + compléments d'implémentation. À relire et reformuler
+avec les mots de Nawel avant codage, comme pour AD-03._
