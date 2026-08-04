@@ -14,13 +14,16 @@ En cas de blocage : **check-in émotionnel → régulation → micro-action → 
 - 🫧 **Check-in** : énergie, stress, clarté, peur du regard, charge mentale → un **score de blocage** oriente vers *création*, *accompagnement* ou *apaisement*.
 - 🌬️ **Régulation** : décharge émotionnelle, respiration guidée (cohérence / carrée / 4-7-8), ancrage 5-4-3-2-1, recentrage spirituel optionnel (Noms d'Allah, invocation).
 - ✨ **Micro-action** : une seule, adaptée à l'énergie et au temps dispo (2 / 10 / 30 min) — avec le droit de reporter sans culpabiliser.
-- ✍️ **Atelier d'écriture** : accroches, angles et squelettes prêts-à-remplir (par templates, **sans IA**).
+- 🧠 **Studio de rédaction pédagogique** : brief par public et objectif, accroche, idée essentielle, mot de fin et ressources sélectionnées ; trois propositions complètes (post pédagogique, post relationnel et carrousel).
+- 🎓 **Contrôle éditorial croisé** : ingénierie pédagogique, neuropédagogie, social media, community management, rédaction et copyright.
+- ✍️ **Atelier d'écriture** : accroches, angles, plan guidé, CTA et hashtags modifiables (**sans fausse génération IA**).
 - ✈️ **Telegram et WhatsApp prioritaires** : choix proposés en premier, légende préparée et boutons d'envoi dédiés. Instagram, Facebook, LinkedIn et TikTok restent disponibles.
 - 🎨 **Fabrique de publications** : 6 gabarits natifs — Educa Typique et Jannat al Qouloub — remplissage automatique, photo facultative, aperçu, format carré ou portrait, export PNG et partage.
 - 📅 **Calendrier** éditorial simple (brouillon / prévu / publié).
 - 💡 **Bibliothèque de sujets** : 24 pistes de départ classées par univers et public, utilisables directement dans l'atelier.
 - 📚 **Ressources personnelles** : texte collé ou import local TXT, Markdown, CSV, JSON et HTML, envoyé ensuite dans l'atelier comme matière de travail.
-- 🎨 **Passerelle Canva** : exporte le PNG puis ouvre Canva. L'autoremplissage Canva connecté appartient à la phase en ligne (OAuth/API).
+- 🎨 **Kit Canva récupérable** : sauvegarde la publication, télécharge le PNG sous un nom précis, affiche les étapes d'import et ouvre la page d'import Canva.
+- 🔎 **Brief IA sourcée** : prépare un prompt complet imposant sources primaires, liens exacts, distinction faits/conseils, vérification et contrôle copyright.
 - 🗂️ **Bibliothèque de créations** : brouillons, idées et publications visuelles avec statut brouillon / prêt / publié.
 - ⚙️ **Réglages** : mode spirituel, confort dys, taille du texte, export / import / effacement.
 

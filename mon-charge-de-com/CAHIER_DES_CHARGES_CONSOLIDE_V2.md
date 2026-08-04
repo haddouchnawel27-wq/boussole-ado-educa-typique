@@ -38,16 +38,23 @@ option spirituelle activable. Elle soutient la création mais ne la remplace pas
 - respirations, ancrage et recentrage spirituel optionnel ;
 - micro-actions selon l'énergie et le temps ;
 - atelier guidé : angles, accroches, plans, CTA et hashtags ;
+- studio de rédaction réunissant ingénierie pédagogique, neuropédagogie, social
+  media management, community management, création de contenu et rédaction ;
+- génération locale de trois propositions complètes à partir du public, de
+  l'objectif, de l'accroche, du message, du mot de fin et des ressources choisies ;
+- traçabilité des ressources, avertissements de vérification et contrôle copyright ;
 - bibliothèque intégrée de 24 sujets Educa Typique et Jannat al Qouloub ;
 - import de ressources TXT, Markdown, CSV, JSON et HTML, ou collage direct ;
 - six gabarits visuels natifs ;
 - formats 1080 × 1350 et 1080 × 1080 ;
-- export PNG, partage, Telegram, WhatsApp et passerelle manuelle Canva ;
+- export PNG, partage, Telegram, WhatsApp et kit Canva avec sauvegarde préalable,
+  nom de fichier, étapes d'import et récupération en bibliothèque ;
 - calendrier et statuts brouillon, prêt, prévu, publié ;
 - préférences d'accessibilité et sauvegarde locale exportable.
 
-Cette version fonctionne sans compte ni serveur. Elle n'effectue pas encore une
-génération par IA, une veille en temps réel ou une analyse automatique des réseaux.
+Cette version fonctionne sans compte ni serveur. Son moteur de rédaction local ne
+fabrique aucune source externe. Elle n'effectue pas encore une recherche par IA,
+une veille en temps réel ou une analyse automatique des réseaux.
 
 ## 5. Bibliothèque de connaissances
 
@@ -113,7 +120,9 @@ un envoi à des destinataires exige une autorisation explicite et spécifique.
 
 ### Disponible immédiatement
 
-L'application exporte le visuel PNG et ouvre Canva pour la finition manuelle.
+L'application sauvegarde d'abord la publication dans sa bibliothèque, exporte le
+visuel PNG sous un nom clairement affiché, rappelle le dossier Téléchargements et
+ouvre la page d'import Canva. La légende reste copiable séparément.
 
 ### Phase connectée
 

@@ -188,6 +188,25 @@
   .topic-tags span{padding:3px 8px;border-radius:999px;background:var(--input);font-size:.7rem;color:var(--text-soft)}
   .resource-card{background:#F7F8F6;border-color:#DDE5DF}
   .resource-count{font-size:.76rem;color:var(--text-mute)}
+  .editorial-lab{border:2px solid #D8E4DD;background:linear-gradient(145deg,#F8FBF9,#FFF9F2)}
+  .editorial-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .editorial-roles{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}
+  .editorial-roles span{font-size:.68rem;font-weight:800;padding:5px 8px;border-radius:999px;background:#E8F1EC;color:#315849}
+  .resource-picker{display:grid;gap:6px;margin:8px 0 12px}
+  .resource-pick{display:flex;align-items:flex-start;gap:8px;padding:9px;border-radius:10px;background:#fff;border:1px solid var(--border);font-size:.8rem}
+  .resource-pick input{width:auto;margin-top:2px}
+  .proposal-card{border-left:5px solid var(--primary);background:#fff;margin:12px 0}
+  .proposal-card .proposal-copy{white-space:pre-wrap;font-size:.88rem;line-height:1.58;color:var(--text);margin:10px 0}
+  .proposal-audit{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+  .proposal-audit span{font-size:.66rem;padding:4px 7px;border-radius:999px;background:#F0F4F1;color:#486054}
+  .source-report{margin-top:12px;padding:12px;border-radius:12px;background:#FFF8E8;border:1px solid #E9D6A7;font-size:.78rem;line-height:1.5}
+  .canva-kit{border:2px solid #7D57C2;background:#F7F2FF;margin-top:14px}
+  .canva-steps{counter-reset:canva;display:grid;gap:8px;margin:10px 0}
+  .canva-step{position:relative;padding:10px 10px 10px 42px;background:#fff;border-radius:11px;border:1px solid #DDD1F1;font-size:.82rem}
+  .canva-step:before{counter-increment:canva;content:counter(canva);position:absolute;left:10px;top:9px;width:23px;height:23px;border-radius:50%;display:grid;place-items:center;background:#7D57C2;color:#fff;font-weight:800}
+  .file-badge{display:block;margin:8px 0;padding:8px 10px;background:#fff;border:1px dashed #7D57C2;border-radius:9px;font-family:monospace;font-size:.74rem;word-break:break-all}
+  .hidden{display:none!important}
+  @media (max-width:520px){.editorial-grid{grid-template-columns:1fr}}
   @media (max-width:420px){.template-grid{grid-template-columns:repeat(3,1fr)}.template-choice{padding:6px}.choice-grid{grid-template-columns:1fr}}
   @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -271,11 +290,39 @@
       <button class="btn ghost small" onclick="shuffleHooks()">🎲 D'autres accroches</button>
     </div>
 
+    <div class="card editorial-lab">
+      <h3 style="margin-top:0">🧠 Studio de rédaction pédagogique</h3>
+      <p class="muted tiny">Il transforme tes éléments en propositions complètes. Tu gardes la décision et tu modifies tout.</p>
+      <div class="editorial-roles">
+        <span>Ingénierie pédagogique</span><span>Neuropédagogie</span><span>Social media</span><span>Community management</span><span>Rédaction</span><span>Copyright</span>
+      </div>
+      <div class="editorial-grid">
+        <div><label class="field" for="editorial-audience" style="margin-top:0">Public</label>
+          <select id="editorial-audience"><option>Parents d'enfants</option><option>Parents d'adolescents</option><option>Adolescents</option><option>Praticiennes</option><option>Femmes / entrepreneuses</option><option>Grand public</option></select></div>
+        <div><label class="field" for="editorial-objective" style="margin-top:0">Objectif</label>
+          <select id="editorial-objective"><option>Faire comprendre</option><option>Donner des repères</option><option>Rassurer sans minimiser</option><option>Faire réfléchir</option><option>Donner envie d'agir</option><option>Présenter une offre</option></select></div>
+      </div>
+      <label class="field" for="editorial-hook">Accroche retenue</label>
+      <textarea id="editorial-hook" rows="2" style="min-height:64px" placeholder="Clique sur une accroche ci-dessus ou écris la tienne."></textarea>
+      <label class="field" for="editorial-message">Ton idée essentielle</label>
+      <textarea id="editorial-message" rows="4" placeholder="Ce que tu veux vraiment que la personne comprenne, ressente ou fasse…"></textarea>
+      <label class="field" for="editorial-closing">Mot de fin / appel à l'action</label>
+      <textarea id="editorial-closing" rows="2" style="min-height:64px" placeholder="ex : Enregistre ce post, partage-le ou écris-moi…"></textarea>
+      <label class="field">Ressources à mobiliser</label>
+      <div id="atelier-resource-picker" class="resource-picker"></div>
+      <div class="btn-row">
+        <button class="btn" onclick="generateEditorialProposals()">✨ Me proposer 3 posts complets</button>
+        <button class="btn ghost" onclick="copySourcedAIBrief()">🔎 Copier le brief pour une IA sourcée</button>
+      </div>
+      <div class="note">Le moteur local rédige et structure à partir de tes éléments. Il ne fabrique pas de références : les apports externes doivent être sourcés et vérifiés avant publication.</div>
+      <div id="editorial-proposals"></div>
+    </div>
+
     <label class="field">✏️ Ton brouillon</label>
     <textarea id="atelier-draft" placeholder="Ton accroche apparaîtra ici, puis tu continues avec tes mots…"></textarea>
 
     <div class="btn-row">
-      <button class="btn menthe small" onclick="assembleDraft()">🧱 Squelette prêt-à-remplir</button>
+      <button class="btn menthe small" onclick="assembleDraft()">🧱 Créer un plan guidé</button>
       <button class="btn ghost small" onclick="copyText(document.getElementById('atelier-draft').value)">📋 Copier</button>
     </div>
 
@@ -354,8 +401,21 @@
       <button class="btn secondary small" onclick="shareToChannel('telegram')">✈️ Envoyer sur Telegram</button>
       <button class="btn secondary small" onclick="shareToChannel('whatsapp')">💬 Envoyer sur WhatsApp</button>
     </div>
-    <button class="btn ghost" style="margin-top:8px" onclick="openCanvaBridge()">🎨 Exporter puis ouvrir Canva</button>
+    <button class="btn ghost" style="margin-top:8px" onclick="prepareCanvaKit()">🎨 Préparer mon kit Canva</button>
     <div class="note">Sur téléphone, le bouton <b>Partager</b> peut transmettre directement le visuel et la légende à Telegram ou WhatsApp. Les deux boutons dédiés préparent le texte ; le PNG reste disponible séparément.</div>
+
+    <div id="canva-kit" class="card canva-kit hidden">
+      <h3 style="margin-top:0">🎨 Ton kit Canva est prêt</h3>
+      <p class="muted tiny">La publication est aussi enregistrée dans <b>Ma bibliothèque</b>, pour que tu puisses toujours la retrouver.</p>
+      <span class="file-badge" id="canva-file-name"></span>
+      <div class="canva-steps">
+        <div class="canva-step">Le PNG vient d'être téléchargé dans le dossier <b>Téléchargements</b> de ton appareil.</div>
+        <div class="canva-step">Copie la légende avec le bouton ci-dessous.</div>
+        <div class="canva-step">Ouvre Canva, choisis <b>Importer / Upload</b>, puis sélectionne exactement le fichier indiqué ci-dessus.</div>
+      </div>
+      <div class="btn-row"><button class="btn secondary" onclick="copyText(document.getElementById('atelier-draft').value)">📋 Copier la légende</button><button class="btn" onclick="openCanvaUploader()">Ouvrir l'import Canva →</button></div>
+      <button class="btn ghost small" onclick="go('biblio')">Retrouver ma publication dans la bibliothèque</button>
+    </div>
 
     <div class="card">
       <h3>Avant de publier</h3>
@@ -758,7 +818,8 @@ const CTAS=[
   "🔖 Abonne-toi pour ne pas rater la suite.",
   "🌸 Prends soin de toi, et reviens quand tu veux.",
 ];
-let atelier={platform:'Telegram',angle:null};
+let atelier={platform:'Telegram',angle:null,selectedHook:'',closing:'',resourceIds:[]};
+let editorialProposals=[];
 function startAtelier(){ renderAtelier(); go('atelier'); }
 function renderAtelier(){
   const pf=document.getElementById('atelier-platform'); pf.innerHTML='';
@@ -773,16 +834,15 @@ function renderAtelier(){
   const hl=document.getElementById('hooks-list'); hl.innerHTML='';
   atelier._hooks.forEach(h0=>{ const h=fill(h0); const d=document.createElement('div'); d.className='item'; d.style.cursor='pointer';
     d.innerHTML=`<div class="body" style="margin:0">${escapeHtml(h)}</div>`;
-    d.onclick=()=>{ const ta=document.getElementById('atelier-draft');
-      ta.value = h + (ta.value?'\n\n'+ta.value:'\n\n'); toast('Accroche ajoutée ✓'); ta.focus(); };
+    d.onclick=()=>{ atelier.selectedHook=h;document.getElementById('editorial-hook').value=h;toast('Accroche retenue ✓');document.getElementById('editorial-message').focus(); };
     hl.appendChild(d); });
   const cta=document.getElementById('atelier-cta');
   if(cta){ cta.innerHTML='';
     CTAS.forEach(c=>{ const b=document.createElement('button'); b.className='pill'; b.textContent=c;
-      b.onclick=()=>{ const ta=document.getElementById('atelier-draft');
-        ta.value=(ta.value?ta.value.replace(/\s+$/,'')+'\n\n':'')+c; toast('CTA ajouté ✓'); ta.focus(); };
+      b.onclick=()=>{ atelier.closing=c;document.getElementById('editorial-closing').value=c;toast('Mot de fin retenu ✓'); };
       cta.appendChild(b); });
   }
+  renderEditorialResourcePicker();
 }
 function shuffleHooks(){
   const pool=HOOKS.slice();
@@ -818,10 +878,99 @@ function assembleDraft(){
   skeleton+=`\n📣 CTA : Enregistre ce post si ça te parle 🌸`;
   ta.value=skeleton; toast('Squelette prêt ✏️');
 }
+
+function renderEditorialResourcePicker(){
+  const box=document.getElementById('atelier-resource-picker');if(!box)return;box.innerHTML='';
+  const rows=db.resources||[];
+  if(!rows.length){box.innerHTML='<div class="empty">Aucune ressource ajoutée. Tu peux en coller ou en importer depuis la bibliothèque.</div>';return;}
+  rows.forEach(r=>{const label=document.createElement('label');label.className='resource-pick';
+    label.innerHTML=`<input type="checkbox" ${atelier.resourceIds.includes(r.id)?'checked':''} onchange="toggleEditorialResource('${r.id}',this.checked)" /><span><b>${escapeHtml(r.title)}</b><br><span class="muted tiny">${escapeHtml(r.content).slice(0,110)}${r.content.length>110?'…':''}</span></span>`;box.appendChild(label);});
+}
+function toggleEditorialResource(id,checked){
+  atelier.resourceIds=checked?[...new Set([...atelier.resourceIds,id])]:atelier.resourceIds.filter(x=>x!==id);
+}
+function normalizeEditorialText(value){return String(value||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();}
+function findEditorialTopic(topic){
+  const wanted=normalizeEditorialText(topic);if(!wanted)return null;let best=null,bestScore=0;
+  TOPIC_LIBRARY.forEach(t=>{const words=[...new Set(normalizeEditorialText(t.title+' '+t.tags.join(' ')).split(' ').filter(w=>w.length>3))];const score=words.reduce((n,w)=>n+(wanted.includes(w)?1:0),0)+(normalizeEditorialText(t.title)===wanted?20:0);if(score>bestScore){best=t;bestScore=score;}});
+  return bestScore?best:null;
+}
+function ensureSentence(value){const s=String(value||'').trim();if(!s)return '';return /[.!?…]$/.test(s)?s:s+'.';}
+function firstResourceInsight(resources){
+  const stop=new Set(['avec','sans','dans','pour','plus','moins','cette','comme','mais','donc','alors','elle','elles','ils','leur','leurs','nous','vous','être','avoir','faire','fait','tout','tous','toute','toutes','une','des','les','aux','sur','par','qui','que','quoi','dont','est','sont','peut','aussi','très','entre','vers','afin','ainsi','cela','ceci','son','ses','mes','notre','votre']);
+  for(const r of resources){
+    const counts={};normalizeEditorialText(r.content).split(' ').filter(w=>w.length>4&&!stop.has(w)).forEach(w=>counts[w]=(counts[w]||0)+1);
+    const concepts=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]);
+    if(concepts.length>=2){const list=concepts.length===2?concepts.join(' et '):concepts.slice(0,-1).join(', ')+' et '+concepts.at(-1);return {text:`La ressource sélectionnée invite notamment à relier ${list}, sans isoler un seul facteur`,title:r.title};}
+  }
+  return null;
+}
+function promptToEditorialSentence(prompt){
+  const p=String(prompt||'').trim();if(!p)return '';
+  const rules=[[/^Aider\s+/i,'Un enjeu important consiste à aider '],[/^Expliquer\s+/i,'Il est utile d’expliquer '],[/^Présenter\s+/i,'Il est utile de présenter '],[/^Montrer\s+/i,'Un repère essentiel est de montrer '],[/^Utiliser\s+/i,'Une piste concrète consiste à utiliser '],[/^Clarifier\s+/i,'Il est important de clarifier '],[/^Décrire\s+/i,'Il est utile de décrire '],[/^Mettre en lumière\s+/i,'Il est important de mettre en lumière '],[/^Parler\s+/i,'On peut parler '],[/^Distinguer\s+/i,'Il est essentiel de distinguer '],[/^Relier\s+/i,'Il est utile de relier '],[/^Poser\s+/i,'Le cadre consiste à poser '],[/^Proposer\s+/i,'Une piste consiste à proposer '],[/^Explorer\s+/i,'Il peut être utile d’explorer ']];
+  for(const [rx,start] of rules)if(rx.test(p))return ensureSentence(p.replace(rx,start));
+  return ensureSentence(p);
+}
+function collectEditorialBrief(){
+  const topic=document.getElementById('atelier-topic').value.trim();
+  const hook=document.getElementById('editorial-hook').value.trim()||atelier.selectedHook;
+  const message=document.getElementById('editorial-message').value.trim();
+  const closing=document.getElementById('editorial-closing').value.trim()||atelier.closing||CTAS[0];
+  const audience=document.getElementById('editorial-audience').value,objective=document.getElementById('editorial-objective').value;
+  const resources=(db.resources||[]).filter(r=>atelier.resourceIds.includes(r.id));
+  const current=document.getElementById('atelier-draft').value.trim();
+  const topicCard=findEditorialTopic(topic);
+  return {topic,hook,message,closing,audience,objective,resources,current,topicCard};
+}
+function buildEditorialPoints(brief){
+  const context=brief.topicCard?promptToEditorialSentence(brief.topicCard.prompt):'';
+  const resourceInsight=firstResourceInsight(brief.resources);
+  const central=ensureSentence(brief.message)||context||ensureSentence(`Le sujet « ${brief.topic} » mérite d’être expliqué avec nuance et sans jugement`);
+  const observe=`Commencer par observer la situation concrète, son contexte et ses effets, sans réduire la personne à une étiquette.`;
+  const understand=resourceInsight?resourceInsight.text:(context||`Mettre des mots simples sur ce qui se joue afin de rendre le sujet plus compréhensible et moins culpabilisant.`);
+  const act=brief.objective.includes('agir')
+    ? `Choisir une seule action réaliste à tester, puis observer ce qu’elle change.`
+    : `Proposer un repère ou un ajustement réaliste, puis laisser chacun l’adapter à sa situation.`;
+  return {central,observe,understand,act,resourceTitle:resourceInsight?.title||''};
+}
+function makeEditorialProposals(brief){
+  const p=buildEditorialPoints(brief);const topic=brief.topic;const hook=brief.hook||`Et si nous prenions un moment pour mieux comprendre ${topic} ?`;const close=brief.closing;
+  const sourceLine=p.resourceTitle?`\n\n📚 Source de travail mobilisée : ${p.resourceTitle}.`:'';
+  const pedagogic=`${hook}\n\nQuand on aborde « ${topic} », on cherche souvent une réponse immédiate. Pourtant, comprendre vient avant la recette toute faite.\n\n${p.central}\n\nTrois repères peuvent aider :\n\n1️⃣ ${p.observe}\n\n2️⃣ ${p.understand}\n\n3️⃣ ${p.act}\n\nL’objectif n’est pas d’imposer une seule manière de faire, mais d’offrir un point d’appui clair, progressif et adaptable.${sourceLine}\n\n${close}`;
+  const relational=`${hook}\n\nDerrière le sujet « ${topic} », il y a parfois de la fatigue, de l’incompréhension ou l’impression de ne pas faire assez bien.\n\n${p.central}\n\nAvant de chercher à tout résoudre, on peut commencer par une question simple : qu’est-ce qui est le plus difficile, ici et maintenant ?\n\nNommer ce qui se passe, diminuer la pression et choisir un seul petit pas peut déjà rendre la situation plus respirable.\n\nCe contenu ouvre une piste de réflexion ; il ne remplace pas une évaluation adaptée à chaque situation.${sourceLine}\n\n${close}`;
+  const carousel=`CARROUSEL — ${topic}\n\nSLIDE 1 · ${hook}\n\nSLIDE 2 · CE QUE L’ON VOIT\nUne situation qui peut sembler simple de l’extérieur, mais qui mérite d’être replacée dans son contexte.\n\nSLIDE 3 · CE QU’IL FAUT COMPRENDRE\n${p.central}\n\nSLIDE 4 · PREMIER REPÈRE\n${p.observe}\n\nSLIDE 5 · UNE PISTE CONCRÈTE\n${p.act}\n\nSLIDE 6 · À RETENIR\nComprendre, adapter, observer : un pas à la fois.\n\nSLIDE 7 · MOT DE FIN\n${close}`;
+  return [
+    {title:'Version 1 · Post pédagogique',subtitle:'Clair, progressif et actionnable',text:pedagogic,audit:['1 idée centrale','3 repères','charge cognitive maîtrisée','limite explicite']},
+    {title:'Version 2 · Post relationnel',subtitle:'Chaleureux, incarné et engageant',text:relational,audit:['validation émotionnelle','question d’ouverture','micro-action','non culpabilisant']},
+    {title:'Version 3 · Carrousel pédagogique',subtitle:'Une progression en 7 écrans',text:carousel,audit:['séquençage','une idée par écran','mémorisation','CTA final']}
+  ];
+}
+function generateEditorialProposals(){
+  const brief=collectEditorialBrief();
+  if(!brief.topic){toast('Indique d’abord ton sujet');document.getElementById('atelier-topic').focus();return;}
+  if(!brief.message&&!brief.topicCard&&!brief.resources.length){toast('Ajoute ton idée essentielle ou une ressource');document.getElementById('editorial-message').focus();return;}
+  editorialProposals=makeEditorialProposals(brief);renderEditorialProposals(brief);document.getElementById('editorial-proposals').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function renderEditorialProposals(brief){
+  const box=document.getElementById('editorial-proposals');box.innerHTML='<h3>Trois propositions prêtes à retravailler</h3>';
+  editorialProposals.forEach((p,i)=>{const d=document.createElement('div');d.className='card proposal-card';d.innerHTML=`<div class="meta">${escapeHtml(p.subtitle)}</div><h3>${escapeHtml(p.title)}</h3><div class="proposal-audit">${p.audit.map(x=>`<span>${escapeHtml(x)}</span>`).join('')}</div><div class="proposal-copy">${escapeHtml(p.text)}</div><div class="btn-row"><button class="btn secondary small" onclick="useEditorialProposal(${i})">✓ Utiliser ce post</button><button class="btn ghost small" onclick="copyText(editorialProposals[${i}].text)">📋 Copier</button></div>`;box.appendChild(d);});
+  const sources=brief.resources.length?brief.resources.map(r=>`<b>${escapeHtml(r.title)}</b>`).join(' · '):'aucune ressource personnelle sélectionnée';
+  const base=brief.topicCard?`base éditoriale interne : <b>${escapeHtml(brief.topicCard.title)}</b>`:'aucune base éditoriale interne correspondante';
+  const report=document.createElement('div');report.className='source-report';report.innerHTML=`<b>Traçabilité & copyright</b><br>${base}<br>Ressources mobilisées : ${sources}.<br><b>Apport externe :</b> aucun dans le moteur local. Les affirmations factuelles, médicales, scientifiques ou juridiques doivent être complétées avec des sources vérifiables avant publication. Le texte proposé est une rédaction nouvelle ; aucun long extrait de ressource n’est recopié automatiquement.`;box.appendChild(report);
+}
+function useEditorialProposal(index){
+  const p=editorialProposals[index];if(!p)return;document.getElementById('atelier-draft').value=p.text;toast('Proposition placée dans ton brouillon ✓');document.getElementById('atelier-draft').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function copySourcedAIBrief(){
+  const b=collectEditorialBrief();if(!b.topic){toast('Indique d’abord ton sujet');return;}
+  const resourceBlock=b.resources.length?b.resources.map((r,i)=>`RESSOURCE ${i+1} — ${r.title}\n${r.content.slice(0,3500)}`).join('\n\n'):'Aucune ressource personnelle jointe.';
+  const prompt=`Tu travailles comme une équipe réunissant un ingénieur pédagogique, un neuropédagogue, un social media manager, un community manager et un rédacteur social media.\n\nSUJET : ${b.topic}\nPUBLIC : ${b.audience}\nOBJECTIF : ${b.objective}\nACCROCHE SOUHAITÉE : ${b.hook||'à proposer'}\nMESSAGE ESSENTIEL : ${b.message||'à dégager des ressources'}\nMOT DE FIN : ${b.closing}\nPLATEFORME : ${atelier.platform}\n\n${resourceBlock}\n\nRédige 3 propositions originales : un post pédagogique, un post relationnel et un carrousel. Travaille d’abord à partir des ressources fournies, sans long copier-coller. Complète uniquement avec des informations issues de sources primaires ou institutionnelles fiables. Pour chaque apport externe, fournis le lien exact, distingue clairement faits et conseils, indique les points à vérifier et n’invente jamais de référence. Ajoute enfin un contrôle copyright, un contrôle de charge cognitive et les précautions nécessaires.`;
+  copyText(prompt);toast('Brief IA sourcée copié ✓');
+}
 function saveDraftToLibrary(){
   const txt=document.getElementById('atelier-draft').value.trim();
   if(!txt){ toast("Écris quelque chose d'abord"); return; }
-  db.library.unshift({id:uid(), type:'brouillon', platform:atelier.platform, angle:atelier.angle||'', content:txt, date:new Date().toISOString()});
+  db.library.unshift({id:uid(), type:'brouillon', platform:atelier.platform, angle:atelier.angle||'',topic:document.getElementById('atelier-topic').value.trim(), content:txt, date:new Date().toISOString()});
   save(); toast('Gardé dans ta bibliothèque 💾');
 }
 function planDraft(){
@@ -830,7 +979,7 @@ function planDraft(){
   const when=prompt("Pour quel jour ? (AAAA-MM-JJ, ou laisse vide pour aujourd'hui)", new Date().toISOString().slice(0,10)) ;
   if(when===null) return;
   const date=(when.trim()||new Date().toISOString().slice(0,10));
-  db.calendar.push({id:uid(), date, platform:atelier.platform, content:txt, status:'prévu'});
+  db.calendar.push({id:uid(), date, platform:atelier.platform,topic:document.getElementById('atelier-topic').value.trim(), content:txt, status:'prévu'});
   db.calendar.sort((a,b)=>a.date.localeCompare(b.date));
   save(); toast('Planifié 📅'); go('calendrier');
 }
@@ -1081,7 +1230,7 @@ function visualFileName(){
 }
 async function exportVisualPng(){
   syncVisualFields();drawVisual();await new Promise(r=>setTimeout(r,60));const blob=await canvasBlob();if(!blob){toast('Export impossible');return;}
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=visualFileName();a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('PNG téléchargé ✓');
+  const filename=visualFileName();const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('PNG téléchargé ✓');return filename;
 }
 async function sharePublication(){
   syncVisualFields();drawVisual();await new Promise(r=>setTimeout(r,60));const blob=await canvasBlob();const caption=document.getElementById('atelier-draft').value.trim();
@@ -1102,10 +1251,16 @@ function shareToChannel(channel){
   copyText(caption);
   toast((isTelegram?'Telegram':'WhatsApp')+' ouvert · légende copiée');
 }
-function openCanvaBridge(){
-  exportVisualPng();
-  window.open('https://www.canva.com/','_blank','noopener');
-  toast('PNG exporté · Canva ouvert');
+async function prepareCanvaKit(){
+  if(!savePublication('brouillon'))return;
+  const filename=await exportVisualPng();if(!filename)return;
+  document.getElementById('canva-file-name').textContent=filename;
+  const kit=document.getElementById('canva-kit');kit.classList.remove('hidden');kit.scrollIntoView({behavior:'smooth',block:'start'});
+  toast('Kit Canva préparé et publication sauvegardée ✓');
+}
+function openCanvaUploader(){
+  window.open('https://www.canva.com/features/image-upload/','_blank','noopener');
+  toast('Canva ouvert · choisis le fichier indiqué');
 }
 function visualSnapshot(){ syncVisualFields();return JSON.parse(JSON.stringify(visualDraft)); }
 function savePublication(status){
@@ -1183,8 +1338,8 @@ function renderTopicLibrary(){
 function useTopic(id){
   const t=TOPIC_LIBRARY.find(x=>x.id===id);if(!t)return;visualDraft.brand=t.brand;visualDraft.rubric=t.rubric;visualDraft.template=VISUAL_TEMPLATES[t.brand][0].key;visualDraft.signature=VISUAL_BRANDS[t.brand].signature;
   atelier.angle=t.angle;startAtelier();document.getElementById('atelier-topic').value=t.title;
-  document.getElementById('atelier-draft').value=`PISTE DE DÉPART\n${t.prompt}\n\nCe que je veux transmettre :\n…\n\nUne situation concrète :\n…\n\nUne piste utile et réaliste :\n…\n\nPrécaution ou source à ajouter :\n…`;
-  renderAtelier();toast('Sujet envoyé dans l’atelier ✍️');
+  document.getElementById('editorial-message').value=t.prompt;document.getElementById('editorial-hook').value='';document.getElementById('atelier-draft').value='';
+  renderAtelier();toast('Sujet prêt dans le studio de rédaction ✍️');
 }
 function saveTopicIdea(id){
   const t=TOPIC_LIBRARY.find(x=>x.id===id);if(!t)return;db.library.unshift({id:uid(),type:'idée',platform:'Telegram',angle:t.angle,topic:t.title,content:t.prompt,date:new Date().toISOString(),status:'brouillon'});save();renderLibrary();toast('Idée gardée ✓');
@@ -1222,9 +1377,9 @@ function renderResources(){
     <div class="body">${escapeHtml(r.content).slice(0,180)}${r.content.length>180?'…':''}</div><div class="acts"><button onclick="useResource('${r.id}')">✍️ Utiliser comme matière</button><button onclick="deleteResource('${r.id}')">🗑️</button></div>`;box.appendChild(d);});
 }
 function useResource(id){
-  const r=(db.resources||[]).find(x=>x.id===id);if(!r)return;startAtelier();document.getElementById('atelier-topic').value=r.title;
-  document.getElementById('atelier-draft').value=`RESSOURCE DE TRAVAIL — à synthétiser, vérifier et reformuler avant publication\n\n${r.content.slice(0,3500)}\n\n---\nMon angle :\n…\n\nMon message essentiel :\n…`;
-  renderAtelier();toast('Ressource envoyée dans l’atelier');
+  const r=(db.resources||[]).find(x=>x.id===id);if(!r)return;atelier.resourceIds=[id];startAtelier();document.getElementById('atelier-topic').value=r.title;
+  document.getElementById('editorial-message').value='';document.getElementById('editorial-hook').value='';document.getElementById('atelier-draft').value='';
+  renderAtelier();toast('Ressource sélectionnée dans le studio de rédaction');
 }
 function deleteResource(id){db.resources=(db.resources||[]).filter(x=>x.id!==id);save();renderLibrary();toast('Ressource retirée');}
 
