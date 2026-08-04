@@ -1417,9 +1417,7 @@ function openFolderDb(){
 async function storeFolderHandle(handle){const idb=await openFolderDb();return new Promise((resolve,reject)=>{const tx=idb.transaction('handles','readwrite');tx.objectStore('handles').put(handle,'resources');tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});}
 async function getFolderHandle(){try{const idb=await openFolderDb();return await new Promise((resolve,reject)=>{const req=idb.transaction('handles').objectStore('handles').get('resources');req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error);});}catch(e){return null;}}
 async function connectResourceFolder(){
-  if(!window.showDirectoryPicker){document.getElementById('resource-folder-files').click();return;}
-  try{const handle=await window.showDirectoryPicker({mode:'read'});await storeFolderHandle(handle);await scanDirectoryHandle(handle);}
-  catch(e){if(e.name!=='AbortError'){toast('Le dossier n’a pas pu être relié');document.getElementById('resource-folder-files').click();}}
+  document.getElementById('resource-folder-files').click();
 }
 async function rescanLinkedFolder(){
   const handle=await getFolderHandle();if(!handle){document.getElementById('resource-folder-files').click();return;}
@@ -1453,7 +1451,7 @@ function renderResourceFolder(){
   const box=document.getElementById('resource-folder-status'),button=document.getElementById('resource-folder-rescan');if(!box||!button)return;
   const m=db.folderMeta;if(!m){box.textContent='Aucun dossier relié pour le moment.';button.hidden=true;return;}
   box.innerHTML=`<b>${escapeHtml(m.name)}</b> · ${m.detected||0} document${m.detected===1?'':'s'} repéré${m.detected===1?'':'s'}, ${m.readable||0} lisible${m.readable===1?'':'s'} maintenant.${m.waiting?`<br>${m.waiting} PDF/Word en attente du lecteur connecté.`:''}<span class="folder-path">Dernière lecture : ${escapeHtml(frDate(m.lastScan))}</span>`;
-  button.hidden=!!m.fallback;
+  button.hidden=false;
 }
 function savePastedResource(){
   const title=document.getElementById('resource-title').value.trim();
