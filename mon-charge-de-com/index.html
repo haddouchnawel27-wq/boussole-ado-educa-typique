@@ -188,10 +188,22 @@
   .topic-tags span{padding:3px 8px;border-radius:999px;background:var(--input);font-size:.7rem;color:var(--text-soft)}
   .resource-card{background:#F7F8F6;border-color:#DDE5DF}
   .resource-count{font-size:.76rem;color:var(--text-mute)}
-  .folder-link{margin:12px 0;padding:14px;border:1px solid #C9DBD1;border-radius:14px;background:linear-gradient(145deg,#F1F8F4,#FFF)}
-  .folder-link h4{margin:0 0 5px;font-size:.95rem;color:#315849}
-  .folder-link .folder-status{font-size:.78rem;line-height:1.45;color:var(--text-soft)}
-  .folder-link .folder-path{display:block;margin-top:7px;padding:7px 9px;border-radius:9px;background:#fff;border:1px dashed #AFC8BA;font-size:.72rem;word-break:break-word}
+  .resource-import-box{margin:12px 0;padding:14px;border:1px solid #C9DBD1;border-radius:14px;background:linear-gradient(145deg,#F1F8F4,#FFF)}
+  .resource-import-box h4{margin:0 0 5px;font-size:.98rem;color:#315849}
+  .resource-import-box .btn{margin-top:8px}
+  .import-status{margin-top:10px;padding:10px 12px;border:1px solid #D7DED9;border-radius:10px;background:#fff;color:var(--text-soft);font-size:.8rem;line-height:1.45;white-space:pre-line}
+  .import-status strong{display:block;color:var(--text);font-size:.84rem}
+  .import-status.progress{border-color:#9DBFAF;background:#F4FAF7}
+  .import-status.success{border-color:#9BC5AA;background:#EFF9F2;color:#315849}
+  .import-status.warning{border-color:#E2BE72;background:#FFF8E8;color:#725821}
+  .import-status.error{border-color:#DA9CA7;background:#FFF1F3;color:#8A3343}
+  .folder-link{margin:12px 0;border:1px solid #D7DED9;border-radius:14px;background:#fff;overflow:hidden}
+  .folder-link summary{cursor:pointer;padding:13px 14px;font-size:.88rem;font-weight:800;color:#496256}
+  .folder-link[open] summary{border-bottom:1px solid #E3E8E5}
+  .folder-link-body{padding:12px 14px 14px}
+  .folder-link .folder-status{font-size:.8rem;line-height:1.45}
+  .resource-divider{display:flex;align-items:center;gap:10px;margin:18px 0 4px;color:var(--text-mute);font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+  .resource-divider:before,.resource-divider:after{content:"";height:1px;background:var(--border);flex:1}
   .editorial-lab{border:2px solid #D8E4DD;background:linear-gradient(145deg,#F8FBF9,#FFF9F2)}
   .editorial-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .editorial-roles{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}
@@ -477,25 +489,33 @@
 
     <div class="library-section card soft">
       <div class="library-section-head"><h3>📚 Mes ressources</h3><span class="resource-count" id="resource-count"></span></div>
-      <p class="muted tiny">Relie un dossier de ton Bureau, colle un extrait ou importe des documents. Tout reste sur cet appareil.</p>
-      <div class="folder-link">
-        <h4>📁 Mon dossier de ressources</h4>
-        <div class="folder-status" id="resource-folder-status">Aucun dossier relié pour le moment.</div>
-        <div class="btn-row">
-          <button class="btn menthe small" onclick="connectResourceFolder()">Choisir un dossier</button>
-          <button class="btn secondary small" id="resource-folder-rescan" onclick="rescanLinkedFolder()" hidden>Actualiser le dossier</button>
-        </div>
-        <input type="file" id="resource-folder-files" webkitdirectory directory multiple hidden onchange="importResourceFolderFallback(event)" />
+      <p class="muted tiny">Ajoute les documents qui serviront à écrire tes publications. Tout reste sur cet appareil.</p>
+      <div class="resource-import-box">
+        <h4>Choisir mes fichiers — recommandé</h4>
+        <p class="muted tiny">Tu verras les fichiers dans la fenêtre avant de les choisir.</p>
+        <button class="btn menthe small" onclick="openResourceFilePicker()">＋ Choisir des fichiers</button>
+        <input type="file" id="resource-files" accept=".txt,.md,.markdown,.csv,.json,.html,.htm,.pdf,.doc,.docx,.odt,.rtf" multiple hidden onchange="importResourceFiles(event)" oncancel="cancelResourceFilePicker()" />
+        <div class="import-status neutral" id="resource-import-status" role="status" aria-live="polite"><strong>Aucun fichier choisi.</strong>Formats lus : TXT, Markdown, HTML, CSV et JSON.</div>
       </div>
+
+      <details class="folder-link">
+        <summary>J’ai beaucoup de fichiers : choisir un dossier (facultatif)</summary>
+        <div class="folder-link-body">
+          <p class="muted tiny">La fenêtre Windows montre seulement les dossiers. Les fichiers peuvent sembler absents : sélectionne le dossier lui-même, puis clique sur « Sélectionner le dossier ».</p>
+          <button class="btn secondary small" onclick="connectResourceFolder()">📁 Choisir ce dossier</button>
+          <input type="file" id="resource-folder-files" webkitdirectory directory multiple hidden onchange="importResourceFolderFallback(event)" oncancel="cancelResourceFolderPicker()" />
+          <div class="import-status neutral folder-status" id="resource-folder-status" role="status" aria-live="polite"><strong>Aucun dossier importé.</strong>Cette étape est facultative.</div>
+        </div>
+      </details>
+
+      <div class="resource-divider">ou coller du texte</div>
       <label class="field" for="resource-title" style="margin-top:12px">Nom de la ressource</label>
       <input type="text" id="resource-title" placeholder="ex : Livret Parents — comprendre mon ado" />
       <label class="field" for="resource-paste">Texte ou notes à conserver</label>
       <textarea id="resource-paste" rows="5" placeholder="Colle ici un extrait, des idées, une transcription ou tes notes…"></textarea>
       <button class="btn menthe" onclick="savePastedResource()">＋ Ajouter à mes ressources</button>
-      <button class="btn secondary" onclick="document.getElementById('resource-files').click()">＋ Importer des ressources</button>
-      <input type="file" id="resource-files" accept=".txt,.md,.csv,.json,.html,.htm,text/plain,text/html,text/markdown,application/json,text/csv" multiple hidden onchange="importResourceFiles(event)" />
       <div id="resource-list"></div>
-      <div class="note">Lecture immédiate : TXT, Markdown, HTML, CSV et JSON. Les PDF et documents Word sont repérés dans le dossier ; leur lecture complète sera ajoutée au moteur connecté.</div>
+      <div class="note"><b>Formats lus maintenant :</b> TXT, Markdown, HTML, CSV et JSON, jusqu’à 1 Mo par fichier.<br><b>PDF, Word, ODT et RTF :</b> tu peux les sélectionner, mais l’application ne sait pas lire leur texte. Ils ne sont donc pas ajoutés. Pour les utiliser, enregistre une copie en TXT puis importe-la.</div>
     </div>
 
     <div class="library-section">
@@ -1379,26 +1399,53 @@ function saveTopicIdea(id){
 }
 const RESOURCE_EXTENSIONS=new Set(['txt','md','markdown','csv','json','html','htm']);
 const DETECTED_EXTENSIONS=new Set(['pdf','doc','docx','odt','rtf','txt','md','markdown','csv','json','html','htm']);
-const FOLDER_DB='mcc:folder-access';
+const RESOURCE_MAX_BYTES=1000000;
 function fileExt(name){const m=String(name||'').toLowerCase().match(/\.([a-z0-9]+)$/);return m?m[1]:'';}
 function cleanResourceText(raw,name){
   const text=/\.html?$/i.test(name)?new DOMParser().parseFromString(raw,'text/html').body.textContent:raw;
   return String(text||'').replace(/\r/g,'').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
 }
-async function ingestResourceFile(file,sourcePath){
+function setImportStatus(id,kind,title,details=[]){
+  const box=document.getElementById(id);if(!box)return;
+  box.className='import-status '+kind;box.replaceChildren();
+  const heading=document.createElement('strong');heading.textContent=title;box.appendChild(heading);
+  if(details.length)box.appendChild(document.createTextNode(details.join('\n')));
+}
+function emptyImportStats(){return {added:0,updated:0,same:0,unsupported:0,large:0,error:0,ignored:0};}
+function countImportResult(stats,status){if(Object.prototype.hasOwnProperty.call(stats,status))stats[status]++;else stats.error++;}
+function fileCount(n,label='fichier'){return `${n} ${label}${n>1?'s':''}`;}
+function unreadableFormatCount(n){return `${n} ${n>1?'fichiers':'fichier'} PDF, Word, ODT ou RTF non ajouté${n>1?'s':''} : leur texte n’est pas lu par l’application.`;}
+function importResultDetails(stats){
+  const details=[];
+  if(stats.added)details.push(`${fileCount(stats.added)} ajouté${stats.added>1?'s':''}.`);
+  if(stats.updated)details.push(`${fileCount(stats.updated)} mis à jour.`);
+  if(stats.same)details.push(`${fileCount(stats.same)} déjà présent${stats.same>1?'s':''}.`);
+  if(stats.unsupported)details.push(unreadableFormatCount(stats.unsupported));
+  if(stats.large)details.push(`${fileCount(stats.large)} non ajouté${stats.large>1?'s':''} : taille supérieure à 1 Mo.`);
+  if(stats.error)details.push(`${fileCount(stats.error)} non ajouté${stats.error>1?'s':''} : lecture impossible.`);
+  if(stats.ignored)details.push(`${fileCount(stats.ignored)} ignoré${stats.ignored>1?'s':''} : format non compatible.`);
+  return details;
+}
+function openResourceFilePicker(){
+  const input=document.getElementById('resource-files');input.value='';
+  setImportStatus('resource-import-status','progress','Fenêtre ouverte…',['Choisis un ou plusieurs fichiers, puis clique sur Ouvrir.']);input.click();
+}
+function cancelResourceFilePicker(){setImportStatus('resource-import-status','neutral','Choix annulé.',['Rien n’a été modifié.']);}
+function cancelResourceFolderPicker(){setImportStatus('resource-folder-status','neutral','Choix annulé.',['Rien n’a été modifié.']);}
+async function ingestResourceFile(file,sourcePath,sourceType='fichier local'){
   const ext=fileExt(file.name);if(!RESOURCE_EXTENSIONS.has(ext))return {status:'unsupported'};
-  if(file.size>1000000)return {status:'large'};
+  if(file.size>RESOURCE_MAX_BYTES)return {status:'large'};
   const fingerprint=(sourcePath||file.name)+'|'+file.lastModified+'|'+file.size;
   if((db.resources||[]).some(r=>r.fingerprint===fingerprint))return {status:'same'};
   try{
     const raw=await file.text();
-    const common={date:new Date().toISOString(),sourcePath:sourcePath||file.name,fileName:file.name,fingerprint,sourceType:'dossier local'};
+    const common={date:new Date().toISOString(),sourcePath:sourcePath||file.name,fileName:file.name,fingerprint,sourceType};
     const previous=(db.resources||[]).find(r=>r.sourcePath===common.sourcePath);
     if(previous)db.resources=db.resources.filter(r=>r.sourcePath!==common.sourcePath);
     if(ext==='json'){
       const parsed=JSON.parse(raw);const items=Array.isArray(parsed)?parsed:(parsed.items||parsed.resources||[parsed]);
-      items.slice(0,5).forEach((item,i)=>{const content=typeof item==='string'?item:(item.content||item.text||item.body||JSON.stringify(item,null,2));
-        db.resources.unshift({...common,id:uid(),fingerprint:fingerprint+'|'+i,title:item.title||item.name||file.name.replace(/\.json$/i,'')+(items.length>1?' · '+(i+1):''),content:String(content).slice(0,4000)});});
+      items.slice(0,5).forEach((item,i)=>{const content=typeof item==='string'?item:(item&&(item.content||item.text||item.body))||JSON.stringify(item,null,2);
+        db.resources.unshift({...common,id:uid(),fingerprint:fingerprint+'|'+i,title:(item&&(item.title||item.name))||file.name.replace(/\.json$/i,'')+(items.length>1?' · '+(i+1):''),content:String(content).slice(0,4000)});});
     }else{
       db.resources.unshift({...common,id:uid(),title:file.name.replace(/\.[^.]+$/,''),content:cleanResourceText(raw,file.name).slice(0,20000)});
     }
@@ -1406,52 +1453,44 @@ async function ingestResourceFile(file,sourcePath){
   }catch(e){return {status:'error'};}
 }
 async function importResourceFiles(ev){
-  const files=[...ev.target.files];if(!files.length)return;let added=0,updated=0,skipped=0;
-  for(const file of files){const result=await ingestResourceFile(file,file.name);if(result.status==='added')added++;else if(result.status==='updated')updated++;else if(!['same'].includes(result.status))skipped++;}
-  if((added||updated)&&save())renderLibrary();
-  toast(`${added} ajoutée${added>1?'s':''}${updated?' · '+updated+' actualisée'+(updated>1?'s':''):''}${skipped?' · '+skipped+' non lue'+(skipped>1?'s':''):''}`);ev.target.value='';
+  const files=[...ev.target.files];if(!files.length){cancelResourceFilePicker();return;}
+  setImportStatus('resource-import-status','progress',`${fileCount(files.length)} sélectionné${files.length>1?'s':''}.`,['Lecture en cours…']);
+  const stats=emptyImportStats();
+  for(const file of files){const result=await ingestResourceFile(file,file.name);countImportResult(stats,result.status);}
+  if(stats.added||stats.updated){if(save())renderLibrary();}
+  const problemCount=stats.unsupported+stats.large+stats.error;
+  const usable=stats.added+stats.updated+stats.same;
+  const kind=problemCount?(usable?'warning':'error'):'success';
+  const title=usable?`${fileCount(usable)} utilisable${usable>1?'s':''}.`:'Aucun fichier ajouté.';
+  setImportStatus('resource-import-status',kind,title,importResultDetails(stats));
+  toast(usable?`${fileCount(usable)} prêt${usable>1?'s':''} à utiliser`:'Aucun fichier ajouté');ev.target.value='';
 }
-function openFolderDb(){
-  return new Promise((resolve,reject)=>{const req=indexedDB.open(FOLDER_DB,1);req.onupgradeneeded=()=>req.result.createObjectStore('handles');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});
-}
-async function storeFolderHandle(handle){const idb=await openFolderDb();return new Promise((resolve,reject)=>{const tx=idb.transaction('handles','readwrite');tx.objectStore('handles').put(handle,'resources');tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});}
-async function getFolderHandle(){try{const idb=await openFolderDb();return await new Promise((resolve,reject)=>{const req=idb.transaction('handles').objectStore('handles').get('resources');req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error);});}catch(e){return null;}}
 async function connectResourceFolder(){
-  document.getElementById('resource-folder-files').click();
-}
-async function rescanLinkedFolder(){
-  const handle=await getFolderHandle();if(!handle){document.getElementById('resource-folder-files').click();return;}
-  try{let permission=await handle.queryPermission({mode:'read'});if(permission!=='granted')permission=await handle.requestPermission({mode:'read'});if(permission!=='granted'){toast('Autorisation du dossier nécessaire');return;}await scanDirectoryHandle(handle);}
-  catch(e){toast('Impossible d’actualiser ce dossier');}
-}
-async function collectDirectoryFiles(handle,path,rows,stats){
-  for await(const [name,entry] of handle.entries()){
-    if(rows.length>=60)return;
-    if(entry.kind==='directory'){
-      if(!name.startsWith('.')&&name.toLowerCase()!=='node_modules')await collectDirectoryFiles(entry,path+name+'/',rows,stats);
-    }else{
-      const ext=fileExt(name);if(DETECTED_EXTENSIONS.has(ext)){stats.detected++;if(RESOURCE_EXTENSIONS.has(ext))rows.push({handle:entry,path:path+name});else stats.waiting++;}
-    }
-  }
-}
-async function scanDirectoryHandle(handle){
-  toast('Lecture du dossier en cours…');const rows=[],stats={detected:0,waiting:0,added:0,updated:0,same:0,skipped:0};
-  await collectDirectoryFiles(handle,'',rows,stats);
-  for(const row of rows){const file=await row.handle.getFile();const result=await ingestResourceFile(file,handle.name+'/'+row.path);if(result.status in stats)stats[result.status]++;else stats.skipped++;}
-  db.folderMeta={name:handle.name,detected:stats.detected,readable:rows.length,waiting:stats.waiting,lastScan:new Date().toISOString()};save();renderLibrary();
-  toast(`${stats.added} ajoutée${stats.added>1?'s':''}${stats.updated?' · '+stats.updated+' actualisée'+(stats.updated>1?'s':''):''}${stats.waiting?' · '+stats.waiting+' PDF/Word repéré'+(stats.waiting>1?'s':''):''}`);
+  const input=document.getElementById('resource-folder-files');input.value='';
+  setImportStatus('resource-folder-status','progress','Fenêtre ouverte…',['Choisis le dossier lui-même, puis valide.']);input.click();
 }
 async function importResourceFolderFallback(ev){
-  const files=[...ev.target.files];if(!files.length)return;let added=0,updated=0,waiting=0,detected=0;
-  for(const file of files){const ext=fileExt(file.name);if(!DETECTED_EXTENSIONS.has(ext))continue;detected++;if(!RESOURCE_EXTENSIONS.has(ext)){waiting++;continue;}const result=await ingestResourceFile(file,file.webkitRelativePath||file.name);if(result.status==='added')added++;if(result.status==='updated')updated++;}
-  const root=(files[0].webkitRelativePath||'Dossier').split('/')[0];db.folderMeta={name:root,detected,readable:detected-waiting,waiting,lastScan:new Date().toISOString(),fallback:true};save();renderLibrary();
-  toast(`${added} ajoutée${added>1?'s':''}${updated?' · '+updated+' actualisée'+(updated>1?'s':''):''}${waiting?' · '+waiting+' PDF/Word repéré'+(waiting>1?'s':''):''}`);ev.target.value='';
+  const files=[...ev.target.files];if(!files.length){setImportStatus('resource-folder-status','error','Aucun fichier trouvé.',['Ce dossier est vide ou ses fichiers ne sont pas accessibles.']);return;}
+  const root=(files[0].webkitRelativePath||'Dossier').split('/')[0];
+  setImportStatus('resource-folder-status','progress',`Dossier « ${root} » choisi.`,[`${fileCount(files.length)} à examiner…`]);
+  const stats=emptyImportStats();
+  for(const file of files){
+    const ext=fileExt(file.name);if(!DETECTED_EXTENSIONS.has(ext)){stats.ignored++;continue;}
+    const result=await ingestResourceFile(file,file.webkitRelativePath||file.name,'dossier importé');countImportResult(stats,result.status);
+  }
+  const usable=stats.added+stats.updated+stats.same;
+  const detected=files.length-stats.ignored;
+  db.folderMeta={name:root,selected:files.length,detected,readable:usable,waiting:stats.unsupported,stats,lastScan:new Date().toISOString(),fallback:true};save();renderLibrary();
+  const problems=stats.unsupported+stats.large+stats.error+stats.ignored;
+  setImportStatus('resource-folder-status',problems?(usable?'warning':'error'):'success',`Dossier « ${root} » examiné : ${fileCount(usable,'document')} utilisable${usable>1?'s':''}.`,importResultDetails(stats));
+  toast(usable?`${fileCount(usable,'document')} prêt${usable>1?'s':''} à utiliser`:'Aucun document ajouté');ev.target.value='';
 }
 function renderResourceFolder(){
-  const box=document.getElementById('resource-folder-status'),button=document.getElementById('resource-folder-rescan');if(!box||!button)return;
-  const m=db.folderMeta;if(!m){box.textContent='Aucun dossier relié pour le moment.';button.hidden=true;return;}
-  box.innerHTML=`<b>${escapeHtml(m.name)}</b> · ${m.detected||0} document${m.detected===1?'':'s'} repéré${m.detected===1?'':'s'}, ${m.readable||0} lisible${m.readable===1?'':'s'} maintenant.${m.waiting?`<br>${m.waiting} PDF/Word en attente du lecteur connecté.`:''}<span class="folder-path">Dernière lecture : ${escapeHtml(frDate(m.lastScan))}</span>`;
-  button.hidden=false;
+  const m=db.folderMeta;if(!m){setImportStatus('resource-folder-status','neutral','Aucun dossier importé.',['Cette étape est facultative.']);return;}
+  const stats=m.stats||{added:0,updated:0,same:m.readable||0,unsupported:m.waiting||0,large:0,error:0,ignored:0};
+  const problems=stats.unsupported+stats.large+stats.error+stats.ignored;
+  const details=importResultDetails(stats);details.push(`Dernier import : ${frDate(m.lastScan)}.`);
+  setImportStatus('resource-folder-status',problems?'warning':'success',`Dossier « ${m.name} » : ${fileCount(m.readable||0,'document')} utilisable${m.readable>1?'s':''}.`,details);
 }
 function savePastedResource(){
   const title=document.getElementById('resource-title').value.trim();
