@@ -15,9 +15,13 @@ En cas de blocage : **check-in émotionnel → régulation → micro-action → 
 - 🌬️ **Régulation** : décharge émotionnelle, respiration guidée (cohérence / carrée / 4-7-8), ancrage 5-4-3-2-1, recentrage spirituel optionnel (Noms d'Allah, invocation).
 - ✨ **Micro-action** : une seule, adaptée à l'énergie et au temps dispo (2 / 10 / 30 min) — avec le droit de reporter sans culpabiliser.
 - ✍️ **Atelier d'écriture** : accroches, angles et squelettes prêts-à-remplir (par templates, **sans IA**).
+- ✈️ **Telegram et WhatsApp prioritaires** : choix proposés en premier, légende préparée et boutons d'envoi dédiés. Instagram, Facebook, LinkedIn et TikTok restent disponibles.
 - 🎨 **Fabrique de publications** : 6 gabarits natifs — Educa Typique et Jannat al Qouloub — remplissage automatique, photo facultative, aperçu, format carré ou portrait, export PNG et partage.
 - 📅 **Calendrier** éditorial simple (brouillon / prévu / publié).
-- 📚 **Bibliothèque** de brouillons, idées et publications visuelles avec statut brouillon / prêt / publié.
+- 💡 **Bibliothèque de sujets** : 24 pistes de départ classées par univers et public, utilisables directement dans l'atelier.
+- 📚 **Ressources personnelles** : texte collé ou import local TXT, Markdown, CSV, JSON et HTML, envoyé ensuite dans l'atelier comme matière de travail.
+- 🎨 **Passerelle Canva** : exporte le PNG puis ouvre Canva. L'autoremplissage Canva connecté appartient à la phase en ligne (OAuth/API).
+- 🗂️ **Bibliothèque de créations** : brouillons, idées et publications visuelles avec statut brouillon / prêt / publié.
 - ⚙️ **Réglages** : mode spirituel, confort dys, taille du texte, export / import / effacement.
 
 ## 🔒 Confidentialité & hors-ligne
@@ -37,4 +41,5 @@ Sur mobile/tablette : « Ajouter à l'écran d'accueil » pour l'utiliser comme 
 Un seul fichier `index.html` : HTML + CSS + JavaScript vanilla, sans framework,
 sans outil de build, sans réseau. Sauvegarde via export/import JSON.
 
-*Évolution possible (plus tard, en option) : génération de contenu par IA quand une connexion est disponible — sans jamais casser le fonctionnement hors-ligne.*
+*Phase connectée prévue : backend NestJS/Prisma, génération assistée par IA, tendances,
+analytics, apprentissage des préférences et connexion Canva — sans supprimer le mode local.*

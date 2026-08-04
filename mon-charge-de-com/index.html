@@ -175,6 +175,19 @@
   .status-chip{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;background:#F2EEE7;color:#685F52;
     font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
   .status-chip.ready{background:#E4F3EA;color:#276044}.status-chip.published{background:#E7EAF6;color:#344B83}
+  .library-section{margin:18px 0 26px}
+  .library-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+  .library-section-head h3{font-size:1.22rem}
+  .topic-filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+  .topic-filters .wide{grid-column:1/-1}
+  .topic-card{border-left:5px solid var(--primary);background:#fff}
+  .topic-card.jannat{background:#FBF8F0;border-left-color:#59654A}
+  .topic-card .topic-brand{font-size:.7rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text-mute)}
+  .topic-card .topic-prompt{font-size:.84rem;color:var(--text-soft);margin-top:6px;line-height:1.45}
+  .topic-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .topic-tags span{padding:3px 8px;border-radius:999px;background:var(--input);font-size:.7rem;color:var(--text-soft)}
+  .resource-card{background:#F7F8F6;border-color:#DDE5DF}
+  .resource-count{font-size:.76rem;color:var(--text-mute)}
   @media (max-width:420px){.template-grid{grid-template-columns:repeat(3,1fr)}.template-choice{padding:6px}.choice-grid{grid-template-columns:1fr}}
   @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -198,6 +211,7 @@
       <button class="btn secondary" onclick="go('checkin')">🫧 J'ai envie de publier… mais ça bloque</button>
       <button class="btn ghost" onclick="go('calendrier')">📅 Mon calendrier</button>
     </div>
+    <button class="btn ghost" style="margin-top:8px" onclick="go('biblio')">💡 Trouver un sujet ou utiliser une ressource</button>
     <div class="card">
       <h3>💡 Comment ça marche</h3>
       <p class="muted tiny" style="line-height:1.6"><b>Sujet → angle → accroche → texte → visuel → validation → publication.</b> Et si ça bloque, l'application t'aide d'abord à retrouver assez de calme et de clarté pour faire un seul petit pas.</p>
@@ -336,6 +350,12 @@
       <button class="btn ghost small" onclick="copyText(document.getElementById('atelier-draft').value)">📋 Copier la légende</button>
       <button class="btn ghost small" onclick="sharePublication()">📤 Partager</button>
     </div>
+    <div class="btn-row">
+      <button class="btn secondary small" onclick="shareToChannel('telegram')">✈️ Envoyer sur Telegram</button>
+      <button class="btn secondary small" onclick="shareToChannel('whatsapp')">💬 Envoyer sur WhatsApp</button>
+    </div>
+    <button class="btn ghost" style="margin-top:8px" onclick="openCanvaBridge()">🎨 Exporter puis ouvrir Canva</button>
+    <div class="note">Sur téléphone, le bouton <b>Partager</b> peut transmettre directement le visuel et la légende à Telegram ou WhatsApp. Les deux boutons dédiés préparent le texte ; le PNG reste disponible séparément.</div>
 
     <div class="card">
       <h3>Avant de publier</h3>
@@ -367,8 +387,47 @@
   <section id="s-biblio" class="screen">
     <button class="backlink" onclick="go('accueil')">‹ Accueil</button>
     <h2>Ma bibliothèque</h2>
-    <p class="muted tiny">Tes brouillons, accroches et idées gardés au chaud.</p>
-    <div id="library-list"></div>
+    <p class="muted tiny">Des sujets prêts à explorer, tes propres ressources et toutes tes créations.</p>
+
+    <div class="library-section">
+      <div class="library-section-head"><h3>💡 Bibliothèque de sujets</h3><span class="resource-count" id="topic-count"></span></div>
+      <div class="topic-filters">
+        <input class="wide" type="text" id="topic-search" placeholder="Rechercher : ados, honte, TDAH, sommeil…" oninput="renderTopicLibrary()" />
+        <select id="topic-brand-filter" onchange="renderTopicLibrary()">
+          <option value="all">Tous les univers</option>
+          <option value="educa">Educa Typique</option>
+          <option value="jannat">Jannat al Qouloub</option>
+        </select>
+        <select id="topic-rubric-filter" onchange="renderTopicLibrary()">
+          <option value="all">Toutes les rubriques</option>
+          <option value="enfants">Enfants</option>
+          <option value="ados">Adolescents</option>
+          <option value="tnd">TND</option>
+          <option value="psycho">Psycho-émotion</option>
+          <option value="medecine">Médecine prophétique</option>
+        </select>
+      </div>
+      <div id="topic-list"></div>
+    </div>
+
+    <div class="library-section card soft">
+      <div class="library-section-head"><h3>📚 Mes ressources</h3><span class="resource-count" id="resource-count"></span></div>
+      <p class="muted tiny">Colle un extrait ou importe un texte, une page HTML, une note Markdown, un CSV ou un pack JSON. Tout reste sur cet appareil.</p>
+      <label class="field" for="resource-title" style="margin-top:12px">Nom de la ressource</label>
+      <input type="text" id="resource-title" placeholder="ex : Livret Parents — comprendre mon ado" />
+      <label class="field" for="resource-paste">Texte ou notes à conserver</label>
+      <textarea id="resource-paste" rows="5" placeholder="Colle ici un extrait, des idées, une transcription ou tes notes…"></textarea>
+      <button class="btn menthe" onclick="savePastedResource()">＋ Ajouter à mes ressources</button>
+      <button class="btn secondary" onclick="document.getElementById('resource-files').click()">＋ Importer des ressources</button>
+      <input type="file" id="resource-files" accept=".txt,.md,.csv,.json,.html,.htm,text/plain,text/html,text/markdown,application/json,text/csv" multiple hidden onchange="importResourceFiles(event)" />
+      <div id="resource-list"></div>
+      <div class="note">Les PDF et documents Word seront pris en charge par le futur moteur connecté. Pour l'instant, exporte-les en texte ou Markdown avant import.</div>
+    </div>
+
+    <div class="library-section">
+      <div class="library-section-head"><h3>🗂️ Mes créations</h3></div>
+      <div id="library-list"></div>
+    </div>
   </section>
 
   <!-- ════════════ RÉGLAGES ════════════ -->
@@ -418,7 +477,7 @@
    STORE — persistance locale (localStorage). Aucun réseau.
    ═══════════════════════════════════════════════════════════════════ */
 const KEY='mcc:v1';
-const DEFAULT={ checkins:[], drafts:[], library:[], calendar:[],
+const DEFAULT={ checkins:[], drafts:[], library:[], calendar:[], resources:[],
   prefs:{spiritual:true, dys:false, scale:1} };
 let db = load();
 function load(){ try{ return Object.assign(structuredClone(DEFAULT), JSON.parse(localStorage.getItem(KEY)||'{}')); }catch(e){ return structuredClone(DEFAULT); } }
@@ -659,7 +718,7 @@ let regulData={};
 /* ═══════════════════════════════════════════════════════════════════
    ATELIER — templates (aucune IA, marche hors-ligne)
    ═══════════════════════════════════════════════════════════════════ */
-const PLATFORMS=['Instagram','Facebook','LinkedIn','TikTok'];
+const PLATFORMS=['Telegram','WhatsApp','Instagram','Facebook','LinkedIn','TikTok'];
 const ANGLES=[
   {name:'Histoire perso', hint:"Un moment vécu → ce que ça t'a appris"},
   {name:'Conseil pratique', hint:'1 problème → 3 pistes concrètes'},
@@ -699,7 +758,7 @@ const CTAS=[
   "🔖 Abonne-toi pour ne pas rater la suite.",
   "🌸 Prends soin de toi, et reviens quand tu veux.",
 ];
-let atelier={platform:'Instagram',angle:null};
+let atelier={platform:'Telegram',angle:null};
 function startAtelier(){ renderAtelier(); go('atelier'); }
 function renderAtelier(){
   const pf=document.getElementById('atelier-platform'); pf.innerHTML='';
@@ -1032,6 +1091,22 @@ async function sharePublication(){
     else{ await exportVisualPng(); await copyText(caption); toast('PNG téléchargé et légende copiée'); }
   }catch(e){ if(e.name!=='AbortError') toast('Partage annulé : le PNG reste exportable'); }
 }
+function shareToChannel(channel){
+  const caption=document.getElementById('atelier-draft').value.trim();
+  if(!caption){toast("Ajoute d'abord une légende");return;}
+  const isTelegram=channel==='telegram'; atelier.platform=isTelegram?'Telegram':'WhatsApp';
+  const url=isTelegram
+    ? 'https://t.me/share/url?url=&text='+encodeURIComponent(caption)
+    : 'https://wa.me/?text='+encodeURIComponent(caption);
+  window.open(url,'_blank','noopener');
+  copyText(caption);
+  toast((isTelegram?'Telegram':'WhatsApp')+' ouvert · légende copiée');
+}
+function openCanvaBridge(){
+  exportVisualPng();
+  window.open('https://www.canva.com/','_blank','noopener');
+  toast('PNG exporté · Canva ouvert');
+}
 function visualSnapshot(){ syncVisualFields();return JSON.parse(JSON.stringify(visualDraft)); }
 function savePublication(status){
   const caption=document.getElementById('atelier-draft').value.trim(); if(!caption && !visualDraft.title){toast('Ajoute au moins un titre ou une légende');return false;}
@@ -1051,7 +1126,7 @@ function planPublication(){
 }
 function reuseVisual(id){
   const it=db.library.find(x=>x.id===id);if(!it||!it.visual)return;
-  atelier.platform=it.platform||'Instagram';atelier.angle=it.angle||null;renderAtelier();
+  atelier.platform=it.platform||'Telegram';atelier.angle=it.angle||null;renderAtelier();
   document.getElementById('atelier-topic').value=it.topic||'';document.getElementById('atelier-draft').value=it.content||'';
   visualDraft=JSON.parse(JSON.stringify(it.visual));visualDraft.editingId=id;visualImageObject=null;
   document.getElementById('visual-date').value=new Date().toISOString().slice(0,10);renderVisualBuilder();go('fabrique');toast('Publication rouverte 🎨');
@@ -1060,6 +1135,98 @@ function cycleLibraryStatus(id){
   const it=db.library.find(x=>x.id===id);if(!it)return;const states=['brouillon','prêt','publié'];const idx=Math.max(0,states.indexOf(it.status||'brouillon'));
   it.status=states[(idx+1)%states.length];save();renderLibrary();
 }
+
+const TOPIC_LIBRARY=[
+  {id:'et-enf-1',brand:'educa',rubric:'enfants',title:'Un comportement est aussi une manière de communiquer',angle:'Conseil pratique',prompt:'Aider les parents à observer le besoin, la fatigue ou la compétence manquante avant de conclure à la provocation.',tags:['comportement','besoins','parentalité']},
+  {id:'et-enf-2',brand:'educa',rubric:'enfants',title:'Donner une consigne que l’enfant peut réellement suivre',angle:'Conseil pratique',prompt:'Présenter une consigne courte, concrète, donnée une étape à la fois, puis laisser un temps de traitement.',tags:['consignes','coopération','quotidien']},
+  {id:'et-enf-3',brand:'educa',rubric:'enfants',title:'Pourquoi les transitions déclenchent-elles des crises ?',angle:'Question / réflexion',prompt:'Expliquer la difficulté à quitter une activité, anticiper le changement et mobiliser les fonctions exécutives.',tags:['transitions','crises','fonctions exécutives']},
+  {id:'et-enf-4',brand:'educa',rubric:'enfants',title:'Co-réguler avant de demander l’autonomie',angle:'Mythe à casser',prompt:'Montrer que l’enfant apprend à se calmer à travers des expériences répétées de sécurité avec l’adulte.',tags:['émotions','co-régulation','autonomie']},
+  {id:'et-ado-1',brand:'educa',rubric:'ados',title:'Dialoguer avec son adolescent sans le forcer à parler',angle:'Conseil pratique',prompt:'Proposer des phrases qui laissent la porte ouverte, respectent le rythme et maintiennent la disponibilité parentale.',tags:['dialogue','silence','lien']},
+  {id:'et-ado-2',brand:'educa',rubric:'ados',title:'La honte : l’émotion qui pousse à se cacher',angle:'Question / réflexion',prompt:'Aider à différencier honte, culpabilité et peur du jugement, puis proposer une réponse relationnelle non humiliante.',tags:['honte','estime de soi','émotions']},
+  {id:'et-ado-3',brand:'educa',rubric:'ados',title:'Ce que les valeurs révèlent des choix d’un adolescent',angle:'Conseil pratique',prompt:'Utiliser les valeurs, les modèles admirés et les moments de fierté pour soutenir l’orientation et la motivation.',tags:['valeurs','orientation','motivation']},
+  {id:'et-ado-4',brand:'educa',rubric:'ados',title:'Contre-dépendance : quand refuser l’aide protège l’autonomie',angle:'Mythe à casser',prompt:'Expliquer pourquoi certains adolescents ou jeunes adultes rejettent l’aide tout en ayant encore besoin d’un lien fiable.',tags:['autonomie','opposition','jeune adulte']},
+  {id:'et-ado-5',brand:'educa',rubric:'ados',title:'Harcèlement ou conflit : les repères qui aident à distinguer',angle:'Conseil pratique',prompt:'Présenter la répétition, le déséquilibre de pouvoir, l’intention et les impacts, sans banaliser ni surinterpréter.',tags:['harcèlement','conflit','prévention']},
+  {id:'et-tnd-1',brand:'educa',rubric:'tnd',title:'Le HPI n’est pas un trouble du neurodéveloppement',angle:'Mythe à casser',prompt:'Clarifier la distinction entre haut potentiel intellectuel et TND, tout en rappelant que des cooccurrences sont possibles.',tags:['HPI','TND','repères']},
+  {id:'et-tnd-2',brand:'educa',rubric:'tnd',title:'Il comprend, mais il n’arrive pas à démarrer',angle:'Question / réflexion',prompt:'Expliquer le rôle de l’initiation, de la mémoire de travail et de la planification dans les tâches ordinaires.',tags:['TDAH','fonctions exécutives','démarrage']},
+  {id:'et-tnd-3',brand:'educa',rubric:'tnd',title:'Aménager n’est pas diminuer les exigences',angle:'Mythe à casser',prompt:'Montrer qu’un aménagement retire un obstacle inutile afin de permettre l’accès à la compétence attendue.',tags:['aménagements','école','accessibilité']},
+  {id:'et-tnd-4',brand:'educa',rubric:'tnd',title:'Le coût invisible de la surcharge sensorielle',angle:'Conseil pratique',prompt:'Décrire les signes observables, les facteurs environnementaux et quelques adaptations simples sans poser de diagnostic.',tags:['sensoriel','surcharge','adaptations']},
+  {id:'et-tnd-5',brand:'educa',rubric:'tnd',title:'Parents TND : quand toute l’organisation repose sur la compensation',angle:'Histoire perso',prompt:'Mettre en mots la charge de planification, d’anticipation et de récupération portée par les parents.',tags:['charge mentale','parents','TND']},
+  {id:'jq-psy-1',brand:'jannat',rubric:'psycho',title:'Perfectionnisme : l’exigence qui finit par empêcher d’avancer',angle:'Question / réflexion',prompt:'Explorer le lien entre peur de l’erreur, contrôle, valeur personnelle et évitement, puis proposer un pas suffisamment bon.',tags:['perfectionnisme','blocage','culpabilité']},
+  {id:'jq-psy-2',brand:'jannat',rubric:'psycho',title:'Fonctionnement sacrificiel : quand prendre soin de tous efface ses propres besoins',angle:'Conseil pratique',prompt:'Mettre en lumière le surinvestissement, la culpabilité à recevoir et la difficulté à poser des limites.',tags:['sacrifice','limites','besoins']},
+  {id:'jq-psy-3',brand:'jannat',rubric:'psycho',title:'Dépendance affective : chercher la sécurité dans la réponse de l’autre',angle:'Question / réflexion',prompt:'Distinguer attachement, besoin de réassurance et perte de soi, sans étiqueter ni juger.',tags:['attachement','dépendance affective','sécurité']},
+  {id:'jq-psy-4',brand:'jannat',rubric:'psycho',title:'Quand un événement de vie déséquilibre une organisation déjà fragile',angle:'Histoire perso',prompt:'Parler des arrêts maladie, changements familiaux, crises adolescentes ou imprévus qui font basculer un quotidien à flux tendu.',tags:['événement de vie','équilibre','stress']},
+  {id:'jq-psy-5',brand:'jannat',rubric:'psycho',title:'Mandat culturel, injonction sociale ou repère religieux ?',angle:'Question / réflexion',prompt:'Aider à distinguer prescriptions religieuses, usages culturels, loyautés familiales et pressions sociales dans une lecture transculturelle.',tags:['transculturel','culture','religion']},
+  {id:'jq-psy-6',brand:'jannat',rubric:'psycho',title:'La pratique religieuse comme ressource à évaluer sans juger',angle:'Conseil pratique',prompt:'Montrer comment explorer les attentes, les besoins, les difficultés et les ressources spirituelles avec respect.',tags:['psychologie islamique','spiritualité','accompagnement']},
+  {id:'jq-med-1',brand:'jannat',rubric:'medecine',title:'Le sommeil : premier soutien de la régulation émotionnelle',angle:'Conseil pratique',prompt:'Relier rythme de sommeil, irritabilité, attention et récupération, sans promettre de guérison.',tags:['sommeil','émotions','hygiène de vie']},
+  {id:'jq-med-2',brand:'jannat',rubric:'medecine',title:'La mesure dans l’alimentation : un cadre, pas une culpabilisation',angle:'Mythe à casser',prompt:'Parler de régularité, satiété et équilibre en évitant les prescriptions rigides et la honte corporelle.',tags:['alimentation','mesure','bien-être']},
+  {id:'jq-med-3',brand:'jannat',rubric:'medecine',title:'Bouger pour soutenir le corps, pas pour le punir',angle:'Conseil pratique',prompt:'Proposer un mouvement accessible, progressif et réaliste comme soutien du bien-être global.',tags:['mouvement','corps','douceur']},
+  {id:'jq-med-4',brand:'jannat',rubric:'medecine',title:'Médecine prophétique : accompagner sans remplacer le suivi médical',angle:'Mythe à casser',prompt:'Poser clairement la complémentarité, les précautions, les limites et la nécessité d’un avis médical lorsque requis.',tags:['médecine prophétique','précautions','santé']}
+];
+
+function renderTopicLibrary(){
+  const box=document.getElementById('topic-list');if(!box)return;
+  const q=(document.getElementById('topic-search').value||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const brand=document.getElementById('topic-brand-filter').value, rubric=document.getElementById('topic-rubric-filter').value;
+  const rows=TOPIC_LIBRARY.filter(t=>{
+    const hay=(t.title+' '+t.prompt+' '+t.tags.join(' ')).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+    return (brand==='all'||t.brand===brand)&&(rubric==='all'||t.rubric===rubric)&&(!q||hay.includes(q));
+  });
+  document.getElementById('topic-count').textContent=rows.length+' sujet'+(rows.length>1?'s':'');box.innerHTML='';
+  if(!rows.length){box.innerHTML='<div class="empty">Aucun sujet ne correspond à cette recherche.</div>';return;}
+  rows.forEach(t=>{const d=document.createElement('div');d.className='item topic-card '+t.brand;
+    const rubricName=(VISUAL_RUBRICS.find(r=>r.key===t.rubric)||{}).name||t.rubric;
+    d.innerHTML=`<div class="topic-brand">${VISUAL_BRANDS[t.brand].name} · ${rubricName}</div><h3>${escapeHtml(t.title)}</h3><div class="topic-prompt">${escapeHtml(t.prompt)}</div>
+      <div class="topic-tags">${t.tags.map(tag=>`<span>${escapeHtml(tag)}</span>`).join('')}</div><div class="acts"><button onclick="useTopic('${t.id}')">✍️ Créer à partir de ce sujet</button><button onclick="saveTopicIdea('${t.id}')">＋ Garder l'idée</button></div>`;
+    box.appendChild(d);
+  });
+}
+function useTopic(id){
+  const t=TOPIC_LIBRARY.find(x=>x.id===id);if(!t)return;visualDraft.brand=t.brand;visualDraft.rubric=t.rubric;visualDraft.template=VISUAL_TEMPLATES[t.brand][0].key;visualDraft.signature=VISUAL_BRANDS[t.brand].signature;
+  atelier.angle=t.angle;startAtelier();document.getElementById('atelier-topic').value=t.title;
+  document.getElementById('atelier-draft').value=`PISTE DE DÉPART\n${t.prompt}\n\nCe que je veux transmettre :\n…\n\nUne situation concrète :\n…\n\nUne piste utile et réaliste :\n…\n\nPrécaution ou source à ajouter :\n…`;
+  renderAtelier();toast('Sujet envoyé dans l’atelier ✍️');
+}
+function saveTopicIdea(id){
+  const t=TOPIC_LIBRARY.find(x=>x.id===id);if(!t)return;db.library.unshift({id:uid(),type:'idée',platform:'Telegram',angle:t.angle,topic:t.title,content:t.prompt,date:new Date().toISOString(),status:'brouillon'});save();renderLibrary();toast('Idée gardée ✓');
+}
+async function importResourceFiles(ev){
+  const files=[...ev.target.files];if(!files.length)return;let added=0;
+  for(const file of files){
+    if(file.size>400000){toast(file.name+' est trop volumineux pour le stockage local');continue;}
+    try{
+      const raw=await file.text();
+      if(file.name.toLowerCase().endsWith('.json')){
+        const parsed=JSON.parse(raw);const items=Array.isArray(parsed)?parsed:(parsed.items||parsed.resources||[parsed]);
+        items.forEach((item,i)=>{const content=typeof item==='string'?item:(item.content||item.text||item.body||JSON.stringify(item,null,2));
+          db.resources.unshift({id:uid(),title:item.title||item.name||file.name.replace(/\.json$/i,'')+(items.length>1?' · '+(i+1):''),content:String(content).slice(0,120000),date:new Date().toISOString()});added++;});
+      }else{
+        const content=/\.html?$/i.test(file.name)?new DOMParser().parseFromString(raw,'text/html').body.textContent:raw;
+        db.resources.unshift({id:uid(),title:file.name.replace(/\.[^.]+$/,''),content:String(content||'').replace(/\n{3,}/g,'\n\n').trim().slice(0,120000),date:new Date().toISOString()});added++;
+      }
+    }catch(e){toast('Impossible de lire '+file.name);}
+  }
+  if(added&&save()){toast(added+' ressource'+(added>1?'s':'')+' importée'+(added>1?'s':''));renderLibrary();}ev.target.value='';
+}
+function savePastedResource(){
+  const title=document.getElementById('resource-title').value.trim();
+  const content=document.getElementById('resource-paste').value.trim();
+  if(!content){toast('Colle d’abord le texte de ta ressource');return;}
+  db.resources.unshift({id:uid(),title:title||'Ressource sans titre',content:content.slice(0,120000),date:new Date().toISOString()});
+  if(!save())return;
+  document.getElementById('resource-title').value='';document.getElementById('resource-paste').value='';renderLibrary();toast('Ressource ajoutée ✓');
+}
+function renderResources(){
+  const box=document.getElementById('resource-list');if(!box)return;const rows=db.resources||[];document.getElementById('resource-count').textContent=rows.length?rows.length+' importée'+(rows.length>1?'s':''):'';box.innerHTML='';
+  if(!rows.length){box.innerHTML='<div class="empty">Aucune ressource importée pour le moment.</div>';return;}
+  rows.forEach(r=>{const d=document.createElement('div');d.className='item resource-card';d.innerHTML=`<div class="meta">Ressource locale · ${frDate(r.date)}</div><h3>${escapeHtml(r.title)}</h3>
+    <div class="body">${escapeHtml(r.content).slice(0,180)}${r.content.length>180?'…':''}</div><div class="acts"><button onclick="useResource('${r.id}')">✍️ Utiliser comme matière</button><button onclick="deleteResource('${r.id}')">🗑️</button></div>`;box.appendChild(d);});
+}
+function useResource(id){
+  const r=(db.resources||[]).find(x=>x.id===id);if(!r)return;startAtelier();document.getElementById('atelier-topic').value=r.title;
+  document.getElementById('atelier-draft').value=`RESSOURCE DE TRAVAIL — à synthétiser, vérifier et reformuler avant publication\n\n${r.content.slice(0,3500)}\n\n---\nMon angle :\n…\n\nMon message essentiel :\n…`;
+  renderAtelier();toast('Ressource envoyée dans l’atelier');
+}
+function deleteResource(id){db.resources=(db.resources||[]).filter(x=>x.id!==id);save();renderLibrary();toast('Ressource retirée');}
 
 /* ═══════════════════════════════════════════════════════════════════
    CALENDRIER & BIBLIOTHÈQUE
@@ -1085,8 +1252,10 @@ function markDone(id){ const c=db.calendar.find(x=>x.id===id); if(c){ c.status=c
 function delCalendar(id){ db.calendar=db.calendar.filter(x=>x.id!==id); save(); renderCalendar(); toast('Supprimé'); }
 
 function renderLibrary(){
+  renderTopicLibrary();
+  renderResources();
   const box=document.getElementById('library-list'); box.innerHTML='';
-  if(!db.library.length){ box.innerHTML="<div class=\"empty\">Ta bibliothèque est vide. Enregistre un brouillon depuis l'atelier ✍️</div>"; return; }
+  if(!db.library.length){ box.innerHTML="<div class=\"empty\">Aucune création enregistrée. Choisis un sujet ci-dessus ou commence dans l'atelier ✍️</div>"; return; }
   db.library.forEach(it=>{
     const d=document.createElement('div'); d.className='item';
     const status=it.status||'brouillon';
@@ -1101,8 +1270,8 @@ function renderLibrary(){
   });
 }
 function reuseDraft(id){ const it=db.library.find(x=>x.id===id); if(!it) return; startAtelier();
-  if(it.platform) atelier.platform=it.platform; renderAtelier();
-  document.getElementById('atelier-draft').value=it.content; toast('Repris ✏️'); }
+  if(it.platform) atelier.platform=it.platform; if(it.angle) atelier.angle=it.angle;
+  document.getElementById('atelier-topic').value=it.topic||'';document.getElementById('atelier-draft').value=it.content;renderAtelier();toast('Repris ✏️'); }
 function delLibrary(id){ db.library=db.library.filter(x=>x.id!==id); save(); renderLibrary(); toast('Supprimé'); }
 
 function escapeHtml(s){ return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
