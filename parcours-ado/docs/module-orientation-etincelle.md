@@ -259,6 +259,95 @@ personnalisées · **rapport final automatisé de plusieurs pages**.
 
 ---
 
-_Source : brainstorm & version développée de Nawel (Educa Typique) + compléments
-d'implémentation. À relire et reformuler avec les mots de Nawel avant codage,
-comme pour AD-03._
+---
+
+## 9. Vision « bilan 360° » — axes complémentaires
+
+> Extension proposée par Nawel : dépasser « quel métier me correspond ? » pour
+> couvrir « qui suis-je · comment j'apprends · dans quel environnement je
+> m'épanouis ». 15 axes complémentaires + une architecture cible en 6 modules.
+
+### 9.1 Les 15 axes proposés
+1. **Valeurs personnelles** (inacceptable au travail, top 3, liberté/sécurité,
+   impact/reconnaissance, créer/transmettre… → valeurs dominantes).
+2. **Forces naturelles** (psychologie positive : ce que je fais facilement, ce
+   pour quoi on vient me demander de l'aide…).
+3. **Talents cachés** (cases : j'observe, je remarque les détails, je comprends
+   les émotions, solutions originales…).
+4. **Rapport aux émotions** (stress → réfléchir/agir/aide/isolement ; conflit ;
+   récupération d'énergie).
+5. **Compétences transférables** (organiser, écouter, expliquer, réparer,
+   dessiner, négocier, programmer, cuisiner, diriger, vendre…).
+6. **Profil de motivation** (apprendre, gagner, aider, créer, résoudre,
+   découvrir, transmettre, protéger, construire, diriger).
+7. **Freins** (peur de l'échec, manque de confiance, regard des autres,
+   difficulté à choisir, organisation, concentration, procrastination).
+8. **Conditions idéales de travail** (dehors/bureau/déplacement/atelier/labo ;
+   avec enfants/animaux/ordinateur/mains).
+9. **Styles de décision** (réfléchir longtemps / vite / demander conseil /
+   intuition / liste avantages-inconvénients).
+10. **Aspirations de vie** (apprendre / construire / transmettre / laisser /
+    changer dans le monde).
+11. **Créativité — pensée divergente** (défis : inventer un objet, 10 usages d'un
+    trombone, améliorer ton école).
+12. **Compétences du XXIᵉ siècle** (collaboration, communication, pensée critique,
+    créativité, résolution de problèmes, numérique, adaptabilité, autonomie).
+13. **Projection dans le futur** (dans 10 ans : ma journée, mon lieu, les gens,
+    ce que je fais, ce que je ressens).
+14. **Intelligence émotionnelle** (Goleman : conscience de soi, maîtrise,
+    motivation, empathie, compétences sociales).
+15. **Profil entrepreneurial** (face à un problème : j'attends / je propose / je
+    prends l'initiative / j'organise ; suivre vs créer sa méthode).
+
+### 9.2 Architecture cible (6 modules)
+1. Portrait personnel (identité, valeurs, aspirations)
+2. Fonctionnement cognitif (intelligences, métacognition, styles)
+3. Personnalité (traits, motivation, émotions, décision)
+4. Compétences & talents (forces, transférables, créativité)
+5. Projection professionnelle (environnements, métiers, études, conditions)
+6. Rapport personnalisé (graphiques, profils, recommandations, pistes)
+
+### 9.3 ＋ Carte des recoupements — **relire, ne pas re-demander**
+> Insight clé : plusieurs axes existent **déjà** ailleurs dans le parcours. Le
+> module Orientation doit **lire le coffre** et **synthétiser**, jamais reposer
+> les mêmes questions (fatigue + incohérence).
+
+| Axe 360° | Déjà couvert par | Rôle de l'Orientation |
+|---|---|---|
+| Valeurs (1), aspirations (10) | **AD-05 Mes valeurs** | relire + relier aux univers |
+| Émotions (4), intelligence émotionnelle (14) | **AD-04 Émotions**, AD-07 | relire, ne pas refaire |
+| Métacognition, styles, fonctions exéc. | **AD-03** | pont explicite (§3.4) |
+| Freins : confiance, échec, procrastination (7) | **AD-07 Reprendre confiance** | relire → reformuler en **besoins/leviers** |
+| Forces (2), talents (3) | AD-03 (forces) + neuf | compléter côté orientation |
+| **Vraiment neufs** : intérêts RIASEC, familles de métiers, conditions de travail (8), transférables (5), entrepreneurial (15), projection pro (13), créativité divergente (11), compétences XXIᵉ (12) | — | **cœur propre du module** |
+
+### 9.4 ＋ Garde-fous sur cette ambition élargie
+- **Anti-usine-à-gaz** : un **socle court** (l'essentiel, ~10-15 min) + des
+  **modules d'approfondissement optionnels** (comme le tronc commun + modules
+  d'AD-03). Jamais tout en une fois ; découpage, reprise, « je passe » / « je ne
+  sais pas encore » partout. Crucial pour la fatigabilité TND.
+- **Rigueur / cadrage scientifique** : RIASEC (Holland) et, éventuellement, des
+  traits type Big Five = ancrages les plus solides. **Gardner, « styles
+  d'apprentissage », Goleman (IE)** = cadres **populaires mais faiblement
+  validés** → présentés comme **exploration ludique / préférences**, jamais comme
+  mesure. Vocabulaire « pour explorer », pas « pour mesurer ».
+- **Freins (axe 7) = zone sensible** : jamais un « score de faiblesses ».
+  Reformulés en **besoins et leviers** (« quand je bloque, j'ai besoin de… »),
+  posture d'AD-03 / AD-07. Touche l'estime de soi → toujours positif.
+- **Créativité divergente (11)** : reste **ludique et auto-réflexive**, réponses
+  ouvertes **stockées privées** ; **pas de scoring automatique** d'originalité
+  (subjectif et hasardeux).
+- **Deux audiences, un mur** : côté **ado** = *« Ma boussole d'orientation »*,
+  1re personne, **privée**. La lecture **pro / conseiller / psychologue / coach /
+  établissement** (mentionnée dans la vision) ne vit **pas** dans l'app ado :
+  elle relève de **Les Deux Jardins**, et **rien n'est transmis sans le
+  consentement explicite de l'ado** (AD-11). Un bilan 360° sur un mineur est une
+  donnée très sensible.
+- **Profil éclaté valorisé** : l'outil ne force jamais « une » dominante ; un
+  profil qui ne « range » pas proprement est une richesse.
+
+---
+
+_Source : brainstorm, version développée & vision 360° de Nawel (Educa Typique)
++ compléments d'implémentation. À relire et reformuler avec les mots de Nawel
+avant codage, comme pour AD-03._
