@@ -1,13 +1,16 @@
 /* Service worker — Mon Chargé de Com
    Cache l'app pour un usage 100% hors-ligne (installable en PWA).
    Stratégie : cache-first, avec mise en cache au vol des requêtes GET. */
-const CACHE = 'mcc-v9-import-ressources-clair';
+const CACHE = 'mcc-v10-lecteurs-pdf-docx';
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './icon-192.png',
   './icon-512.png',
+  './vendor/pdf.min.js',
+  './vendor/pdf.worker.min.js',
+  './vendor/mammoth.browser.min.js',
   './apple-touch-icon.png'
 ];
 
@@ -36,7 +39,7 @@ self.addEventListener('fetch', e => {
         const copy = resp.clone();
         caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
         return resp;
-      }).catch(() => caches.match('./index.html'))
+      }).catch(() => e.request.mode === 'navigate' ? caches.match('./index.html') : Response.error())
     )
   );
 });
