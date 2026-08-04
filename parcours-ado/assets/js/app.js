@@ -45,10 +45,9 @@
     },
     {
       id: 3, couleur: "var(--ciel)", titre: "Je construis la suite",
-      sous: "Mon quotidien, mes forces, mes études et mon avenir.",
+      sous: "Mon quotidien, mes forces, ce dont j'ai besoin.",
       ecrans: [
         { code: "AD-09", ico: "🧩", titre: "Mon quotidien & mes forces", desc: "Ma semaine, mon organisation, mes intérêts", etat: "bientot" },
-        { code: "ET", ico: "🧭", titre: "Mon orientation", desc: "Études & métiers : intelligences, intérêts (RIASEC), style d'apprentissage", etat: "bientot" },
         { code: "AD-10", ico: "✉️", titre: "Ma demande d'accompagnement", desc: "Dire ce dont j'ai besoin, à mon rythme", etat: "bientot" },
         { code: "AD-11", ico: "🔀", titre: "Centre de partage", desc: "Je choisis quoi partager, et avec qui", etat: "bientot" }
       ]
@@ -297,6 +296,21 @@
         <button class="btn btn-plein btn-petit" data-nav="ad02" style="margin-top:0.6rem">Faire mon check-in</button>
       </div>
       ${progs}
+
+      <section class="prog-groupe" aria-label="L'étape d'après : mon orientation">
+        <div class="prog-titre"><span class="prog-puce" style="background:var(--lavande)" aria-hidden="true">🧭</span>L'étape d'après</div>
+        <p class="prog-sous">Une fois que tu te connais mieux, on regarde où tu as envie d'aller.</p>
+        <button class="etape bientot" disabled aria-disabled="true">
+          <span class="ico" aria-hidden="true">🎓</span>
+          <span class="corps">
+            <span class="t">Mon orientation</span>
+            <span class="d">Études &amp; métiers : mes intelligences, mes intérêts (RIASEC), ma façon d'apprendre</span>
+          </span>
+          <span class="etat plus-tard">à la fin</span>
+        </button>
+        <p class="mini-note" style="margin-top:0.4rem">Cette étape se construit sur tout le reste : d'abord se rencontrer, ensuite se projeter. Aucun métier n'est « la » bonne réponse — un profil atypique est une richesse.</p>
+      </section>
+
       <p class="pied">Mode d'Emploi de Moi · Educa Typique<br>🔒 Ton espace reste privé, sur cet appareil.</p>`;
   }
 
