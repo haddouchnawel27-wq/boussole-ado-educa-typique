@@ -21,7 +21,9 @@ En cas de blocage : **check-in émotionnel → régulation → micro-action → 
 - 🎨 **Fabrique de publications** : 6 gabarits natifs — Educa Typique et Jannat al Qouloub — remplissage automatique, photo facultative, aperçu, format carré ou portrait, export PNG et partage.
 - 📅 **Calendrier** éditorial simple (brouillon / prévu / publié).
 - 💡 **Bibliothèque de sujets** : 24 pistes de départ classées par univers et public, utilisables directement dans l'atelier.
-- 📚 **Ressources personnelles** : texte collé ou import local TXT, Markdown, CSV, JSON et HTML, envoyé ensuite dans l'atelier comme matière de travail.
+- 📁 **Dossier de ressources du Bureau** : l'utilisatrice autorise explicitement un dossier, l'app repère jusqu'à 60 documents, importe localement TXT, Markdown, CSV, JSON et HTML, mémorise leur origine et permet d'actualiser les fichiers modifiés.
+- 🔎 **Recherche documentaire locale** : à partir du sujet et de l'idée essentielle, le studio classe les ressources les plus proches et les sélectionne comme sources de travail.
+- 📚 **Ressources personnelles** : texte collé ou import local, avec titre, chemin d'origine et date de lecture dans la bibliothèque.
 - 🎨 **Kit Canva récupérable** : sauvegarde la publication, télécharge le PNG sous un nom précis, affiche les étapes d'import et ouvre la page d'import Canva.
 - 🔎 **Brief IA sourcée** : prépare un prompt complet imposant sources primaires, liens exacts, distinction faits/conseils, vérification et contrôle copyright.
 - 🗂️ **Bibliothèque de créations** : brouillons, idées et publications visuelles avec statut brouillon / prêt / publié.

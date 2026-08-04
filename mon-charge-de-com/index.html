@@ -188,6 +188,10 @@
   .topic-tags span{padding:3px 8px;border-radius:999px;background:var(--input);font-size:.7rem;color:var(--text-soft)}
   .resource-card{background:#F7F8F6;border-color:#DDE5DF}
   .resource-count{font-size:.76rem;color:var(--text-mute)}
+  .folder-link{margin:12px 0;padding:14px;border:1px solid #C9DBD1;border-radius:14px;background:linear-gradient(145deg,#F1F8F4,#FFF)}
+  .folder-link h4{margin:0 0 5px;font-size:.95rem;color:#315849}
+  .folder-link .folder-status{font-size:.78rem;line-height:1.45;color:var(--text-soft)}
+  .folder-link .folder-path{display:block;margin-top:7px;padding:7px 9px;border-radius:9px;background:#fff;border:1px dashed #AFC8BA;font-size:.72rem;word-break:break-word}
   .editorial-lab{border:2px solid #D8E4DD;background:linear-gradient(145deg,#F8FBF9,#FFF9F2)}
   .editorial-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .editorial-roles{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}
@@ -310,6 +314,7 @@
       <textarea id="editorial-closing" rows="2" style="min-height:64px" placeholder="ex : Enregistre ce post, partage-le ou écris-moi…"></textarea>
       <label class="field">Ressources à mobiliser</label>
       <div id="atelier-resource-picker" class="resource-picker"></div>
+      <button class="btn ghost small" onclick="suggestResourcesForBrief()">🔎 Trouver les ressources liées à mon sujet</button>
       <div class="btn-row">
         <button class="btn" onclick="generateEditorialProposals()">✨ Me proposer 3 posts complets</button>
         <button class="btn ghost" onclick="copySourcedAIBrief()">🔎 Copier le brief pour une IA sourcée</button>
@@ -472,7 +477,16 @@
 
     <div class="library-section card soft">
       <div class="library-section-head"><h3>📚 Mes ressources</h3><span class="resource-count" id="resource-count"></span></div>
-      <p class="muted tiny">Colle un extrait ou importe un texte, une page HTML, une note Markdown, un CSV ou un pack JSON. Tout reste sur cet appareil.</p>
+      <p class="muted tiny">Relie un dossier de ton Bureau, colle un extrait ou importe des documents. Tout reste sur cet appareil.</p>
+      <div class="folder-link">
+        <h4>📁 Mon dossier de ressources</h4>
+        <div class="folder-status" id="resource-folder-status">Aucun dossier relié pour le moment.</div>
+        <div class="btn-row">
+          <button class="btn menthe small" onclick="connectResourceFolder()">Choisir un dossier</button>
+          <button class="btn secondary small" id="resource-folder-rescan" onclick="rescanLinkedFolder()" hidden>Actualiser le dossier</button>
+        </div>
+        <input type="file" id="resource-folder-files" webkitdirectory directory multiple hidden onchange="importResourceFolderFallback(event)" />
+      </div>
       <label class="field" for="resource-title" style="margin-top:12px">Nom de la ressource</label>
       <input type="text" id="resource-title" placeholder="ex : Livret Parents — comprendre mon ado" />
       <label class="field" for="resource-paste">Texte ou notes à conserver</label>
@@ -481,7 +495,7 @@
       <button class="btn secondary" onclick="document.getElementById('resource-files').click()">＋ Importer des ressources</button>
       <input type="file" id="resource-files" accept=".txt,.md,.csv,.json,.html,.htm,text/plain,text/html,text/markdown,application/json,text/csv" multiple hidden onchange="importResourceFiles(event)" />
       <div id="resource-list"></div>
-      <div class="note">Les PDF et documents Word seront pris en charge par le futur moteur connecté. Pour l'instant, exporte-les en texte ou Markdown avant import.</div>
+      <div class="note">Lecture immédiate : TXT, Markdown, HTML, CSV et JSON. Les PDF et documents Word sont repérés dans le dossier ; leur lecture complète sera ajoutée au moteur connecté.</div>
     </div>
 
     <div class="library-section">
@@ -537,7 +551,7 @@
    STORE — persistance locale (localStorage). Aucun réseau.
    ═══════════════════════════════════════════════════════════════════ */
 const KEY='mcc:v1';
-const DEFAULT={ checkins:[], drafts:[], library:[], calendar:[], resources:[],
+const DEFAULT={ checkins:[], drafts:[], library:[], calendar:[], resources:[], folderMeta:null,
   prefs:{spiritual:true, dys:false, scale:1} };
 let db = load();
 function load(){ try{ return Object.assign(structuredClone(DEFAULT), JSON.parse(localStorage.getItem(KEY)||'{}')); }catch(e){ return structuredClone(DEFAULT); } }
@@ -889,6 +903,25 @@ function renderEditorialResourcePicker(){
 function toggleEditorialResource(id,checked){
   atelier.resourceIds=checked?[...new Set([...atelier.resourceIds,id])]:atelier.resourceIds.filter(x=>x!==id);
 }
+function searchTerms(text){
+  const ignored=new Set(['avec','dans','pour','sans','mais','plus','moins','faire','avoir','être','cette','comme','comment','quel','quelle','leurs','notre','votre','tout','tous','elle','elles','nous','vous','des','les','une','aux','sur','par','mon','mes','son','ses']);
+  return [...new Set(String(text||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/[a-z0-9]{3,}/g)||[])].filter(w=>!ignored.has(w));
+}
+function suggestResourcesForBrief(){
+  const topic=document.getElementById('atelier-topic').value;
+  const message=document.getElementById('editorial-message').value;
+  const terms=searchTerms(topic+' '+message);
+  if(!terms.length){toast('Écris d’abord ton sujet ou ton idée essentielle');return;}
+  const ranked=(db.resources||[]).map(r=>{
+    const title=String(r.title||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    const body=String(r.content||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').slice(0,50000);
+    const score=terms.reduce((n,t)=>n+(title.includes(t)?7:0)+(body.includes(t)?1:0),0);
+    return {id:r.id,score};
+  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,5);
+  if(!ranked.length){toast('Aucune ressource proche trouvée dans le dossier');return;}
+  atelier.resourceIds=ranked.map(x=>x.id);renderEditorialResourcePicker();
+  toast(ranked.length+' ressource'+(ranked.length>1?'s':'')+' pertinente'+(ranked.length>1?'s':'')+' sélectionnée'+(ranked.length>1?'s':''));
+}
 function normalizeEditorialText(value){return String(value||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();}
 function findEditorialTopic(topic){
   const wanted=normalizeEditorialText(topic);if(!wanted)return null;let best=null,bestScore=0;
@@ -954,7 +987,7 @@ function generateEditorialProposals(){
 function renderEditorialProposals(brief){
   const box=document.getElementById('editorial-proposals');box.innerHTML='<h3>Trois propositions prêtes à retravailler</h3>';
   editorialProposals.forEach((p,i)=>{const d=document.createElement('div');d.className='card proposal-card';d.innerHTML=`<div class="meta">${escapeHtml(p.subtitle)}</div><h3>${escapeHtml(p.title)}</h3><div class="proposal-audit">${p.audit.map(x=>`<span>${escapeHtml(x)}</span>`).join('')}</div><div class="proposal-copy">${escapeHtml(p.text)}</div><div class="btn-row"><button class="btn secondary small" onclick="useEditorialProposal(${i})">✓ Utiliser ce post</button><button class="btn ghost small" onclick="copyText(editorialProposals[${i}].text)">📋 Copier</button></div>`;box.appendChild(d);});
-  const sources=brief.resources.length?brief.resources.map(r=>`<b>${escapeHtml(r.title)}</b>`).join(' · '):'aucune ressource personnelle sélectionnée';
+  const sources=brief.resources.length?brief.resources.map(r=>`<b>${escapeHtml(r.title)}</b>${r.sourcePath?' <span class="muted">('+escapeHtml(r.sourcePath)+')</span>':''}`).join(' · '):'aucune ressource personnelle sélectionnée';
   const base=brief.topicCard?`base éditoriale interne : <b>${escapeHtml(brief.topicCard.title)}</b>`:'aucune base éditoriale interne correspondante';
   const report=document.createElement('div');report.className='source-report';report.innerHTML=`<b>Traçabilité & copyright</b><br>${base}<br>Ressources mobilisées : ${sources}.<br><b>Apport externe :</b> aucun dans le moteur local. Les affirmations factuelles, médicales, scientifiques ou juridiques doivent être complétées avec des sources vérifiables avant publication. Le texte proposé est une rédaction nouvelle ; aucun long extrait de ressource n’est recopié automatiquement.`;box.appendChild(report);
 }
@@ -963,7 +996,7 @@ function useEditorialProposal(index){
 }
 function copySourcedAIBrief(){
   const b=collectEditorialBrief();if(!b.topic){toast('Indique d’abord ton sujet');return;}
-  const resourceBlock=b.resources.length?b.resources.map((r,i)=>`RESSOURCE ${i+1} — ${r.title}\n${r.content.slice(0,3500)}`).join('\n\n'):'Aucune ressource personnelle jointe.';
+  const resourceBlock=b.resources.length?b.resources.map((r,i)=>`RESSOURCE ${i+1} — ${r.title}${r.sourcePath?'\nORIGINE LOCALE : '+r.sourcePath:''}\n${r.content.slice(0,3500)}`).join('\n\n'):'Aucune ressource personnelle jointe.';
   const prompt=`Tu travailles comme une équipe réunissant un ingénieur pédagogique, un neuropédagogue, un social media manager, un community manager et un rédacteur social media.\n\nSUJET : ${b.topic}\nPUBLIC : ${b.audience}\nOBJECTIF : ${b.objective}\nACCROCHE SOUHAITÉE : ${b.hook||'à proposer'}\nMESSAGE ESSENTIEL : ${b.message||'à dégager des ressources'}\nMOT DE FIN : ${b.closing}\nPLATEFORME : ${atelier.platform}\n\n${resourceBlock}\n\nRédige 3 propositions originales : un post pédagogique, un post relationnel et un carrousel. Travaille d’abord à partir des ressources fournies, sans long copier-coller. Complète uniquement avec des informations issues de sources primaires ou institutionnelles fiables. Pour chaque apport externe, fournis le lien exact, distingue clairement faits et conseils, indique les points à vérifier et n’invente jamais de référence. Ajoute enfin un contrôle copyright, un contrôle de charge cognitive et les précautions nécessaires.`;
   copyText(prompt);toast('Brief IA sourcée copié ✓');
 }
@@ -1344,23 +1377,83 @@ function useTopic(id){
 function saveTopicIdea(id){
   const t=TOPIC_LIBRARY.find(x=>x.id===id);if(!t)return;db.library.unshift({id:uid(),type:'idée',platform:'Telegram',angle:t.angle,topic:t.title,content:t.prompt,date:new Date().toISOString(),status:'brouillon'});save();renderLibrary();toast('Idée gardée ✓');
 }
+const RESOURCE_EXTENSIONS=new Set(['txt','md','markdown','csv','json','html','htm']);
+const DETECTED_EXTENSIONS=new Set(['pdf','doc','docx','odt','rtf','txt','md','markdown','csv','json','html','htm']);
+const FOLDER_DB='mcc:folder-access';
+function fileExt(name){const m=String(name||'').toLowerCase().match(/\.([a-z0-9]+)$/);return m?m[1]:'';}
+function cleanResourceText(raw,name){
+  const text=/\.html?$/i.test(name)?new DOMParser().parseFromString(raw,'text/html').body.textContent:raw;
+  return String(text||'').replace(/\r/g,'').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
+}
+async function ingestResourceFile(file,sourcePath){
+  const ext=fileExt(file.name);if(!RESOURCE_EXTENSIONS.has(ext))return {status:'unsupported'};
+  if(file.size>1000000)return {status:'large'};
+  const fingerprint=(sourcePath||file.name)+'|'+file.lastModified+'|'+file.size;
+  if((db.resources||[]).some(r=>r.fingerprint===fingerprint))return {status:'same'};
+  try{
+    const raw=await file.text();
+    const common={date:new Date().toISOString(),sourcePath:sourcePath||file.name,fileName:file.name,fingerprint,sourceType:'dossier local'};
+    const previous=(db.resources||[]).find(r=>r.sourcePath===common.sourcePath);
+    if(previous)db.resources=db.resources.filter(r=>r.sourcePath!==common.sourcePath);
+    if(ext==='json'){
+      const parsed=JSON.parse(raw);const items=Array.isArray(parsed)?parsed:(parsed.items||parsed.resources||[parsed]);
+      items.slice(0,5).forEach((item,i)=>{const content=typeof item==='string'?item:(item.content||item.text||item.body||JSON.stringify(item,null,2));
+        db.resources.unshift({...common,id:uid(),fingerprint:fingerprint+'|'+i,title:item.title||item.name||file.name.replace(/\.json$/i,'')+(items.length>1?' · '+(i+1):''),content:String(content).slice(0,4000)});});
+    }else{
+      db.resources.unshift({...common,id:uid(),title:file.name.replace(/\.[^.]+$/,''),content:cleanResourceText(raw,file.name).slice(0,20000)});
+    }
+    return {status:previous?'updated':'added'};
+  }catch(e){return {status:'error'};}
+}
 async function importResourceFiles(ev){
-  const files=[...ev.target.files];if(!files.length)return;let added=0;
-  for(const file of files){
-    if(file.size>400000){toast(file.name+' est trop volumineux pour le stockage local');continue;}
-    try{
-      const raw=await file.text();
-      if(file.name.toLowerCase().endsWith('.json')){
-        const parsed=JSON.parse(raw);const items=Array.isArray(parsed)?parsed:(parsed.items||parsed.resources||[parsed]);
-        items.forEach((item,i)=>{const content=typeof item==='string'?item:(item.content||item.text||item.body||JSON.stringify(item,null,2));
-          db.resources.unshift({id:uid(),title:item.title||item.name||file.name.replace(/\.json$/i,'')+(items.length>1?' · '+(i+1):''),content:String(content).slice(0,120000),date:new Date().toISOString()});added++;});
-      }else{
-        const content=/\.html?$/i.test(file.name)?new DOMParser().parseFromString(raw,'text/html').body.textContent:raw;
-        db.resources.unshift({id:uid(),title:file.name.replace(/\.[^.]+$/,''),content:String(content||'').replace(/\n{3,}/g,'\n\n').trim().slice(0,120000),date:new Date().toISOString()});added++;
-      }
-    }catch(e){toast('Impossible de lire '+file.name);}
+  const files=[...ev.target.files];if(!files.length)return;let added=0,updated=0,skipped=0;
+  for(const file of files){const result=await ingestResourceFile(file,file.name);if(result.status==='added')added++;else if(result.status==='updated')updated++;else if(!['same'].includes(result.status))skipped++;}
+  if((added||updated)&&save())renderLibrary();
+  toast(`${added} ajoutée${added>1?'s':''}${updated?' · '+updated+' actualisée'+(updated>1?'s':''):''}${skipped?' · '+skipped+' non lue'+(skipped>1?'s':''):''}`);ev.target.value='';
+}
+function openFolderDb(){
+  return new Promise((resolve,reject)=>{const req=indexedDB.open(FOLDER_DB,1);req.onupgradeneeded=()=>req.result.createObjectStore('handles');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});
+}
+async function storeFolderHandle(handle){const idb=await openFolderDb();return new Promise((resolve,reject)=>{const tx=idb.transaction('handles','readwrite');tx.objectStore('handles').put(handle,'resources');tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});}
+async function getFolderHandle(){try{const idb=await openFolderDb();return await new Promise((resolve,reject)=>{const req=idb.transaction('handles').objectStore('handles').get('resources');req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error);});}catch(e){return null;}}
+async function connectResourceFolder(){
+  if(!window.showDirectoryPicker){document.getElementById('resource-folder-files').click();return;}
+  try{const handle=await window.showDirectoryPicker({mode:'read'});await storeFolderHandle(handle);await scanDirectoryHandle(handle);}
+  catch(e){if(e.name!=='AbortError'){toast('Le dossier n’a pas pu être relié');document.getElementById('resource-folder-files').click();}}
+}
+async function rescanLinkedFolder(){
+  const handle=await getFolderHandle();if(!handle){document.getElementById('resource-folder-files').click();return;}
+  try{let permission=await handle.queryPermission({mode:'read'});if(permission!=='granted')permission=await handle.requestPermission({mode:'read'});if(permission!=='granted'){toast('Autorisation du dossier nécessaire');return;}await scanDirectoryHandle(handle);}
+  catch(e){toast('Impossible d’actualiser ce dossier');}
+}
+async function collectDirectoryFiles(handle,path,rows,stats){
+  for await(const [name,entry] of handle.entries()){
+    if(rows.length>=60)return;
+    if(entry.kind==='directory'){
+      if(!name.startsWith('.')&&name.toLowerCase()!=='node_modules')await collectDirectoryFiles(entry,path+name+'/',rows,stats);
+    }else{
+      const ext=fileExt(name);if(DETECTED_EXTENSIONS.has(ext)){stats.detected++;if(RESOURCE_EXTENSIONS.has(ext))rows.push({handle:entry,path:path+name});else stats.waiting++;}
+    }
   }
-  if(added&&save()){toast(added+' ressource'+(added>1?'s':'')+' importée'+(added>1?'s':''));renderLibrary();}ev.target.value='';
+}
+async function scanDirectoryHandle(handle){
+  toast('Lecture du dossier en cours…');const rows=[],stats={detected:0,waiting:0,added:0,updated:0,same:0,skipped:0};
+  await collectDirectoryFiles(handle,'',rows,stats);
+  for(const row of rows){const file=await row.handle.getFile();const result=await ingestResourceFile(file,handle.name+'/'+row.path);if(result.status in stats)stats[result.status]++;else stats.skipped++;}
+  db.folderMeta={name:handle.name,detected:stats.detected,readable:rows.length,waiting:stats.waiting,lastScan:new Date().toISOString()};save();renderLibrary();
+  toast(`${stats.added} ajoutée${stats.added>1?'s':''}${stats.updated?' · '+stats.updated+' actualisée'+(stats.updated>1?'s':''):''}${stats.waiting?' · '+stats.waiting+' PDF/Word repéré'+(stats.waiting>1?'s':''):''}`);
+}
+async function importResourceFolderFallback(ev){
+  const files=[...ev.target.files];if(!files.length)return;let added=0,updated=0,waiting=0,detected=0;
+  for(const file of files){const ext=fileExt(file.name);if(!DETECTED_EXTENSIONS.has(ext))continue;detected++;if(!RESOURCE_EXTENSIONS.has(ext)){waiting++;continue;}const result=await ingestResourceFile(file,file.webkitRelativePath||file.name);if(result.status==='added')added++;if(result.status==='updated')updated++;}
+  const root=(files[0].webkitRelativePath||'Dossier').split('/')[0];db.folderMeta={name:root,detected,readable:detected-waiting,waiting,lastScan:new Date().toISOString(),fallback:true};save();renderLibrary();
+  toast(`${added} ajoutée${added>1?'s':''}${updated?' · '+updated+' actualisée'+(updated>1?'s':''):''}${waiting?' · '+waiting+' PDF/Word repéré'+(waiting>1?'s':''):''}`);ev.target.value='';
+}
+function renderResourceFolder(){
+  const box=document.getElementById('resource-folder-status'),button=document.getElementById('resource-folder-rescan');if(!box||!button)return;
+  const m=db.folderMeta;if(!m){box.textContent='Aucun dossier relié pour le moment.';button.hidden=true;return;}
+  box.innerHTML=`<b>${escapeHtml(m.name)}</b> · ${m.detected||0} document${m.detected===1?'':'s'} repéré${m.detected===1?'':'s'}, ${m.readable||0} lisible${m.readable===1?'':'s'} maintenant.${m.waiting?`<br>${m.waiting} PDF/Word en attente du lecteur connecté.`:''}<span class="folder-path">Dernière lecture : ${escapeHtml(frDate(m.lastScan))}</span>`;
+  button.hidden=!!m.fallback;
 }
 function savePastedResource(){
   const title=document.getElementById('resource-title').value.trim();
@@ -1371,9 +1464,10 @@ function savePastedResource(){
   document.getElementById('resource-title').value='';document.getElementById('resource-paste').value='';renderLibrary();toast('Ressource ajoutée ✓');
 }
 function renderResources(){
+  renderResourceFolder();
   const box=document.getElementById('resource-list');if(!box)return;const rows=db.resources||[];document.getElementById('resource-count').textContent=rows.length?rows.length+' importée'+(rows.length>1?'s':''):'';box.innerHTML='';
   if(!rows.length){box.innerHTML='<div class="empty">Aucune ressource importée pour le moment.</div>';return;}
-  rows.forEach(r=>{const d=document.createElement('div');d.className='item resource-card';d.innerHTML=`<div class="meta">Ressource locale · ${frDate(r.date)}</div><h3>${escapeHtml(r.title)}</h3>
+  rows.forEach(r=>{const d=document.createElement('div');d.className='item resource-card';d.innerHTML=`<div class="meta">Ressource locale · ${frDate(r.date)}${r.sourcePath?' · '+escapeHtml(r.sourcePath):''}</div><h3>${escapeHtml(r.title)}</h3>
     <div class="body">${escapeHtml(r.content).slice(0,180)}${r.content.length>180?'…':''}</div><div class="acts"><button onclick="useResource('${r.id}')">✍️ Utiliser comme matière</button><button onclick="deleteResource('${r.id}')">🗑️</button></div>`;box.appendChild(d);});
 }
 function useResource(id){
