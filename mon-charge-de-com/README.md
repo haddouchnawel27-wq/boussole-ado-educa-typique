@@ -1,21 +1,23 @@
 # 🧭 Mon Chargé de Com
 
-Un assistant réseaux sociaux **anti-blocage**, personnel et **100 % hors-ligne**.
-Pensé pour aider à publier sans surcharge mentale : on nomme ce qu'on ressent,
-on s'apaise, puis **une seule mini-action** — jamais « tout faire ».
+Un assistant éditorial personnel et **100 % hors-ligne** pour trouver un angle,
+écrire, créer un visuel, préparer et planifier une publication. Son parcours
+**anti-blocage** reste disponible quand la surcharge mentale empêche d'avancer.
 
 > Outil de soutien personnel. Il ne remplace ni un suivi ni l'avis d'un professionnel.
 
 ## ✨ Le principe
 
-Le flux central : **check-in émotionnel → (si blocage) régulation → micro-action → écriture guidée**.
+Le flux central : **idée → écriture guidée → visuel → validation → planification**.
+En cas de blocage : **check-in émotionnel → régulation → micro-action → écriture guidée**.
 
 - 🫧 **Check-in** : énergie, stress, clarté, peur du regard, charge mentale → un **score de blocage** oriente vers *création*, *accompagnement* ou *apaisement*.
 - 🌬️ **Régulation** : décharge émotionnelle, respiration guidée (cohérence / carrée / 4-7-8), ancrage 5-4-3-2-1, recentrage spirituel optionnel (Noms d'Allah, invocation).
 - ✨ **Micro-action** : une seule, adaptée à l'énergie et au temps dispo (2 / 10 / 30 min) — avec le droit de reporter sans culpabiliser.
 - ✍️ **Atelier d'écriture** : accroches, angles et squelettes prêts-à-remplir (par templates, **sans IA**).
+- 🎨 **Fabrique de publications** : 6 gabarits natifs — Educa Typique et Jannat al Qouloub — remplissage automatique, photo facultative, aperçu, format carré ou portrait, export PNG et partage.
 - 📅 **Calendrier** éditorial simple (brouillon / prévu / publié).
-- 📚 **Bibliothèque** de brouillons et idées.
+- 📚 **Bibliothèque** de brouillons, idées et publications visuelles avec statut brouillon / prêt / publié.
 - ⚙️ **Réglages** : mode spirituel, confort dys, taille du texte, export / import / effacement.
 
 ## 🔒 Confidentialité & hors-ligne
