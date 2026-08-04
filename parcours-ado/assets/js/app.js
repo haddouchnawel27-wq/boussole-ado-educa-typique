@@ -38,7 +38,7 @@
       id: 2, couleur: "var(--menthe)", titre: "Je me relie et je me protège",
       sous: "Les autres, les limites, et demander de l'aide.",
       ecrans: [
-        { code: "AD-06", ico: "🤝", titre: "Mes relations", desc: "Poser une limite, dire non", etat: "bientot" },
+        { code: "AD-06", ico: "🤝", titre: "Mes relations", desc: "Poser une limite, dire non", vue: "ad06", etat: "dispo" },
         { code: "AD-07", ico: "🌱", titre: "Reprendre confiance", desc: "L'erreur, la comparaison, mon discours intérieur", vue: "ad07", etat: "dispo" },
         { code: "AD-08", ico: "🛡️", titre: "Ma sécurité numérique", desc: "Demander de l'aide sans tout expliquer", etat: "bientot" }
       ]
