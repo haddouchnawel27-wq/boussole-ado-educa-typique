@@ -216,13 +216,27 @@
   .proposal-audit{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
   .proposal-audit span{font-size:.66rem;padding:4px 7px;border-radius:999px;background:#F0F4F1;color:#486054}
   .source-report{margin-top:12px;padding:12px;border-radius:12px;background:#FFF8E8;border:1px solid #E9D6A7;font-size:.78rem;line-height:1.5}
+  .ai-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+  .ai-choice{display:flex;align-items:flex-start;gap:8px;padding:10px;border:1px solid #C9DBD1;border-radius:11px;background:#fff;font-size:.78rem;line-height:1.4}
+  .ai-choice input{width:auto;margin-top:2px}
+  .ai-status{margin:12px 0;padding:11px 12px;border-radius:11px;background:#F4F7F5;border:1px solid #D8E4DD;font-size:.8rem;line-height:1.45}
+  .ai-status.loading{background:#EEF7F2;border-color:#9DBFAF;color:#315849}
+  .ai-status.error{background:#FFF1F3;border-color:#DA9CA7;color:#8A3343}
+  .ai-status.success{background:#EFF9F2;border-color:#9BC5AA;color:#315849}
+  .ai-result-section{margin-top:14px}
+  .ai-result-section h4{margin:0 0 7px;color:#315849}
+  .ai-list{margin:0;padding-left:20px;font-size:.84rem;line-height:1.55}
+  .ai-angle{padding:9px 10px;margin:6px 0;border-radius:10px;background:#fff;border:1px solid var(--border);font-size:.82rem;line-height:1.45}
+  .ai-source{padding:9px 10px;margin:6px 0;border-radius:10px;background:#fff;border-left:4px solid #9DBFAF;font-size:.78rem;line-height:1.45;word-break:break-word}
+  .ai-source a{color:#315849;font-weight:800}
+  .ai-meter{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:10px;padding:9px 11px;border-radius:10px;background:#F7F2FF;color:#5A4380;font-size:.74rem;font-weight:700}
   .canva-kit{border:2px solid #7D57C2;background:#F7F2FF;margin-top:14px}
   .canva-steps{counter-reset:canva;display:grid;gap:8px;margin:10px 0}
   .canva-step{position:relative;padding:10px 10px 10px 42px;background:#fff;border-radius:11px;border:1px solid #DDD1F1;font-size:.82rem}
   .canva-step:before{counter-increment:canva;content:counter(canva);position:absolute;left:10px;top:9px;width:23px;height:23px;border-radius:50%;display:grid;place-items:center;background:#7D57C2;color:#fff;font-weight:800}
   .file-badge{display:block;margin:8px 0;padding:8px 10px;background:#fff;border:1px dashed #7D57C2;border-radius:9px;font-family:monospace;font-size:.74rem;word-break:break-all}
   .hidden{display:none!important}
-  @media (max-width:520px){.editorial-grid{grid-template-columns:1fr}}
+  @media (max-width:520px){.editorial-grid,.ai-controls{grid-template-columns:1fr}}
   @media (max-width:420px){.template-grid{grid-template-columns:repeat(3,1fr)}.template-choice{padding:6px}.choice-grid{grid-template-columns:1fr}}
   @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -327,11 +341,20 @@
       <label class="field">Ressources à mobiliser</label>
       <div id="atelier-resource-picker" class="resource-picker"></div>
       <button class="btn ghost small" onclick="suggestResourcesForBrief()">🔎 Trouver les ressources liées à mon sujet</button>
-      <div class="btn-row">
-        <button class="btn" onclick="generateEditorialProposals()">✨ Créer 3 trames de travail</button>
-        <button class="btn ghost" onclick="copySourcedAIBrief()">🔎 Copier le brief pour une IA sourcée</button>
+      <div class="ai-controls">
+        <label class="ai-choice"><input type="checkbox" id="editorial-web" /><span><b>Compléter par le Web</b><br><span class="muted">Seulement avec des sources fiables et des liens à vérifier.</span></span></label>
+        <div><label class="field" for="editorial-depth" style="margin-top:0">Niveau de rédaction</label>
+          <select id="editorial-depth"><option value="standard">Terra · quotidien et économique</option><option value="deep">Sol · approfondi, plus coûteux</option></select></div>
       </div>
-      <div class="note">Le moteur local rédige et structure à partir de tes éléments. Il ne fabrique pas de références : les apports externes doivent être sourcés et vérifiés avant publication.</div>
+      <div class="btn-row">
+        <button class="btn" id="ai-generate-button" onclick="generateSourcedEditorialPackage()">✨ Rédiger avec l’IA sourcée</button>
+        <button class="btn ghost" onclick="generateEditorialProposals()">📝 Brouillon local sans IA</button>
+      </div>
+      <div class="btn-row"><button class="btn ghost small" onclick="copySourcedAIBrief()">📋 Copier le brief pour une autre IA</button></div>
+      <div class="note"><b>Avant l’envoi :</b> seules les informations saisies ici et les ressources cochées sont transmises à l’IA. Tes autres dossiers, brouillons et fichiers restent sur ton appareil.</div>
+      <div id="ai-editorial-status" class="ai-status" role="status" aria-live="polite">Prête. Une rédaction Terra fondée sur tes ressources coûte généralement quelques centimes. La recherche Web consomme davantage et reste facultative.</div>
+      <div id="ai-budget-meter" class="ai-meter"><span>Budget API : recharge automatique désactivée</span><span>Estimation des jetons dans l’app : 0,00 $</span></div>
+      <div id="ai-editorial-results" aria-live="polite"></div>
       <div id="editorial-proposals"></div>
     </div>
 
@@ -858,6 +881,11 @@ const CTAS=[
 ];
 let atelier={platform:'Telegram',angle:null,selectedHook:'',closing:'',resourceIds:[]};
 let editorialProposals=[];
+const AI_ACCESS_STORAGE='mcc:ai-access-code';
+const AI_SPEND_STORAGE='mcc:ai-estimated-spend';
+const AI_ENDPOINT_STORAGE='mcc:ai-endpoint';
+let aiEditorialPackage=null;
+let aiEditorialTexts=[];
 function startAtelier(){ renderAtelier(); go('atelier'); }
 function renderAtelier(){
   const pf=document.getElementById('atelier-platform'); pf.innerHTML='';
@@ -1014,6 +1042,92 @@ function renderEditorialProposals(brief){
   const sources=brief.resources.length?brief.resources.map(r=>`<b>${escapeHtml(r.title)}</b>${r.sourcePath?' <span class="muted">('+escapeHtml(r.sourcePath)+')</span>':''}`).join(' · '):'aucune ressource personnelle sélectionnée';
   const base=brief.topicCard?`base éditoriale interne : <b>${escapeHtml(brief.topicCard.title)}</b>`:'aucune base éditoriale interne correspondante';
   const report=document.createElement('div');report.className='source-report';report.innerHTML=`<b>Traçabilité & copyright</b><br>${base}<br>Ressources mobilisées : ${sources}.<br><b>Apport externe :</b> aucun dans le moteur local. Les affirmations factuelles, médicales, scientifiques ou juridiques doivent être complétées avec des sources vérifiables avant publication. Le texte proposé est une rédaction nouvelle ; aucun long extrait de ressource n’est recopié automatiquement.`;box.appendChild(report);
+}
+function aiEndpoint(){
+  if(location.protocol!=='file:')return new URL('/api/mcc-rediger',location.origin).href;
+  return localStorage.getItem(AI_ENDPOINT_STORAGE)||'';
+}
+function readAiAccessCode(){
+  let code=localStorage.getItem(AI_ACCESS_STORAGE)||'';
+  if(code)return code;
+  code=(prompt('Entre le code privé de Mon Chargé de Com. Ce n’est pas ta clé OpenAI et tu ne le feras qu’une fois.')||'').trim();
+  if(code)localStorage.setItem(AI_ACCESS_STORAGE,code);
+  return code;
+}
+function setAiEditorialStatus(kind,message){
+  const box=document.getElementById('ai-editorial-status');if(!box)return;
+  box.className='ai-status'+(kind?' '+kind:'');box.textContent=message;
+}
+function safeAiUrl(value){
+  try{const url=new URL(String(value||''));return ['http:','https:'].includes(url.protocol)?url.href:'';}catch(e){return '';}
+}
+function formatEstimatedCost(value){
+  const amount=Number(value||0);if(amount>0&&amount<0.01)return '< 0,01 $';
+  return amount.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:4})+' $';
+}
+function updateAiBudgetMeter(meta){
+  const current=Number(localStorage.getItem(AI_SPEND_STORAGE)||0);
+  const next=current+Number(meta?.estimatedCostUsd||0);localStorage.setItem(AI_SPEND_STORAGE,String(next));
+  const box=document.getElementById('ai-budget-meter');if(!box)return;
+  box.innerHTML=`<span>Jetons de la dernière rédaction : ${escapeHtml(formatEstimatedCost(meta?.estimatedCostUsd))}</span><span>Total de jetons estimé dans l’app : ${escapeHtml(formatEstimatedCost(next))}</span>`;
+}
+function aiTextCard(title,subtitle,text,index){
+  return `<div class="card proposal-card"><div class="meta">${escapeHtml(subtitle)}</div><h3>${escapeHtml(title)}</h3><div class="proposal-copy">${escapeHtml(text)}</div><div class="btn-row"><button class="btn secondary small" onclick="useAiEditorialText(${index})">✓ Utiliser</button><button class="btn ghost small" onclick="copyText(aiEditorialTexts[${index}])">📋 Copier</button></div></div>`;
+}
+function renderAiEditorialPackage(data){
+  const result=data.result||{};aiEditorialPackage=result;
+  const post=[result.post?.text,result.post?.cta].filter(Boolean).join('\n\n');
+  const carousel=(result.carousel?.slides||[]).map((slide,i)=>`SLIDE ${i+1} · ${slide.title}\n${slide.text}`).join('\n\n');
+  aiEditorialTexts=[post,result.whatsapp||'',result.telegram||'',carousel];
+  const hooks=(result.hooks||[]).map(h=>`<li>${escapeHtml(h)}</li>`).join('');
+  const angles=(result.angles||[]).map(a=>`<div class="ai-angle"><b>${escapeHtml(a.title)}</b><br>${escapeHtml(a.rationale)}</div>`).join('');
+  const internal=(result.sources?.internal||[]).map(s=>`<div class="ai-source"><b>${escapeHtml(s.title)}</b><br>${escapeHtml(s.usage)}</div>`).join('')||'<div class="muted tiny">Aucune ressource personnelle mobilisée.</div>';
+  const external=(result.sources?.external||[]).map(s=>{const url=safeAiUrl(s.url);return url?`<div class="ai-source"><a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(s.title)}</a><br>${escapeHtml(s.usage)}</div>`:'';}).join('')||'<div class="muted tiny">Aucune source Web utilisée pour cette rédaction.</div>';
+  const verification=(result.sources?.verification||[]).map(v=>`<li>${escapeHtml(v)}</li>`).join('')||'<li>Aucun point supplémentaire signalé ; la validation éditoriale finale reste nécessaire.</li>';
+  const controls=result.controls||{};
+  const box=document.getElementById('ai-editorial-results');
+  box.innerHTML=`<div class="ai-result-section"><h3>Propositions de l’IA sourcée</h3><h4>3 accroches</h4><ol class="ai-list">${hooks}</ol><h4 style="margin-top:12px">3 angles éditoriaux</h4>${angles}</div>
+    ${aiTextCard('Post complet',result.post?.title||'Version principale',post,0)}
+    ${aiTextCard('Version WhatsApp','Directe, chaleureuse et facile à transférer',result.whatsapp||'',1)}
+    ${aiTextCard('Version Telegram','Structurée pour une lecture dans le fil',result.telegram||'',2)}
+    ${aiTextCard(result.carousel?.title||'Carrousel Canva','Une idée par écran',carousel,3)}
+    <div class="card"><h3>🎨 Proposition visuelle</h3><p><b>${escapeHtml(result.visual?.headline||'')}</b></p><p class="muted tiny">Format : ${escapeHtml(result.visual?.format||'')}<br>${escapeHtml(result.visual?.direction||'')}</p></div>
+    <div class="source-report"><b>Traçabilité</b><div class="ai-result-section"><h4>Ressources personnelles utilisées</h4>${internal}</div><div class="ai-result-section"><h4>Sources Web consultées</h4>${external}</div><div class="ai-result-section"><h4>À vérifier avant publication</h4><ul class="ai-list">${verification}</ul></div></div>
+    <div class="card"><h3>✅ Contrôles éditoriaux</h3><p class="tiny"><b>Copyright :</b> ${escapeHtml(controls.copyright||'Non renseigné')}<br><br><b>Pédagogie :</b> ${escapeHtml(controls.pedagogy||'Non renseigné')}<br><br><b>Neuropédagogie :</b> ${escapeHtml(controls.neuropedagogy||'Non renseigné')}<br><br><b>Fiabilité :</b> ${escapeHtml(controls.accuracy||'Non renseigné')}</p></div>`;
+  box.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function useAiEditorialText(index){
+  const text=aiEditorialTexts[index];if(!text)return;
+  document.getElementById('atelier-draft').value=text;toast('Texte placé dans ton brouillon ✓');
+  document.getElementById('atelier-draft').scrollIntoView({behavior:'smooth',block:'center'});
+}
+async function generateSourcedEditorialPackage(){
+  const brief=collectEditorialBrief();
+  if(!brief.topic){toast('Indique d’abord ton sujet');document.getElementById('atelier-topic').focus();return;}
+  if(!brief.message&&!brief.current&&!brief.resources.length){toast('Ajoute ton idée essentielle, un brouillon ou une ressource');document.getElementById('editorial-message').focus();return;}
+  const endpoint=aiEndpoint();
+  if(!endpoint){setAiEditorialStatus('error','L’IA connectée s’utilise dans la version en ligne. Le brouillon local reste disponible ici.');return;}
+  const accessCode=readAiAccessCode();if(!accessCode){setAiEditorialStatus('error','Le code privé est nécessaire pour protéger ton crédit OpenAI.');return;}
+  const depth=document.getElementById('editorial-depth').value;
+  if(depth==='deep'&&!confirm('Le mode Sol approfondi utilise davantage de crédit. Continuer ?'))return;
+  const button=document.getElementById('ai-generate-button');button.disabled=true;button.textContent='Rédaction en cours…';
+  document.getElementById('editorial-proposals').innerHTML='';document.getElementById('ai-editorial-results').innerHTML='';
+  setAiEditorialStatus('loading','L’IA lit uniquement les éléments choisis, rédige les versions et prépare la traçabilité…');
+  try{
+    const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','X-MCC-Access-Code':accessCode},body:JSON.stringify({
+      topic:brief.topic,audience:brief.audience,objective:brief.objective,platform:atelier.platform,hook:brief.hook,
+      message:brief.message,closing:brief.closing,currentDraft:brief.current,useWeb:document.getElementById('editorial-web').checked,depth,
+      resources:brief.resources.map(r=>({title:r.title,content:r.content,sourceFormat:r.sourceFormat||''}))
+    })});
+    let data={};try{data=await response.json();}catch(e){}
+    if(!response.ok){
+      if(response.status===401)localStorage.removeItem(AI_ACCESS_STORAGE);
+      throw new Error(data.error||'La rédaction n’a pas abouti.');
+    }
+    renderAiEditorialPackage(data);updateAiBudgetMeter(data.meta);
+    setAiEditorialStatus('success',`Rédaction terminée avec ${data.meta?.model||'le moteur IA'}. Tu gardes la décision : relis, nuance ou modifie avant publication.`);
+  }catch(error){setAiEditorialStatus('error',error.message||'La rédaction IA a échoué. Réessaie dans un instant.');}
+  finally{button.disabled=false;button.textContent='✨ Rédiger avec l’IA sourcée';}
 }
 function useEditorialProposal(index){
   const p=editorialProposals[index];if(!p)return;document.getElementById('atelier-draft').value=p.text;toast('Proposition placée dans ton brouillon ✓');document.getElementById('atelier-draft').scrollIntoView({behavior:'smooth',block:'center'});
