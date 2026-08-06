@@ -101,6 +101,12 @@
         o.faites.forEach(function (f) { L.push("• " + f.quoi + (f.apres ? " — ce que j'en retiens : " + f.apres : "")); });
       }
       return L.length ? L.join("\n") : null;
+    } },
+    { id: "pensees", titre: "Démêler mes pensées", src: "pensees-notice", build: function (o) {
+      var L = [];
+      if (o.piege) L.push("Une pensée piège que je repère en ce moment : " + o.piege + ".");
+      if (o.juste) L.push("Ma lecture plus juste : " + o.juste);
+      return L.length ? L.join("\n") + "\n(Un entraînement à séparer les faits de ce que mon cerveau ajoute — pas un diagnostic.)" : null;
     } }
   ];
 

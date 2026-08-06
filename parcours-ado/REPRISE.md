@@ -72,6 +72,18 @@ confirme l'architecture existante ; deux vrais manques comblés :
   externes en opt-in. Dans **« L'étape d'après »**, après l'Orientation.
 - Fiche **« J'expérimente »** ajoutée à AD-11 (privé par défaut). `sw.js` → **v14**.
 
+## 🧶 « DÉMÊLER MES PENSÉES » — biais cognitifs ado (fait ✅)
+Adaptation ado du support pro « Biais cognitifs » (TCC) — `screens/pensees.js`,
+compagnon d'AD-07, en bonus du **Programme 2**.
+- Catalogue de **11 pensées pièges** (mots d'ado + question corrective).
+- Grille TCC en outil doux : fait brut → ce que mon esprit ajoute → émotion
+  (0-10) → corps → réaction → le piège → preuves pour/contre → lecture plus
+  juste → « que dirais-tu à un·e pote ? ».
+- **Filet de sécurité** si émotion ≥ 8/10 (mot doux + numéros d'aide).
+- Fiche **« Démêler mes pensées »** dans AD-11 (privé par défaut). `sw.js` → **v15**.
+- Sources retrouvées par Nawel confirmées : le brainstorm Étincelle = ce qui est
+  déjà implémenté (rien à rattraper).
+
 ## 🔜 CE QU'IL RESTE
 1. _(optionnel)_ Finitions / retours de Nawel après test de la preview (contenus,
    familles de métiers, version « longue » d'approfondissement, section 7

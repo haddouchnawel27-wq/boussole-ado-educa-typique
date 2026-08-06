@@ -2,7 +2,7 @@
    App autonome, scope /parcours-ado/. Cache pour usage 100% hors-ligne.
    Stratégie « stale-while-revalidate » : réponse immédiate depuis le cache,
    rafraîchie en arrière-plan pour la prochaine ouverture. */
-var CACHE = "mem-ado-v14";
+var CACHE = "mem-ado-v15";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
   "./assets/icon.svg",
@@ -21,7 +21,8 @@ var FICHIERS = [
   "./assets/js/screens/profil.js",
   "./assets/js/screens/etincelle.js",
   "./assets/js/screens/cerveau.js",
-  "./assets/js/screens/experience.js"
+  "./assets/js/screens/experience.js",
+  "./assets/js/screens/pensees.js"
 ];
 
 self.addEventListener("install", function (e) {
