@@ -413,6 +413,7 @@
 
       <label class="field" for="visual-body">Texte court</label>
       <textarea id="visual-body" rows="5" placeholder="Le cœur du message, trois repères ou une réponse…"></textarea>
+      <p class="muted tiny" style="margin-top:8px">Le visuel présente une synthèse lisible. Ta légende complète reste conservée dans l’atelier d’écriture.</p>
 
       <label class="field" for="visual-signature">Signature ou source</label>
       <input type="text" id="visual-signature" placeholder="Educa Typique" />
@@ -938,6 +939,11 @@ function assembleDraft(){
   const ta=document.getElementById('atelier-draft');
   let skeleton='';
   const base=ta.value.trim();
+  const completeSentences=(base.match(/[.!?](?=\s|$)/g)||[]).length;
+  if(base.length>120 || completeSentences>=2){
+    toast('Ton texte est déjà rédigé : je le conserve sans ajouter de phrases incomplètes ✓');
+    return;
+  }
   skeleton += (base?base+'\n\n':'🪝 ACCROCHE : \n\n');
   if(angle){
     if(angle.name==='Histoire perso') skeleton+=`📖 L'HISTOIRE\nUn jour, à propos de ${topic}, il s'est passé…\n\n💡 CE QUE J'EN RETIENS\n…\n`;
@@ -1253,13 +1259,65 @@ function stripMarkdownForVisual(value){
 function cleanPostLine(line){
   return stripMarkdownForVisual(line).replace(/^[\s#>*_`\-–—\d.)]+/,'').replace(/^[^\p{L}\p{N}«“]+/u,'').trim();
 }
+function removeIncompletePlanEnding(value){
+  return String(value||'')
+    .replace(/\s+(?:Sur|À propos de)\s+[^\n]{1,160}?(?:voici\s+3\s+(?:pistes|repères)|:)\s*(?:\n?\s*[1-3][.)]\s*(?:…|\.\.\.)?\s*)*$/i,'')
+    .replace(/\s+📣\s*CTA\s*:\s*$/i,'')
+    .trim();
+}
+function cleanVisualTitle(value){
+  return stripMarkdownForVisual(value).replace(/\s*(?:\.{3}|…)\s*$/,'').trim();
+}
+function firstCompleteSentence(value){
+  const clean=String(value||'').replace(/\s+/g,' ').trim();
+  const match=clean.match(/^.*?[.!?](?=\s|$)/);
+  return (match?match[0]:clean).trim();
+}
+function extractThreeReperes(value){
+  const text=removeIncompletePlanEnding(stripMarkdownForVisual(value)).replace(/\s+/g,' ').trim();
+  const markerPattern=/([A-ZÀ-ÖØ-Þ][^.!?\n:]{2,80})\s*:\s*/gu;
+  const markers=[]; let match;
+  while((match=markerPattern.exec(text))!==null){
+    const label=cleanPostLine(match[1]);
+    if(!/^(?:trois|3)\s+(?:repères|pistes)|^voici\b/i.test(label)) markers.push({label,start:match.index,bodyStart:markerPattern.lastIndex});
+  }
+  const points=markers.map((marker,index)=>{
+    const end=index+1<markers.length?markers[index+1].start:text.length;
+    const sentence=firstCompleteSentence(text.slice(marker.bodyStart,end));
+    return sentence?`${marker.label} : ${sentence}`:'';
+  }).filter(Boolean);
+  if(points.length>=3) return points.slice(0,3);
+
+  const numbered=[...text.matchAll(/(?:^|\s)(?:[1-3])[.)]\s*([^\n]+?)(?=(?:\s[1-3][.)]\s)|$)/g)]
+    .map(item=>firstCompleteSentence(item[1])).filter(Boolean);
+  return numbered.length>=3?numbered.slice(0,3):[];
+}
+function completeVisualExcerpt(value,maxChars=260){
+  const clean=removeIncompletePlanEnding(stripMarkdownForVisual(value)).replace(/\s+/g,' ').trim();
+  const sentences=clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[];
+  let excerpt='';
+  for(const sentence0 of sentences){
+    const sentence=sentence0.trim();
+    const candidate=(excerpt+' '+sentence).trim();
+    if(excerpt && candidate.length>maxChars) break;
+    excerpt=candidate;
+    if(excerpt.length>=Math.round(maxChars*.55)) break;
+  }
+  return excerpt||clean;
+}
 function autofillVisual(showToast=true){
   const topic=(document.getElementById('atelier-topic').value||'').trim();
-  const post=(document.getElementById('atelier-draft').value||'').trim();
+  const post=removeIncompletePlanEnding((document.getElementById('atelier-draft').value||'').trim());
   const lines=post.split(/\n+/).map(cleanPostLine).filter(l=>l && !l.startsWith('#') && !/^(CTA|Appel à l.action)/i.test(l));
-  visualDraft.title=topic||lines[0]||'Une idée à partager';
+  visualDraft.title=cleanVisualTitle(topic||lines[0]||'Une idée à partager');
   const rest=(topic?lines:lines.slice(1)).join(' ').replace(/\s+/g,' ').trim();
-  visualDraft.body=stripMarkdownForVisual(rest||post||'Ajoute ici ton message essentiel.').slice(0,700);
+  const points=extractThreeReperes(post);
+  if(visualDraft.brand==='educa' && points.length===3){
+    visualDraft.template='et-2';
+    visualDraft.body=points.join('\n');
+  } else {
+    visualDraft.body=completeVisualExcerpt(rest||post||'Ajoute ici ton message essentiel.');
+  }
   if(!visualDraft.signature) visualDraft.signature=VISUAL_BRANDS[visualDraft.brand].signature;
   if(document.getElementById('visual-title')){
     document.getElementById('visual-title').value=visualDraft.title;
@@ -1267,7 +1325,7 @@ function autofillVisual(showToast=true){
     document.getElementById('visual-signature').value=visualDraft.signature;
     drawVisual();
   }
-  if(showToast) toast('Visuel rempli depuis ton texte ✨');
+  if(showToast) toast(points.length===3?'Tes 3 repères sont présentés en entier ; la légende complète est conservée ✓':'Visuel rempli sans couper de phrase ✨');
 }
 
 function updateVisualImageUi(){
@@ -1314,6 +1372,16 @@ function drawWrapped(ctx,text,x,y,maxWidth,fontSize,lineHeight,maxLines,color,fo
   const lines=wrapCanvasLines(ctx,text,maxWidth,maxLines); lines.forEach((line,i)=>ctx.fillText(line,x,y+i*lineHeight)); ctx.restore();
   return y+lines.length*lineHeight;
 }
+function drawWrappedFit(ctx,text,x,y,maxWidth,maxFont,minFont,maxLines,color,font='"Segoe UI", Arial, sans-serif',weight=400,align='left'){
+  for(let size=maxFont;size>=minFont;size-=2){
+    ctx.save(); ctx.font=`${weight} ${size}px ${font}`;
+    const lines=wrapCanvasLines(ctx,text,maxWidth,99); ctx.restore();
+    if(lines.length<=maxLines){
+      return drawWrapped(ctx,text,x,y,maxWidth,size,size+8,maxLines,color,font,weight,align);
+    }
+  }
+  return drawWrapped(ctx,completeVisualExcerpt(text,220),x,y,maxWidth,minFont,minFont+8,maxLines,color,font,weight,align);
+}
 function drawImageCover(ctx,img,x,y,w,h){
   const scale=Math.max(w/img.width,h/img.height), sw=w/scale, sh=h/scale, sx=(img.width-sw)/2, sy=(img.height-sh)/2;
   ctx.drawImage(img,sx,sy,sw,sh,x,y,w,h);
@@ -1329,7 +1397,11 @@ function drawBrandFooter(ctx,W,H,brand,signature,dark){
   ctx.textAlign='right'; ctx.font='400 25px Georgia, serif'; ctx.fillText(signature, W-64,H-46); ctx.restore();
 }
 function contentPoints(text){
-  let parts=(text||'').split(/\n+|(?<=[.!?])\s+/).map(cleanPostLine).filter(Boolean);
+  const lines=(text||'').split(/\n+/).map(cleanPostLine).filter(Boolean);
+  if(lines.length>=3) return lines.slice(0,3);
+  const extracted=extractThreeReperes(text);
+  if(extracted.length===3) return extracted;
+  let parts=(text||'').split(/(?<=[.!?])\s+/).map(cleanPostLine).filter(Boolean);
   if(parts.length<3) parts=(text||'').split(/[,;]+/).map(cleanPostLine).filter(Boolean);
   while(parts.length<3) parts.push(['Observer avant de corriger.','Adapter une chose à la fois.','Valoriser chaque petit progrès.'][parts.length]);
   return parts.slice(0,3);
@@ -1358,7 +1430,7 @@ function drawEtAccroche(ctx,W,H,accent,img){
   drawWrapped(ctx,visualDraft.title,64,205,W-128,72,80,H<1200?5:6,'#12293D','"Segoe UI", Arial, sans-serif',800);
   const imageY=Math.round(H*.62), imageH=H-imageY-96;
   if(img) drawImageCover(ctx,img,64,imageY,W-128,imageH); else drawAbstract(ctx,64,imageY,W-128,imageH,accent,'#E8EEE9');
-  fillRound(ctx,64,imageY-150,W-128,128,18,'#FFFFFF'); drawWrapped(ctx,visualDraft.body,94,imageY-126,W-188,28,38,3,'#3E4851','"Segoe UI", Arial, sans-serif',400);
+  fillRound(ctx,64,imageY-192,W-128,170,18,'#FFFFFF'); drawWrappedFit(ctx,visualDraft.body,94,imageY-168,W-188,28,18,4,'#3E4851','"Segoe UI", Arial, sans-serif',400);
   drawBrandFooter(ctx,W,H,'educa',visualDraft.signature,'#12293D');
 }
 function drawEtRepères(ctx,W,H,accent){
@@ -1368,7 +1440,7 @@ function drawEtRepères(ctx,W,H,accent){
   const points=contentPoints(visualDraft.body), start=H<1200?390:420, gap=H<1200?170:220;
   points.forEach((p,i)=>{ const y=start+i*gap; fillRound(ctx,64,y,W-128,gap-24,20,'#FFFFFF'); fillRound(ctx,86,y+28,66,66,33,accent);
     ctx.fillStyle='#fff';ctx.font='800 32px "Segoe UI", Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(i+1),119,y+61);
-    drawWrapped(ctx,p,180,y+28,W-278,H<1200?27:30,H<1200?35:40,3,'#2F3942','"Segoe UI", Arial, sans-serif',500);
+    drawWrappedFit(ctx,p,180,y+24,W-278,H<1200?24:28,18,4,'#2F3942','"Segoe UI", Arial, sans-serif',500);
   }); drawBrandFooter(ctx,W,H,'educa',visualDraft.signature,'#12293D');
 }
 function drawEtQuestion(ctx,W,H,accent){
