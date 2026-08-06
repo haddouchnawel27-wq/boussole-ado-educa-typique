@@ -159,7 +159,7 @@
       if (SCREENS[S.vue].bind) SCREENS[S.vue].bind();
     }
     if (S.vue !== S._last) {
-      var main = $("#contenu"); if (main) main.focus();
+      var main = $("#contenu"); if (main) { main.focus(); main.classList.add("mem-enter"); }
       window.scrollTo(0, 0);
     }
     S._last = S.vue;
@@ -354,13 +354,13 @@
     var pips = item.options.map(function (o) {
       var on = choisi === o.v;
       return `<button class="pip" role="button" aria-pressed="${on}" data-item="${item.id}" data-val="${o.v}" aria-label="${esc(o.lib)}">
-        <span class="emo" aria-hidden="true">${o.emo}</span><span class="lib">${esc(o.lib)}</span>
+        <span class="lib">${esc(o.lib)}</span>
       </button>`;
     }).join("");
     return `<div class="q-bloc">
       <div class="q-titre">${esc(item.titre)}</div>
       ${item.aide ? `<div class="q-aide">${esc(item.aide)}</div>` : ""}
-      <div class="echelle" role="group" aria-label="${esc(item.titre)}">${pips}</div>
+      <div class="echelle echelle--mood" role="group" aria-label="${esc(item.titre)}">${pips}</div>
     </div>`;
   }
 
@@ -457,12 +457,13 @@
       if (!box) return;
       if (!arr || !arr.length) { box.innerHTML = `<p class="mini-note">Tu n'as pas encore de check-in enregistré. 🌤️</p>`; return; }
       var libH = {}; CHECKIN[1].options.forEach(function (o) { libH[o.v] = o; });
+      var coulH = { 1: "#C2564B", 2: "#D08A46", 3: "#7C8AA0", 4: "#5FA3A0", 5: "#7BD3A0" };
       var rows = arr.slice(0, 30).map(function (c) {
         var h = libH[c.humeur];
         var b = BESOINS.filter(function (x) { return x.id === c.besoin; })[0];
         return `<div class="historique-item">
           <span class="date">${dateJolie(c.date)}</span>
-          <span>${h ? h.emo + " " + esc(h.lib) : "—"}</span>
+          <span>${h ? `<span class="emo-dot" style="background:${coulH[c.humeur] || "#7C8AA0"}"></span>` + esc(h.lib) : "—"}</span>
           ${b ? `<span style="margin-left:auto;color:var(--texte-doux);font-size:0.85rem">${b.emo} ${esc(b.lib)}</span>` : ""}
         </div>`;
       }).join("");

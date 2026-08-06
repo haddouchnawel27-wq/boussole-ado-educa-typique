@@ -79,7 +79,7 @@
         "Prendre des notes en écoutant en même temps est très difficile",
         "Mes résultats écrits ne reflètent pas du tout ce que je sais vraiment"
       ] },
-    { id: "anxiete", titre: "Anxiété & stress", emo: "😰",
+    { id: "anxiete", titre: "Anxiété & stress", emo: "🌀",
       aide: "apprendre à faire redescendre (respiration, ancrage), préparer et décomposer, et en parler à quelqu'un.",
       msg: "L'anxiété semble prendre pas mal de place : inquiétudes, stress avant les évaluations, ruminations. C'est épuisant — et c'est vraiment quelque chose qui se travaille, tu n'as pas à faire avec toute seule.",
       questions: [

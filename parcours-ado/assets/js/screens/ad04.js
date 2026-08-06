@@ -35,18 +35,21 @@
     { id: "b7", t: "Je fais semblant que ça va pour qu'on me laisse tranquille.", inv: true }
   ];
 
+  /* Chaque émotion a une couleur — un repère visuel doux, sans visage figé.
+     Palette pensée pour un ressenti « 12-18 ans », lisible en clair et en soir. */
   var EMOTIONS = [
-    { id: "colere", emo: "😠", lib: "Colère", besoin: "être entendu·e, qu'on respecte une limite" },
-    { id: "peur", emo: "😨", lib: "Peur", besoin: "me sentir en sécurité, être rassuré·e" },
-    { id: "tristesse", emo: "😢", lib: "Tristesse", besoin: "du réconfort, être consolé·e" },
-    { id: "honte", emo: "😳", lib: "Honte", besoin: "être accueilli·e sans jugement, me sentir ok comme je suis" },
-    { id: "frustration", emo: "😤", lib: "Frustration", besoin: "que ça avance, parfois un coup de main" },
-    { id: "anxiete", emo: "😰", lib: "Anxiété", besoin: "du calme et de la prévisibilité" },
-    { id: "injustice", emo: "😖", lib: "Sentiment d'injustice", besoin: "être reconnu·e, que ce soit réparé" },
-    { id: "deception", emo: "😞", lib: "Déception", besoin: "du réconfort, réajuster mes attentes" },
-    { id: "jalousie", emo: "😔", lib: "Jalousie", besoin: "être rassuré·e sur ma place" },
-    { id: "joie", emo: "😄", lib: "Joie", besoin: "partager ce moment" }
+    { id: "colere", couleur: "#E5573E", lib: "Colère", besoin: "être entendu·e, qu'on respecte une limite" },
+    { id: "peur", couleur: "#7A5CC7", lib: "Peur", besoin: "me sentir en sécurité, être rassuré·e" },
+    { id: "tristesse", couleur: "#4E86A0", lib: "Tristesse", besoin: "du réconfort, être consolé·e" },
+    { id: "honte", couleur: "#D06BA8", lib: "Honte", besoin: "être accueilli·e sans jugement, me sentir ok comme je suis" },
+    { id: "frustration", couleur: "#E08A2B", lib: "Frustration", besoin: "que ça avance, parfois un coup de main" },
+    { id: "anxiete", couleur: "#5FA3A0", lib: "Anxiété", besoin: "du calme et de la prévisibilité" },
+    { id: "injustice", couleur: "#B0483C", lib: "Sentiment d'injustice", besoin: "être reconnu·e, que ce soit réparé" },
+    { id: "deception", couleur: "#6C7BA6", lib: "Déception", besoin: "du réconfort, réajuster mes attentes" },
+    { id: "jalousie", couleur: "#8C7BB5", lib: "Jalousie", besoin: "être rassuré·e sur ma place" },
+    { id: "joie", couleur: "#EBB93E", lib: "Joie", besoin: "partager ce moment" }
   ];
+  function pastille(coul) { return '<span class="emo-dot" style="background:' + coul + '"></span>'; }
 
   /* ---------- État ---------- */
   var B = null;
@@ -145,7 +148,7 @@
   function renderRoue() {
     var chips = EMOTIONS.map(function (e) {
       var on = B.emotion === e.id;
-      return '<button class="jeton" role="button" aria-pressed="' + on + '" data-a4="emotion" data-val="' + e.id + '" style="font-size:0.95rem">' + e.emo + ' ' + esc(e.lib) + '</button>';
+      return '<button class="jeton" role="button" aria-pressed="' + on + '" data-a4="emotion" data-val="' + e.id + '" style="font-size:0.95rem">' + pastille(e.couleur) + esc(e.lib) + '</button>';
     }).join("");
     var onSaisPas = B.emotion === "inconnu";
     return entete("AD-04 · 2 sur 2", "Nommer, c'est déjà apaiser", "Mettre un mot sur ce qu'on ressent, ça aide vraiment le cerveau à faire redescendre.") +
@@ -154,7 +157,7 @@
       '<div class="carte"><h2 style="font-size:1.05rem;margin-bottom:0.15rem">🎡 Mon émotion la plus fréquente, en ce moment</h2>' +
         '<p class="q-aide" style="margin-bottom:0.6rem">Celle qui revient le plus souvent ces temps-ci.</p>' +
         '<div class="jetons" role="group">' + chips +
-          '<button class="jeton" role="button" aria-pressed="' + onSaisPas + '" data-a4="emotion" data-val="inconnu">🤍 Je ne sais pas encore</button>' +
+          '<button class="jeton" role="button" aria-pressed="' + onSaisPas + '" data-a4="emotion" data-val="inconnu">' + pastille("#B7BFC9") + 'Je ne sais pas encore</button>' +
         '</div>' +
         '<div class="encadre beige" style="margin-top:0.9rem"><p class="mini-note">La <strong>honte</strong> est une émotion comme les autres — la ressentir n\'a rien de honteux. Elle veut souvent dire « j\'ai eu peur de ne pas être à la hauteur du regard des autres ».</p></div>' +
       '</div>' +
@@ -177,8 +180,8 @@
       : '<p class="mini-note">Tu n\'as pas coché de signaux du corps — tu peux y revenir quand tu veux. Les repérer, ça s\'apprend.</p>';
 
     var emoHTML = "";
-    if (emo && emo.id !== "joie") emoHTML = '<p>En ce moment, l\'émotion qui revient le plus, c\'est <strong>' + emo.emo + ' ' + esc(emo.lib.toLowerCase()) + '</strong>. Derrière elle, il y a souvent un besoin : <strong>' + esc(emo.besoin) + '</strong>. Le nommer, c\'est déjà pouvoir le demander.</p>';
-    else if (emo && emo.id === "joie") emoHTML = '<p>En ce moment, ce qui revient le plus, c\'est <strong>😄 la joie</strong> — tant mieux ! Ce qui va avec : <strong>' + esc(emo.besoin) + '</strong>.</p>';
+    if (emo && emo.id !== "joie") emoHTML = '<p>En ce moment, l\'émotion qui revient le plus, c\'est <strong>' + pastille(emo.couleur) + esc(emo.lib.toLowerCase()) + '</strong>. Derrière elle, il y a souvent un besoin : <strong>' + esc(emo.besoin) + '</strong>. Le nommer, c\'est déjà pouvoir le demander.</p>';
+    else if (emo && emo.id === "joie") emoHTML = '<p>En ce moment, ce qui revient le plus, c\'est <strong>' + pastille(emo.couleur) + 'la joie</strong> — tant mieux ! Ce qui va avec : <strong>' + esc(emo.besoin) + '</strong>.</p>';
     else emoHTML = '<p>Tu n\'es pas encore sûr·e de ton émotion la plus fréquente — et c\'est parfaitement ok. Ça se découvre avec le temps, en observant.</p>';
 
     var aidesHTML = douxAides.length

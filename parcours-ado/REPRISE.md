@@ -32,6 +32,16 @@ _Dernière mise à jour : 6 août 2026. À lire en premier pour reprendre._
 - Modules d'écrans via `MEM.register` — `app.js`. Chaque ajout : `index.html` + `sw.js` (bump `mem-ado-vN`).
 - **Rebrand** « Al Mizan / Jannat Al Qalb » → « Educa Typique » sur toutes les apps.
 
+## 🎨 RELOOKING « 12-18 ANS » (fait)
+- Palette plus mûre (sarcelle profond + magenta + menthe/jaune), topbar en dégradé
+  avec liseré magenta, boutons en dégradé, ombres nettes, animation d'entrée douce.
+- **Échelles d'humeur** (AD-02) : les visages 😐🙂 sont retirés — pastilles/label
+  + rail dégradé sous chaque échelle. Historique : pastille colorée par humeur.
+- **Émotions** (AD-04) : chaque émotion a une **pastille de couleur** (plus de
+  visages). Restitution + « je ne sais pas encore » alignés.
+- `profil.js` : picto anxiété 😰 → 🌀 (cohérence des pictos-symboles).
+- `sw.js` bumpé `mem-ado-v12`. Testé Playwright (aucune erreur JS).
+
 ## 🔜 CE QU'IL RESTE
 1. **🧭 Module Orientation « Étincelle »** — l'ÉTAPE FINALE (après « se rencontrer »).
    Spec complet : `parcours-ado/docs/module-orientation-etincelle.md`.
@@ -48,7 +58,7 @@ NE PAS intégrer**.
 
 ## 📌 Fils ouverts
 - **Outil d'orientation** à recevoir (voir ci-dessus).
-- **Visages 😐🙂** des échelles d'humeur : gardés ; décision finale à confirmer.
+- **Visages 😐🙂** des échelles d'humeur : ✅ retirés (pastilles + rail dégradé).
 - **Idée d'app perso de Nawel** (via un partage ChatGPT non lisible ici) : à me
   coller si on veut la traiter — chantier séparé de l'app ado.
 - **Vérif horaire auto de la PR** : non ré-armée.
