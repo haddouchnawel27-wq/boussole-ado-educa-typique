@@ -32,7 +32,8 @@
         { code: "AD-03", ico: "🧭", titre: "Mode d'emploi de Moi", desc: "Ce qui m'aide, ce qui me coûte", vue: "ad03", etat: "dispo" },
         { code: "AD-04", ico: "🎭", titre: "Mes émotions", desc: "Ma météo intérieure — la honte comprise", vue: "ad04", etat: "dispo" },
         { code: "AD-05", ico: "⭐", titre: "Mes valeurs", desc: "Ce qui compte vraiment pour moi", vue: "ad05", etat: "dispo" },
-        { code: "＋", ico: "🧩", titre: "Ce qui me ressemble", desc: "Mon fonctionnement, sans étiquette", vue: "profil", etat: "dispo" }
+        { code: "＋", ico: "🧩", titre: "Ce qui me ressemble", desc: "Mon fonctionnement, sans étiquette", vue: "profil", etat: "dispo" },
+        { code: "＋", ico: "🧠", titre: "Mon cerveau en action", desc: "Des défis créatifs, juste pour jouer", vue: "cerveau", etat: "dispo" }
       ]
     },
     {
@@ -306,6 +307,14 @@
           <span class="corps">
             <span class="t">Mon orientation</span>
             <span class="d">Études &amp; métiers : mes intelligences, mes intérêts (RIASEC), ma façon d'apprendre</span>
+          </span>
+          <span class="etat faire">à explorer</span>
+        </button>
+        <button class="etape dispo" data-nav="experience">
+          <span class="ico" aria-hidden="true">🧪</span>
+          <span class="corps">
+            <span class="t">J'expérimente</span>
+            <span class="d">Petites expériences en vrai : interviewer, observer, tester un métier</span>
           </span>
           <span class="etat faire">à explorer</span>
         </button>

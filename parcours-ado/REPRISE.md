@@ -61,9 +61,21 @@ fiche **« Ma boussole d'orientation »** ajoutée à **AD-11** (`orientation-no
 par défaut) ; `index.html` + `sw.js` (bumpé **mem-ado-v13**). Testé Playwright de bout
 en bout (aucune erreur JS ; fiche visible dans le Centre de partage).
 
+## 📔 CARNET « À LA DÉCOUVERTE DE MOI » — 2 ajouts (fait ✅)
+Concept ado de Nawel, conservé en `docs/carnet-a-la-decouverte-de-moi.md`. Il
+confirme l'architecture existante ; deux vrais manques comblés :
+- **`screens/cerveau.js`** — « Mon cerveau en action » (section 4) : 5 défis
+  ludiques (pensée divergente / logique / orga). **Privé, aucun score**.
+  Bonus du **Programme 1**.
+- **`screens/experience.js`** — « J'expérimente » (section 9 / OUTIL 10) :
+  mini-expériences avec suivi (prévu → fait → « ce que j'en retiens »), relais
+  externes en opt-in. Dans **« L'étape d'après »**, après l'Orientation.
+- Fiche **« J'expérimente »** ajoutée à AD-11 (privé par défaut). `sw.js` → **v14**.
+
 ## 🔜 CE QU'IL RESTE
 1. _(optionnel)_ Finitions / retours de Nawel après test de la preview (contenus,
-   familles de métiers, ajout d'une version « longue » d'approfondissement si utile).
+   familles de métiers, version « longue » d'approfondissement, section 7
+   « 100+ passions », idée de « défis mensuels »).
 
 ## 🧷 Rails non-négociables (tenus partout)
 100 % local / chiffré / hors-ligne · privé par défaut · **aucun score, aucun

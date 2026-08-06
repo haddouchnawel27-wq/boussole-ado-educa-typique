@@ -92,6 +92,15 @@
       if (o.univers && o.univers.length) L.push("Des univers à explorer (au pluriel, sans verdict) : " + lst(o.univers) + ".");
       if (o.action) L.push("Ma prochaine petite action : " + o.action);
       return L.length ? L.join("\n") + "\n(Ce n'est pas un verdict de métier — des directions à explorer, à mon rythme.)" : null;
+    } },
+    { id: "experience", titre: "J'expérimente", src: "experience-notice", build: function (o) {
+      var L = [];
+      if (o.prevues && o.prevues.length) L.push("Des expériences que je veux tenter : " + lst(o.prevues) + ".");
+      if (o.faites && o.faites.length) {
+        L.push("Des expériences déjà faites :");
+        o.faites.forEach(function (f) { L.push("• " + f.quoi + (f.apres ? " — ce que j'en retiens : " + f.apres : "")); });
+      }
+      return L.length ? L.join("\n") : null;
     } }
   ];
 
