@@ -172,6 +172,14 @@ function estimateCost(model, usage) {
   return Number((((inputTokens * prices.input) + (outputTokens * prices.output)) / 1000000).toFixed(6));
 }
 
+function removeFormattingStars(value) {
+  if (Array.isArray(value)) return value.map(removeFormattingStars);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, removeFormattingStars(item)]));
+  }
+  return typeof value === 'string' ? value.replace(/\*+/g, '').trim() : value;
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -203,7 +211,9 @@ Hiérarchie des preuves :
 2. Si la recherche Web est activée, complète uniquement avec des sources primaires, institutionnelles ou professionnelles fiables et récentes. Les citations Web réelles seront contrôlées par le serveur.
 3. Tout point insuffisamment étayé va dans « verification » et ne doit pas être formulé comme un fait certain.
 
-Adapte la charge cognitive au public : phrases lisibles, une idée principale par paragraphe, progression explicite, exemples concrets, aucune infantilisation. Prépare un vrai post complet, une version WhatsApp plus directe, une version Telegram structurée et un carrousel. Le CTA doit respecter le mot de fin demandé lorsqu'il est fourni. Le contrôle copyright doit confirmer la reformulation et signaler tout passage à revoir.`;
+  Adapte la charge cognitive au public : phrases lisibles, une idée principale par paragraphe, progression explicite, exemples concrets, aucune infantilisation. Prépare un vrai post complet, une version WhatsApp plus directe, une version Telegram structurée et un carrousel. Le CTA doit respecter le mot de fin demandé lorsqu'il est fourni. Le contrôle copyright doit confirmer la reformulation et signaler tout passage à revoir.
+
+  N'utilise aucun astérisque ni balise Markdown dans les textes : ni **gras**, ni listes avec *. Les titres et la structure doivent rester en texte brut, directement copiables.`;
 
   const requestBody = {
     model,
@@ -238,7 +248,7 @@ Adapte la charge cognitive au public : phrases lisibles, une idée principale pa
 
     const outputText = extractOutputText(response);
     if (!outputText) return res.status(502).json({ error: "L'IA n'a pas renvoyé de texte exploitable." });
-    const result = parseJsonOutput(outputText);
+    const result = removeFormattingStars(parseJsonOutput(outputText));
     result.sources = result.sources || { internal: [], external: [], verification: [] };
     result.sources.external = brief.useWeb ? extractWebSources(response) : [];
 

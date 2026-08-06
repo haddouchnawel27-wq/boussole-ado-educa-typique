@@ -631,7 +631,11 @@ function go(name){
   if(name==='reglages') renderSettings();
 }
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),1800); }
-async function copyText(txt){ if(!txt){toast('Rien à copier');return;} try{ await navigator.clipboard.writeText(txt); toast('Copié ✓'); }catch(e){ toast('Copie impossible'); } }
+async function copyText(txt){
+  const clean=String(txt||'').replace(/\*+/g,'').trim();
+  if(!clean){toast('Rien à copier');return;}
+  try{ await navigator.clipboard.writeText(clean); toast('Copié sans astérisques ✓'); }catch(e){ toast('Copie impossible'); }
+}
 
 /* ═══════════════════════════════════════════════════════════════════
    CHECK-IN — 5 dimensions + temps dispo
@@ -1087,8 +1091,13 @@ function updateAiBudgetMeter(meta){
 function aiTextCard(title,subtitle,text,index){
   return `<div class="card proposal-card"><div class="meta">${escapeHtml(subtitle)}</div><h3>${escapeHtml(title)}</h3><div class="proposal-copy">${escapeHtml(text)}</div><div class="btn-row"><button class="btn secondary small" onclick="useAiEditorialText(${index})">✓ Utiliser</button><button class="btn ghost small" onclick="copyText(aiEditorialTexts[${index}])">📋 Copier</button></div></div>`;
 }
+function removeFormattingStars(value){
+  if(Array.isArray(value)) return value.map(removeFormattingStars);
+  if(value && typeof value==='object') return Object.fromEntries(Object.entries(value).map(([key,item])=>[key,removeFormattingStars(item)]));
+  return typeof value==='string'?value.replace(/\*+/g,'').trim():value;
+}
 function renderAiEditorialPackage(data){
-  const result=data.result||{};aiEditorialPackage=result;
+  const result=removeFormattingStars(data.result||{});aiEditorialPackage=result;
   const post=[result.post?.text,result.post?.cta].filter(Boolean).join('\n\n');
   const carousel=(result.carousel?.slides||[]).map((slide,i)=>`SLIDE ${i+1} · ${slide.title}\n${slide.text}`).join('\n\n');
   aiEditorialTexts=[post,result.whatsapp||'',result.telegram||'',carousel];
@@ -1110,7 +1119,7 @@ function renderAiEditorialPackage(data){
   box.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function useAiEditorialText(index){
-  const text=aiEditorialTexts[index];if(!text)return;
+  const text=removeFormattingStars(aiEditorialTexts[index]);if(!text)return;
   document.getElementById('atelier-draft').value=text;toast('Texte placé dans ton brouillon ✓');
   document.getElementById('atelier-draft').scrollIntoView({behavior:'smooth',block:'center'});
 }
@@ -1254,7 +1263,8 @@ function stripMarkdownForVisual(value){
     .replace(/\*\*([^*]+)\*\*/g,'$1')
     .replace(/__([^_]+)__/g,'$1')
     .replace(/`([^`]+)`/g,'$1')
-    .replace(/\[([^\]]+)\]\([^\)]+\)/g,'$1');
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g,'$1')
+    .replace(/\*+/g,'');
 }
 function cleanPostLine(line){
   return stripMarkdownForVisual(line).replace(/^[\s#>*_`\-–—\d.)]+/,'').replace(/^[^\p{L}\p{N}«“]+/u,'').trim();
