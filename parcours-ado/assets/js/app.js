@@ -48,7 +48,7 @@
       id: 3, couleur: "var(--ciel)", titre: "Je construis la suite",
       sous: "Mon quotidien, mes forces, ce dont j'ai besoin.",
       ecrans: [
-        { code: "AD-09", ico: "🧩", titre: "Mon quotidien & mes forces", desc: "Ma semaine, mon organisation, mes intérêts", etat: "bientot" },
+        { code: "AD-09", ico: "🧩", titre: "Mon quotidien & mes forces", desc: "Ma semaine, mon organisation, mes intérêts", vue: "ad09", etat: "dispo" },
         { code: "AD-10", ico: "✉️", titre: "Ma demande d'accompagnement", desc: "Dire ce dont j'ai besoin, à mon rythme", etat: "bientot" },
         { code: "AD-11", ico: "🔀", titre: "Centre de partage", desc: "Je choisis quoi partager, et avec qui", etat: "bientot" }
       ]
