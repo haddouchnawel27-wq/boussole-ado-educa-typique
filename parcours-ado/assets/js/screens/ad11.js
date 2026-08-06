@@ -82,6 +82,16 @@
       if (o.pasVeux && o.pasVeux.length) L.push("Ce dont je n'ai pas envie : " + lst(o.pasVeux) + ".");
       if (o.avecQui && o.avecQui.length) L.push("J'aimerais en parler avec : " + lst(o.avecQui) + ".");
       return L.length ? L.join("\n") : null;
+    } },
+    { id: "orientation", titre: "Ma boussole d'orientation", src: "orientation-notice", build: function (o) {
+      var L = [];
+      if (o.allume && o.allume.length) L.push("Ce qui m'allume : " + lst(o.allume) + ".");
+      if (o.couleurs && o.couleurs.length) L.push("Mes couleurs d'intérêts (facettes qui se combinent) : " + lst(o.couleurs) + ".");
+      if (o.apprend && o.apprend.length) L.push("Comment j'apprends le mieux : " + lst(o.apprend) + ".");
+      if (o.porte) L.push("Ma porte d'entrée face au concret : " + o.porte + ".");
+      if (o.univers && o.univers.length) L.push("Des univers à explorer (au pluriel, sans verdict) : " + lst(o.univers) + ".");
+      if (o.action) L.push("Ma prochaine petite action : " + o.action);
+      return L.length ? L.join("\n") + "\n(Ce n'est pas un verdict de métier — des directions à explorer, à mon rythme.)" : null;
     } }
   ];
 

@@ -301,13 +301,13 @@
       <section class="prog-groupe" aria-label="L'étape d'après : mon orientation">
         <div class="prog-titre"><span class="prog-puce" style="background:var(--lavande)" aria-hidden="true">🧭</span>L'étape d'après</div>
         <p class="prog-sous">Une fois que tu te connais mieux, on regarde où tu as envie d'aller.</p>
-        <button class="etape bientot" disabled aria-disabled="true">
+        <button class="etape dispo" data-nav="etincelle">
           <span class="ico" aria-hidden="true">🎓</span>
           <span class="corps">
             <span class="t">Mon orientation</span>
             <span class="d">Études &amp; métiers : mes intelligences, mes intérêts (RIASEC), ma façon d'apprendre</span>
           </span>
-          <span class="etat plus-tard">à la fin</span>
+          <span class="etat faire">à explorer</span>
         </button>
         <p class="mini-note" style="margin-top:0.4rem">Cette étape se construit sur tout le reste : d'abord se rencontrer, ensuite se projeter. Aucun métier n'est « la » bonne réponse — un profil atypique est une richesse.</p>
       </section>

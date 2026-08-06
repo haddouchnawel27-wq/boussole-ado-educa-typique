@@ -42,12 +42,28 @@ _Dernière mise à jour : 6 août 2026. À lire en premier pour reprendre._
 - `profil.js` : picto anxiété 😰 → 🌀 (cohérence des pictos-symboles).
 - `sw.js` bumpé `mem-ado-v12`. Testé Playwright (aucune erreur JS).
 
+## 🧭 MODULE ORIENTATION « ÉTINCELLE » (fait ✅)
+Étape **finale** du parcours — `screens/etincelle.js`. Construit à partir du spec
+`docs/module-orientation-etincelle.md` (pas besoin du fichier HTML tiers, jamais reçu).
+6 écrans dans l'ordre §7.6 :
+- **ET-06** Portrait chinois (entrée ludique, tout optionnel)
+- **ET-01** Intelligences multiples (Gardner, **ludique**)
+- **ET-02** Intérêts **RIASEC** (socle validé)
+- **ET-03** Style d'apprentissage (« conditions d'accès », pas une identité)
+- **ET-04** Métacognition — **pont AD-03** (relit `bilan-notice` : fenêtre d'or,
+  commande fragile ; mise en situation « monter un meuble » = porte d'entrée)
+- **ET-05** « **Ma boussole d'orientation** » — 1re personne, privée, **facettes qui
+  se combinent** (barres RIASEC, jamais un verdict), univers au pluriel « à explorer »,
+  UNE action, ressources externes en opt-in « avec un adulte ».
+
+Câblage : carte Orientation de l'accueil rendue **cliquable** (`data-nav="etincelle"`) ;
+fiche **« Ma boussole d'orientation »** ajoutée à **AD-11** (`orientation-notice`, privé
+par défaut) ; `index.html` + `sw.js` (bumpé **mem-ado-v13**). Testé Playwright de bout
+en bout (aucune erreur JS ; fiche visible dans le Centre de partage).
+
 ## 🔜 CE QU'IL RESTE
-1. **🧭 Module Orientation « Étincelle »** — l'ÉTAPE FINALE (après « se rencontrer »).
-   Spec complet : `parcours-ado/docs/module-orientation-etincelle.md`.
-   ⏳ **En attente** : le fichier `Outil_Orientation_Ado_EducaTypique.html` (cadeau
-   de Cowork) que Nawel doit joindre, à intégrer dans ce module.
-2. _(optionnel)_ Finitions / retours de Nawel après test de la preview.
+1. _(optionnel)_ Finitions / retours de Nawel après test de la preview (contenus,
+   familles de métiers, ajout d'une version « longue » d'approfondissement si utile).
 
 ## 🧷 Rails non-négociables (tenus partout)
 100 % local / chiffré / hors-ligne · privé par défaut · **aucun score, aucun
@@ -57,7 +73,6 @@ orientation en toute fin · **série « Bouclier / Inner Safe » = propriété d
 NE PAS intégrer**.
 
 ## 📌 Fils ouverts
-- **Outil d'orientation** à recevoir (voir ci-dessus).
 - **Visages 😐🙂** des échelles d'humeur : ✅ retirés (pastilles + rail dégradé).
 - **Idée d'app perso de Nawel** (via un partage ChatGPT non lisible ici) : à me
   coller si on veut la traiter — chantier séparé de l'app ado.
