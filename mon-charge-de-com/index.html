@@ -187,6 +187,7 @@
   .topic-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
   .topic-tags span{padding:3px 8px;border-radius:999px;background:var(--input);font-size:.7rem;color:var(--text-soft)}
   .resource-card{background:#F7F8F6;border-color:#DDE5DF}
+  .resource-card.just-imported{border:2px solid #68AE8D;background:#EEF9F3;box-shadow:0 0 0 4px rgba(104,174,141,.12)}
   .resource-count{font-size:.76rem;color:var(--text-mute)}
   .resource-import-box{margin:12px 0;padding:14px;border:1px solid #C9DBD1;border-radius:14px;background:linear-gradient(145deg,#F1F8F4,#FFF)}
   .resource-import-box h4{margin:0 0 5px;font-size:.98rem;color:#315849}
@@ -460,9 +461,9 @@
     <div class="card">
       <h3>Avant de publier</h3>
       <div class="publish-checklist">
-        <label class="check-row"><input type="checkbox" /> <span>J'ai relu le texte et vérifié qu'il correspond à mon intention.</span></label>
-        <label class="check-row"><input type="checkbox" /> <span>Les sources, précautions ou limites nécessaires sont présentes.</span></label>
-        <label class="check-row"><input type="checkbox" /> <span>L'image m'appartient ou j'ai le droit de l'utiliser.</span></label>
+        <label class="check-row"><input type="checkbox" class="publish-check" /> <span>J'ai relu le texte et vérifié qu'il correspond à mon intention.</span></label>
+        <label class="check-row"><input type="checkbox" class="publish-check" /> <span>Les sources, précautions ou limites nécessaires sont présentes.</span></label>
+        <label class="check-row"><input type="checkbox" class="publish-check" /> <span>L'image m'appartient ou j'ai le droit de l'utiliser.</span></label>
       </div>
       <label class="field" for="visual-date">Date prévue</label>
       <input type="date" id="visual-date" />
@@ -516,8 +517,8 @@
       <div class="resource-import-box">
         <h4>Choisir mes fichiers — recommandé</h4>
         <p class="muted tiny">Tu verras les fichiers dans la fenêtre avant de les choisir.</p>
-        <button class="btn menthe small" onclick="openResourceFilePicker()">＋ Choisir des fichiers</button>
-        <input type="file" id="resource-files" accept=".txt,.md,.markdown,.csv,.json,.html,.htm,.pdf,.doc,.docx,.odt,.rtf" multiple hidden onchange="importResourceFiles(event)" oncancel="cancelResourceFilePicker()" />
+        <button class="btn menthe small" onclick="openResourceFilePicker()">＋ Importer PDF, Word ou texte</button>
+        <input type="file" id="resource-files" accept=".txt,.md,.markdown,.csv,.json,.html,.htm,.pdf,.docx" multiple hidden onchange="importResourceFiles(event)" oncancel="cancelResourceFilePicker()" />
         <div class="import-status neutral" id="resource-import-status" role="status" aria-live="polite"><strong>Aucun fichier choisi.</strong>Formats lus : PDF, DOCX, TXT, Markdown, HTML, CSV et JSON.</div>
       </div>
 
@@ -590,9 +591,15 @@
 </nav>
 <div class="toast" id="toast"></div>
 
-<script src="vendor/pdf.worker.min.js"></script>
-<script src="vendor/pdf.min.js"></script>
-<script src="vendor/mammoth.browser.min.js"></script>
+<script>
+/* Les pages Vercel sans barre finale résolvent autrement les chemins relatifs.
+   Ce chargeur garde aussi le fonctionnement local file:// et localhost. */
+window.MCC_VENDOR_BASE=location.protocol==='file:'
+  ? 'vendor/'
+  : (location.pathname.startsWith('/mon-charge-de-com')?'/mon-charge-de-com/vendor/':'vendor/');
+document.write('<script src="'+window.MCC_VENDOR_BASE+'pdf.min.js"><\/script>');
+document.write('<script src="'+window.MCC_VENDOR_BASE+'mammoth.browser.min.js"><\/script>');
+</script>
 <script>
 /* ═══════════════════════════════════════════════════════════════════
    STORE — persistance locale (localStorage). Aucun réseau.
@@ -848,26 +855,26 @@ const ANGLES=[
   {name:'Mythe à casser', hint:'« On croit que… en vrai… »'},
 ];
 const HOOKS=[
-  "Tu n'as pas besoin d'être parfaite pour publier.",
-  "Personne ne t'a dit ça sur [SUJET], et pourtant…",
-  "Si tu te sens dépassée par [SUJET], lis ça jusqu'au bout.",
-  "J'ai longtemps cru que [SUJET] devait être compliqué. J'avais tort.",
-  "3 choses que j'aurais aimé savoir sur [SUJET].",
-  "Arrête de culpabiliser avec [SUJET]. Voici pourquoi.",
-  "La vérité que personne n'ose dire sur [SUJET].",
-  "Petit rappel doux pour aujourd'hui : tu fais déjà de ton mieux.",
-  "On m'a souvent demandé comment je gère [SUJET]. Voici ma vraie réponse.",
-  "[SUJET] : ce qui a tout changé pour moi (et personne n'en parle).",
-  "Si tu ne devais retenir qu'une chose sur [SUJET], ce serait ça.",
-  "Le conseil sur [SUJET] que j'aurais aimé recevoir plus tôt.",
-  "Spoiler : [SUJET], ce n'est pas une question de motivation.",
-  "Tu n'es pas seule à galérer avec [SUJET]. Vraiment.",
-  "J'ai testé pendant des mois pour [SUJET]. Voici ce qui marche.",
-  "Ce petit détail sur [SUJET] change tout, et il est gratuit.",
-  "Avant, [SUJET] me stressait. Aujourd'hui, voilà comment je fais.",
-  "Et si [SUJET] était plus simple qu'on te l'a fait croire ?",
-  "Ce que j'aurais dit à la moi d'il y a 5 ans sur [SUJET].",
-  "Un rappel pour celle qui doute ce soir à propos de [SUJET].",
+  "« [SUJET] » : trois repères pour y voir plus clair.",
+  "Avant d'agir, prenons le temps de comprendre ce qui se joue.",
+  "Et si on regardait « [SUJET] » autrement ?",
+  "Ce qu'on oublie souvent quand on parle de « [SUJET] ».",
+  "Un repère simple pour avancer sans culpabiliser.",
+  "Derrière cette difficulté, il y a peut-être un besoin à entendre.",
+  "« [SUJET] » : par où commencer concrètement ?",
+  "Comprendre d'abord, ajuster ensuite.",
+  "Trois erreurs fréquentes — et des pistes plus aidantes.",
+  "Ce n'est pas un manque de volonté : regardons ce qui freine vraiment.",
+  "Une autre lecture de « [SUJET] » peut tout changer.",
+  "Ce que cette situation essaie peut-être de nous dire.",
+  "Un petit changement peut déjà alléger le quotidien.",
+  "Entre théorie et quotidien, voici ce qui aide réellement.",
+  "Quand les solutions habituelles ne fonctionnent plus, que peut-on ajuster ?",
+  "Cinq minutes pour mieux comprendre « [SUJET] ».",
+  "Avant de conclure, observons les besoins et le contexte.",
+  "Des repères concrets, sans recette magique ni culpabilisation.",
+  "Ce sujet mérite mieux qu'une réponse toute faite.",
+  "Une question utile à se poser aujourd'hui.",
 ];
 const CTAS=[
   "📌 Enregistre ce post pour le relire quand tu en auras besoin.",
@@ -1188,6 +1195,7 @@ let visualRenderToken=0;
 function openVisualBuilder(){
   visualDraft.editingId=null;
   autofillVisual(false);
+  resetPublishChecklist();
   document.getElementById('visual-date').value=new Date().toISOString().slice(0,10);
   renderVisualBuilder();
   go('fabrique');
@@ -1235,8 +1243,15 @@ function syncVisualFields(){
   visualDraft.body=document.getElementById('visual-body').value.trim();
   visualDraft.signature=document.getElementById('visual-signature').value.trim()||VISUAL_BRANDS[visualDraft.brand].signature;
 }
+function stripMarkdownForVisual(value){
+  return String(value||'')
+    .replace(/\*\*([^*]+)\*\*/g,'$1')
+    .replace(/__([^_]+)__/g,'$1')
+    .replace(/`([^`]+)`/g,'$1')
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g,'$1');
+}
 function cleanPostLine(line){
-  return line.replace(/^[\s#>*_`\-–—\d.)]+/,'').replace(/^[^\p{L}\p{N}«“]+/u,'').trim();
+  return stripMarkdownForVisual(line).replace(/^[\s#>*_`\-–—\d.)]+/,'').replace(/^[^\p{L}\p{N}«“]+/u,'').trim();
 }
 function autofillVisual(showToast=true){
   const topic=(document.getElementById('atelier-topic').value||'').trim();
@@ -1244,7 +1259,7 @@ function autofillVisual(showToast=true){
   const lines=post.split(/\n+/).map(cleanPostLine).filter(l=>l && !l.startsWith('#') && !/^(CTA|Appel à l.action)/i.test(l));
   visualDraft.title=topic||lines[0]||'Une idée à partager';
   const rest=(topic?lines:lines.slice(1)).join(' ').replace(/\s+/g,' ').trim();
-  visualDraft.body=(rest||post||'Ajoute ici ton message essentiel.').slice(0,700);
+  visualDraft.body=stripMarkdownForVisual(rest||post||'Ajoute ici ton message essentiel.').slice(0,700);
   if(!visualDraft.signature) visualDraft.signature=VISUAL_BRANDS[visualDraft.brand].signature;
   if(document.getElementById('visual-title')){
     document.getElementById('visual-title').value=visualDraft.title;
@@ -1434,8 +1449,19 @@ function openCanvaUploader(){
   toast('Canva ouvert · choisis le fichier indiqué');
 }
 function visualSnapshot(){ syncVisualFields();return JSON.parse(JSON.stringify(visualDraft)); }
+function resetPublishChecklist(){document.querySelectorAll('.publish-check').forEach(box=>{box.checked=false;});}
+function publishChecklistIsComplete(){
+  const boxes=[...document.querySelectorAll('.publish-check')];
+  if(boxes.length&&boxes.some(box=>!box.checked)){
+    toast('Vérifie les 3 points avant de marquer la publication prête');
+    boxes.find(box=>!box.checked)?.focus();
+    return false;
+  }
+  return true;
+}
 function savePublication(status){
   const caption=document.getElementById('atelier-draft').value.trim(); if(!caption && !visualDraft.title){toast('Ajoute au moins un titre ou une légende');return false;}
+  if(status==='prêt'&&!publishChecklistIsComplete())return false;
   const item={id:visualDraft.editingId||uid(),type:'publication',platform:atelier.platform,angle:atelier.angle||'',topic:(document.getElementById('atelier-topic').value||'').trim(),content:caption,
     date:new Date().toISOString(),status,visual:visualSnapshot()};
   const old=JSON.stringify(db.library);
@@ -1521,7 +1547,8 @@ const TEXT_RESOURCE_MAX_BYTES=1000000;
 const PDF_RESOURCE_MAX_BYTES=15000000;
 const DOCX_RESOURCE_MAX_BYTES=8000000;
 const EXTRACTED_RESOURCE_MAX_CHARS=60000;
-if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='vendor/pdf.worker.min.js';
+if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc=window.MCC_VENDOR_BASE+'pdf.worker.min.js';
+let lastImportedResourceIds=[];
 function fileExt(name){const m=String(name||'').toLowerCase().match(/\.([a-z0-9]+)$/);return m?m[1]:'';}
 function cleanResourceText(raw,name){
   const text=/\.html?$/i.test(name)?new DOMParser().parseFromString(raw,'text/html').body.textContent:raw;
@@ -1565,7 +1592,8 @@ async function ingestResourceFile(file,sourcePath,sourceType='fichier local'){
   const maxBytes=ext==='pdf'?PDF_RESOURCE_MAX_BYTES:ext==='docx'?DOCX_RESOURCE_MAX_BYTES:TEXT_RESOURCE_MAX_BYTES;
   if(file.size>maxBytes)return {status:'large'};
   const fingerprint=(sourcePath||file.name)+'|'+file.lastModified+'|'+file.size;
-  if((db.resources||[]).some(r=>r.fingerprint===fingerprint||r.sourceFingerprint===fingerprint))return {status:'same'};
+  const identical=(db.resources||[]).find(r=>r.fingerprint===fingerprint||r.sourceFingerprint===fingerprint);
+  if(identical)return {status:'same',id:identical.id,fileName:file.name};
   try{
     const common={date:new Date().toISOString(),sourcePath:sourcePath||file.name,fileName:file.name,fingerprint,sourceFingerprint:fingerprint,sourceType};
     const previous=(db.resources||[]).find(r=>r.sourcePath===common.sourcePath);
@@ -1586,7 +1614,7 @@ async function ingestResourceFile(file,sourcePath,sourceType='fichier local'){
     }
     if(previous)db.resources=db.resources.filter(r=>r.sourcePath!==common.sourcePath);
     db.resources.unshift(...created);
-    return {status:previous?'updated':'added'};
+    return {status:previous?'updated':'added',id:created[0]?.id,fileName:file.name};
   }catch(e){
     if(e&&e.code==='NO_TEXT')return {status:'noText'};
     if(e&&e.code==='READER_UNAVAILABLE')return {status:'reader'};
@@ -1623,9 +1651,15 @@ async function importResourceFiles(ev){
   if(resourceImportBusy){toast('Une lecture est déjà en cours');return;}
   resourceImportBusy=true;const previousResources=structuredClone(db.resources||[]);
   setImportStatus('resource-import-status','progress',`${fileCount(files.length)} sélectionné${files.length>1?'s':''}.`,['Lecture en cours…']);
-  const stats=emptyImportStats();
+  const stats=emptyImportStats(),successfulNames=[];lastImportedResourceIds=[];
   try{
-    for(const file of files){const result=await ingestResourceFile(file,file.name);countImportResult(stats,result.status);}
+    for(const file of files){
+      const result=await ingestResourceFile(file,file.name);countImportResult(stats,result.status);
+      if(['added','updated','same'].includes(result.status)){
+        successfulNames.push(result.fileName||file.name);
+        if(result.id)lastImportedResourceIds.push(result.id);
+      }
+    }
     if((stats.added||stats.updated)&&!save()){
       db.resources=previousResources;setImportStatus('resource-import-status','error','Import non enregistré.',['L’espace local est plein. Exporte une sauvegarde puis retire d’anciennes ressources ou images.']);return;
     }
@@ -1633,7 +1667,15 @@ async function importResourceFiles(ev){
     const problemCount=importProblemCount(stats),usable=stats.added+stats.updated+stats.same;
     const kind=problemCount?(usable?'warning':'error'):'success';
     const title=usable?`${fileCount(usable)} utilisable${usable>1?'s':''}.`:'Aucun fichier ajouté.';
-    setImportStatus('resource-import-status',kind,title,importResultDetails(stats));
+    const details=importResultDetails(stats);
+    if(successfulNames.length)details.unshift('Prêt : '+successfulNames.join(' · ')+'.');
+    setImportStatus('resource-import-status',kind,title,details);
+    if(lastImportedResourceIds.length){
+      requestAnimationFrame(()=>{
+        const card=document.querySelector(`[data-resource-id="${lastImportedResourceIds[0]}"]`);
+        if(card){card.classList.add('just-imported');card.scrollIntoView({behavior:'smooth',block:'center'});}
+      });
+    }
     toast(usable?`${fileCount(usable)} prêt${usable>1?'s':''} à utiliser`:'Aucun fichier ajouté');
   }finally{resourceImportBusy=false;ev.target.value='';}
 }
@@ -1684,7 +1726,7 @@ function renderResources(){
   renderResourceFolder();
   const box=document.getElementById('resource-list');if(!box)return;const rows=db.resources||[];document.getElementById('resource-count').textContent=rows.length?rows.length+' importée'+(rows.length>1?'s':''):'';box.innerHTML='';
   if(!rows.length){box.innerHTML='<div class="empty">Aucune ressource importée pour le moment.</div>';return;}
-  rows.forEach(r=>{const d=document.createElement('div');d.className='item resource-card';d.innerHTML=`<div class="meta">Ressource locale · ${frDate(r.date)}${r.sourcePath?' · '+escapeHtml(r.sourcePath):''}</div><h3>${escapeHtml(r.title)}</h3>
+  rows.forEach(r=>{const d=document.createElement('div');d.className='item resource-card';d.dataset.resourceId=r.id;d.innerHTML=`<div class="meta">Ressource locale · ${frDate(r.date)}${r.sourcePath?' · '+escapeHtml(r.sourcePath):''}</div><h3>${escapeHtml(r.title)}</h3>
     ${r.contentTruncated?`<div class="note">Extrait limité à ${EXTRACTED_RESOURCE_MAX_CHARS.toLocaleString('fr-FR')} caractères${r.totalPages&&r.pagesRead<r.totalPages?` · ${r.pagesRead} pages lues sur ${r.totalPages}`:''}. La source originale reste inchangée.</div>`:''}
     <div class="body">${escapeHtml(r.content).slice(0,180)}${r.content.length>180?'…':''}</div><div class="acts"><button onclick="useResource('${r.id}')">✍️ Utiliser comme matière</button><button onclick="deleteResource('${r.id}')">🗑️</button></div>`;box.appendChild(d);});
 }
@@ -1785,12 +1827,20 @@ function eraseAll(){
 applyPrefs();
 renderSliders();
 ['visual-title','visual-body','visual-signature'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{syncVisualFields();drawVisual();}));
+resetPublishChecklist();
 go('accueil');
 
 /* PWA — enregistrement du service worker (ignoré sur file://, actif en https) */
 if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(sessionStorage.getItem('mcc:sw-reloaded-v11')!=='1'){
+      sessionStorage.setItem('mcc:sw-reloaded-v11','1');
+      location.reload();
+    }
+  });
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+    const swPath=location.pathname.startsWith('/mon-charge-de-com')?'/mon-charge-de-com/sw.js':'sw.js';
+    navigator.serviceWorker.register(swPath).catch(() => {});
   });
 }
 </script>

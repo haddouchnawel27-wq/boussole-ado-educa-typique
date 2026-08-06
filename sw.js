@@ -2,7 +2,7 @@
    Stratégie « stale-while-revalidate » : on sert vite depuis le cache,
    puis on met à jour en arrière-plan, pour que les nouvelles versions
    s'appliquent d'elles-mêmes à l'ouverture suivante. */
-var CACHE = "cap-educa-v16";
+var CACHE = "cap-educa-v17";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
   "./assets/css/styles.css",
@@ -34,7 +34,7 @@ self.addEventListener("install", function (e) {
 
 self.addEventListener("activate", function (e) {
   e.waitUntil(caches.keys().then(function (cles) {
-    return Promise.all(cles.map(function (k) { if (k !== CACHE) return caches.delete(k); }));
+    return Promise.all(cles.map(function (k) { if (k.indexOf("cap-educa-") === 0 && k !== CACHE) return caches.delete(k); }));
   }).then(function () { return self.clients.claim(); }));
 });
 
@@ -52,6 +52,8 @@ self.addEventListener("fetch", function (e) {
       url.pathname.indexOf("/jannat-al-qalb/") !== -1 ||
       url.pathname.indexOf("/al-mizan/") !== -1 ||
       url.pathname.indexOf("/souffle-lumiere/") !== -1 ||
+      url.pathname === "/mon-charge-de-com" ||
+      url.pathname.indexOf("/mon-charge-de-com/") === 0 ||
       url.pathname.indexOf("/vente-") !== -1) {
     return;
   }
