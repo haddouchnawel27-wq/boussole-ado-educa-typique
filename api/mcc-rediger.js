@@ -266,7 +266,7 @@ ${resources}
 RÈGLES D'EXÉCUTION
 - Si une accroche est fournie, commence post.text par cette accroche, sans la remplacer par une autre. Tu peux seulement corriger une faute évidente sans changer le sens.
 - Développe réellement l'idée essentielle dans le corps du texte. Ne la remplace jamais par des conseils génériques.
-- Si le brouillon contient déjà un texte substantiel, améliore, complète et structure ce texte au lieu de repartir de zéro.
+- Si le brouillon contient déjà un texte substantiel, améliore, complète et structure ce texte au lieu de repartir de zéro. En cas de contradiction, l'accroche, l'idée essentielle et le mot de fin saisis aujourd'hui sont prioritaires sur le brouillon.
 - Si un mot de fin est fourni, recopie-le fidèlement dans post.cta. Ne l'introduis jamais par « CTA : » et ne l'utilise pas comme premier repère d'une liste.
 - Rédige un post complet et fluide, pas un plan, pas un squelette, pas une suite de formules. Le post principal doit généralement compter 900 à 1 600 caractères, ou davantage si le brouillon fourni exige de préserver un développement utile.
 - N'invente pas une structure « trois repères », une liste ou des recommandations si les éléments fournis ne la demandent pas.

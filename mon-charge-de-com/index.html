@@ -339,6 +339,7 @@
       <textarea id="editorial-message" rows="4" placeholder="Ce que tu veux vraiment que la personne comprenne, ressente ou fasse…"></textarea>
       <label class="field" for="editorial-closing">Mot de fin / appel à l'action</label>
       <textarea id="editorial-closing" rows="2" style="min-height:64px" placeholder="ex : Enregistre ce post, partage-le ou écris-moi…"></textarea>
+      <p class="muted tiny">Ces trois éléments guident réellement le texte final : l’IA conserve ton accroche, développe ton idée essentielle et respecte ton mot de fin.</p>
       <label class="field">Ressources à mobiliser</label>
       <div id="atelier-resource-picker" class="resource-picker"></div>
       <button class="btn ghost small" onclick="suggestResourcesForBrief()">🔎 Trouver les ressources liées à mon sujet</button>
@@ -1097,6 +1098,10 @@ function removeFormattingStars(value){
   if(value && typeof value==='object') return Object.fromEntries(Object.entries(value).map(([key,item])=>[key,removeFormattingStars(item)]));
   return typeof value==='string'?value.replace(/\*+/g,'').trim():value;
 }
+function draftMatchesPreviousAiText(value){
+  const key=String(value||'').replace(/\s+/g,' ').trim();
+  return Boolean(key)&&aiEditorialTexts.some(text=>String(text||'').replace(/\s+/g,' ').trim()===key);
+}
 function renderAiEditorialPackage(data){
   const result=removeFormattingStars(data.result||{});aiEditorialPackage=result;
   const post=[result.post?.text,result.post?.cta].filter(Boolean).join('\n\n');
@@ -1145,7 +1150,7 @@ async function generateSourcedEditorialPackage(){
   try{
     const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','X-MCC-Access-Code':accessCode},body:JSON.stringify({
       topic:brief.topic,audience:brief.audience,objective:brief.objective,platform:atelier.platform,hook:brief.hook,
-      message:brief.message,closing:brief.closing,currentDraft:brief.current,useWeb:document.getElementById('editorial-web').checked,depth,
+      message:brief.message,closing:brief.closing,currentDraft:draftMatchesPreviousAiText(brief.current)?'':brief.current,useWeb:document.getElementById('editorial-web').checked,depth,
       resources:brief.resources.map(r=>({title:r.title,content:r.content,sourceFormat:r.sourceFormat||''}))
     })});
     let data={};try{data=await response.json();}catch(e){}
