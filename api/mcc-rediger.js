@@ -180,6 +180,104 @@ function removeFormattingStars(value) {
   return typeof value === 'string' ? value.replace(/\*+/g, '').trim() : value;
 }
 
+function stripEditorialLabel(value) {
+  return String(value || '')
+    .replace(/^\s*(?:accroche|hook|mot de fin|appel à l['’]action|cta|texte|post)\s*:\s*/i, '')
+    .trim();
+}
+
+function comparisonKey(value) {
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[\s\p{P}\p{S}]+/gu, ' ')
+    .trim();
+}
+
+function removeRepeatedEnding(text, ending) {
+  const cleanText = String(text || '').trim();
+  const cleanEnding = stripEditorialLabel(ending);
+  if (!cleanText || !cleanEnding) return cleanText;
+  const endKey = comparisonKey(cleanEnding);
+  const paragraphs = cleanText.split(/\n\s*\n/).map((part) => part.trim()).filter(Boolean);
+  if (comparisonKey(paragraphs.at(-1)) === endKey) paragraphs.pop();
+  return paragraphs.join('\n\n').trim();
+}
+
+function enforceEditorialBrief(result, brief) {
+  const clean = removeFormattingStars(result || {});
+  clean.post = clean.post && typeof clean.post === 'object' ? clean.post : { title: '', text: '', cta: '' };
+
+  const requestedHook = stripEditorialLabel(brief.hook);
+  let postText = stripEditorialLabel(clean.post.text);
+  const postKey = comparisonKey(postText);
+  const hookKey = comparisonKey(requestedHook);
+  if (requestedHook && hookKey && !postKey.startsWith(hookKey)) {
+    postText = `${requestedHook}\n\n${postText}`.trim();
+  }
+
+  const requestedClosing = stripEditorialLabel(brief.closing);
+  if (requestedClosing) {
+    postText = removeRepeatedEnding(postText, requestedClosing);
+    clean.post.cta = requestedClosing;
+  } else {
+    clean.post.cta = stripEditorialLabel(clean.post.cta);
+  }
+  clean.post.text = postText;
+  clean.post.title = stripEditorialLabel(clean.post.title) || brief.topic;
+
+  return clean;
+}
+
+function buildEditorialBriefPrompt(brief) {
+  const resources = brief.resources.length
+    ? brief.resources.map((resource, index) => [
+      `RESSOURCE PERSONNELLE ${index + 1}`,
+      `Titre : ${resource.title}`,
+      `Format : ${resource.sourceFormat || 'non précisé'}`,
+      `Contenu :\n${resource.content}`,
+    ].join('\n')).join('\n\n')
+    : 'Aucune ressource personnelle sélectionnée.';
+
+  return `Rédige la publication finale à partir du contrat ci-dessous. Les éléments marqués OBLIGATOIRE ne sont pas de simples suggestions.
+
+CONTRAT DE RÉDACTION
+Sujet : ${brief.topic}
+Public : ${brief.audience || 'non précisé'}
+Objectif : ${brief.objective || 'non précisé'}
+Plateforme prioritaire : ${brief.platform || 'non précisée'}
+
+Accroche fournie par l'utilisatrice — OBLIGATOIRE :
+${brief.hook || 'Aucune accroche imposée : en proposer une adaptée.'}
+
+Idée essentielle — OBLIGATOIRE :
+${brief.message || 'La dégager fidèlement du brouillon et des ressources.'}
+
+Mot de fin / appel à l'action — OBLIGATOIRE :
+${brief.closing || 'Aucun mot de fin imposé : en proposer un sobre et cohérent.'}
+
+Brouillon déjà écrit :
+${brief.currentDraft || 'Aucun brouillon.'}
+
+RESSOURCES
+${resources}
+
+RÈGLES D'EXÉCUTION
+- Si une accroche est fournie, commence post.text par cette accroche, sans la remplacer par une autre. Tu peux seulement corriger une faute évidente sans changer le sens.
+- Développe réellement l'idée essentielle dans le corps du texte. Ne la remplace jamais par des conseils génériques.
+- Si le brouillon contient déjà un texte substantiel, améliore, complète et structure ce texte au lieu de repartir de zéro.
+- Si un mot de fin est fourni, recopie-le fidèlement dans post.cta. Ne l'introduis jamais par « CTA : » et ne l'utilise pas comme premier repère d'une liste.
+- Rédige un post complet et fluide, pas un plan, pas un squelette, pas une suite de formules. Le post principal doit généralement compter 900 à 1 600 caractères, ou davantage si le brouillon fourni exige de préserver un développement utile.
+- N'invente pas une structure « trois repères », une liste ou des recommandations si les éléments fournis ne la demandent pas.
+- Interdiction des remplissages passe-partout tels que « observer, adapter, valoriser », sauf s'ils sont réellement développés dans le brief ou les ressources.
+- N'ajoute pas d'affirmation clinique, scientifique ou juridique non étayée. Place toute incertitude dans sources.verification.
+- post.text contient le corps du post sans répéter le CTA final, puisque celui-ci est rendu séparément dans post.cta.
+- Les versions WhatsApp et Telegram reprennent la même pensée et le même mot de fin, adaptées à leur canal, sans appauvrir ni contredire le post.
+- Les 3 accroches et 3 angles restent des variantes supplémentaires ; ils ne doivent pas détourner la publication principale de l'accroche et du message validés.
+- Retourne uniquement l'objet structuré demandé.`;
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -204,16 +302,16 @@ module.exports = async function handler(req, res) {
   const model = brief.depth === 'deep' ? 'gpt-5.6-sol' : 'gpt-5.6-terra';
   const systemPrompt = `Tu es le moteur éditorial de Mon Chargé de Com. Tu réunis les compétences d'une ingénieure pédagogique, d'une neuropédagogue, d'une social media manager, d'une community manager, d'une créatrice de contenu et d'une rédactrice social media.
 
-Produis une rédaction originale, claire, structurée, chaleureuse et publiable en français. La praticienne reste seule décisionnaire. N'établis aucun diagnostic et n'invente aucun fait, chiffre, étude, auteur, citation, URL ou consensus.
+Ta mission première est d'écrire fidèlement le texte demandé par l'utilisatrice, pas de lui substituer un contenu générique. Le sujet, l'accroche, l'idée essentielle, le brouillon et le mot de fin forment un contrat éditorial. Lorsqu'ils sont fournis, préserve leur intention, leur sens et leur ordre. Produis une rédaction originale, claire, structurée, chaleureuse et directement publiable en français. La praticienne reste seule décisionnaire. N'établis aucun diagnostic et n'invente aucun fait, chiffre, étude, auteur, citation, URL ou consensus.
 
 Hiérarchie des preuves :
 1. Les ressources personnelles fournies sont la base prioritaire. Paraphrase-les sans longs extraits et indique précisément lesquelles ont servi.
 2. Si la recherche Web est activée, complète uniquement avec des sources primaires, institutionnelles ou professionnelles fiables et récentes. Les citations Web réelles seront contrôlées par le serveur.
 3. Tout point insuffisamment étayé va dans « verification » et ne doit pas être formulé comme un fait certain.
 
-  Adapte la charge cognitive au public : phrases lisibles, une idée principale par paragraphe, progression explicite, exemples concrets, aucune infantilisation. Prépare un vrai post complet, une version WhatsApp plus directe, une version Telegram structurée et un carrousel. Le CTA doit respecter le mot de fin demandé lorsqu'il est fourni. Le contrôle copyright doit confirmer la reformulation et signaler tout passage à revoir.
+Adapte la charge cognitive au public : phrases lisibles, une idée principale par paragraphe, transitions naturelles, exemples concrets, aucune infantilisation. Prépare un vrai post complet, une version WhatsApp plus directe, une version Telegram structurée et un carrousel. Ne réponds jamais par un simple plan, un squelette, des généralités ou des phrases à compléter. Le contrôle copyright doit confirmer la reformulation et signaler tout passage à revoir.
 
-  N'utilise aucun astérisque ni balise Markdown dans les textes : ni **gras**, ni listes avec *. Les titres et la structure doivent rester en texte brut, directement copiables.`;
+N'utilise aucun astérisque ni balise Markdown dans les textes. Les titres et la structure doivent rester en texte brut, directement copiables. N'affiche jamais de libellés techniques comme « CTA : », « HOOK : », « INTRODUCTION : » ou « TEXTE : » dans la publication.`;
 
   const requestBody = {
     model,
@@ -221,7 +319,7 @@ Hiérarchie des preuves :
     reasoning: { effort: brief.depth === 'deep' ? 'medium' : 'low' },
     input: [
       { role: 'system', content: [{ type: 'input_text', text: systemPrompt }] },
-      { role: 'user', content: [{ type: 'input_text', text: `Voici le brief validé par l'utilisatrice. Respecte-le et retourne uniquement le résultat structuré demandé.\n\n${JSON.stringify(brief)}` }] },
+      { role: 'user', content: [{ type: 'input_text', text: buildEditorialBriefPrompt(brief) }] },
     ],
     text: {
       verbosity: 'high',
@@ -248,7 +346,7 @@ Hiérarchie des preuves :
 
     const outputText = extractOutputText(response);
     if (!outputText) return res.status(502).json({ error: "L'IA n'a pas renvoyé de texte exploitable." });
-    const result = removeFormattingStars(parseJsonOutput(outputText));
+    const result = enforceEditorialBrief(parseJsonOutput(outputText), brief);
     result.sources = result.sources || { internal: [], external: [], verification: [] };
     result.sources.external = brief.useWeb ? extractWebSources(response) : [];
 
@@ -266,3 +364,5 @@ Hiérarchie des preuves :
     return res.status(502).json({ error: "La connexion au moteur IA a échoué. Vérifie Internet puis réessaie." });
   }
 };
+
+module.exports._internals = { enforceEditorialBrief, buildEditorialBriefPrompt };
