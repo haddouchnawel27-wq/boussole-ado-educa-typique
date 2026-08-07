@@ -84,6 +84,19 @@ compagnon d'AD-07, en bonus du **Programme 2**.
 - Sources retrouvées par Nawel confirmées : le brainstorm Étincelle = ce qui est
   déjà implémenté (rien à rattraper).
 
+## 🌡️ VOLET ÉMOTIONS UNIFIÉ (fait ✅)
+Tout le contenu « émotions » réuni dans **un seul volet = AD-04**, enrichi du
+bilan émotionnel Educa Typique :
+- Nouvelle 1re étape **« Ma météo émotionnelle »** : palette en **6 familles**
+  (Tristesse, Anxiété, Colère, Peur, **Honte & culpabilité**, Positif),
+  multi-choix + **intensité 1-5** par émotion.
+- Parcours du volet : Météo → Thermomètre → Nommer → **Ma photo** (la photo
+  intègre la météo + mot doux si honte présente).
+- `emotions-notice` enrichi (météo) → fiche **« Mes émotions »** d'AD-11.
+- **Outil pro rebrandé** : `outils/bilan-emotionnel-educatypique.html`
+  (ex-« Voie Chifā » → Educa Typique, autonome, universel/spirituel en option,
+  envoi-IA retiré). `sw.js` → **v16**.
+
 ## 🔜 CE QU'IL RESTE
 1. _(optionnel)_ Finitions / retours de Nawel après test de la preview (contenus,
    familles de métiers, version « longue » d'approfondissement, section 7

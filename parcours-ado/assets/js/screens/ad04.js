@@ -51,13 +51,27 @@
   ];
   function pastille(coul) { return '<span class="emo-dot" style="background:' + coul + '"></span>'; }
 
+  /* Météo émotionnelle — palette en 6 familles (multi-choix + intensité).
+     Reprise du bilan émotionnel Educa Typique, adaptée ado. Honte = famille
+     à part entière (jamais réduite). */
+  var EMO_FAMILLES = [
+    { fam: "Tristesse", coul: "#4E86A0", items: ["Triste", "Mélancolique", "Abattu·e", "Vide", "Seul·e"] },
+    { fam: "Anxiété & stress", coul: "#5FA3A0", items: ["Anxieux·se", "Stressé·e", "Inquiet·ète", "Dépassé·e", "Paniqué·e"] },
+    { fam: "Colère & frustration", coul: "#E5573E", items: ["En colère", "Frustré·e", "Irritable", "Impatient·e"] },
+    { fam: "Peur & insécurité", coul: "#7A5CC7", items: ["Apeuré·e", "Pas en sécurité", "Intimidé·e"] },
+    { fam: "Honte & culpabilité", coul: "#D06BA8", items: ["Honteux·se", "Coupable", "Pas à la hauteur", "Gêné·e"] },
+    { fam: "Positif & espoir", coul: "#5FAE7E", items: ["Content·e", "Calme", "Motivé·e", "Confiant·e", "Reconnaissant·e", "Plein·e d'espoir"] }
+  ];
+  var HONTE_FAM = ["Honteux·se", "Coupable", "Pas à la hauteur", "Gêné·e"];
+
   /* ---------- État ---------- */
   var B = null;
   var chargé = false;
-  function vide() { return { thermo: {}, signes: [], redescendre: [], roue: {}, emotion: null }; }
+  function vide() { return { meteo: {}, thermo: {}, signes: [], redescendre: [], roue: {}, emotion: null }; }
   function assainir(d) {
     var b = vide();
     if (d && typeof d === "object") {
+      b.meteo = d.meteo && typeof d.meteo === "object" ? d.meteo : {};
       b.thermo = d.thermo || {};
       b.roue = d.roue || {};
       b.signes = Array.isArray(d.signes) ? d.signes : [];
@@ -103,9 +117,9 @@
      Écran — Intro
      =========================================================================== */
   function renderIntro() {
-    var reprise = B && (Object.keys(B.thermo).length || B.signes.length || B.emotion);
+    var reprise = B && (Object.keys(B.meteo).length || Object.keys(B.thermo).length || B.signes.length || B.emotion);
     return entete("Programme 1 · AD-04", "🎭 Mes émotions",
-      "Ici, on apprend à repérer et à nommer ce qui se passe dedans. Pas pour te juger — pour t'aider.") +
+      "Ton volet émotions, tout au même endroit : ta météo du moment, comprendre quand ça monte, et nommer ce que tu ressens. Pas pour te juger — pour t'aider.") +
       '<div class="carte">' +
         '<div class="encadre menthe"><span class="titre">Ce qu\'il faut savoir</span>' +
         '<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.45rem">' +
@@ -118,8 +132,49 @@
       '</div>' +
       '<div class="actions-bas">' +
         (reprise
-          ? '<button class="btn btn-plein" data-a4="nav" data-to="ad04-thermo">Reprendre →</button><button class="btn btn-ligne" data-a4="recommencer">Recommencer</button>'
-          : '<button class="btn btn-plein" data-a4="nav" data-to="ad04-thermo">Commencer →</button>') +
+          ? '<button class="btn btn-plein" data-a4="nav" data-to="ad04-meteo">Reprendre →</button><button class="btn btn-ligne" data-a4="recommencer">Recommencer</button>'
+          : '<button class="btn btn-plein" data-a4="nav" data-to="ad04-meteo">Commencer →</button>') +
+      '</div>';
+  }
+
+  /* ===========================================================================
+     Écran — Ma météo émotionnelle (palette 6 familles + intensité)
+     =========================================================================== */
+  function meteoPips(name, cur) {
+    var s = "";
+    for (var v = 1; v <= 5; v++) {
+      s += '<button class="pip" role="button" aria-pressed="' + (cur === v) + '" data-a4="meteo-int" data-name="' + esc(name) + '" data-val="' + v + '" aria-label="' + v + ' sur 5">' +
+        '<span class="lib" style="font-size:1rem;font-weight:800;color:var(--texte)">' + v + '</span></button>';
+    }
+    return '<div class="echelle echelle--mood" role="group">' + s + '</div>';
+  }
+  function renderMeteo() {
+    var familles = EMO_FAMILLES.map(function (f) {
+      var chips = f.items.map(function (name) {
+        var on = Object.prototype.hasOwnProperty.call(B.meteo, name);
+        return '<button class="jeton" role="button" aria-pressed="' + on + '" data-a4="meteo-emo" data-name="' + esc(name) + '">' + pastille(f.coul) + esc(name) + '</button>';
+      }).join("");
+      return '<div class="q-bloc" style="margin:0.9rem 0"><div class="q-titre" style="font-size:0.95rem;display:flex;align-items:center;gap:0.4rem">' +
+        pastille(f.coul) + esc(f.fam) + '</div><div class="jetons" role="group" style="margin-top:0.4rem">' + chips + '</div></div>';
+    }).join("");
+
+    var noms = Object.keys(B.meteo);
+    var intens = noms.length
+      ? '<div class="carte"><h2 style="font-size:1.05rem;margin-bottom:0.15rem">🎚️ À quelle force ?</h2>' +
+        '<p class="q-aide" style="margin-bottom:0.6rem">Pour chaque émotion cochée : <strong>1</strong> = un peu · <strong>5</strong> = énormément.</p>' +
+        noms.map(function (name) {
+          return '<div class="q-bloc" style="margin:0.7rem 0"><div class="q-titre" style="font-size:0.95rem;font-weight:600">' + esc(name) + '</div>' + meteoPips(name, B.meteo[name]) + '</div>';
+        }).join("") + '</div>'
+      : "";
+
+    return entete("AD-04 · Ma météo", "🌡️ Ma météo émotionnelle",
+      "Là, maintenant : qu'est-ce qui est présent en toi ? Plusieurs à la fois, c'est normal. Tu peux tout laisser vide.") +
+      '<div class="carte">' + familles + '</div>' +
+      intens +
+      '<div class="encadre beige"><p class="mini-note">Ressentir plusieurs émotions en même temps, même contradictoires, c\'est humain. La <strong>honte</strong> est une émotion comme les autres — la ressentir n\'a rien de honteux.</p></div>' +
+      '<div class="actions-bas">' +
+        '<button class="btn btn-plein" data-a4="save-go" data-to="ad04-thermo">Continuer →</button>' +
+        '<button class="btn btn-doux" data-a4="save-quitter">Quitter (je garde tout)</button>' +
       '</div>';
   }
 
@@ -175,6 +230,18 @@
     var signaux = B.signes.slice(0, 5);
     var douxAides = B.redescendre.slice(0, 5);
 
+    // Météo du moment
+    var meteoNoms = Object.keys(B.meteo).sort(function (a, b) { return (B.meteo[b] || 0) - (B.meteo[a] || 0); });
+    var meteoHTML = "";
+    if (meteoNoms.length) {
+      var liste = meteoNoms.map(function (n) { return '<strong>' + esc(n) + '</strong> (' + (B.meteo[n] || 3) + '/5)'; }).join(", ");
+      var aHonte = meteoNoms.some(function (n) { return HONTE_FAM.indexOf(n) !== -1; });
+      meteoHTML = '<div class="carte"><h2 style="font-size:1.05rem;margin-bottom:0.5rem">🌡️ Ma météo du moment</h2>' +
+        '<p>Là, maintenant, ce qui est présent : ' + liste + '. Plusieurs à la fois, c\'est normal — ça ne te définit pas, c\'est une photo de l\'instant.</p>' +
+        (aHonte ? '<div class="encadre lavande" style="margin-top:0.6rem"><p>Tu ressens de la <strong>honte</strong> ou de la culpabilité en ce moment. C\'est une émotion comme une autre, et la ressentir n\'a rien de honteux. Tu vaux bien plus que ce qu\'elle te fait croire.</p></div>' : "") +
+        '</div>';
+    }
+
     var signauxHTML = signaux.length
       ? '<p>Quand ça monte, ton corps t\'envoie souvent : <strong>' + signaux.map(esc).join("</strong>, <strong>") + '</strong>. Ce sont tes <strong>signaux d\'alerte</strong> : quand tu les sens, c\'est le moment de faire une pause, avant que ça déborde.</p>'
       : '<p class="mini-note">Tu n\'as pas coché de signaux du corps — tu peux y revenir quand tu veux. Les repérer, ça s\'apprend.</p>';
@@ -199,6 +266,7 @@
     return entete("AD-04 · Ce que ça me dit", "🎭 Mes émotions — ma photo", "À toi, et à personne d'autre.") +
       '<div class="carte"><div class="encadre lavande" style="margin:0"><span class="titre">Ma phrase-cadre</span>' +
         '<p>Toutes mes émotions sont <strong>entendables</strong>. Tous mes comportements ne sont pas <strong>acceptables</strong>.</p></div></div>' +
+      meteoHTML +
       '<div class="carte"><h2 style="font-size:1.05rem;margin-bottom:0.5rem">Mes signaux d\'alerte</h2>' + signauxHTML + viteHTML + '</div>' +
       '<div class="carte"><h2 style="font-size:1.05rem;margin-bottom:0.5rem">Ce qui revient, et le besoin dessous</h2>' + emoHTML + honteHTML + '</div>' +
       (aidesHTML ? '<div class="carte"><h2 style="font-size:1.05rem;margin-bottom:0.5rem">Ma trousse anti-débordement</h2>' + aidesHTML + '</div>' : '') +
@@ -245,11 +313,27 @@
       var val = b.getAttribute("data-val");
       B.emotion = (B.emotion === val ? null : val); render(); return;
     }
+    if (type === "meteo-emo") {
+      var nm = b.getAttribute("data-name");
+      if (Object.prototype.hasOwnProperty.call(B.meteo, nm)) delete B.meteo[nm];
+      else B.meteo[nm] = 3;
+      render(); return;
+    }
+    if (type === "meteo-int") {
+      var nm2 = b.getAttribute("data-name");
+      if (Object.prototype.hasOwnProperty.call(B.meteo, nm2)) B.meteo[nm2] = parseInt(b.getAttribute("data-val"), 10);
+      render(); return;
+    }
   }
 
   function enregistrerNotice() {
+    var meteo = Object.keys(B.meteo)
+      .sort(function (a, b) { return (B.meteo[b] || 0) - (B.meteo[a] || 0); })
+      .slice(0, 6)
+      .map(function (n) { return { nom: n, intensite: B.meteo[n] || 3 }; });
     Vault.ecrire("emotions-notice", {
       date: MEM.auj(),
+      meteo: meteo,
       emotion: B.emotion || null,
       signaux: B.signes.slice(0, 5),
       redescendre: B.redescendre.slice(0, 5)
@@ -266,6 +350,7 @@
     esc = MEM.esc; toast = MEM.toast; go = MEM.go; render = MEM.render;
     if (!B) B = vide();
     MEM.register("ad04", { enter: chargerUneFois, render: function () { if (!B) B = vide(); return renderIntro(); }, bind: bindCommun });
+    MEM.register("ad04-meteo", { render: renderMeteo, bind: bindCommun });
     MEM.register("ad04-thermo", { render: renderThermo, bind: bindCommun });
     MEM.register("ad04-roue", { render: renderRoue, bind: bindCommun });
     MEM.register("ad04-notice", { render: renderNotice, bind: bindCommun });

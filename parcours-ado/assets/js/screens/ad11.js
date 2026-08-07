@@ -37,6 +37,7 @@
     } },
     { id: "emotions", titre: "Mes émotions", src: "emotions-notice", build: function (o) {
       var L = [];
+      if (o.meteo && o.meteo.length) L.push("Ma météo du moment : " + o.meteo.map(function (m) { return m.nom + " (" + m.intensite + "/5)"; }).join(", ") + ".");
       if (o.emotion && EMO[o.emotion]) L.push("Mon émotion la plus fréquente : " + EMO[o.emotion] + ".");
       if (o.signaux && o.signaux.length) L.push("Mes signaux d'alerte : " + lst(o.signaux) + ".");
       if (o.redescendre && o.redescendre.length) L.push("Ce qui m'aide à redescendre : " + lst(o.redescendre) + ".");
