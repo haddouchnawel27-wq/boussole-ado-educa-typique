@@ -898,6 +898,7 @@ const AI_SPEND_STORAGE='mcc:ai-estimated-spend';
 const AI_ENDPOINT_STORAGE='mcc:ai-endpoint';
 let aiEditorialPackage=null;
 let aiEditorialTexts=[];
+let aiEditorialSelectedIndex=null;
 function startAtelier(){ renderAtelier(); go('atelier'); }
 function renderAtelier(){
   const pf=document.getElementById('atelier-platform'); pf.innerHTML='';
@@ -1101,6 +1102,11 @@ function renderAiEditorialPackage(data){
   const post=[result.post?.text,result.post?.cta].filter(Boolean).join('\n\n');
   const carousel=(result.carousel?.slides||[]).map((slide,i)=>`SLIDE ${i+1} · ${slide.title}\n${slide.text}`).join('\n\n');
   aiEditorialTexts=[post,result.whatsapp||'',result.telegram||'',carousel];
+  const draft=document.getElementById('atelier-draft');
+  if(draft&&post&&!draftHasSubstantiveContent(draft.value)){
+    draft.value=post;
+    aiEditorialSelectedIndex=0;
+  }
   const hooks=(result.hooks||[]).map(h=>`<li>${escapeHtml(h)}</li>`).join('');
   const angles=(result.angles||[]).map(a=>`<div class="ai-angle"><b>${escapeHtml(a.title)}</b><br>${escapeHtml(a.rationale)}</div>`).join('');
   const internal=(result.sources?.internal||[]).map(s=>`<div class="ai-source"><b>${escapeHtml(s.title)}</b><br>${escapeHtml(s.usage)}</div>`).join('')||'<div class="muted tiny">Aucune ressource personnelle mobilisée.</div>';
@@ -1120,7 +1126,8 @@ function renderAiEditorialPackage(data){
 }
 function useAiEditorialText(index){
   const text=removeFormattingStars(aiEditorialTexts[index]);if(!text)return;
-  document.getElementById('atelier-draft').value=text;toast('Texte placé dans ton brouillon ✓');
+  document.getElementById('atelier-draft').value=text;aiEditorialSelectedIndex=index;
+  autofillVisual(false);toast('Texte placé dans ton brouillon et transmis au visuel ✓');
   document.getElementById('atelier-draft').scrollIntoView({behavior:'smooth',block:'center'});
 }
 async function generateSourcedEditorialPackage(){
@@ -1266,6 +1273,24 @@ function stripMarkdownForVisual(value){
     .replace(/\[([^\]]+)\]\([^\)]+\)/g,'$1')
     .replace(/\*+/g,'');
 }
+function isCallToActionLine(value){
+  const line=cleanPostLine(value).replace(/\s+/g,' ').trim();
+  if(!line)return false;
+  if(/^(?:CTA|Appel à l.action|Mot de fin|Conclusion)\s*:/i.test(line))return true;
+  return /^(?:Enregistre|Partage|Commente|Dis-moi|Écris-moi|Ecris-moi|Contacte-moi|Réponds|Reponds|Abonne-toi|Un petit like|Like|Fais suivre|Transmets)\b/i.test(line);
+}
+function withoutCallToAction(value){
+  const rows=String(value||'').split(/\n+/).map(row=>row.trim()).filter(Boolean);
+  while(rows.length&&isCallToActionLine(rows[rows.length-1]))rows.pop();
+  return rows.filter(row=>!/^\s*(?:CTA|Appel à l.action)\s*:/i.test(cleanPostLine(row))).join('\n').trim();
+}
+function draftHasSubstantiveContent(value){
+  const clean=withoutCallToAction(removeIncompletePlanEnding(value))
+    .replace(/(?:…|\.\.\.)/g,'')
+    .replace(/\s+/g,' ')
+    .trim();
+  return clean.length>=120&&(clean.match(/[.!?](?=\s|$)/g)||[]).length>=2;
+}
 function cleanPostLine(line){
   return stripMarkdownForVisual(line).replace(/^[\s#>*_`\-–—\d.)]+/,'').replace(/^[^\p{L}\p{N}«“]+/u,'').trim();
 }
@@ -1276,7 +1301,8 @@ function removeIncompletePlanEnding(value){
     .trim();
 }
 function cleanVisualTitle(value){
-  return stripMarkdownForVisual(value).replace(/\s*(?:\.{3}|…)\s*$/,'').trim();
+  const clean=stripMarkdownForVisual(value).replace(/\s*(?:\.{3}|…)\s*$/,'').trim();
+  return clean?clean.charAt(0).toLocaleUpperCase('fr-FR')+clean.slice(1):clean;
 }
 function firstCompleteSentence(value){
   const clean=String(value||'').replace(/\s+/g,' ').trim();
@@ -1284,12 +1310,12 @@ function firstCompleteSentence(value){
   return (match?match[0]:clean).trim();
 }
 function extractThreeReperes(value){
-  const text=removeIncompletePlanEnding(stripMarkdownForVisual(value)).replace(/\s+/g,' ').trim();
+  const text=withoutCallToAction(removeIncompletePlanEnding(stripMarkdownForVisual(value))).replace(/\s+/g,' ').trim();
   const markerPattern=/([A-ZÀ-ÖØ-Þ][^.!?\n:]{2,80})\s*:\s*/gu;
   const markers=[]; let match;
   while((match=markerPattern.exec(text))!==null){
     const label=cleanPostLine(match[1]);
-    if(!/^(?:trois|3)\s+(?:repères|pistes)|^voici\b/i.test(label)) markers.push({label,start:match.index,bodyStart:markerPattern.lastIndex});
+    if(!/^(?:trois|3)\s+(?:repères|pistes)|^voici\b|^(?:CTA|Appel à l.action|Mot de fin|Conclusion|Sources?)\b/i.test(label)) markers.push({label,start:match.index,bodyStart:markerPattern.lastIndex});
   }
   const points=markers.map((marker,index)=>{
     const end=index+1<markers.length?markers[index+1].start:text.length;
@@ -1303,7 +1329,7 @@ function extractThreeReperes(value){
   return numbered.length>=3?numbered.slice(0,3):[];
 }
 function completeVisualExcerpt(value,maxChars=260){
-  const clean=removeIncompletePlanEnding(stripMarkdownForVisual(value)).replace(/\s+/g,' ').trim();
+  const clean=withoutCallToAction(removeIncompletePlanEnding(stripMarkdownForVisual(value))).replace(/\s+/g,' ').trim();
   const sentences=clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[];
   let excerpt='';
   for(const sentence0 of sentences){
@@ -1315,10 +1341,19 @@ function completeVisualExcerpt(value,maxChars=260){
   }
   return excerpt||clean;
 }
+function inferVisualRubric(topic,audience){
+  const context=`${topic||''} ${audience||''}`.toLocaleLowerCase('fr-FR');
+  if(/\b(?:ado|ados|adolescent|adolescente|adolescence)\b/.test(context))return 'ados';
+  if(/\b(?:tnd|tdah|dys|autisme|tsa|neurodéveloppement|neurodeveloppement)\b/.test(context))return 'tnd';
+  if(/\b(?:émotion|emotion|psych|anxiété|anxiete|estime|trauma|charge mentale|entrepreneuse|praticienne)\b/.test(context))return 'psycho';
+  return 'enfants';
+}
 function autofillVisual(showToast=true){
   const topic=(document.getElementById('atelier-topic').value||'').trim();
-  const post=removeIncompletePlanEnding((document.getElementById('atelier-draft').value||'').trim());
-  const lines=post.split(/\n+/).map(cleanPostLine).filter(l=>l && !l.startsWith('#') && !/^(CTA|Appel à l.action)/i.test(l));
+  const audience=(document.getElementById('editorial-audience')?.value||'').trim();
+  const post=withoutCallToAction(removeIncompletePlanEnding((document.getElementById('atelier-draft').value||'').trim()));
+  const lines=post.split(/\n+/).map(cleanPostLine).filter(l=>l && !l.startsWith('#') && !isCallToActionLine(l));
+  visualDraft.rubric=inferVisualRubric(topic,audience);
   visualDraft.title=cleanVisualTitle(topic||lines[0]||'Une idée à partager');
   const rest=(topic?lines:lines.slice(1)).join(' ').replace(/\s+/g,' ').trim();
   const points=extractThreeReperes(post);
@@ -1326,6 +1361,7 @@ function autofillVisual(showToast=true){
     visualDraft.template='et-2';
     visualDraft.body=points.join('\n');
   } else {
+    if(visualDraft.brand==='educa'&&visualDraft.template==='et-2')visualDraft.template='et-1';
     visualDraft.body=completeVisualExcerpt(rest||post||'Ajoute ici ton message essentiel.');
   }
   if(!visualDraft.signature) visualDraft.signature=VISUAL_BRANDS[visualDraft.brand].signature;
@@ -1407,14 +1443,13 @@ function drawBrandFooter(ctx,W,H,brand,signature,dark){
   ctx.textAlign='right'; ctx.font='400 25px Georgia, serif'; ctx.fillText(signature, W-64,H-46); ctx.restore();
 }
 function contentPoints(text){
-  const lines=(text||'').split(/\n+/).map(cleanPostLine).filter(Boolean);
+  const lines=withoutCallToAction(text).split(/\n+/).map(cleanPostLine).filter(line=>line&&!isCallToActionLine(line));
   if(lines.length>=3) return lines.slice(0,3);
   const extracted=extractThreeReperes(text);
   if(extracted.length===3) return extracted;
   let parts=(text||'').split(/(?<=[.!?])\s+/).map(cleanPostLine).filter(Boolean);
   if(parts.length<3) parts=(text||'').split(/[,;]+/).map(cleanPostLine).filter(Boolean);
-  while(parts.length<3) parts.push(['Observer avant de corriger.','Adapter une chose à la fois.','Valoriser chaque petit progrès.'][parts.length]);
-  return parts.slice(0,3);
+  return parts.filter(part=>!isCallToActionLine(part)).slice(0,3);
 }
 function drawVisual(){
   syncVisualFields(); const token=++visualRenderToken;
