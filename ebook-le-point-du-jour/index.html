@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Épouser le cerveau, pas le combattre — le livret du Point du Jour</title>
+<style>
+  :root{
+    --cream:#F1EADD; --cream-hi:#F7F1E6; --paper:#FBF7EF;
+    --cacao:#34261F; --cacao-soft:#5C4B3F;
+    --sage:#8A9789; --sage-deep:#6E7C6C;
+    --rose:#E7B7B0; --rose-poudre:#F3DDD8;
+    --gold:#C39A4B; --gold-soft:#C9B07A;
+    --line:#E3D8C6;
+    --serif:"Palatino Linotype",Palatino,"Iowan Old Style","Book Antiqua",Georgia,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--cream);color:var(--cacao);font-family:var(--sans);line-height:1.66;font-size:17px;-webkit-font-smoothing:antialiased}
+
+  .toolbar{position:fixed;top:14px;right:14px;display:flex;gap:8px;z-index:50}
+  .toolbar button{background:linear-gradient(160deg,var(--sage),var(--sage-deep));color:#F6F1E6;border:none;
+    padding:9px 16px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:var(--sans);
+    box-shadow:0 6px 16px rgba(70,85,60,.22)}
+
+  .book{max-width:720px;margin:0 auto;padding:0 20px 80px}
+  .sheet{background:var(--paper);border:1px solid var(--line);border-radius:20px;margin:26px 0;
+    padding:44px 46px;box-shadow:0 14px 40px rgba(120,100,55,.10)}
+
+  .eyebrow{font-family:var(--sans);text-transform:uppercase;letter-spacing:.24em;font-size:11px;font-weight:600;color:var(--gold)}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.16;color:var(--cacao);text-wrap:balance}
+  p{margin:.65em 0}
+  .lead{color:var(--cacao-soft)}
+  strong{color:var(--cacao)}
+  em{color:var(--sage-deep)}
+
+  /* Couverture */
+  .cover{background:linear-gradient(170deg,#9AA894,#6E7C6C 82%);color:#F4EFE2;border:none;
+    text-align:center;padding:70px 44px;border-radius:22px}
+  .cover .mark{width:112px;height:112px;margin:0 auto 24px;display:block;filter:drop-shadow(0 10px 24px rgba(30,40,25,.3))}
+  .cover .eyebrow{color:var(--gold-soft)}
+  .cover h1{color:#FBF7EC;font-size:clamp(30px,6vw,44px);margin:.2em 0 .1em}
+  .cover .tagline{font-family:var(--serif);font-style:italic;font-size:clamp(17px,3vw,21px);color:#F1E6C6;margin-top:.4em}
+  .cover .by{margin-top:26px;font-size:13px;letter-spacing:.05em;color:#EAE3CE}
+  .cover .orn{color:var(--gold-soft);letter-spacing:8px;font-size:.8rem;margin:18px 0 0}
+
+  /* Sommaire */
+  .toc{list-style:none;margin-top:18px}
+  .toc li{display:flex;align-items:baseline;gap:12px;padding:9px 0;border-bottom:1px dotted var(--line);font-size:15.5px}
+  .toc .n{font-family:var(--serif);color:var(--gold);font-size:18px;width:26px;flex:0 0 auto}
+  .toc .t{color:var(--cacao-soft)}
+
+  .kicker{color:var(--gold);font-family:var(--sans);text-transform:uppercase;letter-spacing:.2em;font-size:11px;font-weight:600;display:block;margin-bottom:8px}
+  h2.chap{font-size:clamp(23px,4vw,31px);margin-bottom:6px}
+  .chap-sub{color:var(--cacao-soft);font-style:italic;font-family:var(--serif);font-size:17px;margin-bottom:18px}
+  h3{font-size:19px;margin:22px 0 6px;color:var(--sage-deep)}
+
+  .pullquote{background:var(--rose-poudre);border-radius:14px;padding:20px 24px;margin:22px 0;
+    font-family:var(--serif);font-size:1.12rem;font-weight:600;color:#7A4A44;text-align:center}
+
+  .chain{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;
+    background:var(--cream-hi);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:18px 0;
+    font-size:.9rem;color:var(--cacao-soft);text-align:center}
+  .chain b{color:var(--sage-deep)}
+  .chain .arw{color:var(--gold);font-weight:700}
+
+  .gestes{list-style:none;margin:14px 0}
+  .gestes li{padding:14px 0;border-bottom:1px dotted var(--line)}
+  .gestes li:last-child{border-bottom:none}
+  .gestes .num{display:inline-flex;width:30px;height:30px;background:linear-gradient(160deg,var(--gold-soft),var(--gold));
+    color:#3B3620;border-radius:50%;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:15px;margin-right:10px;vertical-align:middle}
+  .gestes .titre{font-weight:600;color:var(--cacao)}
+  .gestes .q{display:block;margin:.4em 0 0 40px;font-style:italic;color:var(--sage-deep);font-size:15.5px}
+
+  table{width:100%;border-collapse:collapse;font-size:15px;margin:14px 0}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--serif);color:var(--sage-deep);font-weight:600}
+  td:first-child{color:var(--cacao-soft)}
+  td:last-child{color:var(--cacao);font-weight:500}
+
+  .terrain{background:var(--cream-hi);border:1px solid var(--line);border-left:4px solid var(--sage);border-radius:12px;padding:16px 20px;margin:14px 0}
+  .terrain h3{margin:0 0 4px;color:var(--cacao)}
+  .terrain .rend{color:var(--sage-deep);font-style:italic;font-size:15px;margin-top:6px}
+
+  .field{background:#fff;border:1px dashed var(--gold-soft);border-radius:12px;padding:14px 16px;margin:12px 0}
+  .field label{display:block;font-weight:600;color:var(--sage-deep);font-size:15px;margin-bottom:8px}
+  .field .line{border-bottom:1px solid var(--line);height:26px}
+  .field .line + .line{margin-top:6px}
+
+  .note{font-size:13px;color:#9A7A2E;background:#F3ECD8;border:1px dashed #D9C58C;border-radius:10px;padding:10px 14px;margin-top:16px}
+
+  footer{text-align:center;color:var(--cacao-soft);font-size:13.5px;padding:10px 0 0}
+  footer .brand{font-family:var(--serif);font-size:17px;color:var(--sage-deep);letter-spacing:.05em}
+
+  @media print{
+    body{background:#fff;font-size:12.5pt}
+    .toolbar{display:none}
+    .book{max-width:none;padding:0}
+    .sheet{box-shadow:none;border:none;border-radius:0;margin:0;padding:14mm 16mm;page-break-after:always}
+    .cover{page-break-after:always}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button onclick="window.print()">🖨️ Imprimer / PDF</button>
+</div>
+
+<div class="book">
+
+  <!-- COUVERTURE -->
+  <section class="sheet cover">
+    <svg class="mark" viewBox="0 0 512 512" role="img" aria-label="Le Point du Jour">
+      <defs><radialGradient id="sun" cx="46%" cy="42%" r="60%">
+        <stop offset="0%" stop-color="#FDF6D8"/><stop offset="45%" stop-color="#F0D98C"/><stop offset="100%" stop-color="#DDBD65"/>
+      </radialGradient></defs>
+      <circle cx="256" cy="230" r="86" fill="url(#sun)"/>
+      <g stroke="#F1E6C6" stroke-width="10" stroke-linecap="round">
+        <path d="M256 96v-30M256 394v-30M392 230h30M106 230h30M354 128l21-21M137 332l21-21M354 332l21 21M137 128l-21-21"/>
+      </g>
+      <path d="M150 420 Q256 380 362 420" fill="none" stroke="#EDE4C9" stroke-width="8" stroke-linecap="round" opacity=".8"/>
+    </svg>
+    <span class="eyebrow">Le livret du Point du Jour</span>
+    <h1>Épouser le cerveau,<br>pas le combattre</h1>
+    <p class="tagline">On ne redresse pas une personne. On lui rend ses lunettes.</p>
+    <div class="orn">✦ ✦ ✦</div>
+    <p class="by">Nawel — Jannat Al Qalb · Educa Typique</p>
+  </section>
+
+  <!-- SOMMAIRE + MOT D'INTRO -->
+  <section class="sheet">
+    <span class="kicker">Avant d'ouvrir</span>
+    <h2 class="chap">Le mot du début</h2>
+    <p class="lead">Ce petit livre n'est pas là pour te demander un effort de plus. Il est là pour
+    t'offrir l'inverse : le droit d'arrêter de te battre contre ton propre fonctionnement.</p>
+    <p>La plupart des méthodes disent « fais un effort, sois plus disciplinée, force-toi ». Elles
+    demandent au myope de lire sans lunettes, puis lui reprochent de ne pas voir. Ici, on fait le
+    contraire. On cherche par où <em>ton</em> cerveau sait déjà faire, et on ajoute juste
+    l'échafaudage qui manque.</p>
+    <p>C'est aussi la philosophie de <strong>ton Point du Jour</strong> : ne pas te juger, mais
+    prendre appui là où tu en es pour avancer d'un pas juste.</p>
+
+    <h3 style="margin-top:26px">Sommaire</h3>
+    <ol class="toc">
+      <li><span class="n">1</span><span class="t">Le principe fondateur</span></li>
+      <li><span class="n">2</span><span class="t">La mécanique invisible</span></li>
+      <li><span class="n">3</span><span class="t">Le protocole — les 5 gestes</span></li>
+      <li><span class="n">4</span><span class="t">La boîte à lunettes</span></li>
+      <li><span class="n">5</span><span class="t">Les trois terrains</span></li>
+      <li><span class="n">6</span><span class="t">Le Point du Jour, la méthode en action</span></li>
+      <li><span class="n">7</span><span class="t">Ta lunette de la semaine (exercice)</span></li>
+    </ol>
+  </section>
+
+  <!-- CHAP 1 -->
+  <section class="sheet">
+    <span class="kicker">Chapitre 1</span>
+    <h2 class="chap">Le principe fondateur</h2>
+    <p class="chap-sub">Un accompagnement ne redresse pas une personne. Il lui rend ses lunettes.</p>
+    <p>Je ne combats pas le fonctionnement de la personne que j'accompagne — <strong>je l'épouse</strong>.
+    Je cherche par où son cerveau sait faire, et j'ajoute juste ce qui manque : un appui, un cadre, une
+    canne. Elle n'a pas à changer de cerveau pour aller mieux. Elle a à être <strong>équipée pour le
+    sien</strong>.</p>
+    <div class="pullquote">« On ne redresse pas une personne. On lui rend ses lunettes. Et alors —
+    elle voit qu'elle savait déjà marcher. »</div>
+    <p>C'est ce petit renversement qui change tout. On passe de « <em>je suis défaillante</em> » à
+    « <em>il me manque quelque chose de réparable</em> ». Et cette phrase-là, on peut la vivre, pas
+    seulement la comprendre.</p>
+  </section>
+
+  <!-- CHAP 2 -->
+  <section class="sheet">
+    <span class="kicker">Chapitre 2</span>
+    <h2 class="chap">La mécanique invisible</h2>
+    <p class="chap-sub">Toujours la même chaîne. La nommer, c'est déjà la désamorcer.</p>
+    <p>Partout, je retrouve le même enchaînement. Il commence par une aide retirée — ou jamais donnée —
+    et il finit par une honte qui n'a rien à faire là :</p>
+    <div class="chain">
+      <span><b>On retire une aide</b></span><span class="arw">→</span>
+      <span><b>Tu butes sur une tâche</b> sans l'outil</span><span class="arw">→</span>
+      <span>Confusion · charge mentale · doute · stress · <b>honte</b></span><span class="arw">→</span>
+      <span>« je suis nulle » <em>(alors qu'il te manque une canne)</em></span>
+    </div>
+    <p>Le travail, c'est de <strong>remonter la chaîne à l'envers</strong>. On rend l'aide manquante,
+    et la honte tombe d'elle-même — parce qu'elle n'était que la conclusion d'un manque d'outil, jamais
+    la vérité sur toi.</p>
+  </section>
+
+  <!-- CHAP 3 -->
+  <section class="sheet">
+    <span class="kicker">Chapitre 3</span>
+    <h2 class="chap">Le protocole — les 5 gestes</h2>
+    <p class="chap-sub">Cinq gestes simples, que tu peux aussi t'appliquer à toi-même.</p>
+    <ul class="gestes">
+      <li><span class="num">1</span><span class="titre">Nommer l'aide manquante</span>
+        <span class="q">« Ce n'est pas que je n'y arrive pas — c'est qu'on me demande de le faire sans l'outil dont j'ai besoin. Lequel me manque ? »</span></li>
+      <li><span class="num">2</span><span class="titre">Séparer la blessure du fonctionnement</span>
+        <span class="q">« Cette voix qui dit "tu ne sais pas" — est-elle née en moi, ou me l'a-t-on posée ? »</span></li>
+      <li><span class="num">3</span><span class="titre">Identifier par où mon cerveau sait faire</span>
+        <span class="q">« Quand ça marche bien pour moi, comment ça se passe ? » (intuition ? visuel ? à deux ? en mouvement ?)</span></li>
+      <li><span class="num">4</span><span class="titre">Poser une lunette, une seule</span>
+        <span class="q">Pas dix outils. Un aménagement concret, testable cette semaine, à ma mesure.</span></li>
+      <li><span class="num">5</span><span class="titre">Retirer la honte de l'équation</span>
+        <span class="q">« Le jour où je n'y arrive pas malgré l'outil, ce n'est pas un échec. C'est une semaine qui m'a demandé plus que ce que j'avais. »</span></li>
+    </ul>
+    <p>La honte est le vrai poison. On la nomme, on la sort, et on la rend à ceux qui l'ont posée.</p>
+  </section>
+
+  <!-- CHAP 4 -->
+  <section class="sheet">
+    <span class="kicker">Chapitre 4</span>
+    <h2 class="chap">La boîte à lunettes</h2>
+    <p class="chap-sub">Le catalogue des aménagements — pour chaque difficulté, une canne.</p>
+    <table>
+      <tr><th>Quand ça coince…</th><th>La lunette à poser</th></tr>
+      <tr><td>Trop d'options → figée</td><td>Réduire à 2 · pré-décider · un choix par défaut</td></tr>
+      <tr><td>Tout garder en tête → saturation</td><td>Sortir dehors : écrit, dit, visible</td></tr>
+      <tr><td>« Je dois trouver le parfait »</td><td>« Assez bien » · le premier qui va</td></tr>
+      <tr><td>Décider seule → angoisse</td><td>Décider à deux · un cadre qui décide pour moi</td></tr>
+      <tr><td>Le doute qui tourne</td><td>Limite de temps · test de réversibilité</td></tr>
+      <tr><td>L'intuition dévalorisée</td><td>L'honorer comme une donnée valable</td></tr>
+      <tr><td>La charge qui écrase</td><td>Fractionner · une seule priorité · le droit à la pause</td></tr>
+      <tr><td>La montée émotionnelle</td><td>Réguler d'abord, analyser après</td></tr>
+    </table>
+    <p>Aucune de ces lunettes n'est un aveu de faiblesse. C'est de l'<strong>équipement</strong> —
+    exactement comme des lunettes de vue.</p>
+  </section>
+
+  <!-- CHAP 5 -->
+  <section class="sheet">
+    <span class="kicker">Chapitre 5</span>
+    <h2 class="chap">Les trois terrains</h2>
+    <p class="chap-sub">Même méthode, aménagements différents.</p>
+    <div class="terrain">
+      <h3>👩 Les mères épuisées</h3>
+      <p><strong>L'aide retirée :</strong> le droit de ne pas tout porter. On leur a appris qu'une
+      « bonne mère » gère tout, seule, sans faillir.</p>
+      <p><strong>Leurs lunettes :</strong> alléger, fractionner la charge · déléguer sans culpabilité ·
+      une seule priorité par jour · la pause comme un soin, pas un luxe.</p>
+      <p class="rend">Ce que je leur rends : la permission de déposer ce qui n'est pas à elles seules
+      à porter.</p>
+    </div>
+    <div class="terrain">
+      <h3>🚀 Les entrepreneuses bloquées</h3>
+      <p><strong>L'aide retirée :</strong> le droit de choisir, de se tromper, d'avancer imparfaitement.</p>
+      <p><strong>Leurs lunettes :</strong> réduire à 2 options · honorer l'intuition · le test de
+      réversibilité · « assez bien » plutôt que parfait · décider à deux · pré-décider.</p>
+      <p class="rend">Ce que je leur rends : le droit de choisir avec leur cerveau à elles, pas contre lui.</p>
+    </div>
+    <div class="terrain">
+      <h3>🧩 Traumas & TND</h3>
+      <p><strong>L'aide retirée :</strong> un environnement adapté à un système nerveux différent ou blessé.</p>
+      <p><strong>Leurs lunettes :</strong> structure et prévisibilité · sécurité avant performance ·
+      fractionnement · supports concrets.</p>
+      <p class="rend">Ce que je leur rends : un cadre qui épouse leur cerveau, au lieu de le surcharger.</p>
+    </div>
+  </section>
+
+  <!-- CHAP 6 -->
+  <section class="sheet">
+    <span class="kicker">Chapitre 6</span>
+    <h2 class="chap">Le Point du Jour, la méthode en action</h2>
+    <p class="chap-sub">Cet outil n'est pas abstrait — il est cette philosophie, incarnée.</p>
+    <p>Le Point du Jour ne te demande pas de « faire un effort ». Il fait exactement l'inverse de la
+    chaîne du chapitre 2 :</p>
+    <ul class="gestes">
+      <li><span class="num">✓</span><span class="titre">Il régule avant d'analyser</span>
+        <span class="q">Si l'énergie est basse ou que ça déborde, il passe en mode bref — d'abord redescendre, ensuite comprendre.</span></li>
+      <li><span class="num">✓</span><span class="titre">Il réduit les options</span>
+        <span class="q">Une question à la fois, un ton doux : « De quoi as-tu besoin, là, maintenant ? »</span></li>
+      <li><span class="num">✓</span><span class="titre">Il pose une seule lunette</span>
+        <span class="q">À la fin, une piste concrète et unique — pas dix conseils. Celle qui va, cette semaine.</span></li>
+      <li><span class="num">✓</span><span class="titre">Il retire la honte</span>
+        <span class="q">Aucun score, aucun jugement. Juste un état des lieux honnête, à toi seule, 100 % privé.</span></li>
+    </ul>
+    <p>Autrement dit : le Point du Jour n'ajoute pas de la volonté. Il ajoute de l'<strong>échafaudage</strong>.</p>
+  </section>
+
+  <!-- CHAP 7 - exercice -->
+  <section class="sheet">
+    <span class="kicker">Chapitre 7 · À toi</span>
+    <h2 class="chap">Ta lunette de la semaine</h2>
+    <p class="chap-sub">Un seul aménagement, testable dès cette semaine. Pas dix. Un.</p>
+    <div class="field"><label>1. En ce moment, là où ça coince le plus, c'est…</label>
+      <div class="line"></div><div class="line"></div></div>
+    <div class="field"><label>2. L'aide qui me manque (pas ma volonté — un outil, un cadre, un appui) :</label>
+      <div class="line"></div><div class="line"></div></div>
+    <div class="field"><label>3. Par où mon cerveau sait déjà faire (ma force) :</label>
+      <div class="line"></div></div>
+    <div class="field"><label>4. Ma lunette à poser cette semaine (une seule, concrète) :</label>
+      <div class="line"></div></div>
+    <div class="field"><label>5. Ce que je me dis si ça ne marche pas un jour :</label>
+      <div class="line"></div>
+      <p style="margin:.4em 0 0;font-style:italic;color:var(--sage-deep);font-size:14.5px">« Ce n'est pas un échec — c'est une semaine qui m'a demandé plus que ce que j'avais. »</p>
+    </div>
+    <div class="note">Refais ton Point du Jour dans quelques jours pour observer, en douceur, le
+    mouvement — pas la photo figée.</div>
+  </section>
+
+  <!-- CLÔTURE -->
+  <section class="sheet cover" style="background:linear-gradient(180deg,#7C8A76,#4C5744)">
+    <div class="orn">✦</div>
+    <h1 style="font-size:clamp(24px,5vw,34px)">La phrase-mère</h1>
+    <p class="tagline" style="max-width:34ch;margin:16px auto 0">On ne redresse pas une personne.
+    On lui rend ses lunettes. Et alors — elle voit qu'elle savait déjà marcher.</p>
+    <p class="by" style="margin-top:28px">Pour toi, et pour toutes les autres. 🐾</p>
+  </section>
+
+  <footer>
+    <div class="brand">Jannat Al Qalb · Educa Typique</div>
+    <p style="margin-top:6px">Le Point du Jour — un baromètre doux de ton fonctionnement du moment.</p>
+    <p style="margin-top:6px;opacity:.75">Livret « Épouser le cerveau, pas le combattre » · document de soutien, ne remplace pas l'avis d'un professionnel.</p>
+  </footer>
+
+</div>
+</body>
+</html>
