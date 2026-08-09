@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Le Point du Jour — le guide complet</title>
+<title>Le Point du Jour — le livre</title>
 <style>
   :root{
     --cream:#F1EADD; --cream-hi:#F7F1E6; --paper:#FBF7EF;
@@ -61,12 +61,17 @@
   .domain .ex{font-style:italic;color:var(--sage-deep);font-size:15px;margin:.4em 0}
   .domain .act{font-size:14.5px;color:var(--cacao-soft)}
   .domain .act b{color:var(--dc,var(--sage-deep))}
+  .domain .signes{font-size:14px;color:var(--cacao-soft);margin:.5em 0}
+  .domain .signes b{color:var(--dc,var(--sage-deep))}
+  .domain .lunette-steps{margin:.5em 0 0;padding-left:18px;font-size:14px;color:var(--cacao-soft)}
+  .domain .lunette-steps li{margin:.25em 0}
 
   .state{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px dotted var(--line)}
   .state:last-child{border-bottom:none}
   .state .pin{flex:0 0 auto;width:16px;height:16px;border-radius:50%;margin-top:5px}
   .state h3{margin:0;font-size:17px;color:var(--cacao)}
   .state p{margin:.2em 0 0;color:var(--cacao-soft);font-size:15px}
+  .state .journee{margin:.3em 0 0;font-size:14px;font-style:italic;color:#8a7a63}
 
   .care{background:#FBF1DE;border:1px solid var(--amber);border-radius:14px;padding:18px 22px;margin:18px 0}
   .care h3{color:#6b5326;margin:0 0 6px}
@@ -76,10 +81,31 @@
   .tool{background:var(--cream-hi);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
   .tool b{color:var(--sage-deep)}
   .tool p{margin:.2em 0 0;font-size:14.5px;color:var(--cacao-soft)}
+  .tool ol{margin:.4em 0 0 16px;font-size:13.5px;color:var(--cacao-soft)}
+  .tool ol li{margin:.15em 0}
+
+  .faq{border-bottom:1px dotted var(--line);padding:12px 0}
+  .faq:last-child{border-bottom:none}
+  .faq h3{margin:0 0 4px;font-size:16.5px}
+  .faq p{margin:0;color:var(--cacao-soft);font-size:15px}
 
   .note{font-size:13px;color:#9A7A2E;background:#F3ECD8;border:1px dashed #D9C58C;border-radius:10px;padding:10px 14px;margin-top:16px}
   footer{text-align:center;color:var(--cacao-soft);font-size:13.5px;padding:10px 0 0}
   footer .brand{font-family:var(--serif);font-size:17px;color:var(--sage-deep);letter-spacing:.05em}
+
+  .synthese-sample{background:#fff;border:1.5px solid var(--gold-soft);border-radius:14px;padding:16px 20px;margin:16px 0}
+  .synthese-sample .label{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--gold);font-weight:700}
+  .synthese-sample .etat{font-family:var(--serif);font-size:20px;color:var(--cacao);margin:.2em 0}
+  .synthese-sample .ligne{font-size:14.5px;color:var(--cacao-soft);margin:.3em 0}
+  .synthese-sample .ligne b{color:var(--sage-deep)}
+
+  .terrains{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:14px 0}
+  .terrain{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+  .terrain .em{font-size:22px}
+  .terrain b{display:block;color:var(--sage-deep);margin:.3em 0}
+  .terrain p{font-size:13.5px;color:var(--cacao-soft);margin:0}
+
+  .scene{background:#fff;border-left:4px solid var(--gold-soft);border-radius:0 12px 12px 0;padding:14px 20px;margin:16px 0;font-style:italic;color:var(--cacao-soft);font-size:15.5px}
 
   @media print{
     body{background:#fff;font-size:12.5pt}
@@ -103,7 +129,7 @@
       <g stroke="#F1E6C6" stroke-width="10" stroke-linecap="round"><path d="M256 96v-30M256 394v-30M392 230h30M106 230h30M354 128l21-21M137 332l21-21M354 332l21 21M137 128l-21-21"/></g>
       <path d="M150 420 Q256 380 362 420" fill="none" stroke="#EDE4C9" stroke-width="8" stroke-linecap="round" opacity=".8"/>
     </svg>
-    <span class="eyebrow">Le guide complet</span>
+    <span class="eyebrow">Le livre</span>
     <h1>Le Point du Jour</h1>
     <p class="tagline">Où tu en es, là, maintenant — sans jugement.</p>
     <div class="orn">✦ ✦ ✦</div>
@@ -114,147 +140,162 @@
   <section class="sheet">
     <span class="kicker">Avant d'ouvrir</span>
     <h2 class="chap">Le mot du début</h2>
-    <p class="lead">Ce livret accompagne <strong>Le Point du Jour</strong> : un baromètre doux de ton
-    fonctionnement du moment. Il t'aide à voir <em>où tu en es aujourd'hui</em>, et te propose le bon
-    niveau d'aide — sans rien te demander de plus que ce que tu peux donner, là, maintenant.</p>
-    <p>Ce n'est ni un test, ni un diagnostic, ni un service d'urgence. C'est un rituel de deux minutes,
-    pour t'écouter et repartir avec un pas juste. Tu peux le lire d'une traite, ou piocher le chapitre
-    qui te parle.</p>
+    <p class="lead">Ce livre n'explique pas seulement une application. Il porte une manière de comprendre
+    ton fonctionnement — <strong>épouser le cerveau, pas le combattre</strong> — que tu peux garder même
+    les jours où tu n'ouvres pas Le Point du Jour.</p>
+    <p>Il t'aide à voir <em>où tu en es aujourd'hui</em>, pourquoi certains jours sont plus lourds sans
+    raison apparente, et quel geste, précisément, te correspond. Tu peux le lire d'une traite, ou piocher
+    le chapitre qui te parle.</p>
     <h3 style="margin-top:26px">Sommaire</h3>
     <ol class="toc">
-      <li><span class="n">1</span><span class="t">Qu'est-ce que Le Point du Jour ?</span></li>
-      <li><span class="n">2</span><span class="t">La philosophie : épouser le cerveau</span></li>
-      <li><span class="n">3</span><span class="t">Comment ça marche, pas à pas</span></li>
-      <li><span class="n">4</span><span class="t">Les cinq domaines qu'il explore</span></li>
-      <li><span class="n">5</span><span class="t">Lire ta synthèse : les quatre états</span></li>
-      <li><span class="n">6</span><span class="t">Quand ça déborde : la route protection</span></li>
-      <li><span class="n">7</span><span class="t">Ta boîte à outils & ton profil</span></li>
-      <li><span class="n">8</span><span class="t">Bien l'utiliser au quotidien</span></li>
+      <li><span class="n">1</span><span class="t">Pourquoi on bute, parfois, sans raison apparente</span></li>
+      <li><span class="n">2</span><span class="t">La philosophie : épouser le cerveau, pas le combattre</span></li>
+      <li><span class="n">3</span><span class="t">Les cinq visages de la charge</span></li>
+      <li><span class="n">4</span><span class="t">Se lire sans se juger : les quatre états</span></li>
+      <li><span class="n">5</span><span class="t">Quand le système sature</span></li>
+      <li><span class="n">6</span><span class="t">Ta boîte à lunettes intérieure</span></li>
+      <li><span class="n">7</span><span class="t">Le Point du Jour, en pratique</span></li>
+      <li><span class="n">8</span><span class="t">Questions fréquentes</span></li>
     </ol>
   </section>
 
   <!-- CH1 -->
   <section class="sheet">
     <span class="kicker">Chapitre 1</span>
-    <h2 class="chap">Qu'est-ce que Le Point du Jour ?</h2>
-    <p class="chap-sub">Un baromètre doux, pas un questionnaire de plus.</p>
-    <p>Le Point du Jour est un <strong>outil de soutien</strong> qui prend, en quelques questions
-    simples, la mesure de ton état <em>du moment</em>. Une question par écran, un ton qui ne culpabilise
-    jamais. À la fin, tu repars avec une <strong>photo honnête</strong> de là où tu en es, et une
-    <strong>piste concrète</strong>, à ta mesure.</p>
-    <p>Sa promesse tient en une phrase : <strong>ne rien te demander de plus que ce que tu peux donner,
-    là, maintenant.</strong> S'il sent que tu es débordée ou à court d'énergie, il se raccourcit
-    tout seul. Si tu es en saturation, il bascule en mode très simple et protecteur.</p>
-    <div class="pullquote">Pas de bonne réponse. On mesure simplement, pour pouvoir constater le
-    mouvement de ton cœur.</div>
+    <h2 class="chap">Pourquoi on bute, parfois, sans raison apparente</h2>
+    <p class="chap-sub">Ce n'est presque jamais un manque de volonté.</p>
+    <div class="scene">Un mardi matin, une liste déjà trop longue avant même le café. Elle sait exactement
+    quoi faire. Elle n'y arrive pas. Elle recommence à douter d'elle — alors que rien, dans cette scène,
+    ne parlait de paresse.</div>
+    <p>Commencer une tâche n'est pas une question de motivation : c'est une fonction précise, l'<strong>initiation</strong>.
+    Chez certaines, elle demande plus d'ingénierie que chez d'autres — un peu comme certaines mémoires
+    retiennent mieux en images qu'en mots. Ce n'est pas un jugement moral. C'est un fait de fonctionnement.</p>
+    <p>Le problème, la plupart du temps, n'est pas la tâche elle-même : c'est qu'une <strong>aide invisible
+    a disparu</strong> sans que personne ne le remarque. À l'école, un cadre, des consignes découpées,
+    quelqu'un qui rappelait les échéances. En couple, un proche qui organisait la logistique. Plus jeune,
+    une routine posée par quelqu'un d'autre. En grandissant, ces aides s'effacent — et on te demande
+    silencieusement de continuer <em>comme si elles étaient encore là</em>.</p>
+    <div class="pullquote">Retire une aide → une tâche sans outil → confusion, charge, doute, stress,
+    <strong>honte</strong> → « je suis nulle ». Alors qu'il ne te manquait qu'une aide.</div>
+    <p>Le Point du Jour, et ce livre, existent parce que cette chaîne est réelle et documentée — pas parce
+    que tu es « moins capable » que les autres. Le chapitre suivant explique comment on la désamorce.</p>
   </section>
 
   <!-- CH2 -->
   <section class="sheet">
     <span class="kicker">Chapitre 2</span>
-    <h2 class="chap">La philosophie : épouser le cerveau</h2>
+    <h2 class="chap">La philosophie : épouser le cerveau, pas le combattre</h2>
     <p class="chap-sub">On ne redresse pas une personne. On lui rend ses lunettes.</p>
     <p>La plupart des méthodes disent « fais un effort, sois plus disciplinée, force-toi ». Elles
     demandent au myope de lire sans lunettes, puis lui reprochent de ne pas voir. Le Point du Jour fait
     l'inverse : il ne <strong>combat pas</strong> ton fonctionnement, il l'<strong>épouse</strong>. Il
     cherche par où ton cerveau sait déjà faire, et t'ajoute juste l'échafaudage qui manque.</p>
-    <p>Partout, la même chaîne : on retire une aide → tu butes sur une tâche sans l'outil → confusion,
-    charge, doute, stress, <strong>honte</strong> → « je suis nulle » (alors qu'il te manquait une
-    canne). Le Point du Jour remonte cette chaîne à l'envers : il te rend l'aide, et la honte tombe.</p>
     <div class="pullquote">« On ne redresse pas une personne. On lui rend ses lunettes. Et alors —
     elle voit qu'elle savait déjà marcher. »</div>
+    <h3>Trois terrains où cette mécanique se joue le plus souvent</h3>
+    <div class="terrains">
+      <div class="terrain"><span class="em">🧩</span><b>Attention / TDAH</b><p>La tâche est claire dans l'idée, mais le premier geste ne vient pas — pas un manque de volonté, un manque de démarrage.</p></div>
+      <div class="terrain"><span class="em">📖</span><b>Dys</b><p>L'information existe, mais le canal habituel (lire, écrire, retenir vite) coûte plus cher qu'à quelqu'un d'autre.</p></div>
+      <div class="terrain"><span class="em">🌊</span><b>Hypersensibilité / HPI</b><p>Trop d'informations arrivent en même temps, le tri se fait mal, la charge sature avant que la tâche ne soit même commencée.</p></div>
+    </div>
+    <p>Tu n'as pas besoin d'un diagnostic pour que ce chapitre te concerne. Ces trois terrains sont des
+    exemples fréquents, pas une liste fermée — la mécanique (aide manquante → charge → honte) touche
+    toutes les femmes, à des degrés différents, à des moments différents de leur vie.</p>
     <p class="note">Un livret entier est consacré à cette méthode et à ses exercices — « Épouser le
-    cerveau, pas le combattre » et son carnet de lunettes, compagnons de ce Point du Jour.</p>
+    cerveau, pas le combattre » et son carnet compagnon, « Le carnet qui m'accompagne ».</p>
   </section>
 
   <!-- CH3 -->
   <section class="sheet">
     <span class="kicker">Chapitre 3</span>
-    <h2 class="chap">Comment ça marche, pas à pas</h2>
-    <p class="chap-sub">Trois temps, deux minutes.</p>
-    <ol class="steps">
-      <li><div><h3>L'état du moment</h3><p>Trois questions douces pour situer ta capacité réelle : comment
-      tu te sens globalement, ton niveau d'énergie, ta concentration disponible.</p></div></li>
-      <li><div><h3>Le mode s'adapte à toi</h3><p>Si l'énergie ou la concentration sont basses — ou si tu te
-      sens « débordée » — il passe en <strong>mode bref</strong> (moins de questions). Sinon, en
-      <strong>mode complet</strong>. Tu ne forces jamais.</p></div></li>
-      <li><div><h3>Quelques blocs mesurés</h3><p>Pour chaque phrase, tu indiques à quelle fréquence ça te
-      correspond. Rien à réussir : on repère seulement où ça appuie.</p></div></li>
-      <li><div><h3>Ta synthèse</h3><p>Un état global, un repère par domaine, un <strong>mot doux</strong> et
-      une <strong>action</strong> là où ça coince — et le mode conseillé pour la suite.</p></div></li>
-    </ol>
-    <p class="note">À tout moment : « je reviens plus tard » (pause + reprise), retour en arrière, et
-    « en crise » ouvre directement la route protection.</p>
+    <h2 class="chap">Les cinq visages de la charge</h2>
+    <p class="chap-sub">Ce que ton quotidien peut te faire porter, nommé pour ce que c'est.</p>
+    <p>Une même journée difficile peut prendre plusieurs formes. Voici les cinq visages les plus
+    fréquents — pas pour te classer, mais pour que tu puisses mettre un mot dessus, et donc un geste.</p>
+
+    <div class="domain" style="--dc:var(--purple)">
+      <h3><span class="tag">Blocages</span></h3>
+      <p class="ex">« Je sais ce que je dois faire, mais je n'arrive pas à commencer. »</p>
+      <p class="signes"><b>Signes fréquents :</b> tu tournes autour de la tâche sans l'attaquer, tu ouvres autre chose « en attendant », le temps passe sans que rien ne bouge.</p>
+      <p class="act">Ce qui coince, ce n'est presque jamais la tâche elle-même : c'est son flou. Une tâche floue n'a pas de porte d'entrée visible.</p>
+      <p class="act"><b>La lunette : découper.</b></p>
+      <ol class="lunette-steps"><li>Réduire la tâche à sa toute première seconde d'action (pas la première étape — le tout premier geste).</li><li>Se donner un temps court, minuté, juste pour ce geste.</li><li>S'arrêter là si besoin — le reste suivra ou pas, et ce n'est pas grave.</li></ol>
+    </div>
+    <div class="domain" style="--dc:var(--amber)">
+      <h3><span class="tag">Anxiété</span></h3>
+      <p class="ex">« J'ai peur de mal faire, d'être jugée ; je rumine. »</p>
+      <p class="signes"><b>Signes fréquents :</b> tu répètes le même scénario en boucle, tu retardes une décision par peur de te tromper, ton corps est tendu avant même que rien ne se passe.</p>
+      <p class="act">La pression intérieure et l'anticipation prennent toute la place, souvent bien avant que la situation réelle n'arrive.</p>
+      <p class="act"><b>La lunette : rassurer.</b></p>
+      <ol class="lunette-steps"><li>Nommer précisément ce qui est redouté, sans le minimiser ni le dramatiser.</li><li>Baisser la pression du moment : pas de décision lourde à chaud.</li><li>Sécuriser le contexte — un repère, une personne, un horaire — avant de rouvrir le sujet.</li></ol>
+    </div>
+    <div class="domain" style="--dc:var(--red)">
+      <h3><span class="tag">Dysrégulation émotionnelle</span></h3>
+      <p class="ex">« Mes émotions montent vite, j'ai du mal à revenir au calme seule. »</p>
+      <p class="signes"><b>Signes fréquents :</b> une réaction qui te semble disproportionnée après coup, une difficulté à redescendre même quand la cause a disparu, un besoin de bouger ou de pleurer sans savoir pourquoi précisément.</p>
+      <p class="act">Ici, le problème n'est pas l'émotion elle-même — c'est la vitesse à laquelle elle prend toute la place, et le chemin du retour au calme.</p>
+      <p class="act"><b>La lunette : revenir au corps.</b></p>
+      <ol class="lunette-steps"><li>Avant tout mot, une respiration ou un ancrage physique (pieds au sol, mains sur les genoux).</li><li>Laisser l'intensité redescendre, sans analyser pendant qu'elle est encore haute.</li><li>Planifier ou réfléchir seulement une fois le corps redescendu.</li></ol>
+    </div>
+    <div class="domain" style="--dc:var(--rosep)">
+      <h3><span class="tag">Surcharge émotionnelle</span></h3>
+      <p class="ex">« Je suis à saturation, plus de place mentale disponible. »</p>
+      <p class="signes"><b>Signes fréquents :</b> même les petites décisions semblent énormes, tu te sens submergée par des sollicitations d'ordinaire faciles, l'irritabilité ou l'envie de tout arrêter monte.</p>
+      <p class="act">C'est le trop-plein — la capacité disponible est en dessous de ce qu'on te demande, quelle que soit la bonne volonté.</p>
+      <p class="act"><b>La lunette : alléger.</b></p>
+      <ol class="lunette-steps"><li>Passer en mode protection : rien de nouveau n'entre pour l'instant.</li><li>Reporter ce qui peut l'être, sans culpabilité.</li><li>Réduire activement les sollicitations — notifications, demandes, présence sociale.</li></ol>
+    </div>
+    <div class="domain" style="--dc:var(--teal)">
+      <h3><span class="tag">Charge de travail</span></h3>
+      <p class="ex">« Ma liste me semble trop lourde, je ne sais pas par où commencer. »</p>
+      <p class="signes"><b>Signes fréquents :</b> la liste grandit plus vite qu'elle ne se vide, tout te semble aussi urgent que tout le reste, tu commences plusieurs choses sans en finir une.</p>
+      <p class="act">Le problème n'est pas la paresse — c'est que la charge réelle dépasse ce qu'une seule personne, un seul jour, peut raisonnablement absorber.</p>
+      <p class="act"><b>La lunette : prioriser.</b></p>
+      <ol class="lunette-steps"><li>Choisir 1 à 3 choses maximum pour aujourd'hui — le reste sort de la vue.</li><li>Replanifier ce qui peut attendre à une date précise, pour ne plus y penser d'ici là.</li><li>Déléguer ou annuler franchement ce qui peut l'être.</li></ol>
+    </div>
   </section>
 
   <!-- CH4 -->
   <section class="sheet">
     <span class="kicker">Chapitre 4</span>
-    <h2 class="chap">Les cinq domaines qu'il explore</h2>
-    <p class="chap-sub">Cinq facettes de ton fonctionnement, jamais un verdict.</p>
-
-    <div class="domain" style="--dc:var(--purple)">
-      <h3><span class="tag">Blocages</span></h3>
-      <p class="ex">« Je sais ce que je dois faire, mais je n'arrive pas à commencer. »</p>
-      <p class="act">Ce qui coince pour démarrer : tâche floue, hésitation, évitement.
-      <b>La lunette : découper</b> — réduire le flou, une seule action de départ.</p>
-    </div>
-    <div class="domain" style="--dc:var(--amber)">
-      <h3><span class="tag">Anxiété</span></h3>
-      <p class="ex">« J'ai peur de mal faire, d'être jugée ; je rumine. »</p>
-      <p class="act">La pression intérieure et l'anticipation. <b>La lunette : rassurer</b> — baisser
-      la pression, sécuriser le contexte, pas de décision lourde à chaud.</p>
-    </div>
-    <div class="domain" style="--dc:var(--red)">
-      <h3><span class="tag">Dysrégulation émotionnelle</span></h3>
-      <p class="ex">« Mes émotions montent vite, j'ai du mal à revenir au calme seule. »</p>
-      <p class="act">Comment tes émotions circulent. <b>La lunette : revenir au corps</b> — redescendre
-      l'intensité d'abord, planifier ensuite.</p>
-    </div>
-    <div class="domain" style="--dc:var(--rosep)">
-      <h3><span class="tag">Surcharge émotionnelle</span></h3>
-      <p class="ex">« Je suis à saturation, plus de place mentale disponible. »</p>
-      <p class="act">Le trop-plein. <b>La lunette : alléger</b> — passer en mode protection, reporter,
-      réduire les sollicitations.</p>
-    </div>
-    <div class="domain" style="--dc:var(--teal)">
-      <h3><span class="tag">Charge de travail</span></h3>
-      <p class="ex">« Ma liste me semble trop lourde, je ne sais pas par où commencer. »</p>
-      <p class="act">Ce que la charge demande réellement. <b>La lunette : prioriser</b> — 1 à 3 choses,
-      replanifier, déléguer ou annuler si besoin.</p>
-    </div>
-  </section>
-
-  <!-- CH5 -->
-  <section class="sheet">
-    <span class="kicker">Chapitre 5</span>
-    <h2 class="chap">Lire ta synthèse : les quatre états</h2>
-    <p class="chap-sub">Un repère global, pour choisir le bon niveau d'aide.</p>
+    <h2 class="chap">Se lire sans se juger : les quatre états</h2>
+    <p class="chap-sub">Tu traverses les quatre, à différents moments de ta vie — ce n'est pas une échelle de valeur.</p>
     <div class="state"><span class="pin" style="background:var(--teal)"></span>
-      <div><h3>Stable</h3><p>Tu peux avancer à ton rythme — une chose à la fois.</p></div></div>
+      <div><h3>Stable</h3><p>Tu peux avancer à ton rythme — une chose à la fois.</p>
+      <p class="journee">Une journée stable : tu enchaînes tes tâches sans effort de volonté excessif, les imprévus restent gérables.</p></div></div>
     <div class="state"><span class="pin" style="background:var(--amber)"></span>
-      <div><h3>Vigilance</h3><p>Ta charge augmente. Avance en mode réduit, une chose à la fois.</p></div></div>
+      <div><h3>Vigilance</h3><p>Ta charge augmente. Avance en mode réduit, une chose à la fois.</p>
+      <p class="journee">Une journée en vigilance : tu tiens, mais tout demande un peu plus d'effort que d'habitude — c'est le bon moment pour alléger avant que ça bascule.</p></div></div>
     <div class="state"><span class="pin" style="background:var(--red)"></span>
       <div><h3>Surcharge</h3><p>Ta charge dépasse probablement ta capacité du moment. Allège et reporte
-      ce qui peut l'être.</p></div></div>
+      ce qui peut l'être.</p>
+      <p class="journee">Une journée en surcharge : les petites choses deviennent difficiles, l'irritabilité ou la fatigue prennent le dessus — le bon geste est de réduire, pas de pousser plus fort.</p></div></div>
     <div class="state"><span class="pin" style="background:#B85C4E"></span>
       <div><h3>Mode protection</h3><p>Ton système est en saturation. On réduit les demandes et on revient
-      au calme.</p></div></div>
-    <p style="margin-top:16px">Chaque domaine reçoit aussi un repère (sur 15) et un <strong>mode
+      au calme.</p>
+      <p class="journee">Une journée en mode protection : ce n'est pas le moment de « faire », c'est le moment de tenir — respirer, s'entourer, attendre que ça redescende.</p></div></div>
+    <p style="margin-top:16px">Chaque visage de la charge (chapitre 3) s'accompagne aussi d'un <strong>mode
     conseillé</strong> : anxieux → baisser la pression ; débordé → revenir au corps avant de planifier ;
     charge forte → prioriser 1 à 3 choses ; blocage → découper en micro-étapes.</p>
     <p class="note">Ce ne sont pas des notes ni des étiquettes : juste des repères pour savoir sur quoi
     tu peux compter aujourd'hui. Rien n'est figé — c'est une photo de <em>maintenant</em>.</p>
   </section>
 
-  <!-- CH6 -->
+  <!-- CH5 -->
   <section class="sheet">
-    <span class="kicker">Chapitre 6</span>
-    <h2 class="chap">Quand ça déborde : la route protection</h2>
-    <p class="chap-sub">Si ton système est saturé, on ne demande rien de plus.</p>
-    <p>Si tu choisis « en crise », ou si la surcharge est forte, Le Point du Jour bascule aussitôt : il
-    arrête de questionner, propose une <strong>respiration guidée</strong>, et te rappelle que
-    <em>ton système est saturé, et c'est OK</em>. On respire, doucement.</p>
+    <span class="kicker">Chapitre 5</span>
+    <h2 class="chap">Quand le système sature</h2>
+    <p class="chap-sub">Ce n'est pas le moment d'en demander plus.</p>
+    <p>Certains jours, la charge dépasse tout ce qu'on peut raisonnablement tenir. Ton corps et ton esprit
+    envoient alors un signal clair : <em>stop</em>. Ce chapitre n'est pas honteux à lire — c'est même le
+    plus important du livre pour les jours où tu en as vraiment besoin.</p>
+    <h3>La respiration, pas à pas</h3>
+    <ol class="steps">
+      <li><div><h3>Inspire</h3><p>Quatre secondes, par le nez, sans forcer.</p></div></li>
+      <li><div><h3>Retiens</h3><p>Quatre secondes, épaules relâchées.</p></div></li>
+      <li><div><h3>Expire</h3><p>Six secondes, lentement, par la bouche.</p></div></li>
+      <li><div><h3>Recommence</h3><p>Autant de fois que nécessaire — il n'y a pas de bon nombre de fois.</p></div></li>
+    </ol>
     <div class="care">
       <h3>Si tu as besoin de parler, tout de suite</h3>
       <p><span class="num">3114</span> — numéro national de prévention (gratuit, 24h/24, 7j/7).</p>
@@ -262,49 +303,78 @@
     </div>
     <p>Puis, quand tu respires un peu mieux : qu'est-ce que tu t'autorises à <strong>lâcher ou
     reporter</strong> aujourd'hui, sans culpabiliser ? Lâcher, c'est aussi avancer.</p>
-    <p class="note">Le Point du Jour est un outil de soutien — il ne remplace ni un professionnel, ni un
-    service d'urgence.</p>
+    <p class="note">Ce livre et l'application sont des outils de soutien — ils ne remplacent ni un
+    professionnel, ni un service d'urgence.</p>
   </section>
 
-  <!-- CH7 -->
+  <!-- CH6 -->
+  <section class="sheet">
+    <span class="kicker">Chapitre 6</span>
+    <h2 class="chap">Ta boîte à lunettes intérieure</h2>
+    <p class="chap-sub">Six façons dont ton esprit sait déjà s'ajuster, une fois qu'on les nomme.</p>
+    <p>Ce ne sont pas des astuces à apprendre de zéro — ce sont des façons de faire que tu utilises
+    probablement déjà, ailleurs, sans t'en rendre compte. Les nommer, c'est pouvoir les convoquer
+    volontairement, au bon moment, plutôt qu'espérer qu'elles arrivent par hasard.</p>
+    <div class="tools">
+      <div class="tool"><b>Découper</b><p>Casser une tâche floue en micro-étapes, choisir la première.</p>
+        <ol><li>Écris la tâche en une phrase.</li><li>Coupe-la en 3 mini-étapes.</li><li>Ne regarde que la première.</li></ol></div>
+      <div class="tool"><b>Prioriser</b><p>Garder 1 à 3 choses, replanifier ou lâcher le reste.</p>
+        <ol><li>Liste tout, sans trier.</li><li>Entoure 3 choses max.</li><li>Le reste part sur une autre date.</li></ol></div>
+      <div class="tool"><b>Respirer</b><p>Une bulle de respiration pour redescendre l'intensité.</p>
+        <ol><li>4 secondes d'inspiration.</li><li>4 secondes de rétention.</li><li>6 secondes d'expiration.</li></ol></div>
+      <div class="tool"><b>Minuteur</b><p>Un temps court et cadré, pour se lancer sans se noyer.</p>
+        <ol><li>Choisis 10 ou 15 minutes.</li><li>Une seule tâche pendant ce temps.</li><li>Stop à la sonnerie, même inachevé.</li></ol></div>
+      <div class="tool"><b>Vider la tête</b><p>Sortir tout ce qui tourne : écrit, dit, visible.</p>
+        <ol><li>Note tout, en vrac, sans ordre.</li><li>Relis une fois.</li><li>Range ou jette ce qui n'a pas besoin d'action.</li></ol></div>
+      <div class="tool"><b>Check-list</b><p>Cocher, voir le chemin, alléger la charge mentale.</p>
+        <ol><li>Étapes courtes, pas des objectifs flous.</li><li>Coche au fur et à mesure.</li><li>Regarde ce qui est fait, pas que ce qui reste.</li></ol></div>
+    </div>
+    <p class="note">Une seule lunette à la fois suffit. Ce n'est pas une question de tout appliquer d'un
+    coup — c'est une question de savoir laquelle porter, aujourd'hui, pour ce que tu traverses.</p>
+  </section>
+
+  <!-- CH7 : mode d'emploi condensé -->
   <section class="sheet">
     <span class="kicker">Chapitre 7</span>
-    <h2 class="chap">Ta boîte à outils & ton profil</h2>
-    <p class="chap-sub">Des cannes concrètes, adaptées à ta façon de fonctionner.</p>
-    <div class="tools">
-      <div class="tool"><b>Découper</b><p>Casser une tâche floue en micro-étapes, choisir la première.</p></div>
-      <div class="tool"><b>Prioriser</b><p>Garder 1 à 3 choses, replanifier ou lâcher le reste.</p></div>
-      <div class="tool"><b>Respirer</b><p>Une bulle de respiration pour redescendre l'intensité.</p></div>
-      <div class="tool"><b>Minuteur</b><p>Un temps court et cadré, pour se lancer sans se noyer.</p></div>
-      <div class="tool"><b>Vider la tête</b><p>Sortir tout ce qui tourne : écrit, dit, visible.</p></div>
-      <div class="tool"><b>Check-list</b><p>Cocher, voir le chemin, alléger la charge mentale.</p></div>
+    <h2 class="chap">Le Point du Jour, en pratique</h2>
+    <p class="chap-sub">Ce que tu viens de lire, appliqué en deux minutes.</p>
+    <p>Le Point du Jour est l'application qui prend, en quelques questions simples, la mesure de ton état
+    du moment — une question par écran, un ton qui ne culpabilise jamais. Trois temps : ton état du
+    moment, un mode qui s'adapte à ta capacité réelle, puis ta synthèse.</p>
+    <h3>Exemple de synthèse</h3>
+    <div class="synthese-sample">
+      <div class="label">Ta photo du jour</div>
+      <div class="etat">Vigilance</div>
+      <p class="ligne"><b>Domaine qui appuie le plus :</b> Charge de travail (11/15)</p>
+      <p class="ligne"><b>Mot doux :</b> « Tu tiens beaucoup, et ça se voit dans les chiffres — pas dans un jugement. »</p>
+      <p class="ligne"><b>Action proposée :</b> Choisis 3 choses pour aujourd'hui. Le reste attend.</p>
     </div>
-    <h3>Un profil qui personnalise</h3>
-    <p>Tu peux indiquer ce qui te ressemble — <strong>TDAH</strong>, attention fragile,
-    <strong>dys</strong>, sensibilité au bruit et à l'agitation, tête qui sur-réfléchit (HPI) — et
-    l'outil met en avant les cannes les plus utiles pour toi (et active le confort dys si besoin).</p>
-    <p class="note">Ce n'est pas une case qui t'enferme : juste une façon de te proposer d'abord ce qui
-    t'aide le plus.</p>
+    <h3>Ton profil, pour des suggestions plus justes</h3>
+    <p>Tu peux indiquer ce qui te ressemble — TDAH, attention fragile, dys, sensibilité au bruit et à
+    l'agitation, tête qui sur-réfléchit (HPI) — et l'outil met en avant les lunettes les plus utiles pour
+    toi. Ce n'est pas une case qui t'enferme : tu peux le changer à tout moment, ou ne rien cocher.</p>
+    <h3>Quand le faire ?</h3>
+    <p>Quand tu en as besoin : un jour de blocage, une semaine difficile, ou pour prendre l'habitude de
+    t'écouter. Pas d'obligation quotidienne. Deux minutes suffisent.</p>
+    <h3>100 % privé, hors ligne</h3>
+    <p>Aucun compte, aucun serveur, <strong>aucune donnée envoyée</strong>. Tout reste sur ton appareil,
+    y compris l'historique de tes points. Sur téléphone, « Ajouter à l'écran d'accueil » le rend
+    accessible même hors connexion.</p>
+    <h3>Avec le carnet compagnon</h3>
+    <p>Fais ton point → repère ce qui coince → pose une lunette dans <strong>« Le carnet qui
+    m'accompagne »</strong>. Refais ton point quelques jours plus tard pour observer, en douceur, le mouvement.</p>
   </section>
 
-  <!-- CH8 -->
+  <!-- CH8 : FAQ -->
   <section class="sheet">
     <span class="kicker">Chapitre 8</span>
-    <h2 class="chap">Bien l'utiliser au quotidien</h2>
-    <p class="chap-sub">Un petit rituel doux, à ta main.</p>
-    <h3>Quand le faire ?</h3>
-    <p>Quand tu en as besoin : un jour de blocage, une semaine difficile, ou simplement pour prendre
-    l'habitude de t'écouter. Pas d'obligation d'y aller tous les jours. Deux minutes suffisent.</p>
-    <h3>100 % privé, hors ligne</h3>
-    <p>Aucun compte, aucun serveur, <strong>aucune donnée envoyée</strong>. Tout reste sur ton appareil.
-    Il fonctionne sans wifi, garde l'historique de tes points, et permet de mettre en pause puis de
-    reprendre.</p>
-    <h3>L'installer comme une app</h3>
-    <p>Sur téléphone : « Ajouter à l'écran d'accueil » — ton Point du Jour est alors toujours à portée
-    de main, même hors connexion.</p>
-    <h3>Avec le workbook</h3>
-    <p>Fais ton point → repère ce qui coince → pose une lunette dans ton <strong>carnet de lunettes</strong>
-    (le workbook). Refais ton point quelques jours plus tard pour observer, en douceur, le mouvement.</p>
+    <h2 class="chap">Questions fréquentes</h2>
+    <div class="faq"><h3>Et si je n'ai vraiment pas deux minutes ?</h3><p>Le mode bref existe pour ça — trois questions suffisent. Et un point non fait aujourd'hui n'abîme rien : tu reprends quand tu peux.</p></div>
+    <div class="faq"><h3>Et si mes réponses changent d'un jour à l'autre ?</h3><p>C'est normal, et même souhaité — l'outil mesure un instant, pas une identité fixe.</p></div>
+    <div class="faq"><h3>À quelle fréquence dois-je le faire ?</h3><p>Il n'y a pas de bonne fréquence. Certaines l'utilisent tous les jours, d'autres seulement dans les jours difficiles.</p></div>
+    <div class="faq"><h3>Je suis déjà suivie par un professionnel — ça sert à quoi en plus ?</h3><p>Ça peut t'aider à repérer, entre deux rendez-vous, ce qui bouge — et à en parler plus précisément. Ça ne le remplace jamais.</p></div>
+    <div class="faq"><h3>Je n'ai pas de trouble diagnostiqué, ça me concerne quand même ?</h3><p>Oui. Blocage, anxiété, surcharge et fatigue mentale touchent toutes les femmes, diagnostic ou non.</p></div>
+    <div class="faq"><h3>Mes données sont-elles vraiment privées ?</h3><p>Oui — rien ne sort de ton appareil, il n'y a ni compte ni serveur.</p></div>
   </section>
 
   <!-- CLÔTURE -->
