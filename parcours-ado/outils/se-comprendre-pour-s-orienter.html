@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Se comprendre pour s'orienter — Educa Typique</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Lato:wght@300;400;700&display=swap');
+  :root{
+    --sarcelle:#3C6478; --sarcelle-fonce:#2E4E5E;
+    --ciel:#B4F0F0; --lavande:#C8A0F0; --menthe:#B4F0C8; --jaune:#F0F078;
+    --charbon:#4A4540; --taupe:#7D7269; --beige:#F0E4D3; --blanc-casse:#FAF7F2;
+    --titre:'Quicksand',sans-serif; --corps:'Lato',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  body{margin:0;background:var(--blanc-casse);font-family:var(--corps);color:var(--charbon);line-height:1.6;}
+  .wrap{max-width:800px;margin:0 auto;padding:26px 24px 70px;}
+  .toolbar{position:fixed;top:14px;right:14px;display:flex;gap:8px;z-index:1000;}
+  .toolbar button{background:var(--sarcelle);color:#fff;border:none;padding:9px 16px;border-radius:999px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:var(--corps);}
+  .toolbar button.ghost{background:#fff;color:var(--charbon);border:1px solid var(--beige);}
+
+  .couverture{background:var(--sarcelle);border-radius:22px;padding:38px 34px;text-align:center;color:#fff;margin-bottom:24px;}
+  .couverture .logo{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px;}
+  .couverture .logo span{font-family:var(--titre);font-weight:700;font-size:1.3rem;letter-spacing:.5px;}
+  .couverture h1{font-family:var(--titre);font-weight:700;font-size:2rem;margin:.3em 0 .15em;line-height:1.15;}
+  .couverture .subtitle{font-family:var(--corps);font-style:italic;font-size:1.02rem;opacity:.92;margin:0 0 16px;}
+  .couverture .badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:6px 18px;font-size:.78rem;font-weight:700;letter-spacing:.4px;}
+
+  .mot{background:#fff;border-left:6px solid var(--sarcelle);border-radius:14px;padding:18px 22px;margin:20px 0;font-size:.93rem;box-shadow:0 3px 14px rgba(74,69,64,.06);}
+  .mot .signature{font-family:var(--titre);font-weight:700;color:var(--sarcelle);margin-top:8px;font-size:.9rem;}
+
+  .sommaire{background:#fff;border-radius:14px;padding:18px 22px;margin:20px 0;box-shadow:0 3px 14px rgba(74,69,64,.06);}
+  .sommaire h3{font-family:var(--titre);font-weight:700;color:var(--sarcelle);margin:0 0 10px;font-size:1.05rem;}
+  .sommaire .toc{display:flex;flex-wrap:wrap;gap:7px;}
+  .sommaire .toc a{background:var(--blanc-casse);border:1px solid var(--beige);color:var(--sarcelle);padding:6px 13px;border-radius:999px;text-decoration:none;font-size:12px;font-weight:700;}
+
+  .module{background:#fff;border-radius:20px;margin:26px 0;box-shadow:0 3px 14px rgba(74,69,64,.07);overflow:hidden;scroll-margin-top:20px;}
+  .module .bandeau{background:var(--sarcelle);padding:16px 22px;display:flex;align-items:center;gap:12px;}
+  .module .num{flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:#fff;color:var(--sarcelle);display:flex;align-items:center;justify-content:center;font-family:var(--titre);font-weight:700;font-size:1rem;}
+  .module .bandeau h2{color:#fff;font-family:var(--titre);font-weight:700;font-size:1.2rem;margin:0;}
+  .module .corps{padding:20px 24px;}
+  .module .pill{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 13px;border-radius:999px;margin:-8px 0 14px;color:var(--charbon);}
+  .pill.fonce{background:var(--sarcelle);color:#fff;}
+  .pill.ciel{background:var(--ciel);}
+  .pill.lavande{background:var(--lavande);}
+  .pill.menthe{background:var(--menthe);}
+  .pill.jaune{background:var(--jaune);}
+
+  .objectif{background:var(--beige);border:1px dashed #d8c4a5;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:.87rem;}
+
+  .regard-tnd{background:linear-gradient(135deg,#fff,var(--ciel));border:2px solid var(--sarcelle);border-radius:14px;padding:14px 18px;margin:16px 0;}
+  .regard-tnd .tag{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--sarcelle);color:#fff;padding:3px 11px;border-radius:999px;margin-bottom:8px;}
+  .regard-tnd p{margin:0;font-size:.86rem;}
+
+  .champ{margin-bottom:12px;}
+  label{display:block;font-weight:700;font-size:.82rem;color:var(--sarcelle);margin-bottom:4px;}
+  input[type=text],textarea,select{width:100%;border:1.5px solid var(--beige);border-radius:12px;padding:9px 12px;font-family:var(--corps);font-size:.92rem;color:var(--charbon);background:var(--blanc-casse);}
+  textarea{resize:vertical;min-height:50px;}
+
+  .checklist{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;}
+  .checklist label.item{display:flex;align-items:center;gap:7px;background:var(--blanc-casse);border:1px solid var(--beige);border-radius:10px;padding:6px 10px;font-size:.83rem;font-weight:400;color:var(--charbon);}
+  .checklist label.item input{width:15px;height:15px;accent-color:var(--sarcelle);}
+  .souscat{font-family:var(--titre);font-weight:700;color:var(--sarcelle);font-size:1rem;margin:14px 0 6px;}
+
+  .scale{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
+  .scale .dom{flex:1 1 240px;font-size:.85rem;}
+  .scale .radios{display:flex;gap:5px;}
+  .scale .radios label{display:flex;flex-direction:column;align-items:center;font-size:.68rem;color:var(--taupe);font-weight:400;margin:0;}
+  .scale input[type=radio]{width:15px;height:15px;accent-color:var(--sarcelle);}
+
+  .duo{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;font-size:.85rem;margin-bottom:8px;}
+  .duo .vs{text-align:center;color:var(--taupe);font-size:.75rem;}
+
+  .exo{border-top:4px solid var(--menthe);background:var(--blanc-casse);border-radius:14px;padding:16px 18px;margin-bottom:12px;}
+  .exo h3{font-family:var(--titre);color:var(--sarcelle);margin:0 0 8px;font-size:1.02rem;}
+
+  .synth{background:linear-gradient(135deg,#fff,var(--beige));border:1px solid var(--sarcelle);border-radius:16px;padding:18px 22px;margin-top:14px;}
+  .synth h3{font-family:var(--titre);color:var(--sarcelle);margin:0 0 8px;font-size:1.05rem;}
+
+  .spirituel{background:var(--blanc-casse);border:1px dashed var(--lavande);border-radius:14px;padding:16px 20px;margin:16px 0;}
+  .spirituel .tag{display:inline-block;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;background:var(--lavande);color:#fff;border-radius:999px;padding:2px 10px;margin-bottom:8px;}
+  .spirituel p{margin:6px 0 0;font-size:.87rem;font-style:italic;color:var(--charbon);}
+  .spirituel .note{font-style:normal;font-size:.76rem;color:var(--taupe);margin-top:8px;}
+
+  .portrait{background:var(--sarcelle);color:#fff;border-radius:20px;padding:26px 28px;margin:30px 0;}
+  .portrait h2{font-family:var(--titre);font-weight:700;color:#fff;font-size:1.4rem;margin:0 0 6px;}
+  .portrait label{color:var(--ciel);}
+  .portrait input[type=text],.portrait textarea{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff;}
+  .portrait .rappel{font-style:italic;font-size:.85rem;color:var(--ciel);margin-top:14px;opacity:.95;}
+
+  .cloture{background:var(--sarcelle);color:#fff;border-radius:20px;padding:24px 28px;margin:26px 0;text-align:center;}
+  .cloture p{margin:6px 0;font-size:.93rem;}
+  .cloture .signature{font-family:var(--titre);font-weight:700;margin-top:10px;}
+
+  footer{text-align:center;font-size:10px;color:var(--taupe);margin-top:24px;border-top:1px solid var(--beige);padding-top:12px;}
+  @media print{.toolbar{display:none;}body{background:#fff;}.wrap{padding:10mm 12mm;}.module,.synth,.portrait,.cloture,.mot,.sommaire{break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button onclick="window.print()">🖨️ Imprimer / PDF</button>
+  <button class="ghost" onclick="viderChamps()">Vider les champs</button>
+</div>
+<div class="wrap">
+
+  <div class="couverture">
+    <div class="logo">
+      <svg width="22" height="26" viewBox="0 0 22 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="11" cy="4" r="3" fill="#fff"/>
+        <path d="M2 24C2 15 6 10 11 10C16 10 20 15 20 24" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span>educatypique</span>
+    </div>
+    <h1>Se comprendre pour s'orienter</h1>
+    <p class="subtitle">Un parcours d'exploration, pas un test qui te classe</p>
+    <span class="badge">Parcours Ados · module complémentaire</span>
+  </div>
+
+  <div class="mot">
+    <p>Hey, toi qui te poses des questions sur ton avenir 🌱</p>
+    <p>Ce cahier n'est pas fait pour te dire quoi devenir. Il est fait pour t'aider à mieux te connaître : tes forces, ce qui te donne de l'énergie, ce qui compte pour toi. Tu n'as pas besoin de tout remplir d'un coup, ni de tout savoir aujourd'hui — on avance étape par étape, à ton rythme. Il n'y a pas de bonne ou de mauvaise réponse ici, juste la tienne.</p>
+    <div class="signature">Nawel — Educa Typique</div>
+  </div>
+
+  <div class="sommaire">
+    <h3>Sommaire</h3>
+    <div class="toc">
+      <a href="#o1">1 · Roue de vie</a><a href="#o2">2 · Mes forces</a><a href="#o3">3 · Réussites</a>
+      <a href="#o4">4 · Énergie</a><a href="#o5">5 · Familles d'intérêts</a><a href="#o6">6 · Apprentissage</a>
+      <a href="#o7">7 · Environnements</a><a href="#o8">8 · Valeurs</a><a href="#o9">9 · Journée idéale</a>
+      <a href="#o10">10 · Micro-expériences</a><a href="#o11">11 · Futurs moi</a><a href="#o12">12 · Plan</a>
+      <a href="#portrait">Portrait</a>
+    </div>
+  </div>
+
+  <div class="module" id="o1">
+    <div class="bandeau"><span class="num">1</span><h2>La roue de ma vie d'ado</h2></div>
+    <div class="corps">
+      <span class="pill menthe">Progrès · équilibre</span>
+      <div class="objectif">Repérer les domaines où tu te sens bien, et ceux qui méritent plus d'attention.</div>
+      <div class="scale"><div class="dom">Ma vie scolaire</div><div class="radios"><label><input type="radio" name="roue1">0</label><label><input type="radio" name="roue1">3</label><label><input type="radio" name="roue1">5</label><label><input type="radio" name="roue1">7</label><label><input type="radio" name="roue1">10</label></div></div>
+      <div class="scale"><div class="dom">Mes relations avec mes amis</div><div class="radios"><label><input type="radio" name="roue2">0</label><label><input type="radio" name="roue2">3</label><label><input type="radio" name="roue2">5</label><label><input type="radio" name="roue2">7</label><label><input type="radio" name="roue2">10</label></div></div>
+      <div class="scale"><div class="dom">Ma relation avec ma famille</div><div class="radios"><label><input type="radio" name="roue3">0</label><label><input type="radio" name="roue3">3</label><label><input type="radio" name="roue3">5</label><label><input type="radio" name="roue3">7</label><label><input type="radio" name="roue3">10</label></div></div>
+      <div class="scale"><div class="dom">Ma confiance en moi</div><div class="radios"><label><input type="radio" name="roue4">0</label><label><input type="radio" name="roue4">3</label><label><input type="radio" name="roue4">5</label><label><input type="radio" name="roue4">7</label><label><input type="radio" name="roue4">10</label></div></div>
+      <div class="scale"><div class="dom">Ma motivation</div><div class="radios"><label><input type="radio" name="roue5">0</label><label><input type="radio" name="roue5">3</label><label><input type="radio" name="roue5">5</label><label><input type="radio" name="roue5">7</label><label><input type="radio" name="roue5">10</label></div></div>
+      <div class="scale"><div class="dom">Mon organisation</div><div class="radios"><label><input type="radio" name="roue6">0</label><label><input type="radio" name="roue6">3</label><label><input type="radio" name="roue6">5</label><label><input type="radio" name="roue6">7</label><label><input type="radio" name="roue6">10</label></div></div>
+      <div class="scale"><div class="dom">Mes loisirs</div><div class="radios"><label><input type="radio" name="roue7">0</label><label><input type="radio" name="roue7">3</label><label><input type="radio" name="roue7">5</label><label><input type="radio" name="roue7">7</label><label><input type="radio" name="roue7">10</label></div></div>
+      <div class="scale"><div class="dom">Ma santé et mon énergie</div><div class="radios"><label><input type="radio" name="roue8">0</label><label><input type="radio" name="roue8">3</label><label><input type="radio" name="roue8">5</label><label><input type="radio" name="roue8">7</label><label><input type="radio" name="roue8">10</label></div></div>
+      <div class="scale"><div class="dom">Ma vision de l'avenir</div><div class="radios"><label><input type="radio" name="roue9">0</label><label><input type="radio" name="roue9">3</label><label><input type="radio" name="roue9">5</label><label><input type="radio" name="roue9">7</label><label><input type="radio" name="roue9">10</label></div></div>
+      <div class="scale"><div class="dom">Ma capacité à exprimer mes besoins</div><div class="radios"><label><input type="radio" name="roue10">0</label><label><input type="radio" name="roue10">3</label><label><input type="radio" name="roue10">5</label><label><input type="radio" name="roue10">7</label><label><input type="radio" name="roue10">10</label></div></div>
+      <div class="exo"><h3>À toi de jouer</h3>
+        <div class="champ"><label>Dans quel domaine ai-je donné la meilleure note ? Qu'est-ce qui fonctionne bien ?</label><textarea></textarea></div>
+        <div class="champ"><label>Dans quel domaine ai-je donné la note la plus basse ? Qu'est-ce qui explique cette note ?</label><textarea></textarea></div>
+        <div class="champ"><label>Quel petit changement pourrait améliorer cette note d'un point ? De quelle aide aurais-je besoin ?</label><textarea></textarea></div>
+      </div>
+      <div class="synth"><h3>Mon action</h3>
+        <div class="champ"><label>Mon domaine prioritaire</label><input type="text"></div>
+        <div class="champ"><label>Mon objectif</label><input type="text"></div>
+        <div class="champ"><label>La première action que je vais réaliser</label><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="module" id="o2">
+    <div class="bandeau"><span class="num">2</span><h2>La carte de mes forces</h2></div>
+    <div class="corps">
+      <span class="pill fonce">Motivation · confiance</span>
+      <div class="objectif">Reconnaître tes qualités et tes compétences, même quand tu manques de confiance.</div>
+
+      <div class="regard-tnd">
+        <span class="tag">Le regard TND</span>
+        <p>Si tu fonctionnes différemment (attention, énergie, sensibilité...), certaines de tes forces sont parfois moins visibles à l'école, mais bien réelles ailleurs : hyperfocus sur ce qui te passionne, créativité, sens de l'observation, honnêteté directe. Ce questionnaire cherche aussi celles-là.</p>
+      </div>
+
+      <div class="souscat">Je sais comprendre</div>
+      <div class="checklist">
+        <label class="item"><input type="checkbox">Je comprends rapidement une consigne.</label>
+        <label class="item"><input type="checkbox">Je fais facilement des liens entre plusieurs idées.</label>
+        <label class="item"><input type="checkbox">J'aime chercher pourquoi les choses fonctionnent.</label>
+        <label class="item"><input type="checkbox">Je pose beaucoup de questions.</label>
+        <label class="item"><input type="checkbox">Je remarque des détails que les autres ne voient pas.</label>
+      </div>
+      <div class="souscat">Je sais créer</div>
+      <div class="checklist">
+        <label class="item"><input type="checkbox">J'aime inventer des histoires ou des concepts.</label>
+        <label class="item"><input type="checkbox">Je trouve souvent plusieurs solutions à un problème.</label>
+        <label class="item"><input type="checkbox">J'aime dessiner, écrire, construire ou imaginer.</label>
+        <label class="item"><input type="checkbox">J'aime personnaliser ce que je fais.</label>
+        <label class="item"><input type="checkbox">Je préfère créer plutôt que reproduire.</label>
+      </div>
+      <div class="souscat">Je sais aider</div>
+      <div class="checklist">
+        <label class="item"><input type="checkbox">Les autres viennent facilement me parler.</label>
+        <label class="item"><input type="checkbox">Je sais écouter sans interrompre.</label>
+        <label class="item"><input type="checkbox">Je remarque quand quelqu'un ne va pas bien.</label>
+        <label class="item"><input type="checkbox">J'aime expliquer aux autres.</label>
+        <label class="item"><input type="checkbox">J'aime rendre service.</label>
+      </div>
+      <div class="souscat">Je sais agir</div>
+      <div class="checklist">
+        <label class="item"><input type="checkbox">Je prends facilement des initiatives.</label>
+        <label class="item"><input type="checkbox">Je n'ai pas peur d'essayer.</label>
+        <label class="item"><input type="checkbox">Je préfère apprendre en faisant.</label>
+        <label class="item"><input type="checkbox">Je sais me débrouiller dans une situation nouvelle.</label>
+        <label class="item"><input type="checkbox">Je persévère quand quelque chose m'intéresse.</label>
+      </div>
+      <div class="souscat">Je sais organiser</div>
+      <div class="checklist">
+        <label class="item"><input type="checkbox">J'aime préparer les choses à l'avance.</label>
+        <label class="item"><input type="checkbox">Je fais des listes ou des plannings.</label>
+        <label class="item"><input type="checkbox">Je remarque quand quelque chose manque.</label>
+        <label class="item"><input type="checkbox">Je sais répartir les tâches.</label>
+        <label class="item"><input type="checkbox">Je préfère quand les règles sont claires.</label>
+      </div>
+
+      <div class="exo"><h3>À toi de jouer</h3>
+        <div class="champ"><label>Quelle qualité je reconnais facilement chez moi ?</label><textarea></textarea></div>
+        <div class="champ"><label>Quelle qualité les autres voient-ils chez moi ?</label><textarea></textarea></div>
+        <div class="champ"><label>Pour quoi vient-on me demander de l'aide ?</label><textarea></textarea></div>
+        <div class="champ"><label>Quelle réussite récente me rend fier·e ? Qu'ai-je appris grâce à elle ?</label><textarea></textarea></div>
+        <div class="champ"><label>Quelle force aimerais-je davantage développer ?</label><textarea></textarea></div>
+      </div>
+
+      <div class="synth"><h3>Regard croisé</h3>
+        <p style="font-size:.85rem;margin:0 0 8px;">Demande à un parent, un enseignant ou un proche : « Quelles sont les trois forces que tu observes chez moi ? »</p>
+        <div class="champ"><label>Ses trois forces observées</label><input type="text"></div>
+        <div class="champ"><label>Ce que je remarque en comparant, sans chercher qui a raison</label><textarea></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="module" id="o3">
+    <div class="bandeau"><span class="num">3</span><h2>Mon histoire de réussites</h2></div>
+    <div class="corps">
+      <span class="pill jaune">Apprentissage</span>
+      <div class="objectif">Faire émerger tes compétences à partir d'expériences concrètes — devoir, sport, création, projet, difficulté surmontée, aide apportée, événement personnel.</div>
+      <div class="exo"><h3>Réussite 1</h3>
+        <div class="champ"><label>Situation — qu'est-ce que je devais faire ?</label><textarea></textarea></div>
+        <div class="champ"><label>Difficulté — qu'est-ce qui était difficile ?</label><textarea></textarea></div>
+        <div class="champ"><label>Action — qu'ai-je fait concrètement ?</label><textarea></textarea></div>
+        <div class="champ"><label>Ressources — quelles qualités ou compétences ai-je utilisées ?</label><textarea></textarea></div>
+        <div class="champ"><label>Résultat — qu'ai-je obtenu ?</label><textarea></textarea></div>
+        <div class="champ"><label>Apprentissage — qu'ai-je découvert sur moi ?</label><textarea></textarea></div>
+      </div>
+      <div class="exo"><h3>Réussite 2</h3>
+        <div class="champ"><label>Situation</label><textarea></textarea></div>
+        <div class="champ"><label>Difficulté</label><textarea></textarea></div>
+        <div class="champ"><label>Action</label><textarea></textarea></div>
+        <div class="champ"><label>Ressources</label><textarea></textarea></div>
+        <div class="champ"><label>Résultat</label><textarea></textarea></div>
+        <div class="champ"><label>Apprentissage</label><textarea></textarea></div>
+      </div>
+      <div class="exo"><h3>Réussite 3</h3>
+        <div class="champ"><label>Situation</label><textarea></textarea></div>
+        <div class="champ"><label>Difficulté</label><textarea></textarea></div>
+        <div class="champ"><label>Action</label><textarea></textarea></div>
+        <div class="champ"><label>Ressources</label><textarea></textarea></div>
+        <div class="champ"><label>Résultat</label><textarea></textarea></div>
+        <div class="champ"><label>Apprentissage</label><textarea></textarea></div>
+      </div>
+      <div class="synth"><h3>Synthèse</h3><label>Les compétences qui reviennent le plus souvent dans mes réussites</label><textarea></textarea></div>
+    </div>
+  </div>
+
+  <div class="module" id="o4">
+    <div class="bandeau"><span class="num">4</span><h2>Le journal d'énergie</h2></div>
+    <div class="corps">
+      <span class="pill ciel">Apaisement · régulation</span>
+      <div class="objectif">Pendant 7 jours, note les activités principales et si elles te donnent (+), ne changent rien (=), ou te coûtent (–) de l'énergie.</div>
+
+      <div class="regard-tnd">
+        <span class="tag">Le regard TND</span>
+        <p>La fatigue n'est pas toujours physique : le bruit, la lumière, le changement d'activité imprévu ou le trop-plein social peuvent coûter de l'énergie même sans effort visible. Ce journal t'aide à repérer ce qui te coûte vraiment, pas seulement ce qui « devrait » être fatigant.</p>
+      </div>
+
+      <div class="exo"><h3>Jour 1 à 7 — une ligne par activité marquante</h3>
+        <div class="champ"><label>Activité / ressenti / énergie avant → après / pourquoi selon moi</label><textarea style="min-height:110px;" placeholder="ex. : Lundi — cours de sport — content — 5 → 8 — j'aime bouger et voir mes progrès"></textarea></div>
+      </div>
+      <div class="champ"><label>Quelles activités me donnent le plus d'énergie ?</label><textarea></textarea></div>
+      <div class="champ"><label>Quelles activités me fatiguent ?</label><textarea></textarea></div>
+      <div class="champ"><label>Est-ce l'activité elle-même ou la manière de la réaliser qui me fatigue ?</label><textarea></textarea></div>
+      <div class="champ"><label>Je préfère agir seul, accompagné ou en groupe ?</label><input type="text"></div>
+      <div class="champ"><label>Quels environnements favorisent ma concentration ?</label><textarea></textarea></div>
+      <div class="champ"><label>À quel moment de la journée suis-je le plus efficace ?</label><input type="text"></div>
+    </div>
+  </div>
+
+  <div class="module" id="o5">
+    <div class="bandeau"><span class="num">5</span><h2>Les familles d'intérêts</h2></div>
+    <div class="corps">
+      <span class="pill lavande">Intériorité</span>
+      <div class="objectif">Pour chaque phrase, coche ce qui te correspond.</div>
+      <div class="souscat">Réaliser et fabriquer</div>
+      <div class="checklist"><label class="item"><input type="checkbox">J'aime construire ou réparer.</label><label class="item"><input type="checkbox">J'aime utiliser mes mains.</label><label class="item"><input type="checkbox">J'aime voir rapidement le résultat de mon travail.</label><label class="item"><input type="checkbox">J'aime les activités concrètes.</label><label class="item"><input type="checkbox">J'aime comprendre comment les objets fonctionnent.</label></div>
+      <div class="souscat">Rechercher et comprendre</div>
+      <div class="checklist"><label class="item"><input type="checkbox">J'aime résoudre des énigmes.</label><label class="item"><input type="checkbox">J'aime analyser des informations.</label><label class="item"><input type="checkbox">J'aime faire des expériences.</label><label class="item"><input type="checkbox">J'aime comprendre les causes d'un problème.</label><label class="item"><input type="checkbox">J'aime apprendre sur des sujets complexes.</label></div>
+      <div class="souscat">Créer et imaginer</div>
+      <div class="checklist"><label class="item"><input type="checkbox">J'aime dessiner, écrire ou inventer.</label><label class="item"><input type="checkbox">J'aime avoir de la liberté dans ce que je fais.</label><label class="item"><input type="checkbox">J'aime exprimer mes idées.</label><label class="item"><input type="checkbox">J'aime les projets originaux.</label><label class="item"><input type="checkbox">J'aime transformer une idée en création.</label></div>
+      <div class="souscat">Aider et transmettre</div>
+      <div class="checklist"><label class="item"><input type="checkbox">J'aime écouter les autres.</label><label class="item"><input type="checkbox">J'aime expliquer.</label><label class="item"><input type="checkbox">J'aime accompagner quelqu'un.</label><label class="item"><input type="checkbox">J'aime travailler avec des enfants ou des personnes fragiles.</label><label class="item"><input type="checkbox">J'aime me sentir utile.</label></div>
+      <div class="souscat">Convaincre et entreprendre</div>
+      <div class="checklist"><label class="item"><input type="checkbox">J'aime défendre mes idées.</label><label class="item"><input type="checkbox">J'aime organiser un projet.</label><label class="item"><input type="checkbox">J'aime prendre des décisions.</label><label class="item"><input type="checkbox">J'aime motiver un groupe.</label><label class="item"><input type="checkbox">J'aime relever des défis.</label></div>
+      <div class="souscat">Organiser et sécuriser</div>
+      <div class="checklist"><label class="item"><input type="checkbox">J'aime classer et structurer.</label><label class="item"><input type="checkbox">J'aime suivre une méthode.</label><label class="item"><input type="checkbox">J'aime vérifier que tout est correct.</label><label class="item"><input type="checkbox">J'aime anticiper.</label><label class="item"><input type="checkbox">J'aime travailler avec des consignes précises.</label></div>
+      <div class="synth"><h3>Synthèse</h3>
+        <div class="champ"><label>Mes deux familles d'intérêts principales</label><input type="text"></div>
+        <div class="champ"><label>Ma troisième famille complémentaire</label><input type="text"></div>
+        <div class="champ"><label>Les activités concrètes qui correspondent</label><textarea></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="module" id="o6">
+    <div class="bandeau"><span class="num">6</span><h2>Mon profil d'apprentissage</h2></div>
+    <div class="corps">
+      <span class="pill jaune">Apprentissage</span>
+      <div class="objectif">Repérer les stratégies qui facilitent ton apprentissage.</div>
+
+      <div class="regard-tnd">
+        <span class="tag">Le regard TND</span>
+        <p>Il n'y a pas une seule bonne façon d'apprendre. Certains profils ont besoin de bouger pour se concentrer, d'un support visuel plutôt qu'une longue explication orale, ou de pauses plus fréquentes — ce n'est pas un manque de volonté, c'est un mode de fonctionnement à connaître et à respecter.</p>
+      </div>
+
+      <div class="champ"><label>Mise en situation — je dois apprendre une nouvelle notion, que fais-je en premier ?</label>
+        <div class="checklist" style="grid-template-columns:1fr;">
+          <label class="item"><input type="checkbox">Je lis le cours.</label><label class="item"><input type="checkbox">Je demande une explication.</label>
+          <label class="item"><input type="checkbox">Je regarde une vidéo.</label><label class="item"><input type="checkbox">Je cherche un exemple.</label>
+          <label class="item"><input type="checkbox">Je fais un exercice.</label><label class="item"><input type="checkbox">Je crée une fiche.</label>
+          <label class="item"><input type="checkbox">J'explique la notion à quelqu'un.</label>
+        </div>
+      </div>
+      <div class="champ"><label>Auto-évaluation libre (1 à 5) — je comprends mieux avec un exemple concret / j'ai besoin d'un schéma / d'entendre une explication / je retiens mieux en écrivant / en pratiquant / en expliquant / j'aime avancer étape par étape / comprendre l'ensemble avant les détails / j'ai besoin de calme / de pauses régulières / d'un objectif précis / je sais demander de l'aide</label><textarea style="min-height:80px;"></textarea></div>
+      <div class="synth"><h3>Mon mode d'emploi personnel</h3>
+        <div class="champ"><label>Pour apprendre efficacement, j'ai besoin de</label><textarea></textarea></div>
+        <div class="champ"><label>Ce qui me déconcentre</label><textarea></textarea></div>
+        <div class="champ"><label>Quand je bloque, la première stratégie à tester</label><input type="text"></div>
+        <div class="champ"><label>Pour vérifier que j'ai compris, je peux</label><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="module" id="o7">
+    <div class="bandeau"><span class="num">7</span><h2>Le test des environnements</h2></div>
+    <div class="corps">
+      <span class="pill ciel">Apaisement · régulation</span>
+      <div class="objectif">Identifier les conditions dans lesquelles tu pourrais t'épanouir — choisis entre les deux propositions.</div>
+      <div class="duo"><div>Travailler à l'intérieur</div><div class="vs">ou</div><div>à l'extérieur</div></div>
+      <div class="duo"><div>Travailler seul</div><div class="vs">ou</div><div>avec d'autres</div></div>
+      <div class="duo"><div>Suivre une méthode</div><div class="vs">ou</div><div>inventer ma propre méthode</div></div>
+      <div class="duo"><div>Rester au même endroit</div><div class="vs">ou</div><div>me déplacer</div></div>
+      <div class="duo"><div>Travailler dans le calme</div><div class="vs">ou</div><div>dans une ambiance animée</div></div>
+      <div class="duo"><div>Tâches prévisibles</div><div class="vs">ou</div><div>journées différentes</div></div>
+      <div class="duo"><div>Prendre mon temps</div><div class="vs">ou</div><div>agir rapidement</div></div>
+      <div class="duo"><div>Utiliser ma tête</div><div class="vs">ou</div><div>mes mains</div></div>
+      <div class="duo"><div>Aider directement des personnes</div><div class="vs">ou</div><div>agir sur des projets</div></div>
+      <div class="duo"><div>Travailler avec des idées</div><div class="vs">ou</div><div>avec des objets</div></div>
+      <div class="duo"><div>Consignes précises</div><div class="vs">ou</div><div>beaucoup d'autonomie</div></div>
+      <div class="duo"><div>Un projet long</div><div class="vs">ou</div><div>plusieurs missions courtes</div></div>
+      <div class="synth"><h3>Projection</h3>
+        <div class="champ"><label>Mon environnement idéal serait</label><textarea></textarea></div>
+        <div class="champ"><label>J'y travaillerais avec / j'utiliserais principalement</label><textarea></textarea></div>
+        <div class="champ"><label>J'aimerais ressentir / je ne voudrais surtout pas</label><textarea></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="module" id="o8">
+    <div class="bandeau"><span class="num">8</span><h2>Mes valeurs</h2></div>
+    <div class="corps">
+      <span class="pill lavande">Intériorité</span>
+      <div class="objectif">Choisis 10 valeurs, puis réduis à 5, puis à 3.</div>
+      <div class="checklist">
+        <label class="item"><input type="checkbox">Liberté</label><label class="item"><input type="checkbox">Sécurité</label><label class="item"><input type="checkbox">Famille</label><label class="item"><input type="checkbox">Amitié</label>
+        <label class="item"><input type="checkbox">Justice</label><label class="item"><input type="checkbox">Créativité</label><label class="item"><input type="checkbox">Réussite</label><label class="item"><input type="checkbox">Argent</label>
+        <label class="item"><input type="checkbox">Entraide</label><label class="item"><input type="checkbox">Respect</label><label class="item"><input type="checkbox">Aventure</label><label class="item"><input type="checkbox">Stabilité</label>
+        <label class="item"><input type="checkbox">Connaissance</label><label class="item"><input type="checkbox">Spiritualité</label><label class="item"><input type="checkbox">Nature</label><label class="item"><input type="checkbox">Reconnaissance</label>
+        <label class="item"><input type="checkbox">Autonomie</label><label class="item"><input type="checkbox">Courage</label><label class="item"><input type="checkbox">Transmission</label><label class="item"><input type="checkbox">Équilibre</label>
+      </div>
+      <div class="champ"><label>Mes 3 valeurs finales</label><input type="text"></div>
+      <div class="champ"><label>Pourquoi sont-elles importantes ? Comment se voient-elles dans ma vie actuelle ?</label><textarea></textarea></div>
+      <div class="champ"><label>Quelle valeur est parfois difficile à respecter ?</label><textarea></textarea></div>
+      <div class="champ"><label>Quel type d'études ou de métier pourrait respecter ces valeurs ? Quel environnement pourrait leur être contraire ?</label><textarea></textarea></div>
+    </div>
+  </div>
+
+  <div class="module" id="o9">
+    <div class="bandeau"><span class="num">9</span><h2>La journée idéale dans dix ans</h2></div>
+    <div class="corps">
+      <span class="pill fonce">Motivation · confiance</span>
+      <div class="objectif">Faire émerger tes aspirations sans imposer tout de suite un métier.</div>
+      <div class="champ"><label>Imagine que tu te réveilles dans dix ans et que ta vie te plaît. Décris ta journée : où tu habites, à quelle heure tu te lèves, avec qui tu vis, où tu travailles, seul ou avec d'autres, quelles tâches, aides-tu des gens, crées-tu quelque chose, utilises-tu la technologie, te déplaces-tu, qu'est-ce qui te rend fier, qu'est-ce qui te donne envie de te lever, quelle place pour tes loisirs/famille/amis</label><textarea style="min-height:130px;"></textarea></div>
+      <div class="synth"><h3>Analyse</h3><p style="font-size:.85rem;margin:0 0 8px;">Dans ce récit, repère : les activités, les personnes, les lieux, les émotions, les valeurs, les compétences.</p>
+        <textarea placeholder="Ce que j'ai repéré..."></textarea>
+        <p style="font-size:.8rem;font-style:italic;color:var(--taupe);margin-top:6px;">Le but n'est pas de trouver un métier précis, mais les ingrédients d'une vie professionnelle satisfaisante.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="module" id="o10">
+    <div class="bandeau"><span class="num">10</span><h2>Le défi des micro-expériences</h2></div>
+    <div class="corps">
+      <span class="pill menthe">Progrès · action</span>
+      <div class="objectif">Remplacer les suppositions par des expériences réelles — interviewer un pro, observer une journée de travail, suivre un atelier, du bénévolat, un mini-projet...</div>
+      <div class="champ"><label>Domaine exploré</label><input type="text"></div>
+      <div class="champ"><label>Ce que j'imaginais avant</label><textarea></textarea></div>
+      <div class="champ"><label>Ce que j'ai fait</label><textarea></textarea></div>
+      <div class="champ"><label>Ce qui m'a plu / déplu / surpris</label><textarea></textarea></div>
+      <div class="champ"><label>Les compétences nécessaires</label><textarea></textarea></div>
+      <div class="champ"><label>Ai-je envie d'explorer davantage ?</label>
+        <div class="checklist" style="grid-template-columns:repeat(3,1fr);"><label class="item"><input type="checkbox">Oui</label><label class="item"><input type="checkbox">Non</label><label class="item"><input type="checkbox">Peut-être</label></div>
+      </div>
+      <div class="champ"><label>Ma prochaine expérience</label><input type="text"></div>
+    </div>
+  </div>
+
+  <div class="module" id="o11">
+    <div class="bandeau"><span class="num">11</span><h2>Le conseil de mes futurs moi</h2></div>
+    <div class="corps">
+      <span class="pill lavande">Intériorité</span>
+      <div class="objectif">Développer la prise de recul et la capacité de décision.</div>
+      <div class="champ"><label>Moi dans un an — quel conseil me donnerait-il ?</label><textarea></textarea></div>
+      <div class="champ"><label>Moi dans cinq ans — que me remercierait-il d'avoir commencé aujourd'hui ?</label><textarea></textarea></div>
+      <div class="champ"><label>Moi dans dix ans — quelle décision aimerait-il que je prenne ?</label><textarea></textarea></div>
+      <div class="synth"><h3>Question finale</h3><textarea placeholder="Quelle petite action puis-je poser cette semaine pour aider mon futur moi ?"></textarea></div>
+    </div>
+  </div>
+
+  <div class="module" id="o12">
+    <div class="bandeau"><span class="num">12</span><h2>Le plan d'orientation en quatre étapes</h2></div>
+    <div class="corps">
+      <span class="pill jaune">Apprentissage</span>
+      <div class="souscat">Étape 1 : Je me connais</div>
+      <div class="champ"><label>Mes forces / mes intérêts / mes valeurs / mon mode d'apprentissage / mon environnement idéal</label><textarea style="min-height:80px;"></textarea></div>
+      <div class="souscat">Étape 2 : J'explore</div>
+      <div class="champ"><label>Trois domaines à découvrir / une personne à interroger / une formation à rechercher / une expérience à réaliser</label><textarea style="min-height:80px;"></textarea></div>
+      <div class="souscat">Étape 3 : Je compare</div>
+      <div class="champ"><label>Pour chaque piste — ce qui m'attire, ce qui me fait hésiter, les compétences nécessaires, le parcours d'études, les contraintes, les évolutions possibles</label><textarea style="min-height:90px;"></textarea></div>
+      <div class="souscat">Étape 4 : J'agis</div>
+      <div class="champ"><label>Mon premier choix à explorer</label><input type="text"></div>
+      <div class="champ"><label>Mon plan B</label><input type="text"></div>
+      <div class="champ"><label>La prochaine action / la date / la personne qui peut m'aider</label><textarea></textarea></div>
+    </div>
+  </div>
+
+  <div class="spirituel">
+    <span class="tag">Optionnel — référentiel islamique</span>
+    <p>Mes talents et mes élans peuvent aussi se relire comme une amāna — un dépôt de confiance reçu, à découvrir et à faire fructifier, pas à prouver. Quel don ai-je reçu que je n'ai pas encore pleinement exploré ?</p>
+    <div class="note">Note pour la praticienne : à activer uniquement si l'ado (ou son parent) choisit le référentiel islamique — sinon laisser ce bloc de côté, ne jamais l'imposer.</div>
+  </div>
+
+  <div class="portrait" id="portrait">
+    <h2>🌱 Mon portrait — synthèse finale</h2>
+    <div class="champ"><label>Mes principales forces</label><textarea></textarea></div>
+    <div class="champ"><label>Mes centres d'intérêt</label><textarea></textarea></div>
+    <div class="champ"><label>Mes valeurs</label><textarea></textarea></div>
+    <div class="champ"><label>Mon fonctionnement d'apprentissage</label><textarea></textarea></div>
+    <div class="champ"><label>Mon environnement idéal</label><textarea></textarea></div>
+    <div class="champ"><label>Mes sources de motivation</label><textarea></textarea></div>
+    <div class="champ"><label>Mes points de vigilance</label><textarea></textarea></div>
+    <div class="champ"><label>Les domaines que je souhaite explorer</label><textarea></textarea></div>
+    <div class="champ"><label>Les expériences que je vais réaliser</label><textarea></textarea></div>
+    <div class="champ"><label>Ma prochaine étape</label><input type="text"></div>
+    <p class="rappel">Cette synthèse ne conclut jamais « tu es fait pour devenir... ». Elle formule plutôt : « ton profil semble actuellement attiré par... », « tu pourrais explorer... », « les environnements qui pourraient te convenir sont... », « les prochaines expériences utiles seraient... ».</p>
+  </div>
+
+  <div class="cloture">
+    <p>Tu n'es pas seul·e face à ces questions, et tu n'as pas à avoir toutes les réponses aujourd'hui.</p>
+    <p>Prends soin de toi avant tout — on avance ensemble, un pas à la fois.</p>
+    <div class="signature">Nawel — Educa Typique</div>
+  </div>
+
+  <footer>
+    Educa Typique — Accompagnement des ados dans leur parcours d'orientation<br>
+    Créé avec ❤️ par Nawel Oum Mona<br>
+    Document protégé — Reproduction soumise à autorisation<br>
+    Ne remplace ni psychologue, ni conseiller d'orientation, ni bilan de compétences réglementé.
+  </footer>
+
+</div>
+
+<script>
+function viderChamps(){
+  document.querySelectorAll('input[type=text]').forEach(i=>i.value='');
+  document.querySelectorAll('textarea').forEach(i=>i.value='');
+  document.querySelectorAll('input[type=checkbox],input[type=radio]').forEach(i=>i.checked=false);
+}
+</script>
+</body>
+</html>
