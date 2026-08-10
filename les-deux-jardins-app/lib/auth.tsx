@@ -33,20 +33,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [mfaLoading, setMfaLoading] = useState(true);
   const [aal, setAal] = useState<AuthenticatorLevel>(null);
 
-  const refreshMfa = useCallback(async (): Promise<AuthenticatorLevel> => {
+  const checkMfa = useCallback(async (showLoading: boolean): Promise<AuthenticatorLevel> => {
     if (!supabaseEnabled || !supabase) {
       setAal(null);
       setMfaLoading(false);
       return null;
     }
 
-    setMfaLoading(true);
+    if (showLoading) setMfaLoading(true);
     const { data, error } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-    const level = error ? null : (data.currentLevel as AuthenticatorLevel);
+    if (error) {
+      // Une vérification silencieuse peut échouer pendant un rafraîchissement
+      // de jeton. Dans ce cas, on conserve l'accès déjà validé au lieu de
+      // démonter le cockpit et les formulaires en cours de saisie.
+      if (showLoading) setAal(null);
+      if (showLoading) setMfaLoading(false);
+      return null;
+    }
+    const level = data.currentLevel as AuthenticatorLevel;
     setAal(level);
-    setMfaLoading(false);
+    if (showLoading) setMfaLoading(false);
     return level;
   }, []);
+
+  const refreshMfa = useCallback(() => checkMfa(true), [checkMfa]);
 
   useEffect(() => {
     if (!supabaseEnabled || !supabase) {
@@ -57,27 +67,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const sb = supabase;
     sb.auth.getUser().then(async ({ data }) => {
       setUser(data.user ?? null);
-      if (data.user) await refreshMfa();
+      if (data.user) await checkMfa(true);
       else {
         setAal(null);
         setMfaLoading(false);
       }
       setLoading(false);
     });
-    const { data: sub } = sb.auth.onAuthStateChange((_e, session) => {
-      setUser(session?.user ?? null);
+    const { data: sub } = sb.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        setUser(null);
+        setAal(null);
+        setMfaLoading(false);
+        setLoading(false);
+        return;
+      }
+
+      // TOKEN_REFRESHED et le retour sur un onglet ne doivent jamais faire
+      // disparaître brièvement l'utilisatrice déjà connectée.
+      if (session?.user) setUser((current) => current?.id === session.user.id ? current : session.user);
       setLoading(false);
       if (session?.user) {
         // La lecture AAL est volontairement différée : Supabase déconseille les
         // appels d'authentification imbriqués directement dans ce callback.
-        window.setTimeout(() => void refreshMfa(), 0);
-      } else {
-        setAal(null);
-        setMfaLoading(false);
+        // Elle est silencieuse après l'accès initial afin de garder le cockpit monté.
+        window.setTimeout(() => void checkMfa(false), 0);
       }
     });
     return () => sub.subscription.unsubscribe();
-  }, [refreshMfa]);
+  }, [checkMfa]);
 
   const signOut = async () => {
     if (supabase) await supabase.auth.signOut();

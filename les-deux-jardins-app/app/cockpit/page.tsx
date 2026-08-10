@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useMode } from "@/lib/mode";
 import { useAuth } from "@/lib/auth";
 import { supabaseEnabled } from "@/lib/supabase";
@@ -47,6 +47,8 @@ function Cockpit() {
   // saisie accueil / bilan
   const [savedMsg, setSavedMsg] = useState("");
   const [dirty, setDirty] = useState(false);
+  const editRevision = useRef(0);
+  const curIdRef = useRef("");
   // questionnaires reliés à la fiche courante
   const [responses, setResponses] = useState<QResponse[]>([]);
 
@@ -60,7 +62,14 @@ function Cockpit() {
     return () => window.removeEventListener("beforeunload", warn);
   }, [dirty]);
 
-  // (Re)charge à chaque changement d'utilisateur : la déconnexion vide immédiatement l'écran.
+  useEffect(() => {
+    curIdRef.current = curId;
+  }, [curId]);
+
+  const userId = user?.id ?? "";
+
+  // Ne recharge que lorsque l'identité change réellement. Un renouvellement
+  // de jeton ne doit ni changer de dossier ni effacer un formulaire en cours.
   useEffect(() => {
     let active = true;
     setLoading(true);
@@ -82,13 +91,15 @@ function Cockpit() {
       const requestedId = query.get("client");
       const requestedStep = query.get("etape");
       const requestedClient = r.clients.find((client) => client.id === requestedId);
-      setCurId(requestedClient?.id ?? r.clients[0]?.id ?? "");
-      if (requestedClient && requestedStep) {
-        const unlocked = srcaReadiness(requestedClient.bilan.anamnese, requestedClient.bilan.srca).canEvaluate;
+      const currentClient = r.clients.find((client) => client.id === curIdRef.current);
+      const selectedClient = requestedClient ?? currentClient ?? r.clients[0];
+      setCurId(selectedClient?.id ?? "");
+      if (selectedClient && requestedStep) {
+        const unlocked = srcaReadiness(selectedClient.bilan.anamnese, selectedClient.bilan.srca).canEvaluate;
         const safeStep = guardedClinicalStep(requestedStep, unlocked);
         setStep(safeStep);
         if (safeStep !== requestedStep) {
-          query.set("client", requestedClient.id);
+          query.set("client", selectedClient.id);
           query.set("etape", safeStep);
           window.history.replaceState(null, "", `${window.location.pathname}?${query.toString()}`);
         }
@@ -99,7 +110,7 @@ function Cockpit() {
       active = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [mustLogin, userId]);
 
   const c = useMemo(() => clients.find((x) => x.id === curId), [clients, curId]);
 
@@ -132,8 +143,9 @@ function Cockpit() {
     setCurId(keepId && r.clients.some((x) => x.id === keepId) ? keepId : r.clients[0]?.id ?? "");
   }
 
-  function selectClient(id: string) {
-    if (dirty && !window.confirm("Cette fiche contient des modifications non enregistrées. Quitter sans enregistrer ?")) return;
+  async function selectClient(id: string) {
+    if (id === curId) return;
+    if (dirty && !(await saveCurrentChanges("✔ Fiche enregistrée avant le changement de dossier"))) return;
     setCurId(id);
     const cl = clients.find((x) => x.id === id);
     const requested = STEPS.find((s) => s.n === (cl?.etape ?? 1))?.k ?? "accueil";
@@ -224,12 +236,32 @@ function Cockpit() {
   function editClient(fn: (cl: Client) => Client) {
     if (!curId) return;
     update(curId, fn);
+    editRevision.current += 1;
     setDirty(true);
+    setSavedMsg("");
   }
 
-  function goToStep(next: string) {
+  async function saveCurrentChanges(successMessage = "✔ Modifications enregistrées"): Promise<boolean> {
+    if (!c || !dirty) return true;
+    const revision = editRevision.current;
+    const patch = step === "accueil"
+      ? { intention: c.intention, rdv: c.rdv, consentement: c.consentement }
+      : { bilan: c.bilan };
+    setSavedMsg("Enregistrement en cours…");
+    const ok = !stored || await updateClientDb(c.id, patch);
+    if (!ok) {
+      flash("⚠️ Enregistrement impossible — reste sur cette fiche et réessaie.");
+      return false;
+    }
+    if (editRevision.current === revision && curIdRef.current === c.id) setDirty(false);
+    flash(successMessage);
+    return true;
+  }
+
+  async function goToStep(next: string) {
     const safeStep = guardedClinicalStep(next, readiness.canEvaluate);
     if (safeStep !== next) {
+      if (step !== "bilan" && dirty && !(await saveCurrentChanges("✔ Fiche enregistrée avant d’ouvrir l’anamnèse"))) return;
       flash("⚠️ Étape verrouillée — valide d’abord les quatre critères S·R·C·A dans le Bilan.");
       setStep("bilan");
       const query = new URLSearchParams(window.location.search);
@@ -238,7 +270,7 @@ function Cockpit() {
       window.history.replaceState(null, "", `${window.location.pathname}?${query.toString()}`);
       return;
     }
-    if (next !== step && dirty && !window.confirm("Cette fiche contient des modifications non enregistrées. Enregistrer avant de changer d'étape ?")) return;
+    if (next !== step && dirty && !(await saveCurrentChanges("✔ Enregistré — passage à l’étape suivante"))) return;
     setStep(next);
     const query = new URLSearchParams(window.location.search);
     if (curId) query.set("client", curId);
@@ -265,17 +297,46 @@ function Cockpit() {
     editClient((cl) => ({ ...cl, bilan: { ...cl.bilan, srca: { ...(cl.bilan.srca ?? EMPTY_SRCA), [key]: value } } }));
   }
 
+  // L'anamnèse est enregistrée sans bouton après une courte pause de saisie.
+  // Le coffre local déjà ouvert est utilisé même si Supabase renouvelle son jeton.
+  useEffect(() => {
+    if (!stored || !dirty || !c || step !== "bilan") return;
+    const clientId = c.id;
+    const bilan = c.bilan;
+    const revision = editRevision.current;
+    setSavedMsg("Sauvegarde automatique en attente…");
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      setSavedMsg("Enregistrement automatique…");
+      void updateClientDb(clientId, { bilan }).then((ok) => {
+        if (cancelled) return;
+        if (!ok) {
+          setSavedMsg("⚠️ Sauvegarde automatique interrompue — clique sur Enregistrer.");
+          return;
+        }
+        if (editRevision.current === revision && curIdRef.current === clientId) {
+          setDirty(false);
+          setSavedMsg("✔ Anamnèse enregistrée automatiquement");
+        }
+      });
+    }, 700);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [c, dirty, step, stored]);
+
   async function saveAnalysis(analysis: AnalysisDraft, message: string, refreshFormulation = true) {
     if (!c) return;
+    const revision = editRevision.current;
     const prefill = refreshFormulation ? formulationFromAnalysis(analysis) : {};
     const nextBilan: Client["bilan"] = { ...c.bilan, ...prefill, analysis };
     update(curId, (cl) => ({ ...cl, bilan: nextBilan }));
     if (stored) {
       const ok = await updateClientDb(curId, { bilan: nextBilan });
       if (!ok) { flash("⚠️ Analyse NON enregistrée — réessaie sans quitter la fiche."); return; }
-      await reload(curId);
     }
-    setDirty(false);
+    if (editRevision.current === revision) setDirty(false);
     flash(message);
   }
 
@@ -389,16 +450,16 @@ function Cockpit() {
   // enregistre les champs saisis (Accueil / Bilan) dans Supabase si en ligne
   async function persistFields(fields: { intention?: string; rdv?: string; consentement?: boolean; bilan?: Client["bilan"] }) {
     if (!c) return;
+    const revision = editRevision.current;
     if (stored) {
       const ok = await updateClientDb(curId, fields);
       if (!ok) {
-        flash("⚠️ NON enregistré — reconnecte-toi (Déconnexion → reconnexion) puis réessaie.");
+        flash("⚠️ NON enregistré — reste sur cette fiche puis réessaie.");
         return;
       }
-      await reload(curId);
     }
-    setDirty(false);
-    flash(stored ? "✔ Enregistré automatiquement sur cet ordinateur" : "⚠️ NON enregistré");
+    if (editRevision.current === revision) setDirty(false);
+    flash(stored ? "✔ Fiche enregistrée sur cet ordinateur" : "⚠️ NON enregistré");
   }
 
   function computeDraft(cl: Client): Client["synthese"] {
@@ -696,7 +757,7 @@ function Cockpit() {
           {step === "bilan" && (
             <Panel
               title={islamic ? "Anamnèse psycho-spirituelle" : "Anamnèse universelle"}
-              lead={`Le recueil complet — ${visibleAnamnese.length} sections adaptées au mode choisi. Tout s'enregistre dans la fiche (CR). N'oublie pas « Enregistrer » en bas.`}
+              lead={`Le recueil complet — ${visibleAnamnese.length} sections adaptées au mode choisi. Chaque réponse est enregistrée automatiquement dans cette fiche après une courte pause.`}
             >
               <AnaAlertBanner anamnese={c.bilan.anamnese} />
               <div className="mb-4 rounded-2xl border border-[#d8a3a8] bg-[rgba(169,75,84,.06)] p-3.5 text-[13px] text-shell-muted">
@@ -719,7 +780,7 @@ function Cockpit() {
 
               <SaveBar dirty={dirty} msg={savedMsg} onSave={() => persistFields({ bilan: c.bilan })} />
               <AnamneseTransferPanel c={c} islamic={islamic} responses={responses} />
-              <AnamneseNextStep anamnese={c.bilan.anamnese} clientId={c.id} unlocked={readiness.canEvaluate} />
+              <AnamneseNextStep anamnese={c.bilan.anamnese} unlocked={readiness.canEvaluate} onContinue={() => void goToStep("evaluer")} />
               <Callout>Aucun diagnostic. L&apos;anamnèse et les questionnaires sont des <b>repères de dialogue</b> — les alertes priment toujours sur le score.</Callout>
             </Panel>
           )}
@@ -1004,7 +1065,7 @@ function SaveBar({ onSave, msg, dirty }: { onSave: () => void; msg: string; dirt
   return (
     <div className="mt-4 flex items-center gap-3">
       <button onClick={onSave} className="rounded-xl bg-jq-deep px-4 py-2.5 text-sm font-semibold text-white">💾 Enregistrer</button>
-      {dirty && <span className="text-[13px] font-semibold text-gold-dark">Modifications non enregistrées</span>}
+      {dirty && <span className="text-[13px] font-semibold text-gold-dark">Sauvegarde en cours…</span>}
       {msg && <span className={"text-[13px] font-semibold " + (msg.startsWith("⚠️") ? "text-[#a94b54]" : "text-[#4d7a4d]")}>{msg}</span>}
     </div>
   );
@@ -1084,7 +1145,7 @@ function AnaFieldInput({ f, v, islamic, onChange }: { f: AnaField; v: string; is
   );
 }
 // Pont après l'anamnèse : propose une évaluation ciblée (d'après la section 9). Jamais un diagnostic.
-function AnamneseNextStep({ anamnese, clientId, unlocked }: { anamnese?: Record<string, string>; clientId: string; unlocked: boolean }) {
+function AnamneseNextStep({ anamnese, unlocked, onContinue }: { anamnese?: Record<string, string>; unlocked: boolean; onContinue: () => void }) {
   const a = anamnese ?? {};
   const map: { key: string; q: string }[] = [
     { key: "s9_anxiete", q: "Anxiété / stress" },
@@ -1105,7 +1166,12 @@ function AnamneseNextStep({ anamnese, clientId, unlocked }: { anamnese?: Record<
           <b className="text-jq-deep">D&apos;après la section 9, à envisager :</b> {sugg.join(" · ")}
         </p>
       )}
-      {unlocked ? <a href={`/questionnaires?client=${encodeURIComponent(clientId)}`} className="mt-3 inline-block rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Évaluer avec les questionnaires ciblés</a> : <p className="mt-3 font-semibold text-[#a94b54]">🔒 Évaluer reste verrouillé jusqu’à validation des quatre critères S·R·C·A.</p>}
+      {unlocked ? (
+        <div className="mt-3">
+          <button type="button" onClick={onContinue} className="rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">Continuer vers Évaluer →</button>
+          <p className="mt-2 text-[12px] text-shell-muted">Tu choisiras d’abord le Décodeur Jannat al Qalb ou Educa Typique. Les questionnaires restent facultatifs.</p>
+        </div>
+      ) : <p className="mt-3 font-semibold text-[#a94b54]">🔒 Pour continuer, valide les quatre repères S·R·C·A juste au-dessus.</p>}
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import { supabase, supabaseEnabled } from "./supabase";
 import { demoClients } from "./demo";
 import { nonClinicalPilotMode } from "./pilot";
-import { mutateLocalVault, readLocalVault } from "./local-vault";
+import { activeLocalVaultScope, mutateLocalVault, readLocalVault } from "./local-vault";
 import type { Client, QResponse, Seance, Synthese } from "./types";
 
 export type { QResponse } from "./types";
@@ -36,10 +36,16 @@ async function authenticatedScope(): Promise<string | null> {
   return data?.user?.id ?? null;
 }
 
+async function localScope(): Promise<string | null> {
+  // Le coffre ouvert reste la source de vérité pendant un rafraîchissement
+  // invisible de Supabase. La saisie ne dépend donc plus d'un aller-retour auth.
+  return activeLocalVaultScope() ?? authenticatedScope();
+}
+
 /** Charge les accompagnées : Supabase (si connectée), sinon démo. Ne casse jamais. */
 export async function getClients(): Promise<{ clients: Client[]; source: Source }> {
   if (nonClinicalPilotMode) {
-    const scope = await authenticatedScope();
+    const scope = await localScope();
     const vault = scope ? readLocalVault(scope) : null;
     return { clients: vault?.clients ?? [], source: vault ? "local" : "demo" };
   }
@@ -94,7 +100,7 @@ export async function liveUserId(): Promise<string | null> {
 /** Crée une accompagnée en base. Renvoie son id, ou null si hors-ligne. */
 export async function createClientDb(nom: string, intention: string): Promise<string | null> {
   if (nonClinicalPilotMode) {
-    const scope = await authenticatedScope();
+    const scope = await localScope();
     if (!scope) return null;
     const id = crypto.randomUUID();
     const client: Client = {
@@ -131,7 +137,7 @@ export async function updateClientDb(
   patch: { intention?: string; rdv?: string; consentement?: boolean; etape?: number; bilan?: Client["bilan"]; bilan_cloture?: Client["bilanCloture"]; engagements?: string[] }
 ): Promise<boolean> {
   if (nonClinicalPilotMode) {
-    const scope = await authenticatedScope();
+    const scope = await localScope();
     if (!scope) return false;
     return mutateLocalVault(scope, (draft) => {
       const client = draft.clients.find((item) => item.id === clientId);
@@ -157,7 +163,7 @@ export async function updateClientDb(
 /** Ajoute une séance en base. */
 export async function addSeanceDb(clientId: string, s: Seance): Promise<boolean> {
   if (nonClinicalPilotMode) {
-    const scope = await authenticatedScope();
+    const scope = await localScope();
     if (!scope) return false;
     return mutateLocalVault(scope, (draft) => {
       const client = draft.clients.find((item) => item.id === clientId);
@@ -178,7 +184,7 @@ export async function addSeanceDb(clientId: string, s: Seance): Promise<boolean>
 /** Supprime définitivement une accompagnée (et, par cascade, ses séances/synthèses/réponses). */
 export async function deleteClientDb(clientId: string): Promise<boolean> {
   if (nonClinicalPilotMode) {
-    const scope = await authenticatedScope();
+    const scope = await localScope();
     if (!scope) return false;
     return mutateLocalVault(scope, (draft) => {
       draft.clients = draft.clients.filter((item) => item.id !== clientId);
@@ -193,7 +199,7 @@ export async function deleteClientDb(clientId: string): Promise<boolean> {
 /** Récupère les réponses de questionnaires reliées à une accompagnée (plus récentes d'abord). */
 export async function getQuestionnaireResponsesDb(clientId: string): Promise<QResponse[]> {
   if (nonClinicalPilotMode) {
-    const scope = await authenticatedScope();
+    const scope = await localScope();
     const vault = scope ? readLocalVault(scope) : null;
     return vault?.questionnaireResponses[clientId] ?? [];
   }
@@ -233,7 +239,7 @@ export async function saveQuestionnaireResponseDb(
   scoreMax: number
 ): Promise<boolean> {
   if (nonClinicalPilotMode) {
-    const scope = await authenticatedScope();
+    const scope = await localScope();
     if (!scope) return false;
     const response: QResponse = {
       id: crypto.randomUUID(),
@@ -267,7 +273,7 @@ export async function saveQuestionnaireResponseDb(
 /** Enregistre / met à jour la synthèse « Pour toi » d'une accompagnée. */
 export async function saveSyntheseDb(clientId: string, syn: Synthese): Promise<boolean> {
   if (nonClinicalPilotMode) {
-    const scope = await authenticatedScope();
+    const scope = await localScope();
     if (!scope) return false;
     return mutateLocalVault(scope, (draft) => {
       const client = draft.clients.find((item) => item.id === clientId);
