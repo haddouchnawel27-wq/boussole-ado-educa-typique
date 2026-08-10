@@ -175,3 +175,51 @@ Sources aussi dans `al-mizan-design/vente-al-mizan.html`.
 - `sw.js` (Cap Educa) exclut `/al-mizan/`, `/souffle-lumiere/`, `/vente-*` du cache. Cache client = piège récurrent (navigation privée / Ctrl+Maj+R / `?v=N`).
 - Al Mizan `index.html` autonome (React vendorisé) ; Souffle charge React via unpkg.
 - Mémos de référence : `ETAT-DES-LIEUX.md` · `FEUILLE-DE-ROUTE-IA.md` · `SUITE.md` · `README.md` · `parcours-clarte-tnd/INVENTAIRE.md` · `jannat-al-qalb/A-FINALISER.md`.
+
+---
+
+## 🗺️ 8. OÙ VIT TON TRAVAIL — les 5 lieux (rien n'est perdu)
+
+_Découverte du 10 août : une grande partie du travail n'est pas sur la branche publiée, mais répartie sur d'autres branches, d'autres hébergeurs et en local. Cette section fait le pont._
+
+### Lieu 1 — Branche GitHub publiée (en ligne aujourd'hui)
+Cap Educa · Parcours Clarté TND · Le point du jour · Mon Chargé de Com · Al Mizan · Souffle & Lumière · vitrine Jannat · 3 pages de vente.
+→ **Cap Educa compte en réalité 33 outils enregistrés** (fichiers `assets/js/tools/`), pas ~22 (source : `LISTE-OUTILS-CAP-EDUCA.md`, branche codex). Le « 125 »/« 106 » se rapporte au **Parcours Clarté TND** (projet distinct), pas à Cap Educa.
+
+### Lieu 2 — Branches GitHub NON fusionnées (pépites cachées)
+| Branche | Contenu | État |
+|---|---|---|
+| `claude/fil-deux-jardins-propre` | **« Les Deux Jardins »** — hub **Next.js** (routes `/cockpit`, `/questionnaires`, `/hub/[slug]`, `/jardin/[slug]`, `/parcours-shifa`, login Supabase) + corpus complet (`_les-deux-jardins/`) | 🚧 avancé, **déployé** |
+| `claude/chef-chantier-upgrade-mawum3` | Version « chantier » du même hub (branche déployée sur Vercel) | 🚧 |
+| `codex/mcc-fabrique-publications-20260804` | **Mon Chargé de Com v2** : moteur IA sourcé, lecture locale PDF/DOCX (mammoth+pdf.js), fabrique de publications, studio de rédaction · **Pense-Bête Outils v5** · `LISTE-OUTILS-CAP-EDUCA.md` | 🚧 |
+| `claude/cap-educa-gardes-monetisation` | (nom) gardes d'accès + monétisation Cap Educa | ❓ à ouvrir |
+| `claude/wellbeing-check-ewiiyq` | (nom) check-in bien-être | ❓ à ouvrir |
+| `claude/nouveau-projet-n5fzgh` | (nom) nouveau projet | ❓ à ouvrir |
+| `claude/awesome-curie-grc7ky` · `claude/partenaire-lien-mot-a-mot-jn3o3q` · `claude/lucid-dirac-zt93h3` | à identifier (lucid-dirac = ancienne branche de travail) | ❓ |
+
+### Lieu 3 — Vercel (team « Nawel's projects »)
+- `boussole-ado-educa-typique` → ✅ Ready (ce dépôt)
+- `les-deux-jardins` (Next.js) → ✅ **Ready** — `les-deux-jardins.vercel.app` (le hub, depuis la branche chef-chantier). L'« Error » ponctuel vient des builds de PR qui n'ont pas le dossier `les-deux-jardins-app/`.
+
+### Lieu 4 — Netlify
+- `boite-neuro-ped-univ.netlify.app` (la Boîte NeuroPed source, structure `f0_fondations/`) + **3 comptes Netlify** à recenser. _(API Netlify en panne temporaire lors du scan — à refaire.)_
+
+### Lieu 5 — Ton PC (local : Bureau, Téléchargements, OneDrive)
+Exports/brouillons HTML, souvent **dépassés** par les versions en ligne :
+- `Pense-Bete_Outils_Nawel_v4_FINALE.html` → ⚠️ **v4**, alors que GitHub a la **v5**.
+- `Planification_Semaine_Nawel_30072026.html` → semainier (remplacé par **Mon Cockpit**, ci-dessous).
+- `_carte-outils.html` · `CHECKLIST — tester mes 15 apps en ligne.html` → tes propres cartes/checklists locales.
+> 💡 Règle : le **dépôt GitHub fait foi** ; les fichiers du PC sont des copies. En cas de doute, comparer la version (v4 vs v5…).
+
+---
+
+## 🖥️ 9. NOUVEL OUTIL — « Mon Cockpit » (bureau)
+**Mission :** un seul fichier posé sur le Bureau qui regroupe **agenda du jour + semaine + mois**, en **grands caractères** (lunettes), 100 % local et hors-ligne ; gestion douce des imprévus, marge intégrée, priorité du jour, spirituel en option.
+**État : ✅ livré (artifact, à tester)** — à décider : intégrer au dépôt (`cockpit/`) ou le brancher dans *Le point du jour* / le hub *Les Deux Jardins* (qui a déjà une route `/cockpit`).
+
+---
+
+## ⏭️ 10. Prochaine décision (à trancher avec Nawel)
+1. **Consolider les branches** : fusionner/relier *Les Deux Jardins* (hub) et *MCC v2* (codex) dans une base claire — c'est là qu'est le gros du travail non publié.
+2. **Recenser Netlify** (3 comptes) + relier à la liste « 15 apps ».
+3. **Choisir le point d'entrée unique** : le hub *Les Deux Jardins* (`/cockpit`) est le candidat naturel pour « tout regrouper à portée d'yeux ».
