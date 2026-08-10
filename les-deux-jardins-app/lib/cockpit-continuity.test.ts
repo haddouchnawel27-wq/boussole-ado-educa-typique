@@ -24,6 +24,15 @@ describe("continuité de saisie du cockpit", () => {
     expect(cockpit).not.toContain("Enregistrer avant de changer d'étape ?");
   });
 
+  it("fait réellement avancer le bouton de prochaine étape vers l'anamnèse", () => {
+    const cockpit = source("app/cockpit/page.tsx");
+
+    expect(cockpit).toContain("Compléter l’anamnèse et valider S·R·C·A");
+    expect(cockpit).toContain('onClick: () => goToStep("bilan")');
+    expect(cockpit).toContain('id="cockpit-panel"');
+    expect(cockpit).not.toContain('{ label: "Compléter l\'accueil", onClick: () => goToStep("accueil") }');
+  });
+
   it("utilise le coffre déjà ouvert sans dépendre d'un nouvel aller-retour auth", () => {
     const data = source("lib/data.ts");
     const vault = source("lib/local-vault.ts");

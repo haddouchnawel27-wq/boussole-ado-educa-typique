@@ -268,6 +268,7 @@ function Cockpit() {
       if (curId) query.set("client", curId);
       query.set("etape", "bilan");
       window.history.replaceState(null, "", `${window.location.pathname}?${query.toString()}`);
+      window.setTimeout(() => document.getElementById("cockpit-panel")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
       return;
     }
     if (next !== step && dirty && !(await saveCurrentChanges("✔ Enregistré — passage à l’étape suivante"))) return;
@@ -276,6 +277,9 @@ function Cockpit() {
     if (curId) query.set("client", curId);
     query.set("etape", next);
     window.history.replaceState(null, "", `${window.location.pathname}?${query.toString()}`);
+    // Donne un retour visible même lorsque la praticienne clique depuis le
+    // haut de la page, ou reclique sur l'étape déjà ouverte.
+    window.setTimeout(() => document.getElementById("cockpit-panel")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   }
 
   // lecture / écriture d'un champ d'anamnèse (clé du schéma)
@@ -650,7 +654,7 @@ function Cockpit() {
               { n: 5, t: "Restituer", state: s5done ? "done" : "todo", onClick: () => goToStep("synthese"), note: "Synthèse + Suivi" },
             ];
             const sug: { label: string; onClick?: () => void; href?: string; done?: boolean } = !s1done
-              ? { label: "Compléter l'accueil", onClick: () => goToStep("accueil") }
+              ? { label: "Compléter l’anamnèse et valider S·R·C·A", onClick: () => goToStep("bilan") }
               : !s2done
               ? { label: "Choisir un Décodeur", onClick: () => goToStep("evaluer") }
               : !s3done
@@ -699,7 +703,7 @@ function Cockpit() {
                   ) : sug.href ? (
                     <a href={sug.href} className="rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Prochaine étape : {sug.label}</a>
                   ) : (
-                    <button onClick={sug.onClick} className="rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Prochaine étape : {sug.label}</button>
+                    <button type="button" onClick={sug.onClick} className="rounded-xl bg-jq-deep px-4 py-2 text-sm font-semibold text-white transition hover:bg-jq-sage">➜ Prochaine étape : {sug.label}</button>
                   )}
                 </div>
                 {!s2done && <p className="mt-2 text-[11.5px] text-shell-muted">L&apos;anamnèse passe d&apos;abord par l&apos;une des deux portes d&apos;analyse. Les questionnaires restent facultatifs et complètent la lecture lorsque c&apos;est utile.</p>}
@@ -730,7 +734,7 @@ function Cockpit() {
         </div>
 
         {/* PANEL */}
-        <div className="rounded-2xl border border-shell-border bg-shell-surface p-5 shadow-soft sm:p-7">
+        <div id="cockpit-panel" className="scroll-mt-4 rounded-2xl border border-shell-border bg-shell-surface p-5 shadow-soft sm:p-7">
           {step === "accueil" && (
             <Panel title="Accueil" lead="Questionnaire d'entrée, intention, consentement, prise de RDV. Écris directement dans les champs, puis « Enregistrer ».">
               <div className="grid gap-3.5 sm:grid-cols-2">
