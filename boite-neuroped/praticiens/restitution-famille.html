@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restitution famille — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fff5e8,#fff)}
+.bandeau{background:linear-gradient(135deg,#e9a73a,#F39BC2);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.7rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:980px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #e9a73a;line-height:1.55}
+.intro strong{color:#a07000}
+
+.posture{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.88rem;color:#5A4D6B;line-height:1.5}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #f0d8b8;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#e9a73a;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#a07000;border:1.5px solid #f0d8b8}
+
+.bloc{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c,#e9a73a)}
+.bloc h2{color:var(--c,#a07000);margin:0 0 .4rem;font-size:1.1rem;display:flex;align-items:center;gap:.4rem}
+.bloc .intro-bloc{color:#666;font-size:.88rem;margin-bottom:.6rem;font-style:italic}
+
+.cadre-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem}
+.cadre-meta .champ{display:flex;flex-direction:column;gap:.2rem}
+.cadre-meta label{font-weight:700;font-size:.85rem;color:var(--c,#a07000)}
+.cadre-meta input,.cadre-meta textarea{padding:.45em .7em;border:1.5px solid #f0d8b8;border-radius:var(--r-sm);font-family:inherit;background:#fff8eb;font-size:.92rem}
+
+.triple-zone{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-top:.5rem}
+@media (max-width:800px){.triple-zone{grid-template-columns:1fr}}
+.triple-zone .zone{background:#fafbfc;border-radius:var(--r-md);padding:.7rem .8rem;border-top:4px solid var(--cz)}
+.triple-zone .zone h3{color:var(--cz);margin:0 0 .3rem;font-size:.95rem;display:flex;align-items:center;gap:.3rem}
+.triple-zone .zone .item{margin-bottom:.4rem}
+.triple-zone .zone label{font-size:.78rem;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:.15rem}
+.triple-zone .zone textarea{width:100%;padding:.4em .55em;border:1.5px solid #e0d8d0;border-radius:var(--r-sm);font-family:inherit;font-size:.88rem;background:#fff;min-height:50px;resize:vertical;line-height:1.4}
+.zone-forces{--cz:#5fa040}
+.zone-freins{--cz:#e9a73a}
+.zone-priorites{--cz:#c25a30}
+
+.bloc-outils{background:#fff;border-radius:var(--r-lg);padding:1rem 1.2rem;box-shadow:var(--shadow-sm);border-top:5px solid #7c5cbf}
+.bloc-outils h2{color:#5a3c8f;margin:0 0 .4rem;font-size:1.1rem}
+.outils-chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem}
+.outil-chip{padding:.25em .7em;background:#fafbfc;border:1.5px solid #d8c9f0;color:#5a3c8f;border-radius:999px;font-size:.82rem;cursor:pointer;font-family:inherit;font-weight:700;transition:all .15s}
+.outil-chip:hover{background:#f0e8f5}
+.outil-chip.actif{background:#7c5cbf;color:#fff;border-color:#5a3c8f}
+
+.timeline-reussite{background:#fff;border-radius:var(--r-lg);padding:1rem 1.2rem;box-shadow:var(--shadow-sm);border-top:5px solid #2a9d8f}
+.timeline-reussite h2{color:#1a6a5a;margin:0 0 .5rem;font-size:1.1rem}
+.timeline-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.4rem}
+@media (max-width:600px){.timeline-grid{grid-template-columns:1fr}}
+.timeline-grid .case-time{background:#eef6f5;border-radius:var(--r-md);padding:.6rem .7rem}
+.timeline-grid .case-time .titre{color:#1a6a5a;font-weight:800;font-size:.88rem;margin-bottom:.2rem;display:flex;align-items:center;gap:.3rem}
+.timeline-grid .case-time .delai{font-size:.75rem;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.timeline-grid .case-time textarea{width:100%;margin-top:.4rem;padding:.4em .55em;border:1.5px solid #c5dfdb;border-radius:var(--r-sm);font-family:inherit;font-size:.85rem;background:#fff;min-height:50px;resize:vertical;line-height:1.45}
+
+.orient-suivi{background:linear-gradient(135deg,#fff,#fff5f8);border-radius:var(--r-lg);padding:1rem 1.2rem;box-shadow:var(--shadow-sm);border-top:5px solid #F39BC2}
+.orient-suivi h2{color:#a04268;margin:0 0 .4rem;font-size:1.1rem}
+.orient-suivi .champ{margin-bottom:.5rem}
+.orient-suivi label{font-weight:700;color:#a04268;font-size:.88rem;display:block;margin-bottom:.2rem}
+.orient-suivi textarea{width:100%;padding:.5em;border:1.5px solid #f0c8d8;border-radius:var(--r-sm);font-family:inherit;font-size:.92rem;background:#fff5f8;min-height:50px;resize:vertical;line-height:1.5}
+
+.mot-fin{background:linear-gradient(135deg,#F0E8F5,#fff);padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #9B85B8}
+.mot-fin h2{color:#5a3c8f;margin:0 0 .3rem;font-size:1.05rem}
+.mot-fin p{margin:0;color:#5A4D6B;font-style:italic;line-height:1.6;font-size:.93rem}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #e9a73a;background:#fff;color:#a07000;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#e9a73a;color:#fff}
+.actions .primary{background:#e9a73a;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+.apercu{background:#fff;border:2px dashed #d8c9f0;border-radius:var(--r-lg);padding:1.2rem 1.4rem;margin-top:1rem;font-family:Georgia,serif;line-height:1.7;color:#3a3a3a;display:none}
+.apercu.visible{display:block}
+.apercu h2{color:#5a3c8f;font-family:var(--font-titre);margin:0 0 .5rem}
+.apercu .meta-ap{color:#888;font-size:.85rem;margin-bottom:.7rem}
+.apercu h3{color:#a07000;margin:.8rem 0 .3rem;font-size:.98rem}
+.apercu ul{padding-left:1.3rem;margin:.2rem 0}
+.apercu .signature-ap{margin-top:1.2rem;font-style:italic;color:#888;text-align:right;font-size:.85rem}
+
+@media print{
+  .actions,.dossier-bar,.bandeau .retour{display:none!important}
+  body{background:#fff}
+  .bloc,.bloc-outils,.timeline-reussite,.orient-suivi,.mot-fin,.intro,.posture{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .apercu{border:1px solid #ccc !important;display:block !important}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace pros</a>
+  <h1>📄 Restitution famille</h1>
+  <p class="sub">Trame structurée pour restituer un bilan aux parents. 3 forces + 3 freins + 3 priorités + outils + timeline réussite + orientations.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    📄 <strong>Pourquoi cet outil ?</strong> La restitution est un moment crucial pour les parents — souvent émotionnellement chargé. Une trame structurée évite l'inflation d'informations, sécurise les parents, et leur donne un <strong>document à conserver</strong> pour faire le lien avec école, médecin traitant, pédopsy.
+  </div>
+
+  <div class="posture">
+    🌿 <strong>Posture restitution :</strong> commencer TOUJOURS par les forces. 3 max par catégorie — pas 10. Donner UN document écrit. Conclure avec « ce que vous pouvez faire dès cette semaine ». Le parent doit repartir avec de l'espoir et UN levier concret.
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:#a07000">📁</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouvelle restitution</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <section class="bloc" style="--c:#7c5cbf">
+    <h2>📋 Cadre de la restitution</h2>
+    <div class="cadre-meta">
+      <div class="champ"><label>Enfant</label><input type="text" data-k="prenom"></div>
+      <div class="champ"><label>Âge</label><input type="text" data-k="age"></div>
+      <div class="champ"><label>Date restitution</label><input type="date" data-k="date"></div>
+      <div class="champ"><label>Pro / signature</label><input type="text" data-k="pro" placeholder="Ex: Nawel Haddouch, neuropédagogue"></div>
+      <div class="champ"><label>Parents présents</label><input type="text" data-k="presents" placeholder="Mère / père / les deux"></div>
+      <div class="champ"><label>Motif initial</label><input type="text" data-k="motif"></div>
+    </div>
+  </section>
+
+  <section class="bloc" style="--c:#5fa040">
+    <h2>🌟 3 forces · 3 freins · 3 priorités</h2>
+    <div class="intro-bloc">Maximum 3 par colonne. Si tu en as plus, hiérarchise — c'est l'effort qui rend la restitution lisible et porteuse.</div>
+    <div class="triple-zone">
+      <div class="zone zone-forces">
+        <h3>💛 Forces</h3>
+        <div class="item"><label>Force 1</label><textarea data-k="f1" placeholder="Ex: Très bonne mémoire visuelle"></textarea></div>
+        <div class="item"><label>Force 2</label><textarea data-k="f2"></textarea></div>
+        <div class="item"><label>Force 3</label><textarea data-k="f3"></textarea></div>
+      </div>
+      <div class="zone zone-freins">
+        <h3>🚧 Freins</h3>
+        <div class="item"><label>Frein 1</label><textarea data-k="fr1" placeholder="Ex: Attention soutenue fragile (15 min max)"></textarea></div>
+        <div class="item"><label>Frein 2</label><textarea data-k="fr2"></textarea></div>
+        <div class="item"><label>Frein 3</label><textarea data-k="fr3"></textarea></div>
+      </div>
+      <div class="zone zone-priorites">
+        <h3>🎯 Priorités</h3>
+        <div class="item"><label>Priorité 1</label><textarea data-k="p1" placeholder="Ex: Installer routine devoirs Pomodoro 10/3"></textarea></div>
+        <div class="item"><label>Priorité 2</label><textarea data-k="p2"></textarea></div>
+        <div class="item"><label>Priorité 3</label><textarea data-k="p3"></textarea></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloc-outils">
+    <h2>🔗 Outils EducaTypique recommandés</h2>
+    <p class="intro-bloc">Coche les outils que tu veux remettre aux parents. Apparaîtront dans le compte-rendu PDF.</p>
+    <div class="outils-chips" id="outils-chips"></div>
+  </section>
+
+  <section class="timeline-reussite">
+    <h2>📅 Critères de réussite à 4 / 8 / 12 semaines</h2>
+    <p class="intro-bloc">Donne des repères concrets aux parents pour qu'ils sachent à quoi mesurer le progrès.</p>
+    <div class="timeline-grid">
+      <div class="case-time">
+        <div class="titre">🌱 4 semaines</div>
+        <div class="delai">Court terme</div>
+        <textarea data-k="r4" placeholder="Ex: routine devoirs installée, 5/7 jours sans crise"></textarea>
+      </div>
+      <div class="case-time">
+        <div class="titre">🌳 8 semaines</div>
+        <div class="delai">Moyen terme</div>
+        <textarea data-k="r8" placeholder="Ex: capable de finir une tâche en autonomie 3×/semaine"></textarea>
+      </div>
+      <div class="case-time">
+        <div class="titre">🏛 12 semaines</div>
+        <div class="delai">Bilan</div>
+        <textarea data-k="r12" placeholder="Ex: aménagements école en place, transfert observable, ré-éval"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <section class="orient-suivi">
+    <h2>🧭 Orientations & suivi proposé</h2>
+    <div class="champ"><label>Orientations vers autres pros (à programmer)</label><textarea data-k="orient" placeholder="Ex: orthophoniste oralité · ergothérapie · pédopsychiatre pour TDAH · neuropsy bilan FE..."></textarea></div>
+    <div class="champ"><label>Échanges avec l'école (PAP/PPS/PAI à proposer)</label><textarea data-k="ecole" placeholder="Ex: demande de PAP, transmettre fiche profil élève, RDV équipe pédago"></textarea></div>
+    <div class="champ"><label>Modalités de suivi (fréquence séances, point parents)</label><textarea data-k="suivi" placeholder="Ex: 1 séance/semaine pendant 12 sem, point parents à S4 puis S8"></textarea></div>
+    <div class="champ"><label>Coordonnées de contact en cas de besoin</label><textarea data-k="contact" placeholder="Ex: email, tel cabinet, créneaux disponibles"></textarea></div>
+  </section>
+
+  <section class="mot-fin">
+    <h2>💛 Mot final / message d'espoir au parent</h2>
+    <p style="margin-bottom:.5rem;color:#5A4D6B">Une phrase personnelle qui ancre le positif. À écrire avec ta voix, tes mots.</p>
+    <textarea data-k="motFin" style="width:100%;padding:.6em;border:1.5px solid #d8c9f0;border-radius:var(--r-sm);font-family:Georgia,serif;font-size:.95rem;background:#fff;min-height:70px;resize:vertical;line-height:1.6;font-style:italic" placeholder="Ex: Votre enfant a un cerveau intense et créatif. Les freins qu'on a repérés sont travaillables. Vous n'êtes pas seuls — on avance ensemble, à son rythme."></textarea>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-apercu">👁 Aperçu compte-rendu</button>
+    <button id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer (A4)</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="apercu" id="apercu">
+    <h2 id="ap-titre">Restitution — </h2>
+    <div class="meta-ap" id="ap-meta"></div>
+    <div id="ap-contenu"></div>
+    <div class="signature-ap" id="ap-sig"></div>
+  </div>
+
+  <div class="disclaimer">
+    Compte-rendu non-diagnostique. À transmettre aux parents avec accompagnement oral. Ne remplace pas un bilan diagnostique de pédopsy/neuropsy.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../professionnels.html" style="color:#a07000">retour espace pros</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_restitution_famille_v1';
+let state={dossiers:{},dossier:null};
+
+const OUTILS_EDUCA = [
+  {id:'rahma',t:'Méthode R.A.H.M.A',l:'../../D_regulation/parents/methode-rahma.html'},
+  {id:'pyramide',t:'Pyramide 7 niveaux',l:'../../F0_fondations/parents/pyramide-7-niveaux.html'},
+  {id:'kit-emo',t:'Kit Émotions',l:'../../D_regulation/parents/kit-emotions.html'},
+  {id:'routines',t:'Routines EducaTypique',l:'../../F0_fondations/parents/routines-educatypique.html'},
+  {id:'mdph',t:'MDPH pas à pas',l:'../../F0_fondations/parents/mdph-pas-a-pas.html'},
+  {id:'jeux-fe',t:'20 jeux maison FE',l:'../../E_ludotheque/parents/jeux-maison-fe.html'},
+  {id:'aujourdhui',t:"Mode Aujourd'hui",l:'../../aujourdhui.html'},
+  {id:'tdah-top',t:'Guide TDAH+TOP',l:'../../F0_fondations/parents/guide-tdah-top.html'},
+  {id:'hpi',t:'Guide HPI',l:'../../F0_fondations/parents/guide-hpi.html'},
+  {id:'detecteur',t:'Détecteur Paroles',l:'../../F0_fondations/parents/detecteur-paroles.html'},
+  {id:'couple',t:'Couple Éducatif 25×25',l:'../../F0_fondations/parents/profils-couple-educatif.html'},
+  {id:'chrono',t:'Chrono des Énergies maman',l:'../../F0_fondations/parents/chrono-energies-maman.html'},
+  {id:'maman',t:'Je me découvre — Maman neuro-atypique',l:'../../F0_fondations/parents/maman-neuro-atypique.html'},
+  {id:'reperage-enf',t:'Repérage TND enfant (parent)',l:'../../A_reperage/parents/reperage-tnd-enfant.html'},
+  {id:'schema-tcc',t:'Schéma TCC',l:'../../C_comprehension/parents/schema-declencheur-tcc.html'},
+  {id:'matrice',t:'Matrice Urgent/Important',l:'../../F0_fondations/parents/matrice-urgent-important.html'},
+  {id:'emo-5',t:'Émotion en 5 étapes (ado)',l:'../../D_regulation/ados/emotion-5-etapes.html'},
+  {id:'roue-conv',t:'Roue de conversation',l:'../../E_ludotheque/ados/roue-conversation.html'},
+  {id:'boite-ado',t:'Boîte Ado TDAH (ado)',l:'../../D_regulation/ados/boite-ado-tdah.html'}
+];
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {meta:{},vals:{},outils:[]}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Restitution 1":blank()};state.dossier="Restitution 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function renderOutilsChips(){
+  const c=document.getElementById('outils-chips');
+  const d=current();
+  c.innerHTML=OUTILS_EDUCA.map(o=>`<button class="outil-chip ${(d.outils||[]).includes(o.id)?'actif':''}" data-id="${o.id}">${esc(o.t)}</button>`).join('');
+  c.querySelectorAll('.outil-chip').forEach(b=>{
+    b.onclick=()=>{
+      const d=current();d.outils=d.outils||[];
+      if(d.outils.includes(b.dataset.id)) d.outils=d.outils.filter(x=>x!==b.dataset.id);
+      else d.outils.push(b.dataset.id);
+      save();renderOutilsChips();
+    };
+  });
+}
+
+function appliquer(){
+  const d=current();
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    const k=el.dataset.k;
+    if(['prenom','age','date','pro','presents','motif'].includes(k)) el.value=(d.meta&&d.meta[k])||'';
+    else el.value=(d.vals&&d.vals[k])||'';
+  });
+}
+
+function wireUp(){
+  document.addEventListener('input',e=>{
+    const el=e.target;
+    if(!el.dataset.k) return;
+    const k=el.dataset.k;
+    const d=current();
+    if(['prenom','age','date','pro','presents','motif'].includes(k)){d.meta=d.meta||{};d.meta[k]=el.value}
+    else{d.vals=d.vals||{};d.vals[k]=el.value}
+    save();
+  });
+}
+
+function genApercu(){
+  const d=current();
+  const m=d.meta||{};const v=d.vals||{};
+  document.getElementById('ap-titre').textContent=`Restitution — ${m.prenom||'(prénom)'}`;
+  document.getElementById('ap-meta').textContent=`${m.age||'—'} · ${m.date||new Date().toISOString().slice(0,10)} · Motif : ${m.motif||'—'}`;
+  let html='';
+  // Forces
+  html+='<h3>💛 Les forces de votre enfant</h3><ul>';
+  ['f1','f2','f3'].forEach(k=>{if(v[k]) html+=`<li>${esc(v[k])}</li>`});
+  html+='</ul>';
+  // Freins
+  html+='<h3>🚧 Les freins repérés</h3><ul>';
+  ['fr1','fr2','fr3'].forEach(k=>{if(v[k]) html+=`<li>${esc(v[k])}</li>`});
+  html+='</ul>';
+  // Priorités
+  html+='<h3>🎯 Nos 3 priorités d\'action</h3><ul>';
+  ['p1','p2','p3'].forEach(k=>{if(v[k]) html+=`<li>${esc(v[k])}</li>`});
+  html+='</ul>';
+  // Outils
+  if(d.outils&&d.outils.length>0){
+    html+='<h3>🔗 Outils EducaTypique pour vous</h3><ul>';
+    d.outils.forEach(id=>{const o=OUTILS_EDUCA.find(x=>x.id===id);if(o) html+=`<li>${esc(o.t)}</li>`});
+    html+='</ul>';
+  }
+  // Réussite
+  if(v.r4||v.r8||v.r12){
+    html+='<h3>📅 Comment mesurer le progrès</h3><ul>';
+    if(v.r4) html+=`<li><strong>À 4 semaines :</strong> ${esc(v.r4)}</li>`;
+    if(v.r8) html+=`<li><strong>À 8 semaines :</strong> ${esc(v.r8)}</li>`;
+    if(v.r12) html+=`<li><strong>À 12 semaines :</strong> ${esc(v.r12)}</li>`;
+    html+='</ul>';
+  }
+  // Orientations
+  if(v.orient||v.ecole||v.suivi){
+    html+='<h3>🧭 Orientations & suivi</h3>';
+    if(v.orient) html+=`<p><strong>Autres pros :</strong> ${esc(v.orient)}</p>`;
+    if(v.ecole) html+=`<p><strong>École :</strong> ${esc(v.ecole)}</p>`;
+    if(v.suivi) html+=`<p><strong>Suivi :</strong> ${esc(v.suivi)}</p>`;
+    if(v.contact) html+=`<p><strong>Contact :</strong> ${esc(v.contact)}</p>`;
+  }
+  // Mot final
+  if(v.motFin){
+    html+=`<h3 style="color:#5a3c8f">💛 Mot du pro</h3><p style="font-style:italic;background:#F0E8F5;padding:.7rem 1rem;border-radius:8px;border-left:3px solid #9B85B8">${esc(v.motFin)}</p>`;
+  }
+  document.getElementById('ap-contenu').innerHTML=html;
+  document.getElementById('ap-sig').textContent=`Signé : ${m.pro||'(pro)'} · ${m.date||new Date().toISOString().slice(0,10)}`;
+  document.getElementById('apercu').classList.add('visible');
+  document.getElementById('apercu').scrollIntoView({behavior:'smooth'});
+}
+
+document.getElementById('btn-apercu').onclick=genApercu;
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();appliquer();renderOutilsChips();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom :','Restitution '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();appliquer();renderOutilsChips();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible.');return}
+  if(confirm('Supprimer ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();appliquer();renderOutilsChips();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();appliquer();renderOutilsChips();document.getElementById('apercu').classList.remove('visible');}};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();const m=d.meta||{};const v=d.vals||{};
+  let t=`RESTITUTION FAMILLE — ${m.prenom||'enfant'}\nEducaTypique · Création originale Nawel Haddouch\n\n`;
+  t+=`Date : ${m.date||'—'} · Pro : ${m.pro||'—'}\nÂge : ${m.age||'—'} · Présents : ${m.presents||'—'}\nMotif : ${m.motif||'—'}\n\n`;
+  t+=`💛 FORCES :\n${['f1','f2','f3'].filter(k=>v[k]).map(k=>'  • '+v[k]).join('\n')||'—'}\n\n`;
+  t+=`🚧 FREINS :\n${['fr1','fr2','fr3'].filter(k=>v[k]).map(k=>'  • '+v[k]).join('\n')||'—'}\n\n`;
+  t+=`🎯 PRIORITÉS :\n${['p1','p2','p3'].filter(k=>v[k]).map(k=>'  • '+v[k]).join('\n')||'—'}\n\n`;
+  if(d.outils&&d.outils.length){
+    t+=`🔗 OUTILS EDUCATYPIQUE :\n`;
+    d.outils.forEach(id=>{const o=OUTILS_EDUCA.find(x=>x.id===id);if(o) t+=`  • ${o.t} (${o.l})\n`});
+    t+='\n';
+  }
+  t+=`📅 CRITÈRES DE RÉUSSITE :\n  4 sem : ${v.r4||'—'}\n  8 sem : ${v.r8||'—'}\n  12 sem : ${v.r12||'—'}\n\n`;
+  t+=`🧭 ORIENTATIONS :\n  Pros : ${v.orient||'—'}\n  École : ${v.ecole||'—'}\n  Suivi : ${v.suivi||'—'}\n  Contact : ${v.contact||'—'}\n\n`;
+  if(v.motFin) t+=`💛 MOT DU PRO :\n${v.motFin}\n`;
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`restitution-${m.prenom||'enfant'}-${m.date||new Date().toISOString().slice(0,10)}.txt`;a.click();
+};
+
+load();refreshDossier();
+document.querySelector('[data-k="date"]').valueAsDate=new Date();
+appliquer();renderOutilsChips();wireUp();
+</script>
+
+</body>
+</html>

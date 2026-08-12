@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilan 90 min + Programme 12 séances · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#F0F5F8 0%,#F8F4F6 50%,#F0F8F5 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2D3E3A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:980px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes shimmer{0%,100%{opacity:0.6}50%{opacity:1}}
+
+.hdr{text-align:center;padding:38px 24px 28px;margin-bottom:22px;background:linear-gradient(135deg,#F0F8F5 0%,#E8F0F5 50%,#F5F0F7 100%);border-radius:24px;border:1px solid rgba(96,140,180,0.22);box-shadow:0 8px 28px rgba(96,140,180,0.08);position:relative;overflow:hidden}
+.hdr::before{content:'⏱️';position:absolute;top:18px;right:22px;font-size:46px;opacity:0.13;transform:rotate(-8deg)}
+.hdr::after{content:'📊';position:absolute;bottom:18px;left:22px;font-size:40px;opacity:0.13;transform:rotate(8deg)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#608CB4,#6CA89E);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px;position:relative;z-index:1}
+.float-icon{font-size:50px;margin-bottom:6px;display:inline-block;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1}
+.hdr h1{font-family:Georgia,serif;font-size:30px;font-weight:400;color:#2D3E3A;margin-bottom:6px;position:relative;z-index:1}
+.hdr .baseline{font-family:Georgia,serif;font-size:14px;font-style:italic;color:#608CB4;margin-bottom:10px;position:relative;z-index:1;letter-spacing:1.5px}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A6B66;position:relative;z-index:1;max-width:680px;margin:0 auto}
+
+.intro{background:#FFFFFF;border-radius:18px;padding:22px 24px;margin-bottom:20px;border:1px solid rgba(96,140,180,0.18);box-shadow:0 4px 14px rgba(96,140,180,0.06)}
+.intro p{font-size:14.5px;color:#3D4E4A;line-height:1.7;margin-bottom:8px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#608CB4}
+
+.dossier-bar{background:#FFFFFF;border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(96,140,180,0.06);border:1px solid rgba(96,140,180,0.15)}
+.dossier-bar label{font-size:13px;font-weight:600;color:#5A6B66}
+.dossier-bar input,.dossier-bar select{padding:7px 12px;border:1px solid rgba(96,140,180,0.25);border-radius:9px;font-size:13px;background:#FBF8F4;font-family:inherit;color:#2D3E3A;min-width:150px}
+.dossier-bar button{background:#F0F5F8;color:#608CB4;border:1px solid rgba(96,140,180,0.25);padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.dossier-bar button:hover{background:#E0EEDF}
+.dossier-bar .btn-export{background:linear-gradient(135deg,#608CB4,#7AA0C6);color:#fff;border:none}
+.dossier-bar .btn-print{background:linear-gradient(135deg,#6CA89E,#88B8AA);color:#fff;border:none}
+
+.nav{display:flex;gap:6px;background:#FFFFFF;padding:8px;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 12px rgba(96,140,180,0.08);overflow-x:auto;border:1px solid rgba(96,140,180,0.15)}
+.nav::-webkit-scrollbar{height:6px}
+.nav::-webkit-scrollbar-thumb{background:#C9D8E5;border-radius:3px}
+.nav button{background:transparent;color:#5A6B66;border:none;padding:11px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.25s;white-space:nowrap;font-family:inherit;display:flex;align-items:center;gap:6px}
+.nav button:hover{background:#F0F5F8;color:#608CB4}
+.nav button.active{background:linear-gradient(135deg,#608CB4,#7AA0C6);color:#fff;box-shadow:0 4px 10px rgba(96,140,180,0.3)}
+
+.panel{display:none;animation:fadeIn 0.4s ease-out}
+.panel.active{display:block}
+
+/* ============ PROGRESSION + LÉGENDE STICKY ============ */
+.progress-sticky{position:sticky;top:8px;z-index:50;background:rgba(255,255,255,0.97);backdrop-filter:blur(8px);border-radius:14px;padding:12px 16px;margin-bottom:18px;border:1px solid rgba(96,140,180,0.18);box-shadow:0 4px 14px rgba(96,140,180,0.08)}
+.prog-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:8px}
+@media (max-width:680px){.prog-row{grid-template-columns:repeat(2,1fr)}}
+.prog-tab{display:flex;flex-direction:column;gap:4px;padding:6px 8px;border-radius:8px;background:#F8FBFD;border:1px solid rgba(96,140,180,0.12);cursor:pointer;transition:all .2s}
+.prog-tab:hover{background:#F0F5F8;transform:translateY(-1px)}
+.prog-tab.active{background:linear-gradient(135deg,#E8EEF5,#F0F8F5);border-color:rgba(96,140,180,0.3)}
+.prog-tab .prog-label{font-size:11.5px;font-weight:700;color:#608CB4;display:flex;justify-content:space-between;align-items:center;text-transform:uppercase;letter-spacing:0.3px}
+.prog-tab .prog-pct{font-family:Georgia,serif;font-size:11px;color:#7A8782;font-weight:600}
+.prog-tab .prog-bar{height:6px;background:#E8EEF5;border-radius:3px;overflow:hidden}
+.prog-tab .prog-fill{height:100%;background:linear-gradient(90deg,#608CB4,#6CA89E);border-radius:3px;transition:width .4s ease}
+.prog-tab.complete .prog-fill{background:linear-gradient(90deg,#6CA89E,#88B8AA)}
+
+.legende-collapsible{margin-top:6px;border-top:1px dashed rgba(96,140,180,0.18);padding-top:8px}
+.legende-collapsible summary{cursor:pointer;font-size:12px;font-weight:600;color:#608CB4;padding:4px 0;list-style:none;display:flex;align-items:center;gap:6px}
+.legende-collapsible summary::-webkit-details-marker{display:none}
+.legende-collapsible summary::before{content:'▸';transition:transform .2s;color:#608CB4}
+.legende-collapsible[open] summary::before{transform:rotate(90deg)}
+.legende-content{padding:10px 4px 4px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.leg-box{background:#FBF8F4;padding:8px 12px;border-radius:8px;border-left:3px solid #608CB4;font-size:11.5px;color:#3D4E4A;line-height:1.55}
+.leg-box strong{color:#608CB4;display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px}
+.leg-box .code{display:inline-block;background:#E8EEF5;padding:1px 6px;border-radius:5px;font-family:'Courier New',monospace;font-weight:700;color:#4A6580;margin:1px 2px;font-size:10.5px}
+.leg-box .phase-dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:middle;margin-right:4px}
+.dot-p1{background:#D98C8C}.dot-p2{background:#608CB4}.dot-p3{background:#6CA89E}
+.dot-niv1{background:#C9573A}.dot-niv3{background:#E0B83E}.dot-niv5{background:#6CA89E}
+
+/* ============ BOUTONS SYNTHÈSE / PISTES / RECOS ============ */
+.auto-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:18px}
+.auto-btn{background:linear-gradient(135deg,#608CB4,#7AA0C6);color:#fff;border:none;padding:13px 16px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;display:flex;align-items:center;gap:8px;justify-content:center;text-align:center;line-height:1.3}
+.auto-btn:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(96,140,180,0.25)}
+.auto-btn.btn-pistes{background:linear-gradient(135deg,#9B85B8,#B59ECE)}
+.auto-btn.btn-recos{background:linear-gradient(135deg,#6CA89E,#88B8AA)}
+.auto-btn .ab-icon{font-size:18px}
+
+.auto-result{display:none;background:linear-gradient(135deg,#FFFBF6,#F5F0F7);border-radius:14px;padding:18px 22px;margin-bottom:14px;border-left:5px solid #9B85B8;animation:fadeIn .4s}
+.auto-result.show{display:block}
+.auto-result h3{font-family:Georgia,serif;font-size:16px;color:#6E5594;margin-bottom:10px}
+.auto-result .codes-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.auto-result .code-pro{display:inline-block;background:#fff;border:1px solid rgba(155,133,184,0.3);padding:4px 11px;border-radius:14px;font-family:'Courier New',monospace;font-size:11.5px;font-weight:700;color:#6E5594}
+.auto-result .pro-item{background:#fff;border-radius:10px;padding:11px 14px;margin-bottom:8px;border-left:3px solid #9B85B8;font-size:13.5px;color:#3D4E4A;line-height:1.55}
+.auto-result .pro-item strong{color:#6E5594;display:block;font-size:11px;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px}
+
+/* ============ BOUTON RETOUR ============ */
+.btn-retour-bas{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#608CB4,#6CA89E);color:#fff;text-decoration:none;padding:10px 22px;border-radius:22px;font-size:13.5px;font-weight:600;margin-top:18px;transition:all .2s;border:none;cursor:pointer;font-family:inherit}
+.btn-retour-bas:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(96,140,180,0.25);text-decoration:none;color:#fff}
+
+.section{background:#FFFFFF;border-radius:20px;padding:26px 24px;margin-bottom:18px;border:1px solid rgba(96,140,180,0.18);box-shadow:0 4px 14px rgba(96,140,180,0.05)}
+.section h2{font-family:Georgia,serif;font-size:22px;font-weight:500;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#7A8782;font-style:italic;margin-bottom:18px;line-height:1.55}
+.section h3{font-family:Georgia,serif;font-size:16px;color:#608CB4;margin:20px 0 10px;font-weight:600}
+
+.consigne{background:#F0F8F5;border-left:4px solid #6CA89E;padding:11px 16px;border-radius:10px;margin-bottom:14px;font-size:13.5px;color:#3D4E4A;line-height:1.55}
+.consigne strong{color:#4A8576;display:block;margin-bottom:3px;font-size:11.5px;text-transform:uppercase;letter-spacing:0.5px}
+
+/* ============ BILAN ============ */
+.bilan-step{background:#FBF8F4;border-radius:14px;padding:18px 20px;margin-bottom:14px;border-left:5px solid #608CB4}
+.bilan-step h3{font-family:Georgia,serif;font-size:16px;color:#2D3E3A;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.bilan-step .duration{display:inline-block;background:#fff;padding:2px 10px;border-radius:8px;font-size:11.5px;font-weight:700;color:#608CB4;letter-spacing:0.4px}
+.bilan-step .description{font-size:13.5px;color:#5A6B66;line-height:1.55;margin-bottom:12px;font-style:italic}
+
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+@media (max-width:680px){.field-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:4px}
+.field.full{grid-column:1/-1}
+.field label{font-size:11.5px;color:#608CB4;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.field input,.field textarea,.field select{padding:8px 11px;border:1px solid rgba(96,140,180,0.22);border-radius:8px;font-size:13px;color:#2D3E3A;background:#fff;font-family:inherit;resize:vertical;width:100%}
+.field textarea{min-height:55px}
+
+.echelles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:6px}
+@media (max-width:600px){.echelles{grid-template-columns:repeat(2,1fr)}}
+.echelle{background:#fff;border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(96,140,180,0.18)}
+.echelle label{display:block;font-size:11px;color:#608CB4;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px}
+.echelle input[type=number]{width:60px;padding:5px;text-align:center;border:1px solid rgba(96,140,180,0.22);border-radius:6px;font-size:14px;color:#2D3E3A;font-weight:700}
+.echelle .of{font-size:11px;color:#7A6B66;margin-left:3px}
+
+/* tâches du bilan */
+.tache-card{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px;border-left:3px solid #6CA89E}
+.tache-card .ts-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.tache-card .ts-title{font-family:Georgia,serif;font-size:15px;color:#2D3E3A;font-weight:600;flex:1;min-width:200px}
+.tache-card .ts-time{font-size:11.5px;background:#F0F8F5;color:#4A8576;padding:2px 9px;border-radius:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px}
+.tache-card .ts-consigne{font-size:13px;color:#5A6B66;font-style:italic;margin-bottom:10px;line-height:1.5;padding:8px 12px;background:#FBF8F4;border-radius:8px;border-left:3px solid #C9D8E5}
+
+.scoring-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:6px}
+.score-cell{background:#FBF8F4;border-radius:8px;padding:8px;text-align:center}
+.score-cell label{display:block;font-size:10.5px;color:#608CB4;font-weight:700;text-transform:uppercase;margin-bottom:4px}
+.score-cell input{width:100%;padding:4px;text-align:center;border:1px solid rgba(96,140,180,0.22);border-radius:6px;font-size:13px;color:#2D3E3A;background:#fff}
+
+.interp{background:#FFF9E8;border-left:4px solid #E0B83E;padding:10px 14px;border-radius:8px;margin-top:10px;font-size:12.5px;color:#7A5A2A;line-height:1.5}
+.interp strong{color:#9B7E2A;display:block;margin-bottom:3px;font-size:11px;text-transform:uppercase;letter-spacing:0.5px}
+
+/* RESTITUTION 1 page */
+.resti-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media (max-width:680px){.resti-grid{grid-template-columns:1fr}}
+.resti-box{background:#FBF8F4;border-radius:14px;padding:16px 18px;border-left:5px solid}
+.resti-f{border-color:#6CA89E}
+.resti-fr{border-color:#E89556}
+.resti-p{border-color:#9B85B8}
+.resti-o{border-color:#608CB4}
+.resti-r{border-color:#D98C8C}
+.resti-box label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.resti-f label{color:#4A8576}
+.resti-fr label{color:#9B5C3A}
+.resti-p label{color:#6E5594}
+.resti-o label{color:#608CB4}
+.resti-r label{color:#A66464}
+.resti-box textarea{width:100%;padding:9px 12px;border:1px solid rgba(96,140,180,0.22);border-radius:8px;font-size:13px;background:#fff;font-family:inherit;min-height:70px;resize:vertical}
+
+/* ============ PROGRAMME 12 SÉANCES ============ */
+.phase-block{margin-bottom:24px}
+.phase-header{padding:18px 22px;border-radius:16px 16px 0 0;color:#fff;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.phase-1 .phase-header{background:linear-gradient(135deg,#D98C8C,#E8A8A8)}
+.phase-2 .phase-header{background:linear-gradient(135deg,#608CB4,#7AA0C6)}
+.phase-3 .phase-header{background:linear-gradient(135deg,#6CA89E,#88B8AA)}
+.phase-header .num{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.25);font-family:Georgia,serif;font-size:20px;font-weight:700;flex-shrink:0}
+.phase-header h3{font-family:Georgia,serif;font-size:18px;margin:0;font-weight:500}
+.phase-header .objectif{font-size:13px;opacity:0.95;margin-top:3px;font-style:italic}
+.phase-body{background:#FBF8F4;border-radius:0 0 16px 16px;padding:14px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;border:1px solid rgba(96,140,180,0.15);border-top:none}
+@media (max-width:680px){.phase-body{grid-template-columns:1fr}}
+
+.seance-card{background:#fff;border-radius:12px;padding:14px 16px;border-left:4px solid;transition:all 0.2s;cursor:pointer}
+.seance-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.06)}
+.phase-1 .seance-card{border-color:#D98C8C}
+.phase-2 .seance-card{border-color:#608CB4}
+.phase-3 .seance-card{border-color:#6CA89E}
+.seance-card h4{font-family:Georgia,serif;font-size:14px;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.seance-card h4 .s-num{display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;background:#F0F8F5;color:#608CB4;border-radius:50%;font-size:12px;font-weight:700}
+.phase-1 .seance-card h4 .s-num{background:#FCE2E2;color:#C9573A}
+.phase-2 .seance-card h4 .s-num{background:#E8EEF5;color:#608CB4}
+.phase-3 .seance-card h4 .s-num{background:#E8F5EC;color:#4A8576}
+.seance-card .obj{font-size:12.5px;color:#5A6B66;font-style:italic;line-height:1.5;margin-bottom:8px}
+.seance-card .exercices{font-size:12px;color:#3D4E4A;line-height:1.55}
+.seance-card .exercices strong{color:#2D3E3A;display:block;font-size:11.5px;margin-top:6px;text-transform:uppercase;letter-spacing:0.4px;color:#608CB4}
+.phase-1 .seance-card .exercices strong{color:#C9573A}
+.phase-3 .seance-card .exercices strong{color:#4A8576}
+.seance-card .indic{font-size:11.5px;color:#7A6B66;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(96,140,180,0.18);font-style:italic;line-height:1.45}
+.seance-card .indic strong{font-style:normal;color:#608CB4;display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px}
+
+/* SUIVI tableau */
+.suivi-wrap{overflow-x:auto;margin-top:14px}
+.suivi-table{width:100%;border-collapse:collapse;font-size:13px;background:#FBF8F4;border-radius:12px;overflow:hidden}
+.suivi-table th{background:linear-gradient(135deg,#608CB4,#7AA0C6);color:#fff;font-weight:600;padding:10px 8px;text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:0.4px}
+.suivi-table th:first-child{text-align:left;padding-left:14px}
+.suivi-table td{padding:7px 6px;text-align:center;border-bottom:1px solid rgba(96,140,180,0.12);background:#fff}
+.suivi-table td:first-child{text-align:left;font-weight:600;padding-left:14px;font-size:12.5px;color:#3D4E4A}
+.suivi-table select{padding:4px;border:1px solid rgba(96,140,180,0.22);border-radius:6px;font-size:11.5px;background:#FBF8F4;font-family:inherit;color:#2D3E3A;cursor:pointer;width:100%;max-width:50px}
+
+.suivi-note{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+@media (max-width:600px){.suivi-note{grid-template-columns:1fr}}
+.suivi-note .nf{background:#FBF8F4;border-radius:10px;padding:12px;border-left:3px solid #608CB4}
+.suivi-note .nf label{display:block;font-size:11.5px;color:#608CB4;font-weight:600;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.4px}
+.suivi-note .nf textarea{width:100%;padding:7px 11px;border:1px solid rgba(96,140,180,0.22);border-radius:7px;font-size:12.5px;color:#2D3E3A;background:#fff;font-family:inherit;min-height:50px;resize:vertical}
+
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif;animation:shimmer 5s ease-in-out infinite}
+.footer .brand-foot{color:#608CB4;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .small{color:#8A9892;font-size:11px;margin-top:4px;display:block}
+
+@media print{
+body{background:#fff;padding:10px}
+.nav,.dossier-bar{display:none !important}
+.panel{display:block !important;page-break-after:always}
+.section,.bilan-step,.seance-card{box-shadow:none;page-break-inside:avoid}
+.phase-body{grid-template-columns:repeat(2,1fr)}
+}
+
+@media (max-width:600px){
+.hdr{padding:30px 18px 22px}
+.hdr h1{font-size:22px}
+.section{padding:20px 18px}
+.nav{padding:6px}
+.nav button{padding:9px 11px;font-size:11.5px}
+}
+</style>
+</head>
+<body>
+<a href="../../professionnels.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#608CB4;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(96,140,180,0.2)">← Professionnels</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Outil pro EducaTypique</span>
+<div class="float-icon">⏱️</div>
+<h1>Bilan 90 min + Programme 12 séances</h1>
+<div class="baseline">ÉVALUATION · STRUCTURATION · SUIVI</div>
+<p>Trame de bilan neuropédagogique non-diagnostique + plan d'accompagnement structuré sur 3 mois — pensé pour profils TND, adapté à tous les âges (ajustements 4-6 / 7-10 / 11-14 / 15-18 ans).</p>
+</div>
+
+<div class="intro">
+<p>Cet outil combine un <strong>bilan ciblé 90 min</strong> (anamnèse + 5 tâches + métacognition + restitution 1 page) et un <strong>programme structuré 12 séances</strong> en 3 phases : sécurisation/régulation → fonctions exécutives → autonomie/confiance.</p>
+<p>⚠️ <strong>Posture neuropédagogique :</strong> observation/repérage + entraînement, <strong>sans pose de diagnostic</strong>. Pour un diagnostic, orientation vers neuropsychologue ou pédopsychiatre.</p>
+</div>
+
+<div class="dossier-bar">
+<label>📁 Dossier :</label>
+<select id="dossierSelect" onchange="changeDossier()">
+<option value="default">Mon dossier</option>
+</select>
+<input type="text" id="newDossier" placeholder="Nouveau (ex: Léa 13a, S.M, Cas 2026-03...)">
+<button onclick="addDossier()">+ Créer</button>
+<button onclick="deleteDossier()">🗑 Supprimer</button>
+<button onclick="exportTXT()" class="btn-export">📥 Exporter en .txt</button>
+<button onclick="window.print()" class="btn-print">🖨️ Imprimer</button>
+</div>
+
+<div class="nav">
+<button class="active" data-tab="bilan" onclick="switchTab('bilan')">🧪 Bilan 90 min</button>
+<button data-tab="programme" onclick="switchTab('programme')">📋 Programme 12 séances</button>
+<button data-tab="suivi" onclick="switchTab('suivi')">📊 Grille de suivi</button>
+<button data-tab="resti" onclick="switchTab('resti')">📄 Synthèse · Pistes · Recos</button>
+</div>
+
+<!-- ============ BARRE DE PROGRESSION + LÉGENDE STICKY ============ -->
+<div class="progress-sticky">
+<div class="prog-row">
+<div class="prog-tab active" data-tab="bilan" onclick="switchTab('bilan')">
+  <div class="prog-label"><span>🧪 Bilan</span><span class="prog-pct" id="pct-bilan">0%</span></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-bilan" style="width:0%"></div></div>
+</div>
+<div class="prog-tab" data-tab="programme" onclick="switchTab('programme')">
+  <div class="prog-label"><span>📋 Programme</span><span class="prog-pct" id="pct-programme">—</span></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-programme" style="width:0%"></div></div>
+</div>
+<div class="prog-tab" data-tab="suivi" onclick="switchTab('suivi')">
+  <div class="prog-label"><span>📊 Suivi 12s.</span><span class="prog-pct" id="pct-suivi">0%</span></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-suivi" style="width:0%"></div></div>
+</div>
+<div class="prog-tab" data-tab="resti" onclick="switchTab('resti')">
+  <div class="prog-label"><span>📄 Synthèse</span><span class="prog-pct" id="pct-resti">0%</span></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-resti" style="width:0%"></div></div>
+</div>
+</div>
+
+<details class="legende-collapsible">
+<summary>📍 Légende & codes pros — déroule</summary>
+<div class="legende-content">
+<div class="leg-box">
+<strong>🧪 Bilan — Tâches</strong>
+<span class="code">BARR</span>Barrage attention<br>
+<span class="code">GNG</span>Go/No-Go (inhibition)<br>
+<span class="code">MdT</span>Mémoire de travail<br>
+<span class="code">PLAN</span>Planification<br>
+<span class="code">REST</span>Restitution
+</div>
+<div class="leg-box">
+<strong>📋 Phases programme</strong>
+<span class="phase-dot dot-p1"></span><span class="code">Ph.1</span>Sécurisation · Régulation<br>
+<span class="phase-dot dot-p2"></span><span class="code">Ph.2</span>Fonctions exécutives<br>
+<span class="phase-dot dot-p3"></span><span class="code">Ph.3</span>Autonomie · Confiance
+</div>
+<div class="leg-box">
+<strong>📊 Suivi — Échelle 1-5</strong>
+<span class="phase-dot dot-niv1"></span><span class="code">1</span>Difficulté importante<br>
+<span class="phase-dot dot-niv1" style="background:#E89556"></span><span class="code">2</span>Difficulté marquée<br>
+<span class="phase-dot dot-niv3"></span><span class="code">3</span>Aisance variable<br>
+<span class="phase-dot dot-niv3" style="background:#88B8AA"></span><span class="code">4</span>Plutôt à l'aise<br>
+<span class="phase-dot dot-niv5"></span><span class="code">5</span>Très à l'aise
+</div>
+<div class="leg-box">
+<strong>🧠 Codes domaines pros</strong>
+<span class="code">ATT</span>Attention<br>
+<span class="code">INH</span>Inhibition · impulsivité<br>
+<span class="code">MdT</span>Mémoire de travail<br>
+<span class="code">ORG</span>Organisation · planification<br>
+<span class="code">RÉG</span>Régulation émotionnelle<br>
+<span class="code">CONF</span>Confiance · estime<br>
+<span class="code">AUT</span>Autonomie
+</div>
+</div>
+</details>
+</div>
+
+<!-- ============================================================
+     PANEL 1 — BILAN 90 MIN
+     ============================================================ -->
+<div class="panel active" id="panel-bilan">
+
+<div class="section">
+<h2>🧪 Bilan neuropédagogique 90 min</h2>
+<div class="sub">Trame clé en main, sans pose de diagnostic. Centrée sur les fonctions cognitives/exécutives et la métacognition.</div>
+
+<!-- IDENTITÉ + CONTEXTE -->
+<div class="bilan-step">
+<h3>Identité & contexte <span class="duration">5 min</span></h3>
+<div class="field-grid">
+<div class="field"><label>Prénom (ou pseudo)</label><input type="text" id="bil-prenom"></div>
+<div class="field"><label>Âge / Classe</label><input type="text" id="bil-age" placeholder="Ex: 13 ans, 4ème"></div>
+<div class="field full"><label>Motif de consultation (2 lignes max)</label><textarea id="bil-motif" placeholder="Ex: difficultés d'attention en classe + crises à la maison aux devoirs"></textarea></div>
+</div>
+</div>
+
+<!-- ANAMNÈSE -->
+<div class="bilan-step">
+<h3>Accueil + objectifs <span class="duration">10 min</span></h3>
+<div class="description">Faire baisser le stress + cadre clair + objectifs SMART partagés avec enfant et parent.</div>
+
+<div class="consigne"><strong>Échelle subjective (auto / parent)</strong>0–10 sur 4 dimensions clés</div>
+<div class="echelles">
+<div class="echelle"><label>Stress</label><input type="number" id="bil-stress" min="0" max="10" value=""><span class="of">/10</span></div>
+<div class="echelle"><label>Énergie</label><input type="number" id="bil-energie" min="0" max="10" value=""><span class="of">/10</span></div>
+<div class="echelle"><label>Confiance</label><input type="number" id="bil-confiance" min="0" max="10" value=""><span class="of">/10</span></div>
+<div class="echelle"><label>Motivation</label><input type="number" id="bil-motivation" min="0" max="10" value=""><span class="of">/10</span></div>
+</div>
+
+<div class="field full" style="margin-top:14px"><label>Hygiène de vie (sommeil heures · écrans soir min · sport)</label><input type="text" id="bil-hygiene" placeholder="Ex: sommeil 7h / écrans soir 90min / sport 1×/semaine"></div>
+
+<div class="field full" style="margin-top:10px"><label>Objectifs SMART (max 3 — formulés positifs et observables)</label><textarea id="bil-smart" placeholder="Ex:
+1. Commencer ses devoirs en moins de 5 min avec un support visuel (4j/5)
+2. Demander de l'aide sans s'énerver dans 3 situations sur 4
+3. Tenir 10 min de concentration sur un exo unique"></textarea></div>
+
+<div class="field full" style="margin-top:10px"><label>« Si c'est réussi dans 1 mois, on verra... » (2 signes concrets)</label><textarea id="bil-signes" placeholder="Ex: 1) moins de cris aux devoirs · 2) moins de relances pour démarrer"></textarea></div>
+</div>
+
+<!-- TÂCHE 1 : BARRAGE ATTENTION -->
+<div class="bilan-step">
+<h3>Tâches ciblées <span class="duration">45–55 min</span></h3>
+
+<div class="tache-card">
+<div class="ts-head">
+<span class="ts-title">1. Barrage d'attention</span>
+<span class="ts-time">2–3 min</span>
+</div>
+<div class="ts-consigne">« Pendant 2 minutes, tu entoures toutes les lettres A (ou symbole cible) le plus vite possible. Tu vas vite mais tu restes précis(e). »</div>
+<div class="scoring-grid">
+<div class="score-cell"><label>Durée (sec)</label><input type="number" id="t1-duree"></div>
+<div class="score-cell"><label>Omissions</label><input type="number" id="t1-omis"></div>
+<div class="score-cell"><label>Erreurs</label><input type="number" id="t1-err"></div>
+<div class="score-cell"><label>Méthode</label><input type="text" id="t1-meth" placeholder="ligne/saut/désorganisée"></div>
+</div>
+<div class="interp"><strong>📐 Interprétation</strong>Beaucoup d'omissions → attention soutenue fragile · balayage à entraîner. Beaucoup d'erreurs → impulsivité, vitesse > précision. Méthode désorganisée → besoin de stratégie de balayage.</div>
+</div>
+
+<!-- TÂCHE 2 : GO/NO-GO -->
+<div class="tache-card">
+<div class="ts-head">
+<span class="ts-title">2. Go / No-Go (inhibition)</span>
+<span class="ts-time">2 min</span>
+</div>
+<div class="ts-consigne">« Quand je dis "A", tu tapes 1 fois. Quand je dis "B", tu ne tapes pas. » → après 30s, inverser les règles.</div>
+<div class="scoring-grid">
+<div class="score-cell"><label>Impulsions</label><input type="number" id="t2-imp"></div>
+<div class="score-cell"><label>Ralentit ?</label><input type="text" id="t2-ralen" placeholder="oui/non"></div>
+<div class="score-cell"><label>Amélioration 2e min ?</label><input type="text" id="t2-amel" placeholder="oui/non"></div>
+<div class="score-cell"><label>Flexibilité OK ?</label><input type="text" id="t2-flex" placeholder="oui/non/refus"></div>
+</div>
+<div class="interp"><strong>📐 Interprétation</strong>Beaucoup d'impulsions → inhibition fragile. Refus de changer de règle → flexibilité cognitive limitée.</div>
+</div>
+
+<!-- TÂCHE 3 : CONSIGNES EN ÉTAPES (MdT) -->
+<div class="tache-card">
+<div class="ts-head">
+<span class="ts-title">3. Consignes en étapes (mémoire de travail)</span>
+<span class="ts-time">5 min</span>
+</div>
+<div class="ts-consigne">2 étapes : « Prends le stylo. Entoure le titre. » → 3 étapes : « Souligne le titre. Entoure 2 mots. Mets un point en bas. » → 4 étapes : « Écris ton prénom. Souligne-le. Entoure la date. Trace une flèche. »</div>
+<div class="scoring-grid">
+<div class="score-cell"><label>2 étapes OK</label><input type="text" id="t3-2" placeholder="oui/non"></div>
+<div class="score-cell"><label>3 étapes OK</label><input type="text" id="t3-3" placeholder="oui/non"></div>
+<div class="score-cell"><label>4 étapes OK</label><input type="text" id="t3-4" placeholder="oui/non"></div>
+<div class="score-cell"><label>Empan (chiffres)</label><input type="text" id="t3-empan" placeholder="ex: 5+ / 4–"></div>
+</div>
+<div class="interp"><strong>📐 Interprétation</strong>Arrêt à 2 étapes → MdT très fragile · besoin externalisation systématique. Empan < 5 → charge cognitive à réduire en classe.</div>
+</div>
+
+<!-- TÂCHE 4 : PLANIFICATION -->
+<div class="tache-card">
+<div class="ts-head">
+<span class="ts-title">4. Planification « Réviser un contrôle »</span>
+<span class="ts-time">10 min</span>
+</div>
+<div class="ts-consigne">« Tu as un contrôle dans 7 jours. Fais un plan de révision réaliste. »</div>
+<div class="scoring-grid">
+<div class="score-cell"><label>Découpage</label><input type="text" id="t4-dec" placeholder="oui/non"></div>
+<div class="score-cell"><label>Priorise</label><input type="text" id="t4-prio" placeholder="oui/non"></div>
+<div class="score-cell"><label>Sommeil/sport ?</label><input type="text" id="t4-vie" placeholder="oui/non"></div>
+<div class="score-cell"><label>Estim. temps réaliste</label><input type="text" id="t4-temps" placeholder="oui/non"></div>
+</div>
+<div class="interp"><strong>📐 Interprétation</strong>Absence de découpage → planification déficitaire. Estimation irréaliste → perception du temps fragile.</div>
+</div>
+
+<!-- TÂCHE 5 : RESTITUTION -->
+<div class="tache-card">
+<div class="ts-head">
+<span class="ts-title">5. Restitution orale</span>
+<span class="ts-time">10 min</span>
+</div>
+<div class="ts-consigne">« Explique-moi ce que tu viens de lire/apprendre en 5 phrases. » (texte court ou notion travaillée)</div>
+<div class="scoring-grid">
+<div class="score-cell"><label>Idées clés</label><input type="text" id="t5-idees" placeholder="0/1/2/3+"></div>
+<div class="score-cell"><label>Organisation</label><input type="text" id="t5-org" placeholder="forte/faible"></div>
+<div class="score-cell"><label>Vocabulaire</label><input type="text" id="t5-voc" placeholder="riche/pauvre"></div>
+<div class="score-cell"><label>Cohérence</label><input type="text" id="t5-coh" placeholder="oui/non"></div>
+</div>
+<div class="interp"><strong>📐 Interprétation</strong>Restitution pauvre malgré bonne lecture → compréhension à travailler. Organisation absente → cartes mentales et plans à introduire.</div>
+</div>
+</div>
+
+<!-- MÉTACOGNITION -->
+<div class="bilan-step">
+<h3>Métacognition <span class="duration">10 min</span></h3>
+<div class="description">La partie la plus importante : ce que l'enfant comprend de son propre fonctionnement.</div>
+<div class="field full"><label>« Comment tu t'y es pris(e) ? Qu'est-ce qui a marché ? Qu'est-ce qui t'a bloqué(e) ? »</label><textarea id="bil-meta1" placeholder="Verbalisation libre de l'enfant..."></textarea></div>
+<div class="field full" style="margin-top:10px"><label>« Si tu refais, tu changes quoi ? »</label><textarea id="bil-meta2" placeholder="Stratégies envisagées par l'enfant..."></textarea></div>
+</div>
+
+<!-- OBSERVATIONS QUALITATIVES -->
+<div class="bilan-step">
+<h3>Observations qualitatives <span class="duration">en continu</span></h3>
+<div class="field-grid">
+<div class="field full"><label>Comportement face à l'erreur</label><textarea id="bil-erreur" placeholder="Ex: rougit, abandonne, recommence, demande de l'aide..."></textarea></div>
+<div class="field full"><label>Tolérance à l'effort</label><textarea id="bil-effort" placeholder="Ex: décroche à 8 min, demande pause, persévère..."></textarea></div>
+<div class="field full"><label>Déclencheurs observés (bruit / difficulté / fatigue / peur d'échec...)</label><textarea id="bil-decl" placeholder=""></textarea></div>
+<div class="field full"><label>Aides efficaces observées (visuel / découpage / pause / encouragement...)</label><textarea id="bil-aides" placeholder=""></textarea></div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 2 — PROGRAMME 12 SÉANCES
+     ============================================================ -->
+<div class="panel" id="panel-programme">
+
+<div class="section">
+<h2>📋 Programme 12 séances (3 mois)</h2>
+<div class="sub">3 phases progressives · 45 min par séance · 1 séance/semaine + micro-exercices maison.</div>
+
+<!-- PHASE 1 -->
+<div class="phase-block phase-1">
+<div class="phase-header">
+<span class="num">1</span>
+<div>
+<h3>Phase 1 — Sécurisation & Régulation</h3>
+<div class="objectif">Séances 1 → 3 · Diminuer l'hyper-réactivité émotionnelle, ralentir le cerveau impulsif</div>
+</div>
+</div>
+<div class="phase-body">
+<div class="seance-card">
+<h4><span class="s-num">1</span>Comprendre son cerveau</h4>
+<div class="obj">Expliquer le TDAH, normaliser, introduire les outils.</div>
+<div class="exercices">
+<strong>Exercices</strong>
+Métaphore cerveau chef d'orchestre · Météo émotionnelle 0-10 · Respiration 4-6.
+</div>
+<div class="indic"><strong>Indicateur</strong>Elle verbalise mieux ses émotions</div>
+</div>
+
+<div class="seance-card">
+<h4><span class="s-num">2</span>Repérer les déclencheurs</h4>
+<div class="obj">Identifier les situations qui déclenchent colère/frustration.</div>
+<div class="exercices">
+<strong>Exercices</strong>
+Carte des déclencheurs · Thermomètre émotionnel V/J/O/R.
+</div>
+<div class="indic"><strong>Indicateur</strong>Elle reconnaît les signes avant la crise</div>
+</div>
+
+<div class="seance-card">
+<h4><span class="s-num">3</span>Apprendre à ralentir</h4>
+<div class="obj">Développer l'inhibition émotionnelle.</div>
+<div class="exercices">
+<strong>Exercices</strong>
+Technique STOP · Pause 5 secondes · Respiration régulatrice · Jeu Go/No-Go.
+</div>
+<div class="indic"><strong>Indicateur</strong>Diminution de l'intensité des réactions</div>
+</div>
+</div>
+</div>
+
+<!-- PHASE 2 -->
+<div class="phase-block phase-2">
+<div class="phase-header">
+<span class="num">2</span>
+<div>
+<h3>Phase 2 — Fonctions exécutives</h3>
+<div class="objectif">Séances 4 → 8 · Renforcer les compétences cognitives essentielles</div>
+</div>
+</div>
+<div class="phase-body">
+<div class="seance-card">
+<h4><span class="s-num">4</span>Compréhension des consignes</h4>
+<div class="obj">Activer la mémoire de travail avant d'agir.</div>
+<div class="exercices">
+<strong>Méthode</strong>
+« Cerveau détective » : 3 questions (Que faire ? Avec quoi ? Combien ?). Reformulation systématique.
+</div>
+<div class="indic"><strong>Indicateur</strong>Moins d'erreurs impulsives</div>
+</div>
+
+<div class="seance-card">
+<h4><span class="s-num">5</span>Planification</h4>
+<div class="obj">Découper une tâche en étapes claires.</div>
+<div class="exercices">
+<strong>Exercices</strong>
+Plan de mission (objectif · étapes · durée). Mini-projet « préparer un exposé ».
+</div>
+<div class="indic"><strong>Indicateur</strong>Meilleure organisation des tâches</div>
+</div>
+
+<div class="seance-card">
+<h4><span class="s-num">6</span>Gestion du temps</h4>
+<div class="obj">Améliorer la perception du temps.</div>
+<div class="exercices">
+<strong>Exercices</strong>
+Estimation du temps avant tâche + minuteur · Comparer estim vs réel · Time blocking.
+</div>
+<div class="indic"><strong>Indicateur</strong>Estimations + réalistes</div>
+</div>
+
+<div class="seance-card">
+<h4><span class="s-num">7</span>Attention soutenue</h4>
+<div class="obj">Tenir l'attention sur un cycle court.</div>
+<div class="exercices">
+<strong>Exercices</strong>
+Défi concentration 5 min · Tri rapide d'informations · Lecture avec surlignage ciblé.
+</div>
+<div class="indic"><strong>Indicateur</strong>Durée d'attention plus stable</div>
+</div>
+
+<div class="seance-card">
+<h4><span class="s-num">8</span>Gestion des devoirs</h4>
+<div class="obj">Démarrer + tenir + finir une session de devoirs.</div>
+<div class="exercices">
+<strong>Méthode 10-5</strong>
+10 min travail / 5 min pause · Règle « 1 minute pour commencer » · 3 priorités/jour.
+</div>
+<div class="indic"><strong>Indicateur</strong>Démarrage devoirs plus facile</div>
+</div>
+</div>
+</div>
+
+<!-- PHASE 3 -->
+<div class="phase-block phase-3">
+<div class="phase-header">
+<span class="num">3</span>
+<div>
+<h3>Phase 3 — Autonomie & Confiance</h3>
+<div class="objectif">Séances 9 → 12 · Transférer les compétences au quotidien</div>
+</div>
+</div>
+<div class="phase-body">
+<div class="seance-card">
+<h4><span class="s-num">9</span>Situations sociales</h4>
+<div class="obj">Gérer interactions, réponses aux moqueries.</div>
+<div class="exercices">
+<strong>Exercices</strong>
+Jeux de rôle · Réponses courtes assertives · Détecteur d'injustice (3 questions).
+</div>
+<div class="indic"><strong>Indicateur</strong>+ d'assurance dans les interactions</div>
+</div>
+
+<div class="seance-card">
+<h4><span class="s-num">10</span>Gérer la frustration</h4>
+<div class="obj">Distinguer émotion et action.</div>
+<div class="exercices">
+<strong>Exercices</strong>
+Feu tricolore émotionnel · Méthode STOP · Pause 5 secondes · Cartes-situations.
+</div>
+<div class="indic"><strong>Indicateur</strong>Réactions moins impulsives</div>
+</div>
+
+<div class="seance-card">
+<h4><span class="s-num">11</span>Renforcer l'estime de soi</h4>
+<div class="obj">Restaurer le sentiment de compétence.</div>
+<div class="exercices">
+<strong>Exercices</strong>
+Journal des réussites (3/jour) · Carte des forces et leviers · Reformulation pensées négatives.
+</div>
+<div class="indic"><strong>Indicateur</strong>Discours + positif sur soi</div>
+</div>
+
+<div class="seance-card">
+<h4><span class="s-num">12</span>Autonomie cognitive</h4>
+<div class="obj">Transférer les stratégies sans support adulte.</div>
+<div class="exercices">
+<strong>Exercices</strong>
+Planifier une semaine scolaire seul(e) · Boîte à outils perso · Plan maintien 4 semaines.
+</div>
+<div class="indic"><strong>Indicateur</strong>Utilisation spontanée des stratégies</div>
+</div>
+</div>
+</div>
+
+<div class="consigne" style="margin-top:14px"><strong>💡 Ce qu'il faut garder en tête</strong>Les progrès ne sont pas linéaires. Il peut y avoir des améliorations rapides puis des retours en arrière temporaires. C'est normal pour un cerveau en développement avec TDAH. La <strong>structure stable + répétition + feedback rapide</strong> sont les leviers les plus puissants.</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 3 — GRILLE DE SUIVI
+     ============================================================ -->
+<div class="panel" id="panel-suivi">
+
+<div class="section">
+<h2>📊 Grille de suivi — 5 domaines × 12 séances</h2>
+<div class="sub">Cochez une fois par séance. Objectif : voir la trajectoire, pas la performance ponctuelle.</div>
+
+<div class="consigne"><strong>Échelle</strong>1 = difficulté importante · 2 = difficulté marquée · 3 = aisance variable · 4 = plutôt à l'aise · 5 = très à l'aise</div>
+
+<div class="suivi-wrap">
+<table class="suivi-table" id="suiviTable">
+<thead>
+<tr>
+<th>Domaine</th>
+<th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S6</th><th>S7</th><th>S8</th><th>S9</th><th>S10</th><th>S11</th><th>S12</th>
+</tr>
+</thead>
+<tbody>
+<!-- généré JS -->
+</tbody>
+</table>
+</div>
+
+<div class="suivi-note">
+<div class="nf"><label>Observations qualitatives marquantes</label><textarea id="sui-obs" placeholder="Ex: S3 : déclic après explication métaphore voiture sans frein ABS. S7 : opposition revenue, fatigue scolaire forte."></textarea></div>
+<div class="nf"><label>Régulation parents-école</label><textarea id="sui-reg" placeholder="Ex: réunion ESS prévue S6, transmission outils 10-5 à la maîtresse, RAPO si refus AESH."></textarea></div>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 4 — RESTITUTION 1 PAGE
+     ============================================================ -->
+<div class="panel" id="panel-resti">
+
+<div class="section">
+<h2>📄 Synthèse · Pistes · Recommandations</h2>
+<div class="sub">Synthèse à remettre aux parents (et à l'école avec accord). Sans diagnostic. Codes pros en haut pour lecture rapide entre confrères.</div>
+
+<div class="auto-actions">
+<button class="auto-btn" onclick="generateAutoSynth()"><span class="ab-icon">✨</span>Générer synthèse auto à partir des saisies</button>
+<button class="auto-btn btn-pistes" onclick="suggestPistes()"><span class="ab-icon">💡</span>Suggérer pistes selon scores</button>
+<button class="auto-btn btn-recos" onclick="suggestRecos()"><span class="ab-icon">🛠️</span>Suggérer recos & codes pros</button>
+</div>
+
+<div class="auto-result" id="autoSynthResult"></div>
+<div class="auto-result" id="autoPistesResult"></div>
+<div class="auto-result" id="autoRecosResult"></div>
+
+<div class="consigne"><strong>Conseil de rédaction</strong>Reste factuel(le). Distingue observation / hypothèse / recommandation. Évite vocabulaire médical. Termine toujours par 3 priorités + 5 outils + critères de réussite.</div>
+
+<div class="resti-grid">
+<div class="resti-box resti-f">
+<label>💪 3 forces principales (observables)</label>
+<textarea id="r-forces" placeholder="1. ___
+2. ___
+3. ___"></textarea>
+</div>
+<div class="resti-box resti-fr">
+<label>⚠️ 3 freins / fragilités principaux</label>
+<textarea id="r-freins" placeholder="1. ___
+2. ___
+3. ___"></textarea>
+</div>
+<div class="resti-box resti-p">
+<label>🎯 3 priorités (SMART)</label>
+<textarea id="r-prio" placeholder="1. ___
+2. ___
+3. ___"></textarea>
+</div>
+<div class="resti-box resti-o">
+<label>🛠️ 5 outils à tester (cible)</label>
+<textarea id="r-outils" placeholder="1. ___
+2. ___
+3. ___
+4. ___
+5. ___"></textarea>
+</div>
+</div>
+
+<div style="margin-top:14px">
+<div class="resti-box resti-r" style="background:#FBF8F4">
+<label>📅 Routine hebdo proposée (côté maison)</label>
+<textarea id="r-routine" placeholder="Ex: 10 min focus + 5 min pause sur devoirs · 1 mini-quiz/jour · respiration 4-6 avant coucher · journal réussites soir."></textarea>
+</div>
+</div>
+
+<div style="margin-top:14px">
+<div class="resti-box" style="background:#F0F8F5;border-color:#6CA89E">
+<label>🏫 Recommandations école (5 max)</label>
+<textarea id="r-ecole" placeholder="Ex: 1. Consignes courtes + reformulation par l'élève
+2. Première étape lancée par adulte
+3. Temps majoré sur évaluations longues
+4. Pauses brèves planifiées (10-2 ou 25-5)
+5. Évaluation : QCM + oral + réponses courtes"></textarea>
+</div>
+</div>
+
+<div style="margin-top:14px">
+<div class="resti-box" style="background:#F5F0F7;border-color:#9B85B8">
+<label>✅ Critères de réussite à 4 / 8 / 12 semaines</label>
+<textarea id="r-criteres" placeholder="Ex:
+4 sem : démarrage devoirs &lt; 5 min avec support visuel, observable 3 j/5
+8 sem : autonomie organisation cartable 5j/5
+12 sem : utilise spontanément 1 stratégie d'inhibition en classe"></textarea>
+</div>
+</div>
+
+<div style="margin-top:14px">
+<div class="resti-box" style="background:#FFF6F0;border-color:#E89556">
+<label>📞 Suivi & prochaine étape</label>
+<textarea id="r-suivi" placeholder="Ex: prochaine séance le 15/04 · point téléphone parent dans 4 semaines · revoir si stagnation après séance 6 · orientation neuropsy si besoin diagnostic."></textarea>
+</div>
+</div>
+
+</div>
+</div>
+
+<div style="text-align:center;margin-top:24px">
+<a href="../../professionnels.html" class="btn-retour-bas">← Retour à l'Espace Professionnels</a>
+</div>
+
+<div class="footer">
+« Trois forces, trois freins, trois priorités. La clarté, c'est la base de la suite. »<br>
+« Observer/repérer + entraîner, sans poser de diagnostic — le pro neuropédagogique tient les deux bouts. »
+<span class="brand-foot">Bilan + Programme 12 séances · Création originale Nawel Haddouch · EducaTypique</span>
+<span class="small">Outil pro non-diagnostique · Mémoire locale, rien n'est envoyé en ligne · Imprimable A4</span>
+</div>
+
+</div>
+
+<script>
+var STORAGE_KEY = 'educatypique_bilan90_prog12_v1';
+var currentDossier = 'default';
+
+var DOMAINS_SUIVI = [
+  'Attention',
+  'Inhibition / impulsivité',
+  'Mémoire de travail',
+  'Organisation / planification',
+  'Régulation émotionnelle',
+  'Confiance / estime',
+  'Autonomie'
+];
+
+function loadStore(){
+  try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : { dossiers:{default:{}} }; }
+  catch(e){ return { dossiers:{default:{}} }; }
+}
+function saveStore(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
+function loadDossier(){ return loadStore().dossiers[currentDossier] || {}; }
+function saveDossier(d){ var s = loadStore(); s.dossiers[currentDossier] = d; saveStore(s); }
+
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildSuiviTable(){
+  var tbody = document.querySelector('#suiviTable tbody');
+  tbody.innerHTML = '';
+  DOMAINS_SUIVI.forEach(function(dom, r){
+    var tr = document.createElement('tr');
+    var html = '<td>'+dom+'</td>';
+    for(var s=1;s<=12;s++){
+      var id = 'sui-'+r+'-'+s;
+      html += '<td><select id="'+id+'" onchange="saveAll()"><option value=""></option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td>';
+    }
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+}
+
+var ALL_FIELDS = [
+  // bilan identité
+  'bil-prenom','bil-age','bil-motif',
+  // anamnèse
+  'bil-stress','bil-energie','bil-confiance','bil-motivation','bil-hygiene','bil-smart','bil-signes',
+  // tâches
+  't1-duree','t1-omis','t1-err','t1-meth',
+  't2-imp','t2-ralen','t2-amel','t2-flex',
+  't3-2','t3-3','t3-4','t3-empan',
+  't4-dec','t4-prio','t4-vie','t4-temps',
+  't5-idees','t5-org','t5-voc','t5-coh',
+  // métacognition + observ qualitatives
+  'bil-meta1','bil-meta2','bil-erreur','bil-effort','bil-decl','bil-aides',
+  // suivi notes
+  'sui-obs','sui-reg',
+  // restitution
+  'r-forces','r-freins','r-prio','r-outils','r-routine','r-ecole','r-criteres','r-suivi'
+];
+
+function getFormData(){
+  var d = {};
+  ALL_FIELDS.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) d[id] = el.value;
+  });
+  d.suivi = {};
+  for(var r=0;r<DOMAINS_SUIVI.length;r++){
+    for(var s=1;s<=12;s++){
+      var el = document.getElementById('sui-'+r+'-'+s);
+      if(el) d.suivi[r+'-'+s] = el.value;
+    }
+  }
+  return d;
+}
+function saveAll(){
+  var d = loadDossier();
+  d.form = getFormData();
+  saveDossier(d);
+}
+function restoreAll(){
+  var d = loadDossier();
+  var f = d.form || {};
+  ALL_FIELDS.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.value = f[id] || '';
+  });
+  for(var r=0;r<DOMAINS_SUIVI.length;r++){
+    for(var s=1;s<=12;s++){
+      var el = document.getElementById('sui-'+r+'-'+s);
+      if(el) el.value = (f.suivi||{})[r+'-'+s] || '';
+    }
+  }
+}
+
+ALL_FIELDS.forEach(function(id){
+  var el = document.getElementById(id);
+  if(el) el.addEventListener('input', saveAll);
+});
+
+function refreshDossierSelect(){
+  var s = loadStore();
+  var sel = document.getElementById('dossierSelect');
+  sel.innerHTML = '';
+  Object.keys(s.dossiers||{default:{}}).forEach(function(name){
+    var opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if(name === currentDossier) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+function changeDossier(){ currentDossier = document.getElementById('dossierSelect').value; restoreAll(); }
+function addDossier(){
+  var name = (document.getElementById('newDossier').value||'').trim();
+  if(!name) return;
+  var s = loadStore();
+  s.dossiers[name] = s.dossiers[name] || {};
+  saveStore(s);
+  currentDossier = name;
+  document.getElementById('newDossier').value='';
+  refreshDossierSelect(); restoreAll();
+}
+function deleteDossier(){
+  if(currentDossier==='default'){ alert('Le dossier « Mon dossier » ne peut pas être supprimé.'); return; }
+  if(!confirm('Supprimer le dossier « '+currentDossier+' » et toutes ses données ?')) return;
+  var s = loadStore(); delete s.dossiers[currentDossier]; saveStore(s);
+  currentDossier='default'; refreshDossierSelect(); restoreAll();
+}
+
+function exportTXT(){
+  var d = loadDossier();
+  var f = d.form || {};
+  var dt = new Date();
+  var dateStr = dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();
+  var out = '';
+  out += '═══════════════════════════════════════════════════\n';
+  out += '  BILAN 90 MIN + PROGRAMME 12 SÉANCES\n';
+  out += '  Création originale : Nawel Haddouch · EducaTypique\n';
+  out += '  Dossier : '+currentDossier+'\n';
+  out += '  Exporté le : '+dateStr+'\n';
+  out += '═══════════════════════════════════════════════════\n\n';
+
+  out += '🧪  BILAN 90 MIN\n';
+  out += '─────────────────────────────────────\n';
+  out += 'Prénom : '+(f['bil-prenom']||'(vide)')+'\n';
+  out += 'Âge/Classe : '+(f['bil-age']||'(vide)')+'\n';
+  out += 'Motif : '+(f['bil-motif']||'(vide)')+'\n\n';
+
+  out += '  Échelles 0–10\n';
+  out += '    Stress : '+(f['bil-stress']||'?')+'/10\n';
+  out += '    Énergie : '+(f['bil-energie']||'?')+'/10\n';
+  out += '    Confiance : '+(f['bil-confiance']||'?')+'/10\n';
+  out += '    Motivation : '+(f['bil-motivation']||'?')+'/10\n\n';
+
+  out += '  Hygiène : '+(f['bil-hygiene']||'(vide)')+'\n';
+  out += '  Objectifs SMART :\n'+(f['bil-smart']||'(vide)')+'\n';
+  out += '  Si réussi dans 1 mois : '+(f['bil-signes']||'(vide)')+'\n\n';
+
+  out += '  TÂCHE 1 — Barrage attention\n';
+  out += '    Durée: '+(f['t1-duree']||'')+'s · Omissions: '+(f['t1-omis']||'')+' · Erreurs: '+(f['t1-err']||'')+' · Méthode: '+(f['t1-meth']||'')+'\n';
+  out += '  TÂCHE 2 — Go/No-Go\n';
+  out += '    Impulsions: '+(f['t2-imp']||'')+' · Ralentit: '+(f['t2-ralen']||'')+' · Amélior. 2e min: '+(f['t2-amel']||'')+' · Flexibilité: '+(f['t2-flex']||'')+'\n';
+  out += '  TÂCHE 3 — Consignes étapes\n';
+  out += '    2ét: '+(f['t3-2']||'')+' · 3ét: '+(f['t3-3']||'')+' · 4ét: '+(f['t3-4']||'')+' · Empan: '+(f['t3-empan']||'')+'\n';
+  out += '  TÂCHE 4 — Planification\n';
+  out += '    Découpage: '+(f['t4-dec']||'')+' · Priorise: '+(f['t4-prio']||'')+' · Sommeil/sport: '+(f['t4-vie']||'')+' · Temps réaliste: '+(f['t4-temps']||'')+'\n';
+  out += '  TÂCHE 5 — Restitution\n';
+  out += '    Idées: '+(f['t5-idees']||'')+' · Organisation: '+(f['t5-org']||'')+' · Vocabulaire: '+(f['t5-voc']||'')+' · Cohérence: '+(f['t5-coh']||'')+'\n\n';
+
+  out += '  Métacognition :\n';
+  out += '    Comment t\'y es pris(e) : '+(f['bil-meta1']||'(vide)')+'\n';
+  out += '    Si tu refais : '+(f['bil-meta2']||'(vide)')+'\n\n';
+
+  out += '  Observations qualitatives :\n';
+  out += '    Face à l\'erreur : '+(f['bil-erreur']||'(vide)')+'\n';
+  out += '    Tolérance effort : '+(f['bil-effort']||'(vide)')+'\n';
+  out += '    Déclencheurs : '+(f['bil-decl']||'(vide)')+'\n';
+  out += '    Aides efficaces : '+(f['bil-aides']||'(vide)')+'\n\n';
+
+  out += '📊  GRILLE DE SUIVI (1=difficulté · 5=très à l\'aise)\n';
+  out += '─────────────────────────────────────\n';
+  out += '                       ';
+  for(var s=1;s<=12;s++) out += 'S'+(s<10?' '+s:s)+' ';
+  out += '\n';
+  DOMAINS_SUIVI.forEach(function(dom, r){
+    var line = '  '+dom.padEnd(22, ' ');
+    for(var s=1;s<=12;s++){
+      var v = (f.suivi||{})[r+'-'+s] || '·';
+      line += ' '+v+'  ';
+    }
+    out += line+'\n';
+  });
+  out += '\n  Observations marquantes : '+(f['sui-obs']||'(vide)')+'\n';
+  out += '  Régulation parents-école : '+(f['sui-reg']||'(vide)')+'\n\n';
+
+  out += '📄  RESTITUTION 1 PAGE\n';
+  out += '─────────────────────────────────────\n';
+  out += '  💪 3 forces :\n'+(f['r-forces']||'(vide)')+'\n\n';
+  out += '  ⚠️  3 freins :\n'+(f['r-freins']||'(vide)')+'\n\n';
+  out += '  🎯 3 priorités :\n'+(f['r-prio']||'(vide)')+'\n\n';
+  out += '  🛠️  5 outils :\n'+(f['r-outils']||'(vide)')+'\n\n';
+  out += '  📅 Routine hebdo : '+(f['r-routine']||'(vide)')+'\n\n';
+  out += '  🏫 Recommandations école : '+(f['r-ecole']||'(vide)')+'\n\n';
+  out += '  ✅ Critères réussite 4/8/12 sem : '+(f['r-criteres']||'(vide)')+'\n\n';
+  out += '  📞 Suivi : '+(f['r-suivi']||'(vide)')+'\n\n';
+
+  out += '═══════════════════════════════════════════════════\n';
+  out += '« Trois forces, trois freins, trois priorités. La clarté, c\'est la base. »\n';
+  out += '\n— Création originale Nawel Haddouch · EducaTypique\n';
+  out += '═══════════════════════════════════════════════════\n';
+
+  var blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'Bilan_Prog12_'+currentDossier+'_'+dt.getFullYear()+(dt.getMonth()+1)+dt.getDate()+'.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+buildSuiviTable();
+refreshDossierSelect();
+restoreAll();
+
+// ============================================================
+// PROGRESSION DES ONGLETS
+// ============================================================
+function updateProgress(){
+  // Bilan = ~30 champs comptés
+  var bilanFields = ['bil-prenom','bil-age','bil-motif','bil-stress','bil-energie','bil-confiance','bil-motivation','bil-hygiene','bil-smart','bil-signes',
+    't1-duree','t1-omis','t1-err','t1-meth','t2-imp','t2-ralen','t2-amel','t2-flex',
+    't3-2','t3-3','t3-4','t3-empan','t4-dec','t4-prio','t4-vie','t4-temps',
+    't5-idees','t5-org','t5-voc','t5-coh','bil-meta1','bil-meta2','bil-erreur','bil-effort','bil-decl','bil-aides'];
+  var bilanFilled = bilanFields.filter(function(id){ var el = document.getElementById(id); return el && el.value && el.value.trim() !== ''; }).length;
+  var bilanPct = Math.round(bilanFilled / bilanFields.length * 100);
+  setProgress('bilan', bilanPct);
+
+  // Programme = info only, pas de remplissage. On affiche "—"
+  document.getElementById('pct-programme').textContent = '—';
+  document.getElementById('prog-programme').style.width = '100%';
+
+  // Suivi : 7 domaines × 12 séances = 84 cellules
+  var suiviTotal = 0, suiviFilled = 0;
+  for(var r=0;r<DOMAINS_SUIVI.length;r++){
+    for(var s=1;s<=12;s++){
+      var el = document.getElementById('sui-'+r+'-'+s);
+      if(el){ suiviTotal++; if(el.value) suiviFilled++; }
+    }
+  }
+  var notesSuivi = document.getElementById('sui-obs').value || document.getElementById('sui-reg').value;
+  if(notesSuivi){ suiviFilled++; suiviTotal++; }
+  var suiviPct = suiviTotal > 0 ? Math.round(suiviFilled / suiviTotal * 100) : 0;
+  setProgress('suivi', suiviPct);
+
+  // Resti : 8 textareas principaux
+  var restiFields = ['r-forces','r-freins','r-prio','r-outils','r-routine','r-ecole','r-criteres','r-suivi'];
+  var restiFilled = restiFields.filter(function(id){ var el = document.getElementById(id); return el && el.value && el.value.trim() !== ''; }).length;
+  var restiPct = Math.round(restiFilled / restiFields.length * 100);
+  setProgress('resti', restiPct);
+}
+function setProgress(tab, pct){
+  document.getElementById('pct-'+tab).textContent = pct + '%';
+  document.getElementById('prog-'+tab).style.width = pct + '%';
+  var card = document.querySelector('.prog-tab[data-tab="'+tab+'"]');
+  if(card){ if(pct >= 100) card.classList.add('complete'); else card.classList.remove('complete'); }
+}
+// Synchroniser sur changement
+var _origSaveAll = saveAll;
+saveAll = function(){ _origSaveAll(); updateProgress(); };
+// Synchroniser active tab dans la barre
+var _origSwitchTab = switchTab;
+switchTab = function(tab){
+  _origSwitchTab(tab);
+  document.querySelectorAll('.prog-tab').forEach(function(t){ t.classList.remove('active'); });
+  var pt = document.querySelector('.prog-tab[data-tab="'+tab+'"]');
+  if(pt) pt.classList.add('active');
+};
+updateProgress();
+
+// ============================================================
+// GÉNÉRATION AUTO — SYNTHÈSE, PISTES, RECOS
+// ============================================================
+function generateAutoSynth(){
+  var f = loadDossier().form || {};
+  var prenom = f['bil-prenom'] || 'L\'enfant';
+  var age = f['bil-age'] || '';
+  var motif = f['bil-motif'] || '(motif non renseigné)';
+  var forts = f['fe-forts'] || '';
+  var fragiles = f['fe-fragiles'] || '';
+  var hyp = f['fe-hyp'] || '';
+  var aides = f['fe-aides'] || '';
+  var smart = f['bil-smart'] || '';
+
+  var html = '<h3>✨ Synthèse auto — à relire / ajuster</h3>';
+  html += '<div class="pro-item"><strong>📌 Cadre</strong>'+prenom+(age?' ('+age+')':'')+'. Motif : '+motif+'</div>';
+  if(forts) html += '<div class="pro-item" style="border-color:#6CA89E"><strong>💪 Forces observées</strong>'+forts+'</div>';
+  if(fragiles) html += '<div class="pro-item" style="border-color:#E89556"><strong>⚠️ Fragilités</strong>'+fragiles+'</div>';
+  if(hyp) html += '<div class="pro-item" style="border-color:#9B85B8"><strong>🧠 Hypothèses fonctionnelles</strong>'+hyp+'</div>';
+  if(smart) html += '<div class="pro-item" style="border-color:#608CB4"><strong>🎯 Objectifs SMART travaillés</strong>'+smart.replace(/\n/g,'<br>')+'</div>';
+  if(aides) html += '<div class="pro-item" style="border-color:#D98C8C"><strong>🛠️ Aides à tester</strong>'+aides+'</div>';
+  html += '<div style="margin-top:14px;font-size:12.5px;color:#6E5594;font-style:italic">Tu peux maintenant copier-coller les éléments utiles dans les zones de restitution ci-dessous, et compléter.</div>';
+  var box = document.getElementById('autoSynthResult');
+  box.innerHTML = html;
+  box.classList.add('show');
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function suggestPistes(){
+  var f = loadDossier().form || {};
+  var html = '<h3>💡 Pistes selon les saisies du bilan</h3>';
+  var codes = [];
+  var pistes = [];
+
+  // Analyse t1 — barrage attention
+  var t1omis = parseInt(f['t1-omis']||'0',10);
+  var t1err = parseInt(f['t1-err']||'0',10);
+  if(t1omis >= 5){ codes.push('ATT↓'); pistes.push({titre:'Attention soutenue fragile (BARR)',txt:'Beaucoup d\'omissions au barrage — la balayage visuel est à entraîner. Proposer méthodes de balayage systématique + entraînement quotidien 2-3 min.'}); }
+  if(t1err >= 5){ codes.push('INH↓'); pistes.push({titre:'Impulsivité visuelle (BARR)',txt:'Beaucoup d\'erreurs au barrage — l\'enfant va plus vite que précis. Travailler le ralentissement et la vérification.'}); }
+
+  // t2 — Go/No-Go
+  var t2imp = parseInt(f['t2-imp']||'0',10);
+  if(t2imp >= 3){ codes.push('INH↓'); pistes.push({titre:'Inhibition fragile (GNG)',txt:'Plusieurs impulsions au Go/No-Go — entraîner la pause cognitive (5 secondes), Feu tricolore, technique STOP.'}); }
+  if(f['t2-flex'] && f['t2-flex'].toLowerCase().indexOf('refus') !== -1){ codes.push('FLEX↓'); pistes.push({titre:'Flexibilité cognitive limitée',txt:'Refus de changer de règle — proposer des exercices de switch progressif (catégories, règles changeantes).'}); }
+
+  // t3 — MdT
+  var t3_4 = (f['t3-4']||'').toLowerCase();
+  if(t3_4.indexOf('non') !== -1 || !t3_4){ codes.push('MdT↓'); pistes.push({titre:'Mémoire de travail à étayer',txt:'Difficulté sur 4 étapes — externaliser systématiquement (checklist, support visuel), réduire la charge cognitive en classe.'}); }
+
+  // t4 — Planification
+  if((f['t4-dec']||'').toLowerCase().indexOf('non') !== -1){ codes.push('ORG↓'); pistes.push({titre:'Planification déficitaire',txt:'Pas de découpage spontané — apprendre Plan de Mission (objectif/étapes/durée), commencer par tâches structurées.'}); }
+  if((f['t4-temps']||'').toLowerCase().indexOf('non') !== -1){ codes.push('TEMPS↓'); pistes.push({titre:'Perception du temps fragile',txt:'Estimation irréaliste — utiliser minuteurs visuels, exercice "estime puis chronomètre" en routine.'}); }
+
+  // Échelles 0-10
+  var stress = parseInt(f['bil-stress']||'0',10);
+  var confiance = parseInt(f['bil-confiance']||'10',10);
+  if(stress >= 7){ codes.push('STR↑'); pistes.push({titre:'Charge anxieuse importante',txt:'Stress 7+/10 — prioriser sécurisation + outils de régulation avant tout entraînement cognitif.'}); }
+  if(confiance <= 3){ codes.push('CONF↓'); pistes.push({titre:'Estime de soi fragile',txt:'Confiance ≤3/10 — Journal des réussites + valoriser effort > résultat + arrêter comparaisons fratrie/classe.'}); }
+
+  // Émotion / erreur
+  var erreur = (f['bil-erreur']||'').toLowerCase();
+  if(erreur.indexOf('abandon') !== -1 || erreur.indexOf('pleur') !== -1 || erreur.indexOf('rage') !== -1){ codes.push('RÉG↓'); pistes.push({titre:'Régulation émotionnelle face à l\'erreur',txt:'L\'erreur déclenche détresse — protocole feu tricolore + reformulation de l\'erreur comme info, pas comme échec.'}); }
+
+  if(codes.length === 0){
+    html += '<div class="pro-item"><strong>📌 Lecture</strong>Pas assez de données saisies pour suggérer des pistes ciblées. Reviens après avoir rempli les tâches du bilan (T1 à T5) et les échelles.</div>';
+  } else {
+    html += '<div class="codes-list">';
+    codes.filter(function(v,i,a){return a.indexOf(v)===i;}).forEach(function(c){
+      html += '<span class="code-pro">'+c+'</span>';
+    });
+    html += '</div>';
+    pistes.forEach(function(p){
+      html += '<div class="pro-item"><strong>'+p.titre+'</strong>'+p.txt+'</div>';
+    });
+  }
+  var box = document.getElementById('autoPistesResult');
+  box.innerHTML = html;
+  box.classList.add('show');
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function suggestRecos(){
+  var f = loadDossier().form || {};
+  var html = '<h3>🛠️ Recommandations — avec codes pros</h3>';
+  var recos = [
+    {code:'AMEN-1',titre:'Aménagements classe — consignes',txt:'Consignes courtes (1 idée/consigne) + reformulation par l\'élève ("dis-moi ce que tu vas faire") + support visuel'},
+    {code:'AMEN-2',titre:'Aménagements classe — tâche',txt:'Découpage (1 étape à la fois) + vérification du démarrage + minuteur visuel + pauses brèves 10/2 ou 25/5'},
+    {code:'AMEN-3',titre:'Aménagements évaluation',txt:'Temps majoré · QCM/oral privilégiés · réponses courtes · barème sur essentiel · pas de surcharge quantitative'},
+    {code:'ROUT-1',titre:'Routine maison — devoirs',txt:'Téléphone hors pièce · table vide · minuteur visuel · 10 min focus + 5 min pause · pochette "À RENDRE" unique'},
+    {code:'ROUT-2',titre:'Routine maison — démarrage',txt:'Règle "1 minute pour commencer" · script de démarrage : "Je dois faire ___ / Je commence par ___ / Ça prendra ___ min"'},
+    {code:'RÉG-1',titre:'Régulation — outils 30 sec',txt:'Respiration 4-6 · Eau froide mains · Coin calme · 5-4-3-2-1 sensoriel · Marche 2 min'},
+    {code:'RÉG-2',titre:'Régulation — protocole crise',txt:'V/J/O/R (vert/jaune/orange/rouge) · Désamorçage <5 min : Nommer → Ralentir → Réduire pression → Résoudre · Si rouge : sécurité > pédagogie'},
+    {code:'CONF-1',titre:'Estime de soi',txt:'Journal des réussites quotidien (3 réussites concrètes) · Renforcement effort > résultat · Stop comparaisons fratrie/camarades'},
+    {code:'ORIENT',titre:'Orientation pro (si besoin)',txt:'Neuropsy (bilan FE/cognitions complet) · Orthophonie (langage/dys) · Ergo (geste/dyspraxie) · Pédopsychiatrie (régulation/comorbidités)'}
+  ];
+  html += '<div class="codes-list">';
+  recos.forEach(function(r){ html += '<span class="code-pro">'+r.code+'</span>'; });
+  html += '</div>';
+  recos.forEach(function(r){
+    html += '<div class="pro-item"><strong>'+r.code+' · '+r.titre+'</strong>'+r.txt+'</div>';
+  });
+  html += '<div style="margin-top:14px;font-size:12.5px;color:#6E5594;font-style:italic">📌 Les <em>codes pros</em> permettent une lecture rapide entre confrères (sur compte-rendu, échange ESS, transmission école).</div>';
+  var box = document.getElementById('autoRecosResult');
+  box.innerHTML = html;
+  box.classList.add('show');
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+</script>
+</body>
+</html>

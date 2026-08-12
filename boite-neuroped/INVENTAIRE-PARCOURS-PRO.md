@@ -86,3 +86,20 @@ Non listés dans `classeur.html` mais existants dans `parcours-clarte-tnd/outils
 3. Anamnèse TND en version HTML (à construire)
 
 > 💡 **Le plus efficace :** envoyer **tout le dossier Boîte NeuroPed en un seul .zip** (avec `_assets/` et l'arborescence A→F). Je reconstitue alors la structure exacte et les chemins d'un coup, au lieu du fichier-par-fichier qui perd les dossiers.
+
+---
+
+## ✅ Mise à jour — lot « praticiens » enregistré (`boite-neuroped/praticiens/`)
+
+Reçus et enregistrés (10 outils HTML) :
+- **Anamnèse TND** ✅ (existait déjà — pas besoin de la reconstruire) · Fiche profil élève · Objectifs SMART · Tableau de suivi des progrès
+- Aide rédaction PAP/PPS/PAI/PPRE · Bilan 90 min + Programme 12 séances · Carnet de séances · Contrat tripartite Élève-Parent-École · Restitution famille · Fiche « Trouble de l'attachement + TDAH »
+
+Formation enregistrée (`boite-neuroped/formations/`) :
+- **Le Harcèlement scolaire — enfant TND** (support 9 modules, mère)
+
+Guide praticien :
+- **« Comprendre ta motivation » — Guide** (ex-BMV1, renommé) → `praticiens/Comprendre_ta_motivation_Guide.docx`
+
+### Reste à recevoir
+- `_assets/charte.css` (essentiel) · analyse-fonctionnelle · grille-abc · index/aujourdhui

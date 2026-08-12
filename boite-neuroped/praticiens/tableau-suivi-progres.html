@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tableau de suivi des progrès — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,#a02040,#F39BC2);padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:#fff;margin:0;text-shadow:0 2px 4px rgba(0,0,0,.15)}
+.bandeau .sub{color:#fff;max-width:740px;margin:.4rem auto 0;opacity:.95}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.2);padding:.3em .9em;border-radius:999px}
+
+.layout{max-width:1200px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:230px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start}
+.nav-sticky h3{color:#a02040;margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.9rem}
+.nav-sticky li{margin:.15rem 0}
+.nav-sticky a{display:block;padding:.4rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm)}
+.nav-sticky a:hover{background:#f5d6dc;color:#a02040}
+.nav-sticky a.actif{background:#a02040;color:#fff;font-weight:700}
+
+.contenu{display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid #a02040;border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:#a02040;font-family:var(--font-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:#a02040;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+section.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+section.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-indicateurs{--c:#7c5cbf}
+.bloc-tableau{--c:#a02040}
+.bloc-evolution{--c:#e05a8a}
+.bloc-bilan{--c:#2a9d8f}
+.bloc-decision{--c:#CBB6F6}
+.bloc-syn{--c:var(--rose-soutenu)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ textarea{min-height:60px;resize:vertical}
+.champ.full{grid-column:1/-1}
+
+/* Catalogue d'indicateurs par axe */
+.axe-bloc{background:var(--beige);border-radius:var(--r-md);padding:.7rem .9rem;margin-bottom:.5rem;border-left:5px solid var(--c-ax)}
+.axe-bloc h3{margin:0 0 .3rem;color:var(--c-ax);font-size:.95rem}
+.axe-A{--c-ax:#7c5cbf}
+.axe-B{--c-ax:#2a9d8f}
+.axe-C{--c-ax:#e05a8a}
+.axe-D{--c-ax:#F39BC2}
+.axe-E{--c-ax:#CBB6F6}
+.axe-F0{--c-ax:#a87800}
+
+.indic-checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.3rem;margin-top:.3rem}
+.indic-check{background:#fff;border-radius:var(--r-sm);padding:.4rem .6rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.86rem;border:1px solid var(--border)}
+.indic-check input:checked + span{color:var(--c-ax);font-weight:700}
+
+/* Tableau de suivi principal */
+.suivi-wrap{overflow-x:auto;margin-top:.4rem}
+.suivi-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:780px}
+.suivi-table th, .suivi-table td{padding:.4em .5em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.suivi-table th{background:var(--beige);color:#a02040;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.suivi-table .indic-cell{font-weight:700;background:#fcfafd;min-width:200px}
+.suivi-table td select, .suivi-table td input{width:100%;padding:.2em;border:none;background:transparent;font-family:var(--font-body);font-size:.85rem}
+.suivi-table td select:focus, .suivi-table td input:focus{outline:1px solid var(--turquoise);background:#fff}
+.suivi-table .tendance{text-align:center;font-weight:800;font-size:1.1rem}
+.tend-up{color:#1b7a4a}
+.tend-down{color:#a02040}
+.tend-stable{color:#a87800}
+
+/* Évolution visuelle (barres) */
+.evol-wrap{margin-top:.5rem}
+.evol-ligne{display:grid;grid-template-columns:200px 1fr;gap:.6rem;align-items:center;padding:.3rem 0;border-bottom:1px solid var(--border)}
+@media (max-width:760px){.evol-ligne{grid-template-columns:1fr}}
+.evol-nom{font-weight:700;font-size:.86rem}
+.evol-bars{display:flex;gap:.3rem;align-items:flex-end;height:60px}
+.evol-bar{flex:1;background:#a02040;border-radius:4px 4px 0 0;min-height:4px;position:relative;display:flex;align-items:flex-end;justify-content:center;color:#fff;font-size:.7rem;font-weight:700;padding-top:2px}
+.evol-bar.b0{background:#e8dff0}
+.evol-bar.b1{background:#F39BC2}
+.evol-bar.b2{background:#a87800}
+.evol-bar.b3{background:#2a9d8f}
+.evol-bar.b4{background:#1b7a4a}
+
+/* Bilan */
+.bilan-grille{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.4rem}
+@media (max-width:760px){.bilan-grille{grid-template-columns:1fr}}
+.bilan-card{background:var(--beige);border-radius:var(--r-md);padding:.7rem .9rem;border-left:5px solid var(--c-b)}
+.bilan-card h4{margin:0 0 .3rem;color:var(--c-b);font-size:.95rem}
+.bilan-card textarea{width:100%;min-height:70px;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.86rem;resize:vertical}
+.bilan-progres{--c-b:#2a9d8f}
+.bilan-difficultes{--c-b:#c25a30}
+.bilan-ajustements{--c-b:#7c5cbf}
+.bilan-relais{--c-b:#a87800}
+
+/* Décision */
+.decision-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.3rem;margin-top:.4rem}
+.check{background:var(--beige);border-radius:var(--r-sm);padding:.4rem .6rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.88rem}
+.check input:checked + span{color:#CBB6F6;font-weight:700}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:#a02040;border:2px solid #a02040}
+.actions button:hover{background:#a02040;color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .dossiers, .retour, details.apropos {display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .sub{color:#a02040 !important;text-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>📊 Tableau de suivi des progrès</h1>
+  <p class="sub">L'outil de mesure transversal. Sans indicateurs, on se raconte des histoires. Avec, on sait ce qui avance, ce qui stagne, ce qui régresse — et pourquoi.</p>
+</section>
+
+<div class="layout">
+
+  <aside class="nav-sticky">
+    <h3>📑 Sections</h3>
+    <ol id="nav">
+      <li><a href="#bloc-meta">Identité &amp; cadre</a></li>
+      <li><a href="#bloc-indicateurs">Choix des indicateurs</a></li>
+      <li><a href="#bloc-tableau">Tableau de suivi</a></li>
+      <li><a href="#bloc-evolution">Évolution visuelle</a></li>
+      <li><a href="#bloc-bilan">Bilan intermédiaire</a></li>
+      <li><a href="#bloc-decision">Décisions</a></li>
+      <li><a href="#bloc-syn">Synthèse</a></li>
+    </ol>
+    <div class="dossiers" style="margin-top:.6rem">
+      <h4>📂 Suivis enregistrés</h4>
+      <div id="liste-dossiers"></div>
+    </div>
+  </aside>
+
+  <main class="contenu">
+
+    <details class="apropos">
+      <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+      <div class="grid8">
+        <div><strong>1. Objectif</strong>Mesurer dans le temps l'évolution des indicateurs clés issus de TOUS les outils de la boîte (anamnèse, ABC, profils, thermomètre, protocole, SMART…). Le pilier « mesurer les progrès ».</div>
+        <div><strong>2. Quand l'utiliser</strong>Après élaboration du plan SMART. Mise à jour tous les 15 jours ou 1 mois. Bilan formel à 1 mois, 3 mois, 6 mois.</div>
+        <div><strong>3. Pour quel profil TND</strong>Tous. Indispensable pour transmissions équipes pluridisciplinaires (école, médical, paramed) et pour les bilans de période.</div>
+        <div><strong>4. Mode d'emploi</strong>Choisir 5 à 10 indicateurs MAX dans le catalogue. Coter à chaque période. Lire la tendance. Pas plus = on dilue.</div>
+        <div><strong>5. Grille à remplir</strong>Catalogue d'indicateurs par axe + tableau de suivi (5 périodes) + bilan intermédiaire + décisions d'ajustement.</div>
+        <div><strong>6. Analyse</strong>Tendance ↑ = on poursuit · → = on ajuste · ↓ = on cherche pourquoi (changement contexte ? consigne ? fatigue ?). Pas de panique sur 1 période.</div>
+        <div><strong>7. Recommandations</strong>Lisible en 1 page. À transmettre à l'équipe éducative et médicale. Pas plus de 10 indicateurs sinon = tableau de bord, pas d'outil.</div>
+        <div><strong>8. Phrase de synthèse</strong>"Le suivi sur N mois montre une évolution favorable sur …, une stagnation sur …, une régression sur …. Ajustements proposés : …"</div>
+      </div>
+    </details>
+
+    <div class="posture">
+      💡 <strong>Posture :</strong> sans indicateurs, on se raconte des histoires. « Il fait plus d'efforts », « c'est mieux », « ça a empiré » — sans données, c'est du ressenti. Le suivi mesure les <strong>progrès observables</strong> et protège l'accompagnement contre les biais.
+    </div>
+
+    <!-- META -->
+    <section id="bloc-meta" class="bloc bloc-meta">
+      <h2>Identité &amp; cadre</h2>
+      <div class="grille">
+        <div class="champ"><label>Prénom / initiales</label><input data-k="prenom" type="text"></div>
+        <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+        <div class="champ"><label>Date début du suivi</label><input data-k="date-debut" type="date"></div>
+        <div class="champ"><label>Période de suivi</label>
+          <select data-k="periode">
+            <option value="">—</option>
+            <option>Hebdomadaire</option><option>Bi-mensuelle</option><option>Mensuelle</option><option>Trimestrielle</option>
+          </select>
+        </div>
+        <div class="champ full"><label>Objectifs SMART travaillés (rappel)</label><textarea data-k="objectifs-rappel"></textarea></div>
+        <div class="champ"><label>Personne(s) qui cote(nt)</label><input data-k="coteurs" type="text" placeholder="parent, enseignant, pro, ado…"></div>
+        <div class="champ"><label>Date prochain bilan</label><input data-k="date-prochain" type="date"></div>
+      </div>
+    </section>
+
+    <!-- INDICATEURS -->
+    <section id="bloc-indicateurs" class="bloc bloc-indicateurs">
+      <h2>🎯 Catalogue d'indicateurs — choisir 5 à 10 max</h2>
+      <p class="intro">Indicateurs regroupés par axe de la boîte. Cocher uniquement ceux pertinents pour CE plan d'accompagnement. Au-delà de 10, on dilue.</p>
+      <div id="catalogue-indicateurs"></div>
+      <p style="margin-top:.6rem;padding:.5rem .7rem;background:#fde6ef;border-radius:var(--r-sm);font-size:.88rem;color:#a02040;font-weight:700">
+        ⚠️ Si tu coches 25 indicateurs, tu ne fais pas un suivi, tu fais un tableau Excel illisible. Sélectionne ce qui compte le plus pour cet enfant <em>maintenant</em>.
+      </p>
+    </section>
+
+    <!-- TABLEAU SUIVI -->
+    <section id="bloc-tableau" class="bloc bloc-tableau">
+      <h2>📋 Tableau de suivi — 5 périodes</h2>
+      <p class="intro">Les indicateurs cochés ci-dessus apparaissent automatiquement. Coter à chaque période. La tendance se calcule toute seule.</p>
+      <div class="suivi-wrap">
+        <table class="suivi-table">
+          <thead>
+            <tr>
+              <th>Indicateur</th>
+              <th>Période 1<br><input type="text" data-k="p1-label" placeholder="ex : S0" style="width:80px;padding:.2em .3em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-size:.78rem"></th>
+              <th>Période 2<br><input type="text" data-k="p2-label" placeholder="ex : S2" style="width:80px;padding:.2em .3em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-size:.78rem"></th>
+              <th>Période 3<br><input type="text" data-k="p3-label" placeholder="ex : M1" style="width:80px;padding:.2em .3em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-size:.78rem"></th>
+              <th>Période 4<br><input type="text" data-k="p4-label" placeholder="ex : M2" style="width:80px;padding:.2em .3em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-size:.78rem"></th>
+              <th>Période 5<br><input type="text" data-k="p5-label" placeholder="ex : M3" style="width:80px;padding:.2em .3em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-size:.78rem"></th>
+              <th>Tendance</th>
+            </tr>
+          </thead>
+          <tbody id="suivi-corps">
+            <tr><td colspan="7" style="text-align:center;color:var(--muted);font-style:italic;padding:1rem">
+              Coche des indicateurs ci-dessus pour les voir apparaître ici.
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:.5rem;font-size:.82rem;color:var(--muted)">
+        <strong>Échelle :</strong> 0 = non observé / régression · 1 = faible · 2 = moyen · 3 = bon · 4 = excellent. Pour les indicateurs « moins de crises », cocher l'amélioration (0 = beaucoup → 4 = très peu).
+      </p>
+    </section>
+
+    <!-- EVOLUTION VISUELLE -->
+    <section id="bloc-evolution" class="bloc bloc-evolution">
+      <h2>📈 Évolution visuelle</h2>
+      <p class="intro">Mini-graphique en barres pour chaque indicateur, recalculé en temps réel à partir du tableau ci-dessus.</p>
+      <div class="evol-wrap" id="evolution"></div>
+    </section>
+
+    <!-- BILAN -->
+    <section id="bloc-bilan" class="bloc bloc-bilan">
+      <h2>📝 Bilan intermédiaire</h2>
+      <div class="bilan-grille">
+        <div class="bilan-card bilan-progres">
+          <h4>✅ Ce qui progresse</h4>
+          <textarea data-k="b-progres" placeholder="Observations concrètes, indicateurs en hausse, signaux faibles positifs…"></textarea>
+        </div>
+        <div class="bilan-card bilan-difficultes">
+          <h4>⚠️ Ce qui reste difficile</h4>
+          <textarea data-k="b-difficultes" placeholder="Stagnations, régressions, obstacles repérés…"></textarea>
+        </div>
+        <div class="bilan-card bilan-ajustements">
+          <h4>🔧 Ajustements à proposer</h4>
+          <textarea data-k="b-ajustements" placeholder="Modifier le support, simplifier l'objectif, changer l'environnement, alléger…"></textarea>
+        </div>
+        <div class="bilan-card bilan-relais">
+          <h4>🔗 Relais professionnels à activer</h4>
+          <textarea data-k="b-relais" placeholder="Orientations / bilans complémentaires si stagnation : neuropsy, ergo, pédopsy, médecin…"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- DECISION -->
+    <section id="bloc-decision" class="bloc bloc-decision">
+      <h2>🚦 Décisions pour la suite</h2>
+      <div class="decision-grille">
+        <label class="check"><input type="checkbox" data-k="dec-poursuivre"><span>▶️ Poursuivre tel quel (ça marche)</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-augmenter"><span>⬆️ Augmenter l'exigence</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-simplifier"><span>⬇️ Simplifier l'objectif</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-changer"><span>🔄 Changer de stratégie</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-clore"><span>✅ Clore (objectif atteint)</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-orienter"><span>📋 Orienter vers bilan spécialisé</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-equipe"><span>🤝 Équipe éducative à convoquer</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-mediation"><span>⚖️ Médiation famille-école nécessaire</span></label>
+      </div>
+      <div class="champ full" style="margin-top:.6rem"><label>Détail de la décision retenue</label><textarea data-k="dec-detail" style="min-height:80px"></textarea></div>
+    </section>
+
+    <!-- SYNTHESE -->
+    <section id="bloc-syn" class="bloc bloc-syn">
+      <h2>✍️ Synthèse du bilan</h2>
+      <div class="champ full"><label>Phrase de synthèse pour bilan / compte rendu</label><textarea data-k="syn-phrase" style="min-height:100px" placeholder="Le suivi sur N mois met en évidence …. Les indicateurs en hausse sont …. Les indicateurs stagnants ou en régression sont …. Ajustements proposés : ….  Date de prochaine évaluation : ….."></textarea></div>
+      <div class="champ full" style="margin-top:.5rem"><label>Destinataires du bilan</label><input data-k="destinataires" type="text" placeholder="famille, école, médecin, pédopsy…"></div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer</button>
+      <button id="btn-exporter">📄 Exporter (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer</button>
+      <button id="btn-vider" class="danger">🧹 Vider</button>
+    </div>
+
+    <div class="disclaimer">
+      Ce tableau ne pose pas de diagnostic et ne préjuge pas du fonctionnement « réel » de l'enfant — il mesure les indicateurs choisis dans le cadre de l'accompagnement, vus par les coteurs identifiés.
+    </div>
+
+    <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+      Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+    </p>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'neuroped_suivi_progres_v1';
+let currentId = null;
+
+const AXES_INDICATEURS = [
+  { axe:'A', nom:'A · Repérage', items:[
+    'Compréhension de soi (auto-évaluation)',
+    'Identification de ses points forts',
+    'Acceptation des aides proposées'
+  ]},
+  { axe:'B', nom:'B · Observation & comportement', items:[
+    'Fréquence des crises (nb / semaine)',
+    'Intensité moyenne des crises (1-5)',
+    'Durée moyenne des crises (min)',
+    'Capacité à demander une pause',
+    'Capacité à réparer après conflit',
+    'Temps de retour au calme'
+  ]},
+  { axe:'C', nom:'C · Compréhension & expression', items:[
+    'Verbalisation des émotions',
+    'Distingue faits / interprétations',
+    'Utilise une pensée alternative',
+    'Demande de l\'aide plus tôt'
+  ]},
+  { axe:'D', nom:'D · Régulation émotionnelle', items:[
+    'Utilise le thermomètre émotionnel',
+    'Repère ses signes corporels précoces',
+    'Utilise une stratégie avant niveau 4',
+    'Atteint moins souvent les niveaux 4-5',
+    'Tolérance à la frustration'
+  ]},
+  { axe:'E', nom:'E · Ludothèque / cognitif', items:[
+    'Attention soutenue (durée)',
+    'Mémoire de travail (consignes en 3 étapes)',
+    'Flexibilité (acceptation imprévus)',
+    'Inhibition (impulsivité)',
+    'Persévérance face à la difficulté'
+  ]},
+  { axe:'F0', nom:'F0 · Fondations / famille / école', items:[
+    'Consignes parentales suivies',
+    'Routine matin suivie',
+    'Devoirs commencés sans conflit',
+    'Coucher à l\'heure',
+    'Écrans arrêtés sans crise',
+    'Climat familial apaisé',
+    'Aménagements scolaires utilisés',
+    'Restitution scolaire de qualité',
+    'Relations sociales avec pairs',
+    'Estime de soi (auto-évaluation)'
+  ]}
+];
+
+const ECHELLE_LABELS = ['0 — non observé / régression','1 — faible','2 — moyen','3 — bon','4 — excellent'];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// === Catalogue ===
+function renderCatalogue(){
+  const cont = document.getElementById('catalogue-indicateurs');
+  cont.innerHTML = AXES_INDICATEURS.map(a=>`
+    <div class="axe-bloc axe-${a.axe}">
+      <h3>${esc(a.nom)}</h3>
+      <div class="indic-checklist">
+        ${a.items.map((it,i)=>`
+          <label class="indic-check">
+            <input type="checkbox" data-k="ind-${a.axe}-${i}" data-indic-libelle="${esc(it)}">
+            <span>${esc(it)}</span>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+  // Réagir aux clics pour mettre à jour le tableau
+  cont.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+    cb.addEventListener('change', majTableau);
+  });
+}
+
+// === Tableau de suivi (généré dynamiquement) ===
+function getIndicateursSelectionnes(){
+  const res = [];
+  AXES_INDICATEURS.forEach(a=>{
+    a.items.forEach((it,i)=>{
+      const cb = document.querySelector(`[data-k="ind-${a.axe}-${i}"]`);
+      if(cb && cb.checked) res.push({ axe:a.axe, idx:i, libelle:it, key:`ind-${a.axe}-${i}` });
+    });
+  });
+  return res;
+}
+
+function majTableau(){
+  const tbody = document.getElementById('suivi-corps');
+  const indics = getIndicateursSelectionnes();
+  if(indics.length === 0){
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);font-style:italic;padding:1rem">Coche des indicateurs ci-dessus pour les voir apparaître ici.</td></tr>';
+    majEvolution();
+    return;
+  }
+  tbody.innerHTML = indics.map(ind=>`
+    <tr data-indic="${ind.axe}-${ind.idx}">
+      <td class="indic-cell">${esc(ind.libelle)}</td>
+      ${[1,2,3,4,5].map(p=>`
+        <td><select data-k="cot-${ind.axe}-${ind.idx}-p${p}">
+          <option value="">—</option>
+          ${[0,1,2,3,4].map(v=>`<option value="${v}">${v}</option>`).join('')}
+        </select></td>
+      `).join('')}
+      <td class="tendance" data-tend="${ind.axe}-${ind.idx}">—</td>
+    </tr>
+  `).join('');
+
+  // Recouvrer les valeurs existantes
+  const stored = window.__cur_state || {};
+  Object.entries(stored).forEach(([k,v])=>{
+    const el = document.querySelector(`[data-k="${k}"]`);
+    if(el && v){ el.value = v; }
+  });
+
+  // Listeners pour recalculer tendance + évolution
+  tbody.querySelectorAll('select').forEach(sel=>{
+    sel.addEventListener('change', ()=>{ majTendances(); majEvolution(); });
+  });
+  majTendances();
+  majEvolution();
+}
+
+function majTendances(){
+  const indics = getIndicateursSelectionnes();
+  indics.forEach(ind=>{
+    const vals = [];
+    for(let p=1;p<=5;p++){
+      const sel = document.querySelector(`[data-k="cot-${ind.axe}-${ind.idx}-p${p}"]`);
+      if(sel && sel.value !== '') vals.push(parseInt(sel.value,10));
+    }
+    const cell = document.querySelector(`[data-tend="${ind.axe}-${ind.idx}"]`);
+    if(!cell) return;
+    if(vals.length < 2){
+      cell.textContent = '—';
+      cell.className = 'tendance';
+      return;
+    }
+    const debut = vals[0];
+    const fin = vals[vals.length-1];
+    if(fin > debut){ cell.textContent = '↗'; cell.className = 'tendance tend-up'; }
+    else if(fin < debut){ cell.textContent = '↘'; cell.className = 'tendance tend-down'; }
+    else { cell.textContent = '→'; cell.className = 'tendance tend-stable'; }
+  });
+}
+
+// === Évolution visuelle (barres) ===
+function majEvolution(){
+  const cont = document.getElementById('evolution');
+  const indics = getIndicateursSelectionnes();
+  if(indics.length === 0){
+    cont.innerHTML = '<p style="color:var(--muted);font-style:italic">Coche des indicateurs pour voir leur évolution.</p>';
+    return;
+  }
+  cont.innerHTML = indics.map(ind=>{
+    const vals = [];
+    for(let p=1;p<=5;p++){
+      const sel = document.querySelector(`[data-k="cot-${ind.axe}-${ind.idx}-p${p}"]`);
+      vals.push(sel ? sel.value : '');
+    }
+    return `
+      <div class="evol-ligne">
+        <div class="evol-nom">${esc(ind.libelle)}</div>
+        <div class="evol-bars">
+          ${vals.map((v,i)=>{
+            const lab = document.querySelector(`[data-k="p${i+1}-label"]`);
+            const labelP = (lab && lab.value) ? lab.value : 'P'+(i+1);
+            if(v === '') return `<div class="evol-bar b0" title="${esc(labelP)}: non coté" style="height:6px">·</div>`;
+            const cls = 'b'+v;
+            const ht = Math.max(8, (parseInt(v,10)/4)*60);
+            return `<div class="evol-bar ${cls}" title="${esc(labelP)}: ${v}/4" style="height:${ht}px">${v}</div>`;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// === Save / Load ===
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type==='checkbox' ? el.checked : el.value;
+  });
+  return o;
+}
+
+function appliquer(o){
+  window.__cur_state = o; // pour que majTableau puisse récupérer les cot-
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  majTableau(); // re-render le tableau avec les coches restaurées (recouvre les cot- depuis __cur_state)
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else el.value = '';
+  });
+  window.__cur_state = {};
+  document.querySelector('[data-k="date-debut"]').valueAsDate = new Date();
+  currentId = null;
+  majTableau();
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucun suivi.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · début ${esc((o['date-debut']||'').slice(0,10))}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire(); const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom.'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr); rendreDossiers(); alert('Suivi enregistré.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const l = ['Tableau de suivi des progrès — Boîte NeuroPed',''];
+  l.push('Enfant : '+(o.prenom||'—')+' · '+(o.age||'—'));
+  l.push('Début : '+(o['date-debut']||'—')+' · Période : '+(o.periode||'—'));
+  l.push('Coteurs : '+(o.coteurs||'—'));
+  l.push('Objectifs SMART rappelés : '+(o['objectifs-rappel']||'—'));
+  l.push('');
+  l.push('== Indicateurs suivis ==');
+  AXES_INDICATEURS.forEach(a=>{
+    a.items.forEach((it,i)=>{
+      if(o['ind-'+a.axe+'-'+i]){
+        const vals = [];
+        for(let p=1;p<=5;p++){
+          const v = o['cot-'+a.axe+'-'+i+'-p'+p];
+          vals.push(v !== undefined && v !== '' ? v : '-');
+        }
+        l.push('  · ['+a.axe+'] '+it+' → P1:'+vals[0]+' P2:'+vals[1]+' P3:'+vals[2]+' P4:'+vals[3]+' P5:'+vals[4]);
+      }
+    });
+  });
+  l.push('Libellés périodes : '+(o['p1-label']||'P1')+' / '+(o['p2-label']||'P2')+' / '+(o['p3-label']||'P3')+' / '+(o['p4-label']||'P4')+' / '+(o['p5-label']||'P5'));
+  l.push('');
+  l.push('== Bilan intermédiaire ==');
+  l.push('Progrès : '+(o['b-progres']||'—'));
+  l.push('Difficultés : '+(o['b-difficultes']||'—'));
+  l.push('Ajustements : '+(o['b-ajustements']||'—'));
+  l.push('Relais : '+(o['b-relais']||'—'));
+  l.push('');
+  l.push('== Décisions ==');
+  const decs = ['poursuivre','augmenter','simplifier','changer','clore','orienter','equipe','mediation'].filter(k=> o['dec-'+k]);
+  l.push('Choix : '+(decs.join(', ')||'—'));
+  l.push('Détail : '+(o['dec-detail']||'—'));
+  l.push('');
+  l.push('== Synthèse ==');
+  l.push(o['syn-phrase']||'—');
+  l.push('Destinataires : '+(o.destinataires||'—'));
+  l.push('Prochain bilan : '+(o['date-prochain']||'—'));
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'suivi-progres-'+(o.prenom||'enfant')+'-'+(o['date-debut']||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{ if(confirm('Vider le formulaire ?')) vider(); });
+
+// Re-render évolution à chaque modif de label période
+document.querySelectorAll('[data-k$="-label"]').forEach(el=>{
+  el.addEventListener('input', majEvolution);
+});
+
+// Nav scroll
+const navLinks = document.querySelectorAll('#nav a');
+function majNav(){
+  const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 120) actif = c; });
+  navLinks.forEach(a=>{ a.classList.toggle('actif', actif && a.getAttribute('href') === '#'+actif.id); });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+// Init
+renderCatalogue();
+document.querySelector('[data-k="date-debut"]').valueAsDate = new Date();
+majTableau();
+rendreDossiers();
+majNav();
+</script>
+
+</body>
+</html>
