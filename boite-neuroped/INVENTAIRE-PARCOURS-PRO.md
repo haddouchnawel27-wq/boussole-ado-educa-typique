@@ -103,3 +103,14 @@ Guide praticien :
 
 ### Reste à recevoir
 - `_assets/charte.css` (essentiel) · analyse-fonctionnelle · grille-abc · index/aujourdhui
+
+---
+
+## ✅ Mise à jour — formations & questionnaire ado
+
+Formations enregistrées (`boite-neuroped/formations/`) :
+- Fixer des objectifs (DYS) · Les neurosciences — comprendre le cerveau · Les traumas et leur impact sur le cerveau · Neuropédagogie par les neurosciences
+
+Questionnaire ado (`boite-neuroped/ados/`) :
+- **Questionnaire TND ado** (auto-évaluation 9 domaines : TDAH·HPI·TOP·TSA·DYS·anxiété·moral·comportements·alimentation)
+  ⚠️ *Sécurité* : demande une clé API Anthropic saisie dans le navigateur + contient un bouton d'aide/crise (3114) — conforme, mais clé API à ne jamais diffuser.
