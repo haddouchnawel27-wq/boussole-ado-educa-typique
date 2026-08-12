@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trouble dys-exécutif — Outil clinique Pro · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --violet:#7c5cbf;
+  --violet-fonce:#5a3c8f;
+  --teal:#2a9d8f;
+  --rose:#F39BC2;
+  --pink:#e05a8a;
+  --orange:#e89556;
+  --jaune:#e0b83e;
+  --rouge:#C9573A;
+  --vert:#88C8A8;
+}
+body{background:linear-gradient(180deg,#f5f0fa 0%,#fff 50%,#f5f0fa 100%);font-family:'Nunito',system-ui,sans-serif;color:#3a3050;line-height:1.65;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+
+.hdr{text-align:center;padding:38px 24px 28px;margin-bottom:22px;background:linear-gradient(135deg,var(--violet-fonce),var(--violet) 50%,var(--teal) 100%);border-radius:24px;color:#fff;box-shadow:0 8px 28px rgba(124,92,191,.25);position:relative;overflow:hidden}
+.hdr::before{content:'🧠';position:absolute;top:14px;right:18px;font-size:52px;opacity:.2}
+.hdr::after{content:'🎓';position:absolute;bottom:14px;left:18px;font-size:42px;opacity:.18}
+.brand{display:inline-block;padding:5px 14px;background:rgba(255,255,255,.22);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:12px;position:relative;z-index:1}
+.hdr h1{font-family:'Poppins',sans-serif;font-size:30px;color:#fff;margin-bottom:6px;position:relative;z-index:1;text-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hdr p{font-style:italic;font-size:14.5px;color:#fff;max-width:680px;margin:0 auto;position:relative;z-index:1;opacity:.95}
+
+.intro{background:#fff;border-radius:18px;padding:22px 24px;margin-bottom:20px;border-left:5px solid var(--violet);box-shadow:0 4px 14px rgba(124,92,191,.08)}
+.intro p{font-size:14.5px;color:#3D4E4A;line-height:1.7;margin-bottom:8px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:var(--violet)}
+
+.dossier-bar{background:#fff;border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(124,92,191,.08);border:1px solid rgba(124,92,191,.18)}
+.dossier-bar label{font-size:13px;font-weight:700;color:#5a4a6f}
+.dossier-bar input,.dossier-bar select{padding:7px 12px;border:1px solid rgba(124,92,191,.25);border-radius:9px;font-size:13px;background:#fff;font-family:inherit;color:#3a3050;min-width:150px}
+.dossier-bar button{background:#f5f0fa;color:var(--violet);border:1px solid rgba(124,92,191,.25);padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.dossier-bar button:hover{background:#fff}
+.dossier-bar .btn-export{background:linear-gradient(135deg,var(--violet-fonce),var(--violet));color:#fff;border:none}
+
+.nav{display:flex;gap:6px;background:#fff;padding:8px;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 12px rgba(124,92,191,.08);overflow-x:auto;border:1px solid rgba(124,92,191,.18)}
+.nav button{background:transparent;color:#5a4a6f;border:none;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .25s}
+.nav button:hover{background:#f5f0fa}
+.nav button.active{background:linear-gradient(135deg,var(--violet-fonce),var(--violet));color:#fff;box-shadow:0 4px 10px rgba(124,92,191,.3)}
+
+.panel{display:none;animation:fadeIn .4s ease-out}
+.panel.active{display:block}
+.section{background:#fff;border-radius:20px;padding:24px;margin-bottom:18px;border:1px solid rgba(124,92,191,.15);box-shadow:0 4px 14px rgba(124,92,191,.05)}
+.section h2{font-family:'Poppins',sans-serif;font-size:21px;color:var(--violet);margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#7a8782;font-style:italic;margin-bottom:18px}
+
+/* CADRE THÉORIQUE */
+.theorie-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:18px 0}
+.theorie-card{padding:18px;border-radius:14px;background:linear-gradient(135deg,#fff,#f5f0fa);border-left:5px solid var(--violet);box-shadow:0 2px 8px rgba(124,92,191,.06)}
+.theorie-card h4{font-family:'Poppins',sans-serif;font-size:1.05rem;color:var(--violet-fonce);margin-bottom:8px}
+.theorie-card .ref{font-size:.78rem;color:#7a8782;font-style:italic;margin-bottom:8px;display:block}
+.theorie-card p{font-size:.92rem;color:#3D4E4A;line-height:1.65}
+.theorie-card ul{margin:6px 0 0 22px;font-size:.9rem;line-height:1.75;color:#3D4E4A}
+
+/* GRILLE OBSERVATION */
+.observation-table{background:#fff;border-radius:14px;overflow:hidden;border:1px solid rgba(124,92,191,.2);margin:18px 0}
+.obs-row{display:grid;grid-template-columns:160px 1fr 1fr 1fr 80px;gap:0;border-bottom:1px solid rgba(124,92,191,.15)}
+.obs-row:last-child{border-bottom:none}
+.obs-row.header{background:linear-gradient(135deg,var(--violet-fonce),var(--violet));color:#fff;font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.5px}
+.obs-row > div{padding:10px 12px;font-size:13px;border-right:1px solid rgba(124,92,191,.1)}
+.obs-row > div:last-child{border-right:none}
+.obs-cat{background:#f5f0fa;font-weight:700;color:var(--violet-fonce);font-size:12.5px;display:flex;align-items:center}
+.obs-ctx{padding:8px 10px !important}
+.obs-ctx textarea{width:100%;min-height:50px;padding:6px 8px;border:1px solid rgba(124,92,191,.2);border-radius:6px;font-size:12.5px;font-family:inherit;background:#faf6fb;color:#3a3050;resize:vertical;line-height:1.4}
+.obs-ctx textarea:focus{outline:1.5px solid var(--violet);background:#fff}
+.obs-cote{text-align:center;background:#fafbfc}
+.obs-cote select{width:60px;padding:4px;border:1px solid rgba(124,92,191,.2);border-radius:6px;font-size:13px;font-family:inherit;background:#fff;font-weight:700;text-align:center}
+
+@media (max-width:760px){
+  .obs-row{grid-template-columns:1fr}
+  .obs-row.header{display:none}
+  .obs-row{margin-bottom:12px;border-radius:10px;border:1px solid rgba(124,92,191,.2)}
+  .obs-row > div{border-right:none;border-bottom:1px solid rgba(124,92,191,.1)}
+  .obs-row > div::before{content:attr(data-label);font-size:11px;color:#7a8782;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px;letter-spacing:.5px}
+}
+
+/* PLAN INTERVENTION */
+.plan-card{background:linear-gradient(135deg,#fff,#fff5e8);border-radius:14px;padding:18px;margin-bottom:12px;border-left:5px solid var(--orange)}
+.plan-card h3{font-family:'Poppins',sans-serif;color:#a04500;font-size:1.05rem;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.plan-card h4{font-family:'Poppins',sans-serif;color:#a04500;font-size:.95rem;margin:12px 0 6px}
+.plan-card ul{margin-left:22px;line-height:1.85;font-size:13.5px;color:#3D4E4A}
+.plan-card ul li{margin-bottom:3px}
+.plan-card ul li strong{color:#a04500}
+
+.plan-textarea{background:#fff;border-radius:10px;padding:10px;margin-top:10px;border:1px dashed rgba(232,149,86,.4)}
+.plan-textarea label{font-size:12px;color:#a04500;font-weight:700;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px}
+.plan-textarea textarea{width:100%;min-height:60px;padding:8px 10px;border:1px solid rgba(232,149,86,.25);border-radius:8px;font-size:13.5px;font-family:inherit;background:#fffbf6;line-height:1.5;resize:vertical}
+.plan-textarea textarea:focus{outline:1.5px solid var(--orange);background:#fff}
+
+/* REEDUC */
+.reeduc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+@media (max-width:680px){.reeduc-grid{grid-template-columns:1fr}}
+.reeduc-card{padding:18px;border-radius:14px;border-top:5px solid}
+.reeduc-card.bottom-up{background:linear-gradient(160deg,#fff,#e8f5f4);border-color:var(--teal)}
+.reeduc-card.top-down{background:linear-gradient(160deg,#fff,#f0e8f5);border-color:var(--violet)}
+.reeduc-card h3{font-family:'Poppins',sans-serif;font-size:1.1rem;margin-bottom:8px}
+.reeduc-card.bottom-up h3{color:#1d6e5e}
+.reeduc-card.top-down h3{color:var(--violet-fonce)}
+.reeduc-card .principe{font-weight:700;font-size:.9rem;margin-bottom:8px;color:#3a3050}
+.reeduc-card .exemples{background:rgba(255,255,255,.7);padding:10px 14px;border-radius:10px;margin-top:10px;font-size:.88rem;line-height:1.6}
+.reeduc-card .exemples strong{display:block;margin-bottom:4px;color:#3a3050}
+
+/* EQUIPE */
+.equipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0}
+.equipe-card{background:#fff;border-radius:12px;padding:14px;border-left:4px solid var(--violet);font-size:.92rem}
+.equipe-card h4{font-family:'Poppins',sans-serif;color:var(--violet);margin-bottom:4px;font-size:.95rem}
+.equipe-card p{color:#3D4E4A;line-height:1.6;font-size:.85rem}
+
+.btn{background:linear-gradient(135deg,var(--violet-fonce),var(--violet));color:#fff;border:none;padding:11px 22px;border-radius:22px;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;margin-right:8px;margin-top:8px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(124,92,191,.3)}
+.btn-sec{background:#f5f0fa;color:var(--violet);border:1px solid rgba(124,92,191,.3)}
+
+.synthese-zone{background:linear-gradient(135deg,#f5f0fa,#fff);border-radius:18px;padding:24px;margin-top:18px;border:2px solid var(--violet)}
+.synthese-zone h3{font-family:'Poppins',sans-serif;color:var(--violet-fonce);margin-bottom:12px}
+.synthese-zone textarea{width:100%;min-height:120px;padding:12px;border:1px solid rgba(124,92,191,.25);border-radius:10px;font-family:inherit;font-size:14px;background:#fff;line-height:1.6;resize:vertical}
+
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif}
+.footer .brand-foot{color:var(--violet);font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+
+@media print{
+  .nav,.dossier-bar,.btn{display:none!important}
+  .panel{display:block!important;page-break-after:always}
+  body{background:#fff}
+}
+@media (max-width:600px){.hdr h1{font-size:22px}}
+</style>
+</head>
+<body>
+<a href="../../professionnels.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:var(--violet);font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);border:1px solid rgba(124,92,191,.25)">← Pros</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Outil clinique · Comprendre &amp; accompagner · EducaTypique</span>
+<h1>🧠 Trouble dys-exécutif — Outil pro</h1>
+<p>Cadre théorique · Grille observation 3 contextes · Plan d'aménagement école/maison · Plan rééducatif Bottom-Up/Top-Down · Synthèse exportable.</p>
+</div>
+
+<div class="intro">
+<p>🎓 <strong>Pour qui :</strong> conseillères/conseillers TND, neuropédagogues, coachs, enseignant·e·s spécialisé·e·s, AESH, animateur·trice·s périscolaires, associations d'aide aux devoirs. Pour tout·e accompagnant·e d'enfant TND qui veut <strong>structurer son observation</strong> et <strong>préparer son plan d'aménagement</strong>.</p>
+<p>📚 <strong>Cadre théorique :</strong> d'après Laureline Van der Poorten (psychologue neuropsychologie, CHU Grenoble, Journée des DYS Apedys Isère 2016) + adaptation pédagogique Nawel Haddouch.</p>
+<p>⚠️ <strong>Cadre éthique :</strong> outil de structuration de l'accompagnement. <strong>Ne pose pas de diagnostic</strong> — réservé aux neuropsychologues. Sert à mieux observer, mieux verbaliser, mieux orienter.</p>
+</div>
+
+<div class="dossier-bar">
+<label>📁 Dossier enfant :</label>
+<select id="dossierSelect" onchange="changeDossier()">
+<option value="default">Mon dossier</option>
+</select>
+<input type="text" id="newDossier" placeholder="Nouveau (ex: Léa, Noor...)">
+<button onclick="addDossier()">+ Créer</button>
+<button onclick="deleteDossier()">🗑 Supprimer</button>
+<button onclick="exportTXT()" class="btn-export">📥 Exporter en .txt</button>
+</div>
+
+<div class="nav">
+<button class="active" data-tab="cadre" onclick="switchTab('cadre')">📚 Cadre théorique</button>
+<button data-tab="observation" onclick="switchTab('observation')">🔍 Grille observation</button>
+<button data-tab="ecole" onclick="switchTab('ecole')">🏫 Plan école</button>
+<button data-tab="maison" onclick="switchTab('maison')">🏡 Plan maison</button>
+<button data-tab="reeduc" onclick="switchTab('reeduc')">🛠 Plan rééducatif</button>
+<button data-tab="synthese" onclick="switchTab('synthese')">📝 Synthèse</button>
+</div>
+
+<!-- ============ CADRE THÉORIQUE ============ -->
+<div class="panel active" id="panel-cadre">
+
+<div class="section">
+<h2>📚 Définition &amp; substrat neurologique</h2>
+<div class="sub">Le « chef d'orchestre » du cerveau — coordination des actions non routinières dirigées vers un but.</div>
+
+<div class="theorie-grid">
+<div class="theorie-card">
+<h4>🧠 Cortex préfrontal</h4>
+<span class="ref">Substrat anatomique</span>
+<p>Les FE dépendent de circuits situés dans le <strong>cortex préfrontal</strong> (région antérieure du cerveau). Maturation très lente : <strong>se poursuit jusqu'à ~25 ans</strong>.</p>
+<p style="margin-top:8px;font-style:italic;color:#7a6b40">Implication clinique : une immaturité exécutive est normale chez l'enfant et l'ado.</p>
+</div>
+
+<div class="theorie-card">
+<h4>🌱 Facteurs développementaux</h4>
+<span class="ref">Influences sur la maturation</span>
+<p>Le développement des FE est influencé par :</p>
+<ul>
+<li>Patrimoine <strong>génétique</strong></li>
+<li>Émergence du <strong>langage</strong> (rôle pivot)</li>
+<li><strong>Environnement</strong> (richesse, structure)</li>
+<li><strong>Expériences de vie</strong></li>
+</ul>
+</div>
+</div>
+
+<h3 style="font-family:'Poppins',sans-serif;color:var(--violet);margin:20px 0 12px;font-size:1.1rem">📋 Les 4 composantes</h3>
+
+<div class="theorie-grid">
+<div class="theorie-card" style="border-color:var(--teal)">
+<h4>🧠 Mémoire de travail (MDT)</h4>
+<p>Maintien temporaire + manipulation mentale d'une information. <strong>Limitée en durée et capacité</strong> → surcharge = « bug ».</p>
+<p style="margin-top:6px"><strong>Sollicitée pour :</strong> consigne multi-étapes · lecture-compréhension · calcul mental · planification.</p>
+</div>
+
+<div class="theorie-card" style="border-color:var(--rouge)">
+<h4>🛑 Inhibition</h4>
+<p>3 facettes : (1) résister aux distractions/impulsions · (2) interrompre un geste/parole · (3) se maîtriser émotionnellement.</p>
+<p style="margin-top:6px"><strong>Frein de l'impulsivité</strong> → permet de réfléchir avant d'agir.</p>
+</div>
+
+<div class="theorie-card" style="border-color:var(--violet)">
+<h4>🔄 Flexibilité mentale</h4>
+<p>Alternance rapide entre états cognitifs : changer de stratégie/point de vue, s'adapter aux changements et imprévus.</p>
+<p style="margin-top:6px"><strong>Liée à l'inhibition.</strong> Indispensable hors situations automatisées.</p>
+</div>
+
+<div class="theorie-card" style="border-color:var(--orange)">
+<h4>📋 Planification</h4>
+<p>Mener une action vers un but. <strong>5 temps :</strong> Analyser → Prioriser → Ordonner → Auto-vérifier → Réajuster.</p>
+<p style="margin-top:6px"><strong>Exige</strong> une bonne maîtrise du temps.</p>
+</div>
+</div>
+
+<h3 style="font-family:'Poppins',sans-serif;color:var(--violet);margin:20px 0 12px;font-size:1.1rem">👀 Les 3 fonctions attentionnelles associées</h3>
+
+<div class="theorie-grid">
+<div class="theorie-card" style="border-color:var(--teal)">
+<h4>🎯 Attention sélective</h4>
+<p>Repérer les informations <strong>pertinentes</strong> + inhiber les distracteurs.</p>
+</div>
+<div class="theorie-card" style="border-color:var(--violet)">
+<h4>⏱ Attention soutenue</h4>
+<p><strong>Maintenir</strong> l'attention sur une longue période.</p>
+</div>
+<div class="theorie-card" style="border-color:var(--rose)">
+<h4>🔀 Attention divisée</h4>
+<p>Traiter <strong>simultanément</strong> plusieurs informations (double tâche) — la plus coûteuse pour un enfant en difficulté exécutive.</p>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>👥 Étiologie — chez quels patients ?</h2>
+<div class="sub">Le trouble dys-exécutif n'est pas une entité diagnostique propre — c'est un syndrome observable dans plusieurs tableaux.</div>
+
+<div class="theorie-grid">
+<div class="theorie-card" style="border-color:var(--rouge)">
+<h4>🧬 Troubles neurodéveloppementaux</h4>
+<ul>
+<li><strong>TDAH</strong> (le plus fréquent)</li>
+<li>Syndrome Gilles de la Tourette</li>
+<li>TSA</li>
+<li>Déficience intellectuelle</li>
+<li>SAF (syndrome alcoolisation fœtale)</li>
+</ul>
+</div>
+<div class="theorie-card" style="border-color:var(--orange)">
+<h4>💥 Troubles acquis</h4>
+<ul>
+<li>Traumatismes crâniens</li>
+<li>Lésions cérébrales focales/diffuses</li>
+</ul>
+</div>
+<div class="theorie-card" style="border-color:var(--rose)">
+<h4>🌧 Troubles psychopathologiques</h4>
+<ul>
+<li>Troubles psychotiques (schizophrénie)</li>
+<li>Dépression</li>
+<li>Troubles anxieux</li>
+</ul>
+</div>
+<div class="theorie-card" style="border-color:var(--vert)">
+<h4>😴 Facteurs aggravants</h4>
+<ul>
+<li><strong>Fatigue importante</strong> (même hors trouble) produit un tableau dys-exécutif transitoire</li>
+<li>Privation de sommeil chronique</li>
+<li>Stress aigu/chronique</li>
+</ul>
+</div>
+</div>
+
+<h3 style="font-family:'Poppins',sans-serif;color:var(--violet);margin:20px 0 12px;font-size:1.1rem">2 profils comportementaux à distinguer</h3>
+
+<div class="theorie-grid">
+<div class="theorie-card" style="border-color:var(--teal);background:linear-gradient(135deg,#fff,#e8f5f4)">
+<h4>🐢 Forme apathique (excès d'inhibition)</h4>
+<p><strong>Diminution des activités · lenteur · peu d'initiative · pauvreté des réactions émotionnelles.</strong></p>
+<p style="margin-top:8px;color:#1d6e5e;font-weight:700">⚠️ À ne pas confondre avec une dépression.</p>
+</div>
+<div class="theorie-card" style="border-color:var(--rouge);background:linear-gradient(135deg,#fff,#fce2e2)">
+<h4>🌪 Forme désinhibée (défaut d'inhibition)</h4>
+<p><strong>Comportements excessifs et inadaptés · agitation motrice · impulsivité · labilité émotionnelle.</strong></p>
+<p style="margin-top:8px;color:#7a3500;font-weight:700">Forme la plus fréquente dans le TDAH.</p>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- ============ GRILLE OBSERVATION ============ -->
+<div class="panel" id="panel-observation">
+<div class="section">
+<h2>🔍 Grille d'observation — FE × 3 contextes</h2>
+<div class="sub">Pour chaque composante, observe et cote (0 = jamais · 1 = parfois · 2 = souvent · 3 = systématique) dans 3 contextes. Note les exemples cliniques précis.</div>
+
+<div class="observation-table">
+<div class="obs-row header">
+<div>Composante</div>
+<div>École / classe</div>
+<div>Maison / devoirs</div>
+<div>Séance / cadre individuel</div>
+<div>Cote</div>
+</div>
+
+<div class="obs-row">
+<div class="obs-cat">🧠 Mémoire de travail</div>
+<div class="obs-ctx" data-label="École"><textarea id="obs-mdt-ecole" placeholder="Ex: ne suit pas consigne multi-étapes, oublie en route..."></textarea></div>
+<div class="obs-ctx" data-label="Maison"><textarea id="obs-mdt-maison" placeholder="Ex: relire 3× la consigne, perd l'idée en faisant..."></textarea></div>
+<div class="obs-ctx" data-label="Séance"><textarea id="obs-mdt-seance" placeholder="Ex: empan inversé bas, fatigue rapide aux tâches MDT..."></textarea></div>
+<div class="obs-cote" data-label="Cote"><select id="cote-mdt"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+</div>
+
+<div class="obs-row">
+<div class="obs-cat">🛑 Inhibition</div>
+<div class="obs-ctx" data-label="École"><textarea id="obs-inh-ecole" placeholder="Ex: réponses précoces, agitation motrice, coupe la parole..."></textarea></div>
+<div class="obs-ctx" data-label="Maison"><textarea id="obs-inh-maison" placeholder="Ex: distractibilité forte aux écrans, réactions disproportionnées..."></textarea></div>
+<div class="obs-ctx" data-label="Séance"><textarea id="obs-inh-seance" placeholder="Ex: Go-No-Go performance basse, manipulation du matériel..."></textarea></div>
+<div class="obs-cote" data-label="Cote"><select id="cote-inh"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+</div>
+
+<div class="obs-row">
+<div class="obs-cat">🔄 Flexibilité mentale</div>
+<div class="obs-ctx" data-label="École"><textarea id="obs-flex-ecole" placeholder="Ex: rigidité face nouvelle règle, transitions difficiles..."></textarea></div>
+<div class="obs-ctx" data-label="Maison"><textarea id="obs-flex-maison" placeholder="Ex: crise sur imprévus, mêmes stratégies répétées..."></textarea></div>
+<div class="obs-ctx" data-label="Séance"><textarea id="obs-flex-seance" placeholder="Ex: TMT B, classement par catégorie, persévération..."></textarea></div>
+<div class="obs-cote" data-label="Cote"><select id="cote-flex"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+</div>
+
+<div class="obs-row">
+<div class="obs-cat">📋 Planification</div>
+<div class="obs-ctx" data-label="École"><textarea id="obs-plan-ecole" placeholder="Ex: matériel chaotique, pas de plan ni brouillon, dernière minute..."></textarea></div>
+<div class="obs-ctx" data-label="Maison"><textarea id="obs-plan-maison" placeholder="Ex: estime mal le temps, démarre sans préparer..."></textarea></div>
+<div class="obs-ctx" data-label="Séance"><textarea id="obs-plan-seance" placeholder="Ex: Tour de Londres performance basse, pas d'auto-vérification..."></textarea></div>
+<div class="obs-cote" data-label="Cote"><select id="cote-plan"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+</div>
+
+<div class="obs-row">
+<div class="obs-cat">🎯 Attention sélective</div>
+<div class="obs-ctx" data-label="École"><textarea id="obs-attsel-ecole" placeholder="Ex: capté par les distracteurs externes, place sa chaise..."></textarea></div>
+<div class="obs-ctx" data-label="Maison"><textarea id="obs-attsel-maison" placeholder="Ex: capte les bruits frigo/fratrie/téléphone..."></textarea></div>
+<div class="obs-ctx" data-label="Séance"><textarea id="obs-attsel-seance" placeholder="Ex: barrage symboles, performance et stratégie..."></textarea></div>
+<div class="obs-cote" data-label="Cote"><select id="cote-attsel"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+</div>
+
+<div class="obs-row">
+<div class="obs-cat">⏱ Attention soutenue</div>
+<div class="obs-ctx" data-label="École"><textarea id="obs-attsout-ecole" placeholder="Ex: décrochage après 5-10 min, regard ailleurs..."></textarea></div>
+<div class="obs-ctx" data-label="Maison"><textarea id="obs-attsout-maison" placeholder="Ex: ne tient pas 15 min sur devoir, multi-pauses..."></textarea></div>
+<div class="obs-ctx" data-label="Séance"><textarea id="obs-attsout-seance" placeholder="Ex: CPT continuous performance, déclin attentionnel..."></textarea></div>
+<div class="obs-cote" data-label="Cote"><select id="cote-attsout"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+</div>
+
+<div class="obs-row">
+<div class="obs-cat">🔀 Attention divisée</div>
+<div class="obs-ctx" data-label="École"><textarea id="obs-attdiv-ecole" placeholder="Ex: écrire+écouter impossible, choix entre les 2..."></textarea></div>
+<div class="obs-ctx" data-label="Maison"><textarea id="obs-attdiv-maison" placeholder="Ex: ne peut pas répondre tout en jouant, choisit l'un..."></textarea></div>
+<div class="obs-ctx" data-label="Séance"><textarea id="obs-attdiv-seance" placeholder="Ex: tâche double avec cassure des perfs..."></textarea></div>
+<div class="obs-cote" data-label="Cote"><select id="cote-attdiv"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+</div>
+
+</div>
+
+<div style="background:linear-gradient(135deg,#f5f0fa,#fff);border-radius:14px;padding:18px;margin-top:14px;border-left:5px solid var(--violet);font-size:13.5px;color:#3D4E4A;line-height:1.7">
+<strong style="color:var(--violet)">🧩 Profil comportemental observé</strong> (cocher selon ce qui domine) :<br>
+<label style="display:inline-block;margin:8px 12px 4px 0;cursor:pointer"><input type="radio" name="profil-comp" value="apathique" style="margin-right:6px"> 🐢 Forme apathique (excès inhibition)</label>
+<label style="display:inline-block;margin:8px 12px 4px 0;cursor:pointer"><input type="radio" name="profil-comp" value="desinhibee" style="margin-right:6px"> 🌪 Forme désinhibée (défaut inhibition)</label>
+<label style="display:inline-block;margin:8px 12px 4px 0;cursor:pointer"><input type="radio" name="profil-comp" value="mixte" style="margin-right:6px"> ⚡ Profil mixte / fluctuant</label>
+</div>
+
+<div style="background:linear-gradient(135deg,#fff5e8,#fff);border-radius:14px;padding:18px;margin-top:14px;border-left:5px solid var(--orange);font-size:13.5px;color:#3D4E4A;line-height:1.7">
+<strong style="color:#a04500">📋 Hypothèse étiologique (cocher ce qui est suspecté ou avéré)</strong>
+<div style="margin-top:8px">
+<label style="display:inline-block;margin:4px 12px 4px 0;cursor:pointer;font-size:13px"><input type="checkbox" id="etio-tdah" style="margin-right:4px"> TDAH</label>
+<label style="display:inline-block;margin:4px 12px 4px 0;cursor:pointer;font-size:13px"><input type="checkbox" id="etio-tsa" style="margin-right:4px"> TSA</label>
+<label style="display:inline-block;margin:4px 12px 4px 0;cursor:pointer;font-size:13px"><input type="checkbox" id="etio-dys" style="margin-right:4px"> DYS (associé)</label>
+<label style="display:inline-block;margin:4px 12px 4px 0;cursor:pointer;font-size:13px"><input type="checkbox" id="etio-hpi" style="margin-right:4px"> HPI</label>
+<label style="display:inline-block;margin:4px 12px 4px 0;cursor:pointer;font-size:13px"><input type="checkbox" id="etio-anx" style="margin-right:4px"> Anxiété</label>
+<label style="display:inline-block;margin:4px 12px 4px 0;cursor:pointer;font-size:13px"><input type="checkbox" id="etio-trauma" style="margin-right:4px"> Trauma / TC</label>
+<label style="display:inline-block;margin:4px 12px 4px 0;cursor:pointer;font-size:13px"><input type="checkbox" id="etio-fatigue" style="margin-right:4px"> Fatigue chronique</label>
+<label style="display:inline-block;margin:4px 12px 4px 0;cursor:pointer;font-size:13px"><input type="checkbox" id="etio-autre" style="margin-right:4px"> Autre</label>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ============ PLAN ÉCOLE ============ -->
+<div class="panel" id="panel-ecole">
+<div class="section">
+<h2>🏫 Plan d'aménagement scolaire</h2>
+<div class="sub">Aménagements à proposer à l'équipe pédagogique (PAP/PPS/PPRE). Cocher ce qu'on prescrit, ajouter contextualisation.</div>
+
+<div class="plan-card">
+<h3>🧠 Mémoire de travail</h3>
+<h4>Soulager (contourner)</h4>
+<ul>
+<li>Résumés écrits + dessins accompagnant les consignes</li>
+<li>Supports visuels privilégiés + brouillon autorisé</li>
+<li>Consignes courtes, une seule à la fois</li>
+</ul>
+<h4>Rendre fonctionnelle (entraîner)</h4>
+<ul>
+<li>Répéter la consigne à voix basse</li>
+<li>Reformuler la consigne avant de commencer</li>
+</ul>
+<div class="plan-textarea">
+<label>📝 Précisions pour cet enfant</label>
+<textarea id="plan-ecole-mdt" placeholder="Adaptations spécifiques recommandées..."></textarea>
+</div>
+</div>
+
+<div class="plan-card">
+<h3>🛑 Inhibition</h3>
+<h4>Aider au contrôle</h4>
+<ul>
+<li>Pictogrammes en classe (stop, attendre, écouter)</li>
+<li>Plan de travail visible</li>
+<li>Poser le crayon pendant les consignes</li>
+</ul>
+<h4>Accepter l'agitation</h4>
+<ul>
+<li>Confier des missions de mouvement (distribuer, effacer)</li>
+<li>NE PAS supprimer les récréations (contre-productif)</li>
+<li>Balle anti-stress, objet de manipulation discret</li>
+</ul>
+<div class="plan-textarea">
+<label>📝 Précisions pour cet enfant</label>
+<textarea id="plan-ecole-inh" placeholder="Adaptations spécifiques recommandées..."></textarea>
+</div>
+</div>
+
+<div class="plan-card">
+<h3>🔄 Flexibilité mentale</h3>
+<ul>
+<li>Guider la réflexion + aider à envisager d'autres points de vue</li>
+<li>Temps supplémentaire lors des changements d'activité</li>
+<li>Aide à initier les transitions (compte à rebours, signal visuel)</li>
+<li>Minimiser le nombre de transitions (1 feuille = 1 type d'exercice)</li>
+</ul>
+<div class="plan-textarea">
+<label>📝 Précisions pour cet enfant</label>
+<textarea id="plan-ecole-flex" placeholder="Adaptations spécifiques recommandées..."></textarea>
+</div>
+</div>
+
+<div class="plan-card">
+<h3>📋 Planification / organisation</h3>
+<h4>Accompagner</h4>
+<ul>
+<li>Étapes données explicitement + astuces d'organisation</li>
+<li><strong>1 matière = 1 couleur</strong></li>
+<li>Préférer les cahiers aux classeurs</li>
+<li>Expliciter objectifs + temps de travail prévu</li>
+<li>Listes de vérification (checklists)</li>
+</ul>
+<h4>Soulager</h4>
+<ul>
+<li>Vérifier que les devoirs sont notés à la bonne date</li>
+<li>Emploi du temps affiché chaque jour</li>
+<li>Routines claires et établies</li>
+<li>Échéancier précis pour chaque leçon/projet</li>
+<li>Moments de révision intégrés dans la journée</li>
+</ul>
+<div class="plan-textarea">
+<label>📝 Précisions pour cet enfant</label>
+<textarea id="plan-ecole-plan" placeholder="Adaptations spécifiques recommandées..."></textarea>
+</div>
+</div>
+
+<div class="plan-card">
+<h3>👀 Fonctions attentionnelles</h3>
+<h4>Attention divisée — la PIRE situation</h4>
+<ul>
+<li><strong>Éviter au maximum la double tâche</strong> (écrire + écouter)</li>
+<li>Fournir notes de cours ou textes à trous</li>
+<li>S'assurer de l'attention de tous avant les consignes</li>
+</ul>
+<h4>Attention soutenue</h4>
+<ul>
+<li>Relancer par regard, contact épaule, proximité physique</li>
+<li>Minuteur visuel (time-timer) pour visualiser le temps</li>
+<li>Insister sur l'utilité de la tâche</li>
+<li><strong>Séquences courtes avec pauses régulières</strong></li>
+<li>Évaluations plutôt en début de cours qu'en fin</li>
+</ul>
+<h4>Attention sélective</h4>
+<ul>
+<li>Environnement calme, sans distracteurs</li>
+<li>Maximum de supports visuels</li>
+<li>Matériel concret, simple, dépouillé</li>
+<li>Exemples concrets systématiques</li>
+<li><strong>Valoriser, féliciter, récompenser les EFFORTS</strong> (pas que les résultats)</li>
+</ul>
+<div class="plan-textarea">
+<label>📝 Précisions pour cet enfant</label>
+<textarea id="plan-ecole-att" placeholder="Adaptations spécifiques recommandées..."></textarea>
+</div>
+</div>
+
+<div style="background:linear-gradient(135deg,#f5f0fa,#fff);border-radius:14px;padding:18px;margin-top:14px;border-left:5px solid var(--violet);font-size:13.5px;color:#3D4E4A;line-height:1.7">
+🌟 <strong style="color:var(--violet)">Principe transversal — Neuro-éducation :</strong> développer la <strong>connaissance que l'élève a de son propre cerveau</strong>, puis <strong>enseigner explicitement les stratégies</strong> (gestion du temps en contrôle, prise de notes, planification d'un exposé, etc.). Pas d'attentes implicites.
+</div>
+</div>
+</div>
+
+<!-- ============ PLAN MAISON ============ -->
+<div class="panel" id="panel-maison">
+<div class="section">
+<h2>🏡 Plan d'aménagement maison — pour les parents</h2>
+<div class="sub">Recommandations à transmettre aux parents. Le pro peut générer ce plan en fin de séance comme guidance parentale.</div>
+
+<div class="plan-card" style="border-left-color:var(--rose);background:linear-gradient(135deg,#fff,#fff5f8)">
+<h3 style="color:#a04268">📚 Cadre des devoirs</h3>
+<ul>
+<li>Routine fixe : <strong>même heure, même endroit</strong></li>
+<li>Pièces calmes (pas de TV, portable, fratrie bruyante)</li>
+<li><strong>Périodes courtes : 10-15 min</strong> puis pause</li>
+<li>Autoriser le mouvement s'il n'empêche pas (apprendre une leçon en marchant, ballon)</li>
+<li>Établir priorités avec les enseignants (quels exercices essentiels)</li>
+<li>Time-timer ou minuteur visuel pour prise de conscience du temps</li>
+</ul>
+<div class="plan-textarea">
+<label>📝 Adaptations spécifiques pour cette famille</label>
+<textarea id="plan-maison-devoirs" placeholder="Ex: créer un coin bureau dans le salon avec paravent..."></textarea>
+</div>
+</div>
+
+<div class="plan-card" style="border-left-color:var(--violet);background:linear-gradient(135deg,#fff,#f5f0fa)">
+<h3 style="color:var(--violet)">💛 Sortir du domaine scolaire</h3>
+<ul>
+<li>Retrouver un <strong>lien parent-enfant</strong> hors des conflits scolaires</li>
+<li>Valoriser TOUTES les réussites — surtout les petites</li>
+<li>Rappeler que <strong>les échecs font partie de l'apprentissage</strong></li>
+<li>Trouver un <strong>domaine d'épanouissement</strong> et l'investir</li>
+<li>Souligner les bons comportements (autant que les écarts)</li>
+</ul>
+<div class="plan-textarea">
+<label>📝 Pistes pour cette famille</label>
+<textarea id="plan-maison-lien" placeholder="Ex: 15 min de jeu commun sans devoirs chaque jour..."></textarea>
+</div>
+</div>
+
+<div class="plan-card" style="border-left-color:var(--teal);background:linear-gradient(135deg,#fff,#eef9f6)">
+<h3 style="color:#2a8970">🎲 Jouer · visiter · bouger</h3>
+<ul>
+<li><strong>Jeux de société FE-compatibles :</strong> Dobble, Bazar Bizarre, Fantôme contre fantôme, Rush Hour, Logikville…</li>
+<li><strong>Visites :</strong> musées, villes, théâtre, bibliothèque (ancrage multimodal des apprentissages)</li>
+<li><strong>Activités sportives — lien direct sport ↔ FE</strong> : préférer les sports à séquences (arts martiaux, danse, natation structurée)</li>
+<li>Voir aussi : <a href="../../E_ludotheque/parents/jeux-maison-fe.html" style="color:#2a8970;font-weight:700">20 jeux maison FE</a> et <a href="../../E_ludotheque/parents/jeux-adaptes-rahma-tech.html" style="color:#2a8970;font-weight:700">Pack 10 jeux Rahma-Tech</a></li>
+</ul>
+<div class="plan-textarea">
+<label>📝 Activités à introduire</label>
+<textarea id="plan-maison-jeux" placeholder="Ex: introduire Dobble au goûter 2x/sem..."></textarea>
+</div>
+</div>
+
+<div class="plan-card" style="border-left-color:var(--orange);background:linear-gradient(135deg,#fff,#fff5e8)">
+<h3 style="color:#a04500">🌿 Bien-être & sommeil — pilier</h3>
+<ul>
+<li><strong>FE ↔ bien-être :</strong> stress et tristesse les dégradent. Une vie équilibrée école-famille-copains-loisirs est non négociable.</li>
+<li>Sommeil : pilier absolu. Horaires fixes, écrans bannis 1h avant.</li>
+<li>Techniques d'apaisement adaptées : respiration consciente, présence attentive, ancrage sensoriel (5-4-3-2-1).</li>
+<li>Bruits naturels (pluie, vent) en fond plutôt que stimulations intenses.</li>
+</ul>
+<div class="plan-textarea">
+<label>📝 Recos bien-être spécifiques</label>
+<textarea id="plan-maison-bienetre" placeholder="Ex: instaurer routine soir 30 min écrans-off + lecture..."></textarea>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ============ PLAN RÉÉDUCATIF ============ -->
+<div class="panel" id="panel-reeduc">
+<div class="section">
+<h2>🛠 Approche rééducative — 2 modèles complémentaires</h2>
+<div class="sub">Toute rééducation est pluridisciplinaire et constamment réajustée selon âge, type de trouble, conséquences quotidiennes.</div>
+
+<h3 style="font-family:'Poppins',sans-serif;color:var(--violet);margin:14px 0 10px;font-size:1.05rem">👥 L'équipe autour de l'enfant</h3>
+<div class="equipe-grid">
+<div class="equipe-card"><h4>🗣 Orthophonie</h4><p>Langage, élaboration, mémoire de travail verbale.</p></div>
+<div class="equipe-card"><h4>🤸 Psychomotricité</h4><p>Fonctions non verbales, planification motrice, agitation.</p></div>
+<div class="equipe-card"><h4>🧩 Ergothérapie</h4><p>Aspect écologique — vie quotidienne, autonomie.</p></div>
+<div class="equipe-card"><h4>💛 Suivi psychologique</h4><p>Soutien émotionnel, TCC, gestion de l'estime de soi.</p></div>
+</div>
+
+<div class="reeduc-grid">
+<div class="reeduc-card bottom-up">
+<h3>⬆️ Approche Bottom-Up</h3>
+<div class="principe">Entraînements intensifs et répétitifs de la fonction altérée</div>
+<p style="font-size:.9rem;color:#3D4E4A;line-height:1.6"><strong>Postulat :</strong> l'activation répétée d'un circuit augmente sa capacité fonctionnelle et facilite la réorganisation cérébrale (plasticité).</p>
+<div class="exemples">
+<strong>Exemples concrets :</strong>
+• MDT : empan visuel/auditif croissant<br>
+• Inhibition : Go-No-Go, Stroop adaptés<br>
+• Flexibilité : tri par règles changeantes<br>
+• Planification : Tour de Londres, parcours
+</div>
+</div>
+
+<div class="reeduc-card top-down">
+<h3>⬇️ Approche Top-Down</h3>
+<div class="principe">Métacognition — prise de conscience des troubles + stratégies d'autorégulation</div>
+<p style="font-size:.9rem;color:#3D4E4A;line-height:1.6"><strong>Postulat :</strong> en comprenant comment son cerveau fonctionne, l'enfant développe des stratégies compensatoires durables.</p>
+<div class="exemples">
+<strong>Outils :</strong>
+• Modèle <strong>Réflecto</strong> (1 personnage par FE)<br>
+• Auto-évaluation + auto-régulation<br>
+• Stratégies à généraliser au quotidien<br>
+• Connaissance partagée famille/école
+</div>
+</div>
+</div>
+
+<div style="background:linear-gradient(135deg,#fff,#f5f0fa);border-radius:14px;padding:18px;margin-top:14px;border-left:5px solid var(--violet);font-size:13.5px;color:#3D4E4A;line-height:1.7">
+🎯 <strong style="color:var(--violet)">Séance type intégrée :</strong> « gym du cerveau » (5-10 min MDT) → explication de la fonction du jour → travail sur supports papier/jeux → réflexion métacognitive sur le comportement → définition stratégies à généraliser → fiche de routine famille/école.
+</div>
+</div>
+
+<div class="section">
+<h2>📝 Plan rééducatif personnalisé</h2>
+<div class="sub">Définir les priorités pour cet enfant — sur la base de la grille d'observation.</div>
+
+<div class="plan-textarea">
+<label>🎯 Priorité 1 — composante FE à entraîner</label>
+<textarea id="reeduc-priorite1" placeholder="Ex: Mémoire de travail (déficit +++ aux 3 contextes)..."></textarea>
+</div>
+<div class="plan-textarea">
+<label>🎯 Priorité 2 — composante FE à entraîner</label>
+<textarea id="reeduc-priorite2" placeholder="Ex: Planification (cartable chaotique, devoirs dernière minute)..."></textarea>
+</div>
+<div class="plan-textarea">
+<label>⬆️ Exercices Bottom-Up prévus</label>
+<textarea id="reeduc-bottomup" placeholder="Ex: empan inversé chaque séance + Go-No-Go 2x/mois..."></textarea>
+</div>
+<div class="plan-textarea">
+<label>⬇️ Stratégies Top-Down enseignées</label>
+<textarea id="reeduc-topdown" placeholder="Ex: introduction modèle Réflecto + carnet stratégies perso..."></textarea>
+</div>
+<div class="plan-textarea">
+<label>👥 Partenariat parents/école/autres rééducateurs</label>
+<textarea id="reeduc-partenariat" placeholder="Ex: courrier ortho + bilan ergo prévu en mars + fiche routine famille..."></textarea>
+</div>
+<div class="plan-textarea">
+<label>📅 Fréquence + durée prévue</label>
+<textarea id="reeduc-frequence" placeholder="Ex: 1 séance/semaine pendant 6 mois, bilan à 3 mois..."></textarea>
+</div>
+</div>
+</div>
+
+<!-- ============ SYNTHÈSE ============ -->
+<div class="panel" id="panel-synthese">
+<div class="section">
+<h2>📝 Synthèse clinique pour restitution</h2>
+<div class="sub">Texte de synthèse à partir de tes observations + plans. À utiliser pour restitution famille, courrier confrère, RDV équipe école.</div>
+
+<div class="synthese-zone">
+<h3>📋 Synthèse rédigée</h3>
+<textarea id="synthese-texte" placeholder="Ex:
+
+PROFIL OBSERVÉ
+[Nom enfant, âge] présente un tableau évocateur d'un syndrome dys-exécutif, dans le contexte de [TDAH suspecté / autre]. Profil comportemental : [forme désinhibée].
+
+OBSERVATIONS PRINCIPALES
+- Mémoire de travail : difficultés marquées dans les 3 contextes...
+- Inhibition : impulsivité verbale et motrice...
+- Planification : organisation matérielle chaotique...
+
+ORIENTATION RECOMMANDÉE
+- Consultation [neuropsy / pédopsy / médecin traitant] pour bilan complet
+- [Si bilan déjà fait] poursuite suivi avec...
+
+AMÉNAGEMENTS PROPOSÉS
+- À l'école : ...
+- À la maison : ...
+
+PLAN RÉÉDUCATIF MIS EN PLACE
+- ..."></textarea>
+</div>
+
+<div style="text-align:center;margin-top:18px">
+<button class="btn" onclick="saveData()">💾 Sauvegarder ce dossier</button>
+<button class="btn btn-sec" onclick="generateAutoSynthese()">✨ Générer synthèse auto à partir des données</button>
+<button class="btn btn-sec" onclick="window.print()">🖨 Imprimer</button>
+</div>
+</div>
+</div>
+
+<div class="footer">
+« Soulager · adapter · aménager — dans TOUS les lieux de vie. » (Laureline Van der Poorten)
+<span class="brand-foot">Outil clinique dys-exécutif · Adaptation pédagogique Nawel Haddouch · EducaTypique</span>
+<span style="font-size:11px;display:block;margin-top:4px;color:#8A9892">D'après Laureline Van der Poorten · CHU Grenoble · Apedys Isère 2016 · Mémoire locale · Imprimable</span>
+<span style="font-size:10.5px;display:block;margin-top:8px;color:#8A9892;font-style:normal;max-width:620px;margin-left:auto;margin-right:auto;line-height:1.5">⚠️ Outil clinique de structuration de l'accompagnement. <strong>Ne pose AUCUN diagnostic.</strong> Le diagnostic du syndrome dys-exécutif relève du·de la neuropsychologue. Cet outil sert à structurer l'observation, formaliser un plan d'aménagement, préparer un courrier d'orientation.</span>
+</div>
+
+</div>
+
+<script>
+var STORAGE_KEY = 'educatypique_dys_exec_pro_v1';
+var currentDossier = 'default';
+
+function loadStore(){ try{ var r = localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):{dossiers:{default:{}}}; }catch(e){return {dossiers:{default:{}}};} }
+function saveStore(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
+
+var ALL_FIELDS = [
+  'obs-mdt-ecole','obs-mdt-maison','obs-mdt-seance','cote-mdt',
+  'obs-inh-ecole','obs-inh-maison','obs-inh-seance','cote-inh',
+  'obs-flex-ecole','obs-flex-maison','obs-flex-seance','cote-flex',
+  'obs-plan-ecole','obs-plan-maison','obs-plan-seance','cote-plan',
+  'obs-attsel-ecole','obs-attsel-maison','obs-attsel-seance','cote-attsel',
+  'obs-attsout-ecole','obs-attsout-maison','obs-attsout-seance','cote-attsout',
+  'obs-attdiv-ecole','obs-attdiv-maison','obs-attdiv-seance','cote-attdiv',
+  'plan-ecole-mdt','plan-ecole-inh','plan-ecole-flex','plan-ecole-plan','plan-ecole-att',
+  'plan-maison-devoirs','plan-maison-lien','plan-maison-jeux','plan-maison-bienetre',
+  'reeduc-priorite1','reeduc-priorite2','reeduc-bottomup','reeduc-topdown','reeduc-partenariat','reeduc-frequence',
+  'synthese-texte'
+];
+var ETIO_FIELDS = ['etio-tdah','etio-tsa','etio-dys','etio-hpi','etio-anx','etio-trauma','etio-fatigue','etio-autre'];
+
+function getData(){
+  var d = {};
+  ALL_FIELDS.forEach(function(id){ var el = document.getElementById(id); if(el) d[id] = el.value; });
+  ETIO_FIELDS.forEach(function(id){ var el = document.getElementById(id); if(el) d[id] = el.checked; });
+  var profil = document.querySelector('input[name="profil-comp"]:checked');
+  d.profil = profil ? profil.value : '';
+  return d;
+}
+
+function setData(d){
+  ALL_FIELDS.forEach(function(id){ var el = document.getElementById(id); if(el && d[id] !== undefined) el.value = d[id]; });
+  ETIO_FIELDS.forEach(function(id){ var el = document.getElementById(id); if(el && d[id] !== undefined) el.checked = d[id]; });
+  if(d.profil){ var r = document.querySelector('input[name="profil-comp"][value="'+d.profil+'"]'); if(r) r.checked = true; }
+}
+
+function saveData(){
+  var s = loadStore();
+  s.dossiers[currentDossier] = getData();
+  saveStore(s);
+  alert('✓ Dossier "'+currentDossier+'" sauvegardé.');
+}
+
+function loadDossier(){ var s = loadStore(); var d = s.dossiers[currentDossier] || {}; setData(d); }
+
+function refreshDossierSelect(){
+  var s = loadStore();
+  var sel = document.getElementById('dossierSelect');
+  sel.innerHTML = '';
+  Object.keys(s.dossiers||{default:{}}).forEach(function(name){
+    var opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if(name === currentDossier) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function changeDossier(){ currentDossier = document.getElementById('dossierSelect').value; loadDossier(); }
+
+function addDossier(){
+  var name = (document.getElementById('newDossier').value||'').trim();
+  if(!name) return;
+  var s = loadStore();
+  s.dossiers[name] = {};
+  saveStore(s);
+  currentDossier = name;
+  document.getElementById('newDossier').value='';
+  refreshDossierSelect();
+  loadDossier();
+}
+
+function deleteDossier(){
+  if(currentDossier==='default'){ alert('Le dossier "Mon dossier" ne peut pas être supprimé.'); return; }
+  if(!confirm('Supprimer le dossier "'+currentDossier+'" ?')) return;
+  var s = loadStore(); delete s.dossiers[currentDossier]; saveStore(s);
+  currentDossier='default'; refreshDossierSelect(); loadDossier();
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(function(b){b.classList.remove('active');});
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('panel-'+tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function generateAutoSynthese(){
+  var d = getData();
+  var etioList = [];
+  if(d['etio-tdah']) etioList.push('TDAH');
+  if(d['etio-tsa']) etioList.push('TSA');
+  if(d['etio-dys']) etioList.push('DYS associés');
+  if(d['etio-hpi']) etioList.push('HPI');
+  if(d['etio-anx']) etioList.push('anxiété');
+  if(d['etio-trauma']) etioList.push('trauma/TC');
+  if(d['etio-fatigue']) etioList.push('fatigue chronique');
+  if(d['etio-autre']) etioList.push('autre');
+
+  var profilLabel = {apathique:'forme apathique (excès inhibition)',desinhibee:'forme désinhibée (défaut inhibition)',mixte:'profil mixte/fluctuant'}[d.profil] || 'profil à préciser';
+
+  var cotes = {
+    'MDT':d['cote-mdt'], 'Inhibition':d['cote-inh'], 'Flexibilité':d['cote-flex'],
+    'Planification':d['cote-plan'], 'Att. sélective':d['cote-attsel'],
+    'Att. soutenue':d['cote-attsout'], 'Att. divisée':d['cote-attdiv']
+  };
+  var dominants = [];
+  for(var k in cotes){
+    if(cotes[k] && parseInt(cotes[k]) >= 2) dominants.push(k+' (cote '+cotes[k]+'/3)');
+  }
+
+  var texte = '';
+  texte += 'SYNTHÈSE — TABLEAU DYS-EXÉCUTIF\n';
+  texte += 'Dossier : '+currentDossier+'\n';
+  texte += '────────────────────────────────────\n\n';
+  texte += 'PROFIL OBSERVÉ\n';
+  texte += '• Profil comportemental : '+profilLabel+'\n';
+  if(etioList.length) texte += '• Contexte étiologique suspecté/avéré : '+etioList.join(', ')+'\n';
+  texte += '\n';
+
+  if(dominants.length){
+    texte += 'COMPOSANTES PRINCIPALEMENT TOUCHÉES (cote ≥ 2)\n';
+    dominants.forEach(function(c){ texte += '• '+c+'\n'; });
+    texte += '\n';
+  }
+
+  texte += 'OBSERVATIONS DÉTAILLÉES\n';
+  if(d['obs-mdt-ecole'] || d['obs-mdt-maison'] || d['obs-mdt-seance']){
+    texte += '\n🧠 MÉMOIRE DE TRAVAIL\n';
+    if(d['obs-mdt-ecole']) texte += '  École : '+d['obs-mdt-ecole']+'\n';
+    if(d['obs-mdt-maison']) texte += '  Maison : '+d['obs-mdt-maison']+'\n';
+    if(d['obs-mdt-seance']) texte += '  Séance : '+d['obs-mdt-seance']+'\n';
+  }
+  if(d['obs-inh-ecole'] || d['obs-inh-maison'] || d['obs-inh-seance']){
+    texte += '\n🛑 INHIBITION\n';
+    if(d['obs-inh-ecole']) texte += '  École : '+d['obs-inh-ecole']+'\n';
+    if(d['obs-inh-maison']) texte += '  Maison : '+d['obs-inh-maison']+'\n';
+    if(d['obs-inh-seance']) texte += '  Séance : '+d['obs-inh-seance']+'\n';
+  }
+  if(d['obs-flex-ecole'] || d['obs-flex-maison'] || d['obs-flex-seance']){
+    texte += '\n🔄 FLEXIBILITÉ\n';
+    if(d['obs-flex-ecole']) texte += '  École : '+d['obs-flex-ecole']+'\n';
+    if(d['obs-flex-maison']) texte += '  Maison : '+d['obs-flex-maison']+'\n';
+    if(d['obs-flex-seance']) texte += '  Séance : '+d['obs-flex-seance']+'\n';
+  }
+  if(d['obs-plan-ecole'] || d['obs-plan-maison'] || d['obs-plan-seance']){
+    texte += '\n📋 PLANIFICATION\n';
+    if(d['obs-plan-ecole']) texte += '  École : '+d['obs-plan-ecole']+'\n';
+    if(d['obs-plan-maison']) texte += '  Maison : '+d['obs-plan-maison']+'\n';
+    if(d['obs-plan-seance']) texte += '  Séance : '+d['obs-plan-seance']+'\n';
+  }
+
+  texte += '\nPLAN MIS EN PLACE\n';
+  if(d['reeduc-priorite1']) texte += '• Priorité 1 : '+d['reeduc-priorite1']+'\n';
+  if(d['reeduc-priorite2']) texte += '• Priorité 2 : '+d['reeduc-priorite2']+'\n';
+  if(d['reeduc-bottomup']) texte += '• Bottom-Up : '+d['reeduc-bottomup']+'\n';
+  if(d['reeduc-topdown']) texte += '• Top-Down : '+d['reeduc-topdown']+'\n';
+  if(d['reeduc-frequence']) texte += '• Fréquence : '+d['reeduc-frequence']+'\n';
+
+  texte += '\n────────────────────────────────────\n';
+  texte += 'Synthèse réalisée avec EducaTypique · Nawel Haddouch\n';
+  texte += 'D\'après Laureline Van der Poorten · CHU Grenoble · 2016\n';
+
+  document.getElementById('synthese-texte').value = texte;
+  switchTab('synthese');
+}
+
+function exportTXT(){
+  var d = getData();
+  var dt = new Date();
+  var dateStr = dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();
+  var txt = '';
+  txt += '═══════════════════════════════════════════════════\n';
+  txt += '  OUTIL CLINIQUE — TROUBLE DYS-EXÉCUTIF\n';
+  txt += '  D\'après Laureline Van der Poorten (CHU Grenoble)\n';
+  txt += '  Adaptation : Nawel Haddouch · EducaTypique\n';
+  txt += '  Dossier : '+currentDossier+'\n';
+  txt += '  Exporté le : '+dateStr+'\n';
+  txt += '═══════════════════════════════════════════════════\n\n';
+
+  txt += '┌─ GRILLE OBSERVATION FE × 3 CONTEXTES ─┐\n\n';
+  var components = [
+    {key:'mdt', label:'🧠 MÉMOIRE DE TRAVAIL'},
+    {key:'inh', label:'🛑 INHIBITION'},
+    {key:'flex', label:'🔄 FLEXIBILITÉ'},
+    {key:'plan', label:'📋 PLANIFICATION'},
+    {key:'attsel', label:'🎯 ATT. SÉLECTIVE'},
+    {key:'attsout', label:'⏱ ATT. SOUTENUE'},
+    {key:'attdiv', label:'🔀 ATT. DIVISÉE'}
+  ];
+  components.forEach(function(c){
+    var ec = d['obs-'+c.key+'-ecole']||'';
+    var ma = d['obs-'+c.key+'-maison']||'';
+    var se = d['obs-'+c.key+'-seance']||'';
+    var cote = d['cote-'+c.key]||'—';
+    if(ec || ma || se || cote!=='—'){
+      txt += c.label+'  [cote '+cote+'/3]\n';
+      if(ec) txt += '  École  : '+ec+'\n';
+      if(ma) txt += '  Maison : '+ma+'\n';
+      if(se) txt += '  Séance : '+se+'\n';
+      txt += '\n';
+    }
+  });
+
+  txt += '\n┌─ PLAN ÉCOLE ─┐\n';
+  ['mdt','inh','flex','plan','att'].forEach(function(k){
+    if(d['plan-ecole-'+k]) txt += '  '+k.toUpperCase()+' : '+d['plan-ecole-'+k]+'\n';
+  });
+
+  txt += '\n┌─ PLAN MAISON ─┐\n';
+  ['devoirs','lien','jeux','bienetre'].forEach(function(k){
+    if(d['plan-maison-'+k]) txt += '  '+k.toUpperCase()+' : '+d['plan-maison-'+k]+'\n';
+  });
+
+  txt += '\n┌─ PLAN RÉÉDUCATIF ─┐\n';
+  if(d['reeduc-priorite1']) txt += '  Priorité 1 : '+d['reeduc-priorite1']+'\n';
+  if(d['reeduc-priorite2']) txt += '  Priorité 2 : '+d['reeduc-priorite2']+'\n';
+  if(d['reeduc-bottomup']) txt += '  Bottom-Up : '+d['reeduc-bottomup']+'\n';
+  if(d['reeduc-topdown']) txt += '  Top-Down : '+d['reeduc-topdown']+'\n';
+  if(d['reeduc-partenariat']) txt += '  Partenariat : '+d['reeduc-partenariat']+'\n';
+  if(d['reeduc-frequence']) txt += '  Fréquence : '+d['reeduc-frequence']+'\n';
+
+  if(d['synthese-texte']){
+    txt += '\n┌─ SYNTHÈSE RÉDIGÉE ─┐\n';
+    txt += d['synthese-texte']+'\n';
+  }
+
+  txt += '\n═══════════════════════════════════════════════════\n';
+  txt += 'Outil clinique non-diagnostique.\n';
+  txt += 'Le diagnostic syndrome dys-exécutif relève du·de la neuropsychologue.\n';
+
+  var blob = new Blob([txt], {type:'text/plain;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'DysExecutif_'+currentDossier+'_'+dt.getFullYear()+(dt.getMonth()+1)+dt.getDate()+'.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Auto-save on input
+ALL_FIELDS.forEach(function(id){
+  var el = document.getElementById(id);
+  if(el) el.addEventListener('input', function(){
+    var s = loadStore();
+    s.dossiers[currentDossier] = getData();
+    saveStore(s);
+  });
+});
+
+refreshDossierSelect();
+loadDossier();
+</script>
+</body>
+</html>

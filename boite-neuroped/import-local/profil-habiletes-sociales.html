@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profil socio-relationnel + plan d'entraînement habiletés sociales — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,#8ED9D2,#CBB6F6);padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:#fff;margin:0;text-shadow:0 2px 4px rgba(0,0,0,.15)}
+.bandeau .sub{color:#fff;max-width:760px;margin:.4rem auto 0;opacity:.95}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.2);padding:.3em .9em;border-radius:999px}
+
+.layout{max-width:1200px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:230px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start;max-height:calc(100vh - 2rem);overflow-y:auto}
+.nav-sticky h3{color:#2a9d8f;margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.88rem}
+.nav-sticky li{margin:.1rem 0}
+.nav-sticky a{display:block;padding:.35rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm)}
+.nav-sticky a:hover{background:#e0f4f1;color:#2a9d8f}
+.nav-sticky a.actif{background:#2a9d8f;color:#fff;font-weight:700}
+
+.contenu{display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid #2a9d8f;border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:#2a9d8f;font-family:var(--font-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:#2a9d8f;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+section.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+section.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem;display:flex;align-items:center;gap:.4rem}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-A{--c:#7c5cbf}
+.bloc-B{--c:#e05a8a}
+.bloc-C{--c:#F39BC2}
+.bloc-D{--c:#2a9d8f}
+.bloc-E{--c:#8ED9D2}
+.bloc-F{--c:#CBB6F6}
+.bloc-G{--c:#a02040}
+.bloc-H{--c:#c25a30}
+.bloc-I{--c:#FFD6C2}
+.bloc-J{--c:#a87800}
+.bloc-K{--c:#7c5cbf}
+.bloc-L{--c:#2a9d8f}
+.bloc-syn{--c:var(--rose-soutenu)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ textarea{min-height:50px;resize:vertical}
+.champ.full{grid-column:1/-1}
+
+/* Tableau compétence générique : nom × 3-4 niveaux × notes */
+.comp-row{display:grid;grid-template-columns:2fr 70px 70px 70px 2fr;gap:.3rem;padding:.4rem .5rem;border-bottom:1px solid var(--border);align-items:center}
+.comp-row .nom{font-size:.9rem;font-weight:600}
+.comp-row .niv{display:flex;justify-content:center}
+.comp-row .niv label{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--beige);cursor:pointer;border:2px solid transparent}
+.comp-row .niv label:hover{border-color:var(--c)}
+.comp-row .niv input{display:none}
+.comp-row .niv input:checked + .v{background:var(--c);color:#fff;width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem}
+.comp-row .niv .v{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%;font-size:.72rem}
+.comp-row textarea{padding:.3em .4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.83rem;min-height:32px;resize:vertical}
+.comp-entete{display:grid;grid-template-columns:2fr 70px 70px 70px 2fr;gap:.3rem;padding:.3rem .5rem;font-size:.7rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+.comp-entete div:not(:first-child):not(:last-child){text-align:center}
+@media (max-width:760px){.comp-row,.comp-entete{grid-template-columns:1fr}}
+
+/* Compétence 4 niveaux (J: non observé / avec aide / partiel seul / seul) */
+.comp4-row{display:grid;grid-template-columns:2fr 60px 60px 60px 60px 2fr;gap:.3rem;padding:.4rem .5rem;border-bottom:1px solid var(--border);align-items:center}
+.comp4-row .nom{font-size:.88rem;font-weight:600}
+.comp4-row .niv{display:flex;justify-content:center}
+.comp4-row .niv label{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--beige);cursor:pointer}
+.comp4-row .niv label:hover{outline:2px solid var(--c)}
+.comp4-row .niv input{display:none}
+.comp4-row .niv input:checked + .v{background:var(--c);color:#fff;width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.comp4-row .niv .v{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%}
+.comp4-row textarea{padding:.3em .4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.82rem;min-height:30px;resize:vertical}
+.comp4-entete{display:grid;grid-template-columns:2fr 60px 60px 60px 60px 2fr;gap:.3rem;padding:.3rem .5rem;font-size:.7rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+.comp4-entete div:not(:first-child):not(:last-child){text-align:center}
+@media (max-width:760px){.comp4-row,.comp4-entete{grid-template-columns:1fr}}
+
+/* Scripts */
+.scripts-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.6rem;margin-top:.4rem}
+.script-card{background:var(--beige);border-radius:var(--r-md);padding:.7rem .9rem;border-left:5px solid var(--c)}
+.script-card h4{margin:0 0 .2rem;color:var(--c);font-size:.95rem}
+.script-card .original{font-size:.85rem;font-style:italic;background:#fff;padding:.4em .6em;border-radius:var(--r-sm);margin:.3rem 0;color:var(--texte)}
+.script-card textarea{width:100%;min-height:50px;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.85rem;resize:vertical}
+.script-card .perso-label{font-size:.78rem;color:var(--muted);font-weight:700;display:block;margin-top:.3rem}
+.script-card label.acquis{display:inline-flex;align-items:center;gap:.3rem;cursor:pointer;font-size:.78rem;margin-top:.3rem;color:var(--c);font-weight:700}
+
+/* Checklist */
+.checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.3rem;margin-top:.4rem}
+.check{background:var(--beige);border-radius:var(--r-sm);padding:.4rem .6rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.88rem}
+.check input:checked + span{color:var(--c, var(--rose-titre));font-weight:700}
+
+/* Tableau générique pédagogique */
+.table-base{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.4rem}
+.table-base th, .table-base td{padding:.4em .55em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.table-base th{background:var(--beige);color:var(--c);font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+.table-base tr:hover{background:#fcfafd}
+
+/* Situation card (D, G) */
+.situation-card{background:var(--beige);border-radius:var(--r-md);padding:.7rem .9rem;margin-bottom:.5rem;border-left:5px solid var(--c)}
+.situation-card h4{margin:0 0 .3rem;color:var(--c);font-size:.92rem}
+.situation-card .double{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+@media (max-width:760px){.situation-card .double{grid-template-columns:1fr}}
+.situation-card textarea{width:100%;min-height:48px;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.85rem;resize:vertical}
+
+/* Question simple */
+.q-bloc{margin-bottom:.5rem;background:var(--beige);border-radius:var(--r-sm);padding:.5rem .7rem;border-left:4px solid var(--c)}
+.q-bloc .q{font-weight:700;font-size:.88rem;color:var(--c);margin-bottom:.2rem}
+.q-bloc textarea{width:100%;min-height:50px;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.88rem;resize:vertical}
+
+/* Distinction harcèlement (J) */
+.harc-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.4rem}
+.harc-table th, .harc-table td{padding:.5em .7em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.harc-table .taq{background:#e8f5ec}.harc-table .taq td:first-child{font-weight:700;color:#1b7a4a}
+.harc-table .conf{background:#fff3e0}.harc-table .conf td:first-child{font-weight:700;color:#a87800}
+.harc-table .harc{background:#fdeaea}.harc-table .harc td:first-child{font-weight:700;color:#a02040}
+
+/* Plan entraînement table */
+.plan-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:780px}
+.plan-table th, .plan-table td{padding:.4em .5em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.plan-table th{background:var(--beige);color:#7c5cbf;font-weight:700;font-size:.78rem}
+.plan-table td input, .plan-table td textarea, .plan-table td select{width:100%;padding:.2em;border:none;background:transparent;font-family:var(--font-body);font-size:.85rem;resize:vertical}
+.plan-table td input:focus, .plan-table td textarea:focus{outline:1px solid var(--turquoise);background:#fff}
+.plan-wrap{overflow-x:auto;margin-top:.4rem}
+
+/* Indicateurs 4 périodes */
+.indic-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:680px;margin-top:.4rem}
+.indic-table th, .indic-table td{padding:.4em .5em;border:1px solid var(--border);text-align:left}
+.indic-table th{background:var(--beige);color:#2a9d8f;font-size:.78rem;font-weight:700}
+.indic-table td.indic{font-weight:700;font-size:.86rem;background:#fcfafd}
+.indic-table td select{width:100%;padding:.2em;border:none;background:transparent;font-family:var(--font-body);font-size:.85rem}
+.indic-wrap{overflow-x:auto}
+
+/* Phrases pédagogiques inline */
+.phrase-cle{padding:.5rem .8rem;background:#fff3e0;border-radius:var(--r-sm);font-size:.88rem;color:#a87800;font-weight:700;margin-top:.5rem;font-style:italic;border-left:4px solid #e6a800}
+.phrase-info{padding:.5rem .8rem;background:#e0f4f1;border-radius:var(--r-sm);font-size:.88rem;color:#2a9d8f;font-weight:700;margin-top:.5rem;border-left:4px solid #2a9d8f}
+.phrase-attention{padding:.5rem .8rem;background:#fde6dc;border-radius:var(--r-sm);font-size:.88rem;color:#c25a30;font-weight:700;margin-top:.5rem;border-left:4px solid #c25a30}
+
+.legende{display:flex;flex-wrap:wrap;gap:.5rem;font-size:.76rem;color:var(--muted);margin-bottom:.3rem;justify-content:flex-end}
+.legende b{display:inline-block;width:1.5em;height:1.5em;line-height:1.5em;text-align:center;border-radius:50%;background:var(--beige);font-weight:700;margin-right:.2em}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:#2a9d8f;border:2px solid #2a9d8f}
+.actions button:hover{background:#2a9d8f;color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .dossiers, .retour, details.apropos {display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .sub{color:#2a9d8f !important;text-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>🤝 Profil socio-relationnel + plan d'entraînement habiletés sociales</h1>
+  <p class="sub">Les habiletés sociales ne se demandent pas — elles s'enseignent, se modélisent, se répètent et se généralisent. « Sois gentil » ne suffit pas.</p>
+</section>
+
+<div class="layout">
+
+  <aside class="nav-sticky">
+    <h3>📑 Sections</h3>
+    <ol id="nav">
+      <li><a href="#bloc-meta">Identité &amp; cadre</a></li>
+      <li><a href="#bloc-A">A · Profil relationnel global</a></li>
+      <li><a href="#bloc-B">B · Entrée en relation</a></li>
+      <li><a href="#bloc-C">C · Conversation</a></li>
+      <li><a href="#bloc-D">D · Émotions d'autrui</a></li>
+      <li><a href="#bloc-E">E · Humour &amp; implicite</a></li>
+      <li><a href="#bloc-F">F · Gestion du refus</a></li>
+      <li><a href="#bloc-G">G · Gestion du conflit</a></li>
+      <li><a href="#bloc-H">H · Jeu &amp; frustration</a></li>
+      <li><a href="#bloc-I">I · Réparation</a></li>
+      <li><a href="#bloc-J">J · Protection / harcèlement</a></li>
+      <li><a href="#bloc-K">K · Plan d'entraînement</a></li>
+      <li><a href="#bloc-L">L · Indicateurs (2 mois)</a></li>
+      <li><a href="#bloc-syn">Synthèse</a></li>
+    </ol>
+    <div class="dossiers" style="margin-top:.6rem">
+      <h4>📂 Profils enregistrés</h4>
+      <div id="liste-dossiers"></div>
+    </div>
+  </aside>
+
+  <main class="contenu">
+
+    <details class="apropos">
+      <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+      <div class="grid8">
+        <div><strong>1. Objectif</strong>Identifier précisément les compétences sociales acquises, fragiles ou absentes — puis construire un plan d'entraînement avec scripts, situations et indicateurs.</div>
+        <div><strong>2. Quand l'utiliser</strong>Isolement, conflits, naïveté, rigidité, anxiété sociale, harcèlement subi/agi, difficulté à entrer en relation / dire non / réparer / accepter de perdre.</div>
+        <div><strong>3. Pour quel profil TND</strong>TSA en priorité (codes implicites). TDAH (impulsivité sociale), troubles dys (estime fragile), tout enfant avec retentissement relationnel.</div>
+        <div><strong>4. Mode d'emploi</strong>Cotation par adulte qui observe régulièrement. Cotation conjointe parent + pro idéale. 14 sections, scripts à personnaliser, jeux de rôle.</div>
+        <div><strong>5. Grille à remplir</strong>Profil global 17 dom. + 8 sous-domaines thématiques (entrée, conversation, émotions autrui, humour, refus, conflit, jeu, réparation, protection).</div>
+        <div><strong>6. Analyse</strong>Cibler 1-2 sous-domaines max. Repérer si difficulté = méconnaissance codes, anxiété, impulsivité, ou rigidité. Travailler par jeux de rôle, pas par conseils.</div>
+        <div><strong>7. Recommandations</strong>Donner les MOTS EXACTS aux enfants TND. « Va jouer avec les autres » est inutile. Distinguer taquinerie / conflit / harcèlement. Orienter si suspicion harcèlement.</div>
+        <div><strong>8. Phrase de synthèse</strong>"Le profil socio-relationnel met en évidence ….  Le plan d'entraînement vise à …. Indicateurs suivis sur 2 mois : ….  Réévaluation : …."</div>
+      </div>
+    </details>
+
+    <div class="posture">
+      💡 <strong>Posture :</strong> « Sois gentil », « Va vers les autres », « Fais un effort » — c'est du vent pédagogique, et parfois c'est violent. Les habiletés sociales s'enseignent : expliquer, montrer, jouer, répéter, renforcer, généraliser dans la vraie vie.
+    </div>
+
+    <!-- META -->
+    <section id="bloc-meta" class="bloc bloc-meta">
+      <h2>Identité &amp; cadre</h2>
+      <div class="grille">
+        <div class="champ"><label>Prénom / initiales</label><input data-k="prenom" type="text"></div>
+        <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+        <div class="champ"><label>Date</label><input data-k="date" type="date"></div>
+        <div class="champ"><label>Contexte principal d'observation</label>
+          <select data-k="contexte">
+            <option value="">—</option>
+            <option>Famille</option><option>École</option><option>Groupe / activité</option><option>Séance</option><option>Loisirs</option><option>Multi-contextes</option>
+          </select>
+        </div>
+        <div class="champ full"><label>Motifs / plaintes principales (cocher)</label>
+          <div class="checklist" style="--c:var(--rose-soutenu);margin-top:.3rem">
+            <label class="check"><input type="checkbox" data-k="motif-isol"><span>Isolement</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-conflit"><span>Conflits fréquents</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-mal"><span>Maladresse sociale</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-naive"><span>Naïveté sociale</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-int"><span>Mal comprend les intentions</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-anx"><span>Anxiété sociale</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-rigid"><span>Rigidité relationnelle</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-refus"><span>Difficulté à accepter le refus</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-perd"><span>Difficulté à perdre dans le jeu</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-coup"><span>Coupe la parole</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-provo"><span>Provocation</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-impul"><span>Impulsivité verbale</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-repar"><span>Difficulté à réparer</span></label>
+            <label class="check"><input type="checkbox" data-k="motif-harc"><span>Vulnérabilité harcèlement / influence</span></label>
+          </div>
+        </div>
+        <div class="champ full"><label>Précisions / autre motif</label><textarea data-k="motif-autres"></textarea></div>
+      </div>
+    </section>
+
+    <!-- A. PROFIL RELATIONNEL GLOBAL -->
+    <section id="bloc-A" class="bloc bloc-A">
+      <h2>A · Profil relationnel global — 17 domaines</h2>
+      <p class="intro">Vue d'ensemble. Pour chaque domaine : facile (F) · fragile (f) · difficile (D) + observations.</p>
+      <div class="legende" style="--c:#7c5cbf">
+        <span><b>F</b> facile</span><span><b>f</b> fragile</span><span><b>D</b> difficile</span>
+      </div>
+      <div class="comp-entete" style="--c:#7c5cbf"><div>Domaine</div><div>F</div><div>f</div><div>D</div><div>Observations</div></div>
+      <div id="liste-A"></div>
+    </section>
+
+    <!-- B. ENTREE EN RELATION -->
+    <section id="bloc-B" class="bloc bloc-B">
+      <h2>B · Entrée en relation</h2>
+      <p class="intro">Acquise (A) · Fragile (F) · à Travailler (T). Donner les MOTS EXACTS aux enfants TND.</p>
+      <div class="legende" style="--c:#e05a8a">
+        <span><b>A</b> acquise</span><span><b>F</b> fragile</span><span><b>T</b> à travailler</span>
+      </div>
+      <div class="comp-entete" style="--c:#e05a8a"><div>Compétence</div><div>A</div><div>F</div><div>T</div><div>Notes</div></div>
+      <div id="liste-B"></div>
+
+      <h3 style="margin-top:.8rem;color:#e05a8a;font-size:1rem">🎬 Scripts utiles à enseigner</h3>
+      <div class="scripts-grille" id="scripts-B" style="--c:#e05a8a"></div>
+
+      <div class="phrase-info" style="border-left-color:#e05a8a;color:#e05a8a;background:#fde6ef">
+        📌 Pour les enfants TND, « va jouer avec les autres » est trop vague. Donner les mots <strong>exacts</strong> à utiliser.
+      </div>
+    </section>
+
+    <!-- C. CONVERSATION -->
+    <section id="bloc-C" class="bloc bloc-C">
+      <h2>C · Conversation — tour de parole &amp; écoute</h2>
+      <p class="intro">Oui (O) · Parfois (P) · Non (N).</p>
+      <div class="legende" style="--c:#F39BC2">
+        <span><b>O</b> oui</span><span><b>P</b> parfois</span><span><b>N</b> non</span>
+      </div>
+      <div class="comp-entete" style="--c:#F39BC2"><div>Compétence</div><div>O</div><div>P</div><div>N</div><div>Notes</div></div>
+      <div id="liste-C"></div>
+
+      <h3 style="margin-top:.8rem;color:#F39BC2;font-size:1rem">🔁 Technique « 2 + 1 »</h3>
+      <p style="font-size:.9rem;color:var(--texte)">Très utile avec les enfants/ados qui monopolisent la parole : <strong>2 phrases sur moi + 1 question à l'autre</strong>.</p>
+      <div class="situation-card" style="--c:#F39BC2;border-left-color:#F39BC2">
+        <h4>Exemple modèle</h4>
+        <p style="font-size:.88rem;font-style:italic;color:var(--muted)">« J'aime beaucoup les dinosaures. Mon préféré, c'est le spinosaure. Et toi, tu aimes quel animal ? »</p>
+        <label style="font-size:.78rem;color:var(--muted);font-weight:700;display:block;margin-top:.4rem">Exemple adapté à l'enfant (centre d'intérêt à lui) :</label>
+        <textarea data-k="c-2plus1" placeholder="Adapter aux passions de l'enfant…"></textarea>
+      </div>
+
+      <h3 style="margin-top:.8rem;color:#F39BC2;font-size:1rem">🚦 Signaux que l'autre veut arrêter (cocher ceux à enseigner)</h3>
+      <div class="checklist" id="signaux-fin" style="--c:#F39BC2"></div>
+
+      <div class="phrase-info" style="border-left-color:#F39BC2;color:#F39BC2;background:#fde6ef">
+        💬 Phrase à enseigner : « Je crois que tu veux arrêter de parler de ça. On peut changer de sujet. »
+      </div>
+      <div class="champ full" style="margin-top:.5rem"><label>Adaptation perso de cette phrase</label><textarea data-k="c-phrase-arret"></textarea></div>
+    </section>
+
+    <!-- D. COMPREHENSION EMOTIONS AUTRUI -->
+    <section id="bloc-D" class="bloc bloc-D">
+      <h2>D · Compréhension des émotions d'autrui</h2>
+      <p class="intro">Pour chaque situation : que peut ressentir l'autre + indices qui le suggèrent.</p>
+      <div id="liste-D"></div>
+
+      <h3 style="margin-top:.8rem;color:#2a9d8f;font-size:1rem">🧠 Questions d'entraînement (théorie de l'esprit)</h3>
+      <div id="questions-D"></div>
+
+      <div class="phrase-info">
+        🔑 « Quand tu ne sais pas ce que l'autre pense, tu vérifies au lieu d'inventer. »
+      </div>
+    </section>
+
+    <!-- E. HUMOUR / IMPLICITE -->
+    <section id="bloc-E" class="bloc bloc-E">
+      <h2>E · Humour, second degré, implicite</h2>
+      <p class="intro">Facile (F) · Fragile (f) · Difficile (D).</p>
+      <div class="legende" style="--c:#8ED9D2">
+        <span><b>F</b> facile</span><span><b>f</b> fragile</span><span><b>D</b> difficile</span>
+      </div>
+      <div class="comp-entete" style="--c:#8ED9D2"><div>Compétence</div><div>F</div><div>f</div><div>D</div><div>Notes</div></div>
+      <div id="liste-E"></div>
+
+      <h3 style="margin-top:.8rem;color:#8ED9D2;font-size:1rem">🗨️ Scripts de clarification à enseigner</h3>
+      <div class="scripts-grille" id="scripts-E" style="--c:#8ED9D2"></div>
+
+      <div class="phrase-attention">
+        ⚠️ Le « mais c'était pour rire » n'annule pas l'impact. Si l'enfant est blessé, il a besoin d'un script pour poser une limite sans exploser.
+      </div>
+    </section>
+
+    <!-- F. GESTION DU REFUS -->
+    <section id="bloc-F" class="bloc bloc-F">
+      <h2>F · Gestion du refus</h2>
+      <p class="intro">Cocher les difficultés présentes chez cet enfant.</p>
+      <div class="checklist" id="liste-F-difficultes" style="--c:#CBB6F6"></div>
+
+      <h3 style="margin-top:.8rem;color:#CBB6F6;font-size:1rem">🔍 Enseigner la différence — un refus, ce que ça veut / ne veut pas dire</h3>
+      <table class="table-base" style="--c:#CBB6F6">
+        <thead><tr><th>Refus entendu</th><th>Ce que ça veut dire</th><th>Ce que ça ne veut pas forcément dire</th></tr></thead>
+        <tbody>
+          <tr><td>« Non, je ne veux pas jouer »</td><td>Pas maintenant / pas cette activité</td><td>« Je te déteste »</td></tr>
+          <tr><td>« Je ne peux pas venir »</td><td>Indisponible</td><td>« Tu ne comptes pas »</td></tr>
+          <tr><td>« Je préfère faire autre chose »</td><td>Autre choix</td><td>Rejet de ta personne</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:.8rem;color:#CBB6F6;font-size:1rem">🎬 Scripts</h3>
+      <div class="scripts-grille" id="scripts-F" style="--c:#CBB6F6"></div>
+    </section>
+
+    <!-- G. GESTION DU CONFLIT -->
+    <section id="bloc-G" class="bloc bloc-G">
+      <h2>G · Gestion du conflit — carte conflit</h2>
+      <p class="intro">À remplir avec l'enfant / l'ado après une situation. Travail métacognitif + théorie de l'esprit.</p>
+      <div id="questions-G"></div>
+
+      <h3 style="margin-top:.8rem;color:#a02040;font-size:1rem">🎬 Scripts de conflit</h3>
+      <div class="scripts-grille" id="scripts-G" style="--c:#a02040"></div>
+    </section>
+
+    <!-- H. JEU / FRUSTRATION -->
+    <section id="bloc-H" class="bloc bloc-H">
+      <h2>H · Jeu, règles &amp; frustration</h2>
+      <p class="intro">Acquise (A) · Fragile (F) · à Travailler (T).</p>
+      <div class="legende" style="--c:#c25a30">
+        <span><b>A</b> acquise</span><span><b>F</b> fragile</span><span><b>T</b> à travailler</span>
+      </div>
+      <div class="comp-entete" style="--c:#c25a30"><div>Compétence</div><div>A</div><div>F</div><div>T</div><div>Notes</div></div>
+      <div id="liste-H"></div>
+
+      <h3 style="margin-top:.8rem;color:#c25a30;font-size:1rem">💬 Phrases à entraîner</h3>
+      <div class="scripts-grille" id="scripts-H" style="--c:#c25a30"></div>
+
+      <div class="phrase-info" style="border-left-color:#c25a30;color:#c25a30;background:#fde6dc">
+        🎯 Perdre dans un jeu = entraînement social énorme. Pas « juste un jeu » pour un enfant rigide / anxieux / impulsif. C'est un <strong>laboratoire de frustration</strong>.
+      </div>
+    </section>
+
+    <!-- I. REPARATION -->
+    <section id="bloc-I" class="bloc bloc-I">
+      <h2>I · Réparation après conflit — 4 étapes</h2>
+      <p class="intro">Restaurer le lien sans humiliation. Reconnaître → comprendre l'impact → réparer → prévenir.</p>
+      <div id="etapes-I"></div>
+
+      <h3 style="margin-top:.8rem;color:#FFD6C2;font-size:1rem">🗨️ Formules de réparation</h3>
+      <div class="scripts-grille" id="scripts-I" style="--c:#FFD6C2"></div>
+
+      <div class="phrase-info" style="border-left-color:#FFD6C2;color:#a87800;background:#fff3e0">
+        🌱 « S'excuser, ce n'est pas se rabaisser. C'est reprendre la responsabilité de son comportement. »
+      </div>
+    </section>
+
+    <!-- J. PROTECTION HARCELEMENT -->
+    <section id="bloc-J" class="bloc bloc-J">
+      <h2>J · Protection face aux moqueries &amp; au harcèlement</h2>
+      <p class="intro">Distinction <strong>indispensable</strong> à enseigner : taquinerie ≠ conflit ≠ harcèlement.</p>
+      <table class="harc-table">
+        <thead><tr><th>Situation</th><th>Définition simple</th><th>Réponse adaptée</th></tr></thead>
+        <tbody>
+          <tr class="taq"><td>Taquinerie</td><td>Les deux peuvent rire ; ça s'arrête si on demande</td><td>Poser une limite calme</td></tr>
+          <tr class="conf"><td>Conflit</td><td>Désaccord entre personnes de force similaire</td><td>Médiation, écoute des deux parties</td></tr>
+          <tr class="harc"><td>Harcèlement</td><td>Répétition + intention de nuire / domination + isolement</td><td>Intervention adulte <strong>obligatoire</strong></td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:.8rem;color:#a87800;font-size:1rem">🚨 Signaux d'alerte (cocher ceux observés)</h3>
+      <div class="checklist" id="signaux-harc" style="--c:#a87800"></div>
+
+      <div class="phrase-attention">
+        ⚠️ Si signaux d'alerte cochés → ne pas laisser l'enfant gérer seul. Orienter vers <strong>cellule harcèlement / psychologue scolaire / pédopsychiatre</strong>. Cet outil ne remplace pas le signalement.
+      </div>
+    </section>
+
+    <!-- K. PLAN D'ENTRAINEMENT -->
+    <section id="bloc-K" class="bloc bloc-K">
+      <h2>K · Plan d'entraînement</h2>
+      <p class="intro">Pour chaque compétence cible : situation, support, fréquence. Pas plus de 2 compétences à entraîner en même temps.</p>
+      <div class="plan-wrap">
+        <table class="plan-table">
+          <thead><tr><th>Compétence cible</th><th>Situation d'entraînement</th><th>Support</th><th>Fréquence</th></tr></thead>
+          <tbody id="plan-corps"></tbody>
+        </table>
+      </div>
+      <button id="btn-add-plan" style="margin-top:.4rem;background:#fff;color:#7c5cbf;border:2px solid #7c5cbf">+ Ajouter une compétence</button>
+    </section>
+
+    <!-- L. INDICATEURS -->
+    <section id="bloc-L" class="bloc bloc-L">
+      <h2>L · Indicateurs de progrès sur 2 mois</h2>
+      <p class="intro">Mesurer ce qui change. Jamais / parfois / souvent / presque toujours.</p>
+      <div class="indic-wrap">
+        <table class="indic-table">
+          <thead><tr><th>Indicateur</th><th>Début</th><th>2 sem.</th><th>1 mois</th><th>2 mois</th></tr></thead>
+          <tbody id="indic-corps"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SYNTHESE -->
+    <section id="bloc-syn" class="bloc bloc-syn">
+      <h2>✍️ Synthèse</h2>
+      <div class="champ full"><label>3 fragilités prioritaires à entraîner</label><textarea data-k="syn-prio" placeholder="1.&#10;2.&#10;3." style="min-height:70px"></textarea></div>
+      <div class="champ full" style="margin-top:.5rem"><label>Forces relationnelles à valoriser</label><textarea data-k="syn-forces"></textarea></div>
+      <div class="champ full" style="margin-top:.5rem"><label>Phrase de synthèse pour bilan / compte rendu</label><textarea data-k="syn-phrase" style="min-height:100px" placeholder="Le profil socio-relationnel met en évidence …. Le plan d'entraînement vise à …. Indicateurs suivis : ….  Réévaluation prévue le …."></textarea></div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer</button>
+      <button id="btn-exporter">📄 Exporter (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer</button>
+      <button id="btn-vider" class="danger">🧹 Vider</button>
+    </div>
+
+    <div class="disclaimer">
+      Si suspicion de harcèlement, souffrance intense, idées noires, ou anxiété sociale invalidante → orienter vers cellule harcèlement, psychologue scolaire ou pédopsychiatre. Cet outil est éducatif, pas thérapeutique.
+    </div>
+
+    <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+      Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+    </p>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'neuroped_habiletes_sociales_v2';
+let currentId = null;
+
+// === A. 17 domaines profil global ===
+const A_DOMAINES = [
+  'Entrer en relation','Maintenir une conversation','Poser des questions à l\'autre',
+  'Écouter sans couper','Attendre son tour','Comprendre les émotions d\'autrui',
+  'Comprendre l\'humour','Comprendre le second degré','Accepter un refus','Dire non',
+  'Gérer un désaccord','Perdre dans un jeu','Gagner sans provoquer','Réparer après conflit',
+  'Demander de l\'aide','Se protéger des moqueries','Identifier une relation toxique'
+];
+
+// === B. Entrée en relation : 7 compétences + 4 scripts ===
+const B_COMPS = [
+  'Dire bonjour','Se présenter','Demander à rejoindre une activité',
+  'Respecter la distance corporelle','Adapter le ton de voix',
+  'Repérer si l\'autre est disponible','Commencer par un sujet partagé'
+];
+const B_SCRIPTS = [
+  { id:'b-rejoindre', nom:'1. Rejoindre un groupe', original:'« Salut, vous faites quoi ? Je peux jouer avec vous ? »' },
+  { id:'b-conv', nom:'2. Entrer dans une conversation', original:'« Vous parlez de quoi ? Je peux écouter aussi ? »' },
+  { id:'b-prop', nom:'3. Proposer une activité', original:'« Tu veux faire ça avec moi ? »' },
+  { id:'b-refus', nom:'4. Si l\'autre dit non', original:'« D\'accord. Peut-être une autre fois. »' }
+];
+
+// === C. Conversation : 7 compétences + 8 signaux fin ===
+const C_COMPS = [
+  'Laisse l\'autre finir','Répond au sujet','Pose une question',
+  'Ne parle pas uniquement de lui','Repère que l\'autre s\'ennuie',
+  'Ajuste la durée de parole','Accepte de changer de sujet'
+];
+const C_SIGNAUX = [
+  'Regarde ailleurs','Répond seulement « oui / non »','Recule',
+  'Regarde son téléphone','Change de sujet','Ne pose plus de questions',
+  'Dit « bon… »','Se tourne vers quelqu\'un d\'autre'
+];
+
+// === D. Émotions autrui : 7 situations + 5 questions ===
+const D_SITUATIONS = [
+  'Il regarde par terre','Il parle plus fort','Il ne répond plus',
+  'Il rigole après une erreur','Il s\'éloigne','Il dit « c\'est bon laisse tomber »','Il répond sèchement'
+];
+const D_QUESTIONS = [
+  'Qu\'est-ce que l\'autre a montré avec son visage ?',
+  'Qu\'est-ce que son corps indique ?',
+  'Qu\'est-ce que sa voix indique ?',
+  'Est-ce qu\'il veut continuer ou arrêter ?',
+  'Qu\'est-ce que je peux faire pour vérifier ?'
+];
+
+// === E. Humour / implicite : 6 compétences + 3 scripts clarif ===
+const E_COMPS = [
+  'Comprend une blague simple','Comprend le sarcasme',
+  'Comprend une expression imagée','Comprend une taquinerie gentille',
+  'Repère quand une blague devient blessante','Demande clarification'
+];
+const E_SCRIPTS = [
+  { id:'e-rigolo', nom:'1. Vérifier l\'intention', original:'« Tu dis ça pour rigoler ou sérieusement ? »' },
+  { id:'e-comp', nom:'2. Demander clarification', original:'« Je n\'ai pas compris si c\'était une blague. »' },
+  { id:'e-limite', nom:'3. Poser limite (même si « blague »)', original:'« Ça me blesse, même si tu dis que c\'est pour rire. »' }
+];
+
+// === F. Gestion refus : 8 difficultés + 2 scripts ===
+const F_DIFFICULTES = [
+  'S\'effondre si l\'autre dit non','Insiste longtemps','Se met en colère',
+  'Accuse l\'autre','Se sent rejeté','Pense « il ne m\'aime pas »',
+  'Cherche à forcer','Abandonne totalement la relation'
+];
+const F_SCRIPTS = [
+  { id:'f-respect', nom:'1. Accepter le refus', original:'« D\'accord. Je suis déçu, mais je respecte ton choix. »' },
+  { id:'f-court', nom:'2. Version courte', original:'« Ok. Une autre fois. »' }
+];
+
+// === G. Conflit : 7 questions + 4 scripts ===
+const G_QUESTIONS = [
+  'Qu\'est-ce qui s\'est passé objectivement ?',
+  'Qu\'est-ce que j\'ai pensé ?',
+  'Qu\'est-ce que j\'ai ressenti ?',
+  'Qu\'est-ce que l\'autre a peut-être pensé ?',
+  'Qu\'est-ce que j\'ai fait ?',
+  'Qu\'est-ce que ça a provoqué ?',
+  'Qu\'est-ce que je peux réparer ?'
+];
+const G_SCRIPTS = [
+  { id:'g-desaccord', nom:'1. Dire son désaccord', original:'« Je ne suis pas d\'accord, mais je peux t\'écouter. »' },
+  { id:'g-pause', nom:'2. Demander une pause', original:'« Je suis trop énervé pour parler correctement. Je reviens après. »' },
+  { id:'g-limite', nom:'3. Poser une limite', original:'« Je veux bien discuter, mais pas si tu m\'insultes. »' },
+  { id:'g-reco', nom:'4. Reconnaître sa part', original:'« J\'ai mal réagi. Je peux reprendre autrement. »' }
+];
+
+// === H. Jeu / frustration : 7 compétences + 4 phrases ===
+const H_COMPS = [
+  'Respecte les règles','Accepte de perdre','Gagne sans provoquer',
+  'Attend son tour','Tolère un changement de règle',
+  'Négocie sans imposer','Reste dans le jeu malgré frustration'
+];
+const H_SCRIPTS = [
+  { id:'h-perd', nom:'1. Accepter de perdre', original:'« Je suis déçu d\'avoir perdu, mais je peux continuer. »' },
+  { id:'h-bj', nom:'2. Féliciter l\'autre', original:'« Bien joué. »' },
+  { id:'h-regle', nom:'3. Proposer un changement de règle', original:'« Je veux changer une règle, est-ce que vous êtes d\'accord ? »' },
+  { id:'h-pause', nom:'4. Demander pause frustration', original:'« Je suis frustré, je prends une pause. »' }
+];
+
+// === I. Réparation : 4 étapes + 4 formules ===
+const I_ETAPES = [
+  ['Reconnaître', 'Qu\'est-ce que j\'ai fait ?'],
+  ['Comprendre l\'impact', 'Qu\'est-ce que l\'autre a pu ressentir ?'],
+  ['Réparer', 'Que puis-je faire maintenant ?'],
+  ['Prévenir', 'Qu\'est-ce que j\'essaie la prochaine fois ?']
+];
+const I_FORMULES = [
+  { id:'i-blesse', nom:'1. Reconnaître la blessure', original:'« J\'ai dit quelque chose de blessant. Je m\'excuse. »' },
+  { id:'i-nuance', nom:'2. Reconnaître + nuancer', original:'« J\'étais énervé, mais je n\'aurais pas dû t\'insulter. »' },
+  { id:'i-reparer', nom:'3. Proposer réparation', original:'« Je peux réparer en… »' },
+  { id:'i-prevenir', nom:'4. Engager la suite', original:'« La prochaine fois, je demanderai une pause. »' }
+];
+
+// === J. Harcèlement : 7 signaux d'alerte ===
+const J_SIGNAUX = [
+  'Peur d\'aller à l\'école','Plaintes somatiques (ventre, tête)','Isolement soudain',
+  'Affaires abîmées','Changement d\'humeur','Messages humiliants',
+  'Évitement de certains lieux'
+];
+
+// === L. Indicateurs (7 indicateurs × 4 périodes) ===
+const L_INDICATEURS = [
+  'Entre plus facilement en contact',
+  'Coupe moins la parole',
+  'Demande une pause au lieu d\'exploser',
+  'Accepte mieux le refus',
+  'Répare après conflit',
+  'Identifie mieux les intentions des autres',
+  'Se protège mieux des moqueries'
+];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// Generic 3-level competence row (F/f/D ou A/F/T ou O/P/N)
+function renderComp3(cibleId, items, prefixe, couleur, lettres){
+  const cont = document.getElementById(cibleId);
+  cont.innerHTML = items.map((it,i)=>`
+    <div class="comp-row" style="--c:${couleur}">
+      <div class="nom">${esc(it)}</div>
+      <div class="niv"><label><input type="radio" name="${prefixe}-${i}" value="${lettres[0]}"><span class="v">${lettres[0]}</span></label></div>
+      <div class="niv"><label><input type="radio" name="${prefixe}-${i}" value="${lettres[1]}"><span class="v">${lettres[1]}</span></label></div>
+      <div class="niv"><label><input type="radio" name="${prefixe}-${i}" value="${lettres[2]}"><span class="v">${lettres[2]}</span></label></div>
+      <textarea data-k="${prefixe}-obs-${i}" placeholder="Notes…"></textarea>
+    </div>
+  `).join('');
+}
+
+// Scripts rendering (utilisé par B, E, F, G, H, I)
+function renderScripts(cibleId, scripts, couleur){
+  document.getElementById(cibleId).innerHTML = scripts.map(s=>`
+    <div class="script-card" style="--c:${couleur}">
+      <h4>${esc(s.nom)}</h4>
+      <div class="original">${esc(s.original)}</div>
+      <span class="perso-label">Version perso pour cet enfant :</span>
+      <textarea data-k="sc-perso-${s.id}"></textarea>
+      <label class="acquis"><input type="checkbox" data-k="sc-acquis-${s.id}"><span>Acquis</span></label>
+    </div>
+  `).join('');
+}
+
+// Checklist (cible, items, prefix, couleur)
+function renderChecklist(cibleId, items, prefix, couleur){
+  const cont = document.getElementById(cibleId);
+  cont.style.setProperty('--c', couleur);
+  cont.innerHTML = items.map((it,i)=>`
+    <label class="check"><input type="checkbox" data-k="${prefix}-${i}"><span>${esc(it)}</span></label>
+  `).join('');
+}
+
+// === Section D : situations émotion ===
+function renderD(){
+  document.getElementById('liste-D').innerHTML = D_SITUATIONS.map((s,i)=>`
+    <div class="situation-card" style="--c:#2a9d8f">
+      <h4>${i+1}. ${esc(s)}</h4>
+      <div class="double">
+        <div>
+          <label style="font-size:.78rem;font-weight:700;color:var(--muted)">Que peut ressentir l'autre ?</label>
+          <textarea data-k="d-rep-${i}"></textarea>
+        </div>
+        <div>
+          <label style="font-size:.78rem;font-weight:700;color:var(--muted)">Indices observables</label>
+          <textarea data-k="d-ind-${i}"></textarea>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('questions-D').innerHTML = D_QUESTIONS.map((q,i)=>`
+    <div class="q-bloc" style="--c:#2a9d8f">
+      <div class="q">${i+1}. ${esc(q)}</div>
+      <textarea data-k="d-q-${i}"></textarea>
+    </div>
+  `).join('');
+}
+
+// === Section G : 7 questions conflit ===
+function renderG(){
+  document.getElementById('questions-G').innerHTML = G_QUESTIONS.map((q,i)=>`
+    <div class="q-bloc" style="--c:#a02040">
+      <div class="q">${i+1}. ${esc(q)}</div>
+      <textarea data-k="g-q-${i}"></textarea>
+    </div>
+  `).join('');
+}
+
+// === Section I : 4 étapes réparation ===
+function renderI(){
+  document.getElementById('etapes-I').innerHTML = I_ETAPES.map((e,i)=>`
+    <div class="q-bloc" style="--c:#FFD6C2;background:#fff3e0">
+      <div class="q" style="color:#a87800">${i+1}. ${esc(e[0])} — ${esc(e[1])}</div>
+      <textarea data-k="i-etape-${i}"></textarea>
+    </div>
+  `).join('');
+}
+
+// === Plan d'entraînement ===
+function ajouterPlan(d){
+  const tbody = document.getElementById('plan-corps');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="text" data-plan="comp" value="${esc(d?.comp||'')}" placeholder="ex : attendre son tour"></td>
+    <td><input type="text" data-plan="situ" value="${esc(d?.situ||'')}" placeholder="ex : jeu de société"></td>
+    <td><input type="text" data-plan="support" value="${esc(d?.support||'')}" placeholder="ex : minuteur / carte tour"></td>
+    <td><input type="text" data-plan="freq" value="${esc(d?.freq||'')}" placeholder="ex : 2× / semaine"></td>
+  `;
+  tbody.appendChild(tr);
+}
+document.getElementById('btn-add-plan').addEventListener('click', ()=> ajouterPlan());
+function collecterPlan(){
+  return Array.from(document.querySelectorAll('#plan-corps tr')).map(tr=>({
+    comp: tr.querySelector('[data-plan="comp"]').value,
+    situ: tr.querySelector('[data-plan="situ"]').value,
+    support: tr.querySelector('[data-plan="support"]').value,
+    freq: tr.querySelector('[data-plan="freq"]').value
+  }));
+}
+
+// === Indicateurs ===
+function renderIndicateurs(){
+  document.getElementById('indic-corps').innerHTML = L_INDICATEURS.map((ind,i)=>`
+    <tr>
+      <td class="indic">${esc(ind)}</td>
+      <td><select data-k="ind-deb-${i}"><option value="">—</option><option>jamais</option><option>parfois</option><option>souvent</option><option>presque toujours</option></select></td>
+      <td><select data-k="ind-s2-${i}"><option value="">—</option><option>jamais</option><option>parfois</option><option>souvent</option><option>presque toujours</option></select></td>
+      <td><select data-k="ind-m1-${i}"><option value="">—</option><option>jamais</option><option>parfois</option><option>souvent</option><option>presque toujours</option></select></td>
+      <td><select data-k="ind-m2-${i}"><option value="">—</option><option>jamais</option><option>parfois</option><option>souvent</option><option>presque toujours</option></select></td>
+    </tr>
+  `).join('');
+}
+
+// === Save / Load ===
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type==='checkbox' ? el.checked : el.value;
+  });
+  document.querySelectorAll('input[type="radio"]:checked').forEach(r=>{ o['radio_'+r.name] = r.value; });
+  o._plan = collecterPlan();
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{ r.checked = (o['radio_'+r.name] === r.value); });
+  document.getElementById('plan-corps').innerHTML = '';
+  if(o._plan && o._plan.length) o._plan.forEach(d=> ajouterPlan(d));
+  else for(let i=0;i<3;i++) ajouterPlan();
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else el.value = '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=> r.checked = false);
+  document.getElementById('plan-corps').innerHTML = '';
+  for(let i=0;i<3;i++) ajouterPlan();
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucun profil.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · ${esc((o.date||o._ts||'').slice(0,10))}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire(); const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom.'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr); rendreDossiers(); alert('Profil enregistré.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const l = ['Profil socio-relationnel + plan habiletés sociales — Boîte NeuroPed',''];
+  l.push('Enfant : '+(o.prenom||'—')+' · '+(o.age||'—')+' · Date : '+(o.date||'—'));
+  l.push('Contexte : '+(o.contexte||'—'));
+  l.push('');
+  l.push('== A. Profil relationnel global ==');
+  A_DOMAINES.forEach((d,i)=>{
+    const niv = o['radio_a-'+i];
+    if(niv || o['a-obs-'+i]) l.push('  · '+d+' : '+(niv||'?')+(o['a-obs-'+i] ? ' — '+o['a-obs-'+i] : ''));
+  });
+  l.push('');
+  l.push('== B. Entrée en relation ==');
+  B_COMPS.forEach((c,i)=>{ const niv = o['radio_b-'+i]; if(niv||o['b-obs-'+i]) l.push('  · '+c+' : '+(niv||'?')+(o['b-obs-'+i]?' — '+o['b-obs-'+i]:'')); });
+  B_SCRIPTS.forEach(s=>{ if(o['sc-perso-'+s.id]||o['sc-acquis-'+s.id]) l.push('  '+s.nom+(o['sc-acquis-'+s.id]?' [✓]':'')+' : '+(o['sc-perso-'+s.id]||s.original)); });
+  l.push('');
+  l.push('== C. Conversation ==');
+  C_COMPS.forEach((c,i)=>{ const niv = o['radio_c-'+i]; if(niv||o['c-obs-'+i]) l.push('  · '+c+' : '+(niv||'?')+(o['c-obs-'+i]?' — '+o['c-obs-'+i]:'')); });
+  if(o['c-2plus1']) l.push('  Technique 2+1 perso : '+o['c-2plus1']);
+  const sig_C = C_SIGNAUX.filter((_,i)=> o['sig-c-'+i]);
+  if(sig_C.length) l.push('  Signaux de fin observés : '+sig_C.join(', '));
+  if(o['c-phrase-arret']) l.push('  Phrase d\'arrêt perso : '+o['c-phrase-arret']);
+  l.push('');
+  l.push('== D. Émotions d\'autrui ==');
+  D_SITUATIONS.forEach((s,i)=>{ if(o['d-rep-'+i]||o['d-ind-'+i]) l.push('  · '+s+' → '+(o['d-rep-'+i]||'?')+' (indices : '+(o['d-ind-'+i]||'?')+')'); });
+  D_QUESTIONS.forEach((q,i)=>{ if(o['d-q-'+i]) l.push('  Q'+(i+1)+' : '+o['d-q-'+i]); });
+  l.push('');
+  l.push('== E. Humour / implicite ==');
+  E_COMPS.forEach((c,i)=>{ const niv = o['radio_e-'+i]; if(niv||o['e-obs-'+i]) l.push('  · '+c+' : '+(niv||'?')+(o['e-obs-'+i]?' — '+o['e-obs-'+i]:'')); });
+  E_SCRIPTS.forEach(s=>{ if(o['sc-perso-'+s.id]||o['sc-acquis-'+s.id]) l.push('  '+s.nom+(o['sc-acquis-'+s.id]?' [✓]':'')+' : '+(o['sc-perso-'+s.id]||s.original)); });
+  l.push('');
+  l.push('== F. Gestion refus ==');
+  const f_diff = F_DIFFICULTES.filter((_,i)=> o['f-'+i]);
+  if(f_diff.length) l.push('  Difficultés présentes : '+f_diff.join(', '));
+  F_SCRIPTS.forEach(s=>{ if(o['sc-perso-'+s.id]||o['sc-acquis-'+s.id]) l.push('  '+s.nom+(o['sc-acquis-'+s.id]?' [✓]':'')+' : '+(o['sc-perso-'+s.id]||s.original)); });
+  l.push('');
+  l.push('== G. Conflit ==');
+  G_QUESTIONS.forEach((q,i)=>{ if(o['g-q-'+i]) l.push('  Q'+(i+1)+' : '+o['g-q-'+i]); });
+  G_SCRIPTS.forEach(s=>{ if(o['sc-perso-'+s.id]||o['sc-acquis-'+s.id]) l.push('  '+s.nom+(o['sc-acquis-'+s.id]?' [✓]':'')+' : '+(o['sc-perso-'+s.id]||s.original)); });
+  l.push('');
+  l.push('== H. Jeu / frustration ==');
+  H_COMPS.forEach((c,i)=>{ const niv = o['radio_h-'+i]; if(niv||o['h-obs-'+i]) l.push('  · '+c+' : '+(niv||'?')+(o['h-obs-'+i]?' — '+o['h-obs-'+i]:'')); });
+  H_SCRIPTS.forEach(s=>{ if(o['sc-perso-'+s.id]||o['sc-acquis-'+s.id]) l.push('  '+s.nom+(o['sc-acquis-'+s.id]?' [✓]':'')+' : '+(o['sc-perso-'+s.id]||s.original)); });
+  l.push('');
+  l.push('== I. Réparation ==');
+  I_ETAPES.forEach((e,i)=>{ if(o['i-etape-'+i]) l.push('  '+(i+1)+'. '+e[0]+' : '+o['i-etape-'+i]); });
+  I_FORMULES.forEach(s=>{ if(o['sc-perso-'+s.id]||o['sc-acquis-'+s.id]) l.push('  '+s.nom+(o['sc-acquis-'+s.id]?' [✓]':'')+' : '+(o['sc-perso-'+s.id]||s.original)); });
+  l.push('');
+  l.push('== J. Protection / harcèlement ==');
+  const j_sig = J_SIGNAUX.filter((_,i)=> o['sig-h-'+i]);
+  if(j_sig.length){
+    l.push('  ⚠️ Signaux d\'alerte cochés : '+j_sig.join(', '));
+    l.push('  → ORIENTATION RECOMMANDÉE (cellule harcèlement / psy scolaire / pédopsy)');
+  }
+  l.push('');
+  l.push('== K. Plan d\'entraînement ==');
+  (o._plan||[]).forEach(p=>{ if(p.comp) l.push('  · '+p.comp+' | situ : '+p.situ+' | support : '+p.support+' | fréq : '+p.freq); });
+  l.push('');
+  l.push('== L. Indicateurs ==');
+  L_INDICATEURS.forEach((ind,i)=>{
+    l.push('  · '+ind+' : Déb='+(o['ind-deb-'+i]||'—')+' / S2='+(o['ind-s2-'+i]||'—')+' / M1='+(o['ind-m1-'+i]||'—')+' / M2='+(o['ind-m2-'+i]||'—'));
+  });
+  l.push('');
+  l.push('== Synthèse ==');
+  l.push('Priorités : '+(o['syn-prio']||'—'));
+  l.push('Forces : '+(o['syn-forces']||'—'));
+  l.push(o['syn-phrase']||'—');
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'habiletes-sociales-v2-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{ if(confirm('Vider le formulaire ?')) vider(); });
+
+// Nav scroll
+const navLinks = document.querySelectorAll('#nav a');
+function majNav(){
+  const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 120) actif = c; });
+  navLinks.forEach(a=>{ a.classList.toggle('actif', actif && a.getAttribute('href') === '#'+actif.id); });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+// === Init ===
+renderComp3('liste-A', A_DOMAINES, 'a', '#7c5cbf', ['F','f','D']);
+renderComp3('liste-B', B_COMPS, 'b', '#e05a8a', ['A','F','T']);
+renderScripts('scripts-B', B_SCRIPTS, '#e05a8a');
+renderComp3('liste-C', C_COMPS, 'c', '#F39BC2', ['O','P','N']);
+renderChecklist('signaux-fin', C_SIGNAUX, 'sig-c', '#F39BC2');
+renderD();
+renderComp3('liste-E', E_COMPS, 'e', '#8ED9D2', ['F','f','D']);
+renderScripts('scripts-E', E_SCRIPTS, '#8ED9D2');
+renderChecklist('liste-F-difficultes', F_DIFFICULTES, 'f', '#CBB6F6');
+renderScripts('scripts-F', F_SCRIPTS, '#CBB6F6');
+renderG();
+renderScripts('scripts-G', G_SCRIPTS, '#a02040');
+renderComp3('liste-H', H_COMPS, 'h', '#c25a30', ['A','F','T']);
+renderScripts('scripts-H', H_SCRIPTS, '#c25a30');
+renderI();
+renderScripts('scripts-I', I_FORMULES, '#FFD6C2');
+renderChecklist('signaux-harc', J_SIGNAUX, 'sig-h', '#a87800');
+renderIndicateurs();
+for(let i=0;i<3;i++) ajouterPlan();
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+majNav();
+</script>
+
+</body>
+</html>

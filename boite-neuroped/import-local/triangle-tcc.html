@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Triangle TCC — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,#F39BC2,#CBB6F6);padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:#fff;margin:0;text-shadow:0 2px 4px rgba(0,0,0,.15)}
+.bandeau .sub{color:#fff;max-width:740px;margin:.4rem auto 0;opacity:.95}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.2);padding:.3em .9em;border-radius:999px}
+
+.layout{max-width:1200px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:230px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start}
+.nav-sticky h3{color:#F39BC2;margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.9rem}
+.nav-sticky li{margin:.15rem 0}
+.nav-sticky a{display:block;padding:.4rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm)}
+.nav-sticky a:hover{background:#fde6ef;color:#F39BC2}
+.nav-sticky a.actif{background:#F39BC2;color:#fff;font-weight:700}
+
+.contenu{display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid #F39BC2;border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:#F39BC2;font-family:var(--font-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:#F39BC2;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+section.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+section.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-modele{--c:#7c5cbf}
+.bloc-fait{--c:#e05a8a}
+.bloc-pensees{--c:#F39BC2}
+.bloc-grille{--c:#a02040}
+.bloc-emo{--c:#2a9d8f}
+.bloc-pieges{--c:#c25a30}
+.bloc-test{--c:#8ED9D2}
+.bloc-alt{--c:#CBB6F6}
+.bloc-comp{--c:#FFD6C2}
+.bloc-enf{--c:#2a9d8f}
+.bloc-ado{--c:#e05a8a}
+.bloc-cas{--c:#7c5cbf}
+.bloc-carte{--c:var(--rose-titre)}
+.bloc-suivi{--c:#a02040}
+.bloc-syn{--c:var(--rose-soutenu)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ textarea{min-height:60px;resize:vertical}
+.champ.full{grid-column:1/-1}
+
+/* Modèle 8 étapes */
+.modele-etapes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem;margin-top:.4rem}
+.etape-card{background:#fff;border-radius:var(--r-md);padding:.8rem 1rem;border:2px solid var(--c);box-shadow:var(--shadow-sm);position:relative}
+.etape-card::before{content:attr(data-n);position:absolute;top:-12px;left:1rem;background:var(--c);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem}
+.etape-card h4{margin:.2rem 0 .3rem;color:var(--c);font-size:1rem}
+.etape-card .question{font-size:.85rem;color:var(--muted);font-style:italic;margin-bottom:.3rem}
+.etape-card .ex{font-size:.85rem;background:var(--beige);padding:.4rem .6rem;border-radius:var(--r-sm)}
+
+/* Table */
+.table-base{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.4rem}
+.table-base th, .table-base td{padding:.4em .55em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.table-base th{background:var(--beige);color:var(--c);font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+.table-base tr:hover{background:#fcfafd}
+
+/* Grille TCC dynamique */
+.tcc-row{display:grid;grid-template-columns:1fr 1fr 100px 80px 1fr 1fr 30px;gap:.3rem;padding:.4rem 0;border-bottom:1px solid var(--border);align-items:start}
+@media (max-width:880px){.tcc-row{grid-template-columns:1fr}}
+.tcc-row textarea, .tcc-row input{padding:.3em .4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.83rem;resize:vertical;min-height:38px;width:100%}
+.tcc-row .supp{background:transparent;color:var(--muted);border:none;cursor:pointer;font-size:1.1rem;box-shadow:none}
+.tcc-entete{display:grid;grid-template-columns:1fr 1fr 100px 80px 1fr 1fr 30px;gap:.3rem;padding:.3rem 0;font-size:.74rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+@media (max-width:880px){.tcc-entete{display:none}}
+
+/* Pièges cochables avec exemple */
+.pieges-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.5rem;margin-top:.4rem}
+.piege-card{background:var(--beige);border-radius:var(--r-md);padding:.6rem .8rem;border-left:5px solid var(--c-p)}
+.piege-card h4{margin:0 0 .15rem;color:var(--c-p);font-size:.9rem;display:flex;justify-content:space-between;align-items:center}
+.piege-card .desc{font-size:.78rem;color:var(--muted);margin:.1rem 0}
+.piege-card .ex{font-size:.83rem;font-style:italic;background:#fff;padding:.3rem .5rem;border-radius:var(--r-sm);margin-top:.3rem}
+.piege-card label.coche{display:inline-flex;align-items:center;gap:.3rem;cursor:pointer;font-size:.78rem;margin-top:.3rem}
+
+/* Versions */
+.versions-grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.4rem}
+@media (max-width:880px){.versions-grille{grid-template-columns:1fr}}
+.version-card{background:#fff;border-radius:var(--r-md);padding:.8rem 1rem;border:2px solid var(--c);box-shadow:var(--shadow-sm)}
+.version-card h3{margin:0 0 .4rem;color:var(--c)}
+
+.phrases-utiles{display:grid;grid-template-columns:1fr;gap:.3rem;margin-top:.4rem}
+.phrase-check{background:var(--beige);border-radius:var(--r-sm);padding:.4rem .6rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.88rem}
+.phrase-check input:checked + span{color:var(--c);font-weight:700}
+
+/* Cas pratiques */
+.cas-pratique{background:var(--beige);border-radius:var(--r-md);padding:.7rem .9rem;margin-top:.5rem;border-left:5px solid #7c5cbf}
+.cas-pratique h4{margin:0 0 .3rem;color:#7c5cbf}
+.cas-pratique table{width:100%;border-collapse:collapse;font-size:.85rem;background:#fff;border-radius:var(--r-sm);overflow:hidden}
+.cas-pratique table th, .cas-pratique table td{padding:.3em .5em;border:1px solid var(--border);text-align:left}
+.cas-pratique table th{background:#fff;font-size:.76rem;color:#7c5cbf;width:30%}
+
+/* Carte de restructuration */
+.carte-bloc{background:#fff;border-radius:var(--r-md);padding:.6rem .9rem;margin-bottom:.4rem;border-left:4px solid var(--rose-titre)}
+.carte-bloc label{font-weight:700;color:var(--rose-titre);font-size:.88rem;display:block;margin-bottom:.2rem}
+.carte-bloc textarea, .carte-bloc input{width:100%;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.88rem;resize:vertical;min-height:40px}
+
+/* Suivi tableau */
+.suivi-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:780px}
+.suivi-table th, .suivi-table td{padding:.4em .5em;border:1px solid var(--border);text-align:left}
+.suivi-table th{background:var(--beige);color:var(--violet-titre);font-size:.78rem;font-weight:700}
+.suivi-table td input, .suivi-table td select{width:100%;padding:.2em;border:none;background:transparent;font-family:var(--font-body);font-size:.85rem}
+.suivi-wrap{overflow-x:auto;margin-top:.4rem}
+
+.checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.3rem;margin-top:.4rem}
+.check{background:var(--beige);border-radius:var(--r-sm);padding:.4rem .6rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.88rem}
+.check input:checked + span{color:var(--c, var(--rose-titre));font-weight:700}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:#F39BC2;border:2px solid #F39BC2}
+.actions button:hover{background:#F39BC2;color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .dossiers, .retour, details.apropos {display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .sub{color:#F39BC2 !important;text-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>🔺 Triangle TCC pensée — émotion — comportement</h1>
+  <p class="sub">Ce n'est pas toujours la situation qui te fait exploser. C'est souvent ce que ton cerveau raconte sur la situation.</p>
+</section>
+
+<div class="layout">
+
+  <aside class="nav-sticky">
+    <h3>📑 Sections</h3>
+    <ol id="nav">
+      <li><a href="#bloc-meta">Identité &amp; cadre</a></li>
+      <li><a href="#bloc-modele">Modèle TCC en 8 étapes</a></li>
+      <li><a href="#bloc-fait">Fait ou interprétation ?</a></li>
+      <li><a href="#bloc-pensees">Pensées automatiques</a></li>
+      <li><a href="#bloc-grille">Grille principale TCC</a></li>
+      <li><a href="#bloc-emo">Pensée → émotion</a></li>
+      <li><a href="#bloc-pieges">Pièges de pensée</a></li>
+      <li><a href="#bloc-test">Tester la pensée</a></li>
+      <li><a href="#bloc-alt">Pensée alternative</a></li>
+      <li><a href="#bloc-comp">Nouveau comportement</a></li>
+      <li><a href="#bloc-enf">Version enfant</a></li>
+      <li><a href="#bloc-ado">Version ado</a></li>
+      <li><a href="#bloc-cas">Cas pratiques</a></li>
+      <li><a href="#bloc-carte">Carte de restructuration</a></li>
+      <li><a href="#bloc-suivi">Suivi</a></li>
+      <li><a href="#bloc-syn">Synthèse</a></li>
+    </ol>
+    <div class="dossiers" style="margin-top:.6rem">
+      <h4>📂 Fiches enregistrées</h4>
+      <div id="liste-dossiers"></div>
+    </div>
+  </aside>
+
+  <main class="contenu">
+
+    <details class="apropos">
+      <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+      <div class="grid8">
+        <div><strong>1. Objectif</strong>Identifier les pensées automatiques qui déclenchent / aggravent les émotions, puis construire une pensée alternative plus juste et un comportement plus adapté.</div>
+        <div><strong>2. Quand l'utiliser</strong>Anxiété, évitement, peur de l'échec, opposition après remarque, faible estime, perfectionnisme, blocages scolaires. Avec ado : à doser, jamais frontal.</div>
+        <div><strong>3. Pour quel profil TND</strong>Tous TND, particulièrement TDAH (impulsivité cognitive), TSA (interprétations rigides), anxiété, troubles dys (« je suis nul » répété).</div>
+        <div><strong>4. Mode d'emploi</strong>Concret, visuel, court. Sur situations réelles. Avec ado : éviter le débat intellectuel, viser « cette pensée me coûte cher ».</div>
+        <div><strong>5. Grille à remplir</strong>Modèle 8 étapes + grille TCC multi-situations + pièges de pensée + carte de restructuration + suivi.</div>
+        <div><strong>6. Analyse</strong>Repérer 1-2 pensées pièges dominantes. Identifier le coût du comportement actuel. Construire une alternative <strong>crédible</strong>, pas positive.</div>
+        <div><strong>7. Recommandations</strong>S'articule avec la roue des émotions et le thermomètre. Pas plus d'1 situation travaillée par séance. Renforcer chaque essai.</div>
+        <div><strong>8. Phrase de synthèse</strong>"Le travail TCC vise à identifier les pensées automatiques, repérer les pièges, et favoriser des lectures plus ajustées et des comportements alternatifs."</div>
+      </div>
+    </details>
+
+    <div class="posture">
+      💡 <strong>Posture :</strong> le but n'est pas de faire admettre « j'ai tort ». C'est d'amener à voir : « cette pensée me coûte cher — existe-t-il une version plus utile ? » Et la pensée alternative doit être <strong>crédible</strong>, pas positive. Sinon le cerveau la rejette. Et il a raison.
+    </div>
+
+    <!-- META -->
+    <section id="bloc-meta" class="bloc bloc-meta">
+      <h2>Identité &amp; cadre</h2>
+      <div class="grille">
+        <div class="champ"><label>Prénom / initiales</label><input data-k="prenom" type="text"></div>
+        <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+        <div class="champ"><label>Date</label><input data-k="date" type="date"></div>
+        <div class="champ"><label>Version</label><select data-k="version"><option value="">—</option><option>Enfant</option><option>Ado</option><option>Mixte</option></select></div>
+        <div class="champ full"><label>Motif TCC (pensées dominantes observées)</label><textarea data-k="motif" placeholder="« je suis nul » récurrent, catastrophisme, lecture de pensée, injustice automatique…"></textarea></div>
+      </div>
+    </section>
+
+    <!-- MODELE 8 ETAPES -->
+    <section id="bloc-modele" class="bloc bloc-modele">
+      <h2>🧩 Le modèle TCC simple — 8 étapes</h2>
+      <p class="intro">Chaîne complète : situation → pensée → émotion → corps → comportement → conséquence → alternative → nouveau comportement.</p>
+      <div class="modele-etapes" id="liste-modele"></div>
+    </section>
+
+    <!-- FAIT OU INTERPRETATION -->
+    <section id="bloc-fait" class="bloc bloc-fait">
+      <h2>🔍 Fait ou interprétation ?</h2>
+      <p class="intro">Avant de travailler la pensée, séparer le fait de l'histoire que le cerveau ajoute.</p>
+      <table class="table-base" style="--c:#e05a8a">
+        <thead><tr><th>Fait observable</th><th>Interprétation possible</th></tr></thead>
+        <tbody>
+          <tr><td>Le professeur a dit « arrête de parler »</td><td>« Il me déteste »</td></tr>
+          <tr><td>Mon ami n'a pas répondu</td><td>« Il m'ignore exprès »</td></tr>
+          <tr><td>J'ai eu 8/20</td><td>« Je suis nul »</td></tr>
+          <tr><td>Mes parents ont dit non</td><td>« Ils veulent me contrôler »</td></tr>
+          <tr><td>On a changé le programme</td><td>« Personne ne respecte ce que je veux »</td></tr>
+        </tbody>
+      </table>
+      <h3 style="margin-top:.7rem;color:#e05a8a;font-size:1rem">Exercice — séparer le fait de l'ajout</h3>
+      <div id="fait-rows"></div>
+      <button id="btn-add-fait" style="margin-top:.4rem;background:#fff;color:#e05a8a;border:2px solid #e05a8a">+ Ajouter une situation</button>
+      <p style="margin-top:.5rem;padding:.5rem .7rem;background:#fde6ef;border-radius:var(--r-sm);font-size:.88rem;color:#e05a8a;font-weight:700">
+        🎯 « Tu es sûr que c'est un fait, ou c'est ton cerveau qui a écrit un scénario Netflix ? » <em style="font-weight:normal">— à utiliser avec humour si l'alliance est bonne.</em>
+      </p>
+    </section>
+
+    <!-- PENSEES AUTOMATIQUES -->
+    <section id="bloc-pensees" class="bloc bloc-pensees">
+      <h2>💭 Identifier la pensée automatique</h2>
+      <p class="intro">Une pensée automatique arrive vite, sans qu'on la choisisse. Cocher celles présentes chez cet enfant.</p>
+      <div class="checklist" id="liste-pensees-auto" style="--c:#F39BC2"></div>
+      <div class="champ full" style="margin-top:.5rem"><label>Autres pensées automatiques propres à cet enfant</label><textarea data-k="pensees-autres"></textarea></div>
+      <p style="margin-top:.5rem;padding:.5rem .7rem;background:#fff3e0;border-radius:var(--r-sm);font-size:.88rem;color:#a87800">
+        ⚠️ « Je m'en fiche » est souvent une <strong>pensée écran</strong>. La vraie peut être : « j'ai peur d'échouer, donc je fais semblant que ça ne compte pas. »
+      </p>
+    </section>
+
+    <!-- GRILLE PRINCIPALE -->
+    <section id="bloc-grille" class="bloc bloc-grille">
+      <h2>📋 Grille principale TCC — multi-situations</h2>
+      <p class="intro">Documenter plusieurs épisodes. Garder factuel : ce que le cerveau a dit, ce que le corps a fait.</p>
+      <div class="tcc-entete">
+        <div>Situation</div><div>Pensée automatique</div><div>Émotion</div><div>Int. 0-5</div><div>Comportement</div><div>Conséquence</div><div></div>
+      </div>
+      <div id="tcc-corps"></div>
+      <button id="btn-add-tcc" style="margin-top:.4rem;background:#fff;color:#a02040;border:2px solid #a02040">+ Ajouter une situation</button>
+    </section>
+
+    <!-- PENSEE → EMOTION -->
+    <section id="bloc-emo" class="bloc bloc-emo">
+      <h2>🎯 Pensée → émotion probable</h2>
+      <p class="intro">Mapping. Aide à passer de « je sais pas » à « probablement honte / peur / colère ».</p>
+      <table class="table-base" style="--c:#2a9d8f">
+        <thead><tr><th>Pensée automatique</th><th>Émotion possible</th></tr></thead>
+        <tbody>
+          <tr><td>« Je vais rater »</td><td>peur / anxiété</td></tr>
+          <tr><td>« Je suis nul »</td><td>honte / tristesse</td></tr>
+          <tr><td>« C'est injuste »</td><td>colère / révolte</td></tr>
+          <tr><td>« Ils m'ignorent »</td><td>tristesse / peur du rejet</td></tr>
+          <tr><td>« Je dois réussir parfaitement »</td><td>anxiété / pression</td></tr>
+          <tr><td>« Personne ne comprend »</td><td>solitude / frustration</td></tr>
+          <tr><td>« Je n'ai aucun contrôle »</td><td>peur / colère</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:.5rem;padding:.5rem .7rem;background:#e0f4f1;border-radius:var(--r-sm);font-size:.88rem;color:#2a9d8f;font-weight:700">
+        🔑 Question utile : « Si cette pensée avait une émotion derrière elle, ce serait laquelle ? »
+      </p>
+    </section>
+
+    <!-- PIEGES -->
+    <section id="bloc-pieges" class="bloc bloc-pieges">
+      <h2>🪤 Repérer les pièges de pensée</h2>
+      <p class="intro">10 pièges fréquents. Cocher ceux observés chez cet enfant.</p>
+      <div class="pieges-grille" id="pieges-grille"></div>
+      <p style="margin-top:.5rem;padding:.5rem .7rem;background:#fde6dc;border-radius:var(--r-sm);font-size:.88rem;color:#c25a30;font-weight:700">
+        💡 « Une pensée peut être forte sans être vraie. »
+      </p>
+    </section>
+
+    <!-- TESTER -->
+    <section id="bloc-test" class="bloc bloc-test">
+      <h2>🧪 Tester la pensée</h2>
+      <p class="intro">Pas « ne pense pas ça ». Plutôt : aider à <strong>vérifier</strong>.</p>
+      <div class="grille">
+        <div class="champ"><label>Quelle preuve montre que cette pensée est vraie ?</label><textarea data-k="test-1"></textarea></div>
+        <div class="champ"><label>Quelle preuve montre qu'elle n'est pas totalement vraie ?</label><textarea data-k="test-2"></textarea></div>
+        <div class="champ"><label>Est-ce que je vois toute la situation ou juste une partie ?</label><textarea data-k="test-3"></textarea></div>
+        <div class="champ"><label>Est-ce que je confonds émotion et réalité ?</label><textarea data-k="test-4"></textarea></div>
+        <div class="champ"><label>Qu'est-ce que je dirais à un ami dans la même situation ?</label><textarea data-k="test-5"></textarea></div>
+        <div class="champ"><label>Existe-t-il une autre explication ?</label><textarea data-k="test-6"></textarea></div>
+        <div class="champ full"><label>Cette pensée m'aide-t-elle ou m'enfonce-t-elle ?</label><textarea data-k="test-7"></textarea></div>
+      </div>
+      <p style="margin-top:.5rem;padding:.5rem .7rem;background:#e8f6f4;border-radius:var(--r-sm);font-size:.88rem;color:#2a9d8f;font-weight:700">
+        🎯 Question directe : « Cette pensée te protège ou elle te sabote ? »
+      </p>
+    </section>
+
+    <!-- ALTERNATIVE -->
+    <section id="bloc-alt" class="bloc bloc-alt">
+      <h2>🌱 Construire une pensée alternative</h2>
+      <p class="intro">Pas magique-positive (« tout va bien je suis génial » → rejetée). Crédible et utile.</p>
+      <table class="table-base" style="--c:#CBB6F6">
+        <thead><tr><th>Pensée automatique</th><th>Pensée alternative plus utile</th></tr></thead>
+        <tbody>
+          <tr><td>Je suis nul</td><td>Je suis bloqué maintenant, mais je peux demander une étape</td></tr>
+          <tr><td>Je vais rater</td><td>Je peux m'entraîner avant d'être évalué</td></tr>
+          <tr><td>Il me déteste</td><td>Il m'a repris sur mon comportement, pas sur ma personne</td></tr>
+          <tr><td>C'est trop dur</td><td>Je peux faire les deux premières minutes</td></tr>
+          <tr><td>Tout le monde se moque</td><td>Je n'ai pas de preuve que tout le monde pense ça</td></tr>
+          <tr><td>Je m'en fiche</td><td>En vrai, ça me touche, donc je vais le traiter autrement</td></tr>
+          <tr><td>Je dois réussir parfaitement</td><td>Je dois progresser, pas être parfait</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- NOUVEAU COMPORTEMENT -->
+    <section id="bloc-comp" class="bloc bloc-comp">
+      <h2>🚀 Choisir un nouveau comportement</h2>
+      <p class="intro">Concret, faisable, alternatif au comportement coûteux actuel.</p>
+      <table class="table-base" style="--c:#FFD6C2">
+        <thead><tr><th>Situation</th><th>Ancien comportement</th><th>Nouveau comportement possible</th></tr></thead>
+        <tbody>
+          <tr><td>Devoir difficile</td><td>Je refuse</td><td>Je demande le premier exemple</td></tr>
+          <tr><td>Remarque adulte</td><td>Je réponds mal</td><td>Je respire et je dis « ok »</td></tr>
+          <tr><td>Ami ne répond pas</td><td>Je spamme</td><td>J'attends puis je demande calmement</td></tr>
+          <tr><td>Erreur</td><td>Je déchire</td><td>Je marque « à revoir »</td></tr>
+          <tr><td>Frustration</td><td>Je crie</td><td>Je dis « je suis à 3, pause »</td></tr>
+          <tr><td>Changement imprévu</td><td>Je bloque</td><td>Je demande « c'est quoi le nouveau plan ? »</td></tr>
+          <tr><td>Conflit</td><td>J'insulte</td><td>Je dis « je suis trop énervé pour parler »</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- VERSION ENFANT -->
+    <section id="bloc-enf" class="bloc bloc-enf">
+      <h2>👶 Version enfant — « mon cerveau me raconte une phrase »</h2>
+      <div class="versions-grille">
+        <div class="version-card" style="--c:#2a9d8f">
+          <h3>Je cherche une autre phrase</h3>
+          <table class="table-base" style="--c:#2a9d8f">
+            <thead><tr><th>Phrase qui m'énerve ou me fait peur</th><th>Phrase qui peut m'aider</th></tr></thead>
+            <tbody>
+              <tr><td>« Je suis nul »</td><td>« Je peux demander de l'aide »</td></tr>
+              <tr><td>« C'est impossible »</td><td>« Je commence par un petit bout »</td></tr>
+              <tr><td>« Il est méchant »</td><td>« Il n'est peut-être pas d'accord avec moi »</td></tr>
+              <tr><td>« Je vais perdre »</td><td>« Je peux essayer quand même »</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="version-card" style="--c:#2a9d8f">
+          <h3>Phrases enfants utiles (cocher)</h3>
+          <div class="phrases-utiles" style="--c:#2a9d8f">
+            <label class="phrase-check"><input type="checkbox" data-k="phr-enf-0"><span>« Je bloque, mais je peux essayer une étape. »</span></label>
+            <label class="phrase-check"><input type="checkbox" data-k="phr-enf-1"><span>« Je peux me tromper et apprendre. »</span></label>
+            <label class="phrase-check"><input type="checkbox" data-k="phr-enf-2"><span>« Je peux demander de l'aide. »</span></label>
+            <label class="phrase-check"><input type="checkbox" data-k="phr-enf-3"><span>« Je peux faire une pause sans tout abandonner. »</span></label>
+            <label class="phrase-check"><input type="checkbox" data-k="phr-enf-4"><span>« Mon émotion est forte, mais elle va redescendre. »</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VERSION ADO -->
+    <section id="bloc-ado" class="bloc bloc-ado">
+      <h2>🧑 Version ado — analyse rapide d'une situation</h2>
+      <div class="grille">
+        <div class="champ"><label>Qu'est-ce qui s'est passé objectivement ?</label><textarea data-k="ado-1"></textarea></div>
+        <div class="champ"><label>Qu'est-ce que j'ai pensé immédiatement ?</label><textarea data-k="ado-2"></textarea></div>
+        <div class="champ"><label>Quelle émotion est montée ?</label><textarea data-k="ado-3"></textarea></div>
+        <div class="champ"><label>Quel comportement j'ai choisi ?</label><textarea data-k="ado-4"></textarea></div>
+        <div class="champ"><label>Qu'est-ce que ça m'a coûté ?</label><textarea data-k="ado-5"></textarea></div>
+        <div class="champ"><label>Quelle autre lecture est possible ?</label><textarea data-k="ado-6"></textarea></div>
+        <div class="champ full"><label>Que puis-je faire de plus intelligent la prochaine fois ?</label><textarea data-k="ado-7"></textarea></div>
+      </div>
+      <p style="margin-top:.5rem;padding:.5rem .7rem;background:#fde6ef;border-radius:var(--r-sm);font-size:.88rem;color:#e05a8a;font-weight:700;font-style:italic">
+        💬 « Le but n'est pas de penser positif. Le but est de penser plus juste pour agir moins bêtement sous pression. »
+      </p>
+    </section>
+
+    <!-- CAS PRATIQUES -->
+    <section id="bloc-cas" class="bloc bloc-cas">
+      <h2>📚 3 cas pratiques (modèles)</h2>
+      <div class="cas-pratique">
+        <h4>Cas 1 — Peur de l'échec</h4>
+        <table>
+          <tr><th>Situation</th><td>Devoir de maths</td></tr>
+          <tr><th>Pensée</th><td>« Je suis nul »</td></tr>
+          <tr><th>Émotion</th><td>honte + anxiété</td></tr>
+          <tr><th>Comportement</th><td>refus</td></tr>
+          <tr><th>Conséquence</th><td>conflit + retard</td></tr>
+          <tr><th>Alternative</th><td>« Je peux faire le premier exercice avec aide »</td></tr>
+          <tr><th>Nouveau comportement</th><td>demander un exemple</td></tr>
+        </table>
+      </div>
+      <div class="cas-pratique">
+        <h4>Cas 2 — Conflit social</h4>
+        <table>
+          <tr><th>Situation</th><td>Ami ne répond pas</td></tr>
+          <tr><th>Pensée</th><td>« Il m'ignore »</td></tr>
+          <tr><th>Émotion</th><td>tristesse + colère</td></tr>
+          <tr><th>Comportement</th><td>messages agressifs</td></tr>
+          <tr><th>Conséquence</th><td>ami s'éloigne</td></tr>
+          <tr><th>Alternative</th><td>« Il est peut-être occupé »</td></tr>
+          <tr><th>Nouveau comportement</th><td>attendre puis demander calmement</td></tr>
+        </table>
+      </div>
+      <div class="cas-pratique">
+        <h4>Cas 3 — Opposition parentale</h4>
+        <table>
+          <tr><th>Situation</th><td>Parent dit non aux écrans</td></tr>
+          <tr><th>Pensée</th><td>« On ne me respecte pas »</td></tr>
+          <tr><th>Émotion</th><td>frustration + injustice</td></tr>
+          <tr><th>Comportement</th><td>cris</td></tr>
+          <tr><th>Conséquence</th><td>sanction</td></tr>
+          <tr><th>Alternative</th><td>« Je suis frustré, mais je peux négocier plus tard calmement »</td></tr>
+          <tr><th>Nouveau comportement</th><td>pause + demande différée</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- CARTE DE RESTRUCTURATION -->
+    <section id="bloc-carte" class="bloc bloc-carte">
+      <h2>🃏 Carte de restructuration cognitive — à imprimer</h2>
+      <p class="intro">La carte personnelle de l'enfant / ado, pour ce travail-ci.</p>
+      <div class="carte-bloc"><label>Situation</label><textarea data-k="cr-situation"></textarea></div>
+      <div class="carte-bloc"><label>Pensée automatique</label><textarea data-k="cr-pensee"></textarea></div>
+      <div class="carte-bloc"><label>Émotion</label><textarea data-k="cr-emotion"></textarea></div>
+      <div class="carte-bloc"><label>Intensité (0-5)</label>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:.2rem;background:var(--beige);padding:.3em .7em;border-radius:999px;cursor:pointer"><input type="radio" name="cr-intensite" value="0">0</label>
+          <label style="display:flex;align-items:center;gap:.2rem;background:var(--beige);padding:.3em .7em;border-radius:999px;cursor:pointer"><input type="radio" name="cr-intensite" value="1">1</label>
+          <label style="display:flex;align-items:center;gap:.2rem;background:var(--beige);padding:.3em .7em;border-radius:999px;cursor:pointer"><input type="radio" name="cr-intensite" value="2">2</label>
+          <label style="display:flex;align-items:center;gap:.2rem;background:var(--beige);padding:.3em .7em;border-radius:999px;cursor:pointer"><input type="radio" name="cr-intensite" value="3">3</label>
+          <label style="display:flex;align-items:center;gap:.2rem;background:var(--beige);padding:.3em .7em;border-radius:999px;cursor:pointer"><input type="radio" name="cr-intensite" value="4">4</label>
+          <label style="display:flex;align-items:center;gap:.2rem;background:var(--beige);padding:.3em .7em;border-radius:999px;cursor:pointer"><input type="radio" name="cr-intensite" value="5">5</label>
+        </div>
+      </div>
+      <div class="carte-bloc"><label>Comportement</label><textarea data-k="cr-comp"></textarea></div>
+      <div class="carte-bloc"><label>Conséquence</label><textarea data-k="cr-conseq"></textarea></div>
+      <div class="carte-bloc"><label>Pensée piège repérée (cocher)</label>
+        <div class="checklist" id="cr-pieges-coche" style="--c:var(--rose-titre)"></div>
+      </div>
+      <div class="carte-bloc"><label>Pensée alternative crédible</label><textarea data-k="cr-alternative"></textarea></div>
+      <div class="carte-bloc"><label>Nouveau comportement possible</label><textarea data-k="cr-nouveau"></textarea></div>
+    </section>
+
+    <!-- SUIVI -->
+    <section id="bloc-suivi" class="bloc bloc-suivi">
+      <h2>📈 Suivi des progrès TCC</h2>
+      <div class="suivi-wrap">
+        <table class="suivi-table">
+          <thead>
+            <tr><th>Date</th><th>Situation</th><th>Pensée repérée</th><th>Pensée alternative</th><th>Nouveau comportement</th><th>Résultat</th></tr>
+          </thead>
+          <tbody id="suivi-corps"></tbody>
+        </table>
+      </div>
+      <button id="btn-add-suivi" style="margin-top:.5rem;background:#fff;color:#a02040;border:2px solid #a02040">+ Ligne de suivi</button>
+
+      <div style="margin-top:.8rem">
+        <strong style="color:var(--violet-titre)">Progrès à observer :</strong>
+        <div class="checklist" id="liste-progres"></div>
+      </div>
+    </section>
+
+    <!-- SYNTHESE -->
+    <section id="bloc-syn" class="bloc bloc-syn">
+      <h2>✍️ Synthèse</h2>
+      <div class="champ full"><label>Pensées fréquentes repérées</label><textarea data-k="syn-pensees"></textarea></div>
+      <div class="champ full" style="margin-top:.5rem"><label>Pièges de pensée observés principalement</label><textarea data-k="syn-pieges"></textarea></div>
+      <div class="champ full" style="margin-top:.5rem"><label>Phrase de synthèse pour bilan / compte rendu</label><textarea data-k="syn-phrase" style="min-height:90px" placeholder="Le travail TCC autour du triangle pensée — émotion — comportement vise à …."></textarea></div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer</button>
+      <button id="btn-exporter">📄 Exporter (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer</button>
+      <button id="btn-vider" class="danger">🧹 Vider</button>
+    </div>
+
+    <div class="disclaimer">
+      Cet outil s'inspire des principes TCC. Il ne remplace pas une psychothérapie quand les difficultés nécessitent un suivi spécialisé (anxiété sévère, dépression, idées noires).
+    </div>
+
+    <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+      Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+    </p>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'neuroped_tcc_v1';
+let currentId = null;
+
+const MODELE = [
+  { n:1, label:'Situation', question:"Qu'est-ce qui s'est passé ?", ex:'Le professeur me reprend', couleur:'#7c5cbf' },
+  { n:2, label:'Pensée', question:"Qu'est-ce que mon cerveau a dit ?", ex:'« Il m\\'humilie »', couleur:'#e05a8a' },
+  { n:3, label:'Émotion', question:"Qu'est-ce que j'ai ressenti ?", ex:'honte + colère', couleur:'#F39BC2' },
+  { n:4, label:'Corps', question:"Qu'est-ce que mon corps a fait ?", ex:'chaleur, cœur rapide', couleur:'#CBB6F6' },
+  { n:5, label:'Comportement', question:"Qu'est-ce que j'ai fait ?", ex:'j\\'ai répondu sèchement', couleur:'#a02040' },
+  { n:6, label:'Conséquence', question:"Qu'est-ce que ça a provoqué ?", ex:'punition, conflit', couleur:'#c25a30' },
+  { n:7, label:'Alternative', question:"Quelle autre lecture possible ?", ex:'« Il corrige mon comportement, pas ma valeur »', couleur:'#2a9d8f' },
+  { n:8, label:'Nouveau comportement', question:"Que puis-je faire autrement ?", ex:'respirer, répondre courtement', couleur:'#8ED9D2' }
+];
+
+const PENSEES_AUTO = [
+  '« Je vais rater. »', '« Je suis nul. »', '« Ils se moquent de moi. »',
+  '« C\'est injuste. »', '« Je ne vais jamais y arriver. »', '« On ne m\'aime pas. »',
+  '« Je dois réussir parfaitement. »', '« Si je demande de l\'aide, je suis faible. »',
+  '« Ils veulent me contrôler. »', '« Je m\'en fiche. »'
+];
+
+const PIEGES = [
+  { id:'tout-rien', nom:'Tout ou rien', desc:'Voir en noir ou blanc', ex:'« Si je rate, je suis nul »', couleur:'#7c5cbf' },
+  { id:'catastr', nom:'Catastrophisme', desc:'Imaginer le pire', ex:'« Je vais rater ma vie »', couleur:'#a02040' },
+  { id:'lect-pens', nom:'Lecture de pensée', desc:'Croire savoir ce que l\'autre pense', ex:'« Ils me trouvent bizarre »', couleur:'#e05a8a' },
+  { id:'gener', nom:'Généralisation', desc:'Transformer une situation en vérité globale', ex:'« Ça se passe toujours mal »', couleur:'#F39BC2' },
+  { id:'etiq', nom:'Étiquetage', desc:'Se coller une identité négative', ex:'« Je suis débile »', couleur:'#CBB6F6' },
+  { id:'filtre', nom:'Filtre négatif', desc:'Ne voir que ce qui ne va pas', ex:'« J\'ai tout raté »', couleur:'#c25a30' },
+  { id:'devoir', nom:'Devoir absolu', desc:'« Je dois », « il faut absolument »', ex:'« Je dois tout réussir »', couleur:'#FFD6C2' },
+  { id:'perso', nom:'Personnalisation', desc:'Tout prendre contre soi', ex:'« Il a soupiré donc c\'est à cause de moi »', couleur:'#2a9d8f' },
+  { id:'raison-emo', nom:'Raisonnement émotionnel', desc:'Croire qu\'une émotion est une preuve', ex:'« Je me sens nul donc je suis nul »', couleur:'#8ED9D2' },
+  { id:'injustice', nom:'Injustice automatique', desc:'Lire toute limite comme une attaque', ex:'« Ils sont contre moi »', couleur:'#a87800' }
+];
+
+const PROGRES = [
+  'Distingue mieux faits et interprétations','Repère ses pensées automatiques','Identifie ses pensées pièges',
+  'Nomme mieux ses émotions','Choisit une pensée alternative crédible','Utilise un comportement de remplacement',
+  'Réduit l\'évitement','Répare plus vite après conflit','Baisse l\'intensité émotionnelle'
+];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function renderModele(){
+  document.getElementById('liste-modele').innerHTML = MODELE.map(m=>`
+    <div class="etape-card" data-n="${m.n}" style="--c:${m.couleur}">
+      <h4>${esc(m.label)}</h4>
+      <div class="question">${esc(m.question)}</div>
+      <div class="ex">Ex : ${esc(m.ex)}</div>
+    </div>
+  `).join('');
+}
+
+function renderPenseesAuto(){
+  document.getElementById('liste-pensees-auto').innerHTML = PENSEES_AUTO.map((p,i)=>`
+    <label class="check"><input type="checkbox" data-k="pa-${i}"><span>${esc(p)}</span></label>
+  `).join('');
+}
+
+function renderPieges(){
+  document.getElementById('pieges-grille').innerHTML = PIEGES.map(p=>`
+    <div class="piege-card" style="--c-p:${p.couleur}">
+      <h4>${esc(p.nom)}</h4>
+      <div class="desc">${esc(p.desc)}</div>
+      <div class="ex">${esc(p.ex)}</div>
+      <label class="coche"><input type="checkbox" data-k="piege-${p.id}"><span>Observé chez cet enfant</span></label>
+    </div>
+  `).join('');
+  // dans la carte de restructuration aussi
+  document.getElementById('cr-pieges-coche').innerHTML = PIEGES.map(p=>`
+    <label class="check"><input type="checkbox" data-k="cr-piege-${p.id}"><span>${esc(p.nom)}</span></label>
+  `).join('');
+}
+
+function renderProgres(){
+  document.getElementById('liste-progres').innerHTML = PROGRES.map((p,i)=>`
+    <label class="check"><input type="checkbox" data-k="prog-${i}"><span>${esc(p)}</span></label>
+  `).join('');
+}
+
+// Fait / interprétation rows
+function ajouterFait(d){
+  const cont = document.getElementById('fait-rows');
+  const row = document.createElement('div');
+  row.style = 'display:grid;grid-template-columns:1fr 1fr;gap:.4rem;padding:.3rem 0;border-bottom:1px solid var(--border)';
+  row.innerHTML = `
+    <input type="text" data-fait="fait" placeholder="Fait réel observable" value="${esc(d?.fait||'')}" style="padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.88rem">
+    <input type="text" data-fait="interp" placeholder="Ce que mon cerveau a ajouté" value="${esc(d?.interp||'')}" style="padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.88rem">
+  `;
+  cont.appendChild(row);
+}
+document.getElementById('btn-add-fait').addEventListener('click', ()=> ajouterFait());
+
+function collecterFaits(){
+  return Array.from(document.querySelectorAll('#fait-rows > div')).map(r=>({
+    fait: r.querySelector('[data-fait="fait"]').value,
+    interp: r.querySelector('[data-fait="interp"]').value
+  }));
+}
+
+// Grille TCC rows
+function ajouterTCC(d){
+  const cont = document.getElementById('tcc-corps');
+  const row = document.createElement('div');
+  row.className = 'tcc-row';
+  row.innerHTML = `
+    <textarea data-tcc="situation">${esc(d?.situation||'')}</textarea>
+    <textarea data-tcc="pensee">${esc(d?.pensee||'')}</textarea>
+    <textarea data-tcc="emotion">${esc(d?.emotion||'')}</textarea>
+    <select data-tcc="intensite"><option value="">—</option>${[0,1,2,3,4,5].map(v=>`<option value="${v}" ${d?.intensite==v?'selected':''}>${v}</option>`).join('')}</select>
+    <textarea data-tcc="comportement">${esc(d?.comportement||'')}</textarea>
+    <textarea data-tcc="consequence">${esc(d?.consequence||'')}</textarea>
+    <button type="button" class="supp">×</button>
+  `;
+  row.querySelector('.supp').addEventListener('click', ()=> row.remove());
+  cont.appendChild(row);
+}
+document.getElementById('btn-add-tcc').addEventListener('click', ()=> ajouterTCC());
+
+function collecterTCC(){
+  return Array.from(document.querySelectorAll('#tcc-corps .tcc-row')).map(r=>({
+    situation: r.querySelector('[data-tcc="situation"]').value,
+    pensee: r.querySelector('[data-tcc="pensee"]').value,
+    emotion: r.querySelector('[data-tcc="emotion"]').value,
+    intensite: r.querySelector('[data-tcc="intensite"]').value,
+    comportement: r.querySelector('[data-tcc="comportement"]').value,
+    consequence: r.querySelector('[data-tcc="consequence"]').value
+  }));
+}
+
+// Suivi
+function ajouterSuivi(d){
+  const tbody = document.getElementById('suivi-corps');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="date" data-suivi="date" value="${esc(d?.date||'')}"></td>
+    <td><input type="text" data-suivi="situation" value="${esc(d?.situation||'')}"></td>
+    <td><input type="text" data-suivi="pensee" value="${esc(d?.pensee||'')}"></td>
+    <td><input type="text" data-suivi="alternative" value="${esc(d?.alternative||'')}"></td>
+    <td><input type="text" data-suivi="nouveau" value="${esc(d?.nouveau||'')}"></td>
+    <td><input type="text" data-suivi="resultat" value="${esc(d?.resultat||'')}"></td>
+  `;
+  tbody.appendChild(tr);
+}
+document.getElementById('btn-add-suivi').addEventListener('click', ()=> ajouterSuivi());
+
+function collecterSuivi(){
+  return Array.from(document.querySelectorAll('#suivi-corps tr')).map(tr=>({
+    date: tr.querySelector('[data-suivi="date"]').value,
+    situation: tr.querySelector('[data-suivi="situation"]').value,
+    pensee: tr.querySelector('[data-suivi="pensee"]').value,
+    alternative: tr.querySelector('[data-suivi="alternative"]').value,
+    nouveau: tr.querySelector('[data-suivi="nouveau"]').value,
+    resultat: tr.querySelector('[data-suivi="resultat"]').value
+  }));
+}
+
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type==='checkbox' ? el.checked : el.value;
+  });
+  document.querySelectorAll('input[type="radio"]:checked').forEach(r=>{ o['radio_'+r.name] = r.value; });
+  o._faits = collecterFaits();
+  o._tcc = collecterTCC();
+  o._suivi = collecterSuivi();
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{ r.checked = (o['radio_'+r.name] === r.value); });
+  document.getElementById('fait-rows').innerHTML = '';
+  if(o._faits && o._faits.length) o._faits.forEach(d=> ajouterFait(d));
+  else for(let i=0;i<3;i++) ajouterFait();
+  document.getElementById('tcc-corps').innerHTML = '';
+  if(o._tcc && o._tcc.length) o._tcc.forEach(d=> ajouterTCC(d));
+  else for(let i=0;i<3;i++) ajouterTCC();
+  document.getElementById('suivi-corps').innerHTML = '';
+  if(o._suivi && o._suivi.length) o._suivi.forEach(d=> ajouterSuivi(d));
+  else for(let i=0;i<3;i++) ajouterSuivi();
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else el.value = '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=> r.checked = false);
+  document.getElementById('fait-rows').innerHTML = '';
+  for(let i=0;i<3;i++) ajouterFait();
+  document.getElementById('tcc-corps').innerHTML = '';
+  for(let i=0;i<3;i++) ajouterTCC();
+  document.getElementById('suivi-corps').innerHTML = '';
+  for(let i=0;i<3;i++) ajouterSuivi();
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucune fiche.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · ${esc((o.date||o._ts||'').slice(0,10))}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire();
+      const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom.'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr); rendreDossiers(); alert('Fiche enregistrée.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const l = ['Triangle TCC — Boîte NeuroPed',''];
+  l.push('Enfant : '+(o.prenom||'—')+' · '+(o.age||'—')+' · Date : '+(o.date||'—'));
+  l.push('Version : '+(o.version||'—'));
+  l.push('Motif : '+(o.motif||'—'));
+  l.push('');
+  l.push('== Faits / interprétations ==');
+  (o._faits||[]).forEach(f=>{ if(f.fait||f.interp) l.push('  · Fait : '+f.fait+' | Interp : '+f.interp); });
+  l.push('');
+  l.push('== Grille TCC ==');
+  (o._tcc||[]).forEach(t=>{ if(t.situation) l.push('  · '+t.situation+' / '+t.pensee+' / '+t.emotion+' (int '+t.intensite+') / '+t.comportement+' / '+t.consequence); });
+  l.push('');
+  l.push('== Pièges observés ==');
+  PIEGES.forEach(p=>{ if(o['piege-'+p.id]) l.push('  ✓ '+p.nom); });
+  l.push('');
+  l.push('== Test de la pensée ==');
+  for(let i=1;i<=7;i++) l.push('Q'+i+' : '+(o['test-'+i]||'—'));
+  l.push('');
+  l.push('== Carte de restructuration ==');
+  ['cr-situation','cr-pensee','cr-emotion','cr-comp','cr-conseq','cr-alternative','cr-nouveau'].forEach(k=> l.push(k+' : '+(o[k]||'—')));
+  l.push('Intensité : '+(o['radio_cr-intensite']||'—'));
+  l.push('Pièges : '+PIEGES.filter(p=>o['cr-piege-'+p.id]).map(p=>p.nom).join(', '));
+  l.push('');
+  l.push('== Suivi ==');
+  (o._suivi||[]).forEach(s=>{ if(s.date||s.situation) l.push('  · '+s.date+' · '+s.situation+' / '+s.pensee+' → '+s.alternative+' · '+s.nouveau+' · '+s.resultat); });
+  l.push('');
+  l.push('== Synthèse ==');
+  l.push(o['syn-phrase']||'—');
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tcc-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{ if(confirm('Vider le formulaire ?')) vider(); });
+
+// Nav scroll
+const navLinks = document.querySelectorAll('#nav a');
+function majNav(){
+  const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 120) actif = c; });
+  navLinks.forEach(a=>{ a.classList.toggle('actif', actif && a.getAttribute('href') === '#'+actif.id); });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+// Init
+renderModele();
+renderPenseesAuto();
+renderPieges();
+renderProgres();
+for(let i=0;i<3;i++) ajouterFait();
+for(let i=0;i<3;i++) ajouterTCC();
+for(let i=0;i<3;i++) ajouterSuivi();
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+majNav();
+</script>
+
+</body>
+</html>
