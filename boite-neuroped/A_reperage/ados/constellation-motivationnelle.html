@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma Constellation Motivationnelle — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:#fbf5ef}
+
+.bandeau{
+  background:linear-gradient(135deg,#7c5cbf,#F39BC2 35%,#2a9d8f 70%,#e9a73a);
+  padding:2rem 1.5rem;text-align:center;color:#fff;position:relative;
+}
+.bandeau .retour{
+  display:inline-block;color:#fff;font-weight:700;text-decoration:none;
+  background:rgba(255,255,255,.22);padding:.35em 1em;border-radius:999px;font-size:.9rem;
+}
+.bandeau .retour:hover{background:rgba(255,255,255,.35)}
+.bandeau h1{color:#fff;margin:.5rem 0 .3rem;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.bandeau .sub{opacity:.95;max-width:680px;margin:0 auto;font-size:1.02rem}
+.bandeau .signature{
+  font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;
+  margin-top:.6rem;opacity:.9;
+}
+
+.container{max-width:1100px;margin:1.5rem auto;padding:0 1.2rem}
+
+/* À propos */
+details.apropos{
+  background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);
+  margin-bottom:1.2rem;border-left:5px solid #7c5cbf;
+}
+details.apropos summary{
+  padding:1rem 1.2rem;cursor:pointer;font-weight:800;color:#5a3c8f;
+  font-family:var(--font-titre);font-size:1.05rem;list-style:none;
+}
+details.apropos summary::after{content:"▾";float:right;transition:transform .2s}
+details.apropos[open] summary::after{transform:rotate(180deg)}
+details.apropos .corps{padding:0 1.4rem 1.2rem}
+details.apropos h3{color:#5a3c8f;margin:1rem 0 .3rem;font-size:.9rem;text-transform:uppercase;letter-spacing:.5px}
+details.apropos p{margin:.3rem 0;font-size:.93rem;line-height:1.55}
+
+/* Dossier */
+.dossier-bar{
+  background:#fff;padding:.9rem 1.1rem;border-radius:var(--r-md);
+  box-shadow:var(--shadow-sm);margin-bottom:1rem;
+  display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;
+}
+.dossier-bar label{font-weight:700;color:#5a3c8f;font-size:.9rem}
+.dossier-bar input,.dossier-bar select{
+  padding:.45em .8em;border:1.5px solid #d8c9f0;border-radius:var(--r-md);
+  font-family:inherit;font-size:.92rem;flex:1;min-width:140px;
+}
+.dossier-bar button{
+  padding:.45em 1em;background:#7c5cbf;color:#fff;border:none;
+  border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.88rem;
+}
+.dossier-bar button:hover{background:#5a3c8f}
+.dossier-bar button.ghost{background:#fff;color:#5a3c8f;border:1.5px solid #d8c9f0}
+
+/* Tabs phases */
+.phase-tabs{
+  display:flex;gap:.4rem;margin-bottom:1.2rem;flex-wrap:wrap;
+  background:#fff;padding:.4rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);
+}
+.phase-tabs button{
+  flex:1;min-width:120px;padding:.6em .9em;border:none;background:transparent;
+  color:#666;font-weight:700;font-family:inherit;cursor:pointer;border-radius:var(--r-sm);
+  transition:all .15s;font-size:.9rem;
+}
+.phase-tabs button.active{background:#7c5cbf;color:#fff;box-shadow:var(--shadow-sm)}
+.phase-tabs button:hover:not(.active){background:#f3f0f7}
+
+/* Vue toggle (ado/parent/compare) */
+.vue-toggle{
+  background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);
+  margin-bottom:1rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;
+}
+.vue-toggle .lbl{font-weight:700;color:#5a3c8f;font-size:.9rem;margin-right:.4rem}
+.vue-toggle button{
+  padding:.4em .9em;border:1.5px solid #d8c9f0;background:#fff;
+  color:#5a3c8f;border-radius:999px;font-family:inherit;cursor:pointer;font-size:.85rem;font-weight:700;
+}
+.vue-toggle button.active{background:#7c5cbf;color:#fff;border-color:#7c5cbf}
+
+/* Boussoles */
+.boussole{
+  background:#fff;border-radius:var(--r-lg);padding:1.2rem;
+  box-shadow:var(--shadow-sm);margin-bottom:1.1rem;border-left:5px solid var(--bc);
+}
+.boussole h2{color:var(--bc);margin:0 0 .2rem;font-size:1.15rem;display:flex;align-items:center;gap:.5rem}
+.boussole .b-sub{color:var(--muted);font-size:.88rem;font-style:italic;margin:0 0 .9rem}
+.boussole.cerveau{--bc:#7c5cbf}
+.boussole.coeur{--bc:#F39BC2}
+.boussole.corps{--bc:#2a9d8f}
+.boussole.vie{--bc:#e9a73a}
+
+.item-row{
+  padding:.7rem .8rem;border-bottom:1px solid #f0ebe5;
+}
+.item-row:last-child{border-bottom:none}
+.item-label{font-weight:700;color:#3a3a3a;font-size:.95rem;margin-bottom:.4rem;line-height:1.4}
+.item-num{color:var(--bc);font-weight:800;margin-right:.4rem}
+
+.lunes{display:flex;gap:.3rem;align-items:center;flex-wrap:wrap;margin:.3rem 0}
+.lune{
+  width:36px;height:36px;border-radius:50%;border:2px solid #e0d9d0;
+  background:#fff;cursor:pointer;font-size:1.3rem;display:flex;
+  align-items:center;justify-content:center;transition:all .15s;
+  padding:0;font-family:inherit;
+}
+.lune:hover{transform:scale(1.15)}
+.lune.selected{background:var(--bc);border-color:var(--bc);box-shadow:0 0 0 3px rgba(124,92,191,.2)}
+.lune-label{font-size:.8rem;color:var(--muted);margin-left:.4rem}
+.lunes-row{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+
+/* Mode comparaison : 2 lignes lunes (ado + parent) */
+.lunes-compare{display:flex;flex-direction:column;gap:.3rem}
+.lunes-compare .ligne{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.lunes-compare .ligne .who{font-size:.78rem;font-weight:700;width:55px;color:var(--muted)}
+.lunes-compare .ligne.ado .who{color:#7c5cbf}
+.lunes-compare .ligne.parent .who{color:#F39BC2}
+
+.comment-row{
+  margin-top:.8rem;
+}
+.comment-row textarea{
+  width:100%;min-height:50px;padding:.6em;border:1.5px solid #efe8de;
+  border-radius:var(--r-sm);font-family:inherit;font-size:.88rem;
+  resize:vertical;box-sizing:border-box;
+}
+
+/* Radar */
+.radar-section{
+  background:#fff;padding:1.4rem;border-radius:var(--r-lg);
+  box-shadow:var(--shadow-sm);margin:1.2rem 0;text-align:center;
+}
+.radar-section h2{color:#5a3c8f;margin:0 0 .3rem;font-size:1.15rem}
+.radar-section .help{color:var(--muted);font-size:.88rem;margin:0 0 .8rem}
+.radar-wrap{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:1.5rem}
+.radar-wrap svg{max-width:380px;width:100%;height:auto}
+.radar-legend{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;min-width:180px}
+.radar-legend .leg{display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:700}
+.radar-legend .dot{width:14px;height:14px;border-radius:50%}
+
+/* Phase 2 - Leviers */
+.bilan-card{
+  background:#fff;border-radius:var(--r-lg);padding:1.1rem;
+  box-shadow:var(--shadow-sm);margin-bottom:1rem;border-left:5px solid var(--bc);
+}
+.bilan-card h3{color:var(--bc);margin:0 0 .6rem;font-size:1.05rem}
+.bilan-card .field{margin-bottom:.7rem}
+.bilan-card .field label{display:block;font-weight:700;color:#444;font-size:.85rem;margin-bottom:.2rem}
+.bilan-card textarea{
+  width:100%;min-height:60px;padding:.6em;border:1.5px solid #efe8de;
+  border-radius:var(--r-sm);font-family:inherit;font-size:.9rem;
+  resize:vertical;box-sizing:border-box;
+}
+
+/* Phase 3 */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.9rem;margin-bottom:1rem}
+.plan-card{
+  background:#fff;border-radius:var(--r-lg);padding:1rem;
+  box-shadow:var(--shadow-sm);border-top:5px solid var(--pc);
+}
+.plan-card.urgent{--pc:#e05a5a}
+.plan-card.court{--pc:#e9a73a}
+.plan-card.long{--pc:#2a9d8f}
+.plan-card h3{color:var(--pc);margin:0 0 .3rem;font-size:1rem}
+.plan-card .delai{font-size:.78rem;color:var(--muted);margin-bottom:.5rem}
+.plan-card textarea{
+  width:100%;min-height:80px;padding:.6em;border:1.5px solid #efe8de;
+  border-radius:var(--r-sm);font-family:inherit;font-size:.9rem;
+  resize:vertical;box-sizing:border-box;
+}
+.next-rdv{
+  background:#fff;padding:1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);
+  margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;
+}
+.next-rdv label{font-weight:700;color:#5a3c8f}
+.next-rdv input[type=date]{
+  padding:.5em .9em;border:1.5px solid #d8c9f0;border-radius:var(--r-md);font-family:inherit;
+}
+
+/* Évolution */
+.evol-empty{background:#fff;padding:2rem;border-radius:var(--r-lg);text-align:center;color:var(--muted);box-shadow:var(--shadow-sm)}
+.snap-list{background:#fff;padding:1rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin-bottom:1rem}
+.snap-list h3{color:#5a3c8f;margin:0 0 .6rem}
+.snap-row{display:flex;justify-content:space-between;align-items:center;padding:.5em .6em;border-bottom:1px solid #f0ebe5;font-size:.9rem}
+.snap-row:last-child{border-bottom:none}
+.snap-row .date{font-weight:700;color:#444}
+.snap-row .scores{color:var(--muted);font-family:monospace;font-size:.85rem}
+.snap-row button{
+  background:#fff;border:1px solid #d8c9f0;color:#7c5cbf;padding:.3em .7em;border-radius:var(--r-sm);
+  cursor:pointer;font-size:.8rem;font-weight:700;
+}
+.snap-row button:hover{background:#7c5cbf;color:#fff}
+.snap-row button.del{color:#bbb;border-color:#eee}
+.snap-row button.del:hover{background:#e05a5a;color:#fff;border-color:#e05a5a}
+
+.evol-chart{background:#fff;padding:1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);text-align:center}
+.evol-chart h3{color:#5a3c8f;margin:0 0 .6rem}
+.evol-chart svg{max-width:100%;height:auto}
+
+/* Save snapshot button */
+.save-snap-btn{
+  background:linear-gradient(135deg,#7c5cbf,#F39BC2);color:#fff;border:none;
+  padding:.7em 1.4em;border-radius:999px;font-weight:700;cursor:pointer;
+  font-family:inherit;font-size:.92rem;box-shadow:var(--shadow-sm);
+  display:block;margin:1.2rem auto;
+}
+.save-snap-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+
+/* Actions */
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.5rem 0}
+.actions button{
+  padding:.65em 1.3em;border:none;border-radius:var(--r-md);
+  font-weight:700;cursor:pointer;font-size:.92rem;font-family:inherit;
+}
+.btn-export{background:#7c5cbf;color:#fff}
+.btn-export:hover{background:#5a3c8f}
+.btn-print{background:#fff;color:#5a3c8f;border:1.5px solid #d8c9f0}
+.btn-print:hover{background:#f7f3fc}
+.btn-reset{background:#fff;color:#999;border:1.5px solid #ddd}
+.btn-reset:hover{background:#fef0f0;color:#e05a5a;border-color:#e05a5a}
+
+/* Posture EducaTypique encadré */
+.posture-box{
+  background:linear-gradient(135deg,#fff5f9,#f7f3fc);
+  border-radius:var(--r-lg);padding:1rem 1.2rem;margin-bottom:1.2rem;
+  border-left:4px solid #F39BC2;
+}
+.posture-box h4{color:#d36699;margin:0 0 .4rem;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+.posture-box .pilliers{display:flex;flex-wrap:wrap;gap:.4rem}
+.posture-box .pil{
+  background:#fff;border:1px solid #f3c8d9;color:#a85578;padding:.25em .7em;
+  border-radius:999px;font-size:.78rem;font-weight:700;
+}
+
+.signature-nawel{
+  background:#fff;padding:1rem 1.2rem;border-radius:var(--r-md);
+  margin-bottom:1.2rem;border-left:4px solid #7c5cbf;font-size:.9rem;
+  line-height:1.55;color:#555;font-style:italic;
+}
+.signature-nawel strong{color:#5a3c8f;font-style:normal}
+
+.section{display:none}
+.section.active{display:block}
+
+/* ======= MIROIR PERSONNALISÉ (interprétation auto) ======= */
+.miroir-vide{
+  background:#fff;border-radius:var(--r-lg);padding:1.6rem 1.4rem;
+  box-shadow:var(--shadow-sm);border-left:5px solid #d8c9f0;text-align:center;color:#666;
+}
+.miroir-vide strong{color:#7c5cbf;display:block;margin-bottom:.4rem;font-size:1.1rem}
+.miroir-actions{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;margin-bottom:.7rem}
+.miroir-actions button{padding:.45em 1em;background:#fff;color:#7c5cbf;border:1.5px solid #7c5cbf;border-radius:999px;font-weight:700;cursor:pointer;font-size:.85rem}
+.miroir-actions button:hover{background:#7c5cbf;color:#fff}
+.miroir-hero{
+  background:linear-gradient(135deg,#fff,#f6f0fb);
+  border-radius:var(--r-lg);padding:1.4rem 1.4rem 1.2rem;
+  box-shadow:var(--shadow-sm);border-left:5px solid #7c5cbf;margin-bottom:1rem;
+}
+.miroir-hero h2{margin:0 0 .3rem;color:#5a3c8f;font-size:1.25rem}
+.miroir-hero .phrase-nawel{
+  font-style:italic;color:#5a3c8f;font-size:1.02rem;margin:.7rem 0 0;
+  padding:.6rem .9rem;background:#fff;border-radius:var(--r-sm);border-left:3px solid #F39BC2;
+}
+.miroir-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.6rem;margin-top:.8rem}
+.miroir-stat{background:#fff;border-radius:var(--r-md);padding:.7rem .9rem;text-align:center;border-top:3px solid var(--bc)}
+.miroir-stat .lbl{font-size:.75rem;color:#888;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.miroir-stat .val{font-size:1.4rem;font-weight:800;color:var(--bc);margin-top:.2rem}
+.miroir-stat.cerveau{--bc:#7c5cbf}
+.miroir-stat.coeur{--bc:#F39BC2}
+.miroir-stat.corps{--bc:#2a9d8f}
+.miroir-stat.vie{--bc:#e9a73a}
+
+.miroir-section{
+  background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;
+  box-shadow:var(--shadow-sm);margin-bottom:.9rem;border-top:5px solid var(--bc,#7c5cbf);
+}
+.miroir-section h3{color:var(--bc,#5a3c8f);margin:0 0 .5rem;font-size:1.05rem;display:flex;align-items:center;gap:.4rem}
+.miroir-section.cerveau{--bc:#7c5cbf}
+.miroir-section.coeur{--bc:#F39BC2}
+.miroir-section.corps{--bc:#2a9d8f}
+.miroir-section.vie{--bc:#e9a73a}
+
+.lecture-item{background:#faf6f0;border-radius:var(--r-md);padding:.7rem .9rem;margin-bottom:.5rem;border-left:3px solid var(--bc,#7c5cbf)}
+.lecture-item .ditem{font-weight:800;color:#3a3a3a;font-size:.93rem;margin-bottom:.3rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.4rem}
+.lecture-item .score-pill{background:#fff;border:1.5px solid var(--bc);color:var(--bc);padding:.1em .55em;border-radius:999px;font-size:.78rem;font-weight:700}
+.lecture-item p{margin:.2rem 0;font-size:.88rem;line-height:1.5}
+.lecture-item .ditQue{color:#4a4a4a}
+.lecture-item .piste{color:#1b6a4a}
+.lecture-item .outil-lien{display:inline-block;margin-top:.3rem;color:var(--bc);text-decoration:none;font-weight:700;font-size:.82rem;background:#fff;padding:.25em .7em;border-radius:999px;border:1.5px solid var(--bc)}
+.lecture-item .outil-lien:hover{background:var(--bc);color:#fff}
+
+.orient-card{background:#fef9e8;border:1.5px solid #e9a73a;border-radius:var(--r-md);padding:.9rem 1rem;margin-bottom:.5rem}
+.orient-card .titre{color:#8a5a00;font-weight:800;font-size:.95rem;margin-bottom:.25rem;display:flex;align-items:center;gap:.4rem}
+.orient-card p{margin:0;font-size:.88rem;line-height:1.5;color:#5a4400}
+
+.conseil-ado{background:#f0f9ec;border-left:4px solid #5fa040;border-radius:var(--r-md);padding:.7rem .9rem;margin-bottom:.4rem;font-size:.92rem;line-height:1.55}
+.conseil-ado strong{color:#3d6e25}
+.conseil-parent{background:#fdf2f5;border-left:4px solid #d36699;border-radius:var(--r-md);padding:.7rem .9rem;margin-bottom:.4rem;font-size:.92rem;line-height:1.55}
+.conseil-parent strong{color:#a84268}
+
+.compare-card{background:#eef6f5;border-left:4px solid #2a9d8f;border-radius:var(--r-md);padding:.7rem .9rem;margin-bottom:.5rem;font-size:.9rem;line-height:1.55}
+.compare-card .ecart{font-weight:800;color:#1a6a5a;display:block;margin-bottom:.25rem}
+
+.consulter-card{background:#fff4ef;border:2px solid #e07b3a;border-radius:var(--r-md);padding:.9rem 1rem;margin-top:.6rem}
+.consulter-card .titre{color:#a04a10;font-weight:800;display:flex;align-items:center;gap:.4rem;margin-bottom:.3rem}
+.consulter-card ul{margin:.3rem 0;padding-left:1.2rem;font-size:.88rem;line-height:1.5}
+
+details.miroir-bilan-toggle summary{cursor:pointer;padding:.7rem 1rem;background:#fff;border-radius:var(--r-md);border:1px solid #e0d8ec;font-weight:700;color:#5a3c8f;list-style:none}
+details.miroir-bilan-toggle summary::after{content:"▾";float:right;transition:transform .2s}
+details.miroir-bilan-toggle[open] summary::after{transform:rotate(180deg)}
+
+@media print{
+  details.miroir-bilan-toggle{display:none!important}
+  .miroir-actions{display:none!important}
+  .miroir-hero,.miroir-section,.orient-card,.conseil-ado,.conseil-parent,.compare-card,.consulter-card{
+    page-break-inside:avoid;
+  }
+}
+
+@media print{
+  .bandeau,.dossier-bar,.phase-tabs,.actions,.vue-toggle,.save-snap-btn,details.apropos,.snap-row button{display:none!important}
+  body{background:#fff}
+  .container{max-width:100%;padding:0}
+  .section{display:block!important;page-break-after:always}
+  .boussole,.bilan-card,.plan-card,.radar-section,.evol-chart{
+    page-break-inside:avoid;box-shadow:none;border:1px solid #ddd;
+  }
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../ados.html">← Espace Ados</a>
+  <div class="signature">🌟 Création originale — Nawel Haddouch · EducaTypique</div>
+  <h1>🌌 Ma Constellation Motivationnelle</h1>
+  <p class="sub">4 étoiles pour faire le point : Cerveau · Cœur · Corps · Vie. Pour repérer mon énergie, mes leviers, et mes prochains pas — comme un ciel à cartographier.</p>
+</section>
+
+<div class="container">
+
+  <details class="apropos">
+    <summary>📖 À propos de cet outil</summary>
+    <div class="corps">
+      <h3>Pour qui</h3>
+      <p>Pour les ados TND (TDAH, TSA, multi-dys, HPI, anxieux…) entre 11 et 18 ans, leurs parents, et les professionnels qui les accompagnent.</p>
+
+      <h3>Pour quoi</h3>
+      <p>Pour faire un <strong>état des lieux motivationnel</strong> à 360° : où mon énergie circule, où elle bloque, ce qui me porte, ce qui me coûte. Et surtout : poser des leviers concrets pour avancer.</p>
+
+      <h3>Comment ça marche</h3>
+      <p>3 phases : <strong>1.</strong> Je remplis 20 jauges lunaires sur 4 étoiles (Cerveau / Cœur / Corps / Vie) — qui forment ensemble ma constellation. <strong>2.</strong> Avec mon thérapeute ou seul·e, on identifie 2-3 leviers par étoile. <strong>3.</strong> On fixe 3 objectifs (urgent / court terme / long terme) + un prochain rendez-vous.</p>
+
+      <h3>Quand l'utiliser</h3>
+      <p>Au premier rendez-vous pour faire connaissance. Tous les 1-3 mois pour mesurer l'évolution. Quand on sent que quelque chose change (positif ou négatif).</p>
+
+      <h3>Combien de temps</h3>
+      <p>Phase 1 : 20-30 min. Phase 2 : à froid, quelques jours après. Phase 3 : 15 min en co-construction.</p>
+
+      <h3>Ce que ça change</h3>
+      <p>L'ado se voit autrement (pas juste "celui qui a un problème"). Le pro a une photo claire pour orienter l'accompagnement. Le parent (option) voit où sa perception colle — ou pas — à celle de son ado.</p>
+
+      <h3>Ce que ça ne remplace pas</h3>
+      <p>Un diagnostic médical, un bilan neuropsychologique, un suivi psychothérapeutique. C'est un outil de <strong>repérage et d'orientation</strong>, pas de diagnostic.</p>
+
+      <h3>Inspiration</h3>
+      <p>Cet outil s'appuie sur la <strong>théorie de l'autodétermination</strong> (Deci & Ryan, 1985) — autonomie, compétence, appartenance — et sur les <strong>neurosciences de la motivation TDAH/TND</strong>. Création originale EducaTypique inspirée par mon parcours de neuropédagogue TND/TCC et mon vécu de maman et adulte TDAH multi-dys.</p>
+    </div>
+  </details>
+
+  <div class="signature-nawel">
+    💗 <strong>Un mot de Nawel</strong> — Je suis neuropédagogue TND + TCC, et aussi maman de 2 ados TDAH+++/TOP/multi-dys/HPI, et moi-même TDAH multi-dys. Cet outil naît de mes deux casquettes : la clinique et le vécu. Il est fait pour <em>mes</em> ados et tous ceux qui leur ressemblent — atypiques, intenses, et bourrés de potentiel à faire émerger.
+  </div>
+
+  <div class="posture-box">
+    <h4>🌿 Posture EducaTypique</h4>
+    <div class="pilliers">
+      <span class="pil">🔍 Comprendre avant corriger</span>
+      <span class="pil">👁 Observer avant interpréter</span>
+      <span class="pil">🧩 Adapter avant exiger</span>
+      <span class="pil">🌟 Rendre visible l'invisible</span>
+      <span class="pil">📈 Mesurer les progrès</span>
+    </div>
+  </div>
+
+  <div class="dossier-bar">
+    <label for="dossier">📁 Dossier :</label>
+    <select id="dossier"></select>
+    <button id="btn-new-dossier" class="ghost">+ Nouveau</button>
+    <button id="btn-rename-dossier" class="ghost">✎ Renommer</button>
+    <button id="btn-delete-dossier" class="ghost">🗑</button>
+  </div>
+
+  <div class="phase-tabs">
+    <button class="active" data-tab="phase1">📸 1 · La photo</button>
+    <button data-tab="phase2">🪞 2 · Miroir &amp; leviers</button>
+    <button data-tab="phase3">🎯 3 · Mes pas</button>
+    <button data-tab="evolution">📈 Évolution</button>
+  </div>
+
+  <!-- PHASE 1 -->
+  <section id="phase1" class="section active">
+
+    <div class="vue-toggle">
+      <span class="lbl">👤 Qui répond ?</span>
+      <button class="active" data-vue="ado">Ado seul·e</button>
+      <button data-vue="parent">Parent rapporteur</button>
+      <button data-vue="compare">Comparer ado / parent</button>
+    </div>
+
+    <!-- BOUSSOLES injectées par JS -->
+    <div id="boussoles-container"></div>
+
+    <div class="radar-section">
+      <h2>🌌 Ma constellation à 4 étoiles</h2>
+      <p class="help">La forme se dessine au fur et à mesure de mes réponses — chaque étoile brille selon mon énergie.</p>
+      <div class="radar-wrap">
+        <svg id="radar" viewBox="0 0 400 400" aria-label="Constellation à 4 étoiles"></svg>
+        <div class="radar-legend">
+          <div class="leg"><div class="dot" style="background:#7c5cbf"></div>🧠 Cerveau</div>
+          <div class="leg"><div class="dot" style="background:#F39BC2"></div>💗 Cœur</div>
+          <div class="leg"><div class="dot" style="background:#2a9d8f"></div>🌿 Corps</div>
+          <div class="leg"><div class="dot" style="background:#e9a73a"></div>🎯 Vie</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="save-snap-btn" id="btn-save-snap">📸 Enregistrer ce bilan dans l'historique</button>
+
+  </section>
+
+  <!-- PHASE 2 -->
+  <section id="phase2" class="section">
+    <div id="miroir-container"></div>
+    <details class="miroir-bilan-toggle" style="margin:1.4rem 0 .8rem">
+      <summary>✍️ Ouvrir le bilan libre du pro (notes complémentaires)</summary>
+      <div id="bilan-container" style="margin-top:.8rem"></div>
+    </details>
+  </section>
+
+  <!-- PHASE 3 -->
+  <section id="phase3" class="section">
+    <div class="plan-grid">
+      <div class="plan-card urgent">
+        <h3>🔥 Objectif urgent</h3>
+        <div class="delai">Cette semaine</div>
+        <textarea id="obj-urgent" placeholder="UNE action concrète et atteignable cette semaine…"></textarea>
+      </div>
+      <div class="plan-card court">
+        <h3>🌱 Court terme</h3>
+        <div class="delai">D'ici 1 mois</div>
+        <textarea id="obj-court" placeholder="Un objectif atteignable en 1 mois…"></textarea>
+      </div>
+      <div class="plan-card long">
+        <h3>🌳 Long terme</h3>
+        <div class="delai">D'ici 3 mois</div>
+        <textarea id="obj-long" placeholder="Un objectif plus large en 3 mois…"></textarea>
+      </div>
+    </div>
+    <div class="next-rdv">
+      <label for="next-date">📅 Prochain bilan le :</label>
+      <input type="date" id="next-date">
+      <label for="signature-date" style="margin-left:1rem">✍ Daté le :</label>
+      <input type="date" id="signature-date">
+    </div>
+  </section>
+
+  <!-- ÉVOLUTION -->
+  <section id="evolution" class="section">
+    <div id="evol-content"></div>
+  </section>
+
+  <div class="actions">
+    <button class="btn-export" id="btn-export">📄 Exporter en .txt</button>
+    <button class="btn-print" onclick="window.print()">🖨 Imprimer</button>
+    <button class="btn-reset" id="btn-reset">🔄 Vider ce dossier</button>
+  </div>
+
+</div>
+
+<script>
+const KEY='educatypique_constellation_motivationnelle_v1';
+
+const BOUSSOLES=[
+  {id:'cerveau',emoji:'🧠',titre:'Étoile CERVEAU',sub:'Mon moteur interne — comment ça tourne dans ma tête',color:'#7c5cbf',
+    items:[
+      {n:1,t:"Mon élan pour démarrer une tâche"},
+      {n:2,t:"Ma capacité à aller jusqu'au bout d'une tâche"},
+      {n:3,t:"Ma confiance en mes capacités"},
+      {n:4,t:"Mon discours intérieur (ce que je me dis à moi-même)"},
+      {n:5,t:"Ma concentration quand je suis sur quelque chose"},
+    ]},
+  {id:'coeur',emoji:'💗',titre:'Étoile CŒUR',sub:'Mes émotions et mes liens — comment je vis avec moi et avec les autres',color:'#F39BC2',
+    items:[
+      {n:6,t:"Ma régulation émotionnelle (calme / tempête)"},
+      {n:7,t:"Mon sentiment d'appartenance (famille, amis, groupes)"},
+      {n:8,t:"Mon vécu d'être atypique / différent·e"},
+      {n:9,t:"Mes valeurs et ce qui me porte profondément"},
+      {n:10,t:"Mes amis et mes liens proches"},
+    ]},
+  {id:'corps',emoji:'🌿',titre:'Étoile CORPS',sub:'Mon énergie physique — comment mon corps me porte',color:'#2a9d8f',
+    items:[
+      {n:11,t:"Mon sommeil (qualité, durée, endormissement)"},
+      {n:12,t:"Mon énergie au quotidien"},
+      {n:13,t:"Ma sensorialité (bruit, lumière, textures, odeurs…)"},
+      {n:14,t:"Mon alimentation"},
+      {n:15,t:"Mon mouvement / mon activité physique"},
+    ]},
+  {id:'vie',emoji:'🎯',titre:'Étoile VIE',sub:'Mon monde concret — comment je m\'organise',color:'#e9a73a',
+    items:[
+      {n:16,t:"L'école / mes apprentissages"},
+      {n:17,t:"Mon autonomie pratique (réveil, douche, organisation)"},
+      {n:18,t:"Ma vie numérique (écrans, réseaux, jeux)"},
+      {n:19,t:"Mon rapport au temps qui passe"},
+      {n:20,t:"Ma vision de mon futur"},
+    ]},
+];
+
+const LUNES=['🌑','🌘','🌗','🌖','🌕'];
+const LUNES_LABELS=['Éteinte','Faible','Variable','Présente','Pleine'];
+
+let state={dossier:null,dossiers:{}};
+let currentVue='ado';
+
+function blank(){
+  const d={
+    scores:{ado:{},parent:{}},
+    comments:{},
+    bilan:{},
+    plan:{urgent:'',court:'',long:''},
+    nextDate:'',signatureDate:'',
+    snapshots:[]
+  };
+  return d;
+}
+
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw)state=JSON.parse(raw);
+  }catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){
+    state.dossiers={"Ado 1":blank()};state.dossier="Ado 1";
+  }
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0];
+  // Migration safety
+  Object.values(state.dossiers).forEach(d=>{
+    if(!d.scores)d.scores={ado:{},parent:{}};
+    if(!d.scores.ado)d.scores.ado={};
+    if(!d.scores.parent)d.scores.parent={};
+    if(!d.comments)d.comments={};
+    if(!d.bilan)d.bilan={};
+    if(!d.plan)d.plan={urgent:'',court:'',long:''};
+    if(!d.snapshots)d.snapshots=[];
+  });
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function current(){return state.dossiers[state.dossier];}
+function esc(s){return (s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+function refreshDossierSelect(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{
+    const o=document.createElement('option');o.value=n;o.textContent=n;
+    if(n===state.dossier)o.selected=true;sel.appendChild(o);
+  });
+}
+
+/* ===== PHASE 1 ===== */
+function renderBoussoles(){
+  const c=document.getElementById('boussoles-container');c.innerHTML='';
+  BOUSSOLES.forEach(b=>{
+    const sec=document.createElement('section');
+    sec.className='boussole '+b.id;
+    sec.innerHTML=`
+      <h2>${b.emoji} ${b.titre}</h2>
+      <p class="b-sub">${b.sub}</p>
+      <div class="items"></div>
+      <div class="comment-row">
+        <label style="font-weight:700;color:${b.color};font-size:.85rem;display:block;margin-bottom:.3rem">💭 Mon commentaire sur cette boussole</label>
+        <textarea data-bous-comment="${b.id}" placeholder="Une pensée, une précision, un exemple…"></textarea>
+      </div>
+    `;
+    const itemsBox=sec.querySelector('.items');
+    b.items.forEach(it=>{
+      const row=document.createElement('div');row.className='item-row';
+      row.appendChild(buildItemRow(b,it));
+      itemsBox.appendChild(row);
+    });
+    c.appendChild(sec);
+  });
+  // Fill comments
+  document.querySelectorAll('[data-bous-comment]').forEach(t=>{
+    const id=t.dataset.bousComment;
+    t.value=(current().comments[id]||'');
+    t.addEventListener('input',e=>{current().comments[id]=e.target.value;save();});
+  });
+}
+
+function buildItemRow(b,it){
+  const wrap=document.createElement('div');
+  const label=document.createElement('div');
+  label.className='item-label';
+  label.innerHTML=`<span class="item-num">${it.n}.</span>${it.t}`;
+  wrap.appendChild(label);
+
+  if(currentVue==='compare'){
+    const wrapC=document.createElement('div');wrapC.className='lunes-compare';
+    ['ado','parent'].forEach(who=>{
+      const ligne=document.createElement('div');
+      ligne.className='ligne '+who;
+      ligne.innerHTML=`<span class="who">${who==='ado'?'Ado':'Parent'}</span>`;
+      ligne.appendChild(buildLunes(b,it,who));
+      wrapC.appendChild(ligne);
+    });
+    wrap.appendChild(wrapC);
+  } else {
+    const row=document.createElement('div');row.className='lunes-row';
+    row.appendChild(buildLunes(b,it,currentVue));
+    wrap.appendChild(row);
+  }
+  return wrap;
+}
+
+function buildLunes(b,it,who){
+  const lunes=document.createElement('div');lunes.className='lunes';
+  lunes.style.setProperty('--bc',b.color);
+  const currentVal=(current().scores[who]||{})[it.n];
+  LUNES.forEach((luna,i)=>{
+    const btn=document.createElement('button');
+    btn.className='lune'+(currentVal===i?' selected':'');
+    btn.textContent=luna;btn.title=LUNES_LABELS[i];
+    btn.style.setProperty('--bc',b.color);
+    btn.onclick=()=>{
+      current().scores[who]=current().scores[who]||{};
+      current().scores[who][it.n]=i;
+      save();
+      // Refresh just this row + radar + miroir (si Phase 2 ouverte)
+      renderBoussoles();
+      renderRadar();
+      if(document.getElementById('phase2').classList.contains('active')) renderMiroir();
+    };
+    lunes.appendChild(btn);
+  });
+  const lbl=document.createElement('span');lbl.className='lune-label';
+  lbl.textContent=currentVal!==undefined?LUNES_LABELS[currentVal]:'';
+  lunes.appendChild(lbl);
+  return lunes;
+}
+
+/* ===== RADAR ===== */
+function avgBoussole(who,id){
+  const b=BOUSSOLES.find(x=>x.id===id);
+  const sc=current().scores[who]||{};
+  const vals=b.items.map(it=>sc[it.n]).filter(v=>v!==undefined);
+  if(vals.length===0)return null;
+  return vals.reduce((a,b)=>a+b,0)/vals.length;
+}
+
+function renderRadar(){
+  const svg=document.getElementById('radar');
+  const cx=200,cy=200,maxR=140;
+  const angles=[-Math.PI/2,0,Math.PI/2,Math.PI]; // top right bottom left
+  const ids=['cerveau','coeur','corps','vie'];
+  const colors=['#7c5cbf','#F39BC2','#2a9d8f','#e9a73a'];
+  const emojis=['🧠','💗','🌿','🎯'];
+  let html='';
+  // Grid
+  for(let r=1;r<=4;r++){
+    const rad=maxR*r/4;
+    const pts=angles.map(a=>`${cx+rad*Math.cos(a)},${cy+rad*Math.sin(a)}`).join(' ');
+    html+=`<polygon points="${pts}" fill="none" stroke="#e8e0d8" stroke-width="1"/>`;
+  }
+  // Axes
+  angles.forEach(a=>{
+    html+=`<line x1="${cx}" y1="${cy}" x2="${cx+maxR*Math.cos(a)}" y2="${cy+maxR*Math.sin(a)}" stroke="#e8e0d8" stroke-width="1"/>`;
+  });
+  // Data (depending on vue)
+  const drawData=(who,strokeColor,fillColor,opacity)=>{
+    const scores=ids.map(id=>avgBoussole(who,id));
+    if(scores.every(v=>v===null))return;
+    const pts=scores.map((v,i)=>{
+      const r=v===null?0:(v/4)*maxR;
+      const a=angles[i];
+      return `${cx+r*Math.cos(a)},${cy+r*Math.sin(a)}`;
+    }).join(' ');
+    html+=`<polygon points="${pts}" fill="${fillColor}" fill-opacity="${opacity}" stroke="${strokeColor}" stroke-width="2.5"/>`;
+    scores.forEach((v,i)=>{
+      if(v===null)return;
+      const r=(v/4)*maxR;const a=angles[i];
+      html+=`<circle cx="${cx+r*Math.cos(a)}" cy="${cy+r*Math.sin(a)}" r="4" fill="${strokeColor}"/>`;
+    });
+  };
+  if(currentVue==='compare'){
+    drawData('parent','#F39BC2','#F39BC2',0.18);
+    drawData('ado','#7c5cbf','#7c5cbf',0.25);
+  } else {
+    drawData(currentVue,currentVue==='parent'?'#F39BC2':'#7c5cbf',currentVue==='parent'?'#F39BC2':'#7c5cbf',0.22);
+  }
+  // Labels
+  angles.forEach((a,i)=>{
+    const lr=maxR+24;
+    const x=cx+lr*Math.cos(a);
+    const y=cy+lr*Math.sin(a);
+    html+=`<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="18" font-weight="700" fill="${colors[i]}">${emojis[i]}</text>`;
+  });
+  svg.innerHTML=html;
+}
+
+/* ============================================================
+   ===== MOTEUR D'INTERPRÉTATION (Miroir personnalisé) =====
+   ============================================================
+   Création originale Nawel Haddouch · EducaTypique
+   Indice, pas diagnostic. Génère depuis les scores Phase 1. */
+
+const INTERPRETATIONS = {
+  // 🧠 CERVEAU
+  1:{etoile:'cerveau',titre:"Élan pour démarrer",
+     ditQue:"Démarrer une tâche te demande un effort énorme — fréquent en TDAH ou en cas de fatigue exécutive.",
+     piste:"Règle des 5 minutes : tu commences juste 5 min, on voit après. Souvent l'élan vient EN faisant, pas avant.",
+     outil:{t:"20 jeux maison FE",l:"../../E_ludotheque/parents/jeux-maison-fe.html"}},
+  2:{etoile:'cerveau',titre:"Aller jusqu'au bout",
+     ditQue:"L'envie de tout lâcher en cours de route est forte — soit par épuisement, soit par perte de sens.",
+     piste:"Découpe en micro-étapes visibles. Coche chaque étape : ton cerveau a besoin de voir l'avancée.",
+     outil:{t:"Bilan + Programme 12 séances",l:"../../F_suivi/praticiens/bilan-programme-12.html"}},
+  3:{etoile:'cerveau',titre:"Confiance en mes capacités",
+     ditQue:"Tu doutes beaucoup de toi. Souvent le signe d'un cerveau qui collectionne les échecs sans rien retenir des réussites.",
+     piste:"Mini-carnet de réussites : 3 micro-trucs réussis par jour, même minuscules. Lire chaque soir.",
+     outil:{t:"Détecteur Paroles",l:"../../F0_fondations/parents/detecteur-paroles.html"}},
+  4:{etoile:'cerveau',titre:"Discours intérieur",
+     ditQue:"Tu te parles durement à toi-même. Ce critique intérieur est souvent appris (de l'extérieur).",
+     piste:"Écris 3 phrases dures que tu te dis. Pour chacune : « Est-ce que je dirais ça à mon meilleur ami ? »",
+     outil:{t:"Méthode R.A.H.M.A",l:"../../D_regulation/parents/methode-rahma.html"}},
+  5:{etoile:'cerveau',titre:"Concentration",
+     ditQue:"Maintenir l'attention est très coûteux — fréquent en TDAH, anxiété ou surstimulation.",
+     piste:"Pomodoro adapté : 10 min focus + 3 min pause mouvement. Tester un casque anti-bruit.",
+     outil:{t:"Profil FE 80 items",l:"../../A_reperage/praticiens/profil-fonctions-executives.html"}},
+  // 💗 CŒUR
+  6:{etoile:'coeur',titre:"Régulation émotionnelle",
+     ditQue:"Tes émotions montent vite et fort. Ton thermomètre interne est très sensible.",
+     piste:"Apprends à repérer les zones 🟢🟡🟠🔴 AVANT que ça explose. Une stratégie par zone.",
+     outil:{t:"Kit Émotions",l:"../../D_regulation/parents/kit-emotions.html"}},
+  7:{etoile:'coeur',titre:"Appartenance",
+     ditQue:"Tu te sens un peu seul·e ou peu compris·e. Fréquent quand on est atypique.",
+     piste:"Identifie 1 ou 2 personnes qui te font du bien. Investis la qualité, pas la quantité.",
+     outil:{t:"Boîte Ado TDAH (dialogue)",l:"../../D_regulation/ados/boite-ado-tdah.html"}},
+  8:{etoile:'coeur',titre:"Vécu d'être atypique",
+     ditQue:"Tu vis ta différence comme un poids. Souvent parce qu'on t'a renvoyé qu'il fallait être 'normal·e'.",
+     piste:"Liste 3 forces de ton fonctionnement atypique. Ta différence est une carte d'identité, pas un défaut.",
+     outil:{t:"Guide HPI / TDAH+TOP",l:"../../F0_fondations/parents/guide-hpi.html"}},
+  9:{etoile:'coeur',titre:"Mes valeurs / mon sens",
+     ditQue:"Tu as du mal à savoir ce qui compte vraiment pour toi. Sans boussole, c'est dur d'avancer.",
+     piste:"Réponds à : « De quoi je serais fier·e dans 10 ans ? Qu'est-ce qui m'allume vraiment ? »",
+     outil:{t:"Neuro-Tarbiya & Sabr Reset",l:"../../F0_fondations/parents/neuro-tarbiya-merkez.html"}},
+  10:{etoile:'coeur',titre:"Mes amis / liens proches",
+     ditQue:"Tu as peu de liens proches en ce moment. La solitude peut peser lourd.",
+     piste:"Reprends contact avec UNE personne cette semaine. Un message simple suffit : « Tu fais quoi ? »",
+     outil:{t:"Couple Éducatif 25×25",l:"../../F0_fondations/parents/profils-couple-educatif.html"}},
+  // 🌿 CORPS
+  11:{etoile:'corps',titre:"Sommeil",
+     ditQue:"Ton sommeil est dégradé. Sans repos, ton cerveau ne peut ni trier ni récupérer.",
+     piste:"Coupe les écrans 1h avant. Routine du soir fixe : douche · lecture · respiration 4-6.",
+     outil:{t:"Routines EducaTypique",l:"../../F0_fondations/parents/routines-educatypique.html"}},
+  12:{etoile:'corps',titre:"Énergie",
+     ditQue:"Tu te sens épuisé·e. Soit ton sommeil est en cause, soit tu dépenses trop sans recharger.",
+     piste:"Repère ton heure de pic d'énergie et place tes tâches difficiles à ce moment. Pas l'inverse.",
+     outil:{t:"Chrono des Énergies",l:"../../F0_fondations/parents/chrono-energies-maman.html"}},
+  13:{etoile:'corps',titre:"Sensorialité",
+     ditQue:"Certaines sensations te submergent (bruit, lumière, textures). Système sensoriel hyper-réactif.",
+     piste:"Identifie tes 3 déclencheurs principaux. Prévois des outils (casque, lunettes, lieu calme).",
+     outil:{t:"Profil sensoriel",l:"../../A_reperage/praticiens/profil-sensoriel.html"}},
+  14:{etoile:'corps',titre:"Alimentation",
+     ditQue:"Ton rapport à la nourriture est compliqué (irrégulier, sélectif, perte d'appétit ou compensation).",
+     piste:"Stabilise UN seul repas : même heure, même type. Le reste suivra. Ne pas tout changer d'un coup.",
+     outil:{t:"Boîte Ado TDAH",l:"../../D_regulation/ados/boite-ado-tdah.html"}},
+  15:{etoile:'corps',titre:"Mouvement / activité physique",
+     ditQue:"Ton corps bouge peu. Le mouvement régule pourtant attention, sommeil et humeur.",
+     piste:"10 min de mouvement par jour, même petites : marche, danse, étirements. Pas besoin de sport intense.",
+     outil:{t:"20 jeux maison FE",l:"../../E_ludotheque/parents/jeux-maison-fe.html"}},
+  // 🎯 VIE
+  16:{etoile:'vie',titre:"École / apprentissages",
+     ditQue:"L'école est devenue un terrain compliqué. Apprentissage, relations ou les deux ?",
+     piste:"Identifie : c'est la matière ? le prof ? les autres ? la fatigue ? Le bon diagnostic ouvre la bonne porte.",
+     outil:{t:"MDPH pas à pas",l:"../../F0_fondations/parents/mdph-pas-a-pas.html"}},
+  17:{etoile:'vie',titre:"Autonomie pratique",
+     ditQue:"Réveil, douche, organisation : ça coince. Souvent déficit des FE, pas un manque de volonté.",
+     piste:"UNE seule routine à la fois. Commence par celle qui coûte le moins (matin OU soir, pas les deux).",
+     outil:{t:"Routines EducaTypique",l:"../../F0_fondations/parents/routines-educatypique.html"}},
+  18:{etoile:'vie',titre:"Vie numérique",
+     ditQue:"Les écrans prennent beaucoup de place. Ils compensent souvent un vide ailleurs (lien, sens, ennui).",
+     piste:"Au lieu de couper net, REMPLACE par autre chose qui te recharge (musique, marche, art, ami).",
+     outil:{t:"Boîte Ado TDAH (écrans)",l:"../../D_regulation/ados/boite-ado-tdah.html"}},
+  19:{etoile:'vie',titre:"Rapport au temps",
+     ditQue:"Tu te perds dans le temps : ça file ou ça traîne. Cécité temporelle, classique en TDAH.",
+     piste:"Rends le temps VISIBLE : Time Timer, horloge analogique, agenda papier. Le cerveau a besoin de voir.",
+     outil:{t:"Profil FE",l:"../../A_reperage/praticiens/profil-fonctions-executives.html"}},
+  20:{etoile:'vie',titre:"Vision du futur",
+     ditQue:"Ton futur est flou ou angoissant. Sans projection positive, c'est dur de tenir le présent.",
+     piste:"Visualise UN scénario futur qui te plairait — pas obligé d'y croire à 100%. L'imaginer crée déjà une route.",
+     outil:{t:"Neuro-Tarbiya",l:"../../F0_fondations/parents/neuro-tarbiya-merkez.html"}}
+};
+
+const ORIENTATIONS = {
+  cerveau:{titre:"🧠 Étoile Cerveau en alerte",
+    txt:"Évaluation TDAH (pédopsychiatre / neuropédiatre) + bilan neuropsy fonctions exécutives. Avant orientation, tester 4 semaines de routines de sommeil + activité physique + cadre visuel."},
+  coeur:{titre:"💗 Étoile Cœur en alerte",
+    txt:"Suivi psychologique TCC (régulation émotionnelle + estime). Évaluation anxiété/dépression si items 6/8 ≤ 1 ET retrait social marqué. Travail famille (R.A.H.M.A)."},
+  corps:{titre:"🌿 Étoile Corps en alerte",
+    txt:"Médecin traitant / pédiatre (bilan sommeil, énergie, alimentation). Bilan sensoriel ergothérapeute si item 13 fragile. ORL/ophtalmo si plainte sensorielle ciblée."},
+  vie:{titre:"🎯 Étoile Vie en alerte",
+    txt:"Coaching neuro-pédagogique TND. MDPH si impact scolaire majeur (PAP/PPS). Aménagements école rapides. Si vision du futur très basse (item 20 ≤ 1) : alerter pédopsy."}
+};
+
+const PHRASES_NAWEL = [
+  "On ne demande pas à un enfant de discipline si l'attachement est fragile.",
+  "Adapter avant de corriger. Connexion avant correction.",
+  "Quand t'es rouge, on te met en sécurité.",
+  "Voiture puissante sans freins ABS : il te faut un copilote, pas un juge.",
+  "Tu n'es pas le problème. Tu es face à un problème.",
+  "Ton cerveau atypique n'est pas un défaut à corriger, c'est une carte d'identité à comprendre.",
+  "Une étoile éteinte n'est pas une étoile morte — elle a juste besoin de lumière pour se rallumer."
+];
+
+function profilGlobal(){
+  const cur = current();
+  const who = currentVue==='parent'?'parent':'ado';
+  const avgs = {};
+  let totalSum = 0, totalN = 0;
+  BOUSSOLES.forEach(b=>{
+    const v = avgBoussole(who, b.id);
+    avgs[b.id] = v;
+    if(v !== null){ totalSum += v; totalN += 1; }
+  });
+  if(totalN === 0) return null;
+  const moyGlobale = totalSum / totalN;
+  // Étoile la plus brillante / la plus éteinte
+  let max = -1, min = 99, etoileMax = null, etoileMin = null;
+  BOUSSOLES.forEach(b=>{
+    if(avgs[b.id] === null) return;
+    if(avgs[b.id] > max){ max = avgs[b.id]; etoileMax = b; }
+    if(avgs[b.id] < min){ min = avgs[b.id]; etoileMin = b; }
+  });
+  // Type de constellation
+  let typeConst, phraseSig;
+  if(moyGlobale >= 2.8){
+    typeConst = "🌟 Constellation lumineuse";
+    phraseSig = "Ton ciel intérieur brille bien. Quelques zones d'ombre à éclairer, mais tu as déjà beaucoup d'appuis. On affine.";
+  } else if(moyGlobale >= 2){
+    typeConst = "🌗 Constellation contrastée";
+    phraseSig = "Des forces solides ET des zones d'ombre. C'est normal. On va appuyer sur tes forces pour ré-éclairer les zones fragiles.";
+  } else if(moyGlobale >= 1){
+    typeConst = "🌒 Constellation en tension";
+    phraseSig = "Beaucoup de tes étoiles ont besoin d'oxygène en ce moment. Pas grave. On va y aller doucement, une zone à la fois.";
+  } else {
+    typeConst = "🌑 Constellation éteinte — ALERTE";
+    phraseSig = "Là c'est beaucoup. On ne te demande PAS de tout réparer maintenant. La priorité immédiate : sommeil + sécurité + UNE personne ressource adulte. Le reste viendra.";
+  }
+  return { who, avgs, moyGlobale, etoileMax, etoileMin, typeConst, phraseSig };
+}
+
+function topPrioritesAdo(n=3){
+  const cur = current();
+  const who = currentVue==='parent'?'parent':'ado';
+  const sc = cur.scores[who] || {};
+  // Items avec score le + bas (0 ou 1)
+  const items = [];
+  for(let i=1;i<=20;i++){
+    const v = sc[i];
+    if(v === undefined) continue;
+    items.push({n:i, score:v, ...INTERPRETATIONS[i]});
+  }
+  items.sort((a,b)=>a.score - b.score);
+  return items.slice(0, n).filter(x=>x.score <= 1);
+}
+
+function ecartsCompare(seuil=2){
+  // Pour mode compare uniquement
+  const cur = current();
+  const ado = cur.scores.ado || {};
+  const par = cur.scores.parent || {};
+  const ecarts = [];
+  for(let i=1;i<=20;i++){
+    if(ado[i] === undefined || par[i] === undefined) continue;
+    const diff = ado[i] - par[i];
+    if(Math.abs(diff) >= seuil){
+      ecarts.push({n:i, ado:ado[i], parent:par[i], diff, ...INTERPRETATIONS[i]});
+    }
+  }
+  ecarts.sort((a,b)=>Math.abs(b.diff) - Math.abs(a.diff));
+  return ecarts;
+}
+
+function renderMiroir(){
+  const c = document.getElementById('miroir-container');
+  const prof = profilGlobal();
+  if(!prof){
+    c.innerHTML = `<div class="miroir-vide">
+      <strong>🪞 Mon miroir personnalisé</strong>
+      Remplis d'abord quelques items de la Phase 1 (📸 La photo) pour que je puisse te dresser ton miroir.<br>
+      <em style="font-size:.85rem;color:#888">Au moins une étoile complète recommandée pour une lecture fiable.</em>
+    </div>`;
+    return;
+  }
+  const who = prof.who;
+  const sc = current().scores[who] || {};
+  const phraseSignature = PHRASES_NAWEL[Math.floor(Math.random()*PHRASES_NAWEL.length)];
+
+  let html = '';
+
+  // ===== 1. HERO synthèse =====
+  html += `<div class="miroir-actions">
+    <button onclick="renderMiroir()">🔄 Régénérer le miroir</button>
+  </div>`;
+  html += `<div class="miroir-hero">
+    <h2>🪞 ${prof.typeConst}</h2>
+    <p style="margin:.3rem 0 .6rem;color:#555;font-size:.95rem">
+      Lecture automatique de ta constellation à partir de tes réponses · ${who==='ado'?'Vue ado':'Vue parent rapporteur'}
+    </p>
+    <div class="miroir-stats">
+      ${BOUSSOLES.map(b=>{
+        const v = prof.avgs[b.id];
+        const txt = v===null ? '—' : LUNES[Math.round(v)]+' '+v.toFixed(1)+'/4';
+        return `<div class="miroir-stat ${b.id}">
+          <div class="lbl">${b.emoji} ${b.id.charAt(0).toUpperCase()+b.id.slice(1)}</div>
+          <div class="val">${txt}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <p style="margin:.8rem 0 .3rem;font-size:.9rem"><strong style="color:#5a3c8f">✨ Plus brillante :</strong> ${prof.etoileMax?prof.etoileMax.emoji+' '+prof.etoileMax.titre:'—'} ·
+    <strong style="color:#a04a10">🕳 Plus éteinte :</strong> ${prof.etoileMin?prof.etoileMin.emoji+' '+prof.etoileMin.titre:'—'}</p>
+    <div class="phrase-nawel">${prof.phraseSig}</div>
+    <div class="phrase-nawel" style="border-left-color:#7c5cbf;margin-top:.4rem">💛 <em>${phraseSignature}</em> <small style="color:#888">— Nawel</small></div>
+  </div>`;
+
+  // ===== 2. LECTURE PAR ÉTOILE =====
+  BOUSSOLES.forEach(b=>{
+    const itemsFaibles = [];
+    for(let i=1;i<=20;i++){
+      if(INTERPRETATIONS[i].etoile !== b.id) continue;
+      const v = sc[i];
+      if(v !== undefined && v <= 1) itemsFaibles.push({n:i, score:v, ...INTERPRETATIONS[i]});
+    }
+    if(itemsFaibles.length === 0) return; // Ne rien afficher pour les étoiles solides
+    html += `<div class="miroir-section ${b.id}">
+      <h3>${b.emoji} Lecture · ${b.titre.replace('Étoile ','')} <span style="font-size:.8rem;font-weight:400;color:#888">(${itemsFaibles.length} item${itemsFaibles.length>1?'s':''} fragile${itemsFaibles.length>1?'s':''})</span></h3>
+      ${itemsFaibles.map(it=>`
+        <div class="lecture-item" style="--bc:${b.color}">
+          <div class="ditem">${it.n}. ${esc(it.titre)} <span class="score-pill">${LUNES[it.score]} ${LUNES_LABELS[it.score]}</span></div>
+          <p class="ditQue">📍 <strong>Ce que ça peut dire :</strong> ${esc(it.ditQue)}</p>
+          <p class="piste">🌱 <strong>Piste douce :</strong> ${esc(it.piste)}</p>
+          <a class="outil-lien" href="${it.outil.l}" target="_blank">🔗 ${esc(it.outil.t)} →</a>
+        </div>
+      `).join('')}
+    </div>`;
+  });
+
+  // ===== 3. ORIENTATION PRO =====
+  const orientations = [];
+  BOUSSOLES.forEach(b=>{
+    if(prof.avgs[b.id] !== null && prof.avgs[b.id] <= 1.5){
+      orientations.push(ORIENTATIONS[b.id]);
+    }
+  });
+  if(orientations.length > 0){
+    html += `<div class="miroir-section" style="--bc:#e9a73a">
+      <h3>🧭 Orientation professionnelle suggérée</h3>
+      <p style="font-size:.85rem;color:#888;margin:0 0 .5rem;font-style:italic">Suggestions de bilans/suivis à envisager. Ce n'est pas un diagnostic — c'est un repérage qui appelle un avis pro.</p>
+      ${orientations.map(o=>`
+        <div class="orient-card">
+          <div class="titre">${esc(o.titre)}</div>
+          <p>${esc(o.txt)}</p>
+        </div>
+      `).join('')}
+    </div>`;
+  }
+
+  // ===== 4. CONSEILS ADO =====
+  const top3 = topPrioritesAdo(3);
+  if(top3.length > 0){
+    html += `<div class="miroir-section" style="--bc:#5fa040">
+      <h3>💚 Mes 3 priorités cette semaine (pour TOI)</h3>
+      <p style="font-size:.85rem;color:#888;margin:0 0 .5rem">Issues des items les plus bas de ton questionnaire. Pas tout en même temps — UNE chose à la fois.</p>
+      ${top3.map((it,i)=>`
+        <div class="conseil-ado">
+          <strong>${i+1}. ${esc(it.titre)} :</strong> ${esc(it.piste)}
+        </div>
+      `).join('')}
+    </div>`;
+  }
+
+  // ===== 5. CONSEILS PARENT =====
+  if(top3.length > 0){
+    const posturesParent = [];
+    if(prof.avgs.coeur !== null && prof.avgs.coeur <= 1.5){
+      posturesParent.push("<strong>Quand l'émotion monte :</strong> tu sécurises AVANT de raisonner. R.A.H.M.A — Reconnaître, Accueillir, Harmoniser, Modéliser, Accompagner.");
+    }
+    if(prof.avgs.cerveau !== null && prof.avgs.cerveau <= 1.5){
+      posturesParent.push("<strong>Pour les FE en panne :</strong> tu deviens son cortex externe. Tu rends visible, tu décomposes, tu accompagnes — sans juger la lenteur.");
+    }
+    if(prof.avgs.corps !== null && prof.avgs.corps <= 1.5){
+      posturesParent.push("<strong>Tant que le corps n'est pas posé :</strong> sommeil, alimentation et mouvement sont la base. On ne demande pas de concentration à un cerveau épuisé.");
+    }
+    if(prof.avgs.vie !== null && prof.avgs.vie <= 1.5){
+      posturesParent.push("<strong>Pour l'autonomie et l'école :</strong> on adapte AVANT de corriger. Pas de bras de fer sur des compétences que le cerveau n'a pas (encore).");
+    }
+    posturesParent.push("<strong>Phrase à éviter :</strong> « Si tu voulais, tu pourrais. » → <strong>À dire à la place :</strong> « Je vois que c'est dur. On cherche ensemble une autre porte. »");
+    html += `<div class="miroir-section" style="--bc:#d36699">
+      <h3>💗 Pour le parent · Posture à adopter</h3>
+      ${posturesParent.map(p=>`<div class="conseil-parent">${p}</div>`).join('')}
+    </div>`;
+  }
+
+  // ===== 6. COMPARAISON ADO/PARENT (si vue compare) =====
+  if(currentVue === 'compare'){
+    const ecarts = ecartsCompare(2);
+    if(ecarts.length > 0){
+      html += `<div class="miroir-section" style="--bc:#2a9d8f">
+        <h3>👀 Écarts ado / parent (pistes de dialogue)</h3>
+        <p style="font-size:.85rem;color:#888;margin:0 0 .5rem">Où l'ado se voit autrement que le parent le voit. Souvent une mine d'or pour ouvrir un dialogue.</p>
+        ${ecarts.slice(0,5).map(e=>`
+          <div class="compare-card">
+            <span class="ecart">${e.n}. ${esc(e.titre)} — écart de ${Math.abs(e.diff)} crans</span>
+            Ado se voit : ${LUNES[e.ado]} ${LUNES_LABELS[e.ado]} · Parent voit : ${LUNES[e.parent]} ${LUNES_LABELS[e.parent]}<br>
+            <em style="color:#1a6a5a">💬 Question à poser : « ${e.diff > 0 ? "J'ai l'impression que c'est plus dur pour toi que ce que je vois — c'est ça ?" : "Toi tu dis que ça va, moi je m'inquiète un peu — qu'est-ce qui te fait dire que ça va ?"} »</em>
+          </div>
+        `).join('')}
+      </div>`;
+    } else {
+      html += `<div class="miroir-section" style="--bc:#2a9d8f">
+        <h3>👀 Écarts ado / parent</h3>
+        <p style="color:#1a6a5a;font-size:.92rem">✨ Lectures ado et parent très alignées — c'est un beau signe de communication ouverte.</p>
+      </div>`;
+    }
+  }
+
+  // ===== 7. QUAND CONSULTER (toujours en fin) =====
+  const criteresUrgents = [];
+  if(prof.moyGlobale < 1){ criteresUrgents.push("Moyenne globale très basse (constellation éteinte)"); }
+  if(sc[20] !== undefined && sc[20] <= 1){ criteresUrgents.push("Vision du futur très basse → consulter rapidement (pédopsy / psy ado)"); }
+  if(prof.avgs.coeur !== null && prof.avgs.coeur < 1){ criteresUrgents.push("Étoile Cœur très basse → suivi psy à envisager"); }
+  if(sc[11] !== undefined && sc[11] <= 1 && sc[12] !== undefined && sc[12] <= 1){ criteresUrgents.push("Sommeil ET énergie effondrés → médecin / pédiatre cette semaine"); }
+  if(criteresUrgents.length > 0){
+    html += `<div class="consulter-card">
+      <div class="titre">⚠️ Indicateurs qui appellent un avis pro prochainement</div>
+      <ul>${criteresUrgents.map(c=>`<li>${esc(c)}</li>`).join('')}</ul>
+      <p style="font-size:.82rem;color:#7a3a10;margin:.4rem 0 0;font-style:italic">Ce repérage n'est pas un diagnostic. Il oriente : consulter un pro (médecin traitant, pédopsy, psy, neuropsy) reste indispensable pour confirmer/infirmer.</p>
+    </div>`;
+  }
+
+  c.innerHTML = html;
+}
+
+/* ===== PHASE 2 ===== */
+function renderBilan(){
+  const c=document.getElementById('bilan-container');c.innerHTML='';
+  BOUSSOLES.forEach(b=>{
+    const card=document.createElement('div');card.className='bilan-card';
+    card.style.setProperty('--bc',b.color);
+    const bilanData=current().bilan[b.id]||{};
+    const moyenne=avgBoussole(currentVue==='parent'?'parent':'ado',b.id);
+    const moyTxt=moyenne!==null?` · Moyenne : ${LUNES[Math.round(moyenne)]} ${LUNES_LABELS[Math.round(moyenne)]}`:'';
+    card.innerHTML=`
+      <h3>${b.emoji} ${b.titre}${moyTxt}</h3>
+      <div class="field">
+        <label>🔑 Leviers identifiés (2-3 max)</label>
+        <textarea data-bilan="${b.id}" data-field="leviers" placeholder="Ce sur quoi on peut agir maintenant…">${bilanData.leviers||''}</textarea>
+      </div>
+      <div class="field">
+        <label>👁 Ressenti du pro (analyse)</label>
+        <textarea data-bilan="${b.id}" data-field="pro" placeholder="Mon hypothèse clinique, mes observations…">${bilanData.pro||''}</textarea>
+      </div>
+      <div class="field">
+        <label>💭 Ressenti de l'ado</label>
+        <textarea data-bilan="${b.id}" data-field="ado" placeholder="Comment l'ado vit ce qu'on a observé…">${bilanData.ado||''}</textarea>
+      </div>
+    `;
+    c.appendChild(card);
+  });
+  c.querySelectorAll('[data-bilan]').forEach(t=>{
+    t.addEventListener('input',e=>{
+      const b=e.target.dataset.bilan;const f=e.target.dataset.field;
+      current().bilan[b]=current().bilan[b]||{};
+      current().bilan[b][f]=e.target.value;
+      save();
+    });
+  });
+}
+
+/* ===== PHASE 3 ===== */
+function renderPlan(){
+  const d=current();
+  document.getElementById('obj-urgent').value=d.plan.urgent||'';
+  document.getElementById('obj-court').value=d.plan.court||'';
+  document.getElementById('obj-long').value=d.plan.long||'';
+  document.getElementById('next-date').value=d.nextDate||'';
+  document.getElementById('signature-date').value=d.signatureDate||'';
+}
+document.getElementById('obj-urgent').addEventListener('input',e=>{current().plan.urgent=e.target.value;save();});
+document.getElementById('obj-court').addEventListener('input',e=>{current().plan.court=e.target.value;save();});
+document.getElementById('obj-long').addEventListener('input',e=>{current().plan.long=e.target.value;save();});
+document.getElementById('next-date').addEventListener('input',e=>{current().nextDate=e.target.value;save();});
+document.getElementById('signature-date').addEventListener('input',e=>{current().signatureDate=e.target.value;save();});
+
+/* ===== ÉVOLUTION ===== */
+function saveSnapshot(){
+  const d=current();
+  const snap={
+    date:new Date().toISOString().slice(0,10),
+    vue:currentVue,
+    averages:{}
+  };
+  BOUSSOLES.forEach(b=>{
+    snap.averages[b.id]={
+      ado:avgBoussole('ado',b.id),
+      parent:avgBoussole('parent',b.id)
+    };
+  });
+  d.snapshots.push(snap);
+  save();
+  alert('📸 Bilan enregistré dans l\'historique !');
+  renderEvolution();
+}
+document.getElementById('btn-save-snap').onclick=saveSnapshot;
+
+function renderEvolution(){
+  const c=document.getElementById('evol-content');
+  const d=current();
+  if(!d.snapshots||d.snapshots.length===0){
+    c.innerHTML=`<div class="evol-empty">📈 Aucun bilan archivé pour le moment.<br>Remplis la Phase 1 puis clique sur <strong>"Enregistrer ce bilan dans l'historique"</strong> en bas.</div>`;
+    return;
+  }
+  // List
+  let html=`<div class="snap-list"><h3>📚 Mes bilans archivés (${d.snapshots.length})</h3>`;
+  d.snapshots.forEach((s,i)=>{
+    const av=s.averages;
+    const ado=BOUSSOLES.map(b=>av[b.id]?.ado).filter(v=>v!=null);
+    const adoMoy=ado.length?(ado.reduce((a,b)=>a+b,0)/ado.length).toFixed(1):'-';
+    html+=`<div class="snap-row">
+      <span class="date">${s.date}</span>
+      <span class="scores">Moy. ado : ${adoMoy}/4 ${LUNES[Math.round(adoMoy)]||''}</span>
+      <button class="del" data-del="${i}">✕</button>
+    </div>`;
+  });
+  html+=`</div>`;
+  // Chart
+  html+=`<div class="evol-chart"><h3>📈 Mon évolution dans le temps</h3><svg id="evol-svg" viewBox="0 0 700 360"></svg></div>`;
+  c.innerHTML=html;
+  c.querySelectorAll('[data-del]').forEach(b=>{
+    b.onclick=()=>{
+      if(confirm('Supprimer ce bilan archivé ?')){
+        d.snapshots.splice(parseInt(b.dataset.del),1);save();renderEvolution();
+      }
+    };
+  });
+  drawEvolChart();
+}
+
+function drawEvolChart(){
+  const svg=document.getElementById('evol-svg');
+  if(!svg)return;
+  const d=current();const snaps=d.snapshots;
+  if(snaps.length===0)return;
+  const W=700,H=360,M={t:30,r:30,b:60,l:50};
+  const innerW=W-M.l-M.r,innerH=H-M.t-M.b;
+  let html='';
+  // Axes
+  html+=`<line x1="${M.l}" y1="${M.t}" x2="${M.l}" y2="${M.t+innerH}" stroke="#ccc"/>`;
+  html+=`<line x1="${M.l}" y1="${M.t+innerH}" x2="${M.l+innerW}" y2="${M.t+innerH}" stroke="#ccc"/>`;
+  // Y labels (0-4)
+  for(let i=0;i<=4;i++){
+    const y=M.t+innerH-(i/4)*innerH;
+    html+=`<line x1="${M.l-4}" y1="${y}" x2="${M.l}" y2="${y}" stroke="#ccc"/>`;
+    html+=`<text x="${M.l-8}" y="${y+4}" text-anchor="end" font-size="11" fill="#888">${LUNES[i]}</text>`;
+  }
+  // X labels
+  const n=snaps.length;
+  snaps.forEach((s,i)=>{
+    const x=n===1?M.l+innerW/2:M.l+(i/(n-1))*innerW;
+    html+=`<text x="${x}" y="${H-M.b+18}" text-anchor="middle" font-size="10" fill="#888" transform="rotate(-30 ${x} ${H-M.b+18})">${s.date}</text>`;
+  });
+  // Lines per boussole
+  BOUSSOLES.forEach(b=>{
+    const pts=snaps.map((s,i)=>{
+      const x=n===1?M.l+innerW/2:M.l+(i/(n-1))*innerW;
+      const v=s.averages[b.id]?.ado;
+      if(v==null)return null;
+      const y=M.t+innerH-(v/4)*innerH;
+      return {x,y};
+    }).filter(p=>p!==null);
+    if(pts.length===0)return;
+    const path=pts.map((p,i)=>(i===0?'M':'L')+p.x+','+p.y).join(' ');
+    html+=`<path d="${path}" stroke="${b.color}" stroke-width="2.5" fill="none"/>`;
+    pts.forEach(p=>{
+      html+=`<circle cx="${p.x}" cy="${p.y}" r="4" fill="${b.color}"/>`;
+    });
+  });
+  // Legend
+  const legY=H-12;
+  BOUSSOLES.forEach((b,i)=>{
+    const x=M.l+i*150;
+    html+=`<circle cx="${x}" cy="${legY-4}" r="5" fill="${b.color}"/>`;
+    html+=`<text x="${x+10}" y="${legY}" font-size="11" fill="#444" font-weight="600">${b.emoji} ${b.titre.replace('Boussole ','')}</text>`;
+  });
+  svg.innerHTML=html;
+}
+
+/* ===== TABS & VUE ===== */
+document.querySelectorAll('.phase-tabs button').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.phase-tabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    if(btn.dataset.tab==='phase2'){renderMiroir();renderBilan();}
+    if(btn.dataset.tab==='phase3')renderPlan();
+    if(btn.dataset.tab==='evolution')renderEvolution();
+  };
+});
+
+document.querySelectorAll('.vue-toggle button').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.vue-toggle button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentVue=btn.dataset.vue;
+    renderBoussoles();renderRadar();
+  };
+});
+
+/* ===== DOSSIERS ===== */
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();renderAll();};
+document.getElementById('btn-new-dossier').onclick=()=>{
+  const n=prompt('Nom du nouveau dossier :','Ado '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){
+    state.dossiers[n.trim()]=blank();state.dossier=n.trim();
+    save();refreshDossierSelect();renderAll();
+  }
+};
+document.getElementById('btn-rename-dossier').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n.trim()!==state.dossier&&!state.dossiers[n.trim()]){
+    state.dossiers[n.trim()]=state.dossiers[state.dossier];
+    delete state.dossiers[state.dossier];state.dossier=n.trim();
+    save();refreshDossierSelect();renderAll();
+  }
+};
+document.getElementById('btn-delete-dossier').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible de supprimer le seul dossier.');return;}
+  if(confirm('Supprimer le dossier « '+state.dossier+' » ?')){
+    delete state.dossiers[state.dossier];
+    state.dossier=Object.keys(state.dossiers)[0];
+    save();refreshDossierSelect();renderAll();
+  }
+};
+
+/* ===== RESET ===== */
+document.getElementById('btn-reset').onclick=()=>{
+  if(confirm('Vider entièrement ce dossier (toutes phases + historique) ?')){
+    state.dossiers[state.dossier]=blank();save();renderAll();
+  }
+};
+
+/* ===== EXPORT ===== */
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();const date=new Date().toLocaleDateString('fr-FR');
+  let txt=`MA CONSTELLATION MOTIVATIONNELLE — EducaTypique\n`;
+  txt+=`Création originale Nawel Haddouch\n`;
+  txt+=`Dossier : ${state.dossier} · Édité le : ${date}\n`;
+  txt+=`${'='.repeat(60)}\n\n`;
+  txt+=`PHASE 1 — LA PHOTO\n${'-'.repeat(60)}\n`;
+  BOUSSOLES.forEach(b=>{
+    txt+=`\n${b.emoji} ${b.titre.toUpperCase()}\n`;
+    b.items.forEach(it=>{
+      const va=(d.scores.ado||{})[it.n];
+      const vp=(d.scores.parent||{})[it.n];
+      const adoTxt=va!==undefined?`${LUNES[va]} ${LUNES_LABELS[va]}`:'(non renseigné)';
+      const parTxt=vp!==undefined?` | Parent: ${LUNES[vp]} ${LUNES_LABELS[vp]}`:'';
+      txt+=`  ${it.n}. ${it.t}\n     Ado: ${adoTxt}${parTxt}\n`;
+    });
+    if(d.comments[b.id])txt+=`  💭 Commentaire : ${d.comments[b.id]}\n`;
+  });
+  // ===== MIROIR PERSONNALISÉ =====
+  const prof = profilGlobal();
+  if(prof){
+    txt+=`\n\nMIROIR PERSONNALISÉ — INTERPRÉTATION AUTO\n${'-'.repeat(60)}\n`;
+    txt+=`Profil : ${prof.typeConst}\n`;
+    txt+=`Vue analysée : ${prof.who==='ado'?'Ado seul·e':'Parent rapporteur'}\n`;
+    txt+=`Moyennes : ${BOUSSOLES.map(b=>`${b.emoji}${prof.avgs[b.id]!==null?prof.avgs[b.id].toFixed(1):'-'}`).join(' · ')}\n`;
+    if(prof.etoileMax) txt+=`✨ Plus brillante : ${prof.etoileMax.emoji} ${prof.etoileMax.titre}\n`;
+    if(prof.etoileMin) txt+=`🕳 Plus éteinte : ${prof.etoileMin.emoji} ${prof.etoileMin.titre}\n`;
+    txt+=`\n${prof.phraseSig}\n`;
+
+    // Lecture par étoile
+    const sc = current().scores[prof.who] || {};
+    BOUSSOLES.forEach(b=>{
+      const faibles=[];
+      for(let i=1;i<=20;i++){
+        if(INTERPRETATIONS[i].etoile!==b.id) continue;
+        const v=sc[i]; if(v!==undefined && v<=1) faibles.push({n:i,score:v,...INTERPRETATIONS[i]});
+      }
+      if(faibles.length===0) return;
+      txt+=`\n${b.emoji} LECTURE · ${b.titre.toUpperCase()}\n`;
+      faibles.forEach(it=>{
+        txt+=`  ${it.n}. ${it.titre} (${LUNES_LABELS[it.score]})\n`;
+        txt+=`     📍 ${it.ditQue}\n`;
+        txt+=`     🌱 ${it.piste}\n`;
+        txt+=`     🔗 Outil : ${it.outil.t}\n`;
+      });
+    });
+
+    // Orientation pro
+    const orient=[];
+    BOUSSOLES.forEach(b=>{ if(prof.avgs[b.id]!==null && prof.avgs[b.id]<=1.5) orient.push(ORIENTATIONS[b.id]); });
+    if(orient.length>0){
+      txt+=`\n🧭 ORIENTATION PROFESSIONNELLE SUGGÉRÉE\n`;
+      orient.forEach(o=>{ txt+=`  ${o.titre}\n  ${o.txt}\n\n`; });
+    }
+
+    // Top 3 priorités
+    const top3=topPrioritesAdo(3);
+    if(top3.length>0){
+      txt+=`\n💚 3 PRIORITÉS POUR L'ADO (cette semaine)\n`;
+      top3.forEach((it,i)=>{ txt+=`  ${i+1}. ${it.titre} : ${it.piste}\n`; });
+    }
+
+    // Comparaison si vue compare
+    if(currentVue==='compare'){
+      const ec=ecartsCompare(2);
+      if(ec.length>0){
+        txt+=`\n👀 ÉCARTS ADO/PARENT (top 5)\n`;
+        ec.slice(0,5).forEach(e=>{
+          txt+=`  ${e.n}. ${e.titre} — Ado ${LUNES_LABELS[e.ado]} vs Parent ${LUNES_LABELS[e.parent]} (écart ${Math.abs(e.diff)})\n`;
+        });
+      }
+    }
+  }
+  txt+=`\n\nPHASE 2 — LES LEVIERS (notes pro libres)\n${'-'.repeat(60)}\n`;
+  BOUSSOLES.forEach(b=>{
+    const bil=d.bilan[b.id]||{};
+    if(bil.leviers||bil.pro||bil.ado){
+      txt+=`\n${b.emoji} ${b.titre}\n`;
+      if(bil.leviers)txt+=`  🔑 Leviers : ${bil.leviers}\n`;
+      if(bil.pro)txt+=`  👁 Pro : ${bil.pro}\n`;
+      if(bil.ado)txt+=`  💭 Ado : ${bil.ado}\n`;
+    }
+  });
+  txt+=`\n\nPHASE 3 — MES PROCHAINS PAS\n${'-'.repeat(60)}\n`;
+  txt+=`🔥 Urgent (cette semaine) : ${d.plan.urgent||'(à définir)'}\n`;
+  txt+=`🌱 Court terme (1 mois) : ${d.plan.court||'(à définir)'}\n`;
+  txt+=`🌳 Long terme (3 mois) : ${d.plan.long||'(à définir)'}\n`;
+  txt+=`📅 Prochain bilan : ${d.nextDate||'(à fixer)'}\n`;
+  txt+=`✍ Daté le : ${d.signatureDate||date}\n`;
+  if(d.snapshots&&d.snapshots.length){
+    txt+=`\n\nHISTORIQUE (${d.snapshots.length} bilans archivés)\n${'-'.repeat(60)}\n`;
+    d.snapshots.forEach(s=>{
+      txt+=`${s.date} — `;
+      BOUSSOLES.forEach(b=>{
+        const v=s.averages[b.id]?.ado;
+        txt+=`${b.emoji}${v!=null?LUNES[Math.round(v)]:'-'} `;
+      });
+      txt+=`\n`;
+    });
+  }
+  const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`constellation-motivationnelle_${state.dossier.replace(/[^a-z0-9]/gi,'_')}_${date.replace(/\//g,'-')}.txt`;
+  a.click();URL.revokeObjectURL(url);
+};
+
+/* ===== RENDER ALL ===== */
+function renderAll(){
+  renderBoussoles();renderRadar();renderMiroir();renderBilan();renderPlan();renderEvolution();
+}
+
+load();refreshDossierSelect();renderAll();
+</script>
+
+</body>
+</html>

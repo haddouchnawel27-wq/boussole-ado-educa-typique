@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contrat de confiance avec mon ado · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { margin: 1.5cm; size: A4; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    color: #2E2A5C;
+    line-height: 1.6;
+    background: #F7F2EC;
+    font-size: 11pt;
+  }
+  .topbar {
+    position: sticky; top:0; z-index: 100;
+    background: linear-gradient(135deg, #8ED9D2 0%, #BDEAD7 100%);
+    color: #1a6a5a; padding: .6rem 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    display: flex; gap: .5rem; flex-wrap: wrap; justify-content: center; align-items: center;
+  }
+  .topbar a, .topbar button {
+    color: #1a6a5a; background: rgba(255,255,255,.4); text-decoration: none;
+    border: none; padding: .4rem .9rem; border-radius: 999px;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .85rem;
+    cursor: pointer;
+  }
+  .topbar a:hover, .topbar button:hover { background: #fff; }
+  .topbar select {
+    background: #fff; color: #1a6a5a; border: none;
+    padding: .4rem .8rem; border-radius: 999px;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .85rem;
+  }
+  .container { padding: 2rem 1rem; max-width: 850px; margin: 0 auto; }
+  .page {
+    background: #FFFFFF;
+    padding: 2.5rem 3rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+  .strip {
+    display: flex; height: 8px;
+    margin: -2.5rem -3rem 2rem -3rem;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+  }
+  .strip > div { height: 100%; }
+  .strip > div:nth-child(1) { background: #8ED9D2; flex: 3; }
+  .strip > div:nth-child(2) { background: #BDEAD7; flex: 2; }
+  .strip > div:nth-child(3) { background: #CBB6F6; flex: 1; }
+
+  .header { text-align: center; margin-bottom: 2rem; }
+  .brand {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14pt; color: #2A8E7C; font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .tagline { font-size: 9pt; color: #7A6E94; font-style: italic; margin-top: 0.3rem; }
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24pt; color: #2E2A5C; font-weight: 700;
+    margin-top: 1.2rem; line-height: 1.2;
+  }
+  h1 .accent { color: #2A8E7C; }
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14pt; color: #2E2A5C; font-weight: 600;
+    margin: 1.8rem 0 0.8rem; padding-left: 0.7rem;
+    border-left: 4px solid #8ED9D2;
+  }
+  h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12pt; color: #2A8E7C; font-weight: 600;
+    margin: 1rem 0 0.4rem;
+  }
+  p { margin-bottom: 0.7rem; }
+  ul { padding-left: 1.4rem; margin-bottom: 0.8rem; }
+  li { margin-bottom: 0.4rem; }
+  strong { color: #2E2A5C; font-weight: 700; }
+  em { color: #6B6680; }
+
+  .opening {
+    background: linear-gradient(135deg, #E4F4F2 0%, #F2EAFC 100%);
+    padding: 1.3rem 1.5rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    text-align: center;
+    font-style: italic;
+    font-size: 11.5pt;
+    color: #1a6a5a;
+    border-left: 4px solid #2A8E7C;
+  }
+
+  .pillar {
+    background: #E4F4F2; border-radius: 10px;
+    padding: 1.1rem 1.3rem; margin: 0.9rem 0;
+    border-left: 4px solid #8ED9D2;
+  }
+  .pillar.lav { background: #F2EAFC; border-left-color: #CBB6F6; }
+  .pillar.peach { background: #FFF1EA; border-left-color: #F4A261; }
+  .pillar.red { background: #FFE0E0; border-left-color: #E76F51; }
+  .pillar-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; color: #2E2A5C;
+    margin-bottom: 0.4rem; font-size: 11.5pt;
+  }
+
+  .steps-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .8rem; margin: 1rem 0;
+  }
+  .step-card {
+    background: #fff;
+    border: 2px solid #8ED9D2;
+    padding: 1.1rem 1.2rem;
+    border-radius: 10px;
+    position: relative;
+    padding-top: 2.5rem;
+  }
+  .step-card .num {
+    position: absolute; top: -12px; left: 1.1rem;
+    background: #2A8E7C; color: #fff;
+    padding: .15rem .8rem;
+    border-radius: 999px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; font-size: 10pt;
+  }
+  .step-card .titre {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; color: #1a6a5a;
+    margin-bottom: .4rem; font-size: 11pt;
+  }
+  .step-card .desc { font-size: 10pt; color: #2E2A5C; }
+
+  .contrat-form {
+    background: linear-gradient(135deg, #FFFEFB 0%, #E4F4F2 100%);
+    border: 2px dashed #2A8E7C;
+    padding: 2rem 2.2rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+  }
+  .contrat-form h3 {
+    text-align: center;
+    color: #1a6a5a;
+    font-size: 14pt;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-left: 0;
+    border-left: none;
+  }
+  .contrat-row {
+    margin-bottom: 1.2rem;
+  }
+  .contrat-row label {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #2A8E7C;
+    margin-bottom: .4rem;
+    font-size: 10.5pt;
+  }
+  .contrat-row label .ic { font-size: 1.2rem; margin-right: .3rem; }
+
+  input[type="text"], input[type="date"], textarea {
+    width: 100%; padding: .8rem 1rem;
+    border: 1.5px solid #BDEAD7;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 10.5pt;
+    color: #2E2A5C;
+    background: #fff;
+  }
+  input[type="text"]:focus, input[type="date"]:focus, textarea:focus {
+    outline: none; border-color: #2A8E7C;
+  }
+  textarea { min-height: 70px; resize: vertical; }
+
+  .signature-zone {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px dashed #8ED9D2;
+  }
+  .signature-zone .sig {
+    text-align: center;
+  }
+  .signature-zone .sig .label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #2A8E7C;
+    font-size: 9.5pt;
+    margin-bottom: .3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .signature-zone .sig .line {
+    border-bottom: 2px solid #2A8E7C;
+    margin: 1.5rem 0 .5rem;
+  }
+  .signature-zone .sig .note {
+    font-size: 8.5pt;
+    color: #6B6680;
+    font-style: italic;
+  }
+
+  .astuces {
+    display: grid; gap: .6rem;
+  }
+  .astuce {
+    background: #fff;
+    padding: .8rem 1.1rem;
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: .7rem; align-items: center;
+    border-left: 3px solid #BDEAD7;
+  }
+  .astuce .ic {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .piege {
+    background: #FFE8E8;
+    padding: .8rem 1.1rem;
+    border-radius: 8px;
+    border-left: 3px solid #E76F51;
+    margin-bottom: .5rem;
+  }
+  .piege strong { color: #b13c20; }
+
+  .closing {
+    background: #BDEAD7; padding: 1.3rem 1.5rem;
+    border-radius: 12px; margin-top: 2rem;
+    text-align: center; color: #1a6a5a; font-weight: 500;
+  }
+  .closing strong { color: #1a6a5a; }
+  .line-deco {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #8ED9D2 30%, #8ED9D2 70%, transparent);
+    margin: 1.5rem 0;
+  }
+  .signature {
+    text-align: center; margin-top: 1.5rem;
+    font-size: 9pt; color: #7A6E94; font-style: italic;
+  }
+  .signature strong {
+    color: #2A8E7C; font-family: 'Poppins', sans-serif;
+    font-weight: 600; font-style: normal;
+  }
+  .source {
+    background: #f5f0fa; border: 1px dashed #CBB6F6;
+    border-radius: 8px; padding: .8rem 1.1rem;
+    font-size: 9.5pt; color: #6b4daa; font-style: italic;
+    margin: 1rem 0;
+  }
+  .actions {
+    display: flex; gap: .5rem; flex-wrap: wrap;
+    margin-top: 1.5rem; justify-content: center;
+  }
+  .actions button {
+    background: #2A8E7C; color: #fff;
+    border: none; padding: .65rem 1.3rem;
+    border-radius: 999px; font-weight: 700;
+    cursor: pointer; font-family: 'Nunito', sans-serif;
+    font-size: 10pt;
+  }
+  .actions button.secondary { background: #fff; color: #2A8E7C; border: 1.5px solid #2A8E7C; }
+
+  @media print {
+    body { background: #fff; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; }
+    .topbar, .actions { display: none !important; }
+    .container { padding: 0; }
+  }
+  @media (max-width: 700px) {
+    .page { padding: 1.5rem 1.2rem; }
+    .strip { margin: -1.5rem -1.2rem 1.5rem -1.2rem; }
+    .steps-cards { grid-template-columns: 1fr; }
+    .signature-zone { grid-template-columns: 1fr; }
+    h1 { font-size: 20pt; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="../../parents.html">🏠 Parents</a>
+  <select id="fiche-select" onchange="loadFiche()">
+    <option value="">— Choisir un contrat —</option>
+  </select>
+  <button onclick="nouveauContrat()">+ Nouveau contrat</button>
+  <button onclick="sauverContrat()">💾 Sauver</button>
+  <button onclick="exporterTxt()">📄 Export TXT</button>
+  <button onclick="window.print()">🖨 Imprimer</button>
+  <button onclick="supprimerContrat()" style="background:rgba(255,200,200,.4); color:#b13c20;">🗑</button>
+</nav>
+
+<div class="container">
+
+<!-- ═══════════════ PRÉSENTATION ═══════════════ -->
+<div class="page">
+  <div class="strip"><div></div><div></div><div></div></div>
+
+  <div class="header">
+    <div class="brand">EDUCA TYPIQUE</div>
+    <div class="tagline">Comprendre chaque enfant, valoriser chaque parcours</div>
+    <h1>🤝 Le contrat de confiance<br><span class="accent">avec mon ado</span></h1>
+    <div style="font-size:10pt; color:#7A6E94; margin-top:0.6rem; font-style:italic;">
+      Outil parents · Construire l'autonomie sans flicage
+    </div>
+  </div>
+
+  <div class="opening">
+    « Tu veux plus d'autonomie ? On va la <strong>construire ensemble</strong>.<br>
+    Pas par confiance aveugle, pas par flicage permanent — par <em>contrat clair</em>. »
+  </div>
+
+  <h2>🌱 Pourquoi un contrat de confiance ?</h2>
+
+  <p>Quand un ado réclame plus de liberté (sorties, écrans, chambre, sommeil, devoirs…), la tentation parentale est de <strong>tout contrôler</strong> ou de <strong>tout lâcher</strong>. Les deux échouent.</p>
+
+  <p>Le contrat de confiance est une <strong>3e voie</strong> :</p>
+
+  <div class="pillar">
+    <ul style="margin-bottom:0;">
+      <li>Tu choisis <strong>un seul domaine</strong> à la fois (devoirs OU sorties OU écrans — pas tout)</li>
+      <li>Vous définissez <strong>ensemble</strong> ce qu'il/elle s'engage à faire</li>
+      <li>Toi parent, tu t'engages à <strong>ne plus</strong> rabâcher / vérifier / surveiller</li>
+      <li>Une <strong>date claire</strong> pour faire le point</li>
+      <li>Si respecté → on <strong>élargit l'autonomie</strong>. Si écorné → on <strong>revoit ensemble</strong>, sans punir.</li>
+    </ul>
+  </div>
+
+  <div class="opening">
+    Ce n'est pas un « accord vague ».<br>
+    C'est un <strong>contrat écrit, signé, daté</strong> — et c'est ça qui change tout.
+  </div>
+
+  <h2>📋 Les 4 étapes pour passer un accord</h2>
+
+  <div class="steps-cards">
+    <div class="step-card">
+      <div class="num">ÉTAPE 1</div>
+      <div class="titre">🌿 Discussion « à l'écoute »</div>
+      <div class="desc">Chacun exprime ses sentiments et ses idées. <strong>Tu commences par écouter ton ado sans jugement</strong>. Pas de coupure, pas de leçon. Tu poses des questions ouvertes : « Qu'est-ce qui est important pour toi ? Qu'est-ce qui te gêne dans la situation actuelle ? »</div>
+    </div>
+    <div class="step-card">
+      <div class="num">ÉTAPE 2</div>
+      <div class="titre">💡 Réfléchir aux solutions, en choisir une</div>
+      <div class="desc">Vous brainstormez ensemble. Plusieurs options sur la table. Vous en choisissez <strong>une, ensemble</strong>. Pas toi qui décides. Pas elle/lui qui décide. <em>Vous</em>.</div>
+    </div>
+    <div class="step-card">
+      <div class="num">ÉTAPE 3</div>
+      <div class="titre">📅 Fixer un délai précis</div>
+      <div class="desc">« On essaie ça pendant <strong>2 semaines / 1 mois</strong>. À cette date, on fait le point. » <strong>À la minute près !</strong> Pas de flou.</div>
+    </div>
+    <div class="step-card">
+      <div class="num">ÉTAPE 4</div>
+      <div class="titre">🛡 Respecter SA part de l'accord</div>
+      <div class="desc">Toi parent, ta part c'est : <strong>arrêter de rabâcher, vérifier, surveiller</strong>. C'est dur. Mais c'est le cœur de la confiance. <em>Tu lâches le contrôle, pour qu'il/elle prenne la responsabilité.</em></div>
+    </div>
+  </div>
+
+  <h2>✨ 4 astuces pour le suivi (sans casser la confiance)</h2>
+
+  <div class="astuces">
+    <div class="astuce">
+      <div class="ic">👀</div>
+      <div><strong>Dire ce que tu observes</strong> — rester simple et factuel. <em>« Je vois que ton sac n'est pas prêt. »</em> Pas <em>« Tu n'as encore rien fait ! »</em></div>
+    </div>
+    <div class="astuce">
+      <div class="ic">❓</div>
+      <div><strong>Demander « Quel était notre accord ? »</strong> — au lieu de répéter l'accord, fais-lui le formuler. Ça réactive sa responsabilité.</div>
+    </div>
+    <div class="astuce">
+      <div class="ic">🤫</div>
+      <div><strong>Utiliser la communication non verbale</strong> — montrer sa montre, un regard, un sourire. Sans un mot. Souvent ça suffit.</div>
+    </div>
+    <div class="astuce">
+      <div class="ic">💛</div>
+      <div><strong>Dire « Merci de respecter notre accord »</strong> — quand c'est respecté, dis-le. La gratitude renforce le contrat plus que mille reproches.</div>
+    </div>
+  </div>
+
+  <h2>⚠️ 4 pièges à éviter (qui font tout capoter)</h2>
+
+  <div class="piege">
+    <strong>1. Vouloir que ton ado ait les mêmes priorités que toi.</strong> Pour toi le rangement est crucial. Pour lui c'est l'amitié. Ce n'est pas grave — accepte qu'il/elle <strong>investisse différemment</strong>.
+  </div>
+  <div class="piege">
+    <strong>2. Juger, critiquer.</strong> Pendant la discussion <em>« à l'écoute »</em>, si tu glisses un jugement, le contrat est mort-né. Reste sur les observations, pas les interprétations.
+  </div>
+  <div class="piege">
+    <strong>3. Oublier de fixer un délai précis.</strong> Sans date, le contrat est flou. Sans flou, pas de point d'étape — donc pas d'évolution.
+  </div>
+  <div class="piege">
+    <strong>4. Ne pas maintenir dignité et respect.</strong> Pour ton ado ET pour toi. Si tu te sens humilié·e par le contrat, c'est qu'il y a un déséquilibre — revoyez-le. Si lui se sent humilié, idem. <strong>Un contrat sain protège les deux.</strong>
+  </div>
+
+  <div class="signature"><strong>Educa Typique</strong> · Création originale Nawel</div>
+</div>
+
+<!-- ═══════════════ LE CONTRAT À REMPLIR ═══════════════ -->
+<div class="page page-break">
+  <div class="strip"><div></div><div></div><div></div></div>
+
+  <h2>📚 Choisir un domaine fréquent</h2>
+
+  <div class="opening" style="background:linear-gradient(135deg,#FFF7E0 0%,#FFE8D6 100%);border-left-color:#F4A261;color:#7a5a00;">
+    Clique sur un domaine : le contrat sera <strong>pré-rempli avec des suggestions adaptées</strong>.<br>
+    Tu pourras ensuite tout modifier ensemble avec ton ado.
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.7rem; margin:1.5rem 0;">
+    <div class="dom-card" onclick="loadDomaine('devoirs')" style="background:#fff;border:2px solid #BDEAD7;padding:1rem 1.2rem;border-radius:10px;cursor:pointer;transition:all .15s;">
+      <div style="font-size:1.6rem; margin-bottom:.2rem;">📚</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#1a6a5a;font-size:10.5pt;">Devoirs / scolarité</div>
+    </div>
+    <div class="dom-card" onclick="loadDomaine('ecrans')" style="background:#fff;border:2px solid #BDEAD7;padding:1rem 1.2rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.6rem; margin-bottom:.2rem;">📱</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#1a6a5a;font-size:10.5pt;">Écrans / téléphone</div>
+    </div>
+    <div class="dom-card" onclick="loadDomaine('sorties')" style="background:#fff;border:2px solid #BDEAD7;padding:1rem 1.2rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.6rem; margin-bottom:.2rem;">🚪</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#1a6a5a;font-size:10.5pt;">Sorties / heures retour</div>
+    </div>
+    <div class="dom-card" onclick="loadDomaine('sommeil')" style="background:#fff;border:2px solid #BDEAD7;padding:1rem 1.2rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.6rem; margin-bottom:.2rem;">🛏</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#1a6a5a;font-size:10.5pt;">Sommeil / heures coucher</div>
+    </div>
+    <div class="dom-card" onclick="loadDomaine('chambre')" style="background:#fff;border:2px solid #BDEAD7;padding:1rem 1.2rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.6rem; margin-bottom:.2rem;">🧹</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#1a6a5a;font-size:10.5pt;">Rangement chambre</div>
+    </div>
+    <div class="dom-card" onclick="loadDomaine('argent')" style="background:#fff;border:2px solid #BDEAD7;padding:1rem 1.2rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.6rem; margin-bottom:.2rem;">💰</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#1a6a5a;font-size:10.5pt;">Argent de poche</div>
+    </div>
+    <div class="dom-card" onclick="loadDomaine('reseaux')" style="background:#fff;border:2px solid #BDEAD7;padding:1rem 1.2rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.6rem; margin-bottom:.2rem;">📲</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#1a6a5a;font-size:10.5pt;">Réseaux sociaux</div>
+    </div>
+    <div class="dom-card" onclick="loadDomaine('repas')" style="background:#fff;border:2px solid #BDEAD7;padding:1rem 1.2rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.6rem; margin-bottom:.2rem;">🍽</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#1a6a5a;font-size:10.5pt;">Repas / alimentation</div>
+    </div>
+    <div class="dom-card" onclick="loadDomaine('hygiene')" style="background:#fff;border:2px solid #BDEAD7;padding:1rem 1.2rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.6rem; margin-bottom:.2rem;">🚿</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#1a6a5a;font-size:10.5pt;">Hygiène / douche</div>
+    </div>
+    <div class="dom-card" onclick="loadDomaine('vetements')" style="background:#fff;border:2px solid #BDEAD7;padding:1rem 1.2rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.6rem; margin-bottom:.2rem;">👕</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#1a6a5a;font-size:10.5pt;">Vêtements / apparence</div>
+    </div>
+    <div class="dom-card" onclick="loadDomaine('sport')" style="background:#fff;border:2px solid #BDEAD7;padding:1rem 1.2rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.6rem; margin-bottom:.2rem;">🏃</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#1a6a5a;font-size:10.5pt;">Sport / activité physique</div>
+    </div>
+    <div class="dom-card" onclick="loadDomaine('famille')" style="background:#fff;border:2px solid #BDEAD7;padding:1rem 1.2rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.6rem; margin-bottom:.2rem;">👨‍👩‍👧</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#1a6a5a;font-size:10.5pt;">Vie de famille</div>
+    </div>
+  </div>
+
+  <h2>📋 Le contrat à remplir ensemble</h2>
+
+  <div class="opening">
+    À remplir <strong>en discussion avec ton ado</strong>, pas tout seul·e.<br>
+    Imprimable A4, à signer à 2.
+  </div>
+
+  <div class="contrat-form">
+    <h3>🤝 Contrat de confiance</h3>
+
+    <div class="contrat-row">
+      <label><span class="ic">📌</span>Le domaine que nous traitons</label>
+      <input type="text" id="c-domaine" placeholder="Ex: devoirs · sorties · écrans · sommeil · rangement chambre…">
+    </div>
+
+    <div class="contrat-row">
+      <label><span class="ic">📅</span>Date du contrat</label>
+      <input type="date" id="c-date-debut">
+    </div>
+
+    <div class="contrat-row">
+      <label><span class="ic">🌱</span>Ce que mon ado s'engage à faire</label>
+      <textarea id="c-engage-ado" rows="4" placeholder="Sois précis·e et mesurable. Pas « bien travailler » mais « finir mes devoirs avant 19h sans qu'on me le rappelle »…"></textarea>
+    </div>
+
+    <div class="contrat-row">
+      <label><span class="ic">🛡</span>Ce que moi parent je m'engage à NE PLUS faire</label>
+      <textarea id="c-engage-parent" rows="4" placeholder="Pareil, sois précis·e. « Ne plus demander 3 fois par jour si tu as fait tes devoirs · Ne plus vérifier ton sac · Ne plus regarder ton bulletin avant que tu me le montres »…"></textarea>
+    </div>
+
+    <div class="contrat-row">
+      <label><span class="ic">📆</span>Date du premier point d'étape</label>
+      <input type="date" id="c-date-point">
+    </div>
+
+    <div class="contrat-row">
+      <label><span class="ic">🎯</span>Si le contrat est respecté à cette date, que se passe-t-il ?</label>
+      <textarea id="c-si-respecte" placeholder="Ex: on assouplit · on prolonge · on étend à un autre domaine · on célèbre ensemble…"></textarea>
+    </div>
+
+    <div class="contrat-row">
+      <label><span class="ic">🔄</span>Si le contrat est écorné, que faisons-nous ?</label>
+      <textarea id="c-si-ecorne" placeholder="Pas de punition. On revoit le contrat ensemble. Peut-être qu'il était trop ambitieux, ou pas assez clair. On ajuste."></textarea>
+    </div>
+
+    <div class="signature-zone">
+      <div class="sig">
+        <div class="label">Signature de l'ado</div>
+        <div class="line"></div>
+        <input type="text" id="c-nom-ado" placeholder="Prénom" style="text-align:center; border:none; background:transparent; max-width:200px;">
+        <div class="note">Je m'engage à respecter ma part</div>
+      </div>
+      <div class="sig">
+        <div class="label">Signature du parent</div>
+        <div class="line"></div>
+        <input type="text" id="c-nom-parent" placeholder="Prénom" style="text-align:center; border:none; background:transparent; max-width:200px;">
+        <div class="note">Je m'engage à respecter ma part</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>📝 Notes du point d'étape (à remplir le jour J)</h3>
+
+  <div class="pillar">
+    <div class="pillar-title">✅ Ce qui a marché</div>
+    <textarea id="c-bilan-marche"></textarea>
+  </div>
+  <div class="pillar peach">
+    <div class="pillar-title">🔄 Ce qu'on ajuste</div>
+    <textarea id="c-bilan-ajuste"></textarea>
+  </div>
+  <div class="pillar lav">
+    <div class="pillar-title">🎉 La célébration / Le geste de reconnaissance</div>
+    <textarea id="c-bilan-celebr" placeholder="Si le contrat est respecté, comment tu marques le coup ? Restaurant ensemble, sortie, mot d'amour, élargissement…"></textarea>
+  </div>
+
+  <div class="actions">
+    <button onclick="sauverContrat()">💾 Sauver ce contrat</button>
+    <button class="secondary" onclick="exporterTxt()">📄 Export TXT</button>
+    <button class="secondary" onclick="window.print()">🖨 Imprimer (à signer)</button>
+  </div>
+
+  <div class="line-deco"></div>
+
+  <div class="closing">
+    🌷 <strong>L'essentiel à retenir</strong> 🌷<br>
+    <span style="font-size:10.5pt;">
+    Un contrat de confiance, c'est <strong>un cadeau qu'on se fait à deux</strong>.<br>
+    L'ado y trouve de l'autonomie. Toi tu y trouves la paix mentale.<br>
+    <em>Tu lâches le contrôle pour gagner la confiance.</em>
+    </span>
+  </div>
+
+  <div class="source">
+    📚 <strong>Adaptation EducaTypique</strong> du principe de l'accord parent-ado issu de la <em>Discipline Positive</em> (Jane Nelsen, via lafamillepositive.com). Les principes pédagogiques sont conservés, reformulés et restructurés en outil interactif signature Nawel pour la Boîte NeuroPed.
+  </div>
+
+  <div class="signature"><strong>Educa Typique</strong> · Le contrat de confiance avec mon ado · Création originale Nawel</div>
+</div>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'educatypique_contrat_confiance_v1';
+let currentFiche = null;
+
+function getAllFields() {
+  const data = {};
+  document.querySelectorAll('input[type="text"], input[type="date"], textarea').forEach(el => {
+    if (el.id) data[el.id] = el.value;
+  });
+  return data;
+}
+
+function setAllFields(data) {
+  if (!data) return;
+  document.querySelectorAll('input[type="text"], input[type="date"], textarea').forEach(el => {
+    if (el.id) el.value = data[el.id] || '';
+  });
+}
+
+function clearAllFields() {
+  document.querySelectorAll('input[type="text"], input[type="date"], textarea').forEach(el => {
+    if (el.id) el.value = '';
+  });
+}
+
+function getStore() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function setStore(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+function refreshSelect() {
+  const sel = document.getElementById('fiche-select');
+  const store = getStore();
+  sel.innerHTML = '<option value="">— Choisir un contrat —</option>';
+  Object.keys(store).sort().forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if (name === currentFiche) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function nouveauContrat() {
+  const name = prompt('Titre de ce contrat (ex: « Sarah · sorties » · « Idris · devoirs ») :');
+  if (!name) return;
+  clearAllFields();
+  currentFiche = name;
+  sauverContrat();
+}
+
+function sauverContrat() {
+  if (!currentFiche) {
+    const name = prompt('Titre de ce contrat :');
+    if (!name) return;
+    currentFiche = name;
+  }
+  const store = getStore();
+  store[currentFiche] = getAllFields();
+  setStore(store);
+  refreshSelect();
+  alert(`Contrat « ${currentFiche} » sauvegardé ✓`);
+}
+
+function loadFiche() {
+  const sel = document.getElementById('fiche-select');
+  const name = sel.value;
+  if (!name) return;
+  currentFiche = name;
+  setAllFields(getStore()[name]);
+}
+
+function supprimerContrat() {
+  if (!currentFiche) { alert('Aucun contrat sélectionné.'); return; }
+  if (!confirm(`Supprimer « ${currentFiche} » ?`)) return;
+  const store = getStore();
+  delete store[currentFiche];
+  setStore(store);
+  currentFiche = null;
+  clearAllFields();
+  refreshSelect();
+}
+
+function exporterTxt() {
+  const d = getAllFields();
+  let t = '╔══════════════════════════════════════════════╗\n';
+  t +=   '║  CONTRAT DE CONFIANCE AVEC MON ADO           ║\n';
+  t +=   '║  Educa Typique · Création originale Nawel    ║\n';
+  t +=   '╚══════════════════════════════════════════════╝\n\n';
+  if (currentFiche) t += `Titre : ${currentFiche}\n`;
+  t += `Date d'export : ${new Date().toLocaleString('fr-FR')}\n\n`;
+
+  t += '═══ LE CONTRAT ═══\n';
+  if (d['c-domaine']) t += `Domaine : ${d['c-domaine']}\n`;
+  if (d['c-date-debut']) t += `Date de signature : ${d['c-date-debut']}\n`;
+  if (d['c-engage-ado']) t += `\nL'ado s'engage à :\n${d['c-engage-ado']}\n`;
+  if (d['c-engage-parent']) t += `\nLe parent s'engage à NE PLUS :\n${d['c-engage-parent']}\n`;
+  if (d['c-date-point']) t += `\nPoint d'étape prévu : ${d['c-date-point']}\n`;
+  if (d['c-si-respecte']) t += `Si respecté : ${d['c-si-respecte']}\n`;
+  if (d['c-si-ecorne']) t += `Si écorné : ${d['c-si-ecorne']}\n`;
+  t += `\nSigné par : ${d['c-nom-ado']||'___'} (ado) et ${d['c-nom-parent']||'___'} (parent)\n`;
+
+  if (d['c-bilan-marche'] || d['c-bilan-ajuste'] || d['c-bilan-celebr']) {
+    t += '\n═══ POINT D\'ÉTAPE ═══\n';
+    if (d['c-bilan-marche']) t += `Ce qui a marché : ${d['c-bilan-marche']}\n`;
+    if (d['c-bilan-ajuste']) t += `Ce qu'on ajuste : ${d['c-bilan-ajuste']}\n`;
+    if (d['c-bilan-celebr']) t += `Célébration : ${d['c-bilan-celebr']}\n`;
+  }
+
+  t += '\n──────────────────────\nEduca Typique · Boîte NeuroPed\n';
+
+  const blob = new Blob([t], {type: 'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `contrat-confiance-${(currentFiche||'ado').toLowerCase().replace(/\s+/g,'-')}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ═══════════════ BIBLIOTHÈQUE DE DOMAINES PRÉ-REMPLIS ═══════════════
+const DOMAINES = {
+  devoirs: {
+    'c-domaine': 'Devoirs et travail scolaire',
+    'c-engage-ado': 'Je m\'engage à : (1) Faire mes devoirs avant 19h sans qu\'on me le rappelle. (2) Te dire quand j\'ai un contrôle dans la semaine. (3) Te montrer mes notes au fur et à mesure (pas attendre le bulletin). (4) Te demander de l\'aide quand je bloque (sans honte).',
+    'c-engage-parent': 'Je m\'engage à NE PLUS : (1) Te demander 5 fois par jour si tes devoirs sont faits. (2) Vérifier ton sac, ton cahier de texte ou Pronote sans te demander d\'abord. (3) Faire des commentaires sur tes notes sans t\'avoir d\'abord écouté·e. (4) Comparer avec tes frères/sœurs ou tes ami·e·s.',
+    'c-si-respecte': 'On célèbre ensemble (ciné, sortie, repas spécial). Et on assouplit : si tu gères tes devoirs en autonomie pendant 1 mois, je ne te demande plus du tout — sauf si tes notes glissent.',
+    'c-si-ecorne': 'On se rassoit calmement. Sans punition. On regarde : qu\'est-ce qui a bloqué ? Manque de motivation ? Trop dur ? Stress ? On ajuste le contrat ensemble — peut-être qu\'il était trop ambitieux.'
+  },
+  ecrans: {
+    'c-domaine': 'Écrans et téléphone',
+    'c-engage-ado': 'Je m\'engage à : (1) Mettre mon téléphone dans le salon (ou autre lieu défini) à partir de [22h] tous les soirs. (2) Pas de tel pendant les repas. (3) Ne pas dépasser [X] heures de jeu / écran par jour. (4) Te dire à quels jeux je joue / quelles applis j\'utilise.',
+    'c-engage-parent': 'Je m\'engage à NE PLUS : (1) Te demander de poser ton tel toutes les 5 minutes. (2) Regarder ton historique ou tes messages dans ton dos. (3) Faire des remarques sur ton temps d\'écran chaque fois que je passe devant. (4) Confisquer le tel sans qu\'on en ait parlé avant.',
+    'c-si-respecte': 'Élargissement progressif : peut-être un peu plus de temps le week-end, ou récupérer le tel un peu plus tard. On reparle.',
+    'c-si-ecorne': 'On ajuste ensemble. Peut-être que la durée n\'est pas réaliste pour toi, ou que la règle « tel au salon » est trop dure. On cherche un nouveau point d\'équilibre.'
+  },
+  sorties: {
+    'c-domaine': 'Sorties et heures de retour',
+    'c-engage-ado': 'Je m\'engage à : (1) Te dire à l\'avance où je vais, avec qui, et à quelle heure je rentre. (2) Respecter l\'heure de retour convenue. (3) Te prévenir si je suis en retard (texto, appel — pas juste « lu »). (4) Répondre au téléphone si tu m\'appelles pendant que je suis sorti·e.',
+    'c-engage-parent': 'Je m\'engage à NE PLUS : (1) Te texter toutes les 30 minutes pour savoir où tu en es. (2) Appeler les parents de tes ami·e·s pour vérifier. (3) T\'imposer un horaire de retour trop strict si je n\'ai pas de raison de m\'inquiéter. (4) Imaginer le pire si tu réponds pas immédiatement.',
+    'c-si-respecte': 'On élargit l\'horaire de retour. On peut aussi assouplir « me prévenir si tu changes de lieu en cours de soirée » par exemple. La confiance grandit, l\'autonomie aussi.',
+    'c-si-ecorne': 'On revient à une heure de retour plus tôt pendant quelques semaines. PAS de punition supplémentaire. Puis on réessaye d\'élargir.'
+  },
+  sommeil: {
+    'c-domaine': 'Sommeil et heures de coucher',
+    'c-engage-ado': 'Je m\'engage à : (1) Être dans mon lit à [22h30] en semaine, [00h] le week-end. (2) Pas d\'écran dans le lit. (3) Te dire si je n\'arrive pas à dormir (pour qu\'on cherche des solutions ensemble, pas pour me forcer).',
+    'c-engage-parent': 'Je m\'engage à NE PLUS : (1) Entrer dans ta chambre sans frapper le soir. (2) Te dire « tu te couches trop tard » 10 fois par soirée. (3) Te culpabiliser si tu es fatigué·e le matin. (4) Faire comme si dormir 7h te suffisait quand j\'ai lu qu\'à ton âge il faut 9h.',
+    'c-si-respecte': 'On évalue ensemble si tu te sens bien (énergie, humeur). Si oui, on peut élargir le week-end un peu.',
+    'c-si-ecorne': 'On regarde ensemble : est-ce que tu n\'arrives pas à dormir, ou tu choisis de pas dormir ? Si insomnie réelle → on consulte. Si choix → on ajuste l\'écran/le couvre-feu.'
+  },
+  chambre: {
+    'c-domaine': 'Rangement de la chambre',
+    'c-engage-ado': 'Je m\'engage à : (1) Faire mon lit chaque matin. (2) Ranger ma chambre une fois par semaine (jour défini : [samedi]). (3) Pas de vaisselle sale qui traîne plus de 24h. (4) Sortir mon linge sale dans le panier au moins une fois par semaine.',
+    'c-engage-parent': 'Je m\'engage à NE PLUS : (1) Entrer dans ta chambre sans frapper. (2) Faire des remarques sur ton bazar tous les jours. (3) Ranger à ta place quand ça m\'énerve. (4) Comparer ta chambre à la mienne quand j\'avais ton âge.',
+    'c-si-respecte': 'Ta chambre = ton espace. Je ne mets plus le nez dedans (sauf si vraiment problème d\'hygiène). Tu peux la décorer, l\'organiser comme tu veux.',
+    'c-si-ecorne': 'On revoit ensemble. Peut-être que « une fois par semaine » est trop, ou trop peu. Ou que tu as besoin d\'aide à organiser (rangements, étagères). On adapte.'
+  },
+  argent: {
+    'c-domaine': 'Argent de poche et dépenses',
+    'c-engage-ado': 'Je m\'engage à : (1) Gérer mes [X €] mensuels / hebdo de manière autonome. (2) Demander avant de prendre quoi que ce soit dans le porte-monnaie commun. (3) Te dire (sans me sentir jugé·e) si je suis à court. (4) Ne pas demander des avances « exceptionnelles » plus de 2 fois par an.',
+    'c-engage-parent': 'Je m\'engage à NE PLUS : (1) Te demander à quoi tu as dépensé ton argent. (2) Juger tes choix de dépenses (jeux, vêtements, sorties, snacks). (3) Comparer avec « quand j\'avais ton âge ». (4) Te culpabiliser si tu craques pour un truc « inutile ».',
+    'c-si-respecte': 'On peut envisager d\'augmenter (avec une logique : nouvelle dépense à intégrer, ou inflation, ou âge qui avance).',
+    'c-si-ecorne': 'On se rassoit. Si tu manques tout le temps : on regarde si la somme suffit. Si tu prends sans demander : on revoit la confiance avant tout (pas la somme).'
+  },
+  reseaux: {
+    'c-domaine': 'Réseaux sociaux et identité numérique',
+    'c-engage-ado': 'Je m\'engage à : (1) Compte privé sur [TikTok / Insta / Snap]. (2) Ne pas accepter des inconnu·e·s. (3) Te dire si quelqu\'un me harcèle, m\'envoie des messages déplacés, ou me met mal à l\'aise. (4) Pas de photos intimes envoyées, à personne — même petit·e ami·e.',
+    'c-engage-parent': 'Je m\'engage à NE PLUS : (1) Te demander de te montrer mon Insta toutes les semaines. (2) Regarder ton tel quand tu dors. (3) Me moquer de tes intérêts (TikTok, gaming, fandoms). (4) Te juger sur ce que tu postes (esthétique, ton, ami·e·s en photo).',
+    'c-si-respecte': 'Liberté totale sur ce que tu fais en ligne (dans le respect du contrat). On peut élargir : ouvrir d\'autres plateformes, ou augmenter l\'âge d\'autonomie complète.',
+    'c-si-ecorne': 'Si tu n\'as pas tenu, on regarde POURQUOI. Pression d\'ami·e·s ? Curiosité naturelle ? On ajuste sans dramatiser.'
+  },
+  repas: {
+    'c-domaine': 'Repas et alimentation',
+    'c-engage-ado': 'Je m\'engage à : (1) Être à table en famille au moins [X] fois par semaine (à définir). (2) Ne pas grignoter dans ma chambre. (3) Si je ne mange pas un plat, te le dire calmement (pas faire la tête). (4) Te dire si je commence à avoir des soucis avec la nourriture (sans peur d\'être jugé·e).',
+    'c-engage-parent': 'Je m\'engage à NE PLUS : (1) Te commenter ce que tu manges (« tu manges trop / pas assez / mal »). (2) Te peser sans te demander. (3) Critiquer ton corps. (4) Faire des remarques sur ton appétit devant les autres.',
+    'c-si-respecte': 'Repas en famille devient un moment de plaisir, pas de contrôle. Tu peux faire des choix alimentaires (végé, snacks…) qu\'on respecte.',
+    'c-si-ecorne': 'On regarde ce qui se passe — sans pression. Si tu sautes des repas / te restreins → on consulte. Si tu préfères manger seul·e en ce moment → on cherche un compromis (1 repas en famille au lieu de 3).'
+  },
+  hygiene: {
+    'c-domaine': 'Hygiène et douche',
+    'c-engage-ado': 'Je m\'engage à : (1) Me doucher au moins [X] fois par semaine. (2) Me laver les dents 2 fois par jour. (3) Changer de sous-vêtements chaque jour. (4) Te dire si j\'ai un souci (acné, odeur, peau) sans avoir peur d\'être jugé·e.',
+    'c-engage-parent': 'Je m\'engage à NE PLUS : (1) Te dire « tu sens » devant les autres. (2) Compter combien de douches tu prends par semaine pour me plaindre. (3) Faire des remarques sur ton acné. (4) Te traiter comme un·e enfant sur ta propre hygiène.',
+    'c-si-respecte': 'On n\'en parle plus. Ton corps est ton affaire. Je peux te demander discrètement si tu as besoin de produits.',
+    'c-si-ecorne': 'On regarde ensemble. Parfois manque d\'hygiène = signal de mal-être (dépression, anxiété). On vérifie avant de gronder.'
+  },
+  vetements: {
+    'c-domaine': 'Vêtements et apparence',
+    'c-engage-ado': 'Je m\'engage à : (1) Respecter le dress code de l\'école (pas de tenue qui me fera renvoyer en cours). (2) Pour les sorties familiales (mariage, mosquée, rdv pro), s\'adapter sans en faire un drame. (3) Te dire si j\'ai besoin de vêtements (en me sentant écouté·e). (4) Ne pas critiquer tes choix vestimentaires non plus.',
+    'c-engage-parent': 'Je m\'engage à NE PLUS : (1) Critiquer ce que tu portes au quotidien. (2) Faire des remarques sur ton style devant les autres. (3) Comparer à « quand j\'avais ton âge ». (4) Imposer mon goût à moi.',
+    'c-si-respecte': 'Totale liberté de style à la maison. On négocie seulement pour les contextes spéciaux.',
+    'c-si-ecorne': 'Si tu casses la règle école (renvoyé·e en cours pour tenue) → on cherche ensemble la limite acceptable. Pas de drame.'
+  },
+  sport: {
+    'c-domaine': 'Sport et activité physique',
+    'c-engage-ado': 'Je m\'engage à : (1) Faire [activité choisie ensemble] [X fois par semaine]. (2) Y aller même les jours où je n\'ai pas envie (sauf maladie ou épuisement réel). (3) Si je veux arrêter, t\'en parler à la fin du trimestre — pas en plein milieu sur un coup de tête.',
+    'c-engage-parent': 'Je m\'engage à NE PLUS : (1) Te culpabiliser quand tu ne veux pas y aller. (2) Te comparer à des frères/sœurs ou ami·e·s sportif·ve·s. (3) Vouloir que tu choisisses MON sport. (4) Faire des remarques sur ton corps (poids, forme physique).',
+    'c-si-respecte': 'Tu choisis librement ta progression. Tu peux changer d\'activité à la rentrée si tu veux.',
+    'c-si-ecorne': 'On discute. Peut-être que ce sport ne te convient pas. Peut-être que l\'horaire est dur. On ajuste — sans abandonner l\'idée que bouger c\'est important.'
+  },
+  famille: {
+    'c-domaine': 'Vie de famille (repas, sorties, fêtes)',
+    'c-engage-ado': 'Je m\'engage à : (1) Être présent·e aux [X] repas familiaux par semaine (à définir). (2) Participer aux sorties familiales [X fois par mois] sans en faire un drame. (3) Être respectueux·se quand de la famille vient à la maison. (4) Te dire à l\'avance si je veux poser un week-end « perso ».',
+    'c-engage-parent': 'Je m\'engage à NE PLUS : (1) Te forcer à toutes les sorties familiales. (2) Te traiter comme si tu étais encore enfant devant les autres. (3) Critiquer ton attitude/ton silence devant la famille élargie. (4) Te demander de « faire l\'effort » comme si c\'était une obligation morale.',
+    'c-si-respecte': 'On peut alléger : peut-être 1 repas famille par semaine au lieu de tous les soirs. Tu gagnes en autonomie.',
+    'c-si-ecorne': 'On discute pourquoi tu te retires. Est-ce que tu te sens jugé·e ? Mal à l\'aise ? Surchargé·e ? On cherche le déclic ensemble.'
+  }
+};
+
+function loadDomaine(key) {
+  const d = DOMAINES[key];
+  if (!d) return;
+  if (!confirm(`Charger les suggestions pour le domaine « ${d['c-domaine']} » ?\n\n` +
+               `⚠️ Les champs VIDES seront pré-remplis.\n` +
+               `Les champs déjà remplis ne seront PAS écrasés.\n\n` +
+               `Tu pourras tout modifier ensuite avec ton ado.`)) return;
+
+  Object.keys(d).forEach(k => {
+    const el = document.getElementById(k);
+    if (el && !el.value.trim()) el.value = d[k];
+  });
+
+  alert(`✓ Domaine « ${d['c-domaine']} » chargé.\n\nN'oublie pas : c'est un point de départ. Adapte avec ton ado.`);
+  document.getElementById('c-domaine').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+refreshSelect();
+</script>
+
+</body>
+</html>

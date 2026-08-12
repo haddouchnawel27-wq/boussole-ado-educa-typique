@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Routines EducaTypique — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:#f5f3ec}
+
+.bandeau{
+  background:linear-gradient(135deg,#8aa67c,#a3b88e);
+  padding:2rem 1.5rem;text-align:center;color:#fff;position:relative;overflow:hidden;
+}
+.bandeau::before{content:"🌿";position:absolute;font-size:6rem;opacity:.1;top:10%;left:5%}
+.bandeau::after{content:"☀️";position:absolute;font-size:5rem;opacity:.12;top:15%;right:8%}
+.bandeau .retour{display:inline-block;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.22);padding:.35em 1em;border-radius:999px;font-size:.9rem;position:relative;z-index:2}
+.bandeau .retour:hover{background:rgba(255,255,255,.35)}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin:.6rem 0 .3rem;opacity:.95;position:relative;z-index:2}
+.bandeau h1{color:#fff;margin:.3rem 0;font-size:1.9rem;text-shadow:0 2px 8px rgba(0,0,0,.15);position:relative;z-index:2;font-family:'Caveat',cursive}
+.bandeau .sub{opacity:.95;max-width:700px;margin:.5rem auto 0;font-size:1.02rem;position:relative;z-index:2}
+
+.container{max-width:1050px;margin:1.5rem auto;padding:0 1.2rem}
+
+details.apropos{background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin-bottom:1.2rem;border-left:5px solid #8aa67c}
+details.apropos summary{padding:1rem 1.2rem;cursor:pointer;font-weight:800;color:#5a7549;font-family:var(--font-titre);font-size:1.05rem;list-style:none}
+details.apropos summary::after{content:"▾";float:right;transition:transform .2s}
+details.apropos[open] summary::after{transform:rotate(180deg)}
+details.apropos .corps{padding:0 1.4rem 1.2rem}
+details.apropos h3{color:#5a7549;margin:1rem 0 .3rem;font-size:.9rem;text-transform:uppercase;letter-spacing:.5px}
+details.apropos p{margin:.3rem 0;font-size:.93rem;line-height:1.55}
+
+.sig-nawel{background:linear-gradient(135deg,#f5f3ec,#fef9f0);padding:1rem 1.2rem;border-radius:var(--r-md);margin-bottom:1.2rem;border-left:4px solid #8aa67c;font-size:.92rem;line-height:1.55;color:#555;font-style:italic;font-family:'Caveat',cursive;font-size:1.15rem}
+.sig-nawel strong{color:#5a7549;font-style:normal;font-family:var(--font-base)}
+
+/* Tabs */
+.tabs{display:flex;gap:.3rem;margin-bottom:1.2rem;flex-wrap:wrap;background:#fff;padding:.4rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm)}
+.tabs button{flex:1;min-width:130px;padding:.6em .8em;border:none;background:transparent;color:#666;font-weight:700;font-family:inherit;cursor:pointer;border-radius:var(--r-sm);transition:all .15s;font-size:.88rem}
+.tabs button.active{background:linear-gradient(135deg,#8aa67c,#a3b88e);color:#fff;box-shadow:var(--shadow-sm)}
+.tabs button:hover:not(.active){background:#f5f3ec}
+
+.section{display:none}
+.section.active{display:block}
+
+/* BIENFAITS */
+.bienfaits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-bottom:1.2rem}
+.bienfait-card{
+  background:#fff;border-radius:var(--r-lg);padding:1.3rem;box-shadow:var(--shadow-sm);
+  border-left:5px solid var(--bc);cursor:pointer;transition:all .2s;
+}
+.bienfait-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.bienfait-card.active{outline:3px solid var(--bc);outline-offset:2px}
+.bienfait-card h3{color:var(--bc);margin:0 0 .4rem;font-size:1.1rem;display:flex;align-items:center;gap:.5rem}
+.bienfait-card .num{display:inline-block;background:var(--bc);color:#fff;width:30px;height:30px;border-radius:50%;text-align:center;line-height:30px;font-weight:800;font-size:.95rem}
+.bienfait-card p{font-size:.9rem;line-height:1.5;color:#555;margin:.3rem 0}
+.bienfait-card.b1{--bc:#5a8fc7}
+.bienfait-card.b2{--bc:#2a9d8f}
+.bienfait-card.b3{--bc:#e9a73a}
+.bienfait-card.b4{--bc:#e05a8a}
+
+.bienfait-detail{background:linear-gradient(135deg,#fff,#f5f3ec);padding:1.5rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin:1rem 0;border-left:5px solid var(--bc,#8aa67c);display:none}
+.bienfait-detail.active{display:block}
+.bienfait-detail h3{color:var(--bc);margin:0 0 .6rem;font-size:1.2rem}
+
+/* ROUTINES — Matrice */
+.routine-controls{background:#fff;padding:1.1rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin-bottom:1.2rem;display:grid;gap:.8rem}
+.control-row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.control-row .lbl{font-weight:800;color:#5a7549;min-width:130px;font-size:.95rem}
+.control-row button{padding:.5em 1em;background:#fff;border:1.5px solid #c4d4b4;color:#5a7549;border-radius:999px;cursor:pointer;font-family:inherit;font-size:.88rem;font-weight:700;transition:all .15s}
+.control-row button:hover{background:#f0f7e8}
+.control-row button.active{background:#8aa67c;color:#fff;border-color:#8aa67c}
+
+.routine-result{background:#fff;border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--shadow-sm);margin-bottom:1.2rem;border-left:5px solid var(--rc,#8aa67c)}
+.routine-result h2{color:var(--rc);margin:0 0 .8rem;font-size:1.3rem;display:flex;align-items:center;gap:.5rem}
+.routine-result .intro{font-style:italic;color:#666;margin-bottom:1rem;line-height:1.5;padding:.7rem 1rem;background:#f5f3ec;border-radius:var(--r-sm)}
+.routine-result .timeline{display:grid;gap:.5rem;margin-top:.8rem}
+.routine-result .step{display:grid;grid-template-columns:90px 1fr;gap:.7rem;padding:.6rem .9rem;background:#fafafa;border-radius:var(--r-sm);border-left:3px solid var(--rc)}
+.routine-result .heure{font-weight:800;color:var(--rc);font-family:monospace;font-size:.95rem}
+.routine-result .desc{color:#444;font-size:.93rem;line-height:1.4}
+
+/* Carrousel */
+.carrousel-wrap{background:#fff;border-radius:var(--r-lg);padding:1.5rem;box-shadow:var(--shadow-sm);margin-bottom:1.2rem;text-align:center}
+.carrousel-card{
+  max-width:380px;margin:0 auto;background:linear-gradient(135deg,#a3b88e,#8aa67c);
+  padding:2rem 1.5rem;border-radius:20px;color:#fff;min-height:480px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  box-shadow:0 8px 24px rgba(90,117,73,.2);position:relative;overflow:hidden;
+  font-family:'Caveat',cursive;
+}
+.carrousel-card::before{content:"🌿";position:absolute;font-size:5rem;opacity:.1;top:10%;left:5%}
+.carrousel-card::after{content:"🌱";position:absolute;font-size:4rem;opacity:.12;bottom:10%;right:8%}
+.carrousel-card .num-card{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.25);padding:.2em .8em;border-radius:999px;font-size:.85rem;font-weight:700;font-family:var(--font-base)}
+.carrousel-card h3{color:#fff;font-size:2rem;margin:0 0 1rem;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.carrousel-card .content{background:rgba(255,255,255,.92);color:#444;padding:1.2rem;border-radius:12px;font-family:var(--font-base);font-size:.92rem;line-height:1.6;text-align:left;max-width:100%}
+.carrousel-card .content strong{color:#5a7549}
+.carrousel-card .signature{position:absolute;bottom:.7rem;left:0;right:0;font-size:.85rem;opacity:.85;font-family:var(--font-base)}
+
+.carrousel-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;gap:.5rem}
+.carrousel-nav button{padding:.6em 1.2em;background:#8aa67c;color:#fff;border:none;border-radius:999px;cursor:pointer;font-weight:700;font-family:inherit;font-size:.9rem}
+.carrousel-nav button:hover{background:#5a7549}
+.carrousel-nav button:disabled{opacity:.4;cursor:not-allowed}
+.carrousel-dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;margin-top:.8rem}
+.carrousel-dots .dot{width:10px;height:10px;background:#c4d4b4;border-radius:50%;cursor:pointer;transition:all .15s}
+.carrousel-dots .dot.active{background:#5a7549;transform:scale(1.3)}
+
+/* Ma routine perso */
+.perso-form{background:#fff;padding:1.5rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin-bottom:1rem}
+.perso-form h3{color:#5a7549;margin:0 0 .6rem}
+.perso-form .field{margin-bottom:.7rem}
+.perso-form label{display:block;font-weight:700;color:#5a7549;margin-bottom:.2rem;font-size:.9rem}
+.perso-form input,.perso-form textarea{
+  width:100%;padding:.5em .8em;border:1.5px solid #c4d4b4;border-radius:var(--r-sm);
+  font-family:inherit;font-size:.92rem;box-sizing:border-box;
+}
+.perso-form textarea{min-height:60px;resize:vertical}
+.perso-table{width:100%;border-collapse:collapse;margin-top:.8rem}
+.perso-table th,.perso-table td{padding:.5em;border-bottom:1px solid #f0ebe5;text-align:left}
+.perso-table th{background:#f0f7e8;color:#5a7549;font-size:.85rem;font-weight:700}
+.perso-table input{width:100%;padding:.4em;border:1px solid #c4d4b4;border-radius:4px;font-family:inherit;font-size:.88rem;box-sizing:border-box}
+
+/* RENTRÉE */
+.rentree-conseil{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);margin-bottom:.8rem;border-left:4px solid #e9a73a}
+.rentree-conseil h4{color:#c78416;margin:0 0 .4rem;font-size:1rem;display:flex;align-items:center;gap:.4rem}
+.rentree-conseil h4 .num{background:#e9a73a;color:#fff;width:26px;height:26px;border-radius:50%;text-align:center;line-height:26px;font-weight:800;font-size:.85rem}
+.rentree-conseil p{font-size:.92rem;line-height:1.5;color:#555;margin:.3rem 0}
+
+/* Actions */
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.5rem 0}
+.actions button{padding:.65em 1.3em;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.92rem;font-family:inherit}
+.btn-export{background:linear-gradient(135deg,#8aa67c,#a3b88e);color:#fff}
+.btn-print{background:#fff;color:#5a7549;border:1.5px solid #c4d4b4}
+
+@media print{
+  .bandeau,.tabs,.actions,.routine-controls,.carrousel-nav,details.apropos summary::after{display:none!important}
+  body{background:#fff}
+  .container{max-width:100%;padding:0}
+  .section{display:block!important;page-break-after:always}
+  .routine-result,.bienfait-card,.rentree-conseil{box-shadow:none;border:1px solid #ddd}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../parents.html">← Espace Parents</a>
+  <div class="signature">🌿 Création originale — @educa_typique · Nawel Haddouch</div>
+  <h1>🌿 Routines EducaTypique</h1>
+  <p class="sub">4 bienfaits clés · 6 types de routines × 5 tranches d'âge · Ma routine perso · Préparation rentrée scolaire</p>
+</section>
+
+<div class="container">
+
+  <details class="apropos">
+    <summary>📖 À propos de cet outil</summary>
+    <div class="corps">
+      <h3>Pour qui</h3>
+      <p>Pour les parents d'enfants TND/TDAH/neuroatypiques de 1 à 18 ans. Les routines sont particulièrement bénéfiques pour ces enfants — elles offrent une prévisibilité et une structure indispensables.</p>
+      <h3>Pour quoi</h3>
+      <p>Pour <strong>comprendre les bienfaits des routines</strong>, choisir une routine adaptée à l'âge et au type d'activité (matinale/devoirs/nettoyage/apaisement/sport/coucher), créer ta routine perso, et bien préparer la rentrée scolaire pour un enfant neuroatypique.</p>
+      <h3>Comment ça marche</h3>
+      <p>4 onglets : Bienfaits (4 cartes) · Routines (matrice âge × type) · Ma routine perso (remplissable) · Carrousel visuel · Rentrée scolaire (9 conseils).</p>
+      <h3>Quand l'utiliser</h3>
+      <p>Avant la rentrée scolaire. Au moment d'instaurer une nouvelle routine. Quand le quotidien devient chaotique. Pour afficher sur le frigo en version imprimée.</p>
+      <h3>Combien de temps</h3>
+      <p>5 min pour parcourir. 15-20 min pour créer sa routine perso.</p>
+      <h3>Ce que ça change</h3>
+      <p>Moins de cris, moins de chaos, moins d'anxiété chez l'enfant. Et plus de prévisibilité pour toute la famille.</p>
+      <h3>Ce que ça ne remplace pas</h3>
+      <p>Un accompagnement professionnel si les routines ne tiennent pas malgré les efforts (anxiété chronique, TDAH sévère, opposition extrême).</p>
+      <h3>Inspiration</h3>
+      <p>Création originale Nawel Haddouch (@educa_typique). Adapté du carrousel Instagram + Kit 3 Parents EducaTypique. S'appuie sur les neurosciences du développement et la pédagogie positive.</p>
+    </div>
+  </details>
+
+  <div class="sig-nawel">
+    🌿 <strong>Un mot de Nawel</strong> — Les routines, ce ne sont pas des cases rigides à cocher. Ce sont des rails qui aident le cerveau de ton enfant à savoir où il va. Quand il sait, il a moins peur. Quand il a moins peur, il coopère plus. C'est aussi simple — et aussi puissant — que ça.
+  </div>
+
+  <div class="tabs">
+    <button class="active" data-tab="bienfaits">✨ Bienfaits</button>
+    <button data-tab="routines">📅 Routines</button>
+    <button data-tab="perso">📝 Ma routine perso</button>
+    <button data-tab="carrousel">📸 Carrousel</button>
+    <button data-tab="rentree">🎒 Rentrée</button>
+  </div>
+
+  <!-- BIENFAITS -->
+  <section id="bienfaits" class="section active">
+    <p style="color:#5a7549;font-weight:700;text-align:center;margin-bottom:1rem">Clique sur un bienfait pour explorer en détail</p>
+    <div class="bienfaits-grid">
+      <div class="bienfait-card b1" data-b="1">
+        <h3><span class="num">1</span> 🔐 Prévisibilité et sécurité</h3>
+        <p>Les enfants neuro-atypiques peuvent éprouver de l'anxiété face aux situations nouvelles ou imprévisibles.</p>
+      </div>
+      <div class="bienfait-card b2" data-b="2">
+        <h3><span class="num">2</span> 🧩 Soutien de l'organisation</h3>
+        <p>Les routines offrent un cadre pour apprendre à organiser sa journée et à se passer à quel moment.</p>
+      </div>
+      <div class="bienfait-card b3" data-b="3">
+        <h3><span class="num">3</span> 🔄 Facilitation des transitions</h3>
+        <p>Les transitions peuvent être difficiles. Les routines les rendent plus fluides.</p>
+      </div>
+      <div class="bienfait-card b4" data-b="4">
+        <h3><span class="num">4</span> 💗 Régulation émotionnelle</h3>
+        <p>Les routines cohérentes et familières aident à se sentir plus en sécurité.</p>
+      </div>
+    </div>
+
+    <div id="bienfait-detail" class="bienfait-detail"></div>
+
+    <div style="background:#fff;padding:1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin-top:1rem;border-left:5px solid #8aa67c">
+      <h3 style="color:#5a7549;margin:0 0 .5rem">🌱 5 bienfaits spécifiques au TDAH</h3>
+      <ul style="line-height:1.7;color:#444;padding-left:1.4rem">
+        <li><strong>Favorise un sommeil régulier</strong> — horaires cohérents = bon rythme circadien</li>
+        <li><strong>Régule humeur et comportement</strong> — sommeil de qualité = meilleure régulation</li>
+        <li><strong>Réduit l'anxiété</strong> — rituel = sensation de sécurité et de confort</li>
+        <li><strong>Améliore la concentration</strong> — bon sommeil = capacité d'attention</li>
+        <li><strong>Renforce l'auto-régulation</strong> — répétition quotidienne = compétences d'auto-régulation</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ROUTINES MATRICE -->
+  <section id="routines" class="section">
+    <div class="routine-controls">
+      <div class="control-row">
+        <span class="lbl">👶 Tranche d'âge :</span>
+        <button data-age="1-3" class="age-btn">1-3 ans</button>
+        <button data-age="4-5" class="age-btn">4-5 ans</button>
+        <button data-age="6-9" class="age-btn active">6-9 ans</button>
+        <button data-age="10-12" class="age-btn">10-12 ans</button>
+        <button data-age="13-18" class="age-btn">13-18 ans</button>
+      </div>
+      <div class="control-row">
+        <span class="lbl">📅 Type de routine :</span>
+        <button data-type="matinale" class="type-btn active">☀️ Matinale</button>
+        <button data-type="devoirs" class="type-btn">📚 Devoirs</button>
+        <button data-type="nettoyage" class="type-btn">🧹 Rangement</button>
+        <button data-type="relaxation" class="type-btn">🌿 Apaisement</button>
+        <button data-type="sport" class="type-btn">🏃 Sport</button>
+        <button data-type="coucher" class="type-btn">🌙 Coucher</button>
+      </div>
+    </div>
+
+    <div id="routine-display"></div>
+  </section>
+
+  <!-- MA ROUTINE PERSO -->
+  <section id="perso" class="section">
+    <div class="perso-form">
+      <h3>📝 Ma routine perso</h3>
+      <p style="font-size:.9rem;color:#666;font-style:italic">À remplir avec ton enfant. Sauvegardé automatiquement.</p>
+      <div class="field">
+        <label>Prénom de l'enfant :</label>
+        <input type="text" data-perso="prenom" placeholder="Mon enfant…">
+      </div>
+      <div class="field">
+        <label>Âge :</label>
+        <input type="text" data-perso="age" placeholder="Ex : 8 ans">
+      </div>
+      <div class="field">
+        <label>Type de routine que je veux structurer :</label>
+        <input type="text" data-perso="type" placeholder="Matin, soir, devoirs, mixte…">
+      </div>
+
+      <h3 style="margin-top:1.5rem">⏰ Mes étapes (jusqu'à 10)</h3>
+      <table class="perso-table">
+        <thead>
+          <tr><th style="width:90px">Heure</th><th>Étape</th></tr>
+        </thead>
+        <tbody id="perso-steps"></tbody>
+      </table>
+
+      <h3 style="margin-top:1.5rem">💡 Ce que cette routine doit m'apporter</h3>
+      <div class="field">
+        <textarea data-perso="objectif" placeholder="Moins de cris le matin, départ à l'école plus serein, sommeil de meilleure qualité…"></textarea>
+      </div>
+
+      <h3 style="margin-top:1rem">🚧 Ce qui risque de bloquer</h3>
+      <div class="field">
+        <textarea data-perso="blocage" placeholder="Réveil difficile, conflits frère/sœur, attente au coucher…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARROUSEL VISUEL -->
+  <section id="carrousel" class="section">
+    <p style="text-align:center;color:#5a7549;font-weight:700;margin-bottom:1rem">📸 Carrousel Instagram @educa_typique — Les bienfaits des routines</p>
+    <div class="carrousel-wrap">
+      <div id="carrousel-card" class="carrousel-card"></div>
+      <div class="carrousel-nav">
+        <button id="prev-card">← Précédent</button>
+        <span id="counter" style="color:#5a7549;font-weight:700">1 / 10</span>
+        <button id="next-card">Suivant →</button>
+      </div>
+      <div class="carrousel-dots" id="dots"></div>
+    </div>
+  </section>
+
+  <!-- RENTRÉE SCOLAIRE -->
+  <section id="rentree" class="section">
+    <p style="color:#c78416;font-weight:700;text-align:center;margin-bottom:1rem">🎒 Préparer la rentrée scolaire d'un enfant neuroatypique</p>
+    <div style="background:linear-gradient(135deg,#fff8e8,#fef1e8);padding:1.2rem;border-radius:var(--r-lg);margin-bottom:1.2rem;border-left:5px solid #e9a73a;font-style:italic;color:#666;line-height:1.6">
+      La rentrée est une période particulièrement stressante pour les enfants neuroatypiques (TDAH/HPI). Préparer cette transition dès maintenant peut transformer une période potentiellement difficile en transition plus douce et positive.
+    </div>
+
+    <div class="rentree-conseil"><h4><span class="num">1</span> Réduire l'anxiété par préparation anticipée</h4>
+      <p>Les enfants neuroatypiques sont sensibles aux changements. Certains angoissent dès le premier jour des vacances. Introduire progressivement les nouvelles routines + discuter des attentes = enfants plus sécurisés.</p>
+    </div>
+    <div class="rentree-conseil"><h4><span class="num">2</span> Familiariser avec l'environnement scolaire</h4>
+      <p>Visite de l'école, rencontre enseignants, exploration espaces (cantine, cour). Demander des photos de la future classe et de l'enseignant pour un repère visuel rassurant.</p>
+    </div>
+    <div class="rentree-conseil"><h4><span class="num">3</span> Routine progressive sur 15 jours</h4>
+      <p>15 jours avant la rentrée : reprendre le rythme du coucher plus tôt. <strong>Avancer l'heure du coucher de 5 minutes tous les soirs</strong>, jusqu'à arriver à l'heure souhaitée une semaine avant la rentrée.</p>
+    </div>
+    <div class="rentree-conseil"><h4><span class="num">4</span> Discussions ouvertes</h4>
+      <p>Parler de la rentrée de manière positive. Utiliser histoires ou jeux de rôle pour aborder les préoccupations. Créer un espace sécurisé pour exprimer les sentiments.</p>
+    </div>
+    <div class="rentree-conseil"><h4><span class="num">5</span> Préparer les fournitures ensemble</h4>
+      <p>Impliquer l'enfant dans le choix et la préparation. Ça le rend plus enthousiaste et c'est l'occasion de discuter de l'organisation.</p>
+    </div>
+    <div class="rentree-conseil"><h4><span class="num">6</span> Planifier l'année scolaire</h4>
+      <p>Discuter ensemble des objectifs et attentes. Pour besoins spécifiques : planifier les RDV de suivi avec thérapeutes/éducateurs spécialisés.</p>
+    </div>
+    <div class="rentree-conseil"><h4><span class="num">7</span> Être attentif et compréhensif</h4>
+      <p>Les réactions des enfants peuvent varier. Sois à l'écoute de ses besoins et de ses émotions.</p>
+    </div>
+    <div class="rentree-conseil"><h4><span class="num">8</span> Encourager et rassurer</h4>
+      <p>Renforcer la confiance en lui en rassurant sur ses capacités à surmonter les défis.</p>
+    </div>
+    <div class="rentree-conseil"><h4><span class="num">9</span> Supports visuels</h4>
+      <p>Calendriers, images ou schémas peuvent l'aider à visualiser et comprendre les étapes de la rentrée.</p>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="btn-export" id="btn-export">📄 Exporter ma routine en .txt</button>
+    <button class="btn-print" onclick="window.print()">🖨 Imprimer (frigo A4)</button>
+  </div>
+
+</div>
+
+<script>
+const KEY='educatypique_routines_v1';
+let state={perso:{},steps:{}};
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=Object.assign(state,JSON.parse(r));}catch(e){}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+load();
+
+/* Tabs */
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(b.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+});
+
+/* BIENFAITS détails */
+const BIENFAITS={
+  1:{c:'#5a8fc7',e:'🔐',n:'Prévisibilité et sécurité',d:"Les enfants neuro-atypiques peuvent souvent éprouver de l'anxiété ou du stress face à des situations nouvelles ou imprévisibles. <strong>Les routines offrent un sentiment de prévisibilité et de sécurité</strong>, ce qui peut aider à réduire l'anxiété et favoriser le bien-être émotionnel.<br><br><em>« Quand mon enfant sait ce qui va se passer, il a moins peur. Quand il a moins peur, il coopère. »</em>"},
+  2:{c:'#2a9d8f',e:'🧩',n:'Soutien des capacités d\'organisation',d:"Les enfants neuro-atypiques peuvent avoir des difficultés avec l'organisation et la planification. <strong>Les routines leur offrent un cadre pour apprendre à organiser leur journée</strong>, savoir ce qui va se passer et à quel moment — ce qui peut renforcer leurs compétences en matière d'organisation et d'autonomie.<br><br><em>Plus la routine est claire et répétée, plus l'enfant peut s'y appuyer sans demander à l'adulte chaque étape.</em>"},
+  3:{c:'#e9a73a',e:'🔄',n:'Facilitation de la transition',d:"Les transitions peuvent être difficiles pour les enfants neuro-atypiques. <strong>Les routines établies peuvent rendre les transitions plus fluides</strong>, car les enfants savent à quoi s'attendre à différents moments de la journée — ce qui peut réduire le stress associé aux transitions.<br><br><em>Astuce : annoncer 10 min avant, 5 min avant, puis 1 min avant la transition.</em>"},
+  4:{c:'#e05a8a',e:'💗',n:'Amélioration de la régulation émotionnelle',d:"Les enfants neuro-atypiques peuvent avoir des difficultés avec la régulation émotionnelle. <strong>Les routines cohérentes et familières peuvent les aider à se sentir plus en sécurité</strong>, ce qui peut favoriser une meilleure régulation émotionnelle.<br><br><em>Une routine = un cadre. Un cadre = du calme intérieur. Du calme intérieur = moins de crises.</em>"}
+};
+document.querySelectorAll('.bienfait-card').forEach(c=>{
+  c.onclick=()=>{
+    document.querySelectorAll('.bienfait-card').forEach(x=>x.classList.remove('active'));
+    c.classList.add('active');
+    const b=BIENFAITS[c.dataset.b];
+    const d=document.getElementById('bienfait-detail');
+    d.style.setProperty('--bc',b.c);
+    d.innerHTML=`<h3>${b.e} ${b.n}</h3><p style="line-height:1.65;color:#444">${b.d}</p>`;
+    d.classList.add('active');
+  };
+});
+
+/* ROUTINES — Matrice âge × type */
+const ROUTINES={
+  '1-3':{
+    matinale:{intro:"Routine matinale très jeunes enfants — étapes claires et douces.",steps:[['7h00','Réveil et changement de couche'],['7h15','Petit-déjeuner'],['7h45','Jeu calme ou activité dirigée'],['8h15','Habillage et toilette'],['8h45','Temps de jeu ou promenade']]},
+    devoirs:{intro:"À cet âge, pas de vrais devoirs — mais des temps d'éveil et de jeu structuré.",steps:[['9h00-10h00','Jeu libre et exploration sensorielle'],['10h00-10h30','Collation et temps calme'],['10h30-11h30','Activité dirigée ou bricolage']]},
+    nettoyage:{intro:"Premiers gestes d'autonomie, sous supervision étroite.",steps:[['Tâche 1','Ramasser les jouets et les ranger dans des paniers appropriés après avoir joué'],['Tâche 2','Aider à essuyer les surfaces avec un chiffon, sous supervision étroite']]},
+    relaxation:{intro:"Pas d'exercice formel à cet âge — privilégier câlins, voix douce, contact rassurant.",steps:[['Soir','Histoire du soir avec voix douce'],['Avant dodo','Câlin et présence calme'],['Si agitation','Porter en peau-à-peau ou massage doux']]},
+    sport:{intro:"L'activité physique passe par le jeu libre et la motricité.",steps:[['Matin','Promenade ou jeu en plein air'],['Après-midi','Parcours moteur à la maison (coussins, tunnels)'],['Quotidien','Danser, sauter, grimper — sans contrainte']]},
+    coucher:{intro:"Routine du coucher courte et très ritualisée.",steps:[['19h00','Bain et pyjama'],['19h30-20h00','Histoire du coucher et gazouillis'],['20h00','Mise au lit']]}
+  },
+  '4-5':{
+    matinale:{intro:"L'enfant commence à comprendre les enchaînements.",steps:[['7h00','Réveil et habillage'],['7h30','Petit-déjeuner'],['8h00','Temps de jeu calme ou activité dirigée'],['8h30','Départ pour l\'école']]},
+    devoirs:{intro:"Pas de devoirs scolaires, mais des activités éducatives ludiques.",steps:[['16h00-16h30','Temps de repos et collation après l\'école maternelle'],['16h30-17h00','Activités éducatives (puzzles, reconnaissance lettres/chiffres)'],['17h00-17h30','Lecture d\'histoires + discussions sur personnages']]},
+    nettoyage:{intro:"L'enfant peut commencer à participer activement.",steps:[['Tâche 1','Aider à ranger les livres dans une bibliothèque ou des étagères après lecture'],['Tâche 2','Aider à ranger son propre linge dans le panier à linge']]},
+    relaxation:{intro:"Premières mini-séances de calme — pas plus de 5-10 min.",steps:[['Avant dodo','Histoire calme avec voix posée'],['Si agitation','Souffler une bougie imaginaire 3 fois'],['Quotidien','Câlin doux et présence apaisante']]},
+    sport:{intro:"Mouvement quotidien indispensable.",steps:[['Après-midi','30 min minimum dehors (parc, vélo, course)'],['Soir','Petit jeu moteur à la maison'],['Week-end','Activité partagée famille']]},
+    coucher:{intro:"Routine du soir avec ritualisation.",steps:[['19h00','Dîner en famille'],['19h30','Temps calme et relaxation'],['20h00','Mise au lit avec histoire']]}
+  },
+  '6-9':{
+    matinale:{intro:"L'enfant peut suivre une routine plus autonome avec checklist visuelle.",steps:[['7h00','Lever, toilettes'],['7h15','Habillage'],['7h30','Petit-déjeuner'],['7h50','Brossage de dents, préparation cartable'],['8h10','Départ pour l\'école']]},
+    devoirs:{intro:"Session structurée avec pauses planifiées.",steps:[['15h30-16h00','Temps de goûter et pause après l\'école'],['16h00-17h00','Session structurée de devoirs (lecture, maths)'],['17h00-17h30','Pause pour jeu libre ou activité sportive'],['17h30','Vérification et aide supplémentaire au besoin']]},
+    nettoyage:{intro:"L'enfant prend de plus en plus de responsabilités.",steps:[['Quotidien','Garder sa chambre en ordre, ranger les jouets'],['Hebdo','Aider à épousseter les surfaces sous supervision'],['Tâche commune','Mettre/débarrasser la table']]},
+    relaxation:{intro:"Respiration consciente et ancrage doux (5-8 ans à 9 ans).",steps:[['18h30-18h40','Apprentissage de la respiration calme en position assise'],['18h40-18h50','Visualisation d\'un lieu paisible (forêt, jardin, bord de mer)'],['18h50-19h00','Exercices d\'ancrage musculaire (pieds → tête) avec bruits naturels en fond']]},
+    sport:{intro:"Activité physique structurée bénéfique pour canaliser l\'énergie.",steps:[['16h30','Temps dédié à activité physique (promenade, sport, jeux extérieurs)'],['17h30-18h30','Pause pour jeu libre ou activité sportive'],['Week-end','Sport organisé en club si possible']]},
+    coucher:{intro:"Routine claire qui favorise l\'endormissement.",steps:[['18h30','Dîner en famille'],['19h30','Bain ou douche'],['20h00','Pyjama et temps calme avec lecture'],['20h30','Histoire du soir'],['20h45','Mise au lit, lumière douce']]}
+  },
+  '10-12':{
+    matinale:{intro:"Routine plus autonome avec liste à cocher.",steps:[['6h45','Réveil'],['7h00','Toilette, habillage'],['7h20','Petit-déjeuner'],['7h45','Préparation cartable + dents'],['8h00','Départ']]},
+    devoirs:{intro:"Session plus longue avec organisation visible.",steps:[['17h00-17h30','Temps de goûter et repos après école'],['17h30-18h30','Session devoirs + lectures suppl. + projets scolaires'],['18h30-19h00','Pause dîner léger + temps libre extra-scolaires']]},
+    nettoyage:{intro:"Le pré-ado prend des responsabilités plus larges.",steps:[['Quotidien','Chambre rangée, lit fait'],['Hebdo','Aspirer ou nettoyer sa chambre'],['Tâche commune','Aider à préparer un repas hebdomadaire']]},
+    relaxation:{intro:"Respiration consciente + cohérence cardiaque pré-ados.",steps:[['19h00-19h05','Exercices de respiration profonde pour favoriser la détente'],['19h05-19h15','Temps de gratitude et reconnaissance des émotions (écrit ou parlé)'],['19h15-19h25','Pratique de la cohérence cardiaque (4-6 secondes)']]},
+    sport:{intro:"Sport en club fortement recommandé à cet âge.",steps:[['Quotidien','30-60 min activité physique minimum'],['3x/semaine','Sport en club ou en autonomie encadrée'],['Week-end','Sortie famille active']]},
+    coucher:{intro:"Routine du soir avec phase calme dédiée.",steps:[['19h30','Dîner en famille'],['20h30','Temps calme, lecture, jeu de société calme'],['21h00','Préparation au coucher (douche, dents)'],['21h30','Lecture au lit puis dodo']]}
+  },
+  '13-18':{
+    matinale:{intro:"L'ado gère sa routine — l'adulte rappelle l'heure de départ.",steps:[['6h30 ou 7h','Réveil (selon emploi du temps)'],['+15 min','Toilette, habillage'],['+20 min','Petit-déjeuner'],['+10 min','Préparation sac, vérifications'],['Selon trajet','Départ']]},
+    devoirs:{intro:"Bloc structuré + plan projets à venir.",steps:[['18h00-19h30','Bloc structuré : lecture, devoirs, planification projets'],['19h30-20h00','Pause repas + temps libre / loisirs'],['20h00-20h30','Présence parents pour questions ou discussions']]},
+    nettoyage:{intro:"L'ado est responsable de son espace et participe aux tâches.",steps:[['Quotidien','Rangement chambre, lit fait, sale linge dans panier'],['Hebdo','Changement de draps, entretien de base'],['Tâches communes','Aider préparation repas + nettoyage après']]},
+    relaxation:{intro:"Apaisement dynamique adolescents — gestion du stress.",steps:[['19h30-19h40','Exercices de respiration consciente pour réduire le stress'],['19h40-19h50','Temps de présence attentive + écriture des pensées qui tournent'],['19h50-20h00','Détente individuelle + exercices cohérence cardiaque']]},
+    sport:{intro:"Sport indispensable à l'équilibre psy de l'ado.",steps:[['17h00-18h30','Temps dédié aux devoirs et à l\'étude'],['18h30-19h30','Temps de sport ou d\'activité physique'],['Week-end','Sport en autonomie ou en club']]},
+    coucher:{intro:"L'ado gère son coucher avec heure limite ferme.",steps:[['20h00-21h00','Temps de socialisation/communication avec amis'],['21h00-21h30','Temps de détente et apaisement (lecture, étirements, respiration)'],['21h30-22h00','Temps de préparation au coucher'],['22h00-22h30','Coucher (varier selon âge)']]}
+  }
+};
+
+let currentAge='6-9';
+let currentType='matinale';
+
+function updateRoutine(){
+  const r=ROUTINES[currentAge]?.[currentType];
+  const display=document.getElementById('routine-display');
+  if(!r){display.innerHTML='<p>Cette combinaison n\'est pas encore disponible.</p>';return;}
+  const titles={matinale:'☀️ Routine matinale',devoirs:'📚 Routine devoirs',nettoyage:'🧹 Routine nettoyage/rangement',relaxation:'🌿 Routine d\'apaisement',sport:'🏃 Routine sport',coucher:'🌙 Routine du coucher'};
+  const ages={'1-3':'1-3 ans','4-5':'4-5 ans','6-9':'6-9 ans','10-12':'10-12 ans','13-18':'13-18 ans'};
+  let html=`<div class="routine-result" style="--rc:#8aa67c">
+    <h2>${titles[currentType]} · ${ages[currentAge]}</h2>
+    <div class="intro">${r.intro}</div>
+    <div class="timeline">`;
+  r.steps.forEach(s=>{
+    html+=`<div class="step"><div class="heure">${s[0]}</div><div class="desc">${s[1]}</div></div>`;
+  });
+  html+=`</div></div>`;
+  display.innerHTML=html;
+}
+
+document.querySelectorAll('.age-btn').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.age-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    currentAge=b.dataset.age;updateRoutine();
+  };
+});
+document.querySelectorAll('.type-btn').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.type-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    currentType=b.dataset.type;updateRoutine();
+  };
+});
+updateRoutine();
+
+/* MA ROUTINE PERSO */
+document.querySelectorAll('[data-perso]').forEach(el=>{
+  const k=el.dataset.perso;
+  el.value=state.perso[k]||'';
+  el.addEventListener('input',e=>{state.perso[k]=e.target.value;save();});
+});
+
+const stepsBody=document.getElementById('perso-steps');
+for(let i=0;i<10;i++){
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td><input type="text" data-step-h="${i}" placeholder="7h00"></td>
+                <td><input type="text" data-step-d="${i}" placeholder="Réveil, toilette…"></td>`;
+  stepsBody.appendChild(tr);
+}
+document.querySelectorAll('[data-step-h]').forEach(el=>{
+  const i=el.dataset.stepH;
+  if(state.steps[i+'-h'])el.value=state.steps[i+'-h'];
+  el.addEventListener('input',e=>{state.steps[i+'-h']=e.target.value;save();});
+});
+document.querySelectorAll('[data-step-d]').forEach(el=>{
+  const i=el.dataset.stepD;
+  if(state.steps[i+'-d'])el.value=state.steps[i+'-d'];
+  el.addEventListener('input',e=>{state.steps[i+'-d']=e.target.value;save();});
+});
+
+/* CARROUSEL */
+const CARROUSEL=[
+  {t:'Les bienfaits des routines chez les enfants',c:'',num:1},
+  {t:'',c:'Les routines sont <strong>extrêmement bénéfiques</strong> pour les enfants atteints de troubles du TND. Notamment les enfants diagnostiqués TDAH.<br><br>Elles offrent une <strong>prévisibilité et une structure</strong> bénéfique pour les enfants, leur permettant de mieux gérer leurs activités quotidiennes.',num:2},
+  {t:'',c:'<strong>1. Prévisibilité et sécurité</strong><br>Les routines offrent un sentiment de prévisibilité et de sécurité, ce qui peut aider à réduire l\'anxiété.<br><br><strong>2. Soutien des capacités d\'organisation</strong><br>Les routines leur offrent un cadre pour apprendre à organiser leur journée.',num:3},
+  {t:'',c:'<strong>3. Facilitation de la transition</strong><br>Les routines établies peuvent rendre les transitions plus fluides — l\'enfant sait à quoi s\'attendre.<br><br><strong>4. Amélioration de la régulation émotionnelle</strong><br>Les routines cohérentes et familières aident à se sentir plus en sécurité.',num:4},
+  {t:'☀️ Routine matinale',c:'Établir une routine matinale cohérente, avec des étapes claires : s\'habiller, prendre le petit déjeuner, se préparer.<br><br><em>Exemples disponibles dans l\'onglet "Routines" — sélection par âge.</em>',num:5},
+  {t:'📚 Routine devoirs',c:'Allouer un temps spécifique pour les devoirs de préférence à la <strong>même heure chaque jour</strong>, avec des pauses.<br><br>Après l\'école : courte pause pour se détendre, puis temps dédié aux devoirs avec pauses planifiées pour se lever, s\'étirer.',num:6},
+  {t:'🧹 Routine nettoyage',c:'Inclure des tâches de nettoyage à des <strong>moments réguliers</strong> pour aider à maintenir un environnement ordonné et réduire le stress lié au désordre.<br><br>Tâches adaptées à l\'âge — voir l\'onglet "Routines".',num:7},
+  {t:'🌿 Routine d\'apaisement',c:'Intégrer des moments d\'apaisement : <strong>respiration consciente, présence attentive, activités apaisantes</strong> pour aider à gérer l\'agitation ou le stress.<br><br>Respiration calme 5-8 ans, cohérence cardiaque 9-12 ans, gestion du stress ado. Pour les familles musulmanes, voir aussi la <a href="../../D_regulation/parents/methode-rahma-prophetique.html" style="color:#7c5cbf;font-weight:700">version prophétique R.A.H.M.A</a>.',num:8},
+  {t:'🏃 Routine activité physique',c:'L\'activité physique peut être <strong>particulièrement bénéfique</strong> pour canaliser l\'énergie débordante et améliorer la concentration.<br><br>Elle permet de gérer le stress et favorise la socialisation.',num:9},
+  {t:'🌙 Routine du coucher',c:'Mettre en place une routine consistante <strong>avant le coucher</strong> pour favoriser un sommeil régulier et réparateur.<br><br>Régule l\'humeur, réduit l\'anxiété et renforce les habitudes d\'auto-régulation.',num:10}
+];
+
+let currentCard=0;
+const carCard=document.getElementById('carrousel-card');
+const counter=document.getElementById('counter');
+const dotsContainer=document.getElementById('dots');
+
+function renderCard(){
+  const c=CARROUSEL[currentCard];
+  let html=`<div class="num-card">${c.num} / 10</div>`;
+  if(c.t)html+=`<h3>${c.t}</h3>`;
+  if(c.c)html+=`<div class="content">${c.c}</div>`;
+  html+=`<div class="signature">@educa_typique</div>`;
+  carCard.innerHTML=html;
+  counter.textContent=`${currentCard+1} / 10`;
+  document.querySelectorAll('.carrousel-dots .dot').forEach((d,i)=>{
+    d.classList.toggle('active',i===currentCard);
+  });
+  document.getElementById('prev-card').disabled=currentCard===0;
+  document.getElementById('next-card').disabled=currentCard===CARROUSEL.length-1;
+}
+CARROUSEL.forEach((c,i)=>{
+  const dot=document.createElement('div');
+  dot.className='dot';if(i===0)dot.classList.add('active');
+  dot.onclick=()=>{currentCard=i;renderCard();};
+  dotsContainer.appendChild(dot);
+});
+document.getElementById('prev-card').onclick=()=>{if(currentCard>0){currentCard--;renderCard();}};
+document.getElementById('next-card').onclick=()=>{if(currentCard<CARROUSEL.length-1){currentCard++;renderCard();}};
+renderCard();
+
+/* EXPORT */
+document.getElementById('btn-export').onclick=()=>{
+  const date=new Date().toLocaleDateString('fr-FR');
+  let txt=`MA ROUTINE EDUCATYPIQUE\nCréation originale Nawel Haddouch · @educa_typique\nExporté le : ${date}\n${'='.repeat(60)}\n\n`;
+  if(state.perso.prenom)txt+=`Prénom : ${state.perso.prenom}\n`;
+  if(state.perso.age)txt+=`Âge : ${state.perso.age}\n`;
+  if(state.perso.type)txt+=`Type de routine : ${state.perso.type}\n\n`;
+  txt+=`⏰ MES ÉTAPES\n${'-'.repeat(40)}\n`;
+  for(let i=0;i<10;i++){
+    const h=state.steps[i+'-h'];const d=state.steps[i+'-d'];
+    if(h||d)txt+=`  ${h||'—'}  ·  ${d||'—'}\n`;
+  }
+  if(state.perso.objectif)txt+=`\n💡 OBJECTIF\n${state.perso.objectif}\n`;
+  if(state.perso.blocage)txt+=`\n🚧 CE QUI BLOQUE\n${state.perso.blocage}\n`;
+  const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`routine_${date.replace(/\//g,'-')}.txt`;
+  a.click();URL.revokeObjectURL(url);
+};
+
+/* Init bienfait 1 ouvert */
+document.querySelector('.bienfait-card.b1').click();
+</script>
+
+</body>
+</html>

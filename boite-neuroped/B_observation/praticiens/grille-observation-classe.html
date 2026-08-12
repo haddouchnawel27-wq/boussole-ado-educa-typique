@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grille d'observation classe — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fef9e8,#fff)}
+.bandeau{background:linear-gradient(135deg,#5fa040,#a3c98f);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.7rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:1050px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #5fa040;line-height:1.55}
+.intro strong{color:#3d6e25}
+
+.posture{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.88rem;color:#5A4D6B;line-height:1.5}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #c5e0b5;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#5fa040;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#3d6e25;border:1.5px solid #c5e0b5}
+
+.bloc{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c,#5fa040)}
+.bloc h2{color:var(--c,#3d6e25);margin:0 0 .3rem;font-size:1.1rem;display:flex;align-items:center;gap:.4rem}
+.bloc .intro-bloc{color:#666;font-size:.88rem;margin-bottom:.6rem;font-style:italic}
+
+.cadre-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem}
+.cadre-meta .champ{display:flex;flex-direction:column;gap:.2rem}
+.cadre-meta label{font-weight:700;font-size:.85rem;color:#3d6e25}
+.cadre-meta input{padding:.45em .7em;border:1.5px solid #c5e0b5;border-radius:var(--r-sm);font-family:inherit;background:#faf9e8}
+
+/* Tableau observation */
+.obs-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.4rem}
+.obs-table th{background:#eef6e5;color:#3d6e25;font-weight:700;padding:.5em .6em;text-align:left;border:1px solid #c5e0b5;font-size:.82rem}
+.obs-table td{padding:.4em .6em;border:1px solid #e8e0d0;vertical-align:top;background:#fff}
+.obs-table td.cat{background:#fafdf5;font-weight:700;color:var(--cc);width:170px}
+.obs-table .obs-radio{display:flex;gap:.3rem;justify-content:center}
+.obs-table .obs-radio label{width:28px;height:28px;border-radius:50%;background:#f5f9f0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:#888;border:2px solid transparent}
+.obs-table .obs-radio label:hover{border-color:#5fa040}
+.obs-table .obs-radio input{display:none}
+.obs-table .obs-radio input:checked + .v{background:var(--cc);color:#fff;width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.obs-table textarea{width:100%;padding:.35em .5em;border:1px solid #d8e0c8;border-radius:var(--r-sm);font-family:inherit;font-size:.85rem;background:#faf9e8;min-height:32px;resize:vertical}
+@media (max-width:700px){.obs-table,.obs-table thead,.obs-table tbody,.obs-table tr,.obs-table td,.obs-table th{display:block}.obs-table tr{margin-bottom:.6rem;border:1px solid #c5e0b5;border-radius:var(--r-md);padding:.3rem}.obs-table td.cat{width:auto;border:none;background:transparent}.obs-table th{display:none}}
+
+.cat-arrivee{--cc:#7c5cbf}
+.cat-attention{--cc:#e9a73a}
+.cat-comportement{--cc:#e05a8a}
+.cat-emotion{--cc:#F39BC2}
+.cat-social{--cc:#2a9d8f}
+.cat-apprentissage{--cc:#5fa040}
+.cat-sensoriel{--cc:#8ED9D2}
+.cat-fin{--cc:#9B85B8}
+
+.synthese{background:linear-gradient(135deg,#fff,#fafdf5);border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border:2px solid #c5e0b5}
+.synthese h2{color:#3d6e25;margin:0 0 .5rem}
+.synthese .questions{display:flex;flex-direction:column;gap:.5rem}
+.synthese .qst{background:#fff;border-left:4px solid #5fa040;border-radius:var(--r-sm);padding:.5rem .8rem}
+.synthese .qst label{display:block;font-weight:700;color:#3d6e25;margin-bottom:.2rem;font-size:.9rem}
+.synthese .qst textarea{width:100%;padding:.45em .6em;border:1px solid #c5e0b5;border-radius:var(--r-sm);font-family:inherit;font-size:.88rem;background:#faf9e8;min-height:50px;resize:vertical;line-height:1.5}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #5fa040;background:#fff;color:#3d6e25;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#5fa040;color:#fff}
+.actions .primary{background:#5fa040;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+@media print{
+  .actions,.dossier-bar{display:none!important}
+  body{background:#fff}
+  .bloc,.synthese{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace pros</a>
+  <h1>👀 Grille d'observation classe</h1>
+  <p class="sub">Pour pros allant en classe (psychologue scolaire, ergo, neuropsy, AESH, RASED…). Trame d'observation structurée avec codes pros.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    👀 <strong>Quand l'utiliser :</strong> observation de classe demandée par les parents/équipe pédago/MDPH. Couvre 8 domaines × situations classiques. Code F (faible) · I (intermédiaire) · S (solide) — pas de notation, juste un repère.
+  </div>
+
+  <div class="posture">
+    🌿 <strong>Posture observateur :</strong> tu observes le FONCTIONNEMENT en contexte, pas l'enfant lui-même. Tu n'es pas là pour juger l'enseignant·e — tu cherches à comprendre comment ÇA fonctionne pour CET enfant DANS CE contexte. Reste à ta place, discret·ète.
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:#3d6e25">📁</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouvelle obs</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <section class="bloc" style="--c:#7c5cbf">
+    <h2>📋 Cadre de l'observation</h2>
+    <div class="cadre-meta">
+      <div class="champ"><label>Enfant (prénom/initiales)</label><input type="text" data-k="prenom"></div>
+      <div class="champ"><label>Âge / classe</label><input type="text" data-k="classe" placeholder="Ex: 9 ans / CM1"></div>
+      <div class="champ"><label>Date</label><input type="date" data-k="date"></div>
+      <div class="champ"><label>Durée observation</label><input type="text" data-k="duree" placeholder="Ex: 1h30"></div>
+      <div class="champ"><label>Matières / moments observés</label><input type="text" data-k="matieres" placeholder="Ex: maths · récré · français"></div>
+      <div class="champ"><label>Observateur·trice</label><input type="text" data-k="obs"></div>
+      <div class="champ"><label>Effectif classe</label><input type="text" data-k="effectif" placeholder="Ex: 24 élèves"></div>
+      <div class="champ"><label>Hypothèse à explorer</label><input type="text" data-k="hypothese" placeholder="Ex: TDAH suspecté, suspicion HPI, dys…"></div>
+    </div>
+  </section>
+
+  <section class="bloc">
+    <h2>👁 Grille d'observation 8 domaines</h2>
+    <div class="intro-bloc">Pour chaque ligne : F (faible) · I (intermédiaire) · S (solide). Champ « obs » pour exemples précis vus en direct.</div>
+    <table class="obs-table">
+      <thead>
+        <tr><th>Domaine</th><th>Observation</th><th style="width:140px">F · I · S</th><th>Notes précises</th></tr>
+      </thead>
+      <tbody id="tbody-obs"></tbody>
+    </table>
+  </section>
+
+  <section class="synthese">
+    <h2>🪞 Synthèse 5 questions clés</h2>
+    <p class="intro-bloc" style="margin:0 0 .6rem">À remplir après l'observation, en relisant.</p>
+    <div class="questions">
+      <div class="qst"><label>1. 🎯 Qu'est-ce qui FONCTIONNE pour cet enfant dans cette classe ?</label><textarea data-k="q1" placeholder="Forces, leviers, moments où ça marche bien…"></textarea></div>
+      <div class="qst"><label>2. 🚧 Qu'est-ce qui COINCE, et dans quels contextes précis ?</label><textarea data-k="q2" placeholder="Décris les moments difficiles, leur fréquence, leur contexte…"></textarea></div>
+      <div class="qst"><label>3. 🔍 Quels signaux convergents par rapport à l'hypothèse de départ ?</label><textarea data-k="q3" placeholder="TDAH ? HPI ? Dys ? TSA ? Anxiété ? Croisés avec quoi ?"></textarea></div>
+      <div class="qst"><label>4. 🌱 Quelles 3 adaptations IMMÉDIATES pourrait-on tester en classe ?</label><textarea data-k="q4" placeholder="Aménagements concrets, simples, sans matériel coûteux."></textarea></div>
+      <div class="qst"><label>5. 🧭 Recommandations pour l'équipe pédagogique et orientation pro</label><textarea data-k="q5" placeholder="PAP/PPS · bilans à demander · suivi à proposer."></textarea></div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer (A4)</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Observation en contexte classe. Ne remplace pas un bilan neuropsy, orthophonique, ergothérapeutique. Outil de synthèse pour l'équipe — restituer aux parents AVEC TACT.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../professionnels.html" style="color:#3d6e25">retour espace pros</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_grille_obs_classe_v1';
+let state={dossiers:{},dossier:null};
+
+const DOMAINES_OBS = [
+  {id:'arrivee',cat:'cat-arrivee',nom:'1. Arrivée / mise au travail',items:[
+    'Entre en classe sans difficulté',
+    'Range / s\'installe rapidement',
+    'Sort le matériel demandé',
+    'Démarre la tâche dans la consigne'
+  ]},
+  {id:'attention',cat:'cat-attention',nom:'2. Attention / concentration',items:[
+    'Maintient l\'attention sur 10 min',
+    'Maintient sur 20 min',
+    'Se laisse distraire (préciser source)',
+    'Reprend après distraction',
+    'Décroche en fin de séance'
+  ]},
+  {id:'comportement',cat:'cat-comportement',nom:'3. Comportement / agitation',items:[
+    'Reste assis sans s\'agiter',
+    'Lève la main / attend son tour',
+    'Respecte les consignes',
+    'Bouge / triture (préciser quoi)',
+    'Sort de sa place sans demander'
+  ]},
+  {id:'emotion',cat:'cat-emotion',nom:'4. Régulation émotionnelle',items:[
+    'Tolère les frustrations (erreur, refus)',
+    'Demande de l\'aide quand bloqué·e',
+    'Ne se met pas en crise',
+    'Verbalise ce qu\'il/elle ressent',
+    'Calme face aux conflits pairs'
+  ]},
+  {id:'social',cat:'cat-social',nom:'5. Social / pairs',items:[
+    'Interagit avec ses pairs',
+    'Joue / partage en récré',
+    'Est sollicité·e par ses pairs',
+    'Coopère sur travail de groupe',
+    'Lit les codes sociaux implicites'
+  ]},
+  {id:'apprentissage',cat:'cat-apprentissage',nom:'6. Apprentissages / production',items:[
+    'Comprend la consigne au 1er énoncé',
+    'Produit attendu en quantité',
+    'Produit attendu en qualité',
+    'Reste dans la tâche jusqu\'au bout',
+    'Auto-corrige / relit'
+  ]},
+  {id:'sensoriel',cat:'cat-sensoriel',nom:'7. Réactions sensorielles',items:[
+    'Tolère le bruit ambiant',
+    'Tolère la lumière (néons, soleil)',
+    'Réagit aux odeurs / textures',
+    'Cherche le mouvement / pression'
+  ]},
+  {id:'fin',cat:'cat-fin',nom:'8. Fin de séance / transition',items:[
+    'Range correctement',
+    'Note les devoirs',
+    'Quitte la classe sereinement',
+    'Transition cantine / récré gérée'
+  ]}
+];
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {meta:{},obs:{},notes:{},syn:{}}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Observation 1":blank()};state.dossier="Observation 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function renderObs(){
+  const tb=document.getElementById('tbody-obs');
+  let html='';
+  DOMAINES_OBS.forEach(d=>{
+    d.items.forEach((it,i)=>{
+      const rowspan=i===0?` rowspan="${d.items.length}"`:'';
+      const first=i===0;
+      html+=`<tr class="${d.cat}">`;
+      if(first) html+=`<td class="cat"${rowspan}>${esc(d.nom)}</td>`;
+      html+=`<td>${esc(it)}</td>`;
+      html+=`<td><div class="obs-radio">${['F','I','S'].map(v=>`<label><input type="radio" name="obs_${d.id}_${i}" value="${v}"><span class="v">${v}</span></label>`).join('')}</div></td>`;
+      html+=`<td><textarea name="note_${d.id}_${i}" placeholder="Exemples vus en direct…"></textarea></td>`;
+      html+='</tr>';
+    });
+  });
+  tb.innerHTML=html;
+}
+
+function appliquer(){
+  const d=current();
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    const k=el.dataset.k;
+    el.value=(d.meta&&d.meta[k])||(d.syn&&d.syn[k])||'';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{
+    const [,id,i]=r.name.split('_');
+    const v=d.obs&&d.obs[id]&&d.obs[id][i];
+    r.checked=(v===r.value);
+  });
+  document.querySelectorAll('textarea[name^="note_"]').forEach(t=>{
+    const [,id,i]=t.name.split('_');
+    t.value=(d.notes&&d.notes[id]&&d.notes[id][i])||'';
+  });
+}
+
+function wireUp(){
+  document.addEventListener('change',e=>{
+    const el=e.target;
+    if(el.dataset.k){
+      const k=el.dataset.k;
+      const d=current();
+      if(['q1','q2','q3','q4','q5'].includes(k)){d.syn=d.syn||{};d.syn[k]=el.value}
+      else{d.meta=d.meta||{};d.meta[k]=el.value}
+      save();
+    } else if(el.name && el.name.startsWith('obs_')){
+      const [,id,i]=el.name.split('_');
+      const d=current();
+      d.obs=d.obs||{};d.obs[id]=d.obs[id]||{};d.obs[id][i]=el.value;save();
+    } else if(el.name && el.name.startsWith('note_')){
+      const [,id,i]=el.name.split('_');
+      const d=current();
+      d.notes=d.notes||{};d.notes[id]=d.notes[id]||{};d.notes[id][i]=el.value;save();
+    }
+  });
+  document.addEventListener('input',e=>{
+    if(e.target.dataset.k){
+      const d=current();
+      const k=e.target.dataset.k;
+      if(['q1','q2','q3','q4','q5'].includes(k)){d.syn=d.syn||{};d.syn[k]=e.target.value}
+      else{d.meta=d.meta||{};d.meta[k]=e.target.value}
+      save();
+    } else if(e.target.name && e.target.name.startsWith('note_')){
+      const [,id,i]=e.target.name.split('_');
+      const d=current();
+      d.notes=d.notes||{};d.notes[id]=d.notes[id]||{};d.notes[id][i]=e.target.value;save();
+    }
+  });
+}
+
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();appliquer();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom :','Observation '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible.');return}
+  if(confirm('Supprimer ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();appliquer();}};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  let t=`GRILLE D'OBSERVATION CLASSE — EducaTypique\nCréation originale Nawel Haddouch\n\n`;
+  Object.entries(d.meta||{}).forEach(([k,v])=>t+=`${k} : ${v}\n`);
+  t+='\n';
+  DOMAINES_OBS.forEach(dom=>{
+    t+=`== ${dom.nom} ==\n`;
+    dom.items.forEach((it,i)=>{
+      const note=(d.notes&&d.notes[dom.id]&&d.notes[dom.id][i])||'';
+      t+=`  (${(d.obs&&d.obs[dom.id]&&d.obs[dom.id][i])||'?'}) ${it}${note?' — '+note:''}\n`;
+    });
+    t+='\n';
+  });
+  t+='\n== SYNTHÈSE ==\n';
+  ['q1','q2','q3','q4','q5'].forEach(q=>{t+=`\n${q} : ${(d.syn&&d.syn[q])||'—'}\n`});
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`obs-classe-${(d.meta?.prenom)||'enfant'}-${(d.meta?.date)||new Date().toISOString().slice(0,10)}.txt`;a.click();
+};
+
+load();refreshDossier();renderObs();
+document.querySelector('[data-k="date"]').valueAsDate=new Date();
+appliquer();wireUp();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Carnet d'Intéroception — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:#f7f4f8} /* doux, peu stimulant — pensé TSA */
+
+.bandeau{
+  background:linear-gradient(135deg,#8ED9D2,#CBB6F6);
+  padding:1.8rem 1.5rem;text-align:center;
+}
+.bandeau .auteur{display:inline-block;background:rgba(255,255,255,.25);color:#fff;padding:.3em 1em;border-radius:999px;font-size:.85rem;font-weight:700;margin-bottom:.8rem}
+.bandeau h1{color:#fff;margin:0;font-size:clamp(1.6rem,3vw,2.2rem);text-shadow:0 2px 4px rgba(0,0,0,.15);font-family:var(--font-titre)}
+.bandeau .sub{color:#fff;max-width:680px;margin:.5rem auto 0;font-size:1rem;opacity:.95;font-style:italic}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.25);padding:.3em .9em;border-radius:999px;font-size:.88rem}
+
+.container{max-width:1100px;margin:1.4rem auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.92rem;color:#5A4D6B;font-weight:600}
+
+/* Tabs */
+.tabs{display:flex;gap:.3rem;flex-wrap:wrap;background:#fff;padding:.4rem;border-radius:999px;box-shadow:var(--shadow-sm)}
+.tab-btn{
+  flex:1;min-width:140px;background:transparent;border:none;
+  padding:.65em 1em;border-radius:999px;cursor:pointer;font-family:var(--font-body);
+  font-weight:700;color:var(--muted);font-size:.9rem;transition:all .15s;
+}
+.tab-btn:hover{background:var(--beige)}
+.tab-btn.actif{background:var(--violet-titre);color:#fff;box-shadow:var(--shadow-sm)}
+
+.tab-content{display:none}
+.tab-content.actif{display:block}
+
+.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c)}
+.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem;font-family:var(--font-titre)}
+.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-explication{--c:var(--violet-titre)}
+.bloc-corps{--c:#e05a8a}
+.bloc-dico{--c:#2a9d8f}
+.bloc-journal{--c:#a87800}
+.bloc-strat{--c:#7c5cbf}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ.full{grid-column:1/-1}
+
+/* Section pédagogique — qu'est-ce que l'intéroception */
+.pedago-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.7rem;margin-top:.6rem}
+.pedago-card{background:var(--beige);border-radius:var(--r-md);padding:.9rem 1.1rem;border-left:5px solid var(--c-p)}
+.pedago-card .ico-grand{font-size:2rem;margin-bottom:.3rem}
+.pedago-card h3{margin:.2rem 0 .3rem;color:var(--c-p);font-size:.98rem}
+.pedago-card p{font-size:.88rem;margin:.2rem 0;line-height:1.5}
+.pc-1{--c-p:#7c5cbf}
+.pc-2{--c-p:#e05a8a}
+.pc-3{--c-p:#2a9d8f}
+
+/* Cartographie corporelle (SVG) */
+.cartographie{display:grid;grid-template-columns:280px 1fr;gap:1.5rem;align-items:flex-start;margin-top:.6rem}
+@media (max-width:760px){.cartographie{grid-template-columns:1fr}}
+.silhouette-wrap{display:flex;justify-content:center;background:#fff;border-radius:var(--r-lg);padding:1rem;border:2px solid var(--border)}
+#silhouette-svg{width:100%;max-width:240px;height:auto}
+.zone-corps{fill:#f0e6f5;stroke:#7c5cbf;stroke-width:1.5;cursor:pointer;transition:fill .15s}
+.zone-corps:hover{fill:#e8d6f0}
+.zone-corps.actif{fill:#e05a8a;stroke:#a02040}
+.zone-label{font-family:var(--font-body);font-size:9px;fill:var(--texte);pointer-events:none;text-anchor:middle}
+
+.zone-detail{background:var(--beige);border-radius:var(--r-md);padding:1rem 1.2rem;border-left:5px solid #e05a8a;min-height:200px}
+.zone-detail h3{margin:0 0 .4rem;color:#e05a8a;font-family:var(--font-titre)}
+.zone-detail .lbl-info{color:var(--muted);font-style:italic;font-size:.88rem;margin-bottom:.6rem}
+.zone-detail .sensations{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.3rem;margin-top:.5rem}
+.zone-detail .sensation-chip{background:#fff;border-radius:var(--r-sm);padding:.4rem .6rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.85rem;border:1px solid var(--border)}
+.zone-detail .sensation-chip input:checked + span{color:#e05a8a;font-weight:700}
+.zone-detail textarea{width:100%;min-height:50px;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.88rem;margin-top:.5rem;resize:vertical}
+
+/* Dictionnaire signal-émotion */
+.dico-grille{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.5rem}
+@media (max-width:760px){.dico-grille{grid-template-columns:1fr}}
+.dico-card{background:var(--beige);border-radius:var(--r-md);padding:.8rem 1rem;border-left:5px solid var(--c-d)}
+.dico-card h4{margin:0 0 .3rem;color:var(--c-d);font-size:.95rem;display:flex;align-items:center;gap:.4rem}
+.dico-card .signal-mot{font-weight:800;color:var(--c-d)}
+.dico-card .arrow{color:var(--muted);font-weight:700}
+.dico-card .options{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.3rem;font-size:.83rem;color:var(--muted)}
+.dico-card .options span{background:#fff;padding:.15em .55em;border-radius:999px;border:1px solid var(--border)}
+.dico-card textarea{width:100%;min-height:40px;padding:.3em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.85rem;margin-top:.4rem;resize:vertical}
+.dc-1{--c-d:#7c5cbf}.dc-2{--c-d:#e05a8a}.dc-3{--c-d:#2a9d8f}.dc-4{--c-d:#a87800}
+.dc-5{--c-d:#c25a30}.dc-6{--c-d:#CBB6F6}.dc-7{--c-d:#F39BC2}.dc-8{--c-d:#8ED9D2}
+
+/* Journal */
+.entree-journal{
+  background:#fff;border:1.5px solid var(--border);border-radius:var(--r-md);
+  padding:.9rem 1.1rem;margin-bottom:.5rem;
+  display:grid;grid-template-columns:auto 1fr auto;gap:.7rem;align-items:start;
+}
+.entree-journal .date-chip{background:#a87800;color:#fff;border-radius:var(--r-sm);padding:.3em .6em;font-weight:700;font-size:.78rem;text-align:center;white-space:nowrap}
+.entree-journal .contenu{display:flex;flex-direction:column;gap:.2rem}
+.entree-journal .signal-affiche{font-weight:700;color:var(--texte)}
+.entree-journal .emo-affichee{color:var(--muted);font-style:italic;font-size:.9rem}
+.entree-journal .notes-affichees{font-size:.85rem;color:var(--muted);margin-top:.2rem}
+.entree-journal .supp{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem;align-self:center;box-shadow:none}
+.entree-journal .supp:hover{color:var(--rose-titre);background:none;transform:none}
+
+.formulaire-journal{background:var(--beige);border-radius:var(--r-md);padding:1rem 1.2rem;border-left:5px solid #a87800;margin-bottom:.8rem}
+.formulaire-journal h4{margin:0 0 .5rem;color:#a87800}
+.formulaire-journal .ligne{display:grid;grid-template-columns:120px 1fr;gap:.5rem;margin-bottom:.4rem;align-items:center}
+@media (max-width:680px){.formulaire-journal .ligne{grid-template-columns:1fr}}
+.formulaire-journal input, .formulaire-journal select, .formulaire-journal textarea{
+  padding:.5em .7em;border:1px solid var(--border);border-radius:var(--r-sm);
+  background:#fff;font-family:var(--font-body);font-size:.92rem;
+}
+.formulaire-journal textarea{min-height:50px;resize:vertical}
+.formulaire-journal label{font-weight:700;font-size:.88rem;color:var(--texte)}
+
+.btn-add-entree{
+  background:#a87800;color:#fff;border:none;
+  padding:.7em 1.4em;border-radius:999px;cursor:pointer;
+  font-weight:800;font-family:var(--font-body);
+  margin-top:.4rem;font-size:.95rem;
+}
+.btn-add-entree:hover{background:#8a6300}
+
+/* Stratégies par signal */
+.strat-card{
+  background:#fff;border:1.5px solid var(--border);border-radius:var(--r-md);
+  padding:.9rem 1.1rem;margin-bottom:.5rem;border-left:5px solid var(--c-s);
+}
+.strat-card h4{margin:0 0 .3rem;color:var(--c-s);font-family:var(--font-titre);display:flex;align-items:center;gap:.4rem;font-size:1rem}
+.strat-card .corps{font-size:.88rem;color:var(--muted);margin-bottom:.4rem}
+.strat-card .actions-liste{display:flex;flex-wrap:wrap;gap:.3rem;margin:.3rem 0}
+.strat-card .action-chip{background:var(--beige);padding:.25em .6em;border-radius:999px;font-size:.82rem;color:var(--c-s);font-weight:600;border:1px solid var(--c-s);display:inline-flex;align-items:center;gap:.3rem}
+.strat-card .perso{margin-top:.5rem}
+.strat-card .perso label{font-size:.78rem;color:var(--muted);font-weight:700}
+.strat-card .perso textarea{width:100%;min-height:40px;padding:.3em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.85rem;resize:vertical;margin-top:.2rem}
+.sc-faim{--c-s:#a87800}
+.sc-soif{--c-s:#2a9d8f}
+.sc-fatigue{--c-s:#7c5cbf}
+.sc-stress{--c-s:#c25a30}
+.sc-besoin{--c-s:#e05a8a}
+.sc-douleur{--c-s:#a02040}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 1.5rem}
+.actions button{background:#fff;color:#7c5cbf;border:2px solid #7c5cbf}
+.actions button:hover{background:#7c5cbf;color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+@media print{
+  .retour, .actions, .tabs{display:none !important}
+  body{background:#fff}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .sub, .bandeau .auteur{color:var(--violet-titre) !important;text-shadow:none;background:transparent !important}
+  .tab-content{display:block !important;page-break-after:always}
+  .bloc, .entree-journal, .strat-card{box-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../ados.html">← Espace ados</a>
+  <div class="auteur">© Création originale — EducaTypique</div>
+  <h1>🧭 Mon Carnet d'Intéroception</h1>
+  <p class="sub">Apprendre à décoder mon corps pour mieux comprendre mes émotions</p>
+</section>
+
+<div class="container">
+
+  <div class="posture">
+    💡 <strong>Pour qui ?</strong> Pour les personnes <strong>autistes</strong>, mais aussi pour celles avec TDAH, hypersensibilité, anxiété — toutes celles dont le cerveau a du mal à <em>lire</em> les signaux du corps en temps réel. Si tu as déjà explosé sans savoir pourquoi, ou si tu te rends compte que tu as faim/soif/froid seulement quand c'est trop tard, ce carnet est pour toi.
+  </div>
+
+  <!-- META -->
+  <section class="bloc bloc-meta">
+    <h2>👤 Mon carnet à moi</h2>
+    <div class="grille">
+      <div class="champ"><label>Mon prénom (ou un surnom)</label><input data-k="prenom" type="text"></div>
+      <div class="champ"><label>Date de cette session</label><input data-k="date" type="date"></div>
+    </div>
+  </section>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn actif" data-tab="explication">🧠 C'est quoi ?</button>
+    <button class="tab-btn" data-tab="corps">🗺️ Mon corps</button>
+    <button class="tab-btn" data-tab="dico">📖 Mon dico</button>
+    <button class="tab-btn" data-tab="journal">📔 Journal</button>
+    <button class="tab-btn" data-tab="strategies">🧰 Mes outils</button>
+  </div>
+
+  <!-- TAB 1 : EXPLICATION -->
+  <div class="tab-content actif" id="tab-explication">
+    <section class="bloc bloc-explication">
+      <h2>🧠 L'intéroception, c'est quoi ?</h2>
+      <p style="line-height:1.6">L'intéroception, c'est la capacité du cerveau à <strong>écouter ce qui se passe à l'intérieur du corps</strong> : la faim, la soif, la fatigue, les battements du cœur, l'envie d'aller aux toilettes, la chaleur, le froid, la tension dans les muscles, les émotions naissantes…</p>
+      <p style="line-height:1.6">Chez beaucoup de personnes autistes (et chez d'autres profils neurodivergents), ce <strong>« canal » est différent</strong>. Pas en panne — différent. Soit le signal n'arrive pas du tout, soit il arrive trop fort, soit il arrive trop tard, soit il est confondu avec un autre signal.</p>
+
+      <div class="pedago-cards">
+        <div class="pedago-card pc-1">
+          <div class="ico-grand">🔇</div>
+          <h3>Signaux silencieux</h3>
+          <p>Le cerveau n'enregistre pas la faim, la soif, ou la fatigue. Tu te rends compte que tu n'as pas mangé seulement quand tu vacilles. La crise arrive sans crier gare.</p>
+        </div>
+        <div class="pedago-card pc-2">
+          <div class="ico-grand">🔊</div>
+          <h3>Signaux trop forts</h3>
+          <p>Une chaussure qui serre, un vêtement qui gratte, un battement de cœur, l'estomac qui digère — tu le sens tellement fort que tu ne peux plus penser à autre chose.</p>
+        </div>
+        <div class="pedago-card pc-3">
+          <div class="ico-grand">🔀</div>
+          <h3>Signaux confondus</h3>
+          <p>La faim ressemble à la colère. La fatigue ressemble à la tristesse. L'anxiété ressemble à un mal de ventre. Ton corps parle dans une langue que ton cerveau lit mal.</p>
+        </div>
+      </div>
+
+      <h3 style="color:var(--violet-titre);margin-top:1.2rem">🎯 À quoi sert ce carnet</h3>
+      <ul style="line-height:1.8">
+        <li>📍 <strong>Repérer</strong> où dans ton corps tu sens quoi</li>
+        <li>📖 <strong>Traduire</strong> les sensations en mots (et en émotions)</li>
+        <li>📔 <strong>Suivre</strong> dans le temps tes signaux pour reconnaître tes patterns</li>
+        <li>🧰 <strong>Construire</strong> ta boîte à outils personnelle pour chaque signal</li>
+      </ul>
+
+      <div style="margin-top:1rem;padding:.8rem 1rem;background:var(--rose-clair);border-radius:var(--r-sm);font-style:italic;color:var(--rose-titre);font-weight:600">
+        🌱 Pas besoin de tout remplir d'un coup. Reviens-y au fil du temps. Ton corps n'a pas appris à parler en un jour — tu n'apprendras pas à l'écouter en une heure.
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB 2 : MON CORPS -->
+  <div class="tab-content" id="tab-corps">
+    <section class="bloc bloc-corps">
+      <h2>🗺️ La carte de mon corps</h2>
+      <p class="intro">Clique sur une zone du corps pour repérer ce que tu y ressens. Tu peux cocher plusieurs zones.</p>
+
+      <div class="cartographie">
+        <div class="silhouette-wrap">
+          <svg id="silhouette-svg" viewBox="0 0 200 360" xmlns="http://www.w3.org/2000/svg">
+            <!-- Tête -->
+            <circle class="zone-corps" data-zone="tete" cx="100" cy="35" r="25"/>
+            <text class="zone-label" x="100" y="38">tête</text>
+            <!-- Cou / gorge -->
+            <rect class="zone-corps" data-zone="gorge" x="88" y="60" width="24" height="14" rx="3"/>
+            <text class="zone-label" x="100" y="71">gorge</text>
+            <!-- Poitrine / cœur -->
+            <rect class="zone-corps" data-zone="poitrine" x="65" y="78" width="70" height="40" rx="8"/>
+            <text class="zone-label" x="100" y="100">poitrine / cœur</text>
+            <!-- Ventre / estomac -->
+            <rect class="zone-corps" data-zone="estomac" x="70" y="120" width="60" height="35" rx="10"/>
+            <text class="zone-label" x="100" y="141">ventre / estomac</text>
+            <!-- Bas-ventre -->
+            <rect class="zone-corps" data-zone="bas-ventre" x="75" y="157" width="50" height="25" rx="8"/>
+            <text class="zone-label" x="100" y="173">bas-ventre</text>
+            <!-- Bras gauche -->
+            <rect class="zone-corps" data-zone="bras" x="35" y="85" width="22" height="70" rx="8"/>
+            <text class="zone-label" x="46" y="125">bras</text>
+            <!-- Bras droit -->
+            <rect class="zone-corps" data-zone="bras-d" x="143" y="85" width="22" height="70" rx="8"/>
+            <text class="zone-label" x="154" y="125">bras</text>
+            <!-- Mains -->
+            <circle class="zone-corps" data-zone="mains" cx="46" cy="170" r="10"/>
+            <circle class="zone-corps" data-zone="mains" cx="154" cy="170" r="10"/>
+            <!-- Jambes -->
+            <rect class="zone-corps" data-zone="jambes" x="74" y="185" width="22" height="100" rx="8"/>
+            <rect class="zone-corps" data-zone="jambes" x="104" y="185" width="22" height="100" rx="8"/>
+            <text class="zone-label" x="100" y="240">jambes</text>
+            <!-- Pieds -->
+            <ellipse class="zone-corps" data-zone="pieds" cx="85" cy="300" rx="13" ry="20"/>
+            <ellipse class="zone-corps" data-zone="pieds" cx="115" cy="300" rx="13" ry="20"/>
+            <text class="zone-label" x="100" y="335">pieds</text>
+          </svg>
+        </div>
+
+        <div class="zone-detail" id="zone-detail">
+          <h3 id="zone-titre">👋 Choisis une zone</h3>
+          <div class="lbl-info" id="zone-info">Clique sur une partie de la silhouette pour repérer ce que tu y ressens.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB 3 : DICTIONNAIRE -->
+  <div class="tab-content" id="tab-dico">
+    <section class="bloc bloc-dico">
+      <h2>📖 Mon dictionnaire personnel signal ↔ émotion</h2>
+      <p class="intro">Pour chaque signal de ton corps, note ce que ça pourrait vouloir dire <strong>chez TOI</strong>. Pas chez les autres, chez toi. Tes équivalences à toi.</p>
+      <div class="dico-grille" id="dico-grille"></div>
+    </section>
+  </div>
+
+  <!-- TAB 4 : JOURNAL -->
+  <div class="tab-content" id="tab-journal">
+    <section class="bloc bloc-journal">
+      <h2>📔 Mon journal des signaux</h2>
+      <p class="intro">Note les signaux que tu remarques. Pas tous. Juste ceux qui te surprennent ou qui t'apprennent quelque chose. Au fil du temps, tu verras tes patterns.</p>
+
+      <!-- Formulaire ajout -->
+      <div class="formulaire-journal">
+        <h4>➕ Ajouter une observation</h4>
+        <div class="ligne">
+          <label>Date / heure</label>
+          <input type="datetime-local" id="ej-date">
+        </div>
+        <div class="ligne">
+          <label>Où dans le corps ?</label>
+          <select id="ej-zone">
+            <option value="">—</option>
+            <option>Tête</option><option>Gorge</option><option>Poitrine / cœur</option>
+            <option>Ventre / estomac</option><option>Bas-ventre</option><option>Bras</option>
+            <option>Mains</option><option>Jambes</option><option>Pieds</option>
+            <option>Tout le corps</option><option>Je ne sais pas</option>
+          </select>
+        </div>
+        <div class="ligne">
+          <label>Sensation</label>
+          <input type="text" id="ej-sensation" placeholder="ex : nœud dans l'estomac, picotements, chaleur dans la poitrine…">
+        </div>
+        <div class="ligne">
+          <label>Intensité (0-5)</label>
+          <select id="ej-intensite">
+            <option value="">—</option>
+            <option value="0">0 — à peine perceptible</option>
+            <option value="1">1 — léger</option>
+            <option value="2">2 — modéré</option>
+            <option value="3">3 — fort</option>
+            <option value="4">4 — très fort</option>
+            <option value="5">5 — insupportable</option>
+          </select>
+        </div>
+        <div class="ligne">
+          <label>Émotion associée ?</label>
+          <input type="text" id="ej-emotion" placeholder="ex : peut-être de l'anxiété ? je ne sais pas ?">
+        </div>
+        <div class="ligne">
+          <label>Contexte / déclencheur</label>
+          <input type="text" id="ej-contexte" placeholder="ex : avant un contrôle, après un repas, en sortant du métro…">
+        </div>
+        <div class="ligne">
+          <label>Notes libres</label>
+          <textarea id="ej-notes" placeholder="ce que tu as remarqué, essayé, ce que ça t'a aidé à comprendre…"></textarea>
+        </div>
+        <button class="btn-add-entree" id="btn-add-entree">+ Ajouter au journal</button>
+      </div>
+
+      <!-- Liste entrées -->
+      <h3 style="color:#a87800;margin-top:1rem">📚 Mes observations</h3>
+      <div id="liste-entrees"></div>
+    </section>
+  </div>
+
+  <!-- TAB 5 : STRATEGIES -->
+  <div class="tab-content" id="tab-strategies">
+    <section class="bloc bloc-strat">
+      <h2>🧰 Ma boîte à outils par signal</h2>
+      <p class="intro">Quand le signal X arrive, qu'est-ce qui t'aide ? Note ce qui marche chez TOI. C'est ton manuel personnel.</p>
+
+      <div class="strat-card sc-faim">
+        <h4>🍽️ Quand j'ai faim (ou que je vacille)</h4>
+        <div class="corps">Signaux possibles : tremblements, irritabilité soudaine, vision floue, mal de tête, faiblesse.</div>
+        <div class="actions-liste">
+          <span class="action-chip">Snack à portée toujours</span>
+          <span class="action-chip">Boire d'abord (faim/soif confusion)</span>
+          <span class="action-chip">Alarme repas</span>
+        </div>
+        <div class="perso">
+          <label>Ce qui m'aide à MOI :</label>
+          <textarea data-k="strat-faim"></textarea>
+        </div>
+      </div>
+
+      <div class="strat-card sc-soif">
+        <h4>💧 Quand j'ai soif (ou que je ne sais pas)</h4>
+        <div class="corps">Signaux possibles : maux de tête, fatigue inexpliquée, bouche pâteuse, irritabilité.</div>
+        <div class="actions-liste">
+          <span class="action-chip">Gourde à vue toujours</span>
+          <span class="action-chip">1 verre par heure même sans soif</span>
+          <span class="action-chip">Boisson chaude pour la sensation</span>
+        </div>
+        <div class="perso">
+          <label>Ce qui m'aide à MOI :</label>
+          <textarea data-k="strat-soif"></textarea>
+        </div>
+      </div>
+
+      <div class="strat-card sc-fatigue">
+        <h4>😴 Quand je suis fatigué·e (avant d'exploser)</h4>
+        <div class="corps">Signaux possibles : agacement disproportionné, larmes faciles, paupières lourdes, brouillard mental, perte de mots.</div>
+        <div class="actions-liste">
+          <span class="action-chip">Pause sensorielle 10 min</span>
+          <span class="action-chip">Coucher 30 min plus tôt</span>
+          <span class="action-chip">Pas de décision importante</span>
+          <span class="action-chip">Stop social</span>
+        </div>
+        <div class="perso">
+          <label>Ce qui m'aide à MOI :</label>
+          <textarea data-k="strat-fatigue"></textarea>
+        </div>
+      </div>
+
+      <div class="strat-card sc-stress">
+        <h4>🌀 Quand je sens monter le stress / l'anxiété</h4>
+        <div class="corps">Signaux possibles : cœur qui s'accélère, gorge serrée, nœud à l'estomac, mains froides, respiration courte.</div>
+        <div class="actions-liste">
+          <span class="action-chip">Respiration carrée (4-4-4-4)</span>
+          <span class="action-chip">Pression profonde</span>
+          <span class="action-chip">Sortir 5 min</span>
+          <span class="action-chip">Eau froide sur les poignets</span>
+        </div>
+        <div class="perso">
+          <label>Ce qui m'aide à MOI :</label>
+          <textarea data-k="strat-stress"></textarea>
+        </div>
+      </div>
+
+      <div class="strat-card sc-besoin">
+        <h4>🚻 Quand j'ai un besoin (toilettes, chaud/froid, ajustement)</h4>
+        <div class="corps">Signaux possibles : agitation inexpliquée, irritabilité, difficulté à se concentrer, gigotement.</div>
+        <div class="actions-liste">
+          <span class="action-chip">Check-in toutes les 2h</span>
+          <span class="action-chip">Vérifier vêtement / pression / température</span>
+          <span class="action-chip">Bouger 2 min</span>
+        </div>
+        <div class="perso">
+          <label>Ce qui m'aide à MOI :</label>
+          <textarea data-k="strat-besoin"></textarea>
+        </div>
+      </div>
+
+      <div class="strat-card sc-douleur">
+        <h4>🩹 Quand il y a une douleur (ou un truc bizarre dans le corps)</h4>
+        <div class="corps">Signaux possibles : tension localisée, picotement, brûlure, sensation indéfinissable.</div>
+        <div class="actions-liste">
+          <span class="action-chip">Localiser précisément</span>
+          <span class="action-chip">Échelle 0-10</span>
+          <span class="action-chip">Noter dans le journal</span>
+          <span class="action-chip">En parler à un adulte si persiste</span>
+        </div>
+        <div class="perso">
+          <label>Ce qui m'aide à MOI :</label>
+          <textarea data-k="strat-douleur"></textarea>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="actions">
+    <button id="btn-enregistrer">💾 Enregistrer mon carnet</button>
+    <button id="btn-exporter">📄 Exporter (TXT)</button>
+    <button id="btn-imprimer">🖨️ Imprimer</button>
+    <button id="btn-vider" class="danger">🧹 Tout effacer</button>
+  </div>
+
+  <p style="text-align:center;color:var(--muted);padding:1rem 0;font-size:.85rem">
+    EducaTypique · Méthode Educa — <a href="../../ados.html">retour espace ados</a><br>
+    <em>Création originale inspirée des travaux sur l'intéroception en TSA</em>
+  </p>
+
+</div>
+
+<script>
+const STORAGE = 'educatypique_carnet_interoception_v1';
+
+// === Zones du corps + sensations possibles ===
+const ZONES_CORPS = {
+  'tete': {
+    nom:'🧠 Tête',
+    info:'Tensions, maux, brouillard mental, picotements.',
+    sensations:['Mal de tête','Tension','Brouillard','Picotements','Vertige','Chaleur','Pression','Tête lourde']
+  },
+  'gorge': {
+    nom:'😶 Gorge',
+    info:'Souvent liée à émotions retenues ou stress.',
+    sensations:['Boule','Serrée','Sèche','Picote','Difficulté à avaler','Mots bloqués','Envie de pleurer']
+  },
+  'poitrine': {
+    nom:'❤️ Poitrine / cœur',
+    info:'Le cœur parle souvent en premier dans l\'anxiété, la peur, la joie.',
+    sensations:['Cœur rapide','Cœur lent','Cœur qui saute','Pression','Chaleur','Oppression','Souffle court','Cœur léger']
+  },
+  'estomac': {
+    nom:'🌀 Ventre / estomac',
+    info:'L\'estomac digère les aliments ET les émotions.',
+    sensations:['Nœud','Faim','Nausée','Brûlure','Gargouillis','Lourd','Vide','Pic de douleur']
+  },
+  'bas-ventre': {
+    nom:'🌊 Bas-ventre',
+    info:'Tensions intestinales, besoin toilettes, règles.',
+    sensations:['Crampes','Pression','Besoin toilettes','Lourdeur','Spasme','Picote']
+  },
+  'bras': {
+    nom:'💪 Bras',
+    info:'Tension musculaire, fatigue, picotements.',
+    sensations:['Lourds','Tension','Picotements','Fourmillements','Tremblement','Faiblesse','Engourdissement']
+  },
+  'mains': {
+    nom:'✋ Mains',
+    info:'Très sensibles aux émotions — sueur, tremblement, froid.',
+    sensations:['Froides','Chaudes','Moites','Tremblantes','Crispées','Picotements','Serrées en poings']
+  },
+  'jambes': {
+    nom:'🦵 Jambes',
+    info:'Souvent agitation, besoin de bouger, ou lourdeur.',
+    sensations:['Lourdes','Agitées','Tremblantes','Faibles','Crampes','Besoin de bouger','Engourdies']
+  },
+  'pieds': {
+    nom:'🦶 Pieds',
+    info:'Froid, picotements, instabilité.',
+    sensations:['Froids','Chauds','Picotements','Engourdis','Instables','Tendus','Sentir le sol']
+  }
+};
+
+// === Dictionnaire signal ↔ émotion (templates) ===
+const DICO_TEMPLATES = [
+  { id:'noeud-estomac',  signal:'Nœud à l\'estomac',         options:['anxiété','peur','tristesse retenue','faim'] },
+  { id:'gorge-serree',   signal:'Gorge serrée',               options:['tristesse','colère retenue','anxiété sociale','envie de pleurer'] },
+  { id:'coeur-rapide',   signal:'Cœur qui bat vite',          options:['stress','peur','excitation','joie','effort physique'] },
+  { id:'mains-moites',   signal:'Mains moites',               options:['stress','peur','timidité','chaleur'] },
+  { id:'mal-tete',       signal:'Mal de tête',                options:['fatigue','déshydratation','tension','écran','faim'] },
+  { id:'agite-jambes',   signal:'Jambes qui s\'agitent',     options:['ennui','anxiété','envie de bouger','impatience'] },
+  { id:'brouillard',     signal:'Brouillard mental',          options:['fatigue','surcharge sensorielle','manque de sommeil','sous-stimulation'] },
+  { id:'tout-bouger',    signal:'Envie de tout faire bouger', options:['anxiété','colère','sous-stimulation','besoin d\'évacuer'] }
+];
+
+let etat = {
+  prenom:'', date:'',
+  zones:{},        // { 'tete': { sensations:['...'], notes:'...' } }
+  dico:{},         // { 'noeud-estomac': 'ma traduction' }
+  journal:[],      // [ { date, zone, sensation, intensite, emotion, contexte, notes } ]
+  strategies:{}    // { 'strat-faim': '...' }
+};
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function lireData(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || null; } catch(e){ return null; } }
+function ecrireData(){ localStorage.setItem(STORAGE, JSON.stringify(etat)); }
+
+// === Tabs ===
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=> b.classList.remove('actif'));
+    document.querySelectorAll('.tab-content').forEach(c=> c.classList.remove('actif'));
+    btn.classList.add('actif');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('actif');
+  });
+});
+
+// === Zones du corps (SVG) ===
+let zoneActive = null;
+
+document.querySelectorAll('.zone-corps').forEach(z=>{
+  z.addEventListener('click', ()=>{
+    const zoneId = z.dataset.zone;
+    selectionnerZone(zoneId);
+  });
+});
+
+function selectionnerZone(zoneId){
+  zoneActive = zoneId;
+  // Visuel SVG
+  document.querySelectorAll('.zone-corps').forEach(z=>{
+    z.classList.toggle('actif', z.dataset.zone === zoneId);
+  });
+  // Détails
+  const info = ZONES_CORPS[zoneId];
+  if(!info) return;
+  const z = etat.zones[zoneId] || { sensations:[], notes:'' };
+  const detail = document.getElementById('zone-detail');
+  detail.innerHTML = `
+    <h3>${esc(info.nom)}</h3>
+    <div class="lbl-info">${esc(info.info)}</div>
+    <strong style="font-size:.88rem;color:var(--texte)">Coche ce que tu sens dans cette zone :</strong>
+    <div class="sensations">
+      ${info.sensations.map((s,i)=>`
+        <label class="sensation-chip">
+          <input type="checkbox" data-sensation="${esc(s)}" ${z.sensations.includes(s)?'checked':''}>
+          <span>${esc(s)}</span>
+        </label>
+      `).join('')}
+    </div>
+    <label style="font-size:.78rem;color:var(--muted);font-weight:700;margin-top:.6rem;display:block">Notes / autre sensation :</label>
+    <textarea id="zone-notes" placeholder="Décris ce que tu sens, ou note quelque chose qui n'est pas dans la liste…">${esc(z.notes)}</textarea>
+  `;
+  // Listeners
+  detail.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+    cb.addEventListener('change', ()=>{
+      if(!etat.zones[zoneId]) etat.zones[zoneId] = { sensations:[], notes:'' };
+      const sens = cb.dataset.sensation;
+      const idx = etat.zones[zoneId].sensations.indexOf(sens);
+      if(cb.checked && idx<0) etat.zones[zoneId].sensations.push(sens);
+      else if(!cb.checked && idx>=0) etat.zones[zoneId].sensations.splice(idx,1);
+      ecrireData();
+    });
+  });
+  detail.querySelector('#zone-notes').addEventListener('input', e=>{
+    if(!etat.zones[zoneId]) etat.zones[zoneId] = { sensations:[], notes:'' };
+    etat.zones[zoneId].notes = e.target.value;
+    ecrireData();
+  });
+}
+
+// === Dictionnaire ===
+function renderDico(){
+  const cont = document.getElementById('dico-grille');
+  cont.innerHTML = DICO_TEMPLATES.map((d,i)=>`
+    <div class="dico-card dc-${(i%8)+1}">
+      <h4><span class="signal-mot">${esc(d.signal)}</span> <span class="arrow">→</span></h4>
+      <div class="options">${d.options.map(o=>`<span>${esc(o)}</span>`).join('')}</div>
+      <label style="font-size:.78rem;color:var(--muted);font-weight:700;margin-top:.4rem;display:block">Pour MOI, ça veut souvent dire :</label>
+      <textarea data-dico="${d.id}" placeholder="ex : pour moi le nœud à l'estomac, c'est presque toujours…">${esc(etat.dico[d.id]||'')}</textarea>
+    </div>
+  `).join('');
+  cont.querySelectorAll('textarea[data-dico]').forEach(ta=>{
+    ta.addEventListener('input', e=>{
+      etat.dico[e.target.dataset.dico] = e.target.value;
+      ecrireData();
+    });
+  });
+}
+
+// === Journal ===
+function ajouterEntree(){
+  const date = document.getElementById('ej-date').value;
+  const zone = document.getElementById('ej-zone').value;
+  const sensation = document.getElementById('ej-sensation').value.trim();
+  const intensite = document.getElementById('ej-intensite').value;
+  const emotion = document.getElementById('ej-emotion').value.trim();
+  const contexte = document.getElementById('ej-contexte').value.trim();
+  const notes = document.getElementById('ej-notes').value.trim();
+
+  if(!sensation){ alert('Décris au moins la sensation 😊'); return; }
+  if(!date){ alert('Mets une date.'); return; }
+
+  etat.journal.push({
+    id: uid(),
+    date, zone, sensation, intensite, emotion, contexte, notes
+  });
+  ecrireData();
+  // Reset form
+  document.getElementById('ej-sensation').value = '';
+  document.getElementById('ej-emotion').value = '';
+  document.getElementById('ej-contexte').value = '';
+  document.getElementById('ej-notes').value = '';
+  renderJournal();
+}
+
+document.getElementById('btn-add-entree').addEventListener('click', ajouterEntree);
+
+function renderJournal(){
+  const cont = document.getElementById('liste-entrees');
+  if(etat.journal.length === 0){
+    cont.innerHTML = '<p style="color:var(--muted);font-style:italic;padding:1rem;text-align:center">Aucune observation encore. Ajoute la première — même petite.</p>';
+    return;
+  }
+  const sorted = [...etat.journal].sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+  cont.innerHTML = sorted.map(e=>`
+    <div class="entree-journal">
+      <div class="date-chip">${esc((e.date||'').slice(0,10))}<br><small>${esc((e.date||'').slice(11,16))}</small></div>
+      <div class="contenu">
+        <div class="signal-affiche">${esc(e.zone ? e.zone+' · ' : '')}${esc(e.sensation)}${e.intensite ? ' ('+e.intensite+'/5)' : ''}</div>
+        ${e.emotion ? `<div class="emo-affichee">→ ${esc(e.emotion)}</div>` : ''}
+        ${e.contexte ? `<div class="notes-affichees">📍 ${esc(e.contexte)}</div>` : ''}
+        ${e.notes ? `<div class="notes-affichees">📝 ${esc(e.notes)}</div>` : ''}
+      </div>
+      <button class="supp" data-id="${e.id}">×</button>
+    </div>
+  `).join('');
+  cont.querySelectorAll('.supp').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      if(!confirm('Supprimer cette observation ?')) return;
+      etat.journal = etat.journal.filter(x=> x.id !== b.dataset.id);
+      ecrireData();
+      renderJournal();
+    });
+  });
+}
+
+// === Stratégies ===
+document.querySelectorAll('.strat-card textarea[data-k]').forEach(ta=>{
+  ta.addEventListener('input', e=>{
+    etat.strategies[e.target.dataset.k] = e.target.value;
+    ecrireData();
+  });
+});
+
+// === Méta ===
+document.querySelector('[data-k="prenom"]').addEventListener('input', e=>{
+  etat.prenom = e.target.value; ecrireData();
+});
+document.querySelector('[data-k="date"]').addEventListener('input', e=>{
+  etat.date = e.target.value; ecrireData();
+});
+
+// === Actions ===
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  ecrireData();
+  alert('Ton carnet est enregistré 💗');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const l = ['Mon Carnet d\'Intéroception — EducaTypique', ''];
+  l.push((etat.prenom||'Mon prénom')+' · '+(etat.date||'—'));
+  l.push('');
+  l.push('== Carte du corps ==');
+  Object.entries(etat.zones).forEach(([zid, data])=>{
+    const info = ZONES_CORPS[zid];
+    if(data.sensations.length || data.notes){
+      l.push('· '+(info?.nom||zid)+' : '+data.sensations.join(', ')+(data.notes?' — '+data.notes:''));
+    }
+  });
+  l.push('');
+  l.push('== Dictionnaire perso ==');
+  DICO_TEMPLATES.forEach(d=>{
+    if(etat.dico[d.id]) l.push('· '+d.signal+' → '+etat.dico[d.id]);
+  });
+  l.push('');
+  l.push('== Journal ==');
+  [...etat.journal].sort((a,b)=> (a.date||'').localeCompare(b.date||'')).forEach(e=>{
+    l.push('['+e.date+'] '+e.zone+' · '+e.sensation+' ('+e.intensite+'/5) → '+(e.emotion||'?')+' [ctx: '+(e.contexte||'')+']');
+    if(e.notes) l.push('  '+e.notes);
+  });
+  l.push('');
+  l.push('== Mes outils ==');
+  ['faim','soif','fatigue','stress','besoin','douleur'].forEach(s=>{
+    if(etat.strategies['strat-'+s]) l.push('· '+s+' : '+etat.strategies['strat-'+s]);
+  });
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'carnet-interoception-'+(etat.prenom||'moi')+'-'+new Date().toISOString().slice(0,10)+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(!confirm('⚠️ Effacer tout le carnet ? Tes observations seront perdues.')) return;
+  localStorage.removeItem(STORAGE);
+  etat = { prenom:'', date:'', zones:{}, dico:{}, journal:[], strategies:{} };
+  location.reload();
+});
+
+// Init
+const saved = lireData();
+if(saved){
+  etat = saved;
+  document.querySelector('[data-k="prenom"]').value = etat.prenom || '';
+  document.querySelector('[data-k="date"]').value = etat.date || '';
+}
+if(!etat.date){
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+}
+// Date par défaut pour journal entry
+const now = new Date();
+now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+document.getElementById('ej-date').value = now.toISOString().slice(0,16);
+
+renderDico();
+renderJournal();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neuro-Tarbiya & Sabr Reset · Voie Chifā · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#F5F0E8 0%,#EEEAE2 50%,#E8E0D5 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#3D362E;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:920px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes shimmer{0%,100%{opacity:0.6}50%{opacity:1}}
+@keyframes pulse-gold{0%,100%{box-shadow:0 0 0 0 rgba(180,140,80,0.4)}50%{box-shadow:0 0 0 14px rgba(180,140,80,0)}}
+
+.hdr{text-align:center;padding:42px 24px 30px;margin-bottom:22px;background:linear-gradient(135deg,#FAF4E8 0%,#F0E8D5 50%,#EEDEC8 100%);border-radius:24px;border:1px solid rgba(180,140,80,0.25);box-shadow:0 8px 28px rgba(180,140,80,0.1);position:relative;overflow:hidden}
+.hdr::before{content:'☪️';position:absolute;top:18px;right:22px;font-size:46px;opacity:0.13;transform:rotate(-8deg)}
+.hdr::after{content:'🕊️';position:absolute;bottom:18px;left:22px;font-size:42px;opacity:0.13;transform:rotate(8deg)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#8B6F3A,#B49058);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;margin-bottom:14px;position:relative;z-index:1}
+.float-icon{font-size:54px;margin-bottom:4px;display:inline-block;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1}
+.hdr h1{font-family:Georgia,serif;font-size:30px;font-weight:400;color:#3D362E;margin-bottom:6px;position:relative;z-index:1;letter-spacing:0.5px}
+.hdr .arabe{font-family:'Amiri','Traditional Arabic',serif;font-size:26px;color:#8B6F3A;margin-bottom:6px;position:relative;z-index:1;letter-spacing:1px}
+.hdr .baseline{font-family:Georgia,serif;font-size:14px;font-style:italic;color:#8B6F3A;margin-bottom:10px;position:relative;z-index:1;letter-spacing:1.5px}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#6B5C48;position:relative;z-index:1;max-width:660px;margin:0 auto}
+
+.intro{background:#FAF4E8;border-radius:18px;padding:24px;margin-bottom:20px;border:1px solid rgba(180,140,80,0.18);box-shadow:0 4px 14px rgba(180,140,80,0.06)}
+.intro p{font-size:15px;color:#3D362E;line-height:1.75;margin-bottom:10px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#8B6F3A}
+.intro .verset{background:linear-gradient(135deg,#F5E8D5,#EEDEC8);border-radius:14px;padding:16px 20px;margin:14px 0;text-align:center;font-family:Georgia,serif;font-style:italic;font-size:15px;color:#6B5C48;line-height:1.65;border-left:5px solid #8B6F3A}
+.intro .verset .ref{display:block;margin-top:6px;font-size:12px;font-style:normal;color:#8B6F3A;font-weight:600}
+.intro .disclaimer{background:#FFF6E8;border-left:4px solid #C8973A;padding:12px 16px;border-radius:8px;font-size:13.5px;color:#6B4F1A;margin-top:14px;line-height:1.55}
+
+.dossier-bar{background:#FAF4E8;border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(180,140,80,0.06);border:1px solid rgba(180,140,80,0.18)}
+.dossier-bar label{font-size:13px;font-weight:600;color:#6B5C48}
+.dossier-bar input,.dossier-bar select{padding:7px 12px;border:1px solid rgba(180,140,80,0.25);border-radius:9px;font-size:13px;background:#fff;font-family:inherit;color:#3D362E;min-width:150px}
+.dossier-bar button{background:#F0E8D5;color:#6B5C48;border:1px solid rgba(180,140,80,0.25);padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.dossier-bar button:hover{background:#EEDEC8}
+.dossier-bar .btn-export{background:linear-gradient(135deg,#8B6F3A,#B49058);color:#fff;border:none}
+.dossier-bar .btn-print{background:linear-gradient(135deg,#6CA89E,#88B8AA);color:#fff;border:none}
+
+.nav{display:flex;gap:6px;background:#FAF4E8;padding:8px;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 12px rgba(180,140,80,0.08);overflow-x:auto;border:1px solid rgba(180,140,80,0.18)}
+.nav::-webkit-scrollbar{height:6px}
+.nav::-webkit-scrollbar-thumb{background:#D5C9B0;border-radius:3px}
+.nav button{background:transparent;color:#6B5C48;border:none;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.25s;white-space:nowrap;font-family:inherit;display:flex;align-items:center;gap:6px}
+.nav button:hover{background:#F0E8D5;color:#8B6F3A}
+.nav button.active{background:linear-gradient(135deg,#8B6F3A,#B49058);color:#fff;box-shadow:0 4px 10px rgba(180,140,80,0.3)}
+
+.panel{display:none;animation:fadeIn 0.4s ease-out}
+.panel.active{display:block}
+.section{background:#FAF4E8;border-radius:20px;padding:26px 24px;margin-bottom:18px;border:1px solid rgba(180,140,80,0.18);box-shadow:0 4px 14px rgba(180,140,80,0.05)}
+.section h2{font-family:Georgia,serif;font-size:22px;font-weight:500;color:#3D362E;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#7A6A52;font-style:italic;margin-bottom:18px;line-height:1.55}
+
+/* ============ FONDEMENTS ============ */
+.fondement-card{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:14px;border-left:5px solid #B49058}
+.fondement-card h3{font-family:Georgia,serif;font-size:17px;color:#3D362E;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.fondement-card h3 .num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#8B6F3A,#B49058);color:#fff;font-weight:700;font-size:14px;font-family:Georgia,serif}
+.fondement-card p{font-size:14px;color:#3D362E;line-height:1.7;margin-bottom:8px}
+.fondement-card .verset-mini{background:linear-gradient(135deg,#F5E8D5,#EEDEC8);padding:12px 16px;border-radius:10px;margin:10px 0;font-family:Georgia,serif;font-style:italic;font-size:14px;color:#6B5C48;line-height:1.65;border-left:3px solid #8B6F3A}
+.fondement-card .verset-mini .ref{font-style:normal;color:#8B6F3A;font-weight:600;font-size:11.5px;display:block;margin-top:6px}
+
+.parallele{background:linear-gradient(135deg,#F5E8D5,#EEDEC8);border-radius:14px;padding:18px;margin:14px 0;border:1px solid rgba(180,140,80,0.22)}
+.parallele h4{font-family:Georgia,serif;font-size:15px;color:#8B6F3A;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.6px}
+.par-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+@media (max-width:600px){.par-grid{grid-template-columns:1fr}}
+.par-col{background:#fff;padding:12px 14px;border-radius:10px}
+.par-col h5{font-family:Georgia,serif;font-size:13px;margin-bottom:6px;color:#8B6F3A;font-weight:700}
+.par-col ul{margin:0;padding-left:20px;font-size:13px;color:#3D362E;line-height:1.65}
+
+/* ============ SABR & RESET ============ */
+.protocole-steps{margin-top:14px}
+.proto-step{background:#fff;border-radius:14px;padding:16px 18px;margin-bottom:10px;border-left:5px solid #8B6F3A;transition:all 0.25s;display:flex;gap:14px;align-items:flex-start}
+.proto-step.done{background:linear-gradient(135deg,#E8F5EC,#DFF0E2);border-color:#6CA89E}
+.proto-step.done .step-num{background:#6CA89E}
+.proto-step.done::after{content:'✓';margin-left:auto;color:#6CA89E;font-weight:700;font-size:22px;flex-shrink:0}
+.proto-step .step-num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#8B6F3A,#B49058);color:#fff;font-weight:700;font-size:15px;font-family:Georgia,serif;flex-shrink:0}
+.proto-step .step-content{flex:1;cursor:pointer}
+.proto-step .step-content h4{font-family:Georgia,serif;font-size:15.5px;color:#3D362E;margin-bottom:4px;font-weight:600}
+.proto-step .step-content .step-arabe{font-family:'Amiri','Traditional Arabic',serif;font-size:18px;color:#8B6F3A;margin:4px 0 6px;line-height:1.4;direction:rtl;text-align:right}
+.proto-step .step-content .step-desc{font-size:13px;color:#6B5C48;line-height:1.55;margin-top:4px}
+.proto-step .step-content .step-hadith{background:#F5E8D5;padding:10px 14px;border-radius:8px;margin-top:8px;font-family:Georgia,serif;font-style:italic;font-size:12.5px;color:#6B5C48;line-height:1.55;border-left:3px solid #B49058}
+.proto-step .step-content .step-hadith .ref{font-style:normal;color:#8B6F3A;font-weight:600;display:block;margin-top:4px;font-size:11px}
+
+.respi-zone{background:linear-gradient(135deg,#FAF4E8,#EEDEC8);border-radius:18px;padding:24px;margin-top:18px;text-align:center;border:1px solid rgba(180,140,80,0.25)}
+.respi-circle{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#D5C9B0 0%,#8B6F3A 70%);margin:0 auto 14px;transition:transform 4s ease-in-out;box-shadow:0 0 30px rgba(180,140,80,0.3)}
+.respi-circle.inhale{transform:scale(1.4)}
+.respi-circle.exhale{transform:scale(1)}
+.respi-instr{font-family:Georgia,serif;font-size:18px;color:#3D362E;min-height:28px;margin-bottom:6px;font-style:italic}
+.respi-count{font-size:13px;color:#7A6A52;margin-bottom:14px}
+.btn-respi{background:linear-gradient(135deg,#8B6F3A,#B49058);color:#fff;border:none;padding:11px 26px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:0.5px;transition:transform 0.2s;font-family:inherit}
+.btn-respi:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(180,140,80,0.3)}
+.btn-respi:disabled{opacity:0.5;cursor:not-allowed}
+
+/* ============ BOUSSOLE ISLAMISÉE ============ */
+.boussole-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+.boussole-card{background:#fff;border-radius:14px;padding:18px;border-top:5px solid;text-align:center}
+.b-tawakkul{border-color:#8B6F3A}
+.b-sabr{border-color:#B49058}
+.b-khushu{border-color:#9B85B8}
+.b-adab{border-color:#608CB4}
+.b-ihsan{border-color:#6CA89E}
+.boussole-card .b-icon{font-size:40px;display:block;margin-bottom:8px}
+.boussole-card h4{font-family:Georgia,serif;font-size:17px;color:#3D362E;margin-bottom:4px}
+.boussole-card .arabe-small{font-family:'Amiri','Traditional Arabic',serif;font-size:18px;color:#8B6F3A;margin-bottom:6px;direction:rtl}
+.boussole-card .b-trans{font-size:12px;color:#7A6A52;font-style:italic;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;font-weight:600}
+.boussole-card p{font-size:13px;color:#3D362E;line-height:1.55;text-align:left;margin-top:8px}
+
+/* ============ PLAN HEBDO MERKEZ ============ */
+.semaine-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:14px}
+.routine-card{background:#fff;border-radius:14px;padding:18px;border-left:5px solid #B49058}
+.routine-card h4{font-family:Georgia,serif;font-size:15px;color:#3D362E;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.routine-card h4 .r-icon{font-size:22px}
+.routine-card .r-duree{display:inline-block;background:#F5E8D5;color:#8B6F3A;padding:2px 9px;border-radius:8px;font-size:11px;font-weight:700;letter-spacing:0.4px;margin-bottom:8px}
+.routine-card ul{margin:6px 0 0;padding-left:18px;font-size:13px;color:#3D362E;line-height:1.65}
+.routine-card li{margin-bottom:3px}
+.routine-card .check-zone{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(180,140,80,0.22);display:flex;flex-wrap:wrap;gap:4px}
+.routine-card .check-zone .day{flex:1;text-align:center;font-size:10.5px;color:#7A6A52;font-weight:600;background:#FAF4E8;padding:6px 4px;border-radius:6px;cursor:pointer;transition:all 0.2s}
+.routine-card .check-zone .day:hover{background:#F0E8D5}
+.routine-card .check-zone .day.done{background:linear-gradient(135deg,#8B6F3A,#B49058);color:#fff}
+
+/* ============ NOTES ============ */
+.notes-block{margin-top:18px}
+.notes-block label{display:block;font-size:13px;color:#8B6F3A;font-weight:600;margin-bottom:6px}
+.notes-block textarea{width:100%;padding:10px 14px;border:1px solid rgba(180,140,80,0.22);border-radius:10px;font-size:14px;color:#3D362E;background:#fff;font-family:inherit;line-height:1.55;min-height:80px;resize:vertical}
+
+.douaa-finale{background:linear-gradient(135deg,#F5E8D5,#EEDEC8);border-radius:16px;padding:22px;margin-top:18px;text-align:center;border:1px solid rgba(180,140,80,0.25)}
+.douaa-finale .arabe{font-family:'Amiri','Traditional Arabic',serif;font-size:22px;color:#8B6F3A;margin-bottom:10px;line-height:1.6;direction:rtl}
+.douaa-finale .trans{font-family:Georgia,serif;font-style:italic;font-size:14px;color:#6B5C48;line-height:1.6}
+
+.footer{text-align:center;padding:30px 16px 8px;color:#7A6A52;font-size:12.5px;font-style:italic;font-family:Georgia,serif;animation:shimmer 5s ease-in-out infinite}
+.footer .brand-foot{color:#8B6F3A;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .small{color:#9A8A72;font-size:11px;margin-top:4px;display:block}
+
+@media print{
+body{background:#fff;padding:10px}
+.nav,.dossier-bar,.btn-respi{display:none !important}
+.panel{display:block !important;page-break-after:always}
+.section{box-shadow:none;page-break-inside:avoid}
+}
+
+@media (max-width:600px){
+.hdr{padding:32px 18px 22px}
+.hdr h1{font-size:22px}
+.hdr .arabe{font-size:22px}
+.section{padding:20px 18px}
+}
+</style>
+</head>
+<body>
+<a href="../../parents.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#8B6F3A;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(180,140,80,0.2)">← Parents</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Voie Chifā · EducaTypique</span>
+<div class="float-icon">☪️</div>
+<h1>Neuro-Tarbiya</h1>
+<div class="arabe">تربية الدماغ والنفس والقلب</div>
+<div class="baseline">ÉDUQUER LE CERVEAU · DISCIPLINER LE NAFS · ÉLEVER LE CŒUR</div>
+<p>L'éducation neuropédagogique fondée dans la voie prophétique. Méthode signature qui articule neurosciences contemporaines et tarbiya islamique.</p>
+</div>
+
+<div class="intro">
+<p>Le TDAH n'est pas un manque d'éducation. Ce n'est pas un manque de foi. Ce n'est pas un caprice. <strong>C'est un fonctionnement neurodéveloppemental.</strong> Mais l'islam nous rappelle :</p>
+<div class="verset">
+« Allah ne modifie pas l'état d'un peuple tant qu'ils ne modifient pas ce qui est en eux-mêmes. »
+<span class="ref">— Coran, sourate Ar-Ra'd (13:11)</span>
+</div>
+<p>La <strong>Neuro-Tarbiya</strong> repose sur un triangle : le cerveau est un organe biologique · le <strong>nafs</strong> est une réalité morale · le cœur (<strong>qalb</strong>) est une réalité spirituelle. Ces trois dimensions se travaillent ensemble — jamais isolément.</p>
+<div class="disclaimer">⚠️ <strong>Cet outil ne remplace pas</strong> un suivi médical, neuropédagogique ou un avis religieux qualifié. Il est une boussole de pratique quotidienne, à intégrer dans un accompagnement plus large.</div>
+</div>
+
+<div class="dossier-bar">
+<label>📁 Dossier :</label>
+<select id="dossierSelect" onchange="changeDossier()">
+<option value="default">Mon dossier</option>
+</select>
+<input type="text" id="newDossier" placeholder="Nouveau (ex: Sami, Adam…)">
+<button onclick="addDossier()">+ Créer</button>
+<button onclick="deleteDossier()">🗑 Supprimer</button>
+<button onclick="exportTXT()" class="btn-export">📥 Exporter</button>
+<button onclick="window.print()" class="btn-print">🖨️ Imprimer</button>
+</div>
+
+<div class="nav">
+<button class="active" data-tab="fondements" onclick="switchTab('fondements')">🕌 Fondements</button>
+<button data-tab="sabr" onclick="switchTab('sabr')">🌿 Sabr & Reset</button>
+<button data-tab="boussole" onclick="switchTab('boussole')">🧭 Boussole islamisée</button>
+<button data-tab="hebdo" onclick="switchTab('hebdo')">📅 Plan hebdo Merkez</button>
+</div>
+
+<!-- ============================================================
+     PANEL 1 — FONDEMENTS
+     ============================================================ -->
+<div class="panel active" id="panel-fondements">
+
+<div class="section">
+<h2>🕌 Les fondements de la Neuro-Tarbiya</h2>
+<div class="sub">Trois piliers — Coran, Sunna, Neurosciences — qui se complètent sans se contredire.</div>
+
+<div class="fondement-card">
+<h3><span class="num">1</span>Le cerveau est une amānah (responsabilité confiée)</h3>
+<p>Allah nous a confié notre cerveau — l'ouïe, la vue, le cœur (qui inclut l'intellect). Nous serons responsables de la manière dont nous l'avons éduqué et utilisé.</p>
+<div class="verset-mini">
+« Et ne poursuis pas ce dont tu n'as aucune connaissance. L'ouïe, la vue et le cœur, sur tout cela on sera interrogé. »
+<span class="ref">— Coran, Al-Isrā (17:36)</span>
+</div>
+<p>👉 <strong>Implication pratique :</strong> éduquer les fonctions exécutives de notre enfant (attention, mémoire, inhibition, planification) devient un <strong>acte d'adoration</strong>, pas juste un objectif éducatif.</p>
+</div>
+
+<div class="fondement-card">
+<h3><span class="num">2</span>L'effort compte plus que le résultat</h3>
+<p>Le Coran nous rappelle que ce qui est valorisé n'est pas le score, mais l'effort fourni.</p>
+<div class="verset-mini">
+« L'homme n'obtient que le fruit de ses efforts. »
+<span class="ref">— Coran, An-Najm (53:39)</span>
+</div>
+<p>👉 <strong>Implication pratique :</strong> valoriser l'effort > le résultat. Ce principe correspond exactement au renforcement positif dopaminergique en neurosciences. Allah a placé cette sagesse dans la nature même du cerveau.</p>
+</div>
+
+<div class="fondement-card">
+<h3><span class="num">3</span>Le nafs traverse 3 états — Ibn Al-Qayyim</h3>
+<p>Ibn Al-Qayyim a décrit 3 états du nafs (l'âme/personne), qui correspondent étonnamment aux étapes du développement neurocognitif de l'enfant.</p>
+<div class="parallele">
+<h4>🧠 Parallèle Nafs / Fonctions exécutives</h4>
+<div class="par-grid">
+<div class="par-col">
+<h5>Les 3 états du nafs</h5>
+<ul>
+<li><strong>Ammārah</strong> (impulsif) — qui ordonne le mal</li>
+<li><strong>Lawwāmah</strong> (qui se blâme) — conscience morale</li>
+<li><strong>Mutma'innah</strong> (apaisée) — stabilité</li>
+</ul>
+</div>
+<div class="par-col">
+<h5>Fonctions exécutives correspondantes</h5>
+<ul>
+<li><strong>Cerveau limbique dominant</strong> — impulsivité</li>
+<li><strong>Émergence métacognition</strong> — auto-évaluation</li>
+<li><strong>Préfrontal stabilisé</strong> — régulation stable</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="verset-mini">
+« Quant à celui qui aura craint son Seigneur et préservé son âme de la passion… »
+<span class="ref">— Coran, An-Nāzi'āt (79:40)</span>
+</div>
+<p>👉 <strong>« Préserver son âme »</strong> = capacité d'inhibition. Le travail éducatif vise à renforcer le passage de Ammārah → Lawwāmah → Mutma'innah, ce qui correspond neurologiquement au développement du cortex préfrontal et de la régulation émotionnelle.</p>
+</div>
+
+<div class="fondement-card">
+<h3><span class="num">4</span>La pédagogie du Prophète ﷺ</h3>
+<p>Les principes pédagogiques du Prophète Muhammad ﷺ ont été validés bien avant les neurosciences modernes. Quatre principes universels qu'on retrouve dans la Sunna :</p>
+<ul style="font-size:13.5px;color:#3D362E;line-height:1.75;padding-left:20px;margin:10px 0">
+<li><strong>Individualisation</strong> : il s'adressait différemment au bédouin et à 'Aïcha radiyallahu 'anha → adapter selon le profil de chaque enfant.</li>
+<li><strong>Progressivité</strong> : la révélation fut descendue sur 23 ans → respecter le rythme neurobiologique.</li>
+<li><strong>Douceur</strong> : « La douceur n'est présente dans une chose sans qu'elle ne l'embellisse » (Muslim) → le stress chronique inhibe le cortex préfrontal. La douceur favorise l'apprentissage.</li>
+<li><strong>Encouragement identitaire</strong> : « Quel excellent homme est Abdullah… » → renforcement positif qui stimule la motivation intrinsèque.</li>
+</ul>
+<div class="verset-mini">
+« Facilitez et ne rendez pas les choses difficiles. »
+<span class="ref">— Hadith rapporté par Al-Bukhari et Muslim</span>
+</div>
+<p>👉 <strong>Implication pratique :</strong> ce principe prophétique est fondamental pour les profils TDAH/atypiques. La rigidité bloque, la facilitation ouvre.</p>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 2 — SABR & RESET
+     ============================================================ -->
+<div class="panel" id="panel-sabr">
+
+<div class="section">
+<h2>🌿 Protocole Sabr & Reset</h2>
+<div class="sub">Protocole d'autorégulation en situation de colère / impulsion / waswas — fondé sur la Sunna et les neurosciences.</div>
+
+<div style="background:linear-gradient(135deg,#F5E8D5,#EEDEC8);border-radius:14px;padding:16px 20px;margin-bottom:18px;border-left:5px solid #8B6F3A">
+<p style="font-size:14.5px;color:#6B5C48;line-height:1.65;margin:0">Le Prophète ﷺ a enseigné une <strong>séquence somatico-spirituelle</strong> pour gérer la colère. Elle combine activation parasympathique (physiologie) et dhikr (spiritualité). C'est l'un des protocoles les plus efficaces qu'on connaisse.</p>
+</div>
+
+<div class="protocole-steps">
+
+<div class="proto-step" data-step="1" onclick="toggleStep(this)">
+<span class="step-num">1</span>
+<div class="step-content">
+<h4>A'oudhou billah · أَعُوذُ بِاللَّهِ</h4>
+<div class="step-arabe">أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ</div>
+<div class="step-desc">Demander protection à Allah contre Shaytan, cause spirituelle de l'impulsion. Ce dhikr active le cortex frontal (mise à distance + intention) tout en posant un acte de foi.</div>
+<div class="step-hadith">« La colère vient du Shaytan, et le Shaytan a été créé du feu, et le feu s'éteint par l'eau. Quand l'un de vous est en colère, qu'il fasse les ablutions. »<span class="ref">— Hadith rapporté par Abu Dawud</span></div>
+</div>
+</div>
+
+<div class="proto-step" data-step="2" onclick="toggleStep(this)">
+<span class="step-num">2</span>
+<div class="step-content">
+<h4>Changer de posture (Sunna)</h4>
+<div class="step-desc">Le Prophète ﷺ a enseigné : si tu es debout, assieds-toi. Si tu es assis, allonge-toi. Ce changement physique <strong>active le nerf vague</strong> et déclenche la réponse parasympathique — physiologie pure.</div>
+<div class="step-hadith">« Si l'un d'entre vous se met en colère alors qu'il est debout, qu'il s'asseye. Si la colère le quitte (tant mieux), sinon qu'il s'allonge. »<span class="ref">— Hadith rapporté par Abu Dawud</span></div>
+</div>
+</div>
+
+<div class="proto-step" data-step="3" onclick="toggleStep(this)">
+<span class="step-num">3</span>
+<div class="step-content">
+<h4>Se taire</h4>
+<div class="step-desc">Garder le silence. Ne pas répondre. Ne pas argumenter. Le silence en situation de colère est une compétence enseignée par le Prophète ﷺ.</div>
+<div class="step-hadith">« Si l'un de vous se met en colère, qu'il se taise. »<span class="ref">— Hadith rapporté par Ahmad</span></div>
+</div>
+</div>
+
+<div class="proto-step" data-step="4" onclick="toggleStep(this)">
+<span class="step-num">4</span>
+<div class="step-content">
+<h4>Wudu' (ablutions)</h4>
+<div class="step-desc">L'eau froide sur les mains, le visage, les bras et les pieds : effet vagal direct, baisse de la fréquence cardiaque, recentrage corporel + acte de purification spirituelle.</div>
+<div class="step-hadith">« La colère s'éteint par l'eau. » (cf hadith Abu Dawud cité plus haut)</div>
+</div>
+</div>
+
+<div class="proto-step" data-step="5" onclick="toggleStep(this)">
+<span class="step-num">5</span>
+<div class="step-content">
+<h4>Respiration consciente — 4 / 6</h4>
+<div class="step-desc">Inspire par le nez sur 4 secondes · Expire lentement par la bouche sur 6 secondes. Cycle parasympathique. Utiliser le bouton ci-dessous pour pratiquer.</div>
+</div>
+</div>
+
+<div class="proto-step" data-step="6" onclick="toggleStep(this)">
+<span class="step-num">6</span>
+<div class="step-content">
+<h4>Reformulation</h4>
+<div class="step-desc">Une fois apaisé, reformuler la situation avec le cerveau préfrontal de nouveau « en ligne ». Distinguer : émotion / pensée / besoin / action.</div>
+<div class="step-hadith">« Le fort n'est pas celui qui terrasse les hommes. Le fort est celui qui se maîtrise quand il est en colère. »<span class="ref">— Hadith rapporté par Al-Bukhari et Muslim</span></div>
+</div>
+</div>
+
+</div>
+
+<div class="respi-zone">
+<h4 style="font-family:Georgia,serif;font-size:16px;color:#8B6F3A;margin-bottom:12px">🫁 Respiration 4 / 6 — Pratique guidée</h4>
+<div class="respi-circle" id="respiCircle"></div>
+<div class="respi-instr" id="respiInstr">Prêt(e) ? Clique pour commencer.</div>
+<div class="respi-count" id="respiCount">3 cycles</div>
+<button class="btn-respi" id="btnRespi" onclick="startRespi()">▶ Commencer 3 cycles</button>
+</div>
+
+<div class="notes-block">
+<label>📝 Mes déclencheurs habituels + mon protocole personnalisé</label>
+<textarea id="notes-sabr" placeholder="Ex : Mes déclencheurs : les devoirs à 18h avec mon fils, les disputes entre les enfants à table.
+Mon protocole : 1) je dis a'oudhou billah dans ma tête, 2) je vais me passer de l'eau froide sur les bras 30s, 3) je respire 4-6 dans le couloir, 4) je reviens calmement parler."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 3 — BOUSSOLE ISLAMISÉE
+     ============================================================ -->
+<div class="panel" id="panel-boussole">
+
+<div class="section">
+<h2>🧭 La Boussole islamisée — 5 axes</h2>
+<div class="sub">5 vertus du musulman qui correspondent à 5 compétences neuropédagogiques essentielles.</div>
+
+<div class="boussole-grid">
+
+<div class="boussole-card b-tawakkul">
+<span class="b-icon">🤲</span>
+<h4>Tawakkul</h4>
+<div class="arabe-small">التَّوَكُّل</div>
+<div class="b-trans">Confiance · Lâcher-prise</div>
+<p><strong>Spirituel :</strong> remettre les résultats à Allah après avoir fait ses moyens.<br><strong>Neuro :</strong> régule l'anxiété d'anticipation, désactive la rumination.<br><strong>Pour l'enfant :</strong> « Je fais ce que je peux, Allah s'occupe du reste. »</p>
+</div>
+
+<div class="boussole-card b-sabr">
+<span class="b-icon">🌿</span>
+<h4>Sabr</h4>
+<div class="arabe-small">الصَّبْر</div>
+<div class="b-trans">Patience · Endurance active</div>
+<p><strong>Spirituel :</strong> « Allah est avec les patients » (2:153).<br><strong>Neuro :</strong> entraîne l'inhibition, la régulation émotionnelle, la tolérance à la frustration.<br><strong>Pour l'enfant :</strong> compétence cognitive qui se construit pas à pas.</p>
+</div>
+
+<div class="boussole-card b-khushu">
+<span class="b-icon">🕯️</span>
+<h4>Khushū'</h4>
+<div class="arabe-small">الخُشُوع</div>
+<div class="b-trans">Concentration · Présence</div>
+<p><strong>Spirituel :</strong> recueillement dans la prière, présence intérieure.<br><strong>Neuro :</strong> attention soutenue, focus sur 1 chose à la fois.<br><strong>Pour l'enfant :</strong> entraînable par le dhikr, les petites prières, les moments d'attention dédiée.</p>
+</div>
+
+<div class="boussole-card b-adab">
+<span class="b-icon">🤝</span>
+<h4>Adab</h4>
+<div class="arabe-small">الأَدَب</div>
+<div class="b-trans">Belles manières · Respect</div>
+<p><strong>Spirituel :</strong> politesse intérieure et extérieure, code de conduite.<br><strong>Neuro :</strong> compétences sociales, théorie de l'esprit, empathie cognitive.<br><strong>Pour l'enfant :</strong> par l'exemple parental + apprentissages situationnels concrets.</p>
+</div>
+
+<div class="boussole-card b-ihsan">
+<span class="b-icon">✨</span>
+<h4>Ihsān</h4>
+<div class="arabe-small">الإِحْسَان</div>
+<div class="b-trans">Excellence · Soigner le geste</div>
+<p><strong>Spirituel :</strong> « Adorer Allah comme si tu Le voyais ». Faire bien, pas parfait.<br><strong>Neuro :</strong> motivation intrinsèque, plaisir du travail soigné, anti-perfectionnisme paralysant.<br><strong>Pour l'enfant :</strong> valoriser le geste bien fait, le détail qui montre l'attention.</p>
+</div>
+
+</div>
+
+<div class="notes-block">
+<label>📝 Lequel de ces 5 axes je veux travailler en priorité chez mon enfant (et chez moi) ?</label>
+<textarea id="notes-boussole" placeholder="Ex : Sabr en priorité chez Sami — apprentissage de la tolérance à la frustration. Adab chez moi — travailler ma façon de parler quand je suis pressée."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 4 — PLAN HEBDO MERKEZ
+     ============================================================ -->
+<div class="panel" id="panel-hebdo">
+
+<div class="section">
+<h2>📅 Plan hebdomadaire Merkez</h2>
+<div class="sub">Routines courtes mais constantes — c'est la constance qui forme le cerveau et le nafs (« Les actes les plus aimés d'Allah sont les plus constants »).</div>
+
+<div class="semaine-grid">
+
+<div class="routine-card">
+<h4><span class="r-icon">🌅</span>Dhikr matinal court</h4>
+<span class="r-duree">3 min · matin</span>
+<ul>
+<li>Subhan Allah ×10 · Alhamdulillah ×10 · Allahu Akbar ×10</li>
+<li>+ La hawla wa la quwwata illa billah ×1</li>
+<li>+ Bismillahi tawakkaltu 'ala Allah</li>
+</ul>
+<div class="check-zone" data-routine="dhikr-matin">
+<div class="day" data-d="L" onclick="toggleDay(this)">L</div>
+<div class="day" data-d="M" onclick="toggleDay(this)">M</div>
+<div class="day" data-d="Me" onclick="toggleDay(this)">Me</div>
+<div class="day" data-d="J" onclick="toggleDay(this)">J</div>
+<div class="day" data-d="V" onclick="toggleDay(this)">V</div>
+<div class="day" data-d="S" onclick="toggleDay(this)">S</div>
+<div class="day" data-d="D" onclick="toggleDay(this)">D</div>
+</div>
+</div>
+
+<div class="routine-card">
+<h4><span class="r-icon">📚</span>Routine devoirs structurée</h4>
+<span class="r-duree">20 min max · après-midi</span>
+<ul>
+<li>Bismillah avant de commencer</li>
+<li>10 min focus + 5 min pause + 5 min focus</li>
+<li>Alhamdulillah à la fin (même si imparfait)</li>
+</ul>
+<div class="check-zone" data-routine="devoirs">
+<div class="day" data-d="L" onclick="toggleDay(this)">L</div>
+<div class="day" data-d="M" onclick="toggleDay(this)">M</div>
+<div class="day" data-d="Me" onclick="toggleDay(this)">Me</div>
+<div class="day" data-d="J" onclick="toggleDay(this)">J</div>
+<div class="day" data-d="V" onclick="toggleDay(this)">V</div>
+<div class="day" data-d="S" onclick="toggleDay(this)">S</div>
+<div class="day" data-d="D" onclick="toggleDay(this)">D</div>
+</div>
+</div>
+
+<div class="routine-card">
+<h4><span class="r-icon">🚶</span>Pause mouvement quotidienne</h4>
+<span class="r-duree">15 min · après-midi</span>
+<ul>
+<li>Marche, vélo, jeu physique extérieur</li>
+<li>Décharge dopaminergique essentielle TDAH</li>
+<li>Méditation marchée pour parent</li>
+</ul>
+<div class="check-zone" data-routine="mouvement">
+<div class="day" data-d="L" onclick="toggleDay(this)">L</div>
+<div class="day" data-d="M" onclick="toggleDay(this)">M</div>
+<div class="day" data-d="Me" onclick="toggleDay(this)">Me</div>
+<div class="day" data-d="J" onclick="toggleDay(this)">J</div>
+<div class="day" data-d="V" onclick="toggleDay(this)">V</div>
+<div class="day" data-d="S" onclick="toggleDay(this)">S</div>
+<div class="day" data-d="D" onclick="toggleDay(this)">D</div>
+</div>
+</div>
+
+<div class="routine-card">
+<h4><span class="r-icon">💛</span>Valorisation effort quotidienne</h4>
+<span class="r-duree">2 min · le soir</span>
+<ul>
+<li>Pointer 1 effort observé (pas un résultat)</li>
+<li>Phrase-clé : « Allah voit ton effort »</li>
+<li>Préserver l'estime de soi du croyant</li>
+</ul>
+<div class="check-zone" data-routine="effort">
+<div class="day" data-d="L" onclick="toggleDay(this)">L</div>
+<div class="day" data-d="M" onclick="toggleDay(this)">M</div>
+<div class="day" data-d="Me" onclick="toggleDay(this)">Me</div>
+<div class="day" data-d="J" onclick="toggleDay(this)">J</div>
+<div class="day" data-d="V" onclick="toggleDay(this)">V</div>
+<div class="day" data-d="S" onclick="toggleDay(this)">S</div>
+<div class="day" data-d="D" onclick="toggleDay(this)">D</div>
+</div>
+</div>
+
+<div class="routine-card">
+<h4><span class="r-icon">🌙</span>Bilan sabr du soir</h4>
+<span class="r-duree">3 min · avant coucher</span>
+<ul>
+<li>« Aujourd'hui, dans quoi j'ai été patient(e) ? »</li>
+<li>« Demain, ma micro-mission de sabr ? »</li>
+<li>Astaghfirullah pour les manques</li>
+</ul>
+<div class="check-zone" data-routine="sabr-soir">
+<div class="day" data-d="L" onclick="toggleDay(this)">L</div>
+<div class="day" data-d="M" onclick="toggleDay(this)">M</div>
+<div class="day" data-d="Me" onclick="toggleDay(this)">Me</div>
+<div class="day" data-d="J" onclick="toggleDay(this)">J</div>
+<div class="day" data-d="V" onclick="toggleDay(this)">V</div>
+<div class="day" data-d="S" onclick="toggleDay(this)">S</div>
+<div class="day" data-d="D" onclick="toggleDay(this)">D</div>
+</div>
+</div>
+
+<div class="routine-card">
+<h4><span class="r-icon">🤲</span>Du'a de l'apprenant</h4>
+<span class="r-duree">1 min · avant chaque tâche</span>
+<ul>
+<li>Rabbi zidnī 'ilman (Coran 20:114)</li>
+<li>Renforce l'intention + active la motivation</li>
+<li>Lie le cerveau au sens</li>
+</ul>
+<div class="check-zone" data-routine="dua">
+<div class="day" data-d="L" onclick="toggleDay(this)">L</div>
+<div class="day" data-d="M" onclick="toggleDay(this)">M</div>
+<div class="day" data-d="Me" onclick="toggleDay(this)">Me</div>
+<div class="day" data-d="J" onclick="toggleDay(this)">J</div>
+<div class="day" data-d="V" onclick="toggleDay(this)">V</div>
+<div class="day" data-d="S" onclick="toggleDay(this)">S</div>
+<div class="day" data-d="D" onclick="toggleDay(this)">D</div>
+</div>
+</div>
+
+</div>
+
+<div class="notes-block">
+<label>📝 Mes ajustements + observations sur la constance</label>
+<textarea id="notes-hebdo" placeholder="Ex : Cette semaine, j'ai vraiment réussi le dhikr matinal 5j/7. J'ai laissé tomber la pause mouvement à cause du temps mais je reprends lundi. Sami est plus calme depuis qu'on a instauré le bilan sabr du soir."></textarea>
+</div>
+
+<div class="douaa-finale">
+<div class="arabe">اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي وَعَلِّمْنِي مَا يَنْفَعُنِي وَزِدْنِي عِلْمًا</div>
+<div class="trans">« Ô Allah, fais-moi profiter de ce que Tu m'as enseigné, enseigne-moi ce qui me sera utile et augmente-moi en science. »</div>
+</div>
+
+</div>
+</div>
+
+<div class="footer">
+« Neuro-pédagogie sans tawhid = incomplète. Tarbiya sans compréhension du cerveau = inefficace. On a besoin des deux. »
+<span class="brand-foot">Neuro-Tarbiya · Création originale Nawel Haddouch · Voie Chifā · EducaTypique</span>
+<span class="small">Cet outil n'est pas un avis religieux qualifié — il invite à la pratique et à l'étude approfondie auprès de savants.</span>
+</div>
+
+</div>
+
+<script>
+var STORAGE_KEY = 'educatypique_neuro_tarbiya_v1';
+var currentDossier = 'default';
+
+function loadStore(){ try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : { dossiers:{default:{}} }; }catch(e){ return { dossiers:{default:{}} }; } }
+function saveStore(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
+function loadDossier(){ return loadStore().dossiers[currentDossier] || {}; }
+function saveDossier(d){ var s = loadStore(); s.dossiers[currentDossier] = d; saveStore(s); }
+
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleStep(el){
+  el.classList.toggle('done');
+  saveAll();
+}
+
+function toggleDay(el){
+  el.classList.toggle('done');
+  saveAll();
+}
+
+// ============================================================
+// RESPIRATION 4-6
+// ============================================================
+var cyclesDone = 0;
+var totalCycles = 3;
+var breathing = false;
+
+function startRespi(){
+  if(breathing) return;
+  breathing = true;
+  cyclesDone = 0;
+  document.getElementById('btnRespi').disabled = true;
+  document.getElementById('btnRespi').textContent = 'En cours...';
+  doRespiCycle();
+}
+function doRespiCycle(){
+  if(cyclesDone >= totalCycles){
+    document.getElementById('respiInstr').textContent = 'Alhamdulillah 🌿';
+    document.getElementById('respiCount').textContent = '3 cycles terminés.';
+    document.getElementById('btnRespi').disabled = false;
+    document.getElementById('btnRespi').textContent = '🔁 Recommencer';
+    breathing = false;
+    return;
+  }
+  var circle = document.getElementById('respiCircle');
+  var instr = document.getElementById('respiInstr');
+  var count = document.getElementById('respiCount');
+  instr.textContent = 'Inspire... 4s';
+  count.textContent = 'Cycle '+(cyclesDone+1)+' / '+totalCycles;
+  circle.classList.remove('exhale'); circle.classList.add('inhale');
+  setTimeout(function(){
+    instr.textContent = 'Expire... 6s';
+    circle.classList.remove('inhale'); circle.classList.add('exhale');
+    setTimeout(function(){
+      cyclesDone++;
+      doRespiCycle();
+    }, 6000);
+  }, 4000);
+}
+
+// ============================================================
+// SAVE / RESTORE
+// ============================================================
+function getFormData(){
+  var d = { sabr:[], days:{}, notes:{} };
+  document.querySelectorAll('.proto-step').forEach(function(s){
+    if(s.classList.contains('done')) d.sabr.push(s.dataset.step);
+  });
+  document.querySelectorAll('.check-zone').forEach(function(z){
+    var routine = z.dataset.routine;
+    d.days[routine] = [];
+    z.querySelectorAll('.day').forEach(function(day){
+      if(day.classList.contains('done')) d.days[routine].push(day.dataset.d);
+    });
+  });
+  d.notes.sabr = document.getElementById('notes-sabr').value;
+  d.notes.boussole = document.getElementById('notes-boussole').value;
+  d.notes.hebdo = document.getElementById('notes-hebdo').value;
+  return d;
+}
+function saveAll(){
+  var d = loadDossier();
+  d.form = getFormData();
+  saveDossier(d);
+}
+function restoreAll(){
+  var d = loadDossier();
+  var f = d.form || { sabr:[], days:{}, notes:{} };
+  document.querySelectorAll('.proto-step').forEach(s=>s.classList.remove('done'));
+  (f.sabr||[]).forEach(function(stepId){
+    var el = document.querySelector('.proto-step[data-step="'+stepId+'"]');
+    if(el) el.classList.add('done');
+  });
+  document.querySelectorAll('.check-zone').forEach(function(z){
+    var routine = z.dataset.routine;
+    var days = (f.days||{})[routine] || [];
+    z.querySelectorAll('.day').forEach(function(day){
+      day.classList.remove('done');
+      if(days.indexOf(day.dataset.d) > -1) day.classList.add('done');
+    });
+  });
+  document.getElementById('notes-sabr').value = (f.notes||{}).sabr || '';
+  document.getElementById('notes-boussole').value = (f.notes||{}).boussole || '';
+  document.getElementById('notes-hebdo').value = (f.notes||{}).hebdo || '';
+}
+['notes-sabr','notes-boussole','notes-hebdo'].forEach(function(id){
+  document.getElementById(id).addEventListener('input', saveAll);
+});
+
+function refreshDossierSelect(){
+  var s = loadStore();
+  var sel = document.getElementById('dossierSelect');
+  sel.innerHTML = '';
+  Object.keys(s.dossiers||{default:{}}).forEach(function(name){
+    var opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if(name === currentDossier) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+function changeDossier(){ currentDossier = document.getElementById('dossierSelect').value; restoreAll(); }
+function addDossier(){
+  var name = (document.getElementById('newDossier').value||'').trim();
+  if(!name) return;
+  var s = loadStore();
+  s.dossiers[name] = s.dossiers[name] || {};
+  saveStore(s);
+  currentDossier = name;
+  document.getElementById('newDossier').value='';
+  refreshDossierSelect(); restoreAll();
+}
+function deleteDossier(){
+  if(currentDossier==='default'){ alert('Le dossier « Mon dossier » ne peut pas être supprimé.'); return; }
+  if(!confirm('Supprimer le dossier « '+currentDossier+' » ?')) return;
+  var s = loadStore(); delete s.dossiers[currentDossier]; saveStore(s);
+  currentDossier='default'; refreshDossierSelect(); restoreAll();
+}
+
+function exportTXT(){
+  var d = loadDossier();
+  var f = d.form || {};
+  var dt = new Date();
+  var dateStr = dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();
+  var out = '';
+  out += '═══════════════════════════════════════════════════\n';
+  out += '  NEURO-TARBIYA & SABR RESET — Voie Chifā\n';
+  out += '  Création originale : Nawel Haddouch · EducaTypique\n';
+  out += '  Dossier : '+currentDossier+'\n';
+  out += '  Exporté le : '+dateStr+'\n';
+  out += '═══════════════════════════════════════════════════\n\n';
+
+  out += '🌿  PROTOCOLE SABR & RESET\n';
+  out += '─────────────────────────────────────\n';
+  var steps = ['A\'oudhou billah', 'Changer de posture', 'Se taire', 'Wudu\'', 'Respiration 4-6', 'Reformulation'];
+  steps.forEach(function(name, i){
+    var done = (f.sabr||[]).indexOf((i+1)+'') > -1;
+    out += '  ['+(done?'✓':' ')+'] '+(i+1)+'. '+name+'\n';
+  });
+  out += '\n  Notes : '+(f.notes && f.notes.sabr || '(vide)')+'\n\n';
+
+  out += '🧭  BOUSSOLE ISLAMISÉE\n';
+  out += '─────────────────────────────────────\n';
+  out += '  Tawakkul · Sabr · Khushū\' · Adab · Ihsān\n';
+  out += '  Notes priorité : '+(f.notes && f.notes.boussole || '(vide)')+'\n\n';
+
+  out += '📅  PLAN HEBDO MERKEZ\n';
+  out += '─────────────────────────────────────\n';
+  var routines = {
+    'dhikr-matin':'Dhikr matinal court',
+    'devoirs':'Routine devoirs structurée',
+    'mouvement':'Pause mouvement quotidienne',
+    'effort':'Valorisation effort quotidienne',
+    'sabr-soir':'Bilan sabr du soir',
+    'dua':'Du\'a de l\'apprenant'
+  };
+  Object.keys(routines).forEach(function(k){
+    var days = (f.days||{})[k] || [];
+    out += '  '+routines[k].padEnd(35,' ')+' '+days.length+'/7  ['+days.join(' ')+']\n';
+  });
+  out += '\n  Notes : '+(f.notes && f.notes.hebdo || '(vide)')+'\n\n';
+
+  out += '═══════════════════════════════════════════════════\n';
+  out += 'اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي وَعَلِّمْنِي مَا يَنْفَعُنِي وَزِدْنِي عِلْمًا\n';
+  out += '« Ô Allah, fais-moi profiter de ce que Tu m\'as enseigné,\n';
+  out += '  enseigne-moi ce qui me sera utile et augmente-moi en science. »\n';
+  out += '\n— Création originale Nawel Haddouch · Voie Chifā · EducaTypique\n';
+  out += '═══════════════════════════════════════════════════\n';
+
+  var blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'NeuroTarbiya_'+currentDossier+'_'+dt.getFullYear()+(dt.getMonth()+1)+dt.getDate()+'.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+refreshDossierSelect();
+restoreAll();
+</script>
+</body>
+</html>

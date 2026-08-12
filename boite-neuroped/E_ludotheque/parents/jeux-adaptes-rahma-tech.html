@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pack 10 jeux adaptés Rahma-Tech — Sans matériel · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#fff8f3 0%,#fff 50%,#f5f0fa 100%);font-family:'Nunito',system-ui,sans-serif;color:#3a3050;line-height:1.65;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:1000px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+
+.hdr{text-align:center;padding:36px 24px 26px;margin-bottom:22px;background:linear-gradient(135deg,#e89556 0%,#F39BC2 50%,#7c5cbf 100%);border-radius:24px;color:#fff;box-shadow:0 8px 28px rgba(232,149,86,.18);position:relative;overflow:hidden}
+.hdr::before{content:'🎮';position:absolute;top:14px;right:18px;font-size:50px;opacity:.2}
+.hdr::after{content:'🏠';position:absolute;bottom:14px;left:18px;font-size:42px;opacity:.18}
+.brand{display:inline-block;padding:5px 14px;background:rgba(255,255,255,.22);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:12px;position:relative;z-index:1}
+.hdr h1{font-family:'Poppins',sans-serif;font-size:30px;color:#fff;margin-bottom:6px;position:relative;z-index:1;text-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hdr p{font-style:italic;font-size:14.5px;color:#fff;max-width:680px;margin:0 auto;position:relative;z-index:1;opacity:.95}
+
+.intro{background:#fff;border-radius:18px;padding:22px 24px;margin-bottom:20px;border:1px solid rgba(232,149,86,.22);box-shadow:0 4px 14px rgba(232,149,86,.06)}
+.intro p{font-size:14.5px;color:#3D4E4A;line-height:1.7;margin-bottom:8px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#a04500}
+.intro .philosophie{background:linear-gradient(135deg,#fff5e8,#fff);border-radius:12px;padding:14px 18px;margin-top:12px;font-style:italic;border-left:4px solid #e89556;color:#7a3500}
+
+.filtres{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:1.2rem 0;background:#fff;padding:12px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.filtre-grp{display:flex;align-items:center;gap:6px}
+.filtre-label{font-size:11px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.filtre-btn{padding:7px 14px;background:#fff;border:1.5px solid rgba(124,92,191,.25);color:#5A4A6F;border-radius:18px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.filtre-btn:hover{background:#f5f0fa}
+.filtre-btn.active{background:linear-gradient(135deg,#e89556,#7c5cbf);color:#fff;border-color:transparent}
+
+.count-display{text-align:center;font-size:.85rem;color:#888;margin:.4rem 0 1rem;font-weight:600}
+.count-display strong{color:#a04500;font-size:1.1rem}
+
+.jeux-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:1.2rem}
+.jeu-card{background:#fff;border-radius:18px;padding:1.4rem 1.5rem;box-shadow:0 4px 14px rgba(0,0,0,.05);border-top:5px solid;display:flex;flex-direction:column;gap:.6rem;animation:pop .4s;transition:all .25s}
+.jeu-card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,.08)}
+.jeu-card[data-fonc="inhibition"]{border-color:#C9573A}
+.jeu-card[data-fonc="memoire"]{border-color:#9b85b8}
+.jeu-card[data-fonc="attention"]{border-color:#e89556}
+.jeu-card[data-fonc="flexibilite"]{border-color:#2a9d8f}
+.jeu-card[data-fonc="planification"]{border-color:#7c5cbf}
+.jeu-card[data-fonc="social"]{border-color:#F39BC2}
+.jeu-card[data-fonc="emo"]{border-color:#c9379e}
+.jeu-card[data-fonc="narration"]{border-color:#e9a73a}
+
+.jeu-card .tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px}
+.jeu-card .tag{font-size:10.5px;padding:3px 9px;border-radius:999px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;background:#f5f0fa;color:#7c5cbf}
+.jeu-card .tag-inspi{background:#fff5e8;color:#a04500}
+.jeu-card .tag-age{background:#e8f5fa;color:#1d6b8e}
+
+.jeu-card h3{font-family:'Poppins',sans-serif;font-size:1.2rem;color:#3a3050;line-height:1.3;margin:.2rem 0}
+.jeu-card .inspi{font-size:.8rem;color:#a04500;font-style:italic;margin-bottom:6px}
+.jeu-card .desc{font-size:.92rem;color:#444;line-height:1.6}
+
+.btn-detail{padding:9px 18px;background:linear-gradient(135deg,#e89556,#7c5cbf);color:#fff;border:none;border-radius:999px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;margin-top:.6rem;align-self:flex-start;transition:all .2s}
+.btn-detail:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(232,149,86,.3)}
+
+/* MODAL DETAIL */
+.modal-overlay{position:fixed;inset:0;background:rgba(58,48,80,.85);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000;animation:fadeIn .25s}
+.modal-overlay.show{display:flex}
+.modal-card{background:#fff;border-radius:24px;max-width:760px;width:100%;max-height:90vh;overflow-y:auto;padding:30px 32px;position:relative;animation:pop .35s}
+.modal-close{position:absolute;top:14px;right:14px;background:#f5f0fa;color:#7c5cbf;border:none;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;font-weight:700}
+.modal-close:hover{background:#7c5cbf;color:#fff}
+.modal-card h2{font-family:'Poppins',sans-serif;font-size:1.5rem;color:#3a3050;margin-bottom:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.modal-card .modal-inspi{display:inline-block;font-size:11.5px;background:#fff5e8;color:#a04500;padding:4px 12px;border-radius:8px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px}
+.modal-section{background:#fbf8f4;border-radius:14px;padding:16px 18px;margin:14px 0;border-left:4px solid #e89556}
+.modal-section h4{font-family:'Poppins',sans-serif;font-size:1rem;color:#a04500;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.modal-section p{font-size:.95rem;color:#3D4E4A;line-height:1.7;margin-bottom:6px}
+.modal-section ul,.modal-section ol{margin:6px 0 6px 22px;line-height:1.75;font-size:.92rem}
+.modal-section.regles{border-left-color:#7c5cbf}
+.modal-section.regles h4{color:#7c5cbf}
+.modal-section.variantes{border-left-color:#2a9d8f;background:linear-gradient(135deg,#fbf8f4,#eef9f6)}
+.modal-section.variantes h4{color:#2a9d8f}
+.modal-section.neuro{border-left-color:#F39BC2;background:linear-gradient(135deg,#fff,#fff0f6)}
+.modal-section.neuro h4{color:#c9379e}
+.modal-section.adapt{border-left-color:#e9a73a;background:linear-gradient(135deg,#fff9e8,#fff)}
+.modal-section.adapt h4{color:#a07000}
+
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif}
+.footer .brand-foot{color:#a04500;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+
+@media (max-width:600px){
+  .hdr h1{font-size:22px}
+  .jeux-grid{grid-template-columns:1fr}
+  .modal-card{padding:22px 18px}
+}
+@media print{
+  .filtres,.btn-detail,.modal-overlay{display:none!important}
+  .jeu-card{break-inside:avoid;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<a href="../../parents.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#a04500;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);border:1px solid rgba(232,149,86,.25)">← Parents</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Pack jeux adaptés · Team Rahma-Tech</span>
+<h1>🎮 10 jeux à la maison · Sans matériel</h1>
+<p>Inspirés des classiques (Dobble · Set · Halli Galli · Time's Up...) mais 100% maison, 100% gratuits, 100% originaux. La philosophie Nawel : <em>on n'a pas besoin d'acheter pour jouer.</em></p>
+</div>
+
+<div class="intro">
+<p>💡 <strong>Pourquoi ce pack ?</strong> Les jeux du commerce qui entraînent fonctions exécutives et habiletés sociales coûtent souvent 15-30€. Toutes les familles n'ont pas ce budget, et tu n'as pas forcément la place de stocker 30 boîtes.</p>
+<p>👉 <strong>Solution Rahma-Tech :</strong> 10 jeux maison <strong>adaptés depuis</strong> les classiques, jouables n'importe où (voiture, salle d'attente, cuisine, école), avec <em>juste ta voix et ton attention</em>. Inspirés mais jamais copiés — c'est notre règle d'or.</p>
+<div class="philosophie">
+🌿 <strong>Notre règle d'or :</strong> on n'achète pas, on observe les bons jeux du commerce, on en garde le PRINCIPE neuropédagogique, et on crée une version maison ORIGINALE avec NOS situations, NOS mots, NOTRE famille.
+</div>
+<p style="margin-top:12px"><strong>🏡 Comment jouer :</strong> chaque jeu a ses règles, ses variantes faciles/difficiles, son explication neuropédagogique, et ses adaptations TDAH/TSA/Dys. Tape sur une carte pour voir le détail complet.</p>
+<p>📚 <strong>Pour aller plus loin :</strong> <a href="../../ressources.html" style="color:#a04500;font-weight:700">voir les jeux du commerce qui nous ont inspirés</a> · <a href="jeux-maison-fe.html" style="color:#a04500;font-weight:700">+ 20 autres jeux maison FE</a>.</p>
+</div>
+
+<div class="filtres">
+<div class="filtre-grp">
+<span class="filtre-label">Fonction :</span>
+<button class="filtre-btn active" data-fonc="all" onclick="filt('all')">Toutes</button>
+<button class="filtre-btn" data-fonc="inhibition" onclick="filt('inhibition')">🛑 Inhibition</button>
+<button class="filtre-btn" data-fonc="memoire" onclick="filt('memoire')">🧠 Mémoire</button>
+<button class="filtre-btn" data-fonc="attention" onclick="filt('attention')">👀 Attention</button>
+<button class="filtre-btn" data-fonc="flexibilite" onclick="filt('flexibilite')">🔄 Flexibilité</button>
+<button class="filtre-btn" data-fonc="planification" onclick="filt('planification')">📋 Planif</button>
+<button class="filtre-btn" data-fonc="social" onclick="filt('social')">🤝 Social</button>
+<button class="filtre-btn" data-fonc="emo" onclick="filt('emo')">💛 Émotion</button>
+<button class="filtre-btn" data-fonc="narration" onclick="filt('narration')">📖 Narration</button>
+</div>
+</div>
+
+<div class="count-display"><strong id="count">—</strong> jeu(x) affiché(s)</div>
+
+<div class="jeux-grid" id="grid"></div>
+
+<div class="footer">
+« Les plus beaux moments de famille naissent souvent autour d'un jeu, pas d'un cadeau. »
+<span class="brand-foot">Pack 10 jeux adaptés · Team Rahma-Tech · Création originale Nawel Haddouch · EducaTypique</span>
+<span style="font-size:11px;display:block;margin-top:4px;color:#8A9892">Aucun matériel · 100% gratuit · 100% local · Imprimable</span>
+<span style="font-size:10.5px;display:block;margin-top:8px;color:#8A9892;font-style:normal;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.5">⚠️ Adaptations originales inspirées de jeux du commerce (Dobble · Set · Halli Galli · Time's Up · Story Cubes · Loup-Garou · etc.). Les jeux d'origine restent la propriété de leurs éditeurs. Ces versions maison sont ORIGINALES et n'ont aucun lien commercial avec ces produits.</span>
+</div>
+
+</div>
+
+<!-- ============ MODAL ============ -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+<div class="modal-card" id="modal-card" onclick="event.stopPropagation()">
+<button class="modal-close" onclick="closeModal()">✕</button>
+<div id="modal-content"></div>
+</div>
+</div>
+
+<script>
+const JEUX = [
+  {
+    id: 1,
+    nom: "Trouve l'intrus partagé",
+    inspi: "Dobble",
+    fonc: "attention",
+    foncLabel: "Attention visuelle + Vitesse",
+    age: "6+",
+    teaser: "Un joueur dit 6 mots. Les autres doivent trouver LE point commun entre exactement 2 d'entre eux. Vitesse + flexibilité.",
+    regles: [
+      "1 joueur annonce <strong>6 mots</strong> au hasard (ex: pomme · chien · voiture · banane · livre · piano).",
+      "Les autres ont <strong>10 secondes</strong> pour trouver UNE paire qui partage UN point commun précis.",
+      "Le premier qui trouve crie le point commun ET la paire. Ex: « POMME et BANANE — fruit ! » → il gagne 1 point.",
+      "Plusieurs paires possibles ? Le premier qui crie gagne, mais d'autres peuvent enchaîner sur d'autres paires (1 pt chacune).",
+      "Au bout de 5 tours, on inverse les rôles. Premier à 5 points gagne."
+    ],
+    variantes: {
+      facile: "Réduire à 4 mots, donner la catégorie au départ (« je cherche des fruits »).",
+      difficile: "8 mots, paires avec critère caché (« même nombre de syllabes », « commencent par même lettre »).",
+      voiture: "L'adulte au volant énonce 6 objets visibles dehors — les enfants jouent."
+    },
+    neuro: "Travaille l'<strong>attention visuelle/auditive</strong>, la <strong>recherche d'analogies</strong> et la <strong>vitesse de traitement</strong>. Excellent échauffement avant les devoirs car ça active rapidement la mémoire de travail sans frustrer.",
+    adapt: {
+      tdah: "Limite à 4 mots au début, augmente progressivement. Récompense l'ESSAI, pas seulement la victoire.",
+      tsa: "Donne la catégorie explicitement (« cherche les vivants »). Évite les double-sens.",
+      dys: "Énonce LENTEMENT les mots, répète si demandé. Pas de pénalité pour répétition."
+    }
+  },
+  {
+    id: 2,
+    nom: "Stop ! Au compte de 5",
+    inspi: "Halli Galli",
+    fonc: "inhibition",
+    foncLabel: "Inhibition + Comptage rapide",
+    age: "5+",
+    teaser: "L'adulte raconte une histoire absurde avec des objets. Dès qu'il en cite exactement 5 du même type, l'enfant doit crier STOP et taper sur la table.",
+    regles: [
+      "1 narrateur raconte une histoire qui contient des objets-cibles (ex: pommes, ballons, chats…).",
+      "L'enfant écoute et compte mentalement. Dès qu'il y a exactement <strong>5 objets identiques</strong>, il tape la table en criant <strong>STOP !</strong>.",
+      "Si juste : il gagne 1 point. Si faux ou trop tôt/tard : 0 point. Le narrateur continue.",
+      "Variantes : on change l'objet cible, on rajoute des objets distracteurs.",
+      "On peut jouer à 2 enfants — le premier qui tape juste gagne."
+    ],
+    variantes: {
+      facile: "Compte cible = 3, vitesse lente, objets très distincts.",
+      difficile: "Compte cible = 7, vitesse rapide, objets mélangés (pommes vertes vs rouges).",
+      coucher: "Histoire du soir avec un compteur — calme le cerveau avant le sommeil."
+    },
+    neuro: "Travaille <strong>l'inhibition</strong> (ne pas taper trop tôt), la <strong>mémoire de travail</strong> (compter en écoutant), et l'<strong>attention soutenue</strong>. Plus dur qu'il n'y paraît pour un cerveau TDAH.",
+    adapt: {
+      tdah: "Commence avec compte cible = 3. Autorise plusieurs essais sans pénalité au début.",
+      tsa: "Rythme régulier. Évite les histoires trop sociales si ça distrait.",
+      dys: "Privilégie l'oral. Pas d'écrit, pas de lecture rapide."
+    }
+  },
+  {
+    id: 3,
+    nom: "Catégorie secrète",
+    inspi: "Set",
+    fonc: "flexibilite",
+    foncLabel: "Flexibilité mentale + Logique",
+    age: "8+",
+    teaser: "Un joueur choisit une catégorie secrète. Il cite 3 objets qui la respectent. Les autres doivent deviner la règle cachée.",
+    regles: [
+      "1 joueur (le « maître ») choisit secrètement une <strong>règle</strong> (ex: « commence par M », « 2 syllabes », « jaune », « animal nocturne »).",
+      "Il énonce 3 objets qui respectent la règle. Ex pour « 2 syllabes » : <em>maman · poire · livre</em>.",
+      "Les autres ont 3 essais : ils proposent UN objet, le maître dit OUI (respecte la règle) ou NON.",
+      "Si quelqu'un pense connaître la règle : il propose sa formulation. Si juste, 2 points. Si faux, -1 point.",
+      "On inverse les rôles tous les 5 tours."
+    ],
+    variantes: {
+      facile: "Règles simples (couleur, forme, lettre). Donner 2 indices.",
+      difficile: "Règles à 2 critères combinés (« animal ET 2 syllabes »). Aucun indice.",
+      familial: "Tous les enfants jouent ensemble contre le parent-maître."
+    },
+    neuro: "Travaille la <strong>flexibilité mentale</strong> (changer de critère mental), la <strong>déduction</strong>, et l'<strong>inhibition</strong> (ne pas proposer la première idée qui vient). Excellent pour les ados.",
+    adapt: {
+      tdah: "Limite à 3 essais clairs. Encourage à poser une hypothèse avant chaque proposition.",
+      tsa: "Excellent jeu pour eux — règles claires + logique. Évite les règles à interprétation floue.",
+      hpi: "Augmente la complexité (3 critères combinés). C'est là qu'ils brillent."
+    }
+  },
+  {
+    id: 4,
+    nom: "Mots qui partagent un cousin",
+    inspi: "Time's Up",
+    fonc: "narration",
+    foncLabel: "Vocabulaire + Communication",
+    age: "7+",
+    teaser: "Tu dois faire deviner un mot à ton équipe en 30 secondes, sans le prononcer, sans gestes, sans mots de la même famille. Vocabulaire et créativité.",
+    regles: [
+      "Avant : chaque joueur écrit secrètement <strong>5 mots</strong> sur des bouts de papier (ex: pyramide, courage, sandwich…).",
+      "On mélange tous les papiers dans un bol.",
+      "<strong>Manche 1 — Description libre :</strong> 30 sec pour faire deviner avec phrases, sans le mot ni mots de sa famille.",
+      "<strong>Manche 2 — 1 seul mot :</strong> mêmes mots, mais un seul mot indice (ex: pour pyramide → « Égypte »).",
+      "<strong>Manche 3 — Mime silencieux :</strong> mêmes mots, mime sans aucun son.",
+      "Le mot trouvé sort du bol. Équipe avec le plus de mots gagne."
+    ],
+    variantes: {
+      facile: "Sans chrono. Mots quotidiens. 2 manches au lieu de 3.",
+      difficile: "Mots abstraits (jalousie, amitié, courage). 20 sec.",
+      famille: "Mots imposés par catégorie (animaux, métiers, émotions…)."
+    },
+    neuro: "Travaille le <strong>vocabulaire actif</strong>, la <strong>flexibilité</strong> (passer du verbal au mime), l'<strong>attention de l'auditeur</strong>, et la <strong>communication adaptée à l'autre</strong>.",
+    adapt: {
+      tdah: "Sans chrono au début. Le temps de pression peut paralyser.",
+      tsa: "La manche mime peut être difficile. Garde-la optionnelle. Privilégie manches 1-2.",
+      dys: "Écris les mots toi-même pour eux, ou utilise des images au lieu de texte."
+    }
+  },
+  {
+    id: 5,
+    nom: "L'enquête personnage",
+    inspi: "Devine qui je suis",
+    fonc: "social",
+    foncLabel: "Inférence + Communication",
+    age: "6+",
+    teaser: "Un joueur choisit un personnage secret (famille ou fiction). L'autre pose des questions Oui/Non pour deviner. Travail de la formulation et de l'inférence.",
+    regles: [
+      "1 joueur choisit un <strong>personnage</strong> (membre famille, personnage de série, ami…). Il l'écrit secrètement.",
+      "L'autre joueur pose des questions <strong>Oui / Non / Je sais pas</strong>. Ex: « Il est dans la famille ? », « Il a des lunettes ? », « Il fait rire ? ».",
+      "Pas de questions « C'est qui ? » directement. Que des questions oui/non précises.",
+      "Si la réponse demande un avis (« il est gentil ? »), la personne questionnée répond ce qu'elle pense.",
+      "Quand l'enquêteur croit savoir : il propose UN nom. Si juste, 1 point + 1 bonus si moins de 10 questions."
+    ],
+    variantes: {
+      facile: "Personnage parmi 6 membres de la famille seulement.",
+      difficile: "Personnage de fiction connu de tous. Limite à 12 questions max.",
+      coopératif: "2 joueurs cherchent ensemble, ils partagent leurs idées."
+    },
+    neuro: "Travaille la <strong>formulation de questions pertinentes</strong>, l'<strong>inférence sociale</strong>, l'<strong>écoute</strong>, et la <strong>déduction logique</strong>. Excellent pour les habiletés sociales.",
+    adapt: {
+      tdah: "Limite à 8 questions max — sinon perte de focus.",
+      tsa: "Excellent jeu pour eux — règles claires + inférence. Encourage à poser des questions sur des caractéristiques observables (lunettes, taille) avant des questions sociales (« il est gentil »).",
+      anxieux: "Le parent peut prendre le rôle « personnage » d'abord. L'enfant pose les questions sans pression."
+    }
+  },
+  {
+    id: 6,
+    nom: "Dés-histoires imaginaires",
+    inspi: "Story Cubes",
+    fonc: "narration",
+    foncLabel: "Narration + Imagination",
+    age: "5+",
+    teaser: "Tu énonces 3 objets aléatoires. Le joueur doit inventer une histoire qui les inclut tous, dans cet ordre. Imagination + structure narrative.",
+    regles: [
+      "1 maître annonce <strong>3 mots-images</strong> au hasard (ex: <em>château · pizza · dragon</em>).",
+      "Le joueur a 30 secondes pour <strong>inventer une histoire</strong> qui inclut les 3 mots, dans l'ordre.",
+      "L'histoire doit avoir : un <strong>début</strong> (qui, où), un <strong>milieu</strong> (un problème), une <strong>fin</strong> (résolution).",
+      "Pas de jugement — juste écouter et apprécier.",
+      "Variantes possibles à plusieurs : chacun ajoute une phrase à la suite."
+    ],
+    variantes: {
+      facile: "2 mots seulement. Sans chrono. Histoire courte.",
+      difficile: "5 mots + 1 émotion imposée (« peur »).",
+      relais: "L'histoire passe de joueur en joueur, chacun ajoute 1 phrase + 1 mot imposé."
+    },
+    neuro: "Travaille la <strong>narration structurée</strong>, l'<strong>imagination</strong>, le <strong>vocabulaire</strong>, la <strong>flexibilité créative</strong>. Aussi excellent pour les enfants timides qui prennent confiance à l'oral.",
+    adapt: {
+      tdah: "Sans chrono. Encourage les histoires courtes. Récompense l'idée originale.",
+      tsa: "Donne une structure visuelle (qui · où · quoi · pourquoi · fin). Évite les contraintes émotionnelles abstraites.",
+      timide: "Commence par les écouter raconter. Puis tu prends la suite. Modélise la prise de parole."
+    }
+  },
+  {
+    id: 7,
+    nom: "Le bluff des animaux",
+    inspi: "Loup-Garou junior",
+    fonc: "social",
+    foncLabel: "Persuasion + Prise de perspective",
+    age: "8+",
+    teaser: "Chaque joueur tire secrètement un rôle (loup, villageois, sage). Les loups veulent éliminer les villageois, les villageois doivent les démasquer. Mensonge contrôlé + détection sociale.",
+    regles: [
+      "<strong>Rôles</strong> (à 4-6 joueurs) : 1-2 « loups », 1 « sage » (connaît tout le monde), reste = villageois.",
+      "Le parent (maître du jeu) annonce <strong>« Nuit tombe »</strong> — tout le monde ferme les yeux.",
+      "Les loups ouvrent les yeux, désignent silencieusement une victime. Le maître note.",
+      "Le sage ouvre, désigne un joueur, le maître lui dit « loup » ou « villageois ».",
+      "<strong>« Jour se lève »</strong> — le maître annonce la victime de la nuit (sortie du jeu).",
+      "Les joueurs débattent : qui est loup ? Vote à la majorité. La personne désignée sort.",
+      "On enchaîne nuit/jour jusqu'à ce que tous les loups soient éliminés OU les loups deviennent majoritaires."
+    ],
+    variantes: {
+      facile: "Sans le rôle du sage. Juste loups vs villageois. Parties courtes.",
+      difficile: "Ajout d'un « voyant » (peut consulter 1 fois par nuit) ou « sorcier ».",
+      family: "Avec 4 personnes : 1 loup + 3 villageois. Parties de 5 min."
+    },
+    neuro: "Travaille la <strong>théorie de l'esprit</strong> (comprendre ce que pense l'autre), la <strong>persuasion</strong>, la <strong>détection du mensonge</strong>, et la <strong>tolérance à l'ambiguïté</strong>. Excellent pour ados.",
+    adapt: {
+      tdah: "Parties courtes (10 min max). Distribue les rôles à chaque manche, ne reste pas trop longtemps.",
+      tsa: "Le mensonge contrôlé est difficile. Le rôle de « sage qui révèle la vérité » leur convient bien. Discute après ce qui s'est passé.",
+      anxieux: "Évite de désigner systématiquement la même personne comme loup. Crée un climat ludique, jamais accusateur."
+    }
+  },
+  {
+    id: 8,
+    nom: "Reconstruis le tableau",
+    inspi: "Tangram",
+    fonc: "planification",
+    foncLabel: "Visuo-spatial + Planif",
+    age: "6+",
+    teaser: "Tu décris une image que tu vois (paysage, scène, photo). L'enfant doit dessiner ou la reconstituer mentalement à partir de tes consignes orales uniquement.",
+    regles: [
+      "Choisis une <strong>image</strong> (photo familiale, illustration de livre, paysage par la fenêtre).",
+      "Ne la montre PAS à l'enfant. Tu la regardes seul·e.",
+      "Tu la décris en <strong>phrases courtes et précises</strong> : « En bas à gauche, il y a une maison rouge. À droite de la maison, un arbre. Au-dessus, des nuages. »",
+      "L'enfant dessine au fur et à mesure (papier + crayon) OU reconstitue mentalement avec des explications.",
+      "Quand tu as fini : comparez. Pas de bonne ou mauvaise réponse — juste observer les écarts.",
+      "Inverse les rôles : c'est l'enfant qui décrit."
+    ],
+    variantes: {
+      facile: "Image simple (3-5 éléments). Adulte décrit lentement avec pauses.",
+      difficile: "Image complexe. Enfant ne peut poser que 3 questions clarification.",
+      ado: "Reproduire un schéma de cours (carte géo, structure cellule). Travaille la transposition orale → visuelle."
+    },
+    neuro: "Travaille la <strong>compréhension spatiale</strong>, l'<strong>écoute fine</strong>, la <strong>représentation mentale</strong>, et la <strong>planification</strong>. Excellent pour enfants dyspraxiques.",
+    adapt: {
+      tdah: "Images simples. Pauses fréquentes. Le valoriser pour les détails capturés, pas les manques.",
+      tsa: "Excellent jeu pour eux — la consigne explicite leur convient. Encourage à poser des questions de clarification.",
+      dyspraxique: "Privilégie la reconstitution avec des objets (cubes, jouets) plutôt que dessin. Le geste fin peut être pénible."
+    }
+  },
+  {
+    id: 9,
+    nom: "Mime des émotions",
+    inspi: "Time's Up version émotions + Mes premiers jeux émotions",
+    fonc: "emo",
+    foncLabel: "Émotion + Communication non-verbale",
+    age: "5+",
+    teaser: "Tu tires une émotion + une situation. Tu dois mimer la scène sans parler. Les autres devinent l'émotion ET la situation.",
+    regles: [
+      "Préparation : faire 2 listes au papier (parent peut écrire pour les petits).",
+      "<strong>Liste émotions</strong> (10) : joie, tristesse, peur, colère, surprise, dégoût, jalousie, fierté, ennui, gêne.",
+      "<strong>Liste situations</strong> (10) : à l'école, au goûter, au coucher, en visite, en voiture, devant un dessin animé, à la piscine, chez le médecin, en sortie, à table.",
+      "Le joueur pioche 1 émotion + 1 situation. Il mime <strong>20 sec sans parler</strong>.",
+      "Les autres devinent. 1 point pour l'émotion juste, 1 point pour la situation juste.",
+      "On peut discuter après : « pourquoi tu serais en colère à la piscine ? Tu as déjà vécu ça ? »"
+    ],
+    variantes: {
+      facile: "Que l'émotion (pas la situation). Pas de chrono.",
+      difficile: "Émotion mixte (jalousie + soulagement). Très bref.",
+      complices: "À 2 dans le même rôle, ils miment ensemble une scène."
+    },
+    neuro: "Travaille la <strong>reconnaissance émotionnelle</strong>, la <strong>communication non-verbale</strong>, la <strong>théorie de l'esprit</strong>, et l'<strong>ouverture aux émotions différentes</strong>. Excellent pour familles avec ados qui ont du mal à exprimer.",
+    adapt: {
+      tdah: "Sans chrono. Encourage l'expression, pas la précision.",
+      tsa: "Excellent pour eux — apprendre à RECONNAÎTRE les expressions. Commencer par des émotions claires (joie/tristesse), monter en nuance progressivement.",
+      anxieux: "Toi parent commence. Modélise. Pas de moquerie. Discuter ce qui s'est passé renforce le lien."
+    }
+  },
+  {
+    id: 10,
+    nom: "La consigne de plus en plus longue",
+    inspi: "Memory + Halli Galli (mémoire de travail)",
+    fonc: "memoire",
+    foncLabel: "Mémoire de travail",
+    age: "5+",
+    teaser: "Tu donnes une consigne. L'enfant l'exécute. Tu ajoutes une consigne en plus. Il refait TOUT. Etc. Mémoire de travail entraînée jusqu'à saturation.",
+    regles: [
+      "Tu donnes UNE consigne courte (« va toucher la porte »). L'enfant l'exécute.",
+      "Tu ajoutes une 2e consigne (« va toucher la porte ET tape 2 fois dans les mains »). Il fait LES DEUX dans l'ordre.",
+      "Tu ajoutes une 3e (« porte · 2 claps · saute 1 fois »). Il refait LES 3.",
+      "On continue d'ajouter jusqu'à l'oubli ou l'erreur.",
+      "Le record personnel se note. On essaie de le battre la fois suivante."
+    ],
+    variantes: {
+      facile: "Consignes très simples + visuel (montrer + dire). Max 4 consignes.",
+      difficile: "Consignes en plusieurs étapes (« va à la cuisine, prends un verre, reviens en sautant »). Max 7-8 chaines.",
+      ado: "Consignes mentales (« calcule 3+5, multiplie par 2, soustrais 4 ») sans support."
+    },
+    neuro: "Travaille spécifiquement la <strong>mémoire de travail</strong> (capacité à maintenir + manipuler des infos). C'est LA fonction exécutive la plus affectée chez les TDAH/TSA. Excellent entraînement quotidien (5 min).",
+    adapt: {
+      tdah: "Commence à 3 consignes max. Vise la progression, pas le record absolu. Note les records dans un carnet, valorise l'amélioration personnelle.",
+      tsa: "Consignes très claires, ordre prévisible. Évite les ajouts surprenants. Excellent jeu structuré.",
+      dys: "Privilégie consignes physiques (gestes, déplacements) plutôt que verbales abstraites."
+    }
+  }
+];
+
+let activeFilter = 'all';
+
+function renderGrid(){
+  const filtered = JEUX.filter(j => activeFilter === 'all' || j.fonc === activeFilter);
+  document.getElementById('count').textContent = filtered.length;
+  const grid = document.getElementById('grid');
+  grid.innerHTML = filtered.map(j => `
+    <div class="jeu-card" data-fonc="${j.fonc}">
+      <div class="tags">
+        <span class="tag">${j.foncLabel}</span>
+        <span class="tag tag-age">${j.age} ans</span>
+        <span class="tag tag-inspi">📦 Inspiré de ${j.inspi}</span>
+      </div>
+      <h3>${j.id}. ${j.nom}</h3>
+      <div class="desc">${j.teaser}</div>
+      <button class="btn-detail" onclick="openModal(${j.id})">📖 Voir les règles complètes →</button>
+    </div>
+  `).join('');
+}
+
+function filt(fonc){
+  activeFilter = fonc;
+  document.querySelectorAll('[data-fonc]').forEach(b => {
+    if(b.classList.contains('filtre-btn')) b.classList.remove('active');
+  });
+  document.querySelector(`.filtre-btn[data-fonc="${fonc}"]`).classList.add('active');
+  renderGrid();
+}
+
+function openModal(id){
+  const j = JEUX.find(x => x.id === id);
+  if(!j) return;
+  const html = `
+    <span class="modal-inspi">📦 Inspiré de ${j.inspi} — version originale Rahma-Tech</span>
+    <h2>🎮 ${j.id}. ${j.nom}</h2>
+    <p style="font-size:.95rem;color:#666;margin-bottom:6px"><strong>Fonction :</strong> ${j.foncLabel} · <strong>Âge :</strong> ${j.age} ans</p>
+
+    <div class="modal-section regles">
+      <h4>📋 Règles du jeu</h4>
+      <ol>${j.regles.map(r => `<li>${r}</li>`).join('')}</ol>
+    </div>
+
+    <div class="modal-section variantes">
+      <h4>🎯 Variantes</h4>
+      <p><strong>🌱 Plus facile :</strong> ${j.variantes.facile}</p>
+      <p><strong>🌳 Plus difficile :</strong> ${j.variantes.difficile}</p>
+      ${Object.entries(j.variantes).filter(([k]) => !['facile','difficile'].includes(k)).map(([k,v]) => `<p><strong>✨ ${k.charAt(0).toUpperCase()+k.slice(1)} :</strong> ${v}</p>`).join('')}
+    </div>
+
+    <div class="modal-section neuro">
+      <h4>🧠 Pourquoi ça marche (neuropédago)</h4>
+      <p>${j.neuro}</p>
+    </div>
+
+    <div class="modal-section adapt">
+      <h4>💛 Adaptations TND</h4>
+      ${Object.entries(j.adapt).map(([k,v]) => `<p><strong>${k.toUpperCase()} :</strong> ${v}</p>`).join('')}
+    </div>
+
+    <p style="text-align:center;font-style:italic;color:#a04500;margin-top:14px;font-size:.85rem">— Création originale Team Rahma-Tech · EducaTypique —</p>
+  `;
+  document.getElementById('modal-content').innerHTML = html;
+  document.getElementById('modal-overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e){
+  if(e && e.target.id !== 'modal-overlay' && e.target.className !== 'modal-close') return;
+  document.getElementById('modal-overlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape') closeModal();
+});
+
+renderGrid();
+</script>
+</body>
+</html>

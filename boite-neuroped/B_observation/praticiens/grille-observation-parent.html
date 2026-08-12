@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grille d'observation parent rapportée — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fff5f8,#fff)}
+.bandeau{background:linear-gradient(135deg,#F39BC2,#e05a8a);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.7rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:1050px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #F39BC2;line-height:1.55}
+.intro strong{color:#a04268}
+
+.posture{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.88rem;color:#5A4D6B;line-height:1.5}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #f0c8d8;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#F39BC2;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#a04268;border:1.5px solid #f0c8d8}
+
+.bloc{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c,#F39BC2)}
+.bloc h2{color:var(--c,#a04268);margin:0 0 .3rem;font-size:1.1rem;display:flex;align-items:center;gap:.4rem}
+.bloc .intro-bloc{color:#666;font-size:.88rem;margin-bottom:.6rem;font-style:italic}
+
+.cadre-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem}
+.cadre-meta .champ{display:flex;flex-direction:column;gap:.2rem}
+.cadre-meta label{font-weight:700;font-size:.85rem;color:#a04268}
+.cadre-meta input{padding:.45em .7em;border:1.5px solid #f0c8d8;border-radius:var(--r-sm);font-family:inherit;background:#fff5f8}
+
+/* Tableau questions */
+.zone-grid{display:flex;flex-direction:column;gap:.5rem}
+.zone-row{display:grid;grid-template-columns:1fr 100px 2fr;gap:.5rem;padding:.5rem .6rem;background:#fafafa;border-radius:var(--r-sm);border-left:3px solid var(--cc);align-items:center}
+@media (max-width:700px){.zone-row{grid-template-columns:1fr;gap:.3rem}}
+.zone-row .qst{font-size:.92rem;color:#333;line-height:1.4}
+.zone-row .echelle{display:flex;gap:.2rem;justify-content:center}
+.zone-row .echelle label{width:30px;height:30px;border-radius:50%;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:#888;border:2px solid #ddd}
+.zone-row .echelle label:hover{border-color:var(--cc)}
+.zone-row .echelle input{display:none}
+.zone-row .echelle input:checked + .v{background:var(--cc);color:#fff;width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;border:none}
+.zone-row textarea{padding:.4em .5em;border:1px solid #e0d0d8;border-radius:var(--r-sm);font-family:inherit;font-size:.85rem;background:#fff;min-height:36px;resize:vertical;line-height:1.4}
+
+.z-routine{--cc:#7c5cbf}
+.z-emotion{--cc:#F39BC2}
+.z-social{--cc:#2a9d8f}
+.z-ecole{--cc:#e9a73a}
+.z-fratrie{--cc:#9B85B8}
+.z-couple{--cc:#5a7a9f}
+.z-historique{--cc:#5fa040}
+
+.synthese{background:linear-gradient(135deg,#fff,#fff5f8);border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border:2px solid #f0c8d8}
+.synthese h2{color:#a04268;margin:0 0 .5rem}
+.qst-syn{background:#fff;border-left:4px solid #F39BC2;border-radius:var(--r-sm);padding:.5rem .8rem;margin-bottom:.4rem}
+.qst-syn label{display:block;font-weight:700;color:#a04268;margin-bottom:.2rem;font-size:.9rem}
+.qst-syn textarea{width:100%;padding:.45em .6em;border:1px solid #f0c8d8;border-radius:var(--r-sm);font-family:inherit;font-size:.88rem;background:#fff5f8;min-height:50px;resize:vertical;line-height:1.5}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #F39BC2;background:#fff;color:#a04268;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#F39BC2;color:#fff}
+.actions .primary{background:#F39BC2;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+@media print{
+  .actions,.dossier-bar{display:none!important}
+  body{background:#fff}
+  .bloc,.synthese{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace pros</a>
+  <h1>🏡 Grille d'observation parent rapportée</h1>
+  <p class="sub">Trame d'entretien pour recueillir les observations parentales sur le quotidien — complément du Repérage TND enfant.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🏡 <strong>Quand l'utiliser :</strong> entretien initial parent OU lors d'un suivi. Trame guidée par zones de vie (routine · émotion · social · école · fratrie · couple · historique). Permet de croiser avec l'observation classe + auto-évaluation ado pour profil 360°.
+  </div>
+
+  <div class="posture">
+    🌿 <strong>Posture entretien :</strong> écoute active, pas de jugement, reformulation. Le parent est l'<strong>expert</strong> de son enfant — toi pro, tu apportes une grille pour structurer ce qu'il/elle observe déjà.
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:#a04268">📁</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouvel entretien</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <section class="bloc" style="--c:#7c5cbf">
+    <h2>📋 Cadre de l'entretien</h2>
+    <div class="cadre-meta">
+      <div class="champ"><label>Enfant</label><input type="text" data-k="prenom"></div>
+      <div class="champ"><label>Âge</label><input type="text" data-k="age"></div>
+      <div class="champ"><label>Date entretien</label><input type="date" data-k="date"></div>
+      <div class="champ"><label>Parent rencontré</label><input type="text" data-k="parent" placeholder="Ex: mère / père / les deux"></div>
+      <div class="champ"><label>Pro qui mène</label><input type="text" data-k="pro"></div>
+      <div class="champ"><label>Motif</label><input type="text" data-k="motif" placeholder="Ex: bilan initial, suivi 3 mois…"></div>
+    </div>
+  </section>
+
+  <div id="zones-container"></div>
+
+  <section class="synthese">
+    <h2>🪞 Synthèse de l'entretien</h2>
+    <div class="qst-syn"><label>1. 💛 Forces de cet enfant que le parent souligne</label><textarea data-k="syn1" placeholder="Ce qu'il/elle réussit, ce qui marche, les ressources."></textarea></div>
+    <div class="qst-syn"><label>2. 🚧 Difficultés principales rapportées (hiérarchisées)</label><textarea data-k="syn2" placeholder="Top 3 difficultés par ordre d'impact."></textarea></div>
+    <div class="qst-syn"><label>3. 🔍 Hypothèses cliniques que ça évoque</label><textarea data-k="syn3" placeholder="TDAH ? HPI ? Dys ? TSA ? Anxiété ? Croisé avec ?"></textarea></div>
+    <div class="qst-syn"><label>4. 🧭 Bilans à proposer / orientations</label><textarea data-k="syn4" placeholder="Neuropsy · ortho · ergo · pédopsy · psychomot…"></textarea></div>
+    <div class="qst-syn"><label>5. 🌱 Premiers conseils donnés AUX PARENTS (à la fin de l'entretien)</label><textarea data-k="syn5" placeholder="Pas attendre les bilans : adaptations immédiates, posture, outils EducaTypique."></textarea></div>
+    <div class="qst-syn"><label>6. 📅 Prochain RDV / actions du parent d'ici là</label><textarea data-k="syn6" placeholder="Ce qu'on revoit, ce qu'ils mettent en place, contact avec l'école…"></textarea></div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer (A4)</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Outil de synthèse d'entretien parent. Croiser avec : auto-évaluation ado (si pertinent) · observation classe · échanges école · bilans pluridisciplinaires. Confidentialité absolue.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../professionnels.html" style="color:#a04268">retour espace pros</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_grille_obs_parent_v1';
+let state={dossiers:{},dossier:null};
+
+const ZONES = [
+  {id:'routine',cl:'z-routine',couleur:'#7c5cbf',titre:'🌅 Routines quotidiennes',questions:[
+    "Sommeil (endormissement, réveils, fatigue jour)",
+    "Repas (sélectivité, durée, conflits)",
+    "Réveil et matin (autonomie, ambiance)",
+    "Hygiène (douche, dents, vêtements)",
+    "Coucher (rituel, opposition)",
+    "Écrans (durée, conflits, contenu)"
+  ]},
+  {id:'emotion',cl:'z-emotion',couleur:'#F39BC2',titre:'💗 Émotions / régulation',questions:[
+    "Fréquence des crises de colère",
+    "Durée pour se calmer après une émotion forte",
+    "Pleurs faciles / souvent",
+    "Anxiété (inquiétudes, somatisations)",
+    "Plaisir / joie (a-t-il/elle des moments joyeux ?)",
+    "Phrases noires / dévalorisation"
+  ]},
+  {id:'social',cl:'z-social',couleur:'#2a9d8f',titre:'👫 Social / pairs',questions:[
+    "A des amis · qualité des liens",
+    "Invitations / sorties",
+    "Comportement en groupe",
+    "Conflits avec les pairs",
+    "Adaptation aux nouveaux contextes sociaux"
+  ]},
+  {id:'ecole',cl:'z-ecole',couleur:'#e9a73a',titre:'🏫 École / apprentissages',questions:[
+    "Rapport global à l'école (envie, refus, neutre)",
+    "Devoirs : durée, conflits, qualité",
+    "Notes / appréciations",
+    "Relation enseignant·e",
+    "Existant : PAP / PPS / aides en place ?",
+    "Adaptations qui marchent / ne marchent pas"
+  ]},
+  {id:'fratrie',cl:'z-fratrie',couleur:'#9B85B8',titre:'🏡 Fratrie',questions:[
+    "Place dans la fratrie · âges",
+    "Qualité du lien avec frères/sœurs",
+    "Conflits fratrie · fréquence",
+    "Comparaisons / jalousies"
+  ]},
+  {id:'couple',cl:'z-couple',couleur:'#5a7a9f',titre:'💑 Couple parental / cadre éducatif',questions:[
+    "Cohésion entre parents face à l'enfant",
+    "Différences d'approche éducative",
+    "Charge mentale (qui porte quoi)",
+    "Niveau d'épuisement parental"
+  ]},
+  {id:'historique',cl:'z-historique',couleur:'#5fa040',titre:'📜 Historique / contexte',questions:[
+    "Grossesse / accouchement particularités",
+    "Étapes développement (marche, langage, propreté)",
+    "Antécédents médicaux importants",
+    "Antécédents familiaux TND",
+    "Événements de vie marquants (déménagement, deuil…)",
+    "Bilans déjà passés · résultats"
+  ]}
+];
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {meta:{},zones:{},notes:{},syn:{}}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Entretien 1":blank()};state.dossier="Entretien 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function renderZones(){
+  const c=document.getElementById('zones-container');
+  c.innerHTML=ZONES.map(z=>`
+    <section class="bloc" style="--c:${z.couleur}">
+      <h2>${esc(z.titre)}</h2>
+      <div class="intro-bloc">Pour chaque question : 0 (pas de souci) · 1 (parfois) · 2 (souvent) · 3 (problème majeur). Notes libres à droite.</div>
+      <div class="zone-grid">
+        ${z.questions.map((q,i)=>`
+          <div class="zone-row ${z.cl}">
+            <div class="qst">${esc(q)}</div>
+            <div class="echelle">
+              ${[0,1,2,3].map(v=>`<label><input type="radio" name="z_${z.id}_${i}" value="${v}"><span class="v">${v}</span></label>`).join('')}
+            </div>
+            <textarea name="zn_${z.id}_${i}" placeholder="Précisions, exemples concrets, mots du parent…"></textarea>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+  `).join('');
+}
+
+function appliquer(){
+  const d=current();
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    const k=el.dataset.k;
+    el.value=(d.meta&&d.meta[k])||(d.syn&&d.syn[k])||'';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{
+    const [,id,i]=r.name.split('_');
+    const v=d.zones&&d.zones[id]&&d.zones[id][i];
+    r.checked=(v!==undefined&&parseInt(r.value)===parseInt(v));
+  });
+  document.querySelectorAll('textarea[name^="zn_"]').forEach(t=>{
+    const [,id,i]=t.name.split('_');
+    t.value=(d.notes&&d.notes[id]&&d.notes[id][i])||'';
+  });
+}
+
+function wireUp(){
+  document.addEventListener('change',e=>{
+    const el=e.target;
+    if(el.dataset.k){
+      const k=el.dataset.k;
+      const d=current();
+      if(k.startsWith('syn')){d.syn=d.syn||{};d.syn[k]=el.value}
+      else{d.meta=d.meta||{};d.meta[k]=el.value}
+      save();
+    } else if(el.name && el.name.startsWith('z_')){
+      const [,id,i]=el.name.split('_');
+      const d=current();
+      d.zones=d.zones||{};d.zones[id]=d.zones[id]||{};d.zones[id][i]=parseInt(el.value);save();
+    }
+  });
+  document.addEventListener('input',e=>{
+    const el=e.target;
+    if(el.dataset.k){
+      const k=el.dataset.k;
+      const d=current();
+      if(k.startsWith('syn')){d.syn=d.syn||{};d.syn[k]=el.value}
+      else{d.meta=d.meta||{};d.meta[k]=el.value}
+      save();
+    } else if(el.name && el.name.startsWith('zn_')){
+      const [,id,i]=el.name.split('_');
+      const d=current();
+      d.notes=d.notes||{};d.notes[id]=d.notes[id]||{};d.notes[id][i]=el.value;save();
+    }
+  });
+}
+
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();appliquer();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom :','Entretien '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible.');return}
+  if(confirm('Supprimer ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();appliquer();}};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  let t=`GRILLE D'OBSERVATION PARENT RAPPORTÉE — EducaTypique\nCréation originale Nawel Haddouch\n\n`;
+  Object.entries(d.meta||{}).forEach(([k,v])=>t+=`${k} : ${v}\n`);
+  t+='\n';
+  ZONES.forEach(z=>{
+    t+=`== ${z.titre} ==\n`;
+    z.questions.forEach((q,i)=>{
+      const note=(d.notes&&d.notes[z.id]&&d.notes[z.id][i])||'';
+      t+=`  (${(d.zones&&d.zones[z.id]&&d.zones[z.id][i])!==undefined?d.zones[z.id][i]:'?'}) ${q}${note?' — '+note:''}\n`;
+    });
+    t+='\n';
+  });
+  t+='\n== SYNTHÈSE ==\n';
+  for(let i=1;i<=6;i++) t+=`syn${i} : ${(d.syn&&d.syn['syn'+i])||'—'}\n\n`;
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`obs-parent-${(d.meta?.prenom)||'enfant'}-${(d.meta?.date)||new Date().toISOString().slice(0,10)}.txt`;a.click();
+};
+
+load();refreshDossier();renderZones();
+document.querySelector('[data-k="date"]').valueAsDate=new Date();
+appliquer();wireUp();
+</script>
+
+</body>
+</html>

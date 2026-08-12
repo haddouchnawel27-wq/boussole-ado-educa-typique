@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module joie — Cultiver le positif (ado) · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#FFF9E8 0%,#FFFBEF 50%,#FFF5E5 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#3D3E2A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:880px;margin:0 auto}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes shine{0%,100%{opacity:.6}50%{opacity:1}}
+
+.hdr{text-align:center;padding:38px 24px 28px;margin-bottom:22px;background:linear-gradient(135deg,#FFF6C8 0%,#FFE9A8 50%,#FFCB85 100%);border-radius:24px;border:1px solid rgba(230,170,40,.22);box-shadow:0 8px 28px rgba(230,170,40,.1);position:relative;overflow:hidden}
+.hdr::before{content:'☀️';position:absolute;top:14px;right:18px;font-size:46px;opacity:.25;animation:float 4s ease-in-out infinite}
+.hdr::after{content:'🌻';position:absolute;bottom:14px;left:18px;font-size:42px;opacity:.2;animation:float 5s ease-in-out infinite reverse}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#E0B83E,#E89556);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:12px;position:relative;z-index:1}
+.hdr h1{font-family:Georgia,serif;font-size:32px;font-weight:400;color:#3D3E2A;margin-bottom:8px;position:relative;z-index:1}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:14.5px;color:#5A5A35;max-width:620px;margin:0 auto;position:relative;z-index:1}
+
+.intro{background:#fff;border-radius:18px;padding:22px 24px;margin-bottom:20px;border:1px solid rgba(230,170,40,.22);box-shadow:0 4px 14px rgba(230,170,40,.06)}
+.intro p{font-size:14.5px;color:#3D4E4A;line-height:1.65;margin-bottom:8px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#C28A1C}
+
+.nav{display:flex;gap:6px;background:#fff;padding:8px;border-radius:14px;margin-bottom:20px;box-shadow:0 4px 12px rgba(230,170,40,.08);overflow-x:auto;border:1px solid rgba(230,170,40,.18)}
+.nav button{background:transparent;color:#5A5A35;border:none;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .25s}
+.nav button:hover{background:#FFF6E8}
+.nav button.active{background:linear-gradient(135deg,#E0B83E,#E89556);color:#fff;box-shadow:0 4px 10px rgba(230,170,40,.3)}
+
+.panel{display:none;animation:fadeIn .4s ease-out}
+.panel.active{display:block}
+.section{background:#fff;border-radius:20px;padding:24px;margin-bottom:18px;border:1px solid rgba(230,170,40,.2);box-shadow:0 4px 14px rgba(230,170,40,.05)}
+.section h2{font-family:Georgia,serif;font-size:21px;font-weight:500;color:#3D3E2A;margin-bottom:6px}
+.section .sub{font-size:13.5px;color:#7A7A55;font-style:italic;margin-bottom:18px}
+
+/* 7 JOURS */
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:18px 0}
+@media (max-width:680px){.days{grid-template-columns:repeat(4,1fr)}}
+.day-card{padding:14px 8px;border-radius:12px;cursor:pointer;text-align:center;transition:all .3s;border:2px solid #FFE9A8;background:#FFFBEF}
+.day-card:hover{background:#FFF6E8;transform:translateY(-2px)}
+.day-card.active{background:linear-gradient(160deg,#FFF6C8,#FFE9A8);border-color:#E0B83E;transform:scale(1.04);box-shadow:0 6px 16px rgba(230,170,40,.18)}
+.day-card.done{background:linear-gradient(160deg,#E8F5EC,#DFF0E2);border-color:#6CA89E}
+.day-card .num{font-family:Georgia,serif;font-size:22px;font-weight:700;color:#3D3E2A;display:block}
+.day-card .lbl{font-size:11px;color:#7A7A55;text-transform:uppercase;letter-spacing:.4px;margin-top:2px;display:block}
+.day-card .check{font-size:14px;margin-top:4px;display:block}
+
+.day-detail{background:linear-gradient(135deg,#FFFBEF,#FFF6C8);border-radius:18px;padding:24px;margin-top:14px;border:1px solid rgba(230,170,40,.25)}
+.day-detail h3{font-family:Georgia,serif;font-size:22px;color:#3D3E2A;margin-bottom:6px}
+.day-detail .theme{display:inline-block;padding:4px 12px;background:#fff;color:#C28A1C;border-radius:8px;font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:14px}
+.day-detail .quote{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A5A35;background:#fff;padding:14px 18px;border-radius:12px;border-left:4px solid #E0B83E;margin-bottom:16px;line-height:1.55}
+.day-detail h4{font-family:Georgia,serif;font-size:15.5px;color:#3D3E2A;margin:14px 0 8px;display:flex;align-items:center;gap:6px}
+.day-detail p{font-size:14px;color:#3D4E4A;line-height:1.65;margin-bottom:8px}
+.day-detail ul{margin:8px 0 12px 22px;font-size:14px;color:#3D4E4A;line-height:1.7}
+
+.day-form{background:#fff;border-radius:14px;padding:16px;margin-top:14px;border:1px dashed rgba(230,170,40,.3)}
+.day-form label{display:block;font-size:13px;font-weight:600;color:#5A5A35;margin:8px 0 6px}
+.day-form textarea,.day-form input{width:100%;padding:10px 14px;border:1px solid rgba(230,170,40,.3);border-radius:10px;font-size:14px;color:#3D3E2A;background:#FFFBEF;font-family:inherit;line-height:1.55}
+.day-form textarea{min-height:60px;resize:vertical}
+
+.btn{background:linear-gradient(135deg,#E0B83E,#E89556);color:#fff;border:none;padding:11px 22px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;margin-top:14px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(230,170,40,.3)}
+.btn-sec{background:#FFF6E8;color:#C28A1C;border:1px solid rgba(230,170,40,.3);margin-left:8px}
+
+/* 30 PETITES JOIES */
+.joies-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:18px 0}
+.joie-item{background:#FFFBEF;padding:12px 14px;border-radius:10px;font-size:13px;color:#3D3E2A;border-left:3px solid #E0B83E;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:8px}
+.joie-item:hover{background:#FFF6C8;transform:translateX(2px)}
+.joie-item.done{background:linear-gradient(135deg,#E8F5EC,#DFF0E2);border-color:#6CA89E;text-decoration:line-through;opacity:.7}
+.joie-item input[type=checkbox]{flex-shrink:0;width:16px;height:16px;accent-color:#E0B83E;cursor:pointer}
+
+/* GRATITUDE */
+.gratitude-list{margin-top:14px}
+.gratitude-item{background:#FFFBEF;border-radius:12px;padding:14px 16px;margin-bottom:10px;border-left:3px solid #E0B83E;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.gratitude-item .g-date{font-size:11.5px;color:#7A7A55;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px}
+.gratitude-item .g-text{font-family:Georgia,serif;font-size:14px;color:#3D3E2A;line-height:1.55;font-style:italic}
+.gratitude-item button{background:transparent;border:none;color:#C9573A;cursor:pointer;font-size:14px;flex-shrink:0}
+
+.footer{text-align:center;padding:30px 16px 8px;color:#7A7A55;font-size:12.5px;font-style:italic;font-family:Georgia,serif;animation:shine 5s ease-in-out infinite}
+.footer .brand-foot{color:#C28A1C;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+
+@media (max-width:600px){.hdr h1{font-size:23px}.joies-list{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a href="../../ados.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#C28A1C;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,.12);border:1px solid rgba(230,170,40,.25)">← Ados</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Module joie · EducaTypique</span>
+<h1>☀️ Cultiver le positif</h1>
+<p>Un parcours de 7 jours pour entraîner ton cerveau à voir et savourer ce qui va. Pas du fake bonheur — un vrai muscle à développer.</p>
+</div>
+
+<div class="intro">
+<p>💡 <strong>Pourquoi c'est utile ?</strong> Le cerveau ado est câblé pour repérer les dangers et les frustrations (utile pour survivre, fatigant à vivre). La joie ne tombe pas du ciel : elle se <strong>cultive</strong>. C'est neurologique : ce qu'on remarque s'imprime, ce qu'on savoure dure, ce qu'on répète devient automatique.</p>
+<p>👉 <strong>Comment ça marche :</strong> 7 jours, 1 thème par jour, 3 minutes par jour. Tu peux faire dans l'ordre ou piocher selon ton humeur. Tout est sauvegardé localement.</p>
+</div>
+
+<div class="nav">
+<button class="active" data-tab="7jours" onclick="switchTab('7jours')">📅 Parcours 7 jours</button>
+<button data-tab="petitesjoies" onclick="switchTab('petitesjoies')">✨ 30 petites joies</button>
+<button data-tab="gratitude" onclick="switchTab('gratitude')">🙏 Journal gratitude</button>
+</div>
+
+<!-- ============ PANEL 7 JOURS ============ -->
+<div class="panel active" id="panel-7jours">
+<div class="section">
+<h2>📅 Parcours 7 jours · 1 thème, 1 exercice</h2>
+<div class="sub">Clique sur un jour pour voir l'exercice. Coche quand tu l'as fait. 3 minutes suffisent.</div>
+
+<div class="days" id="daysGrid"></div>
+
+<div class="day-detail" id="dayDetail"></div>
+</div>
+</div>
+
+<!-- ============ PANEL 30 PETITES JOIES ============ -->
+<div class="panel" id="panel-petitesjoies">
+<div class="section">
+<h2>✨ 30 petites joies à savourer cette semaine</h2>
+<div class="sub">Pas des grandes choses. Des micro-moments que ton cerveau ne voit plus parce qu'il les trouve normaux. Coche celles que tu vis. But : repérer + savourer.</div>
+
+<div class="joies-list" id="joiesList"></div>
+
+<button class="btn btn-sec" onclick="resetJoies()">🔄 Recommencer la semaine</button>
+</div>
+</div>
+
+<!-- ============ PANEL GRATITUDE ============ -->
+<div class="panel" id="panel-gratitude">
+<div class="section">
+<h2>🙏 Journal de gratitude</h2>
+<div class="sub">Chaque soir (ou quand tu veux), écris 1 à 3 choses pour lesquelles tu es reconnaissant·e aujourd'hui. Même petites. Surtout petites.</div>
+
+<div class="day-form">
+<label>📅 Aujourd'hui je suis reconnaissant·e pour…</label>
+<textarea id="g-text" placeholder="Ex : Ma sœur m'a fait rire au dîner. · Le thé que j'ai bu ce matin. · Mon prof de musique qui m'a remarqué·e."></textarea>
+<button class="btn" onclick="addGratitude()">💾 Ajouter</button>
+</div>
+
+<div class="gratitude-list" id="gratitudeList"></div>
+</div>
+</div>
+
+<div class="footer">
+« La joie, ce n'est pas quand tout va bien — c'est quand tu apprends à voir ce qui va. »
+<span class="brand-foot">Module joie · Création originale Nawel Haddouch · EducaTypique</span>
+<span style="font-size:11px;display:block;margin-top:4px;color:#8A8A65">Mémoire locale · rien n'est envoyé en ligne</span>
+<span style="font-size:10.5px;display:block;margin-top:8px;color:#8A8A65;font-style:normal;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.5">⚠️ Module pédagogique pour cultiver le positif. <strong>Si tu te sens vide ou triste depuis plus de 2 semaines</strong>, ce n'est pas que tu as raté ce module — c'est qu'il faut en parler à un adulte de confiance ou appeler le <strong>3114</strong> (24h/24, gratuit).</span>
+</div>
+
+</div>
+
+<script>
+var JOURS = [
+  {n:1,lbl:'Lun',theme:'Savourer',titre:'Savourer un petit moment',
+    quote:"« Le bonheur, c'est de continuer à désirer ce que l'on possède. » — Saint Augustin",
+    exo:"Aujourd'hui, choisis UN moment de la journée (boire ton thé, écouter une musique, sentir le soleil sur ton visage, manger ton plat préféré). Pendant 60 secondes, mets toute ton attention dessus. Note 3 sensations : ce que tu vois · entends · ressens dans le corps.",
+    why:"Le cerveau ado est très rapide — il scanne, juge, passe à autre chose. Savourer, c'est lui apprendre à RALENTIR pour que le moment s'imprime. C'est ça qui crée des souvenirs joyeux durables."},
+  {n:2,lbl:'Mar',theme:'Gratitude',titre:'3 mercis du jour',
+    quote:"« Reconnaître ce qu'on a, c'est déjà l'avoir 2 fois. »",
+    exo:"Avant de te coucher, écris (ou pense fort) 3 petites choses pour lesquelles tu es reconnaissant·e. Pas obligé d'être profond. Ex : « ma chaussette n'avait pas de trou ce matin », « mon pote m'a dit salut », « j'ai eu 12 en maths ».",
+    why:"3 mercis par jour pendant 21 jours = recâblage du cerveau prouvé scientifiquement. Tes neurones apprennent à repérer le positif avant le négatif. Tu peux le faire dans l'onglet « Journal gratitude »."},
+  {n:3,lbl:'Mer',theme:'Force',titre:'Tes super-pouvoirs',
+    quote:"« Tu n'as pas besoin d'être parfait. Tu as besoin de connaître tes forces. »",
+    exo:"Écris 3 choses que tu sais bien faire (même petites). Ex : « je sais écouter un pote en galère », « je suis drôle dans les groupes », « je fais le meilleur Nutella-banane ». INTERDIT de dire « rien » — tout le monde a 3 forces minimum.",
+    why:"Le cerveau ado est expert pour voir ce qui ne va PAS chez soi (acné, taille, notes…). S'entraîner à voir tes forces ne te rend pas vaniteux : ça t'évite de t'écrouler quand quelqu'un te critique."},
+  {n:4,lbl:'Jeu',theme:'Lien',titre:'Un message bienveillant',
+    quote:"« Donner du bon à quelqu'un, c'est s'en donner à soi-même. »",
+    exo:"Aujourd'hui, envoie UN message gentil à quelqu'un. Sans raison. Ex : « Je pensais à toi, j'espère que ça va. », « Merci pour le truc de la semaine dernière », « T'es vraiment un·e bon·ne pote ». Note ce que tu ressens APRÈS l'avoir envoyé.",
+    why:"Faire du bien aux autres active les mêmes zones de récompense dans ton cerveau que recevoir du bien. C'est gratuit, ça change ta journée et celle de l'autre. Effet boomerang neuroscientifique prouvé."},
+  {n:5,lbl:'Ven',theme:'Corps',titre:'Bouger pour la joie',
+    quote:"« Un corps qui bouge libère un cerveau qui pense. »",
+    exo:"Pendant 5 à 10 minutes : danse sur ta musique préférée (seul·e dans ta chambre OK), va marcher dehors, fais 20 sauts, étire-toi. PAS pour faire du sport — juste pour bouger. Note ton humeur AVANT (1-10) et APRÈS (1-10).",
+    why:"L'activité physique libère endorphines + dopamine. C'est l'anti-déprime gratuit le plus puissant. 10 minutes de mouvement = 2h de meilleur humeur. Encore plus efficace si TDAH/anxiété."},
+  {n:6,lbl:'Sam',theme:'Rire',titre:'Doses de rire',
+    quote:"« Rire 1 minute = 45 minutes de relaxation. »",
+    exo:"Aujourd'hui, expose-toi à du rire : un vidéo qui te fait rire à chaque fois · un pote qui te fait marrer · un meme · un sketch · ton souvenir le plus drôle. Objectif : rire fort au moins 3 fois.",
+    why:"Le rire baisse le cortisol (hormone du stress) et augmente les endorphines. Ton cerveau ne fait pas la différence entre « rire vrai » et « rire forcé » au début — les deux marchent."},
+  {n:7,lbl:'Dim',theme:'Bilan',titre:'Ma semaine de joie',
+    quote:"« On ne mesure pas la joie en grandes choses, mais en moments remarqués. »",
+    exo:"Reprends les 6 jours précédents. Écris : (1) Quel jour t'a fait le plus de bien ? Pourquoi ? (2) Qu'est-ce que tu peux GARDER pour la semaine prochaine ? Choisis UN exercice à refaire chaque semaine.",
+    why:"Le bilan, c'est ce qui transforme une « semaine sympa » en « habitude qui dure ». Ton cerveau retient mieux ce que tu lui résumes activement. C'est ça qui fait que la joie devient ta couleur de fond, pas un accident."}
+];
+
+var JOIES = [
+  "L'odeur du pain chaud","Une musique qui me redonne de l'énergie","Le premier rayon de soleil de la journée",
+  "Un message inattendu d'un·e pote","Mon plat préféré devant moi","Réussir un truc du premier coup",
+  "Rire fort sans raison","Un bain ou une douche bien chaud·e","Le silence dans ma chambre",
+  "Mon animal qui me fait un câlin","Un fou rire avec ma fratrie","Une nouvelle chanson coup de cœur",
+  "Réussir à dormir sans cauchemar","Un compliment sincère","Le moment où je rentre chez moi",
+  "Une marche dehors qui fait du bien","Un pote qui me comprend sans expliquer","Manger un fruit parfaitement mûr",
+  "Mes draps frais quand je me couche","Une série qui me transporte","Un dessin/photo réussi·e",
+  "Un moment seul·e sans qu'on me dérange","Quelqu'un qui me remercie","Un câlin",
+  "Un bonbon ou un carré de chocolat","Le mardi : c'est plus lundi","Quelqu'un qui rit à ma blague",
+  "Une bonne nuit de sommeil","Un livre/film qui me parle","Une journée sans drama"
+];
+
+var KEY_PARCOURS = 'educatypique_joie_parcours_v1';
+var KEY_JOIES = 'educatypique_joie_petites_v1';
+var KEY_GRAT = 'educatypique_joie_gratitude_v1';
+
+function loadState(key, def){ try{ var r = localStorage.getItem(key); return r?JSON.parse(r):def; }catch(e){return def;} }
+function saveState(key, v){ try{ localStorage.setItem(key, JSON.stringify(v)); }catch(e){} }
+
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(function(b){b.classList.remove('active');});
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('panel-'+tab).classList.add('active');
+  if(tab==='gratitude') renderGratitude();
+  if(tab==='petitesjoies') renderJoies();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderDays(){
+  var done = loadState(KEY_PARCOURS, {});
+  document.getElementById('daysGrid').innerHTML = JOURS.map(function(j){
+    var isDone = done[j.n] && done[j.n].done;
+    return '<div class="day-card '+(isDone?'done':'')+'" data-day="'+j.n+'" onclick="openDay('+j.n+')">'+
+      '<span class="num">J'+j.n+'</span>'+
+      '<span class="lbl">'+j.lbl+'</span>'+
+      '<span class="check">'+(isDone?'✓':'')+'</span>'+
+    '</div>';
+  }).join('');
+}
+
+function openDay(n){
+  document.querySelectorAll('.day-card').forEach(function(c){c.classList.remove('active');});
+  document.querySelector('[data-day="'+n+'"]').classList.add('active');
+  var j = JOURS[n-1];
+  var done = loadState(KEY_PARCOURS, {});
+  var saved = done[n] || {};
+  var d = document.getElementById('dayDetail');
+  d.innerHTML = '<span class="theme">Jour '+j.n+' · '+j.theme+'</span>'+
+    '<h3>'+j.titre+'</h3>'+
+    '<div class="quote">'+j.quote+'</div>'+
+    '<h4>🎯 L\'exercice du jour</h4>'+
+    '<p>'+j.exo+'</p>'+
+    '<h4>🧠 Pourquoi ça marche</h4>'+
+    '<p>'+j.why+'</p>'+
+    '<div class="day-form">'+
+      '<label>📝 Ma note du jour (optionnel)</label>'+
+      '<textarea id="d-note-'+n+'" placeholder="Note ce que tu as observé, ressenti, retenu…">'+(saved.note||'')+'</textarea>'+
+      '<button class="btn" onclick="markDone('+n+')">'+(saved.done?'✓ Déjà fait — actualiser':'✓ J\'ai fait l\'exercice')+'</button>'+
+      (saved.done?'<button class="btn btn-sec" onclick="unDone('+n+')">↩ Annuler</button>':'')+
+    '</div>';
+  setTimeout(function(){ d.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 80);
+}
+
+function markDone(n){
+  var done = loadState(KEY_PARCOURS, {});
+  done[n] = { done: true, note: document.getElementById('d-note-'+n).value.trim() };
+  saveState(KEY_PARCOURS, done);
+  renderDays();
+  openDay(n);
+}
+
+function unDone(n){
+  var done = loadState(KEY_PARCOURS, {});
+  delete done[n];
+  saveState(KEY_PARCOURS, done);
+  renderDays();
+  openDay(n);
+}
+
+function renderJoies(){
+  var done = loadState(KEY_JOIES, {});
+  document.getElementById('joiesList').innerHTML = JOIES.map(function(j,i){
+    var checked = done[i] ? 'checked' : '';
+    var cls = done[i] ? 'done' : '';
+    return '<label class="joie-item '+cls+'"><input type="checkbox" '+checked+' onchange="toggleJoie('+i+')"> '+j+'</label>';
+  }).join('');
+}
+
+function toggleJoie(i){
+  var done = loadState(KEY_JOIES, {});
+  done[i] = !done[i];
+  saveState(KEY_JOIES, done);
+  renderJoies();
+}
+
+function resetJoies(){
+  if(!confirm('Tout décocher pour recommencer ?')) return;
+  saveState(KEY_JOIES, {});
+  renderJoies();
+}
+
+function addGratitude(){
+  var t = document.getElementById('g-text').value.trim();
+  if(!t){ alert('Écris au moins une chose.'); return; }
+  var arr = loadState(KEY_GRAT, []);
+  arr.unshift({ ts: Date.now(), date: new Date().toLocaleDateString('fr-FR'), text: t });
+  saveState(KEY_GRAT, arr);
+  document.getElementById('g-text').value = '';
+  renderGratitude();
+}
+
+function renderGratitude(){
+  var arr = loadState(KEY_GRAT, []);
+  var c = document.getElementById('gratitudeList');
+  if(arr.length === 0){
+    c.innerHTML = '<p style="text-align:center;color:#7A7A55;font-style:italic;padding:24px">Aucune gratitude pour le moment. Écris la première ci-dessus.</p>';
+    return;
+  }
+  c.innerHTML = '<h3 style="font-family:Georgia,serif;font-size:16px;color:#3D3E2A;margin:20px 0 10px">📚 Mes gratitudes ('+arr.length+')</h3>' +
+    arr.map(function(g,i){
+      return '<div class="gratitude-item"><div style="flex:1"><span class="g-date">'+g.date+'</span><div class="g-text">'+g.text+'</div></div><button onclick="delGratitude('+i+')">🗑</button></div>';
+    }).join('');
+}
+
+function delGratitude(i){
+  if(!confirm('Supprimer cette entrée ?')) return;
+  var arr = loadState(KEY_GRAT, []);
+  arr.splice(i,1);
+  saveState(KEY_GRAT, arr);
+  renderGratitude();
+}
+
+renderDays();
+openDay(1);
+</script>
+</body>
+</html>

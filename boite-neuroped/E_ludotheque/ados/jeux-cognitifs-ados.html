@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pack 3 mini-jeux cognitifs — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#f5f0fa,#fff);min-height:100vh}
+.bandeau{background:linear-gradient(135deg,#7c5cbf,#F39BC2,#e9a73a,#2a9d8f);padding:1.8rem 1.5rem;text-align:center;color:#fff;position:relative;overflow:hidden}
+.bandeau::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 40%,rgba(255,255,255,.18),transparent 60%);pointer-events:none}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem;position:relative;z-index:1}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15);position:relative;z-index:1}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto;position:relative;z-index:1}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9;position:relative;z-index:1}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid var(--violet-titre);line-height:1.55}
+.intro strong{color:var(--violet-fonce)}
+
+/* TABS */
+.tabs{display:flex;gap:.3rem;background:#fff;padding:.4rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);flex-wrap:wrap}
+.tabs button{flex:1;min-width:130px;padding:.7em .9em;background:transparent;color:#666;border:none;font-weight:800;cursor:pointer;border-radius:var(--r-sm);font-family:inherit;font-size:.92rem}
+.tabs button.active{color:#fff}
+.tabs button.active[data-tab="stroop"]{background:#e05a8a}
+.tabs button.active[data-tab="seq"]{background:#7c5cbf}
+.tabs button.active[data-tab="intrus"]{background:#2a9d8f}
+.tabs button:hover:not(.active){background:#f6f0fb}
+
+.section{display:none}
+.section.active{display:block}
+
+/* JEU CARD */
+.jeu-card{background:#fff;border-radius:var(--r-lg);padding:1.4rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c)}
+.jeu-card h2{color:var(--c);margin:0 0 .3rem;font-family:var(--font-titre);font-size:1.3rem;display:flex;align-items:center;gap:.5rem}
+.jeu-card .sub-jeu{color:#666;font-style:italic;font-size:.9rem;margin-bottom:.6rem;line-height:1.5}
+.jeu-card .principe{background:#faf6fb;border-radius:var(--r-sm);padding:.6rem .9rem;font-size:.88rem;color:#444;line-height:1.55;border-left:3px solid var(--c);margin-bottom:.8rem}
+.jeu-card .principe strong{color:var(--c)}
+
+.j-stroop{--c:#e05a8a}
+.j-seq{--c:#7c5cbf}
+.j-intrus{--c:#2a9d8f}
+
+/* CONTRÔLES JEU */
+.controls{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:.5rem 0 1rem}
+.controls button{padding:.55em 1.2em;background:var(--c);color:#fff;border:none;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.92rem;transition:all .15s}
+.controls button:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.controls button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.controls button.secondary{background:#fff;color:var(--c);border:2px solid var(--c)}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:.5rem;margin:.6rem 0}
+.stat-c{background:#faf6fb;border-radius:var(--r-md);padding:.6rem;text-align:center;border-top:3px solid var(--c)}
+.stat-c .lbl{font-size:.72rem;color:#888;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.stat-c .val{font-size:1.5rem;font-weight:800;color:var(--c)}
+
+/* ZONE DE JEU */
+.aire-jeu{background:linear-gradient(135deg,#fafbfc,#fff);border-radius:var(--r-md);padding:1.5rem 1rem;min-height:220px;display:flex;align-items:center;justify-content:center;border:2px dashed #e0d8ec;flex-direction:column;gap:.7rem}
+
+/* STROOP */
+.stroop-mot{font-size:3rem;font-weight:800;font-family:var(--font-titre);text-align:center;margin:.5rem 0;letter-spacing:2px}
+.stroop-choix{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:.4rem;max-width:480px;margin:0 auto}
+.stroop-choix button{padding:.7em;border:3px solid #fff;border-radius:var(--r-md);color:#fff;font-weight:800;cursor:pointer;font-family:inherit;font-size:.95rem;text-transform:uppercase;letter-spacing:1px;transition:all .15s}
+.stroop-choix button:hover{transform:scale(1.05);box-shadow:var(--shadow-md)}
+.feedback{font-size:1.5rem;font-weight:800;text-align:center;min-height:1.8rem}
+.feedback.correct{color:#5fa040}
+.feedback.faux{color:#c25a30}
+
+/* SÉQUENCES */
+.seq-affichage{display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;min-height:80px;align-items:center}
+.seq-cell{width:56px;height:56px;border-radius:var(--r-md);background:#faf6fb;border:2px solid #e0d8ec;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:800;color:#5a3c8f;transition:all .2s}
+.seq-cell.show{animation:pulse 1s ease}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.2);box-shadow:0 0 0 6px rgba(124,92,191,.2)}100%{transform:scale(1)}}
+.seq-cell.reveal{background:#7c5cbf;color:#fff;border-color:#5a3c8f}
+.seq-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;max-width:280px;margin:.5rem auto}
+.seq-pad button{aspect-ratio:1;font-size:1.6rem;font-weight:800;background:linear-gradient(135deg,#fff,#faf6fb);border:2px solid #e0d8ec;border-radius:var(--r-md);color:#5a3c8f;cursor:pointer;transition:all .15s;font-family:inherit}
+.seq-pad button:hover{background:linear-gradient(135deg,#faf6fb,#f0e8f5);border-color:#7c5cbf;transform:scale(1.05)}
+.seq-pad button.pressed{background:#7c5cbf;color:#fff;transform:scale(.95)}
+.seq-pad button:disabled{opacity:.4;cursor:not-allowed}
+
+/* CHERCHE L'INTRUS */
+.intrus-grille{display:grid;gap:.4rem;max-width:480px;margin:0 auto;width:100%}
+.intrus-cell{aspect-ratio:1;background:#faf6fb;border:2px solid #e0d8ec;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:1.7rem;cursor:pointer;transition:all .15s;font-weight:700}
+.intrus-cell:hover{background:#eef6f5;border-color:#2a9d8f;transform:scale(1.1)}
+.intrus-cell.found{background:#5fa040;color:#fff;border-color:#3d6e25;animation:found .4s ease}
+.intrus-cell.wrong{background:#fff4ef;border-color:#c25a30;animation:shake .4s ease}
+@keyframes found{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1.1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* NIVEAU + TIMER */
+.niveau-info{display:flex;justify-content:space-between;align-items:center;background:var(--c);color:#fff;padding:.5em .9em;border-radius:var(--r-sm);font-weight:700;font-size:.92rem;flex-wrap:wrap;gap:.4rem}
+
+/* RÉSULTATS */
+.resultat{background:linear-gradient(135deg,#fff,#faf6fb);border-radius:var(--r-md);padding:1rem 1.2rem;border:2px solid var(--c);margin-top:.8rem;text-align:center;display:none}
+.resultat.visible{display:block;animation:fadeIn .4s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.resultat h3{color:var(--c);margin:0 0 .3rem}
+.resultat .badge{display:inline-block;padding:.3em .9em;background:var(--c);color:#fff;border-radius:999px;font-weight:800;margin:.4rem}
+
+.records{background:#fff;border-radius:var(--r-md);padding:.8rem 1rem;border-left:4px solid #e9a73a;margin-top:.6rem;font-size:.88rem;line-height:1.55}
+.records strong{color:#a07000}
+
+.mot-final{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.8rem 1.1rem;border-radius:var(--r-md);font-size:.9rem;line-height:1.55;color:#5A4D6B;margin-top:.6rem}
+.mot-final strong{color:var(--violet-fonce)}
+
+@media (max-width:600px){
+  .stroop-mot{font-size:2.2rem}
+  .seq-cell{width:44px;height:44px;font-size:1.3rem}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../ados.html">← Espace ados</a>
+  <h1>🎮 3 mini-jeux cognitifs</h1>
+  <p class="sub">Entraînement court (5 min) pour les fonctions exécutives : inhibition · mémoire de travail · attention. Tes records sauvegardés.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🎮 <strong>3 jeux courts</strong> pour entraîner ton cerveau :
+    <strong style="color:#e05a8a">Stroop coloré</strong> (inhibition · résister à l'automatisme) ·
+    <strong style="color:#7c5cbf">Séquences</strong> (mémoire de travail · retenir et restituer) ·
+    <strong style="color:#2a9d8f">Cherche l'intrus</strong> (attention sélective · scanner et trouver).
+    <br>5 min par jeu suffit. Le but n'est pas la performance — c'est de <em>solliciter</em> ces capacités régulièrement.
+  </div>
+
+  <div class="tabs">
+    <button class="active" data-tab="stroop">🎨 Stroop</button>
+    <button data-tab="seq">🔢 Séquences</button>
+    <button data-tab="intrus">🔍 Cherche l'intrus</button>
+  </div>
+
+  <!-- STROOP -->
+  <section class="section active" id="stroop">
+    <div class="jeu-card j-stroop">
+      <h2>🎨 Stroop coloré</h2>
+      <p class="sub-jeu">Inhibition · 30 secondes</p>
+      <div class="principe">
+        <strong>Règle :</strong> Un mot apparaît (ex: <em>« BLEU »</em>) écrit dans une couleur (ex: en rouge). Tu dois cliquer sur la <strong>COULEUR du texte</strong>, PAS sur le mot lu.<br>
+        💡 Ton cerveau veut lire automatiquement le mot — c'est ça que tu dois inhiber.
+      </div>
+
+      <div class="niveau-info">
+        <span>⏱ <span id="stroop-timer">30</span>s</span>
+        <span>✅ <span id="stroop-score">0</span> · ❌ <span id="stroop-erreurs">0</span></span>
+      </div>
+
+      <div class="aire-jeu" id="stroop-jeu">
+        <div class="feedback" id="stroop-feedback"></div>
+        <div class="stroop-mot" id="stroop-mot">Clique sur « Démarrer »</div>
+        <div class="stroop-choix" id="stroop-choix"></div>
+      </div>
+
+      <div class="controls">
+        <button id="btn-stroop-start" style="--c:#e05a8a">▶ Démarrer</button>
+        <button id="btn-stroop-stop" class="secondary" style="--c:#e05a8a;display:none">⏸ Arrêter</button>
+      </div>
+
+      <div class="resultat" id="stroop-resultat" style="--c:#e05a8a">
+        <h3>🎉 Partie terminée !</h3>
+        <div id="stroop-resume"></div>
+        <span class="badge" id="stroop-niveau"></span>
+      </div>
+
+      <div class="records" id="stroop-records"></div>
+    </div>
+  </section>
+
+  <!-- SÉQUENCES -->
+  <section class="section" id="seq">
+    <div class="jeu-card j-seq">
+      <h2>🔢 Séquences à reproduire</h2>
+      <p class="sub-jeu">Mémoire de travail · niveau croissant</p>
+      <div class="principe">
+        <strong>Règle :</strong> Une séquence de cases s'allume. Tu dois la reproduire dans le MÊME ordre en cliquant sur le pavé.<br>
+        💡 La séquence grandit d'1 case à chaque fois que tu réussis. Tu vois jusqu'où ta mémoire tient.
+      </div>
+
+      <div class="niveau-info">
+        <span>🎯 Niveau <span id="seq-niveau">1</span></span>
+        <span>📏 Séquence : <span id="seq-longueur">3</span></span>
+      </div>
+
+      <div class="aire-jeu" id="seq-jeu">
+        <div class="seq-affichage" id="seq-affichage"></div>
+        <div class="seq-pad" id="seq-pad"></div>
+        <div class="feedback" id="seq-feedback"></div>
+      </div>
+
+      <div class="controls">
+        <button id="btn-seq-start" style="--c:#7c5cbf">▶ Démarrer</button>
+        <button id="btn-seq-stop" class="secondary" style="--c:#7c5cbf;display:none">⏸ Arrêter</button>
+      </div>
+
+      <div class="resultat" id="seq-resultat" style="--c:#7c5cbf">
+        <h3>🎯 Partie terminée !</h3>
+        <div id="seq-resume"></div>
+        <span class="badge" id="seq-niveau-badge"></span>
+      </div>
+
+      <div class="records" id="seq-records"></div>
+    </div>
+  </section>
+
+  <!-- CHERCHE L'INTRUS -->
+  <section class="section" id="intrus">
+    <div class="jeu-card j-intrus">
+      <h2>🔍 Cherche l'intrus</h2>
+      <p class="sub-jeu">Attention sélective · vitesse</p>
+      <div class="principe">
+        <strong>Règle :</strong> Une grille de symboles apparaît. UN SEUL est différent — clique dessus le plus vite possible.<br>
+        💡 Ton cerveau doit scanner la grille sans se laisser distraire. La grille grandit à chaque manche.
+      </div>
+
+      <div class="niveau-info">
+        <span>🎯 Manche <span id="intrus-manche">1</span> / 10</span>
+        <span>⏱ <span id="intrus-temps">0.0</span>s · ✅ <span id="intrus-score">0</span></span>
+      </div>
+
+      <div class="aire-jeu" id="intrus-jeu">
+        <div class="intrus-grille" id="intrus-grille"></div>
+        <div class="feedback" id="intrus-feedback"></div>
+      </div>
+
+      <div class="controls">
+        <button id="btn-intrus-start" style="--c:#2a9d8f">▶ Démarrer</button>
+        <button id="btn-intrus-next" class="secondary" style="--c:#2a9d8f;display:none">⏭ Manche suivante</button>
+      </div>
+
+      <div class="resultat" id="intrus-resultat" style="--c:#2a9d8f">
+        <h3>🎉 Partie terminée !</h3>
+        <div id="intrus-resume"></div>
+        <span class="badge" id="intrus-niveau-badge"></span>
+      </div>
+
+      <div class="records" id="intrus-records"></div>
+    </div>
+  </section>
+
+  <div class="mot-final">
+    <strong>💛 Mot de Nawel :</strong> Ces jeux entraînent des capacités très utiles à l'école (concentration, mémoire, attention). 5 min/jour suffit. <em>Ce n'est pas une course : le but n'est pas d'avoir le meilleur score, c'est d'observer comment ton cerveau s'améliore avec la pratique.</em>
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../ados.html" style="color:var(--violet-titre)">retour espace ados</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_jeux_cognitifs_ado_v1';
+let records={stroop:{bestScore:0,bestPrecision:0,parties:0},seq:{bestNiveau:0,parties:0},intrus:{bestTemps:99,parties:0}};
+try{const r=localStorage.getItem(KEY);if(r)records=JSON.parse(r)}catch(e){}
+function saveRecords(){localStorage.setItem(KEY,JSON.stringify(records))}
+
+// TABS
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(b.dataset.tab).classList.add('active');
+});
+
+// ========== STROOP ==========
+const STROOP_COULEURS = [
+  {nom:'ROUGE', hex:'#c25a30'},
+  {nom:'BLEU', hex:'#5a7a9f'},
+  {nom:'VERT', hex:'#5fa040'},
+  {nom:'JAUNE', hex:'#e9a73a'},
+  {nom:'VIOLET', hex:'#7c5cbf'},
+  {nom:'ROSE', hex:'#e05a8a'}
+];
+let stroopState={running:false,score:0,erreurs:0,timer:30,interval:null,couleurCible:null};
+
+function stroopRender(){
+  const mot=STROOP_COULEURS[Math.floor(Math.random()*STROOP_COULEURS.length)];
+  let couleur;do{couleur=STROOP_COULEURS[Math.floor(Math.random()*STROOP_COULEURS.length)]}while(couleur.nom===mot.nom && Math.random()<0.7);
+  stroopState.couleurCible=couleur;
+  document.getElementById('stroop-mot').textContent=mot.nom;
+  document.getElementById('stroop-mot').style.color=couleur.hex;
+  const c=document.getElementById('stroop-choix');
+  const choix=[couleur];
+  while(choix.length<4){const r=STROOP_COULEURS[Math.floor(Math.random()*STROOP_COULEURS.length)];if(!choix.includes(r))choix.push(r)}
+  choix.sort(()=>Math.random()-0.5);
+  c.innerHTML=choix.map(co=>`<button style="background:${co.hex}" data-c="${co.nom}">${co.nom}</button>`).join('');
+  c.querySelectorAll('button').forEach(b=>b.onclick=()=>stroopChoix(b.dataset.c));
+}
+function stroopChoix(nom){
+  if(!stroopState.running)return;
+  const fb=document.getElementById('stroop-feedback');
+  if(nom===stroopState.couleurCible.nom){
+    stroopState.score++;
+    fb.textContent='✓';fb.className='feedback correct';
+  } else {
+    stroopState.erreurs++;
+    fb.textContent='✗';fb.className='feedback faux';
+  }
+  document.getElementById('stroop-score').textContent=stroopState.score;
+  document.getElementById('stroop-erreurs').textContent=stroopState.erreurs;
+  setTimeout(()=>{fb.textContent='';stroopRender()}, 250);
+}
+document.getElementById('btn-stroop-start').onclick=()=>{
+  stroopState={running:true,score:0,erreurs:0,timer:30,interval:null,couleurCible:null};
+  document.getElementById('stroop-score').textContent=0;
+  document.getElementById('stroop-erreurs').textContent=0;
+  document.getElementById('stroop-timer').textContent=30;
+  document.getElementById('stroop-resultat').classList.remove('visible');
+  document.getElementById('btn-stroop-start').style.display='none';
+  document.getElementById('btn-stroop-stop').style.display='inline-block';
+  stroopRender();
+  stroopState.interval=setInterval(()=>{
+    stroopState.timer--;
+    document.getElementById('stroop-timer').textContent=stroopState.timer;
+    if(stroopState.timer<=0)stroopFin();
+  },1000);
+};
+document.getElementById('btn-stroop-stop').onclick=stroopFin;
+function stroopFin(){
+  clearInterval(stroopState.interval);
+  stroopState.running=false;
+  document.getElementById('btn-stroop-start').style.display='inline-block';
+  document.getElementById('btn-stroop-stop').style.display='none';
+  document.getElementById('stroop-mot').textContent='Clique sur « Démarrer »';
+  document.getElementById('stroop-mot').style.color='#999';
+  document.getElementById('stroop-choix').innerHTML='';
+  const total=stroopState.score+stroopState.erreurs;
+  const precision=total>0?Math.round(stroopState.score/total*100):0;
+  let niveau='À retravailler';
+  if(stroopState.score>=20 && precision>=85) niveau='🔥 Excellent';
+  else if(stroopState.score>=15 && precision>=75) niveau='👍 Très bien';
+  else if(stroopState.score>=10) niveau='💪 Bien';
+  document.getElementById('stroop-resume').innerHTML=`<p><strong>${stroopState.score}</strong> bonnes réponses · <strong>${precision}%</strong> de précision</p>`;
+  document.getElementById('stroop-niveau').textContent=niveau;
+  document.getElementById('stroop-resultat').classList.add('visible');
+  if(stroopState.score>records.stroop.bestScore)records.stroop.bestScore=stroopState.score;
+  if(precision>records.stroop.bestPrecision)records.stroop.bestPrecision=precision;
+  records.stroop.parties++;saveRecords();renderRecords();
+}
+
+// ========== SÉQUENCES ==========
+const SEQ_COULEURS=['🔵','🟣','🟢','🟡','🟠','🔴','🟤','⚫','⚪'];
+let seqState={running:false,niveau:1,longueur:3,sequence:[],position:0,phase:'show'};
+
+function seqAfficher(){
+  const a=document.getElementById('seq-affichage');
+  seqState.sequence=[];
+  for(let i=0;i<seqState.longueur;i++)seqState.sequence.push(Math.floor(Math.random()*9));
+  // Render initial vide
+  a.innerHTML=seqState.sequence.map(()=>`<div class="seq-cell">?</div>`).join('');
+  document.getElementById('seq-feedback').textContent='👀 Mémorise...';
+  // Reveal one by one
+  let i=0;
+  seqState.phase='show';
+  const interval=setInterval(()=>{
+    const cells=a.children;
+    if(i<cells.length){
+      cells[i].textContent=SEQ_COULEURS[seqState.sequence[i]];
+      cells[i].classList.add('reveal','show');
+    }
+    i++;
+    if(i>=cells.length+1){
+      clearInterval(interval);
+      setTimeout(()=>{
+        a.innerHTML=seqState.sequence.map(()=>`<div class="seq-cell">?</div>`).join('');
+        document.getElementById('seq-feedback').textContent='✋ À toi ! Reproduis l\'ordre.';
+        seqState.phase='input';seqState.position=0;
+        enableSeqPad(true);
+      },800);
+    }
+  }, 700);
+}
+function renderSeqPad(){
+  const p=document.getElementById('seq-pad');
+  p.innerHTML=SEQ_COULEURS.map((c,i)=>`<button data-i="${i}" disabled>${c}</button>`).join('');
+  p.querySelectorAll('button').forEach(b=>b.onclick=()=>seqClic(parseInt(b.dataset.i),b));
+}
+function enableSeqPad(en){
+  document.querySelectorAll('#seq-pad button').forEach(b=>b.disabled=!en);
+}
+function seqClic(idx,btn){
+  if(seqState.phase!=='input'||!seqState.running)return;
+  btn.classList.add('pressed');setTimeout(()=>btn.classList.remove('pressed'),200);
+  const a=document.getElementById('seq-affichage').children;
+  a[seqState.position].textContent=SEQ_COULEURS[idx];
+  a[seqState.position].classList.add('reveal');
+  if(idx===seqState.sequence[seqState.position]){
+    seqState.position++;
+    if(seqState.position>=seqState.sequence.length){
+      enableSeqPad(false);
+      document.getElementById('seq-feedback').textContent='✅ Parfait !';
+      document.getElementById('seq-feedback').className='feedback correct';
+      setTimeout(()=>{
+        seqState.niveau++;
+        seqState.longueur=Math.min(seqState.longueur+1,12);
+        document.getElementById('seq-niveau').textContent=seqState.niveau;
+        document.getElementById('seq-longueur').textContent=seqState.longueur;
+        document.getElementById('seq-feedback').className='feedback';
+        seqAfficher();
+      },1000);
+    }
+  } else {
+    document.getElementById('seq-feedback').textContent='❌ Erreur — fin de partie';
+    document.getElementById('seq-feedback').className='feedback faux';
+    enableSeqPad(false);
+    seqFin();
+  }
+}
+document.getElementById('btn-seq-start').onclick=()=>{
+  seqState={running:true,niveau:1,longueur:3,sequence:[],position:0,phase:'show'};
+  document.getElementById('seq-niveau').textContent=1;
+  document.getElementById('seq-longueur').textContent=3;
+  document.getElementById('seq-resultat').classList.remove('visible');
+  document.getElementById('btn-seq-start').style.display='none';
+  document.getElementById('btn-seq-stop').style.display='inline-block';
+  seqAfficher();
+};
+document.getElementById('btn-seq-stop').onclick=seqFin;
+function seqFin(){
+  seqState.running=false;
+  document.getElementById('btn-seq-start').style.display='inline-block';
+  document.getElementById('btn-seq-stop').style.display='none';
+  enableSeqPad(false);
+  const niveauAtteint=seqState.niveau-1;
+  let badge='Continue 💪';
+  if(niveauAtteint>=8) badge='🔥 MdT de champion';
+  else if(niveauAtteint>=5) badge='👍 Belle MdT';
+  else if(niveauAtteint>=3) badge='💪 Bonne base';
+  document.getElementById('seq-resume').innerHTML=`<p>Tu as atteint le <strong>niveau ${niveauAtteint}</strong> (séquence de ${Math.min(niveauAtteint+2,12)})</p>`;
+  document.getElementById('seq-niveau-badge').textContent=badge;
+  document.getElementById('seq-resultat').classList.add('visible');
+  if(niveauAtteint>records.seq.bestNiveau)records.seq.bestNiveau=niveauAtteint;
+  records.seq.parties++;saveRecords();renderRecords();
+}
+
+// ========== CHERCHE L'INTRUS ==========
+const INTRUS_SYMBOLES = ['🟦','🟩','🟨','🟥','🟪','🟧','⬛','⬜','🔵','🟢'];
+const INTRUS_LETTRES = ['A','B','C','D','E','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+let intrusState={running:false,manche:1,score:0,startTime:0,grilleSize:4,totalTime:0};
+
+function intrusGenerer(){
+  const taille=intrusState.grilleSize;
+  const total=taille*taille;
+  // Choisir base et intrus très proches visuellement
+  let base,intrus;
+  const useEmoji=Math.random()>.5;
+  if(useEmoji){
+    base=INTRUS_SYMBOLES[Math.floor(Math.random()*INTRUS_SYMBOLES.length)];
+    do{intrus=INTRUS_SYMBOLES[Math.floor(Math.random()*INTRUS_SYMBOLES.length)]}while(intrus===base);
+  } else {
+    base=INTRUS_LETTRES[Math.floor(Math.random()*INTRUS_LETTRES.length)];
+    do{intrus=INTRUS_LETTRES[Math.floor(Math.random()*INTRUS_LETTRES.length)]}while(intrus===base);
+  }
+  const posIntrus=Math.floor(Math.random()*total);
+  const cells=[];
+  for(let i=0;i<total;i++)cells.push(i===posIntrus?intrus:base);
+  const g=document.getElementById('intrus-grille');
+  g.style.gridTemplateColumns=`repeat(${taille},1fr)`;
+  g.innerHTML=cells.map((c,i)=>`<div class="intrus-cell" data-i="${i}" data-is-intrus="${i===posIntrus?'1':'0'}">${c}</div>`).join('');
+  g.querySelectorAll('.intrus-cell').forEach(cell=>cell.onclick=()=>intrusClic(cell));
+  intrusState.startTime=Date.now();
+}
+function intrusClic(cell){
+  if(!intrusState.running)return;
+  if(cell.dataset.isIntrus==='1'){
+    cell.classList.add('found');
+    const dt=(Date.now()-intrusState.startTime)/1000;
+    intrusState.totalTime+=dt;
+    intrusState.score++;
+    document.getElementById('intrus-score').textContent=intrusState.score;
+    document.getElementById('intrus-temps').textContent=dt.toFixed(1);
+    document.getElementById('intrus-feedback').textContent=`✓ Trouvé en ${dt.toFixed(1)}s`;
+    document.getElementById('intrus-feedback').className='feedback correct';
+    setTimeout(()=>{
+      if(intrusState.manche<10){
+        intrusState.manche++;
+        intrusState.grilleSize=Math.min(4+Math.floor(intrusState.manche/3),7);
+        document.getElementById('intrus-manche').textContent=intrusState.manche;
+        document.getElementById('intrus-feedback').textContent='';
+        intrusGenerer();
+      } else {
+        intrusFin();
+      }
+    },700);
+  } else {
+    cell.classList.add('wrong');
+    document.getElementById('intrus-feedback').textContent='❌ Pas celui-là !';
+    document.getElementById('intrus-feedback').className='feedback faux';
+    setTimeout(()=>{
+      cell.classList.remove('wrong');
+      document.getElementById('intrus-feedback').textContent='';
+      document.getElementById('intrus-feedback').className='feedback';
+    },600);
+  }
+}
+document.getElementById('btn-intrus-start').onclick=()=>{
+  intrusState={running:true,manche:1,score:0,startTime:0,grilleSize:4,totalTime:0};
+  document.getElementById('intrus-manche').textContent=1;
+  document.getElementById('intrus-score').textContent=0;
+  document.getElementById('intrus-temps').textContent='0.0';
+  document.getElementById('intrus-resultat').classList.remove('visible');
+  document.getElementById('btn-intrus-start').style.display='none';
+  intrusGenerer();
+};
+function intrusFin(){
+  intrusState.running=false;
+  document.getElementById('btn-intrus-start').style.display='inline-block';
+  const moy=intrusState.score>0?intrusState.totalTime/intrusState.score:99;
+  let badge='Continue 💪';
+  if(moy<2 && intrusState.score===10) badge='🔥 Œil de lynx';
+  else if(moy<3 && intrusState.score>=8) badge='👍 Belle attention';
+  else if(intrusState.score>=5) badge='💪 Bonne base';
+  document.getElementById('intrus-resume').innerHTML=`<p><strong>${intrusState.score}/10</strong> trouvés · moyenne <strong>${moy.toFixed(1)}s</strong> par intrus</p>`;
+  document.getElementById('intrus-niveau-badge').textContent=badge;
+  document.getElementById('intrus-resultat').classList.add('visible');
+  if(intrusState.score===10 && moy<records.intrus.bestTemps)records.intrus.bestTemps=moy;
+  records.intrus.parties++;saveRecords();renderRecords();
+}
+
+// ========== RECORDS ==========
+function renderRecords(){
+  document.getElementById('stroop-records').innerHTML=`<strong>🏆 Tes records Stroop :</strong> meilleur score ${records.stroop.bestScore} · meilleure précision ${records.stroop.bestPrecision}% · ${records.stroop.parties} partie(s)`;
+  document.getElementById('seq-records').innerHTML=`<strong>🏆 Tes records Séquences :</strong> niveau max ${records.seq.bestNiveau} · ${records.seq.parties} partie(s)`;
+  const t=records.intrus.bestTemps;
+  document.getElementById('intrus-records').innerHTML=`<strong>🏆 Tes records Cherche l'intrus :</strong> ${t<99?'moyenne min '+t.toFixed(1)+'s':'pas encore terminé'} · ${records.intrus.parties} partie(s)`;
+}
+
+renderSeqPad();renderRecords();
+</script>
+
+</body>
+</html>

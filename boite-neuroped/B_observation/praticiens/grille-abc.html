@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grille ABC du comportement — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{
+  background:linear-gradient(135deg,var(--menthe),var(--bleu-ciel));
+  padding:1.6rem 1.5rem;
+  text-align:center;
+}
+.bandeau h1{color:var(--teal-titre);margin:0}
+.bandeau .sub{color:var(--texte);max-width:720px;margin:.4rem auto 0}
+.retour{display:inline-block;margin:0 0 .6rem;color:var(--violet-titre);font-weight:700;text-decoration:none}
+
+.cadre{max-width:980px;margin:1.4rem auto;padding:0 1.5rem;color:var(--muted);font-size:.95rem}
+.cadre p{margin:.4rem 0}
+
+.formulaire{max-width:980px;margin:1rem auto;padding:0 1.5rem;display:grid;gap:1rem}
+.ligne{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width:760px){.ligne{grid-template-columns:1fr}}
+
+.champ{
+  background:#fff;
+  border-radius:var(--r-md);
+  padding:.8rem 1rem;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-sm);
+}
+.champ label{display:block;font-weight:700;color:var(--violet-titre);font-size:.9rem;margin-bottom:.3rem}
+.champ input, .champ select, .champ textarea{
+  width:100%;
+  padding:.55em .7em;
+  border:1px solid var(--border);
+  border-radius:var(--r-sm);
+  background:var(--beige);
+  font-family:var(--font-body);
+  font-size:.95rem;
+  color:var(--texte);
+}
+.champ textarea{min-height:80px;resize:vertical}
+.champ input:focus, .champ select:focus, .champ textarea:focus{outline:2px solid var(--turquoise);background:#fff}
+
+.abc{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:1rem;
+}
+@media (max-width:880px){.abc{grid-template-columns:1fr}}
+.abc .case{
+  background:#fff;
+  border-radius:var(--r-lg);
+  padding:1.1rem 1.1rem;
+  border-top:6px solid var(--c);
+  box-shadow:var(--shadow-sm);
+}
+.abc .case h2{color:var(--c);margin:0 0 .2rem;font-size:1.15rem}
+.abc .case .lbl{color:var(--muted);font-size:.85rem;margin-bottom:.5rem;font-style:italic}
+.abc .case textarea{min-height:120px}
+.abc .case ul{font-size:.85rem;color:var(--muted);padding-left:1.1rem;margin:.4rem 0 0}
+.case-A{--c:#7c5cbf}
+.case-B{--c:#e05a8a}
+.case-C{--c:#2a9d8f}
+
+.hypothese{
+  max-width:980px;
+  margin:1rem auto;
+  padding:0 1.5rem;
+}
+.hypothese .champ{border-left:6px solid var(--rose-titre)}
+.hypothese .pistes{
+  display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;
+}
+.piste-btn{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:.3em .8em;
+  font-size:.82rem;
+  color:var(--violet-titre);
+  cursor:pointer;
+  font-family:var(--font-body);
+  box-shadow:none;
+  font-weight:600;
+}
+.piste-btn:hover{background:var(--lavande);color:#fff;transform:none}
+
+.actions{
+  max-width:980px;
+  margin:1.5rem auto 2rem;
+  padding:0 1.5rem;
+  display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;
+}
+.actions button{background:#fff;color:var(--teal-titre);border:2px solid var(--teal-titre)}
+.actions button:hover{background:var(--teal-titre);color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+.actions .danger:hover{background:var(--rose-titre);color:#fff}
+
+.historique{max-width:980px;margin:2rem auto;padding:0 1.5rem}
+.historique h2{color:var(--violet-titre)}
+.fiche{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--r-md);
+  padding:1rem;
+  margin-bottom:.6rem;
+  box-shadow:var(--shadow-sm);
+}
+.fiche .meta{font-size:.85rem;color:var(--muted);margin-bottom:.4rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.fiche .recap{font-size:.9rem;display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+@media (max-width:680px){.fiche .recap{grid-template-columns:1fr}}
+.fiche .recap div strong{display:block;color:var(--violet-titre);font-size:.8rem}
+.fiche .supp{
+  background:transparent;color:var(--muted);border:none;font-size:.85rem;text-decoration:underline;padding:0;box-shadow:none;
+}
+.fiche .supp:hover{color:var(--rose-titre);transform:none;background:none}
+
+@media print{
+  .actions, .historique, .retour, .ajout-zone, .piste-btn {display:none !important}
+  body{background:#fff}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .champ, .case, .fiche {break-inside:avoid;box-shadow:none;border:1px solid #ddd}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>🔍 Grille ABC du comportement</h1>
+  <p class="sub">Décrire un comportement, son contexte et ses conséquences — pour formuler une hypothèse fonctionnelle, sans interpréter à la volée.</p>
+</section>
+
+<div class="cadre">
+  <p><strong>Principe.</strong> Un comportement n'apparaît jamais "tout seul". Il est précédé d'un <em>antécédent</em> (A) et suivi d'une <em>conséquence</em> (C) qui le maintient ou l'éteint. Observer A→B→C plusieurs fois fait émerger des patterns.</p>
+  <p><strong>Posture.</strong> "Pendant la crise, je protège. Après la crise, je décris (cette grille), puis j'enseigne une alternative." On ne remplit pas la grille à chaud.</p>
+</div>
+
+<!-- Méta enfant + contexte -->
+<div class="formulaire">
+
+  <div class="ligne">
+    <div class="champ">
+      <label for="enfant">Enfant / ado (initiales ou prénom)</label>
+      <input id="enfant" type="text" placeholder="ex : L.">
+    </div>
+    <div class="champ">
+      <label for="age">Âge</label>
+      <input id="age" type="text" placeholder="ex : 9 ans">
+    </div>
+  </div>
+
+  <div class="ligne">
+    <div class="champ">
+      <label for="date">Date de l'observation</label>
+      <input id="date" type="date">
+    </div>
+    <div class="champ">
+      <label for="lieu">Lieu / contexte</label>
+      <select id="lieu">
+        <option value="">— choisir —</option>
+        <option>Maison · matin</option>
+        <option>Maison · soir / devoirs</option>
+        <option>Maison · transition</option>
+        <option>École · classe</option>
+        <option>École · récréation</option>
+        <option>École · cantine</option>
+        <option>Trajet</option>
+        <option>Séance professionnelle</option>
+        <option>Autre</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="ligne">
+    <div class="champ">
+      <label for="observateur">Observateur·rice</label>
+      <input id="observateur" type="text" placeholder="parent, enseignant, pro…">
+    </div>
+    <div class="champ">
+      <label for="etat">État de base avant l'épisode</label>
+      <select id="etat">
+        <option value="">— choisir —</option>
+        <option>Calme · zone optimale</option>
+        <option>Fatigue / faim</option>
+        <option>Surcharge sensorielle</option>
+        <option>Anxiété montante</option>
+        <option>Frustration récente</option>
+        <option>Inconnu</option>
+      </select>
+    </div>
+  </div>
+
+</div>
+
+<!-- A B C -->
+<section class="formulaire abc">
+
+  <div class="case case-A">
+    <h2>A — Antécédent</h2>
+    <div class="lbl">Que s'est-il passé juste avant ?</div>
+    <textarea id="abc-a" placeholder="Consigne, transition, déclencheur sensoriel, refus, demande…"></textarea>
+    <ul>
+      <li>Consigne donnée ?</li>
+      <li>Bruit, lumière, contact ?</li>
+      <li>Demande sociale ?</li>
+      <li>Transition / imprévu ?</li>
+    </ul>
+  </div>
+
+  <div class="case case-B">
+    <h2>B — Comportement</h2>
+    <div class="lbl">Qu'a fait l'enfant exactement ? (descriptif, pas interprétatif)</div>
+    <textarea id="abc-b" placeholder="Cri, frappe, fuite, mutisme, opposition verbale, automutilation, agitation…"></textarea>
+    <ul>
+      <li>Durée approximative ?</li>
+      <li>Intensité 1-5 ?</li>
+      <li>Avec qui ?</li>
+    </ul>
+  </div>
+
+  <div class="case case-C">
+    <h2>C — Conséquence</h2>
+    <div class="lbl">Qu'a-t-il obtenu ou évité ?</div>
+    <textarea id="abc-c" placeholder="Tâche arrêtée, attention obtenue, accès à un objet, retrait social, sanction…"></textarea>
+    <ul>
+      <li>Tâche évitée ?</li>
+      <li>Attention obtenue ?</li>
+      <li>Objet/sensation obtenue ?</li>
+      <li>Retrait/calme obtenu ?</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- Hypothèse fonctionnelle -->
+<section class="hypothese">
+  <div class="champ">
+    <label for="hypothese">Hypothèse fonctionnelle</label>
+    <textarea id="hypothese" placeholder="Ce comportement semble servir à…"></textarea>
+    <div class="pistes" aria-label="Pistes d'hypothèse">
+      <button type="button" class="piste-btn" data-h="Échapper à une tâche perçue comme trop coûteuse cognitivement.">Échapper à une tâche</button>
+      <button type="button" class="piste-btn" data-h="Obtenir l'attention de l'adulte (positive ou négative).">Obtenir de l'attention</button>
+      <button type="button" class="piste-btn" data-h="Accéder à un objet, une activité ou une sensation.">Accéder à quelque chose</button>
+      <button type="button" class="piste-btn" data-h="Réguler une surcharge sensorielle.">Réguler une surcharge</button>
+      <button type="button" class="piste-btn" data-h="Réguler une émotion débordante (anxiété, colère, peur).">Réguler une émotion</button>
+      <button type="button" class="piste-btn" data-h="Communiquer un besoin que l'enfant ne sait pas formuler verbalement.">Communiquer un besoin</button>
+      <button type="button" class="piste-btn" data-h="Difficulté d'inhibition / impulsivité (TDAH).">Inhibition (TDAH)</button>
+      <button type="button" class="piste-btn" data-h="Difficulté de flexibilité face à un imprévu (TSA).">Flexibilité (TSA)</button>
+    </div>
+  </div>
+
+  <div class="champ" style="border-left:6px solid var(--turquoise);margin-top:1rem">
+    <label for="alternative">Comportement alternatif à enseigner / ajustement environnement</label>
+    <textarea id="alternative" placeholder="Ex : enseigner la carte 'pause', fractionner la consigne, anticiper la transition par un timer visuel…"></textarea>
+  </div>
+</section>
+
+<div class="actions">
+  <button id="btn-enregistrer">💾 Enregistrer cette observation</button>
+  <button id="btn-exporter">📄 Exporter (TXT)</button>
+  <button id="btn-imprimer">🖨️ Imprimer</button>
+  <button id="btn-vider" class="danger">🧹 Vider le formulaire</button>
+</div>
+
+<section class="historique">
+  <h2>📚 Observations enregistrées</h2>
+  <div id="liste-fiches"></div>
+  <p style="color:var(--muted);font-size:.85rem;font-style:italic">Sauvegarde locale uniquement (ton navigateur). Rien n'est envoyé en ligne.</p>
+</section>
+
+<div class="disclaimer container">
+  La grille ABC est un outil <strong>d'observation</strong>, pas de diagnostic. Elle aide à formuler une hypothèse fonctionnelle, qui doit être croisée avec d'autres données (anamnèse, profil, contexte) et discutée en équipe / avec la famille.
+</div>
+
+<p style="text-align:center;color:var(--muted);padding:2rem;font-size:.85rem">
+  Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+</p>
+
+<script>
+const STORAGE = 'neuroped_grille_abc_v1';
+
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+const champs = ['enfant','age','date','lieu','observateur','etat','abc-a','abc-b','abc-c','hypothese','alternative'];
+
+function collecter(){
+  const o = { id: uid(), ts: new Date().toISOString() };
+  champs.forEach(c => o[c] = (document.getElementById(c).value || '').trim());
+  return o;
+}
+
+function vider(){
+  champs.forEach(c => document.getElementById(c).value = '');
+  document.getElementById('date').valueAsDate = new Date();
+}
+
+document.querySelectorAll('.piste-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const ta = document.getElementById('hypothese');
+    const ajout = btn.dataset.h;
+    ta.value = ta.value ? ta.value + '\n' + ajout : ajout;
+    ta.focus();
+  });
+});
+
+function rendreHistorique(){
+  const arr = lire().sort((a,b)=> (b.ts||'').localeCompare(a.ts||''));
+  const cont = document.getElementById('liste-fiches');
+  if(arr.length===0){
+    cont.innerHTML = '<p style="color:var(--muted);font-style:italic">Aucune observation enregistrée pour l\'instant.</p>';
+    return;
+  }
+  cont.innerHTML = arr.map(o=>`
+    <article class="fiche">
+      <div class="meta">
+        <span><strong>${esc(o.enfant||'?')}</strong> · ${esc(o.age||'')} · ${esc(o.date||'')} · ${esc(o.lieu||'')}</span>
+        <span>
+          <button class="supp" data-action="charger" data-id="${o.id}">recharger</button>
+          ·
+          <button class="supp" data-action="supprimer" data-id="${o.id}">supprimer</button>
+        </span>
+      </div>
+      <div class="recap">
+        <div><strong>A · Antécédent</strong>${esc(o['abc-a']||'—')}</div>
+        <div><strong>B · Comportement</strong>${esc(o['abc-b']||'—')}</div>
+        <div><strong>C · Conséquence</strong>${esc(o['abc-c']||'—')}</div>
+      </div>
+      ${o.hypothese ? `<p style="margin:.6rem 0 0;font-size:.9rem"><strong style="color:var(--rose-titre)">Hypothèse :</strong> ${esc(o.hypothese)}</p>` : ''}
+      ${o.alternative ? `<p style="margin:.4rem 0 0;font-size:.9rem"><strong style="color:var(--teal-titre)">Alternative :</strong> ${esc(o.alternative)}</p>` : ''}
+    </article>
+  `).join('');
+
+  cont.querySelectorAll('.supp').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const id = b.dataset.id;
+      const action = b.dataset.action;
+      const arr = lire();
+      if(action==='supprimer'){
+        if(confirm('Supprimer cette observation ?')){
+          ecrire(arr.filter(x=>x.id!==id));
+          rendreHistorique();
+        }
+      } else if(action==='charger'){
+        const o = arr.find(x=>x.id===id);
+        if(!o) return;
+        champs.forEach(c=> document.getElementById(c).value = o[c] || '');
+        window.scrollTo({top:0, behavior:'smooth'});
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o['abc-b']){ alert('Décris au moins le comportement (B) avant d\'enregistrer.'); return; }
+  const arr = lire();
+  arr.push(o);
+  ecrire(arr);
+  rendreHistorique();
+  alert('Observation enregistrée.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const lignes = [
+    'Grille ABC du comportement — Boîte NeuroPed',
+    '',
+    'Enfant : '+(o.enfant||'—')+' · '+(o.age||''),
+    'Date : '+(o.date||'—')+' · Lieu : '+(o.lieu||'—'),
+    'Observateur : '+(o.observateur||'—')+' · État de base : '+(o.etat||'—'),
+    '',
+    '== A · Antécédent ==',
+    o['abc-a']||'(non renseigné)',
+    '',
+    '== B · Comportement ==',
+    o['abc-b']||'(non renseigné)',
+    '',
+    '== C · Conséquence ==',
+    o['abc-c']||'(non renseigné)',
+    '',
+    '== Hypothèse fonctionnelle ==',
+    o.hypothese||'(à formuler)',
+    '',
+    '== Alternative à enseigner / ajustement ==',
+    o.alternative||'(à définir)',
+  ];
+  const blob = new Blob([lignes.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ABC-'+(o.enfant||'obs')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(confirm('Vider le formulaire ? (les observations enregistrées seront conservées)')) vider();
+});
+
+document.getElementById('date').valueAsDate = new Date();
+rendreHistorique();
+</script>
+
+</body>
+</html>

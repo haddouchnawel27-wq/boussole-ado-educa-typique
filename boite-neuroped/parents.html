@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espace Parents — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_assets/charte.css">
+<style>
+.bandeau{
+  background:linear-gradient(135deg,var(--rose-clair),var(--peche));
+  padding:2.5rem 1.5rem;
+  text-align:center;
+}
+.bandeau h1{color:var(--rose-titre)}
+.bandeau .sub{color:var(--texte);max-width:640px;margin:.6rem auto 0;font-size:1.05rem}
+.retour{display:inline-block;margin:.8rem 0;color:var(--violet-titre);font-weight:700}
+
+.axes{max-width:1100px;margin:2rem auto;padding:0 1.5rem;display:grid;gap:1.4rem}
+.axe{
+  background:#fff;
+  border-radius:var(--r-lg);
+  padding:1.4rem 1.6rem;
+  box-shadow:var(--shadow-sm);
+  border-left:6px solid var(--c);
+}
+.axe h2{color:var(--c);margin:0 0 .3rem}
+.axe .lbl{color:var(--muted);font-size:.9rem;margin-bottom:.8rem}
+.outils{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.7rem;margin-top:.8rem}
+.outil{
+  display:block;
+  padding:.8rem 1rem;
+  background:var(--beige);
+  border-radius:var(--r-md);
+  color:var(--texte);
+  text-decoration:none;
+  border:1px solid var(--border);
+  transition:transform .15s, box-shadow .15s;
+}
+.outil:hover{transform:translateY(-3px);box-shadow:var(--shadow-sm);text-decoration:none}
+.outil strong{display:block;color:var(--c);margin-bottom:.15rem}
+.outil .desc{font-size:.85rem;color:var(--muted)}
+.outil.avenir{opacity:.55;background:repeating-linear-gradient(45deg,#fafafa,#fafafa 8px,#f3f0f7 8px,#f3f0f7 16px);cursor:not-allowed}
+.outil.avenir::after{content:" · à venir";font-size:.8em;color:var(--muted);font-weight:400}
+
+.A{--c:var(--axe-A)}
+.B{--c:var(--axe-B)}
+.C{--c:var(--axe-C)}
+.D{--c:var(--axe-D)}
+.E{--c:var(--axe-E)}
+
+/* 🔍 RECHERCHE LIVE */
+.recherche-bloc{max-width:1100px;margin:1rem auto;padding:0 1.5rem}
+.recherche-inner{background:#fff;border-radius:var(--r-lg);padding:.7rem 1rem;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;border-left:5px solid var(--rose-titre)}
+.recherche-inner label{font-size:1.1rem}
+.recherche-inner input{flex:1;min-width:220px;padding:.55em .9em;border:1.5px solid #f0c8d8;border-radius:999px;font-family:inherit;font-size:.95rem;background:#fff5f8}
+.recherche-inner input:focus{outline:2px solid var(--rose-titre);background:#fff}
+.recherche-inner .count{font-size:.82rem;color:#666;font-weight:700;min-width:140px;text-align:right}
+.recherche-inner .clear-btn{padding:.35em .8em;background:#fff;border:1.5px solid #f0c8d8;color:#a04268;border-radius:999px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem;display:none}
+.recherche-inner .clear-btn.visible{display:inline-block}
+.axe.hidden-search{display:none}
+.outil.hidden-search{display:none !important}
+.no-results{display:none;background:#fff;border:1.5px dashed #f0c8d8;border-radius:var(--r-md);padding:1.2rem;text-align:center;color:#888;font-style:italic;margin:1rem auto;max-width:1100px}
+.no-results.visible{display:block}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="index.html">← Retour à la boîte</a>
+  <h1>🏡 Espace Parents</h1>
+  <p class="sub">Tu n'es pas seul·e. Voici une boîte d'outils pour repérer les signes, comprendre ce qui se passe et accompagner ton enfant — étape par étape.</p>
+</section>
+
+<div class="disclaimer container" style="margin-top:1rem">
+  ⚠️ Aucun de ces outils ne pose de diagnostic. Ils servent à clarifier, à ouvrir le dialogue et à préparer une éventuelle consultation. Ils ne remplacent pas un professionnel.
+</div>
+
+<!-- BANNIÈRE AUJOURD'HUI · MODE RAPIDE -->
+<section style="max-width:1100px;margin:1.5rem auto 0;padding:0 1.5rem">
+  <a href="aujourdhui.html" style="
+    display:flex;align-items:center;gap:1.2rem;
+    background:linear-gradient(135deg,#E86B6B,#608CB4,#6CA89E);
+    color:#fff;padding:1.1rem 1.6rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+  " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:2.4rem;line-height:1">🧭</div>
+    <div style="flex:1;min-width:240px">
+      <h3 style="margin:0 0 .15rem;color:#fff;font-family:var(--font-titre);font-size:1.1rem">🧭 Aujourd'hui — Mode rapide</h3>
+      <p style="margin:0;opacity:.95;font-size:.9rem">Tu ne sais pas par où commencer ? Réponds à « qu'est-ce qui se passe maintenant ? » → on t'envoie aux 3-4 outils faits pour ce moment précis.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.22);padding:.5em 1.1em;border-radius:999px;font-weight:700;white-space:nowrap;font-size:.85rem">Trouver l'outil →</div>
+  </a>
+</section>
+
+<!-- BANNIÈRE MDPH pas-à-pas (création originale Nawel) -->
+<section style="max-width:1100px;margin:1.5rem auto;padding:0 1.5rem">
+  <a href="F0_fondations/parents/mdph-pas-a-pas.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#608CB4,#6CA89E);
+    color:#fff;padding:1.4rem 1.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+    margin-bottom:.8rem;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:3rem;line-height:1">📋</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.9;margin-bottom:.2rem">Création originale — Nawel Haddouch · EducaTypique · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.25rem">📋 Mon Dossier MDPH pas à pas</h3>
+      <p style="margin:0;opacity:.95;font-size:.95rem">Boussole pour parents perdus dans la paperasse : Comprendre · Choisir parcours · Pièces · AEEH + 6 compléments · Procédure · LPI (PPRE/PPS/PAI/PAP) · Recours RAPO · Alliés. Multi-dossiers, export TXT, imprimable.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.2);padding:.6em 1.3em;border-radius:999px;font-weight:700;white-space:nowrap">Ouvrir le guide →</div>
+  </a>
+
+  <!-- BANNIÈRE Méthode R.A.H.M.A (création originale Nawel) -->
+  <a href="D_regulation/parents/methode-rahma.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#D98C8C,#9B85B8);
+    color:#fff;padding:1.4rem 1.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+    margin-bottom:.8rem;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:3rem;line-height:1">💛</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.9;margin-bottom:.2rem">Méthode SIGNATURE · Nawel Haddouch · EducaTypique · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.25rem">💛 Méthode R.A.H.M.A — Protocole parental conscient</h3>
+      <p style="margin:0;opacity:.95;font-size:.95rem">5 lettres pour traverser les tempêtes émotionnelles : Reconnaître · Accueillir · Harmoniser · Modéliser · Accompagner. Protocole guidé étape par étape + 12 scénarios fréquents + archives. Signature unique francophone.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.2);padding:.6em 1.3em;border-radius:999px;font-weight:700;white-space:nowrap">Découvrir →</div>
+  </a>
+
+  <!-- BANNIÈRE PYRAMIDE 7 NIVEAUX (création originale Nawel) -->
+  <a href="F0_fondations/parents/pyramide-7-niveaux.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#9B85B8,#D98C8C);
+    color:#fff;padding:1.4rem 1.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+    margin-bottom:.8rem;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:3rem;line-height:1">🏛️</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.9;margin-bottom:.2rem">Méthode signature R.A.H.M.A · Nawel Haddouch · EducaTypique · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.25rem">🏛️ La Pyramide du Développement — 7 niveaux</h3>
+      <p style="margin:0;opacity:.95;font-size:.95rem">Sécurité → Attachement → Régulation → Discipline → Confiance → Autonomie → Valeurs & Sens. Pyramide cliquable + diagnostic personnalisé (où ton enfant a besoin de cailloux ?) + plan de construction par niveau. <em>« On ne demande pas à un enfant de discipline si l'attachement est fragile. »</em></p>
+    </div>
+    <div style="background:rgba(255,255,255,.2);padding:.6em 1.3em;border-radius:999px;font-weight:700;white-space:nowrap">Explorer →</div>
+  </a>
+
+  <!-- BANNIÈRE COUPLE ÉDUCATIF 25×25 (création originale Nawel) -->
+  <a href="F0_fondations/parents/profils-couple-educatif.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#D98C8C,#608CB4);
+    color:#fff;padding:1.4rem 1.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+    margin-bottom:.8rem;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:3rem;line-height:1">🏡</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.9;margin-bottom:.2rem">Méthode signature R.A.H.M.A · Nawel Haddouch · EducaTypique · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.25rem">🏡 Le Couple Éducatif — 25 profils × 25 profils</h3>
+      <p style="margin:0;opacity:.95;font-size:.95rem">2 quiz (12 questions chacun) : profil de ton enfant + profil parent. L'outil identifie les 2 profils dominants parmi 50 (Sensibles/Dynamiques/Atypiques × Contrôlants/Éducateurs/Fragilisés) + analyse de la combinaison (forces, frictions, risques) + plan d'ajustement 5 actions. <em>« Un même parent peut être idéal pour un enfant et inadapté pour un autre. »</em></p>
+    </div>
+    <div style="background:rgba(255,255,255,.2);padding:.6em 1.3em;border-radius:999px;font-weight:700;white-space:nowrap">Faire les quiz →</div>
+  </a>
+
+  <!-- BANNIÈRE DIALOGUER AVEC SON ADO — livret universel (Nawel TEL QUEL) -->
+  <a href="F0_fondations/parents/dialoguer-avec-son-ado.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#CBB6F6,#8ED9D2);
+    color:#fff;padding:1.4rem 1.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+    margin-bottom:.8rem;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:3rem;line-height:1">🗣💛</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.95;margin-bottom:.2rem">Livret psychoéducatif · Nawel Haddouch · EducaTypique · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.25rem">🗣 Dialoguer avec son ado</h3>
+      <p style="margin:0;opacity:.95;font-size:.95rem">Livret complet 2 parties : <strong>1/ Le Dialogue</strong> (qui est un ado · transitions · besoins · climat de confiance · CNV · écoute active · cadre structurant) · <strong>2/ Les Émotions</strong> (intelligence émotionnelle · gestion · compétences sociales · boîte à outils · Roue des Choix 12 phrases). <em>« Une mayonnaise prend dans un bol : ton ado a besoin d'un cadre et d'un périmètre de liberté pour s'épanouir. »</em> · Imprimable A4.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.2);padding:.6em 1.3em;border-radius:999px;font-weight:700;white-space:nowrap">Lire le livret →</div>
+  </a>
+
+  <!-- BANNIÈRE CONTRAT DE CONFIANCE (adapté Jane Nelsen) -->
+  <a href="F0_fondations/parents/contrat-confiance-ado.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#8ED9D2,#BDEAD7);
+    color:#1a6a5a;padding:1.4rem 1.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+    margin-bottom:.8rem;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:3rem;line-height:1">🤝</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.95;margin-bottom:.2rem;color:#1a6a5a">Création originale Nawel · adapté Discipline Positive · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#1a6a5a;font-family:var(--font-titre);font-size:1.25rem">🤝 Le contrat de confiance avec mon ado</h3>
+      <p style="margin:0;color:#1a6a5a;opacity:.9;font-size:.95rem">Construire l'autonomie sans flicage. <strong>4 étapes</strong> (discussion à l'écoute · solution choisie ensemble · délai précis · respect de sa part) + <strong>4 astuces de suivi</strong> + <strong>4 pièges à éviter</strong>. Contrat imprimable à signer à 2 (domaine · engagements ado et parent · date du point). Multi-contrats sauvegardés. <em>« Tu lâches le contrôle pour gagner la confiance. »</em></p>
+    </div>
+    <div style="background:rgba(255,255,255,.5);padding:.6em 1.3em;border-radius:999px;font-weight:700;white-space:nowrap;color:#1a6a5a">Préparer un contrat →</div>
+  </a>
+
+  <!-- BANNIÈRE AUTONOMIE ADO (fiche Nawel TEL QUEL) -->
+  <a href="F0_fondations/parents/autonomie-ado.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#F39BC2,#CBB6F6);
+    color:#fff;padding:1.4rem 1.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+    margin-bottom:.8rem;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:3rem;line-height:1">🌷</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.95;margin-bottom:.2rem">Fiche psychoéducative · Nawel Haddouch · EducaTypique · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.25rem">🌷 Accompagner l'autonomie de mon ado</h3>
+      <p style="margin:0;opacity:.95;font-size:.95rem">3 pages psychoéducatives 12-17 ans : ce qui se joue à l'adolescence · passer d'<em>éducateur·protecteur</em> à <em>guide·confident</em> · 4 piliers (accueillir le désir · soutenir progressivement · dialogue ouvert · confiance graduée) · 3 pratiques concrètes (la phrase qui change tout · le contrat de confiance · se montrer humain·e). <em>« Notre ado a toujours besoin de nous — peut-être plus que jamais, mais autrement. »</em></p>
+    </div>
+    <div style="background:rgba(255,255,255,.2);padding:.6em 1.3em;border-radius:999px;font-weight:700;white-space:nowrap">Lire / Imprimer →</div>
+  </a>
+
+  <a href="F0_fondations/parents/guide-tdah-top.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,var(--rose-soutenu),var(--lavande));
+    color:#fff;padding:1.4rem 1.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:3rem;line-height:1">📘</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.9;margin-bottom:.2rem">Création originale — Nawel Haddouch · EducaTypique</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.25rem">Guide Parents TDAH + TOP</h3>
+      <p style="margin:0;opacity:.95;font-size:.95rem">Comprendre, désamorcer et retrouver la sérénité. Un guide stratégique pour parents épuisés. Auto-évaluation + 3 petits pas atypiques + outils pratiques.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.2);padding:.6em 1.3em;border-radius:999px;font-weight:700;white-space:nowrap">Lire le guide →</div>
+  </a>
+
+  <!-- Bannière Détecteur de Paroles -->
+  <a href="F0_fondations/parents/detecteur-paroles.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#F39BC2,#FFD6C2);
+    color:#fff;padding:1.3rem 1.7rem;margin-top:.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:2.5rem;line-height:1">💗💣</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.95;margin-bottom:.2rem">Création originale — EducaTypique</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.2rem">Le Détecteur de Paroles</h3>
+      <p style="margin:0;opacity:.95;font-size:.92rem">15 situations du quotidien TDAH × 3 façons de dire la même chose. Cœur ou bombe — qu'est-ce que tes mots font vraiment ?</p>
+    </div>
+    <div style="background:rgba(255,255,255,.25);padding:.5em 1.2em;border-radius:999px;font-weight:700;white-space:nowrap;font-size:.92rem">Tester →</div>
+  </a>
+
+  <!-- Bannière Routines EducaTypique -->
+  <a href="F0_fondations/parents/routines-educatypique.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#8aa67c,#a3b88e);
+    color:#fff;padding:1.3rem 1.7rem;margin-top:.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:2.5rem;line-height:1">🌿⏰</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.95;margin-bottom:.2rem">Création originale — @educa_typique · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.2rem">Routines EducaTypique</h3>
+      <p style="margin:0;opacity:.95;font-size:.92rem">4 bienfaits · 6 routines × 5 âges (1-3/4-5/6-9/10-12/13-18) · Ma routine perso · Carrousel visuel · Préparation rentrée scolaire.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.25);padding:.5em 1.2em;border-radius:999px;font-weight:700;white-space:nowrap;font-size:.92rem">Ouvrir →</div>
+  </a>
+
+  <!-- Bannière Kit Gestion des Émotions -->
+  <a href="D_regulation/parents/kit-emotions.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#e05a8a,#F39BC2 50%,#CBB6F6);
+    color:#fff;padding:1.3rem 1.7rem;margin-top:.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:2.5rem;line-height:1">💗🌡</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.95;margin-bottom:.2rem">Création originale — Nawel Haddouch · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.2rem">Kit Gestion des Émotions</h3>
+      <p style="margin:0;opacity:.95;font-size:.92rem">7 fiches interactives : thermomètre 5 niveaux · roue 7 émotions · protocole crise 3 temps · quoi faire/éviter · plan retour au calme · grille post-crise remplissable.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.25);padding:.5em 1.2em;border-radius:999px;font-weight:700;white-space:nowrap;font-size:.92rem">Ouvrir →</div>
+  </a>
+
+  <!-- Bannière Guide HPI -->
+  <a href="F0_fondations/parents/guide-hpi.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#7c5cbf,#F39BC2 50%,#FFB87A);
+    color:#fff;padding:1.3rem 1.7rem;margin-top:.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:2.5rem;line-height:1">🧠✨</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.95;margin-bottom:.2rem">Création originale — Nawel Haddouch · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.2rem">Guide HPI — Comprendre & accompagner</h3>
+      <p style="margin:0;opacity:.95;font-size:.92rem">7 chapitres + quiz pour identifier le profil HPI (parmi 6 — Betts &amp; Neihart). Sources, posture EducaTypique et Mode Pro 📋 intégrés.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.25);padding:.5em 1.2em;border-radius:999px;font-weight:700;white-space:nowrap;font-size:.92rem">Lire le guide →</div>
+  </a>
+
+  <!-- Bannière Chrono des Énergies Maman -->
+  <a href="F0_fondations/parents/chrono-energies-maman.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#F39BC2,#CBB6F6);
+    color:#fff;padding:1.3rem 1.7rem;margin-top:.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:2.5rem;line-height:1">⚡🪞</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.95;margin-bottom:.2rem">Création originale — EducaTypique · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.2rem">Mon Chrono des Énergies — version Maman</h3>
+      <p style="margin:0;opacity:.95;font-size:.92rem">Repère tes pics et tes creux heure par heure. À qui tu donnes ton énergie — et ce qui reste pour TOI. Spécial mamans TDAH/atypiques.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.25);padding:.5em 1.2em;border-radius:999px;font-weight:700;white-space:nowrap;font-size:.92rem">Ouvrir →</div>
+  </a>
+
+  <!-- Bannière Maman neuro-atypique — SIGNATURE -->
+  <a href="F0_fondations/parents/maman-neuro-atypique.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#E89BB8,#B89BD9,#F6C9A8);
+    color:#fff;padding:1.4rem 1.7rem;margin-top:.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+    position:relative;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="position:absolute;top:.6rem;right:.9rem;background:#fff;color:#9B5A7F;padding:.18em .7em;border-radius:999px;font-size:.7rem;font-weight:800;letter-spacing:.5px">⭐ SIGNATURE</div>
+    <div style="font-size:2.6rem;line-height:1">🪞💛</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.95;margin-bottom:.2rem">Création originale — Nawel Haddouch · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.25rem">Je me découvre — Maman neuro-atypique</h3>
+      <p style="margin:0;opacity:.95;font-size:.92rem">Et si toi aussi tu étais neuro-atypique ? Auto-portrait en 36 questions (TDAH · HPI · hypersensibilité · TSA féminin · anxiété · fatigue) + miroir mère-enfant + plan douce. <em>« Tu n'es pas une mauvaise mère. Tu es une maman qui se découvre. »</em></p>
+    </div>
+    <div style="background:rgba(255,255,255,.28);padding:.55em 1.3em;border-radius:999px;font-weight:700;white-space:nowrap;font-size:.95rem">Me découvrir →</div>
+  </a>
+
+  <!-- Bannière Matrice Urgent / Important -->
+  <a href="F0_fondations/parents/matrice-urgent-important.html" style="
+    display:flex;align-items:center;gap:1.4rem;
+    background:linear-gradient(135deg,#E89BB8,#F6C9A8);
+    color:#fff;padding:1.3rem 1.7rem;margin-top:.8rem;
+    border-radius:var(--r-xl);
+    text-decoration:none;
+    box-shadow:var(--shadow-md);
+    transition:transform .15s, box-shadow .15s;
+    flex-wrap:wrap;
+  " onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-md)'">
+    <div style="font-size:2.5rem;line-height:1">📊</div>
+    <div style="flex:1;min-width:240px">
+      <div style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.95;margin-bottom:.2rem">Création originale — EducaTypique · NOUVEAU</div>
+      <h3 style="margin:0 0 .2rem;color:#fff;font-family:var(--font-titre);font-size:1.2rem">Matrice Urgent / Important — charge mentale maman</h3>
+      <p style="margin:0;opacity:.95;font-size:.92rem">Trier en 4 cases : faire · planifier · déléguer · lâcher. Pour mamans atypiques et leur cerveau qui veut tout porter.</p>
+    </div>
+    <div style="background:rgba(255,255,255,.25);padding:.5em 1.2em;border-radius:999px;font-weight:700;white-space:nowrap;font-size:.92rem">Trier →</div>
+  </a>
+</section>
+
+<!-- 🔍 RECHERCHE LIVE -->
+<div class="recherche-bloc">
+  <div class="recherche-inner">
+    <label for="recherche-outils">🔍</label>
+    <input type="text" id="recherche-outils" placeholder="Rechercher dans tes outils (ex: TDAH, émotions, MDPH, sommeil...)" autocomplete="off">
+    <button class="clear-btn" id="clear-recherche">✕ Effacer</button>
+    <span class="count" id="count-outils">20 outils</span>
+  </div>
+</div>
+<div class="no-results" id="no-results">Aucun outil ne correspond. Essaie un autre mot-clé (ou efface pour tout réafficher).</div>
+
+<section class="axes">
+
+  <article class="axe A">
+    <h2>A · Repérage</h2>
+    <div class="lbl">Questionnaires pour identifier des signes et clarifier ce que tu observes.</div>
+    <div class="outils">
+      <a class="outil" href="A_reperage/parents/radar-profils.html" style="background:linear-gradient(135deg,#fff,#f8e4f0);border:1.5px solid var(--rose-titre)"><strong>📊 Radar des profils — NOUVEAU</strong><span class="desc">Visualise les forces et fragilités de ton enfant sur 8 domaines en un coup d'œil.</span></a>
+      <a class="outil" href="A_reperage/parents/reperage-tnd-femme.html" style="background:linear-gradient(135deg,#fff,#fff5fa);border:1.5px solid #c25a8a"><strong>🌸 Repérage TND — femme adulte / maman</strong><span class="desc">Création originale Nawel — Auto-questionnaire pour toi en tant que femme/mère. TND souvent invisibles chez les femmes adultes (TDAH atypique, HPI sous-tendu, dys compensés). 30+ items répartis sur 7 domaines (attention · organisation · émotion · sensoriel · social · épuisement · masquage). Pas un diagnostic — un signal pour aller voir.</span></a>
+      <a class="outil" href="A_reperage/parents/reperage-tnd-enfant.html" style="background:linear-gradient(135deg,#fff,#f0f7ff);border:1.5px solid #5a7a9f"><strong>🧩 Repérage TND — enfant (parent rapporteur) · NOUVEAU</strong><span class="desc">80 questions confidentielles · 8 axes (TDAH/HPI/TOP/TSA/DYS/Anxiété/Émo/Quotidien) · synthèse + orientation pro. Indices, sans diagnostic.</span></a>
+      <a class="outil" href="F0_fondations/parents/boussole-diagnostic-dys.html" style="background:linear-gradient(135deg,#fff,#f5f0fa);border:1.5px solid #7c5cbf"><strong>🧭 Boussole diagnostic DYS · NOUVEAU</strong><span class="desc">Création originale Nawel — Suspicion DYS ? Clique sur le trouble → âge cible + parcours pro ordonné + étape 0 vue/ouïe obligatoire. 6 troubles couverts : Dyslexie · Dysorthographie · Dyscalculie · Dysgraphie · Dyspraxie · Dysphasie. Indique les pros à consulter dans le bon ordre + délais d'attente moyens + ce que chaque bilan évalue.</span></a>
+      <a class="outil" href="F0_fondations/parents/mon-equipe-de-soin.html" style="background:linear-gradient(135deg,#fff,#f5f0fa);border:1.5px solid #7c5cbf"><strong>👥 Mon équipe de soin · NOUVEAU</strong><span class="desc">Création originale Nawel — Carte unique pour rassembler tous tes pros (médecin · pédopsy · neuropsy · ortho · ergo · psychomot · psy · ophtalmo · ORL). Coche les consultés, garde les contacts, notes par pro, imprime en A4. Fin du « j'ai noté son numéro où déjà ? » et de la galère des fiches volantes.</span></a>
+    </div>
+  </article>
+
+  <article class="axe B">
+    <h2>B · Observation &amp; évaluation</h2>
+    <div class="lbl">Grilles pour observer ton enfant à la maison et suivre son évolution.</div>
+    <div class="outils">
+      <a class="outil" href="A_reperage/parents/reperage-tnd-enfant.html" style="background:linear-gradient(135deg,#fff,#f0f7ff);border:1.5px solid #5a7a9f"><strong>🧩 Repérage TND enfant — en mode observation continue</strong><span class="desc">Même outil que dans l'axe A — réutilisable en mode observation continue. 80 questions sur 8 axes (TDAH/HPI/TOP/TSA/DYS/Anxiété/Émo/Quotidien) pour structurer tes observations sur la durée et préparer chaque rencontre pro. Indices, sans diagnostic.</span></a>
+      <a class="outil" href="F0_fondations/parents/maman-neuro-atypique.html" style="background:linear-gradient(135deg,#fff,#fff5f8);border:1.5px solid #E89BB8"><strong>🪞 Auto-portrait maman neuro-atypique</strong><span class="desc">Observer aussi son propre fonctionnement, pour mieux comprendre celui de l'enfant.</span></a>
+    </div>
+  </article>
+
+  <article class="axe C">
+    <h2>C · Compréhension &amp; expression</h2>
+    <div class="lbl">Cartes de tri et visualisations pour y voir plus clair dans ce qui se joue.</div>
+    <div class="outils">
+      <a class="outil" href="C_comprehension/parents/trouble-dys-executif.html" style="background:linear-gradient(135deg,#fff,#f5e8f5);border:1.5px solid #7c5cbf"><strong>🧠 Le trouble dys-exécutif — Comprendre · NOUVEAU</strong><span class="desc">Création originale Nawel · D'après Laureline Van der Poorten (CHU Grenoble) — Tout pour comprendre les fonctions exécutives du cerveau de ton enfant : 4 composantes (MDT · inhibition · flexibilité · planification) + 3 attentions · 2 profils (apathique vs désinhibé) · <strong>checklist 26 signes interactive</strong> avec score et message d'orientation · aménagements maison (devoirs, jeux, bien-être) · message clé déculpabilisant.</span></a>
+      <a class="outil" href="C_comprehension/parents/cours-tnd-interactif.html" style="background:linear-gradient(135deg,#fff,#f8e4f0);border:1.5px solid #d36699"><strong>📖 Comprendre les TND — Cours interactif</strong><span class="desc">6 chapitres + quiz. Création originale Nawel. Avec Mode Pro 📋 pour les pros.</span></a>
+      <a class="outil" href="C_comprehension/parents/aide-epuise.html" style="background:linear-gradient(135deg,#fff,#fff5f8);border:1.5px solid #F39BC2"><strong>💚 Ce qui m'aide / ce qui m'épuise</strong><span class="desc">Création originale Nawel — Carte de tri interactive pour toi (ou ton ado) : 24 suggestions cliquables (12 aide · 12 épuise) + ajout libre + bilan auto avec messages contextuels (équilibre, alerte si épuisement >> aide). Multi-cartes pour suivre l'évolution dans le temps. Idéal pour repérer ce qui te nourrit vs te vide.</span></a>
+      <a class="outil" href="C_comprehension/parents/controle-influence-lache.html" style="background:linear-gradient(135deg,#fff,#fff5f9);border:1.5px solid #F39BC2"><strong>🌿 Je contrôle · J'influence · Je lâche — NOUVEAU</strong><span class="desc">Trier ce qui m'épuise. Reposer la charge mentale au bon endroit. Outil TCC pour parents TND.</span></a>
+      <a class="outil" href="C_comprehension/parents/schema-declencheur-tcc.html" style="background:linear-gradient(135deg,#fff,#f5f0fa);border:1.5px solid #7c5cbf"><strong>🔗 Schéma TCC · Déclencheur → Pensée → Émotion → Réaction · NOUVEAU</strong><span class="desc">Décortique une situation parentale difficile. Repère la pensée auto, la distorsion cognitive, recadre. TCC adaptée parents TND.</span></a>
+      <a class="outil" href="C_comprehension/parents/apprendre-a-apprendre.html" style="background:linear-gradient(135deg,#fff,#f5f0fa);border:1.5px solid #7c5cbf"><strong>🎓 Apprendre à apprendre — 8 séances · NOUVEAU</strong><span class="desc">Création originale Nawel : quiz VAK + 8 séances pas-à-pas (de « découvrir mon cerveau » à « ma méthode à moi ») + 8 stratégies + carnet de bord. Pour ados+parents.</span></a>
+      <a class="outil" href="F0_fondations/parents/matrice-urgent-important.html" style="background:linear-gradient(135deg,#fff,#fff5f8);border:1.5px solid #E89BB8"><strong>📊 Matrice Urgent / Important</strong><span class="desc">Trier ta charge mentale en 4 cases (faire · planifier · déléguer · lâcher). Pour mamans atypiques.</span></a>
+      <a class="outil" href="F0_fondations/parents/ligne-du-temps-parcours-tnd.html" style="background:linear-gradient(135deg,#fff,#f5f0fa);border:1.5px solid #7c5cbf"><strong>🗓 Ligne du temps · Parcours TND · NOUVEAU</strong><span class="desc">11 étapes du parcours (premiers signes → médecin → vue/ouïe → pédopsy → bilans → MDPH → école → rééduc → suivi). Multi-enfants · timeline visuelle · export TXT.</span></a>
+    </div>
+  </article>
+
+  <article class="axe D">
+    <h2>D · Régulation émotionnelle</h2>
+    <div class="lbl">Pour t'apaiser, et accompagner ton enfant quand l'émotion déborde.</div>
+    <div class="outils">
+      <a class="outil" href="D_regulation/parents/premiers-secours-psy-ado.html" style="background:linear-gradient(135deg,#fff,#ffe8d6);border:1.5px solid #E76F51"><strong>🆘 Premiers secours psy ado — Quand m'inquiéter ? · NOUVEAU</strong><span class="desc">Création originale Nawel · adapté MHFA International (formation suivie en secouriste santé mentale jeunes). Guide parents ado 12-18 en détresse psy : <strong>🔍 Signes</strong> à repérer (émotionnels · comportementaux · relationnels avec checklists cliquables) · <strong>🏠 Préparer la conversation</strong> (lieu, moment, bonne personne) · <strong>🗣 Le faire parler</strong> (questions ouvertes · écoute active · langage corporel) · <strong>❌ 12 phrases à NE PAS dire</strong> + versions de remplacement · <strong>🚨 Urgences</strong> : signaux d'alerte + 6 numéros utiles (3114 · 15 · 119 · Fil Santé Jeunes · 3020 · 3018) + pros à consulter (médecin · pédopsy · CMP · MDA).</span></a>
+      <a class="outil" href="D_regulation/parents/recadrer-sans-exploser.html" style="background:linear-gradient(135deg,#fff,#f2eafc);border:1.5px solid #7c5cbf"><strong>🛡 Recadrer mon ado sans exploser · NOUVEAU</strong><span class="desc">Création originale Nawel · adapté trame leadership relationnel · Outil interactif 5 onglets : <strong>1️⃣ À chaud</strong> (phrase-pivot + ancrage 3 respirations + mantra « Je suis le cadre, pas la tempête ») · <strong>2️⃣ Tri intérieur</strong> (6 questions guidées : faits · ce que ça a réveillé · valeurs touchées · crise ou répétition · limites franchies · conséquence juste) · <strong>3️⃣ Renforcement</strong> (posture + 3 valeurs-repères « Dans cette maison, on… ») · <strong>4️⃣ Entretien solennel</strong> (trame 7 points avec phrases préformulées) · <strong>5️⃣ Observation</strong> (grille J1-J7 + bilan ajustement). Multi-situations sauvegardées · export TXT · imprimable.</span></a>
+      <a class="outil" href="D_regulation/parents/boite-emotions-19.html" style="background:linear-gradient(135deg,#fff,#fff5f8);border:1.5px solid #F39BC2"><strong>💗 Boîte à outils émotions (19 émotions)</strong><span class="desc">Création originale Nawel — 19 émotions classées (joie · colère · tristesse · peur · dégoût · surprise + nuances) avec pour chacune : déclencheurs typiques · ressentis corps · besoin caché · phrases parent qui aident vs qui aggravent · stratégies de retour au calme. Version universelle utilisable par toutes les familles.</span></a>
+      <a class="outil" href="D_regulation/parents/boite-emotions-19-ISL.html" style="background:linear-gradient(135deg,#fff,#fdf8ec);border:1.5px solid #B49058"><strong>☪️ Boîte à outils émotions — Édition familles musulmanes</strong><span class="desc">Création originale Nawel · Voie Chifā — Même structure que la version universelle, enrichie d'ancrage prophétique pour chaque émotion : versets coraniques + hadiths + exemples du Prophète ﷺ + du'a adaptées (a'oudhou billah, istighfar, sabr…). 19 émotions × ressentis × phrases d'accompagnement.</span></a>
+      <a class="outil" href="D_regulation/parents/kit-calme.html" style="background:linear-gradient(135deg,#fff,#f0fafa);border:1.5px solid #2a9d8f"><strong>🌬 Kit calme — Ancrages express</strong><span class="desc">Création originale Nawel — Trousse de secours quand ça déborde côté parent OU enfant. Techniques courtes (30 sec à 3 min) : respiration 4-6 animée · ancrages 5-4-3-2-1 sensoriels · contact froid/chaud · auto-talk apaisant · gestes corps. Format compact, utilisable en pleine crise sans réfléchir.</span></a>
+      <a class="outil" href="D_regulation/parents/mon-plan-pas-a-pas.html" style="background:linear-gradient(135deg,#fff,#fff5f8);border:1.5px solid #F39BC2"><strong>📋 Mon Plan Pas-à-Pas (enfant 6-14) · NOUVEAU</strong><span class="desc">L'enfant choisit une tâche (sac, devoirs, douche...), dicte ses étapes avec pictos, coche en avançant. Métacognition + autonomie.</span></a>
+      <a class="outil" href="D_regulation/parents/emotionometre-parental.html" style="background:linear-gradient(135deg,#fff,#fff5f8);border:1.5px solid #e05a8a"><strong>🎲 Émotionomètre parental · NOUVEAU</strong><span class="desc">12 situations × 3 phrases A·B·C → visualise l'impact (cœur/bombe) + version R.A.H.M.A. Prise de conscience parentale ludique.</span></a>
+      <a class="outil" href="D_regulation/parents/devoirs-sans-crise-app.html" style="background:linear-gradient(135deg,#fff,#f5e8f0);border:1.5px solid #CBB6F6"><strong>📱 Devoirs sans crise — APPLI interactive v3 · NOUVEAU</strong><span class="desc">Création originale Nawel · La mini-app mobile pro de son kit phare ! 3 mascottes signature (Neuroo · Educa · Noury) · header SOS rose · 💨 <strong>Module Respirer overlay full-screen</strong> (mode parent seul OU co-régulation à 2 · 1·3·5 min · 4 ambiances sonores : silence/cloche/eau/oiseau · SVG animé · écran de fin apaisant) · 7 outils enrichis : comprendre · déclencheurs sauvegardés · routine 5 étapes minutée · <strong>« Mon cerveau bloque » 10 boutons enfant</strong> avec double message kid+parent · phrases parent 4 situations × 3-4 paires éviter/préférer · plan anti-crise 6 étapes guidées avec respiration intégrée · suivi 7 jours. Page Progrès (stats auto · déclencheurs fréquents · victoires). Profil + upload mascottes 3D perso. Astuce d'Educa rotative.</span></a>
+      <a class="outil" href="D_regulation/parents/devoirs-sans-crise.html" style="background:linear-gradient(135deg,#fff,#f0f6fa);border:1.5px solid #3C6478"><strong>📒 Devoirs sans crise — Kit PDF complet</strong><span class="desc">Création originale Nawel · La version document/imprimable du même contenu. 7 fiches + parcours 7 jours + mentions légales. Format A4 imprimable pour les familles qui préfèrent le papier.</span></a>
+    </div>
+  </article>
+
+  <article class="axe E">
+    <h2>E · Ludothèque cognitive</h2>
+    <div class="lbl">Jeux pour entraîner attention, mémoire de travail, inhibition et flexibilité.</div>
+    <div class="outils">
+      <a class="outil" href="E_ludotheque/parents/jeux-adaptes-rahma-tech.html" style="background:linear-gradient(135deg,#fff,#fff5e8);border:1.5px solid #e89556"><strong>🎮 Pack 10 jeux maison adaptés · Team Rahma-Tech · NOUVEAU</strong><span class="desc">Création originale Nawel — <strong>10 jeux ORIGINAUX</strong> inspirés des classiques du commerce (Dobble · Set · Halli Galli · Time's Up · Story Cubes · Loup-Garou · Tangram · Devine qui · Memory) mais 100% maison, 100% gratuits, jouables n'importe où. Pour chaque jeu : règles · variantes facile/difficile · explication neuropédago · adaptations TDAH/TSA/Dys. Filtres par fonction. Modal détail. Notre règle d'or : <em>on n'achète pas, on adapte.</em></span></a>
+      <a class="outil" href="E_ludotheque/parents/apprivoise-tes-emotions.html" style="background:linear-gradient(135deg,#fff,#f5e8f0);border:1.5px solid #7c5cbf"><strong>🎮 Pack 3 mini-jeux · Apprivoise tes émotions</strong><span class="desc">Création originale Nawel — 3 jeux solides dans 1 outil : 🎨 <strong>Trouve la nuance</strong> (vocabulaire émotionnel - 16 questions précision lexicale) · 🎭 <strong>Décode la scène</strong> (compétences sociales - 9 scènes en 2 étapes lecture émotion + réponse) · 🛑 <strong>Mot interdit</strong> (FE - 18 catégories avec mots tabous, jeu à 2 avec chrono 60 sec). Filtres âge enfant/ado · records sauvegardés.</span></a>
+      <a class="outil" href="E_ludotheque/parents/jeux-maison-fe.html" style="background:linear-gradient(135deg,#fff,#f0e8f5);border:1.5px solid #CBB6F6"><strong>🎯 20 jeux maison FE (sans matériel)</strong><span class="desc">Création originale Nawel — 20 jeux ORIGINAUX classés par fonction exécutive (inhibition · mémoire travail · attention · flexibilité · planification · émotion). 100% gratuit, aucun matériel. Filtres FE × âge 3-14.</span></a>
+      <a class="outil" href="E_ludotheque/parents/des-emotions.html" style="background:linear-gradient(135deg,#fff,#fff5e8);border:1.5px solid #e9a73a"><strong>🎲 Dés des émotions</strong><span class="desc">Jeu parent-enfant 5-12 ans : 2 dés (12 émotions × 12 situations = 144 combos) avec animation 3D + pistes de discussion + règles du jeu. Au moment du goûter ou du coucher.</span></a>
+      <a class="outil" href="E_ludotheque/parents/memoire-en-images.html" style="background:linear-gradient(135deg,#fff,#f5f0fa);border:1.5px solid #7c5cbf"><strong>🧠 Mémoire en images</strong><span class="desc">Jeu de mémoire 5-10 ans : 6 thèmes (animaux/fruits/objets/véhicules/émotions/mix) × 4 niveaux. Stats de progression sauvegardées.</span></a>
+      <a class="outil" href="E_ludotheque/parents/cartes-scenarios-parent-enfant.html" style="background:linear-gradient(135deg,#fff,#fff5f8);border:1.5px solid #F39BC2"><strong>🎴 Cartes scénarios parent-enfant</strong><span class="desc">30 scénarios du quotidien (école/repas/coucher/écrans/émotions/fratrie...) × 5 questions à explorer + astuce Nawel. Carte 3D recto/verso · filtres catégorie & âge.</span></a>
+      <a class="outil" href="E_ludotheque/parents/jeu-chitane.html" style="background:linear-gradient(135deg,#fff,#fdf8ec);border:1.5px solid #B49058"><strong>🃏 Jeu Chitane — Tri des pensées · NOUVEAU</strong><span class="desc">Création originale Nawel · Voie Chifā — Apprendre à reconnaître la voix qui sabote (waswās/distorsions cognitives) et la voix utile (fitra/raison saine). 24 cartes-pensées 6-10/10-14/14+ à trier · feedback immédiat · alternative saine · du'a de protection. Ancrage islamique optionnel — outil TCC universel.</span></a>
+      <a class="outil" href="E_ludotheque/parents/cartes-emotions-ISL.docx" style="background:linear-gradient(135deg,#fff,#fdf8ec);border:1.5px solid #B49058"><strong>📄 Cartes émotions ISL (DOCX imprimable)</strong><span class="desc">Création originale Nawel · Voie Chifā — Jeu de cartes émotions adapté familles musulmanes (vocabulaire mêlé arabe/français · ancrage prophétique sur les émotions du Prophète ﷺ). Format DOCX modifiable A4. Complément du Jeu Chitane.</span></a>
+    </div>
+  </article>
+
+</section>
+
+<!-- 🎉 SCORE PARFAIT — Tous les outils sont livrés ! -->
+<section style="max-width:1100px;margin:1rem auto;padding:0 1.5rem">
+  <div style="background:linear-gradient(135deg,#fff,#eef6f5);border:1.5px solid #5fa040;border-radius:var(--r-lg);padding:1.2rem 1.5rem;text-align:center">
+    <span style="font-size:2rem">🎉</span>
+    <strong style="display:block;color:#3d6e25;font-family:var(--font-titre);font-size:1.1rem;margin-top:.4rem">Tous les outils parents sont disponibles !</strong>
+    <span style="display:block;font-size:.9rem;color:#666;margin-top:.4rem">30 outils interactifs prêts à explorer · dont la mini-app mobile « Devoirs sans crise » 🎉 Nouveaux outils ajoutés régulièrement.</span>
+  </div>
+</section>
+
+<!-- Accès optionnel : Espace familles musulmanes (Voie Chifā) -->
+<a href="parents-musulmans.html" style="
+  display:flex;align-items:center;gap:1rem;
+  max-width:780px;margin:1.5rem auto 0;
+  background:linear-gradient(135deg,#fdf8ec,#fff);
+  border:1.5px dashed #B49058;
+  padding:1rem 1.3rem;
+  border-radius:var(--r-lg);
+  text-decoration:none;color:#5a4400;
+  transition:all .15s;
+  flex-wrap:wrap;
+" onmouseover="this.style.background='linear-gradient(135deg,#f5e8c8,#fdf8ec)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='linear-gradient(135deg,#fdf8ec,#fff)';this.style.transform=''">
+  <div style="font-size:2rem;line-height:1">☪️</div>
+  <div style="flex:1;min-width:240px">
+    <div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#8a6a20;margin-bottom:.15rem">Espace optionnel · Voie Chifā</div>
+    <div style="font-weight:800;color:#5a4400;font-family:var(--font-titre);font-size:1.05rem">Pour les familles musulmanes — accès séparé</div>
+    <div style="font-size:.88rem;color:#7a5a20;margin-top:.15rem">Neuro-Tarbiya · Sabr Reset · Boussole islamisée · Plan Merkez. Une couche optionnelle pour ancrer la neuropédagogie dans la voie prophétique.</div>
+  </div>
+  <div style="background:#B49058;color:#fff;padding:.45em 1.1em;border-radius:999px;font-weight:700;font-size:.88rem;white-space:nowrap">Y aller →</div>
+</a>
+
+<!-- FOOTER ENRICHI -->
+<footer style="max-width:1100px;margin:2rem auto 0;padding:0 1.5rem">
+  <div style="background:linear-gradient(135deg,#fff,#fff5f8);border-radius:var(--r-lg);padding:1.5rem 1.8rem;border-top:4px solid var(--rose-titre);box-shadow:var(--shadow-sm);text-align:center">
+    <div style="font-family:var(--font-titre);font-size:1.05rem;color:var(--rose-titre);font-weight:800;margin-bottom:.4rem">🏡 Espace Parents — Boîte NeuroPed</div>
+    <p style="color:var(--muted);font-size:.92rem;margin:.3rem 0 .8rem">Création originale Nawel Haddouch · EducaTypique<br>
+      <span style="font-size:.85rem">Outils gratuits · 0 envoi en ligne · 100% local · respect de ton rythme</span></p>
+    <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem">
+      <a href="index.html" style="padding:.45em 1em;background:#fff;border:1.5px solid var(--violet-titre);color:var(--violet-titre);border-radius:999px;text-decoration:none;font-weight:700;font-size:.85rem">🏠 Accueil</a>
+      <a href="aujourdhui.html" style="padding:.45em 1em;background:#fff;border:1.5px solid var(--rose-titre);color:var(--rose-titre);border-radius:999px;text-decoration:none;font-weight:700;font-size:.85rem">📍 Mode Aujourd'hui</a>
+      <a href="ados.html" style="padding:.45em 1em;background:#fff;border:1.5px solid var(--pub-ados);color:#1a6a5a;border-radius:999px;text-decoration:none;font-weight:700;font-size:.85rem">🌱 Ados</a>
+      <a href="professionnels.html" style="padding:.45em 1em;background:#fff;border:1.5px solid var(--pub-praticiens);color:var(--violet-titre);border-radius:999px;text-decoration:none;font-weight:700;font-size:.85rem">🎓 Pros</a>
+      <a href="ressources.html" style="padding:.45em 1em;background:#fff;border:1.5px solid #e89556;color:#a04500;border-radius:999px;text-decoration:none;font-weight:700;font-size:.85rem">📚 Ressources</a>
+      <a href="a-propos.html" style="padding:.45em 1em;background:var(--rose-titre);color:#fff;border-radius:999px;text-decoration:none;font-weight:700;font-size:.85rem">ℹ️ À propos Nawel</a>
+    </div>
+    <p style="margin-top:1rem;font-size:.78rem;color:#999;font-style:italic">Outils non-diagnostiques · ils n'ont pas vocation à remplacer un avis médical ou psychologique</p>
+  </div>
+</footer>
+
+<p style="text-align:center;color:#aaa;padding:1rem;font-size:.78rem">
+  © 2026 Nawel Haddouch · EducaTypique — Tous droits réservés
+</p>
+
+<script>
+// 🔍 RECHERCHE LIVE
+(function(){
+  const input=document.getElementById('recherche-outils');
+  const countEl=document.getElementById('count-outils');
+  const clearBtn=document.getElementById('clear-recherche');
+  const noResults=document.getElementById('no-results');
+  if(!input)return;
+  const totalOutils=document.querySelectorAll('.axes .outil').length;
+  countEl.textContent=totalOutils+' outils';
+
+  function filtrer(){
+    const q=input.value.trim().toLowerCase();
+    clearBtn.classList.toggle('visible', q.length>0);
+    const axes=document.querySelectorAll('.axes .axe');
+    let totalVisible=0;
+    axes.forEach(axe=>{
+      const outils=axe.querySelectorAll('.outil');
+      let visibleDansAxe=0;
+      outils.forEach(o=>{
+        const text=o.textContent.toLowerCase();
+        const match=q===''||text.includes(q);
+        o.classList.toggle('hidden-search', !match);
+        if(match)visibleDansAxe++;
+      });
+      axe.classList.toggle('hidden-search', visibleDansAxe===0 && q!=='');
+      totalVisible+=visibleDansAxe;
+    });
+    if(q===''){
+      countEl.textContent=totalOutils+' outils';
+      noResults.classList.remove('visible');
+    } else {
+      countEl.textContent=totalVisible+'/'+totalOutils+' outil(s)';
+      noResults.classList.toggle('visible', totalVisible===0);
+    }
+  }
+  input.addEventListener('input', filtrer);
+  clearBtn.addEventListener('click', ()=>{input.value='';input.focus();filtrer();});
+  input.addEventListener('keydown', e=>{if(e.key==='Escape'){input.value='';filtrer();}});
+})();
+</script>
+
+</body>
+</html>
