@@ -45,6 +45,7 @@
     "reglages": ["enfant", "ado"],
     // Ados (12-18) — introspection, mots, autonomie
     "hub": ["ado"],
+    "coachy": ["ado"],
     "pomodoro": ["ado"],
     "organisateur": ["ado"],
     "profil-neuro": ["ado"],

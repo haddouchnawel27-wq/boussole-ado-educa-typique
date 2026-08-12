@@ -2,16 +2,18 @@
    Stratégie « stale-while-revalidate » : on sert vite depuis le cache,
    puis on met à jour en arrière-plan, pour que les nouvelles versions
    s'appliquent d'elles-mêmes à l'ouverture suivante. */
-var CACHE = "cap-educa-v16";
+var CACHE = "cap-educa-v17";
 var FICHIERS = [
   "./", "./index.html", "./manifest.webmanifest",
+  "./coachy/index.html",
   "./assets/css/styles.css",
   "./assets/js/store.js", "./assets/js/ui.js", "./assets/js/app.js", "./assets/js/suggestions.js", "./assets/js/install.js",
   "./assets/js/tools/accueil.js", "./assets/js/tools/hub.js", "./assets/js/tools/profils.js",
   "./assets/js/tools/timer.js", "./assets/js/tools/sequenceur.js",
   "./assets/js/tools/emploi-du-temps.js", "./assets/js/tools/jetons.js",
   "./assets/js/tools/dys.js", "./assets/js/tools/profil-neuro.js",
-  "./assets/js/tools/pomodoro.js", "./assets/js/tools/organisateur.js",
+  "./assets/js/tools/pomodoro.js", "./assets/js/tools/coachy.js",
+  "./assets/js/tools/organisateur.js",
   "./assets/js/tools/emotions.js", "./assets/js/tools/pensees.js",
   "./assets/js/tools/roue-emotions.js", "./assets/js/tools/besoins-corps.js",
   "./assets/js/tools/jeux-fe.js", "./assets/js/tools/modeles-pro.js",
