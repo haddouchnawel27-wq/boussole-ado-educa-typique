@@ -22,6 +22,7 @@ _Dernière mise à jour : 30 juillet 2026._
 **À faire 🔜 (demandé par Nawel)**
 1. **« Mon équilibre » / « L'équilibre retrouvé »** — équilibre **vie de famille ↔ vie pro ↔ prendre soin de soi**.
 2. **Semainier d'organisation** — outil d'organisation hebdomadaire (léger, souple, non-culpabilisant).
+   - 💡 _Note (13/08/2026) :_ le **Planificateur « Coup d'œil »** (créé pour les entrepreneures, publié côté **Al Mizan / Posture Sereine**) pourra servir de base à une **version universelle** ici, dans Le Point du Jour (équilibre famille ↔ pro ↔ soi, catégories protégées). À décliner quand on avancera sur Le Point du Jour.
 3. **Prise en compte des événements de vie** — l'app doit absorber les imprévus qui déstabilisent une organisation à flux tendu (voir témoignage plus bas) : replanification souple, marge/tampon, zéro culpabilité.
 4. *(en réserve, si le besoin se fait sentir à l'usage)* Timer visuel (anneau) + estimation guidée du temps ; mode « présence » léger.
 
