@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clarté Educa — mon chemin pas à pas</title>
+<meta name="description" content="Clarté Educa — un chemin doux pour les mamans : observer une difficulté, repérer le besoin, choisir une stratégie, faire un plan, suivre l'évolution. 100% privé, sur votre appareil.">
+<meta name="theme-color" content="#CBB6F6">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_assets/charte.css">
+<style>
+  :root{ --maxw:760px; }
+  *{box-sizing:border-box;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  body{margin:0;background:linear-gradient(180deg,var(--beige),#fbf6f0);font-family:'Nunito',system-ui,sans-serif;color:var(--texte);line-height:1.6;}
+  h1,h2,h3{font-family:'Poppins',system-ui,sans-serif;line-height:1.2;}
+  a{color:var(--violet-fonce);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1rem 4rem;}
+
+  /* Barre du haut */
+  .topbar{position:sticky;top:0;z-index:20;background:rgba(251,246,240,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);}
+  .topbar .inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:.6rem;padding:.6rem 1rem;}
+  .brand{display:flex;align-items:center;gap:.5rem;font-family:'Poppins';font-weight:700;color:var(--violet-titre);font-size:1.15rem;}
+  .brand .ic{font-size:1.4rem;}
+  .save-ind{margin-left:auto;font-size:.78rem;color:var(--muted);white-space:nowrap;}
+  .save-ind.ok{color:var(--vert-fonce);}
+
+  /* Progression */
+  .steps{display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;margin:1.1rem 0 .4rem;}
+  .steps button{border:none;background:none;cursor:pointer;font-family:'Nunito';display:flex;flex-direction:column;align-items:center;gap:.25rem;width:4.4rem;padding:0;}
+  .steps .c{width:2rem;height:2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;background:#fff;border:2px solid var(--border);color:var(--muted);transition:all .18s;}
+  .steps .l{font-size:.64rem;color:var(--muted);text-align:center;line-height:1.15;font-weight:700;}
+  .steps button.on .c{background:var(--lavande);border-color:var(--violet-titre);color:var(--violet-fonce);transform:translateY(-2px);}
+  .steps button.on .l{color:var(--violet-fonce);}
+  .steps button.done .c{background:var(--menthe);border-color:var(--turquoise);color:var(--teal-fonce);}
+
+  .card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:1.5rem 1.4rem;box-shadow:0 6px 22px rgba(124,92,191,.08);margin-top:.6rem;}
+  .eyebrow{font-family:'Poppins';font-weight:700;text-transform:uppercase;letter-spacing:2px;font-size:.7rem;color:var(--rose-titre);}
+  .card h2{font-size:1.5rem;color:var(--violet-titre);margin:.2rem 0 .5rem;}
+  .lead{color:var(--muted);margin:.2rem 0 1rem;}
+
+  label.field{display:block;font-weight:700;margin:1rem 0 .35rem;}
+  input[type=text],textarea,select{width:100%;border:1.6px solid var(--border);border-radius:14px;padding:.75rem .9rem;font-family:'Nunito';font-size:1rem;color:var(--texte);background:#fffdfb;}
+  input[type=text]:focus,textarea:focus,select:focus{outline:none;border-color:var(--lavande);box-shadow:0 0 0 3px rgba(203,182,246,.35);}
+  textarea{min-height:96px;resize:vertical;}
+  .hint{font-size:.85rem;color:var(--muted);margin:.3rem 2px 0;}
+
+  .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:.4rem 0;}
+  .chip{border:1.6px solid var(--border);background:#fff;border-radius:999px;padding:.5rem .9rem;font-size:.92rem;font-weight:700;color:var(--muted);cursor:pointer;font-family:'Nunito';transition:all .12s;}
+  .chip:hover{border-color:var(--lavande);}
+  .chip.on{background:var(--lavande);border-color:var(--violet-titre);color:var(--violet-fonce);}
+
+  .tool{display:flex;align-items:center;gap:.9rem;border:1.6px solid var(--border);border-radius:16px;padding:.9rem 1rem;margin:.6rem 0;text-decoration:none;color:var(--texte);background:#fffdfb;transition:all .15s;}
+  .tool:hover{border-color:var(--turquoise);transform:translateY(-2px);box-shadow:0 6px 16px rgba(42,157,143,.12);}
+  .tool .em{font-size:1.7rem;flex:none;}
+  .tool .t{font-family:'Poppins';font-weight:700;color:var(--violet-titre);}
+  .tool .d{font-size:.85rem;color:var(--muted);}
+  .tool .go{margin-left:auto;font-weight:800;color:var(--teal-titre);flex:none;}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:none;border-radius:999px;padding:.8rem 1.5rem;font-family:'Poppins';font-weight:700;font-size:1rem;cursor:pointer;background:var(--violet-titre);color:#fff;transition:all .15s;}
+  .btn:hover{background:var(--violet-fonce);transform:translateY(-1px);}
+  .btn.ghost{background:#fff;color:var(--violet-titre);border:1.6px solid var(--lavande);}
+  .btn.ghost:hover{background:var(--beige);}
+  .btn.menthe{background:var(--teal-titre);}
+  .btn.menthe:hover{background:var(--teal-fonce);}
+  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+  .nav-row{display:flex;gap:.7rem;justify-content:space-between;margin-top:1.3rem;}
+
+  .disclaimer{background:var(--jaune-doux);border-radius:14px;padding:.85rem 1.1rem;font-size:.9rem;color:var(--orange-warning-fonce);margin:1rem 0;}
+  .disclaimer strong{color:var(--rose-fonce);}
+  .privacy{display:flex;align-items:center;gap:.5rem;background:var(--menthe);border-radius:12px;padding:.6rem .9rem;font-size:.85rem;color:var(--teal-fonce);font-weight:700;margin:.8rem 0;}
+
+  /* Suivi */
+  .suivi-item{border:1.4px solid var(--border);border-radius:14px;padding:.7rem .9rem;margin:.5rem 0;background:#fffdfb;}
+  .suivi-item .date{font-size:.75rem;color:var(--muted);font-weight:700;}
+  .suivi-item .del{float:right;border:none;background:none;color:var(--rose-titre);cursor:pointer;font-size:1rem;}
+  .mini-add{display:flex;flex-direction:column;gap:.5rem;}
+
+  .recap-box{background:var(--beige);border-radius:14px;padding:1rem 1.1rem;margin:.6rem 0;}
+  .recap-box h4{margin:.2rem 0 .3rem;color:var(--violet-titre);font-family:'Poppins';}
+  .recap-box p{margin:.1rem 0;white-space:pre-wrap;}
+  .footer{text-align:center;color:var(--muted);font-size:.82rem;margin-top:2rem;}
+
+  .toolbar{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:1.4rem;}
+  .hidden{display:none !important;}
+
+  @media print{
+    .topbar,.steps,.nav-row,.toolbar,.tool .go{display:none !important;}
+    body{background:#fff;}
+    .card{box-shadow:none;border:1px solid #e0d6ef;page-break-inside:avoid;}
+    section[data-step]{display:block !important;}
+    .print-only{display:block !important;}
+  }
+  .print-only{display:none;}
+  @media(max-width:520px){ .steps button{width:3.5rem;} .card h2{font-size:1.3rem;} }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="inner">
+    <span class="brand"><span class="ic">🧭</span> Clarté Educa</span>
+    <span class="save-ind" id="save-ind">—</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- Progression -->
+  <nav class="steps" id="steps" aria-label="Étapes du parcours"></nav>
+
+  <!-- INTRO -->
+  <section class="card" data-step="0">
+    <span class="eyebrow">Bienvenue</span>
+    <h2>Un chemin doux, pas à pas 🌿</h2>
+    <p class="lead">Clarté Educa vous accompagne, à votre rythme, pour <strong>observer une difficulté</strong>, comprendre <strong>le besoin</strong> derrière, essayer une <strong>stratégie</strong>, poser un <strong>petit plan</strong> et <strong>suivre l'évolution</strong>. Une étape à la fois.</p>
+
+    <div class="privacy">🔒 Tout reste sur votre appareil. Rien n'est envoyé, ni à un serveur, ni à une intelligence artificielle.</div>
+
+    <div class="disclaimer"><strong>Ce n'est pas un diagnostic.</strong> Clarté Educa aide à observer et à essayer des pistes douces — jamais à poser une étiquette ou un verdict sur votre enfant. En cas d'inquiétude, parlez-en à un professionnel de santé (médecin, pédiatre…).</div>
+
+    <label class="field" for="f-enfant">Le prénom ou surnom de votre enfant <span style="font-weight:400;color:var(--muted)">(facultatif)</span></label>
+    <input type="text" id="f-enfant" placeholder="Ex : mon grand, Lina…" autocomplete="off">
+    <label class="field" for="f-age">Son âge, à peu près</label>
+    <select id="f-age">
+      <option value="">— choisir —</option>
+      <option>4-5 ans</option><option>6-7 ans</option><option>8-9 ans</option><option>10-11 ans</option><option>12 ans</option>
+    </select>
+
+    <div class="nav-row">
+      <span></span>
+      <button class="btn" id="start-btn">Commencer →</button>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 1 — MA SITUATION -->
+  <section class="card hidden" data-step="1">
+    <span class="eyebrow">Étape 1 · Ma situation</span>
+    <h2>Dans quel domaine, aujourd'hui ?</h2>
+    <p class="lead">Choisissez ce qui pèse le plus en ce moment. On avancera sur celui-là (les autres attendront, c'est très bien).</p>
+    <div class="chips" id="chips-situation"></div>
+    <label class="field" for="f-situation-note">Un mot pour préciser <span style="font-weight:400;color:var(--muted)">(facultatif)</span></label>
+    <input type="text" id="f-situation-note" placeholder="Ex : surtout au moment des devoirs">
+    <div class="nav-row">
+      <button class="btn ghost" data-goto="0">← Retour</button>
+      <button class="btn" data-goto="2">Continuer →</button>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 2 — CE QUE J'OBSERVE -->
+  <section class="card hidden" data-step="2">
+    <span class="eyebrow">Étape 2 · Ce que j'observe</span>
+    <h2>Les faits, sans interpréter</h2>
+    <p class="lead">On décrit ce qui se passe <strong>vraiment</strong>, comme une caméra : quoi, quand, combien de fois. Sans jugement, sans « pourquoi » pour l'instant.</p>
+    <label class="field" for="f-observation">Ce que j'observe</label>
+    <textarea id="f-observation" placeholder="Ex : hier et avant-hier, au moment des devoirs, il a crié et est parti dans sa chambre après ~5 minutes."></textarea>
+    <p class="hint">💡 Astuce : remplacez « il est pénible » par ce que vous voyez vraiment (« il repousse le cahier, il soupire »).</p>
+    <div class="nav-row">
+      <button class="btn ghost" data-goto="1">← Retour</button>
+      <button class="btn" data-goto="3">Continuer →</button>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 3 — CE DONT NOUS AVONS BESOIN -->
+  <section class="card hidden" data-step="3">
+    <span class="eyebrow">Étape 3 · Ce dont nous avons besoin</span>
+    <h2>Quel besoin, derrière ?</h2>
+    <p class="lead">Derrière une difficulté, il y a souvent un besoin. Lequel semble le plus présent, pour votre enfant, là maintenant ?</p>
+    <div class="chips" id="chips-besoin"></div>
+
+    <label class="field">Et vous, comment allez-vous ?</label>
+    <p class="hint" style="margin-top:0">Votre état compte autant. Prenez un instant pour faire le point.</p>
+    <a class="tool" href="outils/emotionometre-parental.html" target="_blank" rel="noopener">
+      <span class="em">🌡️</span>
+      <span><span class="t">Mon émotionomètre</span><br><span class="d">Faire le point sur mon propre état, en 2 minutes</span></span>
+      <span class="go">↗</span>
+    </a>
+    <div class="nav-row">
+      <button class="btn ghost" data-goto="2">← Retour</button>
+      <button class="btn" data-goto="4">Continuer →</button>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 4 — MON OUTIL CONSEILLÉ -->
+  <section class="card hidden" data-step="4">
+    <span class="eyebrow">Étape 4 · Mon outil conseillé</span>
+    <h2>Une stratégie douce à essayer</h2>
+    <p class="lead">Voici des outils déjà prêts. Choisissez celui qui parle le plus à votre situation — un seul suffit pour commencer.</p>
+
+    <a class="tool" href="outils/guide-consignes-efficaces.html" target="_blank" rel="noopener">
+      <span class="em">🗣️</span>
+      <span><span class="t">Des consignes qui passent mieux</span><br><span class="d">Pour les moments où « il n'écoute pas » : demander autrement</span></span>
+      <span class="go">↗</span>
+    </a>
+    <a class="tool" href="outils/kit-gestion-emotions.html" target="_blank" rel="noopener">
+      <span class="em">🎒</span>
+      <span><span class="t">Apaiser une émotion forte</span><br><span class="d">Un kit d'outils pour les crises et les gros orages</span></span>
+      <span class="go">↗</span>
+    </a>
+    <a class="tool" href="outils/chrono-energies-maman.html" target="_blank" rel="noopener">
+      <span class="em">🔋</span>
+      <span><span class="t">Retrouver mon énergie</span><br><span class="d">Pour souffler et tenir dans la durée, sans culpabiliser</span></span>
+      <span class="go">↗</span>
+    </a>
+    <div class="nav-row">
+      <button class="btn ghost" data-goto="3">← Retour</button>
+      <button class="btn" data-goto="5">Continuer →</button>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 5 — MON PLAN -->
+  <section class="card hidden" data-step="5">
+    <span class="eyebrow">Étape 5 · Mon plan</span>
+    <h2>Un petit plan d'essai</h2>
+    <p class="lead">Pas un grand programme — <strong>une</strong> petite chose à tester cette semaine. L'outil ci-dessous vous guide pas à pas si besoin.</p>
+    <a class="tool" href="outils/mon-plan-pas-a-pas.html" target="_blank" rel="noopener">
+      <span class="em">🪜</span>
+      <span><span class="t">Construire mon plan pas à pas</span><br><span class="d">Un guide doux pour poser une première marche</span></span>
+      <span class="go">↗</span>
+    </a>
+    <label class="field" for="f-plan">Ce que je décide d'essayer cette semaine</label>
+    <textarea id="f-plan" placeholder="Ex : avant les devoirs, 5 minutes de pause calme + une consigne à la fois."></textarea>
+    <div class="nav-row">
+      <button class="btn ghost" data-goto="4">← Retour</button>
+      <button class="btn" data-goto="6">Continuer →</button>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 6 — MON SUIVI -->
+  <section class="card hidden" data-step="6">
+    <span class="eyebrow">Étape 6 · Mon suivi</span>
+    <h2>Observer, puis ajuster</h2>
+    <p class="lead">Après quelques essais, notez ce que ça a donné — sans attente de perfection. C'est ça qui prépare le prochain petit ajustement.</p>
+
+    <div id="suivi-list"></div>
+
+    <div class="mini-add">
+      <label class="field" for="f-suivi" style="margin-top:.4rem">Ajouter une observation</label>
+      <textarea id="f-suivi" placeholder="Ex : les 2 premiers jours ça a bien aidé, le 3e c'était plus dur (fatigue)."></textarea>
+      <button class="btn menthe" id="add-suivi">+ Ajouter au suivi</button>
+    </div>
+
+    <div class="disclaimer" style="margin-top:1.3rem"><strong>Rappel doux :</strong> une piste qui ne marche pas n'est pas un échec — c'est une information. On réduit, on ajuste, on réessaie. Et si l'inquiétude grandit, un professionnel de santé peut vous accompagner.</div>
+
+    <div class="nav-row">
+      <button class="btn ghost" data-goto="5">← Retour</button>
+      <button class="btn" data-goto="7">Voir mon récap →</button>
+    </div>
+  </section>
+
+  <!-- RÉCAP / CLÔTURE -->
+  <section class="card hidden" data-step="7">
+    <span class="eyebrow">Mon récapitulatif</span>
+    <h2>Ce que j'ai posé 🌸</h2>
+    <p class="lead">Voici votre chemin, rassemblé. Vous pouvez l'imprimer ou l'enregistrer en PDF pour le garder (ou le montrer à un professionnel).</p>
+    <div id="recap"></div>
+    <div class="toolbar">
+      <button class="btn menthe" id="print-btn">🖨️ Imprimer / PDF</button>
+      <button class="btn ghost" data-goto="1">↩︎ Revenir au parcours</button>
+      <button class="btn ghost" id="reset-btn" style="color:var(--rose-fonce);border-color:var(--rose-clair)">🗑️ Tout recommencer</button>
+    </div>
+  </section>
+
+  <p class="footer">Clarté Educa · incluse dans le parcours <strong>Clarté TND</strong> — Educa Typique · Nawel Haddouch<br>Outil de soutien familial · ne remplace ni un diagnostic ni un avis médical · 🔒 100% sur votre appareil</p>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY = "clarte_educa_v1";
+  var STEP_LABELS = ["Accueil","Ma situation","Ce que j'observe","Notre besoin","Mon outil","Mon plan","Mon suivi","Récap"];
+  var SITUATIONS = ["École / devoirs","Émotions / crises","Sommeil / routines","Attention / organisation","Relations / autres enfants","Sensoriel (bruit, lumière…)","Autonomie du quotidien","Autre"];
+  var BESOINS = ["Du calme","Un cadre clair","Des encouragements","Du repos / sommeil","Moins de stimulation","De l'aide pour communiquer","Du temps / de la lenteur","Se sentir en sécurité"];
+
+  var state = load();
+  var cur = 0;
+
+  function load(){
+    try{ var s = JSON.parse(localStorage.getItem(KEY)); if(s && typeof s==="object") return s; }catch(e){}
+    return { enfant:"", age:"", situation:[], situationNote:"", observation:"", besoins:[], plan:"", suivi:[] };
+  }
+  var saveTimer=null;
+  function save(){
+    clearTimeout(saveTimer);
+    saveTimer=setTimeout(function(){
+      try{
+        localStorage.setItem(KEY, JSON.stringify(state));
+        var d=new Date(), hh=("0"+d.getHours()).slice(-2), mm=("0"+d.getMinutes()).slice(-2);
+        var el=document.getElementById("save-ind"); el.textContent="✓ enregistré à "+hh+":"+mm; el.className="save-ind ok";
+      }catch(e){
+        var el2=document.getElementById("save-ind"); el2.textContent="⚠ sauvegarde impossible"; el2.className="save-ind";
+      }
+    },250);
+  }
+
+  // Chips
+  function renderChips(containerId, options, arr){
+    var box=document.getElementById(containerId); box.innerHTML="";
+    options.forEach(function(opt){
+      var b=document.createElement("button"); b.type="button"; b.className="chip"+(arr.indexOf(opt)>-1?" on":"");
+      b.textContent=opt;
+      b.addEventListener("click",function(){
+        var i=arr.indexOf(opt); if(i>-1) arr.splice(i,1); else arr.push(opt);
+        b.classList.toggle("on"); save();
+      });
+      box.appendChild(b);
+    });
+  }
+
+  // Suivi
+  function renderSuivi(){
+    var list=document.getElementById("suivi-list"); list.innerHTML="";
+    if(!state.suivi.length){ list.innerHTML='<p class="hint">Aucune observation pour l\'instant — ajoutez-en une après un essai.</p>'; return; }
+    state.suivi.forEach(function(item,idx){
+      var d=document.createElement("div"); d.className="suivi-item";
+      var del=document.createElement("button"); del.className="del"; del.title="Retirer"; del.textContent="✕";
+      del.addEventListener("click",function(){ state.suivi.splice(idx,1); save(); renderSuivi(); });
+      var date=document.createElement("div"); date.className="date"; date.textContent=item.date||"";
+      var txt=document.createElement("div"); txt.textContent=item.texte||"";
+      d.appendChild(del); d.appendChild(date); d.appendChild(txt); list.appendChild(d);
+    });
+  }
+
+  // Récap
+  function renderRecap(){
+    var r=document.getElementById("recap"); r.innerHTML="";
+    function box(title, content){
+      if(!content || (Array.isArray(content)&&!content.length)) content="—";
+      if(Array.isArray(content)) content=content.join(" · ");
+      var b=document.createElement("div"); b.className="recap-box";
+      var h=document.createElement("h4"); h.textContent=title;
+      var p=document.createElement("p"); p.textContent=content;
+      b.appendChild(h); b.appendChild(p); r.appendChild(b);
+    }
+    var qui = (state.enfant?state.enfant:"Mon enfant") + (state.age?" ("+state.age+")":"");
+    box("👦 Pour qui", qui);
+    box("📍 Ma situation", state.situation.concat(state.situationNote?["« "+state.situationNote+" »"]:[]));
+    box("👀 Ce que j'observe", state.observation);
+    box("🌱 Le besoin repéré", state.besoins);
+    box("🪜 Mon plan d'essai", state.plan);
+    var suiviTxt = state.suivi.length ? state.suivi.map(function(s){return "• "+(s.date?"("+s.date+") ":"")+s.texte;}).join("\n") : "";
+    box("📈 Mon suivi", suiviTxt);
+  }
+
+  // Navigation
+  function show(n){
+    cur=n;
+    document.querySelectorAll("section[data-step]").forEach(function(sec){
+      sec.classList.toggle("hidden", parseInt(sec.getAttribute("data-step"),10)!==n);
+    });
+    renderSteps();
+    if(n===6) renderSuivi();
+    if(n===7) renderRecap();
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+  function renderSteps(){
+    var nav=document.getElementById("steps"); nav.innerHTML="";
+    for(var i=0;i<=7;i++){
+      (function(i){
+        var b=document.createElement("button"); b.type="button";
+        b.className=(i===cur?"on":"")+(i<cur?" done":"");
+        b.innerHTML='<span class="c">'+(i===0?"✦":(i===7?"✓":i))+'</span><span class="l">'+STEP_LABELS[i]+'</span>';
+        b.setAttribute("aria-label","Aller à : "+STEP_LABELS[i]);
+        b.addEventListener("click",function(){ show(i); });
+        nav.appendChild(b);
+      })(i);
+    }
+  }
+
+  // Bind inputs
+  function bindText(id, key){
+    var el=document.getElementById(id); if(!el) return;
+    el.value=state[key]||"";
+    el.addEventListener("input",function(){ state[key]=el.value; save(); });
+  }
+
+  document.addEventListener("DOMContentLoaded",function(){
+    // hydrate
+    document.getElementById("f-enfant").value=state.enfant||"";
+    document.getElementById("f-age").value=state.age||"";
+    document.getElementById("f-enfant").addEventListener("input",function(e){ state.enfant=e.target.value; save(); });
+    document.getElementById("f-age").addEventListener("change",function(e){ state.age=e.target.value; save(); });
+    bindText("f-situation-note","situationNote");
+    bindText("f-observation","observation");
+    bindText("f-plan","plan");
+    renderChips("chips-situation",SITUATIONS,state.situation);
+    renderChips("chips-besoin",BESOINS,state.besoins);
+
+    document.getElementById("start-btn").addEventListener("click",function(){ show(1); });
+    document.querySelectorAll("[data-goto]").forEach(function(btn){
+      btn.addEventListener("click",function(){ show(parseInt(btn.getAttribute("data-goto"),10)); });
+    });
+
+    document.getElementById("add-suivi").addEventListener("click",function(){
+      var ta=document.getElementById("f-suivi"); var v=ta.value.trim(); if(!v) return;
+      var d=new Date(); var dd=("0"+d.getDate()).slice(-2)+"/"+("0"+(d.getMonth()+1)).slice(-2);
+      state.suivi.push({date:dd, texte:v}); ta.value=""; save(); renderSuivi();
+    });
+
+    document.getElementById("print-btn").addEventListener("click",function(){ window.print(); });
+    document.getElementById("reset-btn").addEventListener("click",function(){
+      if(confirm("Tout effacer et recommencer ? Cette action est définitive et ne peut pas être annulée.")){
+        state={ enfant:"", age:"", situation:[], situationNote:"", observation:"", besoins:[], plan:"", suivi:[] };
+        try{ localStorage.removeItem(KEY); }catch(e){}
+        location.reload();
+      }
+    });
+
+    // reprise : si des données existent, un petit mot
+    var hasData = state.enfant||state.observation||state.situation.length||state.plan||state.suivi.length;
+    if(hasData){ document.getElementById("save-ind").textContent="↩︎ reprise de votre parcours"; }
+    renderSteps();
+  });
+})();
+</script>
+</body>
+</html>

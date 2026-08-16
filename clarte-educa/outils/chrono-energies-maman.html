@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Chrono des Énergies (Maman) — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/charte.css">
+<style>
+body{background:#fbf5ef}
+
+.bandeau{
+  background:linear-gradient(135deg,#F39BC2,#CBB6F6);
+  padding:1.8rem 1.5rem;text-align:center;position:relative;overflow:hidden;
+}
+.bandeau::after{content:"⚡💗";position:absolute;top:1rem;right:1.4rem;font-size:1.5rem;opacity:.8}
+.bandeau .auteur{display:inline-block;background:rgba(255,255,255,.25);color:#fff;padding:.3em 1em;border-radius:999px;font-size:.85rem;font-weight:700;margin-bottom:.8rem}
+.bandeau h1{color:#fff;margin:0;font-size:clamp(1.6rem,3vw,2.2rem);text-shadow:0 2px 4px rgba(0,0,0,.15);font-family:var(--font-titre)}
+.bandeau .sub{color:#fff;max-width:680px;margin:.5rem auto 0;font-size:1rem;opacity:.95;font-style:italic}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.25);padding:.3em .9em;border-radius:999px;font-size:.88rem}
+
+.container{max-width:1100px;margin:1.4rem auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.92rem;color:#5A4D6B;font-weight:600}
+
+.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c)}
+.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem;font-family:var(--font-titre)}
+.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-autoriser{--c:#e05a8a}
+.bloc-chrono{--c:#F39BC2}
+.bloc-graph{--c:#7c5cbf}
+.bloc-pattern{--c:#2a9d8f}
+.bloc-strat{--c:#a87800}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+
+/* Box "Ce que je m'autorise" */
+.autoriser-card{background:linear-gradient(135deg,#fff,#fde6ef);border-radius:var(--r-md);padding:1rem 1.2rem;border-left:6px solid #e05a8a}
+.autoriser-card h3{margin:0 0 .3rem;color:#e05a8a;font-family:var(--font-titre);font-size:1.05rem}
+.autoriser-card .sub{font-size:.85rem;color:var(--muted);font-style:italic;margin-bottom:.5rem;line-height:1.5}
+.autoriser-card textarea{width:100%;min-height:60px;padding:.6em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.95rem;resize:vertical}
+.autoriser-card .exemples{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem}
+.autoriser-card .ex-chip{background:#fff;border:1px solid #e05a8a;color:#e05a8a;padding:.25em .65em;border-radius:999px;font-size:.78rem;cursor:pointer;font-family:var(--font-body)}
+.autoriser-card .ex-chip:hover{background:#e05a8a;color:#fff}
+
+/* Chrono — grille horaire */
+.chrono-zone{margin-top:.5rem}
+.chrono-row{
+  display:grid;grid-template-columns:70px 1fr 1.3fr 130px;gap:.5rem;
+  padding:.5rem .6rem;border-bottom:1px solid var(--border);align-items:center;
+}
+.chrono-row .heure{font-weight:800;color:#F39BC2;font-family:var(--font-titre);font-size:.95rem}
+.chrono-row .echelle{display:flex;gap:.25rem;flex-wrap:wrap}
+.chrono-row .echelle label{
+  display:flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:50%;background:var(--beige);cursor:pointer;
+  font-weight:700;font-size:.8rem;color:var(--muted);
+  border:2px solid transparent;transition:all .15s;
+}
+.chrono-row .echelle label:hover{border-color:#F39BC2}
+.chrono-row .echelle input{display:none}
+.chrono-row .echelle input:checked + .v{width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:50%;font-weight:800}
+.chrono-row .echelle .v{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%}
+.chrono-row .activite input{
+  width:100%;padding:.3em .5em;border:1px solid var(--border);
+  border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.83rem;
+}
+.chrono-row .categorie select{
+  width:100%;padding:.3em .5em;border:1px solid var(--border);
+  border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.82rem;font-weight:700;
+}
+@media (max-width:760px){
+  .chrono-row{grid-template-columns:1fr;gap:.3rem}
+}
+
+/* Niveaux énergie */
+.niv-0 .v{background:#a02040;color:#fff}
+.niv-1 .v{background:#c25a30;color:#fff}
+.niv-2 .v{background:#a87800;color:#fff}
+.niv-3 .v{background:#8ED9D2;color:#fff}
+.niv-4 .v{background:#2a9d8f;color:#fff}
+.niv-5 .v{background:#1b7a4a;color:#fff}
+
+.legende-energie{
+  display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;
+  font-size:.78rem;color:var(--muted);margin:.6rem 0;
+  background:var(--beige);padding:.6rem;border-radius:var(--r-sm);
+}
+.legende-energie span{display:inline-flex;align-items:center;gap:.25rem;background:#fff;padding:.2em .55em;border-radius:999px}
+.legende-energie b{display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:50%;background:var(--c-leg);color:#fff;font-weight:700;font-size:.7rem}
+
+/* Catégories légende */
+.legende-cat{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;font-size:.78rem;margin-top:.4rem}
+.legende-cat span{display:inline-flex;align-items:center;gap:.3rem;background:var(--c-fond);color:var(--c-cat);padding:.25em .6em;border-radius:999px;font-weight:700}
+.cat-moi{--c-cat:#e05a8a;--c-fond:#fde6ef}
+.cat-enfants{--c-cat:#7c5cbf;--c-fond:#e8e0f5}
+.cat-foyer{--c-cat:#a87800;--c-fond:#fff3e0}
+.cat-pro{--c-cat:#2a9d8f;--c-fond:#e0f4f1}
+.cat-admin{--c-cat:#c25a30;--c-fond:#fde6dc}
+
+/* Graphique */
+.graph-zone{margin-top:.5rem;background:var(--beige);border-radius:var(--r-md);padding:1rem;overflow-x:auto}
+.graph-canvas{display:flex;align-items:flex-end;gap:3px;height:180px;min-width:720px}
+.graph-bar-col{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;min-width:26px}
+.graph-bar{width:100%;border-radius:4px 4px 0 0;min-height:4px;display:flex;align-items:flex-start;justify-content:center;color:#fff;font-size:.65rem;font-weight:700;padding-top:2px;transition:height .3s ease}
+.graph-bar.b0{background:#a02040}
+.graph-bar.b1{background:#c25a30}
+.graph-bar.b2{background:#a87800}
+.graph-bar.b3{background:#8ED9D2}
+.graph-bar.b4{background:#2a9d8f}
+.graph-bar.b5{background:#1b7a4a}
+.graph-bar.empty{background:#e8dff0;height:4px}
+.graph-cat-dot{width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.graph-cat-dot.moi{background:#e05a8a}
+.graph-cat-dot.enfants{background:#7c5cbf}
+.graph-cat-dot.foyer{background:#a87800}
+.graph-cat-dot.pro{background:#2a9d8f}
+.graph-cat-dot.admin{background:#c25a30}
+.graph-cat-dot.empty{background:transparent;border-color:transparent}
+.graph-label{font-size:.7rem;color:var(--muted);text-align:center;font-weight:700;white-space:nowrap}
+
+/* Patterns */
+.pattern-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem;margin-top:.4rem}
+.pattern-card{background:var(--beige);border-radius:var(--r-md);padding:.8rem 1rem;border-left:5px solid var(--c-pat)}
+.pattern-card h4{margin:0 0 .3rem;color:var(--c-pat);font-size:.95rem;font-family:var(--font-titre)}
+.pattern-card .stat{font-size:1.4rem;font-weight:900;color:var(--c-pat);font-family:var(--font-titre);line-height:1.2}
+.pattern-card .lbl{font-size:.82rem;color:var(--muted);margin-top:.2rem}
+.pat-1{--c-pat:#2a9d8f}
+.pat-2{--c-pat:#a02040}
+.pat-3{--c-pat:#7c5cbf}
+.pat-4{--c-pat:#e05a8a}
+.pat-5{--c-pat:#a87800}
+
+/* Répartition par catégorie */
+.repartition{margin-top:.6rem}
+.rep-ligne{display:grid;grid-template-columns:130px 1fr 60px;gap:.5rem;align-items:center;padding:.4rem 0}
+.rep-nom{font-weight:700;font-size:.88rem;color:var(--c-rep)}
+.rep-bar{background:var(--beige);border-radius:999px;height:14px;overflow:hidden}
+.rep-fill{height:100%;background:var(--c-rep);border-radius:999px;transition:width .4s ease}
+.rep-pct{font-weight:800;color:var(--c-rep);text-align:right;font-size:.85rem}
+.rep-moi{--c-rep:#e05a8a}
+.rep-enfants{--c-rep:#7c5cbf}
+.rep-foyer{--c-rep:#a87800}
+.rep-pro{--c-rep:#2a9d8f}
+.rep-admin{--c-rep:#c25a30}
+
+/* Stratégies par moment */
+.moment-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r-md);padding:.9rem 1.1rem;margin-bottom:.5rem;border-left:5px solid var(--c-m)}
+.moment-card h4{margin:0 0 .3rem;color:var(--c-m);font-family:var(--font-titre);font-size:1rem;display:flex;align-items:center;gap:.4rem}
+.moment-card .corps{font-size:.88rem;color:var(--muted);margin-bottom:.4rem}
+.moment-card .actions-liste{display:flex;flex-wrap:wrap;gap:.3rem;margin:.3rem 0}
+.moment-card .action-chip{background:var(--beige);padding:.25em .6em;border-radius:999px;font-size:.82rem;color:var(--c-m);font-weight:600;border:1px solid var(--c-m)}
+.moment-card .perso{margin-top:.5rem}
+.moment-card .perso label{font-size:.78rem;color:var(--muted);font-weight:700}
+.moment-card .perso textarea{width:100%;min-height:40px;padding:.3em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.85rem;resize:vertical;margin-top:.2rem}
+.mc-matin{--c-m:#a87800}
+.mc-midi{--c-m:#e05a8a}
+.mc-aprem{--c-m:#7c5cbf}
+.mc-soir{--c-m:#2a9d8f}
+
+/* Tabs jours */
+.jours-tabs{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.6rem}
+.jour-tab{background:var(--beige);border:2px solid transparent;border-radius:var(--r-sm);padding:.5em 1em;cursor:pointer;font-family:var(--font-body);font-weight:700;color:var(--muted);font-size:.85rem;display:flex;flex-direction:column;align-items:center;gap:.1rem;min-width:60px}
+.jour-tab.actif{background:#F39BC2;color:#fff;border-color:#F39BC2}
+.jour-tab .jour-court{font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;opacity:.9}
+.jour-tab .jour-num{font-size:1rem;font-weight:900}
+.jour-tab .badge-moy{font-size:.65rem;background:rgba(0,0,0,.15);border-radius:999px;padding:0 .4em;margin-top:.15rem;display:none}
+.jour-tab.actif .badge-moy, .jour-tab[data-rempli="1"] .badge-moy{display:block}
+
+/* Cycle discret */
+.cycle-zone{
+  margin-top:.7rem;padding:.6rem .8rem;
+  background:linear-gradient(135deg,#fff,#fde6ef);
+  border-radius:var(--r-sm);font-size:.85rem;
+  display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;
+}
+.cycle-zone label{color:var(--muted);font-style:italic;font-size:.83rem}
+.cycle-zone select{padding:.35em .6em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.85rem}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 1.5rem}
+.actions button{background:#fff;color:#F39BC2;border:2px solid #F39BC2}
+.actions button:hover{background:#F39BC2;color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+@media print{
+  .retour, .actions{display:none !important}
+  body{background:#fff}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau::after{display:none}
+  .bandeau h1, .bandeau .sub, .bandeau .auteur{color:#F39BC2 !important;text-shadow:none;background:transparent !important}
+  .bloc, .chrono-row, .pattern-card, .moment-card{box-shadow:none;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../index.html">← Retour au parcours</a>
+  <div class="auteur">© Création originale — EducaTypique · pour mamans</div>
+  <h1>⚡💗 Mon Chrono des Énergies</h1>
+  <p class="sub">Maman, tu as deux chronos à gérer : le tien, et celui des enfants. Voici comment cartographier le tien — pour arrêter de le donner aux autres avant toi.</p>
+</section>
+
+<div class="container">
+
+  <div class="posture">
+    💡 <strong>Pour toi spécifiquement, maman.</strong> Le piège classique : tu prends ta fenêtre haute de la journée et tu la donnes aux devoirs, à la paperasse, aux médecins. Le soir, il ne te reste plus rien pour toi. Ce carnet sert à <strong>voir ça en couleurs</strong>, et à reprendre la main.
+  </div>
+
+  <!-- META -->
+  <section class="bloc bloc-meta">
+    <h2>👤 Identité</h2>
+    <div class="grille">
+      <div class="champ"><label>Mon prénom</label><input data-k="prenom" type="text"></div>
+      <div class="champ"><label>Semaine du</label><input data-k="semaine" type="date"></div>
+    </div>
+    <div class="cycle-zone">
+      <label>🌙 Où j'en suis dans mon cycle ce jour (optionnel, ça influence l'énergie)</label>
+      <select data-k="cycle">
+        <option value="">— je préfère pas dire</option>
+        <option>Règles (phase basse)</option>
+        <option>Folliculaire (phase remontée)</option>
+        <option>Ovulation (phase pic)</option>
+        <option>Lutéale (phase descente)</option>
+        <option>Pré-règles (phase chute)</option>
+        <option>Pas concernée / ménopause</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- CE QUE JE M'AUTORISE AUJOURD'HUI -->
+  <section class="bloc bloc-autoriser">
+    <h2>💗 Ce que je m'autorise aujourd'hui</h2>
+    <div class="autoriser-card">
+      <h3>Une chose. Une seule. Pour MOI.</h3>
+      <p class="sub">Pas un programme. Une chose toute petite et non négociable — qui n'est pas pour les enfants, pas pour le foyer, pas pour le boulot. Pour <strong>toi</strong>.</p>
+      <textarea data-k="autoriser" placeholder="ex : 15 minutes pour lire / un thé chaud bu en silence / une douche un peu trop longue / sortir respirer 10 min seule / dire non à un truc / refuser un appel pénible / …"></textarea>
+      <div class="exemples">
+        <span class="ex-chip" data-ex="15 min de lecture sans interruption">📖 15 min lecture</span>
+        <span class="ex-chip" data-ex="Un thé chaud bu en silence, sans téléphone">☕ Thé en silence</span>
+        <span class="ex-chip" data-ex="Sortir respirer 10 min, seule">🌳 10 min dehors seule</span>
+        <span class="ex-chip" data-ex="Dire non à une demande, sans culpabilité">🛡️ Dire non sans culpabilité</span>
+        <span class="ex-chip" data-ex="Ne pas répondre tout de suite à un message">📵 Ignorer un message</span>
+        <span class="ex-chip" data-ex="Une douche un peu trop longue">🚿 Douche longue</span>
+        <span class="ex-chip" data-ex="Manger assise, posée, sans courir">🍽️ Manger assise</span>
+        <span class="ex-chip" data-ex="Demander de l'aide pour un truc">🤝 Demander de l'aide</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHRONO -->
+  <section class="bloc bloc-chrono">
+    <h2>⚡ Mon niveau d'énergie heure par heure</h2>
+    <p class="intro">Pour chaque créneau, note ton niveau d'énergie (0 vidée → 5 au top), ce que tu faisais, ET <strong>à qui ça a servi</strong> (toi / enfants / foyer / pro / admin). C'est cette dernière colonne qui ouvre les yeux.</p>
+
+    <!-- Tabs jours -->
+    <div class="jours-tabs" id="jours-tabs"></div>
+
+    <div class="legende-energie">
+      <span><b style="background:#a02040">0</b> vidée totale</span>
+      <span><b style="background:#c25a30">1</b> très basse</span>
+      <span><b style="background:#a87800">2</b> mollasse</span>
+      <span><b style="background:#8ED9D2">3</b> ok</span>
+      <span><b style="background:#2a9d8f">4</b> bien / focus</span>
+      <span><b style="background:#1b7a4a">5</b> au top / hyperfocus</span>
+    </div>
+
+    <div class="legende-cat">
+      <span class="cat-moi">🪞 Moi (auto-soin)</span>
+      <span class="cat-enfants">👶 Enfants</span>
+      <span class="cat-foyer">🏠 Foyer</span>
+      <span class="cat-pro">💼 Pro</span>
+      <span class="cat-admin">📋 Admin / charge mentale</span>
+    </div>
+
+    <div class="chrono-zone" id="chrono-zone"></div>
+  </section>
+
+  <!-- GRAPHIQUE -->
+  <section class="bloc bloc-graph">
+    <h2>📊 Mon graphique du jour</h2>
+    <p class="intro">La barre = ton niveau d'énergie. Le point coloré sous chaque barre = à qui tu as donné cette énergie.</p>
+    <div class="graph-zone">
+      <div class="graph-canvas" id="graph-canvas"></div>
+    </div>
+  </section>
+
+  <!-- PATTERNS -->
+  <section class="bloc bloc-pattern">
+    <h2>🔍 Ce que je vois</h2>
+    <p class="intro">Stats sur les jours déjà remplis cette semaine.</p>
+    <div class="pattern-cards" id="patterns"></div>
+
+    <h3 style="color:#2a9d8f;margin-top:1rem;font-size:1rem">💗 À qui j'ai donné mon énergie cette semaine</h3>
+    <p class="intro" style="margin-top:.2rem">Visualisation directe. <strong>L'idéal n'est pas l'équilibre parfait</strong> — c'est que tu sois consciente du déséquilibre, et que tu choisisses.</p>
+    <div class="repartition" id="repartition"></div>
+
+    <div class="champ" style="margin-top:.7rem"><label>Ce que je remarque</label><textarea data-k="notes-patterns" style="min-height:60px" placeholder="ex : ma fenêtre haute du matin, je l'ai TOUTE donnée à la paperasse MDPH cette semaine. Pour moi, il restait que des miettes…"></textarea></div>
+  </section>
+
+  <!-- STRATEGIES MAMAN -->
+  <section class="bloc bloc-strat">
+    <h2>🧰 Mes stratégies maman par moment</h2>
+    <p class="intro">Ton de cette section : direct, sans tabou. Tu connais déjà la théorie. Cherche ce qui tient vraiment <strong>chez toi</strong>.</p>
+
+    <div class="moment-card mc-matin">
+      <h4>🌅 Matin (6h–12h)</h4>
+      <div class="corps">Souvent le seul moment où tu es seule avec ton cerveau. Question : à qui tu le donnes ?</div>
+      <div class="actions-liste">
+        <span class="action-chip">15 min pour MOI avant que ça démarre</span>
+        <span class="action-chip">Pas d'écran avant 7h30</span>
+        <span class="action-chip">Café/thé chaud assise</span>
+        <span class="action-chip">Ne pas regarder mails avant 9h</span>
+        <span class="action-chip">Habiller MES enfants, pas ME perdre dans le leur</span>
+      </div>
+      <div class="perso">
+        <label>Ce qui marche chez MOI le matin :</label>
+        <textarea data-k="strat-matin"></textarea>
+      </div>
+    </div>
+
+    <div class="moment-card mc-midi">
+      <h4>☀️ Midi (12h–14h)</h4>
+      <div class="corps">Si tu manges debout en gérant 4 autres choses, tu ne manges pas. Tu nourris ton cerveau de stress.</div>
+      <div class="actions-liste">
+        <span class="action-chip">Manger ASSISE 15 min</span>
+        <span class="action-chip">Sieste flash 20 min si possible</span>
+        <span class="action-chip">Pas d'écran pendant le repas</span>
+        <span class="action-chip">Sortir 10 min après</span>
+        <span class="action-chip">Pas de débat enfant à table</span>
+      </div>
+      <div class="perso">
+        <label>Ce qui marche chez MOI à midi :</label>
+        <textarea data-k="strat-midi"></textarea>
+      </div>
+    </div>
+
+    <div class="moment-card mc-aprem">
+      <h4>🌤️ Après-midi (14h–18h)</h4>
+      <div class="corps">Le creux post-repas + l'arrivée des enfants + devoirs + gestion crise + repas du soir à anticiper. <strong>C'est le moment où tu fais bombe le plus souvent</strong>. Pas par méchanceté — par épuisement.</div>
+      <div class="actions-liste">
+        <span class="action-chip">Anticiper le creux 14h-16h</span>
+        <span class="action-chip">Snack glucides lents 16h</span>
+        <span class="action-chip">Préparer dîner avant que les enfants rentrent</span>
+        <span class="action-chip">Pause sensorielle 5 min entre 17 et 18h</span>
+        <span class="action-chip">Pas de décision importante</span>
+      </div>
+      <div class="perso">
+        <label>Ce qui marche chez MOI l'après-midi :</label>
+        <textarea data-k="strat-aprem"></textarea>
+      </div>
+    </div>
+
+    <div class="moment-card mc-soir">
+      <h4>🌙 Soir (18h–23h)</h4>
+      <div class="corps">Le piège TDAH maman : pic d'énergie tardif quand les enfants dorment enfin (« je suis enfin productive à 23h »). Et le matin tu es vidée. Cercle vicieux.</div>
+      <div class="actions-liste">
+        <span class="action-chip">Couvre-feu écran 21h30</span>
+        <span class="action-chip">Pas d'admin enfant après 21h</span>
+        <span class="action-chip">Coucher à heure fixe (même si pas envie)</span>
+        <span class="action-chip">Rituel à toi (lecture, série courte, douche)</span>
+        <span class="action-chip">Ne pas culpabiliser de ne pas avoir tout fait</span>
+      </div>
+      <div class="perso">
+        <label>Ce qui marche chez MOI le soir :</label>
+        <textarea data-k="strat-soir"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button id="btn-enregistrer">💾 Enregistrer</button>
+    <button id="btn-exporter">📄 Exporter (TXT)</button>
+    <button id="btn-imprimer">🖨️ Imprimer</button>
+    <button id="btn-vider" class="danger">🧹 Tout effacer</button>
+  </div>
+
+  <p style="text-align:center;color:var(--muted);padding:1rem 0;font-size:.85rem">
+    EducaTypique · Méthode Educa — <a href="../index.html">retour au parcours</a><br>
+    <em>💗 Pensé pour les mamans TDAH (ou pas) qui se perdent dans le quotidien des autres.</em>
+  </p>
+
+</div>
+
+<script>
+const STORAGE = 'educatypique_chrono_energies_maman_v1';
+
+const HEURES = ['6h','7h','8h','9h','10h','11h','12h','13h','14h','15h','16h','17h','18h','19h','20h','21h','22h','23h'];
+const JOURS = [
+  { id:'lun', court:'Lun', long:'Lundi' },
+  { id:'mar', court:'Mar', long:'Mardi' },
+  { id:'mer', court:'Mer', long:'Mercredi' },
+  { id:'jeu', court:'Jeu', long:'Jeudi' },
+  { id:'ven', court:'Ven', long:'Vendredi' },
+  { id:'sam', court:'Sam', long:'Samedi' },
+  { id:'dim', court:'Dim', long:'Dimanche' }
+];
+const CATEGORIES = [
+  { id:'moi',     nom:'🪞 Moi',          couleur:'#e05a8a' },
+  { id:'enfants', nom:'👶 Enfants',      couleur:'#7c5cbf' },
+  { id:'foyer',   nom:'🏠 Foyer',         couleur:'#a87800' },
+  { id:'pro',     nom:'💼 Pro',           couleur:'#2a9d8f' },
+  { id:'admin',   nom:'📋 Admin',         couleur:'#c25a30' }
+];
+
+let etat = {
+  prenom:'', semaine:'', cycle:'', autoriser:'',
+  jours:{},  // { 'lun': { '6h': {niv:3, act:'café', cat:'moi'}, ... } }
+  strategies:{},
+  'notes-patterns':''
+};
+let jourActif = 'lun';
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function lireData(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || null; } catch(e){ return null; } }
+function ecrireData(){ localStorage.setItem(STORAGE, JSON.stringify(etat)); }
+
+// === Tabs jours ===
+function renderTabsJours(){
+  const cont = document.getElementById('jours-tabs');
+  cont.innerHTML = JOURS.map(j=>{
+    const data = etat.jours[j.id] || {};
+    const rempli = Object.keys(data).length > 0 ? '1' : '0';
+    let moy = '';
+    if(rempli === '1'){
+      const niveaux = Object.values(data).map(d=>d.niv).filter(n=>n!==undefined && n!=='');
+      if(niveaux.length > 0){
+        const m = (niveaux.reduce((a,b)=>a+parseInt(b,10),0) / niveaux.length).toFixed(1);
+        moy = `<div class="badge-moy">moy ${m}</div>`;
+      }
+    }
+    return `
+      <button class="jour-tab ${j.id===jourActif?'actif':''}" data-jour="${j.id}" data-rempli="${rempli}">
+        <span class="jour-court">${j.court}</span>
+        <span class="jour-num">${j.long}</span>
+        ${moy}
+      </button>
+    `;
+  }).join('');
+  cont.querySelectorAll('.jour-tab').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      jourActif = b.dataset.jour;
+      cont.querySelectorAll('.jour-tab').forEach(x=> x.classList.remove('actif'));
+      b.classList.add('actif');
+      renderChrono();
+      renderGraph();
+    });
+  });
+}
+
+// === Chrono ===
+function renderChrono(){
+  const cont = document.getElementById('chrono-zone');
+  const data = etat.jours[jourActif] || {};
+  cont.innerHTML = HEURES.map(h=>{
+    const d = data[h] || { niv:'', act:'', cat:'' };
+    return `
+      <div class="chrono-row">
+        <div class="heure">${h}</div>
+        <div class="echelle">
+          ${[0,1,2,3,4,5].map(n=>`
+            <label class="niv-${n}">
+              <input type="radio" name="niv-${jourActif}-${h}" value="${n}" ${d.niv==n?'checked':''}>
+              <span class="v">${n}</span>
+            </label>
+          `).join('')}
+        </div>
+        <div class="activite">
+          <input type="text" placeholder="activité…" data-act="${h}" value="${esc(d.act)}">
+        </div>
+        <div class="categorie">
+          <select data-cat="${h}">
+            <option value="">à qui ?</option>
+            ${CATEGORIES.map(c=>`<option value="${c.id}" ${d.cat===c.id?'selected':''}>${c.nom}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  cont.querySelectorAll('input[type="radio"]').forEach(r=>{
+    r.addEventListener('change', ()=>{
+      const h = r.name.split('-').slice(2).join('-');
+      if(!etat.jours[jourActif]) etat.jours[jourActif] = {};
+      if(!etat.jours[jourActif][h]) etat.jours[jourActif][h] = { niv:'', act:'', cat:'' };
+      etat.jours[jourActif][h].niv = r.value;
+      ecrireData(); renderTabsJours(); renderGraph(); renderPatterns();
+    });
+  });
+  cont.querySelectorAll('input[data-act]').forEach(inp=>{
+    inp.addEventListener('input', ()=>{
+      const h = inp.dataset.act;
+      if(!etat.jours[jourActif]) etat.jours[jourActif] = {};
+      if(!etat.jours[jourActif][h]) etat.jours[jourActif][h] = { niv:'', act:'', cat:'' };
+      etat.jours[jourActif][h].act = inp.value;
+      ecrireData();
+    });
+  });
+  cont.querySelectorAll('select[data-cat]').forEach(sel=>{
+    sel.addEventListener('change', ()=>{
+      const h = sel.dataset.cat;
+      if(!etat.jours[jourActif]) etat.jours[jourActif] = {};
+      if(!etat.jours[jourActif][h]) etat.jours[jourActif][h] = { niv:'', act:'', cat:'' };
+      etat.jours[jourActif][h].cat = sel.value;
+      ecrireData(); renderGraph(); renderPatterns();
+    });
+  });
+}
+
+// === Graphique ===
+function renderGraph(){
+  const cont = document.getElementById('graph-canvas');
+  const data = etat.jours[jourActif] || {};
+  cont.innerHTML = HEURES.map(h=>{
+    const d = data[h];
+    const niv = d && d.niv !== '' ? parseInt(d.niv,10) : null;
+    const hauteur = niv !== null ? Math.max(8, (niv/5)*150) : 4;
+    const cls = niv !== null ? 'b'+niv : 'empty';
+    const catCls = d && d.cat ? d.cat : 'empty';
+    return `
+      <div class="graph-bar-col">
+        <div class="graph-bar ${cls}" style="height:${hauteur}px" title="${h} : ${niv!==null?niv+'/5':'non noté'}${d&&d.act?' — '+d.act:''}${d&&d.cat?' ['+d.cat+']':''}">${niv!==null?niv:''}</div>
+        <div class="graph-cat-dot ${catCls}" title="${d&&d.cat?d.cat:'pas de catégorie'}"></div>
+        <div class="graph-label">${h}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// === Patterns ===
+function renderPatterns(){
+  const cont = document.getElementById('patterns');
+  let totalNiveaux = 0, countNiveaux = 0;
+  let heuresHauteEnergie = {}, heuresBasseEnergie = {};
+  let joursAvecData = 0;
+  let catCounts = { moi:0, enfants:0, foyer:0, pro:0, admin:0 };
+  let catCountsHaute = { moi:0, enfants:0, foyer:0, pro:0, admin:0 };
+  let totalCat = 0;
+
+  JOURS.forEach(j=>{
+    const data = etat.jours[j.id] || {};
+    let aDesNiveaux = false;
+    HEURES.forEach(h=>{
+      const d = data[h];
+      if(d && d.niv !== '' && d.niv !== undefined){
+        const n = parseInt(d.niv,10);
+        totalNiveaux += n; countNiveaux++; aDesNiveaux = true;
+        if(n >= 4) heuresHauteEnergie[h] = (heuresHauteEnergie[h]||0) + 1;
+        if(n <= 1) heuresBasseEnergie[h] = (heuresBasseEnergie[h]||0) + 1;
+      }
+      if(d && d.cat){
+        catCounts[d.cat] = (catCounts[d.cat]||0) + 1;
+        totalCat++;
+        if(d.niv >= 4) catCountsHaute[d.cat] = (catCountsHaute[d.cat]||0) + 1;
+      }
+    });
+    if(aDesNiveaux) joursAvecData++;
+  });
+
+  const moyenne = countNiveaux > 0 ? (totalNiveaux/countNiveaux).toFixed(1) : '—';
+  const topHaute = Object.entries(heuresHauteEnergie).sort((a,b)=>b[1]-a[1])[0];
+  const topBasse = Object.entries(heuresBasseEnergie).sort((a,b)=>b[1]-a[1])[0];
+  const topCatHaute = Object.entries(catCountsHaute).sort((a,b)=>b[1]-a[1])[0];
+  const moiPct = totalCat > 0 ? Math.round((catCounts.moi/totalCat)*100) : 0;
+
+  cont.innerHTML = `
+    <div class="pattern-card pat-1">
+      <h4>📈 Énergie moyenne</h4>
+      <div class="stat">${moyenne}<span style="font-size:.9rem;font-weight:400;color:var(--muted)">/5</span></div>
+      <div class="lbl">${countNiveaux} créneaux · ${joursAvecData} jour(s)</div>
+    </div>
+    <div class="pattern-card pat-2">
+      <h4>🌟 Ma fenêtre haute</h4>
+      <div class="stat">${topHaute ? topHaute[0] : '—'}</div>
+      <div class="lbl">${topHaute ? '≥4 dans '+topHaute[1]+' jour(s)' : 'À découvrir'}</div>
+    </div>
+    <div class="pattern-card pat-3">
+      <h4>📉 Mon creux</h4>
+      <div class="stat">${topBasse ? topBasse[0] : '—'}</div>
+      <div class="lbl">${topBasse ? '≤1 dans '+topBasse[1]+' jour(s)' : 'Pas encore'}</div>
+    </div>
+    <div class="pattern-card pat-4">
+      <h4>💗 Mon énergie pic, je la donne à…</h4>
+      <div class="stat">${topCatHaute && topCatHaute[1] > 0 ? CATEGORIES.find(c=>c.id===topCatHaute[0]).nom.split(' ')[0] : '—'}</div>
+      <div class="lbl">${topCatHaute && topCatHaute[1] > 0 ? topCatHaute[1]+' créneau(x) ≥4' : 'Remplis la colonne catégorie'}</div>
+    </div>
+    <div class="pattern-card pat-5">
+      <h4>🪞 Part pour MOI</h4>
+      <div class="stat">${moiPct}%</div>
+      <div class="lbl">${moiPct < 15 ? '⚠️ Très peu. Vois si tu peux changer ça.' : moiPct < 30 ? 'Acceptable. Tu peux pousser un peu.' : '🌟 Tu prends soin de toi.'}</div>
+    </div>
+  `;
+
+  // Répartition par catégorie
+  const rep = document.getElementById('repartition');
+  if(totalCat === 0){
+    rep.innerHTML = '<p style="color:var(--muted);font-style:italic;padding:.5rem 0">Remplis la colonne « à qui ? » dans le chrono pour voir où passe ton énergie.</p>';
+    return;
+  }
+  rep.innerHTML = CATEGORIES.map(c=>{
+    const count = catCounts[c.id] || 0;
+    const pct = Math.round((count/totalCat)*100);
+    return `
+      <div class="rep-ligne">
+        <div class="rep-nom rep-${c.id}">${esc(c.nom)}</div>
+        <div class="rep-bar"><div class="rep-fill rep-${c.id}" style="width:${pct}%"></div></div>
+        <div class="rep-pct rep-${c.id}">${pct}%</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// === Exemples cliquables "ce que je m'autorise" ===
+document.querySelectorAll('.ex-chip').forEach(c=>{
+  c.addEventListener('click', ()=>{
+    const ta = document.querySelector('[data-k="autoriser"]');
+    ta.value = c.dataset.ex;
+    etat.autoriser = ta.value;
+    ecrireData();
+  });
+});
+
+// === Champs simples ===
+document.querySelectorAll('textarea[data-k], input[data-k], select[data-k]').forEach(el=>{
+  el.addEventListener('input', ()=>{
+    const k = el.dataset.k;
+    if(k && k.startsWith('strat-')){
+      etat.strategies = etat.strategies || {};
+      etat.strategies[k] = el.value;
+    } else if(k){
+      etat[k] = el.value;
+    }
+    ecrireData();
+  });
+  el.addEventListener('change', ()=>{
+    const k = el.dataset.k;
+    if(k && k.startsWith('strat-')){
+      etat.strategies = etat.strategies || {};
+      etat.strategies[k] = el.value;
+    } else if(k){
+      etat[k] = el.value;
+    }
+    ecrireData();
+  });
+});
+
+// === Actions ===
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  ecrireData(); alert('Ton chrono est enregistré 💗');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const l = ['Mon Chrono des Énergies — EducaTypique (Maman)',''];
+  l.push((etat.prenom||'Mon prénom')+' · Semaine du '+(etat.semaine||'—'));
+  if(etat.cycle) l.push('Cycle : '+etat.cycle);
+  l.push('');
+  l.push('== Ce que je m\'autorise cette semaine ==');
+  l.push(etat.autoriser || '—');
+  l.push('');
+  JOURS.forEach(j=>{
+    const data = etat.jours[j.id];
+    if(data && Object.keys(data).length > 0){
+      l.push('== '+j.long+' ==');
+      HEURES.forEach(h=>{
+        const d = data[h];
+        if(d && (d.niv !== '' || d.act)){
+          l.push('  '+h+' : '+(d.niv !== '' ? d.niv+'/5' : '—')+(d.act ? ' — '+d.act : '')+(d.cat ? ' ['+d.cat+']' : ''));
+        }
+      });
+      l.push('');
+    }
+  });
+  l.push('== Notes patterns ==');
+  l.push(etat['notes-patterns']||'—');
+  l.push('');
+  l.push('== Mes stratégies ==');
+  ['matin','midi','aprem','soir'].forEach(m=>{
+    if(etat.strategies && etat.strategies['strat-'+m]) l.push(m+' : '+etat.strategies['strat-'+m]);
+  });
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'chrono-energies-maman-'+(etat.prenom||'moi')+'-'+new Date().toISOString().slice(0,10)+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(!confirm('⚠️ Effacer toutes tes données ?')) return;
+  localStorage.removeItem(STORAGE); location.reload();
+});
+
+// === Init ===
+const saved = lireData();
+if(saved){
+  etat = Object.assign(etat, saved);
+  if(!etat.jours) etat.jours = {};
+  if(!etat.strategies) etat.strategies = {};
+}
+document.querySelector('[data-k="prenom"]').value = etat.prenom || '';
+document.querySelector('[data-k="semaine"]').value = etat.semaine || '';
+document.querySelector('[data-k="cycle"]').value = etat.cycle || '';
+document.querySelector('[data-k="autoriser"]').value = etat.autoriser || '';
+document.querySelector('[data-k="notes-patterns"]').value = etat['notes-patterns'] || '';
+['strat-matin','strat-midi','strat-aprem','strat-soir'].forEach(k=>{
+  const el = document.querySelector(`[data-k="${k}"]`);
+  if(el && etat.strategies && etat.strategies[k]) el.value = etat.strategies[k];
+});
+if(!etat.semaine){
+  const today = new Date();
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - (today.getDay()+6)%7);
+  document.querySelector('[data-k="semaine"]').valueAsDate = monday;
+  etat.semaine = monday.toISOString().slice(0,10);
+}
+
+renderTabsJours();
+renderChrono();
+renderGraph();
+renderPatterns();
+</script>
+
+</body>
+</html>
