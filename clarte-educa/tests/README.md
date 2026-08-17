@@ -24,11 +24,31 @@ Aucune dépendance (Node seul, `node --check`). Couvre les points de recette **s
 
 Résultat attendu : **11 réussis · 0 échoués**.
 
-## ⚠️ Test fonctionnel navigateur — NON automatisé ici
+## ✅ Test fonctionnel navigateur (`functional.mjs`)
 
-Un navigateur scriptable (puppeteer/playwright/jsdom) **n'est pas installé** dans cet environnement,
-donc le scénario fonctionnel complet n'a **pas** été exécuté automatiquement. Il doit être fait en
-**recette manuelle** (ci-dessous). Ne pas le déclarer « réussi » tant qu'il n'a pas été joué.
+Scénario complet dans un **vrai navigateur** (via `puppeteer-core` + un Chromium déjà présent).
+Il se **saute proprement** si `puppeteer-core` n'est pas installé (jamais déclaré « réussi » sans exécution).
+
+Le lancer (servir en **http** — indispensable pour un `localStorage` au comportement identique à la prod) :
+
+```bash
+# 1) pilote (n'embarque PAS de navigateur ; réutilise un Chromium existant)
+npm install puppeteer-core
+# 2) petit serveur http
+python3 -m http.server 8139 --bind 127.0.0.1 &
+# 3) lancer le test
+CHROME_BIN=/chemin/vers/chrome \
+BASE_URL=http://127.0.0.1:8139/clarte-educa/index.html \
+node clarte-educa/tests/functional.mjs
+```
+
+Scénario joué : `remplir → suggestion → ouvrir l'outil (même onglet) → revenir → confirmer la stratégie
+→ plan → recharger → reprise → suivi → récapitulatif`, plus une condition de passage.
+
+**Dernier résultat : 22 réussis · 0 échoué.** Ce test a détecté puis fait corriger 3 vrais bugs :
+lien « Retour au parcours » manquant dans le kit, écouteur de clic absent sur les cartes d'outils
+générées dynamiquement (corrigé par délégation), et sauvegarde différée pouvant perdre la dernière
+action lors d'un rechargement immédiat (corrigé par écriture immédiate).
 
 ### Scénario fonctionnel à jouer
 `remplir → choisir une suggestion → ouvrir l'outil → revenir → confirmer une stratégie → rédiger un plan → recharger → vérifier la reprise → ajouter un suivi → ouvrir le récapitulatif`

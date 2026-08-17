@@ -295,13 +295,14 @@
   var saveTimer=null;
   function save(){
     state.updatedAt=nowISO();
+    // Écriture IMMÉDIATE (aucune fenêtre de perte si l'onglet se ferme/recharge) ...
+    try{ localStorage.setItem(KEY, JSON.stringify(state)); }
+    catch(e){ setSave("⚠ sauvegarde impossible", false); return; }
+    // ... et seul l'indicateur visuel est différé (anti-clignotement).
     clearTimeout(saveTimer);
     saveTimer=setTimeout(function(){
-      try{
-        localStorage.setItem(KEY, JSON.stringify(state));
-        var d=new Date(), hh=("0"+d.getHours()).slice(-2), mm=("0"+d.getMinutes()).slice(-2);
-        setSave("✓ enregistré à "+hh+":"+mm, true);
-      }catch(e){ setSave("⚠ sauvegarde impossible", false); }
+      var d=new Date(), hh=("0"+d.getHours()).slice(-2), mm=("0"+d.getMinutes()).slice(-2);
+      setSave("✓ enregistré à "+hh+":"+mm, true);
     },250);
   }
   function setSave(txt, ok){ var el=document.getElementById("save-ind"); el.textContent=txt; el.className="save-ind"+(ok?" ok":""); }
@@ -527,17 +528,18 @@
     el.addEventListener("input",function(){ state[key]=el.value; clearErr(); save(); });
   }
 
-  // Ouverture d'un outil (même onglet) — on sauvegarde l'étape (et l'outil choisi si étape 4)
+  // Ouverture d'un outil (même onglet) — on sauvegarde l'étape (et l'outil choisi si étape 4).
+  // Délégation sur document : couvre aussi les cartes créées dynamiquement (routage étape 4).
   function bindToolLinks(){
-    document.querySelectorAll("a.tool").forEach(function(a){
-      a.addEventListener("click",function(ev){
-        var stepAttr=a.getAttribute("data-step");
-        if(stepAttr){ state.currentStep=parseInt(stepAttr,10); }
-        var tool=a.getAttribute("data-tool");
-        if(tool){ state.outilChoisi={ id:tool, nom:a.getAttribute("data-nom")||TOOLS[tool].nom }; }
-        try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
-        // navigation même onglet via le href par défaut
-      });
+    document.addEventListener("click",function(ev){
+      var a=ev.target && ev.target.closest ? ev.target.closest("a.tool") : null;
+      if(!a) return;
+      var stepAttr=a.getAttribute("data-step");
+      if(stepAttr){ state.currentStep=parseInt(stepAttr,10); }
+      var tool=a.getAttribute("data-tool");
+      if(tool){ state.outilChoisi={ id:tool, nom:a.getAttribute("data-nom")||TOOLS[tool].nom }; }
+      try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+      // navigation même onglet via le href par défaut
     });
   }
 
