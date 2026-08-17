@@ -103,6 +103,68 @@
     .card{box-shadow:none;border:1px solid #cfc2e6;}
   }
   @media(max-width:520px){ .steps button{width:3.5rem;} .card h2{font-size:1.3rem;} }
+
+  /* ============================================================
+     ✿ Habillage Educa Typique — couche esthétique (n'altère pas le JS)
+     ============================================================ */
+  body{position:relative;}
+  body::before,body::after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(46px);opacity:.55;pointer-events:none;}
+  body::before{width:340px;height:340px;top:-120px;left:-110px;background:radial-gradient(circle at 30% 30%,var(--lavande),transparent 70%);}
+  body::after{width:400px;height:400px;bottom:-150px;right:-130px;background:radial-gradient(circle at 60% 40%,var(--menthe),transparent 70%);}
+
+  /* Titres en dégradé doux */
+  .card h2{background:linear-gradient(90deg,var(--violet-titre),var(--rose-titre));-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+  /* Cartes : coins ronds + entrée en fondu */
+  section.card{border-radius:24px;box-shadow:0 12px 34px rgba(124,92,191,.10);}
+  section.card:not(.hidden){animation:cardIn .42s cubic-bezier(.2,.8,.2,1) both;}
+  @keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.99);}to{opacity:1;transform:none;}}
+
+  /* Marque (topbar) */
+  .brand .ic{background:linear-gradient(135deg,var(--lavande),var(--menthe));border-radius:12px;padding:.15rem .3rem;box-shadow:0 3px 8px rgba(124,92,191,.18);}
+
+  /* Barre d'étapes : pastilles douces + survol */
+  .steps .c{box-shadow:0 3px 8px rgba(124,92,191,.10);transition:transform .18s,background .18s,box-shadow .18s;}
+  .steps button:hover:not(.locked) .c{transform:translateY(-2px);}
+  .steps button[aria-current="true"] .c{box-shadow:0 6px 16px rgba(124,92,191,.28);}
+
+  /* Boutons : dégradé + relief */
+  .btn{background:linear-gradient(135deg,var(--violet-titre),var(--rose-titre));box-shadow:0 8px 20px rgba(124,92,191,.26);letter-spacing:.2px;}
+  .btn:hover{filter:brightness(1.05);box-shadow:0 12px 26px rgba(124,92,191,.32);}
+  .btn.ghost{background:#fff;color:var(--violet-titre);box-shadow:0 4px 12px rgba(124,92,191,.10);}
+  .btn.ghost:hover{background:var(--beige);filter:none;}
+  .btn.menthe{background:linear-gradient(135deg,var(--teal-titre),var(--turquoise));box-shadow:0 8px 20px rgba(42,157,143,.26);}
+  .btn.link{background:none;box-shadow:none;}
+
+  /* Chips : pastille douce + ✓ à l'état pressé */
+  .chip{transition:transform .12s,background .15s,color .15s,border-color .15s,box-shadow .15s;}
+  .chip:hover{transform:translateY(-1px);}
+  .chip[aria-pressed="true"]{background:linear-gradient(135deg,var(--lavande),var(--rose-clair));border-color:var(--violet-titre);color:var(--violet-fonce);box-shadow:0 4px 12px rgba(124,92,191,.18);}
+  .chip[aria-pressed="true"]::before{content:"✓ ";font-weight:800;}
+
+  /* Outils : carte élégante + halo au survol */
+  .tool{border-radius:18px;transition:transform .16s,box-shadow .16s,border-color .16s;}
+  .tool:hover{transform:translateY(-3px);box-shadow:0 12px 24px rgba(42,157,143,.16);}
+  .tool.suggested{background:linear-gradient(180deg,#fff,#f6f1fc);}
+
+  /* ✿ HERO d'accueil */
+  .hero-card{padding:0 !important;overflow:hidden;}
+  .hero-top{position:relative;background:linear-gradient(140deg,var(--lavande),var(--rose-clair) 55%,var(--peche));padding:2rem 1.4rem 2.3rem;text-align:center;}
+  .hero-top .scene{width:128px;height:128px;margin:0 auto;display:block;filter:drop-shadow(0 8px 16px rgba(124,92,191,.22));}
+  .hero-spark{position:absolute;font-size:1.15rem;opacity:.9;animation:floaty 4.5s ease-in-out infinite;}
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(0);}50%{transform:translateY(-9px) rotate(10deg);}}
+  .hero-title{font-family:'Poppins';font-weight:800;font-size:clamp(1.9rem,7vw,2.5rem);letter-spacing:.3px;background:linear-gradient(90deg,var(--violet-fonce),var(--rose-titre));-webkit-background-clip:text;background-clip:text;color:transparent;margin:.4rem 0 0;}
+  .hero-motto{font-family:'Poppins';font-weight:700;color:var(--violet-fonce);margin:.2rem 0 0;}
+  .hero-body{padding:1.4rem;}
+  .pill-row{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin:.2rem 0 1rem;}
+  .mini-pill{background:#fff;border:1px solid var(--border);border-radius:999px;padding:.42rem .85rem;font-size:.8rem;font-weight:700;color:var(--violet-fonce);box-shadow:0 3px 10px rgba(124,92,191,.08);}
+  .start-panel{background:linear-gradient(180deg,#fff,var(--beige));border:1px solid var(--border);border-radius:18px;padding:1rem 1.1rem 1.2rem;margin-top:.4rem;}
+
+  @media (prefers-reduced-motion: reduce){
+    section.card:not(.hidden){animation:none;}
+    .hero-spark{animation:none;}
+    *{transition:none !important;}
+  }
 </style>
 </head>
 <body>
@@ -121,21 +183,48 @@
   <!-- Zone de message d'aide (validation douce) -->
   <div class="err" id="err" role="alert" aria-live="assertive"></div>
 
-  <!-- INTRO -->
-  <section class="card" data-step="0">
-    <span class="eyebrow">Bienvenue</span>
-    <h2>Un chemin doux, pas à pas 🌿</h2>
-    <p class="lead">Clarté Educa vous accompagne, à votre rythme, pour <strong>observer une difficulté</strong>, comprendre <strong>le besoin</strong> derrière, essayer une <strong>stratégie</strong>, poser un <strong>petit plan</strong> et <strong>suivre l'évolution</strong>. Une étape à la fois.</p>
-    <div class="privacy">🔒 Vos réponses restent enregistrées uniquement sur cet appareil.</div>
-    <div class="disclaimer"><strong>Ce n'est pas un diagnostic.</strong> Clarté Educa aide à observer et à essayer des pistes douces — jamais à poser une étiquette ou un verdict sur votre enfant. En cas d'inquiétude, parlez-en à un professionnel de santé (médecin, pédiatre…).</div>
-    <label class="field" for="f-enfant">Le prénom ou surnom de votre enfant <span style="font-weight:400;color:var(--muted)">(facultatif)</span></label>
-    <input type="text" id="f-enfant" placeholder="Ex : mon grand, Lina…" autocomplete="off">
-    <label class="field" for="f-age">Son âge, à peu près</label>
-    <select id="f-age">
-      <option value="">— choisir —</option>
-      <option>4-5 ans</option><option>6-7 ans</option><option>8-9 ans</option><option>10-11 ans</option><option>12 ans</option>
-    </select>
-    <div class="nav-row"><span></span><button class="btn" id="start-btn">Commencer →</button></div>
+  <!-- INTRO (hero) -->
+  <section class="card hero-card" data-step="0">
+    <div class="hero-top">
+      <span class="hero-spark" style="top:16px;left:24px">✦</span>
+      <span class="hero-spark" style="top:34px;right:28px;animation-delay:.9s">🌿</span>
+      <span class="hero-spark" style="bottom:18px;left:32px;animation-delay:1.6s">✨</span>
+      <span class="hero-spark" style="bottom:26px;right:34px;animation-delay:2.2s">💗</span>
+      <svg class="scene" viewBox="0 0 120 120" role="img" aria-label="Une petite boussole douce">
+        <circle cx="60" cy="60" r="47" fill="#ffffff"/>
+        <circle cx="60" cy="60" r="47" fill="none" stroke="#CBB6F6" stroke-width="4"/>
+        <circle cx="60" cy="60" r="38" fill="none" stroke="#F8CFE0" stroke-width="2"/>
+        <g fill="#D8B77A"><circle cx="60" cy="17" r="2.6"/><circle cx="103" cy="60" r="2.6"/><circle cx="60" cy="103" r="2.6"/><circle cx="17" cy="60" r="2.6"/></g>
+        <path d="M60 30 L70 60 L60 55 L50 60 Z" fill="#F39BC2"/>
+        <path d="M60 90 L50 60 L60 65 L70 60 Z" fill="#CBB6F6"/>
+        <circle cx="60" cy="60" r="6.5" fill="#ffffff" stroke="#7c5cbf" stroke-width="3"/>
+        <path d="M90 38 q7 -9 13 0 q-7 5 -13 0 Z" fill="#BDEAD7"/>
+        <path d="M96.5 34 l0 6" stroke="#2a9d8f" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <h2 class="hero-title">Clarté Educa</h2>
+      <p class="hero-motto">Un chemin doux, pas à pas 🌿</p>
+    </div>
+    <div class="hero-body">
+      <p class="lead" style="text-align:center">Un accompagnement tout en douceur pour <strong>observer une difficulté</strong>, comprendre <strong>le besoin</strong> derrière, essayer une <strong>stratégie</strong>, poser un <strong>petit plan</strong> et <strong>suivre l'évolution</strong> — à votre rythme.</p>
+      <div class="pill-row">
+        <span class="mini-pill">🕊️ Tout en douceur</span>
+        <span class="mini-pill">🔒 100% privé</span>
+        <span class="mini-pill">🚫 Aucun diagnostic</span>
+        <span class="mini-pill">🌱 6 étapes</span>
+      </div>
+      <div class="privacy">🔒 Vos réponses restent enregistrées uniquement sur cet appareil.</div>
+      <div class="disclaimer"><strong>Ce n'est pas un diagnostic.</strong> Clarté Educa aide à observer et à essayer des pistes douces — jamais à poser une étiquette ou un verdict sur votre enfant. En cas d'inquiétude, parlez-en à un professionnel de santé (médecin, pédiatre…).</div>
+      <div class="start-panel">
+        <label class="field" for="f-enfant" style="margin-top:.2rem">Le prénom ou surnom de votre enfant <span style="font-weight:400;color:var(--muted)">(facultatif)</span></label>
+        <input type="text" id="f-enfant" placeholder="Ex : mon grand, Lina…" autocomplete="off">
+        <label class="field" for="f-age">Son âge, à peu près</label>
+        <select id="f-age">
+          <option value="">— choisir —</option>
+          <option>4-5 ans</option><option>6-7 ans</option><option>8-9 ans</option><option>10-11 ans</option><option>12 ans</option>
+        </select>
+        <div class="nav-row"><span></span><button class="btn" id="start-btn">Commencer mon chemin →</button></div>
+      </div>
+    </div>
   </section>
 
   <!-- ÉTAPE 1 -->
