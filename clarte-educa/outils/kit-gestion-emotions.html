@@ -44,8 +44,6 @@ details.apropos p{margin:.3rem 0;font-size:.93rem;line-height:1.55}
 .sig-nawel strong{color:#a03a64;font-style:normal}
 
 .mode-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between}
-.toggle-pro{display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;padding:.4em 1em;background:#f7f3fc;border:1.5px solid #d8c9f0;border-radius:999px;font-weight:700;color:#5a3c8f;font-size:.88rem;font-family:inherit}
-.toggle-pro.active{background:#7c5cbf;color:#fff;border-color:#7c5cbf}
 
 .tabs{display:flex;gap:.3rem;margin-bottom:1.2rem;flex-wrap:wrap;background:#fff;padding:.4rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm)}
 .tabs button{flex:1;min-width:110px;padding:.55em .7em;border:none;background:transparent;color:#666;font-weight:700;font-family:inherit;cursor:pointer;border-radius:var(--r-sm);transition:all .15s;font-size:.82rem}
@@ -166,12 +164,6 @@ details.apropos p{margin:.3rem 0;font-size:.93rem;line-height:1.55}
 .post-crise .checkbox-list input{width:auto}
 .post-crise .checkbox-list input:checked + span{font-weight:700;color:#a03a64}
 
-/* Mode Pro panel */
-.pro-panel{background:linear-gradient(135deg,#f7f3fc,#f0e8f5);border:2px dashed #7c5cbf;border-radius:var(--r-md);padding:1.1rem 1.3rem;margin-top:1.2rem;display:none}
-body.show-pro .pro-panel{display:block}
-.pro-panel h4{color:#5a3c8f;margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
-.pro-panel textarea{width:100%;min-height:70px;padding:.5em;border:1px solid #d8c9f0;border-radius:4px;font-family:inherit;font-size:.85rem;resize:vertical;box-sizing:border-box}
-
 /* Actions */
 .actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.5rem 0}
 .actions button{padding:.65em 1.3em;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.92rem;font-family:inherit}
@@ -201,11 +193,11 @@ body.show-pro .pro-panel{display:block}
     <summary>📖 À propos de ce kit</summary>
     <div class="corps">
       <h3>Pour qui</h3>
-      <p>Pour les parents épuisés par les crises répétées : devoirs, coucher, écrans, transitions, fratrie. Et pour les pros qui accompagnent ces familles.</p>
+      <p>Pour les parents épuisés par les crises répétées : devoirs, coucher, écrans, transitions, fratrie.</p>
       <h3>Pour quoi</h3>
       <p>Pour <strong>arrêter d'improviser</strong> en pleine tempête. Avoir un protocole clair avant, pendant et après la crise. Réparer sans humilier.</p>
       <h3>Comment ça marche</h3>
-      <p>7 fiches navigables par onglets, certaines interactives (thermomètre personnalisable, roue d'émotions cliquable, grille post-crise remplissable). Mode Pro 📋 pour les notes cliniques.</p>
+      <p>7 fiches navigables par onglets, certaines interactives (thermomètre personnalisable, roue d'émotions cliquable, grille post-crise remplissable).</p>
       <h3>Quand l'utiliser</h3>
       <p>À froid d'abord — pour préparer la stratégie. Pendant la crise — pour appliquer le protocole minimal. Après la crise — pour réparer et préparer la prochaine fois.</p>
       <h3>Combien de temps</h3>
@@ -223,9 +215,13 @@ body.show-pro .pro-panel{display:block}
     💗 <strong>Un mot de Nawel</strong> — Un parent peut avoir toutes les routines du monde. Si les émotions débordent tous les soirs, rien ne tient. Ce kit, c'est celui que j'aurais voulu avoir quand mes propres ados explosaient. Il ne supprime pas les crises. Il vous évite d'en ajouter une autre par-dessus.
   </div>
 
-  <div class="mode-bar">
-    <span style="font-weight:700;color:#666;font-size:.9rem">📚 Mode lecture</span>
-    <button class="toggle-pro" id="btn-pro">📋 Activer le Mode Pro (notes perso)</button>
+  <div class="mode-bar" style="flex-direction:column;align-items:stretch;gap:.7rem">
+    <span style="font-weight:800;color:#a03a64;font-size:.95rem;font-family:var(--font-titre)">🧭 Où en êtes-vous là, maintenant&nbsp;? Ouvrez la fiche qui aide tout de suite</span>
+    <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+      <button onclick="goFiche('f1')" style="flex:1;min-width:170px;cursor:pointer;padding:.65em 1em;border:none;border-radius:var(--r-md);font-weight:700;font-family:inherit;font-size:.9rem;color:#fff;background:#e9a73a;box-shadow:var(--shadow-sm)">🌤️ Avant que la crise monte</button>
+      <button onclick="goFiche('f4')" style="flex:1;min-width:170px;cursor:pointer;padding:.65em 1em;border:none;border-radius:var(--r-md);font-weight:700;font-family:inherit;font-size:.9rem;color:#fff;background:#e05a5a;box-shadow:var(--shadow-sm)">🌩️ Pendant la crise</button>
+      <button onclick="goFiche('f7')" style="flex:1;min-width:170px;cursor:pointer;padding:.65em 1em;border:none;border-radius:var(--r-md);font-weight:700;font-family:inherit;font-size:.9rem;color:#fff;background:#2a9d8f;box-shadow:var(--shadow-sm)">🌈 Après la crise</button>
+    </div>
   </div>
 
   <div class="tabs">
@@ -274,10 +270,6 @@ body.show-pro .pro-panel{display:block}
         💡 <strong>À retenir</strong> : plus on intervient tôt, moins on a besoin d'intervenir fort.
       </div>
 
-      <div class="pro-panel">
-        <h4>📋 Mes notes pro</h4>
-        <textarea data-note="f1" placeholder="Cas cliniques, ajustements observés, métaphores qui parlent à mes patients…"></textarea>
-      </div>
     </div>
   </section>
 
@@ -304,10 +296,6 @@ body.show-pro .pro-panel{display:block}
         ⚠️ <strong>À éviter absolument</strong> : "Ce n'est rien" · "Tu exagères" · "Arrête ton cinéma" · "Tu n'as aucune raison d'être triste" · "Calme-toi tout de suite" · "Regarde ton frère, lui il y arrive". Ces phrases ferment la porte. Parfois elles humilient.
       </div>
 
-      <div class="pro-panel">
-        <h4>📋 Mes notes pro</h4>
-        <textarea data-note="f2" placeholder="Émotions souvent confondues en cabinet, stratégies de différenciation…"></textarea>
-      </div>
     </div>
   </section>
 
@@ -390,10 +378,6 @@ body.show-pro .pro-panel{display:block}
         💡 <strong>À retenir</strong> : en crise — sécurité d'abord, parole minimale, réparation ensuite.
       </div>
 
-      <div class="pro-panel">
-        <h4>📋 Mes notes pro</h4>
-        <textarea data-note="f3" placeholder="Cas cliniques, variations du protocole selon profil (TDAH/TSA/anxieux)…"></textarea>
-      </div>
     </div>
   </section>
 
@@ -447,10 +431,6 @@ body.show-pro .pro-panel{display:block}
         Simple. Répétable. Efficace.
       </div>
 
-      <div class="pro-panel">
-        <h4>📋 Mes notes pro</h4>
-        <textarea data-note="f4" placeholder="Adaptations selon âge, scripts perso…"></textarea>
-      </div>
     </div>
   </section>
 
@@ -517,10 +497,6 @@ body.show-pro .pro-panel{display:block}
         ⚠️ <strong>Auto-check parent</strong> : pendant les crises, j'ai tendance à… [crier · menacer · long discours · questions accusatrices · comparer · négocier · exiger excuses · vouloir avoir raison · m'approcher trop · revenir trop vite sur la crise]. <strong>Choisir UN seul réflexe à diminuer cette semaine.</strong>
       </div>
 
-      <div class="pro-panel">
-        <h4>📋 Mes notes pro</h4>
-        <textarea data-note="f5" placeholder="Pièges fréquents observés chez les parents en consultation…"></textarea>
-      </div>
     </div>
   </section>
 
@@ -559,10 +535,6 @@ body.show-pro .pro-panel{display:block}
         💡 <strong>À retenir</strong> : on ne calme pas un enfant en le dominant. On l'aide à redescendre en sécurisant, en simplifiant et en répétant.
       </div>
 
-      <div class="pro-panel">
-        <h4>📋 Mes notes pro</h4>
-        <textarea data-note="f6" placeholder="Stratégies sensorielles validées, profils sensibles…"></textarea>
-      </div>
     </div>
   </section>
 
@@ -630,10 +602,6 @@ body.show-pro .pro-panel{display:block}
         💡 <strong>À retenir</strong> : comprendre n'excuse pas tout. Réparer n'humilie pas. Préparer évite de recommencer exactement pareil.
       </div>
 
-      <div class="pro-panel">
-        <h4>📋 Mes notes pro</h4>
-        <textarea data-note="f7" placeholder="Cas cliniques, ajustements de la grille selon profils…"></textarea>
-      </div>
     </div>
   </section>
 
@@ -645,7 +613,8 @@ body.show-pro .pro-panel{display:block}
 </div>
 
 <script>
-const KEY='educatypique_kit_emotions_v1';
+const KEY='clarte_educa_kit_emotions_v1';
+try{ if(!localStorage.getItem('clarte_educa_kit_emotions_v1') && localStorage.getItem('educatypique_kit_emotions_v1')){ localStorage.setItem('clarte_educa_kit_emotions_v1', localStorage.getItem('educatypique_kit_emotions_v1')); } }catch(e){}
 let state={notes:{},perso:{},pc:{},pcCheckbox:{},outils:{},thermo:{}};
 function load(){try{const r=localStorage.getItem(KEY);if(r)state=Object.assign(state,JSON.parse(r));}catch(e){}}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));}
@@ -662,20 +631,8 @@ document.querySelectorAll('.tabs button').forEach(b=>{
   };
 });
 
-/* Mode Pro */
-const btnPro=document.getElementById('btn-pro');
-btnPro.onclick=()=>{
-  document.body.classList.toggle('show-pro');
-  btnPro.classList.toggle('active');
-  btnPro.innerHTML=document.body.classList.contains('show-pro')?'📋 Mode Pro activé':'📋 Activer le Mode Pro (notes perso)';
-};
-
-/* Notes Pro */
-document.querySelectorAll('[data-note]').forEach(t=>{
-  const k=t.dataset.note;
-  t.value=state.notes[k]||'';
-  t.addEventListener('input',e=>{state.notes[k]=e.target.value;save();});
-});
+/* Raccourcis crise → ouvre la fiche existante la plus pertinente */
+function goFiche(id){const b=document.querySelector('.tabs button[data-tab="'+id+'"]');if(b)b.click();}
 
 /* THERMO — Niveaux */
 const NIVEAUX={
@@ -826,14 +783,6 @@ document.getElementById('btn-export').onclick=()=>{
   const pcChecked=Object.keys(state.pcCheckbox).filter(k=>state.pcCheckbox[k]);
   if(pcChecked.length)pcItems+=`<li><strong>Cases cochées :</strong> ${escapeHtml(pcChecked.join(' · '))}</li>`;
   if(pcItems)sections+=`<section><h2>📝 Grille post-crise</h2><ul class="liste">${pcItems}</ul></section>`;
-
-  // --- Notes pro ---
-  const proLabels={f1:'Thermomètre',f2:'Roue',f3:'Protocole',f4:'Quoi faire',f5:'Quoi éviter',f6:'Retour au calme',f7:'Post-crise'};
-  let notes='';
-  Object.entries(proLabels).forEach(([k,l])=>{
-    if(state.notes[k]&&state.notes[k].trim())notes+=`<div class="note"><h3>${l}</h3><p>${nl2br(state.notes[k])}</p></div>`;
-  });
-  if(notes)sections+=`<section><h2>📋 Mes notes</h2>${notes}</section>`;
 
   if(!sections)sections=`<p class="empty">Aucune donnée saisie pour l'instant. Remplis tes fiches puis reviens imprimer ton document. 🌸</p>`;
 

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clarté Educa — mon chemin pas à pas</title>
-<meta name="description" content="Clarté Educa — un chemin doux pour les mamans : observer une difficulté, repérer le besoin, choisir une stratégie, faire un plan, suivre l'évolution. 100% privé, sur votre appareil.">
+<meta name="description" content="Clarté Educa — un chemin doux pour les mamans : observer une difficulté, repérer le besoin, choisir une stratégie, faire un plan, suivre l'évolution. Vos réponses restent sur votre appareil.">
 <meta name="theme-color" content="#CBB6F6">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,27 +14,29 @@
 <style>
   :root{ --maxw:760px; }
   *{box-sizing:border-box;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  html,body{overflow-x:hidden;}
   body{margin:0;background:linear-gradient(180deg,var(--beige),#fbf6f0);font-family:'Nunito',system-ui,sans-serif;color:var(--texte);line-height:1.6;}
   h1,h2,h3{font-family:'Poppins',system-ui,sans-serif;line-height:1.2;}
   a{color:var(--violet-fonce);}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1rem 4rem;}
+  :focus-visible{outline:3px solid var(--violet-titre);outline-offset:2px;border-radius:6px;}
 
-  /* Barre du haut */
-  .topbar{position:sticky;top:0;z-index:20;background:rgba(251,246,240,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);}
+  .topbar{position:sticky;top:0;z-index:20;background:rgba(251,246,240,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);}
   .topbar .inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:.6rem;padding:.6rem 1rem;}
   .brand{display:flex;align-items:center;gap:.5rem;font-family:'Poppins';font-weight:700;color:var(--violet-titre);font-size:1.15rem;}
   .brand .ic{font-size:1.4rem;}
   .save-ind{margin-left:auto;font-size:.78rem;color:var(--muted);white-space:nowrap;}
   .save-ind.ok{color:var(--vert-fonce);}
 
-  /* Progression */
   .steps{display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;margin:1.1rem 0 .4rem;}
-  .steps button{border:none;background:none;cursor:pointer;font-family:'Nunito';display:flex;flex-direction:column;align-items:center;gap:.25rem;width:4.4rem;padding:0;}
+  .steps button{border:none;background:none;cursor:pointer;font-family:'Nunito';display:flex;flex-direction:column;align-items:center;gap:.25rem;width:4.4rem;padding:.2rem 0;min-height:44px;}
   .steps .c{width:2rem;height:2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;background:#fff;border:2px solid var(--border);color:var(--muted);transition:all .18s;}
   .steps .l{font-size:.64rem;color:var(--muted);text-align:center;line-height:1.15;font-weight:700;}
-  .steps button.on .c{background:var(--lavande);border-color:var(--violet-titre);color:var(--violet-fonce);transform:translateY(-2px);}
-  .steps button.on .l{color:var(--violet-fonce);}
+  .steps button[aria-current="true"] .c{background:var(--lavande);border-color:var(--violet-titre);color:var(--violet-fonce);transform:translateY(-2px);}
+  .steps button[aria-current="true"] .l{color:var(--violet-fonce);}
   .steps button.done .c{background:var(--menthe);border-color:var(--turquoise);color:var(--teal-fonce);}
+  .steps button.locked .c{opacity:.5;}
+  .steps button.locked .l{opacity:.6;}
 
   .card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:1.5rem 1.4rem;box-shadow:0 6px 22px rgba(124,92,191,.08);margin-top:.6rem;}
   .eyebrow{font-family:'Poppins';font-weight:700;text-transform:uppercase;letter-spacing:2px;font-size:.7rem;color:var(--rose-titre);}
@@ -42,43 +44,49 @@
   .lead{color:var(--muted);margin:.2rem 0 1rem;}
 
   label.field{display:block;font-weight:700;margin:1rem 0 .35rem;}
-  input[type=text],textarea,select{width:100%;border:1.6px solid var(--border);border-radius:14px;padding:.75rem .9rem;font-family:'Nunito';font-size:1rem;color:var(--texte);background:#fffdfb;}
+  input[type=text],textarea,select{width:100%;max-width:100%;border:1.6px solid var(--border);border-radius:14px;padding:.75rem .9rem;font-family:'Nunito';font-size:1rem;color:var(--texte);background:#fffdfb;}
   input[type=text]:focus,textarea:focus,select:focus{outline:none;border-color:var(--lavande);box-shadow:0 0 0 3px rgba(203,182,246,.35);}
   textarea{min-height:96px;resize:vertical;}
   .hint{font-size:.85rem;color:var(--muted);margin:.3rem 2px 0;}
 
   .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:.4rem 0;}
-  .chip{border:1.6px solid var(--border);background:#fff;border-radius:999px;padding:.5rem .9rem;font-size:.92rem;font-weight:700;color:var(--muted);cursor:pointer;font-family:'Nunito';transition:all .12s;}
+  .chip{border:1.6px solid var(--border);background:#fff;border-radius:999px;padding:.55rem .95rem;font-size:.92rem;font-weight:700;color:var(--muted);cursor:pointer;font-family:'Nunito';transition:all .12s;min-height:40px;}
   .chip:hover{border-color:var(--lavande);}
-  .chip.on{background:var(--lavande);border-color:var(--violet-titre);color:var(--violet-fonce);}
+  .chip[aria-pressed="true"]{background:var(--lavande);border-color:var(--violet-titre);color:var(--violet-fonce);}
 
-  .tool{display:flex;align-items:center;gap:.9rem;border:1.6px solid var(--border);border-radius:16px;padding:.9rem 1rem;margin:.6rem 0;text-decoration:none;color:var(--texte);background:#fffdfb;transition:all .15s;}
+  .tool{display:flex;align-items:center;gap:.9rem;border:1.6px solid var(--border);border-radius:16px;padding:.9rem 1rem;margin:.6rem 0;text-decoration:none;color:var(--texte);background:#fffdfb;transition:all .15s;width:100%;text-align:left;cursor:pointer;font-family:'Nunito';}
   .tool:hover{border-color:var(--turquoise);transform:translateY(-2px);box-shadow:0 6px 16px rgba(42,157,143,.12);}
+  .tool.suggested{border-color:var(--violet-titre);box-shadow:0 6px 18px rgba(124,92,191,.16);background:linear-gradient(180deg,#fff,#f7f3fc);}
   .tool .em{font-size:1.7rem;flex:none;}
   .tool .t{font-family:'Poppins';font-weight:700;color:var(--violet-titre);}
   .tool .d{font-size:.85rem;color:var(--muted);}
   .tool .go{margin-left:auto;font-weight:800;color:var(--teal-titre);flex:none;}
+  .suggest-note{background:var(--menthe);border-radius:12px;padding:.7rem .95rem;font-size:.92rem;color:var(--teal-fonce);margin:.4rem 0 .2rem;font-weight:600;}
+  .chosen{background:var(--bleu-ciel);border-radius:14px;padding:.9rem 1.1rem;margin:.6rem 0;}
+  .chosen b{color:var(--violet-fonce);}
 
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:none;border-radius:999px;padding:.8rem 1.5rem;font-family:'Poppins';font-weight:700;font-size:1rem;cursor:pointer;background:var(--violet-titre);color:#fff;transition:all .15s;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:none;border-radius:999px;padding:.8rem 1.5rem;font-family:'Poppins';font-weight:700;font-size:1rem;cursor:pointer;background:var(--violet-titre);color:#fff;transition:all .15s;min-height:44px;}
   .btn:hover{background:var(--violet-fonce);transform:translateY(-1px);}
   .btn.ghost{background:#fff;color:var(--violet-titre);border:1.6px solid var(--lavande);}
   .btn.ghost:hover{background:var(--beige);}
   .btn.menthe{background:var(--teal-titre);}
   .btn.menthe:hover{background:var(--teal-fonce);}
-  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
-  .nav-row{display:flex;gap:.7rem;justify-content:space-between;margin-top:1.3rem;}
+  .btn.link{background:none;color:var(--violet-fonce);text-decoration:underline;padding:.4rem .6rem;min-height:auto;}
+  .nav-row{display:flex;gap:.7rem;justify-content:space-between;margin-top:1.3rem;flex-wrap:wrap;}
 
   .disclaimer{background:var(--jaune-doux);border-radius:14px;padding:.85rem 1.1rem;font-size:.9rem;color:var(--orange-warning-fonce);margin:1rem 0;}
   .disclaimer strong{color:var(--rose-fonce);}
   .privacy{display:flex;align-items:center;gap:.5rem;background:var(--menthe);border-radius:12px;padding:.6rem .9rem;font-size:.85rem;color:var(--teal-fonce);font-weight:700;margin:.8rem 0;}
+  .err{background:#fdeaea;border:1.6px solid var(--rose-clair);border-radius:12px;padding:.7rem .95rem;color:var(--rose-fonce);font-weight:700;margin:.8rem 0;}
+  .err:empty{display:none;}
 
-  /* Suivi */
   .suivi-item{border:1.4px solid var(--border);border-radius:14px;padding:.7rem .9rem;margin:.5rem 0;background:#fffdfb;}
   .suivi-item .date{font-size:.75rem;color:var(--muted);font-weight:700;}
-  .suivi-item .del{float:right;border:none;background:none;color:var(--rose-titre);cursor:pointer;font-size:1rem;}
+  .suivi-item .del{float:right;border:1.4px solid var(--rose-clair);background:#fff;color:var(--rose-titre);cursor:pointer;font-size:.8rem;border-radius:8px;padding:.15rem .5rem;min-height:32px;}
+  .undo{background:var(--jaune-doux);border-radius:10px;padding:.5rem .8rem;font-size:.85rem;margin:.4rem 0;display:flex;align-items:center;gap:.6rem;}
   .mini-add{display:flex;flex-direction:column;gap:.5rem;}
 
-  .recap-box{background:var(--beige);border-radius:14px;padding:1rem 1.1rem;margin:.6rem 0;}
+  .recap-box{background:var(--beige);border:1.4px solid var(--border);border-radius:14px;padding:1rem 1.1rem;margin:.6rem 0;}
   .recap-box h4{margin:.2rem 0 .3rem;color:var(--violet-titre);font-family:'Poppins';}
   .recap-box p{margin:.1rem 0;white-space:pre-wrap;}
   .footer{text-align:center;color:var(--muted);font-size:.82rem;margin-top:2rem;}
@@ -87,13 +95,13 @@
   .hidden{display:none !important;}
 
   @media print{
-    .topbar,.steps,.nav-row,.toolbar,.tool .go{display:none !important;}
+    .topbar,.steps,.nav-row,.toolbar,.tool .go,.print-hide{display:none !important;}
     body{background:#fff;}
-    .card{box-shadow:none;border:1px solid #e0d6ef;page-break-inside:avoid;}
-    section[data-step]{display:block !important;}
-    .print-only{display:block !important;}
+    section[data-step]{display:none !important;}
+    section[data-step="7"]{display:block !important;}
+    .recap-box{box-shadow:none;border:1.5px solid #b9a9d6;page-break-inside:avoid;background:#fff;}
+    .card{box-shadow:none;border:1px solid #cfc2e6;}
   }
-  .print-only{display:none;}
   @media(max-width:520px){ .steps button{width:3.5rem;} .card h2{font-size:1.3rem;} }
 </style>
 </head>
@@ -102,25 +110,24 @@
 <div class="topbar">
   <div class="inner">
     <span class="brand"><span class="ic">🧭</span> Clarté Educa</span>
-    <span class="save-ind" id="save-ind">—</span>
+    <span class="save-ind" id="save-ind" aria-live="polite">—</span>
   </div>
 </div>
 
 <div class="wrap">
 
-  <!-- Progression -->
   <nav class="steps" id="steps" aria-label="Étapes du parcours"></nav>
+
+  <!-- Zone de message d'aide (validation douce) -->
+  <div class="err" id="err" role="alert" aria-live="assertive"></div>
 
   <!-- INTRO -->
   <section class="card" data-step="0">
     <span class="eyebrow">Bienvenue</span>
     <h2>Un chemin doux, pas à pas 🌿</h2>
     <p class="lead">Clarté Educa vous accompagne, à votre rythme, pour <strong>observer une difficulté</strong>, comprendre <strong>le besoin</strong> derrière, essayer une <strong>stratégie</strong>, poser un <strong>petit plan</strong> et <strong>suivre l'évolution</strong>. Une étape à la fois.</p>
-
-    <div class="privacy">🔒 Tout reste sur votre appareil. Rien n'est envoyé, ni à un serveur, ni à une intelligence artificielle.</div>
-
+    <div class="privacy">🔒 Vos réponses restent enregistrées uniquement sur cet appareil.</div>
     <div class="disclaimer"><strong>Ce n'est pas un diagnostic.</strong> Clarté Educa aide à observer et à essayer des pistes douces — jamais à poser une étiquette ou un verdict sur votre enfant. En cas d'inquiétude, parlez-en à un professionnel de santé (médecin, pédiatre…).</div>
-
     <label class="field" for="f-enfant">Le prénom ou surnom de votre enfant <span style="font-weight:400;color:var(--muted)">(facultatif)</span></label>
     <input type="text" id="f-enfant" placeholder="Ex : mon grand, Lina…" autocomplete="off">
     <label class="field" for="f-age">Son âge, à peu près</label>
@@ -128,28 +135,24 @@
       <option value="">— choisir —</option>
       <option>4-5 ans</option><option>6-7 ans</option><option>8-9 ans</option><option>10-11 ans</option><option>12 ans</option>
     </select>
-
-    <div class="nav-row">
-      <span></span>
-      <button class="btn" id="start-btn">Commencer →</button>
-    </div>
+    <div class="nav-row"><span></span><button class="btn" id="start-btn">Commencer →</button></div>
   </section>
 
-  <!-- ÉTAPE 1 — MA SITUATION -->
+  <!-- ÉTAPE 1 -->
   <section class="card hidden" data-step="1">
     <span class="eyebrow">Étape 1 · Ma situation</span>
     <h2>Dans quel domaine, aujourd'hui ?</h2>
     <p class="lead">Choisissez ce qui pèse le plus en ce moment. On avancera sur celui-là (les autres attendront, c'est très bien).</p>
-    <div class="chips" id="chips-situation"></div>
+    <div class="chips" id="chips-situation" role="group" aria-label="Domaines de la situation"></div>
     <label class="field" for="f-situation-note">Un mot pour préciser <span style="font-weight:400;color:var(--muted)">(facultatif)</span></label>
     <input type="text" id="f-situation-note" placeholder="Ex : surtout au moment des devoirs">
     <div class="nav-row">
       <button class="btn ghost" data-goto="0">← Retour</button>
-      <button class="btn" data-goto="2">Continuer →</button>
+      <button class="btn" data-next="1">Continuer →</button>
     </div>
   </section>
 
-  <!-- ÉTAPE 2 — CE QUE J'OBSERVE -->
+  <!-- ÉTAPE 2 -->
   <section class="card hidden" data-step="2">
     <span class="eyebrow">Étape 2 · Ce que j'observe</span>
     <h2>Les faits, sans interpréter</h2>
@@ -159,200 +162,346 @@
     <p class="hint">💡 Astuce : remplacez « il est pénible » par ce que vous voyez vraiment (« il repousse le cahier, il soupire »).</p>
     <div class="nav-row">
       <button class="btn ghost" data-goto="1">← Retour</button>
-      <button class="btn" data-goto="3">Continuer →</button>
+      <button class="btn" data-next="2">Continuer →</button>
     </div>
   </section>
 
-  <!-- ÉTAPE 3 — CE DONT NOUS AVONS BESOIN -->
+  <!-- ÉTAPE 3 -->
   <section class="card hidden" data-step="3">
     <span class="eyebrow">Étape 3 · Ce dont nous avons besoin</span>
     <h2>Quel besoin, derrière ?</h2>
     <p class="lead">Derrière une difficulté, il y a souvent un besoin. Lequel semble le plus présent, pour votre enfant, là maintenant ?</p>
-    <div class="chips" id="chips-besoin"></div>
-
+    <div class="chips" id="chips-besoin" role="group" aria-label="Besoins de l'enfant"></div>
     <label class="field">Et vous, comment allez-vous ?</label>
-    <p class="hint" style="margin-top:0">Votre état compte autant. Prenez un instant pour faire le point.</p>
-    <a class="tool" href="outils/emotionometre-parental.html" target="_blank" rel="noopener">
+    <p class="hint" style="margin-top:0">Votre état compte autant. Prenez un instant pour faire le point (cet outil reste privé, son résultat n'est pas ajouté au récap).</p>
+    <a class="tool" href="outils/emotionometre-parental.html" data-aux="1" data-step="3">
       <span class="em">🌡️</span>
       <span><span class="t">Mon émotionomètre</span><br><span class="d">Faire le point sur mon propre état, en 2 minutes</span></span>
-      <span class="go">↗</span>
+      <span class="go">→</span>
     </a>
     <div class="nav-row">
       <button class="btn ghost" data-goto="2">← Retour</button>
-      <button class="btn" data-goto="4">Continuer →</button>
+      <button class="btn" data-next="3">Continuer →</button>
     </div>
   </section>
 
-  <!-- ÉTAPE 4 — MON OUTIL CONSEILLÉ -->
+  <!-- ÉTAPE 4 -->
   <section class="card hidden" data-step="4">
-    <span class="eyebrow">Étape 4 · Mon outil conseillé</span>
-    <h2>Une stratégie douce à essayer</h2>
-    <p class="lead">Voici des outils déjà prêts. Choisissez celui qui parle le plus à votre situation — un seul suffit pour commencer.</p>
-
-    <a class="tool" href="outils/guide-consignes-efficaces.html" target="_blank" rel="noopener">
-      <span class="em">🗣️</span>
-      <span><span class="t">Des consignes qui passent mieux</span><br><span class="d">Pour les moments où « il n'écoute pas » : demander autrement</span></span>
-      <span class="go">↗</span>
-    </a>
-    <a class="tool" href="outils/kit-gestion-emotions.html" target="_blank" rel="noopener">
-      <span class="em">🎒</span>
-      <span><span class="t">Apaiser une émotion forte</span><br><span class="d">Un kit d'outils pour les crises et les gros orages</span></span>
-      <span class="go">↗</span>
-    </a>
-    <a class="tool" href="outils/chrono-energies-maman.html" target="_blank" rel="noopener">
-      <span class="em">🔋</span>
-      <span><span class="t">Retrouver mon énergie</span><br><span class="d">Pour souffler et tenir dans la durée, sans culpabiliser</span></span>
-      <span class="go">↗</span>
-    </a>
+    <span class="eyebrow">Étape 4 · <span id="step4-eyebrow">Mon outil conseillé</span></span>
+    <h2 id="step4-title">Une stratégie douce à essayer</h2>
+    <p class="lead" id="step4-lead">Voici un outil qui correspond à ce que vous avez indiqué. Un seul suffit pour commencer.</p>
+    <div id="suggest-zone"></div>
+    <div id="chosen-zone"></div>
     <div class="nav-row">
       <button class="btn ghost" data-goto="3">← Retour</button>
-      <button class="btn" data-goto="5">Continuer →</button>
+      <button class="btn" data-next="4">Continuer →</button>
     </div>
   </section>
 
-  <!-- ÉTAPE 5 — MON PLAN -->
+  <!-- ÉTAPE 5 -->
   <section class="card hidden" data-step="5">
     <span class="eyebrow">Étape 5 · Mon plan</span>
     <h2>Un petit plan d'essai</h2>
+    <div id="plan-recall"></div>
     <p class="lead">Pas un grand programme — <strong>une</strong> petite chose à tester cette semaine. L'outil ci-dessous vous guide pas à pas si besoin.</p>
-    <a class="tool" href="outils/mon-plan-pas-a-pas.html" target="_blank" rel="noopener">
+    <a class="tool" href="outils/mon-plan-pas-a-pas.html" data-aux="1" data-step="5">
       <span class="em">🪜</span>
       <span><span class="t">Construire mon plan pas à pas</span><br><span class="d">Un guide doux pour poser une première marche</span></span>
-      <span class="go">↗</span>
+      <span class="go">→</span>
     </a>
     <label class="field" for="f-plan">Ce que je décide d'essayer cette semaine</label>
     <textarea id="f-plan" placeholder="Ex : avant les devoirs, 5 minutes de pause calme + une consigne à la fois."></textarea>
     <div class="nav-row">
       <button class="btn ghost" data-goto="4">← Retour</button>
-      <button class="btn" data-goto="6">Continuer →</button>
+      <button class="btn" data-next="5">Continuer →</button>
     </div>
   </section>
 
-  <!-- ÉTAPE 6 — MON SUIVI -->
+  <!-- ÉTAPE 6 -->
   <section class="card hidden" data-step="6">
     <span class="eyebrow">Étape 6 · Mon suivi</span>
     <h2>Observer, puis ajuster</h2>
     <p class="lead">Après quelques essais, notez ce que ça a donné — sans attente de perfection. C'est ça qui prépare le prochain petit ajustement.</p>
-
+    <div id="undo-zone"></div>
     <div id="suivi-list"></div>
-
     <div class="mini-add">
       <label class="field" for="f-suivi" style="margin-top:.4rem">Ajouter une observation</label>
       <textarea id="f-suivi" placeholder="Ex : les 2 premiers jours ça a bien aidé, le 3e c'était plus dur (fatigue)."></textarea>
       <button class="btn menthe" id="add-suivi">+ Ajouter au suivi</button>
     </div>
-
     <div class="disclaimer" style="margin-top:1.3rem"><strong>Rappel doux :</strong> une piste qui ne marche pas n'est pas un échec — c'est une information. On réduit, on ajuste, on réessaie. Et si l'inquiétude grandit, un professionnel de santé peut vous accompagner.</div>
-
     <div class="nav-row">
       <button class="btn ghost" data-goto="5">← Retour</button>
-      <button class="btn" data-goto="7">Voir mon récap →</button>
+      <button class="btn" data-next="6">Voir mon récap →</button>
     </div>
   </section>
 
-  <!-- RÉCAP / CLÔTURE -->
+  <!-- RÉCAP -->
   <section class="card hidden" data-step="7">
     <span class="eyebrow">Mon récapitulatif</span>
     <h2>Ce que j'ai posé 🌸</h2>
-    <p class="lead">Voici votre chemin, rassemblé. Vous pouvez l'imprimer ou l'enregistrer en PDF pour le garder (ou le montrer à un professionnel).</p>
+    <p class="lead print-hide">Voici votre chemin, rassemblé. Vous pouvez l'imprimer ou l'enregistrer en PDF pour le garder (ou le montrer à un professionnel).</p>
     <div id="recap"></div>
-    <div class="toolbar">
+    <div class="toolbar print-hide">
       <button class="btn menthe" id="print-btn">🖨️ Imprimer / PDF</button>
       <button class="btn ghost" data-goto="1">↩︎ Revenir au parcours</button>
       <button class="btn ghost" id="reset-btn" style="color:var(--rose-fonce);border-color:var(--rose-clair)">🗑️ Tout recommencer</button>
     </div>
   </section>
 
-  <p class="footer">Clarté Educa · incluse dans le parcours <strong>Clarté TND</strong> — Educa Typique · Nawel Haddouch<br>Outil de soutien familial · ne remplace ni un diagnostic ni un avis médical · 🔒 100% sur votre appareil</p>
+  <p class="footer">Clarté Educa · incluse dans le parcours <strong>Clarté TND</strong> — Educa Typique · Nawel Haddouch<br>Outil de soutien familial · ne remplace ni un diagnostic ni un avis médical · 🔒 Vos réponses restent sur votre appareil</p>
 
 </div>
 
 <script>
 (function(){
   "use strict";
-  var KEY = "clarte_educa_v1";
+  var KEY = "clarte_educa_parcours_v2";
+  var OLD_KEY = "clarte_educa_v1";
   var STEP_LABELS = ["Accueil","Ma situation","Ce que j'observe","Notre besoin","Mon outil","Mon plan","Mon suivi","Récap"];
   var SITUATIONS = ["École / devoirs","Émotions / crises","Sommeil / routines","Attention / organisation","Relations / autres enfants","Sensoriel (bruit, lumière…)","Autonomie du quotidien","Autre"];
   var BESOINS = ["Du calme","Un cadre clair","Des encouragements","Du repos / sommeil","Moins de stimulation","De l'aide pour communiquer","Du temps / de la lenteur","Se sentir en sécurité"];
 
+  var TOOLS = {
+    kit:{file:"outils/kit-gestion-emotions.html", nom:"Apaiser une émotion forte", em:"🎒", desc:"Un kit d'outils pour les crises et les gros orages", raison:"vous avez évoqué des émotions fortes ou un besoin de calme et de sécurité."},
+    consignes:{file:"outils/guide-consignes-efficaces.html", nom:"Des consignes qui passent mieux", em:"🗣️", desc:"Demander autrement, pour les moments où « il n'écoute pas »", raison:"vous avez évoqué l'école, les routines, l'organisation ou le besoin d'un cadre clair."},
+    energie:{file:"outils/chrono-energies-maman.html", nom:"Retrouver mon énergie", em:"🔋", desc:"Souffler et tenir dans la durée, sans culpabiliser", raison:"vous avez évoqué la fatigue, la surcharge ou le besoin de souffler."}
+  };
+
+  function blankState(){
+    return { schema:2, currentStep:0, enfant:"", age:"", situation:[], situationNote:"",
+      observation:"", besoins:[], outilChoisi:{id:"",nom:""}, strategieRetenue:"",
+      plan:"", suivi:[], createdAt:"", updatedAt:"" };
+  }
+
   var state = load();
-  var cur = 0;
+  var lastDeleted = null; // pour l'annulation d'une observation de suivi
 
   function load(){
-    try{ var s = JSON.parse(localStorage.getItem(KEY)); if(s && typeof s==="object") return s; }catch(e){}
-    return { enfant:"", age:"", situation:[], situationNote:"", observation:"", besoins:[], plan:"", suivi:[] };
+    var s=null;
+    try{ s=JSON.parse(localStorage.getItem(KEY)); }catch(e){}
+    if(!s){ // migration douce depuis l'ancienne clé v1
+      try{ var old=JSON.parse(localStorage.getItem(OLD_KEY)); if(old){ s=old; } }catch(e){}
+    }
+    var base=blankState();
+    if(s && typeof s==="object"){
+      for(var k in base){ if(s[k]!==undefined) base[k]=s[k]; }
+      if(!base.outilChoisi || typeof base.outilChoisi!=="object") base.outilChoisi={id:"",nom:""};
+    }
+    if(!base.createdAt){ base.createdAt=nowISO(); }
+    return base;
   }
+  function nowISO(){ try{ return new Date().toISOString(); }catch(e){ return ""; } }
   var saveTimer=null;
   function save(){
+    state.updatedAt=nowISO();
     clearTimeout(saveTimer);
     saveTimer=setTimeout(function(){
       try{
         localStorage.setItem(KEY, JSON.stringify(state));
         var d=new Date(), hh=("0"+d.getHours()).slice(-2), mm=("0"+d.getMinutes()).slice(-2);
-        var el=document.getElementById("save-ind"); el.textContent="✓ enregistré à "+hh+":"+mm; el.className="save-ind ok";
-      }catch(e){
-        var el2=document.getElementById("save-ind"); el2.textContent="⚠ sauvegarde impossible"; el2.className="save-ind";
-      }
+        setSave("✓ enregistré à "+hh+":"+mm, true);
+      }catch(e){ setSave("⚠ sauvegarde impossible", false); }
     },250);
   }
+  function setSave(txt, ok){ var el=document.getElementById("save-ind"); el.textContent=txt; el.className="save-ind"+(ok?" ok":""); }
+  function fmtDate(iso){ if(!iso) return "—"; try{ var d=new Date(iso); return ("0"+d.getDate()).slice(-2)+"/"+("0"+(d.getMonth()+1)).slice(-2)+"/"+d.getFullYear()+" à "+("0"+d.getHours()).slice(-2)+"h"+("0"+d.getMinutes()).slice(-2); }catch(e){ return "—"; } }
 
-  // Chips
+  /* ---------- Complétion & conditions ---------- */
+  function done(step){
+    switch(step){
+      case 1: return state.situation.length>0;
+      case 2: return (state.observation||"").trim().length>0;
+      case 3: return state.besoins.length>0;
+      case 4: return !!(state.outilChoisi&&state.outilChoisi.id) && (state.strategieRetenue||"").trim().length>0;
+      case 5: return (state.plan||"").trim().length>0;
+      case 6: return true; /* suivi facultatif */
+      default: return true;
+    }
+  }
+  // Peut-on ENTRER dans l'étape n ? (toutes les précédentes 1..n-1 complètes)
+  function canEnter(n){
+    if(n<=1) return true;
+    for(var i=1;i<n && i<=5;i++){ if(!done(i)) return false; }
+    return true;
+  }
+  function firstIncomplete(){ for(var i=1;i<=5;i++){ if(!done(i)) return i; } return 6; }
+
+  // Validation pour QUITTER l'étape courante vers l'avant
+  var LEAVE = {
+    1:{field:"chips-situation", msg:"Choisissez au moins un domaine pour continuer (vous pourrez en changer)."},
+    2:{field:"f-observation", msg:"Décrivez en quelques mots ce que vous observez, avant de continuer."},
+    3:{field:"chips-besoin", msg:"Sélectionnez au moins un besoin pour continuer."},
+    4:{field:"chosen-strategie", msg:"Choisissez un outil puis notez « la stratégie que je retiens » pour continuer."},
+    5:{field:"f-plan", msg:"Écrivez la petite chose que vous décidez d'essayer, avant de continuer."}
+  };
+  function tryNext(step){
+    if(done(step)){ clearErr(); show(step+1); return; }
+    var info=LEAVE[step]; showErr(info.msg);
+    var el=document.getElementById(info.field);
+    if(el){ var focusable = el.querySelector ? (el.querySelector("button,textarea,input")||el) : el; try{ focusable.focus(); }catch(e){} }
+  }
+  function showErr(m){ var e=document.getElementById("err"); e.textContent="⚠️ "+m; }
+  function clearErr(){ var e=document.getElementById("err"); e.textContent=""; }
+
+  /* ---------- Chips ---------- */
   function renderChips(containerId, options, arr){
     var box=document.getElementById(containerId); box.innerHTML="";
     options.forEach(function(opt){
-      var b=document.createElement("button"); b.type="button"; b.className="chip"+(arr.indexOf(opt)>-1?" on":"");
+      var b=document.createElement("button"); b.type="button"; b.className="chip";
+      b.setAttribute("aria-pressed", arr.indexOf(opt)>-1?"true":"false");
       b.textContent=opt;
       b.addEventListener("click",function(){
         var i=arr.indexOf(opt); if(i>-1) arr.splice(i,1); else arr.push(opt);
-        b.classList.toggle("on"); save();
+        b.setAttribute("aria-pressed", arr.indexOf(opt)>-1?"true":"false");
+        clearErr(); save(); if(containerId==="chips-besoin"||containerId==="chips-situation") renderStep4();
       });
       box.appendChild(b);
     });
   }
 
-  // Suivi
+  /* ---------- Routage / suggestion (étape 4) ---------- */
+  function suggest(){
+    var s=state.situation, b=state.besoins, sc={kit:0,consignes:0,energie:0};
+    if(s.indexOf("Émotions / crises")>-1) sc.kit+=2;
+    ["Du calme","Se sentir en sécurité","Moins de stimulation"].forEach(function(x){ if(b.indexOf(x)>-1) sc.kit++; });
+    ["École / devoirs","Sommeil / routines","Attention / organisation","Autonomie du quotidien"].forEach(function(x){ if(s.indexOf(x)>-1) sc.consignes++; });
+    ["Un cadre clair","De l'aide pour communiquer","Des encouragements","Du temps / de la lenteur"].forEach(function(x){ if(b.indexOf(x)>-1) sc.consignes++; });
+    if(b.indexOf("Du repos / sommeil")>-1) sc.energie+=2;
+    var best=null, bv=0;
+    ["kit","consignes","energie"].forEach(function(k){ if(sc[k]>bv){ bv=sc[k]; best=k; } });
+    return bv>0 ? best : null;
+  }
+  function toolCard(id, suggested){
+    var t=TOOLS[id];
+    var a=document.createElement("a"); a.className="tool"+(suggested?" suggested":""); a.href=t.file;
+    a.setAttribute("data-tool", id); a.setAttribute("data-nom", t.nom); a.setAttribute("data-step","4");
+    a.innerHTML='<span class="em">'+t.em+'</span><span><span class="t">'+t.nom+'</span><br><span class="d">'+t.desc+'</span></span><span class="go">→</span>';
+    return a;
+  }
+  function renderStep4(){
+    var sug=document.getElementById("suggest-zone"); if(!sug) return;
+    var chosen=document.getElementById("chosen-zone");
+    sug.innerHTML=""; chosen.innerHTML="";
+    var best=suggest();
+    var eb=document.getElementById("step4-eyebrow"), tt=document.getElementById("step4-title"), ld=document.getElementById("step4-lead");
+
+    if(best){
+      eb.textContent="Mon outil conseillé";
+      tt.textContent="Une stratégie douce à essayer";
+      ld.textContent="D'après ce que vous avez sélectionné, cet outil pourrait être un bon premier essai.";
+      var note=document.createElement("div"); note.className="suggest-note";
+      note.textContent="Suggestion : "+TOOLS[best].raison;
+      sug.appendChild(note);
+      sug.appendChild(toolCard(best,true));
+      var others=Object.keys(TOOLS).filter(function(k){return k!==best;});
+      var toggle=document.createElement("button"); toggle.type="button"; toggle.className="btn link"; toggle.textContent="Voir les autres outils";
+      var box=document.createElement("div"); box.className="hidden";
+      others.forEach(function(k){ box.appendChild(toolCard(k,false)); });
+      toggle.setAttribute("aria-expanded","false");
+      toggle.addEventListener("click",function(){ var h=box.classList.toggle("hidden"); toggle.setAttribute("aria-expanded", h?"false":"true"); toggle.textContent=h?"Voir les autres outils":"Masquer les autres outils"; });
+      sug.appendChild(toggle); sug.appendChild(box);
+    } else {
+      // routage non personnalisé -> pas de mot "conseillé"
+      eb.textContent="Choisir un outil à essayer";
+      tt.textContent="Choisir un outil à essayer";
+      ld.textContent="Choisissez l'outil qui vous parle le plus. Un seul suffit pour commencer.";
+      Object.keys(TOOLS).forEach(function(k){ sug.appendChild(toolCard(k,false)); });
+    }
+
+    // Outil déjà choisi -> rappel + stratégie retenue
+    if(state.outilChoisi && state.outilChoisi.id){
+      var c=document.createElement("div"); c.className="chosen";
+      c.innerHTML='<p style="margin:.1rem 0">🧰 Vous avez ouvert : <b>'+esc(state.outilChoisi.nom)+'</b></p>';
+      var lab=document.createElement("label"); lab.className="field"; lab.setAttribute("for","chosen-strategie"); lab.textContent="La stratégie que je retiens";
+      var ta=document.createElement("textarea"); ta.id="chosen-strategie"; ta.value=state.strategieRetenue||"";
+      ta.placeholder="Ex : je prépare une seule consigne à la fois et je félicite dès qu'il commence.";
+      ta.addEventListener("input",function(){ state.strategieRetenue=ta.value; clearErr(); save(); });
+      var chg=document.createElement("button"); chg.type="button"; chg.className="btn link"; chg.textContent="Changer d'outil";
+      chg.addEventListener("click",function(){ state.outilChoisi={id:"",nom:""}; save(); renderStep4(); });
+      c.appendChild(lab); c.appendChild(ta); c.appendChild(chg);
+      chosen.appendChild(c);
+    }
+  }
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+  /* ---------- Rappel dans le plan (étape 5) ---------- */
+  function renderPlanRecall(){
+    var z=document.getElementById("plan-recall"); if(!z) return; z.innerHTML="";
+    if(state.outilChoisi && state.outilChoisi.id){
+      var d=document.createElement("div"); d.className="chosen";
+      d.innerHTML='<p style="margin:.1rem 0">🧰 Outil choisi : <b>'+esc(state.outilChoisi.nom)+'</b></p>'+
+        (state.strategieRetenue?'<p style="margin:.1rem 0">✨ Stratégie retenue : '+esc(state.strategieRetenue)+'</p>':'');
+      z.appendChild(d);
+    }
+  }
+
+  /* ---------- Suivi ---------- */
   function renderSuivi(){
     var list=document.getElementById("suivi-list"); list.innerHTML="";
     if(!state.suivi.length){ list.innerHTML='<p class="hint">Aucune observation pour l\'instant — ajoutez-en une après un essai.</p>'; return; }
     state.suivi.forEach(function(item,idx){
       var d=document.createElement("div"); d.className="suivi-item";
-      var del=document.createElement("button"); del.className="del"; del.title="Retirer"; del.textContent="✕";
-      del.addEventListener("click",function(){ state.suivi.splice(idx,1); save(); renderSuivi(); });
+      var del=document.createElement("button"); del.className="del"; del.type="button"; del.textContent="Retirer";
+      del.setAttribute("aria-label","Retirer cette observation du suivi");
+      del.addEventListener("click",function(){ removeSuivi(idx); });
       var date=document.createElement("div"); date.className="date"; date.textContent=item.date||"";
       var txt=document.createElement("div"); txt.textContent=item.texte||"";
       d.appendChild(del); d.appendChild(date); d.appendChild(txt); list.appendChild(d);
     });
   }
+  function removeSuivi(idx){
+    lastDeleted={item:state.suivi[idx], idx:idx};
+    state.suivi.splice(idx,1); save(); renderSuivi(); renderUndo();
+  }
+  function renderUndo(){
+    var z=document.getElementById("undo-zone"); z.innerHTML="";
+    if(!lastDeleted) return;
+    var d=document.createElement("div"); d.className="undo";
+    var s=document.createElement("span"); s.textContent="Observation retirée.";
+    var b=document.createElement("button"); b.type="button"; b.className="btn link"; b.textContent="Annuler";
+    b.addEventListener("click",function(){
+      if(lastDeleted){ state.suivi.splice(Math.min(lastDeleted.idx,state.suivi.length),0,lastDeleted.item); lastDeleted=null; save(); renderSuivi(); renderUndo(); }
+    });
+    d.appendChild(s); d.appendChild(b); z.appendChild(d);
+  }
 
-  // Récap
+  /* ---------- Récap ---------- */
   function renderRecap(){
     var r=document.getElementById("recap"); r.innerHTML="";
     function box(title, content){
-      if(!content || (Array.isArray(content)&&!content.length)) content="—";
+      if(content==null || (Array.isArray(content)&&!content.length) || content==="") content="—";
       if(Array.isArray(content)) content=content.join(" · ");
       var b=document.createElement("div"); b.className="recap-box";
       var h=document.createElement("h4"); h.textContent=title;
       var p=document.createElement("p"); p.textContent=content;
       b.appendChild(h); b.appendChild(p); r.appendChild(b);
     }
-    var qui = (state.enfant?state.enfant:"Mon enfant") + (state.age?" ("+state.age+")":"");
-    box("👦 Pour qui", qui);
+    box("👦 Pour qui", (state.enfant?state.enfant:"Mon enfant")+(state.age?" ("+state.age+")":""));
     box("📍 Ma situation", state.situation.concat(state.situationNote?["« "+state.situationNote+" »"]:[]));
     box("👀 Ce que j'observe", state.observation);
     box("🌱 Le besoin repéré", state.besoins);
+    box("🧰 Outil choisi", state.outilChoisi&&state.outilChoisi.nom?state.outilChoisi.nom:"");
+    box("✨ Stratégie retenue", state.strategieRetenue);
     box("🪜 Mon plan d'essai", state.plan);
     var suiviTxt = state.suivi.length ? state.suivi.map(function(s){return "• "+(s.date?"("+s.date+") ":"")+s.texte;}).join("\n") : "";
     box("📈 Mon suivi", suiviTxt);
+    box("🗓️ Créé le", fmtDate(state.createdAt));
+    box("🔄 Dernière mise à jour", fmtDate(state.updatedAt));
   }
 
-  // Navigation
+  /* ---------- Navigation ---------- */
   function show(n){
-    cur=n;
+    if(n>1 && !canEnter(n)){ var fi=firstIncomplete(); showErr("Encore une étape avant celle-ci : complétez « "+STEP_LABELS[fi]+" »."); n=fi; }
+    else { clearErr(); }
+    state.currentStep=n; save();
     document.querySelectorAll("section[data-step]").forEach(function(sec){
       sec.classList.toggle("hidden", parseInt(sec.getAttribute("data-step"),10)!==n);
     });
     renderSteps();
-    if(n===6) renderSuivi();
+    if(n===4) renderStep4();
+    if(n===5) renderPlanRecall();
+    if(n===6){ renderSuivi(); renderUndo(); }
     if(n===7) renderRecap();
     window.scrollTo({top:0,behavior:"smooth"});
   }
@@ -361,7 +510,9 @@
     for(var i=0;i<=7;i++){
       (function(i){
         var b=document.createElement("button"); b.type="button";
-        b.className=(i===cur?"on":"")+(i<cur?" done":"");
+        var isDone=(i>=1&&i<=6&&done(i));
+        b.className=(isDone?"done":"")+((i>1&&!canEnter(i))?" locked":"");
+        if(i===state.currentStep) b.setAttribute("aria-current","true");
         b.innerHTML='<span class="c">'+(i===0?"✦":(i===7?"✓":i))+'</span><span class="l">'+STEP_LABELS[i]+'</span>';
         b.setAttribute("aria-label","Aller à : "+STEP_LABELS[i]);
         b.addEventListener("click",function(){ show(i); });
@@ -370,15 +521,39 @@
     }
   }
 
-  // Bind inputs
   function bindText(id, key){
     var el=document.getElementById(id); if(!el) return;
     el.value=state[key]||"";
-    el.addEventListener("input",function(){ state[key]=el.value; save(); });
+    el.addEventListener("input",function(){ state[key]=el.value; clearErr(); save(); });
+  }
+
+  // Ouverture d'un outil (même onglet) — on sauvegarde l'étape (et l'outil choisi si étape 4)
+  function bindToolLinks(){
+    document.querySelectorAll("a.tool").forEach(function(a){
+      a.addEventListener("click",function(ev){
+        var stepAttr=a.getAttribute("data-step");
+        if(stepAttr){ state.currentStep=parseInt(stepAttr,10); }
+        var tool=a.getAttribute("data-tool");
+        if(tool){ state.outilChoisi={ id:tool, nom:a.getAttribute("data-nom")||TOOLS[tool].nom }; }
+        try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+        // navigation même onglet via le href par défaut
+      });
+    });
+  }
+
+  /* ---------- Reset (uniquement clés clarte_educa_*) ---------- */
+  function resetAll(){
+    if(!confirm("Tout recommencer ?\n\nCela effacera définitivement vos réponses Clarté Educa enregistrées sur cet appareil (situation, observations, besoin, outil, stratégie, plan et suivi). Les autres applications ne sont pas touchées. Continuer ?")) return;
+    try{
+      var toDel=[];
+      for(var i=0;i<localStorage.length;i++){ var k=localStorage.key(i); if(k&&k.indexOf("clarte_educa_")===0) toDel.push(k); }
+      toDel.forEach(function(k){ localStorage.removeItem(k); });
+    }catch(e){}
+    state=blankState(); state.createdAt=nowISO();
+    location.reload();
   }
 
   document.addEventListener("DOMContentLoaded",function(){
-    // hydrate
     document.getElementById("f-enfant").value=state.enfant||"";
     document.getElementById("f-age").value=state.age||"";
     document.getElementById("f-enfant").addEventListener("input",function(e){ state.enfant=e.target.value; save(); });
@@ -388,31 +563,28 @@
     bindText("f-plan","plan");
     renderChips("chips-situation",SITUATIONS,state.situation);
     renderChips("chips-besoin",BESOINS,state.besoins);
+    bindToolLinks();
 
     document.getElementById("start-btn").addEventListener("click",function(){ show(1); });
-    document.querySelectorAll("[data-goto]").forEach(function(btn){
-      btn.addEventListener("click",function(){ show(parseInt(btn.getAttribute("data-goto"),10)); });
-    });
+    document.querySelectorAll("[data-goto]").forEach(function(btn){ btn.addEventListener("click",function(){ clearErr(); show(parseInt(btn.getAttribute("data-goto"),10)); }); });
+    document.querySelectorAll("[data-next]").forEach(function(btn){ btn.addEventListener("click",function(){ tryNext(parseInt(btn.getAttribute("data-next"),10)); }); });
 
     document.getElementById("add-suivi").addEventListener("click",function(){
-      var ta=document.getElementById("f-suivi"); var v=ta.value.trim(); if(!v) return;
+      var ta=document.getElementById("f-suivi"); var v=ta.value.trim(); if(!v){ showErr("Écrivez une observation avant de l'ajouter."); ta.focus(); return; }
       var d=new Date(); var dd=("0"+d.getDate()).slice(-2)+"/"+("0"+(d.getMonth()+1)).slice(-2);
-      state.suivi.push({date:dd, texte:v}); ta.value=""; save(); renderSuivi();
+      state.suivi.push({date:dd, texte:v}); ta.value=""; lastDeleted=null; clearErr(); save(); renderSuivi(); renderUndo();
     });
 
-    document.getElementById("print-btn").addEventListener("click",function(){ window.print(); });
-    document.getElementById("reset-btn").addEventListener("click",function(){
-      if(confirm("Tout effacer et recommencer ? Cette action est définitive et ne peut pas être annulée.")){
-        state={ enfant:"", age:"", situation:[], situationNote:"", observation:"", besoins:[], plan:"", suivi:[] };
-        try{ localStorage.removeItem(KEY); }catch(e){}
-        location.reload();
-      }
-    });
+    document.getElementById("print-btn").addEventListener("click",function(){ renderRecap(); window.print(); });
+    document.getElementById("reset-btn").addEventListener("click",resetAll);
 
-    // reprise : si des données existent, un petit mot
-    var hasData = state.enfant||state.observation||state.situation.length||state.plan||state.suivi.length;
-    if(hasData){ document.getElementById("save-ind").textContent="↩︎ reprise de votre parcours"; }
-    renderSteps();
+    // Reprise automatique de la dernière étape valide
+    var start = (typeof state.currentStep==="number") ? state.currentStep : 0;
+    if(start<0||start>7) start=0;
+    if(start>1 && !canEnter(start)) start=firstIncomplete();
+    var hasData = state.enfant||state.observation||state.situation.length||state.plan||state.suivi.length||(state.outilChoisi&&state.outilChoisi.id);
+    show(start);
+    if(hasData && start>0){ setSave("↩︎ reprise de votre parcours", false); }
   });
 })();
 </script>
