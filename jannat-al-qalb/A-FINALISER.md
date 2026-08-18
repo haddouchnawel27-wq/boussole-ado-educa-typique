@@ -8,7 +8,7 @@ _Mis à jour le 16/06/2026._
 - Sous-titre **« Le Jardin du Cœur »**
 - **Qui suis-je** avec les mots de Nawel (psychopraticienne, conseillère en psychologie islamique, conseillère d'éducation spécialisée TND & DYS)
 - **Formations & qualifications** : 11 formations en 3 catégories (noms des personnes retirés, instituts seuls) + 4 cursus en cours + TCC
-- **Tarifs** complets (repris de Voie Chifâ 2026)
+- **Tarifs** complets (repris de Jannat Al Qalb 2026)
 - 4 piliers · FAQ · Contact
 - **Vrais témoignages** : Seynabou 🌷 + Vanessa
 - Réservation reliée à **TidyCal** (`tidycal.com/haddouchnawel27`)

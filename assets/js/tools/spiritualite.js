@@ -4,7 +4,7 @@
   "use strict";
 
   var PAR_DEFAUT = [
-    { id: "sp-souffle", emoji: "🕊️", titre: "Souffle & Lumière — Voie Chifâ", desc: "Espace d'apaisement et d'ancrage spirituel pour ados", url: "https://boussoleado-souffle-lumiere-voiechifa.netlify.app/" },
+    { id: "sp-souffle", emoji: "🕊️", titre: "Souffle & Lumière — Jannat Al Qalb", desc: "Espace d'apaisement et d'ancrage spirituel pour ados", url: "https://boussoleado-souffle-lumiere-voiechifa.netlify.app/" },
     { id: "sp-emo612", emoji: "🤲", titre: "Boîte à émotions 6-12 ans (spirituelle)", desc: "Gestion des émotions, approche islamique", url: "https://boite-outil-emotions-6-12ans-isl.netlify.app/" }
   ];
 

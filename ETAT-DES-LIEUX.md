@@ -112,7 +112,7 @@ Base : `https://haddouchnawel27-wq.github.io/boussole-ado-educa-typique/`
 
 ### 💳 Vente — décision
 - **Applis & packs → Stripe direct (Option 1)** : elle a déjà Stripe. Payment Link → bouton « acheter » des pages hébergées → **page code d'accès / merci** (À CONSTRUIRE) donnant lien + code. **Systeme.io PAS obligatoire.**
-- **Le reste** (tunnels, e-mails auto) → Systeme.io (comptes : Educa Typique, Voie Chifa).
+- **Le reste** (tunnels, e-mails auto) → Systeme.io (comptes : Educa Typique, Jannat Al Qalb).
 
 ### 📜 Textes légaux — FAITS
 - Artifact `c91838a3-44b1-40c5-916e-99f25a968cdb` · source `scratchpad/mentions-legales.html`.

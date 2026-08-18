@@ -93,7 +93,7 @@ Boite_NeuroPed/
 La Boîte NeuroPed est un **produit distinct** du Parcours Clarté TND, avec sa propre
 architecture, son public praticiens et sa propre stratégie de prix
 (cf. `_NOTES_STRATEGIE_COMMERCIALE.md` du ZIP : 3 blocs — Familles 89-129 € /
-Pros 297-497 € / Voie Chifā 49-79 € add-on).
+Pros 297-497 € / Jannat Al Qalb 49-79 € add-on).
 
 **Trois options :**
 
