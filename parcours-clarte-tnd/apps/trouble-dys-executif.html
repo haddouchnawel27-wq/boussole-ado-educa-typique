@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comprendre le trouble dys-exécutif — Version Parents · EducaTypique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../assets/charte.css">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rose:#F39BC2;
+  --teal:#2a9d8f;
+  --pink:#e05a8a;
+  --violet:#7c5cbf;
+  --orange:#e89556;
+  --jaune:#e0b83e;
+  --vert-doux:#88C8A8;
+}
+body{background:linear-gradient(180deg,#fff8f5 0%,#fff 50%,#f0f8f5 100%);font-family:'Nunito',system-ui,sans-serif;color:#3a3050;line-height:1.65;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:1000px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+
+.hdr{text-align:center;padding:38px 24px 28px;margin-bottom:22px;background:linear-gradient(135deg,#F39BC2 0%,#CBB6F6 50%,#88C8A8 100%);border-radius:24px;color:#fff;box-shadow:0 8px 28px rgba(243,155,194,.2);position:relative;overflow:hidden}
+.hdr::before{content:'🧠';position:absolute;top:14px;right:18px;font-size:52px;opacity:.2}
+.hdr::after{content:'💛';position:absolute;bottom:14px;left:18px;font-size:42px;opacity:.18}
+.brand{display:inline-block;padding:5px 14px;background:rgba(255,255,255,.22);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:12px;position:relative;z-index:1}
+.hdr h1{font-family:'Poppins',sans-serif;font-size:30px;color:#fff;margin-bottom:6px;position:relative;z-index:1;text-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hdr p{font-style:italic;font-size:14.5px;color:#fff;max-width:680px;margin:0 auto;position:relative;z-index:1;opacity:.95}
+
+.intro{background:#fff;border-radius:18px;padding:22px 24px;margin-bottom:20px;border-left:5px solid var(--rose);box-shadow:0 4px 14px rgba(243,155,194,.06)}
+.intro p{font-size:14.5px;color:#3D4E4A;line-height:1.7;margin-bottom:8px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:var(--pink)}
+.intro .reassurance{background:linear-gradient(135deg,#fff5f8,#fff);border-radius:12px;padding:14px 18px;margin-top:12px;font-style:italic;border-left:4px solid var(--rose);color:#a04268}
+
+.nav{display:flex;gap:6px;background:#fff;padding:8px;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 12px rgba(243,155,194,.08);overflow-x:auto;border:1px solid rgba(243,155,194,.18)}
+.nav button{background:transparent;color:#5a4a6f;border:none;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .25s}
+.nav button:hover{background:#fff5f8}
+.nav button.active{background:linear-gradient(135deg,var(--rose),var(--violet));color:#fff;box-shadow:0 4px 10px rgba(243,155,194,.3)}
+
+.panel{display:none;animation:fadeIn .4s ease-out}
+.panel.active{display:block}
+.section{background:#fff;border-radius:20px;padding:24px;margin-bottom:18px;border:1px solid rgba(243,155,194,.18);box-shadow:0 4px 14px rgba(243,155,194,.05)}
+.section h2{font-family:'Poppins',sans-serif;font-size:21px;color:var(--pink);margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#7a8782;font-style:italic;margin-bottom:18px}
+
+/* COMPRENDRE */
+.metaphore{background:linear-gradient(135deg,#fff5f8,#fff);border-radius:16px;padding:20px;margin:14px 0;border:2px dashed var(--rose);text-align:center}
+.metaphore .big-emoji{font-size:54px;margin-bottom:8px;display:block}
+.metaphore h3{font-family:'Poppins',sans-serif;color:var(--pink);font-size:1.2rem;margin-bottom:8px}
+.metaphore p{font-size:14.5px;color:#3D4E4A;line-height:1.7}
+
+.fe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0}
+.fe-card{padding:18px;border-radius:14px;animation:pop .4s;border-top:5px solid}
+.fe-card[data-fe="mdt"]{background:linear-gradient(160deg,#fff,#e8f5ec);border-color:var(--teal)}
+.fe-card[data-fe="inhibition"]{background:linear-gradient(160deg,#fff,#fce2e2);border-color:#C9573A}
+.fe-card[data-fe="flex"]{background:linear-gradient(160deg,#fff,#f0e8f5);border-color:var(--violet)}
+.fe-card[data-fe="planif"]{background:linear-gradient(160deg,#fff,#fff5e8);border-color:var(--orange)}
+.fe-card h4{font-family:'Poppins',sans-serif;font-size:1.05rem;color:#3a3050;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.fe-card p{font-size:.92rem;color:#3D4E4A;line-height:1.6;margin-bottom:6px}
+.fe-card .quoti{background:#fff;padding:8px 12px;border-radius:10px;font-size:.85rem;color:#666;margin-top:8px;font-style:italic}
+.fe-card .quoti strong{font-style:normal;color:#3a3050}
+
+/* SIGNES D'ALERTE — CHECKLIST */
+.checklist-block{background:linear-gradient(135deg,#fff5f8,#fff);border-radius:14px;padding:18px;margin:14px 0}
+.checklist-block h3{font-family:'Poppins',sans-serif;font-size:16px;color:var(--pink);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.checklist-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:all .2s;font-size:14px;color:#3D4E4A;line-height:1.5}
+.checklist-item:hover{background:#fff}
+.checklist-item input[type="checkbox"]{margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:var(--pink);cursor:pointer}
+.checklist-item.checked{background:rgba(243,155,194,.1)}
+
+.score-display{background:#fff;border-radius:14px;padding:18px;margin-top:18px;text-align:center;border:2px solid var(--rose)}
+.score-display .big-num{font-family:'Poppins',sans-serif;font-size:42px;color:var(--pink);font-weight:800;line-height:1;margin:8px 0}
+.score-display .msg{font-size:14px;color:#3D4E4A;line-height:1.65;margin-top:8px}
+.score-display.zone-haute{border-color:#C9573A;background:linear-gradient(135deg,#fff,#fce2e2)}
+.score-display.zone-haute .big-num{color:#C9573A}
+.score-display.zone-moyenne{border-color:var(--orange);background:linear-gradient(135deg,#fff,#fff5e8)}
+.score-display.zone-moyenne .big-num{color:var(--orange)}
+.score-display.zone-basse{border-color:var(--teal);background:linear-gradient(135deg,#fff,#e8f5ec)}
+.score-display.zone-basse .big-num{color:var(--teal)}
+
+/* AMÉNAGEMENTS */
+.amenag-card{background:#fff;border-radius:14px;padding:18px;margin-bottom:12px;border-left:5px solid var(--vert-doux)}
+.amenag-card h3{font-family:'Poppins',sans-serif;font-size:1.05rem;color:#2a8970;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.amenag-card ul{margin-left:22px;line-height:1.85;font-size:14px;color:#3D4E4A}
+.amenag-card ul li{margin-bottom:4px}
+.amenag-card ul li strong{color:#2a8970}
+
+/* MESSAGE CLE */
+.message-cle{background:linear-gradient(135deg,#fff5f8,#f5e8f5);border-radius:18px;padding:24px;margin-top:18px;text-align:center;border:2px solid var(--rose)}
+.message-cle h3{font-family:'Poppins',sans-serif;font-size:1.3rem;color:var(--pink);margin-bottom:14px}
+.message-cle p{font-size:15px;color:#3D4E4A;line-height:1.75;margin-bottom:10px}
+.message-cle .conditions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+@media (max-width:600px){.message-cle .conditions{grid-template-columns:1fr}}
+.message-cle .cond{background:#fff;padding:14px;border-radius:12px;border-top:4px solid var(--rose);font-size:13.5px;line-height:1.6}
+.message-cle .cond strong{color:var(--pink);display:block;margin-bottom:4px}
+.message-cle .punchline{font-family:'Poppins',sans-serif;font-size:1.2rem;color:var(--violet);margin-top:18px;font-weight:700}
+
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:'Nunito',system-ui,sans-serif}
+.footer .brand-foot{color:var(--pink);font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+
+@media print{
+  .nav,button{display:none!important}
+  .panel{display:block!important;page-break-after:always}
+}
+@media (max-width:600px){
+  .hdr h1{font-size:22px}
+  .fe-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a href="../../casa-familles/index.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:var(--pink);font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);border:1px solid rgba(243,155,194,.25)">← La Casa des Familles</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Comprendre · Parents · EducaTypique</span>
+<h1>🧠 Le trouble dys-exécutif</h1>
+<p>Comprendre les fonctions exécutives, repérer les signes, accompagner ton enfant à la maison.</p>
+</div>
+
+<div class="intro">
+<p>💡 <strong>Ton enfant oublie ses affaires, ne peut pas suivre 2 consignes à la fois, démarre 10 trucs sans en finir un, explose pour un rien ?</strong> Avant de penser "il fait exprès" ou "il est paresseux"… il y a peut-être une autre explication.</p>
+<p>👉 <strong>Les fonctions exécutives (FE)</strong> sont le « chef d'orchestre » du cerveau. Quand ce chef d'orchestre est en difficulté, on parle de <em>trouble dys-exécutif</em>. C'est INVISIBLE de l'extérieur, mais bien réel à l'intérieur.</p>
+<div class="reassurance">
+🌿 <strong>Bonne nouvelle :</strong> ces difficultés se travaillent. Mais d'abord, il faut COMPRENDRE. C'est l'objet de cet outil — adapté de la conférence de Laureline Van der Poorten, psychologue spécialisée en neuropsychologie (CHU Grenoble · Apedys Isère 2016).
+</div>
+</div>
+
+<div class="nav">
+<button class="active" data-tab="comprendre" onclick="switchTab('comprendre')">🧠 Comprendre</button>
+<button data-tab="signes" onclick="switchTab('signes')">🔍 Signes d'alerte</button>
+<button data-tab="amenager" onclick="switchTab('amenager')">🏡 À la maison</button>
+<button data-tab="message" onclick="switchTab('message')">💛 Message clé</button>
+</div>
+
+<!-- ============ COMPRENDRE ============ -->
+<div class="panel active" id="panel-comprendre">
+
+<div class="section">
+<h2>🧠 Les fonctions exécutives — c'est quoi ?</h2>
+<div class="sub">Le chef d'orchestre invisible du cerveau de ton enfant.</div>
+
+<div class="metaphore">
+<span class="big-emoji">🎼</span>
+<h3>Imagine un chef d'orchestre</h3>
+<p>Il ne joue d'aucun instrument lui-même. Mais sans lui, les musiciens se mélangent, jouent trop fort, ne s'arrêtent pas, oublient leur partition. <strong>Le chef d'orchestre du cerveau, c'est les fonctions exécutives.</strong> Elles coordonnent le langage, la mémoire, les émotions, le comportement.</p>
+</div>
+
+<div style="background:linear-gradient(135deg,#eef6f5,#fff);border-radius:14px;padding:18px;margin:14px 0;border-left:4px solid var(--teal);font-size:14px;color:#3D4E4A;line-height:1.7">
+<strong style="color:#2a8970">⏰ Un point essentiel à savoir :</strong> ces fonctions ne sont pas finies à la naissance. Elles se développent jusqu'à <strong>~25 ans</strong> ! Une certaine immaturité chez l'enfant et l'ado est donc <em>normale</em>. Ne te culpabilise pas si ton enfant de 8 ans n'est pas organisé comme un adulte — c'est neurologiquement impossible.
+</div>
+</div>
+
+<div class="section">
+<h2>📋 Les 4 fonctions principales</h2>
+<div class="sub">Chacune a un rôle précis. Quand l'une est en difficulté, ça se voit dans le quotidien.</div>
+
+<div class="fe-grid">
+<div class="fe-card" data-fe="mdt">
+<h4>🧠 Mémoire de travail</h4>
+<p>Garder une info en tête pour s'en servir. <strong>Limitée en temps et en quantité</strong> — quand c'est trop, ça « bugue ».</p>
+<div class="quoti"><strong>Au quotidien :</strong> retenir une consigne, faire un calcul mental, lire en comprenant, planifier.</div>
+</div>
+
+<div class="fe-card" data-fe="inhibition">
+<h4>🛑 Inhibition</h4>
+<p>Le <strong>frein de l'impulsivité</strong>. Résister aux distractions, s'arrêter avant d'agir/parler, se maîtriser.</p>
+<div class="quoti"><strong>Au quotidien :</strong> ne pas couper la parole, ne pas répondre avant d'écouter la question, ne pas frapper quand on est en colère.</div>
+</div>
+
+<div class="fe-card" data-fe="flex">
+<h4>🔄 Flexibilité mentale</h4>
+<p>Changer de stratégie, de point de vue, de comportement. <strong>S'adapter aux imprévus.</strong></p>
+<div class="quoti"><strong>Au quotidien :</strong> changer d'activité sans crise, accepter un imprévu, essayer une autre méthode quand la première bloque.</div>
+</div>
+
+<div class="fe-card" data-fe="planif">
+<h4>📋 Planification</h4>
+<p>Mener une action vers un but. <strong>Analyser → prioriser → ordonner → vérifier → réajuster.</strong></p>
+<div class="quoti"><strong>Au quotidien :</strong> faire son cartable, organiser ses devoirs, planifier un exposé, gérer son temps.</div>
+</div>
+</div>
+
+<div style="background:linear-gradient(135deg,#fff5e8,#fff);border-radius:14px;padding:18px;margin-top:14px;border-left:4px solid var(--orange);font-size:14px;color:#3D4E4A;line-height:1.7">
+<strong style="color:#a04500">👀 + Les 3 attentions liées :</strong><br>
+<strong>Sélective</strong> = repérer l'important + ignorer les distractions · <strong>Soutenue</strong> = rester concentré longtemps · <strong>Divisée</strong> = faire 2 choses en même temps (écrire ET écouter — la pire pour un cerveau en difficulté !).
+</div>
+</div>
+
+<div class="section">
+<h2>👤 Chez quels enfants ?</h2>
+<div class="sub">Un trouble dys-exécutif peut apparaître dans plusieurs contextes.</div>
+
+<ul style="margin-left:22px;line-height:1.9;font-size:14.5px;color:#3D4E4A">
+<li><strong>Troubles neurodéveloppementaux :</strong> TDAH (le plus fréquent), TSA, Gilles de la Tourette, déficience intellectuelle, syndrome d'alcoolisation fœtale.</li>
+<li><strong>Troubles acquis :</strong> traumatismes crâniens, lésions cérébrales.</li>
+<li><strong>Troubles psychopathologiques :</strong> dépression, anxiété, troubles psychotiques.</li>
+<li><strong>Fatigue importante</strong> (même sans trouble) : ton ado en privation de sommeil peut ressembler à un enfant dys-exécutif. Le sommeil est NON négociable.</li>
+</ul>
+
+<div style="background:linear-gradient(135deg,#fce2e2,#fff);border-radius:14px;padding:16px;margin-top:14px;border-left:4px solid #C9573A;font-size:13.5px;line-height:1.65;color:#7a3500">
+<strong>2 profils opposés</strong> qui peuvent surprendre :<br>
+🐢 <strong>Forme apathique :</strong> lent, peu d'initiative, ne réagit pas beaucoup. <em>Pas une dépression — un excès d'inhibition.</em><br>
+🌪 <strong>Forme désinhibée (la + fréquente) :</strong> agité, impulsif, émotions qui débordent. <em>Pas du caprice — un défaut d'inhibition.</em>
+</div>
+</div>
+</div>
+
+<!-- ============ SIGNES ============ -->
+<div class="panel" id="panel-signes">
+<div class="section">
+<h2>🔍 Repérer les signes — en cochant</h2>
+<div class="sub">Coche ce que tu observes chez ton enfant. À la fin, tu auras une idée des zones à surveiller. <strong>Ce n'est PAS un diagnostic</strong> — c'est un repère pour mieux en parler avec un pro.</div>
+
+<!-- MDT -->
+<div class="checklist-block">
+<h3>🧠 Mémoire de travail</h3>
+<label class="checklist-item"><input type="checkbox" data-fe="mdt" onchange="updateScore()"><span>Ne suit pas une consigne en plusieurs étapes (« va dans ta chambre, prends ton cahier, descends ») — il oublie en route.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="mdt" onchange="updateScore()"><span>Difficile pour lui de prendre des notes tout en écoutant la maîtresse/le maître.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="mdt" onchange="updateScore()"><span>Ne fait pas le lien entre ce qui vient d'être dit et ce qui précède.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="mdt" onchange="updateScore()"><span>Galère sur les questions de compréhension de lecture.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="mdt" onchange="updateScore()"><span>Le calcul mental est très difficile pour lui (même simple).</span></label>
+</div>
+
+<!-- INHIBITION -->
+<div class="checklist-block">
+<h3>🛑 Inhibition</h3>
+<label class="checklist-item"><input type="checkbox" data-fe="inhibition" onchange="updateScore()"><span>Se laisse distraire par le moindre bruit OU par ses propres pensées.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="inhibition" onchange="updateScore()"><span>Répond avant d'avoir entendu la question entière.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="inhibition" onchange="updateScore()"><span>Coupe la parole, dit ce qui lui passe par la tête (parfois blessant).</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="inhibition" onchange="updateScore()"><span>Réactions disproportionnées en cas de frustration (crise, cris, larmes).</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="inhibition" onchange="updateScore()"><span>Prend des risques sans réfléchir (grimpe, traverse, parle à des inconnus).</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="inhibition" onchange="updateScore()"><span>Joue avec son matériel scolaire au lieu de travailler.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="inhibition" onchange="updateScore()"><span>Bouge sans arrêt sur sa chaise, fait du bruit, ne tient pas en place.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="inhibition" onchange="updateScore()"><span>Très impatient — attendre son tour est douloureux.</span></label>
+</div>
+
+<!-- FLEXIBILITÉ -->
+<div class="checklist-block">
+<h3>🔄 Flexibilité mentale</h3>
+<label class="checklist-item"><input type="checkbox" data-fe="flex" onchange="updateScore()"><span>Si une stratégie ne marche pas, il s'entête au lieu d'en essayer une autre.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="flex" onchange="updateScore()"><span>Refuse une nouvelle règle ajoutée à un jeu en cours.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="flex" onchange="updateScore()"><span>Ne prend pas d'initiative seul, ou très lent à démarrer.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="flex" onchange="updateScore()"><span>Ne se détache pas de ses idées — toujours pareil, pas d'autres possibilités.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="flex" onchange="updateScore()"><span>Les imprévus le mettent en crise (changement de programme, route différente).</span></label>
+</div>
+
+<!-- PLANIF -->
+<div class="checklist-block">
+<h3>📋 Planification / organisation</h3>
+<label class="checklist-item"><input type="checkbox" data-fe="planif" onchange="updateScore()"><span>Ne gère pas son matériel scolaire (cartable chaotique, affaires perdues).</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="planif" onchange="updateScore()"><span>Démarre un truc sans rien préparer (« je vais faire mon exposé » → fonce dans le mur).</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="planif" onchange="updateScore()"><span>Ne fait jamais de brouillon ou de plan avant de faire un devoir.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="planif" onchange="updateScore()"><span>Ne vérifie jamais ses réponses, fonce à la fin.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="planif" onchange="updateScore()"><span>Fonctionne par essais-erreurs au lieu d'analyser ce qu'on lui demande.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="planif" onchange="updateScore()"><span>Tout est fait à la dernière minute (devoirs, projets, courses).</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="planif" onchange="updateScore()"><span>Estime mal le temps : pense que 30 min suffisent pour 2h de boulot.</span></label>
+<label class="checklist-item"><input type="checkbox" data-fe="planif" onchange="updateScore()"><span>Son discours est désorganisé — saute du coq à l'âne, on perd le fil.</span></label>
+</div>
+
+<div class="score-display" id="score-display">
+<div style="font-size:13px;color:#7a8782;text-transform:uppercase;letter-spacing:1px;font-weight:700">Total des signes observés</div>
+<div class="big-num" id="score-num">0</div>
+<div style="font-size:13px;color:#7a8782">/ 26 critères</div>
+<div class="msg" id="score-msg">Coche les items qui te parlent. Plus tu coches, plus c'est utile pour préparer la rencontre avec un pro.</div>
+</div>
+</div>
+</div>
+
+<!-- ============ AMENAGER ============ -->
+<div class="panel" id="panel-amenager">
+<div class="section">
+<h2>🏡 À la maison — adapter sans abandonner</h2>
+<div class="sub">Pas pour « le réparer » — pour le soulager et l'aider à fonctionner mieux dans son quotidien.</div>
+
+<div class="amenag-card">
+<h3>📚 Les devoirs (la zone de tous les conflits)</h3>
+<ul>
+<li><strong>Routine fixe :</strong> toujours à la même heure, au même endroit.</li>
+<li><strong>Pièce calme :</strong> sans télé, portable, fratrie bruyante.</li>
+<li><strong>Périodes courtes :</strong> 10-15 min de travail max, puis pause.</li>
+<li><strong>Autoriser le mouvement</strong> s'il n'empêche pas : apprendre en marchant, sur un ballon de gym.</li>
+<li><strong>Prioriser avec le prof :</strong> demande quels exercices sont vraiment essentiels — pas besoin de TOUT faire.</li>
+<li><strong>Timer visible :</strong> il aide à voir le temps qui passe (sablier, time-timer, application).</li>
+</ul>
+</div>
+
+<div class="amenag-card">
+<h3>💛 Sortir du domaine scolaire</h3>
+<ul>
+<li><strong>Retrouver un lien</strong> qui ne soit pas centré sur les devoirs (ils créent souvent les conflits).</li>
+<li><strong>Valoriser TOUTES les réussites</strong> — même petites. Son cerveau a besoin de plus d'encouragements que la moyenne.</li>
+<li><strong>L'échec fait partie de l'apprentissage</strong> — dis-le-lui souvent. C'est OK de se tromper.</li>
+<li><strong>Trouve son domaine d'épanouissement</strong> (sport, dessin, bricolage, animaux…) et investis-le.</li>
+<li><strong>Souligne les bons comportements</strong> aussi souvent que tu reprends les mauvais.</li>
+</ul>
+</div>
+
+<div class="amenag-card">
+<h3>🎲 Jouer, bouger, visiter</h3>
+<ul>
+<li><strong>Jeux de société :</strong> ils travaillent les FE sans s'en rendre compte. Dobble, Bazar Bizarre, Rush Hour, Logikville, mémoires…</li>
+<li><strong>Visites :</strong> musées, villes, théâtre, bibliothèques. L'enfant ancre les apprentissages dans plusieurs mémoires (visuelle, émotionnelle).</li>
+<li><strong>Sport :</strong> lien DIRECT entre activité physique et fonctions exécutives. Préfère les sports à séquences (arts martiaux, danse, natation structurée).</li>
+<li>👉 Voir aussi nos <a href="jeux-maison-fe.html" style="color:#2a8970;font-weight:700">20 jeux maison FE</a> et le <a href="jeux-adaptes-rahma-tech.html" style="color:#2a8970;font-weight:700">Pack 10 jeux Rahma-Tech</a>.</li>
+</ul>
+</div>
+
+<div class="amenag-card">
+<h3>🌿 Veiller à son bien-être (le plus important)</h3>
+<ul>
+<li><strong>Fonctions exécutives ↔ bien-être :</strong> stress et tristesse les dégradent. Quand ton enfant va mal, c'est PIRE.</li>
+<li><strong>Équilibre vital :</strong> école · famille · copains · loisirs. Si un domaine prend toute la place, alarme.</li>
+<li><strong>Apaisement :</strong> respiration consciente, présence attentive, ancrages sensoriels (5-4-3-2-1).</li>
+<li><strong>Sommeil = pilier :</strong> non négociable. Un cerveau fatigué = un cerveau dys-exécutif même chez l'enfant typique.</li>
+<li><strong>Bruits naturels</strong> en fond (pluie, vent, forêt) plutôt que stimulations sonores intenses.</li>
+</ul>
+</div>
+
+<div style="background:linear-gradient(135deg,#fff5f8,#fff);border-radius:14px;padding:18px;margin-top:14px;border:2px dashed var(--rose);font-size:14px;color:#3D4E4A;line-height:1.75">
+<strong style="color:var(--pink)">🌟 Le secret que personne ne te dit :</strong> ton enfant ne va pas « guérir » de ses fonctions exécutives faibles. Il va apprendre à FONCTIONNER AVEC. Les outils que tu mets en place maintenant deviendront SES outils d'adulte. Tu ne perds pas ton temps — tu construis son autonomie future.
+</div>
+</div>
+</div>
+
+<!-- ============ MESSAGE CLE ============ -->
+<div class="panel" id="panel-message">
+<div class="message-cle">
+<h3>💛 Le message à garder en tête</h3>
+<p>Le cerveau de ton enfant est <strong>structuré dès la naissance</strong>, mais sa maturation est <strong>lente</strong> — elle se poursuit jusqu'à 25 ans environ.</p>
+<p>Sa <strong>plasticité</strong> rend les apprentissages possibles MALGRÉ les troubles. À 3 conditions :</p>
+
+<div class="conditions">
+<div class="cond">
+<strong>1️⃣ Environnement</strong>
+Riche, structuré, prévisible, sécurisant. Pas chaotique.
+</div>
+<div class="cond">
+<strong>2️⃣ Collaboration</strong>
+Étroite entre école · famille · rééducateurs. Personne seul·e dans son coin.
+</div>
+<div class="cond">
+<strong>3️⃣ Connaissance</strong>
+De ce qu'est le trouble. Tu lis cette page = tu fais ce pas. Bravo.
+</div>
+</div>
+
+<div class="punchline">→ Soulager · Adapter · Aménager<br>dans TOUS les lieux de vie</div>
+</div>
+
+<div style="background:#fff;border-radius:18px;padding:24px;margin-top:18px;border:1px solid rgba(243,155,194,.22);text-align:center">
+<h3 style="font-family:'Poppins',sans-serif;color:var(--pink);margin-bottom:14px">📞 Quand consulter un pro ?</h3>
+<p style="font-size:14.5px;color:#3D4E4A;line-height:1.75;margin-bottom:10px">Si plusieurs signes ont été cochés (surtout 10+) et que ça pèse au quotidien, parle-en :</p>
+<ul style="margin:10px auto;max-width:500px;text-align:left;font-size:14px;line-height:1.85;color:#3D4E4A">
+<li>D'abord à ton <strong>médecin traitant ou pédiatre</strong> (point de départ obligatoire).</li>
+<li>Puis selon orientation : <strong>neuropsychologue</strong> (bilan), <strong>orthophoniste</strong>, <strong>ergothérapeute</strong>, <strong>psychomotricien</strong>.</li>
+<li>L'<strong>école</strong> peut activer un PAP/PPS/PAI/PPRE — voir notre outil <a href="mdph-pas-a-pas.html" style="color:var(--pink);font-weight:700">MDPH pas à pas</a>.</li>
+</ul>
+<div style="background:#fff5f8;border-radius:12px;padding:14px 18px;margin-top:14px;font-size:13.5px;color:#a04268;font-style:italic">💛 Tu peux aussi consulter notre <a href="mon-equipe-de-soin.html" style="color:var(--pink);font-weight:700;font-style:normal">Mon équipe de soin</a> pour rassembler tous tes pros.</div>
+</div>
+</div>
+
+<div class="footer">
+« Le cerveau peut apprendre malgré les troubles — si on lui donne l'environnement, l'équipe et la connaissance. »
+<span class="brand-foot">Comprendre dys-exécutif · Mise en forme pédagogique Nawel Haddouch · EducaTypique</span>
+<span style="font-size:11px;display:block;margin-top:4px;color:#8A9892">D'après Laureline Van der Poorten · CHU Grenoble · Apedys Isère 2016 · Imprimable</span>
+<span style="font-size:10.5px;display:block;margin-top:8px;color:#8A9892;font-style:normal;max-width:620px;margin-left:auto;margin-right:auto;line-height:1.5">⚠️ Outil pédagogique. Ne pose aucun diagnostic. Ne remplace pas l'évaluation d'un·e neuropsychologue ou la consultation d'un médecin spécialisé.</span>
+</div>
+
+</div>
+
+<script>
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateScore(){
+  const checked = document.querySelectorAll('.checklist-item input:checked');
+  const n = checked.length;
+  document.getElementById('score-num').textContent = n;
+
+  // Update visual state on each item
+  document.querySelectorAll('.checklist-item').forEach(li => {
+    const cb = li.querySelector('input');
+    if(cb.checked) li.classList.add('checked');
+    else li.classList.remove('checked');
+  });
+
+  const display = document.getElementById('score-display');
+  const msg = document.getElementById('score-msg');
+  display.classList.remove('zone-haute','zone-moyenne','zone-basse');
+
+  if(n === 0){
+    msg.textContent = "Coche les items qui te parlent. Plus tu coches, plus c'est utile pour préparer la rencontre avec un pro.";
+  } else if(n <= 6){
+    display.classList.add('zone-basse');
+    msg.innerHTML = "🌿 <strong>Zone basse.</strong> Quelques signes, mais ça peut être normal selon l'âge. Continue à observer. Si certaines difficultés gênent vraiment le quotidien, parles-en à ton médecin sans urgence.";
+  } else if(n <= 13){
+    display.classList.add('zone-moyenne');
+    msg.innerHTML = "🌅 <strong>Zone moyenne.</strong> Plusieurs signes méritent d'être discutés. Note les exemples concrets que tu vois, et prends RDV avec ton médecin/pédiatre pour orienter vers un bilan neuropsy si pertinent.";
+  } else {
+    display.classList.add('zone-haute');
+    msg.innerHTML = "🚨 <strong>Zone haute.</strong> Le faisceau d'indices est important. Ne reste pas seul·e avec ça. Prends RDV avec ton médecin pour orientation vers un·e <strong>neuropsychologue</strong> (bilan FE) et discute aussi avec l'école. Tu n'es PAS en train de surdiagnostiquer — tu observes ce qui est là.";
+  }
+}
+</script>
+</body>
+</html>

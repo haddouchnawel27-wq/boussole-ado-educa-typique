@@ -2,6 +2,7 @@
 
 _Périmètre : parents d'enfants (4/5 → 10/11 ans) et parents d'ados._
 _Relevé du 26 août 2026 — **version vérifiée**, chaque ligne contrôlée par comparaison de contenu._
+_Mise à jour du 26 août au soir : les 20 outils absents sont publiés._
 
 ---
 
@@ -9,9 +10,9 @@ _Relevé du 26 août 2026 — **version vérifiée**, chaque ligne contrôlée p
 
 | | Nombre |
 |---|---|
-| Outils en ligne qui nous appartiennent | **19** |
+| Outils en ligne qui nous appartiennent | **39** |
 | Outils en ligne à arbitrer (parent d'ado) | **4** |
-| Outils réellement absents, à publier | **20** |
+| Outils réellement absents, à publier | **0** ✅ |
 | Fiches PDF | **déjà toutes en ligne** ✅ |
 | Doublons rangés en archive | **2** |
 | Outils qui n'existent nulle part | **4** |
@@ -70,31 +71,35 @@ C'est le parent qui les lit — l'ado ne consulte pas une fiche sur comment lui 
 
 ---
 
-## 3. Ce qui est réellement absent, à publier (20)
+## 3. Les 20 outils manquants — publiés ✅
 
-Vérifié par comparaison de contenu, pas seulement par nom de fichier.
+Publiés le 26 août 2026 dans `parcours-clarte-tnd/apps/`, tous à la charte
+EducaTypique, tous reliés à la Casa des Familles.
 
-**Régulation émotionnelle (7)**
-| Outil | Ce que c'est |
-|---|---|
-| `boite-emotions-19` | **L'application maître — 19 émotions** |
-| `boite-emotions-19-ISL` | La même, édition familles musulmanes |
-| `devoirs-sans-crise` *(version ZIP)* | ⚠️ **Pas un doublon** : « Kit psychoéducatif TDAH **6-10 ans** », outil distinct de l'app du même nom. À renommer pour éviter la collision. |
-| `recadrer-sans-exploser` | Reprendre son enfant sans exploser |
-| `premiers-secours-psy-ado` | Version familles (celle en ligne est réservée aux pros) |
-| `methode-rahma` | |
-| `methode-rahma-prophetique` | |
+**Régulation (7)**
+`boite-emotions-19` — l'application maître, 19 émotions · `boite-emotions-19-ISL` — édition
+familles musulmanes · `devoirs-sans-crise-6-10-ans` — renommé, c'est bien un outil distinct
+de l'app du même nom · `recadrer-sans-exploser` · `premiers-secours-psy-ado-familles` ·
+`methode-rahma` · `methode-rahma-prophetique`
 
 **Ludothèque (7)**
 `des-emotions` · `cartes-scenarios-parent-enfant` · `apprivoise-tes-emotions` ·
 `memoire-en-images` · `jeux-maison-fe` · `jeu-chitane` · `jeux-adaptes-rahma-tech`
-_(+ `cartes-emotions-ISL.docx`, jeu imprimable — déjà dans `contenus/`)_
 
 **Fonds antérieur (6)**
 `aide-epuise` · `apprendre-a-apprendre` · `controle-influence-lache` ·
 `cours-tnd-interactif` · `schema-declencheur-tcc` · `trouble-dys-executif`
 
----
+### Ce qui a été corrigé au passage
+
+| Correction | Détail |
+|---|---|
+| **Bloc « Mode Pro » retiré** | `cours-tnd-interactif` embarquait six panneaux cliniques réservés aux praticiens — dont un « diagnostic différentiel ». Retirés : ce contenu appartient à l'espace Pro. |
+| **Chemins du ZIP remappés** | Les liens pointaient vers l'arborescence de la Boîte NeuroPed (`../A_reperage/…`, `../E_ludotheque/…`). Tous redirigés, plus aucun lien mort. |
+| **Retour vers la Casa** | Les liens « ← Espace parents » menaient à une page inexistante. Ils pointent désormais vers la Casa des Familles. |
+| **Images allégées** | Les deux boîtes à émotions pesaient 6,5 Mo chacune. Ramenées à ~1,9 Mo, sans perte visible. Total : 13,1 Mo → 4,9 Mo. |
+| **Bug JavaScript corrigé** | La mise à la charte avait inséré des noms de polices entre apostrophes à l'intérieur de chaînes JS, cassant cinq outils. Détecté au test de rendu, corrigé. Les 45 outils de `apps/` sont désormais testés sans erreur. |
+| **Deux cartes mortes retirées** | `cours-tnd-interactif` renvoyait vers `radar-profils` et `reperage-tnd-femme`, qui ne sont pas publiés. Candidats à publier plus tard. |
 
 ## 4. Les doublons — ce qu'on garde, ce qu'on écarte
 
@@ -147,14 +152,17 @@ Le livret belge en fait sa toute première fiche, avant tout matériel.
 
 ---
 
-## Ordre proposé
+## Ce qui reste
 
-1. **Publier les 20 outils.** Aucune décision à prendre, tout existe.
+1. ~~Publier les 20 outils.~~ ✅ **Fait le 26 août.**
 2. **Créer l'espace 4-6 ans.** Le plus gros manque, la matière est disponible.
 3. **La série « posture parentale »** — moment spécial, attention au calme, cadre d'attitude. Les trois vont ensemble.
+4. Deux outils repérés au passage et non publiés : `radar-profils` et `reperage-tnd-femme`.
+   Le second se marie bien avec `maman-neuro-atypique`.
 
-## Ce qui bloque
+## Ce qui attend Nawel
 
-- Le ZIP source n'est **pas dans le dépôt** : il vit sur la machine de la session.
-  À pousser dans `_source-boite-neuroped/` pour que le travail soit reproductible.
-- Le périmètre « parents d'ados » (§2) attend l'arbitrage de Nawel.
+- Le périmètre « parents d'ados » (§2).
+- `bmv_p1.pdf` et `bmv_p2.pdf` dans `ressources/` : ils portent la mention
+  « Propriété de Aziza AZRI — copie et partage interdit ». Ils ne sont liés depuis aucune
+  page, mais restent téléchargeables par URL directe. À sortir du dossier publié.
