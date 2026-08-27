@@ -11,7 +11,7 @@ _Mise à jour du 26 août au soir : les 20 outils absents sont publiés._
 | | Nombre |
 |---|---|
 | Outils en ligne qui nous appartiennent | **39** |
-| Outils en ligne à arbitrer (parent d'ado) | **4** |
+| Outils « parent d'ado » — arbitrés, ils restent ici | **4** ✅ |
 | Outils réellement absents, à publier | **0** ✅ |
 | Fiches PDF | **déjà toutes en ligne** ✅ |
 | Doublons rangés en archive | **2** |
@@ -59,17 +59,18 @@ profil socio-relationnel
 
 ---
 
-## 2. À arbitrer : les outils « parent d'ado » (4)
-
-Rangés côté parents, ils affichent 12-18 ans. Mais ils s'adressent au **parent**, pas à l'ado.
+## 2. Les outils « parent d'ado » — tranché ✅
 
 `dialoguer-avec-son-ado` (+ variante `-ISL`) · `autonomie-ado` ·
 `contrat-confiance-ado` · `reprendre-confiance`
 
-**Mon avis : ils restent ici.** La consigne était « parents-enfants *et* parents-ados ».
-C'est le parent qui les lit — l'ado ne consulte pas une fiche sur comment lui parler.
+Ils affichent 12-18 ans, ce qui les faisait hésiter entre la Casa et l'espace ado.
 
----
+**Décision de Nawel, 27 août 2026 : ils restent dans la Casa des Familles.**
+C'est le **parent** qui les lit — un ado ne consulte pas une fiche sur la façon de
+lui parler. Le périmètre de la Casa reste bien « parents d'enfants **et** parents d'ados ».
+
+Rien à déplacer : ils sont déjà au bon endroit.
 
 ## 3. Les 20 outils manquants — publiés ✅
 
@@ -162,7 +163,7 @@ Le livret belge en fait sa toute première fiche, avant tout matériel.
 
 ## Ce qui attend Nawel
 
-- Le périmètre « parents d'ados » (§2).
+_Plus rien en attente — les deux arbitrages en suspens ont été rendus le 27 août._
 - ~~`bmv_p1.pdf` et `bmv_p2.pdf`~~ ✅ **Sortis du dossier publié le 27 août.** Ils portaient
   la mention « Propriété de Aziza AZRI — copie et partage interdit » et restaient
   téléchargeables par URL directe. Récupérables depuis l'historique Git : la commande est
