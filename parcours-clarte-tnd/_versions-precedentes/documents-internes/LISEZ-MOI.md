@@ -47,3 +47,38 @@ Il reste aussi dans le ZIP source (`_pdfs_nawel/`) sur la machine de Nawel.
 > ⚠️ **À ne pas remettre en ligne tel quel.** Si le contenu commercial doit servir,
 > sa place est dans un dossier privé, pas dans un dossier servi par Vercel ou GitHub Pages —
 > même sans lien, une URL directe reste accessible.
+
+---
+
+## `bmv_p1.pdf` et `bmv_p2.pdf` — propriété d'un tiers
+
+**Retirés du site le 27 août 2026, sur décision de Nawel.**
+
+### Pourquoi
+
+Ces deux PDF ne sont pas de nous. Ils portent la mention :
+
+> *« Propriété de Aziza AZRI, fondatrice Madrassa LMDE — INPI, tous droits intellectuels
+> réservés. Copie et partage interdit. »*
+
+Ils étaient déposés dans `ressources/`, dossier publié. Aucune page ne pointait dessus,
+mais **une URL directe suffisait à les télécharger** — un dossier servi par Vercel ou
+GitHub Pages l'est en entier, lien ou pas. Diffuser un document marqué « partage interdit »
+depuis le site d'Educa Typique n'était pas tenable.
+
+### Ce qui a été fait
+
+Les fichiers sortent de l'arborescence publiée et la ligne « bmv 1-2 » disparaît de
+`INVENTAIRE.md`. Aucun lien ne pointait dessus : rien ne casse.
+
+### Comment les récupérer
+
+```bash
+git show 62abb28:parcours-clarte-tnd/ressources/bmv_p1.pdf > bmv_p1.pdf
+git show 62abb28:parcours-clarte-tnd/ressources/bmv_p2.pdf > bmv_p2.pdf
+```
+
+> ⚠️ **Pour consultation personnelle uniquement.** Ces documents restent la propriété
+> de leur autrice. Ils ne doivent être ni republiés, ni redistribués, ni intégrés à un
+> produit Educa Typique. Pour un contenu équivalent sur le site, il faut une création
+> originale — ou l'autorisation écrite d'Aziza AZRI.

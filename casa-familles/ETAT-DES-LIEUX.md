@@ -163,6 +163,7 @@ Le livret belge en fait sa toute première fiche, avant tout matériel.
 ## Ce qui attend Nawel
 
 - Le périmètre « parents d'ados » (§2).
-- `bmv_p1.pdf` et `bmv_p2.pdf` dans `ressources/` : ils portent la mention
-  « Propriété de Aziza AZRI — copie et partage interdit ». Ils ne sont liés depuis aucune
-  page, mais restent téléchargeables par URL directe. À sortir du dossier publié.
+- ~~`bmv_p1.pdf` et `bmv_p2.pdf`~~ ✅ **Sortis du dossier publié le 27 août.** Ils portaient
+  la mention « Propriété de Aziza AZRI — copie et partage interdit » et restaient
+  téléchargeables par URL directe. Récupérables depuis l'historique Git : la commande est
+  dans `_versions-precedentes/documents-internes/LISEZ-MOI.md`.
