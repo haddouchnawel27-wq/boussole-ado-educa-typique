@@ -163,6 +163,40 @@ Le livret belge en fait sa toute première fiche, avant tout matériel.
 
 ## Ce qui attend Nawel
 
+### 📕 La formation « Harcèlement scolaire » — volontairement non publiée
+
+Nawel a envoyé le 27 août un support de formation de 9 modules :
+*« Le Harcèlement scolaire — quand mon enfant TND est concerné »*.
+
+**Il n'a pas été mis en ligne, et c'est délibéré.** Le document porte
+« Formation Educa Typique — module complémentaire » et « Document protégé —
+reproduction soumise à autorisation ». Le déposer dans la Casa reviendrait à
+donner gratuitement du contenu de formation.
+
+Il a été **préparé** et remis directement à Nawel :
+- passé à la charte (Poppins / Nunito, palette EducaTypique) ;
+- **sauvegarde automatique ajoutée** — c'était le vrai défaut : le tableau de
+  repérage du module 7 se remplit sur plusieurs semaines, et tout était perdu à
+  la fermeture de l'onglet. Les réponses restent sur l'appareil de la mère, rien
+  n'est envoyé ;
+- effacement des champs désormais protégé par une confirmation.
+
+**Le moment opportun pour le donner** — c'est un support qui se remet en main
+propre, pas en libre-service :
+
+| Quand | Pourquoi |
+|---|---|
+| **Quand une mère évoque un doute** — silence inhabituel, refus d'école, phrase glissée le soir | Le support est écrit pour cette porte d'entrée précise ; il donne un vocabulaire et une grille au moment où l'inquiétude est encore floue |
+| **En accompagnement de formation**, pas seul | Les modules 4 et 5 (profils du harceleur, du harcelé) peuvent être mal lus sans cadrage : on risque de chercher une responsabilité chez l'enfant |
+| **Après le premier rendez-vous**, jamais avant | La grille de repérage sur plusieurs semaines suppose un suivi ; distribuée à froid, elle reste vide |
+| **En prévention, hors situation** | La version « je veux comprendre avant que ça arrive » fonctionne aussi — mais alors sans les grilles à remplir, en lecture seule |
+
+Ce qu'il faudrait pour le publier un jour : trancher son modèle — gratuit dans
+la Casa, ou réservé aux familles accompagnées. C'est une décision commerciale,
+pas technique.
+
+### Le reste
+
 _Plus rien en attente — les deux arbitrages en suspens ont été rendus le 27 août._
 - ~~`bmv_p1.pdf` et `bmv_p2.pdf`~~ ✅ **Sortis du dossier publié le 27 août.** Ils portaient
   la mention « Propriété de Aziza AZRI — copie et partage interdit » et restaient

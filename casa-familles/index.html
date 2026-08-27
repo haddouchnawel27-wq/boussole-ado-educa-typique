@@ -84,6 +84,25 @@
   }
   .pied img{width:100%;max-width:520px;height:auto;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin-bottom:1rem}
   .pied strong{display:block;font-family:var(--font-titre);color:var(--violet-titre);margin-bottom:.2rem}
+
+  /* --- chapitres par âge --- */
+  .chapitre{max-width:1040px;margin:3.2rem auto 0;padding:0 1.2rem;}
+  .chapitre:first-of-type{margin-top:2rem;}
+  .chapitre .bandeau{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;
+    padding:1rem 1.4rem;border-radius:16px;background:linear-gradient(120deg,var(--c1),var(--c2));}
+  .chapitre .bandeau h2{margin:0;font-size:1.35rem;color:#452a75;font-family:'Poppins','Nunito',sans-serif;}
+  .chapitre .bandeau .age{background:rgba(255,255,255,.72);border-radius:999px;
+    padding:.25rem .85rem;font-size:.86rem;font-weight:700;color:#5a3c8f;white-space:nowrap;}
+  .chapitre .sous{margin:.7rem 0 0;color:var(--muted);font-size:.95rem;max-width:66ch;}
+
+  /* --- barre de saut --- */
+  .sauts{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.93);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--border);
+    display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;padding:.6rem 1rem;}
+  .sauts a{text-decoration:none;font-size:.88rem;font-weight:700;color:#5a3c8f;
+    background:#F4EEFD;border:1px solid #E7D6F5;border-radius:999px;padding:.35rem .9rem;}
+  .sauts a:hover{background:#E7D6F5;}
+  @media (max-width:560px){ .sauts a{font-size:.8rem;padding:.3rem .7rem;} }
 </style>
 </head>
 <body>
@@ -108,6 +127,22 @@
     et ne remplacent pas l'avis d'un professionnel de santé.
   </div>
 
+
+<nav class="sauts">
+  <a href="#enfant">👶 Mon enfant a 0-10 ans</a>
+  <a href="#ado">🧑 Mon enfant est ado</a>
+  <a href="#toujours">💗 Quel que soit son âge</a>
+</nav>
+
+
+  <div class="chapitre" id="enfant" style="--c1:#BDEAD7;--c2:#CDE6F5">
+    <div class="bandeau">
+      <h2>👶 Mon enfant a 0 à 10 ans</h2>
+      <span class="age">naissance · maternelle · élémentaire</span>
+    </div>
+    <p class="sous">Comprendre son fonctionnement, apaiser le quotidien, et jouer — parce qu'un jeu se refuse moins qu'un exercice.</p>
+  </div>
+
   <!-- ============ COMPRENDRE ============ -->
   <section class="bloc b-comprendre">
     <h2>🧠 Comprendre mon enfant</h2>
@@ -120,7 +155,7 @@
         <span class="nom">Guide HPI</span>
         <span class="desc">Accompagner un enfant à haut potentiel sans le surcharger.</span></a>
       <a class="outil" href="../parcours-clarte-tnd/apps/boussole-diagnostic-dys.html">
-        <span class="nom">Boussole diagnostic DYS</span>
+        <span class="nom">Boussole des bilans DYS</span>
         <span class="desc">Quel bilan, quel professionnel, à quel âge, dans quel ordre.</span></a>
       <a class="outil" href="../parcours-clarte-tnd/apps/pyramide-7-niveaux.html">
         <span class="nom">La pyramide des 7 niveaux</span>
@@ -184,6 +219,38 @@
     </div>
   </section>
 
+
+  <!-- ============ LUDOTHÈQUE ============ -->
+  <section class="bloc b-ludotheque">
+    <h2>🎲 La ludothèque</h2>
+    <p class="chapeau">On apprend mieux en jouant — et un jeu se refuse moins qu'un exercice.</p>
+    <div class="grille">
+      <a class="outil" href="../parcours-clarte-tnd/apps/des-emotions.html">
+        <span class="nom">Les dés des émotions</span>
+        <span class="desc">On lance, on nomme, on raconte. À deux ou à toute la famille.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/cartes-scenarios-parent-enfant.html">
+        <span class="nom">Cartes de scénarios</span>
+        <span class="desc">Des situations du quotidien à rejouer ensemble, à froid.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/apprivoise-tes-emotions.html">
+        <span class="nom">Apprivoise tes émotions</span>
+        <span class="desc">Trois mini-jeux : décoder, répondre, faire travailler sa mémoire.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/memoire-en-images.html">
+        <span class="nom">Mémoire en images</span>
+        <span class="desc">Un memory qui entraîne la mémoire de travail sans en avoir l'air.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/jeux-maison-fe.html">
+        <span class="nom">Jeux maison — fonctions exécutives</span>
+        <span class="desc">Attention, inhibition, mémoire, flexibilité : avec ce qu'on a sous la main.</span></a>
+    </div>
+  </section>
+
+  <div class="chapitre" id="ado" style="--c1:#F8CFE0;--c2:#CBB6F6">
+    <div class="bandeau">
+      <h2>🧑 Mon enfant est ado</h2>
+      <span class="age">11 ans et plus</span>
+    </div>
+    <p class="sous">Ces outils sont pour <b>vous</b>, le parent — pas pour lui. L'ado a son propre espace, avec ses propres outils.</p>
+  </div>
+
   <!-- ============ ADO ============ -->
   <section class="bloc b-ado">
     <h2>🧑 Quand l'enfant devient ado</h2>
@@ -206,6 +273,15 @@
         <span class="desc">Quand s'inquiéter, qui appeler, quoi dire — la version pour les familles.</span></a>
     </div>
   </section>
+
+
+  <div class="chapitre" id="toujours" style="--c1:#FFD6C2;--c2:#FFE9A8">
+    <div class="bandeau">
+      <h2>💗 Quel que soit son âge</h2>
+      <span class="age">et le vôtre</span>
+    </div>
+    <p class="sous">Vous tenir debout, avancer dans les démarches, et — si vous le souhaitez — la dimension spirituelle.</p>
+  </div>
 
   <!-- ============ PARENT ============ -->
   <section class="bloc b-parent">
@@ -277,29 +353,6 @@
   </section>
 
   <!-- ============ RESSOURCES ============ -->
-  <!-- ============ LUDOTHÈQUE ============ -->
-  <section class="bloc b-ludotheque">
-    <h2>🎲 La ludothèque</h2>
-    <p class="chapeau">On apprend mieux en jouant — et un jeu se refuse moins qu'un exercice.</p>
-    <div class="grille">
-      <a class="outil" href="../parcours-clarte-tnd/apps/des-emotions.html">
-        <span class="nom">Les dés des émotions</span>
-        <span class="desc">On lance, on nomme, on raconte. À deux ou à toute la famille.</span></a>
-      <a class="outil" href="../parcours-clarte-tnd/apps/cartes-scenarios-parent-enfant.html">
-        <span class="nom">Cartes de scénarios</span>
-        <span class="desc">Des situations du quotidien à rejouer ensemble, à froid.</span></a>
-      <a class="outil" href="../parcours-clarte-tnd/apps/apprivoise-tes-emotions.html">
-        <span class="nom">Apprivoise tes émotions</span>
-        <span class="desc">Trois mini-jeux : décoder, répondre, faire travailler sa mémoire.</span></a>
-      <a class="outil" href="../parcours-clarte-tnd/apps/memoire-en-images.html">
-        <span class="nom">Mémoire en images</span>
-        <span class="desc">Un memory qui entraîne la mémoire de travail sans en avoir l'air.</span></a>
-      <a class="outil" href="../parcours-clarte-tnd/apps/jeux-maison-fe.html">
-        <span class="nom">Jeux maison — fonctions exécutives</span>
-        <span class="desc">Attention, inhibition, mémoire, flexibilité : avec ce qu'on a sous la main.</span></a>
-    </div>
-  </section>
-
   <section class="bloc b-ressources">
     <h2>📄 Fiches à imprimer</h2>
     <p class="chapeau">Des fiches synthétiques à garder sous la main ou à donner à l'école.</p>
