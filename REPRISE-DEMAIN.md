@@ -2,7 +2,8 @@
 
 _Branche `claude/casa-familles` · PR brouillon #27 · tout est poussé._
 
-> **On reprend ici, sur Posture Sereine. Ensuite seulement, on passe aux Casas.**
+> **Posture Sereine est fait. La Casa des Ados est auditée. On reprend sur l'espace
+> maternelle 4-6 ans de la Casa des Familles.**
 
 ---
 
@@ -82,10 +83,34 @@ fonctions exécutives en maternelle) :
 Mon avis : commencer par **« Ma posture d'abord »**, c'est celui qui rend les trois autres
 efficaces.
 
-### 🧑 Casa des Ados — Codex
+### 🧑 Casa des Ados — auditée le 28 août au soir
 
-7 outils dans `parcours-clarte-tnd/outils-ado/`. Le prompt de cadrage pour Codex reste à
-écrire — celui de Cowork est fait et sert de modèle.
+Nawel a envoyé trois paquets (`Mobile_app_concept_1/2/3.zip`). **Le bon est le 3, dossier
+`deploy/`** — les deux premiers contiennent une version antérieure.
+
+**Le visuel est validé par Nawel.** Testé à 420×860 : navigation à quatre onglets fluide,
+les 11 ateliers et les 6 espaces s'affichent, le check-in humeur répond, **zéro erreur
+JavaScript, aucune ressource en échec**.
+
+**Un bloquant :** les 22 outils sont injoignables une fois en ligne. Chaque étape pointe
+vers `uploads/Casa_des_Ados_SIMPLE_A_OUVRIR/ressources/ados/…`, dossier absent du paquet.
+22 liens sur 22 morts. Le catalogue est sain — les 22 fichiers existent tous chez Codex,
+c'est le paquet d'export qui est incomplet.
+
+Cinq défauts en plus : `window.casaOpenTool` jamais définie · le carnet livré sans aucun
+lien pour y arriver · `<title>Bundled Page</title>` · le `manifest.json` relié à aucune
+page (donc « Ajouter à l'écran d'accueil » ne tiendra pas sa promesse) · des liens
+internes cassés dans les outils eux-mêmes, dont trois fichiers renommés.
+
+Ce qui tient et qu'il ne faut pas casser : le mot « diagnostic » n'apparaît que sous forme
+protectrice, aucune trace de l'ancienne marque, aucun lien vers Famille ni vers Pro,
+aucune donnée qui sort du navigateur.
+
+📄 Le relevé : `parcours-clarte-tnd/docs/BUGS-CASA-DES-ADOS.md`
+✉️ Le message prêt à copier-coller : `parcours-clarte-tnd/docs/MESSAGE-A-CODEX.md`
+
+**Rien n'a été corrigé — l'app est à Codex, on ne pousse pas sur sa branche.**
+Nawel a validé le message le 28 au soir ; reste à le lui transmettre.
 
 ### 🧑‍⚕️ Espace Pro — Cowork
 
@@ -103,3 +128,15 @@ Le prompt lui a été remis. Le document commun aux trois agents est dans
    pointe vers `les-deux-jardins-app`, absent de toutes les branches. **Ça se corrige dans
    le tableau de bord Vercel, pas dans le code.**
 3. **La PR #27** — en brouillon depuis le début, tout est vert. La passer en « prête » ?
+
+---
+
+## 🎯 Demain, on attaque quoi
+
+**L'espace maternelle 4-6 ans** — le dernier trou de la Casa des Familles. Quatre outils
+courts, la matière existe. On commence par **« Ma posture d'abord »** : c'est celui qui
+rend les trois autres efficaces.
+
+_Note : le déploiement Vercel de `les-deux-jardins` échoue à chaque commit depuis des
+semaines. Ce n'est causé par aucun de nos changements — c'est le dossier racine du projet.
+Diagnostiqué, signalé une fois, plus jamais re-signalé. À ignorer._
