@@ -30,6 +30,28 @@ Branche de base commune : `claude/gracious-davinci-t0zife`.
 
 ---
 
+## Règle fondatrice — le contact humain
+
+_Posée par Nawel le 28 août 2026._
+
+> **Le contact humain est un socle obligatoire. Pas d'auto-livraison.**
+
+Aucun programme, aucun parcours, aucune formation ne se livre en libre-service. Il y a
+toujours un humain dans la boucle — Nawel, ou la praticienne qui accompagne.
+
+Ce que cela change concrètement :
+
+| Ce qui reste libre | Ce qui passe par un humain |
+|---|---|
+| Les **outils** de la Casa des Familles : gratuits, sans inscription, on les prend et on s'en sert | Les **programmes** et **formations** : Posture Sereine, la formation harcèlement, tout ce qui se déroule dans le temps |
+| Les **fiches à imprimer** | Les **grilles de suivi sur plusieurs semaines** — sans accompagnement, elles restent vides |
+| Les **applications compagnon** (Al Mizan, Le point du jour) une fois la personne accompagnée | Les **supports qui portent un jugement clinique** — profils, repérages |
+
+C'est aussi la raison pour laquelle la formation « Harcèlement scolaire » n'a pas été
+publiée dans la Casa : elle se remet en main propre.
+
+---
+
 ## Les cinq règles absolues
 
 ### 1. Aucun passage vers le Pro
@@ -118,6 +140,32 @@ TDAH, carnet d'interoception, émotion en 5 étapes, mes valeurs, module joie,
 thermomètre du bruit.
 
 À rassembler derrière une porte unique, comme la Casa des Familles.
+
+### 🌙 Al Mizan Al Qalb et Posture Sereine — hors des trois espaces
+
+Ces deux-là ne relèvent d'aucune des trois Casas : ils s'adressent aux **femmes
+adultes**, pas aux familles TND.
+
+**Al Mizan Al Qalb** (`al-mizan/`) est une application compagnon du quotidien : un
+check-in de 30 secondes, un jardin qui pousse au fil des jours, un résumé de la semaine,
+et trois outils — « Vider, trier, avancer » (charge mentale), « Boussole intérieure »,
+« Face au regard ».
+
+**Posture Sereine** (branche `claude/nouvelles-aventures-6rtc3b`) est le programme
+d'accompagnement de 12 semaines qui va avec : un ebook de 14 chapitres, un workbook de
+12 fiches, un questionnaire de candidature. Le workbook est explicitement « relié à
+l'app Al Mizan Al Qalb ».
+
+**L'intention, telle que Nawel l'a posée :** l'application sert le parcours Posture
+Sereine, pour accompagner les **auto-entrepreneuses bloquées**. L'une ne va pas sans
+l'autre.
+
+⚠️ **Un recouvrement à trancher un jour.** `le-point-du-jour/` propose lui aussi un
+check-in quotidien, en version autonome et hors ligne, avec une porte « J'ai besoin
+d'aide, maintenant ». Il faudra choisir : porte d'urgence d'Al Mizan, ou produit
+distinct. Pas urgent.
+
+---
 
 ### 🧑‍⚕️ Espace Pro — Cowork · `cowork/espace-pro`
 
