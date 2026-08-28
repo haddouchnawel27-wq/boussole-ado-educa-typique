@@ -30,28 +30,6 @@ Branche de base commune : `claude/gracious-davinci-t0zife`.
 
 ---
 
-## Règle fondatrice — le contact humain
-
-_Posée par Nawel le 28 août 2026._
-
-> **Le contact humain est un socle obligatoire. Pas d'auto-livraison.**
-
-Aucun programme, aucun parcours, aucune formation ne se livre en libre-service. Il y a
-toujours un humain dans la boucle — Nawel, ou la praticienne qui accompagne.
-
-Ce que cela change concrètement :
-
-| Ce qui reste libre | Ce qui passe par un humain |
-|---|---|
-| Les **outils** de la Casa des Familles : gratuits, sans inscription, on les prend et on s'en sert | Les **programmes** et **formations** : Posture Sereine, la formation harcèlement, tout ce qui se déroule dans le temps |
-| Les **fiches à imprimer** | Les **grilles de suivi sur plusieurs semaines** — sans accompagnement, elles restent vides |
-| Les **applications compagnon** (Al Mizan, Le point du jour) une fois la personne accompagnée | Les **supports qui portent un jugement clinique** — profils, repérages |
-
-C'est aussi la raison pour laquelle la formation « Harcèlement scolaire » n'a pas été
-publiée dans la Casa : elle se remet en main propre.
-
----
-
 ## Les cinq règles absolues
 
 ### 1. Aucun passage vers le Pro
