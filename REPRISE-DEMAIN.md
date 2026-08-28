@@ -1,37 +1,105 @@
-# 🌙 Reprise — 18 août 2026 (soir)
+# 🌙 Reprise — 28 août 2026 (soir)
 
-_Branche `claude/salam-aleyki-partenaire-ja06tb` · PR brouillon #25 · tout est poussé._
+_Branche `claude/casa-familles` · PR brouillon #27 · tout est poussé._
 
-## ✅ Fait aujourd'hui
-
-1. **Mascottes intégrées** — Neuroo, Educa, Noury + le visuel de groupe.
-   Optimisées 7,3 Mo → 1,0 Mo. Le blocage qui durait depuis des semaines est levé.
-   (`Neuro-et-Lea.png` = scène « L'histoire de Léa », pas une 4ᵉ mascotte → rangée dans `assets/illustrations/`.)
-2. **Renommage Voie Chifā → Jannat Al Qalb** — 38 mentions dans 16 fichiers.
-   Identifiants techniques préservés : clé `voiechifa.v1`, URLs Netlify, e-mail, classe CSS.
-
-## ⏭️ Demain — la prochaine action, une seule
-
-👉 **Publier les 11 fiches PDF** (TDAH, TSA, Dyscalculie, Dysorthographie, Dyspraxie,
-métacognition, carte d'identité cognitive, valeurs ados, veille TND…) dans l'espace parents.
-Aucune décision à prendre, c'est prêt. Nawel avait dit oui, il restait juste à lancer.
-
-## ⏸️ Décisions en attente (ne pas ouvrir tant qu'on n'a pas d'énergie)
-
-- **Passerelle Famille → Pro à couper** — une seule fuite : la 3ᵉ porte « Professionnels »
-  sur `parcours-clarte-tnd/index.html`. À retirer pour protéger le bloc Pro.
-- **Tri par âge** — Parcours Clarté TND = 4/5 → 10/11 ans ; le reste part au parcours ados.
-  5 outils actuellement mal placés (dialoguer avec son ado, autonomie, contrat de confiance,
-  reprendre confiance) + les 59 outils inédits à répartir.
-- **Point à trancher** : « parcours ados » = l'app Cap Educa à la racine, ou `parcours-clarte-tnd/ados.html` ?
-
-## 📌 Rappels
-
-- **Voie Chifā n'existe plus.** Ne plus jamais employer ce nom → **Jannat Al Qalb**.
-- Boîte NeuroPed = **pas l'urgence**.
-- Une info à la fois. Micro-étapes. Pas de pavés.
-- Vercel `les-deux-jardins` en erreur = projet mal configuré côté tableau de bord
-  (dossier `les-deux-jardins-app` inexistant). Sans rapport avec notre travail.
+> **On reprend ici, sur Posture Sereine. Ensuite seulement, on passe aux Casas.**
 
 ---
-_Inventaire complet du ZIP : `parcours-clarte-tnd/docs/BOITE-NEUROPED-source-recue.md`_
+
+## Où on en est sur Posture Sereine
+
+Nawel a envoyé le ZIP complet et la présentation de projet. J'ai lu les deux.
+
+**Ce que c'est, maintenant que c'est clair :** un accompagnement de cabinet pour des femmes
+entrepreneures qui ont les compétences mais restent bloquées de l'intérieur. La méthode
+repose sur **4 cartographies** — émotionnelle, cognitive, du fonctionnement, des blessures
+entrepreneuriales — qui produisent une **Carte de Posture** personnelle. Puis un parcours
+en 5 étapes : candidature → entretien → questionnaire → séance individuelle → 8 semaines
+en collectif, 5 femmes en bêta.
+
+**Al Mizan n'est pas « lié » au programme, il est dedans.** Dans
+`02_ESPACE_CONSULTANTE/Outils_progressifs/` : `BoussoleinterieureAlMizan`,
+`FaceauregardAlMizan`, `Outil_Orientation_Adulte_Entrepreneure_AlMizan`. C'est la boîte à
+outils de la consultante. L'intention posée par Nawel : l'app sert le parcours, pour
+accompagner les auto-entrepreneuses bloquées.
+
+### Fait aujourd'hui
+
+**La présentation de projet est régénérée.** Le PDF que Nawel avait sous la main portait
+encore « Cabinet Voie Chifa » et « Nawell » (deux L) sur les 11 pages — c'était un vieux
+rendu. La version HTML du pack, elle, était déjà correcte : Jannat Al Qalb, Nawel. Il n'y
+avait donc rien à réécrire, seulement à régénérer depuis la bonne source.
+
+Trois défauts de mise en page corrigés au passage :
+
+| Défaut | Correction |
+|---|---|
+| « La Cartographie de Posture » débordait de 55 mm | Coupée en deux — cartographies 1-2, puis 3-4 sous un bandeau « — suite », comme dans le PDF d'origine |
+| « Format bêta » dépassait de 9 mm : son pied de page partait seul sur une feuille blanche | Page resserrée localement (classe `serre`) |
+| Le dernier bloc forçait une page blanche finale | `page-break-after:auto` sur le dernier bloc |
+
+Résultat : **11 pages, aucune page vide, zéro mention de l'ancienne marque.**
+Le fichier a été remis à Nawel directement — il n'est pas dans le dépôt.
+
+### ⚠️ À ne jamais oublier sur ce pack
+
+Il contient `Grille_Tarifaire_Posture_Sereine`, `Proposition_Cohorte_Beta_DOCUMENT_INTERNE`,
+`Manuel_Animation — document interne` et un dossier `04_ARCHIVES_NON_DIFFUSABLE`.
+
+**Rien de tout cela ne doit atterrir dans un dossier publié.** Un dossier servi par Vercel
+ou GitHub Pages l'est en entier : un fichier sans lien reste téléchargeable par URL
+directe. C'est exactement ce qui était arrivé avec la Veille TND.
+
+### Ce qui reste ouvert sur Posture Sereine
+
+- Le **recouvrement Al Mizan / Le point du jour** : les deux proposent un check-in
+  quotidien. Le point du jour ajoute une porte « J'ai besoin d'aide, maintenant » et
+  fonctionne hors ligne. À trancher un jour : porte d'urgence d'Al Mizan, ou produit
+  distinct. Pas urgent.
+- Le **générateur de fiches** (`index.html` envoyé par Nawel) est **cassé** : il appelle
+  `styles.css`, `app.js` et `dashboard.html` qui manquent. Son idée — que chaque
+  praticienne y mette son propre nom d'entreprise — est un vrai produit, et c'est
+  l'espace Pro, donc **Cowork**. La spec reste à écrire.
+
+---
+
+## Ensuite : les Casas
+
+### 🏠 Casa des Familles — l'état au 28 août
+
+45 outils, 11 fiches à imprimer, lisible par âge : 👶 0-10 ans · 🧑 ado · 💗 quel que soit
+son âge. Aucun chemin vers l'espace ado ni vers le pro. Zéro erreur JavaScript.
+
+**Le seul chantier restant : l'espace maternelle 4-6 ans.** Le catalogue démarre à 6 ans,
+la Casa annonce 4-5. Quatre outils courts, la matière existe (le livret belge sur les
+fonctions exécutives en maternelle) :
+
+1. **Ma posture d'abord** — ce que l'adulte fait avant de sortir un jeu
+2. **Les 4 muscles du cerveau** — attention, mémoire, freinage, souplesse
+3. **Jouer pour muscler** — activités testées en classe, refaisables à la maison
+4. **Le retour au calme des petits** — bouteille à paillettes, massages, bâton de pluie
+
+Mon avis : commencer par **« Ma posture d'abord »**, c'est celui qui rend les trois autres
+efficaces.
+
+### 🧑 Casa des Ados — Codex
+
+7 outils dans `parcours-clarte-tnd/outils-ado/`. Le prompt de cadrage pour Codex reste à
+écrire — celui de Cowork est fait et sert de modèle.
+
+### 🧑‍⚕️ Espace Pro — Cowork
+
+Le prompt lui a été remis. Le document commun aux trois agents est dans
+`parcours-clarte-tnd/docs/REPARTITION-3-ESPACES.md`.
+
+---
+
+## ⏸️ Les décisions qui attendent Nawel
+
+1. **Le modèle de la formation harcèlement** — gratuite dans la Casa, ou réservée aux
+   familles accompagnées ? Elle est prête, à la charte, avec sauvegarde automatique, et
+   volontairement non publiée. C'est une décision commerciale.
+2. **`les-deux-jardins` sur Vercel** — échoue depuis des semaines. Son dossier racine
+   pointe vers `les-deux-jardins-app`, absent de toutes les branches. **Ça se corrige dans
+   le tableau de bord Vercel, pas dans le code.**
+3. **La PR #27** — en brouillon depuis le début, tout est vert. La passer en « prête » ?
