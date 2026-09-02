@@ -119,6 +119,23 @@ Le prompt lui a été remis. Le document commun aux trois agents est dans
 
 ---
 
+## 🌙 Fait dans la nuit du 2 au 3 septembre
+
+**Les 23 outils ados sont dans le dépôt**, à `parcours-clarte-tnd/outils-ado/`. Le dépôt
+n'en avait que 7 ; les 16 autres ne vivaient que dans un ZIP, ce qui explique que chaque
+export de l'app les oubliait. 16/16 vérifiés, zéro erreur JavaScript, et **31 liens
+internes réparés** — les cinq cibles des 23 outils existent maintenant toutes.
+
+**Codex sort du chemin critique.** Il n'a plus rien à fournir.
+
+Trois documents t'attendent :
+
+| Document | Ce que c'est |
+|---|---|
+| `docs/RELAIS-CODEX-DESIGN.md` | Le tri que tu m'as demandé : qui fait quoi, en trois piles |
+| `docs/PROMPT-DESIGN-CASA-ADOS.md` | Le prompt prêt à copier-coller pour Claude Design |
+| `docs/SPEC-ESPACE-SPIRITUEL-ADO.md` | Le cahier des charges des deux outils spirituels |
+
 ## ✅ Tranché le 2 septembre
 
 **Une seule Casa des Ados, espace spirituel en option au début du parcours.** Pas de
