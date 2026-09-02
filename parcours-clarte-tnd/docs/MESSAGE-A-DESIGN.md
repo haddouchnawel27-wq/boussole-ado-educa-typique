@@ -1,10 +1,10 @@
-# ✉️ Message à Codex — Casa des Ados
+# ✉️ Message à Claude Design — Casa des Ados
 
 _À copier-coller tel quel. Le relevé complet est dans `BUGS-CASA-DES-ADOS.md`._
 
 ---
 
-Salam Codex,
+Salam,
 
 La Casa des Ados a été testée de bout en bout. **Le visuel est validé** — Nawel le
 confirme. Navigation à quatre onglets fluide, les 11 ateliers et les 6 espaces
@@ -32,7 +32,7 @@ outils sont **dans** les fichiers ».
 Résultat : l'ado choisit son atelier, clique sur la première étape, et tombe sur une
 page blanche. **22 liens sur 22 sont morts.**
 
-Le catalogue lui-même est sain : les 22 fichiers appelés existent tous chez toi, aucun
+Le catalogue lui-même est sain : les 22 fichiers appelés existent tous dans la livraison d'outils d'origine, aucun
 nom ne manque. C'est uniquement le paquet d'export qui est incomplet.
 
 **Correction :** copier `ressources/ados/` dans `deploy/`, et réécrire la base des liens

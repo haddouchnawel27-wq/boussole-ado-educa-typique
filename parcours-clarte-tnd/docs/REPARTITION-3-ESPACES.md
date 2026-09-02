@@ -23,7 +23,7 @@ Trois conséquences :
 | Espace | Public | Agent | Branche |
 |---|---|---|---|
 | 🏠 **La Casa des Familles** | Parents d'enfants (4/5 → 10/11 ans) **et** parents d'ados | **Claude** | `claude/casa-familles` |
-| 🧑 **La Casa des Ados** | Les ados eux-mêmes (12-18 ans) | **Codex** | `codex/casa-ados` |
+| 🧑 **La Casa des Ados** | Les ados eux-mêmes (12-18 ans) | **Claude Design** | livrée en paquets ZIP, hors dépôt |
 | 🧑‍⚕️ **L'Espace Pro** | Praticiens, enseignants, AESH, structures | **Cowork** | `cowork/espace-pro` |
 
 Branche de base commune : `claude/gracious-davinci-t0zife`.
@@ -111,13 +111,23 @@ travail interne (tarifs, page de vente) retiré du dossier public · deux PDF ap
 **Reste :** l'espace maternelle 4-6 ans (le catalogue démarre à 6 ans, la Casa annonce
 4-5) · la série « posture parentale ».
 
-### 🧑 Casa des Ados — Codex · `codex/casa-ados`
+### 🧑 Casa des Ados — Claude Design
 
-7 outils dans `parcours-clarte-tnd/outils-ado/` : vocabulaire des émotions, boîte ado
-TDAH, carnet d'interoception, émotion en 5 étapes, mes valeurs, module joie,
-thermomètre du bruit.
+**Changement de main, acté le 2 septembre 2026.** La Casa des Ados était chez Codex ;
+elle est passée à **Claude Design**, le visuel n'étant pas au niveau attendu. Toute
+correction ou demande sur cette app se fait désormais par un prompt à Claude Design.
 
-À rassembler derrière une porte unique, comme la Casa des Familles.
+L'app existe et elle est belle : quatre onglets, 13 ateliers, 6 espaces, un check-in
+humeur, un espace spirituel optionnel proposé à l'ouverture. Elle est livrée en
+**paquets ZIP, hors dépôt** — elle ne vit dans aucune branche.
+
+Le fonds d'outils, lui, vient de la livraison d'origine : 23 fichiers HTML autonomes,
+dont les 7 déjà présents dans `parcours-clarte-tnd/outils-ado/`.
+
+**Deux chantiers ouverts :** le dossier des outils manque dans chaque export (tous les
+liens d'atelier sont morts une fois en ligne), et l'espace spirituel est vide — ses
+deux outils n'existent pas encore. Détail dans `BUGS-CASA-DES-ADOS.md` et
+`SPEC-ESPACE-SPIRITUEL-ADO.md`.
 
 ### 🌙 Al Mizan Al Qalb et Posture Sereine — hors des trois espaces
 

@@ -94,7 +94,7 @@ JavaScript, aucune ressource en échec**.
 
 **Un bloquant :** les 22 outils sont injoignables une fois en ligne. Chaque étape pointe
 vers `uploads/Casa_des_Ados_SIMPLE_A_OUVRIR/ressources/ados/…`, dossier absent du paquet.
-22 liens sur 22 morts. Le catalogue est sain — les 22 fichiers existent tous chez Codex,
+22 liens sur 22 morts. Le catalogue est sain — les 22 fichiers existent tous dans la livraison d'outils d'origine,
 c'est le paquet d'export qui est incomplet.
 
 Cinq défauts en plus : `window.casaOpenTool` jamais définie · le carnet livré sans aucun
@@ -107,9 +107,9 @@ protectrice, aucune trace de l'ancienne marque, aucun lien vers Famille ni vers 
 aucune donnée qui sort du navigateur.
 
 📄 Le relevé : `parcours-clarte-tnd/docs/BUGS-CASA-DES-ADOS.md`
-✉️ Le message prêt à copier-coller : `parcours-clarte-tnd/docs/MESSAGE-A-CODEX.md`
+✉️ Le message prêt à copier-coller : `parcours-clarte-tnd/docs/MESSAGE-A-DESIGN.md`
 
-**Rien n'a été corrigé — l'app est à Codex, on ne pousse pas sur sa branche.**
+**Rien n'a été corrigé — l'app est à Claude Design, qui a repris la Casa des Ados.**
 Nawel a validé le message le 28 au soir ; reste à le lui transmettre.
 
 ### 🧑‍⚕️ Espace Pro — Cowork

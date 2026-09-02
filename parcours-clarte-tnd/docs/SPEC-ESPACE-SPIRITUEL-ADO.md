@@ -1,13 +1,13 @@
 # 🤲 Espace spirituel ado — cahier des charges
 
 _Dicté par Nawel le 2 septembre 2026. À valider par elle avant écriture, puis à
-implémenter par Codex dans la Casa des Ados._
+implémenter par Claude Design dans la Casa des Ados._
 
 ---
 
 ## Pourquoi ce document
 
-L'app de Codex propose déjà un **espace spirituel optionnel** — un écran d'ouverture
+L'app de Claude Design propose déjà un **espace spirituel optionnel** — un écran d'ouverture
 « Tu peux ajouter un espace spirituel à ton parcours… C'est proposé, jamais imposé ».
 Deux ateliers en dépendent, et chacun n'a qu'une seule étape :
 
@@ -31,7 +31,7 @@ Qu'est-ce que je réajuste ?
 compte rendu, le réajustement — correspond classiquement à la **muḥāsaba**
 (le fait de se demander des comptes). La **murāqaba**, c'est le degré d'avant :
 la conscience d'être vu, la veille sur soi, en continu. Les deux vont ensemble et
-Codex a déjà écrit « une muḥāsaba à ta taille » dans l'app. À elle de choisir le
+L'app affiche déjà « une muḥāsaba à ta taille ». À elle de choisir le
 mot qu'elle veut afficher — les deux se défendent, il faut juste qu'un seul serve.
 
 **Structure proposée — dix minutes, une fois par semaine :**
@@ -109,10 +109,10 @@ et un ado qui répond « Oui, ajoute cet espace » tombe sur du néant.
 
 Deux chemins, au choix de Nawel :
 
-1. **La bêta part sans l'espace spirituel** — Codex retire l'écran d'ouverture, on
+1. **La bêta part sans l'espace spirituel** — Claude Design retire l'écran d'ouverture, on
    teste l'usage avec les 21 outils qui marchent, on rouvre l'espace quand les
    deux outils sont écrits et validés.
 2. **On écrit les deux outils d'abord** — la bêta attend, mais elle part complète.
 
 Le reste du blocage est indépendant de cette décision : **le dossier des 23 outils
-n'est toujours pas dans l'export de Codex**, quel que soit le contenu.
+n'est toujours pas dans l'export de l'app**, quel que soit le contenu.

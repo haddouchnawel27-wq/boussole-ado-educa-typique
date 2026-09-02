@@ -1,10 +1,10 @@
 # 🧑 Casa des Ados — relevé de bugs
 
 _Constaté le 28 août 2026 sur le paquet `Mobile_app_concept_3.zip` (dossier `deploy/`),
-recoupé avec `Mobile_app_concept_1/2` et avec la livraison Codex
+recoupé avec `Mobile_app_concept_1/2` et avec la livraison d'outils
 `Casa_des_Ados_SIMPLE_A_OUVRIR`._
 
-**Cette app appartient à Codex.** Ce document est un relevé, pas une correction :
+**Cette app appartient à Claude Design**, qui a repris la Casa des Ados. Ce document est un relevé, pas une correction :
 aucune modification n'a été poussée sur sa branche.
 
 ---
@@ -32,7 +32,7 @@ Ce dossier **n'est pas dans `deploy/`**. Le paquet ne contient que `index.html`,
 Conséquence : l'ado navigue, choisit son atelier, clique « 1 · Boussole Ados » →
 page blanche 404. Sur les 22 liens, 22 sont morts.
 
-Le catalogue lui-même est sain : les 22 fichiers appelés existent tous chez Codex,
+Le catalogue lui-même est sain : les 22 fichiers appelés existent tous dans la livraison d'outils d'origine,
 aucun nom ne manque. C'est uniquement le paquet d'export qui est incomplet.
 
 **Correction :** copier `ressources/ados/` dans `deploy/` et réécrire la base des liens
