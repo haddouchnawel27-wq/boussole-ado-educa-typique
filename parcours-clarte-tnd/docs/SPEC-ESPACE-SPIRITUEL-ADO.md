@@ -102,6 +102,19 @@ vu, à l'usage, quelles histoires les ados rouvrent d'eux-mêmes.
 
 ---
 
+## ✅ Décision de Nawel — 2 septembre 2026
+
+**Une seule Casa des Ados, avec l'espace spirituel en option, proposée au début du
+parcours.** Pas de seconde application séparée.
+
+L'architecture actuelle de l'app est donc la bonne et ne change pas : l'écran
+d'ouverture demande à l'ado s'il veut ajouter cet espace, et il peut revenir sur son
+choix dans « Moi ». L'espace pourra grandir autant qu'il faut — il n'est pas plafonné
+aux deux ateliers d'aujourd'hui.
+
+_Piste de nom évoquée, non tranchée : « Souffle & Lumière », plus accueillant que
+« espace spirituel »._
+
 ## Ce que ça change pour la mise en ligne
 
 Tant que ces deux fichiers n'existent pas, **l'espace spirituel de l'app est vide**

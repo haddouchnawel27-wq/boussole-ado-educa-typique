@@ -119,6 +119,12 @@ Le prompt lui a été remis. Le document commun aux trois agents est dans
 
 ---
 
+## ✅ Tranché le 2 septembre
+
+**Une seule Casa des Ados, espace spirituel en option au début du parcours.** Pas de
+seconde app. Détail et cahier des charges des deux outils :
+`parcours-clarte-tnd/docs/SPEC-ESPACE-SPIRITUEL-ADO.md`.
+
 ## ⏸️ Les décisions qui attendent Nawel
 
 1. **Le modèle de la formation harcèlement** — gratuite dans la Casa, ou réservée aux
