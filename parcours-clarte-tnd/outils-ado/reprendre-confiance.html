@@ -1,0 +1,3712 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reprendre confiance — Kit psychoéducatif pour adolescents</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f7f3fa;
+    color: #2a2a2a;
+    line-height: 1.6;
+  }
+  .wrapper {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 24px 20px 80px;
+  }
+
+  /* ============ COUVERTURE — version ado ============ */
+  .couverture {
+    background: linear-gradient(135deg, #2A4A5C 0%, #3C6478 45%, #6B5BB8 100%);
+    color: #ffffff;
+    padding: 70px 50px 60px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .couverture::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 220px;
+    height: 220px;
+    background: rgba(168, 120, 208, 0.28);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  .couverture::after {
+    content: "";
+    position: absolute;
+    bottom: -80px;
+    left: -50px;
+    width: 280px;
+    height: 280px;
+    background: rgba(240, 240, 120, 0.12);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  .couverture .deco-cercle-3 {
+    position: absolute;
+    top: 35%;
+    right: 8%;
+    width: 90px;
+    height: 90px;
+    background: rgba(180, 240, 240, 0.10);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  .couverture > * { position: relative; z-index: 1; }
+
+  .couverture .marque-top {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .couverture .marque-sub {
+    font-size: 12px;
+    opacity: 0.7;
+    font-style: italic;
+    margin-bottom: 50px;
+  }
+
+  .couverture .titre-bloc {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .couverture h1 {
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 22px;
+    letter-spacing: -1.5px;
+  }
+  .couverture .sous-titre-principal {
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.45;
+    opacity: 0.95;
+    margin-bottom: 26px;
+    max-width: 620px;
+  }
+  .couverture .accroche {
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.55;
+    padding: 18px 24px;
+    background: rgba(255, 255, 255, 0.12);
+    border-left: 4px solid #A878D0;
+    border-radius: 0 6px 6px 0;
+    max-width: 620px;
+    margin-bottom: 24px;
+  }
+  .couverture .phrase-pivot-couv {
+    background: rgba(0, 0, 0, 0.22);
+    border-radius: 8px;
+    padding: 22px 26px;
+    max-width: 620px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .couverture .phrase-pivot-couv .label-pivot {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .couverture .phrase-pivot-couv .texte-pivot {
+    font-size: 17px;
+    line-height: 1.5;
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  .couverture .auteure {
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    padding-top: 24px;
+    margin-top: 28px;
+  }
+  .couverture .auteure-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+  .couverture .auteure-nom {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .couverture .auteure-fonction {
+    font-size: 14px;
+    opacity: 0.9;
+    line-height: 1.5;
+  }
+
+  /* Bouton imprimer */
+  .print-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #3C6478;
+    color: #ffffff;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 100;
+    transition: all 0.2s;
+  }
+  .print-btn:hover {
+    background: #2A4A5C;
+    transform: translateY(-2px);
+  }
+
+  /* ============ PAGES INTRO / CE QUE CE KIT N'EST PAS ============ */
+  .intro-page {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 44px 40px;
+    margin-bottom: 24px;
+    border: 1px solid #d8c8e8;
+    page-break-after: always;
+  }
+  .intro-page .page-label {
+    display: inline-block;
+    background: #A878D0;
+    color: #ffffff;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 5px 12px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .intro-page h2 {
+    font-size: 28px;
+    color: #3C6478;
+    margin-bottom: 6px;
+    line-height: 1.25;
+    font-weight: 700;
+  }
+  .intro-page .sous-titre-page {
+    font-size: 16px;
+    color: #6b6b6b;
+    font-style: italic;
+    margin-bottom: 22px;
+  }
+  .intro-page p {
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 14px;
+    color: #2a2a2a;
+  }
+  .intro-page h3 {
+    font-size: 17px;
+    color: #3C6478;
+    margin: 24px 0 12px;
+    font-weight: 700;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e8dff0;
+  }
+  .intro-page ul, .intro-page ol {
+    margin: 12px 0 18px 22px;
+  }
+  .intro-page li {
+    margin-bottom: 7px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* Encadré alerte (pour "ce que ce kit n'est pas" - sécurité) */
+  .encadre-securite {
+    background: #fdf2f7;
+    border-left: 4px solid #D85090;
+    padding: 18px 22px;
+    border-radius: 0 6px 6px 0;
+    margin: 22px 0;
+  }
+  .encadre-securite .label-securite {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #A8307B;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .encadre-securite p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: #3a3a3a;
+    margin-bottom: 10px;
+  }
+  .encadre-securite ul {
+    margin: 8px 0 8px 22px;
+  }
+  .encadre-securite li {
+    font-size: 14px;
+    color: #3a3a3a;
+    margin-bottom: 5px;
+  }
+
+  /* Sous-section colorée (pour "Ce kit n'est pas" - chaque rubrique) */
+  .pas-bloc {
+    background: #faf6fc;
+    border-left: 4px solid #A878D0;
+    padding: 18px 22px;
+    margin: 14px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .pas-bloc h3 {
+    font-size: 16px;
+    color: #3C6478;
+    margin: 0 0 10px;
+    padding: 0;
+    border: none;
+    font-weight: 700;
+  }
+  .pas-bloc p { margin-bottom: 8px; font-size: 14px; line-height: 1.65; }
+  .pas-bloc p:last-child { margin-bottom: 0; }
+  .pas-bloc ul { margin: 8px 0 6px 22px; }
+  .pas-bloc li { font-size: 14px; margin-bottom: 5px; }
+
+  /* ============ PAGE PRINCIPES DE BASE ============ */
+  .page-thematique {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 44px 40px;
+    margin-bottom: 24px;
+    border: 1px solid #d8c8e8;
+    page-break-after: always;
+  }
+  .page-thematique .page-label {
+    display: inline-block;
+    background: #A878D0;
+    color: #ffffff;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 5px 12px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .page-thematique h2 {
+    font-size: 28px;
+    color: #3C6478;
+    margin-bottom: 6px;
+    line-height: 1.25;
+    font-weight: 700;
+  }
+  .page-thematique .sous-titre-page {
+    font-size: 16px;
+    color: #6b6b6b;
+    font-style: italic;
+    margin-bottom: 22px;
+  }
+  .page-thematique > p {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .principe-bloc {
+    background: #faf6fc;
+    border-left: 4px solid #A878D0;
+    padding: 20px 24px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+    page-break-inside: avoid;
+  }
+  .principe-titre {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .principe-num {
+    background: #A878D0;
+    color: #ffffff;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .principe-titre h3 {
+    font-size: 17px;
+    color: #3C6478;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+  .principe-bloc p {
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 8px;
+    color: #2a2a2a;
+  }
+  .principe-bloc p:last-child { margin-bottom: 0; }
+  .principe-bloc ul { margin: 8px 0 6px 22px; }
+  .principe-bloc li { font-size: 14px; margin-bottom: 5px; line-height: 1.55; }
+  .principe-bloc strong { color: #3C6478; }
+
+  /* ============ STRUCTURE FICHES HARMONISÉES ============ */
+  .outil {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 36px 32px;
+    margin-bottom: 24px;
+    border: 1px solid #d8c8e8;
+    page-break-inside: avoid;
+  }
+  .outil-num {
+    display: inline-block;
+    background: #A878D0;
+    color: #ffffff;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .outil h2 {
+    font-size: 24px;
+    color: #3C6478;
+    margin-bottom: 6px;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+  .fiche-titre-pratique {
+    font-size: 15px;
+    color: #6b6b6b;
+    font-style: italic;
+    margin-bottom: 18px;
+  }
+  .outil p { font-size: 14px; line-height: 1.65; margin-bottom: 10px; color: #2a2a2a; }
+  .outil ul, .outil ol { margin: 10px 0 14px 22px; }
+  .outil li { margin-bottom: 6px; font-size: 14px; line-height: 1.55; }
+  .outil h4 {
+    font-size: 14px;
+    color: #A878D0;
+    margin: 18px 0 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .outil h3 {
+    font-size: 16px;
+    color: #3C6478;
+    margin: 22px 0 10px;
+    font-weight: 700;
+  }
+
+  /* Les 5 sous-sections type des fiches */
+  .ss-objectif {
+    background: #f0f6fa;
+    border-left: 4px solid #3C6478;
+    padding: 14px 20px;
+    border-radius: 0 6px 6px 0;
+    margin: 18px 0 22px;
+  }
+  .ss-objectif .ss-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: #3C6478;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .ss-objectif p {
+    font-size: 14px;
+    margin: 0 0 8px;
+    color: #2a2a2a;
+  }
+  .ss-objectif p:last-child { margin-bottom: 0; }
+  .ss-comprendre, .ss-utiliser { margin: 22px 0; }
+  .ss-comprendre > .ss-label, .ss-utiliser > .ss-label {
+    display: block;
+    font-size: 13px;
+    color: #3C6478;
+    margin-bottom: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e8dff0;
+  }
+  .ss-vigilance {
+    background: #fdf2f7;
+    border-left: 4px solid #D85090;
+    padding: 14px 20px;
+    border-radius: 0 6px 6px 0;
+    margin: 22px 0;
+  }
+  .ss-vigilance .ss-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: #A8307B;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .ss-vigilance p {
+    font-size: 14px;
+    margin: 0 0 8px;
+    color: #3a3a3a;
+    line-height: 1.6;
+  }
+  .ss-vigilance p:last-child { margin-bottom: 0; }
+  .ss-cle {
+    background: #3C6478;
+    color: #ffffff;
+    padding: 20px 24px;
+    border-radius: 6px;
+    margin: 26px 0 0;
+    text-align: center;
+  }
+  .ss-cle .ss-label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    opacity: 0.75;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .ss-cle .phrase {
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  /* ============ BOUCLE DE BLOCAGE (Fiche 1) ============ */
+  .boucle {
+    margin: 20px 0;
+  }
+  .boucle-etape {
+    background: #faf6fc;
+    border-left: 5px solid #A878D0;
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 6px;
+    position: relative;
+  }
+  .boucle-etape-titre {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .boucle-etape-num {
+    background: #A878D0;
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .boucle-etape-titre h4 {
+    font-size: 15px;
+    color: #3C6478;
+    margin: 0;
+    padding: 0;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 700;
+  }
+  .boucle-etape p { font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
+  .boucle-etape ul { margin: 6px 0 4px 22px; }
+  .boucle-etape li { font-size: 13.5px; margin-bottom: 4px; }
+
+  /* Flèche entre étapes */
+  .boucle-fleche {
+    text-align: center;
+    color: #A878D0;
+    font-size: 22px;
+    margin: 0;
+    line-height: 1;
+    height: 18px;
+  }
+  /* Flèche retour boucle */
+  .boucle-retour {
+    background: #3C6478;
+    color: #ffffff;
+    padding: 12px 18px;
+    border-radius: 6px;
+    margin-top: 12px;
+    text-align: center;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 500;
+  }
+  .boucle-retour::before { content: "↻ "; font-style: normal; font-size: 18px; }
+
+  /* Encadré "exemple concret" */
+  .exemple-concret {
+    background: #fff8e8;
+    border: 2px dashed #d4b878;
+    padding: 18px 22px;
+    border-radius: 8px;
+    margin: 22px 0;
+  }
+  .exemple-concret .exemple-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #8a6d3b;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .exemple-concret .exemple-ligne {
+    display: flex;
+    gap: 14px;
+    padding: 6px 0;
+    border-bottom: 1px dashed #e0d4b0;
+    align-items: baseline;
+  }
+  .exemple-concret .exemple-ligne:last-child { border-bottom: none; }
+  .exemple-concret .exemple-cle {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #8a6d3b;
+    font-weight: 700;
+    min-width: 105px;
+  }
+  .exemple-concret .exemple-val {
+    font-size: 14px;
+    color: #3a3a3a;
+    flex: 1;
+    line-height: 1.5;
+  }
+
+  /* Tableau mini-exercice */
+  .table-exercice {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  .table-exercice th {
+    background: #3C6478;
+    color: #ffffff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .table-exercice td {
+    padding: 14px;
+    border-bottom: 1px solid #e8dff0;
+    vertical-align: top;
+    height: 50px;
+  }
+  .table-exercice td:first-child {
+    background: #faf6fc;
+    font-weight: 600;
+    color: #3C6478;
+    width: 38%;
+  }
+
+  /* Variante 5 colonnes pour la grille de pensées */
+  .table-exercice-large {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+  .table-exercice-large th {
+    background: #3C6478;
+    color: #ffffff;
+    padding: 9px 10px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+  }
+  .table-exercice-large td {
+    padding: 10px;
+    border-bottom: 1px solid #e8dff0;
+    vertical-align: top;
+    height: 50px;
+    font-size: 13px;
+  }
+  .table-exercice-large tr.exemple-rempli td {
+    background: #fff8e8;
+    color: #5a4a20;
+    font-style: italic;
+  }
+  .table-exercice-large tr.exemple-rempli td:first-child::before {
+    content: "Exemple : ";
+    font-style: normal;
+    font-weight: 600;
+    color: #8a6d3b;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* Pièges de pensée — cartes numérotées compactes */
+  .piege-bloc {
+    background: #fdf2f7;
+    border-left: 4px solid #D85090;
+    padding: 14px 18px;
+    margin: 10px 0;
+    border-radius: 0 6px 6px 0;
+    page-break-inside: avoid;
+  }
+  .piege-titre {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .piege-num {
+    background: #D85090;
+    color: #ffffff;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  .piege-titre h4 {
+    font-size: 15px;
+    color: #A8307B;
+    margin: 0;
+    padding: 0;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 700;
+  }
+  .piege-bloc .piege-exemple {
+    font-size: 13px;
+    font-style: italic;
+    color: #6b3a4b;
+    margin: 4px 0 6px;
+    padding: 6px 12px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 4px;
+  }
+  .piege-bloc .piege-explication {
+    font-size: 13px;
+    color: #3a3a3a;
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  /* Bloc Fait vs Interprétation */
+  .fait-vs-interpretation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .fait-bloc, .interpretation-bloc {
+    padding: 16px 18px;
+    border-radius: 8px;
+  }
+  .fait-bloc {
+    background: #f0f6fa;
+    border: 2px solid #3C6478;
+  }
+  .interpretation-bloc {
+    background: #fdf2f7;
+    border: 2px solid #D85090;
+  }
+  .fait-bloc .fvi-label, .interpretation-bloc .fvi-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .fait-bloc .fvi-label { color: #3C6478; }
+  .interpretation-bloc .fvi-label { color: #A8307B; }
+  .fait-bloc .fvi-exemple, .interpretation-bloc .fvi-exemple {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .fait-bloc .fvi-exemple { color: #2A4A5C; }
+  .interpretation-bloc .fvi-exemple { color: #8B3060; }
+  .fait-bloc .fvi-note, .interpretation-bloc .fvi-note {
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+    color: #3a3a3a;
+  }
+
+  /* Question pivot encadrée */
+  .question-pivot {
+    background: #faf6fc;
+    border-left: 4px solid #A878D0;
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    margin: 18px 0;
+  }
+  .question-pivot .qp-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #A878D0;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .question-pivot p {
+    font-size: 15px;
+    font-style: italic;
+    color: #3C6478;
+    margin: 0;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* Phrase utile (style "guillemets" léger) */
+  .phrase-utile-ado {
+    background: #f0e8f8;
+    border-left: 3px solid #A878D0;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-style: italic;
+    font-size: 14px;
+    border-radius: 0 4px 4px 0;
+    color: #3a3a3a;
+    line-height: 1.6;
+  }
+  .phrase-utile-ado::before {
+    content: "💬 ";
+    font-style: normal;
+    margin-right: 4px;
+  }
+
+  /* Tableau transformation pensée-écrase / pensée-juste */
+  .table-transform {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13.5px;
+  }
+  .table-transform th {
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    color: #ffffff;
+  }
+  .table-transform th:first-child { background: #C44878; }
+  .table-transform th:last-child { background: #5E9080; }
+  .table-transform td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e8dff0;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .table-transform td:first-child {
+    background: #fdf2f7;
+    color: #8B3060;
+    font-style: italic;
+    width: 45%;
+  }
+  .table-transform td:last-child {
+    background: #f0f6fa;
+    color: #2A4A5C;
+    font-weight: 500;
+  }
+
+  /* Zones temporelles (avant / pendant / après) */
+  .zone-temporelle {
+    background: #f0f6fa;
+    border-left: 4px solid #3C6478;
+    padding: 18px 22px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .zone-temporelle .zone-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: #3C6478;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .zone-temporelle h3 {
+    font-size: 18px;
+    color: #3C6478;
+    margin: 0 0 14px;
+    padding: 0;
+    border: none;
+    font-weight: 700;
+  }
+  .zone-temporelle h4 {
+    font-size: 14px;
+    color: #A878D0;
+    margin: 14px 0 6px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .zone-temporelle p { font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
+  .zone-temporelle ul { margin: 6px 0 8px 22px; }
+  .zone-temporelle li { font-size: 14px; margin-bottom: 4px; }
+
+  /* Étape numérotée (pour méthodes en X étapes) */
+  .etape-num-bloc {
+    background: #faf6fc;
+    border-left: 4px solid #A878D0;
+    padding: 16px 20px;
+    margin: 12px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .etape-num-titre {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .etape-num-circle {
+    background: #A878D0;
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .etape-num-titre h4 {
+    font-size: 16px;
+    color: #3C6478;
+    margin: 0;
+    padding: 0;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 700;
+  }
+  .etape-num-bloc p { font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
+  .etape-num-bloc p:last-child { margin-bottom: 0; }
+  .etape-num-bloc ul { margin: 6px 0 6px 22px; }
+  .etape-num-bloc li { font-size: 14px; margin-bottom: 4px; }
+
+  /* ============ PARCOURS 7 JOURS ============ */
+  .parcours-jour {
+    background: #ffffff;
+    border: 2px solid #d8c8e8;
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin: 14px 0;
+    page-break-inside: avoid;
+  }
+  .parcours-jour-titre {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0e8f8;
+  }
+  .parcours-jour-num {
+    background: linear-gradient(135deg, #3C6478, #A878D0);
+    color: #ffffff;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 44px;
+    font-weight: 800;
+    font-size: 17px;
+  }
+  .parcours-jour-titre h3 {
+    font-size: 17px;
+    color: #3C6478;
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-weight: 700;
+    flex: 1;
+  }
+  .parcours-jour-titre .jour-label {
+    font-size: 11px;
+    color: #A878D0;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .parcours-rubrique {
+    margin: 10px 0;
+  }
+  .parcours-rubrique .pr-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #A878D0;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .parcours-rubrique p {
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.5;
+    color: #2a2a2a;
+  }
+  .parcours-rubrique .pr-question {
+    font-style: italic;
+    color: #3C6478;
+    font-weight: 500;
+  }
+  .parcours-bonus {
+    background: #f0f6fa;
+    border-left: 4px solid #3C6478;
+    padding: 14px 18px;
+    margin: 14px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .parcours-bonus h4 {
+    font-size: 14px;
+    color: #3C6478;
+    margin: 0 0 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .parcours-bonus p { font-size: 13.5px; line-height: 1.6; margin: 0; color: #2a2a2a; }
+
+  /* ============ CONCLUSION ============ */
+  .conclusion {
+    background: linear-gradient(135deg, #3C6478 0%, #4E5A8E 100%);
+    color: #ffffff;
+    padding: 44px 38px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    page-break-after: always;
+  }
+  .conclusion .page-label {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    color: #ffffff;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 5px 12px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+  .conclusion h2 {
+    font-size: 28px;
+    margin-bottom: 6px;
+    line-height: 1.25;
+    font-weight: 700;
+  }
+  .conclusion .sous-titre-conclusion {
+    font-size: 16px;
+    font-style: italic;
+    opacity: 0.85;
+    margin-bottom: 24px;
+  }
+  .conclusion p {
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 14px;
+    opacity: 0.96;
+  }
+  .conclusion ul {
+    list-style: none;
+    margin: 12px 0 14px 0;
+    padding: 0;
+  }
+  .conclusion ul li {
+    padding: 5px 0 5px 22px;
+    position: relative;
+    font-size: 14px;
+    opacity: 0.92;
+  }
+  .conclusion ul li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: #A878D0;
+    font-weight: 700;
+  }
+  .conclusion strong { color: #ffffff; font-weight: 700; }
+  .conclusion .phrase-finale {
+    background: rgba(0,0,0,0.22);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-top: 28px;
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .conclusion .phrase-finale .pf-label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    opacity: 0.65;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .conclusion .phrase-finale .pf-texte {
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* ============ PAGE PARENTS (style distinctif) ============ */
+  .parents-page {
+    background: #f0f6fa;
+    border-radius: 8px;
+    padding: 42px 38px;
+    margin-bottom: 24px;
+    border: 2px solid #3C6478;
+    page-break-after: always;
+  }
+  .parents-page .page-label {
+    display: inline-block;
+    background: #3C6478;
+    color: #ffffff;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 5px 12px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .parents-page h2 {
+    font-size: 26px;
+    color: #2A4A5C;
+    margin-bottom: 6px;
+    line-height: 1.25;
+    font-weight: 700;
+  }
+  .parents-page .sous-titre-page {
+    font-size: 16px;
+    color: #6b6b6b;
+    font-style: italic;
+    margin-bottom: 22px;
+  }
+  .parents-page > p {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+    color: #2a2a2a;
+  }
+  .parents-page > p strong { color: #2A4A5C; }
+  .parents-bloc {
+    background: #ffffff;
+    border-left: 4px solid #3C6478;
+    padding: 18px 22px;
+    margin: 14px 0;
+    border-radius: 0 6px 6px 0;
+    page-break-inside: avoid;
+  }
+  .parents-bloc-titre {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .parents-bloc-num {
+    background: #3C6478;
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .parents-bloc-titre h3 {
+    font-size: 16px;
+    color: #2A4A5C;
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-weight: 700;
+  }
+  .parents-bloc p { font-size: 14px; line-height: 1.65; margin-bottom: 8px; color: #2a2a2a; }
+  .parents-bloc p:last-child { margin-bottom: 0; }
+  .parents-bloc ul { margin: 8px 0 6px 22px; }
+  .parents-bloc li { font-size: 14px; margin-bottom: 5px; }
+  .parents-bloc strong { color: #2A4A5C; }
+  .parents-bloc .phrase-parent-utile {
+    background: #f0f6fa;
+    border-left: 3px solid #3C6478;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-style: italic;
+    font-size: 14px;
+    border-radius: 0 4px 4px 0;
+    color: #2A4A5C;
+  }
+  .parents-bloc .phrase-parent-utile::before {
+    content: "👤 ";
+    font-style: normal;
+    margin-right: 4px;
+  }
+  .parents-bloc .a-eviter {
+    background: #fdf2f7;
+    border-left: 3px solid #D85090;
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 0 4px 4px 0;
+    font-size: 13px;
+    color: #8B3060;
+    font-style: italic;
+  }
+  .parents-bloc .a-eviter::before { content: "❌ "; font-style: normal; }
+
+  /* ============ AVERTISSEMENT PROFESSIONNEL ============ */
+  .avertissement {
+    background: #faf6fc;
+    border: 2px solid #d8c8e8;
+    border-radius: 8px;
+    padding: 36px 34px;
+    margin: 24px 0;
+    page-break-after: always;
+  }
+  .avertissement .page-label {
+    display: inline-block;
+    background: #3C6478;
+    color: #ffffff;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 5px 12px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .avertissement h2 {
+    font-size: 24px;
+    color: #3C6478;
+    margin-bottom: 6px;
+    line-height: 1.25;
+    font-weight: 700;
+  }
+  .avertissement .sous-titre-page {
+    font-size: 15px;
+    color: #6b6b6b;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  .avertissement p {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+    color: #3a3a3a;
+  }
+  .avertissement h3 {
+    font-size: 16px;
+    color: #3C6478;
+    margin: 20px 0 10px;
+    font-weight: 700;
+  }
+  .avertissement ul { margin: 8px 0 12px 22px; }
+  .avertissement li { font-size: 14px; margin-bottom: 5px; line-height: 1.5; }
+  .avertissement .liste-pro {
+    background: #ffffff;
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 14px 0;
+    border-left: 3px solid #C44878;
+  }
+  .avertissement .liste-pro h4 {
+    font-weight: 600;
+    color: #3C6478;
+    margin: 0 0 10px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .avertissement .liste-pro ul { margin: 0 0 0 22px; padding: 0; }
+  .avertissement .liste-pro li { font-size: 14px; margin-bottom: 5px; }
+  .avertissement .encadre-securite {
+    background: #fdf2f7;
+    border-left: 4px solid #D85090;
+    padding: 18px 22px;
+    border-radius: 0 6px 6px 0;
+    margin: 20px 0;
+  }
+  .avertissement .encadre-securite .label-securite {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #A8307B;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  /* ============ BONUS IMPRIMABLE 3 PAGES ============ */
+  .bonus-intro {
+    background: linear-gradient(135deg, #A878D0 0%, #6B5BB8 100%);
+    color: #ffffff;
+    padding: 32px 30px;
+    border-radius: 8px;
+    margin: 30px 0 24px;
+    text-align: center;
+    page-break-after: always;
+  }
+  .bonus-intro .badge-bonus {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .bonus-intro h2 {
+    font-size: 32px;
+    margin-bottom: 8px;
+    line-height: 1.15;
+    font-weight: 800;
+  }
+  .bonus-intro .bonus-sous-titre {
+    font-size: 16px;
+    opacity: 0.9;
+    font-style: italic;
+    margin-bottom: 16px;
+  }
+  .bonus-intro p {
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: 0.92;
+    max-width: 550px;
+    margin: 0 auto;
+  }
+
+  .bonus-page {
+    background: #ffffff;
+    border: 2px solid #A878D0;
+    border-radius: 8px;
+    padding: 38px 36px;
+    margin: 20px 0;
+    page-break-after: always;
+    page-break-inside: avoid;
+  }
+  .bonus-page-num {
+    display: inline-block;
+    background: #A878D0;
+    color: #ffffff;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+  .bonus-page h2 {
+    font-size: 26px;
+    color: #3C6478;
+    margin-bottom: 6px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  .bonus-page .bonus-page-sous {
+    font-size: 15px;
+    color: #6b6b6b;
+    font-style: italic;
+    margin-bottom: 22px;
+  }
+  .bonus-page h3 {
+    font-size: 16px;
+    color: #A878D0;
+    margin: 22px 0 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .bonus-page p { font-size: 14px; line-height: 1.6; margin-bottom: 10px; }
+  .bonus-page ul.checkbox-list li { font-size: 14px; padding-top: 8px; padding-bottom: 8px; }
+  .bonus-zone-ecriture {
+    background: #faf6fc;
+    border: 2px dashed #C8A0D8;
+    border-radius: 6px;
+    padding: 16px;
+    margin: 12px 0;
+    min-height: 60px;
+    color: #6b6b6b;
+    font-style: italic;
+    font-size: 13px;
+  }
+  .bonus-zone-ecriture-grande {
+    min-height: 100px;
+  }
+  .bonus-phrase-utile {
+    background: #3C6478;
+    color: #ffffff;
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 20px 0;
+    text-align: center;
+  }
+  .bonus-phrase-utile .bpu-label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    opacity: 0.75;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .bonus-phrase-utile .bpu-texte {
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  /* Impression */
+  @media print {
+    body { background: white; }
+    .wrapper { max-width: 100%; padding: 0; }
+    .couverture, .intro-page, .page-thematique, .outil, .conclusion, .parents-page, .avertissement, .bonus-intro, .bonus-page {
+      page-break-after: always;
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    .couverture { min-height: auto; }
+    .print-btn { display: none !important; }
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .wrapper { padding: 12px 10px 60px; }
+    .couverture {
+      padding: 44px 24px;
+      min-height: auto;
+    }
+    .couverture h1 { font-size: 42px; }
+    .couverture .sous-titre-principal { font-size: 16px; }
+    .couverture .accroche { font-size: 14px; padding: 14px 18px; }
+    .couverture .phrase-pivot-couv .texte-pivot { font-size: 15px; }
+    .couverture .marque-sub { margin-bottom: 30px; }
+    .intro-page, .page-thematique, .outil { padding: 24px 18px; }
+    .intro-page h2, .page-thematique h2, .outil h2 { font-size: 20px; }
+    .table-exercice th, .table-exercice td { padding: 8px; font-size: 13px; }
+    .table-exercice-large { font-size: 12px; }
+    .table-exercice-large th, .table-exercice-large td { padding: 7px 8px; font-size: 12px; }
+    .exemple-concret .exemple-ligne { flex-direction: column; gap: 2px; }
+    .exemple-concret .exemple-cle { min-width: auto; }
+    .fait-vs-interpretation { grid-template-columns: 1fr; gap: 10px; }
+  }
+
+  /* Liste à cocher */
+  .checkbox-list {
+    list-style: none !important;
+    margin-left: 0 !important;
+  }
+  .checkbox-list li {
+    padding: 6px 0 6px 28px;
+    position: relative;
+    font-size: 14px;
+  }
+  .checkbox-list li::before {
+    content: "☐";
+    position: absolute;
+    left: 0;
+    font-size: 18px;
+    color: #A878D0;
+  }
+</style>
+</head>
+<body>
+<a href="../../ados.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.96);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#A878D0;font-family:system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,.12);border:1px solid rgba(168,120,208,.25)">← Ados</a>
+<div class="wrapper">
+
+  <!-- PAGE 1 — COUVERTURE -->
+  <section class="couverture" id="haut">
+    <div class="deco-cercle-3"></div>
+
+    <div>
+      <div class="marque-top">Educa Typique</div>
+      <div class="marque-sub">Kit psychoéducatif · Adolescents 12-17 ans</div>
+    </div>
+
+    <div class="titre-bloc">
+      <h1>Reprendre<br>confiance</h1>
+      <p class="sous-titre-principal">
+        Kit pour adolescents anxieux, en difficulté scolaire et avec une faible estime de soi.
+      </p>
+      <p class="accroche">
+        Comprendre ses blocages, réduire l'évitement et reconstruire une progression réaliste.
+      </p>
+      <div class="phrase-pivot-couv">
+        <span class="label-pivot">L'idée centrale</span>
+        <div class="texte-pivot">
+          Tu n'as pas besoin d'avoir confiance pour commencer. Tu as besoin d'une première étape assez petite pour être possible.
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="auteure">
+        <div class="auteure-label">Conçu par</div>
+        <div class="auteure-nom">Nawel Haddouch</div>
+        <div class="auteure-fonction">
+          Conseillère spécialisée TND<br>
+          Neuro-pédagogie · Accompagnement adolescents et familles
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 2 — INTRODUCTION -->
+  <section class="intro-page" id="introduction">
+    <span class="page-label">Introduction</span>
+    <h2>Ce kit est pour toi si tu te sens souvent bloqué</h2>
+
+    <p>Tu peux être anxieux, en difficulté scolaire, avoir une faible estime de toi, et pourtant ne pas être paresseux, nul ou incapable.</p>
+
+    <p>Parfois, ce qui ressemble à un manque de motivation cache autre chose :</p>
+    <ul>
+      <li>La peur d'échouer.</li>
+      <li>La peur de décevoir.</li>
+      <li>La honte de ne pas comprendre.</li>
+      <li>Le stress avant les contrôles.</li>
+      <li>L'impression d'être en retard.</li>
+      <li>La comparaison avec les autres.</li>
+      <li>La sensation que les efforts ne servent à rien.</li>
+      <li>La fatigue mentale.</li>
+      <li>L'envie d'éviter pour ne plus ressentir tout ça.</li>
+    </ul>
+
+    <p>Quand tu repousses un devoir, quand tu évites de réviser, quand tu dis « ça sert à rien », il y a peut-être une partie de toi qui essaie simplement d'échapper à une sensation trop lourde.</p>
+
+    <p>Le problème, c'est que <strong>l'évitement soulage sur le moment, mais il augmente souvent le stress après</strong>. Plus tu évites, plus la tâche devient énorme dans ta tête. Plus elle devient énorme, plus tu te sens incapable. Et plus tu te sens incapable, plus ton estime de toi descend.</p>
+
+    <p>Ce kit est là pour t'aider à comprendre cette boucle et à en sortir progressivement.</p>
+
+    <h3>Ce que ce kit ne va pas faire</h3>
+    <ul>
+      <li>Te demander de devenir parfait.</li>
+      <li>Te dire de « croire en toi » comme si c'était un bouton magique.</li>
+      <li>Faire semblant que tout est facile.</li>
+    </ul>
+
+    <h3>Ce qu'il va faire</h3>
+    <ul>
+      <li>T'aider à comprendre ce qui se passe quand tu bloques.</li>
+      <li>Repérer les pensées qui t'enfoncent.</li>
+      <li>Transformer ces pensées sans te mentir.</li>
+      <li>Commencer par des petites étapes.</li>
+      <li>Mieux gérer l'anxiété scolaire.</li>
+      <li>Reconstruire ton estime de toi avec des preuves concrètes.</li>
+      <li>Demander de l'aide sans te sentir honteux.</li>
+    </ul>
+
+    <p style="margin-top:18px;font-style:italic;color:#3C6478;font-size:15px;">Tu n'as pas besoin de tout régler aujourd'hui. Tu as besoin d'une première action assez petite pour être possible.</p>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Tu n'es pas ton blocage. Tu es une personne en train d'apprendre à avancer autrement.</div>
+    </div>
+  </section>
+
+  <!-- PAGE 3 — CE QUE CE KIT N'EST PAS -->
+  <section class="intro-page" id="ce-que-ce-kit-nest-pas">
+    <span class="page-label">Cadre</span>
+    <h2>Ce que ce kit n'est pas</h2>
+    <p class="sous-titre-page">Poser un cadre clair dès le départ.</p>
+
+    <p>Ce kit est un <strong>support psychoéducatif</strong>. Il peut t'aider à mieux comprendre ce qui se passe quand tu bloques, quand tu évites, quand tu paniques ou quand tu te dévalorises.</p>
+    <p>Mais il ne remplace pas un accompagnement personnalisé si ta souffrance est forte ou si tes difficultés prennent beaucoup de place dans ta vie.</p>
+
+    <div class="pas-bloc">
+      <h3>Ce kit n'est pas une méthode miracle</h3>
+      <p>Il ne va pas faire disparaître ton anxiété en trois jours.</p>
+      <p>Il ne va pas transformer toutes tes notes immédiatement.</p>
+      <p>Il ne va pas régler d'un coup les difficultés scolaires accumulées depuis des mois ou des années.</p>
+      <p><strong>Son objectif est plus réaliste :</strong> t'aider à reprendre une petite marge d'action, étape par étape.</p>
+    </div>
+
+    <div class="pas-bloc">
+      <h3>Ce kit n'est pas un diagnostic</h3>
+      <p>Ce support ne permet pas de dire si tu as un trouble anxieux, un trouble de l'attention, un trouble DYS, une dépression ou autre chose.</p>
+      <p>Il peut t'aider à observer ce que tu vis, mais <strong>seul un professionnel compétent peut poser un diagnostic</strong> ou proposer une évaluation adaptée.</p>
+    </div>
+
+    <div class="pas-bloc">
+      <h3>Ce kit n'est pas fait pour te culpabiliser</h3>
+      <p>Si tu procrastines, si tu évites, si tu bloques ou si tu as perdu confiance, ce n'est pas forcément parce que tu es paresseux.</p>
+      <p>Mais attention : comprendre pourquoi tu bloques ne veut pas dire rester coincé dedans.</p>
+      <p>Ce kit ne sert pas à te juger. Il sert à t'aider à reprendre du pouvoir sur de petites actions concrètes.</p>
+    </div>
+
+    <div class="pas-bloc">
+      <h3>Ce kit n'est pas là pour te demander d'être parfait</h3>
+      <p>Tu n'as pas besoin de tout appliquer.</p>
+      <p>Tu n'as pas besoin de réussir toutes les fiches.</p>
+      <p>Tu n'as pas besoin d'aller mieux immédiatement.</p>
+      <p>Tu dois simplement <strong>commencer par une petite action honnête, réaliste et possible</strong>.</p>
+    </div>
+
+    <div class="encadre-securite">
+      <span class="label-securite">⚠ Quand parler à un adulte ou à un professionnel</span>
+      <p>Il est important de parler rapidement à un adulte de confiance ou à un professionnel si :</p>
+      <ul>
+        <li>Tu as des idées noires.</li>
+        <li>Tu te fais du mal ou tu as envie de te faire du mal.</li>
+        <li>Tu fais des crises d'angoisse fréquentes.</li>
+        <li>Tu n'arrives presque plus à aller en cours.</li>
+        <li>Tu dors très mal.</li>
+        <li>Tu pleures très souvent.</li>
+        <li>Tu te sens vide, épuisé ou désespéré.</li>
+        <li>Tu as l'impression de ne plus tenir.</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>Dans ces situations, il ne faut pas rester seul.</strong> Ce n'est pas une question de volonté. C'est une question de sécurité et d'accompagnement.</p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Ce kit ne promet pas de tout réparer. Il t'aide à comprendre, agir un peu mieux, et demander de l'aide quand c'est nécessaire.</div>
+    </div>
+  </section>
+
+  <!-- PAGE 4 — LES PRINCIPES DE BASE -->
+  <section class="page-thematique" id="principes">
+    <span class="page-label">Cadre théorique</span>
+    <h2>Les principes de base</h2>
+    <p class="sous-titre-page">Avancer sans se mentir.</p>
+
+    <div class="ss-objectif">
+      <span class="ss-label">Objectif</span>
+      <p>Comprendre les règles qui vont guider tout le kit : moins de culpabilité, plus de lucidité, et surtout des actions assez petites pour être possibles.</p>
+    </div>
+
+    <div class="principe-bloc">
+      <div class="principe-titre">
+        <span class="principe-num">1</span>
+        <h3>Une difficulté scolaire ne définit pas ta valeur</h3>
+      </div>
+      <p>Avoir une mauvaise note, ne pas comprendre une leçon ou être en retard ne veut pas dire que tu es nul.</p>
+      <p>Ça veut dire qu'il y a une compétence à reprendre, une méthode à ajuster ou une aide à demander.</p>
+      <p>Une note mesure une performance à un moment donné. Elle ne mesure pas toute ta personne. <strong>Tu peux être en difficulté sans être une personne « ratée ».</strong></p>
+    </div>
+
+    <div class="principe-bloc">
+      <div class="principe-titre">
+        <span class="principe-num">2</span>
+        <h3>Éviter soulage maintenant, mais aggrave souvent après</h3>
+      </div>
+      <p>Quand tu évites un devoir, une révision ou une demande d'aide, tu peux te sentir soulagé sur le moment. Mais ensuite, le stress revient souvent plus fort :</p>
+      <ul>
+        <li>La tâche grossit dans ta tête.</li>
+        <li>Tu prends du retard.</li>
+        <li>Tu culpabilises.</li>
+        <li>Tu te dis encore plus que tu es incapable.</li>
+      </ul>
+      <p>L'évitement est compréhensible. Mais s'il devient automatique, il t'enferme. <strong>Le soulagement immédiat peut devenir un piège à long terme.</strong></p>
+    </div>
+
+    <div class="principe-bloc">
+      <div class="principe-titre">
+        <span class="principe-num">3</span>
+        <h3>La confiance revient par petites preuves</h3>
+      </div>
+      <p>Tu n'as pas besoin d'attendre d'avoir confiance pour agir. C'est souvent l'inverse : tu agis un peu, tu observes que tu en es capable, et ton cerveau commence à récupérer des preuves.</p>
+      <p>Exemples de petites preuves :</p>
+      <ul>
+        <li>J'ai ouvert mon cahier.</li>
+        <li>J'ai travaillé 10 minutes.</li>
+        <li>J'ai demandé une explication.</li>
+        <li>J'ai corrigé une erreur.</li>
+        <li>J'ai préparé mon sac.</li>
+        <li>J'ai commencé même sans motivation.</li>
+      </ul>
+      <p><strong>La confiance ne tombe pas du ciel. Elle se reconstruit avec des preuves répétées.</strong></p>
+    </div>
+
+    <div class="principe-bloc">
+      <div class="principe-titre">
+        <span class="principe-num">4</span>
+        <h3>Une tâche floue devient une montagne</h3>
+      </div>
+      <p>Quand tu te dis : « Je dois réviser tout le contrôle », ton cerveau peut paniquer.</p>
+      <p>Quand tu te dis : « Je relis une fiche pendant 10 minutes », la tâche devient plus attaquable.</p>
+      <p>Ton cerveau a besoin de concret :</p>
+      <ul>
+        <li>Quelle matière&nbsp;?</li>
+        <li>Quelle page&nbsp;?</li>
+        <li>Combien de temps&nbsp;?</li>
+        <li>Quelle première étape&nbsp;?</li>
+        <li>Comment je sais que c'est terminé&nbsp;?</li>
+      </ul>
+      <p><strong>Plus la tâche est claire, moins elle fait peur.</strong></p>
+    </div>
+
+    <div class="principe-bloc">
+      <div class="principe-titre">
+        <span class="principe-num">5</span>
+        <h3>L'erreur est une information, pas une condamnation</h3>
+      </div>
+      <p>Une erreur ne prouve pas que tu es nul. Elle montre :</p>
+      <ul>
+        <li>Ce que tu n'as pas encore compris.</li>
+        <li>Ce que tu dois reprendre.</li>
+        <li>Quelle étape manque.</li>
+        <li>Quelle aide serait utile.</li>
+      </ul>
+      <p>Si tu vois l'erreur comme une preuve de nullité, tu vas l'éviter. Si tu la vois comme une information, tu peux t'en servir.</p>
+      <p><strong>Une erreur bien utilisée devient une indication de travail.</strong></p>
+    </div>
+
+    <div class="principe-bloc">
+      <div class="principe-titre">
+        <span class="principe-num">6</span>
+        <h3>La motivation n'est pas toujours le point de départ</h3>
+      </div>
+      <p>Attendre d'être motivé pour commencer est souvent une mauvaise stratégie. Quand tu es anxieux, découragé ou en perte de confiance, la motivation peut arriver très tard… ou ne pas venir du tout.</p>
+      <p>Tu peux commencer petit, même sans motivation. Exemples :</p>
+      <ul>
+        <li>5 minutes.</li>
+        <li>Une seule question.</li>
+        <li>Une seule page.</li>
+        <li>Une seule définition.</li>
+        <li>Un seul message envoyé.</li>
+      </ul>
+      <p><strong>Le démarrage crée souvent plus de motivation que l'inverse.</strong></p>
+    </div>
+
+    <div class="principe-bloc">
+      <div class="principe-titre">
+        <span class="principe-num">7</span>
+        <h3>Demander de l'aide est une stratégie, pas une honte</h3>
+      </div>
+      <p>Rester bloqué seul ne prouve pas que tu es fort. Parfois, ça prouve juste que tu t'épuises en silence.</p>
+      <p>Demander de l'aide, ce n'est pas tricher. C'est utiliser une ressource. Tu peux demander de l'aide pour :</p>
+      <ul>
+        <li>Comprendre une consigne.</li>
+        <li>Organiser ton travail.</li>
+        <li>Reprendre une notion.</li>
+        <li>Gérer ton stress.</li>
+        <li>Parler de ce que tu ressens.</li>
+        <li>Trouver une méthode plus adaptée.</li>
+      </ul>
+      <p><strong>Demander de l'aide, ce n'est pas être faible. C'est arrêter de faire semblant que tout va bien quand ce n'est pas vrai.</strong></p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Tu n'as pas besoin de tout réussir pour avancer. Tu as besoin d'une prochaine étape claire, réaliste et possible.</div>
+    </div>
+  </section>
+
+  <!-- PAGE — PARCOURS CONSEILLÉ SUR 7 JOURS -->
+  <section class="page-thematique" id="parcours-7j">
+    <span class="page-label">Comment utiliser le kit</span>
+    <h2>Parcours conseillé sur 7 jours</h2>
+    <p class="sous-titre-page">Utiliser le kit sans se noyer.</p>
+
+    <div class="ss-objectif">
+      <span class="ss-label">Objectif</span>
+      <p>Utiliser le kit progressivement, sans vouloir tout régler d&rsquo;un coup.</p>
+      <p>Tu n&rsquo;as pas besoin de lire tout le kit en une seule fois. Tu n&rsquo;as pas besoin de remplir toutes les fiches parfaitement. Tu as besoin d&rsquo;<strong>avancer avec une petite étape par jour</strong>.</p>
+    </div>
+
+    <div class="parcours-jour">
+      <div class="parcours-jour-titre">
+        <span class="parcours-jour-num">1</span>
+        <div>
+          <span class="jour-label">Jour 1</span>
+          <h3>Comprendre ce qui se passe</h3>
+        </div>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">À lire</span>
+        <p>Introduction · Ce que ce kit n&rsquo;est pas · Les principes de base</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Question du jour</span>
+        <p class="pr-question">Qu&rsquo;est-ce qui me parle le plus dans ce kit ?</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Petite action</span>
+        <p>Je note une phrase qui décrit bien ce que je vis.</p>
+      </div>
+    </div>
+
+    <div class="parcours-jour">
+      <div class="parcours-jour-titre">
+        <span class="parcours-jour-num">2</span>
+        <div>
+          <span class="jour-label">Jour 2</span>
+          <h3>Repérer ma boucle de blocage</h3>
+        </div>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">À utiliser</span>
+        <p>Fiche 1 — Comprendre ma boucle de blocage</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Question du jour</span>
+        <p class="pr-question">Dans quelle situation est-ce que je bloque le plus souvent ?</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Petite action</span>
+        <p>Je complète une seule boucle : situation, pensée, émotion, comportement, conséquence.</p>
+      </div>
+    </div>
+
+    <div class="parcours-jour">
+      <div class="parcours-jour-titre">
+        <span class="parcours-jour-num">3</span>
+        <div>
+          <span class="jour-label">Jour 3</span>
+          <h3>Identifier mes pensées automatiques</h3>
+        </div>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">À utiliser</span>
+        <p>Fiche 2 — Mes pensées qui m&rsquo;enfoncent</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Question du jour</span>
+        <p class="pr-question">Quelle phrase revient souvent dans ma tête quand je suis en difficulté ?</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Petite action</span>
+        <p>Je coche les pensées que je reconnais chez moi.</p>
+      </div>
+    </div>
+
+    <div class="parcours-jour">
+      <div class="parcours-jour-titre">
+        <span class="parcours-jour-num">4</span>
+        <div>
+          <span class="jour-label">Jour 4</span>
+          <h3>Transformer une pensée</h3>
+        </div>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">À utiliser</span>
+        <p>Fiche 3 — Transformer une pensée sans se mentir</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Question du jour</span>
+        <p class="pr-question">Quelle pensée me bloque le plus ?</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Petite action</span>
+        <p>Je transforme une pensée dure en pensée plus juste.<br><em>Exemple :</em> « Je suis nul » → « Je suis en difficulté sur ce point, mais je peux reprendre une petite étape. »</p>
+      </div>
+    </div>
+
+    <div class="parcours-jour">
+      <div class="parcours-jour-titre">
+        <span class="parcours-jour-num">5</span>
+        <div>
+          <span class="jour-label">Jour 5</span>
+          <h3>Commencer une tâche minuscule</h3>
+        </div>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">À utiliser</span>
+        <p>Fiche 4 — Mon plan anti-procrastination</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Question du jour</span>
+        <p class="pr-question">Quelle tâche est-ce que j&rsquo;évite en ce moment ?</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Petite action</span>
+        <p>Je choisis une micro-tâche et je travaille 10 minutes. <strong>Pas 2 heures. Pas toute la matière. Pas une transformation héroïque.</strong> 10 minutes propres. C&rsquo;est déjà une reprise de contrôle.</p>
+      </div>
+    </div>
+
+    <div class="parcours-jour">
+      <div class="parcours-jour-titre">
+        <span class="parcours-jour-num">6</span>
+        <div>
+          <span class="jour-label">Jour 6</span>
+          <h3>Reprendre une méthode de travail claire</h3>
+        </div>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">À utiliser</span>
+        <p>Fiche 5 — Méthode de travail simple</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Question du jour</span>
+        <p class="pr-question">Est-ce que ma tâche est claire ou floue ?</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Petite action</span>
+        <p>Je remplis une ligne du tableau : matière, tâche, première étape, durée.</p>
+      </div>
+    </div>
+
+    <div class="parcours-jour">
+      <div class="parcours-jour-titre">
+        <span class="parcours-jour-num">7</span>
+        <div>
+          <span class="jour-label">Jour 7</span>
+          <h3>Observer mes preuves de progression</h3>
+        </div>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">À utiliser</span>
+        <p>Fiche 7 — Reconstruire mon estime de soi · Fiche 9 — Suivi sur 7 jours</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Question du jour</span>
+        <p class="pr-question">Quelle petite preuve montre que je ne suis pas totalement bloqué ?</p>
+      </div>
+      <div class="parcours-rubrique">
+        <span class="pr-label">Petite action</span>
+        <p>Je note une action réalisée, même petite : j&rsquo;ai commencé, j&rsquo;ai demandé de l&rsquo;aide, j&rsquo;ai travaillé 10 minutes, j&rsquo;ai corrigé une erreur, j&rsquo;ai arrêté de me traiter de nul, j&rsquo;ai repris après une pause.</p>
+      </div>
+    </div>
+
+    <div class="parcours-bonus">
+      <h4>Et la fiche 6 ?</h4>
+      <p>La fiche 6 — Gérer l&rsquo;anxiété avant un contrôle est à utiliser quand un contrôle approche. Elle peut être utilisée à n&rsquo;importe quel moment du parcours.</p>
+    </div>
+
+    <div class="parcours-bonus">
+      <h4>Et la fiche 8 ?</h4>
+      <p>La fiche 8 — Demander de l&rsquo;aide intelligemment est à utiliser dès que tu remarques que tu restes bloqué seul trop longtemps. Ne l&rsquo;utilise pas seulement quand tout brûle déjà. Demander de l&rsquo;aide trop tard, c&rsquo;est comme appeler les pompiers quand la maison est déjà en cendres. Techniquement utile, mais on aurait pu faire mieux avant.</p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Le but n&rsquo;est pas de finir le kit vite. Le but est d&rsquo;utiliser une page au bon moment pour reprendre une petite action possible.</div>
+    </div>
+  </section>
+
+
+  <!-- FICHE 1 — COMPRENDRE MA BOUCLE DE BLOCAGE -->
+  <section class="outil" id="fiche1">
+    <span class="outil-num">Fiche 1 · Comprendre</span>
+    <h2>Comprendre ma boucle de blocage</h2>
+    <p class="fiche-titre-pratique">Quand l'anxiété, l'évitement et la honte se renforcent.</p>
+
+    <div class="ss-objectif">
+      <span class="ss-label">Objectif</span>
+      <p>Comprendre pourquoi tu peux te sentir bloqué, éviter le travail scolaire, perdre confiance et te dire que tu es incapable.</p>
+      <p>Le but n'est pas de te trouver une excuse. Le but est de comprendre le mécanisme pour pouvoir agir dessus.</p>
+    </div>
+
+    <div class="ss-comprendre">
+      <span class="ss-label">À comprendre</span>
+      <p>Quand tu es en difficulté scolaire, ton cerveau peut associer le travail à une menace :</p>
+      <ul>
+        <li>Peur de rater.</li>
+        <li>Peur de décevoir.</li>
+        <li>Peur d'être jugé.</li>
+        <li>Peur de ne pas comprendre.</li>
+        <li>Peur de voir que tu es en retard.</li>
+        <li>Peur de confirmer l'idée que tu es « nul ».</li>
+      </ul>
+      <p>Alors ton cerveau cherche à éviter cette sensation. Sur le moment, éviter peut soulager. Tu repousses, tu fais autre chose, tu fermes ton cahier, tu dis « je le ferai plus tard ».</p>
+      <p>Mais ensuite, le stress revient souvent plus fort. La tâche est toujours là, le retard augmente, la culpabilité monte, et ton estime de toi descend.</p>
+      <p><strong>C'est comme ça que la boucle se renforce.</strong></p>
+    </div>
+
+    <div class="ss-utiliser">
+      <span class="ss-label">À utiliser concrètement</span>
+
+      <h3>La boucle de blocage</h3>
+
+      <div class="boucle">
+        <div class="boucle-etape">
+          <div class="boucle-etape-titre">
+            <span class="boucle-etape-num">1</span>
+            <h4>Situation difficile</h4>
+          </div>
+          <p>Exemples : contrôle à préparer, devoir long, mauvaise note, remarque d'un professeur, comparaison avec les autres, consigne incomprise, retard accumulé.</p>
+        </div>
+        <div class="boucle-fleche">↓</div>
+
+        <div class="boucle-etape">
+          <div class="boucle-etape-titre">
+            <span class="boucle-etape-num">2</span>
+            <h4>Pensée automatique</h4>
+          </div>
+          <p>Ton cerveau peut dire :</p>
+          <ul>
+            <li>« Je suis nul. »</li>
+            <li>« Je vais rater. »</li>
+            <li>« Ça ne sert à rien. »</li>
+            <li>« Je suis trop en retard. »</li>
+            <li>« Les autres y arrivent mieux. »</li>
+            <li>« Si je demande de l'aide, on va me juger. »</li>
+          </ul>
+        </div>
+        <div class="boucle-fleche">↓</div>
+
+        <div class="boucle-etape">
+          <div class="boucle-etape-titre">
+            <span class="boucle-etape-num">3</span>
+            <h4>Émotion</h4>
+          </div>
+          <p>Ces pensées peuvent déclencher : anxiété, honte, colère, découragement, tristesse, frustration, sensation d'être bloqué.</p>
+        </div>
+        <div class="boucle-fleche">↓</div>
+
+        <div class="boucle-etape">
+          <div class="boucle-etape-titre">
+            <span class="boucle-etape-num">4</span>
+            <h4>Comportement</h4>
+          </div>
+          <p>Pour éviter cette émotion, tu peux :</p>
+          <ul>
+            <li>Repousser, bâcler, abandonner.</li>
+            <li>Mentir sur les devoirs.</li>
+            <li>Éviter de demander de l'aide.</li>
+            <li>Rester sur ton téléphone.</li>
+            <li>Faire semblant que tu t'en fiches.</li>
+          </ul>
+        </div>
+        <div class="boucle-fleche">↓</div>
+
+        <div class="boucle-etape">
+          <div class="boucle-etape-titre">
+            <span class="boucle-etape-num">5</span>
+            <h4>Conséquence</h4>
+          </div>
+          <p>À court terme, tu te sens soulagé. Mais à long terme :</p>
+          <ul>
+            <li>Le retard augmente.</li>
+            <li>La pression monte.</li>
+            <li>Tu te fais moins confiance.</li>
+            <li>Tu confirmes l'idée « je n'y arrive jamais ».</li>
+            <li>Tu évites encore plus.</li>
+          </ul>
+        </div>
+
+        <div class="boucle-retour">Et la boucle recommence à la prochaine situation difficile.</div>
+      </div>
+
+      <div class="exemple-concret">
+        <span class="exemple-label">Exemple concret</span>
+        <div class="exemple-ligne">
+          <span class="exemple-cle">Situation</span>
+          <span class="exemple-val">J'ai un contrôle de maths vendredi.</span>
+        </div>
+        <div class="exemple-ligne">
+          <span class="exemple-cle">Pensée</span>
+          <span class="exemple-val">« Je vais rater, je suis nul en maths. »</span>
+        </div>
+        <div class="exemple-ligne">
+          <span class="exemple-cle">Émotion</span>
+          <span class="exemple-val">Peur, honte, stress.</span>
+        </div>
+        <div class="exemple-ligne">
+          <span class="exemple-cle">Comportement</span>
+          <span class="exemple-val">Je repousse les révisions et je vais sur mon téléphone.</span>
+        </div>
+        <div class="exemple-ligne">
+          <span class="exemple-cle">Conséquence</span>
+          <span class="exemple-val">Je révise trop tard, je panique encore plus, et je me dis que je suis vraiment incapable.</span>
+        </div>
+      </div>
+
+      <h3>Ce qu'il faut retenir</h3>
+      <p>Le problème n'est pas seulement la matière. <strong>Le problème, c'est la boucle autour de la matière.</strong></p>
+      <p>Tu peux avoir une vraie difficulté en maths, en français ou dans l'organisation. Mais si cette difficulté déclenche honte, anxiété et évitement, elle devient encore plus lourde.</p>
+      <p>Donc on ne va pas seulement travailler « plus ». On va travailler plus intelligemment :</p>
+      <ul>
+        <li>Comprendre la pensée.</li>
+        <li>Réduire la tâche.</li>
+        <li>Commencer petit.</li>
+        <li>Demander de l'aide.</li>
+        <li>Construire des preuves de progression.</li>
+      </ul>
+
+      <h3>Mini-exercice — ma boucle à moi</h3>
+      <p>Complète cette boucle avec une situation récente.</p>
+      <table class="table-exercice">
+        <thead>
+          <tr><th>Étape</th><th>Ma réponse</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Situation difficile</td><td>&nbsp;</td></tr>
+          <tr><td>Pensée automatique</td><td>&nbsp;</td></tr>
+          <tr><td>Émotion ressentie</td><td>&nbsp;</td></tr>
+          <tr><td>Comportement adopté</td><td>&nbsp;</td></tr>
+          <tr><td>Conséquence après coup</td><td>&nbsp;</td></tr>
+          <tr><td>Petite action possible la prochaine fois</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ss-vigilance">
+      <span class="ss-label">Point de vigilance</span>
+      <p>Comprendre ta boucle ne veut pas dire te déresponsabiliser.</p>
+      <p>Oui, ton anxiété, ta honte ou ta faible estime de toi peuvent expliquer pourquoi tu bloques. Mais si tu attends que tout disparaisse avant d'agir, tu risques d'attendre longtemps.</p>
+      <p>On ne va pas te demander de tout changer. On va te demander de reprendre une petite action possible.</p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Le problème n'est pas seulement la difficulté. C'est la boucle qui se construit autour.</div>
+    </div>
+  </section>
+
+  <!-- FICHE 2 — MES PENSÉES QUI M'ENFONCENT -->
+  <section class="outil" id="fiche2">
+    <span class="outil-num">Fiche 2 · Repérer</span>
+    <h2>Mes pensées qui m'enfoncent</h2>
+    <p class="fiche-titre-pratique">Repérer les phrases automatiques dans ma tête.</p>
+
+    <div class="ss-objectif">
+      <span class="ss-label">Objectif</span>
+      <p>Apprendre à repérer les pensées qui apparaissent quand tu es en difficulté, stressé ou découragé.</p>
+      <p>Le but n'est pas de contrôler toutes tes pensées. Le but est de les voir clairement au lieu de les croire automatiquement.</p>
+    </div>
+
+    <div class="ss-comprendre">
+      <span class="ss-label">À comprendre</span>
+      <p>Quand tu bloques, ton cerveau peut produire des phrases très dures :</p>
+      <ul>
+        <li>« Je suis nul. »</li>
+        <li>« Je vais rater. »</li>
+        <li>« Je suis trop en retard. »</li>
+        <li>« Les autres comprennent mieux que moi. »</li>
+        <li>« Je déçois tout le monde. »</li>
+        <li>« Ça ne sert à rien. »</li>
+        <li>« Je n'y arriverai jamais. »</li>
+      </ul>
+      <p>Ces pensées peuvent sembler vraies parce qu'elles arrivent avec une émotion forte : peur, honte, tristesse, colère ou découragement.</p>
+      <p><strong>Mais une pensée forte n'est pas forcément une pensée juste.</strong> Elle peut être :</p>
+      <ul>
+        <li>Exagérée.</li>
+        <li>Trop générale.</li>
+        <li>Influencée par la fatigue.</li>
+        <li>Influencée par une ancienne mauvaise expérience.</li>
+        <li>Basée sur une peur plutôt que sur un fait.</li>
+      </ul>
+    </div>
+
+    <div class="ss-utiliser">
+      <span class="ss-label">À utiliser concrètement</span>
+
+      <h3>Les pensées automatiques fréquentes</h3>
+      <p>Coche celles que tu reconnais chez toi :</p>
+      <ul class="checkbox-list">
+        <li>Je suis nul/nulle.</li>
+        <li>Je n'y arriverai jamais.</li>
+        <li>Je suis trop en retard.</li>
+        <li>Les autres sont meilleurs que moi.</li>
+        <li>Je vais encore décevoir.</li>
+        <li>Si je demande de l'aide, on va me juger.</li>
+        <li>Je dois réussir parfaitement sinon ça ne sert à rien.</li>
+        <li>Je rate toujours tout.</li>
+        <li>Je suis un poids pour mes parents.</li>
+        <li>Je ne suis pas fait/faite pour les études.</li>
+        <li>Je vais paniquer pendant le contrôle.</li>
+        <li>Je ne comprends jamais rien.</li>
+        <li>Tout le monde avance sauf moi.</li>
+        <li>Ça ne changera jamais.</li>
+        <li>Autre pensée : ____________________________</li>
+      </ul>
+
+      <h3>Les pièges de pensée</h3>
+      <p>Certaines pensées suivent toujours les mêmes pièges. Repère lesquels reviennent souvent chez toi.</p>
+
+      <div class="piege-bloc">
+        <div class="piege-titre">
+          <span class="piege-num">1</span>
+          <h4>Le tout ou rien</h4>
+        </div>
+        <div class="piege-exemple">« Si je n'ai pas une bonne note, c'est fichu. »</div>
+        <p class="piege-explication">Le cerveau voit seulement deux options : réussite totale ou échec total.</p>
+      </div>
+
+      <div class="piege-bloc">
+        <div class="piege-titre">
+          <span class="piege-num">2</span>
+          <h4>La généralisation</h4>
+        </div>
+        <div class="piege-exemple">« J'ai raté ce contrôle, donc je rate toujours tout. »</div>
+        <p class="piege-explication">Une situation devient une règle générale.</p>
+      </div>
+
+      <div class="piege-bloc">
+        <div class="piege-titre">
+          <span class="piege-num">3</span>
+          <h4>La lecture de pensée</h4>
+        </div>
+        <div class="piege-exemple">« Le prof pense que je suis nul. »</div>
+        <p class="piege-explication">Tu crois savoir ce que l'autre pense, sans preuve claire.</p>
+      </div>
+
+      <div class="piege-bloc">
+        <div class="piege-titre">
+          <span class="piege-num">4</span>
+          <h4>La catastrophe</h4>
+        </div>
+        <div class="piege-exemple">« Si je rate, tout est fini. »</div>
+        <p class="piege-explication">Le cerveau imagine directement le pire scénario.</p>
+      </div>
+
+      <div class="piege-bloc">
+        <div class="piege-titre">
+          <span class="piege-num">5</span>
+          <h4>L'étiquette</h4>
+        </div>
+        <div class="piege-exemple">« Je suis nul. »</div>
+        <p class="piege-explication">Tu colles une étiquette sur toute ta personne au lieu de décrire une difficulté précise.</p>
+      </div>
+
+      <div class="piege-bloc">
+        <div class="piege-titre">
+          <span class="piege-num">6</span>
+          <h4>Le filtre négatif</h4>
+        </div>
+        <div class="piege-exemple">« J'ai réussi deux exercices, mais j'en ai raté un, donc c'est nul. »</div>
+        <p class="piege-explication">Le cerveau ignore ce qui va un peu mieux et zoome sur l'erreur.</p>
+      </div>
+
+      <h3>Mini-exercice — repérer mes pensées</h3>
+      <p>Choisis une situation récente où tu t'es senti bloqué, stressé ou découragé.</p>
+
+      <table class="table-exercice-large">
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Pensée automatique</th>
+            <th>Émotion</th>
+            <th>0-10</th>
+            <th>Piège possible</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="exemple-rempli">
+            <td>Contrôle demain</td>
+            <td>« Je vais tout rater »</td>
+            <td>Peur</td>
+            <td>8</td>
+            <td>Catastrophe</td>
+          </tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Question utile à se poser</h3>
+      <div class="question-pivot">
+        <span class="qp-label">À demander à ton cerveau</span>
+        <p>« Est-ce que c'est un fait, ou est-ce que c'est une interprétation de mon anxiété&nbsp;? »</p>
+      </div>
+
+      <div class="fait-vs-interpretation">
+        <div class="fait-bloc">
+          <span class="fvi-label">Un fait</span>
+          <div class="fvi-exemple">« J'ai eu 8/20. »</div>
+          <p class="fvi-note">Le fait peut être difficile à accepter, mais il peut servir à agir.</p>
+        </div>
+        <div class="interpretation-bloc">
+          <span class="fvi-label">Une interprétation</span>
+          <div class="fvi-exemple">« Je suis nul. »</div>
+          <p class="fvi-note">L'interprétation, elle, peut t'écraser sans rien t'apprendre.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ss-vigilance">
+      <span class="ss-label">Point de vigilance</span>
+      <p>Le but n'est pas de faire semblant que tout va bien. Si tu es en difficulté, il faut le reconnaître clairement. Mais reconnaître une difficulté, ce n'est pas t'insulter.</p>
+      <p>Dire « Je suis en difficulté en maths sur les fractions » est utile. Dire « Je suis nul » est flou, violent et ne donne aucune stratégie.</p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Une pensée peut être très forte sans être totalement vraie.</div>
+    </div>
+  </section>
+
+  <!-- FICHE 3 — TRANSFORMER UNE PENSÉE -->
+  <section class="outil" id="fiche3">
+    <span class="outil-num">Fiche 3 · Transformer</span>
+    <h2>Transformer une pensée sans se mentir</h2>
+    <p class="fiche-titre-pratique">Passer d&rsquo;une phrase qui écrase à une phrase qui aide.</p>
+
+    <div class="ss-objectif">
+      <span class="ss-label">Objectif</span>
+      <p>Apprendre à remplacer une pensée qui te bloque par une pensée plus réaliste, sans faire semblant que tout va bien.</p>
+      <p>Le but n&rsquo;est pas de te répéter « Tout va bien, je vais réussir ». Si ton cerveau n&rsquo;y croit pas, ça ne sert pas à grand-chose. Le but est de trouver une phrase qui reconnaît la difficulté <strong>et</strong> ouvre une possibilité d&rsquo;action.</p>
+    </div>
+
+    <div class="ss-comprendre">
+      <span class="ss-label">À comprendre</span>
+      <p>Une pensée anxieuse ou décourageante peut te faire croire qu&rsquo;il n&rsquo;y a aucune issue. Exemples :</p>
+      <ul>
+        <li>« Je suis nul. »</li>
+        <li>« Je vais rater. »</li>
+        <li>« Je suis trop en retard. »</li>
+        <li>« Ça ne sert à rien. »</li>
+        <li>« Je vais décevoir tout le monde. »</li>
+      </ul>
+      <p>Ces pensées ont un point commun : <strong>elles ferment la porte</strong>. Elles ne donnent aucune prochaine étape, ne t&rsquo;aident pas à réfléchir, et te poussent souvent à éviter, abandonner ou bâcler.</p>
+      <p>Une pensée utile ne nie pas le problème. Elle te permet juste de reprendre un peu de pouvoir.</p>
+    </div>
+
+    <div class="ss-utiliser">
+      <span class="ss-label">À utiliser concrètement</span>
+
+      <h3>La méthode en 4 questions</h3>
+      <p>Quand une pensée te bloque, demande-toi :</p>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">1</span>
+          <h4>Quelle est la pensée exacte ?</h4>
+        </div>
+        <p><em>Exemple :</em> « Je suis nul en maths. »</p>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">2</span>
+          <h4>Est-ce un fait ou une interprétation ?</h4>
+        </div>
+        <p><em>Fait :</em> « J&rsquo;ai eu 8/20 au dernier contrôle. »<br>
+        <em>Interprétation :</em> « Je suis nul. »</p>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">3</span>
+          <h4>Quelle phrase serait plus précise ?</h4>
+        </div>
+        <p><em>Exemple :</em> « J&rsquo;ai des difficultés sur ce chapitre. »</p>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">4</span>
+          <h4>Quelle petite action devient possible ?</h4>
+        </div>
+        <p><em>Exemple :</em> « Je peux refaire un exercice corrigé pendant 10 minutes. »</p>
+      </div>
+
+      <h3>Tableau de transformation</h3>
+      <table class="table-transform">
+        <thead>
+          <tr><th>Pensée qui écrase</th><th>Pensée plus juste et plus utile</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Je suis nul.</td><td>Je suis en difficulté sur ce point, mais je peux reprendre une étape.</td></tr>
+          <tr><td>Je vais rater.</td><td>Je suis anxieux, mais je peux préparer une petite partie.</td></tr>
+          <tr><td>Je suis trop en retard.</td><td>Je ne peux pas tout rattraper aujourd&rsquo;hui, mais je peux commencer par 10 minutes.</td></tr>
+          <tr><td>Les autres sont meilleurs que moi.</td><td>Je ne connais pas leur parcours. Moi, je travaille ma prochaine étape.</td></tr>
+          <tr><td>Ça ne sert à rien.</td><td>Éviter me soulage maintenant, mais ça augmente mon stress après.</td></tr>
+          <tr><td>Je vais décevoir tout le monde.</td><td>Je peux faire ma part aujourd&rsquo;hui, même si ce n&rsquo;est pas parfait.</td></tr>
+          <tr><td>Je n&rsquo;y arriverai jamais.</td><td>Je n&rsquo;y arrive pas encore comme je voudrais, mais je peux demander de l&rsquo;aide.</td></tr>
+          <tr><td>Je rate toujours tout.</td><td>J&rsquo;ai raté certaines choses, mais « toujours » est trop large. Je peux regarder ce qui est améliorable.</td></tr>
+          <tr><td>Si je demande de l&rsquo;aide, on va me juger.</td><td>Peut-être que j&rsquo;ai peur d&rsquo;être jugé, mais demander de l&rsquo;aide peut me faire gagner du temps.</td></tr>
+          <tr><td>Je dois tout réussir parfaitement.</td><td>Je peux avancer même avec une version imparfaite.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Mini-exercice — ma pensée à transformer</h3>
+      <p>Choisis une pensée qui revient souvent chez toi.</p>
+      <table class="table-exercice-large">
+        <thead>
+          <tr>
+            <th>Ma pensée qui m&rsquo;écrase</th>
+            <th>Fait ou interprétation ?</th>
+            <th>Pensée plus juste</th>
+            <th>Petite action possible</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="exemple-rempli">
+            <td>Je suis nul en anglais</td>
+            <td>Interprétation</td>
+            <td>J&rsquo;ai du mal avec le vocabulaire en ce moment</td>
+            <td>Apprendre 5 mots pendant 10 minutes</td>
+          </tr>
+          <tr class="exemple-rempli">
+            <td>Je vais rater mon contrôle</td>
+            <td>Prédiction anxieuse</td>
+            <td>Je ne sais pas encore ma note, mais je peux réviser une partie</td>
+            <td>Relire la fiche méthode</td>
+          </tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ss-vigilance">
+      <span class="ss-label">Point de vigilance</span>
+      <p>Ne remplace pas une pensée négative par une phrase complètement fausse. Si tu penses « Je suis nul », ne force pas « Je suis incroyable et tout va réussir ». Ton cerveau va répondre « Mensonge détecté » — et il n&rsquo;aura pas totalement tort.</p>
+      <p>Cherche plutôt une phrase crédible : « Je suis en difficulté, mais je peux reprendre une petite étape. » C&rsquo;est moins spectaculaire, mais beaucoup plus solide.</p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Le but n&rsquo;est pas de penser positif. Le but est de penser plus juste.</div>
+    </div>
+  </section>
+
+  <!-- FICHE 4 — PLAN ANTI-PROCRASTINATION -->
+  <section class="outil" id="fiche4">
+    <span class="outil-num">Fiche 4 · Commencer</span>
+    <h2>Mon plan anti-procrastination</h2>
+    <p class="fiche-titre-pratique">Commencer quand je n&rsquo;ai pas envie.</p>
+
+    <div class="ss-objectif">
+      <span class="ss-label">Objectif</span>
+      <p>Apprendre à démarrer une tâche scolaire même quand tu n&rsquo;es pas motivé, que tu stresses ou que tu as envie d&rsquo;éviter.</p>
+      <p>Le but n&rsquo;est pas de travailler pendant 3 heures. Le but est de <strong>casser le blocage avec une première action possible</strong>.</p>
+    </div>
+
+    <div class="ss-comprendre">
+      <span class="ss-label">À comprendre</span>
+      <p>La procrastination peut ressembler à de la paresse, mais ce n&rsquo;est pas toujours ça. Parfois, tu repousses parce que :</p>
+      <ul>
+        <li>La tâche est trop floue.</li>
+        <li>Tu ne sais pas par quoi commencer.</li>
+        <li>Tu as peur de rater.</li>
+        <li>Tu as honte d&rsquo;être en retard.</li>
+        <li>Tu veux faire parfaitement.</li>
+        <li>Tu es déjà fatigué.</li>
+        <li>Tu as peur de voir que tu ne comprends pas.</li>
+        <li>Ton téléphone donne un soulagement immédiat.</li>
+      </ul>
+      <p>Le problème, c&rsquo;est que repousser soulage sur le moment, mais augmente souvent le stress après.</p>
+      <p>L&rsquo;objectif n&rsquo;est pas d&rsquo;attendre d&rsquo;être motivé. L&rsquo;objectif est de <strong>rendre le démarrage assez petit pour être possible</strong>.</p>
+    </div>
+
+    <div class="ss-utiliser">
+      <span class="ss-label">À utiliser concrètement</span>
+
+      <h3>La règle des 10 minutes</h3>
+      <p>Tu choisis une tâche précise et tu travailles seulement 10 minutes. Pas plus au début.</p>
+      <p><strong>Pourquoi ?</strong> Parce que ton cerveau accepte plus facilement « Je travaille 10 minutes » que « Je dois rattraper toute ma vie scolaire avant ce soir ».</p>
+      <p>Soyons sérieux : ton cerveau n&rsquo;est pas un ordinateur de la NASA. S&rsquo;il voit une montagne, il fuit. S&rsquo;il voit une marche, il peut avancer.</p>
+
+      <h3>Méthode en 7 étapes</h3>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">1</span>
+          <h4>Je choisis une seule matière</h4>
+        </div>
+        <p>Maths, français, anglais, histoire, SVT&hellip; <strong>Pas trois matières en même temps.</strong> Sinon tu recrées le chaos.</p>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">2</span>
+          <h4>Je choisis une micro-tâche</h4>
+        </div>
+        <p>Exemples : ouvrir mon cahier, lire une consigne, relire une page, faire un exercice, apprendre 5 mots, écrire trois lignes, corriger une erreur, ranger mes feuilles, préparer mon sac.</p>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">3</span>
+          <h4>Je mets un minuteur de 10 minutes</h4>
+        </div>
+        <p>Le minuteur sert à rassurer ton cerveau : « Ce n&rsquo;est pas infini. Il y a une fin. »</p>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">4</span>
+          <h4>Je commence sans attendre la motivation</h4>
+        </div>
+        <p>Tu n&rsquo;as pas besoin d&rsquo;avoir envie. Tu dois juste lancer la première action.</p>
+        <div class="phrase-utile-ado">« Je commence petit, même sans motivation. »</div>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">5</span>
+          <h4>Je coche ce qui est fait</h4>
+        </div>
+        <p>Même si c&rsquo;est petit, tu le notes. Parce que ton cerveau a besoin de preuves.</p>
+        <ul class="checkbox-list">
+          <li>J&rsquo;ai ouvert mon cahier.</li>
+          <li>J&rsquo;ai relu une page.</li>
+          <li>J&rsquo;ai fait deux exercices.</li>
+          <li>J&rsquo;ai demandé une explication.</li>
+        </ul>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">6</span>
+          <h4>Je fais une pause courte</h4>
+        </div>
+        <p>2 à 5 minutes : boire, marcher, respirer, s&rsquo;étirer, aller aux toilettes.</p>
+        <p style="background:#fdf2f7;padding:10px 14px;border-radius:4px;color:#8B3060;font-size:13px;margin-top:8px;"><strong>⚠ Attention :</strong> si ton téléphone t&rsquo;aspire pendant 45 minutes, ce n&rsquo;est pas une pause. C&rsquo;est une disparition.</p>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">7</span>
+          <h4>Je décide de la suite</h4>
+        </div>
+        <p>Après 10 minutes, tu choisis :</p>
+        <ul class="checkbox-list">
+          <li>Je continue encore 10 minutes.</li>
+          <li>Je m&rsquo;arrête et je programme la prochaine étape.</li>
+          <li>Je demande de l&rsquo;aide parce que je bloque vraiment.</li>
+        </ul>
+      </div>
+
+      <h3>Mon plan anti-procrastination</h3>
+      <table class="table-exercice">
+        <thead>
+          <tr><th>Question</th><th>Ma réponse</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Quelle matière je choisis ?</td><td>&nbsp;</td></tr>
+          <tr><td>Quelle micro-tâche je commence ?</td><td>&nbsp;</td></tr>
+          <tr><td>Combien de temps ?</td><td>10 minutes</td></tr>
+          <tr><td>De quoi ai-je besoin ?</td><td>&nbsp;</td></tr>
+          <tr><td>Quelle distraction je dois éloigner ?</td><td>&nbsp;</td></tr>
+          <tr><td>Quelle pause courte je prévois ?</td><td>&nbsp;</td></tr>
+          <tr><td>Quelle sera ma prochaine étape ?</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Exemples de micro-tâches utiles</h3>
+      <table class="table-transform">
+        <thead>
+          <tr><th>Si je bloque sur…</th><th>Je commence par…</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Un contrôle</td><td>Relire une seule fiche pendant 10 minutes</td></tr>
+          <tr><td>Une rédaction</td><td>Écrire seulement le plan</td></tr>
+          <tr><td>Des maths</td><td>Refaire un exercice corrigé</td></tr>
+          <tr><td>Une leçon longue</td><td>Apprendre 5 définitions</td></tr>
+          <tr><td>Un devoir oublié</td><td>Noter exactement ce qui est demandé</td></tr>
+          <tr><td>Un retard énorme</td><td>Choisir une seule priorité pour aujourd&rsquo;hui</td></tr>
+          <tr><td>Une consigne floue</td><td>Demander une explication à quelqu&rsquo;un</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ss-vigilance">
+      <span class="ss-label">Point de vigilance</span>
+      <p>Ne transforme pas la méthode en négociation infinie. Si tu passes 30 minutes à choisir ton stylo, ton endroit, ta playlist, ton goûter et l&rsquo;ambiance idéale, tu n&rsquo;es pas en train de te préparer. <strong>Tu procrastines avec du décor.</strong></p>
+      <p>Le but est de commencer imparfaitement.</p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">La motivation vient souvent après le démarrage, pas avant.</div>
+    </div>
+  </section>
+
+  <!-- FICHE 5 — MÉTHODE DE TRAVAIL SIMPLE -->
+  <section class="outil" id="fiche5">
+    <span class="outil-num">Fiche 5 · Méthode</span>
+    <h2>Méthode de travail simple</h2>
+    <p class="fiche-titre-pratique">Travailler moins dans le chaos, mieux dans le concret.</p>
+
+    <div class="ss-objectif">
+      <span class="ss-label">Objectif</span>
+      <p>Apprendre à organiser une tâche scolaire de façon claire, courte et réalisable.</p>
+      <p>Le but n&rsquo;est pas de travailler plus longtemps. Le but est de <strong>travailler avec plus de précision</strong>.</p>
+    </div>
+
+    <div class="ss-comprendre">
+      <span class="ss-label">À comprendre</span>
+      <p>Quand tu es anxieux, découragé ou en difficulté, une tâche scolaire peut devenir énorme dans ta tête. Exemples :</p>
+      <ul>
+        <li>« Je dois réviser tout le chapitre. »</li>
+        <li>« Je dois réussir mon contrôle. »</li>
+        <li>« Je dois rattraper tout mon retard. »</li>
+        <li>« Je dois comprendre toute la leçon. »</li>
+      </ul>
+      <p>Ces phrases sont trop grandes. Elles font paniquer ton cerveau parce qu&rsquo;elles ne disent pas quoi faire concrètement.</p>
+      <p>Une bonne méthode répond à 4 questions :</p>
+      <ul>
+        <li>Qu&rsquo;est-ce qu&rsquo;on me demande ?</li>
+        <li>Quelle est la première étape ?</li>
+        <li>Combien de temps je travaille ?</li>
+        <li>Comment je vérifie ce qui est fait ?</li>
+      </ul>
+    </div>
+
+    <div class="ss-utiliser">
+      <span class="ss-label">À utiliser concrètement</span>
+
+      <h3>La méthode en 4 étapes</h3>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">1</span>
+          <h4>Comprendre</h4>
+        </div>
+        <p>Avant de commencer, vérifie ce qui est demandé. Questions utiles :</p>
+        <ul>
+          <li>Quelle matière ? Quelle consigne ? Quelle leçon ?</li>
+          <li>Quelle page ? Quel exercice ? Quel délai ?</li>
+          <li>Est-ce que je comprends ce qu&rsquo;on attend de moi ?</li>
+        </ul>
+        <div class="phrase-utile-ado">« Je ne commence pas tant que la tâche est floue. »</div>
+        <p>Si la consigne n&rsquo;est pas claire, la première tâche n&rsquo;est pas de « travailler plus ». La première tâche est de <strong>clarifier</strong>.</p>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">2</span>
+          <h4>Découper</h4>
+        </div>
+        <p>Une tâche trop grande doit être coupée en petites étapes.</p>
+        <p>Au lieu de « Réviser le contrôle », dire :</p>
+        <ul>
+          <li>« Relire la fiche méthode pendant 10 minutes. »</li>
+          <li>« Apprendre 5 définitions. »</li>
+          <li>« Refaire un exercice corrigé. »</li>
+          <li>« Me tester sur 3 questions. »</li>
+        </ul>
+        <p>Une tâche découpée fait moins peur parce qu&rsquo;elle devient visible.</p>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">3</span>
+          <h4>Agir</h4>
+        </div>
+        <p>Choisis une durée courte :</p>
+        <ul>
+          <li>10 minutes si tu es très bloqué.</li>
+          <li>15 minutes si tu peux commencer.</li>
+          <li>20 à 25 minutes si tu es plus disponible.</li>
+        </ul>
+        <p>Pendant ce temps, une seule priorité. <strong>Pas</strong> : téléphone, réseaux, 4 matières en même temps, fausse recherche de motivation, perfectionnisme.</p>
+        <p>Tu fais la tâche choisie. Même imparfaitement.</p>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">4</span>
+          <h4>Vérifier</h4>
+        </div>
+        <p>À la fin, demande-toi :</p>
+        <ul>
+          <li>Qu&rsquo;est-ce que j&rsquo;ai terminé ?</li>
+          <li>Qu&rsquo;est-ce que j&rsquo;ai compris ?</li>
+          <li>Qu&rsquo;est-ce qui reste flou ?</li>
+          <li>Quelle est la prochaine petite étape ?</li>
+          <li>Ai-je besoin d&rsquo;aide ?</li>
+        </ul>
+        <p>Vérifier évite de finir avec cette sensation vague : « J&rsquo;ai travaillé mais je ne sais pas ce que j&rsquo;ai fait. » Ce flou nourrit l&rsquo;anxiété. <strong>Le concret la réduit.</strong></p>
+      </div>
+
+      <h3>Mon tableau de travail</h3>
+      <table class="table-exercice-large">
+        <thead>
+          <tr>
+            <th>Matière</th>
+            <th>Ce que je dois faire</th>
+            <th>Première étape</th>
+            <th>Durée</th>
+            <th>Fait</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="exemple-rempli">
+            <td>Maths</td>
+            <td>Revoir les fractions</td>
+            <td>Refaire un exercice corrigé</td>
+            <td>15 min</td>
+            <td>☐</td>
+          </tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>☐</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>☐</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>☐</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>☐</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Transformer une tâche floue en tâche claire</h3>
+      <table class="table-transform">
+        <thead>
+          <tr><th>Tâche floue</th><th>Tâche claire</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Je dois travailler mon français.</td><td>Je relis ma leçon sur les expansions du nom pendant 10 minutes, puis je fais deux phrases d&rsquo;exemple.</td></tr>
+          <tr><td>Je dois réviser les maths.</td><td>Je refais l&rsquo;exercice corrigé n°3 et je vérifie chaque étape.</td></tr>
+          <tr><td>Je suis en retard.</td><td>Ce soir, je choisis une seule priorité : finir l&rsquo;exercice d&rsquo;anglais.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Mini-checklist avant de commencer</h3>
+      <ul class="checkbox-list">
+        <li>Je sais quelle matière je travaille.</li>
+        <li>Je sais exactement ce que je dois faire.</li>
+        <li>J&rsquo;ai choisi une première étape.</li>
+        <li>J&rsquo;ai prévu une durée courte.</li>
+        <li>J&rsquo;ai éloigné mon téléphone.</li>
+        <li>Je sais comment vérifier que c&rsquo;est fait.</li>
+        <li>Je commence même si ce n&rsquo;est pas parfait.</li>
+      </ul>
+    </div>
+
+    <div class="ss-vigilance">
+      <span class="ss-label">Point de vigilance</span>
+      <p>Ne confonds pas « être devant ton cahier » avec « travailler ». Être assis deux heures avec ton téléphone à côté, ton cahier ouvert, ton cerveau ailleurs, ce n&rsquo;est pas du travail efficace. <strong>C&rsquo;est de la présence scolaire décorative.</strong></p>
+      <p>Et oui, ça pique un peu. Mais c&rsquo;est vrai. Mieux vaut 15 minutes ciblées qu&rsquo;une heure floue.</p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Une tâche floue fait peur. Une tâche découpée devient attaquable.</div>
+    </div>
+  </section>
+
+  <!-- FICHE 6 — GÉRER L'ANXIÉTÉ AVANT UN CONTRÔLE -->
+  <section class="outil" id="fiche6">
+    <span class="outil-num">Fiche 6 · Anxiété contrôle</span>
+    <h2>Gérer l&rsquo;anxiété avant un contrôle</h2>
+    <p class="fiche-titre-pratique">Préparer sans paniquer.</p>
+
+    <div class="ss-objectif">
+      <span class="ss-label">Objectif</span>
+      <p>Apprendre à réduire le stress avant et pendant un contrôle en utilisant une préparation claire, réaliste et structurée.</p>
+      <p>Le but n&rsquo;est pas de supprimer totalement le stress. Le but est <strong>d&rsquo;éviter que le stress prenne le contrôle</strong>.</p>
+    </div>
+
+    <div class="ss-comprendre">
+      <span class="ss-label">À comprendre</span>
+      <p>Le stress avant un contrôle est normal. Il peut même aider à se mobiliser. Mais quand il devient trop fort, il peut provoquer :</p>
+      <ul>
+        <li>Boule au ventre, cœur qui bat vite.</li>
+        <li>Pensées catastrophes.</li>
+        <li>Envie d&rsquo;éviter.</li>
+        <li>Difficulté à dormir.</li>
+        <li>Impression de trou noir.</li>
+        <li>Agitation, irritabilité.</li>
+        <li>Envie de tout abandonner.</li>
+      </ul>
+      <p>Le problème n&rsquo;est pas seulement le contrôle. Le problème, c&rsquo;est parfois la manière dont ton cerveau l&rsquo;interprète. Il peut te dire :</p>
+      <ul>
+        <li>« Si tu rates, c&rsquo;est fichu. »</li>
+        <li>« Tu vas oublier tout ce que tu sais. »</li>
+        <li>« Tu vas décevoir tout le monde. »</li>
+        <li>« Les autres vont mieux réussir que toi. »</li>
+      </ul>
+      <p>Ces pensées augmentent la panique. Et plus tu paniques, moins tu es disponible pour réfléchir.</p>
+    </div>
+
+    <div class="ss-utiliser">
+      <span class="ss-label">À utiliser concrètement</span>
+
+      <div class="zone-temporelle">
+        <span class="zone-label">Avant le contrôle</span>
+        <h3>Préparer sans te noyer</h3>
+
+        <h4>1. Identifier les priorités</h4>
+        <p>Au lieu de « Je dois tout réviser », demande-toi :</p>
+        <ul>
+          <li>Quelles notions tombent sûrement ?</li>
+          <li>Qu&rsquo;est-ce que je comprends déjà un peu ?</li>
+          <li>Qu&rsquo;est-ce qui est vraiment prioritaire ?</li>
+          <li>Qu&rsquo;est-ce que je peux travailler en 20 minutes ?</li>
+          <li>Quelle partie demanderait de l&rsquo;aide ?</li>
+        </ul>
+        <div class="phrase-utile-ado">« Je ne peux pas tout faire parfaitement. Je choisis ce qui est prioritaire. »</div>
+
+        <h4>2. Réviser par blocs courts</h4>
+        <p>10 minutes si tu es très anxieux. 15 à 20 minutes si tu arrives à te poser. 25 minutes maximum si tu es disponible. Après chaque bloc, fais une pause courte.</p>
+        <p><strong>Mieux vaut 3 blocs de 15 minutes qu&rsquo;une soirée entière à fixer la leçon avec panique.</strong></p>
+
+        <h4>3. Te tester plutôt que relire en boucle</h4>
+        <p>Relire donne parfois l&rsquo;impression de travailler, mais ça ne suffit pas toujours. Teste-toi :</p>
+        <ul>
+          <li>Cacher la leçon et réciter.</li>
+          <li>Refaire un exercice.</li>
+          <li>Répondre à 3 questions.</li>
+          <li>Expliquer la notion avec tes mots.</li>
+          <li>Écrire ce que tu as retenu sans regarder.</li>
+        </ul>
+        <div class="phrase-utile-ado">« Si je peux l&rsquo;expliquer simplement, je l&rsquo;ai mieux compris. »</div>
+
+        <h4>4. Préparer le matériel</h4>
+        <p>La veille ou avant de partir, vérifie :</p>
+        <ul class="checkbox-list">
+          <li>Stylo, crayon, gomme, règle.</li>
+          <li>Calculatrice si besoin.</li>
+          <li>Copies, convocation si nécessaire.</li>
+          <li>Affaires dans le sac.</li>
+        </ul>
+        <p>Ce n&rsquo;est pas un détail. Arriver déjà stressé sans son matériel, c&rsquo;est commencer le contrôle avec un handicap évitable.</p>
+
+        <h4>5. Dormir au lieu de réviser en panique jusqu&rsquo;à minuit</h4>
+        <p>À un moment, continuer à relire en mode panique ne sert plus beaucoup. Le cerveau a besoin de sommeil pour fonctionner.</p>
+        <div class="phrase-utile-ado">« Là, je ne révise plus vraiment. Je m&rsquo;épuise. »</div>
+      </div>
+
+      <div class="zone-temporelle">
+        <span class="zone-label">Pendant le contrôle</span>
+        <h3>Rester dans l&rsquo;action</h3>
+
+        <h4>1. Lire les consignes lentement</h4>
+        <p>Avant de répondre, lis ce qu&rsquo;on demande, le nombre de questions, les mots importants, les consignes spécifiques. Ne fonce pas tête baissée — <strong>ton stress adore te faire aller trop vite</strong>.</p>
+
+        <h4>2. Commencer par ce que tu sais faire</h4>
+        <p>Si une question te bloque, ne reste pas coincé dessus pendant 20 minutes. Tu peux passer à une question plus accessible, revenir ensuite, noter une idée au brouillon, faire une partie de la réponse.</p>
+        <div class="phrase-utile-ado">« Je commence par récupérer les points possibles. »</div>
+
+        <h4>3. Gérer le trou noir</h4>
+        <p>Si ton cerveau bloque :</p>
+        <ol>
+          <li>Pose ton stylo.</li>
+          <li>Pose les pieds au sol.</li>
+          <li>Respire lentement trois fois.</li>
+          <li>Regarde une question plus simple.</li>
+          <li>Écris quelque chose de petit : une formule, un mot-clé, une étape.</li>
+        </ol>
+        <p>Le but est de <strong>relancer ton cerveau par une action minuscule</strong>.</p>
+
+        <h4>4. Ne pas confondre stress et incapacité</h4>
+        <p>Tu peux être stressé et capable. Le stress peut faire croire « Je ne sais plus rien », alors que parfois, ton cerveau a juste besoin de quelques secondes pour redémarrer.</p>
+      </div>
+
+      <div class="zone-temporelle">
+        <span class="zone-label">Après le contrôle</span>
+        <h3>Éviter l&rsquo;autodestruction mentale</h3>
+        <p>Après un contrôle, évite de passer deux heures à refaire tout le sujet dans ta tête. Demande-toi plutôt :</p>
+        <ul>
+          <li>Qu&rsquo;est-ce que j&rsquo;ai réussi à faire ?</li>
+          <li>Où est-ce que j&rsquo;ai bloqué ?</li>
+          <li>Qu&rsquo;est-ce que je peux reprendre pour la prochaine fois ?</li>
+          <li>Est-ce que j&rsquo;ai besoin d&rsquo;aide sur une notion précise ?</li>
+        </ul>
+        <div class="phrase-utile-ado">« Je peux analyser sans me massacrer. »</div>
+      </div>
+
+      <h3>Mon mini-plan avant contrôle</h3>
+      <table class="table-exercice">
+        <thead><tr><th>Question</th><th>Ma réponse</th></tr></thead>
+        <tbody>
+          <tr><td>Quelle matière ?</td><td>&nbsp;</td></tr>
+          <tr><td>Quelles sont les 3 priorités ?</td><td>&nbsp;</td></tr>
+          <tr><td>Combien de blocs de révision ?</td><td>&nbsp;</td></tr>
+          <tr><td>Quelle pause courte ?</td><td>&nbsp;</td></tr>
+          <tr><td>Quel matériel préparer ?</td><td>&nbsp;</td></tr>
+          <tr><td>Qui peut m&rsquo;aider si je bloque ?</td><td>&nbsp;</td></tr>
+          <tr><td>Phrase utile à me répéter</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ss-vigilance">
+      <span class="ss-label">Point de vigilance</span>
+      <p>Réviser ne veut pas dire ruminer. Si tu lis la même page depuis 30 minutes en te disant « je vais rater », tu n&rsquo;es pas vraiment en train de réviser. <strong>Tu es en train de nourrir ton anxiété avec ton cahier ouvert.</strong></p>
+      <p>Reviens à une action concrète : répondre à une question, refaire un exercice, écrire trois mots-clés, demander une explication, faire une pause courte.</p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Le stress ne disparaît pas toujours. Mais je peux apprendre à travailler avec lui.</div>
+    </div>
+  </section>
+
+  <!-- FICHE 7 — RECONSTRUIRE MON ESTIME DE SOI -->
+  <section class="outil" id="fiche7">
+    <span class="outil-num">Fiche 7 · Estime de soi</span>
+    <h2>Reconstruire mon estime de soi</h2>
+    <p class="fiche-titre-pratique">Arrêter de confondre ma valeur avec mes résultats.</p>
+
+    <div class="ss-objectif">
+      <span class="ss-label">Objectif</span>
+      <p>Apprendre à ne plus résumer ta valeur à tes notes, tes difficultés ou tes erreurs.</p>
+      <p>Le but n&rsquo;est pas de te convaincre que tout va bien. Le but est de <strong>construire une image de toi plus juste, plus stable et moins dépendante d&rsquo;un résultat scolaire</strong>.</p>
+    </div>
+
+    <div class="ss-comprendre">
+      <span class="ss-label">À comprendre</span>
+      <p>Quand tu es en difficulté scolaire, tu peux finir par penser : « Je suis nul », « Je déçois tout le monde », « Je ne suis pas assez intelligent », « Les autres valent mieux que moi », « Je rate donc je suis un raté ».</p>
+      <p>Le problème, c&rsquo;est que ton cerveau mélange deux choses différentes :</p>
+
+      <div class="fait-vs-interpretation">
+        <div class="fait-bloc">
+          <span class="fvi-label">Ta performance</span>
+          <div class="fvi-exemple">Ce que tu réussis ou rates à un moment donné.</div>
+          <p class="fvi-note">Variable, mesurable, modifiable.</p>
+        </div>
+        <div class="interpretation-bloc" style="background:#f0e8f8;border-color:#A878D0;">
+          <span class="fvi-label" style="color:#6B40A8;">Ta valeur</span>
+          <div class="fvi-exemple" style="color:#6B40A8;">Ce que tu es en tant que personne.</div>
+          <p class="fvi-note">Globale, stable, indépendante d&rsquo;une note.</p>
+        </div>
+      </div>
+
+      <p>Une note peut dire « Cette notion n&rsquo;est pas maîtrisée pour l&rsquo;instant ». Elle ne dit pas « Tu ne vaux rien ».</p>
+      <p>Une erreur peut dire « Il y a une étape à reprendre ». Elle ne dit pas « Tu es incapable ».</p>
+
+      <h3>Ce qui abîme l&rsquo;estime de soi</h3>
+      <p>L&rsquo;estime de soi peut baisser quand tu accumules : mauvaises notes, comparaisons, remarques blessantes, échecs répétés, pression familiale ou scolaire, perfectionnisme, sentiment d&rsquo;être en retard, impression de ne jamais faire assez.</p>
+      <p><strong>Mais attention :</strong> si tu attends de réussir parfaitement pour t&rsquo;estimer, tu vas rester prisonnier.</p>
+      <p>L&rsquo;estime de soi ne se reconstruit pas seulement avec de bons résultats. Elle se reconstruit aussi avec des actes qui montrent que tu peux avancer.</p>
+    </div>
+
+    <div class="ss-utiliser">
+      <span class="ss-label">À utiliser concrètement</span>
+
+      <h3>Les preuves de progression</h3>
+      <p>Ton cerveau a besoin de preuves concrètes. Pas des phrases vagues comme « Je suis génial ». Mais des preuves comme :</p>
+      <ul>
+        <li>J&rsquo;ai commencé même sans motivation.</li>
+        <li>J&rsquo;ai travaillé 10 minutes.</li>
+        <li>J&rsquo;ai demandé de l&rsquo;aide.</li>
+        <li>J&rsquo;ai corrigé une erreur.</li>
+        <li>J&rsquo;ai osé dire que je ne comprenais pas.</li>
+        <li>J&rsquo;ai rendu un travail imparfait au lieu de ne rien rendre.</li>
+        <li>J&rsquo;ai préparé mon sac.</li>
+        <li>J&rsquo;ai relu une fiche.</li>
+        <li>J&rsquo;ai repris après un blocage.</li>
+      </ul>
+      <p>Ce sont de petites preuves, oui. Mais <strong>les petites preuves répétées reconstruisent quelque chose de solide</strong>.</p>
+
+      <h3>Exercice — mes preuves de progression</h3>
+      <table class="table-exercice-large">
+        <thead>
+          <tr><th>Petite action réalisée</th><th>Ce que ça montre</th></tr>
+        </thead>
+        <tbody>
+          <tr class="exemple-rempli"><td>J&rsquo;ai travaillé 10 minutes</td><td>Je peux commencer même quand je doute</td></tr>
+          <tr class="exemple-rempli"><td>J&rsquo;ai demandé une explication</td><td>Je peux utiliser une ressource</td></tr>
+          <tr class="exemple-rempli"><td>J&rsquo;ai corrigé une erreur</td><td>Je peux apprendre d&rsquo;un retour</td></tr>
+          <tr class="exemple-rempli"><td>J&rsquo;ai rendu un travail imparfait</td><td>Je peux avancer sans attendre la perfection</td></tr>
+          <tr class="exemple-rempli"><td>J&rsquo;ai préparé mon contrôle par blocs courts</td><td>Je peux m&rsquo;organiser plus clairement</td></tr>
+          <tr class="exemple-rempli"><td>J&rsquo;ai parlé de mon stress</td><td>Je peux demander du soutien</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Différencier « je suis » et « je traverse »</h3>
+      <p>Quand tu dis « Je suis nul », tu transformes une difficulté en identité. Essaie plutôt :</p>
+      <table class="table-transform">
+        <thead>
+          <tr><th>Phrase qui colle une étiquette</th><th>Phrase plus juste</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Je suis nul</td><td>Je suis en difficulté sur ce point</td></tr>
+          <tr><td>Je suis incapable</td><td>Je n&rsquo;ai pas encore trouvé la bonne méthode</td></tr>
+          <tr><td>Je suis paresseux</td><td>J&rsquo;évite peut-être parce que ça me fait peur</td></tr>
+          <tr><td>Je suis un échec</td><td>J&rsquo;ai vécu des échecs, mais je ne suis pas un échec</td></tr>
+          <tr><td>Je suis trop en retard</td><td>J&rsquo;ai du retard, donc j&rsquo;ai besoin d&rsquo;un plan réaliste</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Ce que tu peux te dire après une mauvaise note</h3>
+      <table class="table-transform">
+        <thead>
+          <tr><th>À éviter</th><th>À dire plutôt</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Je suis nul.</td><td>Cette note montre ce qui n&rsquo;est pas encore maîtrisé.</td></tr>
+          <tr><td>Je rate toujours tout.</td><td>Je peux repérer une notion à reprendre.</td></tr>
+          <tr><td>Je ne vais jamais y arriver.</td><td>Je peux demander comment progresser.</td></tr>
+          <tr><td>Tout est fichu.</td><td>Je n&rsquo;ai pas besoin de tout rattraper ce soir.</td></tr>
+          <tr><td>Je suis une déception.</td><td>Ma valeur ne dépend pas de cette note.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ss-vigilance">
+      <span class="ss-label">Point de vigilance</span>
+      <p>Ne confonds pas estime de soi et ego fragile. Reconstruire ton estime de toi ne veut pas dire refuser les remarques, éviter les efforts ou dire « je suis comme je suis ».</p>
+      <p>Ça veut dire être capable de reconnaître : <strong>« J&rsquo;ai une difficulté réelle, mais je ne vais pas m&rsquo;écraser avec. »</strong></p>
+      <p>L&rsquo;objectif n&rsquo;est pas de te sentir supérieur. L&rsquo;objectif est d&rsquo;arrêter de te traiter comme si tu ne valais rien.</p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Ma valeur ne dépend pas de ma dernière note.</div>
+    </div>
+  </section>
+
+  <!-- FICHE 8 — DEMANDER DE L'AIDE INTELLIGEMMENT -->
+  <section class="outil" id="fiche8">
+    <span class="outil-num">Fiche 8 · Demander de l&rsquo;aide</span>
+    <h2>Demander de l&rsquo;aide intelligemment</h2>
+    <p class="fiche-titre-pratique">Ne pas rester seul avec le blocage.</p>
+
+    <div class="ss-objectif">
+      <span class="ss-label">Objectif</span>
+      <p>Apprendre à demander de l&rsquo;aide de façon claire, précise et utile quand tu bloques dans ton travail, ton organisation ou ton anxiété.</p>
+      <p>Le but n&rsquo;est pas que quelqu&rsquo;un fasse à ta place. Le but est <strong>d&rsquo;obtenir le bon soutien pour pouvoir avancer</strong>.</p>
+    </div>
+
+    <div class="ss-comprendre">
+      <span class="ss-label">À comprendre</span>
+      <p>Quand tu es en difficulté, tu peux te dire :</p>
+      <ul>
+        <li>« Je vais déranger. »</li>
+        <li>« On va me juger. »</li>
+        <li>« Je devrais y arriver seul. »</li>
+        <li>« C&rsquo;est trop tard. »</li>
+        <li>« Je vais passer pour quelqu&rsquo;un de nul. »</li>
+        <li>« Personne ne va comprendre. »</li>
+      </ul>
+      <p>Ces pensées peuvent te pousser à rester seul avec ton blocage. Mais rester seul trop longtemps peut aggraver les choses : tu prends du retard, tu stresses davantage, tu perds confiance, tu évites encore plus, tu finis par exploser ou abandonner.</p>
+      <p><strong>Demander de l&rsquo;aide, ce n&rsquo;est pas tricher. C&rsquo;est utiliser une ressource.</strong></p>
+    </div>
+
+    <div class="ss-utiliser">
+      <span class="ss-label">À utiliser concrètement</span>
+
+      <h3>Les 3 types d&rsquo;aide possibles</h3>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">1</span>
+          <h4>Aide pour comprendre</h4>
+        </div>
+        <p>Quand tu ne comprends pas une notion, une consigne ou une correction.</p>
+        <div class="phrase-utile-ado">« Je ne comprends pas cette partie. Est-ce que tu peux me réexpliquer avec un exemple ? »</div>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">2</span>
+          <h4>Aide pour organiser</h4>
+        </div>
+        <p>Quand tu ne sais pas par quoi commencer ou que tout semble trop lourd.</p>
+        <div class="phrase-utile-ado">« J&rsquo;ai trop de choses à faire. Est-ce que tu peux m&rsquo;aider à choisir la première priorité ? »</div>
+      </div>
+
+      <div class="etape-num-bloc">
+        <div class="etape-num-titre">
+          <span class="etape-num-circle">3</span>
+          <h4>Aide pour gérer l&rsquo;anxiété</h4>
+        </div>
+        <p>Quand ton stress bloque ton cerveau ou te pousse à éviter.</p>
+        <div class="phrase-utile-ado">« Je suis tellement stressé que je n&rsquo;arrive pas à commencer. J&rsquo;ai besoin qu&rsquo;on m&rsquo;aide à réduire la tâche. »</div>
+      </div>
+
+      <h3>À qui demander ?</h3>
+      <table class="table-exercice-large">
+        <thead>
+          <tr>
+            <th>Personne</th>
+            <th>Pour quel type d&rsquo;aide ?</th>
+            <th>Phrase possible</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Parent</strong></td>
+            <td>Organisation, encouragement, cadre</td>
+            <td>« J&rsquo;ai besoin d&rsquo;aide pour commencer, pas qu&rsquo;on me crie dessus. »</td>
+          </tr>
+          <tr>
+            <td><strong>Professeur</strong></td>
+            <td>Consigne, notion, méthode</td>
+            <td>« Je n&rsquo;ai pas compris cette partie. Par quoi je dois recommencer ? »</td>
+          </tr>
+          <tr>
+            <td><strong>Ami sérieux</strong></td>
+            <td>Explication, révision courte</td>
+            <td>« Tu peux m&rsquo;expliquer comment tu as compris l&rsquo;exercice ? »</td>
+          </tr>
+          <tr>
+            <td><strong>CPE / vie scolaire</strong></td>
+            <td>Stress scolaire, organisation, situation difficile</td>
+            <td>« Je suis en difficulté en ce moment et j&rsquo;ai besoin d&rsquo;en parler. »</td>
+          </tr>
+          <tr>
+            <td><strong>Psychologue / professionnel</strong></td>
+            <td>Anxiété, estime de soi, blocage profond</td>
+            <td>« Je me sens souvent bloqué, anxieux et nul. J&rsquo;ai besoin d&rsquo;aide. »</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Comment demander sans rester vague</h3>
+      <p>Dire « Je n&rsquo;y arrive pas » est honnête, mais pas assez précis. Essaie plutôt :</p>
+      <ul>
+        <li>« Je bloque sur la consigne. »</li>
+        <li>« Je ne sais pas par quoi commencer. »</li>
+        <li>« Je comprends la leçon, mais pas les exercices. »</li>
+        <li>« Je panique avant les contrôles. »</li>
+        <li>« J&rsquo;ai besoin d&rsquo;un plan pour rattraper. »</li>
+        <li>« J&rsquo;ai besoin qu&rsquo;on m&rsquo;explique une étape, pas tout le chapitre. »</li>
+      </ul>
+      <p><strong>Plus ta demande est précise, plus l&rsquo;aide peut être utile.</strong></p>
+
+      <h3>Mini-exercice — ma demande d&rsquo;aide</h3>
+      <table class="table-exercice-large">
+        <thead>
+          <tr>
+            <th>Ce qui me bloque</th>
+            <th>Type d&rsquo;aide</th>
+            <th>À qui demander</th>
+            <th>Phrase</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="exemple-rempli">
+            <td>Je ne comprends pas les fractions</td>
+            <td>Comprendre</td>
+            <td>Prof / parent / camarade</td>
+            <td>« Peux-tu me montrer un exemple simple ? »</td>
+          </tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Demander de l&rsquo;aide à un parent sans déclencher une dispute</h3>
+      <p>Parfois, le parent veut aider, mais il s&rsquo;y prend mal : il crie, compare, met la pression ou donne trop de conseils d&rsquo;un coup. Tu peux essayer une demande plus claire :</p>
+      <div class="phrase-utile-ado">« J&rsquo;ai besoin que tu m&rsquo;aides à organiser, pas que tu me fasses un reproche. »</div>
+      <div class="phrase-utile-ado">« Si tu cries, je bloque encore plus. J&rsquo;ai besoin d&rsquo;une consigne courte. »</div>
+      <div class="phrase-utile-ado">« Je veux bien travailler 15 minutes, mais j&rsquo;ai besoin qu&rsquo;on choisisse une seule priorité. »</div>
+      <p>Ce n&rsquo;est pas une garantie que l&rsquo;adulte réagira parfaitement. Mais une demande claire donne plus de chances d&rsquo;obtenir une aide utile.</p>
+
+      <div class="encadre-securite">
+        <span class="label-securite">⚠ Quand demander de l&rsquo;aide rapidement</span>
+        <p>Ne reste pas seul si :</p>
+        <ul>
+          <li>Tu as des idées noires.</li>
+          <li>Tu te fais du mal ou tu as envie de te faire du mal.</li>
+          <li>Tu fais des crises d&rsquo;angoisse fréquentes.</li>
+          <li>Tu n&rsquo;arrives presque plus à aller en cours.</li>
+          <li>Tu pleures souvent, tu dors très mal.</li>
+          <li>Tu te sens vide, épuisé ou désespéré.</li>
+          <li>Tu as l&rsquo;impression de ne plus tenir.</li>
+        </ul>
+        <p style="margin-top:10px;">Dans ces situations, ce n&rsquo;est pas « juste une baisse de motivation ». Il faut en parler à un adulte de confiance ou à un professionnel.</p>
+      </div>
+    </div>
+
+    <div class="ss-vigilance">
+      <span class="ss-label">Point de vigilance</span>
+      <p>Demander de l&rsquo;aide ne veut pas dire déléguer ta responsabilité. Si tu demandes de l&rsquo;aide puis que tu refuses toute action, tu restes bloqué.</p>
+      <p>Le bon équilibre : <strong>« J&rsquo;ai besoin d&rsquo;aide pour avancer, mais je garde une petite part d&rsquo;action. »</strong></p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Demander de l&rsquo;aide, ce n&rsquo;est pas être faible. C&rsquo;est arrêter de s&rsquo;épuiser seul.</div>
+    </div>
+  </section>
+
+  <!-- FICHE 9 — SUIVI SUR 7 JOURS -->
+  <section class="outil" id="fiche9">
+    <span class="outil-num">Fiche 9 · Observer</span>
+    <h2>Suivi sur 7 jours</h2>
+    <p class="fiche-titre-pratique">Observer mes petites victoires.</p>
+
+    <div class="ss-objectif">
+      <span class="ss-label">Objectif</span>
+      <p>Observer pendant une semaine ce qui change, ce qui bloque encore et ce qui peut être ajusté.</p>
+      <p>Le but n&rsquo;est pas d&rsquo;avoir une semaine parfaite. Le but est de <strong>rendre les progrès visibles, même s&rsquo;ils sont petits</strong>.</p>
+    </div>
+
+    <div class="ss-comprendre">
+      <span class="ss-label">À comprendre</span>
+      <p>Quand tu es anxieux ou que tu as une faible estime de toi, ton cerveau remarque souvent plus facilement ce qui ne va pas : ce que tu n&rsquo;as pas fait, ce que tu as raté, ce que tu as repoussé, ce que les autres font mieux, ce qui reste difficile.</p>
+      <p>Résultat : même quand tu avances un peu, tu peux avoir l&rsquo;impression que « rien ne change ». <strong>C&rsquo;est pour ça qu&rsquo;il faut noter les petites preuves.</strong></p>
+      <p>Une petite victoire peut être :</p>
+      <ul>
+        <li>Avoir commencé 10 minutes.</li>
+        <li>Avoir demandé une explication.</li>
+        <li>Avoir repris après une pause.</li>
+        <li>Avoir préparé son sac.</li>
+        <li>Avoir corrigé une erreur.</li>
+        <li>Avoir rendu un travail imparfait.</li>
+        <li>Avoir révisé une partie au lieu d&rsquo;éviter totalement.</li>
+        <li>Avoir remplacé une pensée dure par une pensée plus juste.</li>
+      </ul>
+      <p>Ce n&rsquo;est pas spectaculaire. Mais c&rsquo;est exactement comme ça qu&rsquo;on reconstruit une dynamique.</p>
+    </div>
+
+    <div class="ss-utiliser">
+      <span class="ss-label">À utiliser concrètement</span>
+
+      <h3>Suivi quotidien</h3>
+      <p>À remplir chaque jour en 3 à 5 minutes.</p>
+      <table class="table-exercice-large">
+        <thead>
+          <tr>
+            <th>Jour</th>
+            <th>Tâche commencée</th>
+            <th>Durée</th>
+            <th>0-10</th>
+            <th>Pensée utile</th>
+            <th>Petite victoire</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Lundi</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td><strong>Mardi</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td><strong>Mercredi</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td><strong>Jeudi</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td><strong>Vendredi</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td><strong>Samedi</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          <tr><td><strong>Dimanche</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Échelle d&rsquo;anxiété</h3>
+      <table class="table-exercice">
+        <thead><tr><th>Niveau</th><th>Signification</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>Pas d&rsquo;anxiété</td></tr>
+          <tr><td>1-2</td><td>Léger stress</td></tr>
+          <tr><td>3-4</td><td>Stress présent mais gérable</td></tr>
+          <tr><td>5-6</td><td>Stress fort, besoin d&rsquo;aide ou de pause</td></tr>
+          <tr><td>7-8</td><td>Anxiété très forte, difficulté à agir</td></tr>
+          <tr><td>9-10</td><td>Panique ou blocage intense</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Exemple rempli</h3>
+      <table class="table-exercice-large">
+        <thead>
+          <tr><th>Jour</th><th>Tâche</th><th>Durée</th><th>0-10</th><th>Pensée utile</th><th>Petite victoire</th></tr>
+        </thead>
+        <tbody>
+          <tr class="exemple-rempli">
+            <td>Lundi</td>
+            <td>Maths : exercice corrigé</td>
+            <td>10 min</td>
+            <td>7</td>
+            <td>« Je commence petit »</td>
+            <td>J&rsquo;ai ouvert le cahier au lieu d&rsquo;éviter</td>
+          </tr>
+          <tr class="exemple-rempli">
+            <td>Mardi</td>
+            <td>Anglais : 5 mots</td>
+            <td>10 min</td>
+            <td>5</td>
+            <td>« 5 mots, c&rsquo;est déjà une étape »</td>
+            <td>J&rsquo;ai travaillé sans attendre la motivation</td>
+          </tr>
+          <tr class="exemple-rempli">
+            <td>Mercredi</td>
+            <td>Rien</td>
+            <td>0</td>
+            <td>8</td>
+            <td>« Je peux reprendre demain »</td>
+            <td>J&rsquo;ai noté ce qui m&rsquo;a bloqué</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-style:italic;color:#3C6478;font-size:14px;margin-top:10px;">Oui, même mercredi contient une petite victoire : tu n&rsquo;as pas fait la tâche, mais tu as observé le blocage au lieu de te massacrer. Ce n&rsquo;est pas suffisant à long terme, mais c&rsquo;est déjà plus utile que « je suis nul, fin de l&rsquo;histoire ».</p>
+
+      <h3>Questions de fin de semaine</h3>
+      <p>Réponds honnêtement, sans te juger.</p>
+      <ol>
+        <li>Quelle petite action ai-je réussi à faire au moins une fois ?</li>
+        <li>Quelle situation me bloque encore le plus ?</li>
+        <li>Quelle pensée revient souvent ?</li>
+        <li>Quelle pensée plus juste m&rsquo;aide un peu ?</li>
+        <li>Quelle méthode m&rsquo;a aidé à commencer ?</li>
+        <li>Est-ce que mon anxiété a baissé, même légèrement, à un moment ?</li>
+        <li>Ai-je demandé de l&rsquo;aide cette semaine ?</li>
+        <li>Qu&rsquo;est-ce que je dois ajuster la semaine prochaine ?</li>
+        <li>Quelle petite preuve montre que je ne suis pas totalement bloqué ?</li>
+      </ol>
+
+      <h3>Mon objectif pour la semaine suivante</h3>
+      <p>Cette semaine, ma priorité sera :</p>
+      <ul class="checkbox-list">
+        <li>Commencer 10 minutes.</li>
+        <li>Demander de l&rsquo;aide.</li>
+        <li>Réviser par blocs courts.</li>
+        <li>Réduire le téléphone pendant le travail.</li>
+        <li>Transformer une pensée qui m&rsquo;écrase.</li>
+        <li>Préparer un contrôle sans paniquer.</li>
+        <li>Noter mes petites preuves de progression.</li>
+        <li>Autre : ____________________________</li>
+      </ul>
+
+      <table class="table-exercice">
+        <tbody>
+          <tr><td>Ma première petite action sera :</td><td>&nbsp;</td></tr>
+          <tr><td>La personne à qui je peux demander de l&rsquo;aide est :</td><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ss-vigilance">
+      <span class="ss-label">Point de vigilance</span>
+      <p>Ne transforme pas ce suivi en tribunal contre toi-même. Si tu utilises cette fiche pour prouver que tu es nul, tu l&rsquo;utilises mal.</p>
+      <p>Cette fiche sert à <strong>observer, pas à te condamner</strong>. Il faut regarder deux choses : ce qui ne fonctionne pas encore, et ce qui commence à bouger, même un peu. Les deux sont importants.</p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Ce qu&rsquo;on suit devient plus visible. Ce qui devient visible peut changer.</div>
+    </div>
+  </section>
+
+  <!-- CONCLUSION -->
+  <section class="conclusion" id="conclusion">
+    <span class="page-label">Conclusion</span>
+    <h2>Reprendre confiance, ce n&rsquo;est pas redevenir parfait</h2>
+    <p class="sous-titre-conclusion">Ce qui change vraiment, c&rsquo;est ce qu&rsquo;on construit avec des petites preuves.</p>
+
+    <p>Si tu as utilisé ce kit, tu as peut-être compris une chose importante : ton problème n&rsquo;est pas seulement scolaire.</p>
+    <p>Il peut y avoir des difficultés réelles dans certaines matières, oui. Mais autour de ces difficultés, il peut aussi y avoir une boucle :</p>
+    <ul>
+      <li>Peur d&rsquo;échouer.</li>
+      <li>Honte.</li>
+      <li>Pensées dures.</li>
+      <li>Évitement.</li>
+      <li>Procrastination.</li>
+      <li>Retard.</li>
+      <li>Perte de confiance.</li>
+    </ul>
+    <p>Cette boucle peut donner l&rsquo;impression que tu es nul, incapable ou bloqué pour toujours.</p>
+    <p><strong>Mais une impression n&rsquo;est pas une vérité.</strong></p>
+
+    <p>Tu n&rsquo;as pas besoin de tout réparer en une semaine. Tu n&rsquo;as pas besoin de devenir parfaitement organisé. Tu n&rsquo;as pas besoin d&rsquo;avoir confiance en toi avant de commencer.</p>
+    <p>Tu as besoin de reprendre une petite action possible. <strong>Une seule.</strong> Puis une autre. Puis encore une autre.</p>
+
+    <p>C&rsquo;est comme ça que la confiance revient : pas par des phrases magiques, mais par des preuves concrètes. Une preuve peut être simple :</p>
+    <ul>
+      <li>J&rsquo;ai commencé 10 minutes.</li>
+      <li>J&rsquo;ai demandé de l&rsquo;aide.</li>
+      <li>J&rsquo;ai corrigé une erreur.</li>
+      <li>J&rsquo;ai préparé mon contrôle autrement.</li>
+      <li>J&rsquo;ai transformé une pensée dure.</li>
+      <li>J&rsquo;ai rendu un travail imparfait.</li>
+      <li>J&rsquo;ai arrêté de me traiter de nul pendant cinq minutes.</li>
+      <li>J&rsquo;ai recommencé après un blocage.</li>
+    </ul>
+    <p>Ce ne sont pas des détails. <strong>Ce sont des signes que tu reprends une marge d&rsquo;action.</strong></p>
+
+    <p>Tu peux être anxieux et avancer. Tu peux être en difficulté et apprendre. Tu peux avoir une faible estime de toi et reconstruire quelque chose de plus stable.</p>
+    <p>Le but n&rsquo;est pas d&rsquo;être parfait. <strong>Le but est d&rsquo;arrêter de te laisser définir par tes blocages.</strong></p>
+
+    <div class="phrase-finale">
+      <span class="pf-label">Phrase finale</span>
+      <div class="pf-texte">Tu n&rsquo;es pas ton anxiété, tu n&rsquo;es pas tes notes, tu n&rsquo;es pas ton retard. Tu es une personne en construction, et chaque petite action honnête compte.</div>
+    </div>
+  </section>
+
+  <!-- PAGE — MODE D'EMPLOI POUR LES PARENTS -->
+  <section class="parents-page" id="mode-emploi-parents">
+    <span class="page-label">Pour les parents</span>
+    <h2>Mode d&rsquo;emploi pour les parents</h2>
+    <p class="sous-titre-page">Accompagner sans mettre plus de pression.</p>
+
+    <p>Aider les parents à utiliser ce kit avec leur adolescent <strong>sans transformer le support en reproche, en contrôle ou en nouvelle source de tension</strong>.</p>
+    <p>Ce kit peut ouvrir un dialogue, mais il ne doit pas devenir une arme éducative. Il ne sert pas à dire « Regarde, tu vois, tu dois juste appliquer la méthode ». Il sert plutôt à demander : « Qu&rsquo;est-ce qui te bloque ? Quelle petite étape serait possible ? De quelle aide as-tu besoin ? »</p>
+
+    <div class="parents-bloc">
+      <div class="parents-bloc-titre">
+        <span class="parents-bloc-num">1</span>
+        <h3>Ne donnez pas tout le kit d&rsquo;un coup</h3>
+      </div>
+      <p>Si votre adolescent est déjà anxieux, découragé ou en perte de confiance, lui donner tout le kit en disant « tiens, lis ça » peut être vécu comme une charge de plus. Mieux vaut commencer par une seule page.</p>
+      <ul>
+        <li><strong>Fiche 1</strong> — Comprendre ma boucle de blocage, si l&rsquo;ado se sent nul ou coincé.</li>
+        <li><strong>Fiche 4</strong> — Mon plan anti-procrastination, s&rsquo;il repousse beaucoup.</li>
+        <li><strong>Fiche 7</strong> — Reconstruire mon estime de soi, s&rsquo;il se dévalorise.</li>
+        <li><strong>Fiche 8</strong> — Demander de l&rsquo;aide intelligemment, s&rsquo;il n&rsquo;arrive pas à formuler ses besoins.</li>
+      </ul>
+      <div class="phrase-parent-utile">« Je ne veux pas te rajouter une pression. J&rsquo;aimerais juste comprendre ce qui te bloque et voir si une petite étape peut t&rsquo;aider. »</div>
+    </div>
+
+    <div class="parents-bloc">
+      <div class="parents-bloc-titre">
+        <span class="parents-bloc-num">2</span>
+        <h3>Évitez le ton « solution imposée »</h3>
+      </div>
+      <p>Le pire usage du kit serait : « Tu vois, c&rsquo;est écrit là, donc fais-le. » Non. Ça, c&rsquo;est transformer un outil psychoéducatif en bâton pédagogique. Et généralement, l&rsquo;ado se braque.</p>
+      <div class="phrase-parent-utile">« Est-ce qu&rsquo;il y a une phrase ou une fiche dans ce kit qui ressemble à ce que tu vis ? »</div>
+      <div class="phrase-parent-utile">« On peut choisir une seule chose à tester cette semaine, pas tout. »</div>
+    </div>
+
+    <div class="parents-bloc">
+      <div class="parents-bloc-titre">
+        <span class="parents-bloc-num">3</span>
+        <h3>Cherchez le blocage avant de chercher la performance</h3>
+      </div>
+      <p>Le réflexe parental est souvent de regarder les notes, les devoirs non faits, le retard, les remarques des enseignants, le temps passé sur le téléphone. C&rsquo;est compréhensible.</p>
+      <p>Mais si vous ne regardez que la performance, vous risquez de rater le mécanisme : anxiété, honte, évitement, peur d&rsquo;échouer, faible estime de soi, désorganisation ou fatigue mentale.</p>
+      <div class="phrase-parent-utile">« Qu&rsquo;est-ce qui rend cette tâche difficile pour toi ? »</div>
+      <div class="a-eviter">« Pourquoi tu ne fais jamais d&rsquo;effort ? »</div>
+    </div>
+
+    <div class="parents-bloc">
+      <div class="parents-bloc-titre">
+        <span class="parents-bloc-num">4</span>
+        <h3>Aidez à réduire la première marche</h3>
+      </div>
+      <p>Un adolescent anxieux n&rsquo;a pas toujours besoin d&rsquo;un grand discours. Il a souvent besoin qu&rsquo;on l&rsquo;aide à rendre la tâche plus petite. Exemples :</p>
+      <ul>
+        <li>Ouvrir le cahier.</li>
+        <li>Travailler 10 minutes.</li>
+        <li>Choisir une seule matière.</li>
+        <li>Écrire la première phrase.</li>
+        <li>Relire une seule fiche.</li>
+        <li>Demander une précision à un professeur.</li>
+        <li>Préparer son sac.</li>
+        <li>Ranger uniquement son bureau.</li>
+      </ul>
+      <div class="phrase-parent-utile">« On ne va pas tout régler maintenant. Quelle est la plus petite étape possible ? »</div>
+    </div>
+
+    <div class="parents-bloc">
+      <div class="parents-bloc-titre">
+        <span class="parents-bloc-num">5</span>
+        <h3>Valorisez les preuves, pas seulement les résultats</h3>
+      </div>
+      <p>Si vous ne valorisez que les notes, l&rsquo;adolescent peut penser que seuls les résultats comptent. Or, chez un ado anxieux et en faible estime, il faut aussi repérer les preuves de reprise d&rsquo;action :</p>
+      <ul>
+        <li>Il a commencé.</li>
+        <li>Il a demandé de l&rsquo;aide.</li>
+        <li>Il a repris après une pause.</li>
+        <li>Il a corrigé une erreur.</li>
+        <li>Il a travaillé 10 minutes.</li>
+        <li>Il a rendu un travail imparfait.</li>
+        <li>Il a nommé son anxiété.</li>
+        <li>Il a évité de se traiter de nul.</li>
+      </ul>
+      <div class="phrase-parent-utile">« Ce que je remarque, ce n&rsquo;est pas seulement le résultat. C&rsquo;est que tu as repris une action. »</div>
+    </div>
+
+    <div class="parents-bloc">
+      <div class="parents-bloc-titre">
+        <span class="parents-bloc-num">6</span>
+        <h3>Ne minimisez pas l&rsquo;anxiété</h3>
+      </div>
+      <p><strong>À éviter :</strong></p>
+      <div class="a-eviter">« Mais non, ce n&rsquo;est rien. »</div>
+      <div class="a-eviter">« Tu stresses pour rien. »</div>
+      <div class="a-eviter">« À ton âge, tu n&rsquo;as pas de vrais problèmes. »</div>
+      <div class="a-eviter">« Tu réfléchis trop. »</div>
+      <div class="a-eviter">« Arrête de te prendre la tête. »</div>
+      <p>Même si vous voulez rassurer, ces phrases peuvent donner à l&rsquo;ado l&rsquo;impression qu&rsquo;il n&rsquo;est pas compris.</p>
+      <p><strong>À dire plutôt :</strong></p>
+      <div class="phrase-parent-utile">« Je vois que c&rsquo;est lourd pour toi. »</div>
+      <div class="phrase-parent-utile">« Je ne vais pas faire semblant que c&rsquo;est facile. »</div>
+      <div class="phrase-parent-utile">« On peut chercher une petite action possible. »</div>
+      <div class="phrase-parent-utile">« Tu n&rsquo;as pas besoin de gérer ça seul. »</div>
+    </div>
+
+    <div class="parents-bloc">
+      <div class="parents-bloc-titre">
+        <span class="parents-bloc-num">7</span>
+        <h3>Gardez le cadre sans humilier</h3>
+      </div>
+      <p>Comprendre l&rsquo;anxiété ne veut pas dire tout accepter. Le parent peut dire :</p>
+      <div class="phrase-parent-utile">« Je comprends que tu sois anxieux. Et on va quand même chercher une petite étape possible. »</div>
+      <p>C&rsquo;est plus juste que :</p>
+      <div class="a-eviter">« Bon, comme tu stresses, on laisse tomber. »</div>
+      <div class="a-eviter">« Tu n&rsquo;as aucune excuse. »</div>
+      <p>Le bon équilibre : <strong>« Je prends ta difficulté au sérieux, et je ne te laisse pas disparaître dedans. »</strong></p>
+    </div>
+
+    <div class="parents-bloc">
+      <div class="parents-bloc-titre">
+        <span class="parents-bloc-num">8</span>
+        <h3>Quand demander une aide extérieure ?</h3>
+      </div>
+      <p>Si les difficultés sont intenses, anciennes, ou si votre adolescent souffre beaucoup, il ne faut pas rester seuls avec le problème. Demandez de l&rsquo;aide rapidement si vous observez :</p>
+      <ul>
+        <li>Idées noires.</li>
+        <li>Automutilation.</li>
+        <li>Crises d&rsquo;angoisse fréquentes.</li>
+        <li>Refus scolaire important.</li>
+        <li>Isolement massif.</li>
+        <li>Pleurs fréquents.</li>
+        <li>Troubles du sommeil persistants.</li>
+        <li>Perte d&rsquo;appétit ou changements alimentaires marqués.</li>
+        <li>Discours très dévalorisant.</li>
+        <li>Épuisement émotionnel.</li>
+        <li>Impression qu&rsquo;il ou elle « ne tient plus ».</li>
+      </ul>
+      <p>Dans ces cas, le kit peut accompagner, mais il ne suffit pas.</p>
+    </div>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Votre rôle n&rsquo;est pas de forcer la confiance. Votre rôle est d&rsquo;aider votre adolescent à retrouver une petite marge d&rsquo;action sans l&rsquo;écraser davantage.</div>
+    </div>
+  </section>
+
+  <!-- AVERTISSEMENT PROFESSIONNEL -->
+  <section class="avertissement" id="avertissement">
+    <span class="page-label">Avertissement</span>
+    <h2>Avertissement professionnel</h2>
+    <p class="sous-titre-page">Cadre et limites du support.</p>
+
+    <p>Ce kit est un <strong>support psychoéducatif</strong> destiné à aider les adolescents à mieux comprendre certains blocages liés à l&rsquo;anxiété, aux difficultés scolaires, à la procrastination et à la faible estime de soi.</p>
+    <p>Il propose des outils pratiques pour :</p>
+    <ul>
+      <li>Repérer les pensées automatiques.</li>
+      <li>Comprendre les mécanismes d&rsquo;évitement.</li>
+      <li>Organiser le travail scolaire par petites étapes.</li>
+      <li>Gérer l&rsquo;anxiété avant un contrôle.</li>
+      <li>Reconstruire progressivement l&rsquo;estime de soi.</li>
+      <li>Demander de l&rsquo;aide plus clairement.</li>
+    </ul>
+
+    <div class="liste-pro">
+      <h4>Ce kit ne remplace pas</h4>
+      <ul>
+        <li>Un avis médical.</li>
+        <li>Un diagnostic.</li>
+        <li>Un suivi psychologique.</li>
+        <li>Un accompagnement psychiatrique.</li>
+        <li>Un bilan neuropsychologique.</li>
+        <li>Un accompagnement orthophonique, psychomoteur ou ergothérapeutique.</li>
+        <li>Les recommandations de l&rsquo;équipe éducative ou médicale.</li>
+      </ul>
+    </div>
+
+    <div class="encadre-securite">
+      <span class="label-securite">⚠ Quand demander une aide rapidement ?</span>
+      <p>Il est important de parler rapidement à un adulte de confiance ou à un professionnel si l&rsquo;adolescent :</p>
+      <ul>
+        <li>A des idées noires.</li>
+        <li>Parle de ne plus vouloir vivre.</li>
+        <li>Se fait du mal ou a envie de se faire du mal.</li>
+        <li>Fait des crises d&rsquo;angoisse fréquentes.</li>
+        <li>N&rsquo;arrive presque plus à aller en cours.</li>
+        <li>S&rsquo;isole fortement.</li>
+        <li>Dort très mal depuis plusieurs semaines.</li>
+        <li>Mange beaucoup moins ou beaucoup plus qu&rsquo;avant.</li>
+        <li>Pleure très souvent.</li>
+        <li>Se sent vide, épuisé ou désespéré.</li>
+        <li>Exprime une souffrance intense.</li>
+        <li>Semble perdre le contrôle de ses émotions ou de ses comportements.</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>Dans ces situations, il ne faut pas attendre que « ça passe tout seul ».</strong> Ce n&rsquo;est pas une faiblesse. C&rsquo;est un signal qu&rsquo;un accompagnement adapté est nécessaire.</p>
+    </div>
+
+    <h3>Pour les parents</h3>
+    <p>Ce kit peut être utilisé avec l&rsquo;adolescent, mais il ne doit pas devenir un outil de pression supplémentaire. Il ne sert pas à dire « Regarde, tu vois, tu dois juste faire la méthode », mais à ouvrir un dialogue : « Qu&rsquo;est-ce qui te bloque ? Quelle petite étape serait possible ? De quelle aide as-tu besoin ? »</p>
+    <p>Si l&rsquo;adolescent refuse totalement d&rsquo;utiliser le kit, l&rsquo;objectif n&rsquo;est pas de forcer. Il peut être préférable de commencer par une discussion courte, un seul exercice, ou un accompagnement par un professionnel.</p>
+
+    <h3>Limite importante</h3>
+    <p>Ce support peut aider à mieux comprendre et à mettre en place de premières stratégies. Mais si les difficultés sont anciennes, intenses ou associées à une grande souffrance, un accompagnement individualisé reste nécessaire.</p>
+    <p>Chaque adolescent est différent. Les outils doivent être adaptés à son âge, son profil, son environnement familial, son niveau de fatigue, son histoire scolaire et ses besoins spécifiques.</p>
+
+    <div class="ss-cle">
+      <span class="ss-label">Phrase-clé à retenir</span>
+      <div class="phrase">Ce kit peut ouvrir une porte, mais il ne remplace pas une main tendue quand la souffrance devient trop lourde.</div>
+    </div>
+  </section>
+
+  <!-- BONUS — FICHE RAPIDE IMPRIMABLE 3 PAGES -->
+  <section class="bonus-intro">
+    <span class="badge-bonus">Bonus imprimable</span>
+    <h2>Quand je bloque, je fais quoi ?</h2>
+    <p class="bonus-sous-titre">Fiche rapide à imprimer — 3 pages</p>
+    <p>Un support rapide à garder dans ton classeur, sur ton bureau ou dans ta pochette scolaire. À utiliser quand tu es déjà anxieux ou découragé et que tu ne veux pas relire tout le kit.</p>
+  </section>
+
+  <!-- BONUS PAGE 1 -->
+  <section class="bonus-page" id="bonus-page-1">
+    <span class="bonus-page-num">Page 1 / 3 · Comprendre</span>
+    <h2>Comprendre mon blocage</h2>
+    <p class="bonus-page-sous">Quand je bloque, ce n&rsquo;est pas forcément que je suis nul.</p>
+
+    <h3>Parfois, je bloque parce que :</h3>
+    <ul class="checkbox-list">
+      <li>J&rsquo;ai peur de rater.</li>
+      <li>Je ne sais pas par quoi commencer.</li>
+      <li>La tâche est trop floue.</li>
+      <li>Je suis fatigué.</li>
+      <li>Je suis en retard et ça me décourage.</li>
+      <li>Je veux faire parfaitement.</li>
+      <li>J&rsquo;ai honte de demander de l&rsquo;aide.</li>
+      <li>Je me compare aux autres.</li>
+      <li>Je pense que ça ne sert à rien.</li>
+      <li>Je panique avant même de commencer.</li>
+    </ul>
+
+    <h3>Ma boucle de blocage</h3>
+    <table class="table-exercice">
+      <tbody>
+        <tr><td>Situation difficile</td><td>&nbsp;</td></tr>
+        <tr><td>Pensée automatique</td><td>&nbsp;</td></tr>
+        <tr><td>Émotion ressentie</td><td>&nbsp;</td></tr>
+        <tr><td>Comportement adopté</td><td>&nbsp;</td></tr>
+        <tr><td>Conséquence après coup</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <div class="bonus-phrase-utile">
+      <span class="bpu-label">Phrase utile</span>
+      <div class="bpu-texte">Une difficulté ne définit pas ma valeur. Elle montre une étape à reprendre.</div>
+    </div>
+  </section>
+
+  <!-- BONUS PAGE 2 -->
+  <section class="bonus-page" id="bonus-page-2">
+    <span class="bonus-page-num">Page 2 / 3 · Agir</span>
+    <h2>Me remettre en action</h2>
+    <p class="bonus-page-sous">La règle des 10 minutes : je choisis une tâche minuscule et je travaille 10 minutes.</p>
+
+    <p style="background:#faf6fc;padding:14px 18px;border-radius:6px;border-left:4px solid #A878D0;font-size:14px;line-height:1.6;color:#3a3a3a;">
+      Pas besoin d&rsquo;être motivé. Pas besoin de tout finir. Pas besoin que ce soit parfait. <strong>Je commence par une marche.</strong>
+    </p>
+
+    <h3>Ma micro-action maintenant</h3>
+    <table class="table-exercice">
+      <tbody>
+        <tr><td>Quelle matière ?</td><td>&nbsp;</td></tr>
+        <tr><td>Quelle petite tâche ?</td><td>&nbsp;</td></tr>
+        <tr><td>Combien de temps ?</td><td>10 minutes</td></tr>
+        <tr><td>Quelle distraction j&rsquo;éloigne ?</td><td>&nbsp;</td></tr>
+        <tr><td>Quelle pause courte après ?</td><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Exemples de petites tâches</h3>
+    <ul class="checkbox-list">
+      <li>Ouvrir mon cahier.</li>
+      <li>Relire une page.</li>
+      <li>Apprendre 5 mots.</li>
+      <li>Faire 1 exercice.</li>
+      <li>Écrire 3 lignes.</li>
+      <li>Corriger 1 erreur.</li>
+      <li>Préparer mon sac.</li>
+      <li>Demander une consigne.</li>
+      <li>Relire une fiche méthode.</li>
+    </ul>
+
+    <div class="bonus-phrase-utile">
+      <span class="bpu-label">Phrase utile</span>
+      <div class="bpu-texte">Je n&rsquo;ai pas besoin d&rsquo;avoir confiance pour commencer. J&rsquo;ai besoin d&rsquo;une première étape assez petite pour être possible.</div>
+    </div>
+  </section>
+
+  <!-- BONUS PAGE 3 -->
+  <section class="bonus-page" id="bonus-page-3">
+    <span class="bonus-page-num">Page 3 / 3 · Transformer</span>
+    <h2>Remplacer la pensée qui m&rsquo;écrase</h2>
+    <p class="bonus-page-sous">Aujourd&rsquo;hui, mon cerveau me dit&hellip;</p>
+
+    <h3>Ma pensée dure</h3>
+    <div class="bonus-zone-ecriture">J&rsquo;écris ici la pensée qui me bloque maintenant&hellip;</div>
+
+    <h3>Est-ce un fait ou une interprétation ?</h3>
+    <ul class="checkbox-list">
+      <li>Fait</li>
+      <li>Interprétation</li>
+      <li>Peur</li>
+      <li>Supposition</li>
+      <li>Exagération</li>
+    </ul>
+
+    <h3>Je transforme sans me mentir</h3>
+    <table class="table-transform">
+      <thead>
+        <tr><th>Pensée qui écrase</th><th>Pensée plus juste</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Je suis nul</td><td>Je suis en difficulté sur ce point, mais je peux reprendre une étape</td></tr>
+        <tr><td>Je vais rater</td><td>Je suis anxieux, mais je peux préparer une petite partie</td></tr>
+        <tr><td>Je suis trop en retard</td><td>Je ne peux pas tout rattraper aujourd&rsquo;hui, mais je peux commencer 10 minutes</td></tr>
+        <tr><td>Ça ne sert à rien</td><td>Éviter me soulage maintenant, mais augmente mon stress après</td></tr>
+        <tr><td>Les autres sont meilleurs</td><td>Je ne connais pas leur parcours. Moi, je travaille ma prochaine étape</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Ma pensée plus juste aujourd&rsquo;hui</h3>
+    <div class="bonus-zone-ecriture">J&rsquo;écris ici ma version plus juste&hellip;</div>
+
+    <h3>Ma petite preuve de progression</h3>
+    <p>Aujourd&rsquo;hui, j&rsquo;ai réussi à :</p>
+    <ul class="checkbox-list">
+      <li>J&rsquo;ai commencé 10 minutes.</li>
+      <li>J&rsquo;ai demandé de l&rsquo;aide.</li>
+      <li>J&rsquo;ai corrigé une erreur.</li>
+      <li>J&rsquo;ai préparé une partie.</li>
+      <li>J&rsquo;ai arrêté de me traiter de nul.</li>
+      <li>J&rsquo;ai repris après une pause.</li>
+      <li>Autre : ____________________________</li>
+    </ul>
+
+    <div class="bonus-phrase-utile">
+      <span class="bpu-label">Phrase utile</span>
+      <div class="bpu-texte">Ce n&rsquo;est pas parce que je bloque aujourd&rsquo;hui que je suis bloqué pour toujours.</div>
+    </div>
+  </section>
+
+
+
+</div>
+
+<button class="print-btn" onclick="window.print()">🖨️ Imprimer</button>
+
+<footer style="text-align:center;padding:30px 16px 24px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif;max-width:880px;margin:24px auto 0;border-top:1px dashed rgba(168,120,208,.3)">
+  « Reprendre confiance, ce n'est pas redevenir parfait — c'est apprendre à se relever, encore et encore. »<br>
+  <span style="color:#A878D0;font-style:normal;font-weight:600;margin-top:10px;display:inline-block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase">Kit psychoéducatif ado · Création originale Nawel Haddouch · EducaTypique</span><br>
+  <span style="font-size:11px;color:#8A9892;margin-top:4px;display:inline-block">Mémoire locale · rien n'est envoyé en ligne · Imprimable</span><br>
+  <span style="font-size:10.5px;color:#8A9892;margin-top:6px;display:inline-block">⚠️ Cet outil pédagogique ne remplace pas l'accompagnement d'un·e professionnel·le. Si tu vis une détresse importante : <strong>3114</strong> (prévention suicide, 24h/24, gratuit) · <strong>Fil Santé Jeunes</strong> 0800 235 236.</span>
+</footer>
+
+</body>
+</html>

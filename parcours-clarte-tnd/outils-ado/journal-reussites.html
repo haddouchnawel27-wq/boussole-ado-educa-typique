@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journal des réussites — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{
+  background:linear-gradient(135deg,#FFD6C2,#F39BC2);padding:1.8rem 1.5rem;text-align:center;position:relative;overflow:hidden;
+}
+.bandeau::after{content:"⭐";position:absolute;top:1rem;right:1.4rem;font-size:1.8rem;opacity:.7}
+.bandeau h1{color:#fff;margin:0;font-size:clamp(1.6rem,3vw,2.2rem);text-shadow:0 2px 4px rgba(0,0,0,.1)}
+.bandeau .sub{color:#fff;max-width:680px;margin:.5rem auto 0;font-size:1.02rem;opacity:.95}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.25);padding:.3em .9em;border-radius:999px}
+
+.container{max-width:900px;margin:1.4rem auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.92rem;color:#5A4D6B;font-weight:600}
+
+.entete-meta{background:#fff;border-radius:var(--r-lg);padding:1rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--rose-titre);display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.entete-meta label{font-weight:800;font-family:var(--font-titre);color:var(--rose-titre)}
+.entete-meta input{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.95rem;flex:1;min-width:140px}
+.entete-meta .stats{margin-left:auto;display:flex;gap:.7rem;flex-wrap:wrap}
+.entete-meta .stat-pill{background:var(--rose-clair);color:var(--rose-titre);padding:.3em .8em;border-radius:999px;font-weight:700;font-size:.85rem}
+
+/* Formulaire d'ajout */
+.ajout-zone{background:linear-gradient(135deg,#fff,var(--beige));border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border:2px dashed var(--rose-soutenu)}
+.ajout-zone h2{margin:0 0 .4rem;color:var(--rose-titre);font-size:1.15rem;font-family:var(--font-titre)}
+.ajout-zone .ligne{display:grid;grid-template-columns:140px 1fr;gap:.6rem;margin-bottom:.5rem}
+@media (max-width:680px){.ajout-zone .ligne{grid-template-columns:1fr}}
+.ajout-zone input, .ajout-zone select, .ajout-zone textarea{
+  padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);
+  background:#fff;font-family:var(--font-body);font-size:.95rem;
+}
+.ajout-zone textarea{min-height:60px;resize:vertical}
+.ajout-zone label{font-weight:700;color:var(--texte);font-size:.88rem;display:flex;align-items:center}
+.ajout-zone .cat-chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.2rem}
+.ajout-zone .cat-chip{
+  background:#fff;border:2px solid var(--border);border-radius:999px;
+  padding:.3em .8em;cursor:pointer;font-size:.85rem;font-weight:700;color:var(--muted);
+  transition:all .15s;display:inline-flex;align-items:center;gap:.3rem;
+}
+.ajout-zone .cat-chip:hover{border-color:var(--rose-soutenu)}
+.ajout-zone .cat-chip.actif{background:var(--c-cat);color:#fff;border-color:var(--c-cat)}
+.btn-ajouter{
+  margin-top:.6rem;background:var(--rose-titre);color:#fff;
+  padding:.7em 1.4em;border:none;border-radius:999px;cursor:pointer;
+  font-family:var(--font-body);font-weight:800;font-size:1rem;box-shadow:var(--shadow-sm);
+}
+.btn-ajouter:hover{background:var(--rose-soutenu);transform:translateY(-1px)}
+
+/* Liste des réussites */
+.reussites-zone{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c-zone)}
+.reussites-zone h2{margin:0 0 .5rem;color:var(--c-zone);font-size:1.15rem;display:flex;align-items:center;gap:.5rem;font-family:var(--font-titre)}
+.reussites-zone .filtres{display:flex;flex-wrap:wrap;gap:.3rem;margin:.5rem 0}
+.filtre-chip{
+  background:var(--beige);border:none;border-radius:999px;padding:.3em .8em;
+  cursor:pointer;font-size:.82rem;font-weight:700;color:var(--muted);
+  font-family:var(--font-body);
+}
+.filtre-chip.actif{background:var(--violet-titre);color:#fff}
+.filtre-chip .compt{margin-left:.3em;opacity:.7;font-size:.75rem}
+
+.reussite-item{
+  display:grid;grid-template-columns:auto 1fr auto;gap:.7rem;align-items:start;
+  background:var(--beige);border-radius:var(--r-md);padding:.7rem .9rem;margin-bottom:.4rem;
+  border-left:5px solid var(--c-cat);
+}
+.reussite-item .icone{font-size:1.5rem;margin-top:.1rem}
+.reussite-item .contenu{display:flex;flex-direction:column;gap:.2rem}
+.reussite-item .contenu .meta{font-size:.78rem;color:var(--muted);font-weight:700}
+.reussite-item .contenu .texte{font-size:.95rem;color:var(--texte)}
+.reussite-item .contenu .cat-label{background:var(--c-cat);color:#fff;padding:.1em .55em;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;align-self:flex-start}
+.reussite-item .supp{
+  background:transparent;border:none;color:var(--muted);
+  cursor:pointer;font-size:1.1rem;padding:.2em .5em;
+  box-shadow:none;align-self:center;
+}
+.reussite-item .supp:hover{color:var(--rose-titre);background:none;transform:none}
+
+.zone-vide{text-align:center;padding:2rem 1rem;color:var(--muted);font-style:italic;background:var(--beige);border-radius:var(--r-md);margin:.5rem 0}
+.zone-vide .gros-emoji{font-size:3rem;display:block;margin-bottom:.4rem}
+
+.cat-ecole{--c-cat:#7c5cbf}
+.cat-famille{--c-cat:#F39BC2}
+.cat-amis{--c-cat:#2a9d8f}
+.cat-sport{--c-cat:#e05a8a}
+.cat-creativite{--c-cat:#CBB6F6}
+.cat-autonomie{--c-cat:#a87800}
+.cat-emotionnelle{--c-cat:#8ED9D2}
+.cat-autre{--c-cat:#6b5f7a}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 1.5rem}
+.actions button{background:#fff;color:var(--rose-titre);border:2px solid var(--rose-titre)}
+.actions button:hover{background:var(--rose-titre);color:#fff}
+.actions .danger{color:#c25a30;border-color:#c25a30}
+
+.reussites-zone{--c-zone:var(--violet-titre)}
+
+@media print{
+  .retour, .actions, .ajout-zone, .filtres{display:none !important}
+  body{background:#fff}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau::after{display:none}
+  .bandeau h1, .bandeau .sub{color:var(--rose-titre) !important;text-shadow:none}
+  .reussites-zone, .entete-meta{box-shadow:none}
+  .reussite-item{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../ados.html">← Espace ados</a>
+  <h1>⭐ Journal des réussites</h1>
+  <p class="sub">Chaque jour, je note 1 à 3 choses que j'ai bien faites. Petites ou grandes — tout compte.</p>
+</section>
+
+<div class="container">
+
+  <div class="posture">
+    💡 <strong>Pourquoi ce journal :</strong> ton cerveau retient surtout ce qui ne va pas (c'est son boulot de te protéger). Ce journal entraîne l'effet inverse — repérer ce qui marche. Au bout de quelques semaines, le cerveau commence à voir le positif tout seul. C'est un muscle qui se travaille.
+  </div>
+
+  <!-- META + STATS -->
+  <div class="entete-meta">
+    <label>👤 Prénom</label>
+    <input data-k="prenom" type="text" placeholder="ton prénom">
+    <div class="stats" id="stats-zone"></div>
+  </div>
+
+  <!-- FORMULAIRE D'AJOUT -->
+  <div class="ajout-zone">
+    <h2>✨ J'ajoute une réussite</h2>
+    <div class="ligne">
+      <label>📅 Quand ?</label>
+      <input id="ajout-date" type="date">
+    </div>
+    <div class="ligne">
+      <label>💬 C'est quoi ?</label>
+      <textarea id="ajout-texte" placeholder="ex : j'ai osé poser une question en cours… j'ai fini mes devoirs sans qu'on me le demande… j'ai dit ce que je pensais calmement…"></textarea>
+    </div>
+    <div class="ligne">
+      <label>🎯 Catégorie</label>
+      <div class="cat-chips" id="cat-chips"></div>
+    </div>
+    <button class="btn-ajouter" id="btn-ajouter">+ Ajouter à mon journal</button>
+  </div>
+
+  <!-- LISTE DES REUSSITES -->
+  <div class="reussites-zone">
+    <h2>📔 Mes réussites</h2>
+    <div class="filtres" id="filtres-zone"></div>
+    <div id="liste-reussites"></div>
+  </div>
+
+  <div class="actions">
+    <button id="btn-exporter">📄 Exporter (TXT)</button>
+    <button id="btn-imprimer">🖨️ Imprimer</button>
+    <button id="btn-vider" class="danger">🗑️ Tout effacer</button>
+  </div>
+
+  <p style="text-align:center;color:var(--muted);padding:1rem 0;font-size:.85rem">
+    EducaTypique · Méthode Educa — <a href="../../ados.html">retour espace ados</a>
+  </p>
+
+</div>
+
+<script>
+const STORAGE = 'educatypique_journal_reussites_v1';
+
+const CATEGORIES = [
+  { id:'ecole',       nom:'École',         icone:'📚' },
+  { id:'famille',     nom:'Famille',       icone:'🏡' },
+  { id:'amis',        nom:'Amis',          icone:'👫' },
+  { id:'sport',       nom:'Sport',         icone:'⚽' },
+  { id:'creativite',  nom:'Créativité',    icone:'🎨' },
+  { id:'autonomie',   nom:'Autonomie',     icone:'🚀' },
+  { id:'emotionnelle',nom:'Émotionnelle',  icone:'💗' },
+  { id:'autre',       nom:'Autre',         icone:'✨' }
+];
+
+let filtreActif = 'toutes';
+let catActuelle = 'ecole';
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function lireData(){
+  try{
+    const raw = localStorage.getItem(STORAGE);
+    return raw ? JSON.parse(raw) : { prenom:'', reussites:[] };
+  } catch(e){ return { prenom:'', reussites:[] }; }
+}
+function ecrireData(d){ localStorage.setItem(STORAGE, JSON.stringify(d)); }
+
+// === Catégories chips ===
+function renderCatChips(){
+  const cont = document.getElementById('cat-chips');
+  cont.innerHTML = CATEGORIES.map(c=>`
+    <button type="button" class="cat-chip cat-${c.id} ${c.id===catActuelle?'actif':''}" data-cat="${c.id}" style="--c-cat:${getCatColor(c.id)}">
+      <span>${c.icone}</span><span>${esc(c.nom)}</span>
+    </button>
+  `).join('');
+  cont.querySelectorAll('.cat-chip').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      catActuelle = b.dataset.cat;
+      cont.querySelectorAll('.cat-chip').forEach(x=> x.classList.remove('actif'));
+      b.classList.add('actif');
+    });
+  });
+}
+
+function getCatColor(catId){
+  const map = {ecole:'#7c5cbf', famille:'#F39BC2', amis:'#2a9d8f', sport:'#e05a8a', creativite:'#CBB6F6', autonomie:'#a87800', emotionnelle:'#8ED9D2', autre:'#6b5f7a'};
+  return map[catId] || '#6b5f7a';
+}
+function getCatIcone(catId){
+  const c = CATEGORIES.find(x=>x.id===catId);
+  return c ? c.icone : '✨';
+}
+function getCatNom(catId){
+  const c = CATEGORIES.find(x=>x.id===catId);
+  return c ? c.nom : 'Autre';
+}
+
+// === Filtres ===
+function renderFiltres(){
+  const data = lireData();
+  const counts = {};
+  CATEGORIES.forEach(c=> counts[c.id] = 0);
+  data.reussites.forEach(r=>{ if(counts[r.cat]!==undefined) counts[r.cat]++; });
+
+  const cont = document.getElementById('filtres-zone');
+  const total = data.reussites.length;
+  cont.innerHTML = `
+    <button type="button" class="filtre-chip ${filtreActif==='toutes'?'actif':''}" data-f="toutes">
+      Toutes <span class="compt">${total}</span>
+    </button>
+    ${CATEGORIES.map(c=>`
+      <button type="button" class="filtre-chip ${filtreActif===c.id?'actif':''}" data-f="${c.id}">
+        ${c.icone} ${esc(c.nom)} <span class="compt">${counts[c.id]}</span>
+      </button>
+    `).join('')}
+  `;
+  cont.querySelectorAll('.filtre-chip').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      filtreActif = b.dataset.f;
+      renderTout();
+    });
+  });
+}
+
+// === Liste des réussites ===
+function renderListe(){
+  const data = lireData();
+  const cont = document.getElementById('liste-reussites');
+  let list = [...data.reussites].sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+  if(filtreActif !== 'toutes'){
+    list = list.filter(r=> r.cat === filtreActif);
+  }
+
+  if(list.length === 0){
+    if(data.reussites.length === 0){
+      cont.innerHTML = `
+        <div class="zone-vide">
+          <span class="gros-emoji">🌱</span>
+          <strong>Aucune réussite encore.</strong><br>
+          Ajoute ta première — même toute petite. C'est comme ça qu'on commence à voir le positif.
+        </div>
+      `;
+    } else {
+      cont.innerHTML = `
+        <div class="zone-vide">
+          <span class="gros-emoji">🔍</span>
+          Aucune réussite dans cette catégorie. Essaie un autre filtre, ou ajoute une nouvelle réussite.
+        </div>
+      `;
+    }
+    return;
+  }
+
+  cont.innerHTML = list.map(r=>`
+    <div class="reussite-item cat-${r.cat}" data-id="${r.id}" style="--c-cat:${getCatColor(r.cat)}">
+      <div class="icone">${getCatIcone(r.cat)}</div>
+      <div class="contenu">
+        <div class="meta">📅 ${esc(r.date||'')}</div>
+        <div class="cat-label">${esc(getCatNom(r.cat))}</div>
+        <div class="texte">${esc(r.texte)}</div>
+      </div>
+      <button class="supp" data-id="${r.id}" title="Supprimer">×</button>
+    </div>
+  `).join('');
+
+  cont.querySelectorAll('.supp').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      if(!confirm('Supprimer cette réussite ?')) return;
+      const id = b.dataset.id;
+      const data = lireData();
+      data.reussites = data.reussites.filter(r=> r.id !== id);
+      ecrireData(data);
+      renderTout();
+    });
+  });
+}
+
+// === Stats ===
+function renderStats(){
+  const data = lireData();
+  const total = data.reussites.length;
+  const cont = document.getElementById('stats-zone');
+  if(total === 0){
+    cont.innerHTML = '';
+    return;
+  }
+  // Catégorie la plus représentée
+  const counts = {};
+  data.reussites.forEach(r=>{ counts[r.cat] = (counts[r.cat]||0)+1; });
+  const top = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
+
+  // Cette semaine
+  const today = new Date();
+  const lundiSemaine = new Date(today);
+  lundiSemaine.setDate(today.getDate() - (today.getDay()+6)%7);
+  lundiSemaine.setHours(0,0,0,0);
+  const cetteSemaine = data.reussites.filter(r=> r.date && new Date(r.date) >= lundiSemaine).length;
+
+  cont.innerHTML = `
+    <span class="stat-pill">⭐ Total : ${total}</span>
+    <span class="stat-pill">📆 Cette semaine : ${cetteSemaine}</span>
+    ${top ? `<span class="stat-pill">${getCatIcone(top[0])} Top : ${esc(getCatNom(top[0]))} (${top[1]})</span>` : ''}
+  `;
+}
+
+function renderTout(){
+  renderFiltres();
+  renderListe();
+  renderStats();
+}
+
+// === Ajout ===
+document.getElementById('btn-ajouter').addEventListener('click', ()=>{
+  const texte = document.getElementById('ajout-texte').value.trim();
+  const date = document.getElementById('ajout-date').value;
+  if(!texte){ alert('Décris ta réussite avant de l\'ajouter 😊'); return; }
+  if(!date){ alert('Mets la date.'); return; }
+  const data = lireData();
+  data.prenom = document.querySelector('[data-k="prenom"]').value;
+  data.reussites.push({
+    id: uid(),
+    date,
+    texte,
+    cat: catActuelle,
+    _ts: new Date().toISOString()
+  });
+  ecrireData(data);
+  document.getElementById('ajout-texte').value = '';
+  renderTout();
+});
+
+document.querySelector('[data-k="prenom"]').addEventListener('input', e=>{
+  const data = lireData();
+  data.prenom = e.target.value;
+  ecrireData(data);
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const data = lireData();
+  const l = ['Journal des réussites — EducaTypique',''];
+  l.push((data.prenom||'Mon prénom') + ' — ' + data.reussites.length + ' réussite(s)');
+  l.push('');
+  const list = [...data.reussites].sort((a,b)=> (a.date||'').localeCompare(b.date||''));
+  list.forEach(r=>{
+    l.push('['+r.date+'] '+getCatIcone(r.cat)+' '+getCatNom(r.cat)+' : '+r.texte);
+  });
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'journal-reussites-'+(data.prenom||'moi')+'-'+new Date().toISOString().slice(0,10)+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(!confirm('⚠️ Effacer TOUTES tes réussites ? Cette action est irréversible.')) return;
+  if(!confirm('Tu es vraiment sûr·e ? Tes réussites seront perdues pour de bon.')) return;
+  localStorage.removeItem(STORAGE);
+  document.querySelector('[data-k="prenom"]').value = '';
+  renderTout();
+});
+
+// Init
+const data = lireData();
+document.querySelector('[data-k="prenom"]').value = data.prenom || '';
+document.getElementById('ajout-date').valueAsDate = new Date();
+renderCatChips();
+renderTout();
+</script>
+
+</body>
+</html>

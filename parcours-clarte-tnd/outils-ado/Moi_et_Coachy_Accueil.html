@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moi & Coachy · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sarcelle:#3C6478;
+    --sarcelle-fonce:#2c4d5d;
+    --bleu-ciel:#B4F0F0;
+    --lavande:#C8A0F0;      /* Ouverture — découverte / introspection */
+    --menthe:#B4F0C8;       /* Continuité — travail / progrès */
+    --jaune:#F0F078;
+    --charbon:#4A4540;
+    --taupe:#7D7269;
+    --beige:#F0E4D3;
+    --creme:#FAF7F2;
+    /* Étape 1 — Ouverture (lavande) */
+    --ouv-doux:#F3ECFB; --ouv-bord:#C8A0F0; --ouv-ink:#6b3fa0; --ouv-grad1:#8f5fd0; --ouv-grad2:#6b3fa0;
+    /* Étape 2 — Continuité (menthe) */
+    --con-doux:#E4F7EC; --con-bord:#37B87C; --con-ink:#166b46; --con-grad1:#37B87C; --con-grad2:#1f8a5a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;color:var(--charbon);background:var(--creme);line-height:1.55;font-size:16px;}
+  .wrap{max-width:920px;margin:0 auto;padding:1.5rem 1rem 3rem;}
+
+  /* ---------- Header ---------- */
+  .hero{
+    background:linear-gradient(135deg,var(--sarcelle) 0%,var(--sarcelle-fonce) 100%);
+    color:#fff;border-radius:24px;padding:2.4rem 2rem 2rem;text-align:center;
+    box-shadow:0 12px 30px rgba(60,100,120,.24);position:relative;overflow:hidden;
+  }
+  .hero:after{content:"🧭";position:absolute;right:22px;top:16px;font-size:70px;opacity:.10;}
+  .brand-tag{
+    display:inline-block;background:rgba(255,255,255,.18);padding:.3rem 1rem;border-radius:999px;
+    font-size:.72rem;font-weight:800;letter-spacing:1.5px;margin-bottom:1rem;text-transform:uppercase;
+  }
+  .hero h1{font-family:'Poppins',sans-serif;font-weight:700;font-size:clamp(2rem,6vw,2.9rem);line-height:1.05;margin-bottom:.5rem;}
+  .hero .tagline{font-size:1.05rem;opacity:.93;font-style:italic;max-width:600px;margin:0 auto;}
+  .hero .prenom{
+    margin-top:1.3rem;display:flex;gap:.5rem;justify-content:center;align-items:center;flex-wrap:wrap;
+    font-size:.9rem;
+  }
+  .hero .prenom input{
+    border:none;border-radius:999px;padding:.5rem 1rem;font-family:'Nunito',sans-serif;font-weight:700;
+    font-size:.9rem;color:var(--sarcelle);max-width:220px;
+  }
+
+  /* ---------- Fil de progression ---------- */
+  .journey{
+    display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;
+    margin:1.4rem 0 .3rem;font-family:'Poppins',sans-serif;font-weight:700;color:var(--sarcelle);
+  }
+  .journey .node{background:#fff;border:2px solid var(--beige);border-radius:999px;padding:.5rem 1.1rem;font-size:.9rem;box-shadow:0 3px 10px rgba(0,0,0,.05);}
+  .journey .node.ouv{border-color:var(--ouv-bord);color:var(--ouv-ink);}
+  .journey .node.con{border-color:var(--con-bord);color:var(--con-ink);}
+  .journey .arrow{font-size:1.5rem;color:var(--sarcelle);opacity:.6;}
+
+  /* ---------- Où j'en suis ---------- */
+  .status{background:#fff;border-radius:16px;padding:1rem 1.2rem;margin-top:1rem;box-shadow:0 4px 14px rgba(0,0,0,.05);border-left:5px solid var(--sarcelle);}
+  .s-title{font-family:'Poppins',sans-serif;font-weight:600;color:var(--sarcelle);margin-bottom:.5rem;}
+  .s-items{display:flex;gap:.5rem;flex-wrap:wrap;}
+  .s-chip{font-size:.82rem;font-weight:700;padding:.35rem .8rem;border-radius:999px;}
+  .s-chip.ok{background:var(--con-doux);color:var(--con-ink);}
+  .s-chip.todo{background:var(--beige);color:var(--taupe);}
+
+  /* ---------- Cartes outils ---------- */
+  .steps{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;}
+  .step-card{
+    border-radius:20px;padding:1.6rem 1.5rem;color:#fff;display:flex;flex-direction:column;
+    box-shadow:0 8px 22px rgba(0,0,0,.14);position:relative;overflow:hidden;min-height:100%;
+  }
+  .step-card.ouv{background:linear-gradient(150deg,var(--ouv-grad1),var(--ouv-grad2));}
+  .step-card.con{background:linear-gradient(150deg,var(--con-grad1),var(--con-grad2));}
+  .step-card .num{
+    position:absolute;right:16px;top:8px;font-family:'Poppins',sans-serif;font-weight:700;
+    font-size:4.5rem;opacity:.16;line-height:1;
+  }
+  .step-card .kicker{font-family:'Poppins',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:1px;text-transform:uppercase;opacity:.92;}
+  .step-card .emoji{font-size:2.4rem;margin:.5rem 0 .2rem;}
+  .step-card h2{font-family:'Poppins',sans-serif;font-weight:700;font-size:1.5rem;margin-bottom:.2rem;}
+  .step-card .role{font-weight:800;font-size:1rem;opacity:.96;margin-bottom:.7rem;}
+  .step-card p{font-size:.92rem;font-weight:600;opacity:.95;margin-bottom:1.2rem;flex:1;}
+  .step-card .go{
+    display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+    background:#fff;text-decoration:none;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;
+    padding:.7rem 1.2rem;border-radius:999px;transition:.15s;align-self:flex-start;
+  }
+  .step-card.ouv .go{color:var(--ouv-ink);}
+  .step-card.con .go{color:var(--con-ink);}
+  .step-card .go:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.18);}
+  .step-card .sub{font-size:.78rem;opacity:.85;margin-top:.6rem;font-weight:600;}
+
+  /* ---------- La boucle ---------- */
+  .loop{
+    margin-top:1.4rem;background:#fff;border-radius:20px;padding:1.6rem 1.7rem;
+    box-shadow:0 4px 16px rgba(0,0,0,.06);text-align:center;
+  }
+  .loop h3{font-family:'Poppins',sans-serif;font-weight:700;color:var(--sarcelle);font-size:1.25rem;margin-bottom:.3rem;}
+  .loop .lead{color:var(--taupe);font-size:.95rem;margin-bottom:1.1rem;}
+  .loop-flow{display:flex;align-items:center;justify-content:center;gap:.7rem;flex-wrap:wrap;}
+  .loop-flow .chip{
+    border-radius:14px;padding:.8rem 1rem;font-size:.88rem;font-weight:700;max-width:320px;text-align:left;
+  }
+  .loop-flow .chip.ouv{background:var(--ouv-doux);border:1.5px solid var(--ouv-bord);color:var(--ouv-ink);}
+  .loop-flow .chip.con{background:var(--con-doux);border:1.5px solid var(--con-bord);color:var(--con-ink);}
+  .loop-flow .cyc{font-size:1.6rem;color:var(--sarcelle);}
+
+  .keyline{
+    margin-top:1.2rem;text-align:center;font-family:'Poppins',sans-serif;font-weight:600;font-size:1.02rem;
+    color:var(--sarcelle);background:linear-gradient(135deg,var(--menthe),var(--bleu-ciel));
+    padding:1rem 1.2rem;border-radius:14px;
+  }
+
+  /* ---------- Footer ---------- */
+  .footer{
+    margin-top:1.8rem;text-align:center;font-size:.8rem;color:var(--taupe);
+    border-top:1px dashed #d9cdbf;padding-top:1.1rem;line-height:1.7;
+  }
+  .footer strong{color:var(--sarcelle);font-family:'Poppins',sans-serif;}
+  .footer .disc{font-style:italic;}
+
+  @media (max-width:600px){
+    .steps{grid-template-columns:1fr;}
+    .loop-flow{flex-direction:column;}
+    .loop-flow .cyc{transform:rotate(90deg);}
+  }
+  @media print{
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+    body{background:#fff;}
+    .wrap{max-width:100%;padding:.3rem;}
+    .hero,.step-card,.loop,.status{box-shadow:none;}
+    .hero:after{display:none;}
+    .hero .prenom{display:none;}
+    .steps{grid-template-columns:1fr 1fr;}
+    a[href]{text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="brand-tag">EducaTypique · Moi &amp; Coachy</div>
+    <h1>🪞🎮 Moi &amp; Coachy</h1>
+    <div class="tagline">Deux outils, un seul chemin : d'abord je <b>m'ouvre</b> et je me comprends, ensuite je suis <b>accompagné·e</b> dans le travail.</div>
+    <div class="prenom">
+      <span>👋 Mon prénom :</span>
+      <input type="text" id="prenom" placeholder="(optionnel)" oninput="savePrenom()">
+    </div>
+  </div>
+
+  <div id="status-card"></div>
+
+  <div class="journey">
+    <span class="node ouv">🔓 1 · L'ouverture</span>
+    <span class="arrow">➜</span>
+    <span class="node con">🔗 2 · La continuité</span>
+  </div>
+
+  <div class="steps">
+    <!-- Étape 1 -->
+    <div class="step-card ouv">
+      <span class="num">1</span>
+      <div class="kicker">🔓 L'ouverture</div>
+      <div class="emoji">🪞</div>
+      <h2>Mon Mode d'emploi</h2>
+      <div class="role">Me découvrir &amp; me comprendre</div>
+      <p>Au calme, je fais le point sur qui je suis : ce qui me fait monter, ce qui m'apaise, et les mots pour le dire. C'est ma carte à moi.</p>
+      <a class="go" href="mode-emploi-moi-meme.html">🪞 Commencer ici →</a>
+      <span class="sub">Une fois que je me connais mieux…</span>
+    </div>
+
+    <!-- Étape 2 -->
+    <div class="step-card con">
+      <span class="num">2</span>
+      <div class="kicker">🔗 La continuité</div>
+      <div class="emoji">🎮</div>
+      <h2>Coachy</h2>
+      <div class="role">Aide &amp; soutien dans le travail</div>
+      <p>Pendant que je bosse, Coachy reste dans le coin : il m'aide à me lancer, à tenir un round et à gérer un blocage — en s'appuyant sur ce que je sais de moi.</p>
+      <a class="go" href="coachy_v1.html">🎮 Continuer avec Coachy →</a>
+      <span class="sub">…je m'en sers pour avancer.</span>
+    </div>
+  </div>
+
+  <!-- La boucle -->
+  <div class="loop">
+    <h3>🔄 Et les deux se répondent</h3>
+    <div class="lead">Ce n'est pas deux outils côte à côte — c'est une boucle qui tourne.</div>
+    <div class="loop-flow">
+      <div class="chip ouv">🪞 Ce que je découvre sur moi (ce qui m'aide, ma phrase de secours) nourrit ma façon de travailler.</div>
+      <span class="cyc">🔁</span>
+      <div class="chip con">🎮 Ce que Coachy me fait remarquer pendant le travail vient compléter mon Mode d'emploi.</div>
+    </div>
+    <div class="keyline">🧭 Mon Mode d'emploi ouvre le chemin. Coachy accompagne le travail. Ensemble, ils font le parcours en entier.</div>
+    <p style="margin-top:.9rem;font-size:.82rem;color:var(--taupe);font-weight:600;">✅ Chaque outil marche aussi <b>tout seul</b> — ensemble, ils partagent ce que tu y notes.</p>
+  </div>
+
+  <div class="footer">
+    <strong>EducaTypique</strong> — Accompagnement des familles face aux TND<br>
+    Créé avec ❤️ par Nawel Oum Mona · Création originale<br>
+    <span class="disc">Ni Mon Mode d'emploi ni Coachy ne sont des outils de diagnostic ni un substitut à un professionnel.</span>
+  </div>
+
+</div>
+
+<script>
+  // Mémorise le prénom (partagé avec les outils via le même stockage local)
+  const PKEY = 'educatypique_prenom';
+  const inp = document.getElementById('prenom');
+  try { inp.value = localStorage.getItem(PKEY) || ''; } catch(e){}
+  function savePrenom(){ try { localStorage.setItem(PKEY, inp.value.trim()); } catch(e){} renderStatus(); }
+
+  // Aperçu « où j'en suis » à l'accueil
+  function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+  function renderStatus(){
+    let profil=null, dec=[], prenom='';
+    try{profil=JSON.parse(localStorage.getItem('educatypique_profil_actif'));}catch(e){}
+    try{dec=JSON.parse(localStorage.getItem('educatypique_decouvertes'))||[];}catch(e){}
+    try{prenom=(profil&&profil.prenom)||localStorage.getItem('educatypique_prenom')||'';}catch(e){prenom=(profil&&profil.prenom)||'';}
+    const box=document.getElementById('status-card'); if(!box) return;
+    if(!prenom && !profil && !dec.length){ box.innerHTML=''; return; }
+    let html='<div class="status"><div class="s-title">👋 '+(prenom?('Content de te revoir, '+escapeHtml(prenom)+' !'):'Content de te revoir !')+'</div><div class="s-items">';
+    html+='<span class="s-chip '+(profil?'ok':'todo')+'">🪞 Mode d\'emploi '+(profil?'commencé':'à démarrer')+'</span>';
+    html+='<span class="s-chip '+(dec.length?'ok':'todo')+'">💡 '+dec.length+' découverte'+(dec.length>1?'s':'')+' Coachy</span>';
+    html+='</div></div>';
+    box.innerHTML=html;
+  }
+  renderStatus();
+</script>
+</body>
+</html>

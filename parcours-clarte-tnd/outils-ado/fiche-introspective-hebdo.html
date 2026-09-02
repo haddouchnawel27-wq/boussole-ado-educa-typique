@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiche introspective hebdomadaire — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{
+  background:linear-gradient(135deg,var(--menthe),var(--turquoise));
+  padding:1.8rem 1.5rem;text-align:center;position:relative;overflow:hidden;
+}
+.bandeau::before{content:"✈️";position:absolute;top:1rem;right:1.5rem;font-size:1.8rem;opacity:.6;transform:rotate(-20deg)}
+.bandeau h1{color:#fff;margin:0;font-size:clamp(1.6rem,3vw,2.2rem);text-shadow:0 2px 4px rgba(0,0,0,.1)}
+.bandeau .sub{color:#fff;max-width:680px;margin:.5rem auto 0;font-size:1.02rem;opacity:.95}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.25);padding:.3em .9em;border-radius:999px}
+
+.container{max-width:900px;margin:1.4rem auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.92rem;color:#5A4D6B;font-weight:600}
+
+.semaine-zone{
+  background:#fff;border-radius:var(--r-lg);padding:1rem 1.4rem;box-shadow:var(--shadow-sm);
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-top:6px solid var(--teal-titre);
+}
+.semaine-zone label{font-weight:800;font-family:var(--font-titre);font-size:1.05rem;color:var(--teal-titre)}
+.semaine-zone input{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.95rem}
+
+.bloc-intro{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c)}
+.bloc-intro h2{color:var(--c);margin:0 0 .5rem;font-size:1.4rem;display:flex;align-items:center;gap:.5rem;font-family:var(--font-titre)}
+.bloc-intro .badge{background:var(--c);color:#fff;border-radius:50%;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem}
+.bloc-intro .lbl{color:var(--muted);font-style:italic;font-size:.92rem;margin-bottom:.7rem}
+
+.section-bien{--c:#2a9d8f}
+.section-apprendre{--c:#7c5cbf}
+.section-fierte{--c:#e05a8a}
+
+.lignes{display:flex;flex-direction:column;gap:.5rem}
+.ligne{display:flex;gap:.6rem;align-items:center;background:var(--beige);border-radius:var(--r-md);padding:.5rem .8rem}
+.ligne .coche{flex-shrink:0;width:22px;height:22px;border:2px solid var(--c);border-radius:6px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--c);font-size:1rem;transition:all .15s}
+.ligne .coche.cochee{background:var(--c);color:#fff}
+.ligne input.txt{flex:1;border:none;background:transparent;font-family:var(--font-body);font-size:1rem;color:var(--texte);padding:.3em .5em;border-bottom:1px dashed var(--border)}
+.ligne input.txt:focus{outline:none;border-bottom-color:var(--c);background:#fff}
+.ligne input.txt::placeholder{color:#bbb;font-style:italic}
+
+.bilan{background:linear-gradient(135deg,#fff,var(--beige));border-radius:var(--r-lg);padding:1.2rem 1.4rem;border:2px dashed var(--rose-titre);margin-top:.6rem}
+.bilan h3{color:var(--rose-titre);margin:0 0 .4rem;font-family:var(--font-titre)}
+.bilan textarea{width:100%;min-height:80px;padding:.6em;border:1px solid var(--border);border-radius:var(--r-md);background:#fff;font-family:var(--font-body);font-size:1rem;resize:vertical}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 1.5rem}
+.actions button{background:#fff;color:var(--teal-titre);border:2px solid var(--teal-titre)}
+.actions button:hover{background:var(--teal-titre);color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .retour, .actions, .dossiers, .posture{display:none !important}
+  body{background:#fff}
+  .bloc-intro, .semaine-zone, .bilan{box-shadow:none;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau::before{display:none}
+  .bandeau h1, .bandeau .sub{color:var(--teal-titre) !important;text-shadow:none}
+  .retour{display:none}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../ados.html">← Espace ados</a>
+  <h1>📔 Fiche introspective hebdomadaire</h1>
+  <p class="sub">Une fois par semaine, je m'arrête, je regarde, j'écris. Pas pour faire bien — pour me voir progresser.</p>
+</section>
+
+<div class="container">
+
+  <div class="posture">
+    💡 <strong>Pourquoi ça compte :</strong> ton cerveau retient surtout ce qui ne va pas. Cette fiche entraîne l'effet inverse — repérer ce qui marche, ce qui te porte, ce dont tu es fier·e. C'est un muscle qui se travaille.
+  </div>
+
+  <!-- SEMAINE -->
+  <div class="semaine-zone">
+    <label>📅 Semaine du</label>
+    <input data-k="semaine-debut" type="date">
+    <label>au</label>
+    <input data-k="semaine-fin" type="date">
+    <input data-k="prenom" type="text" placeholder="Mon prénom" style="margin-left:auto;min-width:160px">
+  </div>
+
+  <!-- 1. CE QUE JE FAIS DE BIEN -->
+  <section class="bloc-intro section-bien">
+    <h2><span class="badge">1</span> Ce que je fais de bien</h2>
+    <p class="lbl">Petites ou grandes choses. Tout compte. Même « j'ai dit bonjour à quelqu'un » ou « j'ai été à l'heure ». Coche celles dont tu es vraiment satisfait·e.</p>
+    <div class="lignes" id="lignes-bien"></div>
+  </section>
+
+  <!-- 2. CE QUE J'AIME APPRENDRE -->
+  <section class="bloc-intro section-apprendre">
+    <h2><span class="badge">2</span> Ce que j'aime apprendre</h2>
+    <p class="lbl">Matières, sujets, vidéos, jeux, expériences. Ce qui te donne envie de comprendre, de creuser, d'explorer.</p>
+    <div class="lignes" id="lignes-apprendre"></div>
+  </section>
+
+  <!-- 3. UNE REUSSITE DONT JE SUIS FIERE -->
+  <section class="bloc-intro section-fierte">
+    <h2><span class="badge">3</span> Une réussite dont je suis fier·e</h2>
+    <p class="lbl">Pas besoin de médaille. Une chose que je n'arrivais pas à faire avant et que je commence à faire mieux. Ou un effort que personne n'a vu mais que je sais avoir fait.</p>
+    <div class="lignes" id="lignes-fierte"></div>
+  </section>
+
+  <!-- BILAN -->
+  <div class="bilan">
+    <h3>🌟 Une phrase pour la semaine prochaine</h3>
+    <p style="margin:.2rem 0 .5rem;font-size:.9rem;color:var(--muted);font-style:italic">Ce que je veux garder en tête, une intention, une promesse à moi-même (pas un objectif scolaire — quelque chose de plus personnel).</p>
+    <textarea data-k="phrase-semaine" placeholder="ex : « Je peux demander de l'aide sans me sentir nul·le. »  « Je suis pas obligé·e d'être parfait·e. »  « Je vais m'autoriser une pause par jour. »"></textarea>
+  </div>
+
+  <div class="actions">
+    <button id="btn-enregistrer">💾 Enregistrer ma semaine</button>
+    <button id="btn-exporter">📄 Exporter (TXT)</button>
+    <button id="btn-imprimer">🖨️ Imprimer</button>
+    <button id="btn-vider" class="danger">🧹 Nouvelle semaine</button>
+  </div>
+
+  <div class="dossiers">
+    <h4>📂 Mes fiches enregistrées</h4>
+    <div id="liste-dossiers"></div>
+  </div>
+
+  <p style="text-align:center;color:var(--muted);padding:1rem 0;font-size:.85rem">
+    EducaTypique · Méthode Educa — <a href="../../ados.html">retour espace ados</a>
+  </p>
+
+</div>
+
+<script>
+const STORAGE = 'educatypique_fiche_introspective_v1';
+let currentId = null;
+const N_LIGNES = 5;
+const SECTIONS = ['bien', 'apprendre', 'fierte'];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function renderLignes(){
+  SECTIONS.forEach(sec=>{
+    const placeholders = {
+      bien: ["ex : j'ai fini un devoir difficile…", "j'ai été patient·e avec…", "j'ai aidé…", "j'ai dit non quand je voulais dire non…", "j'ai pris du temps pour moi…"],
+      apprendre: ["ex : un sujet qui m'intéresse…", "une vidéo qui m'a appris…", "un défi que je veux comprendre…", "une compétence que je veux développer…", "un livre / un jeu…"],
+      fierte: ["ex : j'ai osé…", "j'ai persévéré sur…", "j'ai dépassé…", "j'ai créé…", "j'ai progressé sur…"]
+    };
+    const cont = document.getElementById('lignes-'+sec);
+    cont.innerHTML = '';
+    for(let i=0; i<N_LIGNES; i++){
+      const ligne = document.createElement('div');
+      ligne.className = 'ligne';
+      ligne.innerHTML = `
+        <div class="coche" data-k="check-${sec}-${i}" role="checkbox" tabindex="0">✓</div>
+        <input class="txt" data-k="txt-${sec}-${i}" type="text" placeholder="${placeholders[sec][i] || ''}">
+      `;
+      const coche = ligne.querySelector('.coche');
+      coche.addEventListener('click', ()=> toggleCoche(coche));
+      coche.addEventListener('keydown', e=>{ if(e.key===' '||e.key==='Enter'){ e.preventDefault(); toggleCoche(coche);} });
+      cont.appendChild(ligne);
+    }
+  });
+}
+
+function toggleCoche(el){
+  el.classList.toggle('cochee');
+  el.dataset.coche = el.classList.contains('cochee') ? '1' : '';
+}
+
+// === Save / Load ===
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.classList.contains('coche')){
+      o[el.dataset.k] = el.classList.contains('cochee');
+    } else if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+      o[el.dataset.k] = el.value;
+    }
+  });
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.classList.contains('coche')){
+      el.classList.toggle('cochee', !!o[el.dataset.k]);
+    } else if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+      el.value = o[el.dataset.k] || '';
+    }
+  });
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.classList.contains('coche')){
+      el.classList.remove('cochee');
+    } else if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+      el.value = '';
+    }
+  });
+  // Date du jour pour début/fin
+  const today = new Date();
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - (today.getDay()+6)%7);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate()+6);
+  document.querySelector('[data-k="semaine-debut"]').valueAsDate = monday;
+  document.querySelector('[data-k="semaine-fin"]').valueAsDate = sunday;
+  currentId = null;
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucune fiche encore. Remplis ta première semaine !</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · semaine du ${esc((o['semaine-debut']||'').slice(0,10))} au ${esc((o['semaine-fin']||'').slice(0,10))}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire(); const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer cette fiche ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Mets ton prénom avant d\'enregistrer 😊'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr); rendreDossiers(); alert('Ta semaine est enregistrée 🌟');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const l = ['Fiche introspective hebdomadaire — EducaTypique',''];
+  l.push((o.prenom||'Mon prénom')+' · semaine du '+(o['semaine-debut']||'—')+' au '+(o['semaine-fin']||'—'));
+  l.push('');
+  const titres = { bien:'1. Ce que je fais de bien', apprendre:"2. Ce que j'aime apprendre", fierte:'3. Une réussite dont je suis fier·e' };
+  SECTIONS.forEach(sec=>{
+    l.push('== '+titres[sec]+' ==');
+    for(let i=0; i<N_LIGNES; i++){
+      const t = o['txt-'+sec+'-'+i];
+      const c = o['check-'+sec+'-'+i];
+      if(t) l.push((c?'  ✓ ':'  · ')+t);
+    }
+    l.push('');
+  });
+  l.push('🌟 Phrase pour la semaine prochaine : '+(o['phrase-semaine']||'—'));
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'fiche-introspective-'+(o.prenom||'moi')+'-'+(o['semaine-debut']||'').slice(0,10)+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{ if(confirm('Commencer une nouvelle semaine ? (Les fiches enregistrées sont conservées)')) vider(); });
+
+// Init
+renderLignes();
+// Date du jour : lundi-dimanche de la semaine en cours
+const today = new Date();
+const monday = new Date(today);
+monday.setDate(today.getDate() - (today.getDay()+6)%7);
+const sunday = new Date(monday);
+sunday.setDate(monday.getDate()+6);
+document.querySelector('[data-k="semaine-debut"]').valueAsDate = monday;
+document.querySelector('[data-k="semaine-fin"]').valueAsDate = sunday;
+rendreDossiers();
+</script>
+
+</body>
+</html>
