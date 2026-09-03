@@ -85,7 +85,7 @@ de l'app du même nom · `recadrer-sans-exploser` · `premiers-secours-psy-ado-f
 
 **Ludothèque (7)**
 `des-emotions` · `cartes-scenarios-parent-enfant` · `apprivoise-tes-emotions` ·
-`memoire-en-images` · `jeux-maison-fe` · `jeu-chitane` · `jeux-adaptes-rahma-tech`
+`memoire-en-images` · `jeux-maison-fe` · `tri-des-pensees` · `jeux-adaptes-rahma-tech`
 
 **Fonds antérieur (6)**
 `aide-epuise` · `apprendre-a-apprendre` · `controle-influence-lache` ·
