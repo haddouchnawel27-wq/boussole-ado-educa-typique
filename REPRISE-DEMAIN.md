@@ -136,6 +136,25 @@ Trois documents t'attendent :
 | `docs/PROMPT-DESIGN-CASA-ADOS.md` | Le prompt prêt à copier-coller pour Claude Design |
 | `docs/SPEC-ESPACE-SPIRITUEL-ADO.md` | Le cahier des charges des deux outils spirituels |
 
+## ⚠️ À se rappeler en priorité — dit par Nawel le 3 au soir
+
+**Ma mission, c'est la Casa des Familles.** On a dérivé trois jours sur l'espace ado —
+utile, mais ce n'était pas le mandat. Y revenir.
+
+**Le chantier de fond qui attend :** ce qu'on offre gratuitement, et ce qui devient le
+**parcours payant**. Deux branches existent déjà là-dessus :
+`claude/cap-educa-boussole-quotidien-s78uxo` et surtout
+**`claude/cap-educa-gardes-monetisation`**.
+
+**Le nom que Nawel cherchait : « Cap Educa ».** C'est l'ancienne *Boussole*, renommée —
+`index.html` à la racine du dépôt, « Boîte à outils d'accompagnement des ados ».
+`FEUILLE-DE-ROUTE-IA.md` note que le renommage **n'est pas encore fait dans le code** :
+les fichiers disent toujours « Boussole ». À trancher.
+
+**Et une chose à retrouver, côté Nawel :** une application existante pour ados musulmans,
+qu'elle a hébergée sur l'un de ses **trois comptes Netlify**. Proche de l'esprit de
+Souffle & Lumière. À défaut, on reprend Souffle & Lumière pour l'ado.
+
 ## 🌿 Journée du 3 septembre
 
 **Fait et livré :**
