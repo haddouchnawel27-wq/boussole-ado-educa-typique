@@ -211,3 +211,35 @@ rend les trois autres efficaces.
 _Note : le déploiement Vercel de `les-deux-jardins` échoue à chaque commit depuis des
 semaines. Ce n'est causé par aucun de nos changements — c'est le dossier racine du projet.
 Diagnostiqué, signalé une fois, plus jamais re-signalé. À ignorer._
+
+---
+
+## 📁 Où vont les livrables (noté le 3 septembre)
+
+Nawel range tout dans :
+
+```
+Documents › New Project › Livrable
+```
+
+**C'est là que vont tous les livrables**, y compris tout ce qui sort de Codex.
+Quand je lui envoie un fichier, c'est ce dossier-là.
+
+## Demain — Clarté Educa
+
+Le pack allégé est prêt et envoyé : `Clarte_Educa_Pack_allege.zip` (452 Ko au lieu de 14 Mo).
+Le dossier `documents/qa/` est retiré — il contenait un **profil Chrome complet**
+(historique, cookies, données de connexion) de la machine qui a généré les PDF.
+
+Deux points restent à trancher avec elle :
+
+1. **Deux chartes dans le même pack.** `application/_assets/charte.css` est la charte
+   EducaTypique (Poppins + Nunito). Mais `documents/document.css` et le `index.html`
+   d'accueil utilisent Segoe UI + Georgia avec une palette violette (`#765b80`, `#92536f`,
+   `#3a3050`). À unifier.
+
+2. **La page d'accueil pointe vers les versions HTML de travail**, pas vers les PDF
+   officiels (`href="documents/Ebook_Clarte_Educa.html"`). Le README dit pourtant que le
+   HTML sert « aux corrections futures » et que le PDF est l'officiel.
+
+Ensuite : **la mise en vente**.
