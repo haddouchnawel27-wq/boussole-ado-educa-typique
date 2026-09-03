@@ -136,6 +136,35 @@ Trois documents t'attendent :
 | `docs/PROMPT-DESIGN-CASA-ADOS.md` | Le prompt prêt à copier-coller pour Claude Design |
 | `docs/SPEC-ESPACE-SPIRITUEL-ADO.md` | Le cahier des charges des deux outils spirituels |
 
+## 🌿 Journée du 3 septembre
+
+**Fait et livré :**
+
+| Quoi | Où |
+|---|---|
+| **Jannat Al Qalb** — la page était nue, les 4 actifs sont servis | branche par défaut, en ligne |
+| **« Jeu Chitane » devient « Le tri des pensées »** — 49 remplacements, nom et code | `apps/tri-des-pensees.html` |
+| **La ludothèque adultes** — bouton « Arrêter » sur les 4 jeux, et arrêter tôt ne renvoie plus un zéro | envoyée en fichier |
+| **« Mon point de la semaine »** — le premier des deux outils spirituels | envoyé en fichier, à essayer |
+| **Le paquet des 23 outils** pour Claude Design | envoyé en zip |
+
+**Deux décisions de Nawel, structurantes :**
+
+**« On ne les transforme pas en jeux, on ne les occidentalise pas. »** D'où trois
+interdits dans tout l'espace spirituel : on ne cache pas, on ne chronomètre pas, on ne
+compte pas. Et le mot « jeu » lui-même est à éviter — on dit *atelier*.
+
+**Les Noms d'Allah ne vont dans aucun quiz.** Ils deviennent un ancrage dans l'espace
+émotion : quel Nom, dans quelle situation. Ça donne sa matière au second fichier
+manquant.
+
+**Le plan des 25 écrans est écarté** — comptes, géolocalisation, salons de mineurs,
+classements. Trois éléments seulement en sont retenus.
+
+**Ce qui attend :** les invocations par situation (le stress et les examens en porte
+d'entrée), les cartes de connaissance sur papier, et le second outil spirituel.
+Tout est détaillé dans `parcours-clarte-tnd/docs/SPEC-ESPACE-SPIRITUEL-ADO.md`.
+
 ## ✅ Tranché le 2 septembre
 
 **Une seule Casa des Ados, espace spirituel en option au début du parcours.** Pas de
