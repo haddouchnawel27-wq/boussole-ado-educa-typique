@@ -180,3 +180,42 @@ Trois choses en ont été retenues, et seulement trois : les **questions guidée
 d'introspection**, la **dou'a du jour** (texte, translittération, traduction — sans
 audio ni quiz), et le **mode discret**, pour l'ado qui ne veut pas que son écran
 affiche sa pratique devant ses camarades.
+
+---
+
+## 🧭 Précisions de Nawel — 3 septembre, en fin de journée
+
+### Les cartes de connaissance s'élargissent
+
+Trois familles, même principe — une question au recto, la réponse au verso, une couleur
+par thème : **les grands imams** d'une science, **les compagnons**, **les prophètes**.
+
+### Les Noms et Attributs d'Allah ne vont PAS dans les cartes
+
+**Décision de Nawel, et elle est structurante.** Les asmā' al-ḥusnā ne sont pas matière
+à quiz. Ils vont dans **l'espace émotion**, comme **ancrage spirituel** : *quel Nom,
+dans quelle situation.*
+
+Quelqu'un qui a peur ne révise pas Al-Ḥafīẓ, il s'y accroche. C'est une méditation, pas
+une révision — et ça règle définitivement la question du « memory des Noms » : on ne les
+met dans aucun jeu.
+
+Cette décision donne sa matière au second fichier manquant,
+`emotion-5-etapes-spirituel.html`.
+
+### Les invocations par situation — ce qu'elle veut vraiment
+
+Un outil qu'elle attend : **les duʿā rangés par situation de vie**, illustrés, et surtout
+**pédagogiques**.
+
+> « Je dis quoi, et **pourquoi** je dis. »
+
+Le *pourquoi* est le cœur : on n'apprend pas une formule, on comprend ce qu'elle fait.
+
+**Sa porte d'entrée explicite : le stress, et les périodes d'examen.** C'est là qu'un ado
+tend la main. Le reste — dormir, voyager, sortir, avant de manger — vient après.
+
+Ton demandé : ludique, un joli petit dessin par situation. Jamais scolaire.
+
+**Toujours la même règle :** pas de score, pas de série, pas de « duʿā du jour à ne pas
+manquer ». On propose, on n'assigne pas.
