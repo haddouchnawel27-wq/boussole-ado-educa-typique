@@ -129,3 +129,54 @@ Deux chemins, au choix de Nawel :
 
 Le reste du blocage est indépendant de cette décision : **le dossier des 23 outils
 n'est toujours pas dans l'export de l'app**, quel que soit le contenu.
+
+---
+
+## 🎴 Idée mise de côté — les cartes de connaissance
+
+_Dictée par Nawel le 3 septembre 2026, à reprendre reposée._
+
+Un **jeu de cartes à deux**, thèmes repérés par couleur. Une question par carte,
+**la réponse imprimée dessous** : celui qui interroge peut valider sans rien chercher.
+
+Ses exemples : « À partir de quoi Adam fut-il créé ? » → *l'argile*. « Le plus ancien
+ouvrage de tafsīr qui nous soit parvenu ? » avec plusieurs réponses proposées —
+aṭ-Ṭabarī, al-Wāḥidī, al-Baghawī. Et une famille de cartes sur **les grands imams**
+d'une science : le nom d'un côté, son époque et sa discipline de l'autre.
+
+**Ce n'est pas un écran, c'est du papier.** On joue autour d'une table, à deux, l'un
+lit et l'autre cherche. La chaîne de fiches imprimables à la charte existe déjà — c'est
+elle qu'il faut, pas l'app.
+
+**Ce que je peux faire :** la fabrique — la maquette des cartes, les couleurs par thème,
+la mise en page recto-verso, l'impression. **Ce que je ne fais pas :** écrire les
+questions et les réponses. C'est du savoir religieux ; il vient de Nawel, et chaque
+réponse est validée par elle avant impression.
+
+## 🕌 Règle posée par Nawel — 3 septembre 2026
+
+> « Les transformer en jeux, non. On ne peut pas les occidentaliser. »
+
+Elle a confirmé les quatre points de vigilance relevés : le mémory des Noms d'Allah
+(on ne cache pas les Noms — on relie, sans hasard ni score), la chasse aux signes
+(« chasse » est brutal pour des āyāt), la marelle de la prière (écartée), et le quiz
+« Qui suis-je ? » qui fait parler un prophète à la première personne.
+
+Trois interdits qui découlent de la règle, dans tout l'espace spirituel :
+**on ne cache pas, on ne chronomètre pas, on ne compte pas.** Ni points, ni badges,
+ni séries, ni classements. Le mot « jeu » lui-même est à éviter ici — on dit *atelier*.
+
+## ❌ Écarté définitivement — le plan des 25 écrans
+
+Un plan complet d'application a été soumis le 3 septembre : comptes utilisateurs,
+géolocalisation pour les horaires de prière, notifications, salons de discussion
+modérés, témoignages vidéo d'ados, invitations d'amis, classements hebdomadaires,
+boutique à points.
+
+**Nawel a tranché : on abandonne tout cela.** Ce n'était pas la Casa des Ados —
+c'était une autre application, avec serveur, comptes et modération de mineurs.
+
+Trois choses en ont été retenues, et seulement trois : les **questions guidées
+d'introspection**, la **dou'a du jour** (texte, translittération, traduction — sans
+audio ni quiz), et le **mode discret**, pour l'ado qui ne veut pas que son écran
+affiche sa pratique devant ses camarades.
