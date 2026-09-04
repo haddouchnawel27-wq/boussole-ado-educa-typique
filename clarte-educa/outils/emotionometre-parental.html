@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Émotionomètre parental — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fff5f8,#fff)}
+.bandeau{background:linear-gradient(135deg,#e05a8a,#F39BC2);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #e05a8a;line-height:1.55}
+.intro strong{color:#a02060}
+
+.scene-card{background:#fff;border-radius:var(--r-lg);padding:1.3rem 1.5rem;box-shadow:var(--shadow-sm);border-top:5px solid #F39BC2}
+.scene-card h2{color:#a04268;margin:0 0 .3rem;font-size:1.2rem;display:flex;align-items:center;gap:.4rem;justify-content:space-between;flex-wrap:wrap}
+.scene-card .nav-scenes{display:flex;gap:.3rem;align-items:center}
+.scene-card .nav-scenes button{padding:.3em .8em;background:#fff;border:1.5px solid #F39BC2;color:#a04268;border-radius:999px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem}
+.scene-card .nav-scenes button:hover{background:#F39BC2;color:#fff}
+.scene-card .nav-scenes span{font-weight:800;color:#a04268;font-size:.85rem}
+
+.scene-card .situation{background:#fff5f8;border-radius:var(--r-md);padding:.9rem 1.1rem;font-size:1rem;line-height:1.55;border-left:4px solid #F39BC2;margin:.5rem 0;font-style:italic;color:#5a3c4f}
+
+.choix-phrases{display:flex;flex-direction:column;gap:.5rem;margin-top:.6rem}
+.phrase-btn{background:#fff;border:2px solid #e0d0d8;border-radius:var(--r-md);padding:.8rem 1rem;text-align:left;cursor:pointer;font-family:inherit;font-size:.95rem;line-height:1.5;color:#3a3a3a;transition:all .15s}
+.phrase-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.phrase-btn.a:hover{border-color:#c25a30}
+.phrase-btn.b:hover{border-color:#e9a73a}
+.phrase-btn.c:hover{border-color:#5fa040}
+.phrase-btn .lettre{display:inline-block;width:28px;height:28px;border-radius:50%;background:#888;color:#fff;font-weight:800;text-align:center;line-height:28px;margin-right:.5rem;font-size:.85rem}
+.phrase-btn.a .lettre{background:#c25a30}
+.phrase-btn.b .lettre{background:#e9a73a}
+.phrase-btn.c .lettre{background:#5fa040}
+.phrase-btn.selected.a{background:#fff4ef;border-color:#c25a30;border-width:3px}
+.phrase-btn.selected.b{background:#fff8eb;border-color:#e9a73a;border-width:3px}
+.phrase-btn.selected.c{background:#f0f9ec;border-color:#5fa040;border-width:3px}
+
+.impact-bloc{background:linear-gradient(135deg,#fff,#fafbfc);border-radius:var(--r-md);padding:1rem 1.2rem;margin-top:.7rem;display:none;border-left:5px solid var(--c)}
+.impact-bloc.visible{display:block}
+.impact-bloc h3{color:var(--c);margin:0 0 .3rem;font-size:1.05rem;display:flex;align-items:center;gap:.4rem}
+.impact-bloc .visualisation{display:flex;align-items:center;gap:.6rem;justify-content:center;margin:.5rem 0;font-size:1.4rem;flex-wrap:wrap}
+.impact-bloc .visualisation .gauche,.impact-bloc .visualisation .droite{font-size:1.8rem;opacity:.3}
+.impact-bloc .visualisation .gauche.actif{opacity:1;transform:scale(1.4)}
+.impact-bloc .visualisation .droite.actif{opacity:1;transform:scale(1.4)}
+.impact-bloc .effet{background:#fff;border-radius:var(--r-sm);padding:.6rem .9rem;font-size:.92rem;line-height:1.55;color:#444;margin:.4rem 0}
+.impact-bloc .effet strong{color:var(--c)}
+.impact-bloc .rahma{background:#f0f9ec;border-left:3px solid #5fa040;padding:.6rem .9rem;border-radius:var(--r-sm);font-size:.9rem;line-height:1.55;color:#3d6e25;margin-top:.4rem}
+.impact-bloc .rahma strong{color:#3d6e25}
+
+.c-bombe{--c:#c25a30}
+.c-tiede{--c:#e9a73a}
+.c-coeur{--c:#5fa040}
+
+.stats-globales{background:#fff;border-radius:var(--r-md);padding:.9rem 1.1rem;box-shadow:var(--shadow-sm);border-top:4px solid #7c5cbf;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.stats-globales h3{color:#5a3c8f;margin:0;font-size:1rem;flex:1;min-width:200px}
+.stats-globales .compteurs{display:flex;gap:.5rem;flex-wrap:wrap}
+.stats-globales .compteur{padding:.4em .8em;border-radius:999px;font-weight:700;font-size:.85rem;color:#fff}
+.stats-globales .c-bombes{background:#c25a30}
+.stats-globales .c-tiedes{background:#e9a73a}
+.stats-globales .c-coeurs{background:#5fa040}
+
+.posture{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.88rem;color:#5A4D6B;line-height:1.5}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #e05a8a;background:#fff;color:#a02060;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#e05a8a;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+
+@media print{
+  body{background:#fff}
+  .actions,.bandeau .retour,.nav-scenes{display:none!important}
+  .scene-card,.intro,.posture,.stats-globales{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .impact-bloc{display:block !important}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../index.html">← Retour au parcours</a>
+  <h1>🎲 Émotionomètre parental</h1>
+  <p class="sub">12 situations quotidiennes. 3 phrases possibles A·B·C. Visualise l'impact que chaque phrase a sur le cœur de ton enfant.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🎲 <strong>Pourquoi ?</strong> Pour 12 situations de tous les jours, 3 phrases parentales possibles. Tu cliques sur celle que tu dirais (ou que tu as déjà dite). L'outil te montre l'<strong>impact émotionnel réel</strong> sur ton enfant (cœur ou bombe) + une version <strong>R.A.H.M.A</strong> à essayer.
+  </div>
+
+  <div class="posture">
+    🌿 <strong>Posture :</strong> Il n'y a pas de « bon parent qui fait toujours A ». Tous les parents disent parfois B ou C. L'objectif n'est <em>pas</em> la perfection — c'est la <em>conscience</em>. Plus tu vois l'impact, plus ton cerveau changera spontanément.
+  </div>
+
+  <section class="scene-card">
+    <h2>
+      <span id="titre-situation">📋 Situation n°1</span>
+      <div class="nav-scenes">
+        <button id="btn-prev">◀ Précédente</button>
+        <span id="compteur">1/12</span>
+        <button id="btn-next">Suivante ▶</button>
+      </div>
+    </h2>
+    <div class="situation" id="situation-text"></div>
+    <div class="choix-phrases" id="choix-container"></div>
+    <div class="impact-bloc" id="impact-bloc"></div>
+  </section>
+
+  <section class="stats-globales">
+    <h3>📊 Tes choix sur les 12 situations</h3>
+    <div class="compteurs">
+      <span class="compteur c-coeurs">💚 <span id="nb-coeurs">0</span> coeurs</span>
+      <span class="compteur c-tiedes">🟡 <span id="nb-tiedes">0</span> tièdes</span>
+      <span class="compteur c-bombes">💣 <span id="nb-bombes">0</span> bombes</span>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button onclick="window.print()">🖨 Imprimer</button>
+    <button class="danger" id="btn-vider">🧹 Réinitialiser</button>
+  </div>
+
+  <div class="disclaimer">
+    Outil de prise de conscience parentale. Les phrases proposées sont indicatives — adapte au contexte de TON enfant. Travail complémentaire : Méthode R.A.H.M.A.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../index.html" style="color:#a02060">retour au parcours</a>
+  </p>
+</div>
+
+<script>
+const KEY='clarte_educa_emotionometre_v1';
+try{ if(!localStorage.getItem('clarte_educa_emotionometre_v1') && localStorage.getItem('educatypique_emotionometre_v1')){ localStorage.setItem('clarte_educa_emotionometre_v1', localStorage.getItem('educatypique_emotionometre_v1')); } }catch(e){}
+
+const SITUATIONS = [
+  {sit:"Ton enfant a laissé son crayon par terre sur le sol après avoir dessiné.",
+   a:"« C'est pas vrai ! Tu laisses encore tes affaires n'importe où ! T'es vraiment pas sérieux(se) ! »",
+   b:"« Encore le crayon par terre... quelqu'un va glisser ! »",
+   c:"« J'ai vu un crayon par terre. Tu pourrais le ranger après avoir dessiné, s'il te plaît ? »"},
+  {sit:"Le lit n'est pas fait ce matin.",
+   a:"« Le lit toujours défait, c'est signe de paresse ! »",
+   b:"« Tu as l'air contrarié(e). Est-ce que c'est difficile pour toi de faire ton lit le matin ? »",
+   c:"« Pourrais-tu faire ton lit avant de jouer, s'il te plaît ? »"},
+  {sit:"Les devoirs ne sont pas faits malgré tes rappels.",
+   a:"« Tu sembles contrarié(e). Parle-moi de ce qui te préoccupe avec les devoirs. »",
+   b:"« Encore une fois, tes devoirs ne sont pas faits ! C'est toujours la même histoire ! »",
+   c:"« Je me sens préoccupé(e) quand les devoirs ne sont pas faits, ça pourrait te stresser plus tard. »"},
+  {sit:"Le repas n'a pas été mangé.",
+   a:"« C'est irrespectueux de ne pas manger ce qui est préparé ! »",
+   b:"« Je vois que tu n'as pas faim, y a-t-il quelque chose qui ne va pas avec le plat ? »",
+   c:"« Tu ne manges rien ? Tu ne fais aucun effort ! »"},
+  {sit:"Les chaussures traînent dans l'entrée.",
+   a:"« Tes chaussures doivent retourner à l'étagère. Tu peux le faire, s'il te plaît ? »",
+   b:"« Laisser traîner tes affaires partout n'est pas acceptable ! »",
+   c:"« Je me sens concerné(e) quand les chaussures traînent, ça désorganise l'entrée. »"},
+  {sit:"La lumière est restée allumée dans la chambre vide.",
+   a:"« L'électricité n'est pas gratuite, tu devrais être plus responsable ! »",
+   b:"« Je pense que tu as oublié la lumière dans ta chambre. Peux-tu l'éteindre, s'il te plaît ? »",
+   c:"« Tu laisses toujours la lumière allumée ! Pourquoi tu dois penser à l'éteindre, à la fin ?! »"},
+  {sit:"La vaisselle n'a pas été mise au lave-vaisselle.",
+   a:"« Ignorer la vaisselle n'aide pas et montre un manque de coopération. »",
+   b:"« Je remarque que ta vaisselle est encore sur la table. Pourrais-tu la mettre dans le lave-vaisselle ? »",
+   c:"« Tu dois TOUJOURS te rappeler de ranger la vaisselle. Pourquoi tu oublies tout le temps ? »"},
+  {sit:"Le sac à dos est laissé au milieu du couloir.",
+   a:"« Ton sac est en plein milieu du passage. Pourrais-tu le mettre de côté ? »",
+   b:"« Laisser ton sac au milieu du chemin est vraiment irresponsable ! »",
+   c:"« C'est dangereux de laisser ton sac ici, quelqu'un pourrait trébucher. »"},
+  {sit:"La télévision est restée allumée après le visionnage.",
+   a:"« Tu laisses toujours la télévision allumée ! Cela consomme de l'électricité pour rien ! »",
+   b:"« Ne pas éteindre la télévision montre un manque de conscience écologique ! »",
+   c:"« Je pense que tu as oublié d'éteindre la télévision. Peux-tu le faire la prochaine fois ? »"},
+  {sit:"Les vêtements sales ne sont pas dans le panier à linge.",
+   a:"« Laisser traîner tes vêtements est un manque d'ordre et de discipline ! »",
+   b:"« Pourrais-tu mettre tes vêtements dans le panier à linge quand tu te changes, s'il te plaît ? »",
+   c:"« Encore des vêtements par terre ! Tu ne peux pas les mettre directement dans le panier ?! »"},
+  {sit:"Les jeux vidéo ont été joués jusqu'à très tard.",
+   a:"« J'ai vu l'heure à laquelle tu as éteint la console hier. Essayons de mieux respecter l'heure du coucher. »",
+   b:"« Tu joues jusqu'à minuit ! Ce n'est pas raisonnable les jours d'école. »",
+   c:"« Ignorer l'heure du coucher à cause des jeux vidéo n'est pas un comportement acceptable ! »"},
+  {sit:"L'enfant a pris un jouet sans demander la permission.",
+   a:"« Prendre sans demander, c'est comme si tu ne respectais pas les autres ! »",
+   b:"« Je remarque que tu joues avec le nouveau jouet. La prochaine fois, demande-moi avant de le prendre, d'accord ? »",
+   c:"« Encore une fois tu prends des choses sans demander ! Ce n'est pas respectueux. »"}
+];
+
+// Pour chaque situation : on définit quel choix est "cœur", "tiède", "bombe" (varie pour casser le réflexe "C = toujours bon")
+const TYPES = [
+  {a:'bombe',b:'tiede',c:'coeur'}, // 1
+  {a:'bombe',b:'coeur',c:'tiede'}, // 2
+  {a:'coeur',b:'bombe',c:'tiede'}, // 3
+  {a:'bombe',b:'coeur',c:'bombe'}, // 4 (deux bombes possibles, on prend B = cœur)
+  {a:'coeur',b:'bombe',c:'tiede'}, // 5
+  {a:'bombe',b:'coeur',c:'bombe'}, // 6
+  {a:'tiede',b:'coeur',c:'bombe'}, // 7
+  {a:'coeur',b:'bombe',c:'tiede'}, // 8
+  {a:'bombe',b:'bombe',c:'coeur'}, // 9
+  {a:'bombe',b:'coeur',c:'bombe'}, // 10
+  {a:'coeur',b:'tiede',c:'bombe'}, // 11
+  {a:'bombe',b:'coeur',c:'bombe'}  // 12
+];
+
+const RAHMA_PHRASES = [
+  "🌿 Version RAHMA : « Je vois un crayon par terre. Tu te souviens où il va ? Tu peux le ranger ? »",
+  "🌿 Version RAHMA : « Le lit n'est pas fait — je sais que c'est dur le matin. On le fait ensemble cette fois ? »",
+  "🌿 Version RAHMA : « Je vois que les devoirs n'ont pas avancé. Qu'est-ce qui coince ? On regarde ensemble ? »",
+  "🌿 Version RAHMA : « Je remarque que tu n'as pas mangé. Tu n'as pas faim, ou il y a quelque chose qui te dérange ? »",
+  "🌿 Version RAHMA : « Les chaussures sont là. Tu peux les ranger ? Merci. »",
+  "🌿 Version RAHMA : « La lumière est restée allumée. Tu peux l'éteindre s'il te plaît ? »",
+  "🌿 Version RAHMA : « Je vois la vaisselle sur la table. Tu peux la ranger maintenant, s'il te plaît ? »",
+  "🌿 Version RAHMA : « Ton sac est là. Tu peux le déplacer ? Merci. »",
+  "🌿 Version RAHMA : « La télé est encore allumée. Tu peux l'éteindre s'il te plaît ? »",
+  "🌿 Version RAHMA : « Tes vêtements sont par terre. Tu peux les mettre au sale ? Merci. »",
+  "🌿 Version RAHMA : « J'ai vu que tu jouais tard hier. Comment on fait pour mieux respecter ton sommeil ? »",
+  "🌿 Version RAHMA : « Je vois le jouet dans tes mains. La prochaine fois, demande-moi avant de prendre. D'accord ? »"
+];
+
+const IMPACTS = {
+  bombe:{ic:'💣',titre:'Impact : bombe',visu:[false,true],effet:"<strong>Effet sur l'enfant :</strong> jugement, étiquette, généralisation. Renforce la honte et l'opposition. Le cerveau enregistre « je suis nul » plutôt que « j'ai oublié le crayon ». Avec le temps : estime de soi qui s'effrite."},
+  tiede:{ic:'🟡',titre:'Impact : tiède',visu:[false,false],effet:"<strong>Effet sur l'enfant :</strong> ni blessant ni vraiment connecté. L'enfant entend une remarque sans cadre ni invitation à agir. À transformer en demande claire ou en accueil émotionnel."},
+  coeur:{ic:'💚',titre:'Impact : cœur',visu:[true,false],effet:"<strong>Effet sur l'enfant :</strong> respect, demande claire OU accueil émotionnel sans jugement. L'enfant peut agir SANS se sentir attaqué(e). Construit la confiance et l'autonomie."}
+};
+
+let state={current:0,choix:{}};
+function load(){try{const r=localStorage.getItem(KEY);if(r){const o=JSON.parse(r);state.current=o.current||0;state.choix=o.choix||{}}}catch(e){}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function render(){
+  const i=state.current;
+  const s=SITUATIONS[i];
+  document.getElementById('titre-situation').textContent='📋 Situation n°'+(i+1);
+  document.getElementById('compteur').textContent=(i+1)+'/'+SITUATIONS.length;
+  document.getElementById('situation-text').textContent=s.sit;
+  const ch=document.getElementById('choix-container');
+  const sel=state.choix[i];
+  ch.innerHTML=['a','b','c'].map(k=>`<button class="phrase-btn ${k} ${sel===k?'selected':''}" data-k="${k}"><span class="lettre">${k.toUpperCase()}</span>${esc(s[k])}</button>`).join('');
+  ch.querySelectorAll('.phrase-btn').forEach(b=>b.onclick=()=>{
+    state.choix[i]=b.dataset.k;save();render();
+  });
+  const imp=document.getElementById('impact-bloc');
+  if(sel){
+    const type=TYPES[i][sel];
+    const im=IMPACTS[type];
+    imp.style.setProperty('--c',type==='bombe'?'#c25a30':type==='tiede'?'#e9a73a':'#5fa040');
+    imp.className='impact-bloc visible c-'+type;
+    imp.innerHTML=`<h3>${im.ic} ${im.titre}</h3>
+      <div class="visualisation">
+        <span class="gauche ${im.visu[0]?'actif':''}">💚</span>
+        <span style="font-size:1.4rem;color:#aaa">←</span>
+        <span style="font-size:2rem">🧠</span>
+        <span style="font-size:1.4rem;color:#aaa">→</span>
+        <span class="droite ${im.visu[1]?'actif':''}">💣</span>
+      </div>
+      <div class="effet">${im.effet}</div>
+      <div class="rahma">${esc(RAHMA_PHRASES[i])}</div>`;
+  } else imp.classList.remove('visible');
+  // Stats
+  const t={bombe:0,tiede:0,coeur:0};
+  Object.entries(state.choix).forEach(([k,v])=>{const ty=TYPES[parseInt(k)][v];t[ty]++});
+  document.getElementById('nb-coeurs').textContent=t.coeur;
+  document.getElementById('nb-tiedes').textContent=t.tiede;
+  document.getElementById('nb-bombes').textContent=t.bombe;
+}
+
+document.getElementById('btn-next').onclick=()=>{
+  state.current=(state.current+1)%SITUATIONS.length;save();render();
+  document.querySelector('.scene-card').scrollIntoView({behavior:'smooth',block:'start'});
+};
+document.getElementById('btn-prev').onclick=()=>{
+  state.current=(state.current-1+SITUATIONS.length)%SITUATIONS.length;save();render();
+  document.querySelector('.scene-card').scrollIntoView({behavior:'smooth',block:'start'});
+};
+document.getElementById('btn-vider').onclick=()=>{
+  if(confirm('Réinitialiser tous tes choix ?')){state.choix={};save();render();}
+};
+
+load();render();
+</script>
+
+</body>
+</html>
