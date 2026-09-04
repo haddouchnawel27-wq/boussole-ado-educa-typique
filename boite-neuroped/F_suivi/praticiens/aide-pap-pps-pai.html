@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aide rédaction PAP / PPS / PAI / PPRE — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#eef6f5,#fff)}
+.bandeau{background:linear-gradient(135deg,#2a9d8f,#5a7a9f);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.6rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:700px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:1050px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #2a9d8f;line-height:1.55}
+.intro strong{color:#1a6a5a}
+
+.comparateur{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid #5a7a9f}
+.comparateur h2{color:#3a5a7f;margin:0 0 .4rem}
+.comparateur-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem;margin-top:.4rem}
+.comp-card{background:#fafbfc;border-radius:var(--r-md);padding:.7rem .9rem;border-top:4px solid var(--cc)}
+.comp-card h4{color:var(--cc);margin:0 0 .25rem;font-size:.95rem}
+.comp-card .ic{font-size:1.4rem;margin-bottom:.2rem}
+.comp-card .quand{font-size:.78rem;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+.comp-card p{margin:.2rem 0;font-size:.82rem;line-height:1.5;color:#555}
+.comp-card .par-qui{font-size:.78rem;color:#888;font-style:italic;margin-top:.3rem}
+
+.cc-ppre{--cc:#5fa040}
+.cc-pap{--cc:#e9a73a}
+.cc-pps{--cc:#c25a30}
+.cc-pai{--cc:#7c5cbf}
+
+.tabs{display:flex;gap:.3rem;background:#fff;padding:.4rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);flex-wrap:wrap;position:sticky;top:0;z-index:10}
+.tabs button{flex:1;min-width:110px;padding:.6em .9em;background:transparent;color:#666;border:none;font-weight:700;cursor:pointer;border-radius:var(--r-sm);font-family:inherit;font-size:.88rem}
+.tabs button.active{background:#2a9d8f;color:#fff}
+.tabs button:hover:not(.active){background:#eef6f5}
+
+.section{display:none}
+.section.active{display:block}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #c5dfdb;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#2a9d8f;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#1a6a5a;border:1.5px solid #c5dfdb}
+
+.bloc{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c)}
+.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.1rem;display:flex;align-items:center;gap:.4rem}
+.bloc .intro-bloc{color:#666;font-size:.88rem;margin-bottom:.6rem;font-style:italic}
+
+.champ{display:flex;flex-direction:column;gap:.25rem;margin-bottom:.5rem}
+.champ label{font-weight:700;color:var(--c,#1a6a5a);font-size:.88rem}
+.champ input,.champ textarea{padding:.5em .7em;border:1.5px solid #c5dfdb;border-radius:var(--r-sm);font-family:inherit;font-size:.93rem;background:#faf9e8;resize:vertical}
+.champ textarea{min-height:60px;line-height:1.5}
+
+.bibli-section{background:#faf9e8;border-radius:var(--r-md);padding:.7rem .9rem;border-left:4px solid #e9a73a;margin-top:.4rem;font-size:.85rem;line-height:1.5}
+.bibli-section h4{color:#a07000;margin:0 0 .3rem;font-size:.92rem}
+.bibli-section .phrases{display:flex;flex-direction:column;gap:.25rem;margin-top:.3rem}
+.bibli-section .phrase-btn{padding:.35em .6em;background:#fff;border:1px solid #f0d8b8;border-radius:var(--r-sm);cursor:pointer;font-family:inherit;font-size:.83rem;color:#5a4400;text-align:left;line-height:1.4}
+.bibli-section .phrase-btn:hover{background:#fdf2e8;border-color:#e9a73a}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #2a9d8f;background:#fff;color:#1a6a5a;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#2a9d8f;color:#fff}
+.actions .primary{background:#2a9d8f;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+.export-bloc{background:linear-gradient(135deg,#fff,#eef6f5);border-radius:var(--r-lg);padding:1.2rem;border:2px dashed #c5dfdb;margin-top:1rem;display:none}
+.export-bloc.visible{display:block}
+.export-bloc h2{color:#1a6a5a;margin:0 0 .5rem}
+.export-bloc pre{white-space:pre-wrap;font-family:Georgia,serif;background:#fff;padding:1rem;border-radius:var(--r-md);border:1px solid #ddd;font-size:.9rem;line-height:1.6;color:#3a3a3a}
+
+@media print{
+  .tabs,.dossier-bar,.actions,.bandeau .retour{display:none!important}
+  .section{display:block!important}
+  body{background:#fff}
+  .bloc,.comparateur,.intro{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace pros</a>
+  <h1>🏫 Aide rédaction PAP · PPS · PAI · PPRE</h1>
+  <p class="sub">Trame structurée pour rédiger les éléments cliniques que le pro doit fournir pour les dossiers scolaires de l'enfant TND.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🏫 <strong>Pourquoi cet outil ?</strong> Pour le PAP/PPS/PAI/PPRE, l'école attend des éléments précis du pro (forces, besoins, adaptations recommandées). Cet outil aide à structurer ces éléments avec une bibliothèque de phrases type — à adapter, pas à copier tel quel.
+  </div>
+
+  <!-- COMPARATEUR -->
+  <section class="comparateur">
+    <h2>📚 PAP · PPS · PAI · PPRE — Qu'est-ce qui s'applique ?</h2>
+    <p class="intro-bloc">Récap des 4 dispositifs scolaires. Choisis le bon selon le profil de l'enfant.</p>
+    <div class="comparateur-grid">
+      <div class="comp-card cc-ppre">
+        <div class="ic">📘</div>
+        <div class="quand">Avant tout · sans MDPH</div>
+        <h4>PPRE — Programme Personnalisé de Réussite Éducative</h4>
+        <p><strong>Pour qui ?</strong> Tout élève en difficulté scolaire ponctuelle.</p>
+        <p><strong>Quoi ?</strong> Plan d'aide pédagogique court (1 trimestre). Pas de TND requis.</p>
+        <div class="par-qui">Décidé en équipe pédagogique. Sans avis pro extérieur obligatoire.</div>
+      </div>
+      <div class="comp-card cc-pap">
+        <div class="ic">📒</div>
+        <div class="quand">Trouble dys · sans MDPH</div>
+        <h4>PAP — Plan d'Accompagnement Personnalisé</h4>
+        <p><strong>Pour qui ?</strong> Enfant avec trouble des apprentissages (dyslexie, dyscalculie, dyspraxie, dysorthographie…) reconnu médicalement.</p>
+        <p><strong>Quoi ?</strong> Aménagements pédagogiques (temps majoré, supports adaptés, dispense, calculatrice…).</p>
+        <div class="par-qui">Avis du médecin scolaire requis. <strong>Pas de MDPH</strong>. Validation IEN.</div>
+      </div>
+      <div class="comp-card cc-pps">
+        <div class="ic">📕</div>
+        <div class="quand">Handicap reconnu · MDPH</div>
+        <h4>PPS — Projet Personnalisé de Scolarisation</h4>
+        <p><strong>Pour qui ?</strong> Enfant reconnu en situation de handicap par la MDPH (TSA, TDAH sévère, polyhandicap…).</p>
+        <p><strong>Quoi ?</strong> Compensations + aides humaines (AESH) + matérielles + orientation (ULIS, IME…).</p>
+        <div class="par-qui">Notification MDPH obligatoire. Équipe de Suivi de la Scolarisation (ESS).</div>
+      </div>
+      <div class="comp-card cc-pai">
+        <div class="ic">💊</div>
+        <div class="quand">Santé / médical</div>
+        <h4>PAI — Projet d'Accueil Individualisé</h4>
+        <p><strong>Pour qui ?</strong> Enfant avec problème de santé (allergie, épilepsie, diabète, asthme…) <em>ou trouble nécessitant médicament/régime à l'école</em>.</p>
+        <p><strong>Quoi ?</strong> Protocole médical à l'école (médicament, conduite à tenir en cas de crise).</p>
+        <div class="par-qui">Médecin scolaire + famille + directeur d'école.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABS RÉDACTION -->
+  <div class="tabs">
+    <button class="active" data-tab="cadre">📋 Cadre</button>
+    <button data-tab="profil">👤 Profil clinique</button>
+    <button data-tab="amen">🛠 Aménagements</button>
+    <button data-tab="orga">🏫 Organisation scolaire</button>
+    <button data-tab="suivi">📅 Suivi</button>
+    <button data-tab="gen">📄 Générer</button>
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:#1a6a5a">📁</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouveau</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <!-- CADRE -->
+  <section class="section active" id="cadre">
+    <div class="bloc" style="--c:#7c5cbf">
+      <h2>📋 Cadre de la demande</h2>
+      <div class="champ"><label>Enfant (prénom · nom · date de naissance)</label><input type="text" data-k="enfant"></div>
+      <div class="champ"><label>Classe</label><input type="text" data-k="classe" placeholder="Ex: CM1, 5e SEGPA…"></div>
+      <div class="champ"><label>Établissement</label><input type="text" data-k="ecole"></div>
+      <div class="champ"><label>Type de dispositif demandé</label>
+        <select data-k="type"><option value="">— Choisir —</option><option>PPRE</option><option>PAP</option><option>PPS</option><option>PAI</option><option>Plusieurs (PAP + PPS p.ex.)</option></select>
+      </div>
+      <div class="champ"><label>Diagnostic / hypothèse clinique</label><input type="text" data-k="diag" placeholder="Ex: TDAH (cocktail), dyslexie, TSA, HPI+anxiété…"></div>
+      <div class="champ"><label>Bilans déjà passés (avec dates)</label><textarea data-k="bilans" placeholder="Ex: WISC-V (J. Martin, 2024-09), bilan orthophonique (cab. X, 2024-06), neuropsy (cab. Y, 2024-11)"></textarea></div>
+      <div class="champ"><label>Pro signataire de ce document</label><input type="text" data-k="pro" placeholder="Nom, fonction, numéro RPPS si applicable"></div>
+    </div>
+  </section>
+
+  <!-- PROFIL CLINIQUE -->
+  <section class="section" id="profil">
+    <div class="bloc" style="--c:#5fa040">
+      <h2>👤 Profil clinique de l'enfant</h2>
+      <div class="champ"><label>💛 Forces et points d'appui (à valoriser à l'école)</label><textarea data-k="forces" placeholder="Ex: bonne mémoire visuelle, créativité, sens de l'humour, motivation forte en arts plastiques"></textarea></div>
+      <div class="bibli-section">
+        <h4>💡 Phrases-type pour les forces</h4>
+        <div class="phrases">
+          <button class="phrase-btn" data-target="forces" data-txt="Bonne mémoire visuelle et capacités de mémorisation par l'image.">Bonne mémoire visuelle</button>
+          <button class="phrase-btn" data-target="forces" data-txt="Excellentes capacités de raisonnement et de logique.">Bon raisonnement logique</button>
+          <button class="phrase-btn" data-target="forces" data-txt="Vocabulaire riche et expression orale développée.">Vocabulaire riche</button>
+          <button class="phrase-btn" data-target="forces" data-txt="Forte sensibilité, empathie, capacités relationnelles fines en 1-1.">Sensibilité &amp; empathie</button>
+          <button class="phrase-btn" data-target="forces" data-txt="Capacités créatives, pensée divergente, ouverture aux idées nouvelles.">Créativité &amp; pensée divergente</button>
+        </div>
+      </div>
+
+      <div class="champ" style="margin-top:.7rem"><label>🚧 Difficultés observées</label><textarea data-k="diff" placeholder="Précises, ciblées, observables. Pas de jugement."></textarea></div>
+      <div class="bibli-section">
+        <h4>💡 Phrases-type pour les difficultés (à adapter)</h4>
+        <div class="phrases">
+          <button class="phrase-btn" data-target="diff" data-txt="Difficultés d'attention soutenue : décrochage après 15-20 minutes d'effort cognitif.">Attention soutenue limitée</button>
+          <button class="phrase-btn" data-target="diff" data-txt="Mémoire de travail réduite : difficulté à retenir des consignes en plusieurs étapes.">Mémoire de travail réduite</button>
+          <button class="phrase-btn" data-target="diff" data-txt="Lecture lente et coûteuse : impacte la compréhension de consignes écrites et l'accès aux énoncés.">Lecture lente / dyslexie</button>
+          <button class="phrase-btn" data-target="diff" data-txt="Écriture lente, peu lisible, coûteuse en énergie cognitive (probable dysgraphie).">Dysgraphie</button>
+          <button class="phrase-btn" data-target="diff" data-txt="Difficultés d'initiation : besoin d'aide pour démarrer une tâche, blocage face à la consigne ouverte.">Initiation difficile</button>
+          <button class="phrase-btn" data-target="diff" data-txt="Régulation émotionnelle fragile : tempêtes émotionnelles disproportionnées, temps de retour au calme long.">Régulation émotionnelle</button>
+          <button class="phrase-btn" data-target="diff" data-txt="Hypersensibilité sensorielle (auditive / visuelle / tactile) marquée — impact en classe bruyante et lumineuse.">Hypersensibilité sensorielle</button>
+          <button class="phrase-btn" data-target="diff" data-txt="Fatigue cognitive importante l'après-midi, performances chutent.">Fatigue cognitive</button>
+        </div>
+      </div>
+
+      <div class="champ" style="margin-top:.7rem"><label>🎯 Besoins prioritaires identifiés</label><textarea data-k="besoins" placeholder="2-3 besoins MAX. Le PAP/PPS ne doit pas être un catalogue."></textarea></div>
+    </div>
+  </section>
+
+  <!-- AMÉNAGEMENTS -->
+  <section class="section" id="amen">
+    <div class="bloc" style="--c:#e9a73a">
+      <h2>🛠 Aménagements recommandés en classe</h2>
+      <div class="champ"><label>📌 Aménagements pédagogiques (consignes, supports)</label><textarea data-k="amen-peda" placeholder="Ex: consignes orales reformulées + écrites · supports aérés · accès aux énoncés en numérique"></textarea></div>
+      <div class="bibli-section">
+        <div class="phrases">
+          <button class="phrase-btn" data-target="amen-peda" data-txt="Consignes orales reformulées et présentées également par écrit.">Consignes doubles oral/écrit</button>
+          <button class="phrase-btn" data-target="amen-peda" data-txt="Supports aérés : une seule consigne par feuille, police 14 pt minimum, interlignage 1,5.">Supports aérés (police, interlignage)</button>
+          <button class="phrase-btn" data-target="amen-peda" data-txt="Temps majoré de 1/3 sur les évaluations et exercices écrits.">Temps majoré 1/3</button>
+          <button class="phrase-btn" data-target="amen-peda" data-txt="Réduction de la quantité de travail à produire (sélection des items les plus représentatifs).">Réduction quantité travail</button>
+          <button class="phrase-btn" data-target="amen-peda" data-txt="Accès aux outils numériques (ordinateur, lecteur de texte, dictée vocale) sur évaluations longues.">Outils numériques</button>
+          <button class="phrase-btn" data-target="amen-peda" data-txt="Évaluations orales privilégiées quand l'écrit est coûteux.">Évaluations orales</button>
+        </div>
+      </div>
+
+      <div class="champ" style="margin-top:.7rem"><label>🪑 Aménagements organisation classe (placement, environnement)</label><textarea data-k="amen-env" placeholder="Ex: place à distance des sources de bruit · cache de lecture autorisé · objet à manipuler discret"></textarea></div>
+      <div class="bibli-section">
+        <div class="phrases">
+          <button class="phrase-btn" data-target="amen-env" data-txt="Placement à proximité de l'enseignant et à distance des sources de distraction (fenêtre, porte, élève agité).">Placement adapté</button>
+          <button class="phrase-btn" data-target="amen-env" data-txt="Autorisation du port d'un casque anti-bruit lors des moments d'autonomie.">Casque anti-bruit</button>
+          <button class="phrase-btn" data-target="amen-env" data-txt="Autorisation d'un objet à manipuler discret (balle anti-stress, élastique) pour soutenir la concentration.">Objet manipulable</button>
+          <button class="phrase-btn" data-target="amen-env" data-txt="Pauses motrices autorisées toutes les 20-25 minutes (envoyer à un endroit, distribution).">Pauses motrices</button>
+          <button class="phrase-btn" data-target="amen-env" data-txt="Accès à un espace calme (coin lecture / refuge) en cas de surcharge sensorielle ou émotionnelle.">Coin refuge</button>
+        </div>
+      </div>
+
+      <div class="champ" style="margin-top:.7rem"><label>📋 Aménagements évaluation (contrôles, examens)</label><textarea data-k="amen-eval" placeholder="Ex: temps majoré 1/3 · police adaptée · calculatrice autorisée · dispense d'orthographe..."></textarea></div>
+      <div class="champ"><label>👥 Aides humaines proposées (PPS uniquement)</label><textarea data-k="aesh" placeholder="Ex: AESH mutualisée 6h/sem ou individualisée 18h/sem · taxi scolaire si transport adapté"></textarea></div>
+    </div>
+  </section>
+
+  <!-- ORGANISATION SCOLAIRE -->
+  <section class="section" id="orga">
+    <div class="bloc" style="--c:#5a7a9f">
+      <h2>🏫 Organisation scolaire</h2>
+      <div class="champ"><label>🎒 Allègements / dispenses</label><textarea data-k="dispenses" placeholder="Ex: dispense LV2 · dispense EPS sport collectif (médecin) · réduction de devoirs à la maison..."></textarea></div>
+      <div class="champ"><label>📚 Adaptations supports (manuels, photocopies)</label><textarea data-k="supports" placeholder="Ex: manuels numériques · photocopies en A4 (pas A3) · police OpenDyslexic ou Arial..."></textarea></div>
+      <div class="champ"><label>🔄 Modalités de communication école-famille</label><textarea data-k="commu" placeholder="Ex: cahier de liaison hebdo, mail à la fin de chaque période, RDV trimestriels..."></textarea></div>
+      <div class="champ"><label>⚠️ Conduite à tenir en cas de crise / surcharge (à transmettre à TOUS les intervenants)</label><textarea data-k="crise" placeholder="Ex: 1) le mettre en sécurité au coin refuge sans questionner · 2) appeler X · 3) ne PAS confronter pendant la crise..."></textarea></div>
+    </div>
+  </section>
+
+  <!-- SUIVI -->
+  <section class="section" id="suivi">
+    <div class="bloc" style="--c:#c25a30">
+      <h2>📅 Suivi et révision</h2>
+      <div class="champ"><label>📆 Périodicité de révision proposée</label><input type="text" data-k="periodicite" placeholder="Ex: bilan trimestriel · révision annuelle"></div>
+      <div class="champ"><label>👤 Référent du suivi côté école</label><input type="text" data-k="referent" placeholder="Ex: enseignante référente, coordinateur ULIS, professeur principal"></div>
+      <div class="champ"><label>📋 Indicateurs de progrès observables (3 max)</label><textarea data-k="indicateurs" placeholder="Ex: 1) durée de concentration en classe · 2) nombre de devoirs rendus · 3) nombre d'incidents émotionnels..."></textarea></div>
+      <div class="champ"><label>🧭 Critères qui appelleraient une révision du dispositif</label><textarea data-k="revision" placeholder="Ex: si aucune progression à 12 sem, si surcharge persistante, si demande de l'enfant lui-même..."></textarea></div>
+    </div>
+  </section>
+
+  <!-- GÉNÉRATION -->
+  <section class="section" id="gen">
+    <div class="bloc" style="--c:#7c5cbf">
+      <h2>📄 Générer le document à transmettre à l'école</h2>
+      <p class="intro-bloc">Clique sur le bouton ci-dessous pour produire un texte structuré (à relire et adapter avant envoi). Le PDF imprimé peut être annexé au dossier scolaire.</p>
+      <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap">
+        <button class="primary" id="btn-generer" style="padding:.7em 1.5em;background:#7c5cbf;color:#fff;border:none;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit">✨ Générer le texte structuré</button>
+        <button id="btn-export" style="padding:.7em 1.5em;background:#fff;color:#5a3c8f;border:2px solid #7c5cbf;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit">📄 Export TXT</button>
+        <button onclick="window.print()" style="padding:.7em 1.5em;background:#fff;color:#5a3c8f;border:2px solid #7c5cbf;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit">🖨 Imprimer (A4)</button>
+      </div>
+    </div>
+
+    <div class="export-bloc" id="export-bloc">
+      <h2>📄 Document généré</h2>
+      <p style="color:#888;font-size:.85rem;margin:0 0 .5rem">À relire, adapter et signer avant transmission à l'école.</p>
+      <pre id="generated-text"></pre>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button id="btn-save">💾 Enregistrer</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Ce document n'est <strong>pas un document officiel</strong>. C'est une aide à la rédaction des éléments cliniques. Le PAP/PPS/PAI/PPRE officiel est rédigé par/avec l'équipe pédagogique (et le médecin scolaire pour PAP, la MDPH pour PPS). Toujours adapter aux préconisations officielles du dispositif visé.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../professionnels.html" style="color:#1a6a5a">retour espace pros</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_aide_pap_pps_v1';
+let state={dossiers:{},dossier:null};
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Dossier 1":blank()};state.dossier="Dossier 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function appliquer(){
+  const d=current();
+  document.querySelectorAll('[data-k]').forEach(el=>el.value=(d[el.dataset.k])||'');
+}
+
+function wireUp(){
+  document.addEventListener('input',e=>{
+    const el=e.target;
+    if(el.dataset.k){current()[el.dataset.k]=el.value;save();}
+  });
+  document.addEventListener('change',e=>{
+    const el=e.target;
+    if(el.dataset.k){current()[el.dataset.k]=el.value;save();}
+  });
+}
+
+// Phrases pré-écrites cliquables
+document.querySelectorAll('.phrase-btn').forEach(b=>{
+  b.onclick=()=>{
+    const ta=document.querySelector(`[data-k="${b.dataset.target}"]`);
+    if(!ta) return;
+    const sep=ta.value && !ta.value.endsWith('\n')?'\n':'';
+    ta.value=(ta.value||'')+sep+b.dataset.txt;
+    current()[b.dataset.target]=ta.value;save();
+  };
+});
+
+// Tabs
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(b.dataset.tab).classList.add('active');
+  };
+});
+
+document.getElementById('btn-generer').onclick=()=>{
+  const d=current();
+  const typeLib=(d.type||'PAP/PPS/PAI');
+  let t=`────────────────────────────────────────\n`;
+  t+=`ÉLÉMENTS CLINIQUES POUR DOSSIER ${typeLib.toUpperCase()}\n`;
+  t+=`────────────────────────────────────────\n\n`;
+  t+=`Enfant : ${d.enfant||'—'}\n`;
+  t+=`Classe : ${d.classe||'—'}    Établissement : ${d.ecole||'—'}\n`;
+  t+=`Diagnostic / hypothèse : ${d.diag||'—'}\n`;
+  if(d.bilans) t+=`Bilans antérieurs : ${d.bilans}\n`;
+  t+=`Pro signataire : ${d.pro||'—'}\n\n`;
+
+  t+=`══ 1. PROFIL CLINIQUE ══\n\n`;
+  t+=`💛 FORCES ET POINTS D'APPUI :\n${d.forces||'—'}\n\n`;
+  t+=`🚧 DIFFICULTÉS OBSERVÉES :\n${d.diff||'—'}\n\n`;
+  t+=`🎯 BESOINS PRIORITAIRES :\n${d.besoins||'—'}\n\n`;
+
+  t+=`══ 2. AMÉNAGEMENTS RECOMMANDÉS ══\n\n`;
+  t+=`📌 Pédagogiques :\n${d['amen-peda']||'—'}\n\n`;
+  t+=`🪑 Organisation classe :\n${d['amen-env']||'—'}\n\n`;
+  t+=`📋 Évaluations :\n${d['amen-eval']||'—'}\n\n`;
+  if(d.aesh) t+=`👥 Aides humaines (PPS) :\n${d.aesh}\n\n`;
+
+  t+=`══ 3. ORGANISATION SCOLAIRE ══\n\n`;
+  if(d.dispenses) t+=`🎒 Allègements / dispenses :\n${d.dispenses}\n\n`;
+  if(d.supports) t+=`📚 Adaptations supports :\n${d.supports}\n\n`;
+  if(d.commu) t+=`🔄 Communication école-famille :\n${d.commu}\n\n`;
+  if(d.crise) t+=`⚠️ CONDUITE À TENIR EN CAS DE CRISE :\n${d.crise}\n\n`;
+
+  t+=`══ 4. SUIVI ET RÉVISION ══\n\n`;
+  if(d.periodicite) t+=`📆 Révision : ${d.periodicite}\n`;
+  if(d.referent) t+=`👤 Référent école : ${d.referent}\n`;
+  if(d.indicateurs) t+=`📋 Indicateurs de progrès :\n${d.indicateurs}\n`;
+  if(d.revision) t+=`🧭 Critères de révision :\n${d.revision}\n`;
+
+  t+=`\n────────────────────────────────────────\nDocument à relire et adapter avant transmission.\n${d.pro||''} · ${new Date().toLocaleDateString('fr-FR')}\n────────────────────────────────────────\n`;
+
+  document.getElementById('generated-text').textContent=t;
+  document.getElementById('export-bloc').classList.add('visible');
+  document.getElementById('export-bloc').scrollIntoView({behavior:'smooth'});
+};
+
+document.getElementById('btn-export').onclick=()=>{
+  const txt=document.getElementById('generated-text').textContent;
+  if(!txt){alert('Génère d\'abord le texte avec ✨ Générer.');return}
+  const b=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`elements-${(current().type||'pap')}-${(current().enfant||'enfant').replace(/[^a-z0-9]/gi,'_')}-${new Date().toISOString().slice(0,10)}.txt`;a.click();
+};
+
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();appliquer();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom :','Dossier '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible.');return}
+  if(confirm('Supprimer ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();appliquer();document.getElementById('export-bloc').classList.remove('visible');}};
+
+load();refreshDossier();appliquer();wireUp();
+</script>
+
+</body>
+</html>

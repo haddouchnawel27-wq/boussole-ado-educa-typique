@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mes valeurs ado — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fff5e8,#fff)}
+.bandeau{background:linear-gradient(135deg,#e9a73a,#F39BC2);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #e9a73a;line-height:1.55}
+.intro strong{color:#a07000}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #f0d8b8;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#e9a73a;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#a07000;border:1.5px solid #f0d8b8}
+
+.progres-bar{background:#fff;padding:.7rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.progres-bar .lbl{font-weight:700;color:#a07000;font-size:.85rem}
+.progres-bar .bar{flex:1;min-width:200px;height:14px;background:#fff5e8;border-radius:999px;overflow:hidden}
+.progres-bar .fill{height:100%;background:linear-gradient(90deg,#e9a73a,#F39BC2);border-radius:999px;transition:width .3s}
+.progres-bar .pct{font-weight:800;color:#a07000;font-size:.9rem;min-width:50px;text-align:right}
+
+.etape{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c);scroll-margin-top:1rem}
+.etape h2{color:var(--c);margin:0 0 .3rem;font-size:1.15rem;display:flex;align-items:center;gap:.4rem}
+.etape .intro-etape{color:#666;font-size:.92rem;margin-bottom:.6rem;font-style:italic;line-height:1.5}
+.etape textarea{width:100%;padding:.6em;border:1.5px solid #e0d0b8;border-radius:var(--r-md);font-family:inherit;font-size:.95rem;background:#fff8eb;min-height:70px;resize:vertical;line-height:1.5}
+.etape textarea:focus{outline:2px solid var(--c);background:#fff}
+
+.e1{--c:#F39BC2} /* Meilleurs moments */
+.e2{--c:#c25a30} /* Ce qui t'énerve */
+.e3{--c:#7c5cbf} /* Héros / modèles */
+.e4{--c:#5a7a9f} /* Petit test */
+.e5{--c:#e9a73a} /* Liste 20 valeurs */
+.e6{--c:#5fa040} /* Top 5 */
+
+.test-dilemme{background:#fafbfc;border-radius:var(--r-md);padding:.9rem 1.1rem;border-left:4px solid #5a7a9f}
+.test-dilemme h3{color:#3a5a7f;margin:0 0 .3rem;font-size:1rem}
+.test-dilemme p{margin:.3rem 0;font-size:.92rem;line-height:1.5}
+.test-dilemme .options{display:flex;flex-direction:column;gap:.3rem;margin-top:.4rem}
+.test-dilemme .options label{display:flex;align-items:flex-start;gap:.4rem;padding:.5em .7em;background:#fff;border-radius:var(--r-sm);cursor:pointer;border:1.5px solid transparent;font-size:.9rem;line-height:1.4}
+.test-dilemme .options label:hover{border-color:#5a7a9f}
+.test-dilemme .options label:has(input:checked){background:#5a7a9f;color:#fff;border-color:#3a5a7f}
+
+.valeurs-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.4rem;margin-top:.5rem}
+.valeur-chip{padding:.5em .9em;background:#fff;border:2px solid #f0d8b8;color:#a07000;border-radius:var(--r-md);cursor:pointer;font-family:inherit;font-weight:700;font-size:.92rem;transition:all .15s;text-align:center}
+.valeur-chip:hover{background:#fff5e8;border-color:#e9a73a;transform:translateY(-2px)}
+.valeur-chip.selected{background:linear-gradient(135deg,#e9a73a,#F39BC2);color:#fff;border-color:#e9a73a;box-shadow:var(--shadow-sm)}
+.valeur-chip .num-rang{display:inline-block;background:#fff;color:#a07000;font-size:.75rem;font-weight:800;padding:.1em .4em;border-radius:999px;margin-right:.3rem}
+.valeur-chip.selected .num-rang{background:rgba(255,255,255,.3);color:#fff}
+
+.top5-bloc{background:linear-gradient(135deg,#fff,#fff5e8);border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border:2px solid #f0d8b8;display:none}
+.top5-bloc.visible{display:block}
+.top5-bloc h2{color:#a07000;margin:0 0 .5rem}
+.top5-bloc p{margin:.3rem 0;color:#555;line-height:1.55;font-size:.93rem}
+.top5-list{display:flex;flex-direction:column;gap:.4rem;margin:.6rem 0}
+.top5-item{background:#fff;border-radius:var(--r-md);padding:.7rem .9rem;display:flex;align-items:center;gap:.7rem;border-left:5px solid var(--c)}
+.top5-item .rang{font-size:1.5rem;font-weight:800;color:var(--c);min-width:35px;text-align:center}
+.top5-item .nom-val{font-weight:800;color:var(--c);font-size:1.05rem}
+.top5-item .desc-val{font-size:.85rem;color:#666;margin-top:.15rem;font-style:italic}
+.rang-1{--c:#FFD700}
+.rang-2{--c:#C0C0C0}
+.rang-3{--c:#CD7F32}
+.rang-4{--c:#7c5cbf}
+.rang-5{--c:#5fa040}
+
+.mot-final{background:linear-gradient(135deg,#F0E8F5,#fff);padding:.9rem 1.2rem;border-radius:var(--r-md);border-left:4px solid #9B85B8;font-size:.92rem;line-height:1.6;color:#5A4D6B;font-style:italic;margin-top:.6rem}
+.mot-final strong{color:#5a3c8f;font-style:normal}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #e9a73a;background:#fff;color:#a07000;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#e9a73a;color:#fff}
+.actions .primary{background:#e9a73a;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+@media print{
+  body{background:#fff}
+  .dossier-bar,.actions,.bandeau .retour{display:none!important}
+  .etape,.top5-bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../ados.html">← Espace ados</a>
+  <h1>💎 Mes valeurs</h1>
+  <p class="sub">Un parcours en 6 étapes pour découvrir ce qui compte VRAIMENT pour toi. Pas ce que les autres attendent — toi.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    💎 <strong>Pourquoi ce parcours ?</strong> Tes valeurs, c'est ta <strong>boussole intérieure</strong>. Quand tu ne sais plus où tu vas, c'est souvent parce que tu as perdu de vue ce qui compte pour TOI. Ce parcours t'aide à les nommer en 6 étapes douces. Pas de bonne ou mauvaise réponse — juste TOI.
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:#a07000">📁</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouveau</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <div class="progres-bar">
+    <span class="lbl">📊 Progression</span>
+    <div class="bar"><div class="fill" id="prog-fill" style="width:0%"></div></div>
+    <span class="pct" id="prog-pct">0/6</span>
+  </div>
+
+  <!-- ÉTAPE 1 -->
+  <section class="etape e1" id="ep1">
+    <h2>1️⃣ Mes meilleurs moments</h2>
+    <div class="intro-etape">Repère tes 3 moments les plus heureux de cette année. Quand tu te sentais VRAIMENT toi. Pas les moments « officiels » (anniversaire, etc.) — les vrais.</div>
+    <textarea data-k="meilleurs" placeholder="Ex: « Quand j'ai aidé mon pote à réviser pour son contrôle. » · « Le concert où j'ai chanté à tue-tête. » · « La fois où j'ai dit non à un truc que je ne voulais pas. »"></textarea>
+  </section>
+
+  <!-- ÉTAPE 2 -->
+  <section class="etape e2" id="ep2">
+    <h2>2️⃣ Ce qui t'énerve</h2>
+    <div class="intro-etape">L'envers est aussi parlant que l'endroit. Ce qui te fait sortir de tes gonds révèle souvent une valeur que tu portes profondément.</div>
+    <textarea data-k="enerve" placeholder="Ex: « Les gens qui mentent. » · « Les profs injustes. » · « Quand on humilie quelqu'un de plus faible. »"></textarea>
+    <div class="mot-final">💡 <strong>Astuce :</strong> Si tu t'énerves contre l'injustice → tu portes la valeur <em>justice</em>. Contre le mensonge → <em>honnêteté</em>. Cherche derrière la colère.</div>
+  </section>
+
+  <!-- ÉTAPE 3 -->
+  <section class="etape e3" id="ep3">
+    <h2>3️⃣ Tes héros / modèles</h2>
+    <div class="intro-etape">3 personnes (réelles, fictives, célèbres ou pas) qui t'inspirent. Et POURQUOI précisément ? C'est leurs valeurs que tu admires, en réalité.</div>
+    <textarea data-k="heros" placeholder="Ex: « Ma grand-mère, parce qu'elle ne s'est jamais plainte. » · « Naruto, parce qu'il n'abandonne jamais ses amis. » · « Greta Thunberg, parce qu'elle ose dire ce qu'elle pense. »"></textarea>
+  </section>
+
+  <!-- ÉTAPE 4 -->
+  <section class="etape e4" id="ep4">
+    <h2>4️⃣ Petit test du dilemme</h2>
+    <div class="intro-etape">Imagine cette situation et choisis ta réponse spontanément (sans réfléchir trop longtemps).</div>
+    <div class="test-dilemme">
+      <h3>📱 Le téléphone vs les amis fidèles</h3>
+      <p>Tu trouves un nouveau téléphone dernier cri par terre dans la rue. Personne ne te voit. Mais en le ramassant, tu reçois un texto d'un de tes potes proches : « J'ai vraiment besoin de te parler, j'ai un problème. » Tu :</p>
+      <div class="options">
+        <label><input type="radio" name="dilemme" value="phone"><span>Tu prends le téléphone d'abord, tu réponds à ton pote après.</span></label>
+        <label><input type="radio" name="dilemme" value="poste"><span>Tu prends le téléphone et tu le déposes au commissariat, puis tu réponds.</span></label>
+        <label><input type="radio" name="dilemme" value="ami"><span>Tu laisses le téléphone et tu appelles ton pote tout de suite.</span></label>
+        <label><input type="radio" name="dilemme" value="autre"><span>Autre (à expliquer)</span></label>
+      </div>
+      <textarea data-k="dilemme-expl" placeholder="Explique ton choix ou décris ta réponse..." style="margin-top:.4rem;min-height:50px"></textarea>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 5 -->
+  <section class="etape e5" id="ep5">
+    <h2>5️⃣ Liste des 20 valeurs — coche ce qui résonne en toi</h2>
+    <div class="intro-etape">Lis chaque valeur. Coche celles qui résonnent VRAIMENT (10 max idéalement). Ne réfléchis pas trop — laisse ton cœur choisir.</div>
+    <div class="valeurs-grille" id="valeurs-grid"></div>
+    <div class="mot-final" style="margin-top:.6rem">💡 <strong>Pas de bonne ou mauvaise valeur.</strong> Liberté, sécurité, foi, plaisir, devoir — toutes ont leur place. Ce qui compte c'est de savoir LES TIENNES.</div>
+  </section>
+
+  <!-- ÉTAPE 6 -->
+  <section class="etape e6" id="ep6">
+    <h2>6️⃣ Mon Top 5 final</h2>
+    <div class="intro-etape">Maintenant, parmi les valeurs cochées, choisis les <strong>5 qui te représentent le plus</strong>. Clique dans l'ordre : 1ère = celle qui passe avant TOUT, 2e = celle juste après, etc.</div>
+    <div class="valeurs-grille" id="top5-grid"></div>
+    <button class="primary" id="btn-finir" style="padding:.7em 1.5em;background:#5fa040;color:#fff;border:none;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:.6rem">✨ Voir mon Top 5</button>
+  </section>
+
+  <!-- TOP 5 RÉSULTAT -->
+  <section class="top5-bloc" id="top5-bloc">
+    <h2>💎 Ta boussole intérieure — Top 5</h2>
+    <p>Voilà tes 5 valeurs phares. Imprime-les, garde-les. Quand tu doutes — relis-les. Elles te ramèneront à toi.</p>
+    <div class="top5-list" id="top5-list"></div>
+    <div class="mot-final">
+      <strong>💛 Mot de Nawel :</strong> Tes valeurs ne te rendent pas meilleur(e) que les autres — elles te rendent <em>toi</em>. Et c'est ça qui compte. Quand un choix se présente, demande-toi : <em>« ce choix est-il aligné avec mes 5 valeurs ? »</em> Si oui, fonce. Si non, écoute le doute.
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Cet outil aide à clarifier l'identité personnelle. Si tu te sens régulièrement « sans valeurs » ou « vide », c'est un signal qui mérite l'écoute d'un adulte de confiance ou d'un pro.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../ados.html" style="color:#a07000">retour espace ados</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_valeurs_ado_v1';
+let state={dossiers:{},dossier:null};
+
+const VALEURS_20 = [
+  {id:'amitie',nom:'Amitié',desc:"Les liens forts qui durent"},
+  {id:'famille',nom:'Famille',desc:"Le clan qui te soutient"},
+  {id:'foi',nom:'Foi',desc:"Une croyance qui te porte"},
+  {id:'liberte',nom:'Liberté',desc:"Choisir par toi-même"},
+  {id:'justice',nom:'Justice',desc:"Ce qui est juste pour tous"},
+  {id:'honnetete',nom:'Honnêteté',desc:"Vérité même quand c'est dur"},
+  {id:'courage',nom:'Courage',desc:"Avancer malgré la peur"},
+  {id:'curiosite',nom:'Curiosité',desc:"Apprendre toujours"},
+  {id:'creativite',nom:'Créativité',desc:"Créer ton propre chemin"},
+  {id:'autonomie',nom:'Autonomie',desc:"Te débrouiller seul(e)"},
+  {id:'respect',nom:'Respect',desc:"Considérer chaque personne"},
+  {id:'fidelite',nom:'Fidélité',desc:"Être là pour les tiens"},
+  {id:'plaisir',nom:'Plaisir',desc:"Profiter de la vie"},
+  {id:'reussite',nom:'Réussite',desc:"Atteindre tes objectifs"},
+  {id:'paix',nom:'Paix',desc:"Vivre tranquille en toi"},
+  {id:'aventure',nom:'Aventure',desc:"Découvrir, explorer, oser"},
+  {id:'partage',nom:'Partage',desc:"Donner et recevoir"},
+  {id:'humour',nom:'Humour',desc:"Rire même dans le dur"},
+  {id:'sagesse',nom:'Sagesse',desc:"Voir au-delà du moment"},
+  {id:'engagement',nom:'Engagement',desc:"Tenir tes promesses"}
+];
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {vals:{},cochees:[],top5:[]}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Mon parcours 1":blank()};state.dossier="Mon parcours 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function renderValeurs(){
+  const g=document.getElementById('valeurs-grid');
+  const d=current();
+  g.innerHTML=VALEURS_20.map(v=>{
+    const selected=(d.cochees||[]).includes(v.id);
+    return `<button class="valeur-chip ${selected?'selected':''}" data-v="${v.id}" title="${esc(v.desc)}">${esc(v.nom)}</button>`;
+  }).join('');
+  g.querySelectorAll('.valeur-chip').forEach(b=>b.onclick=()=>{
+    const d=current();d.cochees=d.cochees||[];
+    const id=b.dataset.v;
+    if(d.cochees.includes(id)){d.cochees=d.cochees.filter(x=>x!==id);
+      // si déselectionnée, la retirer aussi du top5
+      d.top5=(d.top5||[]).filter(x=>x!==id);
+    }
+    else d.cochees.push(id);
+    save();renderValeurs();renderTop5Grid();majProg();
+  });
+}
+
+function renderTop5Grid(){
+  const g=document.getElementById('top5-grid');
+  const d=current();
+  const cochees=(d.cochees||[]);
+  const top5=(d.top5||[]);
+  if(cochees.length===0){g.innerHTML='<em style="color:#888;font-size:.85rem">Coche d\'abord des valeurs à l\'étape 5.</em>';return}
+  g.innerHTML=cochees.map(id=>{
+    const v=VALEURS_20.find(x=>x.id===id);if(!v)return '';
+    const rang=top5.indexOf(id);
+    const inTop=rang>=0;
+    return `<button class="valeur-chip ${inTop?'selected':''}" data-t="${id}">${inTop?`<span class="num-rang">${rang+1}</span>`:''}${esc(v.nom)}</button>`;
+  }).join('');
+  g.querySelectorAll('.valeur-chip').forEach(b=>b.onclick=()=>{
+    const d=current();d.top5=d.top5||[];
+    const id=b.dataset.t;
+    if(d.top5.includes(id)){d.top5=d.top5.filter(x=>x!==id)}
+    else{
+      if(d.top5.length>=5){alert('Tu as déjà 5 valeurs. Désélectionne-en une avant d\'en ajouter.');return}
+      d.top5.push(id);
+    }
+    save();renderTop5Grid();
+  });
+}
+
+function afficherTop5(){
+  const d=current();
+  if(!d.top5||d.top5.length<3){alert('Choisis au moins 3 valeurs dans ton Top 5 d\'abord.');return}
+  const list=document.getElementById('top5-list');
+  list.innerHTML=d.top5.map((id,i)=>{
+    const v=VALEURS_20.find(x=>x.id===id);if(!v)return '';
+    return `<div class="top5-item rang-${i+1}"><div class="rang">${i+1}</div><div><div class="nom-val">${esc(v.nom)}</div><div class="desc-val">${esc(v.desc)}</div></div></div>`;
+  }).join('');
+  document.getElementById('top5-bloc').classList.add('visible');
+  document.getElementById('top5-bloc').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function appliquer(){
+  const d=current();
+  document.querySelectorAll('[data-k]').forEach(el=>el.value=(d.vals&&d.vals[el.dataset.k])||'');
+  document.querySelectorAll('input[name="dilemme"]').forEach(r=>{r.checked=(d.vals?.dilemme===r.value)});
+  renderValeurs();renderTop5Grid();majProg();
+}
+
+function wireUp(){
+  document.addEventListener('input',e=>{
+    const el=e.target;
+    if(el.dataset.k){const d=current();d.vals=d.vals||{};d.vals[el.dataset.k]=el.value;save();majProg();}
+  });
+  document.addEventListener('change',e=>{
+    const el=e.target;
+    if(el.name==='dilemme'){const d=current();d.vals=d.vals||{};d.vals.dilemme=el.value;save();majProg();}
+  });
+}
+
+function majProg(){
+  const d=current();
+  let n=0;
+  if(d.vals?.meilleurs) n++;
+  if(d.vals?.enerve) n++;
+  if(d.vals?.heros) n++;
+  if(d.vals?.dilemme) n++;
+  if((d.cochees||[]).length>=3) n++;
+  if((d.top5||[]).length>=3) n++;
+  document.getElementById('prog-pct').textContent=n+'/6';
+  document.getElementById('prog-fill').style.width=(n/6*100)+'%';
+}
+
+document.getElementById('btn-finir').onclick=afficherTop5;
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();appliquer();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom :','Mon parcours '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible.');return}
+  if(confirm('Supprimer ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();appliquer();document.getElementById('top5-bloc').classList.remove('visible');}};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();const v=d.vals||{};
+  let t=`MES VALEURS — TOP 5\nEducaTypique · Création originale Nawel Haddouch\n\n`;
+  t+=`1. MES MEILLEURS MOMENTS\n${v.meilleurs||'—'}\n\n`;
+  t+=`2. CE QUI M'ÉNERVE\n${v.enerve||'—'}\n\n`;
+  t+=`3. MES HÉROS / MODÈLES\n${v.heros||'—'}\n\n`;
+  t+=`4. DILEMME : ${v.dilemme||'—'}\n${v['dilemme-expl']||''}\n\n`;
+  t+=`5. VALEURS COCHÉES :\n${(d.cochees||[]).map(id=>'  • '+(VALEURS_20.find(x=>x.id===id)?.nom)).join('\n')||'—'}\n\n`;
+  t+=`6. MON TOP 5 :\n`;
+  (d.top5||[]).forEach((id,i)=>{const v=VALEURS_20.find(x=>x.id===id);t+=`  ${i+1}. ${v?.nom} — ${v?.desc}\n`});
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`mes-valeurs-${state.dossier.replace(/[^a-z0-9]/gi,'_')}.txt`;a.click();
+};
+
+load();refreshDossier();appliquer();wireUp();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parcours Clarté TND — EducaTypique · Nawel Haddouch</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#fdf9f7;color:#3a2e4a;line-height:1.75}
+h1,h2,h3,h4{font-family:'Poppins',sans-serif;font-weight:700}
+
+:root{
+  --rose-clair:#F8CFE0;
+  --rose-soutenu:#F39BC2;
+  --lavande:#CBB6F6;
+  --menthe:#BDEAD7;
+  --turquoise:#8ED9D2;
+  --peche:#FFD6C2;
+  --beige:#F7F2EC;
+  --violet-titre:#7c5cbf;
+  --rose-titre:#e05a8a;
+  --teal-titre:#2a9d8f;
+  --texte:#3a2e4a;
+  --muted:#6b5f7a;
+  --border:#e8dff0
+}
+
+.page{max-width:820px;margin:0 auto;padding:0 2rem 5rem}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#fde8f2 0%,#ede8fb 50%,#e4f8f2 100%);border-radius:24px;padding:4rem 3rem;margin:2.5rem 0;text-align:center}
+.hero-eyebrow{font-size:13px;color:var(--violet-titre);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem}
+.hero h1{font-size:clamp(1.7rem,4vw,2.4rem);color:var(--violet-titre);line-height:1.25;margin-bottom:1.5rem}
+.hero p{font-size:1.05rem;color:var(--muted);max-width:580px;margin:0 auto 2.5rem}
+.btn{display:inline-block;background:var(--rose-soutenu);color:#fff;padding:1rem 2.25rem;border-radius:50px;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;border:none;cursor:pointer;transition:background .2s;text-decoration:none}
+.btn:hover{background:#d0448a}
+.btn-ghost{display:inline-block;background:transparent;color:var(--violet-titre);padding:1rem 2.25rem;border-radius:50px;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;border:2px solid var(--lavande);cursor:pointer;transition:all .2s;text-decoration:none}
+.btn-ghost:hover{background:var(--lavande);color:#fff}
+.btn-sub{font-size:13px;color:var(--muted);margin-top:1rem}
+
+/* SECTIONS */
+section{padding:4rem 0}
+section+section{border-top:1.5px dashed var(--border)}
+
+h2{font-size:clamp(1.3rem,3vw,1.75rem);color:var(--violet-titre);margin-bottom:1rem}
+.section-intro{font-size:1rem;color:var(--muted);margin-bottom:2rem;max-width:640px}
+
+/* CALLOUT */
+.callout{background:var(--lavande);border-radius:16px;padding:1.5rem 2rem;margin:2rem 0;font-size:.95rem;color:#4a3580;font-weight:600}
+.callout-menthe{background:var(--menthe);color:#1a5e50;border-radius:16px;padding:1.5rem 2rem;margin:2rem 0;font-size:.88rem}
+.callout-peche{background:var(--peche);border-left:4px solid var(--rose-soutenu);border-radius:0 12px 12px 0;padding:1.25rem 1.5rem;margin:1.5rem 0;font-size:.87rem;color:#7a3020}
+
+/* CARDS GRID */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.25rem;margin-top:1.75rem}
+.card{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:1.5rem 1.25rem}
+.card-dot{width:12px;height:12px;border-radius:50%;margin-bottom:.75rem}
+.card h4{font-size:.95rem;font-weight:700;color:var(--violet-titre);margin-bottom:.35rem}
+.card p{font-size:.85rem;color:var(--muted);line-height:1.5}
+
+/* MODULES */
+.module{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:1.75rem 2rem;margin-bottom:1.25rem;display:grid;grid-template-columns:auto 1fr;gap:1.25rem;align-items:start}
+.module-num{background:var(--lavande);color:var(--violet-titre);font-family:'Poppins',sans-serif;font-weight:800;font-size:1.1rem;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.module h4{font-size:1rem;font-weight:700;color:var(--violet-titre);margin-bottom:.4rem}
+.module p{font-size:.88rem;color:var(--muted)}
+
+/* INCLUS */
+.inclus-list{list-style:none;padding:0;margin-top:1.5rem}
+.inclus-list li{padding:.85rem 0;border-bottom:1px solid var(--border);font-size:.95rem;display:flex;align-items:flex-start;gap:.9rem;line-height:1.5}
+.inclus-list li:last-child{border-bottom:none}
+.check-dot{width:22px;height:22px;border-radius:50%;background:var(--menthe);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.check-dot svg{width:12px;height:12px}
+
+/* AVANT/APRÈS */
+.transform-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem}
+@media(max-width:520px){.transform-grid{grid-template-columns:1fr}}
+.before-box{background:#fff5f8;border:1.5px solid var(--rose-clair);border-radius:16px;padding:1.75rem}
+.after-box{background:#f0faf6;border:1.5px solid var(--menthe);border-radius:16px;padding:1.75rem}
+.before-box h4{color:var(--rose-titre);font-size:1rem;font-weight:700;margin-bottom:1rem}
+.after-box h4{color:var(--teal-titre);font-size:1rem;font-weight:700;margin-bottom:1rem}
+.t-list{list-style:none;padding:0}
+.t-list li{font-size:.88rem;color:var(--muted);padding:.35rem 0;display:flex;gap:.6rem;align-items:flex-start}
+.x-dot{color:var(--rose-soutenu);font-weight:700;flex-shrink:0}
+.v-dot{color:var(--teal-titre);font-weight:700;flex-shrink:0}
+
+/* PRIX */
+.prix-box{background:linear-gradient(135deg,#fde8f2,#ede8fb);border:2px solid var(--lavande);border-radius:24px;padding:3rem 2rem;text-align:center;margin-top:2rem}
+.prix-label{font-size:13px;color:var(--muted);margin-bottom:.5rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.prix-amount{font-family:'Poppins',sans-serif;font-size:3rem;font-weight:800;color:var(--violet-titre);margin-bottom:.5rem}
+.placeholder{display:inline-block;background:#fff;border:1.5px dashed var(--lavande);border-radius:6px;padding:1px 10px;font-size:.88rem;color:var(--violet-titre);font-style:italic;font-family:'Nunito',sans-serif}
+
+/* FAQ */
+.faq-item{border:1.5px solid var(--border);border-radius:14px;margin-bottom:1rem;overflow:hidden;background:#fff}
+.faq-q{width:100%;background:transparent;border:none;padding:1.1rem 1.5rem;text-align:left;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:700;color:var(--texte);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.faq-q:hover{background:var(--beige)}
+.faq-a{display:none;padding:.75rem 1.5rem 1.25rem;font-size:.9rem;color:var(--muted);background:var(--beige)}
+.faq-a.open{display:block}
+.arrow{color:var(--lavande);font-size:18px;flex-shrink:0;transition:transform .2s}
+.rotated{transform:rotate(180deg)}
+
+/* CTA FINAL */
+.cta-block{background:linear-gradient(160deg,#e4f8f2,#ede8fb);border-radius:24px;padding:3.5rem 2.5rem;text-align:center}
+.cta-block h2{margin-bottom:1rem}
+.cta-block p{max-width:520px;margin:0 auto 2rem;color:var(--muted)}
+
+/* TAGS QUI */
+.tag-list{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem}
+.tag{background:var(--beige);border:1.5px solid var(--border);border-radius:50px;padding:.5rem 1.1rem;font-size:.88rem;color:var(--violet-titre);font-weight:600}
+</style>
+
+<div class="page">
+
+<!-- HERO -->
+<section style="padding-top:2rem;border-top:none">
+  <div class="hero">
+    <p class="hero-eyebrow">Pour les mamans qui sentent que quelque chose est différent</p>
+    <h1>Comprends enfin les besoins de ton enfant et avance avec plus de clarté face aux TND</h1>
+    <p>Ton enfant réagit fortement, se fatigue vite, ou rencontre des difficultés que tu n'arrives pas toujours à expliquer ? Le <strong>Parcours Clarté TND</strong> t'aide à comprendre, organiser tes observations et poser les prochaines étapes.</p>
+    <button class="btn">Je rejoins le Parcours Clarté TND</button>
+    <p class="btn-sub">Un parcours doux, clair et progressif — à ton rythme.</p>
+  </div>
+</section>
+
+<!-- PROBLÈME -->
+<section>
+  <h2>Tu sens qu'il y a quelque chose… mais tu ne sais pas encore comment le comprendre</h2>
+  <p class="section-intro">Peut-être que ton enfant a du mal à gérer ses émotions. Peut-être qu'il supporte difficilement le bruit, les changements ou les transitions. Peut-être qu'à l'école, on te dit qu'il ne fait pas assez d'efforts, qu'il est dans la lune, trop agité ou trop sensible.</p>
+  <p style="font-size:.95rem;color:var(--muted);margin-bottom:1.5rem">Et toi, tu te retrouves au milieu de tout ça. Tu cherches des réponses. Tu compares. Tu lis des témoignages. Et malgré tout, tu as encore cette sensation de flou.</p>
+  <div class="callout">Le plus difficile, ce n'est pas seulement de ne pas savoir. C'est de rester seule avec tes questions, tes doutes et cette impression de ne jamais avoir une vision claire.</div>
+</section>
+
+<!-- BESOIN -->
+<section>
+  <h2>Tu n'as pas besoin de tout maîtriser. Tu as besoin d'un cadre clair.</h2>
+  <p class="section-intro">Avant de chercher à tout comprendre, tu as surtout besoin de poser les bases.</p>
+  <div class="cards">
+    <div class="card">
+      <div class="card-dot" style="background:var(--lavande)"></div>
+      <h4>Ce que sont les TND</h4>
+      <p>Comprendre les termes sans jargon compliqué</p>
+    </div>
+    <div class="card">
+      <div class="card-dot" style="background:var(--turquoise)"></div>
+      <h4>Ce que tu observes</h4>
+      <p>Mettre des mots simples sur ce que tu vois au quotidien</p>
+    </div>
+    <div class="card">
+      <div class="card-dot" style="background:var(--rose-soutenu)"></div>
+      <h4>Ce que tu peux noter</h4>
+      <p>Organiser tes observations pour ne plus tout garder dans ta tête</p>
+    </div>
+    <div class="card">
+      <div class="card-dot" style="background:var(--menthe)"></div>
+      <h4>Par où commencer</h4>
+      <p>Identifier la prochaine étape adaptée à ta situation</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRÉSENTATION -->
+<section>
+  <h2>Le Parcours Clarté TND</h2>
+  <p class="section-intro">Un accompagnement en ligne pour comprendre, observer et avancer avec plus de sérénité.</p>
+  <p style="font-size:.95rem;color:var(--muted);margin-bottom:1.5rem">Le Parcours Clarté TND ne remplace pas un diagnostic ni les professionnels. Il t'aide à reprendre un point d'appui — pour comprendre, organiser et préparer la suite.</p>
+  <div class="callout-peche">Ce parcours ne pose pas de diagnostic médical et ne remplace pas un suivi professionnel. Il t'aide à mieux comprendre, observer, organiser tes informations et préparer tes démarches.</div>
+</section>
+
+<!-- RÉSULTATS -->
+<section>
+  <h2>À la fin du parcours, tu sauras mieux où tu en es</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="card-dot" style="background:var(--lavande)"></div>
+      <h4>Comprendre les TND</h4>
+      <p>Mettre des mots simples sur ce que tu observes</p>
+    </div>
+    <div class="card">
+      <div class="card-dot" style="background:var(--turquoise)"></div>
+      <h4>Repérer les déclencheurs</h4>
+      <p>Identifier les situations difficiles pour ton enfant</p>
+    </div>
+    <div class="card">
+      <div class="card-dot" style="background:var(--rose-soutenu)"></div>
+      <h4>Organiser tes notes</h4>
+      <p>Arrêter de tout garder dans ta tête</p>
+    </div>
+    <div class="card">
+      <div class="card-dot" style="background:var(--menthe)"></div>
+      <h4>Préparer tes rendez-vous</h4>
+      <p>Arriver plus claire et plus posée</p>
+    </div>
+    <div class="card">
+      <div class="card-dot" style="background:var(--peche)"></div>
+      <h4>Poser tes questions</h4>
+      <p>Savoir quoi demander à l'école et aux spécialistes</p>
+    </div>
+    <div class="card">
+      <div class="card-dot" style="background:var(--lavande)"></div>
+      <h4>Identifier la suite</h4>
+      <p>Définir ta prochaine étape adaptée à ta situation</p>
+    </div>
+  </div>
+</section>
+
+<!-- POUR QUI -->
+<section>
+  <h2>Ce parcours est fait pour toi si…</h2>
+  <p class="section-intro">Pas besoin d'avoir déjà un diagnostic pour commencer.</p>
+  <div class="tag-list">
+    <span class="tag">Tu sens que ton enfant fonctionne différemment</span>
+    <span class="tag">Tu es perdue entre TDAH, TSA, DYS, hypersensibilité</span>
+    <span class="tag">Tu veux mieux préparer un bilan ou un rendez-vous</span>
+    <span class="tag">Tu ne sais pas quoi dire à l'école</span>
+    <span class="tag">Tu veux organiser tes observations</span>
+    <span class="tag">Tu veux avancer sans culpabilité</span>
+    <span class="tag">Tu es au tout début de tes recherches</span>
+    <span class="tag">Tu te sens seule face aux démarches</span>
+  </div>
+</section>
+
+<!-- MODULES -->
+<section>
+  <h2>Ce que tu vas trouver dans le Parcours Clarté TND</h2>
+  <p class="section-intro">5 modules simples et progressifs pour passer du flou à la clarté.</p>
+
+  <div class="module">
+    <div class="module-num">1</div>
+    <div>
+      <h4>Comprendre les TND simplement</h4>
+      <p>Poser les bases : ce que signifie TND, les grandes familles de troubles, la différence entre observation, suspicion et diagnostic.</p>
+    </div>
+  </div>
+  <div class="module">
+    <div class="module-num" style="background:var(--rose-clair);color:var(--rose-titre)">2</div>
+    <div>
+      <h4>Observer ton enfant autrement</h4>
+      <p>Apprendre à regarder les situations du quotidien avec précision : ce qui se passe avant, pendant et après une réaction.</p>
+    </div>
+  </div>
+  <div class="module">
+    <div class="module-num" style="background:var(--menthe);color:var(--teal-titre)">3</div>
+    <div>
+      <h4>Identifier les besoins de ton enfant</h4>
+      <p>Comprendre ce qui surcharge, apaise, fatigue ou aide ton enfant — besoins sensoriels, émotionnels, de structure.</p>
+    </div>
+  </div>
+  <div class="module">
+    <div class="module-num" style="background:var(--turquoise);color:#1a5e56">4</div>
+    <div>
+      <h4>Préparer tes rendez-vous et tes échanges</h4>
+      <p>Organiser tes informations, formuler tes observations, préparer tes questions pour l'école et les professionnels.</p>
+    </div>
+  </div>
+  <div class="module">
+    <div class="module-num" style="background:var(--peche);color:#7a3020">5</div>
+    <div>
+      <h4>Construire ton plan de clarté</h4>
+      <p>Rassembler ce que tu as compris et repartir avec une feuille de route simple adaptée à ta situation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CE QUI EST INCLUS -->
+<section>
+  <h2>Concrètement, tu reçois quoi ?</h2>
+  <ul class="inclus-list">
+    <li>
+      <div class="check-dot"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#1a8a72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      Les modules vidéo du parcours
+    </li>
+    <li>
+      <div class="check-dot"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#1a8a72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      Des fiches pratiques à remplir
+    </li>
+    <li>
+      <div class="check-dot"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#1a8a72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      Une grille d'observation pour ton enfant
+    </li>
+    <li>
+      <div class="check-dot"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#1a8a72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      Une trame pour préparer tes rendez-vous
+    </li>
+    <li>
+      <div class="check-dot"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#1a8a72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      Un plan de clarté final
+    </li>
+    <li>
+      <div class="check-dot"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#1a8a72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      Accès pendant <span class="placeholder">[durée d'accès]</span>
+    </li>
+    <li>
+      <div class="check-dot" style="background:var(--peche)"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#c97d1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      Bonus : <span class="placeholder">[à compléter]</span>
+    </li>
+  </ul>
+</section>
+
+<!-- AVANT / APRÈS -->
+<section>
+  <h2>Avant, tu étais dans le flou. Après, tu as une première direction.</h2>
+  <div class="transform-grid">
+    <div class="before-box">
+      <h4>Avant le parcours</h4>
+      <ul class="t-list">
+        <li><span class="x-dot">✗</span>Tu ne sais pas par où commencer</li>
+        <li><span class="x-dot">✗</span>Tu accumules les informations</li>
+        <li><span class="x-dot">✗</span>Tu gardes tout dans ta tête</li>
+        <li><span class="x-dot">✗</span>Tu culpabilises de ne pas comprendre</li>
+        <li><span class="x-dot">✗</span>Tu arrives confuse aux rendez-vous</li>
+      </ul>
+    </div>
+    <div class="after-box">
+      <h4>Après le parcours</h4>
+      <ul class="t-list">
+        <li><span class="v-dot">✓</span>Tu comprends mieux les TND</li>
+        <li><span class="v-dot">✓</span>Tu sais quoi observer</li>
+        <li><span class="v-dot">✓</span>Tu organises tes notes</li>
+        <li><span class="v-dot">✓</span>Tu prépares mieux tes rendez-vous</li>
+        <li><span class="v-dot">✓</span>Tu identifies ta prochaine étape</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- QUI SUIS-JE -->
+<section>
+  <h2>Qui suis-je pour t'accompagner ?</h2>
+  <p style="font-size:.95rem;color:var(--muted);margin-bottom:1rem">Je suis <strong><span class="placeholder">[ton prénom]</span></strong>, fondatrice de <strong><span class="placeholder">[nom de ta marque]</span></strong>.</p>
+  <p style="font-size:.9rem;color:var(--muted);margin-bottom:.75rem">J'ai créé le Parcours Clarté TND pour aider les mamans qui se sentent perdues face aux difficultés de leur enfant, aux démarches, aux termes compliqués et aux avis parfois contradictoires.</p>
+  <p style="font-size:.9rem;color:var(--muted)">Mon approche : comprendre avant d'agir, observer avant de conclure, avancer étape par étape — sans jugement et sans culpabilité.</p>
+</section>
+
+<!-- OFFRE + PRIX -->
+<section>
+  <h2>Rejoins le Parcours Clarté TND</h2>
+  <div class="prix-box">
+    <p class="prix-label">Accès complet au programme</p>
+    <div class="prix-amount"><span class="placeholder">[prix]</span> €</div>
+    <p style="font-size:.88rem;color:var(--muted);margin-top:.4rem">Ou en <span class="placeholder">[nombre]</span> paiements de <span class="placeholder">[montant]</span> €</p>
+    <br><br>
+    <button class="btn">Je rejoins le Parcours Clarté TND</button>
+    <p class="btn-sub">Accès immédiat après inscription.</p>
+  </div>
+</section>
+
+<!-- POURQUOI MAINTENANT -->
+<section>
+  <h2>Rester dans le flou prend beaucoup d'énergie</h2>
+  <p style="font-size:.95rem;color:var(--muted);margin-bottom:1.5rem">Quand tu ne sais pas par où commencer, chaque petite difficulté peut devenir plus lourde. Tu te demandes si tu exagères. Si tu aurais dû agir plus tôt. Et pendant ce temps, tu portes tout mentalement.</p>
+  <div class="callout">Avancer avec un cadre clair, c'est déjà respirer un peu mieux.</div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <h2>Questions fréquentes</h2>
+  <div style="margin-top:1.5rem">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Est-ce que ce parcours pose un diagnostic ? <span class="arrow">▾</span></button>
+      <div class="faq-a">Non. Le parcours ne pose pas de diagnostic et ne remplace pas un professionnel de santé. Il t'aide à mieux comprendre les TND, organiser tes observations et préparer tes échanges.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Est-ce adapté si mon enfant n'a pas encore de diagnostic ? <span class="arrow">▾</span></button>
+      <div class="faq-a">Oui. Le parcours est justement utile si tu es au début de tes questionnements. Il t'aide à clarifier ce que tu observes et à préparer tes prochaines étapes.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Est-ce que je dois déjà connaître les TND ? <span class="arrow">▾</span></button>
+      <div class="faq-a">Non. Le parcours a été pensé pour partir de zéro. Les explications sont simples, progressives et accessibles.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Est-ce que je peux suivre le parcours si je suis débordée ? <span class="arrow">▾</span></button>
+      <div class="faq-a">Oui. Tu peux avancer à ton rythme. L'objectif est de t'aider, pas de te rajouter une charge mentale.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Combien de temps ai-je accès au parcours ? <span class="arrow">▾</span></button>
+      <div class="faq-a">Tu as accès au parcours pendant <span class="placeholder">[durée d'accès]</span>. Tu peux avancer tranquillement, selon ton rythme et ta disponibilité.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DERNIER CTA -->
+<section style="border-top:none">
+  <div class="cta-block">
+    <h2>Tu n'as pas besoin d'avoir toutes les réponses aujourd'hui</h2>
+    <p>Tu as simplement besoin d'un premier cadre clair — pour mieux comprendre ton enfant, organiser tes observations et avancer sans te sentir seule face au flou.</p>
+    <button class="btn">Je commence le Parcours Clarté TND</button>
+    <p class="btn-sub" style="margin-top:1rem">Une première étape pour sortir du flou et avancer plus sereinement.</p>
+  </div>
+</section>
+
+</div>
+
+<script>
+function toggleFaq(btn){
+  const ans=btn.nextElementSibling;
+  const arrow=btn.querySelector('.arrow');
+  const open=ans.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(a=>a.classList.remove('open'));
+  document.querySelectorAll('.arrow').forEach(a=>a.classList.remove('rotated'));
+  if(!open){ans.classList.add('open');arrow.classList.add('rotated')}
+}
+</script>
+
+<footer style="text-align:center;padding:30px 16px 24px;color:#6b5f7a;font-size:13px;font-family:'Nunito',sans-serif;max-width:820px;margin:0 auto;border-top:1px dashed #e8dff0">
+  <div style="font-family:'Poppins',sans-serif;font-size:14px;color:#7c5cbf;font-weight:700;margin-bottom:8px">✨ Parcours Clarté TND · EducaTypique</div>
+  <p style="margin:8px 0">Conçu par <strong>Nawel Haddouch</strong> · Neuropédagogue TND · Cabinet Voie Chifā</p>
+  <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-top:14px">
+    <a href="index.html" style="padding:.45em 1em;background:#fff;border:1.5px solid #7c5cbf;color:#7c5cbf;border-radius:999px;text-decoration:none;font-weight:700;font-size:.82rem">🏠 Boîte NeuroPed</a>
+    <a href="parents.html" style="padding:.45em 1em;background:#fff;border:1.5px solid #F39BC2;color:#e05a8a;border-radius:999px;text-decoration:none;font-weight:700;font-size:.82rem">🏡 Espace parents</a>
+    <a href="a-propos.html" style="padding:.45em 1em;background:#7c5cbf;color:#fff;border-radius:999px;text-decoration:none;font-weight:700;font-size:.82rem">ℹ️ À propos Nawel</a>
+  </div>
+  <p style="margin-top:14px;font-size:11.5px;color:#aaa;font-style:italic">© 2026 Nawel Haddouch · EducaTypique — Tous droits réservés</p>
+</footer>
+
+</body>
+</html>

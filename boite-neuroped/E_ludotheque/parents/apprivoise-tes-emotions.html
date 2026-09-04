@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apprivoise tes émotions — 3 mini-jeux · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --voc:#7c5cbf;
+  --voc-bg:#F0E8F5;
+  --soc:#F39BC2;
+  --soc-bg:#FFF0F6;
+  --fe:#2a9d8f;
+  --fe-bg:#E0F4F1;
+  --or:#E89556;
+}
+body{background:linear-gradient(180deg,#FFF8F5 0%,#F5F0F7 50%,#F0F7F5 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2D3E3A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:920px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(124,92,191,.3)}50%{box-shadow:0 0 0 12px rgba(124,92,191,0)}}
+
+.hdr{text-align:center;padding:36px 24px 28px;margin-bottom:22px;background:linear-gradient(135deg,#7c5cbf 0%,#F39BC2 50%,#2a9d8f 100%);border-radius:24px;color:#fff;box-shadow:0 8px 28px rgba(124,92,191,.18);position:relative;overflow:hidden}
+.hdr::before{content:'🎮';position:absolute;top:16px;right:20px;font-size:54px;opacity:.18}
+.hdr::after{content:'🎭';position:absolute;bottom:16px;left:20px;font-size:46px;opacity:.15}
+.brand{display:inline-block;padding:5px 14px;background:rgba(255,255,255,.22);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:12px;position:relative;z-index:1}
+.hdr h1{font-family:Georgia,serif;font-size:30px;font-weight:400;color:#fff;margin-bottom:6px;position:relative;z-index:1;text-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:14.5px;color:#fff;max-width:660px;margin:0 auto;position:relative;z-index:1;opacity:.95}
+
+.intro{background:#fff;border-radius:18px;padding:22px 24px;margin-bottom:20px;border:1px solid rgba(124,92,191,.18);box-shadow:0 4px 14px rgba(124,92,191,.06)}
+.intro p{font-size:14.5px;color:#3D4E4A;line-height:1.65;margin-bottom:8px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:var(--voc)}
+
+.choose-game{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+@media (max-width:680px){.choose-game{grid-template-columns:1fr}}
+.game-card{padding:20px 16px;border-radius:16px;cursor:pointer;text-align:center;transition:all .3s;border:2px solid transparent;animation:pop .4s;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.05)}
+.game-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.08)}
+.game-card.active{transform:scale(1.04);box-shadow:0 8px 28px rgba(0,0,0,.12)}
+.game-card[data-jeu="voc"]{background:linear-gradient(160deg,#fff,var(--voc-bg))}
+.game-card[data-jeu="voc"].active{border-color:var(--voc)}
+.game-card[data-jeu="soc"]{background:linear-gradient(160deg,#fff,var(--soc-bg))}
+.game-card[data-jeu="soc"].active{border-color:var(--soc)}
+.game-card[data-jeu="fe"]{background:linear-gradient(160deg,#fff,var(--fe-bg))}
+.game-card[data-jeu="fe"].active{border-color:var(--fe)}
+.game-card .emoji{font-size:44px;display:block;margin-bottom:8px}
+.game-card .titre{font-family:Georgia,serif;font-size:16px;font-weight:700;color:#2D3E3A;margin-bottom:4px}
+.game-card .compe{font-size:12px;color:#5A6B66;font-style:italic}
+.game-card .duree{font-size:11px;color:#7A8782;margin-top:6px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+
+.panel{display:none;animation:fadeIn .4s ease-out}
+.panel.active{display:block}
+.section{background:#fff;border-radius:20px;padding:24px;margin-bottom:18px;border:1px solid rgba(124,92,191,.15);box-shadow:0 4px 14px rgba(124,92,191,.04)}
+.section h2{font-family:Georgia,serif;font-size:21px;font-weight:500;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#7A8782;font-style:italic;margin-bottom:18px}
+
+.stats-bar{display:flex;justify-content:space-between;gap:10px;padding:12px 16px;border-radius:12px;margin-bottom:16px;font-size:13px;flex-wrap:wrap}
+.stats-bar[data-jeu="voc"]{background:var(--voc-bg)}
+.stats-bar[data-jeu="soc"]{background:var(--soc-bg)}
+.stats-bar[data-jeu="fe"]{background:var(--fe-bg)}
+.stats-bar span{color:#5A6B66}
+.stats-bar strong{font-size:17px}
+.stats-bar[data-jeu="voc"] strong{color:var(--voc)}
+.stats-bar[data-jeu="soc"] strong{color:var(--soc)}
+.stats-bar[data-jeu="fe"] strong{color:var(--fe)}
+
+/* QUESTION CARD */
+.question-card{background:linear-gradient(135deg,#fff,#FAFAFE);border-radius:18px;padding:24px;margin:14px 0;border:2px solid;text-align:center;animation:pop .35s}
+.question-card[data-jeu="voc"]{border-color:#D5C5EB}
+.question-card[data-jeu="soc"]{border-color:#F5C2D5}
+.question-card[data-jeu="fe"]{border-color:#A8D8D2}
+.question-card .consigne{font-size:13px;color:#7A8782;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:600}
+.question-card .pivot{font-family:Georgia,serif;font-size:24px;color:#2D3E3A;line-height:1.4;padding:18px;background:#FBF8F4;border-radius:14px;margin:8px 0 18px;font-style:italic}
+.question-card .context{font-family:Georgia,serif;font-style:italic;font-size:16px;color:#2D3E3A;line-height:1.5;padding:18px 20px;background:#FBF8F4;border-radius:14px;margin:8px 0 16px}
+.question-card .scene-emoji{font-size:56px;display:block;margin-bottom:8px}
+
+/* CHOICES */
+.choices-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+@media (max-width:480px){.choices-grid{grid-template-columns:1fr}}
+.choices-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.choice-btn{padding:14px 16px;border-radius:12px;border:2px solid #E5DEF0;background:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s;color:#3D4E4A;text-align:left;line-height:1.5}
+.choice-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.choice-btn.correct-pick{background:#E8F5EC;border-color:var(--fe);color:#1F6E5E}
+.choice-btn.wrong-pick{background:#FCE2E2;border-color:#C9573A;color:#8A3A1F;animation:shake .35s}
+.choice-btn.show-correct{background:#E8F5EC;border-color:var(--fe);color:#1F6E5E;opacity:.9}
+.choice-btn:disabled{cursor:default}
+
+/* FEEDBACK */
+.feedback-box{margin-top:14px;padding:16px 18px;border-radius:14px;animation:fadeIn .4s;display:none}
+.feedback-box.show{display:block}
+.feedback-box.ok{background:linear-gradient(135deg,#E8F5EC,#DFF0E2);border-left:5px solid var(--fe)}
+.feedback-box.ko{background:linear-gradient(135deg,#FCE2E2,#F5C9C9);border-left:5px solid #C9573A}
+.feedback-box h4{font-family:Georgia,serif;font-size:15px;margin-bottom:6px}
+.feedback-box.ok h4{color:#1F6E5E}
+.feedback-box.ko h4{color:#8A3A1F}
+.feedback-box p{font-size:13.5px;color:#3D4E4A;line-height:1.65;margin-bottom:4px}
+.feedback-box p:last-child{margin-bottom:0}
+.feedback-box .why{font-style:italic;font-size:12.5px;color:#5A6B66;margin-top:6px}
+
+.btn-next{background:linear-gradient(135deg,var(--voc),var(--soc));color:#fff;border:none;padding:13px 28px;border-radius:24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:14px;display:block;margin-left:auto;margin-right:auto;animation:glow 2s infinite}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(124,92,191,.3)}
+
+.btn-restart{background:#fff;border:1.5px solid #ccc;color:#5A6B66;padding:10px 22px;border-radius:22px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;margin:10px 4px}
+.btn-restart:hover{background:#FBF8F4}
+
+/* FILTRES */
+.filtres{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filtre-btn{padding:7px 14px;background:#fff;border:1.5px solid rgba(124,92,191,.25);color:#5A6B66;border-radius:18px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.filtre-btn:hover{background:var(--voc-bg)}
+.filtre-btn.active{background:linear-gradient(135deg,var(--voc),var(--soc));color:#fff;border-color:transparent}
+
+/* FE GAME - MOT INTERDIT */
+.mot-interdit-setup{background:linear-gradient(135deg,#fff,var(--fe-bg));border-radius:18px;padding:24px;text-align:center}
+.timer-display{font-size:64px;font-weight:700;font-family:Georgia,serif;color:var(--fe);margin:14px 0;line-height:1}
+.cat-display{font-family:Georgia,serif;font-size:22px;color:#2D3E3A;margin:8px 0}
+.cat-display .label{font-size:12px;color:#7A8782;text-transform:uppercase;letter-spacing:1px;font-weight:600;display:block;margin-bottom:4px}
+.interdits-list{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}
+.interdit-tag{background:#FCE2E2;color:#8A3A1F;padding:5px 12px;border-radius:18px;font-size:13px;font-weight:700}
+
+.consigne-jeu{background:#FBF8F4;border-radius:12px;padding:16px;margin:12px 0;font-size:13.5px;color:#3D4E4A;line-height:1.7;text-align:left}
+.consigne-jeu strong{color:#2D3E3A}
+.consigne-jeu ul{margin:6px 0 6px 22px;line-height:1.75}
+
+/* FINAL SCORE */
+.final-score{text-align:center;padding:30px 20px;background:linear-gradient(135deg,#FBF8F4,#fff);border-radius:18px;border:2px solid;animation:fadeIn .5s}
+.final-score[data-jeu="voc"]{border-color:var(--voc)}
+.final-score[data-jeu="soc"]{border-color:var(--soc)}
+.final-score[data-jeu="fe"]{border-color:var(--fe)}
+.final-score .big{font-family:Georgia,serif;font-size:48px;font-weight:700;margin:8px 0;line-height:1}
+.final-score[data-jeu="voc"] .big{color:var(--voc)}
+.final-score[data-jeu="soc"] .big{color:var(--soc)}
+.final-score[data-jeu="fe"] .big{color:var(--fe)}
+.final-score .msg{font-family:Georgia,serif;font-style:italic;font-size:16px;color:#5A6B66;margin:10px 0 18px;line-height:1.55}
+.final-score .records{background:#FBF8F4;border-radius:12px;padding:12px 16px;display:inline-block;font-size:13px;color:#5A6B66;margin-bottom:12px}
+.final-score .records strong{color:#2D3E3A}
+
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif}
+.footer .brand-foot{color:var(--voc);font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+
+@media print{body{background:#fff}.choose-game,.btn-next,.btn-restart,.filtres{display:none!important}.panel{display:block!important;page-break-after:always}}
+@media (max-width:600px){.hdr h1{font-size:22px}.question-card .pivot{font-size:18px}.question-card .scene-emoji{font-size:44px}}
+</style>
+</head>
+<body>
+<a href="../../parents.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#7c5cbf;font-family:system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,.12);border:1px solid rgba(124,92,191,.2)">← Parents</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Pack 3 mini-jeux · EducaTypique</span>
+<h1>🎮 Apprivoise tes émotions</h1>
+<p>3 jeux courts pour développer ce que l'école n'enseigne pas : vocabulaire émotionnel · compétences sociales · contrôle cognitif. À jouer en famille, 5 à 10 min suffisent.</p>
+</div>
+
+<div class="intro">
+<p>💡 <strong>Pourquoi ces 3 jeux ?</strong> Apprivoiser ses émotions ne s'apprend pas dans un livre — ça s'entraîne, comme un muscle. Ce pack vise 3 compétences clés que les neurosciences ont identifiées comme déterminantes pour le bien-être à long terme :</p>
+<p>🎨 <strong>Vocabulaire émotionnel</strong> : trouve la nuance précise (différence entre "triste", "déçu", "découragé", "abattu"…) → meilleure régulation.</p>
+<p>🎭 <strong>Compétences sociales</strong> : lis une scène, décode l'émotion de l'autre, choisis la réponse adaptée → empathie + adaptation.</p>
+<p>🛑 <strong>Fonction cognitive — Mot interdit</strong> : entraîne l'inhibition, l'attention et la flexibilité par un jeu de catégories. À jouer à 2+ (un parent + un enfant) pour le plaisir.</p>
+<p>👉 <strong>Public</strong> : enfants 7+, ados, adultes. Chacun y trouve son défi.</p>
+</div>
+
+<div class="choose-game">
+<div class="game-card active" data-jeu="voc" onclick="chooseGame('voc')">
+<span class="emoji">🎨</span>
+<div class="titre">Trouve la nuance</div>
+<div class="compe">Vocabulaire émotionnel</div>
+<div class="duree">~5 min · seul ou à 2</div>
+</div>
+<div class="game-card" data-jeu="soc" onclick="chooseGame('soc')">
+<span class="emoji">🎭</span>
+<div class="titre">Décode la scène</div>
+<div class="compe">Compétences sociales</div>
+<div class="duree">~6 min · seul ou à 2</div>
+</div>
+<div class="game-card" data-jeu="fe" onclick="chooseGame('fe')">
+<span class="emoji">🛑</span>
+<div class="titre">Le mot interdit</div>
+<div class="compe">Inhibition + flexibilité</div>
+<div class="duree">~5 min · à 2 (parent+enfant)</div>
+</div>
+</div>
+
+<!-- ============ JEU 1 : VOC ============ -->
+<div class="panel active" id="panel-voc">
+<div class="section">
+<h2>🎨 Trouve la nuance</h2>
+<div class="sub">Un mot émotionnel pivot t'est donné. Tu dois choisir la nuance qui correspond le mieux au contexte décrit. Plus tu mets de mots précis, mieux tu te régules.</div>
+
+<div class="filtres">
+<button class="filtre-btn active" data-age-voc="all" onclick="filtAgeVoc('all')">Tous niveaux</button>
+<button class="filtre-btn" data-age-voc="enfant" onclick="filtAgeVoc('enfant')">7-10 ans</button>
+<button class="filtre-btn" data-age-voc="ado" onclick="filtAgeVoc('ado')">11+ ans</button>
+</div>
+
+<div class="stats-bar" data-jeu="voc">
+<span>Question <strong id="voc-num">1</strong> / <strong id="voc-total">0</strong></span>
+<span>Bonnes : <strong id="voc-bonnes">0</strong></span>
+<span>Record : <strong id="voc-record">0</strong></span>
+</div>
+
+<div id="voc-zone"></div>
+
+<div style="text-align:center;margin-top:14px">
+<button class="btn-restart" onclick="startVoc()">🔄 Recommencer</button>
+</div>
+</div>
+</div>
+
+<!-- ============ JEU 2 : SOC ============ -->
+<div class="panel" id="panel-soc">
+<div class="section">
+<h2>🎭 Décode la scène</h2>
+<div class="sub">Une situation sociale t'est décrite. Tu dois (1) identifier ce que ressent l'autre personne, puis (2) choisir la réponse la plus adaptée. Empathie + savoir-vivre.</div>
+
+<div class="filtres">
+<button class="filtre-btn active" data-age-soc="all" onclick="filtAgeSoc('all')">Tous niveaux</button>
+<button class="filtre-btn" data-age-soc="enfant" onclick="filtAgeSoc('enfant')">7-10 ans</button>
+<button class="filtre-btn" data-age-soc="ado" onclick="filtAgeSoc('ado')">11+ ans</button>
+</div>
+
+<div class="stats-bar" data-jeu="soc">
+<span>Scène <strong id="soc-num">1</strong> / <strong id="soc-total">0</strong></span>
+<span>Bonnes : <strong id="soc-bonnes">0</strong></span>
+<span>Record : <strong id="soc-record">0</strong></span>
+</div>
+
+<div id="soc-zone"></div>
+
+<div style="text-align:center;margin-top:14px">
+<button class="btn-restart" onclick="startSoc()">🔄 Recommencer</button>
+</div>
+</div>
+</div>
+
+<!-- ============ JEU 3 : FE ============ -->
+<div class="panel" id="panel-fe">
+<div class="section">
+<h2>🛑 Le mot interdit — Catégories en marche</h2>
+<div class="sub">À jouer à 2+ (parent + enfant, fratrie…). Entraîne l'inhibition, l'attention, la flexibilité. Inspiré du principe « mot tabou » des jeux familiaux classiques.</div>
+
+<div class="consigne-jeu">
+<strong>📋 Comment jouer :</strong>
+<ul>
+<li>Tu tires une <strong>catégorie</strong> (animaux, sports, fruits…) + 2-3 <strong>mots interdits</strong>.</li>
+<li>Tu as <strong>60 secondes</strong> pour citer le plus de mots possibles dans la catégorie, sans jamais prononcer les mots interdits.</li>
+<li>Le partenaire vérifie et fait <em>"BIP !"</em> à chaque mot interdit prononcé (= 1 pénalité).</li>
+<li>Score = <strong>(mots cités) − (3 × pénalités)</strong>. Inversez ensuite les rôles.</li>
+</ul>
+<strong>🧠 Ce que ça entraîne :</strong>
+<ul>
+<li><strong>Inhibition</strong> : retenir un mot qui veut sortir tout seul.</li>
+<li><strong>Mémoire de travail</strong> : garder les interdits en tête pendant qu'on cherche.</li>
+<li><strong>Flexibilité</strong> : trouver des contournements créatifs.</li>
+<li><strong>Attention soutenue</strong> : 60 secondes de focus actif.</li>
+</ul>
+</div>
+
+<div class="stats-bar" data-jeu="fe">
+<span>Manches jouées : <strong id="fe-manches">0</strong></span>
+<span>Meilleur score : <strong id="fe-record">0</strong></span>
+</div>
+
+<div id="fe-zone"></div>
+
+<div style="text-align:center;margin-top:14px">
+<button class="btn-restart" onclick="newManche()">🎲 Nouvelle catégorie</button>
+</div>
+</div>
+</div>
+
+<div class="footer">
+« Apprivoiser ses émotions, c'est apprendre à se reconnaître dans la précision et à choisir avec finesse. »
+<span class="brand-foot">Pack 3 mini-jeux · Création originale Nawel Haddouch · EducaTypique</span>
+<span style="font-size:11px;display:block;margin-top:4px;color:#8A9892">Mémoire locale (records) · rien n'est envoyé en ligne</span>
+<span style="font-size:10.5px;display:block;margin-top:8px;color:#8A9892;font-style:normal;max-width:620px;margin-left:auto;margin-right:auto;line-height:1.5">⚠️ Jeux pédagogiques. Ne remplacent pas un accompagnement psy en cas de difficulté importante. Si détresse intense : <strong>3114</strong> (prévention suicide, 24h/24, gratuit) · <strong>Fil Santé Jeunes</strong> 0800 235 236.</span>
+</div>
+
+</div>
+
+<script>
+// ============================================================
+// JEU 1 — VOCABULAIRE ÉMOTIONNEL
+// ============================================================
+var VOC = [
+  // ENFANT 7-10
+  {age:'enfant',pivot:'triste',contexte:"Lila avait préparé un cadeau pour son amie, mais quand elle lui a donné, l'amie l'a posé sans le regarder.",bonne:"déçue",choix:["déçue","furieuse","jalouse","heureuse"],why:"Déçue = quand la réalité ne correspond pas à ce qu'on espérait. C'est précis."},
+  {age:'enfant',pivot:'content',contexte:"Tom a réussi à faire du vélo sans les petites roues pour la première fois.",bonne:"fier",choix:["fier","amoureux","ému","amusé"],why:"Fier = quand on a réussi quelque chose de difficile par soi-même."},
+  {age:'enfant',pivot:'fâché',contexte:"Tu as rangé ta chambre pendant 1h, et ton petit frère est entré et a tout sorti.",bonne:"frustré",choix:["frustré","jaloux","gêné","timide"],why:"Frustré = quand un effort qu'on a fait est annulé ou bloqué."},
+  {age:'enfant',pivot:'peur',contexte:"Tu dois passer au tableau pour réciter une poésie devant toute la classe.",bonne:"stressé",choix:["stressé","terrifié","apaisé","ennuyé"],why:"Stressé = peur + pression de performance. Pas un vrai danger, mais ça serre."},
+  {age:'enfant',pivot:'triste',contexte:"Ton chat est très malade. Il dort beaucoup et ne mange plus.",bonne:"inquiet",choix:["inquiet","gêné","ennuyé","énervé"],why:"Inquiet = peur + tristesse pour quelqu'un qu'on aime. Émotion mixte."},
+  {age:'enfant',pivot:'content',contexte:"Tu as aidé un copain à finir sa leçon de maths qu'il ne comprenait pas. Il a tout réussi grâce à toi.",bonne:"fier",choix:["fier","jaloux","timide","surpris"],why:"Fierté d'avoir contribué au succès d'un autre = forme noble de joie."},
+  {age:'enfant',pivot:'bizarre',contexte:"Quelqu'un que tu connais à peine te fait un compliment très fort sur ton physique.",bonne:"gêné",choix:["gêné","fier","ennuyé","apaisé"],why:"Gêné = quand on ne sait pas comment réagir à une attention mal calibrée."},
+
+  // ADO 11+
+  {age:'ado',pivot:'mal',contexte:"Tu as appris que tes amis se sont vus ce week-end sans te prévenir. Quand tu leur dis, ils minimisent : « Tu te fais des films ».",bonne:"trahi·e",choix:["trahi·e","jaloux·se","ennuyé·e","fatigué·e"],why:"Trahi·e = quand la confiance qu'on accordait est rompue ET niée. Précis."},
+  {age:'ado',pivot:'pas bien',contexte:"Tu rentres d'une semaine intense au lycée. Tu n'as envie de rien — ni voir des amis, ni jouer, ni manger. Juste rester immobile.",bonne:"épuisé·e",choix:["épuisé·e","énervé·e","triste","amoureux·se"],why:"Épuisé·e = fatigue qui dépasse le sommeil. Toutes les ressources sont vidées."},
+  {age:'ado',pivot:'jaloux',contexte:"Ton·ta meilleur·e ami·e te montre fièrement ses bonnes notes. Tu te sens piqué·e, mais tu te dis aussi : « C'est génial pour lui/elle ».",bonne:"ambivalent·e",choix:["ambivalent·e","furieux·se","amoureux·se","apaisé·e"],why:"Ambivalent·e = quand deux émotions opposées coexistent. C'est très humain."},
+  {age:'ado',pivot:'colère',contexte:"Tu vois une professeure humilier publiquement un élève plus petit, pour une faute mineure. Tu serres les poings.",bonne:"indigné·e",choix:["indigné·e","frustré·e","amoureux·se","blasé·e"],why:"Indigné·e = colère face à une injustice. Émotion mobilisatrice et noble."},
+  {age:'ado',pivot:'triste',contexte:"Tu repenses à ton vieux groupe d'amis du collège. Vous avez tous pris des routes différentes. Ça pince, mais ça reste doux.",bonne:"nostalgique",choix:["nostalgique","trahi·e","jaloux·se","furieux·se"],why:"Nostalgique = tristesse douce liée à un passé révolu. Pas de souffrance violente."},
+  {age:'ado',pivot:'peur',contexte:"Demain c'est ton bac blanc. Tu n'arrives pas à dormir. Tu te projettes en train de tout rater.",bonne:"anxieux·se",choix:["anxieux·se","jaloux·se","trahi·e","amoureux·se"],why:"Anxieux·se = peur diffuse de l'avenir, pas d'un danger réel présent."},
+  {age:'ado',pivot:'mal',contexte:"Tu as menti à tes parents sur une sortie. Ils ne le savent pas. Mais toi tu le sais — et ça te pèse même en t'amusant.",bonne:"culpabilisé·e",choix:["culpabilisé·e","trahi·e","ambivalent·e","blasé·e"],why:"Culpabilisé·e = mal qui vient de SOI (on sait qu'on a fait quelque chose de mal). Différent de la honte (jugé par les autres)."},
+  {age:'ado',pivot:'bien',contexte:"Tu as fini un projet sur lequel tu as bossé 3 semaines. Il n'est pas parfait, mais tu l'as porté jusqu'au bout.",bonne:"accompli·e",choix:["accompli·e","euphorique","ému·e","amusé·e"],why:"Accompli·e = satisfaction d'avoir mené à bien un effort dans la durée."},
+  {age:'ado',pivot:'rage',contexte:"Quelqu'un sur les réseaux te critique méchamment, devant tout le monde. Tu lis chaque mot, encore et encore.",bonne:"blessé·e",choix:["blessé·e","jaloux·se","amoureux·se","ennuyé·e"],why:"Blessé·e = douleur émotionnelle profonde, plus vraie que la colère de surface."}
+];
+
+var voc_filter = 'all';
+var voc_deck = [];
+var voc_idx = 0;
+var voc_bonnes = 0;
+var voc_record_key = 'educatypique_voc_record';
+
+function shuffle(arr){
+  var a = arr.slice();
+  for(var i=a.length-1;i>0;i--){
+    var j = Math.floor(Math.random()*(i+1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+
+function filtAgeVoc(age){
+  voc_filter = age;
+  document.querySelectorAll('[data-age-voc]').forEach(function(b){b.classList.remove('active');});
+  document.querySelector('[data-age-voc="'+age+'"]').classList.add('active');
+  startVoc();
+}
+
+function startVoc(){
+  var pool = VOC.filter(function(c){ return voc_filter==='all' || c.age===voc_filter; });
+  voc_deck = shuffle(pool);
+  voc_idx = 0;
+  voc_bonnes = 0;
+  document.getElementById('voc-total').textContent = voc_deck.length;
+  document.getElementById('voc-record').textContent = localStorage.getItem(voc_record_key) || 0;
+  renderVoc();
+}
+
+function renderVoc(){
+  document.getElementById('voc-num').textContent = voc_idx+1;
+  document.getElementById('voc-bonnes').textContent = voc_bonnes;
+  if(voc_idx >= voc_deck.length){
+    finishVoc();
+    return;
+  }
+  var q = voc_deck[voc_idx];
+  var choix_shuffle = shuffle(q.choix);
+  var html = '<div class="question-card" data-jeu="voc">'+
+    '<div class="consigne">Le mot vague est : « '+q.pivot+' »</div>'+
+    '<div class="pivot">'+q.contexte+'</div>'+
+    '<div style="font-size:14px;color:#5A6B66;margin:8px 0">Quelle <strong style="color:var(--voc)">nuance précise</strong> correspond le mieux ?</div>'+
+    '<div class="choices-grid">'+
+      choix_shuffle.map(function(c){return '<button class="choice-btn" data-choix="'+c+'" onclick="ansVoc(\''+c.replace(/'/g,"\\'")+'\')">'+c+'</button>';}).join('')+
+    '</div>'+
+    '<div class="feedback-box" id="voc-fb"></div>'+
+  '</div>';
+  document.getElementById('voc-zone').innerHTML = html;
+}
+
+function ansVoc(choix){
+  var q = voc_deck[voc_idx];
+  document.querySelectorAll('#voc-zone .choice-btn').forEach(function(b){
+    b.disabled = true;
+    if(b.dataset.choix === q.bonne) b.classList.add('show-correct');
+    if(b.dataset.choix === choix && choix !== q.bonne) b.classList.add('wrong-pick');
+    if(b.dataset.choix === choix && choix === q.bonne) b.classList.add('correct-pick');
+  });
+  var fb = document.getElementById('voc-fb');
+  var correct = choix === q.bonne;
+  if(correct){
+    voc_bonnes++;
+    fb.className = 'feedback-box ok show';
+    fb.innerHTML = '<h4>✓ Précisément ça !</h4>'+
+      '<p>La bonne nuance était : <strong>'+q.bonne+'</strong>.</p>'+
+      '<p class="why">'+q.why+'</p>'+
+      '<button class="btn-next" onclick="nextVoc()">Question suivante →</button>';
+  } else {
+    fb.className = 'feedback-box ko show';
+    fb.innerHTML = '<h4>✗ Pas tout à fait</h4>'+
+      '<p>La nuance la plus précise était : <strong>'+q.bonne+'</strong>.</p>'+
+      '<p class="why">'+q.why+'</p>'+
+      '<button class="btn-next" onclick="nextVoc()">Question suivante →</button>';
+  }
+  document.getElementById('voc-bonnes').textContent = voc_bonnes;
+}
+
+function nextVoc(){ voc_idx++; renderVoc(); }
+
+function finishVoc(){
+  var pct = voc_deck.length>0 ? Math.round((voc_bonnes/voc_deck.length)*100) : 0;
+  var rec = parseInt(localStorage.getItem(voc_record_key) || '0', 10);
+  var newRec = voc_bonnes > rec;
+  if(newRec) localStorage.setItem(voc_record_key, voc_bonnes);
+  var msg = '';
+  if(pct===100) msg = "✨ Maître·sse des nuances ! Ton vocabulaire émotionnel est très fin.";
+  else if(pct>=80) msg = "🌟 Excellent — tu sais nommer précisément ce que tu vis.";
+  else if(pct>=60) msg = "🌱 Bon niveau. Quelques nuances à affiner encore.";
+  else if(pct>=40) msg = "💡 C'est l'apprentissage. Le vocabulaire se construit en jouant.";
+  else msg = "🤲 Rejouer = apprendre. Le but n'est pas le score, c'est la finesse.";
+
+  document.getElementById('voc-zone').innerHTML = '<div class="final-score" data-jeu="voc">'+
+    '<div style="font-family:Georgia,serif;font-size:17px;color:var(--voc);font-weight:600">Bilan</div>'+
+    '<div class="big">'+voc_bonnes+' / '+voc_deck.length+'</div>'+
+    '<div style="font-size:14px;color:#7A8782;margin-top:-6px">'+pct+'% de nuances justes</div>'+
+    (newRec ? '<div class="records">🏆 <strong>Nouveau record !</strong></div>' : '<div class="records">Record actuel : <strong>'+rec+'</strong></div>')+
+    '<div class="msg">'+msg+'</div>'+
+  '</div>';
+}
+
+// ============================================================
+// JEU 2 — COMPÉTENCES SOCIALES
+// ============================================================
+var SOC = [
+  // ENFANT
+  {age:'enfant',emoji:'😢',scene:"En récréation, tu vois ton amie Mariam assise toute seule sur un banc. Elle regarde par terre, ne joue pas avec personne.",emotion:{q:"Que ressent-elle, probablement ?",bonne:"Triste / mise à l'écart",choix:["Triste / mise à l'écart","En colère contre tout le monde","Très fière d'elle","Excitée de faire un jeu seule"]},reponse:{q:"Que peux-tu faire ?",bonne:"M'asseoir à côté et lui demander si elle veut en parler ou jouer avec moi",choix:["L'ignorer pour ne pas la déranger","Lui dire « Allez, souris ! C'est rien »","M'asseoir à côté et lui demander si elle veut en parler ou jouer avec moi","Lui faire une blague pour qu'elle rigole"],why:"S'asseoir à côté + offrir un choix, sans imposer. C'est la base de l'empathie active."}},
+  {age:'enfant',emoji:'😠',scene:"Ton frère a fait tomber ton château de Lego par accident. Il dit « pardon, c'était pas exprès », mais toi tu sens monter une grosse colère.",emotion:{q:"Que ressent ton frère, probablement ?",bonne:"Désolé et inquiet de ta réaction",choix:["Désolé et inquiet de ta réaction","Très content d'avoir cassé","Ennuyé que tu fasses du bruit","Indifférent total"]},reponse:{q:"Que peux-tu faire de mieux ?",bonne:"Lui dire « Je suis très en colère, j'ai besoin de 5 min seul·e pour me calmer »",choix:["Lui crier dessus pour qu'il apprenne","Lui casser un de ses jouets pour vengeance","Lui dire « Je suis très en colère, j'ai besoin de 5 min seul·e pour me calmer »","Faire comme si rien ne s'était passé"],why:"Verbaliser l'émotion + demander un temps de pause = adulte régulé. La vengeance/répression ne marche jamais."}},
+  {age:'enfant',emoji:'😨',scene:"Un nouveau garçon arrive dans ta classe. Il ne connaît personne, il reste près de la maîtresse, regarde par terre.",emotion:{q:"Que ressent-il, probablement ?",bonne:"Timide et un peu effrayé de l'inconnu",choix:["Timide et un peu effrayé de l'inconnu","Méprisant envers la classe","Très en colère contre ses parents","Endormi"]},reponse:{q:"Que peux-tu faire ?",bonne:"Aller vers lui et lui proposer de jouer avec toi à la récré",choix:["Le regarder de loin sans rien dire","Aller vers lui et lui proposer de jouer avec toi à la récré","Lui faire une blague sur son look","Lui demander pourquoi il fait la tête"],why:"L'initiative d'accueil = compétence sociale en or. Un seul geste peut transformer une rentrée."}},
+  {age:'enfant',emoji:'😖',scene:"Tu vois un élève plus jeune se faire embêter par 2 plus grands à la sortie de l'école. Il a les larmes aux yeux mais ne dit rien.",emotion:{q:"Que ressent-il ?",bonne:"Honte + peur d'aggraver s'il parle",choix:["Honte + peur d'aggraver s'il parle","Plaisir d'avoir de l'attention","Fierté d'être ciblé","Faim"]},reponse:{q:"Que peux-tu faire ?",bonne:"Aller le voir, lui demander si ça va, ET prévenir un adulte de confiance",choix:["Filmer la scène pour la mettre en ligne","Faire semblant de ne rien voir","Aller le voir, lui demander si ça va, ET prévenir un adulte de confiance","Aller frapper les plus grands"],why:"Témoin actif = parler à la victime + alerter un adulte. Pas héros solo, pas spectateur passif."}},
+
+  // ADO
+  {age:'ado',emoji:'😶',scene:"Ton·ta meilleur·e ami·e n'a pas répondu à tes 3 derniers messages depuis hier. D'habitude il/elle répond dans la minute.",emotion:{q:"Que peut-il/elle vivre ?",bonne:"Peut-être en galère, en surcharge, ou en froid — pas forcément contre toi",choix:["Peut-être en galère, en surcharge, ou en froid — pas forcément contre toi","Te déteste maintenant","T'a remplacé par quelqu'un d'autre","Est sûrement mort·e"]},reponse:{q:"Que peux-tu faire de mieux ?",bonne:"Lui envoyer UN message ouvert : « Je remarque ton silence, tu vas bien ? »",choix:["Lui spammer 20 messages pour avoir une réponse","Lui envoyer UN message ouvert : « Je remarque ton silence, tu vas bien ? »","Mettre un statut passif-agressif sur les réseaux","Bloquer son numéro immédiatement"],why:"Vérifier sans accuser = ado mature. Le silence d'un·e ami·e a 1000 raisons possibles avant « tu ne comptes plus »."}},
+  {age:'ado',emoji:'😡',scene:"En cours, une élève répond brusquement à la prof, qui s'énerve. La prof la prend en grippe et l'humilie devant tout le monde.",emotion:{q:"Que ressent la prof, probablement ?",bonne:"Vexée + débordée + besoin de réaffirmer son autorité",choix:["Vexée + débordée + besoin de réaffirmer son autorité","Heureuse d'humilier publiquement","Endormie","Amoureuse de l'élève"]},reponse:{q:"Que peux-tu faire ?",bonne:"Ne pas rajouter (pas de rires) + parler à l'élève en privé après pour lui dire que tu l'as vue",choix:["Rire avec la classe pour montrer que tu approuves","Ne pas rajouter (pas de rires) + parler à l'élève en privé après pour lui dire que tu l'as vue","Aller crier sur la prof devant tout le monde","Faire comme si tu n'avais rien vu, jamais"],why:"Ne pas amplifier l'humiliation + soutien discret après = ado courageux·se sans surenchère."}},
+  {age:'ado',emoji:'😩',scene:"Ton·ta cousin·e (15 ans) te confie qu'il/elle ne va pas bien depuis des semaines, dort mal, n'a plus envie de rien. Il/elle te dit : « parfois je me dis que ça serait plus simple si j'étais pas là ».",emotion:{q:"Que vit-il/elle, probablement ?",bonne:"Une vraie souffrance + idées noires — c'est SÉRIEUX",choix:["Une vraie souffrance + idées noires — c'est SÉRIEUX","Un caprice d'ado","Une blague à prendre en rigolant","Un coup de fatigue qui passera demain"]},reponse:{q:"Que dois-tu absolument faire ?",bonne:"L'écouter SANS jugement + en parler à un adulte de confiance + lui donner le 3114 (24h/24)",choix:["Garder le secret comme il/elle te l'a demandé","Lui dire « Allez, ça va passer, t'inquiète »","L'écouter SANS jugement + en parler à un adulte de confiance + lui donner le 3114 (24h/24)","Lui dire de réfléchir à ce qu'il/elle dit"],why:"Quand quelqu'un évoque des idées suicidaires, le SECRET TUE. Le 3114 est gratuit, 24h/24 — pour la personne ET pour toi qui l'écoutes."}},
+  {age:'ado',emoji:'🥺',scene:"Ton·ta petit·e ami·e te dit que ses parents se séparent. Il/elle pleure et ne sait pas quoi faire.",emotion:{q:"Que ressent-il/elle ?",bonne:"Perdu·e + douleur de l'inconnu + peur de changer de quotidien",choix:["Perdu·e + douleur de l'inconnu + peur de changer de quotidien","Heureux·se d'avoir une excuse pour ne pas faire ses devoirs","Ennuyé·e par tes questions","Énervé·e contre toi"]},reponse:{q:"Que peux-tu faire de mieux ?",bonne:"L'écouter sans donner de conseils + lui dire « Je suis là » + ne pas minimiser",choix:["Lui raconter le divorce de tes parents pour comparer","L'écouter sans donner de conseils + lui dire « Je suis là » + ne pas minimiser","Lui dire « C'est mieux comme ça, tu verras »","Changer de sujet pour le/la distraire"],why:"Présence > conseils. Écouter sans résoudre, c'est souvent ce qui aide le plus. Les conseils viendront plus tard."}},
+  {age:'ado',emoji:'😏',scene:"Dans ton groupe d'amis, l'un d'eux commence à se moquer ouvertement d'un autre absent, sur son physique. Les autres rient. Tu ressens un malaise.",emotion:{q:"Que vit la personne absente, si elle l'apprend ?",bonne:"Trahison + honte + perte de confiance dans le groupe",choix:["Trahison + honte + perte de confiance dans le groupe","Amusement d'être au centre de l'attention","Indifférence totale","Fierté"]},reponse:{q:"Que peux-tu faire ?",bonne:"Dire calmement : « Sans lui/elle, ce n'est pas cool. Stop. » + ne pas rire",choix:["Rire avec les autres pour ne pas être exclu·e","Filmer pour partager après","Dire calmement : « Sans lui/elle, ce n'est pas cool. Stop. » + ne pas rire","Te lever et partir sans rien dire"],why:"Une parole posée d'un membre du groupe peut TOUT changer. Ne pas rire = déjà ne pas amplifier. Le dire = courage."}}
+];
+
+var soc_filter = 'all';
+var soc_deck = [];
+var soc_idx = 0;
+var soc_step = 0; // 0 = emotion, 1 = reponse
+var soc_bonnes = 0;
+var soc_record_key = 'educatypique_soc_record';
+
+function filtAgeSoc(age){
+  soc_filter = age;
+  document.querySelectorAll('[data-age-soc]').forEach(function(b){b.classList.remove('active');});
+  document.querySelector('[data-age-soc="'+age+'"]').classList.add('active');
+  startSoc();
+}
+
+function startSoc(){
+  var pool = SOC.filter(function(c){ return soc_filter==='all' || c.age===soc_filter; });
+  soc_deck = shuffle(pool);
+  soc_idx = 0;
+  soc_step = 0;
+  soc_bonnes = 0;
+  document.getElementById('soc-total').textContent = soc_deck.length;
+  document.getElementById('soc-record').textContent = localStorage.getItem(soc_record_key) || 0;
+  renderSoc();
+}
+
+function renderSoc(){
+  document.getElementById('soc-num').textContent = soc_idx+1;
+  document.getElementById('soc-bonnes').textContent = soc_bonnes;
+  if(soc_idx >= soc_deck.length){
+    finishSoc();
+    return;
+  }
+  var q = soc_deck[soc_idx];
+  var current = soc_step === 0 ? q.emotion : q.reponse;
+  var choix_shuffle = shuffle(current.choix);
+  var html = '<div class="question-card" data-jeu="soc">'+
+    '<span class="scene-emoji">'+q.emoji+'</span>'+
+    '<div class="context">'+q.scene+'</div>'+
+    '<div style="font-size:13px;color:#7A8782;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:600">'+(soc_step===0?'Étape 1/2 — Décode l\'émotion':'Étape 2/2 — Choisis la réponse')+'</div>'+
+    '<div style="font-family:Georgia,serif;font-size:17px;color:#2D3E3A;margin-bottom:14px">'+current.q+'</div>'+
+    '<div class="choices-list">'+
+      choix_shuffle.map(function(c){return '<button class="choice-btn" data-choix="'+c.replace(/"/g,'&quot;')+'" onclick="ansSoc(this)">'+c+'</button>';}).join('')+
+    '</div>'+
+    '<div class="feedback-box" id="soc-fb"></div>'+
+  '</div>';
+  document.getElementById('soc-zone').innerHTML = html;
+}
+
+function ansSoc(btn){
+  var choix = btn.dataset.choix;
+  var q = soc_deck[soc_idx];
+  var current = soc_step === 0 ? q.emotion : q.reponse;
+  document.querySelectorAll('#soc-zone .choice-btn').forEach(function(b){
+    b.disabled = true;
+    if(b.dataset.choix === current.bonne) b.classList.add('show-correct');
+    if(b.dataset.choix === choix && choix !== current.bonne) b.classList.add('wrong-pick');
+    if(b.dataset.choix === choix && choix === current.bonne) b.classList.add('correct-pick');
+  });
+  var fb = document.getElementById('soc-fb');
+  var correct = choix === current.bonne;
+  if(correct){
+    soc_bonnes++;
+    fb.className = 'feedback-box ok show';
+    if(soc_step === 0){
+      fb.innerHTML = '<h4>✓ Bonne lecture émotionnelle !</h4>'+
+        '<p>Maintenant que tu as identifié ce que la personne vit, étape 2 : <strong>que faire ?</strong></p>'+
+        '<button class="btn-next" onclick="nextStepSoc()">Étape 2 — Choisir une réponse →</button>';
+    } else {
+      fb.innerHTML = '<h4>✓ Excellente réponse !</h4>'+
+        '<p class="why">'+q.reponse.why+'</p>'+
+        '<button class="btn-next" onclick="nextSoc()">Scène suivante →</button>';
+    }
+  } else {
+    fb.className = 'feedback-box ko show';
+    if(soc_step === 0){
+      fb.innerHTML = '<h4>✗ Pas tout à fait</h4>'+
+        '<p>La lecture la plus juste était : <strong>'+current.bonne+'</strong>.</p>'+
+        '<p>Maintenant, étape 2 : <strong>que faire ?</strong></p>'+
+        '<button class="btn-next" onclick="nextStepSoc()">Étape 2 — Choisir une réponse →</button>';
+    } else {
+      fb.innerHTML = '<h4>✗ Réponse à affiner</h4>'+
+        '<p>La meilleure réponse était : <strong>'+current.bonne+'</strong>.</p>'+
+        '<p class="why">'+q.reponse.why+'</p>'+
+        '<button class="btn-next" onclick="nextSoc()">Scène suivante →</button>';
+    }
+  }
+  document.getElementById('soc-bonnes').textContent = soc_bonnes;
+}
+
+function nextStepSoc(){
+  soc_step = 1;
+  renderSoc();
+}
+function nextSoc(){
+  soc_idx++;
+  soc_step = 0;
+  renderSoc();
+}
+
+function finishSoc(){
+  var total = soc_deck.length * 2;
+  var pct = total>0 ? Math.round((soc_bonnes/total)*100) : 0;
+  var rec = parseInt(localStorage.getItem(soc_record_key) || '0', 10);
+  var newRec = soc_bonnes > rec;
+  if(newRec) localStorage.setItem(soc_record_key, soc_bonnes);
+  var msg = '';
+  if(pct===100) msg = "✨ Empathie + bon sens social = tu lis les autres avec finesse.";
+  else if(pct>=80) msg = "🌟 Très bonne lecture sociale. Tu sais voir au-delà des apparences.";
+  else if(pct>=60) msg = "🌱 Bon niveau. La nuance sociale s'affine avec le temps.";
+  else if(pct>=40) msg = "💡 Lire les autres demande de l'entraînement. C'est ça, le jeu.";
+  else msg = "🤲 Rejouer = découvrir. Ces scènes sont volontairement subtiles.";
+
+  document.getElementById('soc-zone').innerHTML = '<div class="final-score" data-jeu="soc">'+
+    '<div style="font-family:Georgia,serif;font-size:17px;color:var(--soc);font-weight:600">Bilan</div>'+
+    '<div class="big">'+soc_bonnes+' / '+total+'</div>'+
+    '<div style="font-size:14px;color:#7A8782;margin-top:-6px">'+pct+'% de lectures justes</div>'+
+    (newRec ? '<div class="records">🏆 <strong>Nouveau record !</strong></div>' : '<div class="records">Record actuel : <strong>'+rec+'</strong></div>')+
+    '<div class="msg">'+msg+'</div>'+
+  '</div>';
+}
+
+// ============================================================
+// JEU 3 — MOT INTERDIT (FE)
+// ============================================================
+var FE_CATEGORIES = [
+  {cat:'Animaux', interdits:['chien','chat','vache']},
+  {cat:'Fruits', interdits:['pomme','banane','fraise']},
+  {cat:'Sports', interdits:['football','tennis','natation']},
+  {cat:'Pays', interdits:['France','Espagne','Italie']},
+  {cat:'Couleurs', interdits:['rouge','bleu','vert']},
+  {cat:'Vêtements', interdits:['pantalon','t-shirt','chaussettes']},
+  {cat:'Métiers', interdits:['médecin','professeur','boulanger']},
+  {cat:'Légumes', interdits:['carotte','tomate','salade']},
+  {cat:'Instruments de musique', interdits:['piano','guitare','flûte']},
+  {cat:'Pièces de la maison', interdits:['cuisine','salon','chambre']},
+  {cat:'Moyens de transport', interdits:['voiture','train','vélo']},
+  {cat:'Plats français', interdits:['pizza','frites','baguette']},
+  {cat:'Personnages de dessins animés', interdits:['Mickey','Pikachu','Buzz']},
+  {cat:'Objets de l\'école', interdits:['stylo','cahier','règle']},
+  {cat:'Émotions', interdits:['joie','tristesse','colère']},
+  {cat:'Saisons & météo', interdits:['été','hiver','pluie']},
+  {cat:'Animaux sauvages', interdits:['lion','tigre','éléphant']},
+  {cat:'Desserts', interdits:['gâteau','glace','chocolat']}
+];
+
+var fe_current = null;
+var fe_timer = null;
+var fe_secondes = 60;
+var fe_running = false;
+var fe_manches_key = 'educatypique_fe_manches';
+var fe_record_key = 'educatypique_fe_record';
+
+function chooseGame(jeu){
+  document.querySelectorAll('.game-card').forEach(function(c){c.classList.remove('active');});
+  document.querySelector('[data-jeu="'+jeu+'"].game-card').classList.add('active');
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('panel-'+jeu).classList.add('active');
+  if(jeu === 'voc' && voc_deck.length === 0) startVoc();
+  if(jeu === 'soc' && soc_deck.length === 0) startSoc();
+  if(jeu === 'fe') {
+    document.getElementById('fe-manches').textContent = localStorage.getItem(fe_manches_key) || 0;
+    document.getElementById('fe-record').textContent = localStorage.getItem(fe_record_key) || 0;
+    if(!fe_current) newManche();
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function newManche(){
+  if(fe_timer){ clearInterval(fe_timer); fe_timer = null; }
+  fe_running = false;
+  fe_current = FE_CATEGORIES[Math.floor(Math.random()*FE_CATEGORIES.length)];
+  fe_secondes = 60;
+  renderFe();
+}
+
+function renderFe(){
+  document.getElementById('fe-zone').innerHTML = '<div class="mot-interdit-setup">'+
+    '<div class="cat-display"><span class="label">Catégorie</span>'+fe_current.cat+'</div>'+
+    '<div style="font-size:13px;color:#5A6B66;margin:10px 0 6px;text-transform:uppercase;letter-spacing:1px;font-weight:600">Mots INTERDITS</div>'+
+    '<div class="interdits-list">'+
+      fe_current.interdits.map(function(m){return '<span class="interdit-tag">🚫 '+m+'</span>';}).join('')+
+    '</div>'+
+    '<div class="timer-display" id="fe-timer">'+fe_secondes+'<span style="font-size:24px;color:#7A8782"> sec</span></div>'+
+    (!fe_running ?
+      '<button class="btn-next" onclick="startFe()">▶ Démarrer le chrono (60 sec)</button>'+
+      '<div style="font-size:12.5px;color:#7A8782;margin-top:10px;font-style:italic">Un parent ou un partenaire compte les mots cités et les pénalités. Bonne chance !</div>'
+      :
+      '<button class="btn-restart" onclick="stopFe()">⏸ Stopper</button>'+
+      '<div id="fe-prompt" style="font-family:Georgia,serif;font-size:18px;color:var(--fe);font-weight:600;margin-top:14px">🎤 Cite des '+fe_current.cat.toLowerCase()+' SANS prononcer les mots interdits !</div>'
+    )+
+  '</div>';
+}
+
+function startFe(){
+  fe_running = true;
+  renderFe();
+  fe_timer = setInterval(function(){
+    fe_secondes--;
+    var disp = document.getElementById('fe-timer');
+    if(disp) disp.innerHTML = fe_secondes+'<span style="font-size:24px;color:#7A8782"> sec</span>';
+    if(fe_secondes <= 0){
+      clearInterval(fe_timer);
+      fe_timer = null;
+      fe_running = false;
+      endManche();
+    }
+  }, 1000);
+}
+
+function stopFe(){
+  if(fe_timer){ clearInterval(fe_timer); fe_timer = null; }
+  fe_running = false;
+  endManche();
+}
+
+function endManche(){
+  var manches = parseInt(localStorage.getItem(fe_manches_key) || '0', 10) + 1;
+  localStorage.setItem(fe_manches_key, manches);
+  document.getElementById('fe-manches').textContent = manches;
+  document.getElementById('fe-zone').innerHTML = '<div class="final-score" data-jeu="fe">'+
+    '<div style="font-family:Georgia,serif;font-size:17px;color:var(--fe);font-weight:600">Manche terminée !</div>'+
+    '<div style="margin:18px 0;font-size:14px;color:#3D4E4A;line-height:1.7">Compte ton score avec ton partenaire :<br><strong>Score = (mots cités) − (3 × pénalités)</strong></div>'+
+    '<div style="background:#FBF8F4;padding:14px;border-radius:12px;display:inline-block;margin:10px 0">'+
+      '<label style="font-size:13px;color:#5A6B66;display:block;margin-bottom:6px">Ton score final :</label>'+
+      '<input type="number" id="fe-score-input" style="width:90px;padding:8px 14px;font-size:18px;font-weight:700;color:var(--fe);border:2px solid var(--fe);border-radius:10px;font-family:inherit;text-align:center" placeholder="0">'+
+      '<button class="btn-next" style="margin-top:10px;display:block;width:auto;margin-left:auto;margin-right:auto" onclick="saveFeScore()">Valider</button>'+
+    '</div>'+
+    '<div style="margin-top:14px"><button class="btn-restart" onclick="newManche()">🎲 Tirer une autre catégorie</button></div>'+
+  '</div>';
+}
+
+function saveFeScore(){
+  var s = parseInt(document.getElementById('fe-score-input').value || '0', 10);
+  var rec = parseInt(localStorage.getItem(fe_record_key) || '0', 10);
+  var newRec = s > rec;
+  if(newRec) localStorage.setItem(fe_record_key, s);
+  document.getElementById('fe-record').textContent = newRec ? s : rec;
+  alert(newRec ? '🏆 Nouveau record : '+s+' points !' : '✓ Score sauvegardé. Record actuel : '+rec+'.');
+}
+
+// INIT
+startVoc();
+</script>
+</body>
+</html>

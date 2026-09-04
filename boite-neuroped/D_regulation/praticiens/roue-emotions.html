@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roue des émotions — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,#7c5cbf,#F39BC2,#FFD6C2);padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:#fff;margin:0;text-shadow:0 2px 4px rgba(0,0,0,.15)}
+.bandeau .sub{color:#fff;max-width:740px;margin:.4rem auto 0;opacity:.95}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.2);padding:.3em .9em;border-radius:999px}
+
+.layout{max-width:1200px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:230px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start}
+.nav-sticky h3{color:var(--violet-titre);margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.9rem}
+.nav-sticky li{margin:.15rem 0}
+.nav-sticky a{display:block;padding:.4rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm)}
+.nav-sticky a:hover{background:var(--lavande);color:#fff}
+.nav-sticky a.actif{background:var(--violet-titre);color:#fff;font-weight:700}
+
+.contenu{display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid var(--violet-titre);border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:var(--violet-titre);font-family:var(--font-titre)}
+.apropos summary::marker{color:var(--rose-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:var(--rose-titre);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+section.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+section.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-confusion{--c:#a02040}
+.bloc-types{--c:#7c5cbf}
+.bloc-roue{--c:var(--violet-titre)}
+.bloc-enfant{--c:#2a9d8f}
+.bloc-ado{--c:#e05a8a}
+.bloc-emo-comp{--c:#c25a30}
+.bloc-tcc{--c:#F39BC2}
+.bloc-strat{--c:#8ED9D2}
+.bloc-explore{--c:#CBB6F6}
+.bloc-carte{--c:var(--rose-titre)}
+.bloc-suivi{--c:#a02040}
+.bloc-syn{--c:var(--rose-soutenu)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ textarea{min-height:60px;resize:vertical}
+.champ.full{grid-column:1/-1}
+
+/* Table de confusion */
+.confusion-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.4rem}
+.confusion-table th, .confusion-table td{padding:.5em .7em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.confusion-table th{background:var(--beige);color:var(--rose-titre);font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+.confusion-table td:first-child{font-weight:700}
+.confusion-table tr:hover{background:#fcfafd}
+
+/* Émotions primaires / secondaires en grilles */
+.types-grilles{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.4rem}
+@media (max-width:880px){.types-grilles{grid-template-columns:1fr}}
+.type-bloc{background:var(--beige);border-radius:var(--r-md);padding:.8rem 1rem;border-top:5px solid var(--c-t)}
+.type-bloc h3{margin:0 0 .4rem;color:var(--c-t)}
+.type-bloc table{width:100%;border-collapse:collapse;font-size:.86rem;background:#fff;border-radius:var(--r-sm);overflow:hidden}
+.type-bloc table th, .type-bloc table td{padding:.35em .55em;border:1px solid var(--border);text-align:left}
+.type-bloc table th{background:var(--c-t);color:#fff;font-size:.78rem}
+.type-bloc table td:first-child{font-weight:700}
+.type-primaires{--c-t:#a02040}
+.type-secondaires{--c-t:#7c5cbf}
+
+/* La roue */
+.roue-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.7rem;margin-top:.5rem}
+.roue-card{background:#fff;border-radius:var(--r-md);padding:.8rem 1rem;border:2px solid var(--c);box-shadow:var(--shadow-sm);transition:transform .15s, box-shadow .15s}
+.roue-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.roue-card h3{margin:0 0 .3rem;color:#fff;background:var(--c);padding:.3em .7em;border-radius:var(--r-sm);font-size:1rem;display:flex;align-items:center;gap:.4rem}
+.roue-card .precises{display:flex;flex-wrap:wrap;gap:.25rem;margin:.4rem 0}
+.roue-card .chip{background:var(--c-fond);color:var(--c);padding:.15em .55em;border-radius:999px;font-size:.78rem;font-weight:700}
+.roue-card .besoin{margin-top:.4rem;font-size:.85rem;font-style:italic;color:var(--muted);padding-top:.3rem;border-top:1px dashed var(--border)}
+.roue-card .besoin strong{color:var(--c);font-style:normal}
+
+/* Version enfant / ado */
+.versions-grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.4rem}
+@media (max-width:880px){.versions-grille{grid-template-columns:1fr}}
+.version-card{background:#fff;border-radius:var(--r-md);padding:.8rem 1rem;border:2px solid var(--c);box-shadow:var(--shadow-sm)}
+.version-card h3{margin:0 0 .4rem;color:var(--c)}
+.version-card table{width:100%;border-collapse:collapse;font-size:.86rem}
+.version-card table th, .version-card table td{padding:.3em .5em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.version-card table th{background:var(--beige);font-size:.78rem;color:var(--c)}
+.v-enfant{--c:#2a9d8f}
+.v-ado{--c:#e05a8a}
+
+/* Phrases enfant cochables */
+.phrases-utiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.3rem;margin-top:.5rem}
+.phrase-check{background:var(--beige);border-radius:var(--r-sm);padding:.5rem .7rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.88rem}
+.phrase-check input:checked + span{color:var(--c);font-weight:700}
+
+/* Émotion vs comportement */
+.emc-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.4rem}
+.emc-table th, .emc-table td{padding:.4em .6em;border:1px solid var(--border);text-align:left}
+.emc-table th{background:var(--beige);color:var(--c);font-size:.78rem}
+.emc-table .ok{background:#e8f5ec;color:#1b7a4a;font-weight:700;text-align:center}
+.emc-table .ko{background:#fdeaea;color:#a02040;font-weight:700;text-align:center}
+.emc-table .warn{background:#fff3e0;color:#a87800;font-weight:700;text-align:center;font-size:.78rem}
+
+/* TCC */
+.tcc-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.4rem}
+.tcc-table th, .tcc-table td{padding:.5em .6em;border:1px solid var(--border);text-align:left}
+.tcc-table th{background:var(--beige);color:#F39BC2;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+.tcc-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.3rem;padding:.4rem 0;border-bottom:1px solid var(--border)}
+.tcc-row textarea{padding:.3em .5em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.85rem;min-height:40px;resize:vertical}
+@media (max-width:760px){.tcc-row{grid-template-columns:1fr}}
+
+/* Stratégies par émotion */
+.strat-emo-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.6rem;margin-top:.4rem}
+.strat-emo-card{background:var(--beige);border-radius:var(--r-md);padding:.7rem .9rem;border-left:5px solid var(--c)}
+.strat-emo-card h4{margin:0 0 .2rem;color:var(--c);font-size:.95rem;display:flex;align-items:center;gap:.3rem}
+.strat-emo-card ul{margin:.3rem 0;padding-left:1.2rem;font-size:.86rem}
+
+/* Questions exploration */
+.explo-grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.4rem}
+@media (max-width:880px){.explo-grille{grid-template-columns:1fr}}
+.explo-card{background:#fff;border-radius:var(--r-md);padding:.7rem 1rem;border:2px solid var(--c)}
+.explo-card h4{margin:0 0 .4rem;color:var(--c)}
+.explo-question{margin:.4rem 0;padding:.4rem .5rem;background:var(--beige);border-radius:var(--r-sm)}
+.explo-question .q{font-weight:700;font-size:.88rem;color:var(--c);margin-bottom:.2rem}
+.explo-question textarea{width:100%;min-height:40px;padding:.3em .4em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.85rem;resize:vertical}
+.explo-enfant{--c:#2a9d8f}
+.explo-ado{--c:#e05a8a}
+
+/* Carte personnelle */
+.carte-perso-grille{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.4rem}
+@media (max-width:760px){.carte-perso-grille{grid-template-columns:1fr}}
+.carte-perso-card{background:var(--beige);border-radius:var(--r-md);padding:.7rem .9rem;border-left:5px solid var(--rose-titre)}
+.carte-perso-card h4{margin:0 0 .3rem;color:var(--rose-titre);font-size:.95rem}
+.checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.3rem;margin-top:.3rem}
+.check{background:#fff;border-radius:var(--r-sm);padding:.35rem .5rem;display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.85rem;border:1px solid var(--border)}
+.check input:checked + span{color:var(--rose-titre);font-weight:700}
+
+/* Suivi */
+.suivi-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:680px}
+.suivi-table th, .suivi-table td{padding:.4em .5em;border:1px solid var(--border);text-align:left}
+.suivi-table th{background:var(--beige);font-weight:700;font-size:.78rem;color:var(--violet-titre)}
+.suivi-table td input, .suivi-table td select{width:100%;padding:.2em;border:none;background:transparent;font-family:var(--font-body);font-size:.85rem}
+.suivi-table td input:focus, .suivi-table td select:focus{outline:1px solid var(--turquoise);background:#fff}
+.suivi-wrap{overflow-x:auto;margin-top:.4rem}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:var(--violet-titre);border:2px solid var(--violet-titre)}
+.actions button:hover{background:var(--violet-titre);color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .dossiers, .retour, details.apropos {display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .sub{color:var(--violet-titre) !important;text-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>🎡 Roue des émotions</h1>
+  <p class="sub">Reconnaître, nommer et différencier les émotions — pour comprendre les réactions, identifier les besoins et choisir une stratégie adaptée. Une émotion mal identifiée amène une mauvaise réponse.</p>
+</section>
+
+<div class="layout">
+
+  <aside class="nav-sticky">
+    <h3>📑 Sections</h3>
+    <ol id="nav">
+      <li><a href="#bloc-meta">Identité &amp; cadre</a></li>
+      <li><a href="#bloc-confusion">Confusion fréquente</a></li>
+      <li><a href="#bloc-types">Primaires / secondaires</a></li>
+      <li><a href="#bloc-roue">La roue (10 émotions)</a></li>
+      <li><a href="#bloc-enfant">Version enfant</a></li>
+      <li><a href="#bloc-ado">Version ado</a></li>
+      <li><a href="#bloc-emo-comp">Émotion ≠ comportement</a></li>
+      <li><a href="#bloc-tcc">Lien TCC</a></li>
+      <li><a href="#bloc-strat">Stratégies par émotion</a></li>
+      <li><a href="#bloc-explore">Questions d'exploration</a></li>
+      <li><a href="#bloc-carte">Carte personnelle</a></li>
+      <li><a href="#bloc-suivi">Suivi</a></li>
+      <li><a href="#bloc-syn">Synthèse</a></li>
+    </ol>
+    <div class="dossiers" style="margin-top:.6rem">
+      <h4>📂 Cartes enregistrées</h4>
+      <div id="liste-dossiers"></div>
+    </div>
+  </aside>
+
+  <main class="contenu">
+
+    <details class="apropos">
+      <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+      <div class="grid8">
+        <div><strong>1. Objectif</strong>Aider l'enfant ou l'ado à reconnaître, nommer et différencier ses émotions pour mieux comprendre ses réactions, identifier ses besoins et choisir une stratégie.</div>
+        <div><strong>2. Quand l'utiliser</strong>Quand l'enfant dit « je ne sais pas » sur ses émotions, n'utilise que « colère / triste / bien », confond colère et peur, ou transforme la honte en agressivité.</div>
+        <div><strong>3. Pour quel profil TND</strong>Tous TND, particulièrement TSA (alexithymie), TDAH (régulation), enfants avec opposition, anxiété, faible estime, difficultés sociales, hypersensibilité.</div>
+        <div><strong>4. Mode d'emploi</strong>Au calme d'abord. Ne pas forcer un ado par questionnement frontal. Passer par : « ton comportement raconte quoi que tu n'arrives pas à dire ? »</div>
+        <div><strong>5. Grille à remplir</strong>Roue 10 émotions + versions enfant/ado + triangle TCC + carte personnelle + suivi. Articule avec thermomètre émotionnel.</div>
+        <div><strong>6. Analyse</strong>Repérer les émotions mal identifiées (souvent honte cachée derrière colère). Préparer le triangle TCC. Lier émotion ↔ besoin ↔ stratégie.</div>
+        <div><strong>7. Recommandations</strong>Autoriser « je ne sais pas encore ». Distinguer émotion autorisée / comportement non acceptable. Travailler le besoin associé, pas seulement le calme.</div>
+        <div><strong>8. Phrase de synthèse</strong>"Le travail à la roue des émotions vise à développer la conscience émotionnelle, la verbalisation, et l'identification des besoins associés."</div>
+      </div>
+    </details>
+
+    <div class="posture">
+      💡 <strong>Posture :</strong> « Toutes tes émotions sont entendables. Tous tes comportements ne sont pas acceptables. » Si tu te trompes d'émotion, tu rates l'intervention.
+    </div>
+
+    <!-- META -->
+    <section id="bloc-meta" class="bloc bloc-meta">
+      <h2>Identité &amp; cadre</h2>
+      <div class="grille">
+        <div class="champ"><label>Prénom / initiales</label><input data-k="prenom" type="text"></div>
+        <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+        <div class="champ"><label>Date</label><input data-k="date" type="date"></div>
+        <div class="champ"><label>Version utilisée</label><select data-k="version"><option value="">—</option><option>Enfant</option><option>Ado</option><option>Mixte</option></select></div>
+        <div class="champ full"><label>Difficultés émotionnelles principales observées</label><textarea data-k="motif" placeholder="Confond colère et honte, explose sans pouvoir expliquer, dit toujours « je sais pas », transforme la peur en opposition…"></textarea></div>
+      </div>
+    </section>
+
+    <!-- CONFUSION FREQUENTE -->
+    <section id="bloc-confusion" class="bloc bloc-confusion">
+      <h2>⚠️ Confusion fréquente — ne pas s'arrêter à ce qu'on voit</h2>
+      <p class="intro">Le comportement de surface cache souvent une autre émotion. Si tu réponds à la surface, tu rates le nœud.</p>
+      <table class="confusion-table">
+        <thead><tr><th>Ce qu'on voit</th><th>Ce qu'on croit</th><th>Ce qu'il peut ressentir réellement</th></tr></thead>
+        <tbody>
+          <tr><td>Il crie</td><td>colère</td><td>honte, peur, frustration, injustice</td></tr>
+          <tr><td>Il refuse</td><td>opposition</td><td>anxiété, surcharge, peur de l'échec</td></tr>
+          <tr><td>Il se moque</td><td>provocation</td><td>gêne, insécurité, besoin d'attention</td></tr>
+          <tr><td>Il se ferme</td><td>insolence</td><td>tristesse, fatigue, protection</td></tr>
+          <tr><td>Il attaque</td><td>agressivité pure</td><td>sentiment de menace, humiliation</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:.6rem;font-size:.88rem;color:var(--rose-titre);font-weight:700">
+        👉 Chez beaucoup d'ados, la honte se déguise en colère. Si l'adulte répond uniquement à la colère, il passe à côté du vrai nœud.
+      </p>
+    </section>
+
+    <!-- PRIMAIRES / SECONDAIRES -->
+    <section id="bloc-types" class="bloc bloc-types">
+      <h2>🧠 Émotions primaires &amp; secondaires</h2>
+      <p class="intro">Les primaires sont automatiques et protègent. Les secondaires sont liées aux pensées, à l'histoire, au regard des autres.</p>
+      <div class="types-grilles">
+        <div class="type-bloc type-primaires">
+          <h3>🔵 Émotions primaires (rapides, automatiques)</h3>
+          <table>
+            <thead><tr><th>Émotion</th><th>Fonction</th></tr></thead>
+            <tbody>
+              <tr><td>Peur</td><td>protéger d'un danger</td></tr>
+              <tr><td>Colère</td><td>défendre une limite ou réagir à une frustration</td></tr>
+              <tr><td>Tristesse</td><td>signaler une perte, un besoin de réconfort</td></tr>
+              <tr><td>Joie</td><td>renforcer le lien, l'élan, le plaisir</td></tr>
+              <tr><td>Dégoût</td><td>protéger d'un rejet ou d'une menace</td></tr>
+              <tr><td>Surprise</td><td>orienter l'attention vers du nouveau</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="type-bloc type-secondaires">
+          <h3>🟣 Émotions secondaires (liées aux pensées)</h3>
+          <table>
+            <thead><tr><th>Émotion</th><th>Souvent liée à</th></tr></thead>
+            <tbody>
+              <tr><td>Honte</td><td>« je suis nul », « on va me juger »</td></tr>
+              <tr><td>Culpabilité</td><td>« j'ai fait quelque chose de mal »</td></tr>
+              <tr><td>Jalousie</td><td>peur de perdre une place ou une attention</td></tr>
+              <tr><td>Frustration</td><td>obstacle entre moi et ce que je veux</td></tr>
+              <tr><td>Déception</td><td>attente non satisfaite</td></tr>
+              <tr><td>Injustice</td><td>traité de manière incorrecte</td></tr>
+              <tr><td>Fierté</td><td>réussite, effort, reconnaissance</td></tr>
+              <tr><td>Soulagement</td><td>danger ou pression qui diminue</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- LA ROUE -->
+    <section id="bloc-roue" class="bloc bloc-roue">
+      <h2>🎡 La roue — émotion principale → précises → besoin</h2>
+      <p class="intro">10 émotions principales. Chaque carte : émotions précises associées + besoin probable.</p>
+      <div class="roue-grille" id="roue-grille"></div>
+    </section>
+
+    <!-- VERSION ENFANT -->
+    <section id="bloc-enfant" class="bloc bloc-enfant">
+      <h2>👶 Version enfant — « je cherche mon émotion »</h2>
+      <div class="versions-grille">
+        <div class="version-card v-enfant">
+          <h3>Je ressens… peut-être que je suis…</h3>
+          <table>
+            <thead><tr><th>Je ressens</th><th>Peut-être je suis…</th></tr></thead>
+            <tbody>
+              <tr><td>J'ai envie de crier</td><td>en colère, frustré, blessé</td></tr>
+              <tr><td>J'ai envie de pleurer</td><td>triste, déçu, fatigué</td></tr>
+              <tr><td>J'ai envie de partir</td><td>inquiet, surchargé, gêné</td></tr>
+              <tr><td>J'ai envie de taper</td><td>très en colère, envahi</td></tr>
+              <tr><td>J'ai envie de me cacher</td><td>honteux, triste, inquiet</td></tr>
+              <tr><td>Je bouge beaucoup</td><td>excité, stressé, impatient</td></tr>
+              <tr><td>Je dis « je m'en fiche »</td><td>blessé, déçu, honteux</td></tr>
+              <tr><td>Je dis « c'est nul »</td><td>frustré, découragé, inquiet</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="version-card v-enfant">
+          <h3>Mes phrases utiles (cocher celles que l'enfant utilise)</h3>
+          <div class="phrases-utiles" style="--c:#2a9d8f">
+            <label class="phrase-check"><input type="checkbox" data-k="ph-enf-0"><span>« Je suis en colère. »</span></label>
+            <label class="phrase-check"><input type="checkbox" data-k="ph-enf-1"><span>« Je suis frustré. »</span></label>
+            <label class="phrase-check"><input type="checkbox" data-k="ph-enf-2"><span>« Je suis inquiet. »</span></label>
+            <label class="phrase-check"><input type="checkbox" data-k="ph-enf-3"><span>« Je suis triste. »</span></label>
+            <label class="phrase-check"><input type="checkbox" data-k="ph-enf-4"><span>« Je suis déçu. »</span></label>
+            <label class="phrase-check"><input type="checkbox" data-k="ph-enf-5"><span>« Je suis gêné. »</span></label>
+            <label class="phrase-check"><input type="checkbox" data-k="ph-enf-6"><span>« Je me sens seul. »</span></label>
+            <label class="phrase-check"><input type="checkbox" data-k="ph-enf-7"><span>« Je me sens nul. »</span></label>
+            <label class="phrase-check"><input type="checkbox" data-k="ph-enf-8"><span>« Je ne sais pas encore ce que je ressens. »</span></label>
+          </div>
+          <p style="margin:.6rem 0 0;font-size:.85rem;color:#2a9d8f;font-weight:700">
+            ✨ Phrase importante à AUTORISER : « Je ne sais pas encore. » Forcer un enfant à nommer vite ajoute de la pression sur de la pression.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VERSION ADO -->
+    <section id="bloc-ado" class="bloc bloc-ado">
+      <h2>🧑 Version ado — « derrière ma réaction »</h2>
+      <div class="versions-grille">
+        <div class="version-card v-ado">
+          <h3>Réaction visible → émotion possible → pensée possible</h3>
+          <table>
+            <thead><tr><th>Réaction</th><th>Émotion possible</th><th>Pensée possible</th></tr></thead>
+            <tbody>
+              <tr><td>Je clash</td><td>honte, colère, injustice</td><td>« On me manque de respect »</td></tr>
+              <tr><td>Je fuis</td><td>peur, surcharge, anxiété</td><td>« Je ne vais pas gérer »</td></tr>
+              <tr><td>Je procrastine</td><td>anxiété, découragement</td><td>« Je vais échouer »</td></tr>
+              <tr><td>Je me ferme</td><td>tristesse, honte, fatigue</td><td>« Personne ne comprend »</td></tr>
+              <tr><td>Je provoque</td><td>insécurité, contrôle</td><td>« Au moins, je garde la main »</td></tr>
+              <tr><td>Je mens</td><td>peur, honte</td><td>« Je vais me faire détruire »</td></tr>
+              <tr><td>Je fais semblant de m'en foutre</td><td>déception, peur de l'échec</td><td>« Si je m'en fiche, ça fait moins mal »</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="version-card v-ado">
+          <h3>Questions directes pour ado</h3>
+          <div class="explo-question">
+            <div class="q">« Ton comportement raconte quoi que tu n'arrives pas encore à dire proprement ? »</div>
+            <textarea data-k="ado-q1" placeholder="Réponse de l'ado…"></textarea>
+          </div>
+          <div class="explo-question">
+            <div class="q">« Qu'est-ce qui t'a vraiment touché dans cette situation ? »</div>
+            <textarea data-k="ado-q2"></textarea>
+          </div>
+          <div class="explo-question">
+            <div class="q">« Qu'est-ce que tu as essayé de protéger ? »</div>
+            <textarea data-k="ado-q3"></textarea>
+          </div>
+          <p style="margin:.4rem 0 0;font-size:.83rem;font-style:italic;color:var(--muted)">
+            Ces questions ouvrent une vraie porte. Beaucoup plus utiles qu'« alors, quelle émotion ressens-tu ? » qui ressemble à une fiche de maternelle plastifiée.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EMO VS COMPORTEMENT -->
+    <section id="bloc-emo-comp" class="bloc bloc-emo-comp">
+      <h2>⚖️ Émotion ≠ comportement</h2>
+      <p class="intro">« Toutes tes émotions sont entendables. Tous tes comportements ne sont pas acceptables. » Net, juste, évite le laxisme émotionnel.</p>
+      <table class="emc-table" style="--c:#c25a30">
+        <thead><tr><th>Émotion</th><th>Autorisée ?</th><th>Comportement associé</th><th>Autorisé ?</th></tr></thead>
+        <tbody>
+          <tr><td>Colère</td><td class="ok">oui</td><td>Insulter</td><td class="ko">non</td></tr>
+          <tr><td>Peur</td><td class="ok">oui</td><td>Fuir sans prévenir</td><td class="warn">à encadrer</td></tr>
+          <tr><td>Tristesse</td><td class="ok">oui</td><td>S'isoler totalement plusieurs jours</td><td class="warn">à surveiller</td></tr>
+          <tr><td>Frustration</td><td class="ok">oui</td><td>Jeter un objet</td><td class="ko">non</td></tr>
+          <tr><td>Honte</td><td class="ok">oui</td><td>Attaquer l'autre</td><td class="ko">non</td></tr>
+          <tr><td>Déception</td><td class="ok">oui</td><td>Tout abandonner</td><td class="warn">à travailler</td></tr>
+          <tr><td>Anxiété</td><td class="ok">oui</td><td>Éviter systématiquement</td><td class="ko">non (nourrit l'anxiété)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- TRIANGLE TCC -->
+    <section id="bloc-tcc" class="bloc bloc-tcc">
+      <h2>🔺 Lien avec le triangle TCC</h2>
+      <p class="intro">Situation → Pensée → Émotion → Comportement. Souvent l'émotion vient de l'<strong>interprétation</strong>, pas seulement de l'événement.</p>
+      <table class="tcc-table">
+        <thead><tr><th>Situation</th><th>Pensée</th><th>Émotion</th><th>Comportement</th></tr></thead>
+        <tbody>
+          <tr><td>Le professeur me reprend</td><td>« Il m'humilie »</td><td>honte + colère</td><td>je réponds mal</td></tr>
+          <tr><td>Un devoir est difficile</td><td>« Je suis nul »</td><td>honte + anxiété</td><td>j'évite</td></tr>
+          <tr><td>Un ami ne répond pas</td><td>« Il m'abandonne »</td><td>tristesse + peur</td><td>je spamme ou j'attaque</td></tr>
+          <tr><td>Mes parents disent non</td><td>« Ils ne me respectent pas »</td><td>frustration + injustice</td><td>je crie</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:.5rem;padding:.6rem .8rem;background:#fde6ef;border-radius:var(--r-sm);font-size:.9rem;font-weight:700;color:#e05a8a">
+        🎯 Question TCC centrale : « Quelle pensée a transformé la situation en menace ? »
+      </p>
+      <h3 style="margin-top:.8rem;color:#F39BC2;font-size:1rem">Triangle personnel à remplir (avec l'enfant / ado)</h3>
+      <div style="margin-top:.4rem">
+        <div class="tcc-row" style="background:var(--beige);padding:.4rem;border-radius:var(--r-sm)">
+          <div><strong style="font-size:.78rem;color:var(--muted)">Situation</strong><textarea data-k="tcc-situ"></textarea></div>
+          <div><strong style="font-size:.78rem;color:var(--muted)">Pensée automatique</strong><textarea data-k="tcc-pensee"></textarea></div>
+          <div><strong style="font-size:.78rem;color:var(--muted)">Émotion ressentie</strong><textarea data-k="tcc-emotion"></textarea></div>
+          <div><strong style="font-size:.78rem;color:var(--muted)">Comportement</strong><textarea data-k="tcc-comp"></textarea></div>
+        </div>
+        <div style="margin-top:.4rem">
+          <strong style="font-size:.85rem;color:#F39BC2">Pensée alternative possible :</strong>
+          <textarea data-k="tcc-alternative" style="width:100%;min-height:50px;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.88rem;margin-top:.2rem;resize:vertical"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- STRATEGIES PAR EMOTION -->
+    <section id="bloc-strat" class="bloc bloc-strat">
+      <h2>🧰 Stratégies adaptées par émotion</h2>
+      <p class="intro">Une bonne stratégie répond à l'émotion ET au besoin associé.</p>
+      <div class="strat-emo-grille" id="strat-emo-grille"></div>
+    </section>
+
+    <!-- QUESTIONS EXPLORATION -->
+    <section id="bloc-explore" class="bloc bloc-explore">
+      <h2>❓ Questions d'exploration émotionnelle</h2>
+      <p class="intro">Choisir la version selon l'âge. Ne pas faire interrogatoire — proposer, observer, revenir plus tard si besoin.</p>
+      <div class="explo-grille">
+        <div class="explo-card explo-enfant">
+          <h4>👶 Pour enfant</h4>
+          <div class="explo-question"><div class="q">Si ton émotion avait une couleur, ce serait laquelle ?</div><textarea data-k="explo-enf-1"></textarea></div>
+          <div class="explo-question"><div class="q">Où tu la sens dans ton corps ?</div><textarea data-k="explo-enf-2"></textarea></div>
+          <div class="explo-question"><div class="q">Elle est petite, moyenne ou énorme ?</div><textarea data-k="explo-enf-3"></textarea></div>
+          <div class="explo-question"><div class="q">Elle te donne envie de faire quoi ?</div><textarea data-k="explo-enf-4"></textarea></div>
+          <div class="explo-question"><div class="q">De quoi tu aurais besoin maintenant ?</div><textarea data-k="explo-enf-5"></textarea></div>
+        </div>
+        <div class="explo-card explo-ado">
+          <h4>🧑 Pour ado</h4>
+          <div class="explo-question"><div class="q">Quelle émotion est visible de l'extérieur ?</div><textarea data-k="explo-ado-1"></textarea></div>
+          <div class="explo-question"><div class="q">Quelle émotion est cachée dessous ?</div><textarea data-k="explo-ado-2"></textarea></div>
+          <div class="explo-question"><div class="q">Quelle pensée l'a déclenchée ?</div><textarea data-k="explo-ado-3"></textarea></div>
+          <div class="explo-question"><div class="q">Qu'est-ce que tu as voulu protéger ?</div><textarea data-k="explo-ado-4"></textarea></div>
+          <div class="explo-question"><div class="q">Ton comportement t'a aidé ou t'a coûté ?</div><textarea data-k="explo-ado-5"></textarea></div>
+          <div class="explo-question"><div class="q">Qu'est-ce que tu pourrais dire autrement la prochaine fois ?</div><textarea data-k="explo-ado-6"></textarea></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARTE PERSONNELLE -->
+    <section id="bloc-carte" class="bloc bloc-carte">
+      <h2>🃏 Carte émotion personnelle</h2>
+      <p class="intro">À remplir avec l'enfant / l'ado. Cette carte devient un repère, à imprimer.</p>
+      <div class="carte-perso-grille">
+        <div class="carte-perso-card">
+          <h4>Mon émotion la plus fréquente</h4>
+          <div class="checklist" id="emo-freq"></div>
+          <div class="champ" style="margin-top:.4rem"><label>Autre / précision</label><input data-k="emo-freq-autre" type="text"></div>
+        </div>
+        <div class="carte-perso-card">
+          <h4>Quand cette émotion arrive, mon corps fait :</h4>
+          <div class="checklist" id="corps-fait"></div>
+          <div class="champ" style="margin-top:.4rem"><label>Autre</label><input data-k="corps-fait-autre" type="text"></div>
+        </div>
+        <div class="carte-perso-card">
+          <h4>Quand cette émotion arrive, j'ai tendance à :</h4>
+          <div class="checklist" id="tendance-a"></div>
+          <div class="champ" style="margin-top:.4rem"><label>Autre</label><input data-k="tendance-a-autre" type="text"></div>
+        </div>
+        <div class="carte-perso-card">
+          <h4>Ce que je peux essayer à la place</h4>
+          <textarea data-k="essayer-place" style="width:100%;min-height:90px;padding:.5em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.9rem;resize:vertical" placeholder="Idée 1…&#10;Idée 2…&#10;Idée 3…"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUIVI -->
+    <section id="bloc-suivi" class="bloc bloc-suivi">
+      <h2>📈 Suivi des progrès émotionnels</h2>
+      <p class="intro">Pas un contrôle. Une trace pour repérer ce qui change au fil des semaines.</p>
+      <div class="suivi-wrap">
+        <table class="suivi-table">
+          <thead>
+            <tr><th>Date</th><th>Situation</th><th>Émotion identifiée</th><th>Intensité (0-5)</th><th>Besoin identifié</th><th>Stratégie utilisée</th></tr>
+          </thead>
+          <tbody id="suivi-corps"></tbody>
+        </table>
+      </div>
+      <button id="btn-add-suivi" style="margin-top:.5rem;background:#fff;color:var(--violet-titre);border:2px solid var(--violet-titre)">+ Ligne de suivi</button>
+
+      <div style="margin-top:.8rem">
+        <strong style="color:var(--violet-titre)">Progrès à observer (cocher au fil du temps) :</strong>
+        <div class="checklist" id="liste-progres" style="margin-top:.4rem"></div>
+      </div>
+    </section>
+
+    <!-- SYNTHESE -->
+    <section id="bloc-syn" class="bloc bloc-syn">
+      <h2>✍️ Synthèse</h2>
+      <div class="champ full"><label>Émotions les plus fréquemment observées</label><textarea data-k="syn-emo-freq"></textarea></div>
+      <div class="champ full" style="margin-top:.5rem"><label>Difficultés principales (cocher)</label>
+        <div class="checklist" style="--c:var(--rose-soutenu);margin-top:.3rem">
+          <label class="check"><input type="checkbox" data-k="diff-1"><span>L'identification émotionnelle</span></label>
+          <label class="check"><input type="checkbox" data-k="diff-2"><span>La verbalisation</span></label>
+          <label class="check"><input type="checkbox" data-k="diff-3"><span>La distinction émotion / comportement</span></label>
+          <label class="check"><input type="checkbox" data-k="diff-4"><span>La régulation</span></label>
+          <label class="check"><input type="checkbox" data-k="diff-5"><span>La réparation après conflit</span></label>
+        </div>
+      </div>
+      <div class="champ full" style="margin-top:.5rem"><label>Phrase de synthèse pour bilan / compte rendu</label><textarea data-k="syn-phrase" style="min-height:90px" placeholder="Le travail autour de la roue des émotions vise à …. Les émotions fréquemment observées sont …. Les difficultés principales concernent …."></textarea></div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer</button>
+      <button id="btn-exporter">📄 Exporter (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer</button>
+      <button id="btn-vider" class="danger">🧹 Vider</button>
+    </div>
+
+    <div class="disclaimer">
+      Cet outil ne remplace pas un accompagnement psychologique. Si la souffrance émotionnelle est intense, persistante, associée à des idées noires ou à un effondrement, orienter vers un professionnel de santé mentale.
+    </div>
+
+    <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+      Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+    </p>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'neuroped_roue_emo_v1';
+let currentId = null;
+
+const EMOTIONS_ROUE = [
+  { id:'colere', nom:'Colère', icone:'😡', couleur:'#c25a30', cFond:'#fde6dc',
+    precises:['frustré','agacé','furieux','trahi','envahi','contrarié'],
+    besoin:'limite · justice · respect · espace' },
+  { id:'peur', nom:'Peur', icone:'😨', couleur:'#7c5cbf', cFond:'#e8e0f5',
+    precises:['inquiet','paniqué','menacé','stressé','insécurisé'],
+    besoin:'sécurité · prévisibilité · protection' },
+  { id:'tristesse', nom:'Tristesse', icone:'😢', couleur:'#5a7fa8', cFond:'#dde6f0',
+    precises:['déçu','seul','blessé','découragé','abandonné'],
+    besoin:'réconfort · lien · repos · écoute' },
+  { id:'honte', nom:'Honte', icone:'😳', couleur:'#a02040', cFond:'#f5d8de',
+    precises:['humilié','gêné','nul','exposé','rabaissé'],
+    besoin:'dignité · sécurité · réparation' },
+  { id:'joie', nom:'Joie', icone:'😄', couleur:'#f0a020', cFond:'#fceec8',
+    precises:['content','fier','motivé','excité','apaisé'],
+    besoin:'partage · reconnaissance · continuité' },
+  { id:'degout', nom:'Dégoût', icone:'🤢', couleur:'#2a8055', cFond:'#d8ebde',
+    precises:['rejeté','écœuré','dérangé','repoussé'],
+    besoin:'distance · protection · choix' },
+  { id:'surprise', nom:'Surprise', icone:'😮', couleur:'#FFD6C2', cFond:'#fff0e8',
+    precises:['étonné','déstabilisé','curieux','perdu'],
+    besoin:'information · temps · clarification' },
+  { id:'frustration', nom:'Frustration', icone:'😤', couleur:'#e05a8a', cFond:'#fcdde9',
+    precises:['bloqué','impatient','contrarié','impuissant'],
+    besoin:'aide · étape · alternative' },
+  { id:'injustice', nom:'Injustice', icone:'⚖️', couleur:'#8a3c66', cFond:'#ecd9e3',
+    precises:['lésé','accusé','incompris','révolté'],
+    besoin:'écoute · équité · explication' },
+  { id:'anxiete', nom:'Anxiété', icone:'😰', couleur:'#8ED9D2', cFond:'#e0f3f1',
+    precises:['tendu','préoccupé','anticipateur','nerveux'],
+    besoin:'rassurance · plan · maîtrise' }
+];
+
+const STRATEGIES_EMO = [
+  { emo:'Colère', icone:'😡', couleur:'#c25a30', strat:['Pause','Mouvement','Phrase limite','Respiration','Réparation'] },
+  { emo:'Peur', icone:'😨', couleur:'#7c5cbf', strat:['Clarification','Plan étape par étape','Présence sécurisante'] },
+  { emo:'Tristesse', icone:'😢', couleur:'#5a7fa8', strat:['Écoute','Lien','Repos','Activité douce'] },
+  { emo:'Honte', icone:'😳', couleur:'#a02040', strat:['Protection du regard des autres','Reformulation','Restaurer la dignité'] },
+  { emo:'Frustration', icone:'😤', couleur:'#e05a8a', strat:['Découper la tâche','Choix limité','Entraînement à l\'attente'] },
+  { emo:'Anxiété', icone:'😰', couleur:'#8ED9D2', strat:['Exposition graduée','Prévisibilité','Respiration','Plan B'] },
+  { emo:'Injustice', icone:'⚖️', couleur:'#8a3c66', strat:['Écouter','Distinguer fait / interprétation','Réparer si nécessaire'] },
+  { emo:'Jalousie', icone:'😒', couleur:'#a87800', strat:['Nommer le besoin de place','Renforcer le lien'] },
+  { emo:'Déception', icone:'😞', couleur:'#5a7fa8', strat:['Accueillir','Chercher la prochaine action possible'] },
+  { emo:'Surcharge', icone:'🌀', couleur:'#7c5cbf', strat:['Réduire stimulation','Pause sensorielle','Silence'] }
+];
+
+const EMO_FREQ_LIST = ['Colère','Peur','Tristesse','Honte','Frustration','Anxiété','Injustice','Déception','Jalousie'];
+const CORPS_FAIT_LIST = ['Cœur rapide','Ventre serré','Gorge bloquée','Mâchoire serrée','Mains fermées','Envie de pleurer','Envie de crier','Envie de fuir','Fatigue soudaine','Tête vide'];
+const TENDANCE_LIST = ['Crier','Me taire','Partir','Insulter','Pleurer','Provoquer','Négocier','Mentir','Abandonner','Me cacher','Demander de l\'aide'];
+
+const PROGRES = [
+  'Nomme plus précisément ses émotions',
+  'Distingue colère et honte',
+  'Distingue peur et opposition',
+  'Repère le besoin associé',
+  'Verbalise avant d\'exploser',
+  'Accepte l\'aide plus tôt',
+  'Utilise le thermomètre émotionnel',
+  'Répare mieux après conflit',
+  'Identifie ses pensées automatiques'
+];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// === La roue ===
+function renderRoue(){
+  const cont = document.getElementById('roue-grille');
+  cont.innerHTML = EMOTIONS_ROUE.map(e=>`
+    <div class="roue-card" style="--c:${e.couleur};--c-fond:${e.cFond}">
+      <h3>${e.icone} ${esc(e.nom)}</h3>
+      <div class="precises">
+        ${e.precises.map(p=>`<span class="chip">${esc(p)}</span>`).join('')}
+      </div>
+      <div class="besoin"><strong>Besoin :</strong> ${esc(e.besoin)}</div>
+    </div>
+  `).join('');
+}
+
+// === Stratégies par émotion ===
+function renderStrategiesEmo(){
+  const cont = document.getElementById('strat-emo-grille');
+  cont.innerHTML = STRATEGIES_EMO.map(s=>`
+    <div class="strat-emo-card" style="--c:${s.couleur}">
+      <h4>${s.icone} ${esc(s.emo)}</h4>
+      <ul>${s.strat.map(st=>`<li>${esc(st)}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+}
+
+// === Carte perso checklists ===
+function renderCarteListes(){
+  document.getElementById('emo-freq').innerHTML = EMO_FREQ_LIST.map((e,i)=>`
+    <label class="check"><input type="checkbox" data-k="emo-freq-${i}"><span>${esc(e)}</span></label>
+  `).join('');
+  document.getElementById('corps-fait').innerHTML = CORPS_FAIT_LIST.map((c,i)=>`
+    <label class="check"><input type="checkbox" data-k="corps-fait-${i}"><span>${esc(c)}</span></label>
+  `).join('');
+  document.getElementById('tendance-a').innerHTML = TENDANCE_LIST.map((t,i)=>`
+    <label class="check"><input type="checkbox" data-k="tendance-${i}"><span>${esc(t)}</span></label>
+  `).join('');
+}
+
+// === Progres ===
+function renderProgres(){
+  const cont = document.getElementById('liste-progres');
+  cont.innerHTML = PROGRES.map((p,i)=>`
+    <label class="check"><input type="checkbox" data-k="prog-${i}"><span>${esc(p)}</span></label>
+  `).join('');
+}
+
+// === Suivi ===
+function ajouterSuivi(d){
+  const tbody = document.getElementById('suivi-corps');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="date" data-suivi="date" value="${esc(d?.date||'')}"></td>
+    <td><input type="text" data-suivi="situation" value="${esc(d?.situation||'')}"></td>
+    <td><input type="text" data-suivi="emotion" value="${esc(d?.emotion||'')}"></td>
+    <td><select data-suivi="intensite">
+      <option value="">—</option>
+      ${[0,1,2,3,4,5].map(v=>`<option value="${v}" ${d?.intensite==v?'selected':''}>${v}</option>`).join('')}
+    </select></td>
+    <td><input type="text" data-suivi="besoin" value="${esc(d?.besoin||'')}"></td>
+    <td><input type="text" data-suivi="strategie" value="${esc(d?.strategie||'')}"></td>
+  `;
+  tbody.appendChild(tr);
+}
+document.getElementById('btn-add-suivi').addEventListener('click', ()=> ajouterSuivi());
+
+function collecterSuivi(){
+  return Array.from(document.querySelectorAll('#suivi-corps tr')).map(tr=>({
+    date: tr.querySelector('[data-suivi="date"]').value,
+    situation: tr.querySelector('[data-suivi="situation"]').value,
+    emotion: tr.querySelector('[data-suivi="emotion"]').value,
+    intensite: tr.querySelector('[data-suivi="intensite"]').value,
+    besoin: tr.querySelector('[data-suivi="besoin"]').value,
+    strategie: tr.querySelector('[data-suivi="strategie"]').value
+  }));
+}
+
+function appliquerSuivi(arr){
+  const tbody = document.getElementById('suivi-corps');
+  tbody.innerHTML = '';
+  if(arr && arr.length) arr.forEach(d=> ajouterSuivi(d));
+  else for(let i=0;i<3;i++) ajouterSuivi();
+}
+
+// === Save / Load ===
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type==='checkbox' ? el.checked : el.value;
+  });
+  o._suivi = collecterSuivi();
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  appliquerSuivi(o._suivi || []);
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else el.value = '';
+  });
+  appliquerSuivi([]);
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucune carte.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · ${esc((o.date||o._ts||'').slice(0,10))}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire();
+      const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer cette carte ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom (ou initiales).'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr);
+  rendreDossiers();
+  alert('Carte enregistrée.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const lignes = ['Roue des émotions — Boîte NeuroPed',''];
+  lignes.push('Enfant : '+(o.prenom||'—')+' · '+(o.age||'—')+' · Date : '+(o.date||'—'));
+  lignes.push('Version : '+(o.version||'—'));
+  lignes.push('Motif : '+(o.motif||'—'));
+  lignes.push('');
+  lignes.push('== Triangle TCC ==');
+  lignes.push('Situation : '+(o['tcc-situ']||'—'));
+  lignes.push('Pensée : '+(o['tcc-pensee']||'—'));
+  lignes.push('Émotion : '+(o['tcc-emotion']||'—'));
+  lignes.push('Comportement : '+(o['tcc-comp']||'—'));
+  lignes.push('Pensée alternative : '+(o['tcc-alternative']||'—'));
+  lignes.push('');
+  lignes.push('== Carte personnelle ==');
+  const ef = EMO_FREQ_LIST.filter((_,i)=> o['emo-freq-'+i]);
+  if(ef.length) lignes.push('Émotion(s) fréquente(s) : '+ef.join(', ')+(o['emo-freq-autre'] ? ' · '+o['emo-freq-autre'] : ''));
+  const cf = CORPS_FAIT_LIST.filter((_,i)=> o['corps-fait-'+i]);
+  if(cf.length) lignes.push('Corps fait : '+cf.join(', ')+(o['corps-fait-autre'] ? ' · '+o['corps-fait-autre'] : ''));
+  const td = TENDANCE_LIST.filter((_,i)=> o['tendance-'+i]);
+  if(td.length) lignes.push('Tendance à : '+td.join(', ')+(o['tendance-a-autre'] ? ' · '+o['tendance-a-autre'] : ''));
+  lignes.push('Ce que je peux essayer : '+(o['essayer-place']||'—'));
+  lignes.push('');
+  lignes.push('== Suivi ==');
+  (o._suivi||[]).forEach(s=>{
+    if(s.date||s.situation) lignes.push('  · '+(s.date||'')+' · '+(s.situation||'')+' · émo : '+(s.emotion||'')+' · int '+(s.intensite||'?')+' · besoin : '+(s.besoin||'')+' · strat : '+(s.strategie||''));
+  });
+  lignes.push('');
+  lignes.push('== Synthèse ==');
+  lignes.push('Émotions fréquentes : '+(o['syn-emo-freq']||'—'));
+  lignes.push(o['syn-phrase']||'—');
+  const blob = new Blob([lignes.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'roue-emo-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(confirm('Vider le formulaire ? (les cartes enregistrées ne seront pas touchées)')) vider();
+});
+
+// Nav scroll
+const navLinks = document.querySelectorAll('#nav a');
+function majNav(){
+  const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 120) actif = c; });
+  navLinks.forEach(a=>{ a.classList.toggle('actif', actif && a.getAttribute('href') === '#'+actif.id); });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+// Init
+renderRoue();
+renderStrategiesEmo();
+renderCarteListes();
+renderProgres();
+appliquerSuivi([]);
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+majNav();
+</script>
+
+</body>
+</html>

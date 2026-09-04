@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon équipe de soin — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#eef6f5,#fff)}
+.bandeau{background:linear-gradient(135deg,#2a9d8f,#8ED9D2);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.7rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #2a9d8f;line-height:1.55}
+.intro strong{color:#1a6a5a}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #c5dfdb;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#2a9d8f;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#1a6a5a;border:1.5px solid #c5dfdb}
+
+.carte-soin{background:#fff;border-radius:var(--r-lg);padding:1.3rem 1.5rem;box-shadow:var(--shadow-sm);border-top:6px solid #2a9d8f}
+.carte-soin h2{color:#1a6a5a;margin:0 0 .4rem;font-size:1.2rem;display:flex;align-items:center;gap:.5rem;justify-content:space-between;flex-wrap:wrap}
+.carte-soin .meta-enfant{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.5rem;margin-bottom:.8rem}
+.carte-soin .meta-enfant input{padding:.5em .7em;border:1.5px solid #c5dfdb;border-radius:var(--r-sm);font-family:inherit;font-size:.92rem;background:#faf9e8}
+.carte-soin .meta-enfant input::placeholder{color:#aaa}
+
+.pros-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.7rem}
+.pro-card{background:#fafbfc;border-radius:var(--r-md);padding:.9rem 1rem;border-left:4px solid var(--c)}
+.pro-card.consulte{background:linear-gradient(135deg,#eef6f5,#fff);border-left-width:5px;box-shadow:0 1px 3px rgba(42,157,143,.15)}
+.pro-card h3{color:var(--c);margin:0 0 .15rem;font-size:.98rem;display:flex;align-items:center;gap:.4rem;justify-content:space-between}
+.pro-card h3 .toggle-consulte{display:flex;align-items:center;gap:.3rem;cursor:pointer;font-size:.78rem;color:#666;font-weight:700}
+.pro-card h3 .toggle-consulte input{margin:0}
+.pro-card h3 .toggle-consulte.actif{color:var(--c)}
+.pro-card .role{font-size:.82rem;color:#666;font-style:italic;margin-bottom:.5rem;line-height:1.4}
+.pro-card .ligne{margin-bottom:.35rem;display:flex;align-items:center;gap:.4rem}
+.pro-card .ligne label{font-size:.78rem;color:#888;font-weight:700;min-width:80px}
+.pro-card .ligne input{flex:1;padding:.3em .55em;border:1px solid #e0e0e0;border-radius:var(--r-sm);font-family:inherit;font-size:.85rem;background:#fff}
+.pro-card .ligne input:focus{outline:1.5px solid var(--c);background:#fff}
+
+.p-medecin{--c:#e05a8a}
+.p-pedo{--c:#7c5cbf}
+.p-neuro{--c:#5a7a9f}
+.p-ortho{--c:#2a9d8f}
+.p-ergo{--c:#e9a73a}
+.p-psychomot{--c:#5fa040}
+.p-psy{--c:#F39BC2}
+.p-ophta{--c:#8ED9D2}
+.p-orl{--c:#9B85B8}
+.p-autre{--c:#888}
+
+.recap{background:linear-gradient(135deg,#fff,#eef6f5);border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border:2px solid #c5dfdb}
+.recap h2{color:#1a6a5a;margin:0 0 .4rem;font-size:1.1rem}
+.recap .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.5rem;margin-top:.6rem}
+.recap .stat{background:#fff;border-radius:var(--r-md);padding:.6rem .8rem;text-align:center;border-top:3px solid var(--c)}
+.recap .stat .lbl{font-size:.72rem;color:#888;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.recap .stat .val{font-size:1.4rem;font-weight:800;color:var(--c);margin-top:.15rem}
+.recap .liste-consultes{margin-top:.7rem;background:#fff;border-radius:var(--r-md);padding:.6rem .9rem;font-size:.88rem;line-height:1.6}
+.recap .liste-consultes strong{color:#1a6a5a}
+
+.posture{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.88rem;color:#5A4D6B;line-height:1.5}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #2a9d8f;background:#fff;color:#1a6a5a;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#2a9d8f;color:#fff}
+.actions .primary{background:#2a9d8f;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+@media print{
+  body{background:#fff}
+  .dossier-bar,.actions,.bandeau .retour{display:none!important}
+  .carte-soin,.recap{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .pros-grid{grid-template-columns:1fr 1fr}
+}
+
+@page{size:A4 portrait;margin:1.2cm}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../parents.html">← Espace parents</a>
+  <h1>👥 Mon équipe de soin</h1>
+  <p class="sub">Une carte unique pour rassembler tous les pros qui accompagnent ton enfant. Tu sais qui tu as déjà vu · qui reste à voir · les contacts en un coup d'œil.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    👥 <strong>Pourquoi cette carte ?</strong> Quand on entre dans le parcours TND, on rencontre vite 5 à 10 professionnels différents. Sans support, on se perd. Cette carte te permet de : (1) <strong>visualiser ton équipe</strong> en entier · (2) <strong>cocher</strong> ce que tu as déjà fait · (3) <strong>garder les contacts</strong> au même endroit · (4) <strong>repérer ce qui reste à voir</strong>.
+  </div>
+
+  <div class="posture">
+    🌿 <strong>Posture Nawel :</strong> tu n'es pas obligé(e) de consulter tous les pros listés. Cette carte est une <strong>boussole</strong>, pas une checklist culpabilisante. Coche au rythme de ton enfant et de tes possibilités. Chaque pro consulté = une victoire.
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:#1a6a5a">📁 Enfant :</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouveau</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <div class="carte-soin">
+    <h2>📋 Mon enfant <span style="font-size:.85rem;color:#888;font-weight:400">(à compléter)</span></h2>
+    <div class="meta-enfant">
+      <input type="text" data-k="prenom" placeholder="Prénom de l'enfant">
+      <input type="text" data-k="ddn" placeholder="Date de naissance">
+      <input type="text" data-k="diag" placeholder="Diagnostic ou hypothèse">
+      <input type="text" data-k="medecin-traitant" placeholder="Médecin traitant">
+    </div>
+
+    <div class="pros-grid" id="pros-grid"></div>
+  </div>
+
+  <section class="recap">
+    <h2>📊 Récap de mon parcours</h2>
+    <div class="stats">
+      <div class="stat" style="--c:#2a9d8f"><div class="lbl">Pros consultés</div><div class="val" id="nb-consultes">0</div></div>
+      <div class="stat" style="--c:#e9a73a"><div class="lbl">À voir</div><div class="val" id="nb-avoir">9</div></div>
+    </div>
+    <div class="liste-consultes" id="liste-consultes-bloc" style="display:none">
+      <strong>✅ Pros déjà consultés :</strong><br>
+      <span id="liste-consultes-txt"></span>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer (A4)</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Confidentialité absolue : les contacts restent uniquement sur ton appareil (localStorage). Rien n'est envoyé en ligne. Cette carte ne remplace pas l'avis d'un médecin coordinateur du parcours.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../parents.html" style="color:#1a6a5a">retour espace parents</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_equipe_soin_v1';
+let state={dossiers:{},dossier:null};
+
+const PROS = [
+  {id:'medecin', cl:'p-medecin', titre:'🩺 Médecin traitant / Pédiatre', role:"Le pivot du parcours. Coordonne les bilans, signe les certificats MDPH, oriente vers les spécialistes."},
+  {id:'pedo', cl:'p-pedo', titre:"🧠 Pédopsychiatre", role:"Pour évaluation TDAH, TSA, anxiété, troubles du comportement. Prescrit éventuellement traitement (méthylphénidate)."},
+  {id:'neuro', cl:'p-neuro', titre:"🔬 Neuropsychologue", role:"Bilan cognitif complet (WISC), fonctions exécutives, attention, mémoire. Le bilan TDAH/HPI passe par lui."},
+  {id:'ortho', cl:'p-ortho', titre:"💬 Orthophoniste", role:"Bilan + rééducation langage, lecture, écriture, calcul, oralité. Premier pro à voir si DYS suspectée."},
+  {id:'ergo', cl:'p-ergo', titre:"✋ Ergothérapeute", role:"Bilan + rééducation motricité fine, écriture, autonomie quotidienne. Intégration sensorielle (Ayres) si TSA."},
+  {id:'psychomot', cl:'p-psychomot', titre:"🤸 Psychomotricien(ne)", role:"Bilan + rééducation motricité globale, équilibre, schéma corporel, régulation tonique. Dyspraxie/TDC."},
+  {id:'psy', cl:'p-psy', titre:"💗 Psychologue / Psychothérapeute", role:"Suivi émotionnel, anxiété, estime de soi, TCC, soutien parental. Différent du neuropsy (qui fait des bilans)."},
+  {id:'ophta', cl:'p-ophta', titre:"👁 Ophtalmologiste / Orthoptiste", role:"⚠️ À voir AVANT tout bilan DYS. Vérifier que les difficultés ne viennent pas d'un problème visuel."},
+  {id:'orl', cl:'p-orl', titre:"👂 ORL / Audiologiste", role:"⚠️ Aussi à voir AVANT tout bilan. Vérifier l'audition (otites séreuses, surdité partielle)."},
+  {id:'autre', cl:'p-autre', titre:"➕ Autre intervenant", role:"AESH, éducateur(trice) spécialisé(e), assistante sociale, médecin scolaire, enseignant référent, kiné, diététicien(ne)..."}
+];
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {meta:{}, pros:{}}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Enfant 1":blank()};state.dossier="Enfant 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function renderPros(){
+  const g=document.getElementById('pros-grid');
+  const d=current();
+  g.innerHTML=PROS.map(p=>{
+    const pdata=(d.pros&&d.pros[p.id])||{};
+    const consulte=!!pdata.consulte;
+    return `<div class="pro-card ${p.cl} ${consulte?'consulte':''}" data-pid="${p.id}">
+      <h3>${esc(p.titre)}
+        <label class="toggle-consulte ${consulte?'actif':''}"><input type="checkbox" ${consulte?'checked':''} data-consulte="${p.id}"> ${consulte?'✅ consulté':'⬜ à voir'}</label>
+      </h3>
+      <div class="role">${esc(p.role)}</div>
+      <div class="ligne"><label>Nom :</label><input type="text" data-pro="${p.id}" data-f="nom" value="${esc(pdata.nom||'')}" placeholder="Nom du pro"></div>
+      <div class="ligne"><label>📞</label><input type="text" data-pro="${p.id}" data-f="tel" value="${esc(pdata.tel||'')}" placeholder="Téléphone"></div>
+      <div class="ligne"><label>📧</label><input type="text" data-pro="${p.id}" data-f="email" value="${esc(pdata.email||'')}" placeholder="Email"></div>
+      <div class="ligne"><label>📅 Dernière :</label><input type="text" data-pro="${p.id}" data-f="date" value="${esc(pdata.date||'')}" placeholder="Date dernière consult."></div>
+      <div class="ligne"><label>📝</label><input type="text" data-pro="${p.id}" data-f="notes" value="${esc(pdata.notes||'')}" placeholder="Notes / contexte"></div>
+    </div>`;
+  }).join('');
+}
+
+function appliquerMeta(){
+  const d=current();
+  document.querySelectorAll('.meta-enfant [data-k]').forEach(el=>el.value=(d.meta&&d.meta[el.dataset.k])||'');
+}
+
+function majRecap(){
+  const d=current();
+  const consultes=PROS.filter(p=>d.pros&&d.pros[p.id]&&d.pros[p.id].consulte);
+  document.getElementById('nb-consultes').textContent=consultes.length;
+  document.getElementById('nb-avoir').textContent=PROS.length - consultes.length;
+  const bloc=document.getElementById('liste-consultes-bloc');
+  if(consultes.length>0){
+    bloc.style.display='block';
+    document.getElementById('liste-consultes-txt').innerHTML=consultes.map(p=>{
+      const pd=d.pros[p.id];
+      const nom=pd.nom?' — '+esc(pd.nom):'';
+      const date=pd.date?' ('+esc(pd.date)+')':'';
+      return p.titre+nom+date;
+    }).join('<br>');
+  } else { bloc.style.display='none'; }
+}
+
+document.addEventListener('input',e=>{
+  const el=e.target;const d=current();
+  if(el.dataset.k){d.meta=d.meta||{};d.meta[el.dataset.k]=el.value;save();}
+  else if(el.dataset.pro){
+    d.pros=d.pros||{};d.pros[el.dataset.pro]=d.pros[el.dataset.pro]||{};
+    d.pros[el.dataset.pro][el.dataset.f]=el.value;save();majRecap();
+  }
+});
+document.addEventListener('change',e=>{
+  const el=e.target;
+  if(el.dataset.consulte){
+    const d=current();d.pros=d.pros||{};d.pros[el.dataset.consulte]=d.pros[el.dataset.consulte]||{};
+    d.pros[el.dataset.consulte].consulte=el.checked;save();renderPros();majRecap();
+  }
+});
+
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();renderPros();appliquerMeta();majRecap();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom :','Enfant '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();renderPros();appliquerMeta();majRecap();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible.');return}
+  if(confirm('Supprimer ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();renderPros();appliquerMeta();majRecap();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();renderPros();appliquerMeta();majRecap();}};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  let t=`MON ÉQUIPE DE SOIN — ${d.meta?.prenom||'enfant'}\nEducaTypique · Création originale Nawel Haddouch\n\n`;
+  if(d.meta) Object.entries(d.meta).forEach(([k,v])=>{if(v) t+=`${k} : ${v}\n`});
+  t+='\n';
+  PROS.forEach(p=>{
+    const pd=(d.pros&&d.pros[p.id])||{};
+    const status=pd.consulte?'[✓ CONSULTÉ]':'[⬜ à voir]';
+    t+=`${status} ${p.titre}\n`;
+    if(pd.nom) t+=`   Nom : ${pd.nom}\n`;
+    if(pd.tel) t+=`   Tél : ${pd.tel}\n`;
+    if(pd.email) t+=`   Email : ${pd.email}\n`;
+    if(pd.date) t+=`   Dernière consult. : ${pd.date}\n`;
+    if(pd.notes) t+=`   Notes : ${pd.notes}\n`;
+    t+='\n';
+  });
+  const consultes=PROS.filter(p=>d.pros&&d.pros[p.id]&&d.pros[p.id].consulte);
+  t+=`\n═══════════════\n📊 Récap : ${consultes.length} pros consultés sur ${PROS.length}\n`;
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`equipe-soin-${d.meta?.prenom||'enfant'}-${new Date().toISOString().slice(0,10)}.txt`;a.click();
+};
+
+load();refreshDossier();renderPros();appliquerMeta();majRecap();
+</script>
+
+</body>
+</html>

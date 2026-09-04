@@ -29,7 +29,7 @@ _Mis à jour automatiquement. Tout est sauvegardé sur GitHub, rien n'est perdu.
 
 ### Fiches — `ressources/` (17)
 Fiches 00,05,11,12,15 · TDAH · TSA · Dyscalculie · Dysorthographie · Dyspraxie ·
-Stratégies métacognition · Valeurs ados · Veille TND · Carte identité cognitive · bmv 1-2
+Stratégies métacognition · Valeurs ados · Veille TND · Carte identité cognitive · Comprendre ta motivation (ex-BMV1)
 
 ### Formations & neurosciences — `formations/` (11)
 M1 Cerveau · M3 Psy · M4 HPI · Dys · Cours TND · Formation neuroscience ·

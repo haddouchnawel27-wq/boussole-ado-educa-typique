@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiche anamnèse TND — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,var(--lavande),var(--bleu-ciel));padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:var(--violet-titre);margin:0}
+.bandeau .sub{color:var(--texte);max-width:720px;margin:.4rem auto 0}
+.retour{display:inline-block;margin:0 0 .6rem;color:var(--violet-titre);font-weight:700;text-decoration:none}
+
+.layout{max-width:1200px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:240px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start}
+.nav-sticky h3{color:var(--violet-titre);margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.9rem}
+.nav-sticky li{margin:.15rem 0}
+.nav-sticky a{display:block;padding:.4rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm);transition:background .15s}
+.nav-sticky a:hover{background:var(--lavande);color:#fff}
+.nav-sticky a.actif{background:var(--violet-titre);color:#fff;font-weight:700}
+
+.contenu{display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{
+  background:#fff;
+  border-left:6px solid var(--rose-soutenu);
+  border-radius:var(--r-md);
+  padding:1rem 1.2rem;
+  box-shadow:var(--shadow-sm);
+}
+.apropos summary{cursor:pointer;font-weight:800;color:var(--violet-titre);font-family:var(--font-titre);padding:.2rem 0}
+.apropos summary::marker{color:var(--rose-titre)}
+.apropos[open] summary{margin-bottom:.6rem}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:var(--rose-titre);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+section.bloc{
+  background:#fff;
+  border-radius:var(--r-lg);
+  padding:1.2rem 1.4rem;
+  box-shadow:var(--shadow-sm);
+  border-top:6px solid var(--c, var(--violet-titre));
+  scroll-margin-top:1rem;
+}
+section.bloc h2{color:var(--c, var(--violet-titre));margin:0 0 .3rem;font-size:1.2rem}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{
+  padding:.5em .65em;
+  border:1px solid var(--border);
+  border-radius:var(--r-sm);
+  background:var(--beige);
+  font-family:var(--font-body);
+  font-size:.92rem;
+  color:var(--texte);
+}
+.champ textarea{min-height:70px;resize:vertical}
+.champ input:focus, .champ select:focus, .champ textarea:focus{outline:2px solid var(--turquoise);background:#fff}
+.champ.full{grid-column:1/-1}
+
+.cocheliste{display:grid;grid-template-columns:repeat(2,1fr);gap:.3rem .6rem;margin-top:.4rem}
+@media (max-width:680px){.cocheliste{grid-template-columns:1fr}}
+.coche{display:flex;align-items:center;gap:.4rem;font-size:.9rem;background:var(--beige);padding:.35rem .55rem;border-radius:var(--r-sm);cursor:pointer}
+.coche input{margin:0}
+.coche:hover{background:#fff;border:1px solid var(--border)}
+.coche input:checked + span{color:var(--rose-titre);font-weight:700}
+
+.echelle{display:flex;gap:.3rem;flex-wrap:wrap}
+.echelle label{display:flex;align-items:center;gap:.25rem;background:var(--beige);padding:.25rem .55rem;border-radius:999px;font-size:.85rem;cursor:pointer}
+.echelle input{margin:0}
+
+/* Couleurs des blocs */
+.bloc-meta{--c:var(--rose-titre)}
+.bloc-dev{--c:var(--axe-A)}
+.bloc-ecole{--c:var(--axe-B)}
+.bloc-attention{--c:var(--axe-A)}
+.bloc-fe{--c:var(--violet-titre)}
+.bloc-app{--c:var(--axe-B)}
+.bloc-senso{--c:var(--peche)}
+.bloc-emo{--c:var(--axe-D)}
+.bloc-social{--c:var(--axe-C)}
+.bloc-ecrans{--c:var(--muted)}
+.bloc-sommeil{--c:var(--axe-E)}
+.bloc-forces{--c:var(--teal-titre)}
+.bloc-synthese{--c:var(--rose-soutenu)}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:var(--violet-titre);border:2px solid var(--violet-titre)}
+.actions button:hover{background:var(--violet-titre);color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+.actions .danger:hover{background:var(--rose-titre);color:#fff}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem;margin-top:.6rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item .actions-mini button{padding:.25em .6em;font-size:.8rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .dossiers, .retour {display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  details.apropos{display:none}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>📋 Fiche anamnèse TND</h1>
+  <p class="sub">Recueil structuré du parcours développemental, scolaire, cognitif, émotionnel et social — base de toute hypothèse fonctionnelle et de toute orientation.</p>
+</section>
+
+<div class="layout">
+
+  <!-- Nav -->
+  <aside class="nav-sticky">
+    <h3>📑 Sections</h3>
+    <ol id="nav">
+      <li><a href="#bloc-meta">Identité &amp; famille</a></li>
+      <li><a href="#bloc-dev">1. Développement précoce</a></li>
+      <li><a href="#bloc-ecole">2. Parcours scolaire</a></li>
+      <li><a href="#bloc-attention">3. Attention</a></li>
+      <li><a href="#bloc-fe">4. Fonctions exécutives</a></li>
+      <li><a href="#bloc-app">5. Apprentissages</a></li>
+      <li><a href="#bloc-senso">6. Sensorialité</a></li>
+      <li><a href="#bloc-emo">7. Émotions</a></li>
+      <li><a href="#bloc-social">8. Relations sociales</a></li>
+      <li><a href="#bloc-ecrans">9. Écrans</a></li>
+      <li><a href="#bloc-sommeil">10. Sommeil</a></li>
+      <li><a href="#bloc-forces">11. Forces &amp; ressources</a></li>
+      <li><a href="#bloc-synthese">Synthèse &amp; orientations</a></li>
+    </ol>
+    <div class="dossiers">
+      <h4>📂 Dossiers enregistrés</h4>
+      <div id="liste-dossiers"></div>
+    </div>
+  </aside>
+
+  <main class="contenu">
+
+    <!-- À propos de l'outil (format 8 sections) -->
+    <details class="apropos">
+      <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+      <div class="grid8">
+        <div><strong>1. Objectif</strong>Identifier le fonctionnement réel de l'enfant ou de l'ado : développement, cognitif, émotionnel, sensoriel, social, scolaire, familial.</div>
+        <div><strong>2. Quand l'utiliser</strong>Première rencontre avec la famille ; mise à jour au moins une fois par an ; à chaque évolution significative du parcours.</div>
+        <div><strong>3. Pour quel profil TND</strong>Tous TND : TDAH, TSA, troubles dys (lecture, écriture, calcul, langage oral), TDC/dyspraxie, TDI, et co-occurrences (anxiété, troubles du sommeil).</div>
+        <div><strong>4. Mode d'emploi</strong>Remplir avec les parents (et l'ado si possible) en 1 à 2 séances. Les non-réponses sont normales. Distinguer ce qu'on observe de ce qu'on suppose.</div>
+        <div><strong>5. Grille à remplir</strong>11 rubriques ci-dessous + identité &amp; famille en tête. Tu peux enregistrer le dossier, le rouvrir, l'enrichir.</div>
+        <div><strong>6. Analyse</strong>Repérer les patterns transversaux (ex : fatigue + écran + sommeil court → cluster). Croiser avec la grille ABC, les profils FE, sensoriel, émotionnel.</div>
+        <div><strong>7. Recommandations</strong>Orientations possibles : médecin traitant, pédiatre, neuropédiatre, orthophonie, psychomotricité, ergothérapie, neuropsychologie, école (PAP/PPS/AESH).</div>
+        <div><strong>8. Phrase de synthèse</strong>"Sur la base de ce recueil, le tableau évoque… On observe… On oriente vers… On met en place…" Reformulation neutre, sans diagnostic.</div>
+      </div>
+      <p style="margin:.8rem 0 0;font-size:.85rem;color:var(--muted)"><em>Rappel : aucun outil de cette boîte ne pose de diagnostic. Le diagnostic TND relève d'une équipe pluridisciplinaire (HAS, recommandations 2024).</em></p>
+    </details>
+
+    <!-- BLOC META -->
+    <section id="bloc-meta" class="bloc bloc-meta">
+      <h2>Identité &amp; famille</h2>
+      <div class="grille">
+        <div class="champ"><label>Prénom (ou initiales)</label><input data-k="prenom" type="text"></div>
+        <div class="champ"><label>Âge</label><input data-k="age" type="text" placeholder="ex : 9 ans"></div>
+        <div class="champ"><label>Date de l'entretien</label><input data-k="date" type="date"></div>
+        <div class="champ"><label>Genre</label>
+          <select data-k="genre"><option value="">—</option><option>Fille</option><option>Garçon</option><option>Non précisé</option></select>
+        </div>
+        <div class="champ"><label>Personnes présentes à l'entretien</label><input data-k="presents" type="text" placeholder="mère, père, enfant…"></div>
+        <div class="champ"><label>Composition familiale</label><input data-k="famille" type="text" placeholder="fratrie, foyer…"></div>
+        <div class="champ"><label>Profession parent 1</label><input data-k="prof1" type="text"></div>
+        <div class="champ"><label>Profession parent 2</label><input data-k="prof2" type="text"></div>
+        <div class="champ full"><label>Motif de la consultation (mots des parents / de l'ado)</label><textarea data-k="motif" placeholder="Reprendre les mots exacts."></textarea></div>
+        <div class="champ full"><label>Antécédents familiaux notables (TND, troubles d'apprentissage, autres)</label><textarea data-k="atcd" placeholder="Avec accord de la famille."></textarea></div>
+      </div>
+    </section>
+
+    <!-- 1 DEV PRECOCE -->
+    <section id="bloc-dev" class="bloc bloc-dev">
+      <h2>1. Développement précoce</h2>
+      <p class="intro">Grandes étapes des premières années — repères, pas de jugement.</p>
+      <div class="grille">
+        <div class="champ"><label>Grossesse / accouchement</label><textarea data-k="dev-grossesse" placeholder="Particularités éventuelles, prématurité, complications…"></textarea></div>
+        <div class="champ"><label>Motricité globale (tient assis, marche)</label><textarea data-k="dev-motricite" placeholder="Âges approximatifs et observations."></textarea></div>
+        <div class="champ"><label>Langage (premiers mots, phrases, articulation)</label><textarea data-k="dev-langage"></textarea></div>
+        <div class="champ"><label>Sommeil (rythme, réveils)</label><textarea data-k="dev-sommeil"></textarea></div>
+        <div class="champ"><label>Alimentation (sélectivité, textures)</label><textarea data-k="dev-alim"></textarea></div>
+        <div class="champ"><label>Propreté (acquisition, énurésie/encoprésie)</label><textarea data-k="dev-proprete"></textarea></div>
+        <div class="champ full"><label>Suivis précoces déjà mis en place</label><textarea data-k="dev-suivis" placeholder="Orthophonie, psychomotricité, ergo, neuropsy, pédiatrie…"></textarea></div>
+      </div>
+    </section>
+
+    <!-- 2 PARCOURS SCOLAIRE -->
+    <section id="bloc-ecole" class="bloc bloc-ecole">
+      <h2>2. Parcours scolaire</h2>
+      <p class="intro">Maternelle → primaire → collège → lycée. Dispositifs, bilans, ressentis.</p>
+      <div class="grille">
+        <div class="champ"><label>Établissement actuel · classe</label><input data-k="ecole-classe" type="text" placeholder="ex : CM2 école X"></div>
+        <div class="champ"><label>Redoublement / saut de classe</label><input data-k="ecole-redoub" type="text" placeholder="—"></div>
+        <div class="champ full"><label>Dispositifs en place (cocher)</label>
+          <div class="cocheliste" data-multi="ecole-disp">
+            <label class="coche"><input type="checkbox" value="PAP"><span>PAP</span></label>
+            <label class="coche"><input type="checkbox" value="PPS"><span>PPS</span></label>
+            <label class="coche"><input type="checkbox" value="PAI"><span>PAI</span></label>
+            <label class="coche"><input type="checkbox" value="AESH"><span>AESH</span></label>
+            <label class="coche"><input type="checkbox" value="ULIS"><span>ULIS</span></label>
+            <label class="coche"><input type="checkbox" value="ITEP"><span>ITEP / IME</span></label>
+            <label class="coche"><input type="checkbox" value="Aucun"><span>Aucun</span></label>
+            <label class="coche"><input type="checkbox" value="En cours"><span>En cours de demande</span></label>
+          </div>
+        </div>
+        <div class="champ full"><label>Bilans déjà réalisés (orthophonie, neuropsy, psychomotricité, ergo, ORL, ophtalmo…)</label><textarea data-k="ecole-bilans" placeholder="Date, professionnel, conclusions principales."></textarea></div>
+        <div class="champ"><label>Relation aux enseignants</label><textarea data-k="ecole-relation"></textarea></div>
+        <div class="champ"><label>Ressenti de l'enfant face à l'école (1-5 et mots)</label><textarea data-k="ecole-ressenti"></textarea></div>
+      </div>
+    </section>
+
+    <!-- 3 ATTENTION -->
+    <section id="bloc-attention" class="bloc bloc-attention">
+      <h2>3. Attention</h2>
+      <p class="intro">Distractibilité, impulsivité, lenteur, agitation — fréquence et contexte.</p>
+      <div class="grille">
+        <div class="champ full"><label>Manifestations observées (cocher)</label>
+          <div class="cocheliste" data-multi="att-manif">
+            <label class="coche"><input type="checkbox" value="Distractibilité"><span>Distractibilité (capte le moindre stimulus)</span></label>
+            <label class="coche"><input type="checkbox" value="Impulsivité verbale"><span>Impulsivité verbale (coupe la parole)</span></label>
+            <label class="coche"><input type="checkbox" value="Impulsivité motrice"><span>Impulsivité motrice (touche, frappe, court)</span></label>
+            <label class="coche"><input type="checkbox" value="Lenteur"><span>Lenteur de traitement</span></label>
+            <label class="coche"><input type="checkbox" value="Agitation"><span>Agitation motrice (bouge sans cesse)</span></label>
+            <label class="coche"><input type="checkbox" value="Rêverie"><span>Rêverie / "dans la lune"</span></label>
+            <label class="coche"><input type="checkbox" value="Hyperfocus"><span>Hyperfocus sur centres d'intérêt</span></label>
+            <label class="coche"><input type="checkbox" value="Oublis"><span>Oublis fréquents (matériel, consignes)</span></label>
+          </div>
+        </div>
+        <div class="champ"><label>Temps d'attention soutenue estimé</label><input data-k="att-temps" type="text" placeholder="ex : 5-10 min en classe, 30 min sur jeu vidéo"></div>
+        <div class="champ"><label>Différences école / maison ?</label><textarea data-k="att-contraste"></textarea></div>
+      </div>
+    </section>
+
+    <!-- 4 FE -->
+    <section id="bloc-fe" class="bloc bloc-fe">
+      <h2>4. Fonctions exécutives</h2>
+      <p class="intro">Contrôle intentionnel : organisation, inhibition, planification, flexibilité, mémoire de travail.</p>
+      <div class="grille">
+        <div class="champ"><label>Organisation (matériel, espace, cartable)</label>
+          <div class="echelle" data-ech="fe-orga"><label><input type="radio" name="fe-orga" value="1">1</label><label><input type="radio" name="fe-orga" value="2">2</label><label><input type="radio" name="fe-orga" value="3">3</label><label><input type="radio" name="fe-orga" value="4">4</label><label><input type="radio" name="fe-orga" value="5">5</label></div>
+        </div>
+        <div class="champ"><label>Inhibition (s'arrêter, réfléchir avant d'agir)</label>
+          <div class="echelle" data-ech="fe-inhib"><label><input type="radio" name="fe-inhib" value="1">1</label><label><input type="radio" name="fe-inhib" value="2">2</label><label><input type="radio" name="fe-inhib" value="3">3</label><label><input type="radio" name="fe-inhib" value="4">4</label><label><input type="radio" name="fe-inhib" value="5">5</label></div>
+        </div>
+        <div class="champ"><label>Planification (faire des étapes)</label>
+          <div class="echelle" data-ech="fe-planif"><label><input type="radio" name="fe-planif" value="1">1</label><label><input type="radio" name="fe-planif" value="2">2</label><label><input type="radio" name="fe-planif" value="3">3</label><label><input type="radio" name="fe-planif" value="4">4</label><label><input type="radio" name="fe-planif" value="5">5</label></div>
+        </div>
+        <div class="champ"><label>Flexibilité (changer de règle / d'activité)</label>
+          <div class="echelle" data-ech="fe-flex"><label><input type="radio" name="fe-flex" value="1">1</label><label><input type="radio" name="fe-flex" value="2">2</label><label><input type="radio" name="fe-flex" value="3">3</label><label><input type="radio" name="fe-flex" value="4">4</label><label><input type="radio" name="fe-flex" value="5">5</label></div>
+        </div>
+        <div class="champ"><label>Mémoire de travail (retenir le temps de faire)</label>
+          <div class="echelle" data-ech="fe-mdt"><label><input type="radio" name="fe-mdt" value="1">1</label><label><input type="radio" name="fe-mdt" value="2">2</label><label><input type="radio" name="fe-mdt" value="3">3</label><label><input type="radio" name="fe-mdt" value="4">4</label><label><input type="radio" name="fe-mdt" value="5">5</label></div>
+        </div>
+        <div class="champ"><label>Auto-régulation émotionnelle</label>
+          <div class="echelle" data-ech="fe-autoreg"><label><input type="radio" name="fe-autoreg" value="1">1</label><label><input type="radio" name="fe-autoreg" value="2">2</label><label><input type="radio" name="fe-autoreg" value="3">3</label><label><input type="radio" name="fe-autoreg" value="4">4</label><label><input type="radio" name="fe-autoreg" value="5">5</label></div>
+        </div>
+        <div class="champ full"><label>Observations qualitatives</label><textarea data-k="fe-obs" placeholder="1 = très difficile · 5 = solide. Précise les exemples concrets."></textarea></div>
+      </div>
+    </section>
+
+    <!-- 5 APPRENTISSAGES -->
+    <section id="bloc-app" class="bloc bloc-app">
+      <h2>5. Apprentissages — accès aux savoirs</h2>
+      <p class="intro">Lecture, écriture, calcul, compréhension, mémorisation. Où ça passe, où ça bloque.</p>
+      <div class="grille">
+        <div class="champ"><label>Lecture (déchiffrage, fluence)</label><textarea data-k="app-lecture"></textarea></div>
+        <div class="champ"><label>Compréhension écrite</label><textarea data-k="app-comprehension"></textarea></div>
+        <div class="champ"><label>Écriture / graphisme</label><textarea data-k="app-ecriture"></textarea></div>
+        <div class="champ"><label>Orthographe</label><textarea data-k="app-ortho"></textarea></div>
+        <div class="champ"><label>Calcul / nombre</label><textarea data-k="app-calcul"></textarea></div>
+        <div class="champ"><label>Résolution de problèmes</label><textarea data-k="app-pb"></textarea></div>
+        <div class="champ"><label>Mémorisation (leçons, tables, poésies)</label><textarea data-k="app-memoire"></textarea></div>
+        <div class="champ"><label>Langage oral (expression, syntaxe, vocabulaire)</label><textarea data-k="app-oral"></textarea></div>
+        <div class="champ full"><label>Stratégies d'apprentissage déjà utilisées (ce qui marche / pas)</label><textarea data-k="app-strat"></textarea></div>
+      </div>
+    </section>
+
+    <!-- 6 SENSORIEL -->
+    <section id="bloc-senso" class="bloc bloc-senso">
+      <h2>6. Sensorialité</h2>
+      <p class="intro">Hyper- / hypo- réactivité. Bruit, lumière, vêtements, alimentation, toucher, mouvement.</p>
+      <div class="grille">
+        <div class="champ full"><label>Sensibilités marquées (cocher)</label>
+          <div class="cocheliste" data-multi="senso-sens">
+            <label class="coche"><input type="checkbox" value="Bruit"><span>Bruit (foule, cantine, classe)</span></label>
+            <label class="coche"><input type="checkbox" value="Lumière"><span>Lumière (néons, soleil)</span></label>
+            <label class="coche"><input type="checkbox" value="Vêtements"><span>Vêtements (étiquettes, coutures)</span></label>
+            <label class="coche"><input type="checkbox" value="Odeurs"><span>Odeurs</span></label>
+            <label class="coche"><input type="checkbox" value="Goûts/textures"><span>Goûts / textures alimentaires</span></label>
+            <label class="coche"><input type="checkbox" value="Toucher"><span>Toucher (contact, brossage)</span></label>
+            <label class="coche"><input type="checkbox" value="Recherche mouvement"><span>Recherche de mouvement / pression</span></label>
+            <label class="coche"><input type="checkbox" value="Évite mouvement"><span>Évite balançoires, hauteurs</span></label>
+          </div>
+        </div>
+        <div class="champ full"><label>Stratégies sensorielles déjà efficaces (casque, lest, pause, bouger…)</label><textarea data-k="senso-strat"></textarea></div>
+      </div>
+    </section>
+
+    <!-- 7 EMOTIONS -->
+    <section id="bloc-emo" class="bloc bloc-emo">
+      <h2>7. Émotions</h2>
+      <p class="intro">Anxiété, colère, tristesse, honte, opposition. Identification, intensité, régulation.</p>
+      <div class="grille">
+        <div class="champ"><label>Anxiété (séparation, anticipation, généralisée)</label><textarea data-k="emo-anx"></textarea></div>
+        <div class="champ"><label>Colère (crises, durée, déclencheurs)</label><textarea data-k="emo-col"></textarea></div>
+        <div class="champ"><label>Tristesse / repli</label><textarea data-k="emo-tris"></textarea></div>
+        <div class="champ"><label>Honte / dévalorisation</label><textarea data-k="emo-honte"></textarea></div>
+        <div class="champ"><label>Opposition / provocation</label><textarea data-k="emo-opp"></textarea></div>
+        <div class="champ"><label>Identifie-t-il ses émotions ?</label><textarea data-k="emo-id"></textarea></div>
+        <div class="champ full"><label>Stratégies de régulation déjà utilisées</label><textarea data-k="emo-reg"></textarea></div>
+      </div>
+    </section>
+
+    <!-- 8 SOCIAL -->
+    <section id="bloc-social" class="bloc bloc-social">
+      <h2>8. Relations sociales</h2>
+      <p class="intro">Isolement, conflits, naïveté sociale, harcèlement, codes implicites.</p>
+      <div class="grille">
+        <div class="champ"><label>Relations avec les pairs (amis, jeux, groupes)</label><textarea data-k="soc-pairs"></textarea></div>
+        <div class="champ"><label>Relations avec les adultes</label><textarea data-k="soc-adultes"></textarea></div>
+        <div class="champ"><label>Fratrie</label><textarea data-k="soc-fratrie"></textarea></div>
+        <div class="champ full"><label>Signes de harcèlement (subi ou agi) ?</label><textarea data-k="soc-harc" placeholder="À explorer avec délicatesse."></textarea></div>
+        <div class="champ full"><label>Compréhension des codes sociaux implicites (humour, second degré, refus poli…)</label><textarea data-k="soc-codes"></textarea></div>
+      </div>
+    </section>
+
+    <!-- 9 ECRANS -->
+    <section id="bloc-ecrans" class="bloc bloc-ecrans">
+      <h2>9. Écrans</h2>
+      <p class="intro">Durée, usage, dépendance, conflits. Sans jugement, en données.</p>
+      <div class="grille">
+        <div class="champ"><label>Temps d'écran estimé par jour</label><input data-k="ecr-temps" type="text"></div>
+        <div class="champ"><label>Type d'usage (jeux, vidéos, réseaux, écrit)</label><input data-k="ecr-type" type="text"></div>
+        <div class="champ"><label>Conflits autour des écrans</label><textarea data-k="ecr-conflits"></textarea></div>
+        <div class="champ"><label>Endormissement avec écran ?</label><input data-k="ecr-coucher" type="text"></div>
+      </div>
+    </section>
+
+    <!-- 10 SOMMEIL -->
+    <section id="bloc-sommeil" class="bloc bloc-sommeil">
+      <h2>10. Sommeil</h2>
+      <p class="intro">Endormissement, réveils, fatigue. Souvent sous-estimé, déterminant.</p>
+      <div class="grille">
+        <div class="champ"><label>Heure de coucher · heure de lever (semaine)</label><input data-k="som-horaires" type="text"></div>
+        <div class="champ"><label>Durée moyenne</label><input data-k="som-duree" type="text"></div>
+        <div class="champ"><label>Endormissement (rapide / long / rituels)</label><textarea data-k="som-endorm"></textarea></div>
+        <div class="champ"><label>Réveils nocturnes / cauchemars</label><textarea data-k="som-reveils"></textarea></div>
+        <div class="champ full"><label>Fatigue diurne (matin, école, soir)</label><textarea data-k="som-fatigue"></textarea></div>
+      </div>
+    </section>
+
+    <!-- 11 FORCES -->
+    <section id="bloc-forces" class="bloc bloc-forces">
+      <h2>11. Forces &amp; ressources</h2>
+      <p class="intro">Crucial. L'enfant TND est souvent saturé de retours négatifs — on reconstruit ici une identité de compétence.</p>
+      <div class="grille">
+        <div class="champ"><label>Passions / centres d'intérêt</label><textarea data-k="for-passions"></textarea></div>
+        <div class="champ"><label>Compétences observées</label><textarea data-k="for-comp"></textarea></div>
+        <div class="champ"><label>Valeurs (ce à quoi il/elle tient)</label><textarea data-k="for-valeurs"></textarea></div>
+        <div class="champ"><label>Humour / créativité / logique</label><textarea data-k="for-humour"></textarea></div>
+        <div class="champ"><label>Ce qu'il/elle a déjà surmonté</label><textarea data-k="for-surmonte"></textarea></div>
+        <div class="champ"><label>Personnes ressources dans son entourage</label><textarea data-k="for-ressources"></textarea></div>
+      </div>
+    </section>
+
+    <!-- SYNTHESE -->
+    <section id="bloc-synthese" class="bloc bloc-synthese">
+      <h2>Synthèse &amp; orientations</h2>
+      <p class="intro">Reformulation neutre, sans diagnostic. "On observe… on émet l'hypothèse… on oriente vers…"</p>
+      <div class="grille">
+        <div class="champ full"><label>Patterns transversaux observés</label><textarea data-k="syn-patterns" placeholder="Ex : fatigue + écran + sommeil court, hyperfocus + opposition aux transitions, …"></textarea></div>
+        <div class="champ full"><label>Hypothèses fonctionnelles (à confirmer)</label><textarea data-k="syn-hypo"></textarea></div>
+        <div class="champ full"><label>Orientations professionnelles proposées</label><textarea data-k="syn-orient" placeholder="Médecin traitant, pédiatre, neuropédiatre, orthophonie, psychomotricité, ergothérapie, neuropsychologie, école (PAP/PPS/AESH)…"></textarea></div>
+        <div class="champ full"><label>Premières adaptations à mettre en place</label><textarea data-k="syn-adapt"></textarea></div>
+        <div class="champ full"><label>Phrase de synthèse (pour bilan / compte rendu)</label><textarea data-k="syn-phrase" placeholder="Sur la base de ce recueil, le tableau évoque…"></textarea></div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer le dossier</button>
+      <button id="btn-exporter">📄 Exporter (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer</button>
+      <button id="btn-vider" class="danger">🧹 Vider le formulaire</button>
+    </div>
+
+    <div class="disclaimer">
+      Cette anamnèse ne pose <strong>pas de diagnostic</strong>. Le diagnostic TND relève d'une équipe pluridisciplinaire (HAS 2024). Elle structure le recueil et oriente vers les bilans nécessaires.
+    </div>
+
+    <p style="text-align:center;color:var(--muted);padding:2rem;font-size:.85rem">
+      Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+    </p>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'neuroped_anamnese_v1';
+
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function collecter(){
+  const o = { _ts: new Date().toISOString() };
+  // Champs simples
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.value;
+  });
+  // Cases à cocher multiples
+  document.querySelectorAll('[data-multi]').forEach(grp=>{
+    const k = grp.dataset.multi;
+    o[k] = Array.from(grp.querySelectorAll('input:checked')).map(i=>i.value);
+  });
+  // Échelles radio
+  document.querySelectorAll('[data-ech]').forEach(grp=>{
+    const k = grp.dataset.ech;
+    const checked = grp.querySelector('input:checked');
+    o[k] = checked ? checked.value : '';
+  });
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{ el.value = o[el.dataset.k] || ''; });
+  document.querySelectorAll('[data-multi]').forEach(grp=>{
+    const k = grp.dataset.multi;
+    const vals = o[k] || [];
+    grp.querySelectorAll('input').forEach(i=>{ i.checked = vals.includes(i.value); });
+  });
+  document.querySelectorAll('[data-ech]').forEach(grp=>{
+    const k = grp.dataset.ech;
+    grp.querySelectorAll('input').forEach(i=>{ i.checked = (i.value === (o[k]||'')); });
+  });
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{ el.value=''; });
+  document.querySelectorAll('[data-multi] input, [data-ech] input').forEach(i=>{ i.checked=false; });
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  window.currentId = null;
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucun dossier.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span>${esc(o.prenom||'?')} · ${esc(o.age||'')} · ${esc((o.date||o._ts||'').slice(0,10))}</span>
+      <span class="actions-mini">
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const id = b.dataset.id;
+      const arr = lire();
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); window.currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(b.dataset.action==='supprimer'){
+        if(confirm('Supprimer ce dossier ?')){
+          ecrire(arr.filter(x=>x._id!==id));
+          rendreDossiers();
+          if(window.currentId===id){ vider(); }
+        }
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom (ou initiales) avant d\'enregistrer.'); return; }
+  const arr = lire();
+  if(window.currentId){
+    const i = arr.findIndex(x=>x._id===window.currentId);
+    if(i>=0){ o._id = window.currentId; arr[i] = o; }
+    else { o._id = uid(); arr.push(o); window.currentId = o._id; }
+  } else {
+    o._id = uid(); arr.push(o); window.currentId = o._id;
+  }
+  ecrire(arr);
+  rendreDossiers();
+  alert('Dossier enregistré.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const sections = [
+    ['Identité & famille', ['prenom','age','date','genre','presents','famille','prof1','prof2','motif','atcd']],
+    ['1. Développement précoce', ['dev-grossesse','dev-motricite','dev-langage','dev-sommeil','dev-alim','dev-proprete','dev-suivis']],
+    ['2. Parcours scolaire', ['ecole-classe','ecole-redoub','ecole-disp','ecole-bilans','ecole-relation','ecole-ressenti']],
+    ['3. Attention', ['att-manif','att-temps','att-contraste']],
+    ['4. Fonctions exécutives', ['fe-orga','fe-inhib','fe-planif','fe-flex','fe-mdt','fe-autoreg','fe-obs']],
+    ['5. Apprentissages', ['app-lecture','app-comprehension','app-ecriture','app-ortho','app-calcul','app-pb','app-memoire','app-oral','app-strat']],
+    ['6. Sensorialité', ['senso-sens','senso-strat']],
+    ['7. Émotions', ['emo-anx','emo-col','emo-tris','emo-honte','emo-opp','emo-id','emo-reg']],
+    ['8. Relations sociales', ['soc-pairs','soc-adultes','soc-fratrie','soc-harc','soc-codes']],
+    ['9. Écrans', ['ecr-temps','ecr-type','ecr-conflits','ecr-coucher']],
+    ['10. Sommeil', ['som-horaires','som-duree','som-endorm','som-reveils','som-fatigue']],
+    ['11. Forces & ressources', ['for-passions','for-comp','for-valeurs','for-humour','for-surmonte','for-ressources']],
+    ['Synthèse & orientations', ['syn-patterns','syn-hypo','syn-orient','syn-adapt','syn-phrase']]
+  ];
+  const lignes = ['Fiche anamnèse TND — Boîte NeuroPed', ''];
+  sections.forEach(([titre, clefs])=>{
+    lignes.push('== '+titre+' ==');
+    clefs.forEach(k=>{
+      let v = o[k];
+      if(Array.isArray(v)) v = v.join(', ');
+      lignes.push('· '+k+' : '+(v||'—'));
+    });
+    lignes.push('');
+  });
+  const blob = new Blob([lignes.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'anamnese-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(confirm('Vider le formulaire ? (les dossiers enregistrés ne seront pas touchés)')) vider();
+});
+
+// Surlignage du lien nav actif au scroll
+const navLinks = document.querySelectorAll('#nav a');
+const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href')));
+function majNav(){
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 120) actif = c; });
+  navLinks.forEach(a=>{
+    a.classList.toggle('actif', a.getAttribute('href') === '#'+actif.id);
+  });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+majNav();
+</script>
+
+</body>
+</html>

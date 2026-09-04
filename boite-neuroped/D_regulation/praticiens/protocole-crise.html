@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocole de crise personnalisé — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,var(--rose-soutenu),var(--peche));padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:#fff;margin:0}
+.bandeau .sub{color:#fff;max-width:760px;margin:.4rem auto 0;opacity:.95}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.2);padding:.3em .9em;border-radius:999px}
+
+.layout{max-width:1200px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:230px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start}
+.nav-sticky h3{color:var(--rose-titre);margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.9rem}
+.nav-sticky li{margin:.15rem 0}
+.nav-sticky a{display:block;padding:.4rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm)}
+.nav-sticky a:hover{background:var(--rose-clair);color:var(--rose-titre)}
+.nav-sticky a.actif{background:var(--rose-titre);color:#fff;font-weight:700}
+
+.contenu{display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid var(--rose-soutenu);border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:var(--rose-titre);font-family:var(--font-titre)}
+.apropos summary::marker{color:var(--rose-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:var(--rose-titre);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+section.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+section.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-1{--c:#2a9d8f}   /* fenêtre tolérance */
+.bloc-2{--c:#7c5cbf}   /* préventif */
+.bloc-3{--c:#a87800}   /* alerte */
+.bloc-4{--c:#c25a30}   /* crise */
+.bloc-5{--c:#8ED9D2}   /* retour calme */
+.bloc-6{--c:#2a9d8f}   /* réparation */
+.bloc-7{--c:#CBB6F6}   /* kit perso */
+.bloc-8{--c:#7c5cbf}   /* équipe */
+.bloc-carte{--c:var(--rose-titre)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem;color:var(--texte)}
+.champ textarea{min-height:60px;resize:vertical}
+.champ input:focus, .champ select:focus, .champ textarea:focus{outline:2px solid var(--turquoise);background:#fff}
+.champ.full{grid-column:1/-1}
+
+/* Fenêtre de tolérance — 3 zones */
+.zones{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;margin-top:.4rem}
+@media (max-width:880px){.zones{grid-template-columns:1fr}}
+.zone{background:var(--beige);border-radius:var(--r-md);padding:.8rem;border-top:5px solid var(--c-z)}
+.zone h3{margin:0 0 .2rem;color:var(--c-z);font-size:1rem;display:flex;align-items:center;gap:.3rem}
+.zone .desc{font-size:.82rem;color:var(--muted);margin-bottom:.4rem;font-style:italic}
+.zone textarea{width:100%;min-height:90px;padding:.5em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.88rem;resize:vertical}
+.zone-hyper{--c-z:#c25a30}
+.zone-optim{--c-z:#2a9d8f}
+.zone-hypo{--c-z:#7c5cbf}
+
+/* Échelle 1-5 escalade */
+.escalade{display:grid;grid-template-columns:50px 1fr 1fr;gap:.5rem;margin-top:.4rem}
+@media (max-width:680px){.escalade{grid-template-columns:1fr}}
+.escalade .niv{display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#fff;border-radius:var(--r-sm);height:60px}
+.escalade .niv-1{background:#2a9d8f}
+.escalade .niv-2{background:#8ED9D2}
+.escalade .niv-3{background:#FFD6C2;color:#5a4a00}
+.escalade .niv-4{background:#F39BC2}
+.escalade .niv-5{background:#a02040}
+.escalade textarea{padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.85rem;min-height:60px;resize:vertical}
+.escalade .lbl-niv{font-size:.75rem;display:block;font-weight:600}
+
+/* Cases dire / ne pas dire */
+.dire-grille{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.4rem}
+@media (max-width:760px){.dire-grille{grid-template-columns:1fr}}
+.dire{background:#e8f5ec;border-radius:var(--r-md);padding:.7rem .9rem;border-left:5px solid #1b7a4a}
+.ne-pas-dire{background:#fdeaea;border-radius:var(--r-md);padding:.7rem .9rem;border-left:5px solid #a02040}
+.dire h4, .ne-pas-dire h4{margin:0 0 .3rem;font-size:.95rem}
+.dire h4{color:#1b7a4a}
+.ne-pas-dire h4{color:#a02040}
+.dire ul, .ne-pas-dire ul{margin:.2rem 0;padding-left:1.1rem;font-size:.88rem}
+.dire-grille textarea{width:100%;min-height:80px;padding:.5em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.88rem;margin-top:.3rem;resize:vertical}
+
+/* Kit perso checklist */
+.kit-checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.4rem;margin-top:.4rem}
+.kit-check{background:var(--beige);border-radius:var(--r-sm);padding:.5rem .6rem;display:flex;align-items:center;gap:.5rem;cursor:pointer}
+.kit-check:hover{background:#fff;border:1px solid var(--border)}
+.kit-check input{margin:0}
+.kit-check span{font-size:.9rem}
+.kit-check input:checked + span{color:var(--rose-titre);font-weight:700}
+
+/* Équipe */
+.equipe-contact{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:.4rem}
+@media (max-width:760px){.equipe-contact{grid-template-columns:1fr}}
+.equipe-contact .champ input{font-size:.88rem}
+
+/* Carte de poche */
+.bloc-carte{background:linear-gradient(135deg,#fff,var(--rose-clair));border:2px dashed var(--rose-titre);page-break-before:always}
+.bloc-carte h2{display:flex;align-items:center;gap:.4rem}
+.carte-preview{background:#fff;border-radius:var(--r-md);padding:1rem;margin-top:.6rem;font-size:.9rem;border:1px solid var(--rose-clair)}
+.carte-preview h4{color:var(--rose-titre);margin:.5rem 0 .2rem}
+.carte-preview ul{margin:.2rem 0;padding-left:1.2rem}
+.carte-preview .col-2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+@media (max-width:680px){.carte-preview .col-2{grid-template-columns:1fr}}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:var(--rose-titre);border:2px solid var(--rose-titre)}
+.actions button:hover{background:var(--rose-titre);color:#fff}
+.actions .imp-carte{background:var(--rose-titre);color:#fff}
+.actions .imp-carte:hover{background:var(--rose-soutenu)}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+/* Print : carte de poche en page A4 dédiée */
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .dossiers, .retour, details.apropos {display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .sub{color:var(--rose-titre) !important}
+  .bloc-carte{page-break-before:always;border:2px solid var(--rose-titre)}
+}
+@media print {
+  .print-carte-seule .bloc:not(.bloc-carte):not(.bloc-meta){display:none}
+  .print-carte-seule .bloc-carte{page-break-before:auto}
+  .print-carte-seule .posture, .print-carte-seule details {display:none}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>🆘 Protocole de crise personnalisé</h1>
+  <p class="sub">Document personnalisé, imprimable, partageable entre famille, école et professionnels. Avant la crise : on prépare. Pendant : on protège. Après : on enseigne.</p>
+</section>
+
+<div class="layout">
+
+  <aside class="nav-sticky">
+    <h3>📑 Sections</h3>
+    <ol id="nav">
+      <li><a href="#bloc-meta">Identité &amp; cadre</a></li>
+      <li><a href="#bloc-1">1. Fenêtre de tolérance</a></li>
+      <li><a href="#bloc-2">2. Phase préventive</a></li>
+      <li><a href="#bloc-3">3. Échelle d'escalade</a></li>
+      <li><a href="#bloc-4">4. Pendant la crise</a></li>
+      <li><a href="#bloc-5">5. Retour au calme</a></li>
+      <li><a href="#bloc-6">6. Réparation</a></li>
+      <li><a href="#bloc-7">7. Kit personnalisé</a></li>
+      <li><a href="#bloc-8">8. Équipe &amp; partage</a></li>
+      <li><a href="#bloc-carte">🃏 Carte de poche</a></li>
+    </ol>
+    <div class="dossiers">
+      <h4>📂 Protocoles enregistrés</h4>
+      <div id="liste-dossiers"></div>
+    </div>
+  </aside>
+
+  <main class="contenu" id="contenu-print">
+
+    <details class="apropos">
+      <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+      <div class="grid8">
+        <div><strong>1. Objectif</strong>Construire un protocole de crise personnalisé pour UN enfant donné, partagé entre tous les adultes qui interviennent (famille, école, pro).</div>
+        <div><strong>2. Quand l'utiliser</strong>Après plusieurs analyses fonctionnelles. Imprimé et posté dans la maison + la classe + le cahier de liaison. Relu tous les 2 mois.</div>
+        <div><strong>3. Pour quel profil TND</strong>Tout enfant à risque de crises (TDAH, TSA, TDC, TDI, anxiété, opposition, surcharge sensorielle). Indispensable dès lors qu'il y a inquiétude.</div>
+        <div><strong>4. Mode d'emploi</strong>Remplir à froid, avec parents et / ou enseignants. Personnaliser SIGNES précoces et KIT — ce qui marche pour cet enfant, pas un autre.</div>
+        <div><strong>5. Grille à remplir</strong>8 sections + carte de poche imprimable A4. Tu peux enregistrer plusieurs protocoles (un par enfant).</div>
+        <div><strong>6. Analyse</strong>Le protocole n'élimine pas les crises — il les rend plus courtes, moins intenses, mieux gérées. Le critère de réussite, c'est l'évolution sur 2-3 mois.</div>
+        <div><strong>7. Recommandations</strong>Partager le protocole avec TOUS les intervenants. Une crise = un débriefing. Le protocole se révise au moins une fois par trimestre.</div>
+        <div><strong>8. Phrase de synthèse</strong>"Protocole de crise validé le …, partagé avec …. Signes précoces : …. Stratégies efficaces : …. Révision prévue le …."</div>
+      </div>
+    </details>
+
+    <div class="posture">
+      💡 <strong>Posture fondatrice :</strong> on ne fait pas de pédagogie dans un cerveau en alarme. On sécurise d'abord, on enseigne ensuite. L'émotion est autorisée — le comportement destructeur ne l'est pas.
+    </div>
+
+    <!-- META -->
+    <section id="bloc-meta" class="bloc bloc-meta">
+      <h2>Identité &amp; cadre du protocole</h2>
+      <div class="grille">
+        <div class="champ"><label>Prénom / initiales</label><input data-k="prenom" type="text"></div>
+        <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+        <div class="champ"><label>Date d'élaboration</label><input data-k="date" type="date"></div>
+        <div class="champ"><label>Auteur(s) du protocole</label><input data-k="auteur" type="text" placeholder="parent, enseignant, pro…"></div>
+        <div class="champ full"><label>Diagnostic ou hypothèse principale (si connu)</label><input data-k="diagnostic" type="text" placeholder="TDAH, TSA, TDC, anxiété…"></div>
+        <div class="champ full"><label>Comportement(s) de crise visé(s) par ce protocole</label><textarea data-k="comp-cible" placeholder="ex : cris, jet d'objets, fuite, mutisme, auto-agression…"></textarea></div>
+      </div>
+    </section>
+
+    <!-- 1 FENETRE TOLERANCE -->
+    <section id="bloc-1" class="bloc bloc-1">
+      <h2>1. Fenêtre de tolérance — signes par zone</h2>
+      <p class="intro">Trois zones. Plus on reconnaît tôt la sortie de zone optimale, plus on intervient sereinement.</p>
+      <div class="zones">
+        <div class="zone zone-hyper">
+          <h3>🔥 Hyperactivation</h3>
+          <div class="desc">Cris, agitation, opposition, panique, larmes intenses.</div>
+          <label style="font-size:.8rem;font-weight:700">Signes propres à cet enfant :</label>
+          <textarea data-k="z-hyper" placeholder="ex : serre les poings, voix qui monte, mots qui s'accélèrent…"></textarea>
+        </div>
+        <div class="zone zone-optim">
+          <h3>🌿 Zone optimale</h3>
+          <div class="desc">Disponible, concentré, connecté. Apprentissage possible.</div>
+          <label style="font-size:.8rem;font-weight:700">Signes propres à cet enfant :</label>
+          <textarea data-k="z-optim" placeholder="ex : contact visuel, humour, posture détendue, accepte une consigne…"></textarea>
+        </div>
+        <div class="zone zone-hypo">
+          <h3>🌫️ Hypoactivation</h3>
+          <div class="desc">Fatigue, mutisme, évitement, lenteur, repli.</div>
+          <label style="font-size:.8rem;font-weight:700">Signes propres à cet enfant :</label>
+          <textarea data-k="z-hypo" placeholder="ex : regard absent, ne répond plus, voix monocorde, tête baissée…"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 PREVENTIF -->
+    <section id="bloc-2" class="bloc bloc-2">
+      <h2>2. Phase préventive — réduire les déclencheurs</h2>
+      <p class="intro">Ce qu'on met en place pour rester au maximum en zone optimale.</p>
+      <div class="grille">
+        <div class="champ"><label>Adaptations d'environnement</label><textarea data-k="prev-env" placeholder="lumière, bruit, place dans la classe, casque, coin calme accessible…"></textarea></div>
+        <div class="champ"><label>Adaptations de rythme</label><textarea data-k="prev-rythme" placeholder="pauses, durée des séances, ordre des tâches, alternance assis/debout…"></textarea></div>
+        <div class="champ"><label>Routines &amp; rituels</label><textarea data-k="prev-routines" placeholder="entrée en classe, transitions, fin de journée, devoirs…"></textarea></div>
+        <div class="champ"><label>Anticipation des imprévus</label><textarea data-k="prev-anticip" placeholder="annoncer 5 min avant, plan B visible, scénario social…"></textarea></div>
+      </div>
+    </section>
+
+    <!-- 3 ESCALADE 5 NIVEAUX -->
+    <section id="bloc-3" class="bloc bloc-3">
+      <h2>3. Échelle d'escalade — signes &amp; intervention par niveau</h2>
+      <p class="intro">Niveau par niveau, qu'est-ce qu'on observe et qu'est-ce qu'on fait. L'objectif : redescendre avant le niveau 4-5.</p>
+      <div style="display:grid;grid-template-columns:50px 1fr 1fr;gap:.5rem;margin-bottom:.3rem;font-size:.8rem;color:var(--muted);font-weight:700;text-transform:uppercase">
+        <div style="text-align:center">Niv</div><div>Signes observés</div><div>Intervention adulte</div>
+      </div>
+      <div class="escalade">
+        <div class="niv niv-1">1<span class="lbl-niv">calme</span></div>
+        <textarea data-k="n1-signes" placeholder="zone optimale, posture détendue"></textarea>
+        <textarea data-k="n1-action" placeholder="poursuivre, renforcer ce qui marche"></textarea>
+
+        <div class="niv niv-2">2<span class="lbl-niv">tension</span></div>
+        <textarea data-k="n2-signes" placeholder="ex : agitation légère, soupirs, distraction…"></textarea>
+        <textarea data-k="n2-action" placeholder="ex : nommer (« je vois que c'est compliqué »), proposer pause courte…"></textarea>
+
+        <div class="niv niv-3">3<span class="lbl-niv">alerte</span></div>
+        <textarea data-k="n3-signes" placeholder="ex : voix qui monte, refus net, mains qui serrent…"></textarea>
+        <textarea data-k="n3-action" placeholder="ex : réduire stimulations, voix basse, 2 choix max, accès au coin calme…"></textarea>
+
+        <div class="niv niv-4">4<span class="lbl-niv">crise</span></div>
+        <textarea data-k="n4-signes" placeholder="ex : cris, pleurs intenses, jet d'objets, fuite, insultes…"></textarea>
+        <textarea data-k="n4-action" placeholder="ex : sécuriser espace, peu de mots, présence calme, pas de moralisation…"></textarea>
+
+        <div class="niv niv-5">5<span class="lbl-niv">danger</span></div>
+        <textarea data-k="n5-signes" placeholder="ex : auto / hétéro-agression, perte de contrôle, dissociation…"></textarea>
+        <textarea data-k="n5-action" placeholder="ex : sécurité physique avant tout, appel adulte référent / urgence, retrait total…"></textarea>
+      </div>
+    </section>
+
+    <!-- 4 PENDANT LA CRISE -->
+    <section id="bloc-4" class="bloc bloc-4">
+      <h2>4. Pendant la crise — ce qu'on fait, ce qu'on dit</h2>
+      <p class="intro">Voix basse et stable. Présence calme. Moins de mots, plus de sécurité.</p>
+      <div class="dire-grille">
+        <div class="dire">
+          <h4>✅ À DIRE</h4>
+          <ul>
+            <li>« Je vois que c'est trop difficile maintenant. »</li>
+            <li>« Tu peux être en colère. »</li>
+            <li>« Je reste à côté de toi. »</li>
+            <li>« Respire. Je suis là. »</li>
+            <li>« Tu as deux choix : … ou … »</li>
+            <li>« On reprendra plus tard. »</li>
+          </ul>
+          <label style="font-size:.8rem;font-weight:700;margin-top:.3rem">Phrases spécifiques à cet enfant :</label>
+          <textarea data-k="dire-perso"></textarea>
+        </div>
+        <div class="ne-pas-dire">
+          <h4>❌ À ÉVITER</h4>
+          <ul>
+            <li>« Arrête tout de suite ! »</li>
+            <li>« Tu fais exprès ! »</li>
+            <li>« Tu es pénible. »</li>
+            <li>« Quand tu veux, tu peux ! »</li>
+            <li>Discours moral pendant la crise.</li>
+            <li>Sanctions criées dans l'instant.</li>
+          </ul>
+          <label style="font-size:.8rem;font-weight:700;margin-top:.3rem">Phrases / gestes connus pour aggraver chez cet enfant :</label>
+          <textarea data-k="ne-pas-dire-perso"></textarea>
+        </div>
+      </div>
+      <div class="champ full" style="margin-top:.6rem"><label>Gestes physiques (autorisés / proscrits)</label><textarea data-k="gestes" placeholder="ex : contact léger sur l'épaule OK / pas de prise par le bras / lui laisser de l'espace…"></textarea></div>
+    </section>
+
+    <!-- 5 RETOUR CALME -->
+    <section id="bloc-5" class="bloc bloc-5">
+      <h2>5. Retour au calme</h2>
+      <p class="intro">Pas de précipitation. On attend la redescente complète avant de parler.</p>
+      <div class="grille">
+        <div class="champ"><label>Signes que le calme revient</label><textarea data-k="calm-signes" placeholder="respiration ralentie, regard qui revient, voix posée, capable de répondre à une question simple…"></textarea></div>
+        <div class="champ"><label>Stratégies efficaces de redescente</label><textarea data-k="calm-strat" placeholder="boisson fraîche, marche, casque musique, dessin, respiration carrée…"></textarea></div>
+        <div class="champ"><label>Combien de temps prévoir (en moyenne)</label><input data-k="calm-temps" type="text" placeholder="ex : 15-25 min"></div>
+        <div class="champ"><label>Lieu privilégié pour le retour au calme</label><input data-k="calm-lieu" type="text" placeholder="chambre, coin calme, dehors…"></div>
+      </div>
+    </section>
+
+    <!-- 6 REPARATION -->
+    <section id="bloc-6" class="bloc bloc-6">
+      <h2>6. Réparation — à froid, jamais pendant</h2>
+      <p class="intro">Réparer n'est pas humilier. C'est : « tu as abîmé le lien / le matériel — maintenant tu répares, on apprend autre chose pour la prochaine fois. »</p>
+      <div class="grille">
+        <div class="champ"><label>Quand faire la réparation (délai après la crise)</label><input data-k="rep-quand" type="text" placeholder="ex : 30 min à 2 h après, même jour"></div>
+        <div class="champ"><label>Avec qui (référent réparation)</label><input data-k="rep-qui" type="text"></div>
+        <div class="champ full"><label>Forme de réparation possible</label><textarea data-k="rep-forme" placeholder="excuses orales / lettre, réparation matérielle, rejouer la scène, geste symbolique…"></textarea></div>
+        <div class="champ full"><label>Compétence à entraîner après cette crise (lien avec analyse fonctionnelle)</label><textarea data-k="rep-comp" placeholder="ex : demander une pause, utiliser la carte 'trop bruit', formuler la frustration…"></textarea></div>
+      </div>
+    </section>
+
+    <!-- 7 KIT PERSO -->
+    <section id="bloc-7" class="bloc bloc-7">
+      <h2>7. Kit personnalisé de retour au calme</h2>
+      <p class="intro">Coche ce qui marche pour cet enfant. Le kit doit être accessible — à la maison ET à l'école.</p>
+      <div class="kit-checklist" id="kit-perso">
+        <!-- rempli en JS -->
+      </div>
+      <div class="champ full" style="margin-top:.6rem"><label>Autres stratégies propres à cet enfant</label><textarea data-k="kit-autres" placeholder="ex : Lego, doudou, photo d'un proche, peluche lestée…"></textarea></div>
+      <div class="champ full" style="margin-top:.6rem"><label>Phrase d'ancrage personnelle</label><input data-k="kit-ancrage" type="text" placeholder="ex : « Je suis en sécurité, ça va redescendre. »"></div>
+    </section>
+
+    <!-- 8 EQUIPE -->
+    <section id="bloc-8" class="bloc bloc-8">
+      <h2>8. Équipe &amp; partage du protocole</h2>
+      <p class="intro">Qui sait quoi ? Qui appelle qui ? Un protocole non partagé ne sert à rien.</p>
+      <div class="grille">
+        <div class="champ"><label>Référent maison</label><input data-k="eq-maison" type="text" placeholder="parent référent + téléphone"></div>
+        <div class="champ"><label>Référent école</label><input data-k="eq-ecole" type="text" placeholder="enseignant·e, AESH, directeur·rice"></div>
+        <div class="champ"><label>Référent professionnel</label><input data-k="eq-pro" type="text" placeholder="psychologue, médecin, pédopsy…"></div>
+        <div class="champ"><label>Médecin traitant / pédopsy</label><input data-k="eq-medecin" type="text"></div>
+        <div class="champ full"><label>Chaîne d'appel en cas de crise majeure (niveau 5)</label><textarea data-k="eq-chaine" placeholder="1. Référent sur place / 2. Parent / 3. Pro / 4. 15 si danger"></textarea></div>
+        <div class="champ"><label>Date de prochaine révision</label><input data-k="eq-revision" type="date"></div>
+        <div class="champ"><label>Signature(s) / accord(s) de l'équipe</label><input data-k="eq-signatures" type="text"></div>
+      </div>
+    </section>
+
+    <!-- CARTE DE POCHE -->
+    <section id="bloc-carte" class="bloc bloc-carte">
+      <h2>🃏 Carte de poche — usage temps réel</h2>
+      <p class="intro">Version condensée à imprimer recto-verso ou plier en 3. Aimanter au frigo, glisser dans le cahier de liaison, garder dans le portable.</p>
+      <button id="btn-imp-carte" class="imp-carte">🖨️ Imprimer la carte de poche seule</button>
+      <div class="carte-preview" id="carte-preview">
+        <!-- généré en JS -->
+      </div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer</button>
+      <button id="btn-exporter">📄 Exporter (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer protocole complet</button>
+      <button id="btn-vider" class="danger">🧹 Vider</button>
+    </div>
+
+    <div class="disclaimer">
+      Ce protocole personnalisé est un outil d'accompagnement. En cas de mise en danger physique de l'enfant ou d'autrui, faire appel à un médecin / 15 / urgences pédopsychiatriques.
+    </div>
+
+    <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+      Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+    </p>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'neuroped_protocole_crise_v1';
+let currentId = null;
+
+const KIT_ITEMS = [
+  'Casque anti-bruit',
+  'Couverture lestée',
+  'Balle anti-stress',
+  'Bouteille sensorielle',
+  'Tapis de pression',
+  'Marche dehors',
+  'Coin calme dédié',
+  'Carnet / dessin libre',
+  'Respiration carrée (4-4-4-4)',
+  'Boisson fraîche',
+  'Musique instrumentale',
+  'Pâte à modeler',
+  'Compter à rebours',
+  'Câlin / contact (si accepté)',
+  'Invocation / rappel spirituel',
+  'Vidéo / chanson rituelle'
+];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function nl2br(s){ return esc(s).replace(/\n/g,'<br>'); }
+
+function rendreKit(){
+  const cont = document.getElementById('kit-perso');
+  cont.innerHTML = KIT_ITEMS.map((it,i)=>`
+    <label class="kit-check">
+      <input type="checkbox" data-k="kit-${i}">
+      <span>${esc(it)}</span>
+    </label>
+  `).join('');
+}
+
+function rendreCarte(){
+  const v = k => (document.querySelector(`[data-k="${k}"]`) || {}).value || '';
+  const kitCoche = KIT_ITEMS.filter((_,i)=> (document.querySelector(`[data-k="kit-${i}"]`)||{}).checked).join(' · ');
+  const cont = document.getElementById('carte-preview');
+  cont.innerHTML = `
+    <h4 style="text-align:center;border-bottom:1px solid var(--rose-clair);padding-bottom:.3rem">🆘 Protocole de crise — ${esc(v('prenom')||'?')}, ${esc(v('age')||'?')}</h4>
+    <div class="col-2">
+      <div>
+        <h4>🔥 Niveau 3 — Alerte</h4>
+        <p style="font-size:.85rem;margin:.2rem 0"><strong>Signes :</strong> ${nl2br(v('n3-signes')||'—')}</p>
+        <p style="font-size:.85rem;margin:.2rem 0"><strong>Action :</strong> ${nl2br(v('n3-action')||'—')}</p>
+        <h4>💥 Niveau 4 — Crise</h4>
+        <p style="font-size:.85rem;margin:.2rem 0"><strong>Action :</strong> ${nl2br(v('n4-action')||'—')}</p>
+      </div>
+      <div>
+        <h4>✅ DIRE</h4>
+        <p style="font-size:.85rem;margin:.2rem 0">${nl2br(v('dire-perso')||'« Je vois que c\\'est trop difficile. Je reste là. »')}</p>
+        <h4>❌ NE PAS DIRE</h4>
+        <p style="font-size:.85rem;margin:.2rem 0">${nl2br(v('ne-pas-dire-perso')||'—')}</p>
+      </div>
+    </div>
+    <h4>🌿 Kit retour au calme</h4>
+    <p style="font-size:.85rem;margin:.2rem 0">${esc(kitCoche || '—')}</p>
+    <h4>📞 Référents</h4>
+    <ul>
+      <li><strong>Maison :</strong> ${esc(v('eq-maison')||'—')}</li>
+      <li><strong>École :</strong> ${esc(v('eq-ecole')||'—')}</li>
+      <li><strong>Pro :</strong> ${esc(v('eq-pro')||'—')}</li>
+    </ul>
+    <p style="text-align:center;margin-top:.5rem;font-size:.78rem;color:var(--muted)">Protocole partagé le ${esc(v('date')||'—')} · révision le ${esc(v('eq-revision')||'—')}</p>
+  `;
+}
+
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type === 'checkbox' ? el.checked : el.value;
+  });
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  rendreCarte();
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else el.value = '';
+  });
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+  rendreCarte();
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucun protocole.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · ${esc((o.date||o._ts||'').slice(0,10))}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire();
+      const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer ce protocole ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom (ou initiales).'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr);
+  rendreDossiers();
+  alert('Protocole enregistré.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const lignes = ["Protocole de crise personnalisé — Boîte NeuroPed",''];
+  lignes.push('Enfant : '+(o.prenom||'—')+' · '+(o.age||'—'));
+  lignes.push('Date : '+(o.date||'—')+' · Auteurs : '+(o.auteur||'—'));
+  lignes.push('Diagnostic / hypothèse : '+(o.diagnostic||'—'));
+  lignes.push('Comportements visés : '+(o['comp-cible']||'—'));
+  lignes.push('');
+  lignes.push('== 1. Fenêtre de tolérance ==');
+  lignes.push('Hyperactivation : '+(o['z-hyper']||'—'));
+  lignes.push('Zone optimale : '+(o['z-optim']||'—'));
+  lignes.push('Hypoactivation : '+(o['z-hypo']||'—'));
+  lignes.push('');
+  lignes.push('== 2. Phase préventive ==');
+  ['prev-env','prev-rythme','prev-routines','prev-anticip'].forEach(k=> lignes.push('· '+k+' : '+(o[k]||'—')));
+  lignes.push('');
+  lignes.push('== 3. Échelle d\'escalade ==');
+  for(let i=1;i<=5;i++){
+    lignes.push('Niveau '+i+' — Signes : '+(o['n'+i+'-signes']||'—'));
+    lignes.push('Niveau '+i+' — Action : '+(o['n'+i+'-action']||'—'));
+  }
+  lignes.push('');
+  lignes.push('== 4. Pendant la crise ==');
+  lignes.push('À dire (perso) : '+(o['dire-perso']||'—'));
+  lignes.push('À éviter (perso) : '+(o['ne-pas-dire-perso']||'—'));
+  lignes.push('Gestes : '+(o.gestes||'—'));
+  lignes.push('');
+  lignes.push('== 5. Retour au calme ==');
+  ['calm-signes','calm-strat','calm-temps','calm-lieu'].forEach(k=> lignes.push('· '+k+' : '+(o[k]||'—')));
+  lignes.push('');
+  lignes.push('== 6. Réparation ==');
+  ['rep-quand','rep-qui','rep-forme','rep-comp'].forEach(k=> lignes.push('· '+k+' : '+(o[k]||'—')));
+  lignes.push('');
+  lignes.push('== 7. Kit personnalisé ==');
+  KIT_ITEMS.forEach((it,i)=>{ if(o['kit-'+i]) lignes.push('  ✓ '+it); });
+  lignes.push('Autres : '+(o['kit-autres']||'—'));
+  lignes.push('Ancrage : '+(o['kit-ancrage']||'—'));
+  lignes.push('');
+  lignes.push('== 8. Équipe & partage ==');
+  ['eq-maison','eq-ecole','eq-pro','eq-medecin','eq-chaine','eq-revision','eq-signatures'].forEach(k=> lignes.push('· '+k+' : '+(o[k]||'—')));
+  const blob = new Blob([lignes.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'protocole-crise-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=>{
+  document.body.classList.remove('print-carte-seule');
+  window.print();
+});
+
+document.getElementById('btn-imp-carte').addEventListener('click', ()=>{
+  document.body.classList.add('print-carte-seule');
+  window.print();
+  setTimeout(()=> document.body.classList.remove('print-carte-seule'), 500);
+});
+
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(confirm('Vider le formulaire ? (les protocoles enregistrés ne seront pas touchés)')) vider();
+});
+
+// Re-render la carte à chaque modif
+document.addEventListener('input', rendreCarte);
+document.addEventListener('change', rendreCarte);
+
+// Surlignage nav au scroll
+const navLinks = document.querySelectorAll('#nav a');
+const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href')));
+function majNav(){
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 120) actif = c; });
+  navLinks.forEach(a=>{
+    a.classList.toggle('actif', a.getAttribute('href') === '#'+actif.id);
+  });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+// Init
+rendreKit();
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+rendreCarte();
+majNav();
+</script>
+
+</body>
+</html>

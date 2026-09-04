@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repérage TND enfant — Parent rapporteur · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#f0f7ff,#fff)}
+.bandeau{background:linear-gradient(135deg,#5a7a9f,#7c5cbf 50%,#F39BC2);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:950px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #5a7a9f;line-height:1.55}
+.intro strong{color:#3a5a7f}
+.intro .warn{margin-top:.6rem;padding:.6rem .8rem;background:#fff4ef;border-left:3px solid #e07b3a;border-radius:var(--r-sm);font-size:.85rem;color:#7a3a10}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #d0d8e8;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#5a7a9f;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#3a5a7f;border:1.5px solid #d0d8e8}
+
+.progress-bar{position:sticky;top:0;z-index:10;background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.progress-bar .progress-label{font-weight:700;color:#3a5a7f;font-size:.85rem;min-width:90px}
+.progress-bar .bar{flex:1;min-width:200px;height:14px;background:#f0e8f5;border-radius:999px;overflow:hidden;position:relative}
+.progress-bar .fill{height:100%;background:linear-gradient(90deg,#5a7a9f,#7c5cbf);border-radius:999px;transition:width .3s}
+.progress-bar .pct{font-weight:800;color:#5a3c8f;font-size:.9rem;min-width:42px;text-align:right}
+
+.domaine{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c)}
+.domaine h2{color:var(--c);margin:0 0 .15rem;font-size:1.1rem;display:flex;align-items:center;gap:.4rem;justify-content:space-between;flex-wrap:wrap}
+.domaine .badge{font-size:.78rem;font-weight:700;background:var(--c);color:#fff;padding:.18em .6em;border-radius:999px}
+.domaine .def{color:#888;font-size:.88rem;margin-bottom:.6rem;font-style:italic}
+
+.question{display:grid;grid-template-columns:1fr auto;gap:.6rem;align-items:center;padding:.45rem .5rem;border-bottom:1px solid #f0e8f5}
+.question:last-child{border-bottom:none}
+.question .texte{font-size:.93rem;line-height:1.4}
+.question .echelle{display:flex;gap:.25rem}
+.question .echelle label{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#f5f0fa;cursor:pointer;font-size:.82rem;font-weight:700;color:#888;border:2px solid transparent;transition:all .12s}
+.question .echelle label:hover{border-color:var(--c)}
+.question .echelle input{display:none}
+.question .echelle input:checked + .v{background:var(--c);color:#fff;width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center}
+@media (max-width:600px){.question{grid-template-columns:1fr}.question .echelle{justify-content:flex-start}}
+
+.legende{display:flex;gap:.8rem;font-size:.78rem;color:#888;justify-content:flex-end;margin-bottom:.3rem;flex-wrap:wrap}
+.legende span{display:flex;align-items:center;gap:.2rem}
+.legende b{display:inline-block;width:1.4em;height:1.4em;text-align:center;background:#f5f0fa;border-radius:50%;font-weight:700;line-height:1.4em}
+
+.synthese{background:linear-gradient(135deg,#fff,#f0f7ff);border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border:2px solid #d0d8e8;display:none}
+.synthese.visible{display:block}
+.synthese h2{color:#3a5a7f;margin:0 0 .5rem}
+.axes-resume{display:flex;flex-direction:column;gap:.4rem;margin-top:.6rem}
+.axe-line{display:grid;grid-template-columns:160px 1fr 80px;gap:.5rem;align-items:center}
+@media (max-width:600px){.axe-line{grid-template-columns:1fr;gap:.2rem}}
+.axe-line .nom{font-weight:700;color:var(--c);font-size:.9rem}
+.axe-line .barre{height:20px;background:#f0e8f5;border-radius:999px;overflow:hidden}
+.axe-line .remplissage{height:100%;border-radius:999px;background:var(--c);transition:width .4s;color:#fff;font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:flex-end;padding-right:.5em}
+.axe-line .verdict{font-size:.82rem;font-weight:700;text-align:right}
+
+.v-aucun{color:#1b7a4a}
+.v-leger{color:#a87800}
+.v-moyen{color:#c25a30}
+.v-fort{color:#a02040}
+
+.indices-section{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid #e9a73a;margin-top:.8rem}
+.indices-section h3{color:#a07000;margin:0 0 .5rem}
+.indice-bloc{background:#fff4e0;border-left:4px solid #e9a73a;border-radius:var(--r-md);padding:.7rem .9rem;margin-bottom:.5rem}
+.indice-bloc .titre{font-weight:800;color:#7a5400;margin-bottom:.3rem}
+.indice-bloc p{margin:.2rem 0;font-size:.88rem;line-height:1.5;color:#5a4400}
+.indice-bloc .outils-row{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem}
+.indice-bloc .outil-chip{display:inline-block;font-size:.78rem;color:#a07000;background:#fff;padding:.2em .6em;border-radius:999px;border:1.5px solid #e9a73a;text-decoration:none;font-weight:700}
+.indice-bloc .outil-chip:hover{background:#e9a73a;color:#fff}
+
+.orientation-card{background:#f0e8f5;border:2px solid #7c5cbf;border-radius:var(--r-md);padding:.9rem 1rem;margin-top:.7rem}
+.orientation-card .titre{color:#5a3c8f;font-weight:800;margin-bottom:.3rem;display:flex;align-items:center;gap:.4rem}
+.orientation-card p{margin:.2rem 0;font-size:.88rem;line-height:1.55;color:#3a2c5f}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #5a7a9f;background:#fff;color:#5a7a9f;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#5a7a9f;color:#fff}
+.actions .primary{background:#5a7a9f;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+.posture-rappel{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.88rem;color:#5A4D6B;line-height:1.5}
+
+@media print{
+  .progress-bar,.dossier-bar,.actions{display:none!important}
+  body{background:#fff}
+  .domaine,.synthese,.indice-bloc,.orientation-card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../parents.html">← Espace parents</a>
+  <h1>🧩 Repérage TND enfant — Parent rapporteur</h1>
+  <p class="sub">Tu observes ton enfant au quotidien. Cet outil t'aide à mettre des mots et des indices sur ce que tu vois — pour mieux en parler avec un pro.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🧩 <strong>Pourquoi ?</strong> 70 questions sur 8 axes (TDAH · HPI · TOP · TSA · DYS · Anxiété · Émotionnel · Sommeil/quotidien). Tu cotes selon ce que tu observes <strong>sur les 4 dernières semaines</strong>.
+    <div class="warn">
+      ⚠️ <strong>Indices, pas diagnostic.</strong> Cet outil n'est PAS un diagnostic. Il t'aide à structurer tes observations pour préparer un échange avec un pro (médecin traitant, pédopsy, neuropsy). Ne pose aucune étiquette à ton enfant à partir d'ici.
+    </div>
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:#3a5a7f">📁 Enfant :</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouveau</button>
+    <button class="ghost" id="btn-rename">✎ Renommer</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <div class="dossier-bar">
+    <input type="text" id="prenom" placeholder="Prénom / initiales">
+    <input type="text" id="age" placeholder="Âge">
+    <input type="date" id="date">
+  </div>
+
+  <div class="progress-bar">
+    <span class="progress-label">📊 Progression</span>
+    <div class="bar"><div class="fill" id="prog-fill" style="width:0%"></div></div>
+    <span class="pct" id="prog-pct">0%</span>
+  </div>
+
+  <div class="legende">
+    <span><b>0</b> jamais</span>
+    <span><b>1</b> parfois</span>
+    <span><b>2</b> souvent</span>
+    <span><b>3</b> toujours</span>
+  </div>
+
+  <div id="domaines-container"></div>
+
+  <button class="primary" id="btn-synthese" style="padding:.8em 1.6em;background:#5a7a9f;color:#fff;border:none;border-radius:999px;font-weight:700;cursor:pointer;font-size:1rem;align-self:center;margin-top:.5rem">✨ Générer ma synthèse + indices</button>
+
+  <section class="synthese" id="synthese-bloc">
+    <h2>🪞 Ce que ton observation laisse voir</h2>
+    <p style="color:#666;font-size:.92rem;margin:0 0 .5rem">Lecture automatique de tes réponses. Toujours <em>indices, jamais diagnostic.</em></p>
+    <div class="axes-resume" id="axes-resume"></div>
+    <div class="orientation-card" id="orientation-bloc" style="display:none">
+      <div class="titre">🧭 Orientation pro suggérée</div>
+      <p id="orientation-txt"></p>
+    </div>
+    <div class="indices-section" id="indices-bloc" style="display:none">
+      <h3>🌱 Indices et pistes douces</h3>
+      <div id="indices-contenu"></div>
+    </div>
+    <div class="posture-rappel" style="margin-top:.8rem">
+      💛 <strong>Rappel Nawel :</strong> Tu n'es pas un mauvais parent parce que ton enfant a un fonctionnement particulier. Tu es un parent attentif qui cherche à comprendre. C'est exactement ce qu'il lui faut.
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Cet outil aide à structurer les observations parentales. Il NE remplace pas un bilan diagnostique. Pour un diagnostic : médecin traitant → pédopsychiatre / neuropédiatre → bilan neuropsychologique selon profil.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../parents.html" style="color:#5a7a9f">retour espace parents</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_reperage_tnd_enfant_v1';
+let state={dossiers:{},dossier:null};
+
+const AXES = [
+  {id:'tdah', nom:'1. TDAH · attention / impulsivité', icone:'🎯', couleur:'#e05a8a',
+   def:"Inattention, hyperactivité, impulsivité au quotidien.",
+   questions:[
+     "Oublie ses consignes en plusieurs étapes.",
+     "A du mal à finir ce qu'il/elle commence.",
+     "Se laisse distraire par tout ce qui passe.",
+     "Bouge sans arrêt, n'arrive pas à rester assis.",
+     "Parle sans arrêt / coupe la parole.",
+     "Agit avant de réfléchir aux conséquences.",
+     "Perd / oublie souvent ses affaires.",
+     "Est très lent pour démarrer une tâche.",
+     "Fait des erreurs d'inattention dans les exercices.",
+     "Ses notes ne reflètent pas son intelligence."
+   ],
+   outils:[
+     {t:'Guide TDAH+TOP',l:'../../F0_fondations/parents/guide-tdah-top.html'},
+     {t:'Boîte Ado TDAH',l:'../../D_regulation/ados/boite-ado-tdah.html'},
+     {t:'20 jeux maison FE',l:'../../E_ludotheque/parents/jeux-maison-fe.html'}
+   ],
+   orient:"Médecin traitant → pédopsychiatre/neuropédiatre pour confirmation TDAH. Bilan neuropsy fonctions exécutives complémentaire."
+  },
+  {id:'hpi', nom:'2. HPI · haut potentiel', icone:'💎', couleur:'#7c5cbf',
+   def:"Pensée rapide, hypersensibilité, ennui scolaire, intérêts intenses.",
+   questions:[
+     "Pose des questions très avancées pour son âge.",
+     "S'ennuie à l'école / se déconnecte.",
+     "Hypersensible aux injustices.",
+     "Vocabulaire riche, raisonnement très rapide.",
+     "Très perfectionniste / peur de l'échec.",
+     "Décalage avec les enfants de son âge.",
+     "Passionné(e) intense sur un sujet précis.",
+     "Hyperémotif(ve), pleure facilement.",
+     "Se sent souvent « différent(e) ».",
+     "Mauvaises notes paradoxales malgré l'intelligence."
+   ],
+   outils:[
+     {t:'Guide HPI',l:'../../F0_fondations/parents/guide-hpi.html'},
+     {t:'Couple Éducatif 25×25',l:'../../F0_fondations/parents/profils-couple-educatif.html'},
+     {t:'Détecteur Paroles',l:'../../F0_fondations/parents/detecteur-paroles.html'}
+   ],
+   orient:"Bilan psychométrique (WISC) chez psychologue formé HPI. Ne pas confondre avec brillance précoce uniquement. Souvent associé TDAH/anxiété."
+  },
+  {id:'top', nom:'3. TOP · opposition / conduite', icone:'⚡', couleur:'#c25a30',
+   def:"Opposition fréquente, conflits autorité, conduites de défi.",
+   questions:[
+     "Conteste systématiquement les règles.",
+     "Argumente sur tout, refuse l'autorité.",
+     "Provoque délibérément les adultes.",
+     "Se met en colère facilement et longtemps.",
+     "Rancunier, garde longtemps les conflits.",
+     "Accuse les autres de ses fautes.",
+     "Refuse de se conformer aux demandes simples.",
+     "Mauvaise humeur fréquente, irritable.",
+     "Manque de remords après une bêtise.",
+     "Bagarres / violence physique."
+   ],
+   outils:[
+     {t:'Guide TDAH+TOP',l:'../../F0_fondations/parents/guide-tdah-top.html'},
+     {t:'Méthode R.A.H.M.A',l:'../../D_regulation/parents/methode-rahma.html'},
+     {t:'Pyramide 7 niveaux',l:'../../F0_fondations/parents/pyramide-7-niveaux.html'}
+   ],
+   orient:"Pédopsy pour évaluer TOP / trouble des conduites. Souvent associé à TDAH non pris en charge. Travail famille (parentalité positive) en parallèle."
+  },
+  {id:'tsa', nom:'4. TSA · spectre autistique', icone:'🌀', couleur:'#5a7a9f',
+   def:"Difficultés sociales, rigidité, intérêts restreints, particularités sensorielles.",
+   questions:[
+     "Difficile pour lui/elle de comprendre l'implicite et les blagues.",
+     "Peu/pas de contact visuel spontané.",
+     "Rigide : insiste pour faire toujours pareil.",
+     "Intérêts très intenses sur peu de sujets.",
+     "Peu d'amis / préfère seul(e).",
+     "Hypersensible à certains bruits/lumières/textures.",
+     "Mouvements répétitifs (balancement, mains).",
+     "Comprend mal les émotions des autres.",
+     "Difficulté à entrer dans le jeu symbolique / imagination.",
+     "Mange très peu de choses, sélectivité majeure."
+   ],
+   outils:[
+     {t:'Profil sensoriel (80 items)',l:'../../A_reperage/praticiens/profil-sensoriel.html'},
+     {t:'Profil habiletés sociales',l:'../../A_reperage/praticiens/profil-habiletes-sociales.html'},
+     {t:'Routines EducaTypique',l:'../../F0_fondations/parents/routines-educatypique.html'}
+   ],
+   orient:"Médecin traitant → pédopsy/CMP/CRA pour évaluation TSA. Bilan pluridisciplinaire (neuropsy, orthophonie, ergo, psychomot). NE PAS attendre."
+  },
+  {id:'dys', nom:'5. DYS · apprentissages', icone:'📚', couleur:'#2a9d8f',
+   def:"Lecture, écriture, orthographe, calcul, coordination motrice.",
+   questions:[
+     "Lecture lente et hésitante / inversions de lettres.",
+     "Écriture difficile, lente, peu lisible.",
+     "Orthographe : fait beaucoup de fautes même sur des mots simples.",
+     "Difficulté à compter, faire des additions simples.",
+     "Confond les notions de temps (hier/demain/heures).",
+     "Maladroit : se cogne, tombe, casse souvent.",
+     "Mauvaise coordination (lacer, vélo, sport).",
+     "Difficulté à se repérer dans l'espace / sur une page.",
+     "Mémorise très mal les tables / leçons.",
+     "Évite activement la lecture ou l'écriture."
+   ],
+   outils:[
+     {t:'Profil compétences scolaires (70)',l:'../../A_reperage/praticiens/profil-competences-scolaires.html'},
+     {t:'Profil FE (80)',l:'../../A_reperage/praticiens/profil-fonctions-executives.html'},
+     {t:'MDPH pas à pas',l:'../../F0_fondations/parents/mdph-pas-a-pas.html'}
+   ],
+   orient:"Bilan orthophonique d'abord (lecture/écriture/calcul). Ergothérapie si motricité fine atteinte. Neuropsy pour faire le tri global."
+  },
+  {id:'anx', nom:'6. Anxiété', icone:'🌧', couleur:'#9B85B8',
+   def:"Inquiétudes, peurs, somatisations, refus scolaire.",
+   questions:[
+     "Inquiet(e) en permanence, ressasse.",
+     "Mal au ventre / à la tête souvent inexpliqués.",
+     "Refus ou angoisse d'aller à l'école.",
+     "Crises de panique / pleurs subits.",
+     "Difficultés d'endormissement liées aux peurs.",
+     "Peurs très fortes (chien, noir, mort, séparation).",
+     "Hyper-contrôle / besoin que tout soit prévu.",
+     "Pose 100 fois la même question pour se rassurer.",
+     "Pleure pour des « petites » choses qui le/la dépassent.",
+     "Phrases noires : « je sers à rien », « je veux disparaître »."
+   ],
+   outils:[
+     {t:'Kit Émotions',l:'../../D_regulation/parents/kit-emotions.html'},
+     {t:'Méthode R.A.H.M.A',l:'../../D_regulation/parents/methode-rahma.html'},
+     {t:'Émotion en 5 étapes',l:'../../D_regulation/ados/emotion-5-etapes.html'}
+   ],
+   orient:"Pédopsy pour évaluation anxiété généralisée / phobie scolaire / dépression. Suivi TCC parallèle. URGENCE si phrases noires répétées."
+  },
+  {id:'emo', nom:'7. Émotionnel · régulation', icone:'💗', couleur:'#F39BC2',
+   def:"Tempêtes émotionnelles, retour au calme difficile.",
+   questions:[
+     "Crises de colère disproportionnées au déclencheur.",
+     "Très long à se calmer après une émotion forte.",
+     "Pleure facilement plusieurs fois par jour.",
+     "Passe brusquement d'une émotion à l'autre.",
+     "Frappe / casse quand énervé(e).",
+     "Verbalise mal ce qu'il/elle ressent.",
+     "Réactions fortes à de petites frustrations.",
+     "Se replie totalement quand débordé(e).",
+     "L'émotion d'un autre l'envahit (joie, tristesse, stress)."
+   ],
+   outils:[
+     {t:'Kit Émotions',l:'../../D_regulation/parents/kit-emotions.html'},
+     {t:'Méthode R.A.H.M.A',l:'../../D_regulation/parents/methode-rahma.html'},
+     {t:'Sabr Reset (Neuro-Tarbiya)',l:'../../F0_fondations/parents/neuro-tarbiya-merkez.html'}
+   ],
+   orient:"Suivi psy TCC pour régulation émotionnelle. Si très précoce/sévère : pédopsy. Travail famille (parentalité empathique) en parallèle."
+  },
+  {id:'quot', nom:'8. Sommeil & autonomie quotidien', icone:'🌙', couleur:'#5fa040',
+   def:"Sommeil, alimentation, autonomie pratique, transitions.",
+   questions:[
+     "Difficultés d'endormissement (> 30 min régulièrement).",
+     "Réveils nocturnes fréquents.",
+     "Très fatigué(e) la journée malgré nuit.",
+     "Sélectivité alimentaire majeure.",
+     "Ne sent pas la faim, ne mange pas spontanément.",
+     "Refus / lenteur sur l'habillage, douche, brossage dents.",
+     "Transitions difficiles (sortir maison, arriver école).",
+     "Très long(ue) à finir un repas.",
+     "Ne perçoit pas la fatigue avant explosion.",
+     "Refuse les changements de planning, panique."
+   ],
+   outils:[
+     {t:'Routines EducaTypique',l:'../../F0_fondations/parents/routines-educatypique.html'},
+     {t:'Chrono des Énergies',l:'../../F0_fondations/parents/chrono-energies-maman.html'},
+     {t:'Profil sensoriel (80 items)',l:'../../A_reperage/praticiens/profil-sensoriel.html'}
+   ],
+   orient:"Médecin traitant / pédiatre pour bilan sommeil + alim. Ergothérapeute pour autonomie pratique si TDC suspecté. Ortho oralité si alim majeure."
+  }
+];
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function blank(){return {scores:{},prenom:'',age:'',date:''}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Enfant 1":blank()};state.dossier="Enfant 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+  document.getElementById('prenom').value=current().prenom||'';
+  document.getElementById('age').value=current().age||'';
+  document.getElementById('date').value=current().date||new Date().toISOString().slice(0,10);
+}
+
+function renderDomaines(){
+  const c=document.getElementById('domaines-container');
+  c.innerHTML=AXES.map(a=>`
+    <section class="domaine" id="ax-${a.id}" style="--c:${a.couleur}">
+      <h2>${a.icone} ${esc(a.nom)} <span class="badge" id="bg-${a.id}">— / ${a.questions.length*3}</span></h2>
+      <p class="def">${esc(a.def)}</p>
+      ${a.questions.map((q,i)=>`
+        <div class="question">
+          <div class="texte">${esc(q)}</div>
+          <div class="echelle">
+            ${[0,1,2,3].map(v=>`<label><input type="radio" name="q_${a.id}_${i}" value="${v}"><span class="v">${v}</span></label>`).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </section>
+  `).join('');
+  c.querySelectorAll('input[type="radio"]').forEach(r=>r.addEventListener('change', e=>{
+    const [,id,i]=r.name.split('_');
+    current().scores[id]=current().scores[id]||{};
+    current().scores[id][i]=parseInt(r.value);
+    save();
+    majProgress();
+    majBadges();
+  }));
+}
+
+function appliquer(){
+  const sc=current().scores||{};
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{
+    const [,id,i]=r.name.split('_');
+    r.checked=(sc[id]&&sc[id][i]!==undefined&&parseInt(r.value)===sc[id][i]);
+  });
+  majProgress();majBadges();
+}
+
+function totalQuestions(){return AXES.reduce((s,a)=>s+a.questions.length,0)}
+function compteRepondues(){
+  const sc=current().scores||{};let n=0;
+  AXES.forEach(a=>{a.questions.forEach((_,i)=>{if(sc[a.id]&&sc[a.id][i]!==undefined)n++})});
+  return n;
+}
+function majProgress(){
+  const pct=Math.round(compteRepondues()/totalQuestions()*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-pct').textContent=pct+'%';
+}
+function scoreAxe(a){
+  const sc=current().scores[a.id]||{};
+  let s=0,n=0;
+  a.questions.forEach((_,i)=>{if(sc[i]!==undefined){s+=sc[i];n++}});
+  return {score:s,n,max:a.questions.length*3};
+}
+function verdictAxe(score,max){
+  const pct=score/max;
+  if(pct<=0.20) return {l:'aucun signe marqué',c:'v-aucun',niv:0};
+  if(pct<=0.40) return {l:'quelques signes',c:'v-leger',niv:1};
+  if(pct<=0.60) return {l:'signes marqués',c:'v-moyen',niv:2};
+  return {l:'signes très marqués',c:'v-fort',niv:3};
+}
+function majBadges(){
+  AXES.forEach(a=>{
+    const r=scoreAxe(a);
+    document.getElementById('bg-'+a.id).textContent=r.score+' / '+r.max;
+  });
+}
+
+function genererSynthese(){
+  const resume=document.getElementById('axes-resume');
+  resume.innerHTML=AXES.map(a=>{
+    const r=scoreAxe(a);
+    const v=verdictAxe(r.score,r.max);
+    const pct=Math.round(r.score/r.max*100);
+    return `<div class="axe-line" style="--c:${a.couleur}">
+      <div class="nom">${a.icone} ${esc(a.nom.split('. ')[1])}</div>
+      <div class="barre"><div class="remplissage" style="width:${pct}%">${r.score}/${r.max}</div></div>
+      <div class="verdict ${v.c}">${v.l}</div>
+    </div>`;
+  }).join('');
+  // Indices détaillés (axes niv >=2)
+  const fragiles=AXES.map(a=>{const r=scoreAxe(a);return{a,r,v:verdictAxe(r.score,r.max)}}).filter(x=>x.v.niv>=2).sort((a,b)=>b.r.score-a.r.score);
+  const indBloc=document.getElementById('indices-bloc');
+  const indCont=document.getElementById('indices-contenu');
+  if(fragiles.length===0){
+    indBloc.style.display='none';
+    document.getElementById('orientation-bloc').style.display='none';
+  } else {
+    indBloc.style.display='block';
+    indCont.innerHTML=fragiles.map(x=>`
+      <div class="indice-bloc">
+        <div class="titre">${x.a.icone} ${esc(x.a.nom)} — ${x.v.l}</div>
+        <p>📍 <strong>Ce que ton observation laisse voir :</strong> ${esc(x.a.def)} Les signes que tu observes sont marqués sur ce profil.</p>
+        <p>🧭 <strong>Orientation :</strong> ${esc(x.a.orient)}</p>
+        <div class="outils-row">
+          ${x.a.outils.map(o=>`<a class="outil-chip" href="${o.l}">🔗 ${esc(o.t)}</a>`).join('')}
+        </div>
+      </div>
+    `).join('');
+    // Orientation globale
+    document.getElementById('orientation-bloc').style.display='block';
+    const codes=fragiles.map(x=>x.a.nom.split('. ')[1].split(' ')[0].toUpperCase()).join(' + ');
+    let orientTxt=`Profil avec signes marqués sur : <strong>${codes}</strong>. `;
+    if(fragiles.length>=3) orientTxt+="Profil multi-axes — prendre rendez-vous avec le médecin traitant pour orientation vers un pédopsychiatre ou neuropédiatre. Bilan pluridisciplinaire à envisager (neuropsy + orthophonie + ergo selon profil).";
+    else if(fragiles.length===2) orientTxt+="Profil sur 2 axes — médecin traitant + pédopsy pour faire le tri. Souvent les axes sont liés (TDAH+anxiété, HPI+TDAH, DYS+anxiété…).";
+    else orientTxt+="Profil sur 1 axe principal — médecin traitant en premier, puis spécialiste selon orientation suggérée ci-dessous.";
+    document.getElementById('orientation-txt').innerHTML=orientTxt;
+  }
+  document.getElementById('synthese-bloc').classList.add('visible');
+  document.getElementById('synthese-bloc').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+document.getElementById('btn-synthese').onclick=genererSynthese;
+
+['prenom','age','date'].forEach(k=>{
+  document.getElementById(k).addEventListener('input',e=>{current()[k]=e.target.value;save();});
+});
+
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();appliquer();refreshDossier();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom de l\'enfant :','Enfant '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible de supprimer le seul dossier.');return}
+  if(confirm('Supprimer « '+state.dossier+' » ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{
+  if(confirm('Vider ce dossier ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();appliquer();document.getElementById('synthese-bloc').classList.remove('visible');}
+};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  let t=`REPÉRAGE TND ENFANT — Parent rapporteur · EducaTypique\nCréation originale Nawel Haddouch\n\n`;
+  t+=`Enfant : ${d.prenom||'—'} · ${d.age||'—'} · ${d.date||'—'}\n\n`;
+  AXES.forEach(a=>{
+    const r=scoreAxe(a);const v=verdictAxe(r.score,r.max);
+    t+=`== ${a.nom} : ${r.score}/${r.max} — ${v.l} ==\n`;
+    const sc=d.scores[a.id]||{};
+    a.questions.forEach((q,i)=>{t+=`  · (${sc[i]!==undefined?sc[i]:'?'}) ${q}\n`});
+    t+='\n';
+  });
+  const fragiles=AXES.map(a=>{const r=scoreAxe(a);return{a,r,v:verdictAxe(r.score,r.max)}}).filter(x=>x.v.niv>=2);
+  if(fragiles.length>0){
+    t+=`\n========================================\n🪞 INDICES — AXES MARQUÉS\n========================================\n`;
+    fragiles.forEach(x=>{
+      t+=`\n${x.a.icone} ${x.a.nom} (${x.v.l})\n  Orientation : ${x.a.orient}\n  Outils : ${x.a.outils.map(o=>o.t).join(' · ')}\n`;
+    });
+  }
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`reperage-tnd-enfant-${d.prenom||'enfant'}-${(d.date||new Date().toISOString().slice(0,10))}.txt`;a.click();
+};
+
+load();refreshDossier();renderDomaines();appliquer();
+</script>
+
+</body>
+</html>

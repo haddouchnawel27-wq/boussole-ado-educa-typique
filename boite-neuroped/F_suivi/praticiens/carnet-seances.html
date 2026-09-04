@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carnet de séances — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#f5f0fa,#fff)}
+.bandeau{background:linear-gradient(135deg,#7c5cbf,#9B85B8);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.7rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:1100px;margin:1.5rem auto;padding:0 1.2rem;display:grid;grid-template-columns:280px 1fr;gap:1.2rem}
+@media (max-width:850px){.wrap{grid-template-columns:1fr}}
+
+.sidebar{display:flex;flex-direction:column;gap:1rem}
+.sidebar-block{background:#fff;border-radius:var(--r-lg);padding:1rem 1.1rem;box-shadow:var(--shadow-sm)}
+.sidebar-block h3{margin:0 0 .5rem;color:#5a3c8f;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.dossier-list{display:flex;flex-direction:column;gap:.25rem;max-height:300px;overflow-y:auto}
+.dossier-item{padding:.5rem .7rem;background:#faf6fb;border-radius:var(--r-md);cursor:pointer;font-size:.88rem;display:flex;justify-content:space-between;align-items:center;border-left:3px solid transparent}
+.dossier-item:hover{background:#f0e8f5}
+.dossier-item.active{background:#7c5cbf;color:#fff;border-left-color:#5a3c8f}
+.dossier-item .meta-do{font-size:.75rem;opacity:.7;margin-left:.4rem}
+.dossier-item .nb-s{background:#9B85B8;color:#fff;font-size:.7rem;font-weight:800;padding:.1em .4em;border-radius:999px}
+.dossier-item.active .nb-s{background:#fff;color:#5a3c8f}
+.sidebar-block button{width:100%;padding:.5em;background:#7c5cbf;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem;margin-top:.5rem}
+.sidebar-block button:hover{background:#5a3c8f}
+.sidebar-block button.ghost{background:#fff;color:#5a3c8f;border:1.5px solid #d8c9f0}
+
+.timeline{background:#fff;border-radius:var(--r-lg);padding:1rem 1.1rem;box-shadow:var(--shadow-sm)}
+.timeline h3{margin:0 0 .5rem;color:#5a3c8f;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.timeline-item{padding:.5rem .6rem;background:#faf6fb;border-radius:var(--r-md);margin-bottom:.3rem;cursor:pointer;font-size:.82rem;border-left:3px solid #9B85B8}
+.timeline-item:hover{background:#f0e8f5}
+.timeline-item.active{background:#7c5cbf;color:#fff;border-left-color:#5a3c8f}
+.timeline-item .date{font-weight:800}
+.timeline-item .obj{font-size:.75rem;opacity:.8;margin-top:.15rem}
+
+.main-content{display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #7c5cbf;line-height:1.55}
+.intro strong{color:#5a3c8f}
+
+.no-selection{background:#fff;padding:2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);text-align:center;color:#888;font-style:italic}
+
+.seance-card{background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);overflow:hidden}
+.seance-header{background:linear-gradient(135deg,#7c5cbf,#9B85B8);color:#fff;padding:1rem 1.3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem}
+.seance-header .titre{font-family:var(--font-titre);font-size:1.1rem;font-weight:800}
+.seance-header .meta{font-size:.85rem;opacity:.95}
+.seance-header .actions-h{display:flex;gap:.4rem}
+.seance-header button{padding:.35em .8em;background:rgba(255,255,255,.25);color:#fff;border:none;border-radius:999px;cursor:pointer;font-family:inherit;font-size:.82rem;font-weight:700}
+.seance-header button:hover{background:rgba(255,255,255,.4)}
+
+.seance-body{padding:1.2rem 1.3rem;display:flex;flex-direction:column;gap:.7rem}
+.champ{display:flex;flex-direction:column;gap:.3rem}
+.champ label{font-weight:700;color:#5a3c8f;font-size:.88rem;display:flex;align-items:center;gap:.3rem}
+.champ input,.champ select,.champ textarea{padding:.5em .7em;border:1.5px solid #e0d0e8;border-radius:var(--r-sm);font-family:inherit;font-size:.93rem;background:#faf6fb;resize:vertical}
+.champ input:focus,.champ select:focus,.champ textarea:focus{outline:2px solid #7c5cbf;background:#fff}
+.champ textarea{min-height:60px;line-height:1.5}
+
+.row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+@media (max-width:600px){.row{grid-template-columns:1fr}}
+
+.chips-objectifs{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.3rem}
+.chip-obj{padding:.2em .6em;background:#f0e8f5;color:#5a3c8f;border-radius:999px;font-size:.78rem;cursor:pointer;border:1.5px solid transparent;font-family:inherit;font-weight:700}
+.chip-obj.actif{background:#7c5cbf;color:#fff;border-color:#5a3c8f}
+
+.btn-action{padding:.55em 1.3em;background:#7c5cbf;color:#fff;border:none;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.92rem}
+.btn-action:hover{background:#5a3c8f}
+.btn-action.danger{background:#fff;color:#c25a30;border:1.5px solid #c25a30}
+.btn-action.danger:hover{background:#c25a30;color:#fff}
+.btn-action.ghost{background:#fff;color:#5a3c8f;border:1.5px solid #d8c9f0}
+
+.actions-bas{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;margin-top:.5rem}
+
+.stats-pat{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;background:#fff;border-radius:var(--r-md);padding:.7rem .8rem;margin-bottom:.5rem}
+.stat-pat{text-align:center}
+.stat-pat .lbl{font-size:.72rem;color:#888;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.stat-pat .val{font-size:1.2rem;font-weight:800;color:#5a3c8f}
+
+@media print{
+  .sidebar,.actions-bas,.bandeau .retour,.seance-header .actions-h{display:none!important}
+  .wrap{grid-template-columns:1fr}
+  body{background:#fff}
+  .seance-card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;margin-bottom:1rem}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace pros</a>
+  <h1>📒 Carnet de séances</h1>
+  <p class="sub">Gérer les séances d'un même enfant : 1 fiche par séance · objectif · contenu · observations · devoir maison · prochaine fois.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <aside class="sidebar">
+    <div class="sidebar-block">
+      <h3>👤 Patients</h3>
+      <div class="dossier-list" id="liste-patients"></div>
+      <button id="btn-new-patient">+ Nouveau patient</button>
+      <button class="ghost" id="btn-rename-patient">✎ Renommer</button>
+      <button class="ghost" id="btn-delete-patient" style="color:#c25a30;border-color:#c25a30">🗑 Supprimer patient</button>
+    </div>
+
+    <div class="timeline" id="timeline-block" style="display:none">
+      <h3>📅 Séances</h3>
+      <div id="liste-seances"></div>
+      <button id="btn-new-seance" style="width:100%;padding:.5em;background:#5fa040;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem;margin-top:.5rem">+ Nouvelle séance</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="intro">
+      📒 <strong>Comment ça marche ?</strong> Crée un dossier patient à gauche, puis ajoute une séance pour chaque rendez-vous. Le carnet conserve l'historique complet, te permet de reprendre la suite, et tu peux exporter en TXT pour archivage / restitution.
+    </div>
+
+    <div id="no-selection" class="no-selection">
+      Sélectionne un patient à gauche pour voir ses séances, ou crée un nouveau dossier patient.
+    </div>
+
+    <div id="patient-zone" style="display:none">
+      <div class="stats-pat">
+        <div class="stat-pat"><div class="lbl">Séances</div><div class="val" id="stat-nb">0</div></div>
+        <div class="stat-pat"><div class="lbl">1ère</div><div class="val" id="stat-debut" style="font-size:.9rem">—</div></div>
+        <div class="stat-pat"><div class="lbl">Dernière</div><div class="val" id="stat-fin" style="font-size:.9rem">—</div></div>
+      </div>
+    </div>
+
+    <div id="seance-zone"></div>
+
+  </main>
+</div>
+
+<p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+  Neuroo · EducaTypique — <a href="../../professionnels.html" style="color:#7c5cbf">retour espace pros</a>
+</p>
+
+<script>
+const KEY='educatypique_carnet_seances_v1';
+let state={patients:{}};
+let currentPatient=null;
+let currentSeance=null;
+
+const OBJECTIFS_TYPES = [
+  'Inhibition','Flexibilité','Régulation émo','Initiation','Mémoire travail',
+  'Planification','Auto-surveillance','Attention soutenue','Habiletés sociales',
+  'Estime de soi','Anxiété','Sommeil','Routines','Lecture','Écriture','Calcul'
+];
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.patients)state.patients={}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+
+function patientBlank(prenom){return{prenom,age:'',motif:'',hypothese:'',contact:'',cree:new Date().toISOString(),seances:[]}}
+function seanceBlank(num){return{id:uid(),num,date:new Date().toISOString().slice(0,10),duree:'',objectifs:[],contenu:'',observations:'',difficultes:'',forces:'',devoirMaison:'',prochaineFois:'',materiel:''}}
+
+function renderPatients(){
+  const c=document.getElementById('liste-patients');
+  const ps=Object.entries(state.patients).sort((a,b)=>(b[1].cree||'').localeCompare(a[1].cree||''));
+  if(ps.length===0){c.innerHTML='<em style="color:#888;font-size:.85rem">Aucun patient. Crée le premier !</em>';return}
+  c.innerHTML=ps.map(([id,p])=>`<div class="dossier-item ${id===currentPatient?'active':''}" data-id="${id}"><span><strong>${esc(p.prenom)}</strong><span class="meta-do">${esc(p.age||'')}</span></span><span class="nb-s">${(p.seances||[]).length}</span></div>`).join('');
+  c.querySelectorAll('.dossier-item').forEach(d=>{
+    d.onclick=()=>{currentPatient=d.dataset.id;currentSeance=null;renderPatients();renderTimeline();renderMain()};
+  });
+}
+
+function renderTimeline(){
+  const tb=document.getElementById('timeline-block');
+  if(!currentPatient){tb.style.display='none';return}
+  tb.style.display='block';
+  const p=state.patients[currentPatient];
+  const c=document.getElementById('liste-seances');
+  const ss=(p.seances||[]).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  if(ss.length===0){c.innerHTML='<em style="color:#888;font-size:.85rem">Aucune séance. Crée la première.</em>';return}
+  c.innerHTML=ss.map(s=>`<div class="timeline-item ${s.id===currentSeance?'active':''}" data-id="${s.id}"><div class="date">S${s.num} · ${esc(s.date||'')}</div>${s.objectifs&&s.objectifs.length?`<div class="obj">${esc(s.objectifs.slice(0,2).join(' · '))}</div>`:''}</div>`).join('');
+  c.querySelectorAll('.timeline-item').forEach(t=>{
+    t.onclick=()=>{currentSeance=t.dataset.id;renderTimeline();renderMain()};
+  });
+}
+
+function renderMain(){
+  const noSel=document.getElementById('no-selection');
+  const pz=document.getElementById('patient-zone');
+  const sz=document.getElementById('seance-zone');
+  if(!currentPatient){noSel.style.display='block';pz.style.display='none';sz.innerHTML='';return}
+  noSel.style.display='none';pz.style.display='block';
+  const p=state.patients[currentPatient];
+  // Stats
+  const ss=p.seances||[];
+  document.getElementById('stat-nb').textContent=ss.length;
+  if(ss.length>0){
+    const ds=ss.map(s=>s.date).filter(x=>x).sort();
+    document.getElementById('stat-debut').textContent=ds[0]||'—';
+    document.getElementById('stat-fin').textContent=ds[ds.length-1]||'—';
+  } else {
+    document.getElementById('stat-debut').textContent='—';
+    document.getElementById('stat-fin').textContent='—';
+  }
+  // Carte patient (toujours visible)
+  let html=`<div class="seance-card">
+    <div class="seance-header" style="background:linear-gradient(135deg,#5a3c8f,#7c5cbf)">
+      <div><div class="titre">👤 ${esc(p.prenom)}</div><div class="meta">Dossier créé le ${esc((p.cree||'').slice(0,10))}</div></div>
+    </div>
+    <div class="seance-body">
+      <div class="row">
+        <div class="champ"><label>Prénom / initiales</label><input type="text" data-p="prenom" value="${esc(p.prenom)}"></div>
+        <div class="champ"><label>Âge</label><input type="text" data-p="age" value="${esc(p.age||'')}"></div>
+      </div>
+      <div class="champ"><label>📋 Motif initial / demande</label><textarea data-p="motif">${esc(p.motif||'')}</textarea></div>
+      <div class="champ"><label>🔍 Hypothèse clinique / diagnostic</label><textarea data-p="hypothese" placeholder="TDAH suspecté, HPI confirmé, DYS…">${esc(p.hypothese||'')}</textarea></div>
+      <div class="champ"><label>📞 Contact famille (parent référent)</label><input type="text" data-p="contact" value="${esc(p.contact||'')}"></div>
+    </div>
+  </div>`;
+  // Séance ouverte si sélectionnée
+  if(currentSeance){
+    const s=(p.seances||[]).find(x=>x.id===currentSeance);
+    if(s){html+=renderSeanceForm(s);}
+  }
+  sz.innerHTML=html;
+  // Wire patient fields
+  sz.querySelectorAll('[data-p]').forEach(el=>{
+    el.addEventListener('input',e=>{p[el.dataset.p]=el.value;save();renderPatients();});
+  });
+  // Wire seance fields
+  if(currentSeance) wireSeance();
+}
+
+function renderSeanceForm(s){
+  return `<div class="seance-card" id="card-seance">
+    <div class="seance-header">
+      <div><div class="titre">📒 Séance n°${s.num}</div><div class="meta">${esc(s.date)}${s.duree?' · '+esc(s.duree):''}</div></div>
+      <div class="actions-h">
+        <button onclick="window.print()">🖨 Imprimer</button>
+        <button id="btn-del-seance">🗑 Supprimer</button>
+      </div>
+    </div>
+    <div class="seance-body">
+      <div class="row">
+        <div class="champ"><label>📅 Date</label><input type="date" data-s="date" value="${esc(s.date)}"></div>
+        <div class="champ"><label>⏱ Durée</label><input type="text" data-s="duree" placeholder="Ex: 1h" value="${esc(s.duree||'')}"></div>
+      </div>
+      <div class="champ"><label>🎯 Objectifs de la séance (clique pour cocher)</label>
+        <div class="chips-objectifs" id="chips-obj">${OBJECTIFS_TYPES.map(o=>`<button class="chip-obj ${(s.objectifs||[]).includes(o)?'actif':''}" data-obj="${esc(o)}">${esc(o)}</button>`).join('')}</div>
+      </div>
+      <div class="champ"><label>📝 Contenu de la séance (exercices, supports, contenus traités)</label><textarea data-s="contenu" placeholder="Ex: Travail sur l'inhibition avec jeu Stop l'animal · Pomodoro 10/3 · Lecture orale 5 min…">${esc(s.contenu||'')}</textarea></div>
+      <div class="row">
+        <div class="champ"><label>💛 Forces observées en séance</label><textarea data-s="forces" placeholder="Ce qui a bien marché.">${esc(s.forces||'')}</textarea></div>
+        <div class="champ"><label>🚧 Difficultés / blocages</label><textarea data-s="difficultes" placeholder="Ce qui a coincé.">${esc(s.difficultes||'')}</textarea></div>
+      </div>
+      <div class="champ"><label>👁 Observations qualitatives</label><textarea data-s="observations" placeholder="Comportement, émotions, attention, interaction…">${esc(s.observations||'')}</textarea></div>
+      <div class="champ"><label>📦 Devoir maison / outil donné</label><textarea data-s="devoirMaison" placeholder="Ce que l'enfant/famille doit faire d'ici la prochaine fois.">${esc(s.devoirMaison||'')}</textarea></div>
+      <div class="champ"><label>🎯 Prochaine fois — objectif à poursuivre</label><textarea data-s="prochaineFois" placeholder="Ce qu'on doit reprendre/explorer ensuite.">${esc(s.prochaineFois||'')}</textarea></div>
+      <div class="champ"><label>🛠 Matériel utilisé</label><input type="text" data-s="materiel" placeholder="Ex: cartes Stop l'animal, fiche thermomètre, ardoise" value="${esc(s.materiel||'')}"></div>
+      <div class="actions-bas">
+        <button class="btn-action" id="btn-export-seance">📄 Exporter séance TXT</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function wireSeance(){
+  const p=state.patients[currentPatient];const s=p.seances.find(x=>x.id===currentSeance);
+  document.querySelectorAll('[data-s]').forEach(el=>{
+    el.addEventListener('input',e=>{
+      s[el.dataset.s]=el.value;
+      // Renumber if num changed via date — non, on garde le num fixé
+      save();renderTimeline();
+    });
+  });
+  document.querySelectorAll('.chip-obj').forEach(c=>{
+    c.onclick=()=>{
+      const obj=c.dataset.obj;
+      s.objectifs=s.objectifs||[];
+      if(s.objectifs.includes(obj)) s.objectifs=s.objectifs.filter(x=>x!==obj);
+      else s.objectifs.push(obj);
+      c.classList.toggle('actif');
+      save();renderTimeline();
+    };
+  });
+  document.getElementById('btn-del-seance').onclick=()=>{
+    if(confirm('Supprimer cette séance ?')){
+      p.seances=p.seances.filter(x=>x.id!==currentSeance);
+      currentSeance=null;save();renderTimeline();renderMain();
+    }
+  };
+  document.getElementById('btn-export-seance').onclick=()=>{
+    let t=`SÉANCE n°${s.num} — ${p.prenom}\nEducaTypique · Création originale Nawel Haddouch\n\n`;
+    t+=`Date : ${s.date} · Durée : ${s.duree||'—'}\n`;
+    t+=`Objectifs : ${(s.objectifs||[]).join(' · ')||'—'}\n\n`;
+    t+=`Contenu :\n${s.contenu||'—'}\n\n`;
+    t+=`Forces :\n${s.forces||'—'}\n\n`;
+    t+=`Difficultés :\n${s.difficultes||'—'}\n\n`;
+    t+=`Observations :\n${s.observations||'—'}\n\n`;
+    t+=`Devoir maison :\n${s.devoirMaison||'—'}\n\n`;
+    t+=`Prochaine fois :\n${s.prochaineFois||'—'}\n\n`;
+    t+=`Matériel : ${s.materiel||'—'}\n`;
+    const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`seance-${p.prenom}-S${s.num}-${s.date}.txt`;a.click();
+  };
+}
+
+document.getElementById('btn-new-patient').onclick=()=>{
+  const n=prompt('Prénom / initiales du patient :');
+  if(n&&n.trim()){
+    const id=uid();
+    state.patients[id]=patientBlank(n.trim());
+    currentPatient=id;currentSeance=null;
+    save();renderPatients();renderTimeline();renderMain();
+  }
+};
+document.getElementById('btn-rename-patient').onclick=()=>{
+  if(!currentPatient){alert('Sélectionne un patient.');return}
+  const p=state.patients[currentPatient];
+  const n=prompt('Nouveau prénom :',p.prenom);
+  if(n&&n.trim()){p.prenom=n.trim();save();renderPatients();renderMain();}
+};
+document.getElementById('btn-delete-patient').onclick=()=>{
+  if(!currentPatient){alert('Sélectionne un patient.');return}
+  const p=state.patients[currentPatient];
+  if(confirm('Supprimer définitivement « '+p.prenom+' » et toutes ses séances ?')){
+    delete state.patients[currentPatient];
+    currentPatient=null;currentSeance=null;
+    save();renderPatients();renderTimeline();renderMain();
+  }
+};
+document.getElementById('btn-new-seance').onclick=()=>{
+  if(!currentPatient)return;
+  const p=state.patients[currentPatient];
+  const num=(p.seances||[]).length+1;
+  const s=seanceBlank(num);
+  p.seances=p.seances||[];p.seances.push(s);
+  currentSeance=s.id;
+  save();renderTimeline();renderMain();
+};
+
+load();renderPatients();renderTimeline();renderMain();
+</script>
+
+</body>
+</html>

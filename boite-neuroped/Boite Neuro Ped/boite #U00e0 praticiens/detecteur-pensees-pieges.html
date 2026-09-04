@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Détecteur de pensées pièges — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#f5f0fa,#fff)}
+.bandeau{background:linear-gradient(135deg,#7c5cbf,#9B85B8);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.7rem}
+.bandeau .sub{opacity:.95;font-size:.98rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:1000px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #7c5cbf;line-height:1.55}
+.intro strong{color:#5a3c8f}
+
+.tabs{display:flex;gap:.3rem;background:#fff;padding:.4rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);flex-wrap:wrap}
+.tabs button{flex:1;min-width:130px;padding:.6em .9em;background:transparent;color:#666;border:none;font-weight:700;cursor:pointer;border-radius:var(--r-sm);font-family:inherit;font-size:.88rem}
+.tabs button.active{background:#7c5cbf;color:#fff}
+.tabs button:hover:not(.active){background:#f6f0fb}
+
+.section{display:none}
+.section.active{display:block}
+
+/* Catalogue */
+.distorsion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.7rem;margin-top:.5rem}
+.distorsion-card{background:#fff;border-radius:var(--r-lg);padding:1rem 1.1rem;box-shadow:var(--shadow-sm);border-top:4px solid var(--c);cursor:pointer;transition:transform .15s, box-shadow .15s}
+.distorsion-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.distorsion-card h3{color:var(--c);margin:0 0 .3rem;font-size:1rem;display:flex;align-items:center;gap:.4rem}
+.distorsion-card .def{color:#666;font-size:.88rem;line-height:1.5;margin-bottom:.4rem}
+.distorsion-card .exemple{background:#faf6f8;border-left:3px solid var(--c);border-radius:var(--r-sm);padding:.4rem .6rem;font-size:.82rem;color:#555;font-style:italic;line-height:1.45}
+.distorsion-card .reframe{margin-top:.4rem;font-size:.82rem;color:#1b6a4a}
+.distorsion-card .reframe strong{color:#3d6e25}
+
+/* Modal détail */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:100;padding:1rem}
+.modal.visible{display:flex}
+.modal-content{background:#fff;border-radius:var(--r-lg);padding:1.4rem 1.6rem;max-width:700px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
+.modal-content .close{position:absolute;top:.7rem;right:.9rem;background:transparent;border:none;font-size:1.6rem;cursor:pointer;color:#888}
+.modal-content h2{color:var(--c);margin:0 0 .5rem;font-size:1.3rem;display:flex;align-items:center;gap:.5rem}
+.modal-content .titre-bloc{font-weight:800;color:var(--c);margin:.8rem 0 .3rem;font-size:.95rem}
+.modal-content .ex-clinique{background:#faf6f8;border-left:4px solid var(--c);padding:.7rem .9rem;border-radius:var(--r-sm);margin-bottom:.5rem;font-size:.9rem;line-height:1.5}
+.modal-content .reformulation{background:#f0f7ec;border-left:4px solid #5fa040;padding:.7rem .9rem;border-radius:var(--r-sm);font-size:.9rem;line-height:1.5}
+.modal-content .reformulation strong{color:#3d6e25}
+
+/* Exercice */
+.exercice{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid #e9a73a}
+.exercice h3{color:#a07000;margin:0 0 .5rem}
+.exercice textarea{width:100%;padding:.6em;border:1.5px solid #e8d8f0;border-radius:var(--r-md);font-family:inherit;font-size:.93rem;background:#faf6fb;min-height:60px;resize:vertical;line-height:1.5}
+.exercice textarea:focus{outline:2px solid #7c5cbf}
+.exercice .label{font-weight:700;color:#5a3c8f;font-size:.92rem;margin:.4rem 0 .2rem}
+.exercice button{padding:.55em 1.3em;background:#7c5cbf;color:#fff;border:none;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:.6rem}
+.exercice .resultat{margin-top:.6rem;padding:.7rem .9rem;background:#f6f0fb;border-radius:var(--r-md);font-size:.9rem;line-height:1.55;display:none}
+.exercice .resultat.visible{display:block}
+.exercice .resultat .detection{color:#5a3c8f;font-weight:700}
+.exercice .resultat .conseil{color:#3d6e25;margin-top:.3rem}
+
+/* Fiche pratique */
+.fiche-pratique{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid #2a9d8f}
+.fiche-pratique h3{color:#1a6a5a;margin:0 0 .5rem}
+.fiche-pratique ol{padding-left:1.3rem;margin:0;line-height:1.7;font-size:.93rem}
+.fiche-pratique ol li strong{color:#1a6a5a}
+.fiche-pratique .citation{margin-top:.6rem;padding:.6rem .9rem;background:#eef6f5;border-left:3px solid #2a9d8f;border-radius:var(--r-sm);font-size:.88rem;color:#1a6a5a;font-style:italic;line-height:1.5}
+
+@media print{
+  .tabs,.modal,.bandeau .retour{display:none!important}
+  .section{display:block!important}
+  body{background:#fff}
+  .distorsion-card,.exercice,.fiche-pratique,.intro{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace pros</a>
+  <h1>🪤 Détecteur de pensées pièges</h1>
+  <p class="sub">Module TCC isolé : catalogue de 9 distorsions cognitives + exemples cliniques + détecteur interactif + fiche pratique séance.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🪤 <strong>Pour qui ?</strong> Pros qui accompagnent parents/ados TND. <strong>Pour quoi ?</strong> Identifier rapidement quelle distorsion cognitive bloque le parent/l'ado, et proposer la reformulation. <strong>Pourquoi un module isolé ?</strong> Pour utiliser EN SÉANCE comme support (vs l'outil parent <em>Schéma TCC complet</em> qui est plus long).
+  </div>
+
+  <div class="tabs">
+    <button class="active" data-tab="catalogue">📚 Catalogue 9 distorsions</button>
+    <button data-tab="detecteur">🔍 Détecteur de pensée</button>
+    <button data-tab="fiche">📋 Fiche pratique séance</button>
+  </div>
+
+  <!-- CATALOGUE -->
+  <section class="section active" id="catalogue">
+    <p style="color:#666;font-size:.9rem">Cliquer sur une distorsion pour voir exemples cliniques détaillés + reformulations TCC.</p>
+    <div class="distorsion-grid" id="grid-distorsions"></div>
+  </section>
+
+  <!-- DÉTECTEUR -->
+  <section class="section" id="detecteur">
+    <div class="exercice">
+      <h3>🔍 Colle ici la pensée du parent / de l'ado</h3>
+      <p style="color:#666;font-size:.88rem;margin:.2rem 0 .6rem">Le détecteur analyse les mots-clés (toujours, jamais, je dois, j'aurais dû, c'est foutu, tout le monde, personne…) et te dit quelle(s) distorsion(s) sont les plus probables.</p>
+      <div class="label">Pensée à analyser :</div>
+      <textarea id="pensee-input" placeholder="Ex: « De toute façon, j'arrive jamais à gérer ses crises. Je suis une mauvaise mère. »"></textarea>
+      <button id="btn-detecter">🪤 Détecter les pièges</button>
+      <div class="resultat" id="resultat-detect"></div>
+    </div>
+
+    <div class="exercice" style="border-top-color:#5fa040;margin-top:1rem">
+      <h3 style="color:#3d6e25">🌱 Reformulation guidée</h3>
+      <p style="color:#666;font-size:.88rem;margin:.2rem 0 .6rem">3 questions clés en TCC pour aider la personne à formuler une pensée plus juste.</p>
+      <div class="label">1. Quelle PREUVE objective y a-t-il que cette pensée est vraie ?</div>
+      <textarea id="q1" placeholder="Faits, pas impressions. Listés."></textarea>
+      <div class="label">2. Quelle preuve qu'elle est FAUSSE ou nuancée ?</div>
+      <textarea id="q2" placeholder="Souvent on n'a aucune preuve solide pour la pensée auto."></textarea>
+      <div class="label">3. Qu'est-ce qu'un AMI bienveillant te dirait à ta place ?</div>
+      <textarea id="q3" placeholder="Le ton qu'on a pour les autres, pas celui qu'on a pour soi."></textarea>
+      <div class="label" style="margin-top:.5rem">✨ Nouvelle pensée — plus juste, plus nuancée :</div>
+      <textarea id="nouvelle-pensee" placeholder="Pas « positive forcée » — juste, factuelle." style="background:#f0f7ec;border-color:#c5e0b5"></textarea>
+    </div>
+  </section>
+
+  <!-- FICHE PRATIQUE -->
+  <section class="section" id="fiche">
+    <div class="fiche-pratique">
+      <h3>📋 Comment utiliser ce module EN SÉANCE</h3>
+      <ol>
+        <li><strong>Repérer en direct :</strong> quand le parent/ado verbalise une pensée chargée (« je dois », « jamais », « toujours », « c'est foutu », « il/elle me fait exprès »), <em>nommer doucement</em> : « J'entends quelque chose qui pourrait être une pensée piège. On regarde ensemble ? »</li>
+        <li><strong>Ouvrir le catalogue</strong> ensemble. Laisser la personne identifier elle-même quelle distorsion lui parle.</li>
+        <li><strong>Normaliser :</strong> « Tout le monde a ces pensées. Notre cerveau les fabrique automatiquement. Le but n'est pas de ne plus en avoir — c'est de les REPÉRER pour les choisir ou pas. »</li>
+        <li><strong>Faire l'exercice de reformulation</strong> en direct (3 questions). Ne pas suggérer la nouvelle pensée — la faire émerger.</li>
+        <li><strong>Ancrer :</strong> « Cette nouvelle pensée, sur une échelle de 0 à 10, à quel point tu y crois ? » Si &lt; 6 : retravailler. Si ≥ 6 : « Tu peux te la redire quand l'ancienne revient. »</li>
+        <li><strong>Devoir maison :</strong> noter sur 7 jours toutes les fois où l'ancienne pensée revient + tester la nouvelle. Revue séance suivante.</li>
+      </ol>
+      <div class="citation">💛 <strong>Rappel Nawel :</strong> Une pensée n'est pas un fait. C'est juste un nuage qui passe dans le ciel. On apprend à les regarder passer sans monter dans chacun.</div>
+    </div>
+
+    <div class="fiche-pratique" style="margin-top:1rem;border-top-color:#e05a8a">
+      <h3 style="color:#a02060">🎯 Adaptations selon profil TND</h3>
+      <ol>
+        <li><strong>TDAH :</strong> beaucoup de « tout/rien », « catastrophisation », pensées qui défilent vite. Travailler par écrit, ralentir, MAX 1 distorsion par séance.</li>
+        <li><strong>HPI :</strong> ruminations intenses, perfectionnisme (« je devrais »), généralisation. Bien doser l'analyse — risque de spiraler. Garder du concret.</li>
+        <li><strong>TSA :</strong> rigidité « il/elle me fait exprès », « c'est injuste », étiquetage. Travailler avec scénarios sociaux + alternatives multiples concrètes.</li>
+        <li><strong>Anxiété :</strong> catastrophisation, lecture de pensée, filtre négatif dominants. Beaucoup de réassurance, mais éviter la sur-réassurance qui maintient l'anxiété.</li>
+        <li><strong>Dépression adulte :</strong> filtre négatif, invalider le positif, étiquetage. Travail patient — la dépression colore TOUT. Orientation psy TCC complémentaire systématique.</li>
+      </ol>
+    </div>
+  </section>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../professionnels.html" style="color:#7c5cbf">retour espace pros</a>
+  </p>
+</div>
+
+<!-- MODAL DÉTAIL DISTORSION -->
+<div class="modal" id="modal-distorsion">
+  <div class="modal-content" id="modal-content"></div>
+</div>
+
+<script>
+const DISTORSIONS = [
+  {id:'catastrophe',titre:'🌋 Catastrophisation',couleur:'#c25a30',
+   def:"Imaginer le pire scénario, l'amplifier en chaîne.",
+   exemple:"« Si ça continue, il va se faire renvoyer, rater le bac, finir SDF. »",
+   reframe:"« Voici ce qui se passe AUJOURD'HUI. Demain, j'aviserai avec les faits de demain. »",
+   exemplesClin:[
+     "Parent : « S'il n'apprend pas à lire à 7 ans, il sera toujours en échec. »",
+     "Ado : « Si je rate ce contrôle, ma vie est foutue. »",
+     "Maman TDAH : « Si je n'arrive pas à organiser cette semaine, ils vont me retirer la garde. »"
+   ],
+   reformulations:[
+     "Quel est le scénario LE PLUS PROBABLE (pas le pire) ?",
+     "Si le pire arrivait, qu'est-ce que je pourrais faire ?",
+     "Dans 6 mois, est-ce que ce sera encore aussi grave ?"
+   ]},
+  {id:'tout-rien',titre:'⚫⚪ Tout ou rien',couleur:'#e05a8a',
+   def:"Pensée en noir/blanc, pas de nuance. Soit parfait, soit nul.",
+   exemple:"« Si je crie une fois, je suis une mauvaise mère. »",
+   reframe:"« Une crise ne définit pas mon rôle. Je suis une mère en apprentissage. »",
+   exemplesClin:[
+     "Parent : « Soit je tiens le cadre parfaitement, soit je suis une nulle. »",
+     "Ado : « Soit j'ai 18/20, soit je suis un raté. »",
+     "Pro : « Soit le bilan est parfait, soit j'ai loupé le bilan. »"
+   ],
+   reformulations:[
+     "Qu'est-ce qui se passe ENTRE les deux extrêmes ?",
+     "Sur une échelle 0-10, où je me situe vraiment ?",
+     "Y a-t-il des moments où j'étais bien ? Lesquels ?"
+   ]},
+  {id:'lecture',titre:'🔮 Lecture de pensée',couleur:'#7c5cbf',
+   def:"Croire qu'on sait ce que l'autre pense, sans preuve.",
+   exemple:"« Elle pense que je suis une mauvaise prof. »",
+   reframe:"« Je n'ai aucune preuve. Je peux lui demander si je veux savoir. »",
+   exemplesClin:[
+     "Parent : « La maîtresse me juge parce que mon enfant est dys. »",
+     "Ado : « Tout le monde pense que je suis nul. »",
+     "Couple : « Il/elle ne me dit rien mais je sais qu'il/elle est en colère. »"
+   ],
+   reformulations:[
+     "Quelle preuve j'ai de ce que l'autre pense ?",
+     "Y a-t-il une autre explication possible ?",
+     "Si je veux savoir, je peux demander."
+   ]},
+  {id:'personnaliser',titre:'👇 Personnalisation',couleur:'#F39BC2',
+   def:"Tout ramener à soi, se rendre responsable de ce qui arrive.",
+   exemple:"« Si mon enfant est TDAH, c'est parce que j'étais stressée enceinte. »",
+   reframe:"« Le TDAH est multifactoriel. Ma responsabilité = aider, pas porter la faute. »",
+   exemplesClin:[
+     "Parent : « Mon enfant souffre, c'est forcément ma faute. »",
+     "Maman atypique : « Mon désordre intérieur déteint sur eux. »",
+     "Pro : « Le suivi n'avance pas, c'est forcément moi. »"
+   ],
+   reformulations:[
+     "Quelle est ma vraie part de responsabilité ? (en %)",
+     "Quels sont les AUTRES facteurs ?",
+     "À quoi je peux agir ? À quoi je ne peux PAS agir ?"
+   ]},
+  {id:'generaliser',titre:'♾ Généralisation abusive',couleur:'#2a9d8f',
+   def:"De UN exemple, tirer une règle générale. « Toujours », « jamais ».",
+   exemple:"« Il a oublié son sac aujourd'hui — il n'apprendra JAMAIS l'autonomie. »",
+   reframe:"« Aujourd'hui il a oublié. Hier non. C'est en cours, pas figé. »",
+   exemplesClin:[
+     "Parent : « Il ne fait JAMAIS ses devoirs sans crise. »",
+     "Ado : « Tout le monde me laisse tomber TOUT le temps. »",
+     "Conjoint : « Tu ne m'écoutes JAMAIS. »"
+   ],
+   reformulations:[
+     "Toujours ? Cherche UN contre-exemple récent.",
+     "Quelle est la VRAIE fréquence (sur 10 fois) ?",
+     "Y a-t-il un jour, une situation où c'est différent ?"
+   ]},
+  {id:'devrait',titre:'📏 Devrait / Faut',couleur:'#e9a73a',
+   def:"Règles absolues qu'on s'impose ou impose aux autres.",
+   exemple:"« Je devrais déjà avoir fini le dossier MDPH. »",
+   reframe:"« J'AIMERAIS l'avoir fini. C'est différent de « je devrais ». »",
+   exemplesClin:[
+     "Parent : « Une mère devrait tout savoir. »",
+     "Pro : « Je devrais être plus efficace. »",
+     "Ado : « Je devrais aimer l'école. »"
+   ],
+   reformulations:[
+     "Remplacer « je dois » par « je choisis de » ou « j'aimerais ».",
+     "Si j'enlève cette règle, que se passe-t-il vraiment ?",
+     "Qui m'a appris cette règle ? Est-elle juste pour MOI maintenant ?"
+   ]},
+  {id:'etiquetage',titre:'🏷 Étiquetage',couleur:'#9B85B8',
+   def:"Coller un mot étiquette à soi ou à l'autre.",
+   exemple:"« Mon fils est paresseux. » au lieu de « Mon fils a du mal à démarrer. »",
+   reframe:"« Mon fils a du mal à démarrer une tâche. Ça se travaille. »",
+   exemplesClin:[
+     "Parent : « C'est un manipulateur. »",
+     "Soi-même : « Je suis nulle en couple. »",
+     "Pro : « C'est une famille toxique. »"
+   ],
+   reformulations:[
+     "Au lieu de « il EST », dire « il FAIT » ou « il SE COMPORTE ».",
+     "Un comportement n'est pas une identité.",
+     "Quels comportements précis je décris ?"
+   ]},
+  {id:'filtre',titre:'🕶 Filtre négatif',couleur:'#5a7a9f',
+   def:"Ne voir QUE le négatif. Ignorer ou minimiser le positif.",
+   exemple:"« Oui ils ont bien dormi mais le repas a été affreux. »",
+   reframe:"« Ils ont bien dormi (réussite). Le repas a été dur (à comprendre). Les deux comptent. »",
+   exemplesClin:[
+     "Parent : « Sa journée s'est super bien passée sauf 5 min — qui ont gâché TOUT. »",
+     "Maman : « Une journée où je n'ai pas crié — ça compte pas, c'est normal. »",
+     "Ado : « J'ai eu 15 mais j'ai raté la question 3. »"
+   ],
+   reformulations:[
+     "Liste 3 choses positives de la journée AVANT de parler du négatif.",
+     "Le négatif occupe quel % de la journée vraiment ?",
+     "Si une amie me racontait ça, je verrais quoi ?"
+   ]},
+  {id:'invalidant',titre:'❌ Invalider le positif',couleur:'#888',
+   def:"« Oui mais ça ne compte pas. » Discrédit systématique des réussites.",
+   exemple:"« J'ai géré la crise calmement mais c'était facile aujourd'hui. »",
+   reframe:"« J'ai géré la crise calmement. Point. C'est une compétence. »",
+   exemplesClin:[
+     "Parent : « Il a réussi son contrôle mais c'était facile. »",
+     "Soi-même : « J'ai tenu cette semaine mais c'est normal d'être parent. »",
+     "Maman atypique : « J'ai fait le dîner mais bon, c'est juste une pizza. »"
+   ],
+   reformulations:[
+     "Une réussite RESTE une réussite, même petite.",
+     "Si quelqu'un d'autre avait fait ça, je le féliciterais ?",
+     "Note dans un carnet 3 micro-réussites par jour, sans « mais »."
+   ]}
+];
+
+// Catalogue rendu
+function renderCatalogue(){
+  document.getElementById('grid-distorsions').innerHTML=DISTORSIONS.map(d=>`
+    <div class="distorsion-card" style="--c:${d.couleur}" data-id="${d.id}">
+      <h3>${d.titre}</h3>
+      <div class="def">${d.def}</div>
+      <div class="exemple">💬 ${d.exemple}</div>
+      <div class="reframe">🌱 <strong>Reformulation type :</strong> ${d.reframe}</div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.distorsion-card').forEach(c=>{
+    c.onclick=()=>ouvrirModal(c.dataset.id);
+  });
+}
+
+function ouvrirModal(id){
+  const d=DISTORSIONS.find(x=>x.id===id);
+  if(!d) return;
+  const m=document.getElementById('modal-content');
+  m.style.setProperty('--c', d.couleur);
+  m.innerHTML=`
+    <button class="close" onclick="document.getElementById('modal-distorsion').classList.remove('visible')">×</button>
+    <h2 style="color:${d.couleur}">${d.titre}</h2>
+    <p style="font-size:.95rem;color:#555;line-height:1.5"><strong>${d.def}</strong></p>
+    <div class="titre-bloc" style="color:${d.couleur}">💬 Exemples cliniques</div>
+    ${d.exemplesClin.map(e=>`<div class="ex-clinique" style="border-left-color:${d.couleur}">${e}</div>`).join('')}
+    <div class="titre-bloc" style="color:#3d6e25">🌱 Reformulations à proposer</div>
+    ${d.reformulations.map(r=>`<div class="reformulation">→ ${r}</div>`).join('')}
+  `;
+  document.getElementById('modal-distorsion').classList.add('visible');
+}
+
+// Fermer modal au clic dehors
+document.getElementById('modal-distorsion').onclick=e=>{
+  if(e.target.id==='modal-distorsion') e.target.classList.remove('visible');
+};
+
+// Tabs
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(b.dataset.tab).classList.add('active');
+  };
+});
+
+// Détecteur
+const MOTS_CLES = {
+  'catastrophe':[/foutu/i,/va finir/i,/le pire/i,/catastroph/i,/jamais.{0,30}(plus|de)/i],
+  'tout-rien':[/soit.{0,20}soit/i,/parfait/i,/(complètement|totalement) (nul|raté)/i],
+  'lecture':[/(elle|il|ils|on) pens(e|ent)/i,/(elle|il|ils|on) (me )?juge/i,/je sais (qu'|que)/i],
+  'personnaliser':[/c'est (de )?ma faute/i,/à cause de moi/i,/je suis responsable/i],
+  'generaliser':[/jamais/i,/toujours/i,/tout le monde/i,/personne/i,/à chaque fois/i],
+  'devrait':[/je (de|au)vrais/i,/il (faut|fallait)/i,/(j'aurais|j'aurai) dû/i,/normalement/i],
+  'etiquetage':[/je suis (nul|une nulle|incompétent|une (mauvaise|sale))/i,/il est (paresseux|manipulateur|méchant)/i,/c'est un.{1,20}(toxique|manipulateur|paresseux)/i],
+  'filtre':[/oui mais/i,/sauf que/i,/gâché tout/i],
+  'invalidant':[/ça compte pas/i,/c'est normal/i,/c'était facile/i,/n'importe qui/i]
+};
+
+document.getElementById('btn-detecter').onclick=()=>{
+  const txt=document.getElementById('pensee-input').value;
+  if(!txt.trim()){alert('Note d\'abord une pensée à analyser.');return}
+  const detectees=[];
+  for(const [id,patterns] of Object.entries(MOTS_CLES)){
+    if(patterns.some(p=>p.test(txt))){
+      const d=DISTORSIONS.find(x=>x.id===id);
+      detectees.push(d);
+    }
+  }
+  const res=document.getElementById('resultat-detect');
+  if(detectees.length===0){
+    res.innerHTML=`<span style="color:#888">Aucune distorsion classique détectée par mots-clés. Reste vigilant·e — certaines distorsions sont implicites. Lis le catalogue avec la personne pour voir ce qui résonne.</span>`;
+  } else {
+    res.innerHTML=`<div class="detection">🪤 Distorsions repérées (${detectees.length}) :</div>` +
+      detectees.map(d=>`<div style="margin-top:.5rem;padding:.4rem .6rem;background:#fff;border-left:3px solid ${d.couleur};border-radius:var(--r-sm)"><strong style="color:${d.couleur}">${d.titre}</strong> — ${d.def}<br><em style="font-size:.85rem;color:#3d6e25">🌱 ${d.reframe}</em></div>`).join('') +
+      `<div class="conseil" style="margin-top:.6rem">💡 <strong>En séance :</strong> nommer 1 SEULE distorsion à la fois, la plus saillante. Pas toutes ensemble.</div>`;
+  }
+  res.classList.add('visible');
+};
+
+renderCatalogue();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Premiers secours psy ado — Version PRO · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { margin: 1.5cm; size: A4; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    color: #1a1a2e;
+    line-height: 1.6;
+    background: #F4F6F8;
+    font-size: 11pt;
+  }
+  .nav-top {
+    position: sticky; top:0; z-index: 100;
+    background: linear-gradient(135deg, #2c3e50 0%, #4a6580 50%, #6b89a8 100%);
+    padding: .6rem 1rem; text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  }
+  .nav-top a {
+    color: #fff; text-decoration: none; font-weight: 700; font-size: .85rem;
+    margin: 0 .35rem; padding: .3rem .6rem; border-radius: 999px;
+  }
+  .nav-top a:hover { background: rgba(255,255,255,.25); }
+  .nav-top button {
+    background: white; color: #2c3e50;
+    border: none; padding: .35rem 1rem; margin-left: .5rem;
+    border-radius: 999px; cursor: pointer;
+    font-weight: 700; font-size: .85rem;
+    font-family: 'Nunito', sans-serif;
+  }
+  .nav-top .pro-badge {
+    background: #c54a30; color: #fff;
+    padding: .25rem .8rem;
+    border-radius: 999px;
+    font-size: 8.5pt; font-weight: 800;
+    letter-spacing: 1px;
+    margin-right: .5rem;
+  }
+  .container { padding: 2rem 1rem; max-width: 900px; margin: 0 auto; }
+  .page {
+    background: #FFFFFF;
+    padding: 2.5rem 3rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+  .strip {
+    display: flex;
+    height: 8px;
+    margin: -2.5rem -3rem 2rem -3rem;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+  }
+  .strip > div { height: 100%; }
+  .strip > div:nth-child(1) { background: #2c3e50; flex: 3; }
+  .strip > div:nth-child(2) { background: #4a6580; flex: 2; }
+  .strip > div:nth-child(3) { background: #c54a30; flex: 1; }
+
+  .header { text-align: center; margin-bottom: 2rem; }
+  .brand {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14pt; color: #2c3e50; font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .pro-tag {
+    background: #c54a30; color: #fff;
+    display: inline-block; padding: .25rem 1rem;
+    border-radius: 999px; font-size: 8.5pt; font-weight: 800;
+    letter-spacing: 2px; margin: .8rem 0;
+  }
+  .tagline { font-size: 9pt; color: #6b7280; font-style: italic; margin-top: 0.3rem; }
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24pt; color: #1a1a2e; font-weight: 700;
+    margin-top: 1rem; line-height: 1.2;
+  }
+  h1 .accent { color: #c54a30; }
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14pt; color: #1a1a2e; font-weight: 600;
+    margin: 2rem 0 0.8rem; padding-left: 0.7rem;
+    border-left: 4px solid #2c3e50;
+  }
+  h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12pt; color: #2c3e50; font-weight: 600;
+    margin: 1rem 0 0.4rem;
+  }
+  p { margin-bottom: 0.7rem; }
+  ul { padding-left: 1.4rem; margin-bottom: 0.8rem; }
+  li { margin-bottom: 0.4rem; }
+  strong { color: #1a1a2e; font-weight: 700; }
+  em { color: #5a6678; }
+
+  .deonto {
+    background: #FFF7E0; padding: 1.3rem 1.5rem;
+    border-radius: 12px; margin: 1.5rem 0;
+    border-left: 5px solid #c89400;
+  }
+  .deonto strong { color: #7a5a00; }
+  .deonto .titre {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; font-size: 12pt; color: #7a5a00;
+    margin-bottom: .5rem;
+  }
+
+  .urgent {
+    background: linear-gradient(135deg, #FFE0E0 0%, #FFD0C2 100%);
+    padding: 1.3rem 1.5rem; border-radius: 12px;
+    margin: 1.5rem 0; border-left: 5px solid #c54a30;
+  }
+  .urgent strong { color: #c54a30; }
+  .urgent .titre {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; font-size: 12pt; color: #c54a30;
+    margin-bottom: .5rem;
+  }
+
+  .pillar {
+    background: #F4F6F8; border-radius: 10px;
+    padding: 1.1rem 1.3rem; margin: 0.9rem 0;
+    border-left: 4px solid #4a6580;
+  }
+  .pillar.red { background: #FFE0E0; border-left-color: #c54a30; }
+  .pillar.green { background: #E4F4F2; border-left-color: #2A8E7C; }
+  .pillar.gold { background: #FFF7E0; border-left-color: #c89400; }
+  .pillar.purple { background: #ebe2f8; border-left-color: #7c5cbf; }
+  .pillar-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; color: #1a1a2e;
+    margin-bottom: 0.4rem; font-size: 11.5pt;
+  }
+
+  .echelle {
+    background: #fff; border: 2px solid #4a6580;
+    border-radius: 10px; padding: 1.2rem 1.4rem;
+    margin: 1rem 0;
+  }
+  .echelle .titre {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; color: #2c3e50;
+    font-size: 11.5pt; margin-bottom: .8rem;
+    border-bottom: 2px solid #4a6580;
+    padding-bottom: .4rem;
+  }
+  .echelle-grid {
+    display: grid;
+    grid-template-columns: 1fr 80px 80px 80px 80px;
+    gap: .5rem; margin-top: .5rem;
+    align-items: center;
+    font-size: 10pt;
+  }
+  .echelle-grid > div { padding: .5rem; }
+  .echelle-grid .h {
+    text-align: center; font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    font-size: 9pt; color: #6b7280;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .echelle-grid input[type="radio"] { display: block; margin: 0 auto; }
+  .echelle-grid .item { font-size: 10pt; }
+  .echelle-grid .opt {
+    text-align: center; padding: .3rem;
+    border-left: 1px dashed #ccc;
+  }
+
+  .numeros {
+    display: grid; gap: .7rem;
+    margin: 1rem 0;
+  }
+  .num-card {
+    background: #fff; border: 2px solid #2c3e50;
+    padding: 1rem 1.2rem; border-radius: 10px;
+    display: grid; grid-template-columns: 100px 1fr;
+    gap: .7rem; align-items: center;
+  }
+  .num-card .num {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; font-size: 16pt;
+    color: #2c3e50; text-align: center;
+    background: #f4f6f8; padding: .5rem;
+    border-radius: 8px;
+  }
+  .num-card .label {
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    color: #1a1a2e; font-size: 10.5pt;
+  }
+  .num-card .info { font-size: 9.5pt; color: #6b7280; }
+
+  .form-block {
+    background: #F4F6F8;
+    padding: 1.2rem 1.4rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    border-left: 4px solid #4a6580;
+  }
+  .form-block label {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: .3rem;
+    font-size: 10pt;
+  }
+  input[type="text"], input[type="date"], textarea {
+    width: 100%; padding: .65rem .8rem;
+    border: 1.5px solid #ccd1d6;
+    border-radius: 6px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 10pt;
+    color: #1a1a2e;
+    background: #fff;
+    margin-bottom: .5rem;
+  }
+  input[type="text"]:focus, input[type="date"]:focus, textarea:focus {
+    outline: none; border-color: #2c3e50;
+  }
+  textarea { min-height: 60px; resize: vertical; }
+
+  .signature-block {
+    text-align: center; margin-top: 1.5rem;
+    font-size: 9pt; color: #5a6678; font-style: italic;
+  }
+  .signature-block strong {
+    color: #2c3e50; font-family: 'Poppins', sans-serif;
+    font-weight: 600; font-style: normal;
+  }
+
+  .source {
+    background: #ebe2f8; border: 1px dashed #7c5cbf;
+    border-radius: 8px; padding: .8rem 1.1rem;
+    font-size: 9.5pt; color: #6b4daa; font-style: italic;
+    margin: 1rem 0;
+  }
+
+  .checklist label {
+    display: flex; align-items: flex-start; gap: .6rem;
+    padding: .5rem .8rem; background: #fff;
+    border-radius: 6px; margin-bottom: .3rem;
+    cursor: pointer;
+    border: 1px solid #ddd;
+  }
+  .checklist label:hover { background: #f4f6f8; }
+  .checklist input[type="checkbox"] { margin-top: .2rem; flex-shrink: 0; }
+
+  .legal {
+    background: #f4f6f8; border-left: 4px solid #2c3e50;
+    padding: 1rem 1.2rem; border-radius: 8px;
+    margin: 1rem 0; font-size: 10pt;
+  }
+  .legal strong { color: #2c3e50; }
+
+  @media print {
+    body { background: #fff; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; }
+    .page-break { page-break-before: always; }
+    .nav-top { display: none !important; }
+    .container { padding: 0; }
+  }
+  @media (max-width: 700px) {
+    .page { padding: 1.5rem 1.2rem; }
+    .strip { margin: -1.5rem -1.2rem 1.5rem -1.2rem; }
+    .echelle-grid { grid-template-columns: 1fr 60px 60px 60px 60px; }
+    .num-card { grid-template-columns: 1fr; text-align: center; }
+    h1 { font-size: 20pt; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav-top">
+  <span class="pro-badge">PRO</span>
+  <a href="../../professionnels.html">🏠 Praticiens</a>
+  <a href="../parents/premiers-secours-psy-ado.html">📘 Version parents</a>
+  <a href="#deonto">Déonto</a>
+  <a href="#repere">Repérage</a>
+  <a href="#echelles">Échelles</a>
+  <a href="#signal">Signalement</a>
+  <a href="#transm">Transmission</a>
+  <button onclick="window.print()">🖨️ Imprimer</button>
+</nav>
+
+<div class="container">
+
+<!-- ═══════════════ COUVERTURE ═══════════════ -->
+<div class="page">
+  <div class="strip"><div></div><div></div><div></div></div>
+  <div class="header">
+    <div class="brand">EDUCA TYPIQUE</div>
+    <div class="pro-tag">VERSION PROFESSIONNELLE</div>
+    <h1>🆘 Premiers secours psy ado<br><span class="accent">Outil clinique</span></h1>
+    <div style="font-size:10pt; color:#6b7280; margin-top:0.6rem; font-style:italic;">
+      Pour neuropédagogues · psychologues · conseillers · infirmiers scolaires · éducateurs · enseignants formés
+    </div>
+  </div>
+
+  <div class="deonto">
+    <div class="titre">⚖️ Cadre déontologique</div>
+    Cet outil <strong>ne remplace pas</strong> un diagnostic ni un suivi psychiatrique. Il est destiné à des <strong>professionnels formés</strong> pour :
+    <ul style="margin-top:.5rem; margin-bottom:0;">
+      <li><strong>Repérer</strong> structurellement les signes d'alerte psy chez l'ado</li>
+      <li><strong>Conduire un entretien initial</strong> dans un cadre sécurisé</li>
+      <li><strong>Orienter</strong> avec discernement vers le bon dispositif</li>
+      <li><strong>Documenter et signaler</strong> selon les obligations légales</li>
+    </ul>
+    Si vous n'êtes pas formé·e aux Premiers Secours en Santé Mentale (PSSM/MHFA), une formation est <strong>vivement recommandée</strong> avant utilisation clinique.
+  </div>
+
+  <div class="legal">
+    📋 <strong>Cadre légal de référence :</strong>
+    <ul style="margin-top:.4rem;margin-bottom:0;">
+      <li><strong>Art. 226-13 CP</strong> — Secret professionnel (sanction si violation)</li>
+      <li><strong>Art. 226-14 CP</strong> — Dérogations au secret pour protection de mineur en danger</li>
+      <li><strong>Art. L.226-2-1 CASF</strong> — Obligation de transmission d'information préoccupante (IP) au CRIP</li>
+      <li><strong>Art. 434-3 CP</strong> — Obligation de signalement pour les atteintes graves aux mineurs</li>
+    </ul>
+  </div>
+
+  <div class="source">
+    📚 <strong>Adaptation EducaTypique</strong> des recommandations <em>Premiers Secours en Santé Mentale</em> (MHFA International / PSSM France 2023), enrichie pour pratique professionnelle (cadre déontologique, échelles cliniques d'évaluation, protocoles de signalement, fiche de transmission inter-pros). Pour parents : voir <a href="../parents/premiers-secours-psy-ado.html">version parents</a>.
+  </div>
+
+  <div class="signature-block"><strong>EducaTypique · Nawel Haddouch</strong> · Neuropédagogue TND · Secouriste certifiée en Santé Mentale jeunes (PSSM)</div>
+</div>
+
+<!-- ═══════════════ DÉONTO + CADRE ═══════════════ -->
+<div class="page page-break" id="deonto">
+  <div class="strip"><div></div><div></div><div></div></div>
+
+  <h2>⚖️ Cadre professionnel et déontologique</h2>
+
+  <h3>1. Secret professionnel et ses limites</h3>
+  <div class="pillar">
+    <strong>Principe :</strong> Tout pro qui reçoit l'ado est soumis au secret pro (Art. 226-13 CP). L'ado doit être informé·e dès le 1er entretien.
+    <p style="margin-top:.5rem; margin-bottom:0;"><strong>Limites du secret (Art. 226-14 CP) — situations où la levée du secret est légalement justifiée :</strong></p>
+    <ul style="margin-top:.3rem; margin-bottom:0;">
+      <li>Mineur en danger ou risque de l'être</li>
+      <li>Atteintes sexuelles ou maltraitances</li>
+      <li>Personne vulnérable en péril</li>
+      <li>Détention d'arme ou intention dangereuse</li>
+    </ul>
+  </div>
+
+  <h3>2. Formuler le cadre de confidentialité à l'ado (à dire au début de l'entretien)</h3>
+  <div class="pillar gold">
+    « Avant qu'on commence, je te dis comment ça marche entre nous : <strong>tout ce que tu vas me dire est confidentiel</strong>. Je ne le rapporterai pas à tes parents, à ton école, ni à personne d'autre sans t'en parler avant. <strong>Sauf si</strong> : ta sécurité ou celle de quelqu'un d'autre est en jeu. Dans ce cas-là, je devrai en parler à quelqu'un qui peut nous aider — mais je te dirai à qui, et pourquoi. C'est OK pour toi ? »
+  </div>
+
+  <h3>3. Limites de votre rôle</h3>
+  <div class="pillar red">
+    <div class="pillar-title">⚠️ Ce que vous ne devez PAS faire (selon votre statut)</div>
+    <ul style="margin-bottom:0;">
+      <li>Poser un <strong>diagnostic</strong> (sauf médecin/psychiatre)</li>
+      <li>Prescrire ou ajuster un <strong>traitement</strong></li>
+      <li>Faire de la <strong>psychothérapie longue durée</strong> si vous n'êtes pas thérapeute formé</li>
+      <li>Vous engager seul·e dans la gestion d'une <strong>crise suicidaire active</strong></li>
+      <li>Faire de promesses sur la confidentialité absolue</li>
+      <li>Garder pour vous une <strong>information préoccupante</strong> couverte par l'obligation de transmission</li>
+    </ul>
+  </div>
+
+  <h3>4. Posture du secouriste en santé mentale</h3>
+  <div class="pillar green">
+    <ul style="margin-bottom:0;">
+      <li><strong>Écoute active</strong> non interventionniste</li>
+      <li><strong>Reformulation</strong> systématique pour vérifier la compréhension</li>
+      <li><strong>Validation des affects</strong> sans validation des comportements à risque</li>
+      <li><strong>Pas de jugement, pas de conseil prématuré</strong></li>
+      <li><strong>Orientation</strong> vers la bonne ressource au bon moment</li>
+      <li><strong>Documentation</strong> rigoureuse en cas de besoin de transmission</li>
+    </ul>
+  </div>
+
+  <div class="signature-block"><strong>EducaTypique PRO</strong> · Cadre professionnel</div>
+</div>
+
+<!-- ═══════════════ REPÉRAGE STRUCTURÉ ═══════════════ -->
+<div class="page page-break" id="repere">
+  <div class="strip"><div></div><div></div><div></div></div>
+
+  <h2>🔍 Repérage structuré des signes d'alerte</h2>
+
+  <div class="form-block">
+    <label>Identité (anonymisable selon contexte)</label>
+    <input type="text" id="r-prenom" placeholder="Prénom / pseudo / initiale">
+    <input type="text" id="r-age" placeholder="Âge">
+    <input type="date" id="r-date">
+    <input type="text" id="r-contexte" placeholder="Contexte de l'entretien (cabinet, école, suite à signalement…)">
+  </div>
+
+  <h3>🧠 Sphère émotionnelle et cognitive</h3>
+  <div class="checklist">
+    <label><input type="checkbox" data-id="r-em-tristesse"> Tristesse persistante (>2 sem) verbalisée ou observée</label>
+    <label><input type="checkbox" data-id="r-em-anxiete"> Anxiété, panique, ruminations, phobies</label>
+    <label><input type="checkbox" data-id="r-em-anhedonie"> Anhédonie (perte d'intérêt pour les activités plaisantes)</label>
+    <label><input type="checkbox" data-id="r-em-culp"> Culpabilité disproportionnée, honte, auto-dévalorisation</label>
+    <label><input type="checkbox" data-id="r-em-irrit"> Irritabilité, colères, crises pseudo-disproportionnées</label>
+    <label><input type="checkbox" data-id="r-em-cogn"> Ralentissement cognitif, difficultés de concentration, indécision</label>
+    <label><input type="checkbox" data-id="r-em-dissoc"> Signes dissociatifs (déréalisation, dépersonnalisation)</label>
+  </div>
+
+  <h3>🛌 Sphère somatique</h3>
+  <div class="checklist">
+    <label><input type="checkbox" data-id="r-so-sommeil"> Troubles du sommeil (insomnie, hypersomnie, cauchemars récurrents)</label>
+    <label><input type="checkbox" data-id="r-so-appetit"> Variation pondérale significative ou troubles du comportement alimentaire</label>
+    <label><input type="checkbox" data-id="r-so-fatigue"> Fatigue chronique, perte d'énergie</label>
+    <label><input type="checkbox" data-id="r-so-douleurs"> Plaintes somatiques sans cause médicale (céphalées, gastralgies)</label>
+    <label><input type="checkbox" data-id="r-so-hygiene"> Négligence ou hyper-investissement de l'hygiène</label>
+  </div>
+
+  <h3>👥 Sphère comportementale et sociale</h3>
+  <div class="checklist">
+    <label><input type="checkbox" data-id="r-co-isolement"> Isolement social, retrait, refus scolaire</label>
+    <label><input type="checkbox" data-id="r-co-frequent"> Changement brutal de fréquentations</label>
+    <label><input type="checkbox" data-id="r-co-decro"> Décrochage scolaire, chute brutale des résultats</label>
+    <label><input type="checkbox" data-id="r-co-conso"> Consommation suspectée (substances, médicaments, écrans pathologiques)</label>
+    <label><input type="checkbox" data-id="r-co-auto"> Conduites auto-agressives (scarifications, brûlures, ingestion volontaire)</label>
+    <label><input type="checkbox" data-id="r-co-risque"> Conduites à risque (vitesse, jeux dangereux, sexualité à risque)</label>
+    <label><input type="checkbox" data-id="r-co-violence"> Hétéro-agressivité (verbale, physique)</label>
+  </div>
+
+  <h3>⚠️ Idéation suicidaire et risque vital</h3>
+  <div class="urgent" style="margin-top:.5rem;">
+    <div class="checklist">
+      <label><input type="checkbox" data-id="r-su-idees"> Idées noires / suicidaires verbalisées (même « pour rire »)</label>
+      <label><input type="checkbox" data-id="r-su-plan"> Plan suicidaire évoqué (méthode, lieu, moment)</label>
+      <label><input type="checkbox" data-id="r-su-acces"> Accès aux moyens (médicaments, arme, lieu)</label>
+      <label><input type="checkbox" data-id="r-su-adieux"> Adieux discrets, dons d'objets, écrits d'adieu</label>
+      <label><input type="checkbox" data-id="r-su-tent"> Tentative antérieure connue</label>
+      <label><input type="checkbox" data-id="r-su-deses"> Désespoir massif, sentiment d'inutilité, « pas d'avenir »</label>
+    </div>
+    <p style="margin-top:.5rem; margin-bottom:0;"><strong>Si ≥ 1 case cochée dans cette section → évaluation immédiate du risque suicidaire (voir échelle RUD ci-après) + orientation pédopsychiatre / 3114 / 15.</strong></p>
+  </div>
+
+  <h3>📝 Notes d'observation cliniques (anonymes ou pseudonymisées)</h3>
+  <textarea id="r-notes" rows="5" placeholder="Notes factuelles : ce que l'ado a dit (entre guillemets si possible), votre observation comportementale, hypothèses cliniques différentielles, éléments de contexte familial/scolaire si pertinents."></textarea>
+
+  <div class="signature-block"><strong>EducaTypique PRO</strong> · Grille de repérage</div>
+</div>
+
+<!-- ═══════════════ ÉCHELLES CLINIQUES ═══════════════ -->
+<div class="page page-break" id="echelles">
+  <div class="strip"><div></div><div></div><div></div></div>
+
+  <h2>📊 Échelles cliniques de référence (rappels)</h2>
+
+  <div class="legal">
+    ℹ️ Les versions complètes et validées de ces échelles doivent être obtenues auprès des organismes de référence. Les éléments ci-dessous sont des <strong>aide-mémoires de criticité</strong> pour orienter votre évaluation.
+  </div>
+
+  <h3>📋 RUD — Évaluation du Risque, Urgence, Dangerosité suicidaire</h3>
+
+  <div class="echelle">
+    <div class="titre">🔴 RISQUE suicidaire — facteurs prédisposants</div>
+    <div class="checklist" style="margin-top:.5rem;">
+      <label><input type="checkbox" data-id="rud-r-anteced"> Antécédents personnels de TS ou IDS</label>
+      <label><input type="checkbox" data-id="rud-r-fam"> Antécédents familiaux suicide / TS</label>
+      <label><input type="checkbox" data-id="rud-r-trouble"> Trouble psychiatrique connu (dépression, trouble bipolaire, TPL…)</label>
+      <label><input type="checkbox" data-id="rud-r-abus"> Antécédents d'abus / maltraitance / harcèlement</label>
+      <label><input type="checkbox" data-id="rud-r-iso"> Isolement social / familial</label>
+      <label><input type="checkbox" data-id="rud-r-perte"> Perte récente significative (deuil, rupture, échec)</label>
+      <label><input type="checkbox" data-id="rud-r-conso"> Consommation de substances</label>
+    </div>
+  </div>
+
+  <div class="echelle">
+    <div class="titre">🟠 URGENCE — où en est-il/elle aujourd'hui ?</div>
+    <div class="echelle-grid">
+      <div class="h item">Item</div><div class="h">Faible</div><div class="h">Moyen</div><div class="h">Élevé</div><div class="h">Imminent</div>
+      <div class="item">Crystallisation des idées suicidaires</div>
+      <div class="opt"><input type="radio" name="u-cryst"></div>
+      <div class="opt"><input type="radio" name="u-cryst"></div>
+      <div class="opt"><input type="radio" name="u-cryst"></div>
+      <div class="opt"><input type="radio" name="u-cryst"></div>
+      <div class="item">Plan (lieu/méthode/moment)</div>
+      <div class="opt"><input type="radio" name="u-plan"></div>
+      <div class="opt"><input type="radio" name="u-plan"></div>
+      <div class="opt"><input type="radio" name="u-plan"></div>
+      <div class="opt"><input type="radio" name="u-plan"></div>
+      <div class="item">Souffrance psychique</div>
+      <div class="opt"><input type="radio" name="u-souff"></div>
+      <div class="opt"><input type="radio" name="u-souff"></div>
+      <div class="opt"><input type="radio" name="u-souff"></div>
+      <div class="opt"><input type="radio" name="u-souff"></div>
+      <div class="item">Désespoir / vue de l'avenir</div>
+      <div class="opt"><input type="radio" name="u-deses"></div>
+      <div class="opt"><input type="radio" name="u-deses"></div>
+      <div class="opt"><input type="radio" name="u-deses"></div>
+      <div class="opt"><input type="radio" name="u-deses"></div>
+    </div>
+  </div>
+
+  <div class="echelle">
+    <div class="titre">⚠️ DANGEROSITÉ — facteurs précipitants / létalité</div>
+    <div class="checklist" style="margin-top:.5rem;">
+      <label><input type="checkbox" data-id="d-acces"> Accès direct au moyen létal (arme, médicaments, lieu)</label>
+      <label><input type="checkbox" data-id="d-imp"> Impulsivité forte (signes cliniques actuels)</label>
+      <label><input type="checkbox" data-id="d-iso"> Isolement immédiat (seul·e ce soir, pas d'entourage)</label>
+      <label><input type="checkbox" data-id="d-conso"> Consommation actuelle qui désinhibe</label>
+      <label><input type="checkbox" data-id="d-meth"> Méthode envisagée à létalité élevée</label>
+    </div>
+  </div>
+
+  <div class="urgent">
+    <strong>🚨 Si URGENCE élevée ou imminente + DANGEROSITÉ présente :</strong>
+    <ul style="margin-top:.4rem;margin-bottom:0;">
+      <li>Ne pas laisser l'ado seul·e</li>
+      <li>Sécuriser le moyen (faire éloigner par tiers de confiance)</li>
+      <li>Appeler le <strong>3114</strong> (orientation pédopsy d'urgence) ou le <strong>15</strong> (SAMU)</li>
+      <li>Information aux titulaires de l'autorité parentale (sauf danger venant d'eux)</li>
+    </ul>
+  </div>
+
+  <h3>📋 PHQ-A — Dépistage dépression ado (Patient Health Questionnaire Adolescent, version abrégée)</h3>
+  <div class="legal">
+    Version validée à demander à l'ANSM ou via la Société Française de Psychiatrie de l'Enfant et de l'Adolescent. 9 items évaluant la fréquence des symptômes dépressifs sur 2 semaines. Score :
+    <ul style="margin-top:.3rem; margin-bottom:0;">
+      <li>0-4 : dépression minime · 5-9 : légère · 10-14 : modérée · 15-19 : modérément sévère · 20-27 : sévère</li>
+      <li>Item 9 (idéation suicidaire) coté ≥ 1 → évaluation immédiate du risque suicidaire (cf. RUD)</li>
+    </ul>
+  </div>
+
+  <h3>📋 Autres échelles utiles selon contexte</h3>
+  <div class="pillar">
+    <ul style="margin-bottom:0;">
+      <li><strong>GAD-7</strong> — Anxiété généralisée</li>
+      <li><strong>CRAFFT-V2</strong> — Repérage consommations adolescentes (alcool, cannabis, autres)</li>
+      <li><strong>SCARED</strong> — Anxiété ado (Screen for Child Anxiety Related Disorders)</li>
+      <li><strong>EAT-26</strong> — Troubles du comportement alimentaire</li>
+      <li><strong>SDQ</strong> — Forces & Difficultés (Strengths and Difficulties Questionnaire)</li>
+    </ul>
+  </div>
+
+  <div class="signature-block"><strong>EducaTypique PRO</strong> · Échelles cliniques</div>
+</div>
+
+<!-- ═══════════════ SIGNALEMENT ═══════════════ -->
+<div class="page page-break" id="signal">
+  <div class="strip"><div></div><div></div><div></div></div>
+
+  <h2>📋 Protocole de signalement / Information préoccupante (IP)</h2>
+
+  <h3>1. Quelle voie choisir ?</h3>
+
+  <div class="pillar purple">
+    <div class="pillar-title">📨 Information Préoccupante (IP) — voie standard</div>
+    <strong>Destinataire :</strong> CRIP (Cellule de Recueil des Informations Préoccupantes) du Conseil Départemental.<br>
+    <strong>Quand :</strong> Vous avez connaissance d'éléments faisant craindre qu'un mineur soit en situation de danger ou de risque de danger (négligences, maltraitances psy, conflit familial grave, mal-être profond non pris en charge).<br>
+    <strong>Forme :</strong> Écrit (mail ou courrier) — modèle dans la section suivante.<br>
+    <strong>Délai :</strong> Pas de délai légal strict, mais <strong>sans délai abusif</strong>. La CRIP évalue ensuite (visite, enquête sociale) et oriente vers prévention ou Procureur si besoin.
+  </div>
+
+  <div class="pillar red">
+    <div class="pillar-title">🚨 Signalement judiciaire — voie d'urgence ou de gravité</div>
+    <strong>Destinataire :</strong> Procureur de la République (parquet des mineurs)<br>
+    <strong>Quand :</strong>
+    <ul style="margin-top:.3rem;">
+      <li>Violences physiques ou sexuelles avérées ou très probables</li>
+      <li>Danger grave et immédiat pour le mineur</li>
+      <li>Suspicion de crime ou délit contre le mineur</li>
+      <li>Refus des parents de protéger un enfant en danger</li>
+    </ul>
+    <strong>Forme :</strong> Écrit, urgent. Doublé d'un <strong>appel téléphonique</strong> au substitut de permanence si gravité immédiate.<br>
+    <strong>Effets :</strong> Possible saisine du juge des enfants, mesures de protection, enquête pénale.
+  </div>
+
+  <div class="pillar gold">
+    <div class="pillar-title">📞 119 — Service National d'Accueil Téléphonique de l'Enfance en Danger (SNATED)</div>
+    <strong>Quand :</strong> En cas de doute, pour orientation immédiate. Pour les particuliers comme pour les pros.<br>
+    <strong>Avantage :</strong> Permet d'être conseillé·e sur la voie à privilégier (IP / signalement) et de confier un signalement urgent qui sera retransmis au CRIP / Procureur.
+  </div>
+
+  <h3>2. Délai et trace écrite</h3>
+  <div class="pillar">
+    <ul style="margin-bottom:0;">
+      <li><strong>Toujours dater</strong> les éléments observés (chronologie précise)</li>
+      <li><strong>Conserver une copie</strong> de tout écrit de signalement</li>
+      <li><strong>Documenter les démarches</strong> entreprises (dates, interlocuteurs, propos)</li>
+      <li><strong>Informer les titulaires de l'autorité parentale</strong> (sauf danger venant d'eux ou risque de représailles)</li>
+    </ul>
+  </div>
+
+  <h3>3. Modèle d'Information Préoccupante (à adapter)</h3>
+
+  <div class="form-block">
+    <label>Identité du pro émetteur</label>
+    <input type="text" id="ip-emetteur" placeholder="Nom · Fonction · Cabinet/Structure · Coordonnées">
+
+    <label>Identité du mineur concerné</label>
+    <input type="text" id="ip-mineur" placeholder="Nom · Prénom · Date de naissance · Adresse">
+
+    <label>Composition familiale / Titulaires de l'autorité parentale</label>
+    <input type="text" id="ip-famille" placeholder="Parent(s) · Fratrie · Tiers significatifs">
+
+    <label>Faits observés (factuels, datés, sans interprétation)</label>
+    <textarea id="ip-faits" rows="4" placeholder="Lister chronologiquement. Citer entre guillemets les propos de l'ado si pertinent. Préciser source (entretien, observation, transmission par tiers)."></textarea>
+
+    <label>Évaluation clinique (hypothèses, échelles utilisées, niveau de risque)</label>
+    <textarea id="ip-evaluation" rows="3" placeholder="Ex: « PHQ-A : 18 (modérément sévère). RUD : urgence moyenne, dangerosité faible. Hypothèse principale : épisode dépressif majeur. »"></textarea>
+
+    <label>Mesures de protection déjà engagées</label>
+    <textarea id="ip-mesures" placeholder="Ex: « Orientation vers pédopsychiatre du CMP (RDV pris le X). Information de la mère. Entretien de cadrage avec l'ado prévu le X. »"></textarea>
+
+    <label>Demande / Orientation souhaitée</label>
+    <textarea id="ip-demande" placeholder="Ex: « Évaluation de la situation par la CRIP. Coordination avec service de protection enfance. »"></textarea>
+  </div>
+
+  <div class="legal">
+    ⚖️ <strong>L'IP n'est pas un acte d'accusation</strong> mais une <strong>alerte structurée</strong>. Elle vise à mobiliser une évaluation pluridisciplinaire. La levée du secret professionnel est <strong>légalement protégée</strong> par l'Art. 226-14 CP dans ce cadre.
+  </div>
+
+  <div class="signature-block"><strong>EducaTypique PRO</strong> · Protocole de signalement</div>
+</div>
+
+<!-- ═══════════════ FICHE DE TRANSMISSION ═══════════════ -->
+<div class="page page-break" id="transm">
+  <div class="strip"><div></div><div></div><div></div></div>
+
+  <h2>📤 Fiche de transmission inter-professionnelle</h2>
+
+  <div class="opening" style="background:linear-gradient(135deg,#E4F4F2 0%,#f5f0fa 100%);border-left-color:#2A8E7C; padding:1.2rem 1.5rem; border-radius:12px; border-left-width:4px; border-left-style:solid; font-style:italic; color:#1a6a5a; margin:1rem 0;">
+    À utiliser pour <strong>transmettre à un pédopsychiatre, médecin traitant, CMP, MDA</strong> ou tout pro coordonné.
+    Avec <strong>accord de l'ado et/ou des titulaires de l'autorité parentale</strong> selon le cadre légal applicable.
+  </div>
+
+  <div class="form-block">
+    <label>Destinataire</label>
+    <input type="text" id="t-destin" placeholder="Dr X · Pédopsychiatre · CMP de Y · Adresse">
+
+    <label>Émetteur</label>
+    <input type="text" id="t-emet" placeholder="Nom · Fonction · Cabinet · Tel · Email">
+
+    <label>Date</label>
+    <input type="date" id="t-date">
+
+    <label>Identité du mineur</label>
+    <input type="text" id="t-mineur" placeholder="Prénom · Nom · Date de naissance">
+
+    <label>Motif de l'orientation</label>
+    <textarea id="t-motif" rows="3" placeholder="Synthèse clinique brève. Ex: « Repérage signes dépressifs modérés à sévères chez ado 15 ans, idéation suicidaire passive verbalisée, contexte de harcèlement scolaire. Demande d'évaluation pédopsychiatrique. »"></textarea>
+
+    <label>Antécédents pertinents (avec accord de transmission)</label>
+    <textarea id="t-anteced" placeholder="Médicaux, psy, familiaux, scolaires"></textarea>
+
+    <label>Évaluations réalisées et scores</label>
+    <textarea id="t-evals" placeholder="Ex: « PHQ-A : 16. RUD : urgence faible, dangerosité absente. Anhédonie marquée. Sommeil très perturbé depuis 6 sem. »"></textarea>
+
+    <label>Mesures déjà engagées</label>
+    <textarea id="t-mesures" placeholder="Entretiens, orientation vers infirmière scolaire, information parents…"></textarea>
+
+    <label>Demande spécifique au destinataire</label>
+    <textarea id="t-demande" placeholder="Ex: « Évaluation pédopsychiatrique. Indication ou non d'un traitement médicamenteux. Possibilité de suivi régulier. Coordination avec moi pour suivi conjoint. »"></textarea>
+
+    <label>Cadre de transmission (consentement, secret partagé)</label>
+    <textarea id="t-cadre" placeholder="Ex: « Information donnée à la mère (autorité parentale exclusive) le X. Accord verbal de l'ado le X pour transmission. Secret partagé dans le cadre du soin. »"></textarea>
+  </div>
+
+  <div class="legal">
+    📋 <strong>Rappel — Secret partagé (Art. L.1110-4 CSP) :</strong> entre professionnels participant à la prise en charge d'un même patient, les informations strictement nécessaires à la continuité des soins peuvent être partagées, avec <strong>information préalable du patient</strong> (et pour le mineur, des titulaires de l'autorité parentale selon le cas).
+  </div>
+
+  <h3>📞 Numéros et ressources institutionnelles</h3>
+
+  <div class="numeros">
+    <div class="num-card">
+      <div class="num">3114</div>
+      <div>
+        <div class="label">Numéro national prévention suicide</div>
+        <div class="info">24h/24 · gratuit · confidentiel · pour pros ET particuliers · permet contact pédopsy d'astreinte</div>
+      </div>
+    </div>
+    <div class="num-card">
+      <div class="num">15</div>
+      <div>
+        <div class="label">SAMU — Urgence vitale</div>
+        <div class="info">Pour TS en cours, intoxication aiguë, état critique</div>
+      </div>
+    </div>
+    <div class="num-card">
+      <div class="num">119</div>
+      <div>
+        <div class="label">SNATED — Enfance en danger</div>
+        <div class="info">Pour signalement urgent, orientation IP/signalement, conseil pro</div>
+      </div>
+    </div>
+    <div class="num-card">
+      <div class="num" style="font-size:11pt; line-height:1.2;">CRIP<br>dpt</div>
+      <div>
+        <div class="label">Cellule de Recueil des IP</div>
+        <div class="info">Coordonnées disponibles sur le site du Conseil Départemental · Voie standard d'IP</div>
+      </div>
+    </div>
+    <div class="num-card">
+      <div class="num" style="font-size:11pt; line-height:1.2;">CMP<br>local</div>
+      <div>
+        <div class="label">Centre Médico-Psychologique</div>
+        <div class="info">Public, gratuit, soins en équipe pluridisciplinaire · délai variable</div>
+      </div>
+    </div>
+    <div class="num-card">
+      <div class="num" style="font-size:11pt; line-height:1.2;">MDA<br>local</div>
+      <div>
+        <div class="label">Maison des Adolescents</div>
+        <div class="info">Accueil souple, pluridisciplinaire, sans rdv · alternative ou complément au CMP</div>
+      </div>
+    </div>
+    <div class="num-card">
+      <div class="num" style="font-size:11pt; line-height:1.2;">PSSM<br>France</div>
+      <div>
+        <div class="label">Formation Premiers Secours Santé Mentale</div>
+        <div class="info">pssmfrance.fr · formation certifiante 14h pour pros ou aidants</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>📌 Pour aller plus loin (formations recommandées)</h3>
+  <div class="pillar">
+    <ul style="margin-bottom:0;">
+      <li><strong>PSSM Jeunes</strong> (14h) — Premiers Secours en Santé Mentale, recommandé pour tout pro au contact d'ados</li>
+      <li><strong>RUD</strong> — Formation à l'évaluation du risque suicidaire (variantes selon réseau VigilanS, GEPS)</li>
+      <li><strong>Repérage / orientation</strong> — Formations HAS, Santé Publique France</li>
+      <li><strong>Protection de l'enfance</strong> — Formations ODAS, ONPE</li>
+    </ul>
+  </div>
+
+  <div class="source">
+    📚 <strong>Adaptation EducaTypique PRO</strong> intégrant : (1) recommandations PSSM/MHFA International 2023 pour la posture relationnelle, (2) cadre déontologique français (CP, CASF, CSP), (3) outils cliniques standards (RUD, PHQ-A, GAD-7…), (4) protocoles de signalement (IP, signalement judiciaire). Outil pédagogique professionnel — ne remplace ni la formation continue ni la supervision clinique.
+  </div>
+
+  <div class="signature-block" style="margin-top:1.5rem;">
+    <strong>EducaTypique PRO · Nawel Haddouch</strong><br>
+    <em>Neuropédagogue TND · Psychopraticienne TCC · Secouriste certifiée PSSM Jeunes</em><br>
+    <span style="font-size:8.5pt;">Outil destiné aux professionnels formés · Usage clinique · Document à conserver dans le dossier de l'usager selon les règles habituelles d'archivage</span>
+  </div>
+</div>
+
+</div>
+
+</body>
+</html>

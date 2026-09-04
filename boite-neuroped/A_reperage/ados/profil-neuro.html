@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Profil Neuro — Boussol Ados</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#F0F7F5 0%,#F5F0F7 50%,#FEF6EF 100%);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;color:#2D3E3A;line-height:1.5;padding:24px 16px 48px;min-height:100vh}
+.wrap{max-width:680px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+
+.hdr{text-align:center;padding:40px 24px 32px;margin-bottom:24px;background:linear-gradient(160deg,#FFF8F2,#F0F0F8 50%,#E8F2EE);border-radius:24px;border:1px solid rgba(108,168,158,0.25);box-shadow:0 6px 24px rgba(108,168,158,0.08)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#6CA89E,#9B85B8);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+.hdr h1{font-family:Georgia,serif;font-size:34px;font-weight:400;color:#2D3E3A;margin-bottom:6px}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A6B66}
+.orn{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px}
+.oln{width:50px;height:1px;background:#6CA89E;opacity:0.5}
+.ogm{width:10px;height:10px;background:linear-gradient(135deg,#6CA89E,#9B85B8);border-radius:50%}
+
+.card{background:#fff;border:1px solid rgba(108,168,158,0.18);border-radius:20px;padding:28px 24px;margin-bottom:16px;box-shadow:0 6px 18px rgba(108,168,158,0.06);animation:fadeIn .4s ease}
+.card h2{font-family:Georgia,serif;font-size:24px;font-weight:500;color:#2D3E3A;margin-bottom:8px}
+.sub{font-family:Georgia,serif;font-style:italic;font-size:14px;color:#5A6B66;margin-bottom:20px;line-height:1.5}
+
+.welcome-text{font-size:14.5px;color:#2D3E3A;line-height:1.7;margin-bottom:16px}
+.welcome-text strong{color:#6CA89E;font-weight:600}
+.box-info{background:linear-gradient(135deg,#F0F7F5,#F5F0F7);border-radius:14px;padding:16px 18px;margin:14px 0;font-size:13.5px;color:#2D3E3A;line-height:1.6;border-left:4px solid #6CA89E}
+.box-info strong{color:#6CA89E}
+
+.progress-bar{height:8px;background:#F0F0F8;border-radius:8px;overflow:hidden;margin:14px 0 6px}
+.progress-fill{height:100%;background:linear-gradient(90deg,#6CA89E,#9B85B8);border-radius:8px;transition:width 0.4s ease}
+.progress-info{display:flex;justify-content:space-between;font-size:12px;color:#5A6B66;margin-bottom:20px}
+
+.section-title{font-family:Georgia,serif;font-size:20px;color:#9B85B8;font-weight:500;margin:24px 0 6px;display:flex;align-items:center;gap:10px}
+.section-icon{font-size:26px}
+.section-desc{font-size:13px;color:#5A6B66;margin-bottom:14px;font-style:italic;line-height:1.5}
+
+.q{margin-bottom:18px;padding:12px 0;border-bottom:1px dashed #E0EEEA}
+.q:last-child{border-bottom:none}
+.q-text{font-size:14.5px;color:#2D3E3A;margin-bottom:10px;line-height:1.55}
+.q-num{display:inline-block;font-size:11px;color:#6CA89E;font-weight:700;margin-right:6px;background:#E8F2EE;padding:2px 8px;border-radius:10px}
+
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:8px}
+.sc-btn{padding:10px 2px;background:#F8F5FA;border:1.5px solid #E8E0EE;border-radius:10px;text-align:center;cursor:pointer;font-size:11px;font-weight:500;color:#5A6B66;transition:all 0.2s;user-select:none;display:flex;flex-direction:column;align-items:center;gap:3px}
+.sc-btn .emoji{font-size:18px}
+.sc-btn:hover{background:#fff;border-color:#9B85B8;transform:translateY(-1px)}
+.sc-btn.selected{background:linear-gradient(135deg,#6CA89E,#9B85B8);color:#fff;border-color:#6CA89E;box-shadow:0 3px 8px rgba(108,168,158,0.3)}
+
+.btn-main{width:100%;padding:16px 22px;background:linear-gradient(135deg,#6CA89E,#9B85B8);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;margin-top:20px;box-shadow:0 6px 16px rgba(108,168,158,0.3);transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-main:hover{transform:translateY(-2px)}
+.btn-main:disabled{background:#D4D4DC;cursor:not-allowed;transform:none;box-shadow:none}
+
+.warning{background:#FFF8F2;border:1px solid #F5C9A0;border-radius:12px;padding:12px 14px;margin-top:12px;font-size:13px;color:#A8632A;display:none;align-items:center;gap:8px}
+.warning.show{display:flex}
+
+/* RESULTS ADO */
+.results-hdr{text-align:center;padding:8px 0 16px;margin-bottom:8px}
+.badge{display:inline-block;padding:6px 16px;background:linear-gradient(135deg,#FFE8D6,#F5DCE8);color:#9B85B8;border-radius:20px;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+.results-hdr h2{font-family:Georgia,serif;font-size:30px;font-weight:500;color:#2D3E3A;margin-bottom:6px}
+.results-hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A6B66}
+
+.profile-summary{background:linear-gradient(135deg,#F0F7F5,#F5F0F7,#FEF6EF);border-radius:18px;padding:22px 24px;margin:18px 0;border:1px solid rgba(108,168,158,0.2)}
+.profile-summary h3{font-family:Georgia,serif;font-size:20px;color:#6CA89E;font-weight:500;margin-bottom:10px}
+.profile-summary p{font-family:Georgia,serif;font-size:15.5px;color:#2D3E3A;line-height:1.7}
+
+.section-result{background:#fff;border-radius:16px;padding:18px 20px;margin-bottom:12px;border:1px solid rgba(108,168,158,0.15)}
+.section-result h4{font-family:Georgia,serif;font-size:17px;color:#9B85B8;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.section-result p{font-size:13.5px;color:#3D4E48;line-height:1.65}
+
+.super-card{background:linear-gradient(135deg,#E8F2EE,#F0F7F5);border-radius:16px;padding:18px 20px;margin:14px 0;border-left:4px solid #6CA89E}
+.super-title{font-family:Georgia,serif;font-size:18px;color:#5A8F87;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.super-item{font-size:13.5px;color:#2D3E3A;line-height:1.6;padding:5px 0;display:flex;gap:8px}
+.super-item .star{color:#E5A55C;flex-shrink:0}
+
+.defi-card{background:linear-gradient(135deg,#FFF8F2,#F5DCE8);border-radius:16px;padding:18px 20px;margin:14px 0;border-left:4px solid #E5A55C}
+.defi-title{font-family:Georgia,serif;font-size:18px;color:#A88040;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.defi-item{font-size:13.5px;color:#2D3E3A;line-height:1.6;padding:5px 0;display:flex;gap:8px}
+.defi-item .icon{flex-shrink:0}
+
+.pistes-card{background:linear-gradient(135deg,#F5F0F7,#E8E5F2);border-radius:16px;padding:18px 20px;margin:14px 0;border-left:4px solid #9B85B8}
+.pistes-title{font-family:Georgia,serif;font-size:18px;color:#7060A0;font-weight:500;margin-bottom:10px}
+.pistes-item{font-size:13.5px;color:#2D3E3A;line-height:1.6;padding:5px 0;display:flex;gap:8px}
+.pistes-item::before{content:'→';color:#9B85B8;font-weight:bold;flex-shrink:0}
+
+.message-card{background:linear-gradient(135deg,#FEF6EF,#F0F7F5);border-radius:16px;padding:20px 22px;margin:16px 0;border:1px dashed rgba(108,168,158,0.4);text-align:center}
+.message-card p{font-family:Georgia,serif;font-style:italic;font-size:15.5px;color:#3D4E48;line-height:1.7}
+
+.actions{background:#fff;border-radius:18px;padding:20px;margin-top:20px;border:1px solid rgba(108,168,158,0.15)}
+.btn-copy{width:100%;padding:14px 20px;background:linear-gradient(135deg,#6CA89E,#9B85B8);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(108,168,158,0.3);margin-bottom:10px;transition:all 0.2s}
+.btn-copy:hover{transform:translateY(-1px)}
+.btn-copy.copied{background:linear-gradient(135deg,#85C4B8,#6CA89E)}
+.actions-row{display:flex;gap:8px}
+.btn-sec{flex:1;padding:12px 14px;background:transparent;border:1.5px solid #D4D4DC;color:#5A6B66;border-radius:11px;font-size:12.5px;font-weight:500;cursor:pointer;transition:all 0.2s}
+.btn-sec:hover{border-color:#9B85B8;color:#9B85B8;background:#F8F5FA}
+
+/* PRACT VIEW */
+.pract-link{margin-top:20px;text-align:center;font-size:11px;color:#9B85B8;cursor:pointer;user-select:none;padding:10px;border:1px dashed rgba(155,133,184,0.3);border-radius:10px;background:rgba(155,133,184,0.05);transition:all 0.2s}
+.pract-link:hover{color:#7060A0;border-color:#9B85B8;background:rgba(155,133,184,0.1)}
+
+.pract-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(45,62,58,0.85);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.pract-box{background:#fff;border-radius:20px;max-width:780px;width:100%;padding:0;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:fadeIn .3s ease}
+.pract-header{background:linear-gradient(135deg,#2D3E3A,#5A6B66);color:#fff;padding:24px 28px;border-radius:20px 20px 0 0;position:relative}
+.pract-header h2{font-family:Georgia,serif;font-size:26px;font-weight:500;margin-bottom:4px}
+.pract-header p{font-size:13px;opacity:0.85;font-style:italic}
+.pract-close{position:absolute;top:18px;right:20px;background:rgba(255,255,255,0.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.pract-close:hover{background:rgba(255,255,255,0.3)}
+.pract-body{padding:24px 28px}
+.pract-code-input{width:100%;padding:14px 16px;border:2px solid #D4D4DC;border-radius:10px;font-size:15px;font-family:inherit;outline:none;margin-bottom:12px;text-align:center;letter-spacing:2px}
+.pract-code-input:focus{border-color:#9B85B8}
+.pract-code-btn{width:100%;padding:14px;background:#2D3E3A;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
+.pract-code-error{font-size:13px;color:#A86560;text-align:center;margin-top:8px;display:none}
+.pract-code-error.show{display:block}
+
+.pract-axis{background:#F8F5FA;border-radius:14px;padding:16px 18px;margin-bottom:12px;border-left:4px solid}
+.pract-axis.high{border-left-color:#A86560;background:linear-gradient(135deg,#FFF0EE,#F8F5FA)}
+.pract-axis.moderate{border-left-color:#E5A55C;background:linear-gradient(135deg,#FFF8F2,#F8F5FA)}
+.pract-axis.low{border-left-color:#85C4B8;background:linear-gradient(135deg,#F0F7F5,#F8F5FA)}
+.pract-axis-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.pract-axis-name{font-family:Georgia,serif;font-size:16px;font-weight:600;color:#2D3E3A}
+.pract-axis-score{font-size:18px;font-weight:700;font-family:Georgia,serif}
+.pract-axis.high .pract-axis-score{color:#A86560}
+.pract-axis.moderate .pract-axis-score{color:#E5A55C}
+.pract-axis.low .pract-axis-score{color:#5A8F87}
+.pract-axis-status{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:10px;color:#fff}
+.pract-axis.high .pract-axis-status{background:#A86560}
+.pract-axis.moderate .pract-axis-status{background:#E5A55C}
+.pract-axis.low .pract-axis-status{background:#85C4B8}
+.pract-axis-hypothesis{font-size:13px;color:#3D4E48;line-height:1.55;margin-top:6px}
+.pract-section{margin-top:20px;padding-top:18px;border-top:1px solid #E0EEEA}
+.pract-section h4{font-family:Georgia,serif;font-size:17px;color:#7060A0;font-weight:500;margin-bottom:10px}
+.pract-section ul{list-style:none;padding:0}
+.pract-section li{font-size:13px;color:#3D4E48;line-height:1.6;padding:4px 0;display:flex;gap:8px}
+.pract-section li::before{content:'▸';color:#9B85B8;flex-shrink:0;font-weight:bold}
+.pract-watermark{text-align:center;margin-top:20px;padding-top:14px;border-top:1px dashed #D4D4DC;font-size:10px;color:#8A9994;letter-spacing:1px;text-transform:uppercase}
+
+.foot{text-align:center;padding:24px 16px 0;font-size:11px;color:#8A9994;margin-top:8px}
+.foot .signature{color:#6CA89E;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;font-size:10px;margin-top:6px}
+
+.hidden{display:none}
+
+@media (max-width:540px){
+  .hdr h1{font-size:28px}
+  .card{padding:22px 18px}
+  .card h2{font-size:21px}
+  .scale{gap:3px}
+  .sc-btn{font-size:10px;padding:8px 1px}
+  .sc-btn .emoji{font-size:16px}
+  .pract-body{padding:20px}
+  .pract-header{padding:20px}
+  .pract-header h2{font-size:22px}
+}
+</style>
+</head>
+<body>
+<a href="../../ados.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#7c5cbf;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(124,92,191,0.2)">← Boîte NeuroPed</a><!--data-back-link-injected-->
+<div class="wrap">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="brand">🌿 Boussol Ados · Educa Typique</div>
+  <h1>Mon Profil Neuro</h1>
+  <p>Pour mieux te connaître ✨</p>
+  <div class="orn"><span class="oln"></span><span class="ogm"></span><span class="oln"></span></div>
+</div>
+
+<!-- INTRO -->
+<div class="card" id="introCard">
+  <h2>Salut toi 🌸</h2>
+  <div class="welcome-text">
+    Tu vas explorer <strong>ton fonctionnement</strong> à travers différentes facettes de ton quotidien : comment tu vis tes journées, comment tu penses, comment tu ressens, comment tu es avec les autres.
+    <br><br>
+    Pas pour te coller une étiquette. Juste pour <strong>découvrir comment tu fonctionnes</strong>, ce qui te rend <strong>unique</strong>, et trouver les outils qui te correspondent vraiment.
+  </div>
+  <div class="box-info">
+    <strong>⏱ Durée :</strong> 12-15 minutes<br>
+    <strong>📋 Comment :</strong> 42 phrases à évaluer selon ton ressenti<br>
+    <strong>🌿 Sois honnête :</strong> il n'y a pas de bonne ou mauvaise réponse — juste TA vérité
+  </div>
+  <div class="box-info" style="border-left-color:#9B85B8">
+    <strong>🔒 Confidentiel :</strong> tes résultats restent entre toi et ta praticienne Nawel.
+  </div>
+  <button class="btn-main" onclick="start()">Je suis prête, c'est parti ! ✨</button>
+</div>
+
+<!-- QUIZ -->
+<div class="card hidden" id="quizCard">
+  <div class="progress-info">
+    <span id="progressLabel">Section 1 sur 5</span>
+    <span id="progressCount">0 / 42 réponses</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+  <!-- SECTION 1 : COMMENT JE VIS MES JOURNÉES -->
+  <div class="section-title"><span class="section-icon">🌊</span><span>Comment je vis mes journées</span></div>
+  <div class="section-desc">Ton attention, ton énergie, ton organisation au quotidien</div>
+
+  <div class="q"><div class="q-text"><span class="q-num">Q1</span>Mon esprit s'évade souvent vers des pensées qui n'ont rien à voir avec ce que je suis en train de faire.</div><div class="scale" data-q="1" data-axe="tdah"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q2</span>J'ai du mal à terminer ce que je commence — je passe d'une chose à une autre.</div><div class="scale" data-q="2" data-axe="tdah"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q3</span>Je me sens fatiguée d'avoir à "tenir" toute la journée — comme si je devais jouer un rôle.</div><div class="scale" data-q="3" data-axe="masking"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q4</span>J'oublie souvent des choses importantes (RDV, affaires, ce qu'on m'a dit).</div><div class="scale" data-q="4" data-axe="tdah"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q5</span>Quand je commence quelque chose qui me passionne, je peux y passer des heures sans voir le temps.</div><div class="scale" data-q="5" data-axe="hyperfocus"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q6</span>Mon cerveau "rame" pour démarrer une tâche ennuyeuse, même si elle est simple.</div><div class="scale" data-q="6" data-axe="tdah"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q7</span>Je sous-estime souvent le temps que va prendre une chose à faire.</div><div class="scale" data-q="7" data-axe="tdah"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q8</span>Je travaille mieux la veille au soir, dans l'urgence, qu'à l'avance dans le calme.</div><div class="scale" data-q="8" data-axe="tdah"></div></div>
+
+  <!-- SECTION 2 : COMMENT JE PENSE ET J'APPRENDS -->
+  <div class="section-title"><span class="section-icon">💫</span><span>Comment je pense et j'apprends</span></div>
+  <div class="section-desc">Tes idées, ta pensée, ta façon d'apprendre</div>
+
+  <div class="q"><div class="q-text"><span class="q-num">Q9</span>J'ai souvent plusieurs idées en même temps qui se bousculent dans ma tête.</div><div class="scale" data-q="9" data-axe="hpi"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q10</span>Je comprends vite les choses, parfois avant même qu'on ait fini de m'expliquer.</div><div class="scale" data-q="10" data-axe="hpi"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q11</span>Je me pose des questions existentielles que mes amis ne se posent pas (sens de la vie, mort, justice...).</div><div class="scale" data-q="11" data-axe="hpi"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q12</span>Je trouve souvent les cours trop lents, je m'ennuie facilement en classe.</div><div class="scale" data-q="12" data-axe="hpi"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q13</span>Je confonds ou inverse parfois les lettres / les chiffres / la gauche-droite.</div><div class="scale" data-q="13" data-axe="dys"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q14</span>Lire un long texte me fatigue beaucoup, je dois relire plusieurs fois.</div><div class="scale" data-q="14" data-axe="dys"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q15</span>J'écris vite mais mon écriture est difficile à lire / je fais des fautes même quand je connais la règle.</div><div class="scale" data-q="15" data-axe="dys"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q16</span>J'ai du mal avec les calculs mentaux ou à retenir une procédure mathématique.</div><div class="scale" data-q="16" data-axe="dys"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q17</span>J'ai parfois l'impression d'être "à côté" des autres jeunes, comme si je voyais le monde différemment.</div><div class="scale" data-q="17" data-axe="hpi"></div></div>
+
+  <!-- SECTION 3 : COMMENT JE VIS MES SENS -->
+  <div class="section-title"><span class="section-icon">🌿</span><span>Comment je vis mes sens</span></div>
+  <div class="section-desc">Ta sensibilité aux bruits, lumières, odeurs, textures</div>
+
+  <div class="q"><div class="q-text"><span class="q-num">Q18</span>Certains bruits (cris, frottements, mâchage...) me sont insupportables, alors qu'ils ne dérangent pas les autres.</div><div class="scale" data-q="18" data-axe="tsa"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q19</span>Les lumières fortes ou les ambiances chargées (centre commercial, fête) m'épuisent vite.</div><div class="scale" data-q="19" data-axe="tsa"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q20</span>Certaines textures (étiquettes, tissus rêches, certains aliments) me dérangent énormément.</div><div class="scale" data-q="20" data-axe="tsa"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q21</span>J'ai besoin de me retirer au calme régulièrement, pour me "recharger".</div><div class="scale" data-q="21" data-axe="tsa"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q22</span>J'ai des routines précises qui me rassurent (manger, se coucher, s'habiller).</div><div class="scale" data-q="22" data-axe="tsa"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q23</span>Quand mes routines sont chamboulées, je me sens vraiment mal à l'intérieur.</div><div class="scale" data-q="23" data-axe="tsa"></div></div>
+
+  <!-- SECTION 4 : COMMENT JE SUIS AVEC LES AUTRES -->
+  <div class="section-title"><span class="section-icon">💝</span><span>Comment je suis avec les autres</span></div>
+  <div class="section-desc">Tes relations, ton vécu en société</div>
+
+  <div class="q"><div class="q-text"><span class="q-num">Q24</span>Je dois "réfléchir" pour savoir comment me comporter avec les autres — ce n'est pas naturel.</div><div class="scale" data-q="24" data-axe="tsa"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q25</span>Je préfère souvent être seule plutôt qu'avec un groupe.</div><div class="scale" data-q="25" data-axe="tsa"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q26</span>J'ai du mal à comprendre certains sous-entendus ou blagues — je prends les choses au premier degré.</div><div class="scale" data-q="26" data-axe="tsa"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q27</span>Je m'adapte beaucoup aux autres, je copie leur façon de parler / d'être pour mieux m'intégrer.</div><div class="scale" data-q="27" data-axe="masking"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q28</span>Après une journée en société, je suis vidée, j'ai besoin de me retrouver seule.</div><div class="scale" data-q="28" data-axe="masking"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q29</span>J'ai des passions très fortes sur un ou deux sujets précis, dans lesquelles je suis très calée.</div><div class="scale" data-q="29" data-axe="tsa"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q30</span>J'ai peu d'amis proches mais ce que j'ai compte beaucoup pour moi.</div><div class="scale" data-q="30" data-axe="tsa"></div></div>
+
+  <!-- SECTION 5 : COMMENT JE GÈRE MES ÉMOTIONS -->
+  <div class="section-title"><span class="section-icon">✨</span><span>Comment je gère mes émotions</span></div>
+  <div class="section-desc">Ta sensibilité, ton intensité émotionnelle</div>
+
+  <div class="q"><div class="q-text"><span class="q-num">Q31</span>Mes émotions montent très fort et très vite — joie, tristesse, colère, tout est intense.</div><div class="scale" data-q="31" data-axe="hpe"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q32</span>Je ressens les émotions des autres comme si c'étaient les miennes (films tristes, ami triste...).</div><div class="scale" data-q="32" data-axe="hpe"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q33</span>Une petite contrariété peut me faire pleurer ou exploser de manière disproportionnée.</div><div class="scale" data-q="33" data-axe="hpe"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q34</span>Je me sens souvent "trop sensible", "trop intense", "trop tout".</div><div class="scale" data-q="34" data-axe="hpe"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q35</span>J'ai vécu déjà des moments où je me suis sentie vraiment mal sans savoir pourquoi.</div><div class="scale" data-q="35" data-axe="hpe"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q36</span>Je rumine beaucoup les choses, je rejoue des scènes dans ma tête.</div><div class="scale" data-q="36" data-axe="hpe"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q37</span>Je m'oblige à sourire ou à faire bonne figure même quand je vais mal à l'intérieur.</div><div class="scale" data-q="37" data-axe="masking"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q38</span>Je me critique beaucoup, je trouve toujours que je fais mal ou pas assez bien.</div><div class="scale" data-q="38" data-axe="masking"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q39</span>Je peux penser à tout, anticiper plein de problèmes, ce qui m'empêche parfois de dormir.</div><div class="scale" data-q="39" data-axe="hpi"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q40</span>Je sens des injustices très fortement, ça me touche profondément même quand ça ne me concerne pas.</div><div class="scale" data-q="40" data-axe="hpi"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q41</span>J'ai eu une enfance où je me sentais déjà "différente" des autres enfants.</div><div class="scale" data-q="41" data-axe="masking"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q42</span>Je m'épuise à essayer d'être ce que les autres attendent de moi.</div><div class="scale" data-q="42" data-axe="masking"></div></div>
+
+  <div class="warning" id="warn">
+    <span>⚠</span><span>Il te reste <strong id="missing">42</strong> réponse(s) à donner !</span>
+  </div>
+
+  <button class="btn-main" id="submitBtn" onclick="submit()">Découvrir mon profil ✨</button>
+</div>
+
+<!-- RESULTS -->
+<div class="card hidden" id="resultsCard">
+  <div class="results-hdr">
+    <div class="badge">✨ Ton profil neuro</div>
+    <h2 id="profileTitle">Toi, dans ta singularité</h2>
+    <p>Ce qui te rend unique 🌸</p>
+  </div>
+
+  <div class="profile-summary">
+    <h3>🌿 Ce qu'on découvre de toi</h3>
+    <p id="profileSummary"></p>
+  </div>
+
+  <div id="sectionsResults"></div>
+
+  <div class="super-card">
+    <div class="super-title">🌟 Tes super-pouvoirs</div>
+    <div id="superpowers"></div>
+  </div>
+
+  <div class="defi-card">
+    <div class="defi-title">💡 Tes défis à apprivoiser</div>
+    <div id="defis"></div>
+  </div>
+
+  <div class="pistes-card">
+    <div class="pistes-title">🌸 Pistes à explorer avec Nawel</div>
+    <div id="pistes"></div>
+  </div>
+
+  <div class="message-card"><p id="finalMessage"></p></div>
+
+  <div class="actions">
+    <button class="btn-copy" id="copyBtn" onclick="copyProfile()">📋 Copier mon profil pour Nawel</button>
+    <div class="actions-row">
+      <button class="btn-sec" onclick="downloadTxt()">💾 Télécharger</button>
+      <button class="btn-sec" onclick="location.reload()">↻ Refaire</button>
+    </div>
+  </div>
+
+  <div class="pract-link" onclick="openPractView()">🔒 Espace praticienne</div>
+</div>
+
+<!-- PRACTITIONER OVERLAY -->
+<div class="pract-overlay hidden" id="practOverlay">
+  <div class="pract-box">
+    <div class="pract-header">
+      <button class="pract-close" onclick="closePractView()">×</button>
+      <h2 id="practTitle">🔒 Vue praticienne</h2>
+      <p id="practSubtitle">Accès réservé — Voie Chifā × Educa Typique</p>
+    </div>
+    <div class="pract-body" id="practBody">
+      <p style="font-size:13.5px;color:#3D4E48;margin-bottom:14px;line-height:1.6">Entrez le code praticienne pour accéder au rapport clinique complet :</p>
+      <input type="password" class="pract-code-input" id="practCode" placeholder="Code praticienne" autocomplete="off">
+      <button class="pract-code-btn" onclick="verifyCode()">Accéder au rapport</button>
+      <div class="pract-code-error" id="practError">Code incorrect</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="foot">
+  <div>Educa Typique · Boussol Ados</div>
+  <div class="signature">🌿 Pour mieux te connaître, pour mieux te soutenir</div>
+</div>
+
+</div>
+
+<script>
+// ============= ÉCHELLE =============
+var scaleData = [
+  { v: 1, emoji: '😕', label: 'Jamais' },
+  { v: 2, emoji: '🤔', label: 'Rarement' },
+  { v: 3, emoji: '😊', label: 'Parfois' },
+  { v: 4, emoji: '😃', label: 'Souvent' },
+  { v: 5, emoji: '🌟', label: 'Toujours' }
+];
+
+document.addEventListener('DOMContentLoaded', function () {
+  var scales = document.querySelectorAll('.scale');
+  for (var i = 0; i < scales.length; i++) {
+    var qn = scales[i].getAttribute('data-q');
+    var html = '';
+    for (var j = 0; j < scaleData.length; j++) {
+      html += '<div class="sc-btn" data-q="' + qn + '" data-v="' + scaleData[j].v + '">';
+      html += '<span class="emoji">' + scaleData[j].emoji + '</span>';
+      html += '<span>' + scaleData[j].label + '</span>';
+      html += '</div>';
+    }
+    scales[i].innerHTML = html;
+  }
+  var btns = document.querySelectorAll('.sc-btn');
+  for (var k = 0; k < btns.length; k++) {
+    btns[k].addEventListener('click', function () {
+      var q = this.getAttribute('data-q');
+      var siblings = document.querySelectorAll('.sc-btn[data-q="' + q + '"]');
+      for (var m = 0; m < siblings.length; m++) siblings[m].classList.remove('selected');
+      this.classList.add('selected');
+      updateProgress();
+    });
+  }
+});
+
+function updateProgress() {
+  var total = 42;
+  var answered = document.querySelectorAll('.sc-btn.selected').length;
+  document.getElementById('progressFill').style.width = ((answered / total) * 100) + '%';
+  document.getElementById('progressCount').textContent = answered + ' / ' + total + ' réponses';
+  var section = Math.min(5, Math.max(1, Math.ceil(answered / 8.4)));
+  document.getElementById('progressLabel').textContent = 'Section ' + section + ' sur 5';
+}
+
+function start() {
+  document.getElementById('introCard').classList.add('hidden');
+  document.getElementById('quizCard').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============= AXES & SCORES =============
+var axes = {
+  tdah: { name: 'TDAH', label: 'Attention & impulsivité', emoji: '🌪️' },
+  masking: { name: 'TDAH féminin / Masking', label: 'Camouflage social', emoji: '🎭' },
+  hpi: { name: 'HPI / HPE', label: 'Haut potentiel intellectuel & émotionnel', emoji: '💎' },
+  tsa: { name: 'TSA', label: 'Trouble du spectre autistique', emoji: '🌌' },
+  dys: { name: 'DYS', label: 'Troubles des apprentissages', emoji: '📚' },
+  hpe: { name: 'HPE', label: 'Hypersensibilité émotionnelle', emoji: '💝' },
+  hyperfocus: { name: 'Hyperfocus', label: 'Capacité de concentration intense', emoji: '🔥' }
+};
+
+function getAxisScore(axisKey) {
+  var btns = document.querySelectorAll('.sc-btn.selected');
+  var sum = 0, count = 0;
+  for (var i = 0; i < btns.length; i++) {
+    var q = btns[i].getAttribute('data-q');
+    var scaleEl = document.querySelector('.scale[data-q="' + q + '"]');
+    if (scaleEl && scaleEl.getAttribute('data-axe') === axisKey) {
+      sum += parseInt(btns[i].getAttribute('data-v'));
+      count++;
+    }
+  }
+  return count ? (sum / count) : 0;
+}
+
+function getLevel(score) {
+  if (score >= 3.7) return 'high';
+  if (score >= 2.7) return 'moderate';
+  return 'low';
+}
+function getLevelLabel(level) {
+  if (level === 'high') return 'Marqué';
+  if (level === 'moderate') return 'Présent';
+  return 'Faible';
+}
+
+// ============= DESCRIPTIONS ADO (sans étiquettes diagnostiques) =============
+function buildAdoSections(scoresMap) {
+  var sections = [];
+
+  // Section "Tes journées"
+  var tdah = scoresMap.tdah;
+  var hyperfocus = scoresMap.hyperfocus;
+  if (tdah >= 3.7) {
+    sections.push({
+      title: '🌊 Tes journées',
+      text: "Ton cerveau bouillonne, foisonne. Tu démarres mille projets, ton attention voyage. Tu peux passer des heures sur ce qui te passionne (hyperfocus) puis être incapable de te concentrer sur ce qui t'ennuie. C'est un fonctionnement par vagues, par intensité — pas par discipline linéaire. Et c'est ok."
+    });
+  } else if (tdah >= 2.7) {
+    sections.push({
+      title: '🌊 Tes journées',
+      text: "Ton attention est variable. Quand le sujet te plaît, tu es totalement présente. Mais sur les tâches plus ennuyeuses ou longues, ton esprit décroche. Tu n'es pas paresseuse — ton cerveau a besoin de stimulation pour s'activer."
+    });
+  } else {
+    sections.push({
+      title: '🌊 Tes journées',
+      text: "Tu as une bonne capacité à mener tes journées, à rester focus sur ce que tu fais. C'est une vraie ressource pour avancer dans tes projets."
+    });
+  }
+
+  // Section "Ta pensée"
+  var hpi = scoresMap.hpi;
+  var dys = scoresMap.dys;
+  if (hpi >= 3.7) {
+    sections.push({
+      title: '💫 Ta pensée',
+      text: "Tu penses vite, beaucoup, et de manière particulière. Tu te poses des questions que tes amis ne se posent pas. Tu peux comprendre des concepts complexes en un éclair. Cette intensité de pensée est un cadeau — mais elle peut aussi être épuisante quand elle tourne en boucle ou que tu t'ennuies en classe."
+    });
+  } else if (hpi >= 2.7) {
+    sections.push({
+      title: '💫 Ta pensée',
+      text: "Tu es curieuse, tu réfléchis beaucoup, tu te poses des questions. Ta pensée a une certaine profondeur que tu ne soupçonnes peut-être pas toi-même."
+    });
+  }
+  if (dys >= 3.7) {
+    sections.push({
+      title: '📚 Tes apprentissages',
+      text: "Tu rencontres des difficultés spécifiques dans certains apprentissages (lecture, écriture, calcul...). Ce ne sont pas des défauts d'intelligence — ce sont des particularités de fonctionnement cérébral qui demandent des stratégies adaptées. Beaucoup de personnes brillantes vivent ça, et trouvent des chemins qui leur correspondent."
+    });
+  }
+
+  // Section "Ta sensibilité aux sens"
+  var tsa = scoresMap.tsa;
+  if (tsa >= 3.7) {
+    sections.push({
+      title: '🌿 Ta sensibilité au monde',
+      text: "Tu perçois le monde avec une intensité particulière. Les bruits, les lumières, les textures, les ambiances — tout est plus fort, plus présent pour toi. Tu as besoin de routines, de prévoir, de te retirer au calme pour te ressourcer. C'est précieux, et c'est exigeant."
+    });
+  } else if (tsa >= 2.7) {
+    sections.push({
+      title: '🌿 Ta sensibilité au monde',
+      text: "Tu es sensible à ton environnement, plus que la moyenne. Tu remarques des détails que d'autres ne voient pas. Cette sensibilité est une force, à condition de savoir la respecter."
+    });
+  }
+
+  // Section "Avec les autres"
+  var masking = scoresMap.masking;
+  if (masking >= 3.7 || tsa >= 3.5) {
+    sections.push({
+      title: '💝 Avec les autres',
+      text: "Tu fais beaucoup d'efforts pour t'adapter aux autres, parfois jusqu'à t'épuiser. Tu joues un rôle, tu copies, tu te conformes — ce qui te fait te sentir différente à l'intérieur. Tu as droit à être toi-même, pleinement, et à choisir ceux avec qui tu peux l'être."
+    });
+  }
+
+  // Section "Tes émotions"
+  var hpe = scoresMap.hpe;
+  if (hpe >= 3.7) {
+    sections.push({
+      title: '✨ Tes émotions',
+      text: "Tu ressens tout en HD : la joie est plus joyeuse, la tristesse plus déchirante, l'injustice plus brûlante. Tu absorbes les émotions des autres. Ce n'est pas une faiblesse — c'est une intensité émotionnelle que tu peux apprendre à canaliser, pas à éteindre."
+    });
+  } else if (hpe >= 2.7) {
+    sections.push({
+      title: '✨ Tes émotions',
+      text: "Tu as une belle sensibilité émotionnelle. Tu ressens les choses, tu te connectes aux autres. C'est une richesse à cultiver."
+    });
+  }
+
+  return sections;
+}
+
+function buildSuperpowers(scoresMap) {
+  var supers = [];
+  if (scoresMap.hpi >= 3.5) supers.push("Une pensée rapide, riche, qui voit les liens entre les choses");
+  if (scoresMap.hpe >= 3.5) supers.push("Une intelligence émotionnelle profonde, une empathie naturelle");
+  if (scoresMap.hyperfocus >= 3.5) supers.push("La capacité de te plonger intensément dans tes passions");
+  if (scoresMap.tdah >= 3.5) supers.push("Créativité bouillonnante, capacité à connecter des idées éloignées");
+  if (scoresMap.tsa >= 3.5) supers.push("Une attention aux détails que les autres ne voient pas, une honnêteté précieuse");
+  if (scoresMap.masking >= 3.5) supers.push("Une capacité d'adaptation incroyable — à mettre maintenant au service de TOI");
+  if (supers.length === 0) {
+    supers.push("Tu as participé à ce test avec sincérité — c'est déjà une force");
+    supers.push("Tu cherches à mieux te connaître — c'est du courage");
+    supers.push("Toutes tes forces sont à découvrir ensemble");
+  }
+  return supers;
+}
+
+function buildDefis(scoresMap) {
+  var defis = [];
+  if (scoresMap.tdah >= 3.5) defis.push({ icon: '🎯', text: "Ton attention qui vagabonde — on peut t'apprendre à l'apprivoiser" });
+  if (scoresMap.dys >= 3.5) defis.push({ icon: '📚', text: "Certains apprentissages où ton cerveau a besoin d'outils différents" });
+  if (scoresMap.tsa >= 3.5) defis.push({ icon: '🌊', text: "Ton hypersensibilité sensorielle — apprendre à te protéger et te recharger" });
+  if (scoresMap.masking >= 3.5) defis.push({ icon: '🎭', text: "L'épuisement de devoir 'jouer un rôle' — droit à l'authenticité" });
+  if (scoresMap.hpe >= 3.5) defis.push({ icon: '💝', text: "Tes émotions intenses — apprendre à les nommer et les canaliser" });
+  if (scoresMap.hpi >= 3.5) defis.push({ icon: '💫', text: "Ton mental qui tourne beaucoup — apprendre à le poser" });
+  if (defis.length === 0) {
+    defis.push({ icon: '🌱', text: "Tu n'as pas identifié de défi majeur — continue à te connaître" });
+  }
+  return defis;
+}
+
+function buildPistes(scoresMap) {
+  var pistes = [];
+  if (scoresMap.tdah >= 3.5 || scoresMap.masking >= 3.5) pistes.push("Comprendre comment ton cerveau gère l'attention et la motivation");
+  if (scoresMap.hpi >= 3.5) pistes.push("Explorer ta pensée intense et apprendre à la canaliser");
+  if (scoresMap.tsa >= 3.5) pistes.push("Identifier tes besoins sensoriels et créer ton environnement protecteur");
+  if (scoresMap.dys >= 3.5) pistes.push("Mettre en place des outils d'apprentissage adaptés à ton cerveau");
+  if (scoresMap.hpe >= 3.5) pistes.push("Apprendre à apprivoiser tes émotions intenses sans les éteindre");
+  if (scoresMap.masking >= 3.5) pistes.push("Reconnaître ton vrai toi sous le masque, et apprendre à le respecter");
+  if (pistes.length === 0) pistes.push("Continuer à explorer ce qui te rend unique");
+  pistes.push("Identifier tes forces concrètes pour les utiliser au quotidien");
+  pistes.push("Construire ta boîte à outils personnelle pour les défis du quotidien");
+  return pistes;
+}
+
+function buildProfileSummary(scoresMap) {
+  var profiles = [];
+  if (scoresMap.tdah >= 3.7 || scoresMap.masking >= 3.7) profiles.push("attentionnel");
+  if (scoresMap.hpi >= 3.7) profiles.push("intellectuellement intense");
+  if (scoresMap.hpe >= 3.7) profiles.push("émotionnellement profond");
+  if (scoresMap.tsa >= 3.7) profiles.push("sensible aux particularités sensorielles et sociales");
+  if (scoresMap.dys >= 3.7) profiles.push("avec des particularités d'apprentissage");
+
+  if (profiles.length === 0) {
+    return "Ton fonctionnement semble assez équilibré. Tu as des bases solides pour traverser l'adolescence. Continue à te connaître, à expérimenter, à apprendre.";
+  }
+  if (profiles.length === 1) {
+    return "Tu as un fonctionnement " + profiles[0] + " marqué. Ce n'est ni une maladie, ni un défaut — c'est une manière particulière dont ton cerveau perçoit, traite, et répond au monde. Bien comprise et bien outillée, c'est une vraie richesse.";
+  }
+  return "Tu as un fonctionnement riche et complexe : à la fois " + profiles.join(", ") + ". Cela peut être épuisant à porter sans soutien — mais c'est aussi extrêmement précieux. Tu fais partie de ces cerveaux qui voient le monde différemment, et qui, bien accompagnés, révèlent une vraie singularité.";
+}
+
+// ============= SUBMIT =============
+function submit() {
+  var total = 42;
+  var answered = document.querySelectorAll('.sc-btn.selected').length;
+  if (answered < total) {
+    document.getElementById('missing').textContent = total - answered;
+    document.getElementById('warn').classList.add('show');
+    document.getElementById('warn').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  var scoresMap = {};
+  for (var key in axes) scoresMap[key] = getAxisScore(key);
+  window._neuroScores = scoresMap; // pour la vue praticienne
+
+  document.getElementById('profileSummary').textContent = buildProfileSummary(scoresMap);
+
+  var sections = buildAdoSections(scoresMap);
+  var sHtml = '';
+  for (var i = 0; i < sections.length; i++) {
+    sHtml += '<div class="section-result"><h4>' + sections[i].title + '</h4><p>' + sections[i].text + '</p></div>';
+  }
+  document.getElementById('sectionsResults').innerHTML = sHtml;
+
+  var supers = buildSuperpowers(scoresMap);
+  var supHtml = '';
+  for (var i = 0; i < supers.length; i++) supHtml += '<div class="super-item"><span class="star">⭐</span><span>' + supers[i] + '</span></div>';
+  document.getElementById('superpowers').innerHTML = supHtml;
+
+  var defis = buildDefis(scoresMap);
+  var defHtml = '';
+  for (var i = 0; i < defis.length; i++) defHtml += '<div class="defi-item"><span class="icon">' + defis[i].icon + '</span><span>' + defis[i].text + '</span></div>';
+  document.getElementById('defis').innerHTML = defHtml;
+
+  var pistes = buildPistes(scoresMap);
+  var pHtml = '';
+  for (var i = 0; i < pistes.length; i++) pHtml += '<div class="pistes-item">' + pistes[i] + '</div>';
+  document.getElementById('pistes').innerHTML = pHtml;
+
+  var msgs = [
+    "Rappelle-toi : ton cerveau n'est ni mieux ni moins bien qu'un autre — il est unique. Et c'est exactement ça qui te rend toi.",
+    "Connaître son fonctionnement, c'est le premier pas pour apprendre à s'aimer telle qu'on est. Tu viens de faire ce pas.",
+    "Allah a créé chacun avec une fiṭra unique. Ton cerveau a sa propre lumière — apprends à la voir et à la cultiver.",
+    "Tu n'es ni folle, ni en retard, ni 'trop'. Tu as un cerveau qui fonctionne d'une certaine manière, et maintenant on a des cartes pour l'aider à briller."
+  ];
+  document.getElementById('finalMessage').textContent = msgs[Math.floor(Math.random() * msgs.length)];
+
+  document.getElementById('quizCard').classList.add('hidden');
+  document.getElementById('resultsCard').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============= VUE PRATICIENNE =============
+function openPractView() {
+  document.getElementById('practOverlay').classList.remove('hidden');
+  document.getElementById('practCode').value = '';
+  document.getElementById('practError').classList.remove('show');
+  setTimeout(function () { document.getElementById('practCode').focus(); }, 100);
+}
+function closePractView() {
+  document.getElementById('practOverlay').classList.add('hidden');
+}
+function verifyCode() {
+  var code = document.getElementById('practCode').value.trim().toLowerCase();
+  if (code === 'educa-neuro') {
+    renderPractView();
+  } else {
+    document.getElementById('practError').classList.add('show');
+  }
+}
+document.addEventListener('keypress', function (e) {
+  if (e.key === 'Enter' && !document.getElementById('practOverlay').classList.contains('hidden')) {
+    if (document.activeElement.id === 'practCode') verifyCode();
+  }
+});
+
+function renderPractView() {
+  var s = window._neuroScores || {};
+  var html = '<div style="background:#FFF8F2;border-left:3px solid #E5A55C;padding:10px 14px;border-radius:8px;margin-bottom:18px;font-size:12px;color:#A8632A">⚠ Document clinique confidentiel — Usage praticienne uniquement</div>';
+
+  // Axes scores
+  var axisOrder = ['tdah', 'masking', 'hpi', 'tsa', 'dys', 'hpe', 'hyperfocus'];
+  var hypotheses = {
+    tdah: {
+      high: "Présentation TDAH marquée. Patterns attentionnels et impulsivité à investiguer avec WURS-25 + DIVA-5. Différentiel anxiété chronique à éliminer.",
+      moderate: "Traits TDAH présents. À recroiser avec contexte (épuisement, charge cognitive, parentification). Observation prolongée recommandée.",
+      low: "Pas de signal TDAH majeur sur la base déclarative."
+    },
+    masking: {
+      high: "Camouflage social très marqué — drapeau rouge pour TDAH féminin et/ou TSA féminin. CAT-Q recommandé. Risque de burnout élevé.",
+      moderate: "Camouflage présent. À explorer en séance : pression sociale, idéal du faux self, parentification possible.",
+      low: "Peu de masking — bonne capacité à être soi."
+    },
+    hpi: {
+      high: "Profil HPI/HPE compatible. Bilan WAIS / WISC à envisager si pertinent. Attention au twice-exceptional (HPI + TDAH).",
+      moderate: "Traits HPI présents. Curiosité, profondeur, sensibilité aux injustices. À approfondir.",
+      low: "Pas de signal HPI majeur."
+    },
+    tsa: {
+      high: "Présentation TSA possible (féminine probable si filles). AQ + RAADS-R à proposer. Différentiel TSA / TSA féminin masqué.",
+      moderate: "Traits TSA présents. Hypersensibilité sensorielle, besoin de routines. À explorer (camouflage féminin ?).",
+      low: "Pas de signal TSA majeur."
+    },
+    dys: {
+      high: "Suspicion de trouble des apprentissages. Orientation orthophoniste / neuropsy pour bilan dys complet.",
+      moderate: "Traits dys présents. Repérer le type précis (dyslexie, dyscalculie, dysorthographie, dyspraxie).",
+      low: "Pas de signal dys majeur."
+    },
+    hpe: {
+      high: "Hypersensibilité émotionnelle marquée. Souvent comorbide TDAH/HPI. Travail TCC + régulation prioritaire.",
+      moderate: "Sensibilité émotionnelle présente. Distinguer trait stable vs réaction à contexte difficile.",
+      low: "Régulation émotionnelle plutôt stable."
+    },
+    hyperfocus: {
+      high: "Capacité d'hyperfocus marquée. Compatible TDAH (paradoxe) ou HPI. Levier thérapeutique potentiel.",
+      moderate: "Hyperfocus situationnel. Normal selon les passions.",
+      low: "Pas d'hyperfocus marqué."
+    }
+  };
+
+  for (var i = 0; i < axisOrder.length; i++) {
+    var k = axisOrder[i];
+    var sc = s[k] || 0;
+    var lvl = getLevel(sc);
+    var pct = Math.round((sc / 5) * 100);
+    html += '<div class="pract-axis ' + lvl + '">';
+    html += '<div class="pract-axis-header">';
+    html += '<div class="pract-axis-name">' + axes[k].emoji + ' ' + axes[k].name + ' <span style="font-weight:400;color:#5A6B66;font-size:12px">— ' + axes[k].label + '</span></div>';
+    html += '<div><span class="pract-axis-status">' + getLevelLabel(lvl) + '</span> <span class="pract-axis-score">' + sc.toFixed(1) + '/5</span></div>';
+    html += '</div>';
+    html += '<div class="pract-axis-hypothesis">' + hypotheses[k][lvl] + '</div>';
+    html += '</div>';
+  }
+
+  // Hypothèses cliniques globales
+  html += '<div class="pract-section"><h4>🎯 Hypothèses cliniques globales</h4><ul>';
+  var hClin = [];
+  if (s.tdah >= 3.5 && s.masking >= 3.5) hClin.push("TDAH féminin à présentation inattentive très probable. Masking marqué — risque burnout aigu.");
+  if (s.tsa >= 3.5 && s.masking >= 3.5) hClin.push("TSA féminin masqué à investiguer. Hypersensibilité sensorielle + camouflage.");
+  if (s.hpi >= 3.5 && s.tdah >= 3.5) hClin.push("Profil twice-exceptional probable (HPI + TDAH). Souvent diagnostic tardif et difficile.");
+  if (s.hpe >= 3.5 && s.masking >= 3.5) hClin.push("Hypersensibilité émotionnelle + camouflage = risque dépressif élevé.");
+  if (s.dys >= 3.5) hClin.push("Trouble des apprentissages à confirmer par bilan spécialisé.");
+  if (s.tdah >= 3.5 && s.hpe >= 3.5) hClin.push("TDAH + hypersensibilité émotionnelle = profil RSD (Rejection Sensitive Dysphoria) à surveiller.");
+  if (hClin.length === 0) hClin.push("Profil neuro-atypique à explorer en séance — pas de signal franc dominant.");
+  for (var i = 0; i < hClin.length; i++) html += '<li>' + hClin[i] + '</li>';
+  html += '</ul></div>';
+
+  // Outils à mobiliser
+  html += '<div class="pract-section"><h4>🛠 Protocoles & outils Voie Chifā à mobiliser</h4><ul>';
+  var tools = [];
+  if (s.tdah >= 3.5 || s.masking >= 3.5) tools.push("Questionnaire Ados TND Educa Typique — approfondissement");
+  if (s.tdah >= 3.5) tools.push("Méthode RAHMA partie neurosciences (psycho-éducation TDAH)");
+  if (s.hpe >= 3.5 || s.tdah >= 3.5) tools.push("Boîte à secours émotionnelle (à créer prochainement)");
+  if (s.tsa >= 3.5) tools.push("Carnet de routines sensorielles personnalisé");
+  if (s.dys >= 3.5) tools.push("Orientation bilan orthophonique / neuropsy");
+  if (s.masking >= 3.5) tools.push("Travail sur le faux self et l'authenticité — Méthode RAHMA partie schémas");
+  if (s.hpi >= 3.5) tools.push("Bilan WAIS/WISC à envisager");
+  tools.push("Bilan Émotionnel Initial TCC + Boussole de l'Âme ado (à créer)");
+  for (var i = 0; i < tools.length; i++) html += '<li>' + tools[i] + '</li>';
+  html += '</ul></div>';
+
+  // Pistes diagnostiques
+  html += '<div class="pract-section"><h4>📋 Pistes diagnostiques à approfondir</h4><ul>';
+  var diag = [];
+  if (s.tdah >= 3.5) diag.push("TDAH (présentation inattentive ou mixte) — confirmation WURS-25 / DIVA-5");
+  if (s.masking >= 3.7) diag.push("TDAH féminin et/ou TSA féminin masqué — CAT-Q");
+  if (s.tsa >= 3.5) diag.push("Trouble du spectre autistique — AQ / RAADS-R");
+  if (s.hpi >= 3.5) diag.push("Haut potentiel intellectuel — bilan WAIS/WISC");
+  if (s.dys >= 3.5) diag.push("Trouble des apprentissages — bilan orthophonique / neuropsy");
+  if (s.hpe >= 3.5) diag.push("Hypersensibilité émotionnelle (trait stable) vs anxiété généralisée");
+  if (diag.length === 0) diag.push("Pas d'hypothèse diagnostique franche — observation clinique recommandée");
+  for (var i = 0; i < diag.length; i++) html += '<li>' + diag[i] + '</li>';
+  html += '</ul></div>';
+
+  // Points de vigilance
+  html += '<div class="pract-section"><h4>⚠ Points de vigilance</h4><ul>';
+  var vig = [];
+  if (s.masking >= 3.7) vig.push("Risque de burnout / décompensation imminente (masking + épuisement)");
+  if (s.hpe >= 3.7 && s.masking >= 3.5) vig.push("Risque dépressif élevé — surveiller idéations passives");
+  if (s.tdah >= 3.7 && s.hpe >= 3.5) vig.push("RSD (sensibilité au rejet) — fragilité narcissique probable");
+  if (s.tsa >= 3.7) vig.push("Surcharge sensorielle chronique — risque effondrement (meltdown / shutdown)");
+  vig.push("Anamnèse à approfondir : contexte familial, parentification, harcèlement scolaire / parental");
+  for (var i = 0; i < vig.length; i++) html += '<li>' + vig[i] + '</li>';
+  html += '</ul></div>';
+
+  html += '<div class="pract-watermark">🔒 Voie Chifā × Educa Typique · Document confidentiel praticienne</div>';
+
+  document.getElementById('practBody').innerHTML = html;
+  document.getElementById('practTitle').innerHTML = '🔒 Rapport clinique';
+  document.getElementById('practSubtitle').textContent = 'Voie Chifā × Educa Typique — Confidentiel';
+}
+
+// ============= COPY / DOWNLOAD ADO =============
+function buildAdoText() {
+  var dt = new Date().toLocaleDateString('fr-FR');
+  var p = [];
+  p.push('MON PROFIL NEURO - BOUSSOL ADOS');
+  p.push('Educa Typique - ' + dt);
+  p.push('');
+  p.push('--- CE QU\'ON DECOUVRE DE MOI ---');
+  p.push(document.getElementById('profileSummary').textContent);
+  p.push('');
+  var sections = document.querySelectorAll('.section-result');
+  for (var i = 0; i < sections.length; i++) {
+    p.push('--- ' + sections[i].querySelector('h4').textContent + ' ---');
+    p.push(sections[i].querySelector('p').textContent);
+    p.push('');
+  }
+  p.push('--- MES SUPER-POUVOIRS ---');
+  var sup = document.querySelectorAll('#superpowers .super-item');
+  for (var i = 0; i < sup.length; i++) p.push('* ' + sup[i].textContent.trim());
+  p.push('');
+  p.push('--- MES DEFIS A APPRIVOISER ---');
+  var def = document.querySelectorAll('#defis .defi-item');
+  for (var i = 0; i < def.length; i++) p.push('* ' + def[i].textContent.trim());
+  p.push('');
+  p.push('--- PISTES A EXPLORER AVEC NAWEL ---');
+  var pist = document.querySelectorAll('#pistes .pistes-item');
+  for (var i = 0; i < pist.length; i++) p.push('* ' + pist[i].textContent.trim());
+  p.push('');
+  p.push('--- MESSAGE PERSONNEL ---');
+  p.push(document.getElementById('finalMessage').textContent);
+  p.push('');
+  p.push('---');
+  p.push('Educa Typique - Boussol Ados');
+  return p.join('\n');
+}
+
+function copyProfile() {
+  var txt = buildAdoText();
+  var btn = document.getElementById('copyBtn');
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(txt).then(function () {
+      btn.className = 'btn-copy copied';
+      btn.textContent = '✓ Copié ! Tu peux coller (Ctrl+V)';
+      setTimeout(function () { btn.className = 'btn-copy'; btn.textContent = '📋 Copier mon profil pour Nawel'; }, 4000);
+    }).catch(function () { fallbackCopy(txt, btn); });
+  } else { fallbackCopy(txt, btn); }
+}
+function fallbackCopy(txt, btn) {
+  try {
+    var ta = document.createElement('textarea');
+    ta.value = txt; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+    document.body.appendChild(ta); ta.select();
+    var ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (ok) {
+      btn.className = 'btn-copy copied'; btn.textContent = '✓ Copié !';
+      setTimeout(function () { btn.className = 'btn-copy'; btn.textContent = '📋 Copier mon profil pour Nawel'; }, 4000);
+      return;
+    }
+  } catch (e) {}
+  window.prompt('Copie ce texte :', txt);
+}
+function downloadTxt() {
+  var txt = buildAdoText();
+  var blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'mon-profil-neuro-' + new Date().toISOString().slice(0, 10) + '.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>

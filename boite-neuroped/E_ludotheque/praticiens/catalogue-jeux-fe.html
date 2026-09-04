@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalogue jeux thérapeutiques par FE — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fff5e8,#fff)}
+.bandeau{background:linear-gradient(135deg,#e9a73a,#5fa040);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.6rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:1100px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #e9a73a;line-height:1.55}
+.intro strong{color:#a07000}
+
+.posture{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.88rem;color:#5A4D6B;line-height:1.5}
+
+.filtres{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.filtres .lbl{font-size:.78rem;font-weight:800;color:#a07000;text-transform:uppercase;letter-spacing:.5px;margin-right:.3rem}
+.filtres button{padding:.35em .8em;background:#fff;border:1.5px solid #f0d8b8;color:#a07000;border-radius:999px;font-family:inherit;cursor:pointer;font-size:.83rem;font-weight:700}
+.filtres button.active{background:#e9a73a;color:#fff;border-color:#e9a73a}
+.filtres button:hover:not(.active){background:#fdf2e8}
+
+.matrice{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm)}
+.matrice h2{color:#5a4400;margin:0 0 .6rem;font-size:1.15rem}
+
+.jeux-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.7rem}
+.jeu-card{background:#fafbfc;border-radius:var(--r-md);padding:.9rem 1rem;border-top:4px solid var(--c);position:relative;display:flex;flex-direction:column;gap:.3rem}
+.jeu-card h3{color:var(--c);margin:0;font-size:.98rem;display:flex;align-items:center;gap:.3rem}
+.jeu-card .meta{display:flex;flex-wrap:wrap;gap:.25rem;margin:.2rem 0}
+.jeu-card .meta .tag{font-size:.72rem;padding:.12em .5em;background:#fff;border:1.5px solid var(--c);color:var(--c);border-radius:999px;font-weight:700}
+.jeu-card .meta .tag.matos{background:var(--c);color:#fff}
+.jeu-card .fe-pill{position:absolute;top:.7rem;right:.7rem;background:var(--c);color:#fff;font-size:.7rem;font-weight:800;padding:.15em .55em;border-radius:999px;letter-spacing:.3px}
+.jeu-card p.regle{font-size:.85rem;line-height:1.5;color:#555;margin:.3rem 0}
+.jeu-card p.regle strong{color:var(--c)}
+.jeu-card .adapt-tnd{background:#fff;border-left:3px solid #9B85B8;border-radius:var(--r-sm);padding:.4rem .6rem;font-size:.82rem;color:#5A4D6B;line-height:1.45;margin-top:.3rem}
+.jeu-card .adapt-tnd strong{color:#5a3c8f}
+.jeu-card .neuro{background:#fff5e8;border-radius:var(--r-sm);padding:.4rem .6rem;font-size:.78rem;color:#7a5400;font-style:italic;line-height:1.4;margin-top:.3rem}
+
+/* Couleurs FE */
+.fe-inh{--c:#e05a8a}
+.fe-flex{--c:#7c5cbf}
+.fe-reg{--c:#F39BC2}
+.fe-init{--c:#2a9d8f}
+.fe-mdt{--c:#8ED9D2}
+.fe-plan{--c:#CBB6F6}
+.fe-auto{--c:#9B85B8}
+.fe-att{--c:#FFD6C2}
+
+.lien-jeux-maison{background:linear-gradient(135deg,#fff,#fff5e8);border:1.5px dashed #e9a73a;border-radius:var(--r-lg);padding:1rem 1.2rem;text-align:center}
+.lien-jeux-maison a{color:#a07000;font-weight:800;text-decoration:none;font-size:1rem}
+.lien-jeux-maison a:hover{text-decoration:underline}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #e9a73a;background:#fff;color:#a07000;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#e9a73a;color:#fff}
+
+@media print{
+  .filtres,.actions,.bandeau .retour{display:none!important}
+  body{background:#fff}
+  .matrice,.intro,.posture{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace pros</a>
+  <h1>🎲 Catalogue jeux thérapeutiques par FE</h1>
+  <p class="sub">Catalogue commenté de jeux du commerce + jeux maison pour entraîner les fonctions exécutives en séance neuropédagogique.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🎲 <strong>Comment utiliser ce catalogue ?</strong> Pour chaque jeu : règle courte · matériel · âge · FE travaillée · adaptation TND signature · explication neuropédagogique. À utiliser en séance individuelle ou en groupe, à proposer aux familles en devoir maison.
+  </div>
+
+  <div class="posture">
+    🌿 <strong>Posture pro :</strong> ce catalogue est inspiré de jeux courants. On n'enseigne pas un jeu — on enseigne <strong>comment ce jeu mobilise telle FE</strong> et comment l'adapter au profil TND de l'enfant. La métacognition (« qu'est-ce que ton cerveau a fait là ? ») est l'ingrédient actif.
+  </div>
+
+  <div class="lien-jeux-maison">
+    💡 Tu cherches des jeux <strong>sans aucun matériel</strong> à proposer aux familles ? <a href="../../E_ludotheque/parents/jeux-maison-fe.html">→ 20 jeux maison FE (création originale Nawel)</a>
+  </div>
+
+  <div class="filtres">
+    <span class="lbl">Filtrer par FE :</span>
+    <button class="active" data-fe="all">Toutes</button>
+    <button data-fe="inh">🛑 Inhibition</button>
+    <button data-fe="flex">🔄 Flexibilité</button>
+    <button data-fe="reg">💗 Régulation</button>
+    <button data-fe="init">🚀 Initiation</button>
+    <button data-fe="mdt">🧩 MdT</button>
+    <button data-fe="plan">🗂 Planification</button>
+    <button data-fe="auto">🔍 Auto-surveillance</button>
+    <button data-fe="att">🎯 Attention</button>
+  </div>
+  <div class="filtres">
+    <span class="lbl">Filtrer par âge :</span>
+    <button class="active" data-age="all">Tous</button>
+    <button data-age="3-6">3-6 ans</button>
+    <button data-age="7-10">7-10 ans</button>
+    <button data-age="11-14">11-14 ans</button>
+    <button data-age="15+">15+ / ado</button>
+  </div>
+
+  <div class="matrice">
+    <h2 id="matrice-titre">🎲 Catalogue (<span id="nb-jeux"></span> jeux)</h2>
+    <div class="jeux-grid" id="jeux-grid"></div>
+  </div>
+
+  <div class="actions">
+    <button onclick="window.print()">🖨 Imprimer le catalogue</button>
+  </div>
+
+  <div class="disclaimer">
+    Les jeux mentionnés sont des supports pédagogiques courants — adaptations EducaTypique originales. Citer les éditeurs lors de l'usage commercial. Le jeu n'est qu'un support — la médiation pro est l'élément actif.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../professionnels.html" style="color:#a07000">retour espace pros</a>
+  </p>
+</div>
+
+<script>
+const JEUX = [
+  // INHIBITION
+  {nom:'Halli Galli',fe:'inh',feLbl:'INH',ages:['7-10','11-14','15+'],matos:'Jeu de cartes',
+   regle:"Taper sur la cloche dès que 5 fruits identiques apparaissent sur la table. Mais résister quand ce sont 4 fruits ! Vitesse + inhibition + perception.",
+   adapt:"Pour TDAH : commencer SANS la cloche (juste désigner). Pour TSA : règle bien décomposée, exemples avant de jouer.",
+   neuro:"Travaille l'inhibition rapide + attention sélective. Excellent pour TDAH hyperactif/impulsif."},
+  {nom:'Dobble',fe:'inh',feLbl:'INH',ages:['7-10','11-14','15+'],matos:'Jeu de cartes',
+   regle:"Repérer l'unique symbole en commun entre 2 cartes. Variantes : tour cumulé, défausse rapide, le puits.",
+   adapt:"Pour TDAH : ralentir le rythme, jouer en 1-1, valoriser la précision avant la vitesse.",
+   neuro:"Inhibition visuelle + scanning attentionnel. Excellent réchauffement de séance."},
+  {nom:'Jungle Speed',fe:'inh',feLbl:'INH',ages:['7-10','11-14','15+'],matos:'Boîte + totem',
+   regle:"Saisir le totem quand 2 cartes identiques apparaissent. Mais résister face aux pièges (cartes spéciales).",
+   adapt:"Pour TSA : utiliser des règles très claires écrites. Pour anxieux : éviter le côté compétitif, jouer en collaboration.",
+   neuro:"Inhibition motrice + attention sélective + résistance aux distracteurs."},
+
+  // FLEXIBILITÉ
+  {nom:'SET',fe:'flex',feLbl:'FLEX',ages:['11-14','15+'],matos:'Jeu de cartes',
+   regle:"Trouver 3 cartes formant un « set » selon 4 critères (couleur/forme/nombre/remplissage) — soit tous identiques, soit tous différents.",
+   adapt:"Pour TDAH : limiter le nombre de cartes en jeu. Pour HPI : excellent challenge cognitif.",
+   neuro:"Flexibilité cognitive pure : maintenir 4 dimensions en mémoire et changer de critère."},
+  {nom:'Speed cups',fe:'flex',feLbl:'FLEX',ages:['7-10','11-14'],matos:'Gobelets colorés',
+   regle:"Ranger les 5 gobelets dans l'ordre indiqué par la carte. Vitesse + flexibilité (ordre horizontal ou vertical).",
+   adapt:"Pour TDAH : peut frustrer — alterner avec mode coopératif. Pour TSA : prévoir un exemple visuel par configuration.",
+   neuro:"Flexibilité + planification + motricité fine + attention soutenue."},
+  {nom:'Tantrix',fe:'flex',feLbl:'FLEX',ages:['11-14','15+'],matos:'Tuiles hexagonales',
+   regle:"Aligner les tuiles pour former des lignes continues d'une même couleur. Penser en plusieurs solutions possibles.",
+   adapt:"Excellent pour HPI qui aime la pensée divergente. Pour rigidité TSA : commencer par les défis solo prêts.",
+   neuro:"Flexibilité + planification + résolution de problème + persévérance face à l'échec."},
+
+  // RÉGULATION ÉMOTIONNELLE
+  {nom:'Le Monstre des Couleurs',fe:'reg',feLbl:'RÉG',ages:['3-6','7-10'],matos:'Boîte + cartes',
+   regle:"Aider le monstre à trier ses émotions par couleur. Chaque émotion = une couleur (jaune joie, bleu tristesse, rouge colère, etc.).",
+   adapt:"Excellent pour enfants TND jeunes. Pour TSA : associer chaque émotion à un signe visuel + sensoriel concret.",
+   neuro:"Identification émotionnelle de base. Première étape avant la régulation."},
+  {nom:'Imagidé',fe:'reg',feLbl:'RÉG',ages:['7-10','11-14'],matos:'Dés à images',
+   regle:"Lancer les dés, inventer une histoire qui intègre les images. Variantes : sur un thème émotionnel donné.",
+   adapt:"Pour anxieux : ne pas chronométrer, prévoir des cartes-refuge. Pour TSA : autoriser à ne pas tout intégrer.",
+   neuro:"Expression émotionnelle indirecte + créativité + flexibilité narrative."},
+  {nom:'Feelings',fe:'reg',feLbl:'RÉG',ages:['11-14','15+'],matos:'Cartes situations + émotions',
+   regle:"Comment réagirais-tu à cette situation ? Les autres parient sur ta réponse. Très bon pour adolescents.",
+   adapt:"Bien adapté HPI / hypersensibles. Pour TSA : exemples plus concrets, scénarios moins ambigus.",
+   neuro:"Théorie de l'esprit, métacognition émotionnelle, partage social des émotions."},
+
+  // INITIATION
+  {nom:'Bazar Bizarre',fe:'init',feLbl:'INIT',ages:['7-10','11-14'],matos:'5 objets + cartes',
+   regle:"Carte retournée : saisir l'objet de la bonne couleur OU si absent, l'objet n'apparaissant PAS dans la carte. Démarrage rapide obligatoire.",
+   adapt:"Pour TDAH inattentif : excellent réveil cognitif. Pour TSA : ritualiser le démarrage de la manche.",
+   neuro:"Initiation rapide + inhibition simultanée + flexibilité."},
+  {nom:'Concept',fe:'init',feLbl:'INIT',ages:['11-14','15+'],matos:'Plateau de symboles',
+   regle:"Faire deviner un mot en plaçant des pions sur les concepts (couleur, taille, lieu, action…).",
+   adapt:"Pour HPI : excellent, sollicite la pensée arborescente. Pour TDAH : limiter le temps de réflexion.",
+   neuro:"Initiation de l'action (poser le 1er concept) + planification de la séquence d'indices."},
+
+  // MÉMOIRE DE TRAVAIL
+  {nom:'Memory',fe:'mdt',feLbl:'MdT',ages:['3-6','7-10'],matos:'Paires de cartes',
+   regle:"Retourner 2 cartes à la fois, mémoriser la position, former des paires. Variantes par thèmes.",
+   adapt:"Pour TDAH : commencer avec peu de cartes (8 paires max), augmenter progressivement. Pour TSA : verbaliser à voix haute aide.",
+   neuro:"Mémoire de travail visuo-spatiale + attention soutenue."},
+  {nom:'Pictureka',fe:'mdt',feLbl:'MdT',ages:['7-10','11-14'],matos:'Cartes images',
+   regle:"Trouver dans les images des objets cités. Variantes solo ou défi rapide.",
+   adapt:"Pour TDAH inattentif : excellent, sollicite scanning. Pour anxieux : éviter le timer.",
+   neuro:"MdT + attention sélective + scanning visuel."},
+  {nom:'Cortex Challenge',fe:'mdt',feLbl:'MdT',ages:['7-10','11-14','15+'],matos:'Cartes défis variés',
+   regle:"Boîte avec 8 types de défis (mémoire, logique, observation, toucher…). Très polyvalent.",
+   adapt:"Pour ados HPI : module défi avancé. Pour TDAH : choisir 1-2 types par séance, pas tout.",
+   neuro:"Polyvalent : MdT + attention + flexibilité + raisonnement."},
+
+  // PLANIFICATION
+  {nom:'Rush Hour',fe:'plan',feLbl:'PLAN',ages:['7-10','11-14','15+'],matos:'Plateau + voitures',
+   regle:"Sortir la voiture rouge en déplaçant les autres voitures. Difficulté progressive (40 défis).",
+   adapt:"Pour TDAH : excellent canalisateur. Pour TSA rigide : peut faciliter la flexibilité.",
+   neuro:"Planification multi-étapes + anticipation conséquences + inhibition des fausses solutions."},
+  {nom:'Color Cube Sudoku',fe:'plan',feLbl:'PLAN',ages:['11-14','15+'],matos:'Cubes colorés',
+   regle:"Remplir une grille 4×4 ou 6×6 sans répétition de couleur en ligne/colonne. Logique pure.",
+   adapt:"HPI : excellent. TDAH : limiter à 4×4 au début, autoriser la manipulation libre.",
+   neuro:"Planification + inhibition + raisonnement logique."},
+  {nom:'Quoridor',fe:'plan',feLbl:'PLAN',ages:['11-14','15+'],matos:'Plateau + barrières',
+   regle:"Atteindre l'autre bord du plateau en plaçant des barrières pour bloquer l'adversaire.",
+   adapt:"Pour TSA : sollicite l'anticipation des intentions adverses (théorie de l'esprit).",
+   neuro:"Planification à long terme + anticipation des actions de l'autre + flexibilité tactique."},
+
+  // ATTENTION
+  {nom:'Lynx',fe:'att',feLbl:'ATT',ages:['3-6','7-10','11-14'],matos:'Grand plateau images',
+   regle:"Retrouver vite sur le plateau l'image tirée d'une carte. Adaptable solo ou en groupe.",
+   adapt:"Pour TDAH inattentif : excellent. Pour anxieux : éviter le timer, valoriser la précision.",
+   neuro:"Attention sélective + scanning visuel + persistance."},
+  {nom:'Sherlock',fe:'att',feLbl:'ATT',ages:['11-14','15+'],matos:'Cartes énigmes',
+   regle:"Mémoriser des indices, identifier le coupable par déduction.",
+   adapt:"Pour HPI : excellent. Pour TDAH : poser un cadre temporel court (5 min max par énigme).",
+   neuro:"Attention soutenue + MdT + raisonnement déductif."},
+
+  // AUTO-SURVEILLANCE / FLEXIBILITÉ / META
+  {nom:'Pyramide d\'animaux',fe:'auto',feLbl:'AUTO',ages:['3-6','7-10'],matos:'Animaux en bois',
+   regle:"Empiler les animaux selon les défis. Auto-évaluation de la stabilité avant de continuer.",
+   adapt:"Pour TSA : excellent (manipulation, prévisibilité). Pour TDAH : autoriser le mouvement.",
+   neuro:"Auto-surveillance motrice + planification + persévérance."},
+  {nom:'Time\'s Up Kids',fe:'auto',feLbl:'AUTO',ages:['7-10','11-14'],matos:'Cartes images',
+   regle:"Faire deviner des mots par mime, dessin, sons. 3 manches, plus contraint à chaque fois.",
+   adapt:"Pour TSA : commencer en 1-1, sans groupe. Pour TDAH : excellent.",
+   neuro:"Auto-évaluation des stratégies de communication + flexibilité représentationnelle."},
+
+  // MULTIDIMENSIONNEL
+  {nom:'Story Cubes',fe:'flex',feLbl:'FLEX',ages:['7-10','11-14','15+'],matos:'9 dés à images',
+   regle:"Lancer les dés, inventer une histoire intégrant toutes les images. Variantes thématiques.",
+   adapt:"HPI : créativité débridée. TSA : autoriser à ne pas tout intégrer, supports thèmes prévisibles.",
+   neuro:"Flexibilité narrative + créativité + MdT + cohésion discursive."}
+];
+
+let filtreFE='all';
+let filtreAge='all';
+
+function renderJeux(){
+  const grid=document.getElementById('jeux-grid');
+  let jeux=JEUX.filter(j=>{
+    if(filtreFE!=='all' && j.fe!==filtreFE) return false;
+    if(filtreAge!=='all' && !j.ages.includes(filtreAge)) return false;
+    return true;
+  });
+  document.getElementById('nb-jeux').textContent=jeux.length;
+  if(jeux.length===0){grid.innerHTML='<em style="color:#888;font-style:italic;text-align:center;padding:1rem;display:block">Aucun jeu pour ces filtres. Élargis tes critères !</em>';return}
+  grid.innerHTML=jeux.map(j=>`
+    <div class="jeu-card fe-${j.fe}">
+      <span class="fe-pill">${j.feLbl}</span>
+      <h3>🎲 ${j.nom}</h3>
+      <div class="meta">
+        ${j.ages.map(a=>`<span class="tag">${a} ans</span>`).join('')}
+        <span class="tag matos">📦 ${j.matos}</span>
+      </div>
+      <p class="regle"><strong>Règle :</strong> ${j.regle}</p>
+      <div class="adapt-tnd"><strong>🌿 Adaptation TND :</strong> ${j.adapt}</div>
+      <div class="neuro">🧠 ${j.neuro}</div>
+    </div>
+  `).join('');
+}
+
+document.querySelectorAll('.filtres button[data-fe]').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.filtres button[data-fe]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    filtreFE=b.dataset.fe;
+    renderJeux();
+  };
+});
+document.querySelectorAll('.filtres button[data-age]').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.filtres button[data-age]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    filtreAge=b.dataset.age;
+    renderJeux();
+  };
+});
+
+renderJeux();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profil fonctions exécutives — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,var(--lavande),var(--rose-clair));padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:var(--violet-titre);margin:0}
+.bandeau .sub{color:var(--texte);max-width:720px;margin:.4rem auto 0}
+.retour{display:inline-block;margin:0 0 .6rem;color:var(--violet-titre);font-weight:700;text-decoration:none}
+
+.wrap{max-width:1100px;margin:1.4rem auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid var(--rose-soutenu);border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:var(--violet-titre);font-family:var(--font-titre)}
+.apropos summary::marker{color:var(--rose-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:var(--rose-titre);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.meta{background:#fff;border-radius:var(--r-lg);padding:1.2rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--rose-titre)}
+.meta h2{margin:0 0 .5rem;color:var(--rose-titre)}
+.meta-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.7rem}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;font-size:.85rem;color:var(--texte)}
+.champ input, .champ select{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ input:focus, .champ select:focus{outline:2px solid var(--turquoise);background:#fff}
+
+.consigne{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.8em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B}
+
+.domaine{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+.domaine h2{color:var(--c);margin:0 0 .15rem;display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.domaine h2 .badge{font-size:.8rem;font-weight:700;background:var(--c);color:#fff;padding:.2em .7em;border-radius:999px}
+.domaine .def{color:var(--muted);font-size:.9rem;margin-bottom:.7rem;font-style:italic}
+
+.item{display:grid;grid-template-columns:1fr auto;gap:.6rem;align-items:center;padding:.5rem .6rem;border-bottom:1px solid var(--border)}
+.item:last-child{border-bottom:none}
+.item .texte{font-size:.95rem}
+.item .echelle{display:flex;gap:.3rem;flex-wrap:nowrap}
+.item .echelle label{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--beige);cursor:pointer;font-size:.85rem;font-weight:700;color:var(--muted);border:2px solid transparent;transition:all .15s}
+.item .echelle label:hover{background:#fff;border-color:var(--c)}
+.item .echelle input{display:none}
+.item .echelle input:checked + .v{background:var(--c);color:#fff}
+.item .echelle .v{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%}
+@media (max-width:600px){.item{grid-template-columns:1fr}.item .echelle{justify-content:flex-start}}
+
+.legende-echelle{display:flex;justify-content:flex-end;gap:.5rem;font-size:.75rem;color:var(--muted);margin-bottom:.4rem}
+.legende-echelle span{display:flex;align-items:center;gap:.2rem}
+.legende-echelle b{display:inline-block;width:1.4em;text-align:center;background:var(--beige);border-radius:50%;font-weight:700}
+
+/* Profil visuel */
+.profil{background:#fff;border-radius:var(--r-lg);padding:1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--violet-titre)}
+.profil h2{color:var(--violet-titre);margin:0 0 .5rem}
+.profil .lignes{display:flex;flex-direction:column;gap:.5rem;margin-top:.8rem}
+.profil .ligne{display:grid;grid-template-columns:200px 1fr 90px;gap:.6rem;align-items:center}
+@media (max-width:680px){.profil .ligne{grid-template-columns:1fr;gap:.2rem}}
+.profil .nom{font-weight:700;color:var(--texte)}
+.profil .barre{height:22px;background:var(--beige);border-radius:999px;overflow:hidden;position:relative}
+.profil .remplissage{height:100%;border-radius:999px;transition:width .4s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:.5em;color:#fff;font-weight:700;font-size:.78rem}
+.profil .verdict{text-align:right;font-size:.85rem;font-weight:700}
+.v-solide{color:#1b7a4a}
+.v-surveiller{color:#a87800}
+.v-fragile{color:#c25a30}
+.v-difficulte{color:#a02040}
+
+.reco{background:#fff;border-radius:var(--r-lg);padding:1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--teal-titre)}
+.reco h2{color:var(--teal-titre);margin:0 0 .5rem}
+.reco .bloc-reco{background:var(--beige);border-radius:var(--r-md);padding:.8rem 1rem;margin-bottom:.6rem}
+.reco .bloc-reco h3{margin:0 0 .3rem;color:var(--c);font-size:1rem}
+.reco .bloc-reco ul{margin:.3rem 0 0;padding-left:1.2rem;font-size:.92rem}
+
+.synthese{background:#fff;border-radius:var(--r-lg);padding:1.2rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--rose-soutenu)}
+.synthese h2{color:var(--rose-soutenu);margin:0 0 .5rem}
+.synthese textarea{width:100%;min-height:90px;padding:.6em;border:1px solid var(--border);border-radius:var(--r-md);background:var(--beige);font-family:var(--font-body);font-size:.95rem}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:var(--violet-titre);border:2px solid var(--violet-titre)}
+.actions button:hover{background:var(--violet-titre);color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+.actions .danger:hover{background:var(--rose-titre);color:#fff}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:.8rem}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.3rem .5rem;font-size:.9rem;border-radius:var(--r-sm)}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.2em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+/* ======= MIROIR PERSONNALISÉ FE (interprétation auto pro) ======= */
+.miroir-fe-vide{background:#fff;border-radius:var(--r-lg);padding:1.4rem;box-shadow:var(--shadow-sm);border-left:5px solid #d8c9f0;text-align:center;color:#666}
+.miroir-fe-vide strong{color:var(--violet-titre);display:block;margin-bottom:.4rem;font-size:1.1rem}
+
+.miroir-fe-hero{background:linear-gradient(135deg,#fff,#f6f0fb);border-radius:var(--r-lg);padding:1.3rem 1.4rem 1.1rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--violet-titre);margin-top:1rem;margin-bottom:1rem}
+.miroir-fe-hero h2{color:var(--violet-titre);margin:0 0 .3rem;font-size:1.25rem;display:flex;align-items:center;gap:.5rem;justify-content:space-between;flex-wrap:wrap}
+.miroir-fe-hero .codes-pro{background:#fff;font-family:'Courier New',monospace;color:#5a3c8f;padding:.3em .8em;border-radius:var(--r-sm);font-size:.82rem;font-weight:800;letter-spacing:.5px;border:1.5px dashed #b89cd9}
+.miroir-fe-hero .phrase-synth{font-style:italic;color:#5a3c8f;font-size:1rem;margin:.6rem 0 .3rem;padding:.6rem .9rem;background:#fff;border-radius:var(--r-sm);border-left:3px solid var(--rose-titre);line-height:1.5}
+.miroir-fe-hero .stats-domaines{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:.4rem;margin-top:.7rem}
+.miroir-fe-hero .stat-d{background:#fff;border-radius:var(--r-sm);padding:.5rem .4rem;text-align:center;border-top:3px solid var(--c)}
+.miroir-fe-hero .stat-d .ic{font-size:1.2rem}
+.miroir-fe-hero .stat-d .cd{font-family:'Courier New',monospace;font-weight:800;font-size:.78rem;color:var(--c)}
+.miroir-fe-hero .stat-d .vd{font-size:.92rem;font-weight:800;color:var(--c);margin-top:.1rem}
+
+.miroir-fe-section{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);margin-bottom:.9rem;border-top:5px solid var(--c,#7c5cbf)}
+.miroir-fe-section h3{color:var(--c,#5a3c8f);margin:0 0 .5rem;font-size:1.05rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+
+.hypothese-card{background:#faf6f0;border-radius:var(--r-md);padding:.8rem 1rem;margin-bottom:.5rem;border-left:4px solid #e9a73a}
+.hypothese-card .titre{font-weight:800;color:#a07000;font-size:.95rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.4rem}
+.hypothese-card .titre .codes{font-family:'Courier New',monospace;font-size:.75rem;background:#fff;padding:.1em .5em;border-radius:999px;border:1.5px solid #e9a73a;color:#8a5a00}
+.hypothese-card .desc{font-size:.88rem;line-height:1.5;color:#4a3a00}
+.hypothese-card.match{background:#fff4e0;border-left-color:#d68500;box-shadow:0 0 0 1.5px #f4cc7a}
+
+.domaine-detail{background:#faf6f0;border-radius:var(--r-md);padding:.8rem 1rem;margin-bottom:.5rem;border-left:4px solid var(--c)}
+.domaine-detail h4{color:var(--c);margin:0 0 .3rem;font-size:.98rem;display:flex;align-items:center;gap:.4rem;justify-content:space-between;flex-wrap:wrap}
+.domaine-detail .verdict-pill{font-family:'Courier New',monospace;font-size:.75rem;padding:.15em .5em;border-radius:999px;font-weight:800;background:#fff;border:1.5px solid var(--c);color:var(--c)}
+.domaine-detail .items-frag{margin:.3rem 0 .5rem;font-size:.85rem;color:#555}
+.domaine-detail .items-frag li{margin-bottom:.15rem;line-height:1.4}
+.domaine-detail .titre-adapt{font-weight:800;color:#1b6a4a;font-size:.83rem;margin:.4rem 0 .2rem}
+.domaine-detail .titre-outils{font-weight:800;color:var(--violet-titre);font-size:.83rem;margin:.5rem 0 .2rem}
+.domaine-detail .titre-orient{font-weight:800;color:#a04a10;font-size:.83rem;margin:.5rem 0 .2rem}
+.domaine-detail ul.adapt{margin:.1rem 0 .3rem;padding-left:1.2rem;font-size:.85rem;line-height:1.45}
+.domaine-detail .outils-row{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.2rem}
+.domaine-detail .outil-chip{display:inline-block;font-size:.78rem;color:var(--c);background:#fff;padding:.2em .6em;border-radius:999px;border:1.5px solid var(--c);text-decoration:none;font-weight:700}
+.domaine-detail .outil-chip:hover{background:var(--c);color:#fff}
+.domaine-detail .orient-text{font-size:.83rem;color:#5a4400;background:#fef9e8;padding:.4rem .6rem;border-radius:var(--r-sm);border:1px solid #f0d28a;line-height:1.45}
+
+.plan-3-cibles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem;margin-top:.5rem}
+.cible-card{background:#fff;border-radius:var(--r-md);padding:.8rem .9rem;border-top:4px solid var(--c)}
+.cible-card .lbl-cible{font-size:.75rem;color:#888;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.cible-card .nom-cible{font-weight:800;color:var(--c);margin:.15rem 0 .3rem}
+.cible-card .action-cible{font-size:.85rem;line-height:1.5;color:#555}
+
+.conseil-fe-parent{background:#fdf2f5;border-left:4px solid #d36699;border-radius:var(--r-md);padding:.6rem .9rem;margin-bottom:.4rem;font-size:.9rem;line-height:1.55}
+.conseil-fe-parent strong{color:#a84268}
+.conseil-fe-ecole{background:#eef6f5;border-left:4px solid #2a9d8f;border-radius:var(--r-md);padding:.6rem .9rem;margin-bottom:.4rem;font-size:.9rem;line-height:1.55}
+.conseil-fe-ecole strong{color:#1a6a5a}
+.conseil-fe-pro{background:#f0e8f5;border-left:4px solid #7c5cbf;border-radius:var(--r-md);padding:.6rem .9rem;margin-bottom:.4rem;font-size:.9rem;line-height:1.55}
+.conseil-fe-pro strong{color:#5a3c8f}
+
+.alerte-bilan{background:#fff4ef;border:2px solid #e07b3a;border-radius:var(--r-md);padding:.9rem 1rem;margin-top:.6rem}
+.alerte-bilan .titre{color:#a04a10;font-weight:800;display:flex;align-items:center;gap:.4rem;margin-bottom:.3rem}
+.alerte-bilan ul{margin:.3rem 0;padding-left:1.2rem;font-size:.88rem;line-height:1.5}
+
+.btn-regen-miroir{padding:.45em 1em;background:#fff;color:var(--violet-titre);border:1.5px solid var(--violet-titre);border-radius:999px;font-weight:700;cursor:pointer;font-size:.85rem;margin-bottom:.7rem;float:right}
+.btn-regen-miroir:hover{background:var(--violet-titre);color:#fff}
+
+@media print{
+  .btn-regen-miroir{display:none!important}
+  .miroir-fe-hero,.miroir-fe-section,.hypothese-card,.domaine-detail,.cible-card,.conseil-fe-parent,.conseil-fe-ecole,.conseil-fe-pro,.alerte-bilan{page-break-inside:avoid}
+}
+
+@media print{
+  .actions, .retour, .dossiers, details.apropos, .legende-echelle {display:none !important}
+  body{background:#fff}
+  .domaine, .meta, .profil, .reco, .synthese {box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .item .echelle input:not(:checked) + .v{opacity:.3}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>🧠 Profil fonctions exécutives</h1>
+  <p class="sub">Repérer où ça passe et où ça bloque dans le contrôle intentionnel : inhibition, flexibilité, régulation, initiation, mémoire de travail, planification, auto-surveillance, attention soutenue.</p>
+</section>
+
+<div class="wrap">
+
+  <details class="apropos">
+    <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+    <div class="grid8">
+      <div><strong>1. Objectif</strong>Dresser un profil observationnel des 8 fonctions exécutives chez un enfant ou un ado, pour cibler les leviers d'adaptation et de remédiation.</div>
+      <div><strong>2. Quand l'utiliser</strong>Après l'anamnèse, avant le plan d'intervention. À refaire tous les 2-3 mois pour mesurer l'évolution.</div>
+      <div><strong>3. Pour quel profil TND</strong>Particulièrement utile pour TDAH, TSA, troubles dys (impact FE secondaire), TDC, TDI. Tout enfant chez qui les FE sont en question.</div>
+      <div><strong>4. Mode d'emploi</strong>Un observateur (parent, enseignant, pro) cote 80 items sur une échelle 0-3. Cotation conjointe possible et même recommandée.</div>
+      <div><strong>5. Grille à remplir</strong>8 domaines × 10 items. Échelle : 0 jamais · 1 parfois · 2 souvent · 3 toujours. Le profil s'affiche en temps réel.</div>
+      <div><strong>6. Analyse</strong>Score / 30 par domaine. Solide (0-7) · à surveiller (8-15) · fragile (16-22) · en grande difficulté (23-30). Croiser avec anamnèse et grille ABC.</div>
+      <div><strong>7. Recommandations</strong>Pour chaque domaine fragile : adaptations environnementales + compétences à enseigner + orientations spécialisées si besoin.</div>
+      <div><strong>8. 🪞 Miroir clinique auto</strong>Synthèse automatique avec codes pros (INH-PP · ATT-P · MdT-S…), hypothèses cliniques combinées (TDAH typique / Dysexécutif global / Rigidité TSA-like…), plan 3 cibles, conseils parent/école/pro, alertes bilan.</div>
+    </div>
+  </details>
+
+  <!-- Méta -->
+  <section class="meta">
+    <h2>Identité</h2>
+    <div class="meta-grille">
+      <div class="champ"><label>Prénom / initiales</label><input data-k="prenom" type="text"></div>
+      <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+      <div class="champ"><label>Date</label><input data-k="date" type="date"></div>
+      <div class="champ"><label>Observateur</label><select data-k="observateur"><option value="">—</option><option>Parent</option><option>Enseignant</option><option>Professionnel</option><option>Auto-évaluation ado</option><option>Conjoint parent+pro</option></select></div>
+      <div class="champ"><label>Contexte de cotation</label><input data-k="contexte" type="text" placeholder="école, maison, séance…"></div>
+    </div>
+    <div class="consigne" style="margin-top:.8rem">
+      <strong>Consigne :</strong> coter chaque item selon ce qu'on observe sur les <strong>4 dernières semaines</strong>. Pas de "moyenne dans l'absolu" — uniquement les comportements vus récemment. Si tu hésites, choisis la cote inférieure.
+    </div>
+  </section>
+
+  <!-- Questionnaire (rendu en JS) -->
+  <div id="domaines"></div>
+
+  <!-- Profil -->
+  <section class="profil">
+    <h2>📊 Profil exécutif</h2>
+    <p style="color:var(--muted);font-size:.9rem;margin-top:0">Score / 30 par domaine. Plus la barre est longue, plus le domaine est fragile.</p>
+    <div class="lignes" id="lignes-profil"></div>
+    <p style="margin-top:1rem;font-size:.85rem;color:var(--muted)">
+      <strong>Légende :</strong>
+      <span style="color:#1b7a4a">● solide (0-7)</span> ·
+      <span style="color:#a87800">● à surveiller (8-15)</span> ·
+      <span style="color:#c25a30">● fragile (16-22)</span> ·
+      <span style="color:#a02040">● en grande difficulté (23-30)</span>
+    </p>
+  </section>
+
+  <!-- 🪞 MIROIR PERSONNALISÉ (interprétation auto pro) -->
+  <div id="miroir-fe-container"></div>
+
+  <!-- Recommandations -->
+  <section class="reco" id="reco-section" style="display:none">
+    <h2>🌱 Pistes d'intervention pour les domaines fragiles</h2>
+    <p style="color:var(--muted);font-size:.9rem;margin-top:0">Affichées uniquement pour les domaines fragiles ou en grande difficulté.</p>
+    <div id="reco-contenu"></div>
+  </section>
+
+  <!-- Synthèse -->
+  <section class="synthese">
+    <h2>✍️ Phrase de synthèse</h2>
+    <textarea data-k="synthese" placeholder="Le profil exécutif de … montre une fragilité prédominante sur …. On propose …. On oriente vers …."></textarea>
+    <div style="margin-top:.8rem">
+      <div class="champ"><label>Observations qualitatives complémentaires</label><textarea data-k="obs-qual" style="min-height:80px" placeholder="Contexte, exceptions, hyperfocus, motivation, fatigue…"></textarea></div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button id="btn-enregistrer">💾 Enregistrer</button>
+    <button id="btn-exporter">📄 Exporter (TXT)</button>
+    <button id="btn-imprimer">🖨️ Imprimer</button>
+    <button id="btn-vider" class="danger">🧹 Vider</button>
+  </div>
+
+  <div class="dossiers">
+    <strong style="color:var(--violet-titre)">📂 Profils enregistrés</strong>
+    <div id="liste-dossiers" style="margin-top:.4rem"></div>
+  </div>
+
+  <div class="disclaimer">
+    Ce profil n'est pas un diagnostic neuropsychologique. Il aide à formuler des hypothèses et à orienter vers un bilan spécialisé (neuropsychologie) si nécessaire.
+  </div>
+
+  <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+    Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+  </p>
+
+</div>
+
+<script>
+const STORAGE = 'neuroped_profil_fe_v1';
+let currentId = null;
+
+const DOMAINES = [
+  {
+    id:'inhib', code:'INH', nom:'1. Inhibition', icone:'🛑', couleur:'#e05a8a',
+    outils:[
+      {t:'Boîte Ado TDAH',l:'../../D_regulation/ados/boite-ado-tdah.html'},
+      {t:'20 jeux maison FE',l:'../../E_ludotheque/parents/jeux-maison-fe.html'},
+      {t:'Méthode R.A.H.M.A',l:'../../D_regulation/parents/methode-rahma.html'}
+    ],
+    def:"Capacité à s'arrêter, à différer une action, à résister à une impulsion ou à une distraction.",
+    items:[
+      "Coupe la parole sans s'en rendre compte.",
+      "Touche / manipule des objets sans permission.",
+      "A du mal à attendre son tour.",
+      "Sort une réponse avant la fin de la question.",
+      "Se laisse facilement attirer par une distraction.",
+      "Agit avant de réfléchir aux conséquences.",
+      "Bouge / s'agite quand il faut rester immobile.",
+      "Réagit fortement à la frustration immédiate.",
+      "Se relève / quitte sa chaise sans permission.",
+      "A du mal à freiner une envie (manger, parler, jouer, regarder écran)."
+    ],
+    reco:[
+      "Rendre la consigne visible : carte « stop · pense · agis ».",
+      "Entraîner explicitement le délai (timer 5 s « tu attends mon signal »).",
+      "Aménager l'environnement : moins de stimuli visibles, distance des distracteurs.",
+      "Renforcer chaque réussite d'attente, même courte."
+    ],
+    orient:"Bilan neuropsychologique si fragilité marquée. Évaluation TDAH avec pédopsychiatre / neuropédiatre."
+  },
+  {
+    id:'flex', code:'FLEX', nom:'2. Flexibilité cognitive', icone:'🔄', couleur:'#7c5cbf',
+    outils:[
+      {t:'20 jeux FE (Inverse la règle, Objet à 3 vies)',l:'../../E_ludotheque/parents/jeux-maison-fe.html'},
+      {t:'Pyramide 7 niveaux',l:'../../F0_fondations/parents/pyramide-7-niveaux.html'},
+      {t:'Méthode R.A.H.M.A',l:'../../D_regulation/parents/methode-rahma.html'}
+    ],
+    def:"Capacité à changer de règle, de stratégie, d'activité, à s'adapter à un imprévu.",
+    items:[
+      "A du mal à passer d'une activité à une autre.",
+      "Bloque quand le programme prévu change.",
+      "Insiste pour faire à sa manière.",
+      "Réagit fortement aux imprévus.",
+      "Persévère sur une stratégie même quand elle ne marche pas.",
+      "Difficile à convaincre qu'il existe une autre façon.",
+      "Refuse de revenir en arrière sur une idée première.",
+      "S'attache à un ordre précis / ritualise les choses.",
+      "Réagit mal quand une règle évolue en cours de jeu ou de tâche.",
+      "Difficulté à voir une situation sous un autre angle."
+    ],
+    reco:[
+      "Anticiper les transitions (annoncer 5 min avant, timer visuel).",
+      "Visualiser le « plan B » avant le démarrage : « si X ne marche pas, alors Y ».",
+      "Travailler la flexibilité par jeux de tri à règle changeante.",
+      "Valider l'effort de s'adapter, même partiel."
+    ],
+    orient:"Évaluation TSA si rigidité importante associée à intérêts restreints. Bilan ergo / psychomot selon profil."
+  },
+  {
+    id:'reg', code:'RÉG', nom:'3. Régulation émotionnelle', icone:'💗', couleur:'#F39BC2',
+    outils:[
+      {t:'Kit Émotions',l:'../../D_regulation/parents/kit-emotions.html'},
+      {t:'Méthode R.A.H.M.A',l:'../../D_regulation/parents/methode-rahma.html'},
+      {t:'Neuro-Tarbiya & Sabr Reset',l:'../../F0_fondations/parents/neuro-tarbiya-merkez.html'},
+      {t:'Boîte Ado TDAH (Thermomètre VJOR)',l:'../../D_regulation/ados/boite-ado-tdah.html'}
+    ],
+    def:"Capacité à moduler l'intensité d'une émotion et à se remettre d'une émotion forte.",
+    items:[
+      "Crises de colère disproportionnées au déclencheur.",
+      "Réagit fortement aux petites frustrations.",
+      "A du mal à se calmer après une émotion forte.",
+      "Pleure facilement.",
+      "Passe brusquement d'un état émotionnel à un autre.",
+      "Met longtemps à se remettre d'un événement contrariant.",
+      "Exprime ses émotions par des comportements (cris, gestes brusques, repli).",
+      "Se ferme totalement ou se met en retrait quand débordé(e).",
+      "Verbalise difficilement ce qu'il/elle ressent.",
+      "L'émotion d'un autre l'envahit (joie, tristesse, stress contagieux)."
+    ],
+    reco:[
+      "Installer un thermomètre émotionnel avec stratégies par niveau.",
+      "Préparer un kit retour au calme adapté au profil sensoriel.",
+      "Enseigner la respiration carrée AVANT la crise (entraînement à froid).",
+      "Construire un protocole de crise écrit, partagé avec l'école."
+    ],
+    orient:"Suivi psychologique TCC. Évaluation anxiété si comorbidité suspectée."
+  },
+  {
+    id:'init', code:'INIT', nom:'4. Initiation', icone:'🚀', couleur:'#2a9d8f',
+    outils:[
+      {t:'Routines EducaTypique',l:'../../F0_fondations/parents/routines-educatypique.html'},
+      {t:'Pack Fondation Pro',l:'../../B_observation/praticiens/pack-fondation.html'},
+      {t:'Chrono des Énergies',l:'../../F0_fondations/parents/chrono-energies-maman.html'},
+      {t:'20 jeux FE (Mission 5 étapes)',l:'../../E_ludotheque/parents/jeux-maison-fe.html'}
+    ],
+    def:"Capacité à se mettre au travail, à démarrer une tâche par soi-même.",
+    items:[
+      "A besoin qu'on lui rappelle plusieurs fois de commencer.",
+      "Reporte les tâches qu'il/elle n'aime pas.",
+      "A du mal à se mettre au travail sans aide.",
+      "Reste figé(e) devant une consigne ouverte.",
+      "Demande « par quoi je commence ? ».",
+      "Procrastine, même avec des tâches importantes.",
+      "Cherche n'importe quel prétexte pour repousser le démarrage.",
+      "Reste sur son écran / distracteur au moment de commencer.",
+      "A besoin d'un déclencheur externe (timer, adulte présent, rituel).",
+      "Démarre, puis abandonne très vite si l'effort augmente."
+    ],
+    reco:[
+      "Décomposer la tâche en 1ère micro-étape concrète (« écris la date »).",
+      "Donner un point de départ visible (surligneur, post-it).",
+      "Utiliser la règle 5 minutes : « tu commences 5 min, on voit après ».",
+      "Renforcer le démarrage, pas seulement le résultat final."
+    ],
+    orient:"Ergothérapie pour stratégies d'auto-démarrage. Bilan TDAH si associé à inattention."
+  },
+  {
+    id:'mdt', code:'MdT', nom:'5. Mémoire de travail', icone:'🧩', couleur:'#8ED9D2',
+    outils:[
+      {t:'20 jeux FE (Valise s\'agrandit, Chemin de mots)',l:'../../E_ludotheque/parents/jeux-maison-fe.html'},
+      {t:'Pack Fondation Pro',l:'../../B_observation/praticiens/pack-fondation.html'},
+      {t:'Bilan + Programme 12',l:'../../F_suivi/praticiens/bilan-programme-12.html'}
+    ],
+    def:"Capacité à retenir une information le temps de l'utiliser.",
+    items:[
+      "Oublie les consignes en plusieurs étapes.",
+      "Perd le fil quand on lui parle pendant qu'il/elle agit.",
+      "Oublie ce qu'il/elle allait dire ou faire.",
+      "A du mal à suivre une consigne complexe.",
+      "Oublie où il/elle a posé ses affaires juste après.",
+      "A besoin de relire plusieurs fois une consigne.",
+      "Oublie un mot pendant qu'il/elle cherche son idée.",
+      "Difficile de mémoriser une suite (chiffres, jours, lettres).",
+      "Perd la consigne entre l'écoute et le passage à l'écrit.",
+      "Inverse l'ordre des étapes d'une consigne."
+    ],
+    reco:[
+      "Consignes en 1 ou 2 étapes maximum, écrites ET orales.",
+      "Cartes-mémoire pour les routines (matin, devoirs, sac).",
+      "Faire reformuler avant exécution.",
+      "Externaliser la mémoire (post-it, app rappels, tableau visuel)."
+    ],
+    orient:"Bilan neuropsy si fragilité marquée. Orthophonie si impact sur compréhension."
+  },
+  {
+    id:'planif', code:'PLAN', nom:'6. Planification & organisation', icone:'🗂️', couleur:'#CBB6F6',
+    outils:[
+      {t:'Routines EducaTypique',l:'../../F0_fondations/parents/routines-educatypique.html'},
+      {t:'Pack Fondation Pro',l:'../../B_observation/praticiens/pack-fondation.html'},
+      {t:'Bilan + Programme 12',l:'../../F_suivi/praticiens/bilan-programme-12.html'},
+      {t:'MDPH pas à pas (école)',l:'../../F0_fondations/parents/mdph-pas-a-pas.html'}
+    ],
+    def:"Capacité à découper une tâche en étapes, gérer l'espace, le temps, le matériel.",
+    items:[
+      "A du mal à découper une tâche en étapes.",
+      "Commence par n'importe quoi face à un projet long.",
+      "Se laisse déborder par les délais.",
+      "Cartable / chambre / bureau en désordre permanent.",
+      "Oublie le matériel nécessaire.",
+      "Mal à l'aise pour estimer le temps qu'une tâche va prendre.",
+      "N'anticipe pas ce qui va être nécessaire (gourde, blouson, copies).",
+      "Démarre une tâche sans avoir lu / écouté toute la consigne.",
+      "Range / fait dans le désordre, sans logique apparente.",
+      "Difficile de gérer un projet long (exposé, dossier, contrôle à réviser)."
+    ],
+    reco:[
+      "Plan visuel des étapes affiché en permanence pendant la tâche.",
+      "Timer visuel (Time Timer) pour rendre le temps tangible.",
+      "Check-list cartable / matériel collée à la porte.",
+      "Emploi du temps imagé pour les routines récurrentes."
+    ],
+    orient:"Ergothérapie pour aménagement de l'espace / planning. Coaching TND."
+  },
+  {
+    id:'autosurv', code:'AUTO', nom:"7. Auto-surveillance", icone:'🔍', couleur:'#F8CFE0',
+    outils:[
+      {t:'Bilan + Programme 12 (grille relecture)',l:'../../F_suivi/praticiens/bilan-programme-12.html'},
+      {t:'Méthode R.A.H.M.A',l:'../../D_regulation/parents/methode-rahma.html'},
+      {t:'Détecteur Paroles',l:'../../F0_fondations/parents/detecteur-paroles.html'}
+    ],
+    def:"Capacité à se relire, à percevoir l'effet de ses actions, à ajuster.",
+    items:[
+      "Rend un travail bâclé sans relire.",
+      "Ne remarque pas ses erreurs.",
+      "A du mal à percevoir l'effet de son comportement sur les autres.",
+      "Ne se rend pas compte qu'il/elle dépasse les limites.",
+      "Surpris(e) par les remarques alors que les signes étaient là.",
+      "N'évalue pas la qualité de ce qu'il/elle produit.",
+      "Ne demande pas d'aide quand il/elle est bloqué(e).",
+      "N'identifie pas ses points forts / ses réussites.",
+      "A du mal à comprendre pourquoi on lui fait une remarque.",
+      "Ne fait pas le lien cause → conséquence dans son comportement."
+    ],
+    reco:[
+      "Grille de relecture en 3 questions avant de rendre.",
+      "Auto-évaluation après la tâche (« comment je me suis senti, où j'ai bloqué »).",
+      "Vidéos / scénarios sociaux pour rendre visibles les effets relationnels.",
+      "Feedback descriptif, non évaluatif (« j'ai entendu… j'ai vu… »)."
+    ],
+    orient:"TCC pour métacognition. Habiletés sociales si versant social."
+  },
+  {
+    id:'attsout', code:'ATT', nom:"8. Attention soutenue", icone:'🎯', couleur:'#FFD6C2',
+    outils:[
+      {t:'20 jeux FE (5 min focus défi)',l:'../../E_ludotheque/parents/jeux-maison-fe.html'},
+      {t:'Pack Fondation Pro',l:'../../B_observation/praticiens/pack-fondation.html'},
+      {t:'Chrono des Énergies',l:'../../F0_fondations/parents/chrono-energies-maman.html'}
+    ],
+    def:"Capacité à maintenir le focus sur une tâche dans la durée.",
+    items:[
+      "Difficile de rester concentré(e) sur une tâche longue.",
+      "Décroche au bout de quelques minutes.",
+      "Se laisse facilement distraire par bruits / images / pensées.",
+      "A besoin de bouger pour se concentrer.",
+      "Performances chutent après 15-20 min d'effort.",
+      "Fait des erreurs d'inattention.",
+      "Se perd dans ses pensées (rêveries fréquentes).",
+      "Bien meilleur(e) le matin que l'après-midi.",
+      "Décroche plus vite sur tâche écrite/verbale qu'avec images.",
+      "Difficile de revenir au focus après une interruption."
+    ],
+    reco:[
+      "Fractionner en blocs courts (Pomodoro adapté : 10 min · 3 min pause).",
+      "Autoriser le mouvement (ballon, élastique, debout).",
+      "Casque anti-bruit ou musique instrumentale selon profil.",
+      "Tâche prioritaire le matin, pas en fin de journée."
+    ],
+    orient:"Évaluation TDAH (pédopsychiatre / neuropédiatre). Bilan ORL / ophtalmo pour écarter cause périphérique."
+  }
+];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ============================================================
+   ===== MOTEUR D'INTERPRÉTATION FE — MIROIR PRO =====
+   ============================================================ */
+
+// Hypothèses cliniques combinées (signaux multi-domaines)
+const HYPOTHESES_FE = [
+  {
+    id:'tdah_typique', titre:"🎯 Profil TDAH typique (hyperactif/combiné)",
+    cles:['inhib','attsout','mdt'], // les 3 doivent être P/PP
+    seuilNiv:2, // niv ≥ 2 = fragile ou PP
+    desc:"Triade classique TDAH : impulsivité (inhibition) + déficit attention soutenue + mémoire de travail courte. Cohérent avec un trouble du contrôle exécutif primaire."
+  },
+  {
+    id:'tdah_inattentif', titre:"💭 Profil TDAH inattentif probable",
+    cles:['attsout','mdt','init'], seuilNiv:2,
+    desc:"Attention + mémoire de travail + difficulté à démarrer SANS hyperactivité majeure. Profil souvent sous-diagnostiqué, fréquent chez les filles et les ados HPI+TDAH.",
+    excl:['inhib'] // l'inhibition ne doit PAS être PP
+  },
+  {
+    id:'dysexecutif_global', titre:"🧩 Syndrome dysexécutif global",
+    cles:['init','planif','mdt'], seuilNiv:2,
+    desc:"Initiation + planification + mémoire de travail effondrés ensemble : tableau dysexécutif global. À explorer : TDAH, séquelles neurologiques, fatigue extrême, dépression."
+  },
+  {
+    id:'rigidite_tsa_like', titre:"🔄 Profil rigidité (TSA-like / anxio-rigide)",
+    cles:['flex','reg','autosurv'], seuilNiv:2,
+    desc:"Flexibilité + régulation émo + auto-surveillance fragiles : tableau de rigidité cognitive et émotionnelle. À explorer : TSA, TOC, anxiété rigide, trauma."
+  },
+  {
+    id:'regulation_priorite', titre:"💗 Régulation émotionnelle prédominante",
+    cles:['reg'], seuilNiv:3, // PP seul
+    desc:"Régulation effondrée alors que les autres FE sont relativement préservées : priorité absolue à l'apaisement émotionnel AVANT travail des FE. Pister anxiété, trauma, attachement."
+  },
+  {
+    id:'effort_hypofrontalite', titre:"⚡ Profil effort / hypofrontalité fonctionnelle",
+    cles:['init','attsout','autosurv'], seuilNiv:2,
+    desc:"Initiation + attention + auto-surveillance ensemble : difficulté à mobiliser et soutenir l'effort cognitif. À explorer : fatigue chronique, démotivation, dépression atypique, TDAH inattentif sévère."
+  },
+  {
+    id:'crise_aigue', titre:"🚨 Tableau de crise aiguë",
+    cles:['reg','inhib'], seuilNiv:3, // les deux en PP
+    desc:"Régulation + inhibition tout en haut, alors qu'un ou plusieurs autres domaines sont relativement préservés : tableau aigu (crise, événement déclencheur, décompensation). Sécuriser d'abord."
+  },
+  {
+    id:'hpi_desynchro', titre:"💎 Profil HPI désynchronisé possible",
+    cles:['flex','autosurv'], seuilNiv:2,
+    desc:"Flexibilité + auto-surveillance fragiles AVEC inhibition/MdT/attention plutôt préservés : profil compatible avec une désynchronisation HPI (rigidité + métacognition très exigeante). Croiser avec questionnaire HPI.",
+    excl:['mdt','attsout'] // MdT et ATT pas en PP
+  }
+];
+
+// Phrases signature contextuelles
+const PHRASES_SIGNATURE_FE = [
+  "Adapter avant de corriger.",
+  "On ne demande pas de l'organisation à un cerveau qui n'a pas encore intégré ses fondations exécutives.",
+  "Le profil exécutif est une carte d'identité fonctionnelle, pas une note.",
+  "Quand l'émotion déborde, les FE s'éteignent. Sécuriser d'abord.",
+  "Un domaine fragile = un appui à construire, pas un manque de volonté.",
+  "Identifier les domaines forts est aussi important que repérer les fragiles : ce sont les leviers."
+];
+
+function getDomaineByCode(c){ return DOMAINES.find(d=>d.code===c) || DOMAINES.find(d=>d.id===c); }
+
+function buildProfilFE(){
+  const data = DOMAINES.map(d=>{
+    const r = scoreDomaine(d);
+    const v = verdict(r.score);
+    return {d, score:r.score, niv:v.niveau, label:v.label};
+  });
+  const renseignes = data.filter(x=>x.score > 0 || x.niv > 0 || hasAnyAnswerForDomaine(x.d));
+  if(renseignes.length === 0) return null;
+  // Codes pros : ne montre que niv >= 1 (à surveiller, fragile, PP)
+  const codes = data.filter(x=>x.niv >= 1).sort((a,b)=>b.niv - a.niv).map(x=>{
+    const sigle = x.niv===3?'PP':x.niv===2?'P':'S';
+    return `${x.d.code}-${sigle}`;
+  });
+  const codesPro = codes.length ? codes.join(' · ') : 'Profil exécutif équilibré ✓';
+  // Domaines fragiles (P/PP)
+  const fragiles = data.filter(x=>x.niv >= 2).sort((a,b)=>b.score - a.score);
+  const solides = data.filter(x=>x.niv === 0).sort((a,b)=>a.score - b.score);
+  // Type profil
+  let typeProfil, phraseSynth;
+  if(fragiles.length === 0){
+    typeProfil = "✓ Profil exécutif globalement équilibré";
+    phraseSynth = "Aucun domaine en zone fragile. Maintenir les routines actuelles et surveiller les domaines « à surveiller ».";
+  } else if(fragiles.length >= 5){
+    typeProfil = "🚨 Profil exécutif sévèrement déséquilibré";
+    phraseSynth = `${fragiles.length} domaines en zone fragile ou plus. Tableau dysexécutif large. Prioriser sécurisation + bilan neuropsy + soutien parental avant tout travail FE.`;
+  } else if(fragiles.length >= 3){
+    typeProfil = "⚠️ Profil exécutif multi-fragile";
+    phraseSynth = `${fragiles.length} domaines fragiles. Approche intégrée nécessaire — ne pas attaquer un domaine isolé.`;
+  } else {
+    const noms = fragiles.map(x=>x.d.code).join(' + ');
+    typeProfil = `🎯 Profil exécutif ciblé sur ${noms}`;
+    phraseSynth = `Fragilité focale sur ${noms}. Levier : travailler ciblé sur ${fragiles[0].d.nom.split('. ')[1]} en priorité, en appui sur les domaines solides.`;
+  }
+  return { data, fragiles, solides, codesPro, typeProfil, phraseSynth };
+}
+
+function hasAnyAnswerForDomaine(d){
+  for(let i=0;i<d.items.length;i++){
+    if(document.querySelector(`input[name="${d.id}_${i}"]:checked`)) return true;
+  }
+  return false;
+}
+
+function itemsFragiles(d){
+  // Items cotés 2 ou 3 (souvent / toujours)
+  const out = [];
+  d.items.forEach((it,i)=>{
+    const checked = document.querySelector(`input[name="${d.id}_${i}"]:checked`);
+    if(checked && parseInt(checked.value,10) >= 2){
+      out.push({texte:it, score:parseInt(checked.value,10), n:i+1});
+    }
+  });
+  return out;
+}
+
+function matchHypotheses(profil){
+  if(!profil) return [];
+  const out = [];
+  HYPOTHESES_FE.forEach(h=>{
+    let allMatch = true;
+    h.cles.forEach(idDom=>{
+      const d = profil.data.find(x=>x.d.id===idDom);
+      if(!d || d.niv < h.seuilNiv) allMatch = false;
+    });
+    if(h.excl){
+      h.excl.forEach(idEx=>{
+        const dEx = profil.data.find(x=>x.d.id===idEx);
+        if(dEx && dEx.niv >= 3) allMatch = false; // exclu si en PP
+      });
+    }
+    if(allMatch){
+      const codes = h.cles.map(idDom=>{
+        const d = DOMAINES.find(x=>x.id===idDom);
+        return d ? d.code : '?';
+      }).join(' + ');
+      out.push({...h, codes, match:true});
+    }
+  });
+  return out;
+}
+
+function renderMiroirFE(){
+  const c = document.getElementById('miroir-fe-container');
+  if(!c) return;
+  const profil = buildProfilFE();
+  if(!profil){
+    c.innerHTML = `<div class="miroir-fe-vide">
+      <strong>🪞 Miroir clinique personnalisé</strong>
+      Commence à coter quelques items. Dès qu'un domaine est rempli, le miroir d'interprétation s'active automatiquement.
+    </div>`;
+    return;
+  }
+  const phraseSig = PHRASES_SIGNATURE_FE[Math.floor(Math.random()*PHRASES_SIGNATURE_FE.length)];
+
+  let html = '';
+
+  // ===== HERO synthèse =====
+  html += `<button class="btn-regen-miroir" onclick="renderMiroirFE()">🔄 Régénérer le miroir</button>`;
+  html += `<div class="miroir-fe-hero">
+    <h2>🪞 ${esc(profil.typeProfil)}
+      <span class="codes-pro" title="Code pro de synthèse">${esc(profil.codesPro)}</span>
+    </h2>
+    <div class="phrase-synth">${esc(profil.phraseSynth)}</div>
+    <div class="phrase-synth" style="border-left-color:var(--violet-titre);background:#f6f0fb;font-style:italic"><em>💡 ${esc(phraseSig)}</em> <small style="color:#888">— Nawel</small></div>
+    <div class="stats-domaines">
+      ${profil.data.map(x=>{
+        const sigle = x.niv===3?'PP':x.niv===2?'P':x.niv===1?'S':'✓';
+        return `<div class="stat-d" style="--c:${x.d.couleur}">
+          <div class="ic">${x.d.icone}</div>
+          <div class="cd">${x.d.code}-${sigle}</div>
+          <div class="vd">${x.score}/30</div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+
+  // ===== HYPOTHÈSES CLINIQUES =====
+  const matches = matchHypotheses(profil);
+  if(matches.length > 0){
+    html += `<section class="miroir-fe-section" style="--c:#e9a73a">
+      <h3>🔬 Hypothèses cliniques possibles
+        <span style="font-size:.78rem;font-weight:400;color:#888;font-style:italic">(croiser obligatoirement avec anamnèse + bilan pro)</span>
+      </h3>
+      <p style="font-size:.85rem;color:#888;margin:0 0 .5rem;font-style:italic">Combinaisons de domaines fragiles qui évoquent un tableau particulier. Indices, jamais diagnostic.</p>
+      ${matches.map(h=>`
+        <div class="hypothese-card match">
+          <div class="titre">${esc(h.titre)} <span class="codes">${esc(h.codes)}</span></div>
+          <div class="desc">${esc(h.desc)}</div>
+        </div>
+      `).join('')}
+    </section>`;
+  } else if(profil.fragiles.length > 0){
+    html += `<section class="miroir-fe-section" style="--c:#e9a73a">
+      <h3>🔬 Hypothèses cliniques</h3>
+      <p style="font-size:.88rem;color:#666;font-style:italic">Aucune combinaison typique détectée. Fragilité focale sur un ou deux domaines — voir détail ci-dessous.</p>
+    </section>`;
+  }
+
+  // ===== DOMAINES FRAGILES — DÉTAIL =====
+  if(profil.fragiles.length > 0){
+    html += `<section class="miroir-fe-section" style="--c:#c25a30">
+      <h3>🎯 Domaines fragiles — lecture détaillée</h3>
+      ${profil.fragiles.map(x=>{
+        const fragItems = itemsFragiles(x.d);
+        const sigle = x.niv===3?'PP':x.niv===2?'P':'S';
+        return `<div class="domaine-detail" style="--c:${x.d.couleur}">
+          <h4>${x.d.icone} ${esc(x.d.nom)} <span class="verdict-pill">${x.d.code}-${sigle} · ${x.score}/30 · ${esc(x.label)}</span></h4>
+          ${fragItems.length>0 ? `
+            <div class="titre-adapt" style="color:#a04a10">📌 Items cotés souvent/toujours :</div>
+            <ul class="items-frag" style="margin:.1rem 0 .4rem;padding-left:1.2rem">
+              ${fragItems.map(it=>`<li>(${it.score===3?'toujours':'souvent'}) ${esc(it.texte)}</li>`).join('')}
+            </ul>
+          ` : ''}
+          <div class="titre-adapt">🌱 Adaptations / compétences à enseigner :</div>
+          <ul class="adapt">${x.d.reco.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
+          ${x.d.outils ? `
+            <div class="titre-outils">🔗 Outils EducaTypique :</div>
+            <div class="outils-row">
+              ${x.d.outils.map(o=>`<a class="outil-chip" href="${o.l}" target="_blank">${esc(o.t)}</a>`).join('')}
+            </div>
+          ` : ''}
+          <div class="titre-orient">🧭 Orientation possible :</div>
+          <div class="orient-text">${esc(x.d.orient)}</div>
+        </div>`;
+      }).join('')}
+    </section>`;
+  }
+
+  // ===== PLAN 3 CIBLES =====
+  if(profil.fragiles.length > 0){
+    const cibles = [];
+    cibles.push(profil.fragiles[0]); // priorité 1
+    if(profil.fragiles[1]) cibles.push(profil.fragiles[1]); // priorité 2
+    // 3e cible : un domaine SOLIDE à exploiter comme levier
+    const levier = profil.solides[0];
+    html += `<section class="miroir-fe-section" style="--c:#2a9d8f">
+      <h3>📋 Plan d'action — 3 cibles prioritaires</h3>
+      <p style="font-size:.85rem;color:#888;margin:0 0 .5rem;font-style:italic">Hiérarchisation suggérée pour les 4-6 prochaines semaines.</p>
+      <div class="plan-3-cibles">
+        <div class="cible-card" style="--c:#c25a30">
+          <div class="lbl-cible">🥇 Priorité 1 · Cible critique</div>
+          <div class="nom-cible">${cibles[0].d.icone} ${esc(cibles[0].d.nom.split('. ')[1])}</div>
+          <div class="action-cible">${esc(cibles[0].d.reco[0])}</div>
+        </div>
+        ${cibles[1] ? `
+        <div class="cible-card" style="--c:#e9a73a">
+          <div class="lbl-cible">🥈 Priorité 2 · Cible secondaire</div>
+          <div class="nom-cible">${cibles[1].d.icone} ${esc(cibles[1].d.nom.split('. ')[1])}</div>
+          <div class="action-cible">${esc(cibles[1].d.reco[0])}</div>
+        </div>` : ''}
+        ${levier ? `
+        <div class="cible-card" style="--c:#1b7a4a">
+          <div class="lbl-cible">🌟 Levier · Domaine solide à exploiter</div>
+          <div class="nom-cible">${levier.d.icone} ${esc(levier.d.nom.split('. ')[1])}</div>
+          <div class="action-cible">Utiliser ce domaine fort comme appui pour soutenir les cibles 1 et 2 (motivation, sentiment de compétence).</div>
+        </div>` : ''}
+      </div>
+    </section>`;
+  }
+
+  // ===== CONSEILS PARENT / ÉCOLE / PRO =====
+  if(profil.fragiles.length > 0){
+    const parent = [];
+    const ecole = [];
+    const pro = [];
+    profil.fragiles.forEach(x=>{
+      if(x.d.id==='inhib'){
+        parent.push("<strong>Inhibition fragile :</strong> rendre la consigne visible (carte « stop · pense · agis »). Renforcer chaque réussite d'attente, même courte.");
+        ecole.push("<strong>En classe :</strong> place devant, distance des distracteurs, consignes courtes une à la fois.");
+      }
+      if(x.d.id==='flex'){
+        parent.push("<strong>Flexibilité fragile :</strong> annoncer les transitions 5 min avant. Visualiser un « plan B » avant de démarrer.");
+        ecole.push("<strong>En classe :</strong> emploi du temps visuel, prévenir les changements (intervenant, salle, programme).");
+      }
+      if(x.d.id==='reg'){
+        parent.push("<strong>Régulation émotionnelle :</strong> R.A.H.M.A — Reconnaître/Accueillir/Harmoniser/Modéliser/Accompagner. Sécuriser AVANT raisonner.");
+        ecole.push("<strong>En classe :</strong> coin calme accessible, signal discret pour sortir, ne pas confronter en plein débordement.");
+      }
+      if(x.d.id==='init'){
+        parent.push("<strong>Initiation fragile :</strong> donner la 1ère micro-étape concrète (« écris la date »). Règle 5 min : « tu commences, on voit après ».");
+        ecole.push("<strong>En classe :</strong> aide au démarrage systématique, modèle de la 1ère ligne donné, indications visuelles « par quoi commencer ».");
+      }
+      if(x.d.id==='mdt'){
+        parent.push("<strong>Mémoire de travail :</strong> consignes en 1-2 étapes max, écrites ET orales. Faire reformuler avant exécution.");
+        ecole.push("<strong>En classe :</strong> consignes affichées en plus de l'oral. Aides externes : cahier de bord, post-it, agenda.");
+      }
+      if(x.d.id==='planif'){
+        parent.push("<strong>Planification :</strong> plan visuel des étapes affiché. Time Timer pour rendre le temps tangible. Check-list cartable.");
+        ecole.push("<strong>En classe :</strong> PAP/PPS avec aménagements clairs sur l'organisation. Cahier de texte aidé.");
+      }
+      if(x.d.id==='autosurv'){
+        parent.push("<strong>Auto-surveillance :</strong> grille de relecture en 3 questions. Auto-évaluation après tâche (« comment je me suis senti, où j'ai bloqué »).");
+        ecole.push("<strong>En classe :</strong> feedback descriptif non évaluatif. Scénarios sociaux si versant relationnel.");
+      }
+      if(x.d.id==='attsout'){
+        parent.push("<strong>Attention soutenue :</strong> Pomodoro adapté (10 min focus / 3 min pause mouvement). Autoriser le mouvement pendant le travail.");
+        ecole.push("<strong>En classe :</strong> pauses sensorielles autorisées, tâche prioritaire le matin, casque anti-bruit possible.");
+      }
+    });
+    // Pro : orientations cumulées
+    profil.fragiles.forEach(x=>{
+      pro.push(`<strong>${x.d.code} :</strong> ${esc(x.d.orient)}`);
+    });
+    pro.push("<strong>Synthèse pro :</strong> Restituer aux parents en focalisant sur 1-2 cibles maximum, jamais l'ensemble. Réévaluer à 6-8 semaines.");
+
+    html += `<section class="miroir-fe-section" style="--c:#7c5cbf">
+      <h3>💼 Conseils contextualisés</h3>
+      ${parent.length>0 ? `<h4 style="color:#a84268;margin:.5rem 0 .3rem;font-size:.95rem">🏡 Pour le parent</h4>
+      ${parent.map(p=>`<div class="conseil-fe-parent">${p}</div>`).join('')}` : ''}
+      ${ecole.length>0 ? `<h4 style="color:#1a6a5a;margin:.6rem 0 .3rem;font-size:.95rem">🏫 Pour l'école / AESH</h4>
+      ${ecole.map(p=>`<div class="conseil-fe-ecole">${p}</div>`).join('')}` : ''}
+      <h4 style="color:#5a3c8f;margin:.6rem 0 .3rem;font-size:.95rem">📋 Pour le pro</h4>
+      ${pro.map(p=>`<div class="conseil-fe-pro">${p}</div>`).join('')}
+    </section>`;
+  }
+
+  // ===== ALERTES BILAN COMPLÉMENTAIRE =====
+  const alertes = [];
+  if(profil.fragiles.length >= 5) alertes.push("5 domaines ou + fragiles → bilan neuropsy complet rapidement, croiser avec anamnèse et examen neurologique.");
+  const reg = profil.data.find(x=>x.d.id==='reg');
+  if(reg && reg.niv === 3) alertes.push("Régulation émotionnelle en PP → évaluation anxiété/dépression/trauma à envisager.");
+  const inh = profil.data.find(x=>x.d.id==='inhib');
+  if(inh && inh.niv === 3) alertes.push("Inhibition en PP → consultation pédopsy / neuropédiatre prioritaire pour exploration TDAH.");
+  const flex = profil.data.find(x=>x.d.id==='flex');
+  const autosurv = profil.data.find(x=>x.d.id==='autosurv');
+  if(flex && autosurv && flex.niv >= 2 && autosurv.niv >= 2) alertes.push("Flexibilité + auto-surveillance fragiles → croiser avec questionnaire TSA si non encore exploré.");
+  if(alertes.length > 0){
+    html += `<div class="alerte-bilan">
+      <div class="titre">⚠️ Indicateurs appelant un bilan complémentaire</div>
+      <ul>${alertes.map(a=>`<li>${esc(a)}</li>`).join('')}</ul>
+      <p style="font-size:.82rem;color:#7a3a10;margin:.4rem 0 0;font-style:italic">Ce miroir n'est PAS un diagnostic. Il oriente vers les bilans à programmer.</p>
+    </div>`;
+  }
+
+  c.innerHTML = html;
+}
+
+function rendreDomaines(){
+  const cont = document.getElementById('domaines');
+  cont.innerHTML = DOMAINES.map(d=>`
+    <section class="domaine" id="d-${d.id}" style="--c:${d.couleur}">
+      <h2>${d.icone} ${esc(d.nom)} <span class="badge" id="badge-${d.id}">— / 30</span></h2>
+      <p class="def">${esc(d.def)}</p>
+      <div class="legende-echelle">
+        <span><b>0</b> jamais</span>
+        <span><b>1</b> parfois</span>
+        <span><b>2</b> souvent</span>
+        <span><b>3</b> toujours</span>
+      </div>
+      ${d.items.map((it,i)=>`
+        <div class="item">
+          <div class="texte">${esc(it)}</div>
+          <div class="echelle" data-q="${d.id}_${i}">
+            ${[0,1,2,3].map(v=>`
+              <label>
+                <input type="radio" name="${d.id}_${i}" value="${v}">
+                <span class="v">${v}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </section>
+  `).join('');
+
+  cont.querySelectorAll('input[type="radio"]').forEach(r=>{
+    r.addEventListener('change', recalculer);
+  });
+}
+
+function scoreDomaine(d){
+  let s = 0, n = 0;
+  d.items.forEach((_,i)=>{
+    const checked = document.querySelector(`input[name="${d.id}_${i}"]:checked`);
+    if(checked){ s += parseInt(checked.value,10); n++; }
+  });
+  return { score:s, n, max:30 };
+}
+
+function verdict(score){
+  if(score<=7) return { label:'solide', classe:'v-solide', niveau:0 };
+  if(score<=15) return { label:'à surveiller', classe:'v-surveiller', niveau:1 };
+  if(score<=22) return { label:'fragile', classe:'v-fragile', niveau:2 };
+  return { label:'en grande difficulté', classe:'v-difficulte', niveau:3 };
+}
+
+function recalculer(){
+  const lignes = document.getElementById('lignes-profil');
+  const fragiles = [];
+  lignes.innerHTML = DOMAINES.map(d=>{
+    const r = scoreDomaine(d);
+    const v = verdict(r.score);
+    document.getElementById('badge-'+d.id).textContent = r.score + ' / 30';
+    const pct = Math.round((r.score/30)*100);
+    if(v.niveau>=2) fragiles.push(d);
+    return `
+      <div class="ligne">
+        <div class="nom" style="color:${d.couleur}">${d.icone} ${esc(d.nom)}</div>
+        <div class="barre"><div class="remplissage" style="width:${pct}%;background:${d.couleur}">${r.score}/30</div></div>
+        <div class="verdict ${v.classe}">${v.label}</div>
+      </div>
+    `;
+  }).join('');
+
+  // Miroir clinique personnalisé
+  renderMiroirFE();
+
+  // Recommandations
+  const recoSec = document.getElementById('reco-section');
+  const recoCont = document.getElementById('reco-contenu');
+  if(fragiles.length === 0){
+    recoSec.style.display = 'none';
+  } else {
+    recoSec.style.display = 'block';
+    recoCont.innerHTML = fragiles.map(d=>`
+      <div class="bloc-reco" style="--c:${d.couleur}">
+        <h3>${d.icone} ${esc(d.nom)}</h3>
+        <strong style="font-size:.85rem;color:var(--muted)">Adaptations / compétences à enseigner :</strong>
+        <ul>${d.reco.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
+        <p style="margin:.4rem 0 0;font-size:.85rem"><strong style="color:var(--violet-titre)">Orientation possible :</strong> ${esc(d.orient)}</p>
+      </div>
+    `).join('');
+  }
+}
+
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{ o[el.dataset.k] = el.value; });
+  DOMAINES.forEach(d=>{
+    d.items.forEach((_,i)=>{
+      const c = document.querySelector(`input[name="${d.id}_${i}"]:checked`);
+      o[d.id+'_'+i] = c ? c.value : '';
+    });
+  });
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{ el.value = o[el.dataset.k] || ''; });
+  DOMAINES.forEach(d=>{
+    d.items.forEach((_,i)=>{
+      const v = o[d.id+'_'+i];
+      document.querySelectorAll(`input[name="${d.id}_${i}"]`).forEach(r=>{ r.checked = (r.value === v); });
+    });
+  });
+  recalculer();
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{ el.value=''; });
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{ r.checked = false; });
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+  recalculer();
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML = '<em style="color:var(--muted);font-size:.85rem">Aucun profil enregistré.</em>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span>${esc(o.prenom||'?')} · ${esc(o.age||'')} · ${esc((o.date||o._ts||'').slice(0,10))} · ${esc(o.observateur||'')}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire();
+      const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer ce profil ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom (ou initiales).'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr);
+  rendreDossiers();
+  alert('Profil enregistré.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const lignes = ['Profil fonctions exécutives — Boîte NeuroPed','EducaTypique · Création originale Nawel Haddouch',''];
+  lignes.push('Prénom : '+(o.prenom||'—')+' · Âge : '+(o.age||'—')+' · Date : '+(o.date||'—'));
+  lignes.push('Observateur : '+(o.observateur||'—')+' · Contexte : '+(o.contexte||'—'));
+  lignes.push('');
+  // ===== MIROIR CLINIQUE =====
+  const prof = buildProfilFE();
+  if(prof){
+    lignes.push('======= 🪞 MIROIR CLINIQUE PERSONNALISÉ =======');
+    lignes.push('');
+    lignes.push('TYPE DE PROFIL : '+prof.typeProfil);
+    lignes.push('CODE PRO : '+prof.codesPro);
+    lignes.push('SYNTHÈSE : '+prof.phraseSynth);
+    lignes.push('');
+    // Hypothèses
+    const matches = matchHypotheses(prof);
+    if(matches.length>0){
+      lignes.push('-- Hypothèses cliniques (à croiser avec anamnèse) --');
+      matches.forEach(h=>{ lignes.push('  • '+h.titre+' ['+h.codes+']'); lignes.push('    '+h.desc); });
+      lignes.push('');
+    }
+    // Domaines fragiles + items + outils
+    if(prof.fragiles.length>0){
+      lignes.push('-- Domaines fragiles --');
+      prof.fragiles.forEach(x=>{
+        const sigle = x.niv===3?'PP':x.niv===2?'P':'S';
+        lignes.push('  '+x.d.code+'-'+sigle+' · '+x.d.nom+' ('+x.score+'/30 · '+x.label+')');
+        const fi = itemsFragiles(x.d);
+        if(fi.length>0){
+          lignes.push('    Items cotés souvent/toujours :');
+          fi.forEach(it=>lignes.push('      · ('+(it.score===3?'tjs':'svt')+') '+it.texte));
+        }
+        if(x.d.outils){
+          lignes.push('    Outils EducaTypique : '+x.d.outils.map(o=>o.t).join(' · '));
+        }
+        lignes.push('    Orientation : '+x.d.orient);
+        lignes.push('');
+      });
+    }
+    // Plan 3 cibles
+    if(prof.fragiles.length>0){
+      lignes.push('-- Plan d\'action 3 cibles --');
+      lignes.push('  🥇 Priorité 1 : '+prof.fragiles[0].d.nom+' → '+prof.fragiles[0].d.reco[0]);
+      if(prof.fragiles[1]) lignes.push('  🥈 Priorité 2 : '+prof.fragiles[1].d.nom+' → '+prof.fragiles[1].d.reco[0]);
+      if(prof.solides[0]) lignes.push('  🌟 Levier solide : '+prof.solides[0].d.nom+' (à exploiter comme appui)');
+      lignes.push('');
+    }
+    lignes.push('================================================');
+    lignes.push('');
+  }
+  DOMAINES.forEach(d=>{
+    const r = scoreDomaine(d);
+    const v = verdict(r.score);
+    lignes.push('== '+d.nom+' : '+r.score+'/30 — '+v.label+' ==');
+    d.items.forEach((it,i)=>{
+      lignes.push('  · ('+(o[d.id+'_'+i]||'?')+') '+it);
+    });
+    lignes.push('');
+  });
+  lignes.push('== Observations qualitatives ==');
+  lignes.push(o['obs-qual'] || '—');
+  lignes.push('');
+  lignes.push('== Phrase de synthèse ==');
+  lignes.push(o.synthese || '—');
+  const blob = new Blob([lignes.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'profil-FE-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(confirm('Vider le formulaire ? (les profils enregistrés ne seront pas touchés)')) vider();
+});
+
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDomaines();
+recalculer();
+rendreDossiers();
+</script>
+
+</body>
+</html>

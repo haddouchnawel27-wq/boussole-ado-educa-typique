@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionnaire TND — Educa Typique</title>
+<style>
+  :root {
+    --teal: #2D7D9A; --teal-dark: #1A5C73; --teal-light: #E8F4F8; --teal-med: #B8DDE8;
+    --orange: #E07B3A; --orange-light: #FFF3EC;
+    --dark: #0F1E24; --grey: #5A6A70; --light: #F2F6F8; --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--light); color: var(--dark); }
+  #app { min-height: 100vh; }
+
+  /* BUTTONS */
+  .btn-primary {
+    display: block; width: 100%; padding: 0.95rem; border: none; border-radius: 0.875rem;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    color: white; font-size: 1rem; font-weight: 800; cursor: pointer;
+    font-family: inherit; box-shadow: 0 4px 18px rgba(45,125,154,0.35); transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary:disabled { background: #CBD5E0; box-shadow: none; cursor: not-allowed; }
+  .btn-secondary {
+    display: block; width: 100%; padding: 0.875rem; border: 2px solid var(--teal-med);
+    border-radius: 0.875rem; background: white; color: var(--teal); font-size: 0.9rem;
+    font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: var(--teal-light); }
+
+  /* INPUT */
+  .field-input {
+    width: 100%; padding: 0.65rem 0.9rem; border: 2px solid var(--teal-med);
+    border-radius: 0.6rem; font-size: 1rem; font-family: inherit; outline: none;
+    background: var(--light); color: var(--dark); transition: border-color 0.2s;
+  }
+  .field-input:focus { border-color: var(--teal); }
+
+  /* CARD */
+  .card { background: white; border-radius: 1rem; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+
+  /* COVER */
+  .cover-bg {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--teal-dark) 0%, var(--teal) 60%, #3A9BBF 100%);
+    display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+  }
+  .cover-card {
+    background: white; border-radius: 1.5rem; padding: 2rem 2rem 2.5rem;
+    max-width: 460px; width: 100%; box-shadow: 0 25px 80px rgba(0,0,0,0.25);
+  }
+  .brand-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; }
+  .brand-icon {
+    width: 38px; height: 38px; background: var(--teal-light); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+  }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; }
+  .tag {
+    padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.73rem; font-weight: 700;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .alert-box {
+    background: var(--orange-light); border: 1px solid rgba(224,123,58,0.4);
+    border-radius: 0.75rem; padding: 0.75rem 1rem; margin-bottom: 1.5rem;
+    display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.8rem; color: #7A3D0A; line-height: 1.5;
+  }
+  .field-group { margin-bottom: 0.75rem; }
+  .field-label { font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 0.3rem; }
+  .fields { margin-bottom: 1.5rem; }
+  .meta-line { text-align: center; font-size: 0.72rem; color: var(--grey); margin-top: 0.875rem; }
+
+  /* QUIZ */
+  .quiz-header {
+    position: sticky; top: 0; z-index: 100; background: var(--teal-dark);
+    padding: 0.75rem 1rem; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .quiz-header-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+  .progress-bar-bg { height: 3px; background: rgba(255,255,255,0.2); border-radius: 9999px; overflow: hidden; margin-top: 0.5rem; max-width: 640px; margin-left: auto; margin-right: auto; }
+  .progress-bar-fill { height: 100%; background: var(--orange); border-radius: 9999px; transition: width 0.4s ease; }
+  .badge { background: var(--orange); color: white; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; }
+  .tabs-bar { background: white; border-bottom: 1px solid #E2ECF0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tabs-inner { display: flex; gap: 0.25rem; padding: 0.6rem 1rem; max-width: 640px; margin: 0 auto; min-width: max-content; }
+  .tab-btn { padding: 0.3rem 0.7rem; border-radius: 9999px; border: none; cursor: pointer; white-space: nowrap; font-size: 0.73rem; font-weight: 700; font-family: inherit; transition: all 0.15s; }
+
+  .quiz-body { max-width: 640px; margin: 0 auto; padding: 1.25rem 1rem 2rem; }
+  .domain-hero {
+    border-radius: 1.25rem; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem;
+    color: white; position: relative; overflow: hidden;
+  }
+  .domain-hero-bg { position: absolute; right: -20px; top: -20px; font-size: 5rem; opacity: 0.12; pointer-events: none; }
+  .sensitive-box {
+    border-radius: 0.75rem; padding: 0.75rem 1rem; margin-bottom: 1rem;
+    display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.82rem; line-height: 1.5;
+  }
+
+  .scale-legend { display: flex; gap: 0.3rem; margin-bottom: 1.25rem; }
+  .scale-pip { flex: 1; text-align: center; padding: 0.35rem 0.2rem; border-radius: 0.5rem; border: 1px solid rgba(0,0,0,0.06); }
+  .scale-pip .pip-num { font-weight: 800; font-size: 0.9rem; }
+  .scale-pip .pip-label { font-size: 0.62rem; font-weight: 600; line-height: 1.2; margin-top: 0.1rem; }
+
+  .questions-list { display: flex; flex-direction: column; gap: 0.875rem; margin-bottom: 1.5rem; }
+  .q-card {
+    background: white; border-radius: 1rem; padding: 1rem 1.125rem;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06); border: 2px solid transparent; transition: border-color 0.2s;
+  }
+  .q-text { font-size: 0.92rem; line-height: 1.55; font-weight: 500; margin-bottom: 0.75rem; }
+  .q-num { font-weight: 800; margin-right: 0.35rem; }
+  .scale-btns { display: flex; gap: 0.4rem; }
+  .scale-btn {
+    flex: 1; padding: 0.55rem 0.2rem; border-radius: 0.6rem; border: 2.5px solid #DDE6EA;
+    background: white; font-size: 0.82rem; font-weight: 800; cursor: pointer; font-family: inherit;
+    transition: all 0.15s; line-height: 1.3;
+  }
+  .scale-btn .btn-label { font-size: 0.58rem; font-weight: 600; margin-top: 0.1rem; opacity: 0.85; }
+
+  .quiz-nav { display: flex; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .hint { text-align: center; color: var(--grey); font-size: 0.78rem; margin-top: 0.5rem; }
+
+  /* RESULTS */
+  .results-header {
+    background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+    padding: 1.5rem 1rem 3rem; text-align: center;
+  }
+  .scores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; }
+  .score-card { background: white; border-radius: 1rem; padding: 1rem 1.125rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  .score-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem; }
+  .score-tag { font-size: 0.75rem; font-weight: 800; margin-bottom: 0.1rem; }
+  .score-sublabel { font-size: 0.78rem; color: var(--grey); }
+  .score-num { font-weight: 900; font-size: 1.1rem; }
+  .score-num small { font-size: 0.7rem; color: var(--grey); font-weight: 400; }
+  .score-bar-bg { height: 7px; background: #EEF2F5; border-radius: 9999px; overflow: hidden; margin-bottom: 0.5rem; }
+  .score-bar-fill { height: 100%; border-radius: 9999px; }
+  .level-badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 700; }
+
+  .synthesis-card {
+    background: white; border-radius: 1.25rem; padding: 1.25rem 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 1rem; border: 1px solid var(--teal-med);
+  }
+  .synthesis-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 0.875rem; border-bottom: 1px solid var(--teal-light); }
+  .synthesis-avatar {
+    width: 42px; height: 42px; background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+  }
+  .synthesis-text { font-size: 0.92rem; line-height: 1.75; white-space: pre-wrap; }
+  .synthesis-loader { text-align: center; padding: 2rem; color: var(--grey); }
+  .api-key-section { margin-top: 0.875rem; }
+  .api-key-row { display: flex; gap: 0.5rem; }
+
+  .disclaimer { background: var(--teal-light); border-radius: 0.875rem; padding: 0.875rem 1rem; margin-bottom: 1rem; font-size: 0.8rem; color: var(--teal-dark); line-height: 1.6; }
+  .crisis-box {
+    background: #FDECEA; border: 2px solid #C0392B; border-radius: 1rem;
+    padding: 1rem 1.25rem; margin-bottom: 1rem; display: flex; gap: 0.75rem; align-items: flex-start;
+  }
+  .crisis-title { font-weight: 800; color: #C0392B; font-size: 0.9rem; margin-bottom: 0.3rem; }
+  .crisis-text { font-size: 0.83rem; color: #8B0000; line-height: 1.6; margin: 0; }
+
+  .results-inner { max-width: 640px; margin: -1.5rem auto 0; padding: 0 1rem 3rem; position: relative; }
+
+  @media print {
+    .quiz-header, .tabs-bar, .quiz-nav, .hint, .btn-primary, .btn-secondary,
+    .api-key-section, .results-header .big-emoji { display: none; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+<a href="../../ados.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#7c5cbf;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(124,92,191,0.2)">← Boîte NeuroPed</a><!--data-back-link-injected-->
+<div id="app"></div>
+
+<script>
+// ─── PALETTE ───────────────────────────────────────────────────────────────
+const SCALE = [
+  { val:0, label:'Jamais',   color:'#2D7D9A', bg:'#E8F4F8' },
+  { val:1, label:'Parfois',  color:'#D4A017', bg:'#FFF8E1' },
+  { val:2, label:'Souvent',  color:'#E07B3A', bg:'#FFF3EC' },
+  { val:3, label:'Toujours', color:'#C0392B', bg:'#FDECEA' },
+];
+
+// ─── DOMAINS ───────────────────────────────────────────────────────────────
+const DOMAINS = [
+  { id:'tdah', tag:'TDAH', label:"Attention & Impulsivité", emoji:'⚡', color:'#2D7D9A', light:'#E8F4F8',
+    questions:[
+      "J'ai du mal à rester concentré(e) sur quelque chose qui ne m'intéresse pas",
+      "J'oublie facilement mes affaires, mes devoirs ou les consignes",
+      "Je laisse beaucoup de choses à moitié finies",
+      "Je me laisse distraire par la moindre chose autour de moi",
+      "Je parle ou j'agis sans vraiment réfléchir avant",
+      "J'ai du mal à attendre ou à rester tranquille longtemps",
+      "Je m'organise vraiment difficilement (cartable, planning, agenda...)",
+      "Ma motivation change énormément selon ce qui m'intéresse ou pas",
+      "J'ai l'impression que ma tête tourne en permanence, même au calme",
+      "Je m'énerve vite quand les choses ne se passent pas comme je veux",
+    ]
+  },
+  { id:'hpi', tag:'HPI', label:"Fonctionnement HPI", emoji:'🌟', color:'#5B3E8C', light:'#F0EBFF',
+    questions:[
+      "Je comprends très vite quand quelque chose m'intéresse vraiment",
+      "Je m'ennuie vite quand les tâches me semblent trop répétitives ou trop simples",
+      "Je pose souvent des questions auxquelles les autres ne pensent pas",
+      "Je ressens les injustices très intensément — pour moi et pour les autres",
+      "Je remets en question les règles qui ne me semblent pas logiques",
+      "Je me sens souvent incompris(e) par les gens de mon âge",
+      "J'ai des passions très intenses sur lesquelles je peux rester des heures",
+      "Mon humour ou mes idées ne sont pas toujours compris autour de moi",
+      "Il y a un grand écart entre ce que je comprends et ce que je produis à l'écrit",
+      "Je suis épuisé(e) de faire semblant d'être « comme tout le monde »",
+    ]
+  },
+  { id:'top', tag:'TOP', label:"Opposition & Autorité", emoji:'🔥', color:'#C0392B', light:'#FDECEA',
+    questions:[
+      "Je discute ou conteste souvent les règles qu'on me donne",
+      "J'ai du mal à accepter un « non » sans explication",
+      "Je m'énerve facilement quand on me demande quelque chose",
+      "Je cherche souvent à avoir le dernier mot",
+      "Il m'arrive de faire exprès de contrarier ou d'agacer",
+      "Quand quelque chose tourne mal, c'est souvent la faute des autres selon moi",
+      "Je suis souvent irritable ou susceptible",
+      "Je peux être rancunier(e) quand je me sens traité(e) injustement",
+    ]
+  },
+  { id:'tsa', tag:'TSA', label:"Social & Sensoriel", emoji:'🌐', color:'#1565C0', light:'#E3F2FD',
+    questions:[
+      "Je comprends mal ce que les gens veulent dire « entre les lignes »",
+      "Les interactions en groupe sont très épuisantes pour moi",
+      "J'ai besoin de routines très stables pour me sentir bien",
+      "Les changements imprévus me perturbent vraiment fort",
+      "Mes intérêts sont très spécifiques et prennent beaucoup de place",
+      "Je suis très sensible à certains bruits, lumières ou textures",
+      "J'ai souvent l'impression de « jouer un rôle » pour être comme les autres",
+      "Je préfère souvent être seul(e) plutôt qu'en groupe",
+    ]
+  },
+  { id:'dys', tag:'DYS', label:"Apprentissages", emoji:'📚', color:'#2E7D32', light:'#E8F5E9',
+    questions:[
+      "Je lis lentement et dois relire plusieurs fois pour comprendre",
+      "J'ai beaucoup de fautes d'orthographe malgré mes efforts",
+      "Mon écriture est peu lisible ou j'écris très lentement",
+      "Je me fatigue vite quand j'écris à la main",
+      "J'ai du mal en mathématiques (calcul, tables, problèmes)",
+      "Je suis maladroit(e) — je me cogne ou renverse facilement des choses",
+      "Prendre des notes en écoutant en même temps est très difficile",
+      "Mes résultats écrits ne reflètent pas du tout ce que je sais vraiment",
+    ]
+  },
+  { id:'anxiete', tag:'Anxiété', label:"Anxiété & Stress", emoji:'😰', color:'#E65100', light:'#FFF3E0',
+    questions:[
+      "Je m'inquiète souvent pour beaucoup de choses en même temps",
+      "J'ai peur de mal faire ou d'être jugé(e) par les autres",
+      "Avant les contrôles ou évaluations, je suis très stressé(e)",
+      "J'évite certaines situations parce qu'elles m'angoissent trop",
+      "J'ai des maux de ventre, de tête ou d'autres douleurs liées au stress",
+      "Je rumine — je repense en boucle à des situations passées",
+      "J'ai du mal à m'endormir parce que ma tête ne s'arrête pas",
+      "Je me sens souvent tendu(e) ou sur les nerfs",
+    ]
+  },
+  { id:'depression', tag:'Moral', label:"Moral & Énergie", emoji:'🌧️', color:'#37474F', light:'#ECEFF1',
+    sensitive:true,
+    questions:[
+      "Je me sens souvent triste ou vide, sans trop savoir pourquoi",
+      "Je n'ai plus envie de faire des choses que j'aimais avant",
+      "Je me fatigue très vite, même sans avoir beaucoup fait",
+      "Je me dis souvent que je suis nul(le) ou que je ne vaux pas grand chose",
+      "J'ai du mal à me projeter dans l'avenir ou à voir quelque chose de positif",
+      "Je me sens seul(e) même quand je suis entouré(e)",
+      "Il m'arrive d'avoir des pensées sombres ou de vouloir me faire du mal",
+      "Je pleure souvent ou j'ai envie de pleurer sans vraiment comprendre pourquoi",
+    ]
+  },
+  { id:'risques', tag:'Comportements', label:"Comportements & Risques", emoji:'⚠️', color:'#D84315', light:'#FBE9E7',
+    sensitive:true, intro:"Ces questions sont confidentielles. Elles aident à mieux te comprendre pour trouver le bon soutien.",
+    questions:[
+      "Je consomme de l'alcool ou d'autres substances pour me sentir mieux ou moins penser",
+      "Je prends des risques délibérément sans vraiment m'en préoccuper",
+      "J'ai des comportements que je sais dangereux mais que j'ai du mal à arrêter",
+      "Il m'arrive de me blesser volontairement pour évacuer quelque chose",
+      "J'ai parfois des pensées de disparaître ou que tout serait mieux sans moi",
+      "Je passe beaucoup de temps sur les écrans pour éviter de penser",
+    ]
+  },
+  { id:'alimentaire', tag:'Alimentation', label:"Alimentation & Corps", emoji:'🌿', color:'#AD1457', light:'#FCE4EC',
+    sensitive:true, intro:"Ces questions concernent ta relation à la nourriture et à ton corps. Réponds honnêtement.",
+    questions:[
+      "Je saute souvent des repas ou mange beaucoup moins que ce dont j'aurais besoin",
+      "Je pense souvent à ma nourriture, mon poids ou mon corps",
+      "Je me sens coupable ou honteux(se) après avoir mangé",
+      "Il m'arrive de manger énormément en peu de temps, sans pouvoir m'arrêter",
+      "J'ai des comportements pour « compenser » ce que j'ai mangé",
+      "Ce que je vois dans le miroir est très différent de ce que les autres voient",
+    ]
+  },
+];
+
+// ─── STATE ─────────────────────────────────────────────────────────────────
+const S = {
+  screen: 'cover', name:'', age:'', domIdx:0,
+  answers:{}, aiText:'', aiLoading:false
+};
+
+// ─── HELPERS ───────────────────────────────────────────────────────────────
+function score(id){ return Object.values(S.answers[id]||{}).reduce((a,b)=>a+b,0); }
+function maxScore(id){ return DOMAINS.find(d=>d.id===id).questions.length*3; }
+function domDone(id){ return Object.keys(S.answers[id]||{}).length===DOMAINS.find(d=>d.id===id).questions.length; }
+function totalPct(){
+  const tot=DOMAINS.reduce((a,d)=>a+d.questions.length,0);
+  const ans=DOMAINS.reduce((a,d)=>a+Object.keys(S.answers[d.id]||{}).length,0);
+  return Math.round((ans/tot)*100);
+}
+function getLevel(s,mx){
+  const p=s/mx;
+  if(p<0.25)return{n:0,label:'Peu de signes',   color:'#2E7D32',bg:'#E8F5E9',bar:'#4CAF50'};
+  if(p<0.5) return{n:1,label:'Signes légers',    color:'#D4A017',bg:'#FFF8E1',bar:'#FFC107'};
+  if(p<0.75)return{n:2,label:'Signes notables',  color:'#E07B3A',bg:'#FFF3EC',bar:'#FF9800'};
+  return          {n:3,label:'Signes marqués',   color:'#C0392B',bg:'#FDECEA',bar:'#F44336'};
+}
+
+// ─── STATIC SYNTHESIS ──────────────────────────────────────────────────────
+function buildSynthesis(){
+  const prenom = S.name || 'toi';
+  const lines = [];
+
+  const high = DOMAINS.filter(d => getLevel(score(d.id), maxScore(d.id)).n >= 2).map(d=>d.id);
+  const mod  = DOMAINS.filter(d => getLevel(score(d.id), maxScore(d.id)).n === 1).map(d=>d.id);
+
+  const msgs = {
+    tdah: "Ton profil montre beaucoup de signes liés à l'attention et à l'impulsivité. Ton cerveau va vite, se lasse vite, et réagit avant même d'avoir eu le temps de réfléchir. Ce n'est pas de la paresse — c'est un mode de fonctionnement qui demande des outils spécifiques pour ne plus te desservir.",
+    hpi:  "Tu fonctionnes avec un cerveau qui capte beaucoup, qui va très vite et qui a besoin de sens pour vraiment s'engager. L'ennui est un vrai obstacle pour toi. Le sentiment d'être incompris(e) aussi — et c'est épuisant de faire semblant d'être « comme tout le monde ».",
+    top:  "Tu as clairement du mal avec les règles qui te semblent arbitraires et les situations où tu n'as pas ton mot à dire. Ce n'est pas du « mauvais caractère » — c'est souvent lié à un besoin très fort de justice et à une réactivité émotionnelle intense. Travailler sur ce point, c'est possible et ça change vraiment les choses.",
+    tsa:  "Certains éléments de ton profil suggèrent que les interactions sociales, les environnements imprévisibles et les changements imprévus sont particulièrement coûteux pour toi. Tu as peut-être besoin de beaucoup plus de stabilité, de prévisibilité et d'espace que les autres autour de toi.",
+    dys:  "Tes réponses indiquent des difficultés dans les apprentissages qui vont au-delà de la motivation. Lire, écrire, les maths — certains de ces domaines te demandent un effort disproportionné. Un bilan spécialisé pourrait identifier précisément ce qui se passe et débloquer des aménagements concrets.",
+    anxiete: "Ton niveau d'anxiété semble significatif. Les inquiétudes, le stress de performance, les ruminations — tout ça prend beaucoup de place et d'énergie dans ton quotidien. C'est épuisant, et c'est quelque chose qu'on peut vraiment travailler ensemble.",
+    depression: "Plusieurs de tes réponses indiquent une souffrance morale notable. Ce que tu ressens — la tristesse, le vide, la fatigue, le sentiment de ne valoir pas grand chose — est réel et mérite toute l'attention. Tu ne dois pas traverser ça seul(e).",
+    risques: "Certaines de tes réponses indiquent des comportements qui te mettent en danger ou qui te font souffrir. Il est important d'en parler avec quelqu'un de confiance — pas pour te juger, mais pour t'aider à trouver autre chose.",
+    alimentaire: "Ta relation à la nourriture et à ton corps semble difficile en ce moment. C'est un domaine délicat, souvent lié à d'autres souffrances. Un accompagnement bienveillant et spécialisé peut vraiment aider.",
+  };
+
+  if(high.length===0 && mod.length===0){
+    return `${S.name ? S.name + ', tes' : 'Tes'} réponses ne montrent pas de signes marqués pour le moment. C'est une bonne nouvelle. Si tu as quand même des questions sur ton fonctionnement ou si quelque chose te préoccupe, n'hésite pas à en parler avec un adulte de confiance ou un professionnel.`;
+  }
+
+  lines.push(`${S.name ? S.name + ', voici' : 'Voici'} ce que tes réponses indiquent :\n`);
+  high.forEach(id=>{ if(msgs[id]) lines.push('→ ' + msgs[id]); });
+  if(mod.length>0 && high.length>0) lines.push('\nQuelques signes plus légers apparaissent aussi dans d\'autres domaines — c\'est utile de les avoir en tête même s\'ils sont moins marqués.');
+
+  lines.push('\nCe questionnaire ne pose aucun diagnostic. Il est là pour mieux comprendre ce que tu vis et pour ouvrir une conversation avec un professionnel. Chaque signe repéré est une piste de travail, pas une étiquette.');
+  lines.push('\nTu n\'es pas défini(e) par tes difficultés. Tu es quelqu\'un qui fonctionne différemment — et ça, ça se travaille, ça s\'accompagne, et ça devient une force.');
+
+  return lines.join('\n');
+}
+
+// ─── AI SYNTHESIS via API ──────────────────────────────────────────────────
+async function callAI(apiKey){
+  S.aiLoading = true; render();
+  const scores = DOMAINS.map(d=>{
+    const s=score(d.id),mx=maxScore(d.id);
+    return `${d.tag} (${d.label}) : ${s}/${mx} → ${getLevel(s,mx).label}`;
+  }).join('\n');
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:1000,
+        system:`Tu es Nawel Haddouch, neuropédagogue et coach spécialisée TND au Cabinet Educa Typique.
+Tu analyses les résultats d'un questionnaire d'auto-évaluation rempli par un(e) adolescent(e).
+Tu t'adresses DIRECTEMENT à lui/elle avec chaleur, bienveillance et respect. Tu utilises "tu".
+Tu ne poses AUCUN diagnostic. Max 4 paragraphes. Langage simple. Réponds uniquement en français.`,
+        messages:[{role:'user',content:`Prénom : ${S.name||'Ado'}, Âge : ${S.age||'?'}\n\nRésultats :\n${scores}\n\nFais une synthèse bienveillante et utile.`}]
+      })
+    });
+    const data = await r.json();
+    S.aiText = data.content?.[0]?.text || '';
+  } catch(e){ S.aiText = ''; }
+  S.aiLoading = false; render();
+}
+
+// ─── RENDER ────────────────────────────────────────────────────────────────
+function render(){ document.getElementById('app').innerHTML = html(); bind(); }
+
+function html(){
+  if(S.screen==='cover')  return coverHTML();
+  if(S.screen==='quiz')   return quizHTML();
+  if(S.screen==='results')return resultsHTML();
+}
+
+// COVER
+function coverHTML(){
+  const tags = DOMAINS.map(d=>`<span class="tag" style="background:${d.light};color:${d.color}">${d.emoji} ${d.tag}</span>`).join('');
+  return `
+  <div class="cover-bg">
+    <div class="cover-card">
+      <div class="brand-row">
+        <div class="brand-icon">🧩</div>
+        <div>
+          <div style="font-weight:800;color:var(--teal);font-size:0.9rem;letter-spacing:0.02em">Educa Typique</div>
+          <div style="font-size:0.7rem;color:var(--grey)">Cabinet spécialisé TND</div>
+        </div>
+      </div>
+      <h1 style="font-size:1.5rem;font-weight:900;color:var(--dark);line-height:1.2;margin-bottom:0.25rem">
+        Questionnaire<br><span style="color:var(--teal)">Profil neuro-atypique</span>
+      </h1>
+      <p style="color:var(--grey);font-size:0.9rem;line-height:1.5;margin-bottom:1.5rem">
+        Un outil d'auto-évaluation spécial ados — pour mieux te comprendre.
+      </p>
+      <div class="alert-box">
+        <span>⚠️</span>
+        <div>Ce questionnaire <strong>ne pose pas de diagnostic</strong>. Il aide à repérer des difficultés pour en parler avec un professionnel.</div>
+      </div>
+      <div class="fields">
+        <div class="field-group">
+          <label class="field-label">Ton prénom <span style="color:var(--grey);font-weight:400">(optionnel)</span></label>
+          <input id="inp-name" class="field-input" placeholder="ex : Dénilson" value="${S.name}">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Ton âge</label>
+          <input id="inp-age" class="field-input" type="number" min="10" max="25" placeholder="ex : 16" value="${S.age}">
+        </div>
+      </div>
+      <div style="margin-bottom:1.5rem">
+        <p style="font-size:0.82rem;font-weight:700;color:var(--grey);margin-bottom:0.6rem">Ce questionnaire explore :</p>
+        <div class="tag-list">${tags}</div>
+      </div>
+      <button class="btn-primary" id="btn-start">Commencer →</button>
+      <p class="meta-line">~10 minutes · ${DOMAINS.reduce((a,d)=>a+d.questions.length,0)} questions</p>
+    </div>
+  </div>`;
+}
+
+// QUIZ
+function quizHTML(){
+  const dom = DOMAINS[S.domIdx];
+  const domAns = S.answers[dom.id]||{};
+  const doneCount = Object.keys(domAns).length;
+  const total = dom.questions.length;
+  const pct = totalPct();
+  const isDone = domDone(dom.id);
+
+  const tabsHTML = DOMAINS.map((d,i)=>{
+    const done = domDone(d.id) && i!==S.domIdx;
+    const active = i===S.domIdx;
+    const bg = active ? d.color : (done ? '#E8F5E9' : '#F0F4F8');
+    const col = active ? 'white' : (done ? '#2E7D32' : 'var(--grey)');
+    return `<button class="tab-btn" data-tab="${i}" style="background:${bg};color:${col};outline:${active?`2px solid ${d.color}`:'none'};outline-offset:1px">${d.emoji} ${d.tag}${done?' ✓':''}</button>`;
+  }).join('');
+
+  const scaleHTML = SCALE.map(s=>`
+    <div class="scale-pip" style="background:${s.bg};border-color:${s.color}33">
+      <div class="pip-num" style="color:${s.color}">${s.val}</div>
+      <div class="pip-label" style="color:${s.color}">${s.label}</div>
+    </div>`).join('');
+
+  const qsHTML = dom.questions.map((q,qi)=>{
+    const chosen = domAns[qi];
+    const border = chosen!==undefined ? `${dom.color}55` : 'transparent';
+    const btns = SCALE.map(s=>{
+      const sel = chosen===s.val;
+      return `<button class="scale-btn ans-btn" data-q="${qi}" data-val="${s.val}" style="border-color:${sel?dom.color:'#DDE6EA'};background:${sel?dom.color:s.bg};color:${sel?'white':s.color};transform:${sel?'scale(1.05)':'scale(1)'}">
+        ${s.val}<div class="btn-label">${s.label}</div>
+      </button>`;
+    }).join('');
+    return `<div class="q-card" style="border-color:${border}">
+      <div class="q-text"><span class="q-num" style="color:${dom.color}">${qi+1}.</span>${q}</div>
+      <div class="scale-btns">${btns}</div>
+    </div>`;
+  }).join('');
+
+  const prevBtn = S.domIdx>0 ? `<button class="btn-secondary" id="btn-prev" style="flex:1">← Précédent</button>`:'';
+  const nextLabel = S.domIdx===DOMAINS.length-1 ? '🎯 Voir mes résultats' : 'Section suivante →';
+  const nextStyle = isDone ? `background:linear-gradient(135deg,${dom.color},${dom.color}CC);box-shadow:0 4px 15px ${dom.color}44` : '';
+  const sensitiveBox = dom.sensitive ? `
+    <div class="sensitive-box" style="background:${dom.light};border:1px solid ${dom.color}44;color:${dom.color}">
+      <span>🔒</span><span>${dom.intro||'Ces questions sont confidentielles et servent à mieux te soutenir.'}</span>
+    </div>` : '';
+
+  return `
+  <div>
+    <div class="quiz-header">
+      <div class="quiz-header-inner">
+        <span style="color:white;font-weight:800;font-size:0.85rem">Educa Typique</span>
+        <div style="display:flex;align-items:center;gap:0.75rem">
+          <span style="color:var(--teal-med);font-size:0.8rem">${doneCount}/${total} réponses</span>
+          <span class="badge">${S.domIdx+1}/${DOMAINS.length}</span>
+        </div>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="tabs-bar"><div class="tabs-inner">${tabsHTML}</div></div>
+    <div class="quiz-body">
+      <div class="domain-hero" style="background:linear-gradient(135deg,${dom.color},${dom.color}CC)">
+        <div class="domain-hero-bg">${dom.emoji}</div>
+        <div style="font-size:1.75rem;margin-bottom:0.2rem">${dom.emoji}</div>
+        <h2 style="font-size:1.15rem;font-weight:800;margin:0">${dom.label}</h2>
+        <p style="margin:0.2rem 0 0;font-size:0.8rem;opacity:0.8">Section ${S.domIdx+1} sur ${DOMAINS.length}</p>
+      </div>
+      ${sensitiveBox}
+      <div class="scale-legend">${scaleHTML}</div>
+      <div class="questions-list">${qsHTML}</div>
+      <div class="quiz-nav">
+        ${prevBtn}
+        <button class="btn-primary" id="btn-next" style="flex:2;${nextStyle}" ${isDone?'':' disabled'}>${nextLabel}</button>
+      </div>
+      ${!isDone?`<p class="hint">${doneCount}/${total} questions — complète tout pour continuer</p>`:''}
+    </div>
+  </div>`;
+}
+
+// RESULTS
+function resultsHTML(){
+  const scoresHTML = DOMAINS.map(d=>{
+    const s=score(d.id), mx=maxScore(d.id), lvl=getLevel(s,mx), pct=Math.round(s/mx*100);
+    return `<div class="score-card" style="border-top:4px solid ${d.color}">
+      <div class="score-header">
+        <div>
+          <div class="score-tag" style="color:${d.color}">${d.emoji} ${d.tag}</div>
+          <div class="score-sublabel">${d.label}</div>
+        </div>
+        <div class="score-num" style="color:${lvl.color}">${s}<small>/${mx}</small></div>
+      </div>
+      <div class="score-bar-bg"><div class="score-bar-fill" style="width:${pct}%;background:${lvl.bar}"></div></div>
+      <span class="level-badge" style="background:${lvl.bg};color:${lvl.color}">${lvl.label}</span>
+    </div>`;
+  }).join('');
+
+  const highDep = getLevel(score('depression'), maxScore('depression')).n >= 2;
+  const highRisk= getLevel(score('risques'), maxScore('risques')).n >= 2;
+  const crisis = (highDep||highRisk) ? `
+    <div class="crisis-box">
+      <span style="font-size:1.25rem;flex-shrink:0">💙</span>
+      <div>
+        <div class="crisis-title">Si tu traverses quelque chose de difficile en ce moment</div>
+        <p class="crisis-text">Tu n'es pas seul(e). Parle à un adulte de confiance ou appelle le <strong>3114</strong> — numéro national de prévention du suicide, disponible 24h/24, gratuit, confidentiel.</p>
+      </div>
+    </div>` : '';
+
+  const synthText = S.aiText || buildSynthesis();
+  const synthContent = S.aiLoading
+    ? `<div class="synthesis-loader"><div style="font-size:1.75rem;margin-bottom:0.5rem">⏳</div><p style="margin:0;font-size:0.9rem">Analyse en cours...</p></div>`
+    : `<div class="synthesis-text">${synthText.replace(/\n/g,'<br>')}</div>
+       <div class="api-key-section">
+         <p style="font-size:0.78rem;color:var(--grey);margin-bottom:0.5rem;margin-top:1rem">Clé API Anthropic pour une synthèse personnalisée par IA (optionnel) :</p>
+         <div class="api-key-row">
+           <input id="inp-apikey" class="field-input" type="password" placeholder="sk-ant-..." style="flex:1;font-size:0.85rem">
+           <button id="btn-ai" class="btn-primary" style="width:auto;padding:0.65rem 1rem;font-size:0.85rem;flex-shrink:0">✨ IA</button>
+         </div>
+       </div>`;
+
+  return `
+  <div>
+    <div class="results-header">
+      <div style="font-size:2.5rem;margin-bottom:0.5rem" class="big-emoji">🎯</div>
+      <h1 style="color:white;font-size:1.4rem;font-weight:900;margin:0">Tes résultats</h1>
+      ${S.name?`<p style="color:var(--teal-med);margin:0.3rem 0 0;font-size:0.9rem">${S.name}${S.age?', '+S.age+' ans':''}</p>`:''}
+    </div>
+    <div class="results-inner">
+      ${crisis}
+      <div class="scores-grid">${scoresHTML}</div>
+      <div class="synthesis-card">
+        <div class="synthesis-header">
+          <div class="synthesis-avatar">💬</div>
+          <div>
+            <div style="font-weight:800;font-size:0.95rem">Synthèse — Educa Typique</div>
+            <div style="font-size:0.72rem;color:var(--grey)">Haddouch Nawel · Neuropédagogue</div>
+          </div>
+        </div>
+        ${synthContent}
+      </div>
+      <div class="disclaimer"><strong>Important :</strong> Ces résultats sont indicatifs. Ils ne remplacent pas un bilan professionnel. Partage ce questionnaire avec un adulte de confiance ou un professionnel de santé.</div>
+      <button class="btn-secondary" id="btn-restart" style="margin-bottom:0.75rem">↺ Recommencer</button>
+      <button class="btn-secondary" id="btn-print" style="margin-bottom:1.5rem">🖨️ Imprimer / Sauvegarder en PDF</button>
+      <p style="text-align:center;font-size:0.7rem;color:var(--grey)">Cabinet Educa Typique · Haddouch Nawel · Neuropédagogue / Coach TND</p>
+    </div>
+  </div>`;
+}
+
+// ─── EVENT BINDING ─────────────────────────────────────────────────────────
+function bind(){
+  const $ = id => document.getElementById(id);
+  const on = (id, ev, fn) => { const el=$(`${id}`); if(el) el.addEventListener(ev, fn); };
+
+  if(S.screen==='cover'){
+    on('inp-name','input', e=>{ S.name=e.target.value; });
+    on('inp-age', 'input', e=>{ S.age=e.target.value; });
+    on('btn-start','click', ()=>{ S.screen='quiz'; S.domIdx=0; render(); window.scrollTo(0,0); });
+  }
+
+  if(S.screen==='quiz'){
+    // tab buttons
+    document.querySelectorAll('[data-tab]').forEach(b=>{
+      b.addEventListener('click',()=>{ S.domIdx=parseInt(b.dataset.tab); render(); window.scrollTo(0,0); });
+    });
+    // answer buttons
+    document.querySelectorAll('.ans-btn').forEach(b=>{
+      b.addEventListener('click',()=>{
+        const dom = DOMAINS[S.domIdx];
+        const qi = parseInt(b.dataset.q), val = parseInt(b.dataset.val);
+        S.answers = { ...S.answers, [dom.id]: { ...(S.answers[dom.id]||{}), [qi]: val } };
+        render();
+      });
+    });
+    on('btn-prev','click', ()=>{ S.domIdx--; render(); window.scrollTo(0,0); });
+    on('btn-next','click', ()=>{
+      if(S.domIdx < DOMAINS.length-1){ S.domIdx++; render(); window.scrollTo(0,0); }
+      else { S.screen='results'; render(); window.scrollTo(0,0); }
+    });
+  }
+
+  if(S.screen==='results'){
+    on('btn-restart','click', ()=>{ S.screen='cover'; S.answers={}; S.domIdx=0; S.aiText=''; S.aiLoading=false; render(); window.scrollTo(0,0); });
+    on('btn-print','click', ()=>window.print());
+    on('btn-ai','click', ()=>{
+      const key = ($('inp-apikey')||{}).value||'';
+      if(key.startsWith('sk-')) callAI(key);
+      else alert('Clé API invalide. Elle doit commencer par sk-ant-...');
+    });
+  }
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>

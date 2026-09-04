@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trouble de l'attachement + TDAH — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{
+  background:linear-gradient(135deg,#CBB6F6,#F39BC2);padding:1.8rem 1.5rem;text-align:center;
+}
+.bandeau h1{color:#fff;margin:0;font-size:clamp(1.5rem,3vw,2rem);text-shadow:0 2px 4px rgba(0,0,0,.15)}
+.bandeau .sub{color:#fff;max-width:720px;margin:.5rem auto 0;font-size:1rem;opacity:.95}
+.bandeau .auteur{color:#fff;font-size:.85rem;margin-top:.5rem;font-style:italic;opacity:.9}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.25);padding:.3em .9em;border-radius:999px}
+
+.container{max-width:1050px;margin:1.4rem auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid var(--violet-titre);border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:var(--violet-titre);font-family:var(--font-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:var(--violet-titre);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c)}
+.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem}
+.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-volet1{--c:#7c5cbf}
+.bloc-volet2{--c:#2a9d8f}
+.bloc-syn{--c:var(--rose-titre)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ textarea{min-height:60px;resize:vertical}
+.champ.full{grid-column:1/-1}
+
+/* Grille d'observation Volet 1 */
+.obs-row{display:grid;grid-template-columns:1.5fr 1fr 1.3fr auto;gap:.4rem;padding:.5rem .6rem;border-bottom:1px solid var(--border);align-items:center}
+.obs-row .comp{font-weight:700;font-size:.9rem;color:var(--texte)}
+.obs-row .emo{font-size:.85rem;color:var(--muted);font-style:italic}
+.obs-row .hypo{font-size:.8rem;font-weight:700;color:var(--c-hypo);background:var(--c-fond);padding:.15em .55em;border-radius:999px;display:inline-block;align-self:flex-start;text-align:center}
+.obs-row .echelle{display:flex;gap:.25rem}
+.obs-row .echelle label{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--beige);cursor:pointer;font-weight:700;font-size:.85rem;color:var(--muted);border:2px solid transparent;transition:all .15s}
+.obs-row .echelle label:hover{border-color:#7c5cbf}
+.obs-row .echelle input{display:none}
+.obs-row .echelle input:checked + .v{background:#7c5cbf;color:#fff;width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.obs-row .echelle .v{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%}
+.obs-entete{display:grid;grid-template-columns:1.5fr 1fr 1.3fr auto;gap:.4rem;padding:.4rem .6rem;font-size:.74rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+@media (max-width:880px){.obs-row, .obs-entete{grid-template-columns:1fr}.obs-entete{display:none}.obs-row{padding:.7rem;background:var(--beige);margin-bottom:.4rem;border-radius:var(--r-md);border-bottom:none}}
+
+/* Couleurs par hypothèse */
+.hypo-tdah{--c-hypo:#7c5cbf;--c-fond:#e8e0f5}
+.hypo-att{--c-hypo:#e05a8a;--c-fond:#fde6ef}
+.hypo-mix{--c-hypo:#2a9d8f;--c-fond:#e0f4f1}
+.hypo-des{--c-hypo:#c25a30;--c-fond:#fde6dc}
+
+.legende-hypo{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem;font-size:.78rem}
+.legende-hypo .h-pill{padding:.2em .65em;border-radius:999px;font-weight:700;color:var(--c-hypo);background:var(--c-fond)}
+
+/* Compteur de scores */
+.scores-resume{background:linear-gradient(135deg,#fff,var(--beige));border-radius:var(--r-md);padding:1rem 1.2rem;margin-top:.8rem;border:2px dashed #7c5cbf}
+.scores-resume h3{margin:0 0 .5rem;color:#7c5cbf;font-size:1rem}
+.scores-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.5rem}
+.score-pill{background:#fff;border-radius:var(--r-md);padding:.6rem .8rem;border-left:5px solid var(--c-pill);box-shadow:var(--shadow-sm)}
+.score-pill .label{font-size:.78rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.score-pill .valeur{font-size:1.4rem;font-weight:900;color:var(--c-pill)}
+.score-pill.dominant{background:linear-gradient(135deg,#fff,var(--c-fond))}
+
+/* Volet 2 - étapes */
+.etapes-volet2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.7rem;margin-top:.5rem}
+.etape-card{background:#fff;border-radius:var(--r-md);padding:.9rem 1.1rem;border-top:5px solid var(--c-et);box-shadow:var(--shadow-sm);position:relative}
+.etape-card::before{content:attr(data-n);position:absolute;top:-14px;left:1rem;background:var(--c-et);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800}
+.etape-card h3{margin:.4rem 0 .3rem;color:var(--c-et);font-size:1.05rem}
+.etape-card .objectif{font-size:.88rem;color:var(--texte);font-style:italic;margin-bottom:.4rem}
+.etape-card .outils{font-size:.85rem;background:var(--beige);padding:.5em .7em;border-radius:var(--r-sm);margin-bottom:.4rem}
+.etape-card .outils strong{display:block;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+.etape-card .duree{font-size:.78rem;color:var(--muted)}
+.etape-card .perso{margin-top:.5rem}
+.etape-card .perso textarea{width:100%;min-height:55px;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.85rem;resize:vertical}
+.etape-card .perso label{font-size:.75rem;color:var(--muted);font-weight:700}
+
+.e1{--c-et:#7c5cbf}
+.e2{--c-et:#e05a8a}
+.e3{--c-et:#2a9d8f}
+.e4{--c-et:#a87800}
+
+.reperes-pro{background:linear-gradient(135deg,#fff,#e0f4f1);border-radius:var(--r-md);padding:1rem 1.2rem;margin-top:.7rem;border-left:5px solid #2a9d8f}
+.reperes-pro h3{margin:0 0 .4rem;color:#2a9d8f;font-size:1rem}
+.reperes-pro ul{margin:.3rem 0;padding-left:1.3rem;font-size:.9rem;line-height:1.6}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 1.5rem}
+.actions button{background:#fff;color:#7c5cbf;border:2px solid #7c5cbf}
+.actions button:hover{background:#7c5cbf;color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .retour, .actions, .dossiers, details.apropos{display:none !important}
+  body{background:#fff}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .sub, .bandeau .auteur{color:#7c5cbf !important;text-shadow:none}
+  .bloc, .etape-card, .scores-resume, .reperes-pro{box-shadow:none;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>🔗 Trouble de l'attachement &amp; TDAH</h1>
+  <p class="sub">Grille d'observation et plan d'accompagnement neuropédagogique pour profils combinant TDAH et/ou troubles de l'attachement.</p>
+  <p class="auteur">© Création originale — Nawel Haddouch · Neuropédagogue · EducaTypique</p>
+</section>
+
+<div class="container">
+
+  <details class="apropos">
+    <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+    <div class="grid8">
+      <div><strong>1. Objectif</strong>Observer, comprendre et accompagner les enfants/ados combinant des signes de TDAH et/ou de troubles de l'attachement. Approche intégrative évaluation + accompagnement.</div>
+      <div><strong>2. Quand l'utiliser</strong>Profil complexe : agitation + recherche affective intense, opposition + peur du rejet, impulsivité + méfiance. Co-occurrences fréquentes mais peu diagnostiquées ensemble.</div>
+      <div><strong>3. Pour quel profil TND</strong>TDAH + troubles de l'attachement (réactif, désinhibé, ou mixte). Aussi pour enfants placés, adoptés, ou ayant vécu des ruptures précoces.</div>
+      <div><strong>4. Mode d'emploi</strong>Volet 1 : observer pendant 4 semaines minimum. Volet 2 : plan en 4 étapes progressives (sécuriser → réguler → renforcer → consolider).</div>
+      <div><strong>5. Grille à remplir</strong>9 comportements cotés 0-2 + plan d'accompagnement personnalisé étape par étape.</div>
+      <div><strong>6. Analyse</strong>Compter par hypothèse (TDAH / Attachement / Mixte / Désinhibé). L'hypothèse dominante oriente l'angle d'accompagnement prioritaire — sans exclure les autres.</div>
+      <div><strong>7. Recommandations</strong>Co-régulation AVANT autonomie émotionnelle. Posture sécurisante (prévisible, calme, sans menace). Travailler avec parents + école en cohérence.</div>
+      <div><strong>8. Phrase de synthèse</strong>"Le profil observé évoque une dominante [hypothèse]. Le plan d'accompagnement vise prioritairement la [étape 1]. Évaluation à [durée]."</div>
+    </div>
+  </details>
+
+  <div class="posture">
+    💡 <strong>Posture :</strong> noter les progrès en termes d'<strong>attachement, confiance et attention</strong> — plus que les performances scolaires. La sécurité relationnelle précède toujours l'apprentissage cognitif.
+  </div>
+
+  <!-- META -->
+  <section class="bloc bloc-meta">
+    <h2>Identité &amp; cadre</h2>
+    <div class="grille">
+      <div class="champ"><label>Prénom / initiales</label><input data-k="prenom" type="text"></div>
+      <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+      <div class="champ"><label>Date d'observation</label><input data-k="date" type="date"></div>
+      <div class="champ"><label>Observateur</label><input data-k="observateur" type="text" placeholder="pro, parent, équipe…"></div>
+      <div class="champ full"><label>Contexte / parcours pertinent (placement, adoption, ruptures précoces, séparations…)</label><textarea data-k="contexte"></textarea></div>
+    </div>
+  </section>
+
+  <!-- VOLET 1 : GRILLE D'OBSERVATION -->
+  <section class="bloc bloc-volet1">
+    <h2>📋 Volet 1 — Grille d'observation</h2>
+    <p class="intro">Observer les comportements, identifier les émotions sous-jacentes, formuler une hypothèse. Cotation : 0 = absent · 1 = modéré · 2 = fréquent.</p>
+
+    <div class="legende-hypo">
+      <span class="h-pill" style="--c-hypo:#7c5cbf;--c-fond:#e8e0f5">TDAH</span>
+      <span class="h-pill" style="--c-hypo:#e05a8a;--c-fond:#fde6ef">Attachement</span>
+      <span class="h-pill" style="--c-hypo:#2a9d8f;--c-fond:#e0f4f1">Mixte</span>
+      <span class="h-pill" style="--c-hypo:#c25a30;--c-fond:#fde6dc">Désinhibé</span>
+    </div>
+
+    <div class="obs-entete" style="margin-top:.6rem">
+      <div>Comportement observable</div>
+      <div>Émotion associée</div>
+      <div>Hypothèse</div>
+      <div>Cotation</div>
+    </div>
+    <div id="liste-obs"></div>
+
+    <!-- Scores -->
+    <div class="scores-resume">
+      <h3>📊 Synthèse automatique des scores</h3>
+      <p style="font-size:.85rem;color:var(--muted);margin:.2rem 0 .6rem;font-style:italic">Total par hypothèse (la dominante oriente le plan).</p>
+      <div class="scores-grille" id="scores-grille"></div>
+    </div>
+
+    <div class="champ full" style="margin-top:.8rem"><label>Observations qualitatives complémentaires</label><textarea data-k="obs-qualitative"></textarea></div>
+  </section>
+
+  <!-- VOLET 2 : PLAN D'ACCOMPAGNEMENT -->
+  <section class="bloc bloc-volet2">
+    <h2>🧭 Volet 2 — Plan d'accompagnement neuropédagogique</h2>
+    <p class="intro">4 étapes progressives. Adaptable selon l'âge (6–12 ans / 12–16 ans) et le profil dominant.</p>
+    <div class="etapes-volet2">
+
+      <div class="etape-card e1" data-n="1">
+        <h3>Sécuriser</h3>
+        <div class="objectif">Installer un climat <strong>stable et prévisible</strong>.</div>
+        <div class="outils">
+          <strong>Outils / moyens</strong>
+          Routines visuelles · repères constants · ton bienveillant · rituel d'accueil
+        </div>
+        <div class="duree">⏱️ 2 à 4 semaines · 6–12 ans / 12–16 ans</div>
+        <div class="perso">
+          <label>Adaptations personnalisées</label>
+          <textarea data-k="e1-perso" placeholder="ex : rituel d'arrivée précis, code couleur planning…"></textarea>
+        </div>
+      </div>
+
+      <div class="etape-card e2" data-n="2">
+        <h3>Réguler</h3>
+        <div class="objectif">Aider à <strong>reconnaître et gérer</strong> les émotions.</div>
+        <div class="outils">
+          <strong>Outils / moyens</strong>
+          Météo émotionnelle · respiration guidée · coin calme · reformulation émotionnelle
+        </div>
+        <div class="duree">⏱️ 6 à 8 semaines</div>
+        <div class="perso">
+          <label>Adaptations personnalisées</label>
+          <textarea data-k="e2-perso" placeholder="ex : carte météo perso, durée respi adaptée…"></textarea>
+        </div>
+      </div>
+
+      <div class="etape-card e3" data-n="3">
+        <h3>Renforcer</h3>
+        <div class="objectif">Soutenir la <strong>concentration et l'autonomie</strong>.</div>
+        <div class="outils">
+          <strong>Outils / moyens</strong>
+          Contrats de réussite · renforcement positif · auto-évaluation guidée
+        </div>
+        <div class="duree">⏱️ 8 à 12 semaines</div>
+        <div class="perso">
+          <label>Adaptations personnalisées</label>
+          <textarea data-k="e3-perso" placeholder="ex : contrat hebdo, types de renforcement…"></textarea>
+        </div>
+      </div>
+
+      <div class="etape-card e4" data-n="4">
+        <h3>Consolider</h3>
+        <div class="objectif">Créer des <strong>liens stables et valorisants</strong>.</div>
+        <div class="outils">
+          <strong>Outils / moyens</strong>
+          Projets collectifs · co-interventions · activités symboliques
+        </div>
+        <div class="duree">⏱️ Progressif selon l'évolution</div>
+        <div class="perso">
+          <label>Adaptations personnalisées</label>
+          <textarea data-k="e4-perso" placeholder="ex : projets fratrie, co-intervention école…"></textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- REPERES PRO -->
+    <div class="reperes-pro">
+      <h3>🔹 Repères professionnels</h3>
+      <ul>
+        <li>Adopter une <strong>posture sécurisante</strong> (prévisible, calme, sans menace).</li>
+        <li>Favoriser la <strong>co-régulation</strong> AVANT l'autonomie émotionnelle.</li>
+        <li>Collaborer avec les <strong>parents et l'école</strong> pour renforcer la cohérence éducative.</li>
+        <li>Noter les progrès en termes d'<strong>attachement, confiance et attention</strong> — plus que les performances scolaires.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SYNTHESE -->
+  <section class="bloc bloc-syn">
+    <h2>✍️ Synthèse</h2>
+    <div class="champ full"><label>Hypothèse dominante retenue</label>
+      <select data-k="hypo-retenue">
+        <option value="">—</option>
+        <option>TDAH dominant</option>
+        <option>Attachement dominant</option>
+        <option>Profil mixte TDAH + Attachement</option>
+        <option>Trouble désinhibé de l'attachement</option>
+        <option>Hypothèses multiples — à clarifier</option>
+      </select>
+    </div>
+    <div class="champ full" style="margin-top:.5rem"><label>Étape prioritaire actuelle</label>
+      <select data-k="etape-prio">
+        <option value="">—</option>
+        <option>1. Sécuriser</option>
+        <option>2. Réguler</option>
+        <option>3. Renforcer</option>
+        <option>4. Consolider</option>
+      </select>
+    </div>
+    <div class="champ full" style="margin-top:.5rem"><label>Date de réévaluation</label><input data-k="date-reeval" type="date"></div>
+    <div class="champ full" style="margin-top:.5rem"><label>Phrase de synthèse pour bilan / compte rendu</label><textarea data-k="syn-phrase" style="min-height:100px" placeholder="Le profil observé évoque une dominante …. Le plan d'accompagnement vise prioritairement la phase de …. Évaluation à …."></textarea></div>
+    <div class="champ full" style="margin-top:.5rem"><label>Orientations professionnelles proposées</label><textarea data-k="syn-orient" placeholder="médecin, pédopsy, psychologue d'attachement, ortho, ergo…"></textarea></div>
+  </section>
+
+  <div class="actions">
+    <button id="btn-enregistrer">💾 Enregistrer</button>
+    <button id="btn-exporter">📄 Exporter (TXT)</button>
+    <button id="btn-imprimer">🖨️ Imprimer</button>
+    <button id="btn-vider" class="danger">🧹 Vider</button>
+  </div>
+
+  <div class="dossiers">
+    <h4>📂 Fiches enregistrées</h4>
+    <div id="liste-dossiers"></div>
+  </div>
+
+  <div class="disclaimer">
+    Cette fiche présente des observations et propose un plan d'accompagnement neuropédagogique. Elle ne pose pas de diagnostic — le diagnostic d'un trouble de l'attachement ou de TDAH relève d'une évaluation pluridisciplinaire (pédopsychiatre, psychologue spécialisé).
+  </div>
+
+  <p style="text-align:center;color:var(--muted);padding:1rem 0;font-size:.85rem">
+    EducaTypique · Méthode Educa — <a href="../../professionnels.html">retour espace professionnels</a><br>
+    <em>© Création originale — Nawel Haddouch, Neuropédagogue</em>
+  </p>
+
+</div>
+
+<script>
+const STORAGE = 'educatypique_attachement_tdah_v1';
+let currentId = null;
+
+// === 9 comportements observables ===
+const OBSERVATIONS = [
+  { id:'agit',    comp:'Agitation, difficulté à se poser',           emo:'Anxiété, insécurité',                hypo:'TDAH / Attachement',         classe:'hypo-mix' },
+  { id:'recherche', comp:"Recherche excessive d'attention",          emo:"Peur d'être ignoré",                 hypo:'Attachement / mixte',        classe:'hypo-att' },
+  { id:'evit',    comp:'Évitement du regard ou du contact',          emo:'Méfiance, retrait',                  hypo:'Attachement',                classe:'hypo-att' },
+  { id:'impuls',  comp:'Impulsivité, agitation motrice',             emo:'Tension interne',                    hypo:'TDAH / mixte',               classe:'hypo-tdah' },
+  { id:'colere',  comp:'Colère soudaine, opposition',                emo:'Frustration, peur du rejet',         hypo:'Attachement / mixte',        classe:'hypo-mix' },
+  { id:'consig',  comp:'Difficulté à suivre les consignes',          emo:'Distraction, hypervigilance',        hypo:'TDAH',                       classe:'hypo-tdah' },
+  { id:'famil',   comp:'Trop grande familiarité avec autrui',        emo:'Inhibition du danger',               hypo:"Trouble désinhibé de l'attachement", classe:'hypo-des' },
+  { id:'refus',   comp:"Refus d'aide ou contrôle excessif",           emo:'Méfiance, peur de dépendre',         hypo:'Attachement',                classe:'hypo-att' },
+  { id:'hypers',  comp:'Hypersensibilité émotionnelle',               emo:'Vulnérabilité affective',            hypo:'Mixte',                      classe:'hypo-mix' }
+];
+
+// Mapping de comptage par hypothèse principale
+function hypoFamille(classe){
+  if(classe==='hypo-tdah') return 'TDAH';
+  if(classe==='hypo-att')  return 'Attachement';
+  if(classe==='hypo-mix')  return 'Mixte';
+  if(classe==='hypo-des')  return 'Désinhibé';
+}
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// === Render obs rows ===
+function renderObs(){
+  const cont = document.getElementById('liste-obs');
+  cont.innerHTML = OBSERVATIONS.map(o=>`
+    <div class="obs-row ${o.classe}">
+      <div class="comp">${esc(o.comp)}</div>
+      <div class="emo">${esc(o.emo)}</div>
+      <div><span class="hypo">${esc(o.hypo)}</span></div>
+      <div class="echelle">
+        <label><input type="radio" name="obs-${o.id}" value="0"><span class="v">0</span></label>
+        <label><input type="radio" name="obs-${o.id}" value="1"><span class="v">1</span></label>
+        <label><input type="radio" name="obs-${o.id}" value="2"><span class="v">2</span></label>
+      </div>
+    </div>
+  `).join('');
+  cont.querySelectorAll('input[type="radio"]').forEach(r=>{
+    r.addEventListener('change', majScores);
+  });
+}
+
+// === Scores ===
+function majScores(){
+  const totaux = { TDAH:0, Attachement:0, Mixte:0, 'Désinhibé':0 };
+  OBSERVATIONS.forEach(o=>{
+    const checked = document.querySelector(`input[name="obs-${o.id}"]:checked`);
+    if(checked){
+      totaux[hypoFamille(o.classe)] += parseInt(checked.value,10);
+    }
+  });
+
+  const max = Math.max(...Object.values(totaux));
+  const dominant = max > 0 ? Object.entries(totaux).find(([k,v])=> v===max)[0] : null;
+
+  const cont = document.getElementById('scores-grille');
+  const colors = { TDAH:'#7c5cbf', Attachement:'#e05a8a', Mixte:'#2a9d8f', 'Désinhibé':'#c25a30' };
+  const fonds  = { TDAH:'#e8e0f5', Attachement:'#fde6ef', Mixte:'#e0f4f1', 'Désinhibé':'#fde6dc' };
+  cont.innerHTML = Object.entries(totaux).map(([k,v])=>`
+    <div class="score-pill ${dominant===k && v>0?'dominant':''}" style="--c-pill:${colors[k]};--c-fond:${fonds[k]}">
+      <div class="label">${esc(k)}${dominant===k && v>0?' ⭐':''}</div>
+      <div class="valeur">${v}</div>
+    </div>
+  `).join('');
+}
+
+// === Save / Load ===
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.value;
+  });
+  document.querySelectorAll('input[type="radio"]:checked').forEach(r=>{
+    o['radio_'+r.name] = r.value;
+  });
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{ el.value = o[el.dataset.k] || ''; });
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{ r.checked = (o['radio_'+r.name] === r.value); });
+  majScores();
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{ el.value = ''; });
+  document.querySelectorAll('input[type="radio"]').forEach(r=> r.checked = false);
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+  majScores();
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucune fiche enregistrée.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · ${esc((o.date||o._ts||'').slice(0,10))} · ${esc(o['hypo-retenue']||'')}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire(); const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer cette fiche ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom (ou initiales).'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr); rendreDossiers(); alert('Fiche enregistrée.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const l = ['Fiche Attachement & TDAH — EducaTypique', '© Création originale — Nawel Haddouch, Neuropédagogue', ''];
+  l.push('Enfant : '+(o.prenom||'—')+' · '+(o.age||'—')+' · Date : '+(o.date||'—'));
+  l.push('Observateur : '+(o.observateur||'—'));
+  l.push('Contexte : '+(o.contexte||'—'));
+  l.push('');
+  l.push('== VOLET 1 — Observations (0=absent, 1=modéré, 2=fréquent) ==');
+  OBSERVATIONS.forEach(ob=>{
+    const v = o['radio_obs-'+ob.id];
+    l.push('  · '+ob.comp+' ('+ob.emo+' → '+ob.hypo+') : '+(v||'—'));
+  });
+
+  // Scores
+  const totaux = { TDAH:0, Attachement:0, Mixte:0, 'Désinhibé':0 };
+  OBSERVATIONS.forEach(ob=>{
+    const v = o['radio_obs-'+ob.id];
+    if(v) totaux[hypoFamille(ob.classe)] += parseInt(v,10);
+  });
+  l.push('');
+  l.push('== Scores par hypothèse ==');
+  Object.entries(totaux).forEach(([k,v])=> l.push('  · '+k+' : '+v));
+  l.push('');
+  l.push('Observations qualitatives : '+(o['obs-qualitative']||'—'));
+  l.push('');
+  l.push('== VOLET 2 — Plan d\'accompagnement ==');
+  l.push('Étape 1 — Sécuriser (2-4 sem) : '+(o['e1-perso']||'—'));
+  l.push('Étape 2 — Réguler (6-8 sem) : '+(o['e2-perso']||'—'));
+  l.push('Étape 3 — Renforcer (8-12 sem) : '+(o['e3-perso']||'—'));
+  l.push('Étape 4 — Consolider (progressif) : '+(o['e4-perso']||'—'));
+  l.push('');
+  l.push('== Synthèse ==');
+  l.push('Hypothèse dominante : '+(o['hypo-retenue']||'—'));
+  l.push('Étape prioritaire : '+(o['etape-prio']||'—'));
+  l.push('Date de réévaluation : '+(o['date-reeval']||'—'));
+  l.push('Phrase : '+(o['syn-phrase']||'—'));
+  l.push('Orientations : '+(o['syn-orient']||'—'));
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'attachement-tdah-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{ if(confirm('Vider le formulaire ?')) vider(); });
+
+// Init
+renderObs();
+majScores();
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+</script>
+
+</body>
+</html>
