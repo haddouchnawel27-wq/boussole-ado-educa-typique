@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le tri des pensées · EducaTypique · Jannat Al Qalb</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../assets/charte.css">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --sable-or:#B49058;
+  --sable-fonce:#8B6F3A;
+  --sable-clair:#fdf8ec;
+  --or-clair:#D4B87A;
+  --voix-utile:#6CA89E;
+  --voix-utile-bg:#E8F5EC;
+  --sabote:#C9573A;
+  --sabote-bg:#FCE2E2;
+}
+body{background:linear-gradient(180deg,#fdf8ec 0%,#fff 50%,#fdf8ec 100%);font-family:'Nunito',system-ui,sans-serif;color:#3D3E2A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:920px;margin:0 auto}
+.arabe{font-family:'Amiri',serif}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(108,168,158,.4)}50%{box-shadow:0 0 0 12px rgba(108,168,158,0)}}
+
+.hdr{text-align:center;padding:38px 24px 30px;margin-bottom:22px;background:linear-gradient(135deg,#8B6F3A,#B49058 50%,#D4B87A);border-radius:24px;color:#fff;box-shadow:0 8px 28px rgba(139,111,58,.25);position:relative;overflow:hidden}
+.hdr::before{content:'☪️';position:absolute;top:18px;right:22px;font-size:54px;opacity:.18}
+.hdr::after{content:'🃏';position:absolute;bottom:18px;left:22px;font-size:46px;opacity:.15}
+.brand{display:inline-block;padding:5px 14px;background:rgba(255,255,255,.22);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:12px;position:relative;z-index:1}
+.hdr h1{font-family:'Poppins','Nunito',sans-serif;font-size:32px;font-weight:400;color:#fff;margin-bottom:6px;position:relative;z-index:1;text-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hdr .ar{font-family:'Amiri',serif;font-size:18px;opacity:.95;margin-bottom:8px;position:relative;z-index:1}
+.hdr p{font-family:'Nunito',system-ui,sans-serif;font-style:italic;font-size:14.5px;color:#fff;max-width:660px;margin:0 auto;position:relative;z-index:1;opacity:.95}
+
+.intro{background:#fff;border-radius:18px;padding:22px 24px;margin-bottom:20px;border:1px solid rgba(180,144,88,.22);box-shadow:0 4px 14px rgba(180,144,88,.06)}
+.intro p{font-size:14.5px;color:#3D4E4A;line-height:1.7;margin-bottom:10px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:var(--sable-fonce)}
+.intro .citation{font-family:'Amiri',serif;color:var(--sable-fonce);font-size:15.5px;padding:12px 16px;background:var(--sable-clair);border-left:4px solid var(--sable-or);border-radius:10px;margin:12px 0;line-height:1.55}
+
+.nav{display:flex;gap:6px;background:#fff;padding:8px;border-radius:14px;margin-bottom:20px;box-shadow:0 4px 12px rgba(180,144,88,.08);overflow-x:auto;border:1px solid rgba(180,144,88,.18)}
+.nav button{background:transparent;color:#5A5A35;border:none;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .25s}
+.nav button:hover{background:var(--sable-clair)}
+.nav button.active{background:linear-gradient(135deg,var(--sable-fonce),var(--sable-or));color:#fff;box-shadow:0 4px 10px rgba(180,144,88,.3)}
+
+.panel{display:none;animation:fadeIn .4s ease-out}
+.panel.active{display:block}
+.section{background:#fff;border-radius:20px;padding:24px;margin-bottom:18px;border:1px solid rgba(180,144,88,.2);box-shadow:0 4px 14px rgba(180,144,88,.05)}
+.section h2{font-family:'Poppins','Nunito',sans-serif;font-size:21px;font-weight:500;color:var(--sable-fonce);margin-bottom:6px}
+.section .sub{font-size:13.5px;color:#7A7A55;font-style:italic;margin-bottom:18px}
+
+/* ============ COMPRENDRE ============ */
+.understand-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+@media(max-width:680px){.understand-grid{grid-template-columns:1fr}}
+.under-card{padding:18px;border-radius:14px;animation:pop .4s}
+.under-card.utile{background:var(--voix-utile-bg);border-left:5px solid var(--voix-utile)}
+.under-card.sabote{background:var(--sabote-bg);border-left:5px solid var(--sabote)}
+.under-card h3{font-family:'Poppins','Nunito',sans-serif;font-size:17px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.under-card.utile h3{color:#2D6B5E}
+.under-card.sabote h3{color:#8A3A1F}
+.under-card ul{margin:8px 0 0 18px;font-size:13.5px;line-height:1.75;color:#3D4E4A}
+.under-card ul li{margin-bottom:4px}
+
+.dua-box{background:linear-gradient(135deg,var(--sable-clair),#fff);border:1.5px solid var(--or-clair);border-radius:14px;padding:18px;margin-top:16px;text-align:center}
+.dua-box .ar-big{font-family:'Amiri',serif;font-size:22px;color:var(--sable-fonce);margin-bottom:8px}
+.dua-box .trans{font-style:italic;color:#7A6B40;font-size:13px;margin-bottom:6px}
+.dua-box .sens{font-size:13.5px;color:#3D4E4A;line-height:1.55}
+
+/* ============ JEU (TRI) ============ */
+.jeu-stats{display:flex;justify-content:space-between;gap:10px;background:var(--sable-clair);padding:12px 16px;border-radius:12px;margin-bottom:14px;font-size:13px;color:#5A5A35;flex-wrap:wrap}
+.jeu-stats span{font-weight:600}
+.jeu-stats strong{color:var(--sable-fonce);font-size:16px}
+
+.carte-jeu{background:#fff;border-radius:18px;padding:24px;margin:14px 0;border:2px solid var(--or-clair);box-shadow:0 6px 18px rgba(180,144,88,.12);text-align:center;animation:pop .35s}
+.carte-jeu .num-carte{font-size:11px;color:#7A7A55;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.carte-jeu .age-tag{display:inline-block;background:var(--sable-clair);color:var(--sable-fonce);padding:3px 10px;border-radius:8px;font-size:11px;font-weight:700;letter-spacing:.5px;margin-bottom:12px}
+.carte-jeu .pensee{font-family:'Nunito',system-ui,sans-serif;font-style:italic;font-size:18px;color:#2D3E3A;line-height:1.55;padding:16px 18px;background:linear-gradient(135deg,#fff,var(--sable-clair));border-radius:14px;margin:8px 0 18px}
+.carte-jeu .quote-mark{font-size:32px;color:var(--or-clair);font-family:'Nunito',system-ui,sans-serif;line-height:0;vertical-align:-12px}
+
+.choix-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:580px){.choix-btns{grid-template-columns:1fr}}
+.btn-choix{padding:16px 14px;border-radius:14px;border:2px solid;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .25s;display:flex;flex-direction:column;align-items:center;gap:4px}
+.btn-utile{background:var(--voix-utile-bg);border-color:var(--voix-utile);color:#2D6B5E}
+.btn-utile:hover{background:#D5E9DC;transform:translateY(-2px);box-shadow:0 6px 14px rgba(108,168,158,.25)}
+.btn-sabote{background:var(--sabote-bg);border-color:var(--sabote);color:#8A3A1F}
+.btn-sabote:hover{background:#F5D0D0;transform:translateY(-2px);box-shadow:0 6px 14px rgba(201,87,58,.25)}
+.btn-choix .emoji{font-size:24px;display:block;margin-bottom:4px}
+.btn-choix .lbl-sec{font-size:11px;font-weight:500;color:#5A5A35;font-style:italic}
+
+.feedback{margin-top:14px;padding:16px 18px;border-radius:14px;animation:fadeIn .4s;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:linear-gradient(135deg,#E8F5EC,#DFF0E2);border-left:5px solid var(--voix-utile)}
+.feedback.wrong{background:linear-gradient(135deg,#FCE2E2,#F5C9C9);border-left:5px solid var(--sabote);animation:shake .4s,fadeIn .4s}
+.feedback h4{font-family:'Poppins','Nunito',sans-serif;font-size:16px;margin-bottom:6px}
+.feedback.correct h4{color:#2D6B5E}
+.feedback.wrong h4{color:#8A3A1F}
+.feedback p{font-size:14px;color:#3D4E4A;line-height:1.65;margin-bottom:6px}
+.feedback p:last-child{margin-bottom:0}
+.feedback .alt{font-family:'Nunito',system-ui,sans-serif;font-style:italic;color:var(--sable-fonce);background:#fff;padding:10px 14px;border-radius:10px;border-left:3px solid var(--sable-or);margin-top:8px;font-size:13.5px}
+.feedback .alt strong{color:var(--sable-fonce);font-style:normal;display:block;margin-bottom:3px;text-transform:uppercase;font-size:11px;letter-spacing:.7px}
+
+.btn-next{background:linear-gradient(135deg,var(--sable-fonce),var(--sable-or));color:#fff;border:none;padding:13px 28px;border-radius:24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:14px;display:block;margin-left:auto;margin-right:auto;animation:glow 2s infinite}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(180,144,88,.3)}
+
+.btn-restart{background:#fff;border:1.5px solid var(--sable-or);color:var(--sable-fonce);padding:11px 22px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-restart:hover{background:var(--sable-clair)}
+
+.final-score{text-align:center;padding:30px 20px;background:linear-gradient(135deg,var(--sable-clair),#fff);border-radius:18px;border:2px solid var(--or-clair);animation:fadeIn .5s}
+.final-score .big{font-family:'Nunito',system-ui,sans-serif;font-size:48px;color:var(--sable-fonce);font-weight:700;margin:8px 0}
+.final-score .msg{font-family:'Nunito',system-ui,sans-serif;font-style:italic;font-size:16px;color:#5A5A35;margin:10px 0 18px;line-height:1.55}
+
+/* ============ FILTRES ============ */
+.filtres{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filtre-btn{padding:7px 14px;background:#fff;border:1.5px solid rgba(180,144,88,.3);color:#5A5A35;border-radius:18px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.filtre-btn:hover{background:var(--sable-clair)}
+.filtre-btn.active{background:linear-gradient(135deg,var(--sable-fonce),var(--sable-or));color:#fff;border-color:transparent}
+
+/* ============ CATALOGUE (vue) ============ */
+.catalogue-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:14px}
+.cat-card{background:#fff;border-radius:14px;padding:14px 16px;border-left:4px solid;font-size:13px}
+.cat-card.utile{border-color:var(--voix-utile);background:linear-gradient(135deg,#fff,#F0F8F3)}
+.cat-card.sabote{border-color:var(--sabote);background:linear-gradient(135deg,#fff,#FFF5F3)}
+.cat-card .pensee-mini{font-family:'Nunito',system-ui,sans-serif;font-style:italic;font-size:14px;color:#2D3E3A;margin-bottom:8px;line-height:1.5}
+.cat-card .badge-cat{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:6px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.cat-card.utile .badge-cat{background:var(--voix-utile-bg);color:#2D6B5E}
+.cat-card.sabote .badge-cat{background:var(--sabote-bg);color:#8A3A1F}
+.cat-card .age-mini{font-size:11px;color:#7A7A55;margin-top:6px}
+.cat-card .alt-mini{font-size:12.5px;color:#5A5A35;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(180,144,88,.3);line-height:1.55}
+
+/* ============ FOOTER ============ */
+.footer{text-align:center;padding:30px 16px 8px;color:#7A7A55;font-size:12.5px;font-style:italic;font-family:'Nunito',system-ui,sans-serif}
+.footer .brand-foot{color:var(--sable-fonce);font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .ar-foot{font-family:'Amiri',serif;font-size:14px;color:var(--sable-fonce);margin-top:6px;display:block}
+
+@media print{
+  body{background:#fff;padding:10px}
+  .nav,.btn-next,.btn-restart,.choix-btns,.filtres{display:none!important}
+  .panel{display:block!important;page-break-after:always}
+  .section{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+@media (max-width:600px){.hdr h1{font-size:23px}.carte-jeu .pensee{font-size:15px}}
+</style>
+</head>
+<body>
+<a href="../../casa-familles/index.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#7a5a20;font-family:system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,.12);border:1px solid rgba(180,144,88,.25)">← La Casa des Familles</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Jannat Al Qalb · EducaTypique</span>
+<h1>🃏 Le tri des pensées</h1>
+<div class="ar">لُعْبَةُ الشَّيْطَانِ — تَمْيِيزُ الْأَفْكَارِ</div>
+<p>Apprendre à reconnaître la voix qui sabote et la voix qui guide (fitra) — au cœur de la régulation émotionnelle islamique.</p>
+</div>
+
+<div class="intro">
+<p>☪️ <strong>Le principe :</strong> Le Coran et la Sunna décrivent le chuchotement (<em>al-waswās</em>) pour égarer le cœur — peur, colère injuste, jalousie, désespoir, rumination… La <strong>fitra</strong> (nature droite) et la <strong>raison saine</strong> guident vers le vrai bien.</p>
+<p>🧠 <strong>En neuropédagogie / TCC :</strong> ce que la tradition nomme <em>waswās</em>, la psychologie l'appelle <strong>distorsions cognitives</strong> (catastrophisation, lecture de pensée, tout-ou-rien, généralisation). Le jeu apprend à <strong>identifier ces pensées</strong>, à les <strong>nommer</strong>, et à leur <strong>répondre</strong> par une pensée saine — comme l'enseignait le Prophète ﷺ.</p>
+<div class="citation">« Lorsque l'un de vous est en colère, qu'il dise : <em>a'oudhou billahi min ash-shaytan ar-rajim</em>. » — Sahih Bukhari · La nomination est le premier acte de protection.</div>
+<p>🎯 <strong>Pour qui :</strong> enfants 6+, ados, adultes. À pratiquer en famille, en séance pédagogique ou seul·e.</p>
+</div>
+
+<div class="nav">
+<button class="active" data-tab="comprendre" onclick="switchTab('comprendre')">📖 Comprendre</button>
+<button data-tab="jouer" onclick="switchTab('jouer')">🎮 Jouer (tri)</button>
+<button data-tab="catalogue" onclick="switchTab('catalogue')">📚 Catalogue cartes</button>
+</div>
+
+<!-- ============ COMPRENDRE ============ -->
+<div class="panel active" id="panel-comprendre">
+<div class="section">
+<h2>📖 Les 2 voix qui parlent dans ta tête</h2>
+<div class="sub">Avant de jouer, apprenons à reconnaître les 2 grandes voix. Chacune a un « style ».</div>
+
+<div class="understand-grid">
+<div class="under-card utile">
+<h3>🌿 La voix utile (fitra · raison)</h3>
+<ul>
+<li><strong>Elle calme</strong> au lieu d'agiter</li>
+<li><strong>Elle nuance</strong> au lieu d'absolutiser</li>
+<li><strong>Elle propose une action</strong> concrète</li>
+<li><strong>Elle respecte</strong> les autres et toi-même</li>
+<li><strong>Elle accepte</strong> ce que tu ne maîtrises pas (<em>tawakkul</em>)</li>
+<li><strong>Elle laisse de l'espoir</strong> (le Prophète ﷺ a dit : ne désespère jamais)</li>
+</ul>
+</div>
+<div class="under-card sabote">
+<h3>🌀 La voix qui sabote (waswās)</h3>
+<ul>
+<li><strong>Elle agite</strong>, accélère ton cœur, crée la peur</li>
+<li><strong>Elle absolutise</strong> : « toujours », « jamais », « personne »</li>
+<li><strong>Elle te paralyse</strong> ou te pousse à l'excès</li>
+<li><strong>Elle juge</strong> et compare durement</li>
+<li><strong>Elle désespère</strong> de la miséricorde divine</li>
+<li><strong>Elle fait taire</strong> ta voix utile par le bruit</li>
+</ul>
+</div>
+</div>
+
+<div class="dua-box">
+<div class="ar-big">أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ</div>
+<div class="trans">A'oudhou billahi min ash-shaytan ar-rajim</div>
+<div class="sens">« Je cherche refuge en Allah contre le chitane lapidé. » — La parole prophétique pour nommer et écarter la voix qui sabote. Apprends-la à tes enfants : c'est le premier outil.</div>
+</div>
+
+<div style="background:#fdf8ec;border-radius:14px;padding:18px;margin-top:16px;font-size:13.5px;color:#5A5A35;line-height:1.7">
+<strong style="color:var(--sable-fonce);font-family:'Nunito',system-ui,sans-serif;font-size:15px;display:block;margin-bottom:6px">💡 Comment expliquer à un enfant</strong>
+« Dans ta tête, il y a deux voix qui parlent souvent en même temps. La voix qui te calme et te propose des solutions, c'est ta <strong>voix utile</strong>. La voix qui te fait peur, qui te dit que c'est nul, qui veut que tu cries ou que tu tapes, c'est la <strong>voix qui sabote</strong> — elle veut te piéger. Notre jeu, c'est d'apprendre à les <strong>reconnaître</strong>. Quand tu sais qui parle, tu peux choisir qui écouter. »
+</div>
+</div>
+</div>
+
+<!-- ============ JOUER ============ -->
+<div class="panel" id="panel-jouer">
+<div class="section">
+<h2>🎮 Le jeu du tri</h2>
+<div class="sub">Une pensée apparaît. Décide : <strong>voix utile</strong> ou <strong>voix qui sabote</strong> ? Lis la pensée à haute voix avec l'enfant si tu joues à 2.</div>
+
+<div class="filtres">
+<button class="filtre-btn active" data-age="all" onclick="filterAge('all')">Tous âges</button>
+<button class="filtre-btn" data-age="6-10" onclick="filterAge('6-10')">6-10 ans</button>
+<button class="filtre-btn" data-age="10-14" onclick="filterAge('10-14')">10-14 ans</button>
+<button class="filtre-btn" data-age="14+" onclick="filterAge('14+')">14 ans+</button>
+</div>
+
+<div class="jeu-stats">
+<span>Carte <strong id="stat-num">1</strong> / <strong id="stat-total">0</strong></span>
+<span>Bonnes réponses : <strong id="stat-bonnes">0</strong></span>
+<span>Score : <strong id="stat-score">0</strong></span>
+</div>
+
+<div id="carte-zone"></div>
+
+<div style="text-align:center;margin-top:18px">
+<button class="btn-restart" onclick="restartGame()">🔄 Recommencer</button>
+</div>
+</div>
+</div>
+
+<!-- ============ CATALOGUE ============ -->
+<div class="panel" id="panel-catalogue">
+<div class="section">
+<h2>📚 Catalogue des 24 cartes</h2>
+<div class="sub">Toutes les cartes du jeu, classées par voix, avec la pensée saine de rechange (« retour à la fitra »).</div>
+
+<div class="filtres">
+<button class="filtre-btn active" data-cat="all" onclick="filterCat('all')">Tout</button>
+<button class="filtre-btn" data-cat="utile" onclick="filterCat('utile')">🌿 Voix utile</button>
+<button class="filtre-btn" data-cat="sabote" onclick="filterCat('sabote')">🌀 Voix qui sabote</button>
+</div>
+
+<div class="catalogue-grid" id="catalogue-grid"></div>
+</div>
+</div>
+
+<div class="footer">
+« Et lorsque tu te trouves saisi par une suggestion du chitane, cherche refuge en Allah. » — Coran 7:200
+<span class="brand-foot">Le tri des pensées · Création originale Nawel Haddouch · Jannat Al Qalb · EducaTypique</span>
+<span class="ar-foot">رَبِّ زِدْنِي عِلْمًا</span>
+<span style="font-size:11px;display:block;margin-top:4px;color:#8A8A65">Mémoire locale · rien n'est envoyé en ligne · Imprimable</span>
+<span style="font-size:10.5px;display:block;margin-top:8px;color:#8A8A65;font-style:normal;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.5">⚠️ Outil pédagogique. Ne remplace ni un suivi psychothérapeutique (TCC) ni un avis religieux qualifié pour des questions de fiqh. Si détresse importante, parler à un adulte de confiance ou appeler le <strong>3114</strong> (gratuit, 24h/24).</span>
+</div>
+
+</div>
+
+<script>
+var CARTES = [
+  // VOIX QUI SABOTE (distorsions)
+  {id:1,age:'6-10',voix:'sabote',pensee:"« Tape-le ! Il a pris ton crayon, il n'a pas le droit ! »",type:"Colère impulsive",alt:"Tu as raison d'être en colère qu'il prenne ton crayon. Tu peux lui dire : \"Rends-le moi, c'est à moi\" — sans taper.",neuro:"Distorsion : passage à l'acte. La fitra reconnaît la colère ET cherche un mot."},
+  {id:2,age:'6-10',voix:'sabote',pensee:"« Personne ne t'aime, regarde, ils ne t'ont pas invité. »",type:"Généralisation",alt:"Pas être invité à une fête ne veut pas dire \"personne ne m'aime\". J'ai sûrement des personnes qui m'aiment ailleurs.",neuro:"Distorsion : généralisation excessive. La fitra rappelle ce qui est vrai."},
+  {id:3,age:'10-14',voix:'sabote',pensee:"« Tu es nul·le en maths. Tu seras toujours nul·le. Arrête d'essayer. »",type:"Étiquette + désespoir",alt:"Je trouve cette leçon difficile. Ça veut dire que je dois la travailler — pas que je suis nul·le pour toujours.",neuro:"Distorsion : étiquetage. La fitra sépare ÊTRE et FAIRE."},
+  {id:4,age:'10-14',voix:'sabote',pensee:"« Si tu pries maintenant, tu auras l'air bizarre devant tes amis. »",type:"Honte fabriquée",alt:"Ma prière est un rendez-vous avec mon Créateur. Si mes amis sont vraiment mes amis, ils respecteront.",neuro:"Distorsion : peur du jugement. La fitra revient à ta vraie valeur."},
+  {id:5,age:'14+',voix:'sabote',pensee:"« Allah ne te pardonnera jamais pour ce que tu as fait. »",type:"Désespoir de la miséricorde",alt:"Allah dit qu'Il pardonne tous les péchés pour qui revient à Lui sincèrement (Coran 39:53). Je reviens.",neuro:"Distorsion : désespoir. La fitra rappelle la miséricorde infinie."},
+  {id:6,age:'14+',voix:'sabote',pensee:"« Tous les autres réussissent. Toi, tu n'arriveras à rien. »",type:"Comparaison destructrice",alt:"Mon parcours n'est pas celui des autres. Je suis là où Allah m'a placé·e — et je peux avancer pas à pas.",neuro:"Distorsion : comparaison sociale. La fitra revient à ton chemin."},
+  {id:7,age:'6-10',voix:'sabote',pensee:"« Ils se moquent forcément de toi dans ton dos. »",type:"Lecture de pensée",alt:"Je ne sais pas ce qu'ils pensent. Je vais leur poser la question directement si ça me pèse.",neuro:"Distorsion : lecture de pensée. La fitra demande des faits."},
+  {id:8,age:'10-14',voix:'sabote',pensee:"« Tes parents sont injustes. Ils ne t'aiment pas vraiment. »",type:"Catastrophisation familiale",alt:"Mes parents font des erreurs comme tous les humains. Ça ne veut pas dire qu'ils ne m'aiment pas.",neuro:"Distorsion : catastrophisation. La fitra distingue erreur et amour."},
+  {id:9,age:'14+',voix:'sabote',pensee:"« Personne ne comprend ce que tu vis. Tu es seul·e. »",type:"Isolement fabriqué",alt:"D'autres ont vécu des épreuves semblables. Et au-dessus de tout, Allah me connaît mieux que moi-même.",neuro:"Distorsion : isolement. La fitra rappelle la communauté et le Créateur."},
+  {id:10,age:'6-10',voix:'sabote',pensee:"« Tu n'as qu'à mentir, personne ne le saura. »",type:"Tentation simple",alt:"Allah voit ce que les yeux ne voient pas. Et mentir crée plus de problèmes que ça n'en résout.",neuro:"Distorsion : raccourci moral. La fitra rappelle les conséquences."},
+  {id:11,age:'10-14',voix:'sabote',pensee:"« Tu as raté ton contrôle ? Toute ta scolarité est foutue. »",type:"Catastrophisation",alt:"Un contrôle raté est UN contrôle raté. Pas ma scolarité entière. Je peux remonter au prochain.",neuro:"Distorsion : généralisation temporelle. La fitra revient au présent réel."},
+  {id:12,age:'14+',voix:'sabote',pensee:"« Tu n'as pas le droit d'être triste. Tu devrais avoir foi et sourire. »",type:"Spiritual bypassing",alt:"Le Prophète ﷺ a pleuré ses morts. Avoir la foi n'efface pas les émotions humaines — ça permet de les traverser avec patience.",neuro:"Distorsion : invalidation émotionnelle. La fitra honore les deux."},
+
+  // VOIX UTILE (saines)
+  {id:13,age:'6-10',voix:'utile',pensee:"« C'est dur ce que tu vis. C'est normal d'être triste. Tu peux pleurer, et après on cherchera ensemble. »",type:"Validation + action",alt:"",neuro:"Pensée saine : accueille l'émotion ET propose un mouvement."},
+  {id:14,age:'6-10',voix:'utile',pensee:"« Si tu te trompes, c'est que tu apprends. Réessaie. »",type:"Croissance",alt:"",neuro:"Pensée saine : associe erreur et apprentissage."},
+  {id:15,age:'10-14',voix:'utile',pensee:"« Tu peux dire à ton ami que ça t'a blessé·e — sans crier, mais clairement. »",type:"Affirmation respectueuse",alt:"",neuro:"Pensée saine : propose une communication concrète."},
+  {id:16,age:'10-14',voix:'utile',pensee:"« Je sens monter la colère. Je vais respirer, faire wudu' et revenir. »",type:"Régulation prophétique",alt:"",neuro:"Pensée saine : reconnaît l'émotion + action enseignée par le Prophète ﷺ."},
+  {id:17,age:'14+',voix:'utile',pensee:"« Allah me suffit. Je fais ce que je peux, et je remets le reste à Lui. »",type:"Tawakkul",alt:"",neuro:"Pensée saine : action + lâcher-prise éclairé."},
+  {id:18,age:'14+',voix:'utile',pensee:"« Cette épreuve me fatigue, mais elle me forme. Je peux demander de l'aide. »",type:"Sabr actif",alt:"",neuro:"Pensée saine : accepte l'épreuve sans la subir passivement."},
+  {id:19,age:'6-10',voix:'utile',pensee:"« Maman/papa est fatigué·e ce soir, ce n'est pas ma faute. Je peux attendre demain pour mon histoire. »",type:"Décentrement",alt:"",neuro:"Pensée saine : reconnaît l'autre sans culpabilité personnelle."},
+  {id:20,age:'10-14',voix:'utile',pensee:"« Mes notes ne disent pas qui je suis. Elles disent juste où je peux progresser. »",type:"Identité stable",alt:"",neuro:"Pensée saine : sépare valeur personnelle et performance."},
+  {id:21,age:'14+',voix:'utile',pensee:"« J'ai fait une erreur. Je demande pardon à Allah, à la personne, et je répare. »",type:"Tawba structurée",alt:"",neuro:"Pensée saine : reconnaissance + réparation + croissance."},
+  {id:22,age:'6-10',voix:'utile',pensee:"« Quand je suis en colère, je peux dire : a'oudhou billah. Et ça aide. »",type:"Outil prophétique enfant",alt:"",neuro:"Pensée saine : intègre la parole prophétique comme outil concret."},
+  {id:23,age:'10-14',voix:'utile',pensee:"« Mon cerveau invente des films catastrophe. Je ne suis pas obligé·e de les croire. »",type:"Distance cognitive",alt:"",neuro:"Pensée saine : recul méta-cognitif sur ses propres pensées."},
+  {id:24,age:'14+',voix:'utile',pensee:"« Je peux être triste ET avoir foi. Les deux ne se contredisent pas. »",type:"Intégration émotion-foi",alt:"",neuro:"Pensée saine : nuance émotionnelle et spirituelle."}
+];
+
+var ageFilter = 'all';
+var catFilter = 'all';
+var jeuDeck = [];
+var jeuIdx = 0;
+var bonnes = 0;
+var score = 0;
+
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(function(b){b.classList.remove('active');});
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('panel-'+tab).classList.add('active');
+  if(tab==='catalogue') renderCatalogue();
+  if(tab==='jouer' && jeuDeck.length===0) startGame();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function shuffle(arr){
+  var a = arr.slice();
+  for(var i=a.length-1;i>0;i--){
+    var j = Math.floor(Math.random()*(i+1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+
+function startGame(){
+  var pool = CARTES.filter(function(c){
+    return ageFilter==='all' || c.age===ageFilter;
+  });
+  jeuDeck = shuffle(pool);
+  jeuIdx = 0;
+  bonnes = 0;
+  score = 0;
+  document.getElementById('stat-total').textContent = jeuDeck.length;
+  renderCarte();
+}
+
+function renderCarte(){
+  document.getElementById('stat-num').textContent = jeuIdx+1;
+  document.getElementById('stat-bonnes').textContent = bonnes;
+  document.getElementById('stat-score').textContent = score;
+
+  if(jeuIdx >= jeuDeck.length){
+    renderFinal();
+    return;
+  }
+
+  var c = jeuDeck[jeuIdx];
+  document.getElementById('carte-zone').innerHTML =
+    '<div class="carte-jeu">'+
+      '<div class="num-carte">Carte '+(jeuIdx+1)+'</div>'+
+      '<div class="age-tag">'+c.age+' ans</div>'+
+      '<div class="pensee"><span class="quote-mark">«</span> '+c.pensee.replace(/^«\s*|\s*»$/g,'')+' <span class="quote-mark">»</span></div>'+
+      '<div class="choix-btns">'+
+        '<button class="btn-choix btn-utile" onclick="reponse(\'utile\')"><span class="emoji">🌿</span>Voix utile<span class="lbl-sec">(fitra · raison)</span></button>'+
+        '<button class="btn-choix btn-sabote" onclick="reponse(\'sabote\')"><span class="emoji">🌀</span>Voix qui sabote<span class="lbl-sec">(waswās · piège)</span></button>'+
+      '</div>'+
+      '<div class="feedback" id="feedback"></div>'+
+    '</div>';
+}
+
+function reponse(choix){
+  var c = jeuDeck[jeuIdx];
+  document.querySelectorAll('.btn-choix').forEach(function(b){b.disabled=true;b.style.opacity='0.6';b.style.cursor='default';});
+  var fb = document.getElementById('feedback');
+  var correct = (choix === c.voix);
+
+  if(correct){
+    bonnes++;
+    score += 10;
+    fb.className = 'feedback correct show';
+    fb.innerHTML = '<h4>✓ Bien vu !</h4>'+
+      '<p>C\'est bien la <strong>voix '+(c.voix==='utile'?'utile (fitra)':'qui sabote (waswās)')+'</strong>.</p>'+
+      '<p style="font-size:12.5px;color:#7A6B40"><em>'+c.neuro+'</em></p>'+
+      (c.voix==='sabote' && c.alt ? '<div class="alt"><strong>🌿 Réponse de la fitra</strong>'+c.alt+'</div>' : '')+
+      '<button class="btn-next" onclick="nextCarte()">Carte suivante →</button>';
+  } else {
+    fb.className = 'feedback wrong show';
+    fb.innerHTML = '<h4>✗ Pas tout à fait</h4>'+
+      '<p>C\'est en réalité la <strong>voix '+(c.voix==='utile'?'utile (fitra)':'qui sabote (waswās)')+'</strong>.</p>'+
+      '<p style="font-size:12.5px;color:#7A4040"><em>'+c.neuro+'</em></p>'+
+      (c.voix==='sabote' && c.alt ? '<div class="alt"><strong>🌿 Réponse de la fitra</strong>'+c.alt+'</div>' : '')+
+      '<button class="btn-next" onclick="nextCarte()">Carte suivante →</button>';
+  }
+
+  document.getElementById('stat-bonnes').textContent = bonnes;
+  document.getElementById('stat-score').textContent = score;
+}
+
+function nextCarte(){
+  jeuIdx++;
+  renderCarte();
+}
+
+function renderFinal(){
+  var pct = jeuDeck.length>0 ? Math.round((bonnes/jeuDeck.length)*100) : 0;
+  var msg = '';
+  if(pct === 100) msg = "✨ Parfait ! Tu reconnais toutes les voix. Ton cœur sait écouter la fitra.";
+  else if(pct >= 80) msg = "🌟 Très bien ! Ta sensibilité aux deux voix est solide.";
+  else if(pct >= 60) msg = "🌱 Bon début. Encore quelques cartes et tu maîtriseras le tri.";
+  else if(pct >= 40) msg = "💡 C'est l'apprentissage qui commence. Refais le jeu — chaque tour affine l'oreille intérieure.";
+  else msg = "🤲 Pas grave. Reprendre depuis le début, c'est déjà le mouvement de la fitra.";
+
+  document.getElementById('carte-zone').innerHTML =
+    '<div class="final-score">'+
+      '<div style="font-family:Nunito, system-ui, sans-serif;font-size:17px;color:var(--sable-fonce);font-weight:600">Bilan de la partie</div>'+
+      '<div class="big">'+bonnes+' / '+jeuDeck.length+'</div>'+
+      '<div style="font-size:14px;color:#7A7A55;margin-top:-6px">'+pct+'% — Score : '+score+'</div>'+
+      '<div class="msg">'+msg+'</div>'+
+      '<div class="ar-foot" style="font-family:\'Amiri\',serif;font-size:20px;color:var(--sable-fonce);margin:10px 0">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً</div>'+
+      '<div style="font-size:12.5px;color:#7A7A55;font-style:italic;margin-bottom:14px">« Notre Seigneur, accorde-nous le bien ici-bas. » — Coran 2:201</div>'+
+      '<button class="btn-restart" onclick="restartGame()">🔄 Recommencer</button>'+
+    '</div>';
+}
+
+function restartGame(){
+  startGame();
+}
+
+function filterAge(age){
+  ageFilter = age;
+  document.querySelectorAll('[data-age]').forEach(function(b){b.classList.remove('active');});
+  document.querySelector('[data-age="'+age+'"]').classList.add('active');
+  startGame();
+}
+
+function renderCatalogue(){
+  var grid = document.getElementById('catalogue-grid');
+  var list = CARTES.filter(function(c){
+    return catFilter==='all' || c.voix===catFilter;
+  });
+  grid.innerHTML = list.map(function(c){
+    return '<div class="cat-card '+c.voix+'">'+
+      '<span class="badge-cat">'+(c.voix==='utile'?'🌿 Voix utile':'🌀 Voix qui sabote')+' · '+c.type+'</span>'+
+      '<div class="pensee-mini">'+c.pensee+'</div>'+
+      '<div class="age-mini">📅 '+c.age+' ans</div>'+
+      (c.voix==='sabote' && c.alt ? '<div class="alt-mini"><strong style="color:var(--sable-fonce);font-weight:700">🌿 Retour à la fitra :</strong> '+c.alt+'</div>' : '')+
+    '</div>';
+  }).join('');
+}
+
+function filterCat(cat){
+  catFilter = cat;
+  document.querySelectorAll('[data-cat]').forEach(function(b){b.classList.remove('active');});
+  document.querySelector('[data-cat="'+cat+'"]').classList.add('active');
+  renderCatalogue();
+}
+
+startGame();
+</script>
+</body>
+</html>

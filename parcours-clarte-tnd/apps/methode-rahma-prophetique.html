@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Méthode R.A.H.M.A — Voie prophétique · EducaTypique · Jannat Al Qalb</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../assets/charte.css">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --sable-or:#B49058;
+  --sable-fonce:#8B6F3A;
+  --sable-clair:#fdf8ec;
+  --or-clair:#D4B87A;
+  --vert-doux:#88A878;
+  --rose-doux:#D98C8C;
+  --violet-doux:#9B85B8;
+}
+body{background:linear-gradient(180deg,#fdf8ec 0%,#fff 50%,#fdf8ec 100%);font-family:'Nunito',system-ui,sans-serif;color:#3D3E2A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:920px;margin:0 auto}
+.arabe{font-family:'Amiri',serif}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+
+.hdr{text-align:center;padding:40px 24px 30px;margin-bottom:22px;background:linear-gradient(135deg,#8B6F3A,#B49058 50%,#D4B87A);border-radius:24px;color:#fff;box-shadow:0 8px 28px rgba(139,111,58,.25);position:relative;overflow:hidden}
+.hdr::before{content:'☪️';position:absolute;top:18px;right:22px;font-size:56px;opacity:.18}
+.hdr::after{content:'💛';position:absolute;bottom:18px;left:22px;font-size:46px;opacity:.15}
+.brand{display:inline-block;padding:5px 14px;background:rgba(255,255,255,.22);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:12px;position:relative;z-index:1}
+.hdr h1{font-family:'Poppins','Nunito',sans-serif;font-size:34px;font-weight:400;color:#fff;margin-bottom:6px;position:relative;z-index:1;text-shadow:0 2px 8px rgba(0,0,0,.2);letter-spacing:2px}
+.hdr .ar-big{font-family:'Amiri',serif;font-size:32px;color:#fff;opacity:.95;margin:8px 0;position:relative;z-index:1}
+.hdr p{font-family:'Nunito',system-ui,sans-serif;font-style:italic;font-size:15px;color:#fff;max-width:680px;margin:0 auto;position:relative;z-index:1;opacity:.95}
+
+.intro{background:#fff;border-radius:18px;padding:22px 26px;margin-bottom:20px;border:1px solid rgba(180,144,88,.22);box-shadow:0 4px 14px rgba(180,144,88,.06)}
+.intro p{font-size:15px;color:#3D4E4A;line-height:1.7;margin-bottom:10px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:var(--sable-fonce)}
+.intro .citation-coran{font-family:'Amiri',serif;color:var(--sable-fonce);font-size:17px;padding:14px 18px;background:linear-gradient(135deg,var(--sable-clair),#fff);border-left:5px solid var(--sable-or);border-radius:12px;margin:12px 0;line-height:1.6;text-align:center}
+.intro .citation-coran .ar-cit{font-size:21px;display:block;margin-bottom:6px;direction:rtl}
+.intro .citation-coran .trad{font-style:italic;font-family:'Nunito',system-ui,sans-serif;font-size:14px;color:#5A5A35}
+
+.nav{display:flex;gap:6px;background:#fff;padding:8px;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 12px rgba(180,144,88,.08);overflow-x:auto;border:1px solid rgba(180,144,88,.18)}
+.nav button{background:transparent;color:#5A5A35;border:none;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .25s}
+.nav button:hover{background:var(--sable-clair)}
+.nav button.active{background:linear-gradient(135deg,var(--sable-fonce),var(--sable-or));color:#fff;box-shadow:0 4px 10px rgba(180,144,88,.3)}
+
+.panel{display:none;animation:fadeIn .4s ease-out}
+.panel.active{display:block}
+.section{background:#fff;border-radius:20px;padding:26px 24px;margin-bottom:18px;border:1px solid rgba(180,144,88,.2);box-shadow:0 4px 14px rgba(180,144,88,.05)}
+.section h2{font-family:'Poppins','Nunito',sans-serif;font-size:22px;font-weight:500;color:var(--sable-fonce);margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#7A7A55;font-style:italic;margin-bottom:18px;line-height:1.55}
+
+/* 5 LETTRES */
+.rahma-letters{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0}
+@media (max-width:680px){.rahma-letters{grid-template-columns:1fr}}
+.letter-card{padding:18px 14px;border-radius:14px;cursor:pointer;transition:all .3s;border-top:5px solid;text-align:center;position:relative;animation:pop .4s}
+.letter-R{background:linear-gradient(160deg,#FCE2E2,#F5C9C9);border-color:#C9573A}
+.letter-A{background:linear-gradient(160deg,#FFEEDC,#FCDBBE);border-color:#E89556}
+.letter-H{background:linear-gradient(160deg,#FFF9E8,#FCF3D8);border-color:#E0B83E}
+.letter-M{background:linear-gradient(160deg,#E8F5EC,#DFF0E2);border-color:#6CA89E}
+.letter-A2{background:linear-gradient(160deg,#F0E8F0,#E8D5E8);border-color:#9B85B8}
+.letter-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.letter-card.active{transform:scale(1.05);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.letter-big{font-family:'Nunito',system-ui,sans-serif;font-size:42px;font-weight:700;color:#2D3E3A;line-height:1;display:block;margin-bottom:6px}
+.letter-name{font-family:'Nunito',system-ui,sans-serif;font-size:14px;font-weight:600;color:#2D3E3A;margin-bottom:4px;display:block}
+.letter-tagline{font-size:11px;color:#5A6B66;font-style:italic;line-height:1.35}
+
+.letter-detail{background:linear-gradient(135deg,var(--sable-clair),#fff);border-radius:18px;padding:24px;margin-top:8px;border:1px solid rgba(180,144,88,.22)}
+.letter-detail h3{font-family:'Poppins','Nunito',sans-serif;font-size:22px;color:var(--sable-fonce);margin-bottom:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.letter-detail h3 .ldot{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--sable-fonce),var(--sable-or));color:#fff;font-weight:700;font-size:20px;font-family:'Poppins','Nunito',sans-serif}
+
+.letter-detail .objectif{background:#fff;padding:14px 18px;border-radius:12px;margin:14px 0;border-left:4px solid var(--sable-or)}
+.letter-detail .objectif strong{display:block;color:var(--sable-fonce);font-size:11.5px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.letter-detail .objectif p{font-size:14px;color:#3D4E4A;margin:0;line-height:1.65}
+
+.letter-detail .verset,.letter-detail .hadith,.letter-detail .exemple-prophete,.letter-detail .dua-card{padding:16px 18px;border-radius:14px;margin:12px 0;line-height:1.6}
+.letter-detail .verset{background:linear-gradient(135deg,#fff,var(--sable-clair));border-left:5px solid var(--sable-or)}
+.letter-detail .hadith{background:linear-gradient(135deg,#fff,#E8F5EC);border-left:5px solid var(--vert-doux)}
+.letter-detail .exemple-prophete{background:linear-gradient(135deg,#fff,#F5E8E2);border-left:5px solid var(--rose-doux)}
+.letter-detail .dua-card{background:linear-gradient(135deg,#fff,#F0E8F0);border-left:5px solid var(--violet-doux);text-align:center}
+
+.letter-detail .badge-source{display:inline-block;padding:3px 10px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;border-radius:8px;margin-bottom:6px}
+.letter-detail .verset .badge-source{background:var(--sable-or);color:#fff}
+.letter-detail .hadith .badge-source{background:var(--vert-doux);color:#fff}
+.letter-detail .exemple-prophete .badge-source{background:var(--rose-doux);color:#fff}
+.letter-detail .dua-card .badge-source{background:var(--violet-doux);color:#fff}
+
+.letter-detail .ar-text{font-family:'Amiri',serif;font-size:20px;color:var(--sable-fonce);direction:rtl;display:block;margin:6px 0;line-height:1.55;text-align:right}
+.letter-detail .dua-card .ar-text{text-align:center}
+.letter-detail .translit{font-style:italic;color:#7A7A55;font-size:13px;display:block;margin-bottom:6px}
+.letter-detail .sens-text{font-size:14px;color:#3D4E4A;font-style:italic}
+.letter-detail .ref{font-size:11.5px;color:#8A8A65;display:block;margin-top:6px;font-style:italic}
+
+.letter-detail .application{background:#fff;padding:14px 18px;border-radius:12px;margin-top:14px;border:1px dashed rgba(180,144,88,.4)}
+.letter-detail .application strong{display:block;color:var(--sable-fonce);font-size:12px;text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px}
+.letter-detail .application p{font-size:14px;color:#3D4E4A;line-height:1.65;margin-bottom:6px}
+
+/* PROTOCOLE */
+.proto-step{background:var(--sable-clair);border-radius:14px;padding:18px 20px;margin-bottom:14px;border-left:4px solid var(--sable-or);transition:all .25s}
+.ps-head{display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.ps-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--sable-fonce),var(--sable-or));color:#fff;font-weight:700;font-size:18px;font-family:'Nunito',system-ui,sans-serif;flex-shrink:0}
+.ps-title{font-family:'Nunito',system-ui,sans-serif;font-size:17px;color:#3D3E2A;margin:0;flex:1;min-width:200px}
+.ps-ar{font-family:'Amiri',serif;font-size:18px;color:var(--sable-fonce)}
+.ps-hint{font-size:13px;color:#7A7A55;font-style:italic;line-height:1.55;margin-bottom:10px;padding-left:48px}
+.ps-textarea{margin-left:48px}
+@media (max-width:600px){.ps-hint,.ps-textarea{margin-left:0;padding-left:0}}
+.ps-textarea textarea{width:100%;padding:10px 14px;border:1px solid rgba(180,144,88,.3);border-radius:10px;font-size:14px;color:#3D3E2A;background:#fff;font-family:inherit;line-height:1.55;min-height:60px;resize:vertical}
+.ps-textarea textarea:focus{outline:none;border-color:var(--sable-or)}
+
+.btn{background:linear-gradient(135deg,var(--sable-fonce),var(--sable-or));color:#fff;border:none;padding:11px 22px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(180,144,88,.3)}
+.btn-sec{background:#fff;color:var(--sable-fonce);border:1px solid rgba(180,144,88,.3);margin-left:8px}
+
+.proto-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:18px;border-top:1px dashed rgba(180,144,88,.25)}
+
+.proto-intro{background:linear-gradient(135deg,var(--sable-clair),#fff);border-radius:14px;padding:18px 22px;margin-bottom:18px;border-left:5px solid var(--sable-or)}
+.proto-intro p{font-size:14px;color:#3D4E4A;line-height:1.7;margin-bottom:8px}
+.proto-intro p:last-child{margin-bottom:0}
+
+/* SCENARIOS */
+.scenarios{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:18px}
+.scn-card{background:var(--sable-clair);border-radius:14px;padding:16px 18px;cursor:pointer;transition:all .3s;border-left:4px solid var(--sable-or)}
+.scn-card:hover{background:#fff;transform:translateY(-2px);box-shadow:0 6px 16px rgba(180,144,88,.12)}
+.scn-card h4{font-family:'Poppins','Nunito',sans-serif;font-size:15px;color:#3D3E2A;margin-bottom:6px}
+.scn-card .scn-age{display:inline-block;font-size:10.5px;background:#fff;color:var(--sable-fonce);padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px;border:1px solid rgba(180,144,88,.3)}
+.scn-card p{font-size:13px;color:#5A6B66;line-height:1.5;margin-bottom:0}
+
+.scn-detail{display:none;background:linear-gradient(135deg,#fff,var(--sable-clair));border-radius:18px;padding:24px;margin-top:14px;border:1px solid rgba(180,144,88,.25);animation:fadeIn .4s}
+.scn-detail.show{display:block}
+.scn-detail h3{font-family:'Poppins','Nunito',sans-serif;font-size:19px;color:var(--sable-fonce);margin-bottom:6px}
+.scn-detail .scn-context{font-size:13.5px;color:#5A5A35;font-style:italic;margin-bottom:18px;padding:10px 14px;background:#fff;border-radius:10px;border-left:3px solid var(--sable-or)}
+.scn-rahma-step{padding:14px 16px;border-radius:10px;margin-bottom:10px;background:#fff;border-left:4px solid}
+.scn-rahma-step .step-letter{display:inline-block;font-family:'Nunito',system-ui,sans-serif;font-size:18px;font-weight:700;width:30px;height:30px;line-height:30px;text-align:center;color:#fff;border-radius:50%;margin-right:10px}
+.scn-rahma-step.s-R{border-color:#C9573A}.scn-rahma-step.s-R .step-letter{background:#C9573A}
+.scn-rahma-step.s-A1{border-color:#E89556}.scn-rahma-step.s-A1 .step-letter{background:#E89556}
+.scn-rahma-step.s-H{border-color:#E0B83E}.scn-rahma-step.s-H .step-letter{background:#E0B83E}
+.scn-rahma-step.s-M{border-color:#6CA89E}.scn-rahma-step.s-M .step-letter{background:#6CA89E}
+.scn-rahma-step.s-A2{border-color:#9B85B8}.scn-rahma-step.s-A2 .step-letter{background:#9B85B8}
+.scn-rahma-step strong{display:block;font-family:'Nunito',system-ui,sans-serif;font-size:14px;color:#3D3E2A;margin-bottom:4px}
+.scn-rahma-step .quote{display:block;font-family:'Nunito',system-ui,sans-serif;font-style:italic;font-size:13.5px;color:#3D4E4A;background:var(--sable-clair);padding:8px 12px;border-radius:8px;margin-top:6px}
+.scn-rahma-step .source-prophetique{display:block;font-size:12px;color:var(--sable-fonce);font-weight:600;margin-top:6px;padding-top:6px;border-top:1px dashed rgba(180,144,88,.3)}
+
+/* DOSSIER */
+.dossier-bar{background:#fff;border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(180,144,88,.06);border:1px solid rgba(180,144,88,.18)}
+.dossier-bar label{font-size:13px;font-weight:600;color:#5A5A35}
+.dossier-bar input,.dossier-bar select{padding:7px 12px;border:1px solid rgba(180,144,88,.3);border-radius:9px;font-size:13px;background:#fff;font-family:inherit;color:#3D3E2A;min-width:150px}
+.dossier-bar button{background:var(--sable-clair);color:var(--sable-fonce);border:1px solid rgba(180,144,88,.3);padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit}
+.dossier-bar button:hover{background:#fff}
+.dossier-bar .btn-export{background:linear-gradient(135deg,var(--sable-fonce),var(--sable-or));color:#fff;border:none}
+
+/* ARCHIVES */
+.archive-item{background:var(--sable-clair);border-radius:12px;padding:12px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-left:3px solid var(--sable-or)}
+.archive-item .arch-meta{flex:1;min-width:0}
+.archive-item .arch-date{font-size:11.5px;color:#7A7A55;text-transform:uppercase;letter-spacing:.5px}
+.archive-item .arch-title{font-family:'Nunito',system-ui,sans-serif;font-size:14px;color:#3D3E2A;margin:2px 0;font-weight:600}
+.archive-item .arch-summary{font-size:12.5px;color:#5A5A35;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.archive-item button{background:#fff;color:var(--sable-fonce);border:1px solid rgba(180,144,88,.3);padding:5px 10px;border-radius:7px;font-size:11.5px;cursor:pointer;font-family:inherit;flex-shrink:0}
+
+/* FOOTER */
+.footer{text-align:center;padding:30px 16px 8px;color:#7A7A55;font-size:12.5px;font-style:italic;font-family:'Nunito',system-ui,sans-serif}
+.footer .brand-foot{color:var(--sable-fonce);font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .ar-foot{font-family:'Amiri',serif;font-size:14px;color:var(--sable-fonce);margin-top:6px;display:block}
+
+@media print{
+  body{background:#fff;padding:10px}
+  .nav,.dossier-bar,.btn,.proto-actions{display:none!important}
+  .panel{display:block!important;page-break-after:always}
+  .section{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+@media (max-width:600px){.hdr h1{font-size:24px}.hdr .ar-big{font-size:24px}.section{padding:20px 18px}.scenarios{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a href="../../casa-familles/index.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#7a5a20;font-family:system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,.12);border:1px solid rgba(180,144,88,.25)">← La Casa des Familles</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Méthode signature · Jannat Al Qalb</span>
+<h1>R . A . H . M . A</h1>
+<div class="ar-big">رَحْمَة</div>
+<p>La méthode parentale consciente, ancrée dans la voie prophétique. Cinq étapes pour incarner la <em>raḥma</em> divine dans l'éducation — telle que le Prophète ﷺ l'a vécue.</p>
+</div>
+
+<div class="intro">
+<p>☪️ <strong>Le mot <span class="arabe">رَحْمَة</span> (raḥma)</strong> est un attribut divin majeur : Allah se nomme Lui-même <strong class="arabe">الرَّحْمَٰن الرَّحِيم</strong> (<em>Ar-Raḥmān, Ar-Raḥīm</em>) — Le Tout-Miséricordieux, Le Très-Miséricordieux. Éduquer dans la <em>raḥma</em>, c'est imiter cet attribut envers les enfants confiés à nos soins.</p>
+<div class="citation-coran">
+  <span class="ar-cit">وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِلْعَالَمِينَ</span>
+  <span class="trad">« Et Nous ne t'avons envoyé qu'en miséricorde pour l'univers. »</span>
+  <span style="font-size:12px;color:#8A8A65;font-style:normal;display:block;margin-top:6px">— Coran 21:107</span>
+</div>
+<p>Le Prophète ﷺ <strong>EST la raḥma incarnée</strong>. La méthode R.A.H.M.A nous propose 5 étapes pour cheminer dans son <em>uswa ḥasana</em> (modèle parfait) — <strong>Reconnaître · Accueillir · Harmoniser · Modéliser · Accompagner</strong>.</p>
+<p>💡 <strong>Cette version</strong> de R.A.H.M.A enrichit chaque lettre avec <strong>verset coranique + hadith authentique + exemple prophétique vécu + du'a</strong>. Pour les parents qui veulent ancrer la méthode dans la voie islamique. Une <a href="methode-rahma.html" style="color:var(--sable-fonce);font-weight:700">version universelle existe aussi</a> — utilisez celle qui vous parle.</p>
+</div>
+
+<!-- DOSSIER -->
+<div class="dossier-bar">
+<label>📁 Dossier :</label>
+<select id="dossierSelect" onchange="changeDossier()">
+<option value="default">Mon dossier</option>
+</select>
+<input type="text" id="newDossier" placeholder="Nouveau (ex: Léa, Noor...)">
+<button onclick="addDossier()">+ Créer</button>
+<button onclick="deleteDossier()">🗑 Supprimer</button>
+<button onclick="exportTXT()" class="btn-export">📥 Exporter en .txt</button>
+</div>
+
+<div class="nav">
+<button class="active" data-tab="methode" onclick="switchTab('methode')">📖 La Méthode</button>
+<button data-tab="protocole" onclick="switchTab('protocole')">🛠️ Protocole guidé</button>
+<button data-tab="scenarios" onclick="switchTab('scenarios')">🎴 Scénarios prophétiques</button>
+<button data-tab="routines" onclick="switchTab('routines')">🤲 Routines spirituelles</button>
+<button data-tab="archives" onclick="switchTab('archives')">📚 Archives</button>
+</div>
+
+<!-- PANEL 1 — METHODE -->
+<div class="panel active" id="panel-methode">
+<div class="section">
+<h2>📖 La Méthode R.A.H.M.A en 5 lettres prophétiques</h2>
+<div class="sub">Cliquez sur une lettre pour découvrir l'étape avec verset · hadith · exemple du Prophète ﷺ · du'a.</div>
+
+<div class="rahma-letters">
+<div class="letter-card letter-R active" data-l="R" onclick="showLetter('R')">
+<span class="letter-big">R</span>
+<span class="letter-name">Reconnaître</span>
+<span class="letter-tagline">l'émotion comme une création divine</span>
+</div>
+<div class="letter-card letter-A" data-l="A1" onclick="showLetter('A1')">
+<span class="letter-big">A</span>
+<span class="letter-name">Accueillir</span>
+<span class="letter-tagline">sans valider la transgression</span>
+</div>
+<div class="letter-card letter-H" data-l="H" onclick="showLetter('H')">
+<span class="letter-big">H</span>
+<span class="letter-name">Harmoniser</span>
+<span class="letter-tagline">avec le cadre divin & prophétique</span>
+</div>
+<div class="letter-card letter-M" data-l="M" onclick="showLetter('M')">
+<span class="letter-big">M</span>
+<span class="letter-name">Modéliser</span>
+<span class="letter-tagline">selon l'uswa ḥasana</span>
+</div>
+<div class="letter-card letter-A2" data-l="A2" onclick="showLetter('A2')">
+<span class="letter-big">A</span>
+<span class="letter-name">Accompagner</span>
+<span class="letter-tagline">vers tawba & réparation</span>
+</div>
+</div>
+
+<div class="letter-detail" id="letterDetail"></div>
+</div>
+</div>
+
+<!-- PANEL 2 — PROTOCOLE -->
+<div class="panel" id="panel-protocole">
+<div class="section">
+<h2>🛠️ Protocole guidé — Une situation, 5 étapes</h2>
+<div class="sub">Remplis chaque étape pour structurer ta réponse parentale. Pas en pleine crise — juste après ou à froid.</div>
+
+<div class="proto-intro">
+<p>💡 <strong>Avant de commencer :</strong> récite mentalement <span class="arabe" style="font-size:16px">بِسْمِ اللَّهِ</span> (au nom d'Allah). Pose ton intention : <em>nawaytu</em> — j'ai l'intention d'éduquer dans la raḥma.</p>
+<p>☪️ <strong>Du'a du parent :</strong> <span class="arabe" style="font-size:16px">رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي</span> — « Mon Seigneur, ouvre-moi la poitrine et facilite-moi l'affaire » (Coran 20:25-26, du'a de Mūsā ﷺ).</p>
+</div>
+
+<div class="proto-step">
+<div class="ps-head"><span class="ps-num">0</span><h3 class="ps-title">La situation <span class="ps-ar">الْحَالَة</span></h3></div>
+<p class="ps-hint">Décris en quelques phrases ce qui s'est passé. Reste factuel·le, sans jugement.</p>
+<div class="ps-textarea"><textarea id="step-0" placeholder="Ex : Noor (10 ans) a refusé de faire ses devoirs après l'école. Il a crié, claqué la porte de sa chambre quand j'ai insisté."></textarea></div>
+</div>
+
+<div class="proto-step">
+<div class="ps-head"><span class="ps-num" style="background:linear-gradient(135deg,#C9573A,#E0735C)">R</span><h3 class="ps-title">Reconnaître l'émotion <span class="ps-ar">التَّعَرُّف</span></h3></div>
+<p class="ps-hint">Nomme l'émotion sans la juger. Rappelle-toi : c'est une création d'Allah, à honorer comme telle.</p>
+<div class="ps-textarea"><textarea id="step-R" placeholder="Ex : « Je vois que tu es très en colère et fatigué. C'est légitime — Allah a mis ces émotions en toi. »"></textarea></div>
+</div>
+
+<div class="proto-step">
+<div class="ps-head"><span class="ps-num" style="background:linear-gradient(135deg,#E89556,#F0AC7E)">A</span><h3 class="ps-title">Accueillir sans valider l'acte <span class="ps-ar">الاسْتِيعَاب</span></h3></div>
+<p class="ps-hint">Distingue l'émotion (création divine) du comportement (à recadrer). Comme le Prophète ﷺ qui acceptait les larmes mais corrigeait l'attitude.</p>
+<div class="ps-textarea"><textarea id="step-A1" placeholder="Ex : « Ta fatigue et ta colère sont normales. Beaucoup d'enfants vivent ça après l'école. Mais claquer la porte n'est pas la bonne réponse. »"></textarea></div>
+</div>
+
+<div class="proto-step">
+<div class="ps-head"><span class="ps-num" style="background:linear-gradient(135deg,#E0B83E,#EBC55F)">H</span><h3 class="ps-title">Harmoniser avec le cadre <span class="ps-ar">الْمُوَاءَمَة</span></h3></div>
+<p class="ps-hint">Rappelle calmement la règle, ancrée dans nos valeurs (akhlāq · adab). Phrase courte, sans cri — comme le Prophète ﷺ qui « ne haussait jamais la voix ».</p>
+<div class="ps-textarea"><textarea id="step-H" placeholder="Ex : « Dans notre maison, on respecte les portes, on ne crie pas sur les parents. C'est l'adab que nous voulons. Et tes devoirs, c'est ton effort à toi — Allah aime celui qui s'efforce. »"></textarea></div>
+</div>
+
+<div class="proto-step">
+<div class="ps-head"><span class="ps-num" style="background:linear-gradient(135deg,#6CA89E,#88B8AA)">M</span><h3 class="ps-title">Modéliser (uswa ḥasana) <span class="ps-ar">الْأُسْوَة</span></h3></div>
+<p class="ps-hint">Montre concrètement comment toi tu gères. L'enfant copie ce qu'il voit (« uswa ḥasana » — le meilleur exemple).</p>
+<div class="ps-textarea"><textarea id="step-M" placeholder="Ex : « Quand moi je suis fatiguée et que je dois faire un truc dur, je dis a'oudhou billahi min ash-shaytan ar-rajim, je respire, je bois de l'eau. Tu veux essayer avec moi ? »"></textarea></div>
+</div>
+
+<div class="proto-step">
+<div class="ps-head"><span class="ps-num" style="background:linear-gradient(135deg,#9B85B8,#B59ECE)">A</span><h3 class="ps-title">Accompagner vers tawba & réparation <span class="ps-ar">التَّوْبَة</span></h3></div>
+<p class="ps-hint">Quand le calme revient, guide vers le pardon, la réparation et l'amélioration (tawba = retour vers le mieux).</p>
+<div class="ps-textarea"><textarea id="step-A2" placeholder="Ex : « Quand tu seras prêt, va dire pardon (sorry/استغفر الله). Et pour la prochaine fois, qu'est-ce qui pourrait t'aider ? Un goûter avant les devoirs ? Une pause de 10 min ? »"></textarea></div>
+</div>
+
+<div class="proto-actions">
+<button class="btn" onclick="saveProtocole()">💾 Sauvegarder dans archives</button>
+<button class="btn btn-sec" onclick="clearProtocole()">🧹 Effacer tous les champs</button>
+</div>
+</div>
+</div>
+
+<!-- PANEL 3 — SCENARIOS -->
+<div class="panel" id="panel-scenarios">
+<div class="section">
+<h2>🎴 Bibliothèque de scénarios prophétiques</h2>
+<div class="sub">12 situations parentales fréquentes — chaque étape éclairée par un verset, un hadith ou un exemple du Prophète ﷺ.</div>
+
+<div class="scenarios" id="scenariosGrid"></div>
+<div class="scn-detail" id="scnDetail"></div>
+</div>
+</div>
+
+<!-- PANEL 4 — ROUTINES SPIRITUELLES -->
+<div class="panel" id="panel-routines">
+<div class="section">
+<h2>🤲 Routines spirituelles parent &amp; enfant</h2>
+<div class="sub">Ancrer la <em>tarbiya</em> dans le quotidien — pour toi-même d'abord, puis pour transmettre. Les actes spirituels constants, même petits, sont les plus aimés d'Allah.</div>
+
+<div style="background:linear-gradient(135deg,var(--sable-clair),#fff);border-radius:14px;padding:18px 22px;margin-bottom:18px;border-left:5px solid var(--sable-or)">
+  <p style="margin:0;font-size:14.5px;line-height:1.7;color:#3D4E4A">
+    💡 <strong style="color:var(--sable-fonce)">L'idée :</strong> remplacer les "outils de relaxation" génériques par des <strong>ancrages prophétiques</strong> — méditation sur le Coran (<em>tadabbur</em>), exégèse (<em>tafsir</em>), méditation sur les <strong>Noms et Attributs d'Allah</strong>, et <em>du'a</em> quotidiennes. Pour toi, pour ton enfant, pour ton couple.
+  </p>
+  <p style="margin:10px 0 0;font-size:13.5px;line-height:1.65;color:#5A5A35;font-style:italic">
+    « Les actes les plus aimés d'Allah sont les plus constants, même s'ils sont petits. » — Hadith Bukhari/Muslim
+  </p>
+</div>
+
+<!-- TADABBUR -->
+<div class="letter-detail" style="margin-bottom:18px">
+<h3><span class="ldot">📖</span>Tadabbur — Méditer le Coran</h3>
+<div class="verset"><span class="badge-source">📖 Coran</span>
+<span class="ar-text">أَفَلَا يَتَدَبَّرُونَ الْقُرْآنَ ۚ وَلَوْ كَانَ مِنْ عِندِ غَيْرِ اللَّهِ لَوَجَدُوا فِيهِ اخْتِلَافًا كَثِيرًا</span>
+<span class="translit">Afalā yatadabbarūna al-Qur'āna…</span>
+<span class="sens-text">« Ne méditent-ils donc pas le Coran ? S'il provenait d'un autre qu'Allah, ils y trouveraient certes maintes contradictions. »</span>
+<span class="ref">— Coran 4:82</span>
+</div>
+
+<div class="application" style="margin-top:14px">
+<strong>🛠️ Ta routine tadabbur — 5 minutes/jour</strong>
+<p style="margin-top:8px"><strong>1.</strong> Choisis <strong>1 verset court</strong> (ex: début sourate, verset que tu connais déjà).</p>
+<p><strong>2.</strong> Lis-le 3 fois lentement — en arabe si tu peux, sinon en traduction.</p>
+<p><strong>3.</strong> Pose-toi 3 questions : <em>Que dit Allah ?</em> · <em>À qui parle-t-Il ?</em> · <em>Qu'est-ce que ça change pour moi aujourd'hui ?</em></p>
+<p><strong>4.</strong> Note 1 phrase de ce que tu retiens. Pas besoin de théologie — juste ton ressenti sincère.</p>
+<p style="margin-top:10px;padding:10px 14px;background:var(--sable-clair);border-radius:10px;color:var(--sable-fonce);font-size:13.5px"><strong>💛 Avec ton enfant :</strong> 1 mini-verset par semaine. Tu le lis, tu expliques avec des mots simples, vous en discutez 2 minutes au goûter. C'est tout. La constance fait le reste.</p>
+</div>
+</div>
+
+<!-- TAFSIR -->
+<div class="letter-detail" style="margin-bottom:18px">
+<h3><span class="ldot">📚</span>Tafsir — L'exégèse au quotidien</h3>
+<div class="hadith"><span class="badge-source">🌿 Hadith</span>
+<span class="ar-text">خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ</span>
+<span class="translit">Khayrukum man ta'allama al-Qur'āna wa 'allamah</span>
+<span class="sens-text">« Le meilleur d'entre vous est celui qui apprend le Coran et l'enseigne. »</span>
+<span class="ref">— Sahih Bukhari</span>
+</div>
+
+<div class="application" style="margin-top:14px">
+<strong>🛠️ Ta routine tafsir — 10 minutes/semaine</strong>
+<p style="margin-top:8px"><strong>Niveau 1 — Débutant :</strong> commence par les <strong>3 dernières sourates</strong> (Ikhlās, Falaq, Nās) que tu connais déjà. Lis un tafsir simplifié (Ibn Kathir abrégé, ou Tafsir as-Sa'di traduit) — 1 verset/semaine.</p>
+<p><strong>Niveau 2 — Intermédiaire :</strong> remonte la sourate <em>Al-Mulk</em>, puis <em>Yāsīn</em>. 2-3 versets/semaine. Note les "perles" qui te touchent.</p>
+<p><strong>Niveau 3 — Avancé :</strong> tafsir thématique — chercher tous les versets sur la patience (<em>sabr</em>), la miséricorde (<em>raḥma</em>), la confiance (<em>tawakkul</em>), et les méditer ensemble.</p>
+<p style="margin-top:10px;padding:10px 14px;background:var(--sable-clair);border-radius:10px;color:var(--sable-fonce);font-size:13.5px"><strong>💛 Avec ton enfant :</strong> raconte les <strong>histoires des prophètes</strong> sur 5 minutes au coucher. Yūnus dans le ventre du poisson, Yūsuf et ses frères, Mūsā et la mer fendue. Ce sont les meilleurs cours de résilience pour un enfant TND.</p>
+</div>
+</div>
+
+<!-- ASMA' WA SIFAAT -->
+<div class="letter-detail" style="margin-bottom:18px">
+<h3><span class="ldot">🌟</span>Asma' wa Sifaat — Les 99 Noms d'Allah</h3>
+<div class="verset"><span class="badge-source">📖 Coran</span>
+<span class="ar-text">وَلِلَّهِ الْأَسْمَاءُ الْحُسْنَىٰ فَادْعُوهُ بِهَا</span>
+<span class="translit">Wa lillāhi al-asmā'u al-ḥusnā fad'ūhu bihā</span>
+<span class="sens-text">« À Allah appartiennent les plus beaux Noms. Invoquez-Le par ces Noms. »</span>
+<span class="ref">— Coran 7:180</span>
+</div>
+
+<div class="application" style="margin-top:14px">
+<strong>🛠️ Ta routine Asma' — 1 Nom/jour ou 1 Nom/semaine</strong>
+<p style="margin-top:8px"><strong>Le principe :</strong> chaque Nom est une porte de connaissance d'Allah ET de toi-même. Tu médites sur 1 Nom, tu comprends son sens, tu l'invoques en du'a, tu observes son effet sur ton cœur.</p>
+
+<p style="margin-top:10px"><strong>🌿 Quelques Noms à méditer en priorité (parent neuro-atypique épuisé) :</strong></p>
+<ul style="margin-left:22px;line-height:1.85;font-size:14px;color:#3D4E4A">
+<li><strong class="arabe" style="font-size:16px;color:var(--sable-fonce)">الرَّحْمَن</strong> (<em>Ar-Raḥmān</em> — Le Tout-Miséricordieux) : sa miséricorde dépasse Sa colère. Tu peux l'invoquer quand tu te sens dur·e avec ton enfant.</li>
+<li><strong class="arabe" style="font-size:16px;color:var(--sable-fonce)">الصَّبُور</strong> (<em>As-Ṣabūr</em> — Le Très-Patient) : à invoquer quand TA patience est à sec. Allah est le modèle de patience.</li>
+<li><strong class="arabe" style="font-size:16px;color:var(--sable-fonce)">الْحَلِيم</strong> (<em>Al-Ḥalīm</em> — Le Très-Indulgent) : à invoquer quand tu as crié, regretté. Il pardonne sans humilier.</li>
+<li><strong class="arabe" style="font-size:16px;color:var(--sable-fonce)">الْوَكِيل</strong> (<em>Al-Wakīl</em> — Le Garant) : à invoquer quand l'angoisse pour ton enfant te ronge. Tu fais ce que tu peux, Il fait le reste.</li>
+<li><strong class="arabe" style="font-size:16px;color:var(--sable-fonce)">الْفَتَّاح</strong> (<em>Al-Fattāḥ</em> — Celui qui ouvre) : à invoquer quand le parcours TND semble bouché. Il ouvre des portes invisibles.</li>
+<li><strong class="arabe" style="font-size:16px;color:var(--sable-fonce)">الْهَادِي</strong> (<em>Al-Hādī</em> — Le Guide) : à invoquer pour ton enfant. Demande qu'Il le guide, qu'Il l'apaise.</li>
+</ul>
+
+<p style="margin-top:14px;padding:10px 14px;background:var(--sable-clair);border-radius:10px;color:var(--sable-fonce);font-size:13.5px"><strong>💛 Avec ton enfant :</strong> apprenez 1 Nom/semaine ensemble. Affiche-le sur le frigo en arabe + français. À la fin de l'année, tu lui auras transmis la connaissance vivante d'Allah — et c'est ÇA, le <em>tarbiya</em>.</p>
+</div>
+</div>
+
+<!-- DU'A QUOTIDIENNES -->
+<div class="letter-detail" style="margin-bottom:18px">
+<h3><span class="ldot">🤲</span>Du'a quotidiennes du parent neuro-atypique</h3>
+
+<div class="dua-card">
+<span class="badge-source">🤲 Du'a 1 — Avant les devoirs / l'école</span>
+<span class="ar-text">رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي يَفْقَهُوا قَوْلِي</span>
+<span class="translit">Rabbi-shraḥ lī ṣadrī wa yassir lī amrī, wa-ḥlul 'uqdatan min lisānī, yafqahū qawlī</span>
+<span class="sens-text">« Mon Seigneur, ouvre-moi la poitrine, facilite-moi l'affaire, dénoue le nœud de ma langue, qu'ils comprennent ma parole. » (Coran 20:25-28, du'a de Mūsā ﷺ)</span>
+</div>
+
+<div class="dua-card">
+<span class="badge-source">🤲 Du'a 2 — Avant une situation difficile (crise, conflit)</span>
+<span class="ar-text">حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيل</span>
+<span class="translit">Ḥasbunā Allāhu wa ni'ma al-wakīl</span>
+<span class="sens-text">« Allah nous suffit, et quel excellent Garant. » (Coran 3:173)</span>
+</div>
+
+<div class="dua-card">
+<span class="badge-source">🤲 Du'a 3 — Pour les enfants</span>
+<span class="ar-text">رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا</span>
+<span class="translit">Rabbanā hab lanā min azwājinā wa dhurriyyātinā qurrata a'yunin, wa-j'alnā lil-muttaqīna imāmā</span>
+<span class="sens-text">« Notre Seigneur, accorde-nous en nos époux/se et en nos enfants la joie des yeux, et fais de nous des modèles pour les pieux. » (Coran 25:74)</span>
+</div>
+
+<div class="dua-card">
+<span class="badge-source">🤲 Du'a 4 — Quand l'épuisement déborde</span>
+<span class="ar-text">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ وَالْعَجْزِ وَالْكَسَلِ</span>
+<span class="translit">Allāhumma innī a'oudhu bika min al-hammi wa al-ḥazani wa al-'ajzi wa al-kasal</span>
+<span class="sens-text">« Ô Allah, je cherche refuge en Toi contre l'anxiété, la tristesse, l'incapacité et la paresse. » (Hadith Bukhari)</span>
+</div>
+
+<div class="dua-card">
+<span class="badge-source">🤲 Du'a 5 — Pour l'apprentissage de l'enfant</span>
+<span class="ar-text">رَّبِّ زِدْنِي عِلْمًا</span>
+<span class="translit">Rabbi zidnī 'ilmā</span>
+<span class="sens-text">« Mon Seigneur, augmente-moi en savoir. » (Coran 20:114) — À enseigner à l'enfant avant chaque période de devoirs/examen.</span>
+</div>
+</div>
+
+<!-- PLAN HEBDO -->
+<div class="letter-detail" style="margin-bottom:18px">
+<h3><span class="ldot">📅</span>Plan hebdo Tarbiya — pour toi ET ton enfant</h3>
+<div class="application">
+<strong>🛠️ Une routine spirituelle TND-friendly (pas trop, juste l'essentiel)</strong>
+
+<p style="margin-top:8px"><strong>👤 Pour toi (5-10 min/jour) :</strong></p>
+<ul style="margin-left:22px;line-height:1.85;font-size:14px;color:#3D4E4A">
+<li><strong>Matin :</strong> 5 min de tadabbur sur 1 verset (au lever ou au café)</li>
+<li><strong>Midi :</strong> récite 1 du'a (au choix selon la journée)</li>
+<li><strong>Soir :</strong> 1 Nom d'Allah à méditer + istighfar (3 fois)</li>
+<li><strong>1 jour/semaine :</strong> 10 min de tafsir (ton créneau lent)</li>
+</ul>
+
+<p style="margin-top:10px"><strong>👶 Avec ton enfant (3-5 min/jour selon âge) :</strong></p>
+<ul style="margin-left:22px;line-height:1.85;font-size:14px;color:#3D4E4A">
+<li><strong>0-6 ans :</strong> Bismillah avant manger · A'oudhu billah si peur/colère · histoire d'un prophète au coucher</li>
+<li><strong>6-10 ans :</strong> mini-verset à apprendre/semaine · 1 Nom d'Allah/semaine sur le frigo · du'a Rabbi zidnī 'ilman avant l'école</li>
+<li><strong>10-14 ans :</strong> tafsir simplifié 1 verset/sem · discussion sur 1 valeur islamique liée à son vécu (jalousie/Yūsuf, patience/Ayyūb…)</li>
+<li><strong>14+ ans :</strong> co-apprentissage Asma' · tafsir d'une sourate ensemble (Al-Mulk, Yāsīn) · du'a personnalisée pour ses examens</li>
+</ul>
+
+<p style="margin-top:14px;padding:12px 16px;background:var(--sable-clair);border-radius:10px;color:var(--sable-fonce);font-size:13.5px;line-height:1.7"><strong>🌿 Règle Nawel :</strong> mieux vaut <strong>5 minutes constantes chaque jour</strong> que 1 heure le dimanche puis rien. Le cerveau de l'enfant retient ce qui est <strong>répété + court + ancré dans une émotion positive</strong>. La spiritualité ne s'enseigne pas par la peur — elle s'incarne par l'amour.</p>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- PANEL 5 — ARCHIVES -->
+<div class="panel" id="panel-archives">
+<div class="section">
+<h2>📚 Mes archives R.A.H.M.A prophétique</h2>
+<div class="sub">Tes protocoles sauvegardés. Relis, compare, repère les progrès <span class="arabe" style="font-size:14px">إِنْ شَاءَ اللَّهُ</span>.</div>
+<div id="archivesList"></div>
+</div>
+</div>
+
+<div class="footer">
+« <span class="arabe" style="font-size:14px">لَيْسَ مِنَّا مَنْ لَمْ يَرْحَمْ صَغِيرَنَا</span> » — « N'est pas des nôtres celui qui n'est pas miséricordieux envers nos jeunes » — Hadith authentique (Tirmidhi)
+<span class="brand-foot">Méthode R.A.H.M.A · Voie prophétique · Création originale Nawel Haddouch · Jannat Al Qalb · EducaTypique</span>
+<span class="ar-foot">رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ</span>
+<span style="font-size:11px;display:block;margin-top:4px;color:#8A8A65">Mémoire locale · rien n'est envoyé en ligne · Imprimable</span>
+<span style="font-size:10.5px;display:block;margin-top:8px;color:#8A8A65;font-style:normal;max-width:620px;margin-left:auto;margin-right:auto;line-height:1.5">⚠️ Méthode parentale d'inspiration neuropédagogique et prophétique. Ne remplace ni un accompagnement clinique pour un enfant en difficulté avérée (consulter pédopsy/neuropsy), ni un avis religieux qualifié pour des questions de fiqh. <strong>Allah seul guérit</strong> — nos outils sont des moyens, jamais des fins.</span>
+</div>
+
+</div>
+
+<script>
+var LETTERS = {
+  R: {
+    letter:'R', nom:"Reconnaître l'émotion comme création divine",
+    objectif:"Nommer l'émotion de l'enfant en la voyant comme une réalité créée par Allah, à honorer — pas à étouffer.",
+    verset:{
+      ar:"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً",
+      translit:"Wa min āyātihi an khalaqa lakum min anfusikum azwājan li-taskunū ilayhā wa ja'ala baynakum mawaddatan wa raḥmah",
+      sens:"« Et parmi Ses signes, Il a créé entre vous affection et miséricorde »",
+      ref:"Coran 30:21"
+    },
+    hadith:{
+      ar:"إِنَّ اللَّهَ رَفِيقٌ يُحِبُّ الرِّفْقَ فِي الْأَمْرِ كُلِّهِ",
+      translit:"Inna Allāha rafīqun yuḥibbu ar-rifqa fī al-amri kullih",
+      sens:"« Allah est doux et aime la douceur en toute chose. »",
+      ref:"Sahih Bukhari 6024"
+    },
+    exemple:"Le Prophète ﷺ s'est arrêté un jour pour <strong>écouter pleurer un bébé</strong> dans la prière collective, abrégeant volontairement la <em>ṣalāt</em>. Quand on lui demanda pourquoi, il dit : <em>« J'ai entendu un enfant pleurer et j'ai craint que sa mère ne s'inquiète. »</em> (Bukhari) — Reconnaître l'émotion AVANT de continuer son agenda.",
+    dua:{
+      ar:"اللَّهُمَّ أَلْهِمْنِي رُشْدِي",
+      translit:"Allāhumma alhimnī rushdī",
+      sens:"« Ô Allah, inspire-moi la guidée. » (Tirmidhi)"
+    },
+    application:"<strong>Concrètement :</strong> avant de réagir, NOMME ce que tu vois. « Je vois ta colère. Je vois ta tristesse. Allah l'a mise en toi pour une raison — on va l'écouter ensemble. » Le Prophète ﷺ pleurait avec les pleureurs, riait avec les rieurs."
+  },
+
+  A1: {
+    letter:'A', nom:"Accueillir l'émotion (sans valider la transgression)",
+    objectif:"Distinguer l'émotion (création divine légitime) du comportement (acte humain à corriger). Comme le Prophète ﷺ qui acceptait les larmes mais corrigeait l'attitude.",
+    verset:{
+      ar:"وَلَا تَسْتَوِي الْحَسَنَةُ وَلَا السَّيِّئَةُ ۚ ادْفَعْ بِالَّتِي هِيَ أَحْسَنُ",
+      translit:"Wa lā tastawī al-ḥasanah wa lā as-sayyi'ah, idfa' billatī hiya aḥsan",
+      sens:"« La bonne et la mauvaise action ne sont pas équivalentes. Repousse [le mal] par ce qui est meilleur. »",
+      ref:"Coran 41:34"
+    },
+    hadith:{
+      ar:"لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ",
+      translit:"Laysa ash-shadīd biṣ-ṣur'ah, innamā ash-shadīd alladhī yamliku nafsahu 'inda al-ghaḍab",
+      sens:"« Le fort n'est pas celui qui terrasse les hommes. Le fort est celui qui se maîtrise dans la colère. »",
+      ref:"Sahih Bukhari/Muslim"
+    },
+    exemple:"Un bédouin <strong>urina dans la mosquée</strong>. Les compagnons se précipitèrent pour le frapper. Le Prophète ﷺ leur dit : <em>« Laissez-le. Versez sur ce qu'il a uriné un seau d'eau. Vous êtes envoyés pour faciliter, non pour rendre difficile. »</em> (Bukhari) — L'acte fut corrigé, l'homme accueilli. La colère des compagnons était comprise, mais la réponse fut <em>raḥma</em>.",
+    dua:{
+      ar:"اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْغَضَبِ وَالْكَسَلِ",
+      translit:"Allāhumma innī a'oudhu bika min al-ghaḍab wal-kasal",
+      sens:"« Ô Allah, je cherche refuge en Toi contre la colère et la paresse. » (Abu Dawud)"
+    },
+    application:"<strong>Concrètement :</strong> « Ton émotion est légitime, Allah l'a créée. Mais l'acte que tu as fait n'est pas conforme à l'adab que nous cultivons. » L'émotion est ACCUEILLIE, l'acte est CADRÉ. Les deux ne sont pas la même chose."
+  },
+
+  H: {
+    letter:'H', nom:"Harmoniser avec le cadre divin et prophétique",
+    objectif:"Rappeler avec calme et clarté le cadre (règles familiales, adab, valeurs islamiques) qui assure la sécurité et le respect de tous.",
+    verset:{
+      ar:"يَا أَيُّهَا الَّذِينَ آمَنُوا قُوا أَنفُسَكُمْ وَأَهْلِيكُمْ نَارًا",
+      translit:"Yā ayyuhā alladhīna āmanū qū anfusakum wa ahlīkum nāran",
+      sens:"« Ô vous qui croyez, préservez vos âmes et celles de vos familles d'un feu. »",
+      ref:"Coran 66:6"
+    },
+    hadith:{
+      ar:"كُلُّكُمْ رَاعٍ وَكُلُّكُمْ مَسْؤُولٌ عَنْ رَعِيَّتِهِ",
+      translit:"Kullukum rā'in wa kullukum mas'ūlun 'an ra'iyyatih",
+      sens:"« Chacun de vous est un berger, et chacun est responsable de son troupeau. »",
+      ref:"Sahih Bukhari/Muslim"
+    },
+    exemple:"Quand le petit-fils du Prophète ﷺ, Al-Ḥasan, prit une <strong>datte de la sadaqa</strong> et la mit dans sa bouche, le Prophète ﷺ dit doucement : <em>« Lâche-la, lâche-la, ne sais-tu pas que nous ne mangeons pas de la sadaqa ? »</em> (Bukhari). Cadre rappelé, FERME mais TENDRE. Pas de cri.",
+    dua:{
+      ar:"رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+      translit:"Rabbanā hab lanā min azwājinā wa dhurriyyātinā qurrata a'yunin wa-j'alnā lil-muttaqīna imāmā",
+      sens:"« Notre Seigneur, accorde-nous, en nos époux/se et nos enfants, la joie des yeux, et fais de nous des modèles pour les pieux. »",
+      ref:"Coran 25:74"
+    },
+    application:"<strong>Concrètement :</strong> phrase courte, claire, sans cri. « Dans notre maison, on… [valeur]. C'est notre adab. » L'enfant en crise n'entend pas un long discours — il a besoin d'un repère ferme et bref."
+  },
+
+  M: {
+    letter:'M', nom:"Modéliser selon l'uswa ḥasana",
+    objectif:"Montrer concrètement comment toi (parent) tu gères tes propres émotions. L'enfant apprend par l'imitation — <em>al-walad sirru abīh</em> (« l'enfant est le secret de son père »).",
+    verset:{
+      ar:"لَقَدْ كَانَ لَكُمْ فِي رَسُولِ اللَّهِ أُسْوَةٌ حَسَنَةٌ",
+      translit:"Laqad kāna lakum fī rasūli Allāhi uswatun ḥasanah",
+      sens:"« Vous avez certes dans le Messager d'Allah un excellent modèle. »",
+      ref:"Coran 33:21"
+    },
+    hadith:{
+      ar:"إِذَا غَضِبَ أَحَدُكُمْ وَهُوَ قَائِمٌ فَلْيَجْلِسْ، فَإِنْ ذَهَبَ عَنْهُ الْغَضَبُ وَإِلَّا فَلْيَضْطَجِعْ",
+      translit:"Idhā ghaḍiba aḥadukum wa huwa qā'im falyajlis, fa-in dhahaba 'anhu al-ghaḍab wa illā falyaḍṭaji'",
+      sens:"« Quand l'un de vous est en colère debout, qu'il s'assoie. Si la colère persiste, qu'il s'allonge. »",
+      ref:"Sunan Abu Dawud 4782"
+    },
+    exemple:"'Ā'ishah رضي الله عنها rapporte que le Prophète ﷺ <strong>n'a JAMAIS frappé un enfant ni une femme</strong>, et qu'il ne se vengeait jamais pour lui-même (Muslim). Quand 'Umar s'emportait, le Prophète ﷺ disait simplement : <em>« A'oudhu billahi… »</em> et changeait de posture. La modélisation, ce n'est pas \"être parfait\" — c'est montrer le PROCESSUS de retour au calme.",
+    dua:{
+      ar:"أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+      translit:"A'oudhu billāhi min ash-shayṭāni ar-rajīm",
+      sens:"« Je cherche refuge en Allah contre le chitane lapidé. » À dire devant l'enfant — pour qu'il apprenne."
+    },
+    application:"<strong>Concrètement :</strong> « Quand moi je suis en colère, je dis a'oudhou billah, je m'assois, je bois de l'eau, je fais wudu' si c'est gros. Tu veux essayer avec moi ? » Tu lui apprends l'OUTIL prophétique en l'incarnant — pas en le récitant."
+  },
+
+  A2: {
+    letter:'A', nom:"Accompagner vers tawba et réparation",
+    objectif:"Quand le calme revient, guider l'enfant vers le pardon (auprès d'Allah + auprès des humains lésés) et la réparation concrète. La <em>tawba</em>, ce n'est pas la honte — c'est le retour au mieux.",
+    verset:{
+      ar:"وَتُوبُوا إِلَى اللَّهِ جَمِيعًا أَيُّهَ الْمُؤْمِنُونَ لَعَلَّكُمْ تُفْلِحُونَ",
+      translit:"Wa tūbū ilā Allāhi jamī'an ayyuha al-mu'minūn la'allakum tufliḥūn",
+      sens:"« Et revenez tous à Allah, ô croyants, afin que vous récoltiez le succès. »",
+      ref:"Coran 24:31"
+    },
+    hadith:{
+      ar:"كُلُّ ابْنِ آدَمَ خَطَّاءٌ، وَخَيْرُ الْخَطَّائِينَ التَّوَّابُونَ",
+      translit:"Kullu ibni Ādama khaṭṭā'un, wa khayru al-khaṭṭā'īna at-tawwābūn",
+      sens:"« Tout fils d'Adam est faillible — et les meilleurs des faillibles sont ceux qui reviennent. »",
+      ref:"Tirmidhi 2499"
+    },
+    exemple:"Un jeune homme vint au Prophète ﷺ avouer un péché grave. Le Prophète ﷺ ne le condamna PAS, ne l'humilia PAS — il lui apprit comment <strong>se purifier, demander pardon, et redresser sa vie</strong>. La réparation prophétique est toujours <em>structurante</em>, jamais <em>écrasante</em>. (Tradition prophétique connue, plusieurs sources)",
+    dua:{
+      ar:"رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ",
+      translit:"Rabbi-ghfir lī wa tub 'alayya innaka anta at-tawwābu ar-raḥīm",
+      sens:"« Mon Seigneur, pardonne-moi et accepte mon retour. Tu es Celui qui accepte le repentir, Le Miséricordieux. » (Sunan Abu Dawud)"
+    },
+    application:"<strong>Concrètement :</strong> « Maintenant que tu es calme, qu'est-ce que tu penses de ce qui s'est passé ? Qu'est-ce que tu peux faire pour réparer ? Demande pardon à ton frère, et ensemble on dit <em>astaghfirullah</em>. Pour la prochaine fois, qu'est-ce qui t'aiderait ? » <strong>Jamais à chaud — toujours au calme.</strong>"
+  }
+};
+
+var SCENARIOS = [
+  {id:1,age:'5-10 ans',titre:"Refus de la prière (ṣalāt)",
+    context:"L'enfant refuse de faire sa prière, traîne, dit que ça l'ennuie.",
+    R:"« Je vois que la prière te semble pesante en ce moment. Ce que tu ressens existe. »",
+    A1:"« C'est normal de ne pas avoir toujours envie. Allah connaît nos états — et même le Prophète ﷺ a connu des moments où la prière était lourde (avant qu'elle ne devienne sa <em>qurrat 'ayn</em>, joie des yeux). »",
+    H:"« Mais la prière reste un pilier — comme manger ou dormir pour le corps. On ne la saute pas. »",
+    M:"« Regarde, je vais faire wudu' avec toi. On va prier ensemble — juste 2 rak'a, courtes. Si c'est dur, ce sont les plus aimées d'Allah. »",
+    A2:"« On peut décider d'un signal entre nous pour les jours difficiles ? Et aussi : tu veux choisir UNE sourate que tu aimes apprendre pour mieux la sentir ? »",
+    source:"Hadith : « La plus aimée des œuvres pour Allah est celle qui dure, même petite. » (Bukhari)"
+  },
+  {id:2,age:'tout âge',titre:"Colère intense — il/elle a tapé",
+    context:"L'enfant a tapé son frère/sa sœur ou un camarade dans un accès de colère.",
+    R:"« Tu étais très en colère. Allah a mis cette émotion en toi — elle est réelle. »",
+    A1:"« Être en colère, ce n'est pas un péché en soi. Le Prophète ﷺ lui-même se mettait en colère — pour Allah. »",
+    H:"« MAIS taper, ce n'est pas le bon chemin. Le Prophète ﷺ a dit : <em>laysa ash-shadīd biṣ-ṣur'ah</em> — le fort, c'est celui qui se maîtrise dans la colère. »",
+    M:"« Quand je suis en colère moi, je dis a'oudhou billah, je m'assois si j'étais debout, je bois de l'eau. Je vais te montrer. »",
+    A2:"« Maintenant on respire 3 fois. Tu vas dire pardon à ton frère/sœur — à voix haute, comme un homme/une femme — et après on dit ensemble astaghfirullah. La prochaine fois, qu'est-ce qui pourrait t'aider ? »",
+    source:"Bukhari : « Le fort se maîtrise dans la colère. » + Abu Dawud : changer de posture quand en colère."
+  },
+  {id:3,age:'5-10 ans',titre:"Mensonge découvert",
+    context:"Tu découvres que ton enfant a menti (devoir non fait, casse cachée, sortie non avouée).",
+    R:"« Je vois que tu m'as menti. Et je vois aussi que tu avais peur de me dire la vérité — c'est ça ? »",
+    A1:"« Je comprends qu'avoir peur d'être grondé pousse à cacher. Tu n'es pas mauvais·e pour ça — tu es humain·e. »",
+    H:"« Mais dans notre maison, la vérité, c'est sacré — comme dit le Prophète ﷺ : <em>la vérité mène à la piété, et le mensonge à la dépravation</em>. La confiance se construit avec la vérité. »",
+    M:"« Quand moi j'ai fait quelque chose de mal, je préfère dire la vérité, demander pardon à Allah, et accepter les conséquences. C'est plus dur sur le coup, mais ça libère le cœur. »",
+    A2:"« Maintenant : dis-moi la vérité. On va réparer ce qui peut l'être. Et on dit ensemble astaghfirullah. La prochaine fois, viens me parler avant que ça devienne un mensonge — je serai déçu, mais pas en colère. »",
+    source:"Hadith Bukhari : « La vérité mène au bien, et le bien au Paradis. »"
+  },
+  {id:4,age:'10-14 ans',titre:"Refus du voile (fille) / refus de l'adab vestimentaire",
+    context:"Ta fille préadolescente refuse de porter le voile, ou ton fils refuse l'adab vestimentaire.",
+    R:"« Je vois que ce n'est pas simple pour toi. Tu te demandes ce que les autres vont dire, comment tu vas te sentir. »",
+    A1:"« C'est légitime d'avoir des questions, des doutes, de vouloir comprendre AVANT de pratiquer. Allah aime celui qui réfléchit. »",
+    H:"« Le voile / l'adab vestimentaire est un commandement d'Allah — pas une mode imposée par moi. On ne l'invente pas, on le reçoit. »",
+    M:"« Moi aussi, à ton âge, j'ai eu des doutes (raconte ton propre cheminement). Ce qui m'a aidée, c'est : lire pour COMPRENDRE le pourquoi (pas juste obéir aveugle), demander à Allah de m'ouvrir le cœur. »",
+    A2:"« Veux-tu qu'on lise ensemble les versets concernés, qu'on aille voir une sœur/un frère qui peut t'expliquer ? Tu as le droit de cheminer — l'important c'est d'avancer, à ton rythme, avec Allah. »",
+    source:"Coran 24:31 (voile), 33:59 + hadiths sur l'adab. Du'a : <em>Allāhumma alhimnī rushdī</em>."
+  },
+  {id:5,age:'tout âge',titre:"Rivalité entre frères/sœurs (jalousie)",
+    context:"Conflit récurrent : un enfant accuse les autres d'être préférés, jalousie.",
+    R:"« Tu as l'impression que je l'aime plus que toi. Cette douleur est vraie. »",
+    A1:"« La jalousie entre frères et sœurs existe depuis Adam (Coran évoque Caïn et Abel) — c'est humain. Joseph عليه السلام a aussi été jalousé par ses frères. »",
+    H:"« MAIS ce n'est pas vrai que je vous aime différemment. Le Prophète ﷺ a dit : <em>soyez justes entre vos enfants</em> (Bukhari). Et on ne se compare pas — chacun de vous a son chemin unique avec Allah. »",
+    M:"« Quand moi je me sens un peu oublié·e, je me dis : Allah me voit, c'est l'essentiel. Et je demande directement de l'attention au lieu d'être en colère. »",
+    A2:"« On peut planifier un moment juste toi et moi cette semaine ? Tu choisis quoi faire. Et la prochaine fois que tu sens la jalousie monter, viens me le dire — pas par crise. »",
+    source:"Coran : histoire de Yūsuf (sourate 12). Hadith Bukhari : « Soyez équitables envers vos enfants. »"
+  },
+  {id:6,age:'10-14 ans',titre:"Crise écrans / jeux vidéo",
+    context:"L'enfant doit éteindre la tablette/console, refuse, crise.",
+    R:"« Je vois que c'est dur d'arrêter d'un coup. Tu étais en plein dans ton truc. »",
+    A1:"« C'est normal — ces jeux sont conçus pour qu'on n'ait pas envie d'arrêter. Tu n'es pas faible. »",
+    H:"« MAIS la règle de la maison, c'est X heure. Et nos yeux, notre cerveau, notre cœur ont besoin de repos — ce sont des <em>amānah</em> (dépôts) d'Allah. »",
+    M:"« Quand moi je dois m'arrêter de regarder ma série, je me dis : 'Je finis ce passage et j'arrête.' Tu peux faire pareil ? Et je préviens 5 min avant la prochaine fois. »",
+    A2:"« On peut décider ENSEMBLE des règles écrans : combien de temps, quand, et qu'est-ce qu'on remplace par ? On peut ajouter du temps en famille, du sport, lire un peu Qur'ān… »",
+    source:"Hadith Tirmidhi : « Ton corps a un droit sur toi. » Le corps est une amānah à honorer."
+  },
+  {id:7,age:'tout âge',titre:"Fatigue post-école — crise du soir",
+    context:"L'enfant rentre fatigué, et à la première contrariété, c'est l'explosion.",
+    R:"« Tu es à cran. La journée a été longue, ton cerveau est fatigué — c'est visible. »",
+    A1:"« C'est normal d'être épuisé après l'école. Allah a fait que le corps a besoin de repos — c'est dans Sa sagesse. »",
+    H:"« MAIS tu ne peux pas crier sur tout le monde, ce n'est pas l'adab du Prophète ﷺ — il ne haussait jamais la voix. »",
+    M:"« Quand moi je rentre épuisée, je prends 10 min de silence, ou je fais une petite prière (deux rak'a), ou je bois un thé. Je vais te montrer un coin calme dans la maison. »",
+    A2:"« On peut prévoir 15 min seul·e après l'école chaque jour avant de parler des devoirs ? Un goûter + un moment de calme = ton sas de décompression. »",
+    source:"Hadith : « Allah aime celui qui se repose pour pouvoir œuvrer durablement. » + 'A'ishah : le Prophète ﷺ ne haussait jamais la voix."
+  },
+  {id:8,age:'tout âge',titre:"Échec scolaire / mauvaise note",
+    context:"L'enfant rentre avec une mauvaise note, s'effondre ou se met en colère contre lui-même.",
+    R:"« Je vois que cette note te fait mal. Tu te sens nul·le, peut-être que tu es allé·e jusqu'à dire que tu es nul·le. »",
+    A1:"« C'est normal d'avoir de la peine quand on rate. Même les prophètes ont eu des moments difficiles — Mūsā عليه السلام a fait des erreurs, Yūnus aussi. »",
+    H:"« MAIS cette note ne dit pas QUI tu es. Allah te juge sur ton EFFORT, pas sur le résultat. Et notre règle dans la famille : on apprend de l'erreur, on ne s'écrase pas. »",
+    M:"« Quand moi je rate quelque chose, je me demande : qu'est-ce que ça m'apprend ? Et je fais du'a : <em>Rabbi zidnī 'ilman</em> — Mon Seigneur, augmente-moi en savoir. »",
+    A2:"« Qu'est-ce qu'on met en place pour la prochaine évaluation ? Tu veux qu'on demande de l'aide à ton prof ? Astaghfirullah pour le découragement, et on reprend, in châ'a Allāh. »",
+    source:"Hadith : « Les actes valent par les intentions. » + Coran 53:39 : « L'homme n'aura que le fruit de son effort. »"
+  },
+  {id:9,age:'14+ ans',titre:"Ado qui se referme / refuse le dialogue",
+    context:"Ton·ta ado claque les portes, répond par grognements, s'enferme.",
+    R:"(plus tard, doucement) « J'ai l'impression que quelque chose te pèse. Je suis là, sans pression. »",
+    A1:"« C'est normal à ton âge — le Prophète ﷺ a dit que la jeunesse est une épreuve. Tu n'es pas seul·e dans ce que tu vis. »",
+    H:"« MAIS claquer les portes, manquer de respect en parlant — ça, je ne te le permets pas. C'est l'adab familial. »",
+    M:"« Quand moi je sature, je vais marcher, je fais wudu' et 2 rak'a, ou j'écris dans un carnet. Tu peux essayer un de ces 3 outils ? »",
+    A2:"« Si tu ne veux pas parler maintenant, c'est OK. Voici un papier : écris-moi quand tu veux ce qui te pèse, glisse-le sous ma porte. Je lirai sans te juger. Je fais du'a pour toi. »",
+    source:"Hadith Tirmidhi : « Allah aime, quand l'un de vous fait quelque chose, qu'il le fasse avec excellence (itqān). » Inclut l'éducation."
+  },
+  {id:10,age:'tout âge',titre:"Frustration matérielle (jouet/argent/téléphone refusé)",
+    context:"Tu refuses un achat — l'enfant fait une crise, te juge injuste.",
+    R:"« Tu es très déçu·e que je dise non. C'est dur cette frustration. »",
+    A1:"« C'est normal de désirer des choses, Allah ne nous a pas créés sans désirs. Le désir n'est pas un péché. »",
+    H:"« MAIS on n'a pas besoin de TOUT pour être heureux — le Prophète ﷺ dormait sur une natte tressée, et il était l'homme le plus comblé. La richesse n'est pas matérielle, c'est <em>ghinā an-nafs</em> (la richesse du cœur). »",
+    M:"« Quand moi je veux un truc et que je ne peux pas, je me dis : Allah pourvoit autrement, et je fais du'a au lieu de râler. »",
+    A2:"« On va faire 2 choses : (1) tu fais une liste de tes 'envies' (différent des besoins), (2) on regarde ensemble lesquelles on peut viser plus tard, et lesquelles on relâche. <em>Alḥamdulillah</em> pour ce qu'on a déjà. »",
+    source:"Hadith Bukhari : « La richesse n'est pas la possession matérielle, mais la richesse du cœur (ghinā an-nafs). »"
+  },
+  {id:11,age:'10-14 ans',titre:"Influence des pairs (langage/comportement non-conformes)",
+    context:"Ton enfant ramène des paroles vulgaires, des comportements vus chez des copains.",
+    R:"« Je remarque que tu utilises des mots/des gestes nouveaux. Tu les as appris où ? »",
+    A1:"« C'est normal de vouloir ressembler à tes amis — Allah a mis ce besoin d'appartenance en nous. Tu n'es pas méchant·e pour ça. »",
+    H:"« MAIS dans notre famille, on ne dit pas ces mots, on ne fait pas ces gestes. C'est notre <em>tarbiya</em>, notre éducation. Le Prophète ﷺ a dit : <em>l'homme suit la religion de son ami intime — qu'il regarde donc qui il choisit comme ami</em>. »",
+    M:"« Quand moi je suis dans un groupe qui dérape, je me souviens : je suis musulman·e, mon adab est ma signature. Et je change de sujet ou je m'éloigne. »",
+    A2:"« On peut parler de ce groupe d'amis ? Qu'est-ce qui te plaît avec eux ? Qu'est-ce qui te met mal à l'aise parfois ? On peut chercher ensemble des copains qui te tirent vers le haut. »",
+    source:"Hadith Tirmidhi : « L'homme est sur la religion de son ami intime, qu'il regarde donc qui il prend pour ami. »"
+  },
+  {id:12,age:'14+ ans',titre:"Doute de foi / questionnement spirituel",
+    context:"Ton·ta ado te confie : « Je doute de Dieu », « Je sais plus si je crois », « C'est compliqué ».",
+    R:"« Tu traverses un doute. C'est important que tu m'en parles. Je t'écoute, sans te juger. »",
+    A1:"« Le doute n'est pas un péché — c'est même un signe d'intelligence et de profondeur. Beaucoup des plus grands savants musulmans ont traversé cela. Le Prophète ﷺ a dit : <em>cela [le waswās du doute] est la foi pure</em> — parce que ça t'inquiète, c'est que ta foi est vivante. »",
+    H:"« CE qui compte, c'est ce que tu FAIS avec ce doute : tu peux soit te fermer et fuir, soit chercher à comprendre, étudier, demander. Le doute exploré est une porte vers une foi plus solide. »",
+    M:"« Moi aussi j'ai eu des moments comme ça (raconte ton propre cheminement). Ce qui m'a aidée : LIRE (Coran avec sens), POSER mes questions à des gens de savoir solides, et CONTINUER les actes (même quand ça ne parle pas au cœur). La foi est un muscle qui se travaille. »",
+    A2:"« Veux-tu qu'on lise ensemble certaines questions qui te bloquent ? Qu'on aille voir un imam/une savante de confiance ? Tu as le droit de questionner, sans honte. Je fais du'a pour ta lumière, in châ'a Allāh. »",
+    source:"Hadith Muslim : compagnons inquiets d'avoir des pensées de doute, le Prophète ﷺ leur dit : « <em>Dhāka ṣarīḥu al-īmān</em> » (Cela est la foi pure)."
+  }
+];
+
+var STORAGE_KEY = 'educatypique_rahma_prophetique_v1';
+var currentDossier = 'default';
+
+function loadStore(){ try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : { dossiers:{default:{archives:[]}} }; }catch(e){ return { dossiers:{default:{archives:[]}} }; } }
+function saveStore(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
+function loadDossier(){ var d = loadStore().dossiers[currentDossier] || {archives:[]}; d.archives = d.archives || []; return d; }
+function saveDossier(d){ var s = loadStore(); s.dossiers[currentDossier] = d; saveStore(s); }
+
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(function(b){b.classList.remove('active');});
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('panel-'+tab).classList.add('active');
+  if(tab === 'archives') renderArchives();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showLetter(l){
+  document.querySelectorAll('.letter-card').forEach(function(c){c.classList.remove('active');});
+  document.querySelector('[data-l="'+l+'"]').classList.add('active');
+  var d = LETTERS[l];
+  var html = '<h3><span class="ldot">'+d.letter+'</span>'+d.nom+'</h3>';
+  html += '<div class="objectif"><strong>🎯 Objectif de cette étape</strong><p>'+d.objectif+'</p></div>';
+  html += '<div class="verset"><span class="badge-source">📖 Coran</span>'+
+    '<span class="ar-text">'+d.verset.ar+'</span>'+
+    '<span class="translit">'+d.verset.translit+'</span>'+
+    '<span class="sens-text">'+d.verset.sens+'</span>'+
+    '<span class="ref">— '+d.verset.ref+'</span></div>';
+  html += '<div class="hadith"><span class="badge-source">🌿 Hadith</span>'+
+    '<span class="ar-text">'+d.hadith.ar+'</span>'+
+    '<span class="translit">'+d.hadith.translit+'</span>'+
+    '<span class="sens-text">'+d.hadith.sens+'</span>'+
+    '<span class="ref">— '+d.hadith.ref+'</span></div>';
+  html += '<div class="exemple-prophete"><span class="badge-source">💛 Exemple du Prophète ﷺ</span>'+
+    '<p style="font-size:14px;color:#3D4E4A;line-height:1.65;margin:0">'+d.exemple+'</p></div>';
+  html += '<div class="dua-card"><span class="badge-source">🤲 Du\'a</span>'+
+    '<span class="ar-text">'+d.dua.ar+'</span>'+
+    '<span class="translit">'+d.dua.translit+'</span>'+
+    '<span class="sens-text">'+d.dua.sens+'</span></div>';
+  html += '<div class="application"><strong>🛠️ Application parentale</strong><p>'+d.application+'</p></div>';
+  document.getElementById('letterDetail').innerHTML = html;
+}
+
+function getProto(){
+  return {
+    situation: document.getElementById('step-0').value,
+    R: document.getElementById('step-R').value,
+    A1: document.getElementById('step-A1').value,
+    H: document.getElementById('step-H').value,
+    M: document.getElementById('step-M').value,
+    A2: document.getElementById('step-A2').value
+  };
+}
+function setProto(p){
+  document.getElementById('step-0').value = p.situation || '';
+  document.getElementById('step-R').value = p.R || '';
+  document.getElementById('step-A1').value = p.A1 || '';
+  document.getElementById('step-H').value = p.H || '';
+  document.getElementById('step-M').value = p.M || '';
+  document.getElementById('step-A2').value = p.A2 || '';
+}
+function saveCurrentProto(){
+  var d = loadDossier();
+  d.current = getProto();
+  saveDossier(d);
+}
+function restoreCurrentProto(){
+  var d = loadDossier();
+  setProto(d.current || {});
+}
+['step-0','step-R','step-A1','step-H','step-M','step-A2'].forEach(function(id){
+  var el = document.getElementById(id);
+  if(el) el.addEventListener('input', saveCurrentProto);
+});
+
+function clearProtocole(){
+  if(!confirm('Effacer tous les champs du protocole en cours ?')) return;
+  ['step-0','step-R','step-A1','step-H','step-M','step-A2'].forEach(function(id){
+    document.getElementById(id).value = '';
+  });
+  saveCurrentProto();
+}
+
+function saveProtocole(){
+  var p = getProto();
+  if(!p.situation && !p.R && !p.A1 && !p.H && !p.M && !p.A2){
+    alert('Remplis au moins une étape avant de sauvegarder.');
+    return;
+  }
+  var d = loadDossier();
+  d.archives = d.archives || [];
+  var now = new Date();
+  d.archives.unshift({
+    date: now.toLocaleDateString('fr-FR'),
+    timestamp: now.getTime(),
+    proto: p,
+    summary: (p.situation || '(sans titre)').substring(0,90)
+  });
+  saveDossier(d);
+  alert('✓ Protocole sauvegardé. Bārak Allāhu fīk.');
+}
+
+function renderArchives(){
+  var d = loadDossier();
+  var list = d.archives || [];
+  var c = document.getElementById('archivesList');
+  if(list.length === 0){
+    c.innerHTML = '<p style="text-align:center;color:#7A7A55;font-style:italic;padding:30px">Aucun protocole archivé. Va dans « Protocole guidé » pour en remplir un.</p>';
+    return;
+  }
+  c.innerHTML = list.map(function(a,i){
+    return '<div class="archive-item"><div class="arch-meta"><div class="arch-date">'+a.date+'</div><div class="arch-title">'+a.summary+'</div><div class="arch-summary">Étapes remplies : '+countSteps(a.proto)+'/5</div></div><button onclick="loadArchive('+i+')">Voir</button><button onclick="deleteArchive('+i+')">🗑</button></div>';
+  }).join('');
+}
+function countSteps(p){ var n = 0; ['R','A1','H','M','A2'].forEach(function(k){ if(p[k]) n++; }); return n; }
+function loadArchive(i){ var d = loadDossier(); setProto(d.archives[i].proto); saveCurrentProto(); switchTab('protocole'); }
+function deleteArchive(i){
+  if(!confirm('Supprimer ce protocole archivé ?')) return;
+  var d = loadDossier();
+  d.archives.splice(i,1);
+  saveDossier(d);
+  renderArchives();
+}
+
+function renderScenarios(){
+  document.getElementById('scenariosGrid').innerHTML = SCENARIOS.map(function(s){
+    return '<div class="scn-card" onclick="openScenario('+s.id+')"><span class="scn-age">'+s.age+'</span><h4>'+s.titre+'</h4><p>'+s.context.substring(0,90)+'...</p></div>';
+  }).join('');
+}
+function openScenario(id){
+  var s = SCENARIOS.find(function(x){return x.id===id;});
+  if(!s) return;
+  var det = document.getElementById('scnDetail');
+  det.innerHTML = '<h3>🎴 '+s.titre+'</h3>' +
+    '<div class="scn-context">'+s.context+'</div>' +
+    '<div class="scn-rahma-step s-R"><strong><span class="step-letter">R</span>Reconnaître</strong><span class="quote">'+s.R+'</span></div>' +
+    '<div class="scn-rahma-step s-A1"><strong><span class="step-letter">A</span>Accueillir</strong><span class="quote">'+s.A1+'</span></div>' +
+    '<div class="scn-rahma-step s-H"><strong><span class="step-letter">H</span>Harmoniser avec le cadre</strong><span class="quote">'+s.H+'</span></div>' +
+    '<div class="scn-rahma-step s-M"><strong><span class="step-letter">M</span>Modéliser (uswa ḥasana)</strong><span class="quote">'+s.M+'</span></div>' +
+    '<div class="scn-rahma-step s-A2"><strong><span class="step-letter">A</span>Accompagner vers réparation</strong><span class="quote">'+s.A2+'</span><span class="source-prophetique">☪️ Ancrage : '+s.source+'</span></div>' +
+    '<div style="text-align:center;margin-top:14px"><button class="btn" onclick="reuseScenario('+id+')">📝 Réutiliser ce protocole dans mon dossier</button></div>';
+  det.classList.add('show');
+  setTimeout(function(){ det.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 100);
+}
+function reuseScenario(id){
+  var s = SCENARIOS.find(function(x){return x.id===id;});
+  if(!s) return;
+  setProto({situation:'Inspiré du scénario : '+s.titre+'. '+s.context, R:s.R, A1:s.A1, H:s.H, M:s.M, A2:s.A2});
+  saveCurrentProto();
+  switchTab('protocole');
+}
+
+function refreshDossierSelect(){
+  var s = loadStore();
+  var sel = document.getElementById('dossierSelect');
+  sel.innerHTML = '';
+  Object.keys(s.dossiers||{default:{archives:[]}}).forEach(function(name){
+    var opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if(name === currentDossier) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+function changeDossier(){ currentDossier = document.getElementById('dossierSelect').value; restoreCurrentProto(); renderArchives(); }
+function addDossier(){
+  var name = (document.getElementById('newDossier').value||'').trim();
+  if(!name) return;
+  var s = loadStore();
+  s.dossiers[name] = s.dossiers[name] || {archives:[]};
+  saveStore(s);
+  currentDossier = name;
+  document.getElementById('newDossier').value='';
+  refreshDossierSelect(); restoreCurrentProto(); renderArchives();
+}
+function deleteDossier(){
+  if(currentDossier==='default'){ alert('Le dossier « Mon dossier » ne peut pas être supprimé.'); return; }
+  if(!confirm('Supprimer le dossier « '+currentDossier+' » ?')) return;
+  var s = loadStore(); delete s.dossiers[currentDossier]; saveStore(s);
+  currentDossier='default'; refreshDossierSelect(); restoreCurrentProto(); renderArchives();
+}
+
+function exportTXT(){
+  var d = loadDossier();
+  var dt = new Date();
+  var dateStr = dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();
+  var out = '';
+  out += '═══════════════════════════════════════════════════\n';
+  out += '  MÉTHODE R.A.H.M.A · VOIE PROPHÉTIQUE\n';
+  out += '  Création originale : Nawel Haddouch · EducaTypique · Jannat Al Qalb\n';
+  out += '  Dossier : '+currentDossier+'\n';
+  out += '  Exporté le : '+dateStr+'\n';
+  out += '═══════════════════════════════════════════════════\n\n';
+  out += 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n\n';
+  out += '🛠️  PROTOCOLE EN COURS\n─────────────────────────────────\n';
+  var p = d.current || {};
+  out += 'Situation : '+(p.situation||'(vide)')+'\n\n';
+  out += 'R · Reconnaître : '+(p.R||'(vide)')+'\n\n';
+  out += 'A · Accueillir : '+(p.A1||'(vide)')+'\n\n';
+  out += 'H · Harmoniser : '+(p.H||'(vide)')+'\n\n';
+  out += 'M · Modéliser : '+(p.M||'(vide)')+'\n\n';
+  out += 'A · Accompagner : '+(p.A2||'(vide)')+'\n\n';
+  out += '📚  ARCHIVES ('+(d.archives||[]).length+' protocoles)\n─────────────────────────────────\n';
+  (d.archives||[]).forEach(function(a,i){
+    out += '\n▸ #'+(i+1)+' — '+a.date+'\n';
+    out += '   Situation : '+(a.proto.situation||'(vide)')+'\n';
+    out += '   R: '+(a.proto.R||'-')+'\n   A: '+(a.proto.A1||'-')+'\n   H: '+(a.proto.H||'-')+'\n   M: '+(a.proto.M||'-')+'\n   A: '+(a.proto.A2||'-')+'\n';
+  });
+  out += '\n═══════════════════════════════════════════════════\n';
+  out += '« N\'est pas des nôtres celui qui n\'est pas miséricordieux envers nos jeunes » — Hadith Tirmidhi\n';
+  out += '\n— Création originale Nawel Haddouch · Jannat Al Qalb · EducaTypique\n';
+  out += '═══════════════════════════════════════════════════\n';
+
+  var blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'RAHMA_prophetique_'+currentDossier+'_'+dt.getFullYear()+(dt.getMonth()+1)+dt.getDate()+'.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+showLetter('R');
+renderScenarios();
+refreshDossierSelect();
+restoreCurrentProto();
+</script>
+</body>
+</html>

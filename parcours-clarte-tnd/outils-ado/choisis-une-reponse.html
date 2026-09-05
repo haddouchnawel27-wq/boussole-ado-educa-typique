@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choisis une réponse — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fff5f8,#fff);min-height:100vh}
+.bandeau{background:linear-gradient(135deg,#F39BC2,#7c5cbf,#5a7a9f);padding:1.6rem 1.5rem;text-align:center;color:#fff;position:relative;overflow:hidden}
+.bandeau::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 30%,rgba(255,255,255,.18),transparent 60%);pointer-events:none}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem;position:relative;z-index:1}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15);position:relative;z-index:1}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto;position:relative;z-index:1}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9;position:relative;z-index:1}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #F39BC2;line-height:1.55}
+.intro strong{color:#a04268}
+
+.scene-card{background:#fff;border-radius:var(--r-lg);padding:1.4rem;box-shadow:var(--shadow-sm);border-top:5px solid #F39BC2}
+.scene-card .nav-scenes{display:flex;align-items:center;gap:.4rem;justify-content:space-between;margin-bottom:.6rem;flex-wrap:wrap}
+.scene-card .nav-scenes button{padding:.35em .9em;background:#fff;border:1.5px solid #F39BC2;color:#a04268;border-radius:999px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem}
+.scene-card .nav-scenes button:hover{background:#F39BC2;color:#fff}
+.scene-card .nav-scenes span{font-weight:800;color:#a04268;font-size:.9rem}
+
+.contexte{background:#fff5f8;padding:.6em .9em;border-radius:var(--r-md);font-size:.82rem;color:#5a3c4f;font-weight:700;text-transform:uppercase;letter-spacing:.5px;display:inline-block;margin-bottom:.5rem}
+
+.situation{background:linear-gradient(135deg,#fff,#fff5f8);border-radius:var(--r-md);padding:1rem 1.2rem;font-size:1.05rem;line-height:1.6;margin-bottom:.7rem;border-left:4px solid #F39BC2;font-style:italic;color:#3a3a3a}
+
+.choix-zone{display:flex;flex-direction:column;gap:.5rem;margin-top:.7rem}
+.choix-btn{background:#fff;border:2px solid #e0d0d8;border-radius:var(--r-md);padding:.8rem 1rem;text-align:left;cursor:pointer;font-family:inherit;font-size:.95rem;line-height:1.5;color:#3a3a3a;transition:all .15s;display:flex;align-items:center;gap:.6rem}
+.choix-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.choix-btn:hover.a{border-color:#c25a30}
+.choix-btn:hover.b{border-color:#e9a73a}
+.choix-btn:hover.c{border-color:#5fa040}
+.choix-btn .lettre{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:#888;color:#fff;font-weight:800;text-align:center;line-height:32px;font-size:.95rem}
+.choix-btn.a .lettre{background:#c25a30}
+.choix-btn.b .lettre{background:#e9a73a}
+.choix-btn.c .lettre{background:#5fa040}
+.choix-btn.selected{transform:none}
+.choix-btn.selected.a{background:#fff4ef;border-color:#c25a30;border-width:3px}
+.choix-btn.selected.b{background:#fff8eb;border-color:#e9a73a;border-width:3px}
+.choix-btn.selected.c{background:#f0f9ec;border-color:#5fa040;border-width:3px}
+
+.impact-bloc{background:linear-gradient(135deg,#fff,#fafbfc);border-radius:var(--r-md);padding:1rem 1.2rem;margin-top:.7rem;display:none;border-left:5px solid var(--c)}
+.impact-bloc.visible{display:block;animation:fade-in .3s}
+@keyframes fade-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.impact-bloc h3{color:var(--c);margin:0 0 .4rem;font-size:1.05rem;display:flex;align-items:center;gap:.5rem}
+.impact-bloc .ic-impact{font-size:1.6rem}
+.impact-bloc .court-terme,.impact-bloc .long-terme{background:#fff;border-radius:var(--r-sm);padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem;line-height:1.55;color:#444}
+.impact-bloc .court-terme strong,.impact-bloc .long-terme strong{color:var(--c)}
+.impact-bloc .alt{background:#f5f0fa;border-left:3px solid #7c5cbf;padding:.5rem .8rem;border-radius:var(--r-sm);font-size:.88rem;color:#5a3c8f;font-style:italic;line-height:1.55;margin-top:.4rem}
+
+.c-bombe{--c:#c25a30}
+.c-tiede{--c:#e9a73a}
+.c-coeur{--c:#5fa040}
+
+.stats-bar{background:#fff;border-radius:var(--r-md);padding:.7rem 1rem;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;justify-content:center}
+.stats-bar .lbl{font-size:.8rem;color:#666;font-weight:700}
+.stats-bar .compteur{padding:.3em .8em;border-radius:999px;font-weight:700;font-size:.85rem;color:#fff}
+.stats-bar .c-bombes{background:#c25a30}
+.stats-bar .c-tiedes{background:#e9a73a}
+.stats-bar .c-coeurs{background:#5fa040}
+
+.mot-final{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.8rem 1.1rem;border-radius:var(--r-md);font-size:.9rem;line-height:1.55;color:#5A4D6B}
+.mot-final strong{color:#5a3c8f}
+
+.actions{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #F39BC2;background:#fff;color:#a04268;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#F39BC2;color:#fff}
+
+@media print{body{background:#fff}.actions,.nav-scenes,.bandeau .retour{display:none!important}.scene-card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}.impact-bloc{display:block !important}}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../ados.html">← Espace ados</a>
+  <h1>🎮 Choisis une réponse</h1>
+  <p class="sub">12 situations sociales · 3 réponses possibles · visualise l'impact de ton choix. Pas de bonne réponse — juste comprendre les conséquences.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🎮 <strong>Pourquoi ?</strong> Quand une situation sociale se présente (un pote qui te dit X, un prof, un parent...), tu as quelques secondes pour réagir. Souvent, ton cerveau choisit la première réponse qui passe. Cet outil te propose <strong>3 réponses possibles</strong> par situation, et te montre <strong>l'impact à court terme et long terme</strong> de chaque choix. Tu vois en pratique ce que tes choix produisent.
+  </div>
+
+  <section class="scene-card">
+    <div class="nav-scenes">
+      <button id="btn-prev">◀ Précédente</button>
+      <span id="compteur">1 / 12</span>
+      <button id="btn-next">Suivante ▶</button>
+    </div>
+    <div class="contexte" id="contexte"></div>
+    <div class="situation" id="situation"></div>
+    <div class="choix-zone" id="choix-zone"></div>
+    <div class="impact-bloc" id="impact"></div>
+  </section>
+
+  <div class="stats-bar">
+    <span class="lbl">📊 Tes choix sur les 12 situations :</span>
+    <span class="compteur c-coeurs">💚 <span id="nb-coeurs">0</span></span>
+    <span class="compteur c-tiedes">🟡 <span id="nb-tiedes">0</span></span>
+    <span class="compteur c-bombes">💣 <span id="nb-bombes">0</span></span>
+  </div>
+
+  <div class="mot-final">
+    <strong>💛 Mot de Nawel :</strong> Personne ne choisit toujours la « bonne » réponse — et il n'y a pas vraiment de bonne réponse universelle. Le but n'est pas la perfection : c'est de devenir <strong>conscient·e</strong> de l'impact de tes choix. Avec la conscience, tes choix changent naturellement.
+  </div>
+
+  <div class="actions">
+    <button id="btn-reset">↻ Réinitialiser mes choix</button>
+    <button onclick="window.print()">🖨 Imprimer</button>
+  </div>
+
+  <div class="disclaimer">
+    Outil de réflexion sur les choix relationnels. Si tu te retrouves systématiquement dans des situations très difficiles, n'hésite pas à en parler à un adulte de confiance ou à un pro. 💛 <strong>3114</strong> (prévention suicide) · <strong>119</strong> (Enfance en danger)
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../ados.html" style="color:#a04268">retour espace ados</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_choisis_reponse_v1';
+let etat={current:0,choix:{}};
+try{const r=localStorage.getItem(KEY);if(r){const o=JSON.parse(r);etat.current=o.current||0;etat.choix=o.choix||{}}}catch(e){}
+function save(){localStorage.setItem(KEY,JSON.stringify(etat))}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+const SCENARIOS = [
+  {
+    contexte:"👫 Avec un·e ami·e",
+    situation:"Ton meilleur·e ami·e annule au dernier moment ta sortie ciné qui était prévue depuis 2 semaines. Tu reçois juste un texto : « désolé, j'peux pas venir ».",
+    choix:{
+      a:{txt:"« T'es vraiment chiant·e. Sérieux. »",type:'bombe',ct:"Ton ami·e va se sentir attaqué·e et probablement répondre fort.",lt:"Si tu fais ça souvent, ton ami·e va arrêter de te dire quand il/elle a un empêchement → distance.",alt:"💛 Tu peux exprimer ta déception SANS attaquer : « Je suis vraiment déçu·e, j'attendais ça. »"},
+      b:{txt:"Tu ne réponds pas et tu boudes 2 jours.",type:'tiede',ct:"L'autre va s'inquiéter ou penser que tu t'en fiches.",lt:"L'évitement crée du flou — les non-dits s'accumulent et explosent plus tard.",alt:"💛 Si tu n'as pas l'énergie de répondre maintenant, dis-lui : « Je suis déçu·e, je reviens vers toi plus tard. »"},
+      c:{txt:"« Oh dommage. Tu vas bien ? On reprogramme quand ? »",type:'coeur',ct:"Ton ami·e se sent respecté·e et probablement coupable d'avoir annulé. Tu gardes la porte ouverte.",lt:"Tu nourris la confiance dans cette amitié. L'autre te dira plus facilement la vérité la prochaine fois.",alt:"💚 Tu peux aussi ajouter ta déception : « Tu vas bien ? J'étais déçu·e mais on reprogramme quand ? » C'est honnête ET respectueux."}
+    }
+  },
+  {
+    contexte:"🏫 Avec un prof",
+    situation:"Tu as eu 8/20 au contrôle d'histoire. Le prof te rend la copie devant toute la classe en disant : « Bon, tu fais quoi pendant les cours ? »",
+    choix:{
+      a:{txt:"« Et vous, vous croyez que vous savez expliquer ? »",type:'bombe',ct:"Confrontation publique, sanction immédiate, étiquette « insolent·e » qui te suivra.",lt:"Tu te prives d'un allié potentiel. La relation devient tendue, ton apprentissage en souffre.",alt:"💛 Tu peux contester en privé, après le cours, avec respect : « Cette remarque m'a blessé·e. Je peux vous parler ? »"},
+      b:{txt:"Tu baisses la tête, tu rougis, tu rentres en toi.",type:'tiede',ct:"Sur le moment, tu évites le conflit. Mais à l'intérieur, ça brûle — honte, colère.",lt:"L'humiliation non traitée s'accumule. Risque de désinvestir la matière, voire l'école.",alt:"💛 Tu peux noter ce que tu ressens et en parler à un adulte de confiance le soir : parent, AESH, psy. Tu n'as PAS à porter ça seul·e."},
+      c:{txt:"« Cette remarque m'a touché·e, je peux vous en parler après le cours ? »",type:'coeur',ct:"Tu poses ta limite avec respect. Le prof peut être surpris·e, mais il/elle te respectera.",lt:"Tu apprends une compétence vitale : t'affirmer sans agresser. C'est de l'or pour ta vie d'adulte.",alt:"💚 Si le prof refuse ou continue, va voir CPE ou parent. L'humiliation publique n'est PAS acceptable."}
+    }
+  },
+  {
+    contexte:"🏡 Avec un parent",
+    situation:"Tu rentres tard d'une sortie sans avoir prévenu. Ton parent t'attendait. Dès que tu ouvres la porte : « TU SAIS L'HEURE QU'IL EST ? »",
+    choix:{
+      a:{txt:"« C'est bon, j'ai 16 ans, lâche-moi. »",type:'bombe',ct:"Escalade immédiate. Le parent va punir plus fort, possible privation longue.",lt:"Tu confirmes l'idée que t'es irresponsable. Confiance parent-ado au plus bas.",alt:"💛 Tu peux poser ta limite SANS rejeter : « Je suis fatigué·e, on peut en parler demain matin ? »"},
+      b:{txt:"Tu vas direct dans ta chambre sans rien dire.",type:'tiede',ct:"Tu évites le clash mais ton parent reste anxieux et frustré. Tension dans la maison.",lt:"L'évitement systématique éloigne. Le parent va te faire moins confiance pour la suite.",alt:"💛 Tu peux dire vite : « Désolé·e d'être en retard. On peut parler demain ? Je suis crevé·e. »"},
+      c:{txt:"« Désolé·e d'avoir oublié de prévenir. J'ai perdu la notion du temps. On peut en parler ? »",type:'coeur',ct:"Tu prends la responsabilité de ton oubli. Ton parent va probablement se calmer.",lt:"Tu construis ta crédibilité d'ado responsable. Les sorties suivantes seront moins négociables.",alt:"💚 La phrase magique = « Je comprends que tu étais inquiet·e ». Reconnaître l'émotion de l'autre calme presque tout."}
+    }
+  },
+  {
+    contexte:"📱 Sur les réseaux",
+    situation:"Un·e camarade de classe poste une story où il/elle se moque de toi devant tout le monde. Plusieurs personnes ont liké.",
+    choix:{
+      a:{txt:"Tu postes une story dégueulasse sur cette personne pour te venger.",type:'bombe',ct:"Tu deviens à ton tour agresseur·se. Risque de signalement, sanction, escalade.",lt:"Cycle de violence numérique. Personne ne gagne. Tu te détruis aussi.",alt:"💛 La vengeance numérique est un piège. Toi tu vaux mieux que ça."},
+      b:{txt:"Tu fais semblant que ça ne te touche pas. Tu likes même.",type:'tiede',ct:"Tu sauves les apparences mais tu encaisses tout. Émotions stockées.",lt:"Le harcèlement non signalé continue et s'amplifie. Ton estime descend en silence.",alt:"💛 Ne reste pas seul·e avec ça. Capture d'écran + parent ou CPE ou pro."},
+      c:{txt:"Tu prends une capture d'écran et tu en parles à un adulte de confiance.",type:'coeur',ct:"Tu te protèges et tu actes. C'est la voie sûre — l'adulte t'aide à décider la suite.",lt:"Tu apprends à demander de l'aide quand c'est sérieux. Compétence vitale.",alt:"💚 Tu peux aussi te désinscrire temporairement des réseaux. Ce n'est pas une défaite — c'est de la sagesse."}
+    }
+  },
+  {
+    contexte:"💔 En couple",
+    situation:"Ta/ton copain·e te dit « Si tu m'aimes vraiment, tu m'envoies une photo intime ».",
+    choix:{
+      a:{txt:"Tu envoies pour prouver ton amour.",type:'bombe',ct:"Sur le moment, soulagement de garder l'autre. Tu cèdes sous pression.",lt:"Cette photo peut circuler — ça arrive bien plus souvent qu'on ne croit. Conséquences pendant des années. Et c'est <strong>illégal de demander ou envoyer une image intime à un mineur</strong> (art. 227-23 CP).",alt:"💛 L'AMOUR ne demande JAMAIS de preuve qui te met en danger. Une personne qui t'aime te respecte."},
+      b:{txt:"Tu te tais, tu changes de sujet, tu fuis la conversation.",type:'tiede',ct:"Tu évites l'instant mais l'autre va revenir à la charge.",lt:"La pression s'installe. Tu finis par céder ou la relation devient toxique.",alt:"💛 Dis non clairement et parle à un adulte de confiance. Ce n'est PAS un caprice de ta part — c'est de la maturité."},
+      c:{txt:"« Non. Si tu m'aimes vraiment, tu respectes mon corps. C'est non, et c'est non définitif. »",type:'coeur',ct:"Tu poses ta limite. La personne saine va respecter. La personne qui insiste te montre qu'elle ne t'aime pas vraiment.",lt:"Tu intègres que tu vaux le respect de ton corps. Cette compétence te protège toute ta vie.",alt:"💚 Si la personne insiste ou te menace, c'est de la <strong>maltraitance</strong> — parle à un adulte. Tu n'as RIEN à te reprocher."}
+    }
+  },
+  {
+    contexte:"👫 Pression du groupe",
+    situation:"Tes potes te proposent d'essayer une cigarette / un joint / de l'alcool. « Allez, tu fais pas ton bébé. »",
+    choix:{
+      a:{txt:"Tu prends pour pas avoir l'air ringard.",type:'bombe',ct:"Soulagement social immédiat. Tu te sens accepté·e.",lt:"Tu rentres dans une logique de soumission au groupe. Plus dur de dire non aux fois suivantes.",alt:"💛 Si tu cèdes pour être accepté·e, c'est que tu n'es pas vraiment toi — tu joues un rôle. Demande-toi : ces gens m'aiment-ils pour MOI ou pour ce que je fais ?"},
+      b:{txt:"Tu dis « peut-être plus tard » pour repousser.",type:'tiede',ct:"Tu évites l'instant. Mais la prochaine fois tu seras encore mis·e à l'épreuve.",lt:"Tu apprends à fuir au lieu de poser des limites. Pas durable.",alt:"💛 Tu peux dire non SANS te justifier. « Non merci » suffit. Tu n'as pas à expliquer."},
+      c:{txt:"« Non merci, pas envie. Vous voulez faire autre chose ? »",type:'coeur',ct:"Tu poses ta limite avec calme. Vrai test du groupe : s'ils insistent, ce ne sont pas tes vrais amis.",lt:"Tu construis ta capacité à dire non. Compétence vitale pour ta vie d'adulte (couple, taf, etc.).",alt:"💚 Les VRAIS amis n'insistent jamais quand tu dis non. S'ils insistent, regarde bien : ce sont des amis ou de la pression ?"}
+    }
+  },
+  {
+    contexte:"🏠 Dispute famille",
+    situation:"Ton parent te dit « Tu es vraiment un·e bon à rien, regarde ta sœur/frère, lui/elle au moins... ».",
+    choix:{
+      a:{txt:"« Et toi t'es vraiment un·e mauvais·e parent. »",type:'bombe',ct:"Tu rends coup pour coup. Le parent s'effondre ou contre-attaque encore plus.",lt:"La blessure mutuelle s'incruste. La relation se ferme.",alt:"💛 Ta colère est légitime — la comparaison est blessante. Mais te venger blesse aussi ton parent qui souffre déjà."},
+      b:{txt:"Tu pleures dans ta chambre et tu intègres « je suis nul·le ».",type:'tiede',ct:"Tu retournes la violence contre toi. Estime de soi attaquée.",lt:"Ces phrases répétées finissent par devenir ta voix intérieure. Conséquences ANNES.",alt:"💛 Cette phrase n'est PAS vraie. Tu n'es pas bon·ne à rien. Ton parent souffre et reproduit peut-être ce qu'on lui a dit. Tu vaux mieux que cette phrase."},
+      c:{txt:"« Cette phrase me blesse profondément. Je préfère qu'on en parle plus tard quand on sera calme tous les deux. »",type:'coeur',ct:"Tu poses ta limite ET tu protèges la relation. Ton parent peut s'effondrer (= reconnaître son erreur) ou réagir mal (= signal qu'il faut un tiers).",lt:"Tu apprends qu'on peut être blessé·e ET pas se laisser détruire. Compétence émotionnelle d'or.",alt:"💚 Si les comparaisons et insultes sont fréquentes : parle à un autre adulte de confiance (autre parent, prof, infirmier·e scolaire, 119)."}
+    }
+  },
+  {
+    contexte:"📚 Devoirs / études",
+    situation:"Tu as un contrôle dans 3 jours et tu n'as rien appris. La quantité te paraît impossible. Tu paniques.",
+    choix:{
+      a:{txt:"Tu repousses encore et tu vas sur ton téléphone 3h.",type:'bombe',ct:"Soulagement immédiat du stress. Mais le contrôle approche.",lt:"Tu confirmes ton cerveau dans la logique « j'évite quand c'est dur ». Le retard s'accumule sur tous les contrôles suivants.",alt:"💛 Le téléphone te fait croire que tu vas mieux. En réalité, l'anxiété s'amplifie. Pose le téléphone et fais 5 minutes — juste 5."},
+      b:{txt:"Tu fais 30 minutes puis tu décroches.",type:'tiede',ct:"Tu as quand même fait quelque chose. Mais l'objectif te paraît toujours énorme.",lt:"L'apprentissage en bribes vaut mieux que rien, mais reste très anxiogène.",alt:"💛 30 minutes c'est bien ! Maintenant : découpe les 3 jours en blocs de 25 min avec pauses. La règle des Pomodoro."},
+      c:{txt:"Tu découpes le programme en 6 blocs de 25 min sur 3 jours et tu commences le premier maintenant.",type:'coeur',ct:"Tu transformes un truc énorme en petites étapes faisables. Ton cerveau peut enfin commencer.",lt:"Tu apprends la méthode qui te servira TOUTE ta vie : découper le grand en petit. Or pur.",alt:"💚 La méthode : 25 min de focus / 5 min pause. 4 cycles puis pause longue. Le cerveau supporte mieux des sprints courts que des marathons impossibles."}
+    }
+  },
+  {
+    contexte:"💬 En groupe d'amis",
+    situation:"Tes potes commencent à se moquer d'un·e élève absent·e de votre classe (insultes, surnoms, blagues sur son physique). Plusieurs rigolent.",
+    choix:{
+      a:{txt:"Tu participes et tu ris pour pas être exclu·e.",type:'bombe',ct:"Tu te sens « in » sur l'instant. Mais ta conscience te démange peut-être déjà.",lt:"Tu deviens complice de harcèlement (ART. 222-33-2-2). Et tu intègres qu'il faut écraser les autres pour exister.",alt:"💛 Si tu ris pour pas être exclu·e, ce n'est pas une vraie amitié — c'est de la peur. Tu vaux mieux."},
+      b:{txt:"Tu te tais, tu détournes le regard.",type:'tiede',ct:"Tu n'attaques pas la personne absente, mais tu ne défends pas non plus. Silence = approbation aux yeux des autres.",lt:"Ton inconfort s'accumule. Si toi t'as un problème un jour, tu te retrouveras seul·e car le groupe sait que tu ne défends personne.",alt:"💛 Au minimum, tu peux changer de sujet : « Bon on parle d'autre chose ? Ça devient lourd. »"},
+      c:{txt:"« Bon les gars, on arrête là, c'est pas drôle. »",type:'coeur',ct:"Tu poses ta limite. Tes vrais amis te respecteront. Les autres montreront leur vrai visage.",lt:"Tu deviens quelqu'un sur qui les autres peuvent compter. Tu attires les bonnes personnes vers toi.",alt:"💚 Si le groupe se moque de toi à ton tour, c'est un signal : ce n'est plus tes amis. Cherche d'autres personnes — il en existe."}
+    }
+  },
+  {
+    contexte:"😢 Émotion qui déborde",
+    situation:"Tu as eu une journée terrible. Tu rentres, ton parent te demande comment ça va. Tu sens que tu vas exploser.",
+    choix:{
+      a:{txt:"Tu cries « FOUS-MOI LA PAIX ! » et tu claques la porte.",type:'bombe',ct:"Soulagement immédiat de l'explosion. Mais ton parent est blessé, surpris.",lt:"Si ça se répète, le parent va éviter de te demander → tu te retrouves de plus en plus seul·e.",alt:"💛 Ta colère est légitime — la journée était dure. Mais ton parent n'est pas la cause. C'est dur de différencier quand on bouillonne."},
+      b:{txt:"« Ça va » avec un sourire forcé. Tu vas vomir tes émotions seul·e dans la chambre.",type:'tiede',ct:"Tu protèges les apparences. Mais tu pleures peut-être seul·e maintenant.",lt:"L'auto-isolement régulier conduit à la solitude profonde. Personne ne sait que tu vas mal.",alt:"💛 Tu peux dire : « Je vais pas bien là, je veux pas en parler tout de suite, mais peut-être ce soir. »"},
+      c:{txt:"« Ça va pas, journée horrible. J'ai besoin de 30 min seul·e, après je raconte si tu veux. »",type:'coeur',ct:"Tu nomes ce que tu ressens ET tu protèges la relation. Ton parent t'attend, prêt à écouter.",lt:"Tu apprends à différer ta réponse SANS rejeter l'autre. Compétence émotionnelle rare.",alt:"💚 Mettre des mots = c'est 50% du chemin pour aller mieux. Même imparfait, ça soulage."}
+    }
+  },
+  {
+    contexte:"🎯 Échec scolaire",
+    situation:"Tu apprends que tu ne passes pas en classe supérieure. Tu vas redoubler.",
+    choix:{
+      a:{txt:"Tu dis « Je suis trop nul·le, ça sert à rien de continuer. »",type:'bombe',ct:"Tu te laisses tomber. La douleur est immense.",lt:"Si tu confirmes cette pensée, tu peux décrocher pour de bon. Risque de dépression.",alt:"💛 Un redoublement n'est PAS une condamnation. C'est une étape. Beaucoup de personnes brillantes ont redoublé. Tu n'es pas ton échec."},
+      b:{txt:"Tu acceptes en silence mais tu rumines tout l'été.",type:'tiede',ct:"Tu encaisses. Mais l'été est gâché, tu rentres en septembre démoralisé·e.",lt:"Sans parler, sans comprendre ce qui a coincé, tu risques de re-redoubler.",alt:"💛 L'été est l'OCCASION de comprendre : qu'est-ce qui a coincé ? Quelle aide t'aurait servi ? Cette analyse est plus utile que les ruminations."},
+      c:{txt:"« C'est dur. Mais je vais utiliser cette année pour reprendre les bases et trouver ma méthode. »",type:'coeur',ct:"Tu transformes l'échec en opportunité. Tu cherches des solutions.",lt:"Tu construis ta résilience. Compétence qui te servira TOUTE ta vie face aux échecs.",alt:"💚 Le redoublement est souvent une chance déguisée. Demande un bilan neuropsy ou orthophonique si pas encore fait — peut-être y a-t-il quelque chose à comprendre."}
+    }
+  },
+  {
+    contexte:"🤝 Conflit ami / amie",
+    situation:"Un·e ami·e te raconte une confidence importante et te demande de ne le/la dire à personne. Quelques jours plus tard, tu apprends que tu peux l'aider en parlant à un adulte — mais tu as promis le silence.",
+    choix:{
+      a:{txt:"Tu gardes le secret quoi qu'il arrive — promis c'est promis.",type:'tiede',ct:"Sur le moment, tu respectes ton ami·e. Tu te sens loyal·e.",lt:"<strong>Si la confidence concerne sa sécurité</strong> (maltraitance, idées noires, agression...), le silence peut être grave. Tu portes seul·e un poids trop lourd.",alt:"💛 Il y a 2 types de secrets : ceux qui méritent le silence (rumeurs sentimentales, etc.) et ceux qui demandent d'être partagés à un adulte pour PROTÉGER."},
+      b:{txt:"Tu le racontes à un autre pote pour avoir son avis.",type:'bombe',ct:"Le secret se diffuse. La confiance avec l'ami·e initial·e est trahie.",lt:"Les autres vont peut-être en parler aussi. La personne initiale va se sentir trahie.",alt:"💛 Un adulte de confiance (parent, infirmier·e scolaire, psy) c'est différent — il/elle est tenu·e au secret pro et peut aider concrètement."},
+      c:{txt:"« Je tiens à toi. C'est trop lourd à porter seul, je dois en parler à un adulte de confiance pour qu'on t'aide. »",type:'coeur',ct:"Tu honores la confiance ET tu protèges ton ami·e. Il/elle peut être en colère sur le moment.",lt:"À long terme, tu lui auras peut-être sauvé la vie. Vraiment.",alt:"💚 Tu peux choisir l'adulte ensemble. Numéro Fil Santé Jeunes : 0800 235 236 (anonyme). Pour Enfance en danger : 119."}
+    }
+  }
+];
+
+function render(){
+  const i=etat.current;
+  const s=SCENARIOS[i];
+  document.getElementById('compteur').textContent=(i+1)+' / '+SCENARIOS.length;
+  document.getElementById('contexte').textContent=s.contexte;
+  document.getElementById('situation').textContent=s.situation;
+  const ch=document.getElementById('choix-zone');
+  const sel=etat.choix[i];
+  ch.innerHTML=['a','b','c'].map(k=>`<button class="choix-btn ${k} ${sel===k?'selected':''}" data-k="${k}"><span class="lettre">${k.toUpperCase()}</span><span>${esc(s.choix[k].txt)}</span></button>`).join('');
+  ch.querySelectorAll('.choix-btn').forEach(b=>b.onclick=()=>{
+    etat.choix[i]=b.dataset.k;save();render();
+  });
+  const imp=document.getElementById('impact');
+  if(sel){
+    const c=s.choix[sel];
+    const ic=c.type==='bombe'?'💣':c.type==='tiede'?'🟡':'💚';
+    imp.className='impact-bloc visible c-'+c.type;
+    imp.innerHTML=`<h3><span class="ic-impact">${ic}</span> Impact : ${c.type==='bombe'?'cette réponse fait mal':c.type==='tiede'?'cette réponse évite mais n\'aide pas':'cette réponse construit'}</h3>
+      <div class="court-terme"><strong>Court terme :</strong> ${c.ct}</div>
+      <div class="long-terme"><strong>Long terme :</strong> ${c.lt}</div>
+      <div class="alt">${c.alt}</div>`;
+  } else imp.classList.remove('visible');
+  // Stats
+  const t={bombe:0,tiede:0,coeur:0};
+  Object.entries(etat.choix).forEach(([k,v])=>{const c=SCENARIOS[parseInt(k)].choix[v];if(c)t[c.type]++});
+  document.getElementById('nb-coeurs').textContent=t.coeur;
+  document.getElementById('nb-tiedes').textContent=t.tiede;
+  document.getElementById('nb-bombes').textContent=t.bombe;
+}
+
+document.getElementById('btn-next').onclick=()=>{etat.current=(etat.current+1)%SCENARIOS.length;save();render();window.scrollTo({top:0,behavior:'smooth'})};
+document.getElementById('btn-prev').onclick=()=>{etat.current=(etat.current-1+SCENARIOS.length)%SCENARIOS.length;save();render();window.scrollTo({top:0,behavior:'smooth'})};
+document.getElementById('btn-reset').onclick=()=>{if(confirm('Réinitialiser tes choix ?')){etat.choix={};save();render()}};
+
+render();
+</script>
+
+</body>
+</html>

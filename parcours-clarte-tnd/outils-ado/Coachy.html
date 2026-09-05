@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COACHY — ton coach pour apprendre à piloter ton cerveau</title>
+<style>
+:root{
+  --bg:#f6f8fb;--card:#fff;--ink:#23313a;--muted:#697982;--line:#dfe7ec;
+  --teal:#4f9f93;--blue:#5e86b6;--violet:#8e78b5;--yellow:#e7b94c;
+  --rose:#df7f8d;--red:#d96868;--green:#6aa67e;--shadow:0 12px 28px rgba(46,68,80,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#fff9f2 0%,#f3f7fb 45%,#eef8f4 100%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);min-height:100vh}
+button,input,textarea,select{font:inherit}
+.wrap{max-width:980px;margin:auto;padding:18px 14px 64px}
+.hero{background:linear-gradient(135deg,#fff5ed,#eef4fa 55%,#eaf8f1);border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"🎮";position:absolute;right:22px;top:12px;font-size:70px;opacity:.08}
+.brand{display:inline-flex;gap:8px;align-items:center;background:#23313a;color:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:800;letter-spacing:.06em}
+h1{font-size:clamp(28px,5vw,46px);margin:12px 0 6px;line-height:1.05}
+.hero p{margin:0;color:var(--muted);font-size:16px}
+.progress{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.dot{height:8px;flex:1;min-width:36px;border-radius:999px;background:#dce5ea}
+.dot.on{background:linear-gradient(90deg,var(--blue),var(--teal))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;margin-top:16px;box-shadow:0 8px 22px rgba(46,68,80,.07)}
+.hidden{display:none!important}
+h2{font-size:22px;margin:0 0 8px}
+h3{margin:0 0 8px}
+.sub{color:var(--muted);margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.choice{border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:14px;text-align:left;cursor:pointer;transition:.16s}
+.choice:hover{transform:translateY(-2px);box-shadow:0 8px 16px rgba(46,68,80,.09)}
+.choice.active{border-color:var(--teal);background:#f0faf7}
+.choice b{display:block;margin-bottom:3px}
+.big-btn{border:0;border-radius:16px;padding:14px 18px;background:linear-gradient(135deg,var(--blue),var(--teal));color:#fff;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(79,159,147,.25)}
+.ghost{border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:14px;padding:11px 14px;font-weight:700;cursor:pointer}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.battery-wrap{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
+.battery{height:74px;border:4px solid #34434a;border-radius:15px;padding:6px;position:relative;background:#fff;overflow:hidden}
+.battery:after{content:"";position:absolute;right:-13px;top:23px;width:10px;height:26px;background:#34434a;border-radius:0 4px 4px 0}
+.battery-fill{height:100%;width:50%;border-radius:8px;background:linear-gradient(90deg,#d96868,#e7b94c,#6aa67e);transition:.25s}
+.battery-label{font-weight:900;font-size:30px;min-width:78px;text-align:right}
+input[type=range]{width:100%}
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px}
+.check{display:flex;gap:10px;align-items:center;border:1.5px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;background:#fff}
+.check input{width:20px;height:20px}
+.reset-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px}
+.reset{padding:14px;border-radius:16px;border:1.5px solid var(--line);background:#fff;cursor:pointer;text-align:center}
+.reset:hover{background:#f7fbfd}
+.bubble{width:120px;height:120px;margin:18px auto;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#bce2db);animation:breathe 8s ease-in-out infinite;box-shadow:0 0 0 12px rgba(79,159,147,.08)}
+@keyframes breathe{0%,100%{transform:scale(.78)}50%{transform:scale(1.12)}}
+textarea,input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:12px;background:#fff}
+.timer{font-size:64px;font-weight:900;text-align:center;letter-spacing:.03em;margin:12px 0}
+.mission-banner{background:linear-gradient(135deg,#eef4fa,#eef9f5);border-radius:18px;padding:14px 16px;border:1px solid var(--line)}
+.round-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+@media(max-width:680px){.round-actions{grid-template-columns:repeat(2,1fr)}}
+.action{border:1.5px solid var(--line);background:#fff;border-radius:15px;padding:14px 8px;font-weight:800;cursor:pointer}
+.action:hover{background:#f7fbfd}
+.coach-bubble{border-left:5px solid var(--teal);background:#f5fbf9;border-radius:14px;padding:13px 15px;margin:12px 0}
+.coach-bubble.sober{border-left-color:var(--violet);background:#f6f3fb}
+.parking{border:1.5px dashed var(--violet);background:#faf8fd}
+.thought{display:flex;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0;background:#fff}
+.badge{display:inline-block;border-radius:999px;padding:4px 9px;background:#edf4f7;color:#47616f;font-size:12px;font-weight:800}
+.xp{display:flex;gap:8px;flex-wrap:wrap}
+.xp span{background:#fff7df;border:1px solid #f0d27a;border-radius:999px;padding:7px 10px;font-size:13px;font-weight:800}
+.footer-note{font-size:12px;color:var(--muted);margin-top:15px}
+dialog{border:0;border-radius:22px;padding:0;max-width:620px;width:calc(100% - 28px);box-shadow:0 30px 80px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(25,35,42,.46)}
+.modal{padding:22px}
+.kicker{font-size:12px;font-weight:900;letter-spacing:.08em;color:var(--blue);text-transform:uppercase}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+.small{font-size:13px;color:var(--muted)}
+.linklike{background:none;border:0;color:var(--blue);font-weight:800;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="Moi_et_Coachy_Accueil.html" style="display:inline-block;margin-bottom:10px;color:#5e86b6;font-weight:800;text-decoration:none;font-size:.85rem">← Retour à Moi &amp; Coachy</a>
+  <section class="hero">
+    <span class="brand">🎮🧠 COACHY</span>
+    <h1>Ton coach pour apprendre à piloter ton cerveau.</h1>
+    <p>On prépare le terrain, on choisit une mission, on bosse par rounds… et je reste dans le coin sans devenir le relou de service 😏</p>
+    <div class="progress" id="progress"></div>
+  </section>
+
+  <section class="card" id="step1">
+    <div class="kicker">1 · Check-in</div>
+    <h2>🔋 Ta batterie, elle en est où ?</h2>
+    <p class="sub">Choisis ce qui te ressemble là, maintenant. C’est toi qui te lis.</p>
+    <div class="battery-wrap">
+      <div>
+        <div class="battery"><div class="battery-fill" id="batteryFill"></div></div>
+        <input id="batteryRange" type="range" min="0" max="100" value="50" step="10">
+      </div>
+      <div class="battery-label" id="batteryLabel">50%</div>
+    </div>
+    <div class="coach-bubble" id="batteryCoach">Batterie moyenne. On garde ça en tête pour choisir ton round.</div>
+    <div class="row"><button class="big-btn" onclick="go(2)">Check équipement →</button></div>
+  </section>
+
+  <section class="card hidden" id="step2">
+    <div class="kicker">2 · Avant décollage</div>
+    <h2>🚀 Prêt pour la mission ?</h2>
+    <p class="sub">Un check rapide. Pas sept interrogatoires, promis.</p>
+    <div class="checks">
+      <label class="check"><input type="checkbox"> 💧 Eau à portée</label>
+      <label class="check"><input type="checkbox"> 🌬️ Air / pièce OK</label>
+      <label class="check"><input type="checkbox"> 🪑 Installé correctement</label>
+      <label class="check"><input type="checkbox"> 📚 Matériel prêt</label>
+      <label class="check"><input type="checkbox"> 📱 Distractions gérées</label>
+      <label class="check"><input type="checkbox" id="fogCheck"> 🌫️ Brouillard / tension / agitation</label>
+    </div>
+    <div class="row" style="margin-top:16px">
+      <button class="ghost" onclick="openReset()">🌫️ Petit reset</button>
+      <button class="big-btn" onclick="go(3)">Mission →</button>
+    </div>
+  </section>
+
+  <section class="card hidden" id="step3">
+    <div class="kicker">3 · Mission</div>
+    <h2>🎯 Qu’est-ce qu’on affronte aujourd’hui ?</h2>
+    <input id="missionInput" type="text" placeholder="Ex. Maths — exercices 4 et 5">
+    <p class="small" style="margin-top:8px">Astuce Coachy : une mission doit pouvoir tenir dans un round. Sinon, on la découpe.</p>
+    <hr>
+    <h3>🤝 Tu veux quoi de moi pour ce round ?</h3>
+    <div class="grid" id="presenceChoices">
+      <button class="choice" data-presence="launch"><b>🚀 Me lancer</b><span>Un petit coup d’envoi.</span></button>
+      <button class="choice" data-presence="focus"><b>🎯 Garder le cap</b><span>Un checkpoint bref si besoin.</span></button>
+      <button class="choice" data-presence="available"><b>🧩 Sois là si je bloque</b><span>Tu bosses, j’attends.</span></button>
+      <button class="choice" data-presence="timer"><b>⏱️ Gère le round</b><span>Chrono + présence discrète.</span></button>
+      <button class="choice" data-presence="silent"><b>😎 Je gère</b><span>Reste juste dans le coin.</span></button>
+    </div>
+    <hr>
+    <h3>⏱️ Combien pour ce round ?</h3>
+    <div class="grid" id="durationChoices">
+      <button class="choice" data-min="10"><b>⚡ 10 min</b><span>Lancement léger.</span></button>
+      <button class="choice active" data-min="20"><b>🎯 20 min</b><span>Preset Coachy.</span></button>
+      <button class="choice" data-min="30"><b>🔥 30 min</b><span>Quand tu es bien lancé.</span></button>
+    </div>
+    <div class="row" style="margin-top:16px">
+      <button class="big-btn" onclick="startRound()">▶️ GO</button>
+    </div>
+  </section>
+
+  <section class="card hidden" id="step4">
+    <div class="kicker">4 · Round en cours</div>
+    <div class="mission-banner"><b>🎯 Mission :</b> <span id="missionText">—</span><br><span class="small">Coachy est dans le coin.</span></div>
+    <div class="timer" id="timer">20:00</div>
+    <div class="round-actions">
+      <button class="action" onclick="openRoute('block')">🆘<br>Je bloque</button>
+      <button class="action" onclick="openRoute('drift')">🧠<br>Je décroche</button>
+      <button class="action" onclick="openRoute('rise')">🌡️<br>Ça monte</button>
+      <button class="action" onclick="openPause()">⏸️<br>Pause</button>
+    </div>
+    <div class="card parking" style="margin-top:14px">
+      <h3>💭 Parking à pensées</h3>
+      <p class="small">Une pensée parasite ? Pose-la ici. Tu n’as plus besoin d’essayer de la garder en tête.</p>
+      <div class="row">
+        <input id="thoughtInput" type="text" placeholder="Ex. répondre à Lina / penser au sac / idée à garder" style="flex:1;min-width:220px">
+        <button class="ghost" onclick="parkThought()">📥 Déposer</button>
+      </div>
+      <div id="thoughtList"></div>
+    </div>
+    <div class="row" style="margin-top:16px">
+      <button class="ghost" onclick="finishRound()">⏹ Finir le round maintenant</button>
+    </div>
+  </section>
+
+  <section class="card hidden" id="step5">
+    <div class="kicker">5 · Checkpoint</div>
+    <h2>🔔 Round terminé. Verdict ?</h2>
+    <h3>La mission, elle en est où ?</h3>
+    <div class="grid" id="resultChoices">
+      <button class="choice" data-result="done"><b>✅ Mission accomplie</b></button>
+      <button class="choice" data-result="progress"><b>🟡 J’ai avancé</b></button>
+      <button class="choice" data-result="hard"><b>🔴 Pas vraiment</b></button>
+      <button class="choice" data-result="changed"><b>🔄 J’ai changé de mission</b></button>
+    </div>
+    <hr>
+    <h3>Et toi, ce round ?</h3>
+    <div class="grid" id="costChoices">
+      <button class="choice" data-cost="fluid"><b>😎 Fluide</b></button>
+      <button class="choice" data-cost="ok"><b>🙂 Correct</b></button>
+      <button class="choice" data-cost="costly"><b>😮‍💨 Coûteux</b></button>
+      <button class="choice" data-cost="rough"><b>🤯 Galère</b></button>
+    </div>
+    <hr>
+    <h3>🔋 Batterie maintenant</h3>
+    <div class="battery-wrap">
+      <div>
+        <div class="battery"><div class="battery-fill" id="batteryFill2"></div></div>
+        <input id="batteryRange2" type="range" min="0" max="100" value="50" step="10">
+      </div>
+      <div class="battery-label" id="batteryLabel2">50%</div>
+    </div>
+    <div class="coach-bubble" id="smartQuestion">Une seule question utile apparaîtra ici selon ce qui s’est passé.</div>
+    <textarea id="reflection" rows="2" placeholder="Optionnel : ce que tu as remarqué sur toi…"></textarea>
+    <div class="xp" id="xpBox" style="margin-top:14px"></div>
+    <div class="row" style="margin-top:16px">
+      <button class="ghost" onclick="saveInsight()">💡 Garder une découverte</button>
+      <button class="ghost" onclick="showParking()">💭 Revoir mon parking</button>
+      <button class="big-btn" onclick="nextChoice()">Et maintenant ? →</button>
+    </div>
+  </section>
+
+  <section class="card hidden" id="step6">
+    <div class="kicker">6 · Suite</div>
+    <h2>🎮 Ton cerveau a besoin de quoi maintenant ?</h2>
+    <div class="grid">
+      <button class="choice" onclick="restartRound()"><b>▶️ Nouveau round</b><span>On repart avec la même mission ou une autre.</span></button>
+      <button class="choice" onclick="openPause()"><b>☕ Pause 5 min</b><span>Souffler sans justification.</span></button>
+      <button class="choice" onclick="openMiniGame()"><b>🎮 Surprise Coachy</b><span>Micro-jeu court et fini.</span></button>
+      <button class="choice" onclick="openReset()"><b>🚶 Reset</b><span>Respiration, mouvement, eau, air, Vidage RAM.</span></button>
+      <button class="choice" onclick="endSession()"><b>🏁 J’arrête pour aujourd’hui</b><span>On clôture proprement.</span></button>
+    </div>
+  </section>
+
+  <section class="card hidden" id="summary">
+    <div class="kicker">Session terminée</div>
+    <h2>🏁 Bien joué. Pas parce que tout était parfait.</h2>
+    <p class="sub">Parce que tu as essayé de piloter au lieu de subir.</p>
+    <div id="summaryBody"></div>
+    <div class="row" style="margin-top:16px">
+      <button class="big-btn" onclick="newSession()">Nouvelle session</button>
+      <button class="ghost" onclick="exporterDecouvertes()">📄 Exporter mes découvertes</button>
+    </div>
+  </section>
+
+  <p class="footer-note">
+    <strong>🔒 Ce que tu notes reste chez toi.</strong> Aucune donnée n'est envoyée en ligne :
+    tes découvertes sont enregistrées uniquement dans ce navigateur, sur cet appareil.
+    <br>
+    <strong>⚠️ Pense à garder une copie.</strong> Si tu vides l'historique de ce navigateur,
+    ou si tu changes d'appareil, tes découvertes disparaissent —
+    <button class="linklike" onclick="exporterDecouvertes()">📄 exporte-les ici</button>.
+    <br>
+    COACHY est une aide pour apprendre à se piloter. Ce n'est ni un outil de diagnostic
+    ni un substitut à un professionnel.
+    <br>
+    Création originale Nawel Haddouch · EducaTypique
+  </p>
+</div>
+
+<dialog id="routeDialog"><div class="modal">
+  <div class="kicker">Coachy · routeur</div>
+  <h2 id="routeTitle">On regarde ce qui coince.</h2>
+  <div id="routeContent"></div>
+  <div class="row" style="margin-top:14px"><button class="ghost" onclick="routeDialog.close()">Retour au round</button></div>
+</div></dialog>
+
+<dialog id="resetDialog"><div class="modal">
+  <div class="kicker">Reset express</div>
+  <h2>🌫️ On remet un peu de clair ?</h2>
+  <p class="sub">Tu choisis. On teste, puis TU regardes si ça t’aide.</p>
+  <div class="reset-grid">
+    <button class="reset" onclick="showBreath()">🫧<br><b>Bulle respiration</b></button>
+    <button class="reset" onclick="movement()">🚶<br><b>Mouvement</b></button>
+    <button class="reset" onclick="simpleReset('💧 Bois quelques gorgées tranquillement, puis reviens.')">💧<br><b>Eau</b></button>
+    <button class="reset" onclick="simpleReset('🌬️ Aère si tu en ressens le besoin, puis reviens.')">🌬️<br><b>Air</b></button>
+    <button class="reset" onclick="ramDump()">🧠<br><b>Vidage RAM</b></button>
+    <button class="reset" onclick="resetDialog.close()">⏭️<br><b>Pas maintenant</b></button>
+  </div>
+  <div id="resetContent"></div>
+</div></dialog>
+
+<dialog id="pauseDialog"><div class="modal">
+  <div class="kicker">Pause</div>
+  <h2>☕ Tu veux juste souffler ou un petit coup de main ?</h2>
+  <div class="reset-grid">
+    <button class="reset" onclick="pauseDialog.close()">😌<br><b>Laisse-moi tranquille</b></button>
+    <button class="reset" onclick="openMiniGame()">🎮<br><b>Mini-jeu</b></button>
+    <button class="reset" onclick="movement()">🚶<br><b>Bouger</b></button>
+    <button class="reset" onclick="showBreath()">🫧<br><b>Bulle</b></button>
+    <button class="reset" onclick="simpleReset('💧 Quelques gorgées, sans concours d’hydratation 😏')">💧<br><b>Eau</b></button>
+  </div>
+</div></dialog>
+
+<dialog id="gameDialog"><div class="modal">
+  <div class="kicker">Surprise Coachy</div>
+  <h2>🎮 Mini-défi 60 secondes</h2>
+  <p id="gameText" class="coach-bubble"></p>
+  <div class="row"><button class="big-btn" onclick="newGame()">🎲 Nouveau défi</button><button class="ghost" onclick="gameDialog.close()">Terminé → retour</button></div>
+</div></dialog>
+
+<script>
+const S={step:1,battery:50,mission:"",duration:20,presence:"available",events:[],thoughts:[],insights:[],xp:[]};
+let interval=null,remaining=20*60,startedAt=null;
+
+/* ===== Pont « Moi & Coachy » — stockage local partagé avec Mon Mode d'emploi ===== */
+function getProfilPartage(){try{return JSON.parse(localStorage.getItem('educatypique_profil_actif'))||null;}catch(e){return null;}}
+function getPrenomPartage(){const p=getProfilPartage();try{return (p&&p.prenom)||localStorage.getItem('educatypique_prenom')||'';}catch(e){return (p&&p.prenom)||'';}}
+function rappelModeEmploi(){
+ const p=getProfilPartage();if(!p)return '';
+ const bits=[];
+ if(p.phrase_secours)bits.push('🆘 Ta phrase de secours : « '+esc(p.phrase_secours)+' »');
+ if(p.aides&&p.aides.length)bits.push('🌿 Ce qui t’aide : '+p.aides.slice(0,4).map(esc).join(' · '));
+ if(!bits.length)return '';
+ return '<div class="coach-bubble sober">🪞 <b>Rappel de ton Mode d’emploi</b><br>'+bits.join('<br>')+'</div>';
+}
+
+const progress=document.getElementById('progress');
+for(let i=1;i<=6;i++){const d=document.createElement('div');d.className='dot';d.id='dot'+i;progress.appendChild(d)}
+function updateProgress(){for(let i=1;i<=6;i++)document.getElementById('dot'+i).classList.toggle('on',i<=S.step)}
+function go(n){document.querySelectorAll('[id^=step]').forEach(x=>x.classList.add('hidden'));document.getElementById('summary').classList.add('hidden');document.getElementById('step'+n).classList.remove('hidden');S.step=n;updateProgress();window.scrollTo({top:0,behavior:'smooth'})}
+updateProgress();
+
+function batteryText(v){
+ if(v<=10)return "Ouh là… batterie en PLS. 😅 On prépare le terrain avant de décider ce qu’on lui demande.";
+ if(v<=30)return "Batterie basse. On en tient compte pour la mission et le round.";
+ if(v<=60)return "Batterie moyenne. On garde ça en tête pour choisir ton round.";
+ if(v<=80)return "Bonne batterie. On peut avancer sans se raconter qu’on est invincible 😏";
+ return "Batterie bien chargée. Nickel. On voit la mission.";
+}
+const br=document.getElementById('batteryRange');
+br.oninput=()=>{S.battery=+br.value;document.getElementById('batteryFill').style.width=br.value+'%';document.getElementById('batteryLabel').textContent=br.value+'%';document.getElementById('batteryCoach').textContent=batteryText(+br.value)}
+br.oninput();
+
+document.querySelectorAll('#presenceChoices .choice').forEach(b=>b.onclick=()=>{document.querySelectorAll('#presenceChoices .choice').forEach(x=>x.classList.remove('active'));b.classList.add('active');S.presence=b.dataset.presence});
+document.querySelectorAll('#durationChoices .choice').forEach(b=>b.onclick=()=>{document.querySelectorAll('#durationChoices .choice').forEach(x=>x.classList.remove('active'));b.classList.add('active');S.duration=+b.dataset.min});
+
+function startRound(){
+ S.mission=document.getElementById('missionInput').value.trim()||"Ma mission";
+ document.getElementById('missionText').textContent=S.mission;
+ remaining=S.duration*60;startedAt=Date.now();S.events.push({type:'round_start',mission:S.mission,duration:S.duration,battery:S.battery,presence:S.presence,at:Date.now()});
+ go(4);drawTimer();clearInterval(interval);interval=setInterval(()=>{remaining--;drawTimer();if(remaining<=0)finishRound()},1000);
+}
+function drawTimer(){const m=Math.floor(remaining/60),s=remaining%60;document.getElementById('timer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+function finishRound(){clearInterval(interval);S.events.push({type:'round_end',remaining,at:Date.now()});prepareCheckpoint();go(5)}
+
+function parkThought(){
+ const inp=document.getElementById('thoughtInput'),t=inp.value.trim();if(!t)return;
+ S.thoughts.push({text:t,status:'parked',at:Date.now()});inp.value='';renderThoughts();
+}
+function renderThoughts(){
+ const box=document.getElementById('thoughtList');box.innerHTML='';
+ S.thoughts.filter(x=>x.status==='parked').forEach((x,i)=>{const d=document.createElement('div');d.className='thought';d.innerHTML='<span>💭 '+esc(x.text)+'</span><button class="linklike" onclick="resolveThought('+i+')">✓</button>';box.appendChild(d)})
+}
+function resolveThought(i){const active=S.thoughts.filter(x=>x.status==='parked');active[i].status='done';renderThoughts()}
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function openRoute(kind){
+ S.events.push({type:'help',kind,at:Date.now()});
+ const title=document.getElementById('routeTitle'),c=document.getElementById('routeContent');
+ if(kind==='block'){
+   title.textContent="🆘 Tu bloques. Tu vois ce qui coince ?";
+   c.innerHTML=`<div class="coach-bubble">Cherche d’abord toi-même. Si tu sais, clique directement.</div>
+   <div class="grid">
+   ${routeBtn("🧩 Je ne comprends pas","Avant que je t’aide : qu’est-ce que tu comprends déjà de la consigne ? Essaie de la redire avec tes mots.")}
+   ${routeBtn("🧠 Je comprends mais je ne sais pas comment faire","Quelle première étape te paraît possible ? Si rien ne vient, on réduit encore la mission.")}
+   ${routeBtn("🏔️ Ça me paraît énorme","On change l’échelle : quelle est la prochaine action jouable, pas toute la montagne ?")}
+   ${routeBtn("😩 J’arrive plus à m’y mettre","Si quelqu’un lançait ton cerveau pour toi, tu pourrais continuer ? Si oui : mini-départ, 2-3 minutes.")}
+   ${routeBtn("🤷 Toujours aucune idée","OK. On cherche ensemble, sans diagnostic de comptoir 😏")}
+   </div>`;
+ }else if(kind==='drift'){
+   title.textContent="🧠 Tu décroches. Qu’est-ce qui t’a embarqué ailleurs ?";
+   c.innerHTML=`<div class="grid">
+   ${routeBtn("📱 Quelque chose autour de moi","Tu vois une solution simple à tester maintenant ?")}
+   ${routeBtn("💭 Mes pensées sont parties ailleurs","Dépose ce qui tourne dans le Parking à pensées, puis reviens à une seule mission.")}
+   ${routeBtn("😴 Je fatigue","Réduire le round, bouger, boire, vraie pause… qu’est-ce qui te semble le plus juste ?")}
+   ${routeBtn("😑 Je m’ennuie","On peut raccourcir le round ou rendre l’objectif plus concret. Tu choisis.")}
+   ${routeBtn("🧩 C’est devenu trop difficile","On réduit l’étape avant d’ajouter de l’aide.")}
+   ${routeBtn("🤷 Je sais pas","On fait simple : plein ou vide ? Corps tendu ? Une pensée tourne ?")}
+   </div>`;
+ }else{
+   title.textContent="🌡️ Ça monte. Je range les blagues deux secondes.";
+   c.innerHTML=`<div class="coach-bubble sober">Qu’est-ce que tu remarques ? Pas besoin d’avoir le mot parfait.</div>
+   <div class="grid">
+   ${routeBtn("😤 Tension dans le corps","Tu sais déjà ce qui t’aide ? Sinon : mouvement ou bulle.")}
+   ${routeBtn("😰 Stress","On peut faire un reset bref, puis revenir à une seule étape.")}
+   ${routeBtn("😡 Énervement","On redescend avant de régler l’exercice. Une minute suffit parfois.")}
+   ${routeBtn("🌫️ Brouillard","Reset court ou Vidage RAM ?")}
+   ${routeBtn("🤯 Trop-plein","On sort les choses de ta tête avant de continuer.")}
+   ${routeBtn("🤷 Je sais pas","Pas grave. On peut juste faire un reset et re-scan après.")}
+   </div>`;
+ }
+ if(kind==='rise'||kind==='block'){c.innerHTML=rappelModeEmploi()+c.innerHTML;}
+ routeDialog.showModal();
+}
+function routeBtn(label,msg){return `<button class="choice" onclick="routeAdvice('${encodeURIComponent(msg)}')"><b>${label}</b></button>`}
+function routeAdvice(encoded){const msg=decodeURIComponent(encoded);document.getElementById('routeContent').innerHTML=`<div class="coach-bubble">${msg}</div><p><b>Et toi, qu’est-ce que tu penses qu’il te faudrait ?</b></p><textarea rows="2" placeholder="Tu peux répondre… ou retourner tester directement."></textarea><div class="row" style="margin-top:12px"><button class="ghost" onclick="routeDialog.close()">▶️ Je teste</button><button class="ghost" onclick="routeDialog.close();openReset()">🌫️ Reset</button></div>`}
+
+function openReset(){resetContent.innerHTML=rappelModeEmploi();resetDialog.showModal()}
+function showBreath(){resetContent.innerHTML=`<div class="bubble"></div><p style="text-align:center"><b>Respire lentement et confortablement.</b><br><span class="small">Pas de performance. Quelques cycles, puis tu observes.</span></p><div class="row" style="justify-content:center"><button class="ghost" onclick="afterReset()">Terminé</button></div>`}
+function movement(){resetDialog.showModal();resetContent.innerHTML=`<div class="coach-bubble"><b>🚶 Reset mouvement</b><br>Étire-toi vers le plafond → relâche les épaules → secoue bras/jambes → 10 petits sauts si tu en as envie → marche quelques pas.</div><button class="ghost" onclick="afterReset()">Terminé</button>`}
+function simpleReset(msg){resetContent.innerHTML=`<div class="coach-bubble">${msg}</div><button class="ghost" onclick="afterReset()">J’ai fait</button>`}
+function ramDump(){resetContent.innerHTML=`<div class="coach-bubble"><b>🧠 Vidage RAM</b><br>Sors tout. Pas besoin d’organiser.</div><textarea id="ramText" rows="5" placeholder="Tout ce qui tourne dans ma tête…"></textarea><button class="ghost" style="margin-top:10px" onclick="saveRam()">📥 Déposer au parking</button>`}
+function saveRam(){const t=document.getElementById('ramText').value.trim();if(t){t.split(/\n+/).forEach(x=>S.thoughts.push({text:x,status:'parked',at:Date.now()}));renderThoughts()}afterReset()}
+function afterReset(){resetContent.innerHTML=`<h3>Re-scan rapide</h3><div class="grid"><button class="choice" onclick="resetDone('mieux')"><b>🌤️ Plus clair / plus détendu</b></button><button class="choice" onclick="resetDone('pareil')"><b>😐 Pareil</b></button><button class="choice" onclick="resetDone('pire')"><b>🌫️ Moins bien / pas agréable</b></button></div>`}
+function resetDone(v){S.events.push({type:'reset_outcome',value:v,at:Date.now()});resetDialog.close()}
+
+function openPause(){pauseDialog.showModal()}
+function openMiniGame(){pauseDialog.close();newGame();gameDialog.showModal()}
+const games=[
+ "Trouve 3 objets autour de toi qui commencent par la même lettre. Go.",
+ "Pendant 30 secondes, compte à rebours de 30 à 0… mais saute tous les nombres avec un 3.",
+ "Regarde autour de toi : trouve quelque chose de rond, quelque chose de doux et quelque chose de bleu.",
+ "Mini-défi moteur : 10 épaules en arrière + 10 pas + étirement plafond. Puis stop.",
+ "Choisis un mot au hasard et trouve 5 mots qui riment — même si c’est nul, c’est le jeu 😏",
+ "Ferme les yeux 10 secondes. À l’ouverture, repère 5 détails que tu n’avais pas remarqués."
+];
+function newGame(){gameText.textContent=games[Math.floor(Math.random()*games.length)]}
+
+document.querySelectorAll('#resultChoices .choice,#costChoices .choice').forEach(b=>b.onclick=()=>{const p=b.parentElement;p.querySelectorAll('.choice').forEach(x=>x.classList.remove('active'));b.classList.add('active');});
+const br2=document.getElementById('batteryRange2');
+br2.oninput=()=>{document.getElementById('batteryFill2').style.width=br2.value+'%';document.getElementById('batteryLabel2').textContent=br2.value+'%'}
+br2.oninput();
+
+function prepareCheckpoint(){
+ br2.value=S.battery;br2.oninput();
+ const helps=S.events.filter(x=>x.type==='help').length;
+ const resets=S.events.filter(x=>x.type==='reset_outcome').length;
+ const parked=S.thoughts.length;
+ let q="Qu’est-ce qui t’a aidé à avancer dans ce round ?";
+ if(helps===0)q="Tu t’es débrouillé sans m’appeler pendant ce round. Qu’est-ce qui t’a aidé ?";
+ else if(parked>0)q="Tu as posé des pensées au parking. Est-ce que ça t’a aidé à revenir à ta mission ?";
+ else if(resets>0)q="Tu as testé un reset. Qu’est-ce que tu as remarqué juste après ?";
+ document.getElementById('smartQuestion').textContent=q;
+ const xp=[];
+ if(helps===0)xp.push("🧭 Autonomie");
+ if(resets>0)xp.push("🔋 Pilotage");
+ if(parked>0)xp.push("🧠 Auto-régulation");
+ xp.push("💪 Effort");
+ xp.push("🎯 Engagement");
+ S.xp=xp;document.getElementById('xpBox').innerHTML=xp.map(x=>'<span>'+x+'</span>').join('');
+}
+function saveInsight(){
+ const t=document.getElementById('reflection').value.trim();
+ if(!t){alert("Écris d’abord ce que TU veux garder. Coachy ne va pas inventer ton mode d’emploi à ta place 😏");return}
+ S.insights.push({text:t,at:Date.now(),status:'test'});
+ // On ajoute a ce qui existe deja : sinon chaque nouvelle session ecrasait
+ // les decouvertes des sessions precedentes.
+ try{
+  const prev=JSON.parse(localStorage.getItem('coachy_insights'))||[];
+  prev.push({text:t,at:Date.now(),status:'test'});
+  localStorage.setItem('coachy_insights',JSON.stringify(prev));
+ }catch(e){localStorage.setItem('coachy_insights',JSON.stringify(S.insights));}
+ try{const arr=JSON.parse(localStorage.getItem('educatypique_decouvertes'))||[];arr.push({text:t,at:Date.now(),source:'coachy'});localStorage.setItem('educatypique_decouvertes',JSON.stringify(arr));}catch(e){}
+ alert("💡 Gardé comme piste à tester, pas comme vérité gravée dans le marbre. (Elle remonte aussi dans ton Mode d’emploi.)");
+}
+function exporterDecouvertes(){
+ let stock=[];
+ try{stock=JSON.parse(localStorage.getItem('coachy_insights'))||[];}catch(e){stock=[];}
+ if(!stock.length)stock=S.insights.slice();
+ if(!stock.length){alert("Tu n'as pas encore gardé de découverte. Fais un round, puis « 💡 Garder une découverte » 😉");return}
+
+ const prenom=getPrenomPartage();
+ const d=new Date();
+ let txt='';
+ txt+='╔══════════════════════════════════════════════╗\n';
+ txt+='║  MES DÉCOUVERTES AVEC COACHY                 ║\n';
+ txt+='║  Educa Typique · Création originale Nawel    ║\n';
+ txt+='╚══════════════════════════════════════════════╝\n\n';
+ if(prenom)txt+='Prénom : '+prenom+'\n';
+ txt+="Date d'export : "+d.toLocaleString('fr-FR')+'\n';
+ txt+='Découvertes gardées : '+stock.length+'\n\n';
+ txt+='═══ CE QUE J\'AI REMARQUÉ SUR MOI ═══\n\n';
+ stock.forEach(function(it,i){
+  const q=it.at?new Date(it.at).toLocaleDateString('fr-FR'):'';
+  txt+=(i+1)+'. '+it.text+(q?'   ('+q+')':'')+'\n';
+ });
+ if(S.mission){
+  txt+='\n═══ DERNIÈRE SESSION ═══\n';
+  txt+='Mission : '+S.mission+'\n';
+  txt+='Batterie de départ : '+S.battery+'%\n';
+  const open=S.thoughts.filter(function(x){return x.status==='parked'}).length;
+  txt+='Pensées encore au parking : '+open+'\n';
+ }
+ txt+='\n───────────────────────────────────────────────\n';
+ txt+="Ce sont des pistes à tester, pas des vérités gravées.\n";
+ txt+="COACHY n'est ni un outil de diagnostic ni un substitut à un professionnel.\n";
+
+ const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');
+ a.href=url;
+ a.download='decouvertes-coachy-'+((prenom||'moi').toLowerCase().replace(/\s+/g,'-'))+'.txt';
+ a.click();
+ setTimeout(function(){URL.revokeObjectURL(url)},1000);
+}
+function showParking(){const open=S.thoughts.filter(x=>x.status==='parked');alert(open.length?open.map(x=>'• '+x.text).join('\n'):"Parking vide. Ton cerveau a peut-être déjà fait le ménage 😏")}
+function nextChoice(){S.battery=+br2.value;go(6)}
+function restartRound(){go(3)}
+function endSession(){
+ clearInterval(interval);document.querySelectorAll('[id^=step]').forEach(x=>x.classList.add('hidden'));document.getElementById('summary').classList.remove('hidden');S.step=6;updateProgress();
+ const open=S.thoughts.filter(x=>x.status==='parked').length;
+ summaryBody.innerHTML=`<div class="mission-banner"><b>🎯 Dernière mission :</b> ${esc(S.mission)}<br><b>🔋 Batterie départ :</b> ${document.getElementById('batteryRange').value}% → <b>fin :</b> ${document.getElementById('batteryRange2').value}%<br><b>💭 Pensées encore garées :</b> ${open}<br><b>💡 Découvertes choisies :</b> ${S.insights.length}</div><p class="coach-bubble">Le vrai level-up : mieux te lire, choisir plus vite ce qui t’aide, et avoir progressivement moins besoin que je choisisse à ta place.</p>`;
+}
+function newSession(){location.reload()}
+/* Salutation personnalisée si un prénom a été renseigné (hub ou Mode d'emploi) */
+(function(){const pr=getPrenomPartage();if(pr){const p=document.querySelector('.hero p');if(p)p.innerHTML='Salut '+esc(pr)+' 👋 — '+p.innerHTML;}})();
+</script>
+</body>
+</html>

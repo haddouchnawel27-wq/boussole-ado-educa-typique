@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartes scénarios parent-enfant — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fff5f8,#fff);min-height:100vh}
+.bandeau{background:linear-gradient(135deg,#F39BC2,#CBB6F6,#FFD6C2);padding:1.6rem 1.5rem;text-align:center;color:#fff;position:relative;overflow:hidden}
+.bandeau::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.2),transparent 60%);pointer-events:none}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem;position:relative;z-index:1}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.9rem;text-shadow:0 2px 8px rgba(0,0,0,.15);position:relative;z-index:1}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto;position:relative;z-index:1}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9;position:relative;z-index:1}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #F39BC2;line-height:1.55}
+.intro strong{color:#a04268}
+
+/* FILTRES */
+.filtres{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm)}
+.filtres-row{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin-bottom:.4rem}
+.filtres-row:last-child{margin-bottom:0}
+.filtres .lbl{font-size:.78rem;font-weight:800;color:#a04268;text-transform:uppercase;letter-spacing:.5px;margin-right:.3rem}
+.filtres button{padding:.35em .8em;background:#fff;border:1.5px solid #f0c8d8;color:#a04268;border-radius:999px;cursor:pointer;font-family:inherit;font-size:.83rem;font-weight:700;transition:all .12s}
+.filtres button.actif{background:#F39BC2;color:#fff;border-color:#a04268}
+.filtres button:hover:not(.actif){background:#fff5f8}
+
+/* CARTE 3D */
+.carte-zone{perspective:1000px;margin:1rem 0}
+.carte-container{position:relative;min-height:380px;display:flex;align-items:center;justify-content:center}
+.carte{width:100%;max-width:600px;min-height:360px;position:relative;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,1.5,.6,1)}
+.carte.flipped{transform:rotateY(180deg)}
+.carte-face{position:absolute;inset:0;backface-visibility:hidden;background:#fff;border-radius:var(--r-xl);box-shadow:var(--shadow-md);padding:1.4rem 1.6rem;display:flex;flex-direction:column;border-top:8px solid var(--cat-color,#F39BC2)}
+.carte-back{transform:rotateY(180deg);background:linear-gradient(135deg,#fff,#fff5f8)}
+
+.carte-face .badge-cat{display:inline-flex;align-items:center;gap:.4rem;padding:.3em .8em;background:var(--cat-color,#F39BC2);color:#fff;border-radius:999px;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;align-self:flex-start;margin-bottom:.5rem}
+.carte-face .ic-grand{font-size:3rem;line-height:1;text-align:center;margin:.3rem 0}
+.carte-face h2{color:var(--cat-color,#a04268);margin:.3rem 0;font-family:var(--font-titre);font-size:1.3rem;text-align:center;line-height:1.3}
+.carte-face .age-cible{text-align:center;color:#888;font-size:.85rem;font-style:italic;margin-bottom:.6rem}
+.carte-face .scenario{font-size:1rem;line-height:1.6;color:#3a3a3a;text-align:center;padding:.8rem 1rem;background:#faf6fb;border-radius:var(--r-md);margin:.4rem 0;font-style:italic;flex:1;display:flex;align-items:center;justify-content:center}
+.carte-face .indice{font-size:.85rem;color:#888;text-align:center;margin-top:.5rem;font-style:italic}
+
+.carte-back h3{color:var(--cat-color,#a04268);margin:0 0 .5rem;font-family:var(--font-titre);font-size:1.1rem;text-align:center}
+.carte-back .questions{display:flex;flex-direction:column;gap:.4rem;flex:1}
+.carte-back .question{background:#fff;border-left:3px solid var(--cat-color,#F39BC2);border-radius:var(--r-sm);padding:.5rem .8rem;font-size:.9rem;line-height:1.5;color:#3a3a3a}
+.carte-back .question::before{content:"💬 ";font-weight:700}
+.carte-back .astuce{background:#F0E8F5;border-left:3px solid #9B85B8;padding:.5rem .8rem;border-radius:var(--r-sm);font-size:.85rem;color:#5A4D6B;line-height:1.5;margin-top:.6rem;font-style:italic}
+.carte-back .astuce strong{color:#5a3c8f;font-style:normal}
+
+.controls{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem}
+.controls button{padding:.6em 1.2em;border:none;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.9rem;transition:all .15s}
+.controls .primary{background:#F39BC2;color:#fff}
+.controls .primary:hover{background:#a04268;transform:translateY(-2px)}
+.controls .secondary{background:#fff;color:#a04268;border:1.5px solid #F39BC2}
+.controls .secondary:hover{background:#F39BC2;color:#fff}
+
+.stats-bar{background:#fff;padding:.6rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;justify-content:center;align-items:center;gap:.5rem;flex-wrap:wrap;font-size:.85rem;color:#666}
+.stats-bar strong{color:#a04268}
+
+.regles-box{background:#fff;border-radius:var(--r-lg);padding:1rem 1.2rem;box-shadow:var(--shadow-sm);border-top:4px solid #9B85B8}
+.regles-box h3{color:#5a3c8f;margin:0 0 .4rem;font-size:1rem}
+.regles-box ol{margin:.3rem 0;padding-left:1.3rem;font-size:.88rem;line-height:1.6}
+.regles-box ol li strong{color:#5a3c8f}
+
+.cat-couleurs{display:none}
+.actions{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #F39BC2;background:#fff;color:#a04268;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#F39BC2;color:#fff}
+
+@media (max-width:600px){
+  .carte-face{padding:1rem 1.1rem}
+  .carte-face h2{font-size:1.15rem}
+  .carte-face .ic-grand{font-size:2.4rem}
+}
+
+@media print{body{background:#fff}.filtres,.controls,.actions,.bandeau .retour{display:none!important}.carte{transform:none !important;width:100%}.carte-face{position:relative;page-break-inside:avoid;box-shadow:none;border:1px solid #ccc;backface-visibility:visible}.carte-back{transform:none;margin-top:1rem}}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../casa-familles/index.html">← La Casa des Familles</a>
+  <h1>🎴 Cartes scénarios parent-enfant</h1>
+  <p class="sub">30 scénarios du quotidien pour ouvrir le dialogue. Tire au sort, retourne la carte, parle ensemble. Pas de leçon — juste partager.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🎴 <strong>Comment jouer ?</strong> Tire une carte (ou choisis une catégorie). Au RECTO, une situation du quotidien. Retourne la carte pour voir 5 questions à explorer ensemble. <strong>Pas de bonne réponse</strong> — juste partager le ressenti de chacun.
+    <br><br>💡 Idéal au moment du goûter, du repas, en voiture, ou à la place d'une histoire du soir. Idéal aussi pour AESH / enseignant·e qui veut ouvrir le dialogue.
+  </div>
+
+  <div class="filtres">
+    <div class="filtres-row">
+      <span class="lbl">📂 Catégorie :</span>
+      <button class="actif" data-cat="all">Toutes</button>
+      <button data-cat="ecole">🏫 École</button>
+      <button data-cat="repas">🍽 Repas</button>
+      <button data-cat="coucher">🛏 Coucher</button>
+      <button data-cat="ecrans">📱 Écrans</button>
+      <button data-cat="emotions">💔 Émotions</button>
+      <button data-cat="fratrie">👶 Fratrie</button>
+      <button data-cat="communication">💬 Communication</button>
+      <button data-cat="autonomie">🎯 Autonomie</button>
+      <button data-cat="conflits">⚡ Conflits</button>
+    </div>
+    <div class="filtres-row">
+      <span class="lbl">👶 Âge :</span>
+      <button class="actif" data-age="all">Tous</button>
+      <button data-age="3-6">3-6 ans</button>
+      <button data-age="7-10">7-10 ans</button>
+      <button data-age="11+">11+ ans</button>
+    </div>
+  </div>
+
+  <div class="carte-zone">
+    <div class="carte-container">
+      <div class="carte" id="carte">
+        <div class="carte-face" id="recto"></div>
+        <div class="carte-face carte-back" id="verso"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="primary" id="btn-tirer">🎴 Tirer une nouvelle carte</button>
+    <button class="secondary" id="btn-flip">🔄 Retourner la carte</button>
+  </div>
+
+  <div class="stats-bar">
+    <span>📊 <strong id="nb-affiche">0</strong> cartes dans le filtre actuel sur <strong id="nb-total">0</strong> au total</span>
+  </div>
+
+  <section class="regles-box">
+    <h3>📜 4 règles pour bien jouer</h3>
+    <ol>
+      <li><strong>Pas de bonne réponse.</strong> Chacun raconte SON ressenti — pas ce qu'il faudrait dire. L'enfant et le parent ont chacun leur version.</li>
+      <li><strong>L'adulte raconte aussi.</strong> Pas que l'enfant. C'est en t'entendant raconter tes émotions que ton enfant apprend à nommer les siennes.</li>
+      <li><strong>On peut passer.</strong> Si une question coince, on passe — sans pression.</li>
+      <li><strong>5-10 min suffisent.</strong> Inutile de tirer 20 cartes. 1-2 cartes bien explorées valent mieux que 10 cartes survolées.</li>
+    </ol>
+  </section>
+
+  <div class="actions">
+    <button onclick="window.print()">🖨 Imprimer la carte actuelle</button>
+    <a href="../../casa-familles/index.html" style="padding:.55em 1.2em;background:#fff;color:#a04268;border:2px solid #F39BC2;border-radius:999px;text-decoration:none;font-weight:700;font-family:inherit;font-size:.9rem">← La Casa des Familles</a>
+  </div>
+
+  <div class="disclaimer">
+    Outil pour ouvrir le dialogue parent-enfant en douceur. Pas un substitut à un suivi pro si l'enfant exprime régulièrement des émotions inquiétantes (idées noires, tristesse permanente, agressivité forte). 💛 <strong>3114</strong> · <strong>119</strong> (Enfance en danger)
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../casa-familles/index.html" style="color:#a04268">← La Casa des Familles</a>
+  </p>
+</div>
+
+<script>
+const CATEGORIES = {
+  ecole:{label:'🏫 École', couleur:'#e9a73a'},
+  repas:{label:'🍽 Repas', couleur:'#5fa040'},
+  coucher:{label:'🛏 Coucher', couleur:'#7c5cbf'},
+  ecrans:{label:'📱 Écrans', couleur:'#5a7a9f'},
+  emotions:{label:'💔 Émotions', couleur:'#F39BC2'},
+  fratrie:{label:'👶 Fratrie', couleur:'#e05a8a'},
+  communication:{label:'💬 Communication', couleur:'#2a9d8f'},
+  autonomie:{label:'🎯 Autonomie', couleur:'#9B85B8'},
+  conflits:{label:'⚡ Conflits', couleur:'#c25a30'}
+};
+
+const CARTES = [
+  // ÉCOLE
+  {cat:'ecole', age:'7-10', ic:'🏫', titre:"Le contrôle qui n'est pas bon", scenario:"Mon enfant rentre avec une mauvaise note. Il/elle dit « c'est la faute du prof, je suis nul ». Il/elle a l'air découragé·e.",
+   questions:["Comment tu te sens quand tu as une mauvaise note ?","Qu'est-ce qui s'est passé pour toi pendant le contrôle ?","Qu'est-ce qui t'aiderait à mieux réviser la prochaine fois ?","Tu te sens nul·le, ou tu sens que tu n'as pas compris quelque chose de précis ?","De quoi tu as besoin de moi maintenant : qu'on en parle, qu'on cherche ensemble, ou qu'on passe à autre chose ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Une mauvaise note n'est pas une mesure de valeur — c'est une information sur ce qui n'est pas encore acquis. Aider à différencier les deux est ENORME pour l'estime de soi."},
+  {cat:'ecole', age:'7-10', ic:'🎒', titre:"Le sac toujours mal rangé", scenario:"Le matin, mon enfant met 20 minutes à trouver ses affaires dans son sac. Il/elle est en retard et stressé·e.",
+   questions:["Qu'est-ce qui se passe dans ta tête quand tu cherches dans ton sac ?","Tu préfères qu'on range ensemble le soir, ou que tu y arrives seul·e ?","Est-ce qu'il y a quelque chose qui te perturbe dans le sac ?","Si on créait un système (couleurs, pochettes, ordre fixe), ça t'aiderait ?","Qu'est-ce qui marche pour toi à l'école que tu pourrais rapporter ici ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> L'organisation est une compétence exécutive — ce n'est PAS un défaut de caractère. Co-construire un système avec l'enfant marche mieux que d'imposer."},
+  {cat:'ecole', age:'11+', ic:'🤔', titre:"Refus d'aller à l'école", scenario:"Mon ado dit le matin « je veux pas y aller ». C'est arrivé plusieurs fois cette semaine.",
+   questions:["Qu'est-ce qui se passe à l'école que tu n'aimes pas ?","Est-ce une matière, un prof, un élève, ou autre chose ?","Tu as peur de quelque chose en particulier ?","Comment tu te sens dans ton corps avant de partir ?","De quoi tu aurais besoin pour que ce soit plus supportable ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Le refus scolaire répété est un signal — pas un caprice. Cherche le pourquoi AVANT de forcer ou de céder. Si ça persiste : alerter prof principal·e + médecin scolaire."},
+
+  // REPAS
+  {cat:'repas', age:'3-6', ic:'🥕', titre:"Refus de manger certains aliments", scenario:"Mon enfant refuse systématiquement tout ce qui est vert ou nouveau. Tous les repas finissent en conflit.",
+   questions:["Qu'est-ce qui te dérange dans ces aliments ? La couleur ? L'odeur ? La texture ? Le goût ?","Tu te souviens d'une fois où tu as goûté quelque chose de nouveau et c'était bon ?","Tu préfères qu'on goûte 1 cuillère sans pression, ou pas du tout pour aujourd'hui ?","Qu'est-ce qui te ferait plaisir comme aliment ?","On peut faire un défi : tu choisis ce que tu veux essayer cette semaine ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> La sélectivité alimentaire peut cacher des particularités sensorielles. Forcer aggrave. La règle : 1 cuillère sans drame, garde un aliment sécurisant. Si majeur → orthophoniste oralité."},
+  {cat:'repas', age:'7-10', ic:'🍽', titre:"Lent au repas", scenario:"Mon enfant met 1h à finir son assiette. Tout le monde a fini, lui/elle continue à jouer avec la nourriture.",
+   questions:["Qu'est-ce qui se passe dans ton corps quand on est à table ?","Tu manges lentement parce que c'est trop, c'est pas bon, ou tu rêvasses ?","Tu préfères manger seul·e ou avec nous ?","Tu as faim au moment du repas ou pas vraiment ?","Comment on pourrait rendre le repas plus agréable pour toi ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Lenteur extrême au repas = signal. Possibilité d'oralité (orthophoniste) ou de difficulté attentionnelle (le repas demande beaucoup de FE). Pas de chrono — ça empire."},
+
+  // COUCHER
+  {cat:'coucher', age:'3-6', ic:'🌙', titre:"Refus de dormir seul·e", scenario:"Le soir, mon enfant ne veut pas que je quitte la chambre. Il/elle a peur. Si je pars, il/elle pleure.",
+   questions:["Qu'est-ce qui te fait peur le soir ?","Est-ce qu'il y a un bruit, une lumière, une image qui te fait peur ?","Qu'est-ce qui t'aiderait à te sentir en sécurité ?","On peut faire un rituel ensemble ? Quelle histoire / chanson / câlin ?","Si la peur revient, qu'est-ce que tu peux te dire à toi-même ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Les peurs nocturnes sont normales 3-8 ans. Sécuriser sans céder à l'évitement total. Veilleuse, doudou, rituel court, sortie progressive. Pas de raison ni de honte."},
+  {cat:'coucher', age:'11+', ic:'📱', titre:"Couche trop tard à cause du téléphone", scenario:"Mon ado reste sur son téléphone jusqu'à 1h du matin. Il/elle est épuisé·e le matin et grognon·ne.",
+   questions:["Qu'est-ce qui te garde sur ton téléphone si tard ?","Comment tu te sens le lendemain ?","Tu connais l'effet de la lumière des écrans sur ton sommeil ?","Qu'est-ce qu'on pourrait mettre en place ENSEMBLE pour t'aider ?","Si on essayait 1 semaine sans téléphone à 22h, comment on pourrait rendre ça supportable ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Imposer brutalement la confiscation = guerre. Co-construire = plus efficace. Astuce : charger le téléphone HORS chambre. Et que l'adulte montre l'exemple."},
+
+  // ÉCRANS
+  {cat:'ecrans', age:'7-10', ic:'🎮', titre:"Crise quand on coupe les écrans", scenario:"Quand on arrête la console / la tablette, mon enfant fait une crise (cris, larmes, refus). Tous les jours.",
+   questions:["Qu'est-ce qui se passe dans ton corps quand on te dit d'arrêter ?","Tu sens venir la fin du jeu ou ça arrive brutalement ?","Si on prévenait 15 minutes avant, ça t'aiderait ?","Tu peux choisir le moment où on arrête (jeu sauvegardé, fin de partie) ?","Qu'est-ce que tu aimerais faire APRÈS les écrans qui te fasse plaisir ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> La crise post-écran = la dopamine descend brutalement. Prévenir 10-15 min avant + transition vers une activité agréable (pas une corvée) = beaucoup moins de crise."},
+  {cat:'ecrans', age:'11+', ic:'📲', titre:"Réseaux sociaux et comparaison", scenario:"Mon ado dit « tout le monde a une vie de fou sauf moi » après avoir scrollé Instagram pendant 2h. Il/elle se compare et se dévalorise.",
+   questions:["Qu'est-ce que tu ressens quand tu regardes les stories des autres ?","Tu penses que ce que les gens postent est vraiment ce qu'ils vivent ?","Comment tu vas après 30 min de scroll vs 2h ?","Qu'est-ce qui te ferait du bien à la place ?","Tu peux essayer une journée sans réseaux ? Comment on pourrait t'accompagner ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Les réseaux montrent une réalité filtrée. Aider l'ado à se déconnecter du « comparison effect » = compétence vitale. Une activité IRL valorisante peut compenser."},
+
+  // ÉMOTIONS
+  {cat:'emotions', age:'3-6', ic:'😭', titre:"Tristesse soudaine sans raison apparente", scenario:"Mon enfant pleure d'un coup, et n'arrive pas à dire pourquoi. Il/elle a l'air vraiment triste.",
+   questions:["Tu veux qu'on reste assis(e) ensemble en silence ?","Tu veux un câlin, ou tu préfères ton espace ?","Tu peux me montrer où ça se passe dans ton corps ?","Est-ce qu'il y a une image qui revient dans ta tête ?","Quand tu seras mieux, on en parlera si tu veux. Tu décides quand."],
+   astuce:"💛 <strong>Tip Nawel :</strong> Pas obligé de comprendre pour accueillir. La présence silencieuse vaut souvent mieux que les questions. Et certaines émotions n'ont pas de cause précise — elles passent."},
+  {cat:'emotions', age:'7-10', ic:'😠', titre:"Colère explosive après l'école", scenario:"Mon enfant rentre de l'école et explose pour un rien (un crayon perdu, un jus pas dans le bon verre). 30 minutes après, c'est fini.",
+   questions:["Qu'est-ce qui s'est passé à l'école aujourd'hui ?","Ton corps il était comment quand tu es rentré·e ?","Est-ce que tu retiens des émotions toute la journée ?","Qu'est-ce qui pourrait t'aider à décompresser en rentrant ?","Tu veux qu'on crée un rituel d'arrivée à la maison ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> L'explosion post-école = « décompression » des émotions accumulées toute la journée. C'est SAIN. Goûter, mouvement, calme 20 min avant tout questionnement."},
+  {cat:'emotions', age:'11+', ic:'🌧', titre:"« Tout le monde me déteste »", scenario:"Mon ado dit « personne ne m'aime, tout le monde me déteste, je suis nul·le ». Il/elle est en boucle dessus depuis quelques jours.",
+   questions:["Qu'est-ce qui te fait penser ça ?","Est-ce qu'il y a quelqu'un (au moins une personne) qui semble t'aimer bien ?","Quand tu te dis ça, comment tu te sens dans ton corps ?","Est-ce que cette pensée est un FAIT ou une INTERPRÉTATION ?","Qu'est-ce qu'un ami bienveillant te dirait à ta place ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Ces pensées peuvent cacher anxiété, dépression ou harcèlement. Si récurrent + autres signes (sommeil, appétit, désintérêt), parler à pédopsy. Outil Schéma TCC utile."},
+
+  // FRATRIE
+  {cat:'fratrie', age:'3-6', ic:'👶', titre:"Jalousie envers le petit / la petite", scenario:"Mon aîné·e devient agressif·ve envers le bébé / le/la petit·e. Hier il/elle l'a poussé·e.",
+   questions:["Qu'est-ce que tu ressens quand on s'occupe de ton frère/sœur ?","Tu te souviens d'un moment où on était que tous les deux ? C'était comment ?","Qu'est-ce qui te ferait te sentir aussi spécial·e qu'avant ?","Tu peux me dire si tu te sens pas vu·e ou pas écouté·e ?","Comment on pourrait avoir un moment juste toi et moi cette semaine ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> La jalousie aînée = besoin de confirmation qu'il/elle compte toujours. 15 min « rien que toi et moi » par jour change tout."},
+  {cat:'fratrie', age:'7-10', ic:'⚔', titre:"Disputes constantes frère/sœur", scenario:"Mes 2 enfants se disputent toutes les 10 minutes. Pour des riens. Je suis épuisé·e.",
+   questions:["Qu'est-ce qui te plaît chez ton frère/sœur ?","Qu'est-ce qui te énerve le plus ?","Quand vous vous disputez, qu'est-ce qui se passe d'habitude ?","Si tu pouvais changer UNE chose dans votre relation, ce serait quoi ?","Comment on pourrait t'aider quand tu te sens débordé·e ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Les fratries TND se disputent BEAUCOUP — c'est exécutif (régulation émo + tolérance frustration). Pose les règles claires sans prendre parti systématiquement."},
+
+  // COMMUNICATION
+  {cat:'communication', age:'11+', ic:'🤐', titre:"Mon ado ne me parle plus", scenario:"Depuis quelques mois, mon ado ne me dit plus rien sur sa journée. Réponses monosyllabiques. Mur.",
+   questions:["Est-ce qu'il y a un moment où tu serais plus à l'aise pour parler ? (voiture, soir, etc.)","Qu'est-ce qui te bloque pour me parler ?","Tu préfères que je te pose moins de questions ?","Tu peux me dire 1 chose que j'ai fait/dit récemment qui t'a saoulé ?","Comment tu aimerais qu'on communique ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Le silence ado est une étape — pas un rejet. Diminue les questions directes. Sois présent·e SANS interroger. La parole vient quand l'enfant est prêt·e."},
+  {cat:'communication', age:'7-10', ic:'😶', titre:"Il/elle ne dit pas quand ça ne va pas", scenario:"Mon enfant fait semblant que tout va bien, et je découvre par d'autres qu'il/elle a eu un problème (chute, dispute, etc.). Il/elle garde tout pour soi.",
+   questions:["Qu'est-ce qui te fait peur quand tu veux me dire un problème ?","Tu as peur que je te dispute, que je m'inquiète, que je sois fâché·e ?","Comment tu sais que je suis prêt·e à écouter sans réagir trop fort ?","De quoi tu aurais besoin pour me dire les choses plus facilement ?","Tu peux essayer de me dire UNE petite chose aujourd'hui, juste pour voir comment je réagis ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Si l'enfant cache = il/elle a peur de notre réaction. Travailler notre propre régulation de parent = clé pour ouvrir la communication."},
+
+  // AUTONOMIE
+  {cat:'autonomie', age:'7-10', ic:'👕', titre:"Refus de s'habiller seul·e", scenario:"Mon enfant de 8 ans demande encore à être habillé·e. Il/elle dit « j'y arrive pas » devant les vêtements.",
+   questions:["Qu'est-ce qui te bloque devant les vêtements ?","Est-ce que c'est trop d'options ? Trop d'étapes ?","Tu préfères qu'on prépare la tenue ensemble la veille ?","Est-ce qu'il y a des vêtements que tu n'aimes pas porter ?","On peut commencer petit : tu mets juste 1 vêtement seul·e ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Refus d'autonomie = parfois sensoriel (étiquettes, textures), parfois dysexécutif (planification trop complexe). Réduire les options + ordre fixe = ça marche."},
+  {cat:'autonomie', age:'11+', ic:'🏠', titre:"Refuse de participer aux tâches maison", scenario:"Mon ado de 13 ans refuse de faire son lit, mettre la table, vider le lave-vaisselle. Je dois tout lui demander 10 fois.",
+   questions:["Qu'est-ce qui te bloque pour ces tâches ?","Tu préfères qu'on fixe un moment dédié, ou que tu choisisses quand ?","Quelle tâche te paraîtrait moins pénible ?","Comment ça se passe pour toi quand on te le demande plusieurs fois ?","Si tu pouvais choisir 2 tâches sur la semaine, ce serait lesquelles ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> L'ado a besoin de pouvoir CHOISIR (autonomie). Imposer = résistance. Lister ensemble + laisser choisir 2-3 tâches = engagement plus fort."},
+
+  // CONFLITS
+  {cat:'conflits', age:'7-10', ic:'⚡', titre:"Crise pour quelque chose de minuscule", scenario:"Mon enfant a fait une crise terrible parce que je lui ai donné le verre rouge au lieu du vert. 30 min de pleurs et cris.",
+   questions:["Qu'est-ce qui se passait pour toi à ce moment-là ?","Le verre c'était vraiment le problème, ou il y avait autre chose ?","Tu te souviens d'autres choses qui t'ont énervé·e juste avant ?","Comment ton corps se sentait avant la crise ?","Qu'est-ce qui pourrait t'aider à voir venir la crise pour qu'on agisse avant ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> La crise pour un rien = l'accumulation de plein de petites tensions invisibles a explosé sur ce détail. Pas le verre — c'est le 100e truc de trop."},
+  {cat:'conflits', age:'11+', ic:'🚪', titre:"Claque les portes constamment", scenario:"Mon ado claque les portes (chambre, couloir) plusieurs fois par jour, dès qu'il y a un désaccord.",
+   questions:["Qu'est-ce que tu cherches à exprimer en claquant ?","C'est de la colère, de la frustration, ou un trop-plein ?","Tu te souviens d'autres façons que tu utilises pour exprimer ça ?","Comment je pourrais voir venir ta colère plus tôt ?","Qu'est-ce qui te ferait du bien à ce moment-là à la place de claquer ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Claquer une porte = besoin d'exprimer une colère sans frapper. C'est une étape — mieux que d'attaquer. Travailler à canaliser autrement (sport, écriture, parler à un tiers)."},
+
+  // SUPPLÉMENTAIRES
+  {cat:'emotions', age:'7-10', ic:'😱', titre:"Anxiété de séparation", scenario:"Avant que je parte, mon enfant pleure et s'accroche à moi. Il/elle me demande si je vais revenir. Tous les jours.",
+   questions:["Qu'est-ce qui te fait peur quand je pars ?","Tu as peur qu'il m'arrive quelque chose, ou que je ne revienne pas ?","Comment ton corps se sent quand je m'apprête à partir ?","Qu'est-ce qui t'aiderait à te sentir en sécurité quand je ne suis pas là ?","Tu veux qu'on crée un rituel d'au revoir ensemble ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Anxiété de séparation = besoin de sécurité affective. Rituel court + objet transitionnel (photo, mot) + retour fiable. Si très intense + durable, consulter pédopsy."},
+  {cat:'communication', age:'3-6', ic:'❓', titre:"Pose 100 fois la même question", scenario:"Mon enfant pose la même question (« on mange quand ? », « on part quand ? ») toutes les 5 minutes. Je m'épuise.",
+   questions:["Qu'est-ce qui se passe dans ta tête quand tu reposes la question ?","Tu as oublié, ou tu veux me vérifier ?","Si on dessine un planning visuel, ça t'aiderait ?","Tu sens venir la peur ou l'incertitude avant de poser la question ?","Comment je peux t'aider à attendre sans avoir besoin de me reposer ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Reposer la même question = besoin de réassurance ou difficulté de mémoire/temps. Planning visuel (pictogrammes) + Time Timer = solution magique."},
+  {cat:'ecole', age:'3-6', ic:'🎒', titre:"Refuse d'aller à l'école maternelle", scenario:"Le matin, mon enfant pleure pour ne pas aller à l'école. Une fois là-bas, la maîtresse dit qu'il/elle va bien.",
+   questions:["Qu'est-ce qui se passe le matin pour toi ?","Tu as peur de quelque chose à l'école ?","Tu préfères y aller avec un objet (doudou, mouchoir, photo de moi) ?","À l'école, qu'est-ce qui te fait du bien ?","Si on faisait un rituel d'au revoir spécial, ça t'aiderait ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> La séparation est dure même quand l'école se passe bien. Rituel d'au revoir court + objet transitionnel + jamais sortir en cachette (= trahison)."},
+  {cat:'repas', age:'11+', ic:'🍕', titre:"Saute des repas / mange n'importe quoi", scenario:"Mon ado saute le petit déjeuner, picore à midi, et mange tard le soir. Il/elle est souvent fatigué·e.",
+   questions:["Comment tu te sens quand tu sautes un repas ?","Qu'est-ce qui te plairait à manger le matin ?","Tu n'as pas faim ou tu n'as pas envie ?","Si on prépare quelque chose ensemble que tu aimes, tu y goûterais ?","Tu sens un lien entre ton humeur et ce que tu manges ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Le rapport ado à la nourriture peut être complexe (image corporelle, identité, contrôle). Pas de pression. Si restriction sévère ou prise de poids inquiétante → médecin."},
+  {cat:'coucher', age:'7-10', ic:'😴', titre:"Mauvais sommeil et cauchemars", scenario:"Mon enfant fait des cauchemars 2-3 fois par semaine. Il/elle vient nous rejoindre la nuit. Le lendemain, il/elle est fatigué·e.",
+   questions:["Tu te souviens de quoi parlent tes cauchemars ?","Il y a un truc qui te préoccupe en ce moment ?","Qu'est-ce qui t'aide à te rendormir ?","On pourrait dessiner ton cauchemar pour le « apprivoiser » ?","Qu'est-ce qui te ferait te sentir en sécurité la nuit ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Cauchemars = traitement émotionnel pendant le sommeil. Pas grave occasionnellement. Si fréquent + autres signes anxieux, consulter."},
+  {cat:'ecrans', age:'3-6', ic:'📺', titre:"Veut la télé tout le temps", scenario:"Mon enfant de 5 ans veut regarder la télé / une tablette dès qu'il/elle s'ennuie. Si je dis non, c'est la crise.",
+   questions:["Qu'est-ce que la télé te donne quand tu l'allumes ?","Qu'est-ce que tu pourrais faire d'autre que tu aimes aussi ?","Quand tu t'ennuies, tu te sens comment dans ton corps ?","On peut créer une boîte à idées d'activités sans écrans ?","Combien de temps de télé serait ok pour toi par jour ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> S'ennuyer est ESSENTIEL pour le cerveau créatif. Tolérer l'ennui de l'enfant 10-15 min = idées émergent. Limite écrans + alternatives prévues."},
+  {cat:'fratrie', age:'11+', ic:'😡', titre:"L'aîné·e gère mal son rôle", scenario:"Mon aîné·e de 14 ans dit qu'il/elle « en a marre de jouer la baby-sitter » de son frère/sœur. Tension.",
+   questions:["Qu'est-ce que tu penses qu'on attend trop de toi ?","Quelles tâches te pèsent le plus ?","Si tu pouvais redéfinir ton rôle, ce serait quoi ?","Tu te sens écouté·e quand tu nous dis non ?","Comment on pourrait te soulager sans tout te retirer ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> L'aîné·e ne doit PAS être parent. Le « petit parent » est une dynamique épuisante. Décharger l'aîné·e des responsabilités lourdes."},
+  {cat:'autonomie', age:'3-6', ic:'🚽', titre:"Difficulté de propreté ou pipi au lit", scenario:"Mon enfant de 5 ans fait encore pipi au lit régulièrement. Il/elle est gêné·e. Je ne sais pas comment réagir.",
+   questions:["Comment tu te sens quand ça arrive le matin ?","Tu te souviens de ce que tu rêvais avant ?","Tu as soif le soir ou pas ?","Qu'est-ce qui te ferait te sentir moins gêné·e ?","On peut chercher ensemble ce qui pourrait aider ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Énurésie courante jusqu'à 6-7 ans. Aucune honte, ce n'est PAS une faute. Si persiste après 7 ans, consultation pédiatrique. Pas de réveil systématique."},
+  {cat:'conflits', age:'3-6', ic:'😡', titre:"Crise de rage au sol au magasin", scenario:"Mon enfant de 4 ans se jette par terre au magasin parce qu'il/elle veut un jouet. Tout le monde nous regarde.",
+   questions:["Qu'est-ce qui s'est passé dans ton corps à ce moment-là ?","Tu peux te souvenir de ce que tu voulais ?","Tu te sentais comment au moment où on rentrait dans le magasin ?","Qu'est-ce qui aurait pu t'aider à mieux vivre ce moment ?","La prochaine fois, on prévient avant d'entrer ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> La crise au magasin = surstimulation + frustration. Prévenir AVANT d'entrer (« on n'achète rien d'autre »). Sortir si besoin. Pas céder, MAIS pas humilier. Et ignorer le regard des autres."},
+  {cat:'communication', age:'3-6', ic:'🗣', titre:"Ne dit pas merci, bonjour, au revoir", scenario:"Mon enfant de 5 ans ne dit jamais bonjour aux adultes, ne dit pas merci pour les cadeaux. J'ai honte.",
+   questions:["Qu'est-ce qui se passe quand on te demande de dire bonjour ?","Tu es timide ou tu n'as pas envie ?","Tu peux montrer poliment d'une autre manière (sourire, signe) ?","Qu'est-ce qui t'aiderait à être plus à l'aise avec les adultes ?","C'est OK de ne pas être à l'aise — comment on peut faire ensemble ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> Forcer la politesse en public = renforce la honte. La politesse s'apprend par MODELING (l'adulte le fait) + temps. Pas de honte pour l'enfant timide ou TSA."},
+  {cat:'emotions', age:'3-6', ic:'🥺', titre:"Hyper-sensible aux émotions des autres", scenario:"Mon enfant pleure quand un personnage de dessin animé est triste, ou quand un copain pleure. Il/elle absorbe TOUTES les émotions.",
+   questions:["Qu'est-ce que tu ressens quand tu vois quelqu'un de triste ?","Tu ressens dans ton corps ce que les autres ressentent ?","C'est bien de comprendre les autres — comment tu peux te protéger aussi ?","Qu'est-ce qui t'aide à te recharger quand tu as absorbé trop ?","Tu sais que les autres émotions ne sont PAS les tiennes ?"],
+   astuce:"💛 <strong>Tip Nawel :</strong> L'hyperempathie est une force ET une vulnérabilité. Apprendre à différencier « MES émotions » vs « celles des autres » = compétence vitale d'auto-protection."}
+];
+
+let etat={cat:'all',age:'all',cartesFiltrees:[],indexActuel:0};
+
+function filtrer(){
+  etat.cartesFiltrees=CARTES.filter(c=>{
+    if(etat.cat!=='all' && c.cat!==etat.cat) return false;
+    if(etat.age!=='all' && c.age!==etat.age) return false;
+    return true;
+  });
+  document.getElementById('nb-affiche').textContent=etat.cartesFiltrees.length;
+  document.getElementById('nb-total').textContent=CARTES.length;
+  if(etat.cartesFiltrees.length===0){
+    document.getElementById('recto').innerHTML='<div style="text-align:center;padding:2rem;color:#888;font-style:italic">Aucune carte ne correspond aux filtres.<br>Élargis tes critères !</div>';
+    document.getElementById('verso').innerHTML='';
+    return;
+  }
+  etat.indexActuel=Math.floor(Math.random()*etat.cartesFiltrees.length);
+  document.getElementById('carte').classList.remove('flipped');
+  setTimeout(afficherCarte, 100);
+}
+
+function afficherCarte(){
+  if(etat.cartesFiltrees.length===0)return;
+  const c=etat.cartesFiltrees[etat.indexActuel];
+  const cat=CATEGORIES[c.cat];
+  const carte=document.getElementById('carte');
+  carte.style.setProperty('--cat-color', cat.couleur);
+  // Recto
+  document.getElementById('recto').innerHTML=`
+    <div class="badge-cat">${cat.label}</div>
+    <div class="ic-grand">${c.ic}</div>
+    <h2>${c.titre}</h2>
+    <div class="age-cible">${c.age==='3-6'?'👶 3-6 ans':c.age==='7-10'?'🧒 7-10 ans':'🧑 11+ ans'}</div>
+    <div class="scenario">${c.scenario}</div>
+    <div class="indice">↻ Retourne la carte pour voir les questions à explorer ensemble</div>
+  `;
+  // Verso
+  document.getElementById('verso').innerHTML=`
+    <div class="badge-cat">${cat.label}</div>
+    <h3>💬 5 questions à explorer ensemble</h3>
+    <div class="questions">
+      ${c.questions.map(q=>`<div class="question">${q}</div>`).join('')}
+    </div>
+    <div class="astuce">${c.astuce}</div>
+  `;
+}
+
+document.getElementById('btn-tirer').onclick=()=>{
+  document.getElementById('carte').classList.remove('flipped');
+  setTimeout(()=>{
+    etat.indexActuel=Math.floor(Math.random()*etat.cartesFiltrees.length);
+    afficherCarte();
+  }, 350);
+};
+
+document.getElementById('btn-flip').onclick=()=>{
+  document.getElementById('carte').classList.toggle('flipped');
+};
+
+document.querySelectorAll('.filtres button[data-cat]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.filtres button[data-cat]').forEach(x=>x.classList.remove('actif'));
+  b.classList.add('actif');etat.cat=b.dataset.cat;filtrer();
+});
+document.querySelectorAll('.filtres button[data-age]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.filtres button[data-age]').forEach(x=>x.classList.remove('actif'));
+  b.classList.add('actif');etat.age=b.dataset.age;filtrer();
+});
+
+filtrer();
+</script>
+
+</body>
+</html>

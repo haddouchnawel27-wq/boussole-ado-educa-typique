@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roue de conversation — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fff5e8,#fff)}
+.bandeau{background:linear-gradient(135deg,#e9a73a,#F39BC2);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1.1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #e9a73a;line-height:1.55}
+.intro strong{color:#a07000}
+
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.4rem;background:#fff;padding:.5rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm)}
+.modes button{padding:.7em .9em;background:transparent;color:#666;border:none;font-weight:700;cursor:pointer;border-radius:var(--r-sm);font-family:inherit;font-size:.9rem;transition:all .15s}
+.modes button.active{background:#e9a73a;color:#fff;box-shadow:var(--shadow-sm)}
+.modes button:hover:not(.active){background:#fdf2e8}
+
+.roue-zone{background:#fff;border-radius:var(--r-lg);padding:1.4rem;box-shadow:var(--shadow-sm);text-align:center}
+.roue-zone svg{max-width:380px;width:100%;margin:0 auto;display:block}
+.roue-zone .question-tiree{background:linear-gradient(135deg,#fff5e8,#fff);padding:1.4rem 1.2rem;border-radius:var(--r-md);border:2px solid #e9a73a;margin-top:1rem;min-height:80px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem}
+.roue-zone .question-tiree .categorie{font-size:.75rem;text-transform:uppercase;letter-spacing:1px;font-weight:800;opacity:.7}
+.roue-zone .question-tiree .question-txt{font-size:1.15rem;line-height:1.5;color:#3a3a3a;font-weight:600;max-width:600px}
+.roue-zone .actions-tirage{display:flex;gap:.6rem;justify-content:center;margin-top:1rem;flex-wrap:wrap}
+.roue-zone .actions-tirage button{padding:.6em 1.4em;border:none;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.95rem}
+.roue-zone .btn-tirer{background:#e9a73a;color:#fff;box-shadow:var(--shadow-sm)}
+.roue-zone .btn-tirer:hover{background:#d68500}
+.roue-zone .btn-suivante{background:#fff;color:#e9a73a;border:2px solid #e9a73a !important}
+.roue-zone .btn-suivante:hover{background:#e9a73a;color:#fff}
+
+.regles{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:5px solid #7c5cbf}
+.regles h3{color:#5a3c8f;margin:0 0 .6rem;font-size:1.05rem}
+.regles ol{padding-left:1.4rem;margin:0;line-height:1.7;font-size:.93rem}
+.regles ol li strong{color:#5a3c8f}
+
+.categories-liste{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.categories-liste h3{margin:0 0 .7rem;color:#a07000;font-size:1rem}
+.cat-row{display:flex;gap:.5rem;align-items:center;padding:.4rem .5rem;border-bottom:1px solid #f5e8d8;font-size:.9rem}
+.cat-row:last-child{border-bottom:none}
+.cat-row .pastille{width:18px;height:18px;border-radius:50%;flex-shrink:0;background:var(--c)}
+.cat-row .nom{font-weight:700;color:var(--c);min-width:120px}
+.cat-row .ex{color:#666;font-style:italic;font-size:.85rem}
+
+.exclus{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);border:1.5px dashed #d8c9f0;font-size:.88rem;color:#666;line-height:1.5}
+.exclus strong{color:#5a3c8f}
+.exclus .chips{margin-top:.4rem;display:flex;gap:.3rem;flex-wrap:wrap}
+.exclus .chip{padding:.2em .6em;background:#f6f0fb;border-radius:999px;font-size:.78rem;color:#5a3c8f;font-weight:700;cursor:pointer}
+.exclus .chip.actif{background:#7c5cbf;color:#fff}
+
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(var(--rot,720deg))}}
+.roue-svg.spinning{animation:spin 1.2s cubic-bezier(.2,.8,.2,1) forwards}
+
+@media print{body{background:#fff}.modes,.actions-tirage,.bandeau .retour{display:none!important}}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../ados.html">← Espace ados</a>
+  <h1>🎡 Roue de conversation</h1>
+  <p class="sub">Une roue à tirer au sort pour ouvrir un dialogue. Idéal pour ado-parent, ado-ado, ou groupe.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🎡 <strong>Pourquoi ?</strong> Beaucoup d'ados disent « ça va » et ferment la porte. La roue ouvre des sujets <strong>SANS pression directe</strong>. Les questions ne demandent ni performance ni jugement. Juste partager.
+  </div>
+
+  <div class="modes">
+    <button class="active" data-mode="ado-parent">🏡 Ado · Parent</button>
+    <button data-mode="ado-ado">🧑‍🤝‍🧑 Entre amis</button>
+    <button data-mode="introspectif">🪞 Pour moi seul(e)</button>
+    <button data-mode="famille">🏠 En famille</button>
+  </div>
+
+  <div class="roue-zone">
+    <svg class="roue-svg" id="roue" viewBox="0 0 400 400" aria-label="Roue de conversation"></svg>
+    <div class="question-tiree" id="question-tiree">
+      <div class="categorie" id="cat-tiree" style="color:#888">Clique sur « Tirer une question »</div>
+      <div class="question-txt" id="txt-tiree">🎡 Lance-toi !</div>
+    </div>
+    <div class="actions-tirage">
+      <button class="btn-tirer" id="btn-tirer">🎡 Tirer une question</button>
+      <button class="btn-suivante" id="btn-suivante">⏭ Suivante (sans tirer)</button>
+    </div>
+  </div>
+
+  <div class="regles">
+    <h3>📜 Les 5 règles du jeu</h3>
+    <ol>
+      <li><strong>Tirer ou choisir.</strong> Tirer au sort OU choisir une question si on n'a pas envie de celle qui tombe.</li>
+      <li><strong>Passer.</strong> On peut toujours dire « je passe » sans donner de raison. Pas de jugement.</li>
+      <li><strong>Pas d'interruption.</strong> Celui qui parle parle. Les autres écoutent vraiment, sans préparer leur réponse.</li>
+      <li><strong>Pas de conseil non demandé.</strong> Sauf si la personne le demande. On répond aussi, c'est tout.</li>
+      <li><strong>Tour de table.</strong> Chacun répond à la même question (ou passe). Puis on tire la suivante.</li>
+    </ol>
+  </div>
+
+  <div class="exclus">
+    <strong>🚫 Exclure des catégories :</strong> clique pour les retirer du tirage (utile selon l'humeur ou le contexte).
+    <div class="chips" id="chips-exclus"></div>
+  </div>
+
+  <div class="categories-liste">
+    <h3>📚 Les 8 catégories</h3>
+    <div id="liste-categories"></div>
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../ados.html" style="color:#e9a73a">retour espace ados</a>
+  </p>
+</div>
+
+<script>
+const CATEGORIES = [
+  {id:'leger',nom:'🌈 Léger',couleur:'#F39BC2',ex:'Pour briser la glace, rire, partager des goûts'},
+  {id:'souvenir',nom:'📸 Souvenir',couleur:'#e9a73a',ex:'Un moment marquant, drôle, embarrassant'},
+  {id:'avenir',nom:'🌟 Avenir',couleur:'#7c5cbf',ex:'Rêves, projets, peurs face au futur'},
+  {id:'opinion',nom:'💭 Opinion',couleur:'#2a9d8f',ex:'Un sujet pour réfléchir ensemble'},
+  {id:'difficile',nom:'🌧 Difficile',couleur:'#5a7a9f',ex:'Une émotion plus profonde — on peut passer'},
+  {id:'relation',nom:'💗 Relation',couleur:'#e05a8a',ex:'Sur le lien entre nous'},
+  {id:'soi',nom:'🪞 Soi',couleur:'#9B85B8',ex:'Mieux se connaître, ses zones'},
+  {id:'gratitude',nom:'🌻 Gratitude',couleur:'#5fa040',ex:'Reconnaître ce qui va bien'}
+];
+
+const QUESTIONS = {
+  'ado-parent':{
+    leger:[
+      "Quelle est ta musique préférée du moment ? Tu me la fais écouter ?",
+      "Si tu pouvais manger un seul plat toute ta vie, ce serait quoi ?",
+      "Le film/série qui t'a fait rire le plus récemment ?",
+      "Tu préfères dormir tard ou te lever tôt ? Pourquoi ?",
+      "C'est quoi ton emoji le plus utilisé ?",
+      "Une matière à l'école que tu aimes secrètement ?",
+      "Si on devait partir 3 jours, où ?"
+    ],
+    souvenir:[
+      "Un souvenir d'enfance qui te fait sourire ?",
+      "Le moment le plus drôle qu'on a vécu ensemble ?",
+      "Une bêtise dont tu te souviens encore ?",
+      "Ton meilleur Noël / fête ?",
+      "Un endroit où tu retournerais avec plaisir ?",
+      "Un cadeau qui t'a marqué (donné ou reçu) ?"
+    ],
+    avenir:[
+      "Si tout était possible, tu ferais quoi à 25 ans ?",
+      "Une compétence que tu rêverais d'avoir ?",
+      "Tu vois ta vie où dans 10 ans ?",
+      "Une ville où tu aimerais vivre ?",
+      "Un métier qui t'intrigue (même improbable) ?",
+      "Tu as peur de quoi face à l'avenir ?",
+      "Quelle figure (réelle ou fictive) t'inspire ?"
+    ],
+    opinion:[
+      "C'est quoi pour toi « réussir sa vie » ?",
+      "Tu penses qu'on choisit ses amis ou ils nous tombent dessus ?",
+      "C'est quoi être un bon ami selon toi ?",
+      "Tu penses que les réseaux sociaux nous rendent plus seuls ou plus liés ?",
+      "Si tu pouvais changer UNE règle du monde, ce serait laquelle ?",
+      "C'est quoi un parent juste / injuste pour toi ?"
+    ],
+    difficile:[
+      "Y a-t-il un sujet où tu te sens pas écouté(e) à la maison ?",
+      "Une chose que tu aimerais que je sache mais que tu n'oses pas dire ?",
+      "Quand tu vas mal, qu'est-ce qui t'aide vraiment ?",
+      "Une peur que tu as et dont on parle peu ?",
+      "Une déception qui te reste ?",
+      "Comment tu sais que tu vas mieux après une période dure ?"
+    ],
+    relation:[
+      "Qu'est-ce qui marche bien entre nous ?",
+      "Qu'est-ce qui te fait du bien quand on se voit ?",
+      "Y a-t-il un truc que je fais qui t'agace souvent ?",
+      "Une chose que tu aimerais qu'on fasse plus ensemble ?",
+      "Comment tu préfères qu'on te console quand tu vas mal ?",
+      "Tu trouves qu'on rit ensemble ? Sur quoi ?"
+    ],
+    soi:[
+      "Une qualité que tu te reconnais ?",
+      "Un truc dont tu es fier(e) cette semaine ?",
+      "Si tu devais te décrire en 3 mots ?",
+      "Un domaine où tu as progressé sans t'en rendre compte ?",
+      "Une chose que tu aimes vraiment chez toi ?",
+      "Qu'est-ce qui te recharge quand tu es vide ?"
+    ],
+    gratitude:[
+      "Trois choses qui sont allées bien cette semaine ?",
+      "Une personne à qui tu voudrais dire merci ?",
+      "Un truc que tu as / fait que tout le monde n'a pas la chance d'avoir ?",
+      "Un moment de cette semaine où tu t'es senti(e) bien ?",
+      "Une petite chose qui te rend heureux(se) au quotidien ?"
+    ]
+  },
+  'ado-ado':{
+    leger:["Le meme qui te fait toujours rire ?","Ta playlist du moment ?","Le truc le plus bizarre que tu as mangé ?","Si tu pouvais devenir invisible 24h, tu ferais quoi ?","Plutôt été ou hiver ? Et pourquoi ?","Une série tu binge-watches en ce moment ?"],
+    souvenir:["Le moment le plus gênant de ton année ?","Le voyage le plus marquant ?","Une amitié qui a duré contre toute attente ?","Un fou rire qui te suit encore ?"],
+    avenir:["Tu veux quoi vraiment après le bac/lycée ?","Une ville où tu veux vivre seul(e) ?","Un job de rêve même fou ?","Tu rêves de voyager où ?"],
+    opinion:["C'est quoi pour toi un vrai pote ?","Les réseaux nous rendent plus seuls ou plus liés ?","Tu crois aux signes / coïncidences ?","Le pire défaut chez quelqu'un ?","Tu changerais quoi à l'école ?"],
+    difficile:["Un truc que tu caches mais qui te pèse ?","Une période où tu as vraiment ramé ?","Tu fais quoi quand tu vas mal ?","Une dispute qui t'a marqué ?","Tu as peur de quoi en vrai ?"],
+    relation:["Qu'est-ce qui te plaît chez moi en tant qu'ami(e) ?","Y a-t-il un truc dans notre amitié que tu changerais ?","Tu te sens écouté(e) par moi ?","Notre meilleur souvenir ensemble ?"],
+    soi:["Un truc dont tu es fier mais que tu dis pas ?","Une qualité que les autres voient en toi ?","Un domaine où tu te dévalorises ?","Tu te sens où dans ta vie là maintenant ?"],
+    gratitude:["3 trucs qui vont bien ces temps-ci ?","Un pote à qui tu n'as jamais dit merci ?","Une chance que tu réalises ?"]
+  },
+  'introspectif':{
+    leger:["Si tu écrivais une lettre à toi à 10 ans, tu lui dirais quoi ?","Si tu pouvais voyager dans le temps, où / quand ?","Une chanson qui te décrit en ce moment ?"],
+    souvenir:["Le moment le plus heureux de ton année ?","Une période où tu te sentais vraiment toi ?","Un endroit qui te fait du bien rien qu'à y penser ?"],
+    avenir:["Si dans 5 ans tu te retournes, qu'aimerais-tu avoir fait ?","Un rêve que tu n'oses pas formuler ?","Quelle vie tu inventerais si tu n'avais peur de rien ?"],
+    opinion:["C'est quoi pour toi la liberté ?","À quel moment tu te sens vraiment toi-même ?","Quelle valeur tu défendrais quoi qu'il arrive ?"],
+    difficile:["Quelle émotion tu n'arrives pas à nommer en ce moment ?","Une part de toi que tu caches ?","Une blessure qui n'a pas fini de cicatriser ?","Un pardon que tu te dois à toi-même ?"],
+    relation:["Avec qui te sens-tu pleinement toi ?","À qui tu voudrais reparler mais tu n'oses pas ?","Une relation à protéger / à mettre à distance ?"],
+    soi:["3 forces que tu te reconnais (même petites) ?","Qu'est-ce qui te recharge vraiment ?","Une part de toi qui mérite plus d'amour ?","Un compliment que tu n'arrives pas à recevoir ?"],
+    gratitude:["3 personnes pour qui tu remercies la vie ?","Un don que tu réalises seulement maintenant ?","Une bénédiction quotidienne que tu oublies ?"]
+  },
+  'famille':{
+    leger:["Notre plat préféré commun ?","Si on partait 1 semaine, où ?","Un fou rire récent en famille ?","Notre tradition préférée ?"],
+    souvenir:["Notre meilleure vacances ?","Un Noël qui nous a marqués ?","Une bêtise familiale légendaire ?","Le moment où on a tous ri ensemble ?"],
+    avenir:["Un projet qu'on aimerait faire ensemble ?","Une tradition qu'on voudrait créer ?","Comment on se voit dans 5 ans ?"],
+    opinion:["C'est quoi pour vous une famille qui fonctionne ?","Quelle valeur on partage tous ?","Qu'est-ce qui rend notre famille unique ?"],
+    difficile:["Y a-t-il un sujet qu'on évite trop ?","Une absence / un manque dans la famille ?","Une dispute récurrente qu'on pourrait apaiser ?"],
+    relation:["Qu'est-ce qu'on fait bien ensemble ?","Qu'est-ce qui pourrait s'améliorer entre nous ?","Comment on se montre qu'on s'aime ?"],
+    soi:["Une qualité que chacun voit chez l'autre ?","Un truc dont chacun est fier cette année ?"],
+    gratitude:["3 raisons de remercier le ciel d'être ensemble ?","Une période dure qu'on a traversée et qu'on a tenue ?","Une petite chose du quotidien qu'on apprécie ?"]
+  }
+};
+
+let currentMode='ado-parent';
+let categoriesActives=CATEGORIES.map(c=>c.id);
+let derniereTiree=null;
+
+function drawRoue(rotation=0){
+  const svg=document.getElementById('roue');
+  const cx=200,cy=200,r=170;
+  const cats=CATEGORIES.filter(c=>categoriesActives.includes(c.id));
+  const angleParCat=(Math.PI*2)/cats.length;
+  let html=`<g transform="rotate(${rotation} ${cx} ${cy})">`;
+  cats.forEach((c,i)=>{
+    const a1=i*angleParCat - Math.PI/2;
+    const a2=(i+1)*angleParCat - Math.PI/2;
+    const x1=cx+r*Math.cos(a1);
+    const y1=cy+r*Math.sin(a1);
+    const x2=cx+r*Math.cos(a2);
+    const y2=cy+r*Math.sin(a2);
+    const largeArc=angleParCat>Math.PI?1:0;
+    html+=`<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${largeArc},1 ${x2},${y2} Z" fill="${c.couleur}" stroke="#fff" stroke-width="3"/>`;
+    // Label
+    const am=(a1+a2)/2;
+    const lx=cx+(r*.65)*Math.cos(am);
+    const ly=cy+(r*.65)*Math.sin(am);
+    html+=`<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="20" fill="#fff" font-weight="700">${c.nom.split(' ')[0]}</text>`;
+  });
+  html+=`</g>`;
+  // Aiguille (pointe en haut)
+  html+=`<polygon points="${cx},${cy-r-12} ${cx-10},${cy-r+8} ${cx+10},${cy-r+8}" fill="#3a3a3a" stroke="#fff" stroke-width="2"/>`;
+  // Centre
+  html+=`<circle cx="${cx}" cy="${cy}" r="22" fill="#fff" stroke="#3a3a3a" stroke-width="2"/>`;
+  html+=`<text x="${cx}" y="${cy+5}" text-anchor="middle" font-size="18" font-weight="800">🎡</text>`;
+  svg.innerHTML=html;
+}
+
+function tirer(){
+  const cats=CATEGORIES.filter(c=>categoriesActives.includes(c.id));
+  if(cats.length===0)return;
+  const i=Math.floor(Math.random()*cats.length);
+  const c=cats[i];
+  // Calcul rotation pour que l'aiguille pointe sur c (aiguille en haut)
+  const angleParCat=360/cats.length;
+  const angleCible=-(i*angleParCat + angleParCat/2); // centre du secteur, négatif car SVG rotation horaire
+  const rotation=720 + angleCible; // 2 tours + position
+  const svg=document.getElementById('roue');
+  svg.style.setProperty('--rot', rotation+'deg');
+  svg.classList.remove('spinning');
+  void svg.offsetWidth;
+  svg.classList.add('spinning');
+  setTimeout(()=>{
+    afficherQuestion(c);
+    drawRoue(rotation);
+  }, 1200);
+}
+
+function afficherQuestion(cat){
+  const qs=QUESTIONS[currentMode][cat.id]||[];
+  if(qs.length===0){
+    document.getElementById('txt-tiree').textContent='(Pas de question dans cette catégorie pour ce mode)';
+    return;
+  }
+  // éviter la même que la dernière
+  let q;let tries=0;
+  do{q=qs[Math.floor(Math.random()*qs.length)];tries++}while(q===derniereTiree && tries<5 && qs.length>1);
+  derniereTiree=q;
+  document.getElementById('cat-tiree').textContent=cat.nom;
+  document.getElementById('cat-tiree').style.color=cat.couleur;
+  document.getElementById('txt-tiree').textContent=q;
+}
+
+function suivante(){
+  const cats=CATEGORIES.filter(c=>categoriesActives.includes(c.id));
+  if(cats.length===0)return;
+  // Catégorie aléatoire (même si différente du visuel)
+  const c=cats[Math.floor(Math.random()*cats.length)];
+  afficherQuestion(c);
+}
+
+function renderCategoriesListe(){
+  document.getElementById('liste-categories').innerHTML=CATEGORIES.map(c=>{
+    const n=(QUESTIONS[currentMode][c.id]||[]).length;
+    return `<div class="cat-row" style="--c:${c.couleur}"><div class="pastille"></div><div class="nom">${c.nom}</div><div class="ex">${c.ex} <span style="opacity:.6">· ${n} question${n>1?'s':''}</span></div></div>`;
+  }).join('');
+}
+
+function renderChipsExclus(){
+  document.getElementById('chips-exclus').innerHTML=CATEGORIES.map(c=>{
+    const actif=categoriesActives.includes(c.id);
+    return `<button class="chip ${actif?'actif':''}" data-cat="${c.id}" style="${actif?'background:'+c.couleur+';color:#fff':''}">${c.nom}</button>`;
+  }).join('');
+  document.querySelectorAll('#chips-exclus .chip').forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.cat;
+      if(categoriesActives.includes(id)) categoriesActives=categoriesActives.filter(x=>x!==id);
+      else categoriesActives.push(id);
+      if(categoriesActives.length===0){alert('Garde au moins 1 catégorie !');categoriesActives.push(id);}
+      renderChipsExclus();drawRoue();
+    };
+  });
+}
+
+document.querySelectorAll('.modes button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.modes button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    currentMode=b.dataset.mode;
+    renderCategoriesListe();
+  };
+});
+
+document.getElementById('btn-tirer').onclick=tirer;
+document.getElementById('btn-suivante').onclick=suivante;
+
+drawRoue();
+renderCategoriesListe();
+renderChipsExclus();
+</script>
+
+</body>
+</html>

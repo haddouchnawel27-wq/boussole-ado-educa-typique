@@ -29,12 +29,12 @@ _Mis à jour automatiquement. Tout est sauvegardé sur GitHub, rien n'est perdu.
 
 ### Fiches — `ressources/` (17)
 Fiches 00,05,11,12,15 · TDAH · TSA · Dyscalculie · Dysorthographie · Dyspraxie ·
-Stratégies métacognition · Valeurs ados · Veille TND · Carte identité cognitive · bmv 1-2
+Stratégies métacognition · Valeurs ados · Veille TND · Carte identité cognitive
 
 ### Formations & neurosciences — `formations/` (11)
 M1 Cerveau · M3 Psy · M4 HPI · Dys · Cours TND · Formation neuroscience ·
 Neurosciences (cerveau/apprentissage) · Neuropédagogie · Traumas & cerveau ·
-Estime de soi · TCC Leçon 3 (Voie Chifā)
+Estime de soi · TCC Leçon 3 (Jannat Al Qalb)
 
 ### Ebooks & guides — `ebooks-guides/` (44)
 Livret complet · Programme Apprendre et Réussir · Émotionotrop 2000 ·
