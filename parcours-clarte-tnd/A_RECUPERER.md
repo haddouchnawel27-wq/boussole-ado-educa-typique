@@ -30,7 +30,7 @@ _Structure réelle du site : `/f0_fondations/<espace>/<outil>/`_
 | mon-equipe-de-soin | ✅ récupéré (`apps/mon-equipe-de-soin.html`) — **Espace Parents complet 🎉** |
 | ligne-du-temps-parcours-tnd | ✅ récupéré (`apps/ligne-du-temps-parcours-tnd.html`) |
 
-## 🤲 Voie Chifâ — `parents-musulmans.html` (espace optionnel) ✅ créé
+## 🤲 Jannat Al Qalb — `parents-musulmans.html` (espace optionnel) ✅ créé
 | Outil | Statut |
 |---|---|
 | dialoguer-avec-son-ado (ISL) | ✅ (`apps/dialoguer-avec-son-ado-ISL.html`) |
@@ -62,9 +62,15 @@ _Structure réelle du site : `/f0_fondations/<espace>/<outil>/`_
 ## ⏳ Reste à traiter (optionnel)
 - `kit-calme`, `detecteur-paroles-devoirs` (variantes contenu/marketing)
 - `Cahier_des_charges_Boite_Emotions_Neuroo` (doc de specs, pas un outil)
-- Images mascottes & kit réseaux (à envoyer en ZIP)
+- ~~Images mascottes~~ ✅ **reçues et intégrées le 18/08/2026** (`assets/mascottes/`)
+- Kit réseaux sociaux (toujours à envoyer)
 
 ---
 
-💡 **Observation :** le préfixe `f0_fondations` suggère qu'il existe peut-être
-d'autres niveaux/modules (`f1_…`, `f2_…`). À explorer ensemble.
+💡 **Observation résolue (18/08/2026) :** le ZIP source `Boite_NeuroPed.zip` est arrivé.
+`f0_fondations` n'est pas un niveau parmi d'autres : c'est la **section transverse Fondations**
+d'une architecture en **6 axes** (A. Repérage · B. Observation · C. Compréhension ·
+D. Régulation · E. Ludothèque · F. Suivi), chacun décliné en 3 publics.
+
+➡️ Le ZIP contient **111 outils**, dont **~60 encore inédits** sur le site.
+Détail complet et options d'intégration : [`docs/BOITE-NEUROPED-source-recue.md`](docs/BOITE-NEUROPED-source-recue.md).

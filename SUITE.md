@@ -17,7 +17,7 @@ Collection Educa Typique de Nawel — **118 fichiers**, assemblée en site navig
 - 👪 `apps/` (7) · 🧑 `outils-ado/` (7) · 🧑‍⚕️ `outils-pro/` (17)
 - 📄 `ressources/` (fiches) · 🎓 `formations/` · 📖 `ebooks-guides/`
 - 🎨 `assets/charte.css` + `_assets/charte.css` · `docs/` cahier des charges
-- 🧠 `boite-emotions-neuroo/` (aperçu, en attente des mascottes)
+- 🧠 `boite-emotions-neuroo/` (aperçu — ✅ mascottes intégrées le 18/08/2026)
 - 📋 `INVENTAIRE.md` (point complet) · 🔎 `A_RECUPERER.md` (liste des manques)
 
 ## 🔜 À FAIRE DEMAIN (ordre proposé par Nawel)
