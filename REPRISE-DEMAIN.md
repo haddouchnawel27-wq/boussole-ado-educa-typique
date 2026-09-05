@@ -250,15 +250,16 @@ Ensuite : **la mise en vente**.
 
 Deux produits distincts. À ne plus confondre.
 
-### Pack Clarté Educa — **147 €** · mode autonomie
+### Pack Clarté Educa — **147 €** · autonomie guidée
 
-Pour celles qui avancent seules. Il contient trois choses, pas une de plus :
+*(Nawel a tranché le 5 septembre : elle valide la version de Codex.)*
 
 - L'**application Clarté Educa**
 - L'**e-book**
 - Le **workbook**
-
-Pas de rendez-vous, pas d'atelier, pas d'accompagnement.
+- Un **bilan d'entrée de 45 minutes**
+- Un **plan personnalisé** sur trame structurée
+- Un **rendez-vous de clôture de 45 minutes**
 
 ### Parcours Clarté TND — **397 €** · accompagnement
 
@@ -271,13 +272,12 @@ rouvrir la page pour trancher)* :
 - Un accompagnement **avec Nawel** : un rendez-vous d'accueil, des ateliers
   réguliers, et un rendez-vous de clôture
 
-### ⚠️ Une contradiction à trancher
+### ✅ Contradiction levée
 
-La page de vente livrée par Codex (`app/clarte-tnd/page.tsx`, dans le ZIP de la
-Boussole) décrit le pack à 147 € autrement : elle y ajoute **un bilan d'entrée de
-45 minutes, un plan personnalisé et un rendez-vous de clôture de 45 minutes**.
+Codex décrivait le pack à 147 € avec le bilan d'entrée, le plan personnalisé et
+le rendez-vous de clôture. Nawel s'est alignée sur cette version le 5 septembre :
+c'est elle qui fait foi.
 
-Or Nawel vient de dire que le 147 € est de l'autonomie pure. Les deux versions ne
-peuvent pas coexister. **Cette page n'est pas publiée** tant que ce n'est pas
-tranché — elle affiche aussi la mention « tarif de travail retenu, confirmation
-après audit ».
+Reste à trancher avant publication : la page affiche encore « tarif de travail
+retenu, confirmation après audit ». Tant que cette mention y figure, la page
+n'est pas publiée.
