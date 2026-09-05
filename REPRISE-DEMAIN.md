@@ -243,3 +243,41 @@ Deux points restent à trancher avec elle :
    HTML sert « aux corrections futures » et que le PDF est l'officiel.
 
 Ensuite : **la mise en vente**.
+
+---
+
+## 💶 Les deux offres et leurs tarifs (dicté par Nawel, 5 septembre)
+
+Deux produits distincts. À ne plus confondre.
+
+### Pack Clarté Educa — **147 €** · mode autonomie
+
+Pour celles qui avancent seules. Il contient trois choses, pas une de plus :
+
+- L'**application Clarté Educa**
+- L'**e-book**
+- Le **workbook**
+
+Pas de rendez-vous, pas d'atelier, pas d'accompagnement.
+
+### Parcours Clarté TND — **397 €** · accompagnement
+
+La formation complète, sur **4 ou 5 semaines** *(à confirmer — Nawel doit
+rouvrir la page pour trancher)* :
+
+- **5 modules vidéo**, une vingtaine de vidéos au total
+- Les **supports** et les **workbooks**
+- L'**application** (incluse elle aussi)
+- Un accompagnement **avec Nawel** : un rendez-vous d'accueil, des ateliers
+  réguliers, et un rendez-vous de clôture
+
+### ⚠️ Une contradiction à trancher
+
+La page de vente livrée par Codex (`app/clarte-tnd/page.tsx`, dans le ZIP de la
+Boussole) décrit le pack à 147 € autrement : elle y ajoute **un bilan d'entrée de
+45 minutes, un plan personnalisé et un rendez-vous de clôture de 45 minutes**.
+
+Or Nawel vient de dire que le 147 € est de l'autonomie pure. Les deux versions ne
+peuvent pas coexister. **Cette page n'est pas publiée** tant que ce n'est pas
+tranché — elle affiche aussi la mention « tarif de travail retenu, confirmation
+après audit ».
