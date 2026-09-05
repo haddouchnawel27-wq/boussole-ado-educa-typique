@@ -281,3 +281,40 @@ c'est elle qui fait foi.
 Reste à trancher avant publication : la page affiche encore « tarif de travail
 retenu, confirmation après audit ». Tant que cette mention y figure, la page
 n'est pas publiée.
+
+---
+
+## 🎁 L'e-book cadeau — à reprendre
+
+**Trouvé.** « Ebook Gratuit sur les TND », marqué Educa Typique, avec la mention
+« usage personnel & non commercial ». Public : parents, éducateurs, professionnels.
+Thèmes : attention, devoirs, organisation, émotions, parentalité — le prolongement
+naturel de la Boussole.
+
+Il vit dans `Les Deux Jardins › 04_TND` sur le Drive de Nawel
+(`1kmY_PaqTrXNsTdm-7sM_BPCQ42aeCogu`).
+
+**Doublon supprimé** le 5 septembre, à la demande de Nawel : la copie qui traînait
+à la racine du Drive est à la corbeille (récupérable). Celle du dossier `04_TND`
+est conservée.
+
+### Ce qui bloque
+
+Le fichier fait **16 Mo**. Mon accès Drive plafonne à 10 Mo : je peux le lire, pas
+le télécharger. **Nawel doit me l'envoyer en pièce jointe.**
+
+### À faire ensuite
+
+1. Le compresser — 16 Mo pour un cadeau téléchargé sur mobile, c'est trop lourd.
+   Objectif 2 à 3 Mo, sans perte visible.
+2. L'ajouter au bas de `ma-boussole-du-quotidien/`, dans son propre encart, offert
+   lui aussi, **avant** l'invitation à Clarté TND.
+
+### ⚠️ Règle absolue posée par Nawel
+
+Il y a **deux e-books différents**, à ne jamais confondre :
+
+| | |
+|---|---|
+| **Ebook Gratuit sur les TND** | Le cadeau. Déjà offert, « usage personnel & non commercial ». C'est **celui-là** qu'on publie. |
+| **Ebook Clarté Educa** | Dans le pack à 147 €. **On n'y touche pas. Il reste dans son pack.** |
