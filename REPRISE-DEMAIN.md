@@ -318,3 +318,51 @@ Il y a **deux e-books différents**, à ne jamais confondre :
 |---|---|
 | **Ebook Gratuit sur les TND** | Le cadeau. Déjà offert, « usage personnel & non commercial ». C'est **celui-là** qu'on publie. |
 | **Ebook Clarté Educa** | Dans le pack à 147 €. **On n'y touche pas. Il reste dans son pack.** |
+
+---
+
+# 🗂️ Mission rangement du Drive — premier balayage (5 septembre)
+
+Nawel m'a confié une mission permanente : récupération, classement par concept,
+repérage et suppression des doublons, intégration dans la bibliothèque de veille,
+veille ciblée si nécessaire. En systématique, par défaut.
+
+**Ma règle, que je m'impose :** rien n'est supprimé définitivement. Les doublons
+partent à la corbeille (récupérable), et uniquement les copies **strictement
+identiques** — même nom, même taille. Tout ce qui est ambigu lui est listé.
+
+## Fait
+
+- **Doublon de l'e-book cadeau supprimé.** « Ebook Gratuit sur les TND.pdf »
+  existait en deux exemplaires identiques de 16 Mo. La copie qui traînait à la
+  racine du Drive est à la corbeille. Celle rangée dans
+  `Les Deux Jardins › 04_TND` est conservée.
+
+## ⚠️ Trouvé, non traité — j'attends son feu vert
+
+Un dossier **`mon-assistante-upgrade`** a été déposé à la racine de son Drive
+aujourd'hui à 13h46. Ce n'est pas un dossier de travail : c'est **un projet de
+développement complet**, téléversé tel quel, avec :
+
+| Dossier | Ce que c'est |
+|---|---|
+| `node_modules` | Les dépendances du projet — des milliers de fichiers, aucun intérêt pour elle |
+| `.qa-chrome`, `.qa-cdp2` | **Deux profils de navigateur Chrome complets** — cache, `LOCK`, `LOG`, `MANIFEST`, `data_0`, fichiers à noms hexadécimaux |
+| `dist`, `src`, `tests`, `public`, `netlify` | Le code du projet |
+| `ressources_cliniques` | **Là est son vrai contenu** |
+
+**C'est la deuxième fois.** Le pack `Clarte_Educa_Pack_Officiel_v1.zip` portait
+exactement le même défaut : un profil Chrome entier dans `documents/qa/`, avec
+historique, cookies et données de connexion. Quelqu'un livre des dossiers de
+travail sans les nettoyer, et ils atterrissent sur son Drive.
+
+**Pourquoi ça compte, au-delà du désordre :** un profil de navigateur peut contenir
+des identifiants. Ce n'est pas à sa place sur un Drive.
+
+**Pourquoi je n'ai rien touché :** ce n'est pas un doublon, c'est une autre
+catégorie, et `mon-assistante-upgrade` est une livraison qu'elle utilise peut-être.
+Je lui expose, elle tranche.
+
+**Ce que je propose, à sa validation :** mettre à la corbeille `node_modules`,
+`.qa-chrome` et `.qa-cdp2`, et remonter `ressources_cliniques` là où elle range son
+contenu clinique. Le code reste, intact.
