@@ -1,106 +1,96 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Cap Educa — boîte à outils numérique pour l'accompagnement des ados (TCC, TND, dys, secourisme en santé mentale). 100% local et privé." />
-  <meta name="theme-color" content="#C2B2F0" />
-  <title>Cap Educa — Boîte à outils d'accompagnement</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E" />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Educa Typique</title>
+<meta name="description" content="Educa Typique — neuropédagogie et accompagnement des familles neuro-atypiques.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f6f2ea">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Nunito:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fond:#f6f2ea;
+    --carte:#ffffff;
+    --encre:#3b3346;
+    --encre-doux:#6f6780;
+    --trait:#e8e0d4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--fond);
+    color:var(--encre);
+    font-family:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+    min-height:100vh;
+    display:grid;
+    place-items:center;
+    padding:24px;
+    line-height:1.6;
+  }
+  main{
+    background:var(--carte);
+    border:1px solid var(--trait);
+    border-radius:22px;
+    padding:48px 40px;
+    max-width:520px;
+    width:100%;
+    text-align:center;
+    box-shadow:0 18px 50px rgba(59,51,70,.06);
+  }
+  h1{
+    font-family:"Poppins",system-ui,sans-serif;
+    font-weight:600;
+    font-size:clamp(28px,6vw,38px);
+    letter-spacing:.01em;
+  }
+  .sous{
+    color:var(--encre-doux);
+    font-size:15px;
+    margin-top:10px;
+  }
+  hr{
+    border:0;
+    border-top:1px solid var(--trait);
+    margin:28px 0;
+  }
+  p.note{
+    color:var(--encre-doux);
+    font-size:14px;
+  }
+  footer{
+    margin-top:26px;
+    color:var(--encre-doux);
+    font-size:12.5px;
+  }
+  @media (max-width:520px){
+    main{padding:36px 24px;border-radius:18px}
+  }
+</style>
 </head>
 <body>
-  <a class="skip-link" href="#contenu">Aller au contenu</a>
-
-  <header class="topbar">
-    <button id="btn-menu" class="icon-btn" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
-    <a href="#/accueil" class="brand" aria-label="Accueil Cap Educa">
-      <span class="brand-logo" aria-hidden="true">🧭</span>
-      <span class="brand-name">Cap Educa</span>
-    </a>
-    <div class="topbar-right">
-      <label class="profil-select">
-        <span class="sr-only">Tranche d'âge</span>
-        <select id="public-actif" aria-label="Pour qui : tranche d'âge"></select>
-      </label>
-      <label class="profil-select">
-        <span class="sr-only">Jeune accompagné·e</span>
-        <select id="profil-actif" aria-label="Jeune accompagné·e actuellement"></select>
-      </label>
-    </div>
-  </header>
-
-  <div class="layout">
-    <nav id="sidebar" class="sidebar" aria-label="Navigation des outils">
-      <div id="nav-groups"></div>
-      <footer class="sidebar-foot">
-        <p>🔒 Données stockées uniquement sur cet appareil.</p>
-      </footer>
-    </nav>
-    <div id="backdrop" class="backdrop" hidden></div>
-
-    <main id="contenu" class="content" tabindex="-1">
-      <section id="vue" class="vue" aria-live="polite"></section>
-    </main>
-  </div>
-
-  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-  <div id="modal-root"></div>
-
-  <!-- Coeur de l'application -->
-  <script src="assets/js/store.js"></script>
-  <script src="assets/js/ui.js"></script>
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/suggestions.js"></script>
-  <script src="assets/js/install.js"></script>
-
-  <!-- Outils (chaque fichier s'enregistre auprès de Boussole) -->
-  <script src="assets/js/tools/accueil.js"></script>
-  <script src="assets/js/tools/hub.js"></script>
-  <script src="assets/js/tools/profils.js"></script>
-  <script src="assets/js/tools/timer.js"></script>
-  <script src="assets/js/tools/sequenceur.js"></script>
-  <script src="assets/js/tools/emploi-du-temps.js"></script>
-  <script src="assets/js/tools/jetons.js"></script>
-  <script src="assets/js/tools/dys.js"></script>
-  <script src="assets/js/tools/flashcards.js"></script>
-  <script src="assets/js/tools/carte-mentale.js"></script>
-  <script src="assets/js/tools/aide-ecrire.js"></script>
-  <script src="assets/js/tools/apprendre.js"></script>
-  <script src="assets/js/tools/metacognition.js"></script>
-  <script src="assets/js/tools/profil-neuro.js"></script>
-  <script src="assets/js/tools/pomodoro.js"></script>
-  <script src="assets/js/tools/organisateur.js"></script>
-  <script src="assets/js/tools/emotions.js"></script>
-  <script src="assets/js/tools/roue-emotions.js"></script>
-  <script src="assets/js/tools/besoins-corps.js"></script>
-  <script src="assets/js/tools/jeux-fe.js"></script>
-  <script src="assets/js/tools/pensees.js"></script>
-  <script src="assets/js/tools/respiration.js"></script>
-  <script src="assets/js/tools/humeur.js"></script>
-  <script src="assets/js/tools/ancrage.js"></script>
-  <script src="assets/js/tools/securite.js"></script>
-  <script src="assets/js/tools/abc.js"></script>
-  <script src="assets/js/tools/gratitude.js"></script>
-  <script src="assets/js/tools/spiritualite.js"></script>
-  <script src="assets/js/tools/enfants.js"></script>
-  <script src="assets/js/tools/suivi.js"></script>
-  <script src="assets/js/tools/modeles-pro.js"></script>
-  <script src="assets/js/tools/personnalisation.js"></script>
-  <script src="assets/js/tools/accessibilite.js"></script>
-
-  <!-- Démarrage -->
-  <script>
-    Boussole.start();
-    if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("sw.js").catch(function () {});
+<main>
+  <h1>Educa Typique</h1>
+  <p class="sous">Neuropédagogie &amp; accompagnement des familles neuro-atypiques</p>
+  <hr>
+  <p class="note">Les espaces de ce site sont accessibles par lien direct.</p>
+  <footer>Nawel Haddouch</footer>
+</main>
+<script>
+  /* Désinstalle l'ancien service worker (cache hors-ligne) laissé sur les
+     appareils qui avaient ouvert l'application, et vide ses caches. */
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function (rs) {
+      rs.forEach(function (r) {
+        var reste = r.scope.split("/boussole-ado-educa-typique/")[1];
+        if (reste === "") r.unregister();
       });
-    }
-  </script>
+    });
+  }
+  if (window.caches && caches.keys) {
+    caches.keys().then(function (cles) {
+      cles.forEach(function (c) { if (c.indexOf("cap-educa") === 0) caches.delete(c); });
+    });
+  }
+</script>
 </body>
 </html>
