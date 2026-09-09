@@ -35,3 +35,31 @@ Aucune décision à prendre, c'est prêt. Nawel avait dit oui, il restait juste 
 
 ---
 _Inventaire complet du ZIP : `parcours-clarte-tnd/docs/BOITE-NEUROPED-source-recue.md`_
+
+---
+
+## 📦 Pack Clarté Educa — version cliente (9 sept.)
+
+Le dossier livré jusqu'ici était une **version de recette**, pas une version vendable.
+Trois documents de fabrication partaient avec le pack à 147 € :
+
+| Fichier | Ce qu'il contenait |
+|---|---|
+| `README.md` | « version locale de recette », checklist QA en 8 points, « le pack n'est ni publié ni raccordé au site vitrine », nombre de pages faux (11 au lieu de 13) |
+| `application/RECAP-CLARTE-EDUCA.md` | matrice d'audit, outils écartés, risques résiduels, « décisions qui te reviennent (Nawel) » |
+| `tests/pack.test.mjs` | fichier de tests développeur |
+
+**Version cliente construite** (`Clarte_Educa_Pack_v1.zip`, 299 Ko, 16 fichiers) :
+- les trois documents de fabrication retirés ;
+- `Ebook_Clarte_Educa_enrichi.pdf` reprend son nom simple `Ebook_Clarte_Educa.pdf`
+  (le doublon avait été supprimé la veille) ;
+- versions HTML de travail des deux documents retirées → **les boutons pointent vers les PDF officiels**
+  (c'était la question restée ouverte, tranchée ici) ;
+- page de couverture refaite à la charte Educa Typique (Poppins/Nunito, violet/rose/menthe),
+  avec la note de confidentialité, la mention « n'établit aucun diagnostic » et l'usage personnel ;
+- `Lisez-moi.txt` court, côté acheteuse.
+
+Vérifié : les 3 liens répondent, aucune erreur JS, 390 px sans débordement,
+aucune occurrence de « recette », « audit », « test », « 11 pages », « enrichi ».
+
+**La copie interne reste intacte** (avec README, RECAP et tests) — rien n'est perdu.
