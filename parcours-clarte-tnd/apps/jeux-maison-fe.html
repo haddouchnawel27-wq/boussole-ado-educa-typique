@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>20 jeux maison sans matériel — Entraîner les fonctions exécutives · EducaTypique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../assets/charte.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#FFF8E8 0%,#FFF0E0 50%,#F0F8E8 100%);font-family:'Nunito',system-ui,sans-serif;color:#2D3E3A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:960px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
+@keyframes shimmer{0%,100%{opacity:0.6}50%{opacity:1}}
+
+.hdr{text-align:center;padding:40px 24px 30px;margin-bottom:22px;background:linear-gradient(135deg,#FFF6E0 0%,#FFE8D0 50%,#F0F0D5 100%);border-radius:24px;border:1px solid rgba(232,168,80,0.25);box-shadow:0 8px 28px rgba(232,168,80,0.1);position:relative;overflow:hidden}
+.hdr::before{content:'🎲';position:absolute;top:18px;right:22px;font-size:50px;opacity:0.13;transform:rotate(-15deg);animation:wiggle 5s ease-in-out infinite}
+.hdr::after{content:'🎯';position:absolute;bottom:18px;left:22px;font-size:44px;opacity:0.13;transform:rotate(15deg)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#E8A850,#6CA89E);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px;position:relative;z-index:1}
+.float-icon{font-size:54px;margin-bottom:4px;display:inline-block;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1}
+.hdr h1{font-family:'Poppins','Nunito',sans-serif;font-size:30px;font-weight:400;color:#2D3E3A;margin-bottom:6px;position:relative;z-index:1}
+.hdr .baseline{font-family:'Nunito',system-ui,sans-serif;font-size:14px;font-style:italic;color:#9B5C3A;margin-bottom:10px;position:relative;z-index:1;letter-spacing:1.2px}
+.hdr p{font-family:'Nunito',system-ui,sans-serif;font-style:italic;font-size:15px;color:#6B5C48;position:relative;z-index:1;max-width:660px;margin:0 auto}
+
+.intro{background:#FFFFFF;border-radius:18px;padding:24px;margin-bottom:20px;border:1px solid rgba(232,168,80,0.18);box-shadow:0 4px 14px rgba(232,168,80,0.06)}
+.intro p{font-size:15px;color:#3D4E4A;line-height:1.7;margin-bottom:10px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#9B5C3A}
+.intro .principe{background:linear-gradient(135deg,#FFF6E0,#F0F8E8);border-radius:12px;padding:14px 18px;margin:12px 0;text-align:center;font-family:'Nunito',system-ui,sans-serif;font-style:italic;font-size:15px;color:#6B5C48;line-height:1.55}
+
+/* ============ FILTRES ============ */
+.filtres{background:#FFFFFF;border-radius:14px;padding:16px 18px;margin-bottom:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 2px 10px rgba(232,168,80,0.06);border:1px solid rgba(232,168,80,0.18)}
+.filtre-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.filtre-row .label-f{font-size:12.5px;font-weight:700;color:#9B5C3A;text-transform:uppercase;letter-spacing:0.5px;margin-right:8px;min-width:100px}
+.filtre-btn{background:#FAF4E8;color:#5A6B66;border:1.5px solid transparent;padding:6px 12px;border-radius:14px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.filtre-btn:hover{background:#FFE8D0}
+.filtre-btn.active{background:linear-gradient(135deg,#E8A850,#F0BC7A);color:#fff;border-color:#9B5C3A}
+.filtre-btn.age{background:#F0F8E8}
+.filtre-btn.age:hover{background:#E0F0D0}
+.filtre-btn.age.active{background:linear-gradient(135deg,#6CA89E,#88B8AA)}
+
+/* ============ JEUX GRID ============ */
+.jeux-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.jeu-card{background:#FFFFFF;border-radius:18px;padding:20px;cursor:pointer;transition:all 0.3s;border-top:5px solid;animation:fadeIn 0.4s ease-out;display:flex;flex-direction:column;height:100%}
+.jeu-card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(232,168,80,0.15)}
+.jeu-card.fe-inhibition{border-color:#C9573A}
+.jeu-card.fe-memoire{border-color:#9B85B8}
+.jeu-card.fe-attention{border-color:#E8A850}
+.jeu-card.fe-flexibilite{border-color:#6CA89E}
+.jeu-card.fe-planification{border-color:#608CB4}
+.jeu-card.fe-emotion{border-color:#D98C8C}
+.jeu-card .fe-tag{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;padding:3px 10px;border-radius:10px;margin-bottom:8px}
+.jeu-card.fe-inhibition .fe-tag{background:#FCE2E2;color:#C9573A}
+.jeu-card.fe-memoire .fe-tag{background:#F0E8F0;color:#6E5594}
+.jeu-card.fe-attention .fe-tag{background:#FFEEDC;color:#9B5C3A}
+.jeu-card.fe-flexibilite .fe-tag{background:#E8F5EC;color:#4A8576}
+.jeu-card.fe-planification .fe-tag{background:#E0EAF5;color:#4A6580}
+.jeu-card.fe-emotion .fe-tag{background:#F8E2E2;color:#A66464}
+.jeu-card .num-jeu{position:absolute;top:14px;right:18px;font-family:'Nunito',system-ui,sans-serif;font-size:34px;color:rgba(0,0,0,0.06);font-weight:700;line-height:1}
+.jeu-card{position:relative}
+.jeu-card .jeu-icon{font-size:34px;margin-bottom:6px;display:block}
+.jeu-card h3{font-family:'Poppins','Nunito',sans-serif;font-size:17px;color:#2D3E3A;margin-bottom:6px;font-weight:600;line-height:1.35}
+.jeu-card .meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.jeu-card .meta span{background:#FAF4E8;padding:3px 9px;border-radius:8px;font-size:11px;font-weight:600;color:#7A6B66}
+.jeu-card .description{font-size:13px;color:#3D4E4A;line-height:1.55;margin-bottom:10px;flex:1}
+
+/* ============ MODAL DÉTAIL ============ */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:999;display:none;justify-content:center;align-items:center;padding:20px;animation:fadeIn 0.2s}
+.modal-overlay.show{display:flex}
+.modal{background:#FFFFFF;border-radius:24px;max-width:680px;width:100%;max-height:90vh;overflow-y:auto;padding:30px 28px;position:relative;animation:pop 0.3s}
+.modal-close{position:absolute;top:14px;right:18px;background:#F0E0D5;border:none;width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer;color:#6B5C48;font-weight:700;transition:all 0.2s}
+.modal-close:hover{background:#E0C9B0;color:#3D362E}
+.modal h2{font-family:'Poppins','Nunito',sans-serif;font-size:22px;color:#2D3E3A;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.modal h2 .m-icon{font-size:36px}
+.modal .m-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;padding:4px 12px;border-radius:12px;margin-bottom:14px}
+.modal .m-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.modal .m-meta span{background:#FAF4E8;padding:5px 11px;border-radius:10px;font-size:12px;font-weight:600;color:#6B5C48}
+.modal h4{font-family:'Poppins','Nunito',sans-serif;font-size:14px;color:#9B5C3A;margin:14px 0 6px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700}
+.modal p{font-size:14.5px;color:#3D4E4A;line-height:1.7;margin-bottom:10px}
+.modal .rules{background:#FAF4E8;padding:14px 18px;border-radius:12px;border-left:4px solid #E8A850}
+.modal .rules ol{margin:0;padding-left:22px}
+.modal .rules li{font-size:14px;color:#3D4E4A;line-height:1.7;margin-bottom:5px}
+.modal .variantes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+@media (max-width:600px){.modal .variantes{grid-template-columns:1fr}}
+.modal .var-box{padding:12px 14px;border-radius:10px;border-left:4px solid}
+.modal .var-facile{background:#E8F5EC;border-color:#6CA89E}
+.modal .var-difficile{background:#FCE2E2;border-color:#C9573A}
+.modal .var-box h5{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.modal .var-facile h5{color:#4A8576}
+.modal .var-difficile h5{color:#9B3A2A}
+.modal .var-box p{font-size:13px;color:#3D4E4A;margin:0;line-height:1.55}
+.modal .pourquoi{background:linear-gradient(135deg,#F0E8F0,#F5F0F7);padding:14px 18px;border-radius:12px;border-left:4px solid #9B85B8;margin-top:14px}
+.modal .pourquoi p{font-size:13.5px;color:#3D4E4A;margin:0;line-height:1.65}
+.modal .pourquoi strong{color:#6E5594}
+
+/* ============ FOOTER ============ */
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:'Nunito',system-ui,sans-serif;animation:shimmer 5s ease-in-out infinite}
+.footer .brand-foot{color:#9B5C3A;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .small{color:#8A9892;font-size:11px;margin-top:4px;display:block}
+
+@media print{
+body{background:#fff;padding:10px}
+.filtres,.modal-overlay{display:none !important}
+.jeux-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+.jeu-card{box-shadow:none;page-break-inside:avoid;cursor:default}
+}
+
+@media (max-width:600px){
+.hdr{padding:32px 18px 22px}
+.hdr h1{font-size:22px}
+.filtre-row .label-f{min-width:auto;width:100%;margin-bottom:4px}
+.modal{padding:20px 18px}
+}
+</style>
+</head>
+<body>
+<a href="../../casa-familles/index.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#9B5C3A;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(232,168,80,0.2)">← La Casa des Familles</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Ludothèque maison · EducaTypique</span>
+<div class="float-icon">🎲</div>
+<h1>20 jeux maison sans matériel</h1>
+<div class="baseline">ENTRAÎNER LES FONCTIONS EXÉCUTIVES SANS RIEN ACHETER</div>
+<p>Des jeux 100% gratuits, sans matériel, à pratiquer en voiture, dans le bus, au lit, à table. Pour entraîner concrètement les fonctions exécutives de l'enfant.</p>
+</div>
+
+<div class="intro">
+<p>Pas besoin d'acheter du matériel coûteux pour entraîner le cerveau de ton enfant. <strong>Les meilleures occasions d'entraîner les fonctions exécutives sont les moments du quotidien</strong> — un trajet, une attente, un repas, un coucher.</p>
+<div class="principe">
+« Le quotidien est le meilleur terrain d'entraînement.<br>
+Le jeu est le langage naturel du cerveau qui apprend. »
+</div>
+<p>Chaque jeu est <strong>court (5-10 min)</strong>, <strong>adaptable à l'âge</strong>, et entraîne 1 à 3 fonctions exécutives. Clique sur une carte pour voir les règles, les variantes facile/difficile, et l'effet neuropédago.</p>
+</div>
+
+<div class="filtres">
+<div class="filtre-row">
+<span class="label-f">🧠 Fonction</span>
+<button class="filtre-btn active" data-fe="all" onclick="filtrer('fe','all')">Toutes</button>
+<button class="filtre-btn" data-fe="inhibition" onclick="filtrer('fe','inhibition')">🛑 Inhibition</button>
+<button class="filtre-btn" data-fe="memoire" onclick="filtrer('fe','memoire')">🧠 Mémoire</button>
+<button class="filtre-btn" data-fe="attention" onclick="filtrer('fe','attention')">🎯 Attention</button>
+<button class="filtre-btn" data-fe="flexibilite" onclick="filtrer('fe','flexibilite')">🔄 Flexibilité</button>
+<button class="filtre-btn" data-fe="planification" onclick="filtrer('fe','planification')">📋 Planification</button>
+<button class="filtre-btn" data-fe="emotion" onclick="filtrer('fe','emotion')">💛 Émotion</button>
+</div>
+<div class="filtre-row">
+<span class="label-f">👶 Âge</span>
+<button class="filtre-btn age active" data-age="all" onclick="filtrer('age','all')">Tous</button>
+<button class="filtre-btn age" data-age="3-6" onclick="filtrer('age','3-6')">3-6 ans</button>
+<button class="filtre-btn age" data-age="7-10" onclick="filtrer('age','7-10')">7-10 ans</button>
+<button class="filtre-btn age" data-age="11-14" onclick="filtrer('age','11-14')">11-14 ans</button>
+</div>
+</div>
+
+<div class="jeux-grid" id="jeuxGrid">
+<!-- généré par JS -->
+</div>
+
+<div class="footer">
+« Le meilleur jeu est celui qu'on fait là, maintenant, avec ce qu'on a sous la main. »
+<span class="brand-foot">20 jeux maison sans matériel · Création originale Nawel Haddouch · EducaTypique</span>
+<span class="small">Pour entraîner les FE par le jeu · Imprimable · 100% gratuit</span>
+</div>
+
+</div>
+
+<!-- ============ MODAL ============ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalIfBg(event)">
+<div class="modal" id="modal">
+<button class="modal-close" onclick="closeModal()">✕</button>
+<div id="modalContent"></div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// 20 JEUX MAISON SANS MATÉRIEL — Création originale Nawel Haddouch
+// ============================================================
+var JEUX = [
+  // ============ INHIBITION (4) ============
+  {n:1,icon:'🗿',titre:'La statue qui parle',fe:'inhibition',ages:['3-6','7-10'],duree:'5 min',joueurs:'2+',
+    description:"L'enfant doit répondre à des questions en restant totalement immobile — pas de gestes des mains, pas de mouvements des pieds.",
+    regles:[
+      "L'enfant est debout ou assis, totalement immobile (corps figé comme une statue)",
+      "Le parent pose des questions qui font NORMALEMENT bouger (« montre-moi le plafond ! », « danse ! », « bouge la tête !»)",
+      "L'enfant doit RÉSISTER à l'envie de bouger, et répondre seulement avec les MOTS",
+      "1 point pour chaque résistance réussie. 5 questions = 1 partie.",
+      "Le parent peut faire pareil ensuite (l'enfant pose les questions)"
+    ],
+    facile:"On accepte les petits mouvements (sourire OK). 3 questions seulement.",
+    difficile:"Aucun mouvement toléré, même cligner des yeux. 10 questions enchainées sans pause.",
+    pourquoi:"Entraîne l'<strong>inhibition motrice</strong> — la capacité à freiner une action que le cerveau veut lancer. Compétence neuro fondamentale pour les enfants impulsifs."
+  },
+  {n:2,icon:'🛑',titre:'Stop l\'animal',fe:'inhibition',ages:['3-6','7-10'],duree:'5 min',joueurs:'2+',
+    description:"On nomme des animaux à tour de rôle. Quand quelqu'un dit « chat » (mot stop), il faut se taire instantanément.",
+    regles:[
+      "On choisit ensemble un mot-stop (chat / banane / arbre…)",
+      "On nomme des animaux à tour de rôle, vite",
+      "Dès que quelqu'un dit le mot-stop, TOUT LE MONDE doit se taire 3 secondes",
+      "Celui qui parle pendant le silence perd 1 point",
+      "On change de mot-stop toutes les 2 minutes"
+    ],
+    facile:"Mot-stop annoncé clairement avant chaque tour. Délai silence : 2 secondes.",
+    difficile:"2 mots-stops actifs en même temps. Silence de 5 secondes. Le mot-stop peut être un mot DANS une phrase (pas isolé).",
+    pourquoi:"Entraîne le <strong>contrôle de l'impulsion verbale</strong> (Go/No-Go) — utile pour les enfants qui coupent la parole."
+  },
+  {n:3,icon:'🪞',titre:'Le miroir inversé',fe:'inhibition',ages:['3-6','7-10','11-14'],duree:'5 min',joueurs:'2',
+    description:"Le parent fait des gestes. L'enfant doit faire le CONTRAIRE.",
+    regles:[
+      "Face à face. Le parent dit « lève la main droite » → l'enfant lève la main GAUCHE",
+      "Parent dit « ouvre les yeux » → l'enfant les FERME",
+      "Parent dit « assieds-toi » → l'enfant SE LÈVE",
+      "5 instructions par manche. Compter les bonnes inversions.",
+      "Changer de rôle ensuite (c'est plus dur de proposer que de répondre !)"
+    ],
+    facile:"Seulement 3 paires d'opposés simples (haut/bas, ouvert/fermé, droite/gauche).",
+    difficile:"Ajouter de la vitesse (instructions toutes les 2 secondes). Combiner 2 instructions enchaînées qu'il faut TOUTES inverser.",
+    pourquoi:"Travaille simultanément <strong>inhibition</strong> + <strong>flexibilité cognitive</strong> + mémoire de travail. Excellent pour TDAH."
+  },
+  {n:4,icon:'🤐',titre:'Le mot interdit',fe:'inhibition',ages:['7-10','11-14'],duree:'10 min',joueurs:'2+',
+    description:"On discute normalement, mais un mot devient interdit (« oui », « non », « maman »…). Celui qui le dit perd.",
+    regles:[
+      "Choisir un mot interdit ensemble — viser un mot très fréquent (oui · non · maman · papa · bah · euh…)",
+      "On démarre une discussion normale (à table par ex)",
+      "Celui qui dit le mot interdit perd 1 point",
+      "Variante : on a le droit à 1 « oups » par partie",
+      "Manche de 10 min"
+    ],
+    facile:"Mot rare interdit (banane, vélo…). Tout le monde s'aide.",
+    difficile:"2 mots interdits en même temps. Pas d'« oups » autorisé. On joue pendant tout le trajet en voiture.",
+    pourquoi:"Entraîne l'<strong>inhibition verbale</strong> active dans un contexte de conversation naturelle — transferable à la vie quotidienne (couper la parole, dire des bêtises…)."
+  },
+
+  // ============ MÉMOIRE DE TRAVAIL (4) ============
+  {n:5,icon:'🧳',titre:'La valise s\'agrandit',fe:'memoire',ages:['3-6','7-10','11-14'],duree:'5-10 min',joueurs:'2+',
+    description:"« Dans ma valise il y a un parapluie ». Le suivant ajoute un objet en répétant TOUS les précédents.",
+    regles:[
+      "Le premier dit : « Dans ma valise il y a [un objet] »",
+      "Le deuxième dit : « Dans ma valise il y a [objet du 1er] + [son nouvel objet] »",
+      "Le troisième répète tout + ajoute le sien",
+      "On essaie d'atteindre 10 objets sans se tromper",
+      "Si on oublie ou se trompe → on recommence (ou on passe au suivant en mode coopératif)"
+    ],
+    facile:"Tout le monde peut s'aider. Pas de chronomètre.",
+    difficile:"Catégories imposées (que des fruits, que des verbes en -er…) ou ordre alphabétique (Avion, Banane, Cerise…).",
+    pourquoi:"Entraîne la <strong>mémoire de travail verbale</strong> — la fonction qui tient l'info active dans le cerveau. Cruciale pour suivre les consignes scolaires."
+  },
+  {n:6,icon:'🔗',titre:'Le chemin de mots',fe:'memoire',ages:['7-10','11-14'],duree:'5 min',joueurs:'2+',
+    description:"Chaque mot doit commencer par la dernière syllabe (ou lettre) du précédent. Variante : doit être lié par le sens.",
+    regles:[
+      "Premier joueur dit un mot (ex : tomate)",
+      "Suivant doit dire un mot qui commence par « te » (la dernière syllabe) → telephone",
+      "Suivant : « ne » → nez. Etc.",
+      "Variante sens : tomate → cuisine → maman → famille → ...",
+      "On compte les enchaînements réussis avant blocage"
+    ],
+    facile:"Variante avec dernière LETTRE seulement. Aide possible.",
+    difficile:"Dans une catégorie imposée. Sans répétition. Temps limité (5 sec par mot).",
+    pourquoi:"Combine <strong>mémoire de travail</strong> + <strong>flexibilité lexicale</strong> + vitesse d'accès au vocabulaire. Excellent pour HPI qui s'ennuient."
+  },
+  {n:7,icon:'⏪',titre:'La consigne décalée',fe:'memoire',ages:['7-10','11-14'],duree:'8 min',joueurs:'2',
+    description:"L'enfant doit toujours répondre à la question d'AVANT, pas celle qu'on vient de poser.",
+    regles:[
+      "Le parent pose 2-3 questions de \"chauffe\" sans demander de réponse",
+      "Puis : Q1 → l'enfant ne répond pas encore",
+      "Q2 → l'enfant répond à Q1",
+      "Q3 → l'enfant répond à Q2. Et ainsi de suite.",
+      "On essaie d'enchaîner 5 questions correctement décalées"
+    ],
+    facile:"Questions courtes et simples (couleur préférée, animal, fruit…). Pause autorisée.",
+    difficile:"Questions plus complexes (calculs, opinions…). Décalage de 2 (répondre à la question d'avant l'avant !).",
+    pourquoi:"Outil très puissant pour <strong>mémoire de travail</strong> — il faut garder la question en mémoire pendant qu'on entend la suivante. <em>Inspiré du principe du jeu Jet Lag.</em>"
+  },
+  {n:8,icon:'🎵',titre:'L\'écho du chef d\'orchestre',fe:'memoire',ages:['3-6','7-10'],duree:'5 min',joueurs:'2+',
+    description:"Le parent fait une séquence de bruits/gestes simples. L'enfant la reproduit à l'identique.",
+    regles:[
+      "Le parent fait une séquence courte : « tape tape clap » (taper la table, taper la table, clap)",
+      "L'enfant reproduit exactement",
+      "Le parent ajoute 1 élément à chaque tour : « tape tape clap doigt »",
+      "On voit jusqu'à combien d'éléments l'enfant peut tenir (5, 6, 7 ?)",
+      "Changer de rôle : l'enfant crée la séquence"
+    ],
+    facile:"Séquences de 3-4 éléments max, lents.",
+    difficile:"Séquences de 6+ éléments, plus rapides. Y mélanger bruits + gestes + mots.",
+    pourquoi:"Entraîne la <strong>mémoire de travail séquentielle</strong> + l'attention auditive et visuelle. Excellent dès 3 ans."
+  },
+
+  // ============ ATTENTION (4) ============
+  {n:9,icon:'👂',titre:'L\'oreille du sage',fe:'attention',ages:['7-10','11-14'],duree:'2 min',joueurs:'1+',
+    description:"Fermer les yeux, compter le maximum de sons DIFFÉRENTS entendus en 1 minute.",
+    regles:[
+      "Tout le monde ferme les yeux, en silence",
+      "Lancer le chronomètre 1 minute",
+      "Pendant ce temps : chacun écoute attentivement TOUS les sons (cuisine, voiture dehors, respiration, frigo, oiseau, bruit chaussures…)",
+      "À la fin : chacun nomme les sons qu'il a entendus",
+      "Comparer : qui en a repéré le plus ?"
+    ],
+    facile:"30 secondes seulement. On peut écrire au fur et à mesure.",
+    difficile:"3 minutes. Sons DIFFÉRENTS uniquement (ne pas compter 2 fois la voiture). Localiser d'où vient chaque son.",
+    pourquoi:"Entraîne l'<strong>attention soutenue auditive</strong> et la conscience sensorielle. Calme aussi le système nerveux (parasympathique)."
+  },
+  {n:10,icon:'🔵',titre:'Le scanner couleur',fe:'attention',ages:['3-6','7-10'],duree:'2 min',joueurs:'1+',
+    description:"En 30 secondes, repérer TOUS les objets bleus (ou rouges, ou verts…) dans la pièce ou en voiture.",
+    regles:[
+      "Choisir une couleur ensemble",
+      "Lancer le chronomètre 30 secondes",
+      "Pendant ce temps : repérer du regard TOUS les objets de cette couleur",
+      "À la fin : chacun les nomme à tour de rôle",
+      "On compte le nombre total trouvé"
+    ],
+    facile:"Couleur très présente (gris dans une voiture, bleu en bord de mer…).",
+    difficile:"Couleur rare (orange, violet…). Plusieurs couleurs en même temps. Et de plus en plus rapide.",
+    pourquoi:"Entraîne l'<strong>attention sélective visuelle</strong> — la capacité à se focaliser sur 1 critère en ignorant le reste. Anti-distractibilité."
+  },
+  {n:11,icon:'🔍',titre:'Le détective du quotidien',fe:'attention',ages:['7-10','11-14'],duree:'5 min',joueurs:'2',
+    description:"Observer une scène 30 secondes, puis répondre à des questions précises sans regarder.",
+    regles:[
+      "Choisir une scène : la table du petit-déj, le salon, l'arrêt de bus…",
+      "L'enfant observe 30 secondes",
+      "Il ferme les yeux ou détourne le regard",
+      "Le parent pose 5 questions précises : « combien de tasses ? combien d'objets bleus ? la cuillère est-elle à droite ou à gauche ? »",
+      "Compter les réponses justes. Refaire avec une nouvelle scène."
+    ],
+    facile:"Observation 1 minute. Questions très simples (combien d'objets, couleurs principales).",
+    difficile:"Observation 15 sec seulement. Questions de détails fins (orientation, position relative…).",
+    pourquoi:"<strong>Attention visuelle</strong> + <strong>mémoire à court terme</strong> + observation fine. Travaille la capacité à « voir vraiment » au lieu de regarder distraitement."
+  },
+  {n:12,icon:'🎯',titre:'5 minutes focus défi',fe:'attention',ages:['7-10','11-14'],duree:'5 min',joueurs:'1+',
+    description:"Tenir l'attention sur UNE seule chose pendant 5 minutes — lecture, dessin, observation d'une fleur, écoute…",
+    regles:[
+      "Choisir une activité simple qui demande l'attention : lire, dessiner, observer une plante, écouter un son…",
+      "Lancer chronomètre 5 minutes",
+      "L'enfant essaie de rester 100% sur cette activité",
+      "Si la pensée part ailleurs : il la \"voit\" et la ramène doucement à l'activité",
+      "À la fin : combien de fois la pensée est partie ? Qu'est-ce qui l'a fait revenir ?"
+    ],
+    facile:"3 minutes seulement. Activité très intéressante (Lego, dessin libre…).",
+    difficile:"10 minutes. Activité plus exigeante (écrire 1 page, recopier, lire à voix haute…). Sans laisser sortir le regard de l'activité.",
+    pourquoi:"<strong>Attention soutenue</strong> + métacognition (« je vois ma pensée partir »). Excellent dès 7 ans, base de l'apprentissage scolaire."
+  },
+
+  // ============ FLEXIBILITÉ (3) ============
+  {n:13,icon:'🔄',titre:'Inverse la règle',fe:'flexibilite',ages:['7-10','11-14'],duree:'5 min',joueurs:'2+',
+    description:"On démarre une catégorie (animaux). À mi-chemin, on change tout (légumes). Il faut switcher vite.",
+    regles:[
+      "Démarrer une catégorie : « animaux » — chacun en cite 1 à tour de rôle",
+      "À un moment, le meneur dit : « SWITCH → légumes ! »",
+      "À partir de là, chacun doit citer des légumes",
+      "Encore quelques tours, puis nouveau SWITCH",
+      "Compter les bonnes réponses VS les erreurs (qui dit encore un animal après le switch perd 1 pt)"
+    ],
+    facile:"2 catégories seulement (animaux/légumes), switch annoncé clairement avec pause de 5 sec.",
+    difficile:"3-4 catégories qui tournent, switch rapide sans pause, ou switch sur un signal NON verbal (claquement de doigts).",
+    pourquoi:"Travaille la <strong>flexibilité cognitive</strong> — la capacité à changer de règle mentale. Compétence souvent fragile chez TDAH."
+  },
+  {n:14,icon:'🎁',titre:'L\'objet à 3 vies',fe:'flexibilite',ages:['7-10','11-14'],duree:'5 min',joueurs:'1+',
+    description:"Prendre un objet banal (cuillère, chaussette…) et trouver 3 façons COMPLÈTEMENT différentes de l'utiliser.",
+    regles:[
+      "Choisir un objet du quotidien (cuillère, chaussette, livre, élastique…)",
+      "L'enfant doit inventer 3 utilisations DIFFÉRENTES (et farfelues si nécessaire)",
+      "Pas de répétition de famille (ex: « pour manger la soupe » et « pour manger le yaourt » ça compte comme 1)",
+      "Les 3 doivent être de catégories différentes (sport, art, ménage, sécurité, déco…)",
+      "Bonus pour les idées les plus créatives"
+    ],
+    facile:"2 utilisations seulement. Aide bienvenue.",
+    difficile:"5 utilisations en moins de 2 minutes. Toutes les utilisations doivent être réalistes (au moins théoriquement).",
+    pourquoi:"<strong>Flexibilité cognitive</strong> + créativité divergente. Aide à sortir des automatismes mentaux, casse les rigidités."
+  },
+  {n:15,icon:'🔀',titre:'Synonyme · contraire · rime',fe:'flexibilite',ages:['7-10','11-14'],duree:'5 min',joueurs:'2+',
+    description:"Le parent dit un mot. L'enfant doit donner 3 versions : synonyme · contraire · rime. Puis on inverse.",
+    regles:[
+      "Le parent annonce un mot : « rapide »",
+      "L'enfant doit donner dans l'ordre : synonyme (« vite »), contraire (« lent »), rime (« timide »)",
+      "Pour chaque trouvaille = 1 point",
+      "5 mots à enchaîner. Comparer son score avec celui du parent ensuite."
+    ],
+    facile:"Seulement synonyme + contraire (sans rime). Mots simples (grand, joli, petit…).",
+    difficile:"Mots complexes (paradoxe, agacé, fluctuant…). Temps limité (5 sec par item).",
+    pourquoi:"<strong>Flexibilité lexicale</strong> + agilité mentale + vocabulaire. Excellent pour HPI qui s'ennuient et profils dys (renforcement des accès lexicaux)."
+  },
+
+  // ============ PLANIFICATION (3) ============
+  {n:16,icon:'📋',titre:'Mission 5 étapes',fe:'planification',ages:['7-10','11-14'],duree:'10 min',joueurs:'1+',
+    description:"L'enfant planifie UN projet concret en exactement 5 étapes, AVANT de commencer.",
+    regles:[
+      "Choisir une mission : préparer un goûter / ranger sa chambre / faire un dessin / écrire une carte",
+      "AVANT d'agir, écrire (ou dire à voix haute) les 5 étapes dans l'ordre",
+      "Estimer combien de temps va prendre chaque étape",
+      "Ensuite, faire la mission en suivant le plan",
+      "À la fin : comparer le plan estimé VS la réalité (quelle étape a été plus longue ?)"
+    ],
+    facile:"3 étapes seulement. Mission très simple (mettre la table).",
+    difficile:"7 étapes. Mission plus complexe (préparer le sac scolaire en autonomie · cuisiner une recette).",
+    pourquoi:"<strong>Planification</strong> + <strong>perception du temps</strong>. Cruciales pour TDAH qui démarrent au hasard. Métacognition à la fin."
+  },
+  {n:17,icon:'🗺️',titre:'L\'itinéraire imaginaire',fe:'planification',ages:['7-10','11-14'],duree:'10 min',joueurs:'2+',
+    description:"« Tu pars de la maison et tu dois aller au parc. Décris ton chemin en 7 étapes en passant par certains lieux obligatoires. »",
+    regles:[
+      "Le parent donne le point de départ et l'arrivée",
+      "Ajoute 2-3 contraintes : « tu dois passer devant la boulangerie ET acheter une baguette ET donner à manger au chat de la voisine »",
+      "L'enfant décrit son itinéraire en 7 étapes claires",
+      "On vérifie que toutes les contraintes sont respectées",
+      "Bonus si l'itinéraire est efficace (court chemin)"
+    ],
+    facile:"Itinéraire dans la maison (de la chambre à la cuisine, en passant par la salle de bain).",
+    difficile:"Itinéraire en ville réelle, avec horaires (« être au parc à 16h, magasin ferme à 15h30… »).",
+    pourquoi:"<strong>Planification séquentielle</strong> + visualisation mentale + intégration de contraintes. Excellent pour la pensée logique."
+  },
+  {n:18,icon:'📅',titre:'Ma journée idéale en 5 cases',fe:'planification',ages:['7-10','11-14'],duree:'10 min',joueurs:'1+',
+    description:"Planifier une journée de week-end idéale en respectant 5 contraintes (1 sortie, 1 tâche, 1 plaisir solo, 1 plaisir avec quelqu'un, 1 nouveauté).",
+    regles:[
+      "L'enfant doit dessiner ou écrire sa journée en 5 grosses tranches (matin, midi, après-midi, fin d'après-midi, soir)",
+      "Chaque tranche doit contenir 1 des éléments imposés (sortie · tâche utile · plaisir seul · plaisir avec famille · nouveauté)",
+      "Il doit estimer combien de temps prend chaque chose",
+      "Vérifier que c'est réaliste (peut-il VRAIMENT faire tout ça en 1 journée ?)",
+      "S'il veut, le tester un vrai week-end ensuite"
+    ],
+    facile:"3 tranches seulement, 2 contraintes au lieu de 5.",
+    difficile:"Toute une semaine à planifier avec contraintes multiples + budget temps réaliste.",
+    pourquoi:"<strong>Planification long terme</strong> + estimation du temps + équilibre des besoins. Outil de vie utile à l'adolescence."
+  },
+
+  // ============ ÉMOTION (2) ============
+  {n:19,icon:'🌡️',titre:'Le thermomètre vivant',fe:'emotion',ages:['3-6','7-10','11-14'],duree:'2 min',joueurs:'1+',
+    description:"3 fois dans la journée, chacun annonce son thermomètre émotionnel de 1 à 5.",
+    regles:[
+      "Choisir 3 moments dans la journée (matin, après école, soir)",
+      "À chaque moment, chacun annonce son niveau de 1 à 5 : 1=très calme · 2=ok · 3=tendu · 4=énervé · 5=débordé",
+      "S'il est > 3, on cherche ensemble pourquoi (quel déclencheur ?)",
+      "On peut proposer un outil de régulation (respiration, pause, eau froide…)",
+      "Bilan le soir : comment la journée a oscillé ?"
+    ],
+    facile:"Échelle simplifiée à 3 (vert/orange/rouge). Seulement matin + soir.",
+    difficile:"Échelle de 0 à 10 + analyse des déclencheurs précis + journal écrit chaque soir.",
+    pourquoi:"<strong>Conscience émotionnelle</strong> + métacognition + co-régulation. Base de l'autorégulation. À pratiquer en famille pour modéliser."
+  },
+  {n:20,icon:'🦁',titre:'Respiration animale',fe:'emotion',ages:['3-6','7-10'],duree:'3 min',joueurs:'1+',
+    description:"Choisir un animal et respirer comme lui. Ours = grosse respiration profonde. Lapin = vite et léger. Loup = expire fort.",
+    regles:[
+      "Choisir un animal selon l'émotion : énervé → loup (expirer fort) · stressé → ours (respiration profonde 4-6) · triste → lapin (respiration légère et rapide)",
+      "Faire la respiration de l'animal pendant 1 minute",
+      "Observer comment le corps change",
+      "Possibilité de mimer l'animal (faire le geste, le bruit léger)",
+      "Variante coucher : respiration du paresseux (très très lentement)"
+    ],
+    facile:"3 cycles seulement. Avec un grand frère/sœur qui mime devant.",
+    difficile:"Mélanger 2 respirations (ours pendant 30s, puis paresseux pendant 30s). Faire les yeux fermés.",
+    pourquoi:"<strong>Régulation émotionnelle</strong> par la respiration. Active le système parasympathique. Accessible dès 3 ans grâce à la métaphore animale."
+  }
+];
+
+// ============================================================
+// RENDU
+// ============================================================
+var filtreFE = 'all';
+var filtreAge = 'all';
+
+function renderGrid(){
+  var grid = document.getElementById('jeuxGrid');
+  grid.innerHTML = '';
+  var feLabels = {inhibition:'🛑 Inhibition',memoire:'🧠 Mémoire',attention:'🎯 Attention',flexibilite:'🔄 Flexibilité',planification:'📋 Planification',emotion:'💛 Émotion'};
+  var count = 0;
+  JEUX.forEach(function(j){
+    if(filtreFE !== 'all' && j.fe !== filtreFE) return;
+    if(filtreAge !== 'all' && j.ages.indexOf(filtreAge) === -1) return;
+    count++;
+    var d = document.createElement('div');
+    d.className = 'jeu-card fe-'+j.fe;
+    d.onclick = function(){ openJeu(j.n); };
+    d.innerHTML = '<span class="num-jeu">'+j.n+'</span>' +
+      '<span class="fe-tag">'+feLabels[j.fe]+'</span>' +
+      '<span class="jeu-icon">'+j.icon+'</span>' +
+      '<h3>'+j.titre+'</h3>' +
+      '<div class="meta">' +
+        '<span>👶 '+j.ages.join(' · ')+'</span>' +
+        '<span>⏱️ '+j.duree+'</span>' +
+        '<span>👥 '+j.joueurs+'</span>' +
+      '</div>' +
+      '<p class="description">'+j.description+'</p>';
+    grid.appendChild(d);
+  });
+  if(count === 0){
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#7A6B66;font-style:italic">Aucun jeu ne correspond à ces filtres. Essaie un autre âge ou une autre fonction.</div>';
+  }
+}
+
+function filtrer(type, val){
+  if(type === 'fe'){
+    filtreFE = val;
+    document.querySelectorAll('.filtre-btn:not(.age)').forEach(b=>b.classList.remove('active'));
+    document.querySelector('.filtre-btn[data-fe="'+val+'"]').classList.add('active');
+  } else {
+    filtreAge = val;
+    document.querySelectorAll('.filtre-btn.age').forEach(b=>b.classList.remove('active'));
+    document.querySelector('.filtre-btn.age[data-age="'+val+'"]').classList.add('active');
+  }
+  renderGrid();
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openJeu(n){
+  var j = JEUX.find(x=>x.n===n);
+  if(!j) return;
+  var feLabels = {inhibition:'🛑 Inhibition',memoire:'🧠 Mémoire',attention:'🎯 Attention',flexibilite:'🔄 Flexibilité',planification:'📋 Planification',emotion:'💛 Émotion'};
+  var feColors = {inhibition:'#FCE2E2;color:#C9573A',memoire:'#F0E8F0;color:#6E5594',attention:'#FFEEDC;color:#9B5C3A',flexibilite:'#E8F5EC;color:#4A8576',planification:'#E0EAF5;color:#4A6580',emotion:'#F8E2E2;color:#A66464'};
+  var html = '<span class="m-tag" style="background:'+feColors[j.fe]+'">'+feLabels[j.fe]+'</span>' +
+    '<h2><span class="m-icon">'+j.icon+'</span>Jeu n°'+j.n+' — '+j.titre+'</h2>' +
+    '<div class="m-meta">' +
+      '<span>👶 '+j.ages.join(' · ')+' ans</span>' +
+      '<span>⏱️ '+j.duree+'</span>' +
+      '<span>👥 '+j.joueurs+' joueurs</span>' +
+      '<span>🎒 Aucun matériel</span>' +
+    '</div>' +
+    '<p style="font-style:italic;color:#5A6B66">'+j.description+'</p>' +
+    '<h4>📜 Règles du jeu</h4>' +
+    '<div class="rules"><ol>'+j.regles.map(r=>'<li>'+r+'</li>').join('')+'</ol></div>' +
+    '<h4>🎚️ Variantes</h4>' +
+    '<div class="variantes">' +
+      '<div class="var-box var-facile"><h5>Plus facile</h5><p>'+j.facile+'</p></div>' +
+      '<div class="var-box var-difficile"><h5>Plus difficile</h5><p>'+j.difficile+'</p></div>' +
+    '</div>' +
+    '<div class="pourquoi"><p><strong>🧠 Pourquoi ce jeu ? </strong>'+j.pourquoi+'</p></div>';
+  document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+function closeModalIfBg(e){
+  if(e.target.id === 'modalOverlay') closeModal();
+}
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeModal();
+});
+
+// ============================================================
+// INIT
+// ============================================================
+renderGrid();
+</script>
+</body>
+</html>

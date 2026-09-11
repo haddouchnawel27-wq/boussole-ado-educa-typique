@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cours TND interactif — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/charte.css">
+<style>
+body{background:#fbf5ef}
+
+.bandeau{
+  background:linear-gradient(135deg,#F39BC2,#CBB6F6);
+  padding:2rem 1.5rem;text-align:center;color:#fff;
+}
+.bandeau .retour{
+  display:inline-block;color:#fff;font-weight:700;text-decoration:none;
+  background:rgba(255,255,255,.22);padding:.35em 1em;border-radius:999px;font-size:.9rem;
+}
+.bandeau .retour:hover{background:rgba(255,255,255,.35)}
+.bandeau h1{color:#fff;margin:.5rem 0 .3rem;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.bandeau .sub{opacity:.95;max-width:680px;margin:0 auto;font-size:1.02rem}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.container{max-width:1000px;margin:1.5rem auto;padding:0 1.2rem}
+
+/* À propos */
+details.apropos{
+  background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);
+  margin-bottom:1.2rem;border-left:5px solid #F39BC2;
+}
+details.apropos summary{
+  padding:1rem 1.2rem;cursor:pointer;font-weight:800;color:#d36699;
+  font-family:var(--font-titre);font-size:1.05rem;list-style:none;
+}
+details.apropos summary::after{content:"▾";float:right;transition:transform .2s}
+details.apropos[open] summary::after{transform:rotate(180deg)}
+details.apropos .corps{padding:0 1.4rem 1.2rem}
+details.apropos h3{color:#d36699;margin:1rem 0 .3rem;font-size:.9rem;text-transform:uppercase;letter-spacing:.5px}
+details.apropos p{margin:.3rem 0;font-size:.93rem;line-height:1.55}
+
+/* Mode toggle */
+
+/* Chapitres tabs */
+.chap-tabs{
+  display:flex;gap:.4rem;margin-bottom:1.2rem;flex-wrap:wrap;
+  background:#fff;padding:.4rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);
+}
+.chap-tabs button{
+  flex:1;min-width:110px;padding:.55em .8em;border:none;background:transparent;
+  color:#666;font-weight:700;font-family:inherit;cursor:pointer;border-radius:var(--r-sm);
+  transition:all .15s;font-size:.85rem;
+}
+.chap-tabs button.active{background:#F39BC2;color:#fff;box-shadow:var(--shadow-sm)}
+.chap-tabs button:hover:not(.active){background:#fff5f9}
+
+.section{display:none}
+.section.active{display:block}
+
+/* Chapitre card */
+.chap-card{
+  background:#fff;border-radius:var(--r-lg);padding:1.5rem;
+  box-shadow:var(--shadow-sm);margin-bottom:1.1rem;border-left:5px solid var(--cc,#F39BC2);
+}
+.chap-card h2{color:var(--cc,#F39BC2);margin:0 0 .8rem;font-size:1.3rem}
+.chap-card h3{color:#444;margin:1rem 0 .4rem;font-size:1.05rem}
+.chap-card p{line-height:1.65;font-size:.97rem;margin:.5rem 0}
+.chap-card ul{padding-left:1.4rem;line-height:1.7}
+.chap-card ul li{margin:.3rem 0}
+.chap-card strong{color:var(--cc,#F39BC2)}
+
+.callout{
+  background:linear-gradient(135deg,#fff5f9,#fef1e8);
+  border-left:4px solid var(--cc,#F39BC2);
+  padding:1rem 1.2rem;border-radius:var(--r-md);margin:1rem 0;
+}
+.callout.warn{background:#fff8e8;border-left-color:#e9a73a}
+.callout.info{background:#e8f4fc;border-left-color:#5a8fc7}
+.callout.success{background:#e8f7ed;border-left-color:#2a9d8f}
+
+.trouble-list{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin:1rem 0;
+}
+.trouble{
+  background:#fff5f9;border:1.5px solid #f3c8d9;padding:.8rem 1rem;border-radius:var(--r-md);
+}
+.trouble strong{display:block;color:#d36699;margin-bottom:.2rem;font-size:.95rem}
+.trouble span{font-size:.85rem;color:#666}
+
+
+/* Quiz */
+.quiz-section{
+  background:#fff;border-radius:var(--r-lg);padding:1.5rem;
+  box-shadow:var(--shadow-sm);border-left:5px solid #e9a73a;margin-bottom:1.1rem;
+}
+.quiz-section h2{color:#c78416;margin:0 0 .6rem}
+.quiz-q{
+  margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px dashed #f0ebe5;
+}
+.quiz-q:last-child{border-bottom:none}
+.quiz-q .question{font-weight:700;color:#333;margin-bottom:.5rem;font-size:.97rem}
+.quiz-q .answers{display:flex;flex-wrap:wrap;gap:.4rem}
+.quiz-q .ans{
+  padding:.4em .9em;background:#fff;border:1.5px solid #f0d8a8;color:#8a5a10;
+  border-radius:var(--r-sm);cursor:pointer;font-family:inherit;font-weight:700;font-size:.9rem;
+}
+.quiz-q .ans:hover{background:#fff8e8}
+.quiz-q .ans.correct{background:#2a9d8f;color:#fff;border-color:#2a9d8f}
+.quiz-q .ans.wrong{background:#e05a5a;color:#fff;border-color:#e05a5a}
+.quiz-q .feedback{margin-top:.5rem;padding:.5em .8em;border-radius:var(--r-sm);font-size:.88rem;display:none}
+.quiz-q .feedback.show{display:block}
+.quiz-q .feedback.ok{background:#e8f7ed;color:#1a6e63}
+.quiz-q .feedback.ko{background:#fef0f0;color:#a03939}
+.quiz-score{
+  text-align:center;padding:1rem;background:#fffbe8;border-radius:var(--r-md);
+  font-weight:700;color:#8a5a10;margin-top:1rem;display:none;
+}
+.quiz-score.show{display:block}
+
+/* Conclusion + CTA */
+.cta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.7rem;margin-top:1rem}
+.cta-card{
+  background:#fff;border-radius:var(--r-md);padding:.9rem 1rem;
+  border-left:4px solid var(--cc);text-decoration:none;color:#333;
+  transition:all .15s;
+}
+.cta-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-sm);text-decoration:none}
+.cta-card strong{display:block;color:var(--cc);margin-bottom:.2rem;font-size:.95rem}
+.cta-card span{font-size:.82rem;color:#666}
+
+/* Actions */
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.5rem 0}
+.actions button{
+  padding:.65em 1.3em;border:none;border-radius:var(--r-md);
+  font-weight:700;cursor:pointer;font-size:.92rem;font-family:inherit;
+}
+.btn-export{background:#F39BC2;color:#fff}
+.btn-export:hover{background:#d36699}
+.btn-print{background:#fff;color:#d36699;border:1.5px solid #f3c8d9}
+.btn-print:hover{background:#fff5f9}
+
+/* Signature pro */
+.sig-nawel{
+  background:#fff;padding:1rem 1.2rem;border-radius:var(--r-md);
+  margin-bottom:1.2rem;border-left:4px solid #F39BC2;font-size:.92rem;
+  line-height:1.55;color:#555;font-style:italic;
+}
+.sig-nawel strong{color:#d36699;font-style:normal}
+
+@media print{
+  .bandeau,.chap-tabs,.actions,details.apropos summary::after{display:none!important}
+  body{background:#fff}
+  .container{max-width:100%;padding:0}
+  .section{display:block!important;page-break-after:always}
+  .chap-card,.quiz-section{box-shadow:none;border:1px solid #ddd;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../casa-familles/index.html">← La Casa des Familles</a>
+  <div class="signature">📚 Création originale — Nawel Haddouch · EducaTypique</div>
+  <h1>📖 Comprendre les TND — Cours interactif</h1>
+  <p class="sub">Un cours simple, structuré, pédagogiquement pensé. Pour comprendre ce qu'est un Trouble du Neurodéveloppement, ce qui n'en est pas, et ce qu'on peut faire.</p>
+</section>
+
+<div class="container">
+
+  <details class="apropos">
+    <summary>📖 À propos de cet outil</summary>
+    <div class="corps">
+      <h3>Pour qui</h3>
+      <p>Pour les parents qui se posent des questions, qui voient leur enfant en difficulté, qui veulent comprendre avant de paniquer ou de minimiser. Aussi pour les pros qui veulent un support clair à donner aux familles.</p>
+
+      <h3>Pour quoi</h3>
+      <p>Pour <strong>poser les bases</strong>. Comprendre ce qu'est (et ce que n'est pas) un Trouble du Neurodéveloppement. Connaître les signes d'alerte. Distinguer une difficulté passagère d'un trouble durable. Ouvrir le dialogue avec calme et clarté.</p>
+
+      <h3>Comment ça marche</h3>
+      <p>6 chapitres + 1 quiz. Tu navigues à ton rythme, tu peux imprimer pour le relire.</p>
+
+      <h3>Quand l'utiliser</h3>
+      <p>Au moment où le doute apparaît. Avant une consultation. Après un diagnostic pour mieux comprendre. À partager avec les grands-parents, l'école, l'entourage.</p>
+
+      <h3>Combien de temps</h3>
+      <p>15-25 min de lecture complète. 5 min par chapitre.</p>
+
+      <h3>Ce que ça change</h3>
+      <p>Du flou et de l'angoisse → de la clarté et des points d'appui. Ton enfant n'est <strong>pas un problème à résoudre</strong>, c'est un cerveau qui fonctionne autrement.</p>
+
+      <h3>Ce que ça ne remplace pas</h3>
+      <p>Un diagnostic médical par un professionnel qualifié (médecin, neuropsychologue, pédopsychiatre). Ce cours est un outil de compréhension, pas un test diagnostique.</p>
+
+      <h3>Inspiration</h3>
+      <p>Cours rédigé par Nawel Haddouch, neuropédagogue TND+TCC, fondatrice EducaTypique. Appuyé sur les classifications officielles (DSM-5-TR, CIM-11) et sur les neurosciences du développement.</p>
+    </div>
+  </details>
+
+  <div class="sig-nawel">
+    💗 <strong>Un mot de Nawel</strong> — Je suis neuropédagogue TND+TCC, maman de 2 ados TDAH+++/multi-dys/HPI/anxieux, et moi-même TDAH multi-dys. Ce cours, c'est ce que j'aurais aimé qu'on me dise quand j'ai commencé à chercher. Sans jargon, sans dramatisation, avec respect.
+  </div>
+
+  <div class="chap-tabs">
+    <button class="active" data-tab="ch1">🧠 1 · Définition</button>
+    <button data-tab="ch2">🚨 2 · Signes</button>
+    <button data-tab="ch3">📋 3 · Liste officielle</button>
+    <button data-tab="ch4">💡 4 · HPI</button>
+    <button data-tab="ch5">🆚 5 · TND vs difficultés</button>
+    <button data-tab="ch6">🛠 6 · Ce qu'on peut faire</button>
+    <button data-tab="quiz">🎯 Quiz</button>
+  </div>
+
+  <!-- CHAPITRE 1 -->
+  <section id="ch1" class="section active">
+    <div class="chap-card" style="--cc:#7c5cbf">
+      <h2>🧠 1. Qu'est-ce qu'un Trouble du Neurodéveloppement (TND) ?</h2>
+      <p>Un <strong>Trouble du Neurodéveloppement</strong> est une <strong>manière différente de fonctionner du cerveau</strong>, qui se manifeste dès l'enfance et qui influence la façon d'apprendre, d'interagir, de s'organiser, de penser et souvent d'agir dans la vie quotidienne.</p>
+
+      <h3>→ Concrètement, ça veut dire :</h3>
+      <ul>
+        <li>Ce n'est <strong>pas un choix</strong> de comportement.</li>
+        <li>Ce n'est <strong>pas dû à un manque d'effort</strong> ou à une mauvaise éducation.</li>
+        <li>C'est une <strong>façon différente d'apprendre / percevoir / traiter l'information</strong>.</li>
+        <li>On <strong>naît avec</strong> (génétique + développement précoce), et cela accompagne la personne <strong>toute la vie</strong>.</li>
+        <li>On ne guérit pas, mais on peut <strong>apprendre à compenser, à s'adapter, et à utiliser ses forces</strong>.</li>
+      </ul>
+
+      <div class="callout">
+        💡 Un TND, c'est comme un ordinateur dont le système d'exploitation est différent du standard. Tu peux faire tourner tous les programmes — mais il faut connaître son système, pas essayer de le forcer à devenir Windows quand il est macOS.
+      </div>
+
+      
+    </div>
+  </section>
+
+  <!-- CHAPITRE 2 -->
+  <section id="ch2" class="section">
+    <div class="chap-card" style="--cc:#e9a73a">
+      <h2>🚨 2. Signes d'alerte fréquents (chez l'enfant)</h2>
+      <p>Chaque enfant est unique, mais certains signes doivent inviter à une <strong>attention particulière</strong> :</p>
+
+      <h3>📌 Difficultés d'apprentissage persistantes</h3>
+      <div class="trouble-list">
+        <div class="trouble"><strong>📖 Lecture lente, fatigante, erreurs fréquentes</strong><span>→ possible dyslexie</span></div>
+        <div class="trouble"><strong>✏️ Écriture illisible, inversions fréquentes</strong><span>→ dysgraphie / dysorthographie</span></div>
+        <div class="trouble"><strong>🔢 Difficulté à compter / comprendre les nombres</strong><span>→ dyscalculie</span></div>
+        <div class="trouble"><strong>🤹 Maladresse, difficultés motrices</strong><span>→ dyspraxie</span></div>
+        <div class="trouble"><strong>⚡ Difficulté à soutenir l'attention ou s'organiser</strong><span>→ TDAH</span></div>
+        <div class="trouble"><strong>💬 Retard de langage marqué</strong><span>→ trouble spécifique du langage</span></div>
+        <div class="trouble"><strong>🧩 Difficultés sociales persistantes, routines rigides</strong><span>→ piste TSA</span></div>
+      </div>
+
+      <div class="callout warn">
+        📌 <strong>Paradoxalement</strong>, parfois l'enfant « semble très intelligent » — mais il est vite <strong>fatigué</strong> ou se <strong>décourage</strong> face à certaines tâches. Le décalage entre potentiel et performance est un signe d'alerte fort.
+      </div>
+
+      
+    </div>
+  </section>
+
+  <!-- CHAPITRE 3 -->
+  <section id="ch3" class="section">
+    <div class="chap-card" style="--cc:#2a9d8f">
+      <h2>📋 3. Liste officielle des Troubles des Apprentissages</h2>
+      <p>Dans les classifications médicales et éducatives (ex. DSM-5-TR et CIM-11), les troubles des apprentissages font partie des TND et incluent notamment :</p>
+
+      <div class="trouble-list">
+        <div class="trouble" style="background:#e8f7ed;border-color:#2a9d8f"><strong>1. Dyslexie développementale</strong><span>Difficultés significatives en lecture</span></div>
+        <div class="trouble" style="background:#e8f7ed;border-color:#2a9d8f"><strong>2. Dysorthographie / Dysgraphie</strong><span>Écriture, orthographe</span></div>
+        <div class="trouble" style="background:#e8f7ed;border-color:#2a9d8f"><strong>3. Dyscalculie</strong><span>Compétences numériques et calcul</span></div>
+        <div class="trouble" style="background:#e8f7ed;border-color:#2a9d8f"><strong>4. Dyspraxie (TDC)</strong><span>Planification motrice et organisation des gestes</span></div>
+        <div class="trouble" style="background:#e8f7ed;border-color:#2a9d8f"><strong>5. TDAH</strong><span>Attention, impulsivité, hyperactivité</span></div>
+        <div class="trouble" style="background:#e8f7ed;border-color:#2a9d8f"><strong>6. Troubles spécifiques du langage</strong><span>Compréhension / expression</span></div>
+      </div>
+
+      <div class="callout success">
+        👉 <strong>Tous ces troubles font partie des Troubles du Neurodéveloppement</strong>. Ils peuvent coexister (on parle de <em>comorbidité</em>) — c'est même très fréquent. Un enfant peut être à la fois TDAH + dyslexique + HPI par exemple.
+      </div>
+
+      
+    </div>
+  </section>
+
+  <!-- CHAPITRE 4 -->
+  <section id="ch4" class="section">
+    <div class="chap-card" style="--cc:#5a8fc7">
+      <h2>💡 4. Particularité du HPI (Haut Potentiel Intellectuel)</h2>
+
+      <h3>📍 Qu'est-ce que le HPI ?</h3>
+      <p>Le HPI désigne une personne ayant des <strong>capacités intellectuelles nettement supérieures à la moyenne</strong> (souvent mesurées par un QI élevé, généralement ≥ 130).</p>
+
+      <h3>📌 Ce n'est pas classé comme un trouble car :</h3>
+      <ul>
+        <li>Il ne s'agit pas d'une difficulté cognitive intrinsèque mais d'une <strong>différence de fonctionnement</strong> souvent favorable.</li>
+        <li>Il n'entraîne pas intrinsèquement de déficits ou de limitations adaptatives.</li>
+      </ul>
+
+      <div class="callout warn">
+        ❗ <strong>Pourquoi le HPI peut être un handicap dans les faits ?</strong> Une personne HPI peut être en difficulté parce que :
+        <ul style="margin-top:.4rem">
+          <li>Elle s'ennuie à l'école → démotivation, comportement perçu comme perturbateur.</li>
+          <li>Elle a une pensée très rapide ou associative → difficulté à structurer, à finir les tâches.</li>
+          <li>Elle est <strong>hypersensible émotionnellement ou sensoriellement</strong>.</li>
+          <li>Elle ne rentre pas dans les attentes scolaires standardisées.</li>
+        </ul>
+      </div>
+
+      <p>➡️ On dit souvent que le HPI est un <strong>profil cognitif particulier, pas un trouble</strong>. Mais dans la vie quotidienne, sans accompagnement adapté, cela peut être source de souffrance ou de <strong>handicap fonctionnel</strong>.</p>
+
+      
+    </div>
+  </section>
+
+  <!-- CHAPITRE 5 -->
+  <section id="ch5" class="section">
+    <div class="chap-card" style="--cc:#e05a8a">
+      <h2>🆚 5. TND vs Difficultés scolaires « simples »</h2>
+
+      <h3>📌 Difficultés scolaires courantes</h3>
+      <p>Beaucoup d'enfants peuvent rencontrer :</p>
+      <ul>
+        <li>Des difficultés temporaires en mathématiques,</li>
+        <li>Des lenteurs ponctuelles en lecture,</li>
+        <li>Des problèmes de concentration liés à la fatigue ou au stress,</li>
+        <li>Une baisse de motivation à certains moments.</li>
+      </ul>
+
+      <div class="callout info">
+        <strong>Ces difficultés ne sont pas automatiquement des TND si :</strong>
+        <ul style="margin-top:.4rem">
+          <li>Elles <strong>disparaissent</strong> avec l'apprentissage, le soutien, le temps.</li>
+          <li>Elles sont <strong>en lien avec l'environnement</strong> (changement d'école, stress familial).</li>
+          <li>Elles ne s'accompagnent pas d'un <strong>profil stable</strong> de trouble.</li>
+        </ul>
+      </div>
+
+      <h3>🎯 Les 3 critères qui orientent vers un TND</h3>
+      <ul>
+        <li><strong>1. Persistance</strong> — la difficulté dure plus de 6 mois malgré le soutien</li>
+        <li><strong>2. Intensité</strong> — l'écart avec les pairs s'élargit au lieu de se réduire</li>
+        <li><strong>3. Retentissement</strong> — impact sur le quotidien (école, famille, estime)</li>
+      </ul>
+
+      
+    </div>
+  </section>
+
+  <!-- CHAPITRE 6 -->
+  <section id="ch6" class="section">
+    <div class="chap-card" style="--cc:#2a9d8f">
+      <h2>🛠 6. Ce qu'on peut faire</h2>
+      <p>Même si on ne « guérit » pas d'un TND :</p>
+      <ul>
+        <li>✔️ <strong>Accompagnements adaptés</strong> (orthophoniste, neuropsychologue, ergothérapeute…)</li>
+        <li>✔️ <strong>Aménagements scolaires personnalisés</strong> (PAP, PPS, PAI)</li>
+        <li>✔️ <strong>Stratégies de gestion</strong> de l'attention / de l'organisation</li>
+        <li>✔️ <strong>Valoriser les forces</strong> et intelligences de l'enfant</li>
+        <li>✔️ <strong>Soutien émotionnel</strong> et parental bienveillant</li>
+      </ul>
+
+      <div class="callout success">
+        <strong>En conclusion :</strong><br>
+        Un trouble du neurodéveloppement n'est pas une faute, ni un échec.<br>
+        C'est une différence dans le fonctionnement du cerveau.<br>
+        Avec compréhension, soutien adapté et ajustements, ton enfant peut <strong>s'épanouir, apprendre et déployer tout son potentiel</strong>. 🌱
+      </div>
+
+      <h3>🎁 Pour aller plus loin dans la Boîte EducaTypique</h3>
+      <div class="cta-grid">
+        <a href="../contenus-reseaux/kit-ramener-le-calme.html" class="cta-card" style="--cc:#7c5cbf"><strong>🌬 Kit calme</strong><span>Ancrages express quand ça déborde</span></a>
+        <a href="aide-epuise.html" class="cta-card" style="--cc:#F39BC2"><strong>🌿 Aide / épuise</strong><span>Trier ce qui me porte et ce qui me vide</span></a>
+        <a href="controle-influence-lache.html" class="cta-card" style="--cc:#F39BC2"><strong>🍃 Contrôle / influence / lâche</strong><span>Reposer la charge mentale au bon endroit</span></a>
+        <a href="guide-tdah-top.html" class="cta-card" style="--cc:#7c5cbf"><strong>📘 Guide TDAH+TOP</strong><span>Si tu suspectes l'opposition + TDAH</span></a>
+      </div>
+
+      
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="section">
+    <div class="quiz-section">
+      <h2>🎯 Quiz — TND ou pas TND ?</h2>
+      <p style="color:#666">8 affirmations. À toi de dire si c'est <strong>VRAI</strong> ou <strong>FAUX</strong>. Un explicatif te dira pourquoi.</p>
+
+      <div id="quiz-container"></div>
+
+      <div class="quiz-score" id="quiz-score"></div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="btn-export" id="btn-export">📄 Exporter mes notes pro en .txt</button>
+    <button class="btn-print" onclick="window.print()">🖨 Imprimer le cours</button>
+  </div>
+
+</div>
+
+<script>
+const NOTE_KEY='educatypique_cours_tnd_notes_v1';
+
+/* Tabs */
+document.querySelectorAll('.chap-tabs button').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.chap-tabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+});
+
+
+/* Notes perso — localStorage */
+function loadNotes(){
+  try{const raw=localStorage.getItem(NOTE_KEY);return raw?JSON.parse(raw):{};}catch(e){return{}}
+}
+function saveNotes(notes){localStorage.setItem(NOTE_KEY,JSON.stringify(notes));}
+const notes=loadNotes();
+document.querySelectorAll('[data-note]').forEach(t=>{
+  const k=t.dataset.note;
+  t.value=notes[k]||'';
+  t.addEventListener('input',e=>{notes[k]=e.target.value;saveNotes(notes);});
+});
+
+/* Quiz */
+const QUIZ=[
+  {q:"Un enfant qui se décourage souvent à l'école est forcément TND.",a:false,
+    expl:"Faux. La démotivation peut venir de mille raisons (stress, fatigue, ennui, conflit familial). Le TND, c'est persistant + intense + génétique. Avant tout, écouter ce qui se passe."},
+  {q:"Un TND peut se guérir avec assez de travail et d'efforts.",a:false,
+    expl:"Faux. Un TND est une différence neurologique innée. On n'en guérit pas — mais on peut apprendre à compenser, utiliser ses forces, et l'environnement peut s'adapter."},
+  {q:"Le HPI fait partie des Troubles du Neurodéveloppement.",a:false,
+    expl:"Faux. Le HPI est un profil cognitif particulier, pas un trouble. MAIS il peut générer un handicap fonctionnel (ennui, hypersensibilité, décalage)."},
+  {q:"Un enfant peut avoir plusieurs TND en même temps.",a:true,
+    expl:"Vrai. On parle alors de comorbidité. TDAH + dys, TSA + TDAH, multi-dys… c'est très fréquent, souvent même la règle."},
+  {q:"Inverser des lettres en CE1 est forcément le signe d'une dyslexie.",a:false,
+    expl:"Faux. À cet âge, certaines inversions sont normales. La dyslexie se confirme par PERSISTANCE (>6 mois après accompagnement) + INTENSITÉ + RETENTISSEMENT."},
+  {q:"Un enfant TND naît avec, ça ne vient pas de l'éducation.",a:true,
+    expl:"Vrai. Origine génétique + développement précoce. L'éducation peut moduler les manifestations, pas créer ni guérir le trouble."},
+  {q:"Un TND empêche forcément la réussite scolaire.",a:false,
+    expl:"Faux. Avec des aménagements et un accompagnement adapté, beaucoup d'enfants TND réussissent leur scolarité, parfois brillamment. Le QI moyen TDAH = QI moyen général."},
+  {q:"Si mon enfant est juste 'différent', je peux poser le diagnostic moi-même.",a:false,
+    expl:"Faux. Le diagnostic se pose en consultation médicale, par des professionnels qualifiés. Ce cours t'aide à OUVRIR le dialogue, pas à diagnostiquer."},
+];
+
+const qc=document.getElementById('quiz-container');
+let answered=0;let correct=0;
+QUIZ.forEach((q,i)=>{
+  const div=document.createElement('div');div.className='quiz-q';
+  div.innerHTML=`
+    <div class="question">${i+1}. ${q.q}</div>
+    <div class="answers">
+      <button class="ans" data-val="true">✓ Vrai</button>
+      <button class="ans" data-val="false">✗ Faux</button>
+    </div>
+    <div class="feedback"></div>
+  `;
+  qc.appendChild(div);
+  div.querySelectorAll('.ans').forEach(b=>{
+    b.onclick=()=>{
+      if(b.classList.contains('correct')||b.classList.contains('wrong'))return;
+      const v=b.dataset.val==='true';
+      const isOk=v===q.a;
+      const fb=div.querySelector('.feedback');
+      if(isOk){b.classList.add('correct');correct++;fb.className='feedback ok show';fb.textContent='✓ Bonne réponse. '+q.expl;}
+      else{b.classList.add('wrong');
+        const other=div.querySelector(`.ans[data-val="${q.a}"]`);
+        other.classList.add('correct');
+        fb.className='feedback ko show';fb.textContent='✗ Ce n\'est pas tout à fait ça. '+q.expl;}
+      div.querySelectorAll('.ans').forEach(x=>{if(!x.classList.contains('correct')&&!x.classList.contains('wrong'))x.style.opacity=0.4;});
+      answered++;
+      if(answered===QUIZ.length){
+        const score=document.getElementById('quiz-score');
+        score.classList.add('show');
+        score.innerHTML=`🎯 Score : <strong>${correct}/${QUIZ.length}</strong>${correct===QUIZ.length?' — Parfait, tu maîtrises le sujet ! 🌟':correct>=6?' — Très bien, tu as les bases solides 💪':correct>=4?' — Pas mal, relis les chapitres qui t\'ont posé problème 📖':' — Pas grave, relis tranquillement, c\'est un sujet riche 💗'}`;
+      }
+    };
+  });
+});
+
+/* Export */
+document.getElementById('btn-export').onclick=()=>{
+  const date=new Date().toLocaleDateString('fr-FR');
+  let txt=`COURS TND INTERACTIF — Mes notes pro\n`;
+  txt+=`Création EducaTypique · Nawel Haddouch\n`;
+  txt+=`Exporté le : ${date}\n`;
+  txt+=`${'='.repeat(60)}\n\n`;
+  const labels={ch1:'1. Définition TND',ch2:'2. Signes',ch3:'3. Liste officielle',ch4:'4. HPI',ch5:'5. TND vs difficultés',ch6:'6. Ce qu\'on peut faire'};
+  Object.entries(labels).forEach(([k,l])=>{
+    if(notes[k]&&notes[k].trim()){
+      txt+=`## ${l}\n${notes[k]}\n\n`;
+    }
+  });
+  if(!Object.values(notes).some(n=>n&&n.trim())){
+    txt+=`(Aucune note perso pour l'instant.)\n`;
+  }
+  const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`cours-tnd_notes-pro_${date.replace(/\//g,'-')}.txt`;
+  a.click();URL.revokeObjectURL(url);
+};
+</script>
+
+</body>
+</html>
