@@ -63,3 +63,49 @@ Vérifié : les 3 liens répondent, aucune erreur JS, 390 px sans débordement,
 aucune occurrence de « recette », « audit », « test », « 11 pages », « enrichi ».
 
 **La copie interne reste intacte** (avec README, RECAP et tests) — rien n'est perdu.
+
+---
+
+## 🧭 Chantier Discernement (nouveau — 20 sept.)
+
+Nawel a retrouvé trois fichiers qui forment un chantier à part entière,
+absent de tous nos inventaires jusqu'ici.
+
+| Pièce | Contenu |
+|---|---|
+| `modele-discernement.pdf` | La synthèse scientifique : 10 constats, 11 axes |
+| `modele-discernement-exercices.pdf` | 9 fiches — enfants 8–11 · ados 12–17 · adultes 18+ |
+| `00-PILOTE.html` | Le tableau de bord des 13 chapitres + journal des décisions |
+
+**Positions fortes et sourcées du modèle** (c'est ce qui la protège quand elle affirme) :
+le **HPE n'est pas un concept scientifiquement valide** et ne doit pas servir de catégorie
+clinique ; sur le **HPI**, les données sont contradictoires ; le *far transfer* est rare
+sans contextualisation explicite.
+
+### Le rattachement : Moi & Coachy
+
+Le modèle définit la métacognition comme **monitoring + contrôle**. C'est exactement
+la paire que Nawel avait déjà construite — la pratique écrite avant la théorie :
+
+- **Mon Mode d'emploi** = le monitoring (se connaître, à froid)
+- **Coachy** = le contrôle (se piloter, à chaud, round par round)
+
+Donc la **section 7 de chaque chapitre** (« lesquels de tes outils s'en servent déjà »)
+doit nommer Moi & Coachy. Et les trois fiches ados — *Journal de discernement*,
+*Confiance vs exactitude*, *Intuition sous conditions* — sont les candidates naturelles
+pour rejoindre La Casa des Ados à côté de Coachy.
+
+Nawel avait elle-même écrit ce lien dans `moi-et-coachy-comparatif.html` :
+« l'un ouvre le chemin, l'autre accompagne ».
+
+### Rangement
+`Documents › New project › Livrables › Discernement` — livré en ZIP le 20 sept.
+Le Pilote a été renommé `00-PILOTE.html` (sa propre règle : « une seule porte »).
+
+### Au passage, sur Moi & Coachy
+- `moi-et-coachy.html` est un **doublon exact** de `Moi_et_Coachy_Accueil.html`
+  (texte identique au caractère près, seuls les chemins des liens diffèrent) → écarté.
+- `moi-et-coachy-EN-LIGNE.html` est la **version tout-en-un** (accueil + Mode d'emploi
+  + Coachy dans un seul fichier, 110 Ko). Elle ne déclarait aucun encodage : les emojis
+  s'affichaient en charabia. `<meta charset="utf-8">` ajoutée en tête → réglé, les trois
+  onglets testés. **C'est la version de référence.**
