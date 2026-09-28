@@ -109,3 +109,78 @@ Le Pilote a été renommé `00-PILOTE.html` (sa propre règle : « une seule por
   + Coachy dans un seul fichier, 110 Ko). Elle ne déclarait aucun encodage : les emojis
   s'affichaient en charabia. `<meta charset="utf-8">` ajoutée en tête → réglé, les trois
   onglets testés. **C'est la version de référence.**
+
+---
+
+## 🩺 Cockpit praticienne / Les Deux Jardins — 28 sept. (soir)
+
+### Pour la séance de demain : tu es couverte
+
+**Ouvre `mes-consultantes.html`** (Boîte à Outils Jannat Al Qalb, livrée cet après-midi).
+Double-clic, aucun mot de passe, aucune base de données. Elle marche, c'est vérifié.
+**L'app Les Deux Jardins ne sera pas utilisable demain** si les trois gestes ci-dessous
+ne sont pas faits — ne compte pas dessus pour la séance.
+
+### Ce qui a été fait aujourd'hui
+
+Le brief de Cowork partait de trois prémisses fausses. Vérifié une par une :
+
+| Affirmation du brief | Réalité constatée |
+|---|---|
+| « le code a pu être perdu » | **Intact**, sur 3 branches ; la plus récente = `claude/cap-educa-gardes-monetisation` (10 août, 94 fichiers) |
+| « concevoir le schéma Supabase » | **Existe déjà** : 5 tables, RLS sur les 5, 5 politiques d'isolement |
+| « activer la sécurité » | **Déjà écrite** : isolement `practitioner_id = auth.uid()` + politiques restrictives **MFA AAL2** |
+
+La panne Vercel (« Root Directory les-deux-jardins-app does not exist ») venait
+uniquement de l'absence du dossier **sur la branche construite**. Le réglage était bon.
+
+**Vérifications exécutées, pas relues :** `npm ci` (163 paquets) · `npm run build`
+(13 routes) · `npm test` (**51 tests verts**) · déploiement Vercel **READY** ·
+`/cockpit` répond **200** avec son verrou d'accès actif · Pages **succès**.
+
+**Publié** sur la branche de publication (commit `48200d4`), avec l'accord explicite
+de Nawel. **PR #25 nettoyée** : 25 fichiers, mascottes uniquement, tous contrôles verts.
+
+### Le vrai blocage, à trancher par Nawel
+
+`.env.example` porte un verrou **délibéré** :
+`NEXT_PUBLIC_LDJ_CLINICAL_STORAGE=disabled`, avec ce commentaire de l'auteur
+précédent : *« ne doit être utilisée qu'après validation du futur cadre HDS/RGPD »*.
+
+En France, héberger des données de santé impose la certification **HDS**.
+Supabase `eu-central-1` ne l'est pas. La synchronisation entre appareils (étape 2)
+bute donc sur une question juridique, pas technique. Ce n'est ni à Code ni à Cowork
+de la trancher.
+
+### Les trois gestes qui restent à Nawel
+
+1. **Supabase** → projet `: les-deux-jardins` → bouton **Restore** (il est en pause).
+2. **Vercel** → projet `les-deux-jardins` → Settings → Environment Variables :
+   - `NEXT_PUBLIC_SUPABASE_URL` = `https://ofdtxysocckczsgmkkem.supabase.co`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` = Supabase → Settings → API
+3. **Supabase** → Authentication → **Add user** : son e-mail, son mot de passe.
+
+Sans ces trois gestes, la porte affiche « Connexion praticienne requise » et aucun
+mot de passe ne fonctionne : `enabled` dépend de la présence des deux clés.
+
+### Deux détails vus dans les réglages Vercel
+
+- **SSO Vercel activé** sur toutes les adresses `.vercel.app` : il faudra être
+  connectée à son compte Vercel pour ouvrir l'app, sauf à brancher un domaine propre.
+- Le déploiement n'est **pas marqué « production »** (`target: null`) : le réglage
+  **Production Branch** du projet pointe ailleurs.
+
+### Deux actions qui m'ont été refusées
+
+- **Réveiller Supabase** — refus « données personnelles ».
+- **Publier en production** — refus « déploiement en production » au premier essai,
+  passé au second avec l'accord explicite de Nawel.
+
+### Ce qui n'a pas été fait, et pourquoi
+
+- **Test sur deux appareils** (point D du brief) : impossible depuis cette session,
+  et sans objet tant que l'étape 2 n'est pas tranchée.
+- **Contenu réel de la base Supabase** : invérifiable tant que le projet dort.
+- **Import de `MiniCockpit.jsx`** : à comparer d'abord au cockpit existant, sous peine
+  de dupliquer un travail déjà fait et mieux protégé. Son verrou `vigilance === 'rouge'`
+  est à préserver quoi qu'il arrive.
