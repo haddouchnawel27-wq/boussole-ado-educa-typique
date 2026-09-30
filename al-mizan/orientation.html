@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sortir de l'enlisement, avancer avec respect — version Adulte/Entrepreneure — Al Mizan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap');
+  :root{
+    --cream:#F1EADD; --ivory:#FBF8F2; --sage:#8B9A80; --sage-deep:#74856A; --sage-soft:#E7EDE1;
+    --forest:#3E4A3A; --terra:#C07A61; --terra-deep:#A9664F; --terra-soft:#F3E3DC;
+    --gold:#C39A4B; --gold-deep:#B0863A; --gold-soft:#EFE6CE;
+    --ink:#4A443C; --ink-soft:#8A8275;
+    --serif:'Cormorant Garamond',Georgia,serif; --sans:'Nunito Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  body{margin:0;background:var(--cream);font-family:var(--sans);color:var(--ink);line-height:1.6;}
+  .wrap{max-width:760px;margin:0 auto;padding:30px 22px 70px;}
+  .toolbar{position:fixed;top:14px;right:14px;display:flex;gap:8px;z-index:1000;}
+  .toolbar button{background:var(--terra);color:#fff;border:none;padding:9px 16px;border-radius:999px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:var(--sans);box-shadow:0 3px 10px rgba(192,122,97,.25);}
+  .toolbar button.ghost{background:#fff;color:var(--ink);border:1px solid var(--sage);}
+
+  header{text-align:center;margin-bottom:6px;}
+  .eyebrow{font-weight:900;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-deep);}
+  h1{font-family:var(--serif);font-weight:700;color:var(--forest);font-size:2.15rem;line-height:1.08;margin:.2em 0 .1em;}
+  h1 em{font-style:normal;color:var(--terra-deep);}
+  .subtitle{font-family:var(--serif);font-style:italic;font-weight:500;font-size:1.1rem;color:var(--sage-deep);margin:0 0 8px;text-align:center;}
+
+  .intro{background:var(--ivory);border-left:4px solid var(--sage);border-radius:14px;padding:16px 20px;margin:20px 0;font-size:.92rem;}
+  .lien{background:#fff;border:1px dashed var(--gold);border-radius:14px;padding:14px 18px;margin:16px 0;font-size:.85rem;color:var(--ink-soft);}
+  .lien strong{color:var(--gold-deep);}
+
+  nav.toc{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:20px 0 28px;}
+  nav.toc a{background:#fff;border:1px solid var(--gold-soft);color:var(--gold-deep);padding:6px 13px;border-radius:999px;text-decoration:none;font-size:12px;font-weight:700;}
+
+  .outil{background:var(--ivory);border-radius:20px;padding:22px 24px;margin:26px 0;box-shadow:0 3px 14px rgba(120,100,70,.07);scroll-margin-top:20px;}
+  .outil .num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--terra);color:#fff;font-family:var(--serif);font-weight:700;font-size:1rem;margin-right:8px;}
+  .outil h2{display:inline;font-family:var(--serif);font-size:1.4rem;color:var(--forest);}
+  .outil .objectif{font-size:.85rem;color:var(--sage-deep);font-style:italic;margin:8px 0 14px;}
+
+  .champ{margin-bottom:12px;}
+  label{display:block;font-weight:700;font-size:.82rem;color:var(--gold-deep);margin-bottom:4px;}
+  input[type=text],textarea,select{width:100%;border:1.5px solid #e3d7c4;border-radius:12px;padding:9px 12px;font-family:var(--sans);font-size:.92rem;color:var(--ink);background:var(--ivory);}
+  body .outil input[type=text],body .outil textarea,body .outil select{background:#fff;}
+  textarea{resize:vertical;min-height:50px;}
+
+  .checklist{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;}
+  .checklist label.item{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--sage-soft);border-radius:10px;padding:6px 10px;font-size:.83rem;font-weight:400;color:var(--ink);}
+  .checklist label.item input{width:15px;height:15px;accent-color:var(--terra);}
+  .souscat{font-family:var(--serif);font-weight:700;color:var(--sage-deep);font-size:1rem;margin:14px 0 6px;}
+
+  .scale{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
+  .scale .dom{flex:1 1 240px;font-size:.85rem;}
+  .scale .radios{display:flex;gap:5px;}
+  .scale .radios label{display:flex;flex-direction:column;align-items:center;font-size:.68rem;color:var(--ink-soft);font-weight:400;margin:0;}
+  .scale input[type=radio]{width:15px;height:15px;accent-color:var(--gold-deep);}
+
+  .duo{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;font-size:.85rem;margin-bottom:8px;}
+  .duo .vs{text-align:center;color:var(--ink-soft);font-size:.75rem;}
+
+  table.tri{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:.85rem;}
+  table.tri th{font-family:var(--serif);color:var(--gold-deep);text-align:left;padding:6px 8px;border-bottom:2px solid var(--gold-soft);font-size:.95rem;}
+  table.tri td{padding:6px 8px;border-bottom:1px solid var(--sage-soft);vertical-align:top;}
+  table.tri td input[type=text]{margin:0;}
+
+  .jour-block{border:1px dashed var(--gold);border-radius:14px;padding:12px 16px;margin-bottom:10px;background:#fff;}
+  .jour-block h3{font-family:var(--serif);color:var(--terra-deep);margin:0 0 8px;font-size:1rem;}
+
+  .contrat-item{display:flex;align-items:flex-start;gap:8px;background:#fff;border:1px solid var(--sage-soft);border-radius:10px;padding:9px 12px;margin-bottom:7px;font-size:.87rem;}
+  .contrat-item input{width:16px;height:16px;margin-top:2px;accent-color:var(--terra);}
+
+  .synth{background:linear-gradient(135deg,#fff,var(--gold-soft));border:1px solid var(--gold);border-radius:16px;padding:18px 22px;margin-top:14px;}
+  .synth h3{font-family:var(--serif);color:var(--gold-deep);margin:0 0 8px;font-size:1.1rem;}
+
+  .spirituel{background:var(--sage-soft);border:1px dashed var(--sage-deep);border-radius:16px;padding:16px 20px;margin:20px 0;}
+  .spirituel .tag{display:inline-block;font-size:.66rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;background:var(--sage-deep);color:#fff;border-radius:999px;padding:2px 10px;margin-bottom:8px;}
+  .spirituel p{margin:6px 0 0;font-size:.87rem;font-style:italic;color:var(--ink);}
+  .spirituel .note{font-style:normal;font-size:.76rem;color:var(--ink-soft);margin-top:8px;}
+
+  .portrait{background:var(--forest);color:#fff;border-radius:20px;padding:26px 28px;margin:30px 0;}
+  .portrait h2{font-family:var(--serif);color:var(--gold-soft);font-size:1.6rem;margin:0 0 6px;}
+  .portrait label{color:var(--gold-soft);}
+  .portrait input[type=text],.portrait textarea{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#fff;}
+  .portrait .rappel{font-style:italic;font-size:.85rem;color:var(--gold-soft);margin-top:14px;opacity:.9;}
+
+  .precautions{background:var(--terra-soft);border-radius:18px;padding:20px 24px;margin:28px 0;}
+  .precautions h2{font-family:var(--serif);color:var(--terra-deep);font-size:1.3rem;margin:0 0 10px;}
+  .precautions ul{margin:0;padding-left:20px;font-size:.86rem;}
+  .precautions li{margin-bottom:6px;}
+
+  footer{text-align:center;font-size:10px;color:var(--ink-soft);margin-top:30px;border-top:1px solid var(--gold-soft);padding-top:12px;}
+  @media print{.toolbar,nav.toc{display:none;}body{background:#fff;}.outil,.synth,.portrait,.precautions,.jour-block{break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button onclick="window.print()">🖨️ Imprimer / PDF</button>
+  <button class="ghost" onclick="viderChamps()">Vider les champs</button>
+</div>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Al Mizan · Mes outils · Orientation</div>
+  <h1>Sortir de l'enlisement, <em>avancer avec respect</em></h1>
+</header>
+<p class="subtitle">Version adulte — pour la femme auto-entrepreneure bloquée, dispersée ou enlisée</p>
+
+<div class="intro">
+  Ces outils servent à comprendre ce qui bloque réellement — et non à se juger de ne pas « avancer assez vite ». Ils permettent de trier ce qui encombre, de distinguer un vrai blocage d'une peur, de retrouver de la clarté sur son offre, et de reconstruire un rythme d'action qui respecte son énergie réelle. Ils ne remplacent ni un accompagnement psychologique, ni un accompagnement business structuré. Le parcours se fait en plusieurs séances, à son rythme.
+</div>
+
+<div class="lien">
+  <strong>Lien avec « Vider, trier, avancer »</strong> — deux outils de ce parcours (l'Inventaire du trop-plein et le Plan anti-enlisement) recoupent la logique déjà présente dans l'outil Al Mizan existant « Vider, trier, avancer ». À utiliser en complément, pas en doublon : si la consultante a déjà cet outil en main, les Outils 3 et 10 ci-dessous peuvent servir de version papier / approfondie plutôt que d'être répétés à l'identique.
+</div>
+
+<nav class="toc">
+  <a href="#o1">1 · Thermomètre</a><a href="#o2">2 · Vrai blocage</a><a href="#o3">3 · Trop-plein</a>
+  <a href="#o4">4 · Quatre blocs</a><a href="#o5">5 · Clarté de l'offre</a><a href="#o6">6 · Énergie</a>
+  <a href="#o7">7 · Croyances</a><a href="#o8">8 · Perfectionnisme</a><a href="#o9">9 · Priorités</a>
+  <a href="#o10">10 · Plan 7 jours</a><a href="#o11">11 · A/C/C</a><a href="#o12">12 · Contrat</a>
+  <a href="#o13">13 · Vision</a><a href="#o14">14 · Plan 90 jours</a><a href="#portrait">Portrait</a>
+</nav>
+
+<div class="outil" id="o1">
+  <span class="num">1</span><h2>Le thermomètre d'enlisement</h2>
+  <div class="objectif">Prendre la température de là où j'en suis, sans me juger — juste observer.</div>
+  <div class="scale"><div class="dom">Mon énergie générale ces derniers temps</div><div class="radios"><label><input type="radio" name="therm1">0</label><label><input type="radio" name="therm1">3</label><label><input type="radio" name="therm1">5</label><label><input type="radio" name="therm1">7</label><label><input type="radio" name="therm1">10</label></div></div>
+  <div class="scale"><div class="dom">Mon sentiment d'avancer sur mon activité</div><div class="radios"><label><input type="radio" name="therm2">0</label><label><input type="radio" name="therm2">3</label><label><input type="radio" name="therm2">5</label><label><input type="radio" name="therm2">7</label><label><input type="radio" name="therm2">10</label></div></div>
+  <div class="scale"><div class="dom">Ma clarté sur ce que je dois faire aujourd'hui</div><div class="radios"><label><input type="radio" name="therm3">0</label><label><input type="radio" name="therm3">3</label><label><input type="radio" name="therm3">5</label><label><input type="radio" name="therm3">7</label><label><input type="radio" name="therm3">10</label></div></div>
+  <div class="scale"><div class="dom">Ma satisfaction vis-à-vis de mon organisation</div><div class="radios"><label><input type="radio" name="therm4">0</label><label><input type="radio" name="therm4">3</label><label><input type="radio" name="therm4">5</label><label><input type="radio" name="therm4">7</label><label><input type="radio" name="therm4">10</label></div></div>
+  <div class="scale"><div class="dom">Mon sentiment de culpabilité / retard</div><div class="radios"><label><input type="radio" name="therm5">0</label><label><input type="radio" name="therm5">3</label><label><input type="radio" name="therm5">5</label><label><input type="radio" name="therm5">7</label><label><input type="radio" name="therm5">10</label></div></div>
+  <div class="scale"><div class="dom">Ma confiance dans mon projet</div><div class="radios"><label><input type="radio" name="therm6">0</label><label><input type="radio" name="therm6">3</label><label><input type="radio" name="therm6">5</label><label><input type="radio" name="therm6">7</label><label><input type="radio" name="therm6">10</label></div></div>
+  <div class="champ"><label>Depuis quand je sens cet enlisement, précisément ?</label><textarea></textarea></div>
+  <div class="champ"><label>Qu'est-ce qui s'est passé juste avant que ça commence à se figer ?</label><textarea></textarea></div>
+  <div class="synth"><h3>Ce que ce thermomètre me montre</h3>
+    <div class="champ"><label>La zone la plus basse</label><input type="text"></div>
+    <div class="champ"><label>Ce que cela me dit, sans me juger</label><textarea></textarea></div>
+  </div>
+</div>
+
+<div class="outil" id="o2">
+  <span class="num">2</span><h2>Le test du vrai blocage</h2>
+  <div class="objectif">Distinguer un blocage réel (manque de ressource, de clarté, d'information) d'une peur qui se déguise en blocage.</div>
+  <div class="checklist">
+    <label class="item"><input type="checkbox">Il me manque une information précise pour avancer.</label>
+    <label class="item"><input type="checkbox">Il me manque une compétence technique précise.</label>
+    <label class="item"><input type="checkbox">Il me manque du temps ou des moyens matériels.</label>
+    <label class="item"><input type="checkbox">Je ne sais pas par quoi commencer.</label>
+    <label class="item"><input type="checkbox">J'ai peur du jugement si je me lance.</label>
+    <label class="item"><input type="checkbox">J'ai peur de réussir et de ce que ça changerait.</label>
+    <label class="item"><input type="checkbox">J'ai peur d'échouer et de le regretter.</label>
+    <label class="item"><input type="checkbox">Je repousse dès que la tâche demande un effort inconfortable.</label>
+    <label class="item"><input type="checkbox">Je me sens bien seule dans ce projet.</label>
+    <label class="item"><input type="checkbox">Je ne suis plus sûre que ce projet me convient encore.</label>
+  </div>
+  <div class="champ"><label>Si je devais nommer une seule chose qui bloque vraiment, ce serait...</label><textarea></textarea></div>
+  <div class="champ"><label>Est-ce un manque de ressource (concret, on peut le combler) ou une peur (à apprivoiser autrement) ?</label><textarea></textarea></div>
+  <div class="synth"><h3>Mon diagnostic</h3>
+    <div class="champ"><label>Nature du blocage identifié</label><input type="text"></div>
+    <div class="champ"><label>Ce dont j'ai besoin en premier pour le desserrer</label><textarea></textarea></div>
+  </div>
+</div>
+
+<div class="outil" id="o3">
+  <span class="num">3</span><h2>L'inventaire du trop-plein</h2>
+  <div class="objectif">Vider tout ce qui encombre ma tête — idées, tâches, dossiers, promesses non tenues — avant de trier quoi que ce soit.</div>
+  <div class="champ"><label>Tout ce qui tourne dans ma tête en ce moment, sans ordre ni filtre</label><textarea style="min-height:120px;" placeholder="Écrire en vrac, une ligne par élément..."></textarea></div>
+  <div class="champ"><label>Ce qui revient le plus souvent depuis plusieurs semaines</label><textarea></textarea></div>
+  <div class="champ"><label>Ce que je porte pour d'autres (client·es, entourage) et qui n'est pas vraiment à moi de porter</label><textarea></textarea></div>
+  <div class="synth"><h3>Premier tri</h3>
+    <div class="champ"><label>Trois éléments à traiter cette semaine</label><textarea></textarea></div>
+    <div class="champ"><label>Trois éléments que je choisis de lâcher ou reporter, consciemment</label><textarea></textarea></div>
+  </div>
+</div>
+
+<div class="outil" id="o4">
+  <span class="num">4</span><h2>Le diagnostic des quatre blocs</h2>
+  <div class="objectif">Repérer où se situe le blocage principal — un projet s'enlise rarement pour une seule raison.</div>
+  <div class="souscat">Bloc 1 — Clarté (je ne sais pas où je vais)</div>
+  <div class="champ"><label>Ce qui manque de clarté dans mon projet aujourd'hui</label><textarea></textarea></div>
+  <div class="souscat">Bloc 2 — Organisation (je ne sais pas comment m'y prendre)</div>
+  <div class="champ"><label>Ce qui manque d'organisation ou de méthode</label><textarea></textarea></div>
+  <div class="souscat">Bloc 3 — Énergie (je n'ai plus l'élan)</div>
+  <div class="champ"><label>Ce qui pèse sur mon énergie disponible</label><textarea></textarea></div>
+  <div class="souscat">Bloc 4 — Confiance (je doute de ma légitimité)</div>
+  <div class="champ"><label>Ce qui ébranle ma confiance dans ce projet ou en moi</label><textarea></textarea></div>
+  <div class="synth"><h3>Le bloc principal</h3>
+    <div class="champ"><label>S'il fallait n'en travailler qu'un seul en premier, ce serait...</label><input type="text"></div>
+    <div class="champ"><label>Pourquoi celui-là précisément</label><textarea></textarea></div>
+  </div>
+</div>
+
+<div class="outil" id="o5">
+  <span class="num">5</span><h2>Le test de clarté de l'offre</h2>
+  <div class="objectif">Vérifier si mon offre est claire pour moi — avant de me demander pourquoi elle ne l'est pas pour mes client·es.</div>
+  <div class="champ"><label>Je propose... (une phrase simple, sans jargon)</label><textarea></textarea></div>
+  <div class="champ"><label>À qui précisément ? (pas « tout le monde »)</label><textarea></textarea></div>
+  <div class="champ"><label>Quel problème concret cela résout-il pour cette personne ?</label><textarea></textarea></div>
+  <div class="champ"><label>Qu'est-ce qui me rend différente de ce qui existe déjà ?</label><textarea></textarea></div>
+  <div class="champ"><label>Si on me posait la question à l'improviste, est-ce que je saurais répondre en une phrase ? Que dirais-je ?</label><textarea></textarea></div>
+  <div class="synth"><h3>Ma clarté aujourd'hui</h3>
+    <div class="champ"><label>Ce qui est déjà clair</label><input type="text"></div>
+    <div class="champ"><label>Ce qui reste flou et à préciser en priorité</label><textarea></textarea></div>
+  </div>
+</div>
+
+<div class="outil" id="o6">
+  <span class="num">6</span><h2>L'audit de l'énergie entrepreneuriale</h2>
+  <div class="objectif">Repérer ce qui nourrit mon énergie et ce qui la draine dans mon activité.</div>
+  <div class="souscat">Ce qui me donne de l'énergie</div>
+  <div class="checklist">
+    <label class="item"><input type="checkbox">Échanger avec des client·es.</label>
+    <label class="item"><input type="checkbox">Créer du contenu.</label>
+    <label class="item"><input type="checkbox">Voir un résultat concret.</label>
+    <label class="item"><input type="checkbox">Apprendre quelque chose de nouveau.</label>
+    <label class="item"><input type="checkbox">Travailler seule, sans interruption.</label>
+    <label class="item"><input type="checkbox">Recevoir un retour positif.</label>
+  </div>
+  <div class="souscat">Ce qui draine mon énergie</div>
+  <div class="checklist">
+    <label class="item"><input type="checkbox">L'administratif et la paperasse.</label>
+    <label class="item"><input type="checkbox">Les tâches techniques (site, outils).</label>
+    <label class="item"><input type="checkbox">Le démarchage / la prospection.</label>
+    <label class="item"><input type="checkbox">L'incertitude financière.</label>
+    <label class="item"><input type="checkbox">Le manque de retours ou de reconnaissance.</label>
+    <label class="item"><input type="checkbox">La comparaison avec d'autres entrepreneures.</label>
+  </div>
+  <div class="champ"><label>La tâche qui me coûte le plus cher en énergie, par rapport à ce qu'elle rapporte</label><textarea></textarea></div>
+  <div class="synth"><h3>Rééquilibrer</h3>
+    <div class="champ"><label>Une tâche que je pourrais déléguer, simplifier ou supprimer</label><input type="text"></div>
+    <div class="champ"><label>Un moment qui me nourrit à protéger dans ma semaine</label><input type="text"></div>
+  </div>
+</div>
+
+<div class="outil" id="o7">
+  <span class="num">7</span><h2>Les croyances qui maintiennent le blocage</h2>
+  <div class="objectif">Repérer les phrases intérieures qui, répétées, finissent par devenir des murs.</div>
+  <div class="checklist">
+    <label class="item"><input type="checkbox">« Je ne suis pas encore prête. »</label>
+    <label class="item"><input type="checkbox">« Il y a déjà trop de concurrence. »</label>
+    <label class="item"><input type="checkbox">« Je dois tout savoir avant de me lancer. »</label>
+    <label class="item"><input type="checkbox">« Si je facture ce prix, on va me juger. »</label>
+    <label class="item"><input type="checkbox">« Je ne mérite pas de réussir plus que mon entourage. »</label>
+    <label class="item"><input type="checkbox">« Si j'échoue, ça confirmera que je ne suis pas capable. »</label>
+    <label class="item"><input type="checkbox">« Je dois faire ça toute seule, demander de l'aide serait un aveu de faiblesse. »</label>
+    <label class="item"><input type="checkbox">« Le temps est déjà passé, c'est trop tard pour moi. »</label>
+  </div>
+  <div class="champ"><label>Ma croyance la plus tenace, dans mes propres mots</label><textarea></textarea></div>
+  <div class="champ"><label>D'où vient-elle ? (une expérience, une phrase entendue, une personne)</label><textarea></textarea></div>
+  <div class="champ"><label>Qu'est-ce qui, factuellement, la contredit dans mon parcours ?</label><textarea></textarea></div>
+  <div class="synth"><h3>Reformulation</h3>
+    <div class="champ"><label>Une phrase plus juste, que je choisis d'essayer de croire</label><textarea></textarea></div>
+  </div>
+</div>
+
+<div class="outil" id="o8">
+  <span class="num">8</span><h2>Le test du perfectionnisme entrepreneurial</h2>
+  <div class="objectif">Voir si le perfectionnisme protège ma qualité de travail, ou s'il retarde tout.</div>
+  <div class="checklist">
+    <label class="item"><input type="checkbox">Je repousse la publication tant que ce n'est pas « parfait ».</label>
+    <label class="item"><input type="checkbox">Je refais plusieurs fois la même tâche.</label>
+    <label class="item"><input type="checkbox">Je compare sans cesse mon travail à celui des autres.</label>
+    <label class="item"><input type="checkbox">Je préfère ne rien montrer plutôt que montrer un travail imparfait.</label>
+    <label class="item"><input type="checkbox">J'ai du mal à déléguer car « personne ne le fera aussi bien ».</label>
+    <label class="item"><input type="checkbox">Je passe plus de temps sur les détails que sur l'essentiel.</label>
+  </div>
+  <div class="champ"><label>La dernière chose que j'ai repoussée « pour la peaufiner encore »</label><textarea></textarea></div>
+  <div class="champ"><label>Qu'est-ce qui, concrètement, se passerait si je la publiais/livrais telle quelle aujourd'hui ?</label><textarea></textarea></div>
+  <div class="synth"><h3>Mon seuil du « suffisamment bien »</h3>
+    <div class="champ"><label>Pour cette tâche précise, à quoi ressemble un résultat « suffisamment bien » (pas parfait, mais fait) ?</label><textarea></textarea></div>
+  </div>
+</div>
+
+<div class="outil" id="o9">
+  <span class="num">9</span><h2>Le tri des priorités</h2>
+  <div class="objectif">Trier ce qui est urgent, important, ou simplement bruyant.</div>
+  <table class="tri">
+    <tr><th>Tâche</th><th>Urgent ?</th><th>Important pour mon projet ?</th></tr>
+    <tr><td><input type="text"></td><td><input type="text" placeholder="oui / non"></td><td><input type="text" placeholder="oui / non"></td></tr>
+    <tr><td><input type="text"></td><td><input type="text" placeholder="oui / non"></td><td><input type="text" placeholder="oui / non"></td></tr>
+    <tr><td><input type="text"></td><td><input type="text" placeholder="oui / non"></td><td><input type="text" placeholder="oui / non"></td></tr>
+    <tr><td><input type="text"></td><td><input type="text" placeholder="oui / non"></td><td><input type="text" placeholder="oui / non"></td></tr>
+    <tr><td><input type="text"></td><td><input type="text" placeholder="oui / non"></td><td><input type="text" placeholder="oui / non"></td></tr>
+  </table>
+  <div class="champ"><label>Ce qui est important mais jamais urgent — et que je repousse donc toujours</label><textarea></textarea></div>
+  <div class="synth"><h3>Ma vraie priorité</h3>
+    <div class="champ"><label>Important ET urgent, à traiter en premier</label><input type="text"></div>
+    <div class="champ"><label>Important mais pas urgent, à planifier cette semaine quand même</label><input type="text"></div>
+  </div>
+</div>
+
+<div class="outil" id="o10">
+  <span class="num">10</span><h2>Le plan anti-enlisement sur sept jours</h2>
+  <div class="objectif">Un pas modeste, chaque jour, plutôt qu'un grand plan qu'on abandonne au bout de deux jours.</div>
+  <div class="jour-block"><h3>Jour 1</h3><div class="champ"><label>Une seule action, réalisable en moins de 30 minutes</label><input type="text"></div></div>
+  <div class="jour-block"><h3>Jour 2</h3><div class="champ"><label>Une seule action</label><input type="text"></div></div>
+  <div class="jour-block"><h3>Jour 3</h3><div class="champ"><label>Une seule action</label><input type="text"></div></div>
+  <div class="jour-block"><h3>Jour 4</h3><div class="champ"><label>Une seule action</label><input type="text"></div></div>
+  <div class="jour-block"><h3>Jour 5</h3><div class="champ"><label>Une seule action</label><input type="text"></div></div>
+  <div class="jour-block"><h3>Jour 6</h3><div class="champ"><label>Une seule action</label><input type="text"></div></div>
+  <div class="jour-block"><h3>Jour 7</h3><div class="champ"><label>Bilan de la semaine — pas une évaluation, une observation</label><textarea></textarea></div></div>
+  <div class="synth"><h3>Ce que je retiens</h3>
+    <div class="champ"><label>Le jour où c'était le plus facile d'agir, et pourquoi</label><textarea></textarea></div>
+  </div>
+</div>
+
+<div class="outil" id="o11">
+  <span class="num">11</span><h2>Le tableau Arrêter / Continuer / Commencer</h2>
+  <div class="objectif">Trois colonnes simples pour remettre de la cohérence dans mes habitudes de travail.</div>
+  <div class="souscat">Arrêter</div>
+  <div class="champ"><label>Ce que je choisis d'arrêter de faire</label><textarea></textarea></div>
+  <div class="souscat">Continuer</div>
+  <div class="champ"><label>Ce qui fonctionne et que je choisis de garder</label><textarea></textarea></div>
+  <div class="souscat">Commencer</div>
+  <div class="champ"><label>Ce que je choisis d'essayer, à partir de maintenant</label><textarea></textarea></div>
+  <div class="synth"><h3>Un seul changement, prioritaire</h3>
+    <div class="champ"><label>Si je ne changeais qu'une seule chose cette semaine</label><input type="text"></div>
+  </div>
+</div>
+
+<div class="outil" id="o12">
+  <span class="num">12</span><h2>Le contrat de simplicité</h2>
+  <div class="objectif">Un engagement envers moi-même pour alléger ce qui peut l'être, sans culpabilité.</div>
+  <div class="contrat-item"><input type="checkbox"><span>Je m'autorise à ne pas tout faire parfaitement.</span></div>
+  <div class="contrat-item"><input type="checkbox"><span>Je choisis un nombre limité de priorités par semaine plutôt qu'une liste infinie.</span></div>
+  <div class="contrat-item"><input type="checkbox"><span>Je m'autorise à dire non à ce qui ne sert pas mon projet actuel.</span></div>
+  <div class="contrat-item"><input type="checkbox"><span>Je m'autorise à demander de l'aide plutôt que de tout porter seule.</span></div>
+  <div class="contrat-item"><input type="checkbox"><span>Je célèbre les petites avancées, pas seulement les grands résultats.</span></div>
+  <div class="contrat-item"><input type="checkbox"><span>Je m'accorde des temps de repos sans les considérer comme du temps perdu.</span></div>
+  <div class="champ"><label>Un engagement personnel supplémentaire, dans mes mots</label><textarea></textarea></div>
+  <div class="champ"><label>Signature (date et prénom)</label><input type="text"></div>
+</div>
+
+<div class="outil" id="o13">
+  <span class="num">13</span><h2>La vision d'entreprise qui me respecte</h2>
+  <div class="objectif">Construire une vision qui tient compte de mon énergie réelle, pas seulement de ce qu'« il faudrait » faire.</div>
+  <div class="champ"><label>Le rythme de travail qui me convient réellement (jours, heures, saisons)</label><textarea></textarea></div>
+  <div class="champ"><label>Ce que je ne veux plus jamais sacrifier pour mon activité</label><textarea></textarea></div>
+  <div class="champ"><label>Le niveau de revenu qui me suffirait pour me sentir sereine (pas maximal, suffisant)</label><textarea></textarea></div>
+  <div class="champ"><label>Le type de client·es avec qui je me sens le mieux</label><textarea></textarea></div>
+  <div class="champ"><label>Dans cinq ans, à quoi ressemble une activité qui me respecte ?</label><textarea style="min-height:80px;"></textarea></div>
+  <div class="synth"><h3>Ma phrase-vision</h3>
+    <div class="champ"><label>En une phrase, l'entreprise que je veux construire</label><textarea></textarea></div>
+  </div>
+</div>
+
+<div class="outil" id="o14">
+  <span class="num">14</span><h2>Le plan de redémarrage sur quatre-vingt-dix jours</h2>
+  <div class="objectif">Repartir avec un cap réaliste, en trois paliers d'un mois.</div>
+  <div class="souscat">Mois 1 — Clarifier</div>
+  <div class="champ"><label>Objectif du mois</label><input type="text"></div>
+  <div class="champ"><label>Trois actions concrètes</label><textarea></textarea></div>
+  <div class="souscat">Mois 2 — Structurer</div>
+  <div class="champ"><label>Objectif du mois</label><input type="text"></div>
+  <div class="champ"><label>Trois actions concrètes</label><textarea></textarea></div>
+  <div class="souscat">Mois 3 — Avancer</div>
+  <div class="champ"><label>Objectif du mois</label><input type="text"></div>
+  <div class="champ"><label>Trois actions concrètes</label><textarea></textarea></div>
+  <div class="synth"><h3>Mon garde-fou</h3>
+    <div class="champ"><label>Le signe qui m'indiquerait que je m'enlise à nouveau</label><textarea></textarea></div>
+    <div class="champ"><label>Ce que je ferai si ce signe apparaît</label><textarea></textarea></div>
+  </div>
+</div>
+
+<div class="spirituel">
+  <span class="tag">Optionnel — référentiel islamique</span>
+  <p>Le rizq (la subsistance) est promis, mais le sa'i (l'effort) reste demandé — l'enlisement peut se relire comme un désajustement entre l'effort que je fournis et la confiance que je place en ce qui le dépasse. Où en est mon tawakkul dans ce projet précis ? Et à qui, ou à quoi, ai-je mis mon activité au service (niyya) ?</p>
+  <div class="note">Note pour la praticienne : à activer uniquement si la consultante choisit le référentiel islamique — sinon laisser ce bloc de côté, ne jamais l'imposer.</div>
+</div>
+
+<div class="portrait" id="portrait">
+  <h2>🌿 Mon portrait — synthèse finale</h2>
+  <div class="champ"><label>Mon blocage principal identifié</label><textarea></textarea></div>
+  <div class="champ"><label>Ce qui nourrit mon énergie entrepreneuriale</label><textarea></textarea></div>
+  <div class="champ"><label>Les croyances que je choisis de questionner</label><textarea></textarea></div>
+  <div class="champ"><label>Ma priorité claire pour les prochaines semaines</label><textarea></textarea></div>
+  <div class="champ"><label>La vision qui me respecte</label><textarea></textarea></div>
+  <div class="champ"><label>Mon engagement de simplicité</label><textarea></textarea></div>
+  <div class="champ"><label>Ma prochaine action, concrète et datée</label><textarea></textarea></div>
+  <div class="rappel">Cette synthèse ne conclut jamais « tu n'es pas faite pour entreprendre ». Elle formule plutôt : « ton énergie semble actuellement mobilisée par... », « le premier levier à desserrer serait... », « le rythme qui te respecterait ressemble à... ».</div>
+</div>
+
+<div class="precautions">
+  <h2>Précautions d'utilisation</h2>
+  <ul>
+    <li>Ces outils sont des supports d'exploration à utiliser en séance ou entre les séances, jamais en une seule fois — le parcours complet se construit sur plusieurs rencontres.</li>
+    <li>Ils ne remplacent ni un accompagnement psychologique, ni un accompagnement business ou comptable réglementé.</li>
+    <li>Si l'enlisement s'accompagne d'une souffrance psychologique marquée (épuisement sévère, perte de sens généralisée, idées noires), ce travail d'orientation doit être mis en pause au profit d'un accompagnement clinique adapté.</li>
+    <li>Aucune synthèse produite ici ne doit être lue comme un verdict définitif sur la capacité ou la valeur de la personne.</li>
+  </ul>
+</div>
+
+<footer>Al Mizan · Mes outils · Orientation Adulte / Entrepreneure · construit le 04/08/2026 — ne remplace ni psychologue, ni accompagnement business réglementé</footer>
+</div>
+
+<script>
+function viderChamps(){
+  document.querySelectorAll('input[type=text]').forEach(i=>i.value='');
+  document.querySelectorAll('textarea').forEach(i=>i.value='');
+  document.querySelectorAll('input[type=checkbox]').forEach(i=>i.checked=false);
+  document.querySelectorAll('input[type=radio]').forEach(i=>i.checked=false);
+}
+</script>
+</body>
+</html>
