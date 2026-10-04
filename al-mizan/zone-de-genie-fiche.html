@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma Zone de Génie · Jannat al Qalb</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Amiri&family=Lato:wght@300;400;700&display=swap');
+  :root{--dore:#C3873C;--dore-fonce:#B4782D;--dragee:#B46978;--poudre:#F0E1E1;--nude:#E5C5B0;--anthracite:#4B4B4B;
+    --z1:#B0A0A0;--z2:#9BA7C9;--z3:#C9A24B;--z4:#8FB9A0;}
+  *{box-sizing:border-box;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  body{margin:0;background:var(--poudre);font-family:'Lato',Arial,sans-serif;color:var(--anthracite);line-height:1.6;font-size:15px;}
+  .btnbar{position:fixed;top:14px;right:14px;display:flex;gap:8px;z-index:1000;}
+  .btnbar button{background:#C9A24E;color:#fff;border:none;padding:9px 16px;border-radius:999px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Lato',Arial,sans-serif;}
+  .btnbar button.ghost{background:transparent;border:1.5px solid var(--dragee);color:var(--dragee);}
+  .page{max-width:760px;margin:20px auto;background:#fff;padding:38px 46px;box-shadow:0 6px 28px rgba(75,75,75,0.13);border-radius:8px;}
+  .marque{font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--dragee);text-align:center;}
+  h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;font-weight:600;color:var(--dore);margin:8px 0 2px;text-align:center;}
+  .sous{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:15.5px;color:var(--dragee);text-align:center;margin-bottom:10px;}
+  .sep{height:1px;background:linear-gradient(to right,transparent,var(--dore),transparent);border:0;margin:14px 0 20px;}
+  h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;font-weight:600;color:var(--dragee);margin:26px 0 6px;}
+  h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:16.5px;font-weight:600;margin:14px 0 4px;}
+  p{margin:6px 0;}
+  .lead{color:#6e6258;font-size:14.5px;}
+  .zone{border-radius:14px;padding:16px 20px;margin:14px 0;border-left:6px solid var(--zc,var(--dore));background:linear-gradient(135deg,#fff,#FAF6F0);}
+  .zone .tag{font-family:'Cormorant Garamond',Georgia,serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--zc,var(--dore));font-weight:600;}
+  .zone h3{margin-top:2px;color:var(--anthracite);}
+  .zone .desc{font-size:13.5px;color:#6e6258;font-style:italic;margin-bottom:8px;}
+  textarea{width:100%;min-height:64px;border:1.5px solid var(--nude);border-radius:8px;padding:9px 12px;font-family:'Lato',Arial,sans-serif;font-size:13.5px;color:var(--anthracite);resize:vertical;background:#FEFCFA;}
+  textarea:focus{outline:none;border-color:var(--dore);}
+  input[type=text]{width:100%;border:1.5px solid var(--nude);border-radius:8px;padding:8px 12px;font-family:'Lato',Arial,sans-serif;font-size:13.5px;background:#FEFCFA;}
+  label.q{display:block;font-size:13.5px;font-weight:700;color:var(--anthracite);margin:10px 0 4px;}
+  .bismillah{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;text-align:center;color:var(--dore-fonce);font-size:15px;margin:4px 0 14px;}
+  .verset{background:var(--poudre);border-radius:12px;padding:14px 20px;margin:14px 0;text-align:center;}
+  .arabe{font-family:'Amiri',serif;font-size:17px;color:var(--dore-fonce);direction:rtl;margin-bottom:4px;}
+  .verset .ref{font-size:11.5px;color:var(--dragee);letter-spacing:1px;text-transform:uppercase;margin-top:4px;}
+  .test{background:#FAF6F0;border:1px dashed var(--nude);border-radius:10px;padding:12px 18px;margin:10px 0;}
+  .test label{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;margin:5px 0;cursor:pointer;}
+  .synth{background:linear-gradient(135deg,#fff,var(--poudre));border:1.5px solid var(--dore);border-radius:14px;padding:18px 22px;margin:16px 0;}
+  .synth h3{color:var(--dore-fonce);}
+  .foot{text-align:center;font-size:10px;color:#9b8f85;margin-top:22px;border-top:1px solid var(--nude);padding-top:10px;}
+  @page{size:A4;margin:0;}
+  @media print{.btnbar{display:none;}body{background:#fff;}.page{box-shadow:none;margin:0;max-width:100%;border-radius:0;padding:14mm 16mm;}.zone,.verset,.synth,.test{break-inside:avoid;}h1,h2{break-after:avoid;}}
+</style>
+</head>
+<body>
+<div class="btnbar">
+  <button class="ghost" onclick="viderTout()">↺ Vider</button>
+  <button onclick="window.print()">🖨️ Imprimer / PDF</button>
+</div>
+
+<div class="page">
+  <div class="marque">Jannat al Qalb · Réflexion personnelle</div>
+  <h1>Ma Zone de Génie 🌿</h1>
+  <div class="sous">Ce qu'Allah m'a confié, et que je suis la seule à pouvoir donner ainsi</div>
+  <hr class="sep">
+  <div class="bismillah">Bismillāh.</div>
+
+  <p class="lead">Ce n'est pas un test de personnalité. C'est un temps pour regarder, sans fausse modestie et sans surestimation, ce que tu fais avec une aisance que peu de gens ont — et ce que tu es peut-être en train de laisser de côté parce que tu ne l'as jamais nommé comme une force.</p>
+
+  <div class="verset">
+    <div class="arabe">وَمَا خَلَقْتُ الْجِنَّ وَالْإِنسَ إِلَّا لِيَعْبُدُونِ</div>
+    « Je n'ai créé les djinns et les hommes que pour qu'ils M'adorent. »
+    <div class="ref">Coran, Adh-Dhāriyāt, 51:56</div>
+  </div>
+  <p class="lead" style="text-align:center">Chaque talent est une amâna — un dépôt confié, pas une propriété. La question n'est pas seulement « en quoi suis-je doué(e) », mais « qu'est-ce qu'Allah m'a confié, et pour quoi faire de bien avec ? »</p>
+
+  <h2>Les quatre zones</h2>
+  <p class="lead">Une même compétence peut se loger dans quatre zones très différentes. L'idée n'est pas de te juger sur chacune, mais de voir où se trouve, aujourd'hui, la majorité de ton énergie.</p>
+
+  <div class="zone" style="--zc:var(--z1)">
+    <div class="tag">Zone 1</div>
+    <h3>Incompétence</h3>
+    <div class="desc">Ce que tu ne fais pas bien, et que d'autres font mieux que toi sans effort.</div>
+    <label class="q">Qu'est-ce que je continue à faire moi-même alors que ce n'est clairement pas ma force ?</label>
+    <textarea></textarea>
+  </div>
+
+  <div class="zone" style="--zc:var(--z2)">
+    <div class="tag">Zone 2</div>
+    <h3>Compétence</h3>
+    <div class="desc">Ce que tu fais correctement, comme la plupart des gens compétents dans ce domaine — sans que ce soit ta signature.</div>
+    <label class="q">Qu'est-ce que je fais bien, mais que n'importe qui de sérieux pourrait apprendre à faire aussi bien que moi ?</label>
+    <textarea></textarea>
+  </div>
+
+  <div class="zone" style="--zc:var(--z3)">
+    <div class="tag">Zone 3 — la zone piège</div>
+    <h3>Excellence</h3>
+    <div class="desc">Ce que tu fais vraiment très bien, pour lequel on te félicite, on te sollicite, on te paie — mais qui te vide plus qu'il ne te nourrit.</div>
+    <label class="q">Qu'est-ce qu'on me demande souvent parce que « je suis douée pour ça », et qui pourtant m'épuise sur la durée ?</label>
+    <textarea></textarea>
+    <p class="lead" style="margin-top:8px">C'est la zone la plus difficile à quitter : elle est valorisée, rentable, flatteuse — et elle prend toute la place qui devrait revenir à la zone 4.</p>
+  </div>
+
+  <div class="zone" style="--zc:var(--z4)">
+    <div class="tag">Zone 4 — la zone de génie</div>
+    <h3>Génie</h3>
+    <div class="desc">Ce que tu fais avec une facilité presque déroutante, qui ne ressemble pas vraiment à du travail, et que d'autres remarquent avant toi.</div>
+    <label class="q">Dans quelle activité le temps disparaît-il complètement pour moi ?</label>
+    <textarea></textarea>
+    <label class="q">Qu'est-ce que des gens différents, à des moments différents, m'ont dit sans se concerter — « comment tu fais ça », « c'est fou comme c'est naturel chez toi » ?</label>
+    <textarea></textarea>
+    <label class="q">Qu'est-ce que je ferais même si personne ne me payait, même si personne ne le voyait ?</label>
+    <textarea></textarea>
+  </div>
+
+  <h2>Le test des trois signes</h2>
+  <p class="lead">Une activité de zone de génie coche généralement les trois cases suivantes en même temps. Coche celles qui sont vraies pour ce que tu viens de nommer plus haut.</p>
+  <div class="test">
+    <label><input type="checkbox"> Je perds la notion du temps quand je le fais.</label>
+    <label><input type="checkbox"> Ça me semble tellement naturel que je minimise sa valeur — « ça, tout le monde peut le faire ».</label>
+    <label><input type="checkbox"> D'autres personnes m'ont fait remarquer cette force avant que je ne la nomme moi-même.</label>
+  </div>
+
+  <h2>La couche spirituelle</h2>
+
+  <label class="q">Amâna — le dépôt confié. Si je devais rendre compte un jour de ce que j'ai fait du talent qui m'a été confié, de quoi serais-je le plus fière de pouvoir parler ?</label>
+  <textarea></textarea>
+
+  <label class="q">Fitra — la disposition naturelle. Enfant, avant que qui que ce soit ne me dise ce que je devais être, qu'est-ce que je faisais déjà spontanément, sans qu'on me le demande ?</label>
+  <textarea></textarea>
+
+  <label class="q">Ikhlâs — l'intention. Quand j'exerce cette zone de génie, est-ce que je le fais d'abord pour qu'Allah en soit satisfait, ou est-ce que ça a glissé vers autre chose (reconnaissance, comparaison, image) ? Qu'est-ce que ça changerait de le réaligner ?</label>
+  <textarea></textarea>
+
+  <h2>Ce que je peux déjà voir, là, maintenant</h2>
+  <p class="lead">Regarde ce que tu as construit ou accompli récemment — sans filtre de modestie, juste en observatrice : ces choses que tu fais avec une aisance qui étonne les autres, ces moments où tu transformes quelque chose de confus ou d'emmêlé en quelque chose de clair et d'utilisable. Ce n'est pas un hasard répété. C'est un motif.</p>
+  <label class="q">Qu'est-ce que ce motif me dit, à moi, sur ma zone de génie ?</label>
+  <textarea></textarea>
+
+  <div class="synth">
+    <h3>🌿 Ma zone de génie, en une phrase</h3>
+    <label class="q">Ma zone de génie ressemble à…</label>
+    <textarea></textarea>
+    <label class="q">Ce que je décide de faire, concrètement, cette semaine, pour lui donner un peu plus de place — et un peu moins à la zone 3 :</label>
+    <textarea></textarea>
+  </div>
+
+  <div class="verset" style="margin-top:20px">
+    Qu'Allah te facilite la reconnaissance de ce qu'Il t'a confié, et qu'Il te préserve de le mettre au service de ce qui ne Lui plaît pas.
+  </div>
+
+  <div class="foot">Jannat al Qalb · Réflexion personnelle · document interne, à conserver pour toi</div>
+</div>
+
+<script>
+function viderTout(){
+  document.querySelectorAll('textarea').forEach(t=>t.value='');
+  document.querySelectorAll('input[type=checkbox]').forEach(c=>c.checked=false);
+  document.querySelectorAll('input[type=text]').forEach(i=>i.value='');
+}
+</script>
+</body>
+</html>

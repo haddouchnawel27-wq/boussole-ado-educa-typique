@@ -1,0 +1,105 @@
+/* ============================================================
+   BOÎTE À OUTILS ENSEIGNANTS — charte Educa Typique
+   Rose · lavande · menthe · beige · Poppins/Nunito
+   Réutilise les noms de classes de la base pour un ré-habillage simple.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@500;600;700;800&display=swap');
+
+:root{
+  --rose-clair:#F8CFE0; --rose:#F39BC2; --lavande:#CBB6F6; --menthe:#BDEAD7;
+  --turquoise:#8ED9D2; --peche:#FFD6C2; --beige:#F7F2EC; --jaune-doux:#FFE9A8; --bleu-ciel:#CDE6F5;
+  --violet-titre:#7c5cbf; --violet-fonce:#5a3c8f; --rose-titre:#e05a8a; --rose-fonce:#a02040;
+  --teal-titre:#2a9d8f; --teal-fonce:#1a6a5a; --or:#D8B77A; --or-fonce:#bf9a53;
+  --texte:#3a2e4a; --muted:#6b5f7a; --border:#e8dff0;
+  --r-md:16px; --r-lg:24px;
+  --serif:'Poppins',system-ui,sans-serif; --sans:'Nunito',system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+html{scroll-behavior:smooth;}
+body{margin:0;font-family:var(--sans);color:var(--texte);line-height:1.65;
+  background:linear-gradient(180deg,var(--beige),#fbf6f0);}
+main{max-width:1060px;margin:0 auto;padding:28px 20px 80px;}
+h1,h2,h3,h4{font-family:var(--serif);line-height:1.18;}
+a{color:var(--violet-fonce);}
+img{max-width:100%;}
+
+/* En-tête / hero */
+header{position:relative;overflow:hidden;background:linear-gradient(140deg,var(--lavande),var(--rose-clair) 55%,var(--peche));
+  color:var(--texte);padding:2.2rem 1.8rem 2.4rem;border-radius:var(--r-lg);box-shadow:0 12px 34px rgba(124,92,191,.14);}
+header .brandline{font-family:var(--serif);font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:.72rem;color:var(--violet-fonce);}
+header h1{font-size:clamp(1.8rem,5vw,2.6rem);margin:.5rem 0 .3rem;color:var(--cacao,#3b2b23);
+  background:linear-gradient(90deg,var(--violet-fonce),var(--rose-titre));-webkit-background-clip:text;background-clip:text;color:transparent;}
+header p{max-width:60ch;margin:.3rem 0 0;color:#5c4f66;}
+header .scene{position:absolute;right:18px;top:50%;transform:translateY(-50%);width:120px;height:120px;opacity:.95;filter:drop-shadow(0 8px 16px rgba(124,92,191,.22));}
+@media(max-width:620px){header .scene{display:none;}}
+
+h2{color:var(--violet-titre);font-size:1.5rem;margin-top:2.2rem;}
+h3{color:var(--teal-titre);font-size:1.15rem;margin:1rem 0 .3rem;}
+
+/* Navigation pilule */
+nav{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.3rem 0;}
+nav a,.button{padding:.55rem .95rem;background:#fff;border:1.5px solid var(--border);border-radius:999px;
+  text-decoration:none;font-weight:700;font-size:.9rem;color:var(--violet-fonce);box-shadow:0 3px 10px rgba(124,92,191,.08);transition:all .15s;}
+nav a:hover,.button:hover{border-color:var(--lavande);transform:translateY(-1px);}
+
+/* Cartes & sections */
+section,.card{background:#fff;padding:1.3rem 1.4rem;border-radius:var(--r-md);margin:1.1rem 0;
+  border:1px solid var(--border);box-shadow:0 8px 24px rgba(124,92,191,.07);}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;}
+.grid .card{margin:0;}
+.eyebrow{font-family:var(--serif);font-weight:700;text-transform:uppercase;letter-spacing:2px;font-size:.68rem;color:var(--rose-titre);}
+small,.meta{color:var(--muted);}
+b,strong{color:var(--rose-fonce);}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;font-size:.92rem;margin:.6rem 0;}
+td,th{padding:.7rem .8rem;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;}
+th{background:var(--lavande);color:var(--violet-fonce);font-family:var(--serif);font-weight:700;}
+tr:nth-child(even) td{background:#faf7fd;}
+
+/* Pills / badges */
+.pill-row{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0;}
+.mini-pill{background:#fff;border:1px solid var(--border);border-radius:999px;padding:.4rem .85rem;font-size:.8rem;font-weight:700;color:var(--violet-fonce);box-shadow:0 3px 10px rgba(124,92,191,.08);}
+
+/* Encadrés fonctionnels */
+.note{border-radius:var(--r-md);padding:.9rem 1.1rem;margin:.9rem 0;font-size:.95rem;}
+.note.menthe{background:var(--menthe);color:var(--teal-fonce);}
+.note.jaune{background:var(--jaune-doux);color:#8a6d00;}
+.note.or{background:linear-gradient(180deg,#fffdf7,#fbf3e2);border:1px solid var(--or);}
+.note.or .tag{display:inline-block;font-size:.66rem;letter-spacing:2px;text-transform:uppercase;color:var(--or-fonce);border:1px solid var(--or);border-radius:999px;padding:.12em .7em;margin-bottom:.4rem;}
+.disclaimer{background:var(--jaune-doux);color:#8a6d00;border-radius:var(--r-md);padding:.85rem 1.1rem;margin:1rem 0;font-size:.92rem;}
+.disclaimer strong{color:var(--rose-fonce);}
+
+/* Champs à remplir (fiches imprimables) */
+label{display:block;font-weight:700;color:var(--violet-fonce);margin:.9rem 0 .35rem;font-size:.95rem;}
+textarea,input[type=text]{font:inherit;width:100%;border:1.5px solid var(--border);border-radius:12px;padding:.6rem .8rem;
+  background:#fffdfb;color:var(--texte);}
+textarea{min-height:64px;resize:vertical;}
+textarea:focus,input:focus{outline:none;border-color:var(--lavande);box-shadow:0 0 0 3px rgba(203,182,246,.3);}
+.line{min-height:34px;border-bottom:1.5px dashed var(--border);}
+
+/* Boutons d'action */
+button{font:inherit;font-family:var(--serif);font-weight:700;padding:.7rem 1.3rem;border:0;border-radius:999px;cursor:pointer;
+  background:linear-gradient(135deg,var(--violet-titre),var(--rose-titre));color:#fff;box-shadow:0 8px 20px rgba(124,92,191,.26);transition:all .15s;}
+button:hover{filter:brightness(1.05);transform:translateY(-1px);}
+
+/* Situations réflexes */
+.reflexe .obs{color:var(--teal-fonce);} .reflexe .essai{color:var(--violet-fonce);} .reflexe .verif{color:var(--rose-fonce);}
+
+.foot{text-align:center;color:var(--muted);font-size:.84rem;margin-top:2.4rem;}
+
+/* Impression A4 */
+@page{size:A4;margin:14mm;}
+@media print{
+  body{background:#fff;}
+  main{padding:0;max-width:none;}
+  nav,button,.screen,.no-print,header .scene{display:none !important;}
+  header{background:#fff;color:var(--texte);padding:0 0 .6rem;border:0;border-bottom:2px solid var(--or);border-radius:0;box-shadow:none;}
+  header h1{-webkit-text-fill-color:var(--violet-fonce);color:var(--violet-fonce);}
+  section,.card{border:1px solid #d9cdeb;box-shadow:none;break-inside:avoid;}
+  .sheet{page-break-before:always;}
+  a{color:var(--texte);text-decoration:none;}
+  textarea,input[type=text]{border:0;border-bottom:1px solid #999;border-radius:0;background:#fff;}
+}
+
+@media (prefers-reduced-motion: reduce){*{transition:none !important;}}

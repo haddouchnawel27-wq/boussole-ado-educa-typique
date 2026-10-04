@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Posture Sereine — Mon carnet de parcours · Jannat Al Qalb</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Lato:wght@300;400;700&family=Amiri&display=swap');
+  :root{--sauge:#8A9789;--amande:#E8DDD1;--ivoire:#F6F2EA;--argile:#C88E7F;--taupe:#B9ADA0;--cacao:#3B2B23;--or:#D8B77A;--or-fonce:#C9A24E;--or-clair:#E6C98A;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--amande);font-family:'Lato',Arial,sans-serif;color:var(--cacao);line-height:1.6;font-size:14.5px;}
+  .page{max-width:800px;margin:26px auto;background:var(--ivoire);padding:48px 54px 40px;box-shadow:0 8px 36px rgba(59,43,35,0.14);border-radius:6px;page-break-after:always;}
+  .marque{font-family:'Cormorant Garamond',Georgia,serif;font-size:12.5px;letter-spacing:4px;text-transform:uppercase;color:var(--sauge);text-align:center;}
+  .marque b{color:var(--or-fonce);font-weight:600;}
+  .module{font-family:'Cormorant Garamond',Georgia,serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--argile);text-align:center;margin-top:8px;}
+  h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;font-weight:600;color:var(--cacao);margin:10px 0 4px;line-height:1.15;text-align:center;}
+  h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:17.5px;font-weight:600;color:var(--sauge);margin:16px 0 4px;}
+  .sous{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:16.5px;color:var(--argile);text-align:center;}
+  .sep{height:1px;background:linear-gradient(to right,transparent,var(--or),transparent);border:0;margin:8px 0 14px;}
+  p{margin:8px 0;}
+  strong{color:var(--argile);}
+  em{color:#6d5f52;}
+  ul{margin:8px 0;padding-left:22px;}
+  li{margin:4px 0;}
+  .intention{background:var(--amande);border-left:3px solid var(--or);border-radius:3px;padding:10px 18px;margin:12px 0;font-size:13.5px;}
+  .intention b{color:var(--or-fonce);font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;}
+  .mizan{background:#edf0ea;border:1px solid var(--sauge);border-radius:10px;padding:10px 18px;margin:14px 0;font-size:13.5px;}
+  .mizan b{color:var(--sauge);font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;}
+  .mantra{text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:17.5px;color:var(--or-fonce);background:var(--amande);border-top:1px solid var(--or);border-bottom:1px solid var(--or);padding:13px;margin:16px 0;}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px;}
+  th,td{border:1px solid var(--taupe);padding:7px 9px;text-align:left;vertical-align:top;}
+  th{background:var(--sauge);color:var(--ivoire);font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-weight:600;}
+  .fiche td{height:30px;}
+  .fiche td:first-child{width:42%;background:#fbf8f2;font-weight:600;color:#6d5f52;}
+  .tall td{height:48px;}
+  .jauge{display:flex;justify-content:space-between;margin:10px 0;padding:0 4px;}
+  .jauge span{width:32px;height:32px;border:1.5px solid var(--taupe);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:#6d5f52;}
+  .foot{text-align:center;font-size:10.5px;color:#96897b;margin-top:22px;border-top:1px solid var(--amande);padding-top:12px;}
+  .cover{text-align:center;padding-top:80px;padding-bottom:80px;}
+  .cover .titre-c{font-family:'Cormorant Garamond',Georgia,serif;font-size:42px;font-weight:600;color:var(--cacao);margin:22px 0 6px;line-height:1.1;}
+  .cover .st{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:20px;color:var(--argile);}
+  .orn{color:var(--or-fonce);font-size:20px;letter-spacing:10px;margin:24px 0;}
+  .signature{margin-top:50px;font-family:'Cormorant Garamond',Georgia,serif;font-size:19px;color:var(--cacao);}
+  .signature small{display:block;font-size:12.5px;letter-spacing:2px;text-transform:uppercase;color:var(--sauge);margin-top:4px;}
+  .arabe{font-family:'Amiri','Traditional Arabic',serif;font-size:24px;color:var(--or-fonce);text-align:center;margin:6px 0;}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  .print-btn{position:fixed;top:16px;right:16px;background:#C9A24E;color:#fff;border:none;padding:10px 18px;border-radius:999px;font-family:'Lato',Arial,sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(201,162,78,.45);z-index:1000;}
+  @page{size:A4;margin:0;}
+  @media print{.print-btn{display:none;}body{background:#fff;}.page{box-shadow:none;margin:0;max-width:100%;border-radius:0;padding:16mm 17mm;min-height:296mm;}table,.intention,.mizan,.mantra,.jauge,.fiche{break-inside:avoid;}h1,h3{break-after:avoid;}.page:last-child{page-break-after:auto;}}
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">🖨️ Enregistrer en PDF</button>
+
+<!-- ═══ COUVERTURE ═══ -->
+<div class="page cover">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Le Jardin du Cœur</div>
+  <div class="orn">✦ ✦ ✦</div>
+  <div class="arabe">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+  <div style="font-family:'Cormorant Garamond',Georgia,serif;letter-spacing:3px;text-transform:uppercase;font-size:14px;color:var(--sauge);margin-top:18px;">Posture Sereine</div>
+  <div class="titre-c">Mon carnet<br>de parcours</div>
+  <div class="st">Workbook d'accompagnement pour femmes entrepreneures —<br>observer, réguler, clarifier, se repositionner, consolider</div>
+  <div class="orn">✦</div>
+  <p style="max-width:430px;margin:18px auto;font-style:italic;color:#7d6f61;">
+    Ce carnet t'appartient. Il accompagne l'ebook Posture Sereine<br>et ton application Al Mizan Al Qalb.<br>Remplis-le avec sidq, raḥma et mesure.
+  </p>
+  <div class="signature">Nawel Oum Mona<small>Jannat Al Qalb — Le Jardin du Cœur</small></div>
+</div>
+
+<!-- ═══ MODE D'EMPLOI ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <h1>Manière de l'utiliser</h1>
+  <hr class="sep">
+  <p>Ce workbook n'est <strong>pas un cahier de performance</strong>. Il t'aide à observer ton fonctionnement, réguler ton système intérieur, clarifier tes pensées et poser des actions justes.</p>
+  <ul>
+    <li>Travaille <strong>une fiche à la fois</strong>, idéalement avant ou après la séance correspondante.</li>
+    <li>Ne cherche pas la réponse parfaite : cherche la réponse <strong>vraie et utile</strong>.</li>
+    <li>Si une question active trop de détresse : reviens au corps, ralentis, et demande un soutien adapté.</li>
+    <li>La foi n'est pas utilisée pour te culpabiliser, mais pour remettre ton cœur dans l'axe : <strong>niyya, amāna, tawakkul actif, ṣabr intelligent et shukr</strong>.</li>
+  </ul>
+  <h3>Vue d'ensemble du parcours</h3>
+  <table>
+    <tr><th>Étape</th><th>Travail intérieur</th><th>Action entrepreneuriale</th></tr>
+    <tr><td><strong>1. Observer</strong></td><td>Nommer le blocage sans se juger</td><td>Identifier une situation précise</td></tr>
+    <tr><td><strong>2. Réguler</strong></td><td>Retrouver une sécurité intérieure suffisante</td><td>Agir après apaisement, pas depuis la panique</td></tr>
+    <tr><td><strong>3. Clarifier</strong></td><td>Distinguer faits, pensées, émotions, besoins</td><td>Choisir une action-test</td></tr>
+    <tr><td><strong>4. Repositionner</strong></td><td>Sortir des protections anciennes</td><td>Vendre et communiquer avec limites et tawakkul</td></tr>
+    <tr><td><strong>5. Consolider</strong></td><td>Installer un rythme respirable</td><td>Plan 30 jours et prévention de rechute</td></tr>
+  </table>
+  <div class="mizan">🌸 <b>Al Mizan Al Qalb, ton compagnon de route</b> — au fil des fiches, des encadrés comme celui-ci te montrent quel écran de l'app soutient chaque étape : <em>Aujourd'hui, Tendances, Turbulences, Mes pensées, Ressources, Résumé, Respirer</em>. L'app ne pose pas de diagnostic et ne remplace pas l'accompagnement humain.</div>
+  <div class="foot">Posture Sereine · Mon carnet de parcours — document personnel, ne remplace pas un suivi médical ou psychothérapeutique</div>
+</div>
+
+<!-- ═══ FICHE 0 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Avant tout</div>
+  <h1>Fiche 0 — Niyya, cadre et amāna</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Avant de travailler sur les blocages, tu poses l'intention : pourquoi cette activité existe, ce qu'elle sert, et ce que tu refuses de sacrifier.</div>
+  <p><em>Réponds avec simplicité. Ce n'est pas un serment parfait ; c'est une boussole de départ.</em></p>
+  <table class="fiche tall">
+    <tr><td>Ma niyya profonde dans cette activité</td><td></td></tr>
+    <tr><td>Ce que je veux servir à travers mon travail</td><td></td></tr>
+    <tr><td>Ce que je ne veux plus sacrifier <em>(santé, famille, foi, dignité, repos, limites)</em></td><td></td></tr>
+    <tr><td>Mon rappel de tawakkul actif : je prends les causes, puis je remets le résultat à Allāh</td><td></td></tr>
+  </table>
+  <div class="mantra">« Je prends les causes avec sérieux,<br>et je remets le résultat à Allāh — c'est ma boussole de départ. »</div>
+  <div class="foot">Posture Sereine · Fiche 0 — Niyya, cadre et amāna</div>
+</div>
+
+<!-- ═══ FICHE 1 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Étape 1 · Observer</div>
+  <h1>Fiche 1 — La carte de mon blocage</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Un blocage devient travaillable quand il devient observable. On ne cherche pas encore à le forcer — seulement à le comprendre.</div>
+  <p><em>Choisis une situation récente où tu t'es arrêtée, cachée, dispersée ou suradaptée.</em></p>
+  <table class="fiche">
+    <tr><td>Situation factuelle</td><td></td></tr>
+    <tr><td>Ce que mon corps a fait</td><td></td></tr>
+    <tr><td>Émotion principale</td><td></td></tr>
+    <tr><td>Pensée automatique</td><td></td></tr>
+    <tr><td>Comportement de protection</td><td></td></tr>
+    <tr><td>Coût actuel</td><td></td></tr>
+    <tr><td>Besoin caché</td><td></td></tr>
+    <tr><td>Plus petite action possible</td><td></td></tr>
+  </table>
+  <div class="mantra">« Mon blocage n'est pas de la paresse.<br>C'est une protection devenue trop coûteuse — et ça change tout. »</div>
+  <div class="mizan">🌸 <b>Avec Al Mizan</b> — <em>Aujourd'hui</em> + <em>Respirer</em> : observe ton état chaque jour, sans rien forcer. On observe d'abord.</div>
+  <div class="foot">Posture Sereine · Fiche 1 — La carte de mon blocage</div>
+</div>
+
+<!-- ═══ FICHE 2 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Étape 2 · Réguler</div>
+  <h1>Fiche 2 — Jauge de sécurité et régulation</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> On ne demande pas au système nerveux de vendre, publier ou décider quand il se croit en danger. La régulation vient <b>avant</b> l'action.</div>
+  <h3>Ma jauge de sécurité intérieure, maintenant — j'entoure</h3>
+  <div class="jauge"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+  <p style="display:flex;justify-content:space-between;font-size:12px;color:#7d6f61;"><em>← Alerte / figement</em><em>Sécurité suffisante →</em></p>
+  <h3>Mes quatre régulateurs</h3>
+  <table>
+    <tr><th>Signal</th><th>Ce que j'observe</th><th>Régulation choisie</th></tr>
+    <tr><td><strong>Corps</strong></td><td style="height:36px;"></td><td>Respiration, marche lente, relâchement mâchoire/épaules</td></tr>
+    <tr><td><strong>Mental</strong></td><td style="height:36px;"></td><td>Phrase vraie et utile, retour au fait</td></tr>
+    <tr><td><strong>Lien</strong></td><td style="height:36px;"></td><td>Message à une personne ressource</td></tr>
+    <tr><td><strong>Spiritualité</strong></td><td style="height:36px;"></td><td>Dhikr doux, du'ā simple, rappel de tawakkul</td></tr>
+  </table>
+  <h3>Après régulation</h3>
+  <table class="fiche">
+    <tr><td>La jauge est maintenant à</td><td>0 · 1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10</td></tr>
+    <tr><td>L'action est-elle encore juste, maintenant ?</td><td>☐ Oui &nbsp;&nbsp; ☐ Non &nbsp;&nbsp; ☐ À adapter</td></tr>
+    <tr><td>Version plus douce de l'action</td><td></td></tr>
+  </table>
+  <div class="mizan">🌸 <b>Avec Al Mizan</b> — <em>Respirer</em> : ta régulation guidée, prête à l'emploi dès que la jauge descend. <em>Aujourd'hui</em> : le check-in devient ta jauge quotidienne.</div>
+  <div class="foot">Posture Sereine · Fiche 2 — Jauge de sécurité et régulation</div>
+</div>
+
+<!-- ═══ FICHE 3 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Étape 3 · Clarifier</div>
+  <h1>Fiche 3 — La boussole des émotions</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> L'émotion n'est pas une ennemie. Elle signale souvent un besoin, une limite ou une valeur touchée.</div>
+  <p><em>Utilise cette fiche quand une émotion semble prendre toute la place.</em></p>
+  <table>
+    <tr><th>Émotion</th><th>Déclencheur possible</th><th>Besoin / message</th><th>Action juste</th></tr>
+    <tr><td>Peur</td><td>Danger réel ou perçu</td><td>Sécurité, préparation, soutien</td><td style="height:30px;"></td></tr>
+    <tr><td>Tristesse</td><td>Perte, déception, fatigue</td><td>Accueil, repos, consolation</td><td></td></tr>
+    <tr><td>Colère</td><td>Injustice, limite dépassée</td><td>Protection, parole claire, limite</td><td></td></tr>
+    <tr><td>Honte</td><td>Regard, exposition, comparaison</td><td>Raḥma, dignité, retour au vrai</td><td></td></tr>
+    <tr><td>Joie</td><td>Succès, reconnaissance, alignement</td><td>Shukr, consolidation, partage sain</td><td></td></tr>
+  </table>
+  <h3>Mon émotion du jour</h3>
+  <table>
+    <tr><th>Mon émotion du jour</th><th>Ce qu'elle protège ou réclame</th><th>Une réponse avec raḥma</th></tr>
+    <tr><td style="height:44px;"></td><td></td><td></td></tr>
+    <tr><td style="height:44px;"></td><td></td><td></td></tr>
+  </table>
+  <div class="mantra">« Mon émotion est une information, pas une condamnation. »</div>
+  <div class="mizan">🌸 <b>Avec Al Mizan</b> — <em>Aujourd'hui</em> + <em>Ressources</em> : le duo émotion-besoin-action se note en 3 minutes dans l'app, la micro-psychoéducation arrive au bon moment.</div>
+  <div class="foot">Posture Sereine · Fiche 3 — La boussole des émotions</div>
+</div>
+
+<!-- ═══ FICHE 4 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Étape 3 · Clarifier</div>
+  <h1>Fiche 4 — Journal émotion · besoin · action</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Ce journal installe la <b>muḥāsaba douce</b> : observer sans s'écraser, rectifier sans se violenter.</div>
+  <p><em>Pendant 7 jours, note une situation courte. L'objectif est de repérer les répétitions.</em></p>
+  <table>
+    <tr><th>Jour</th><th>Situation</th><th>Émotion</th><th>Besoin</th><th>Action juste</th></tr>
+    <tr><td>1</td><td style="height:32px;"></td><td></td><td></td><td></td></tr>
+    <tr><td>2</td><td style="height:32px;"></td><td></td><td></td><td></td></tr>
+    <tr><td>3</td><td style="height:32px;"></td><td></td><td></td><td></td></tr>
+    <tr><td>4</td><td style="height:32px;"></td><td></td><td></td><td></td></tr>
+    <tr><td>5</td><td style="height:32px;"></td><td></td><td></td><td></td></tr>
+    <tr><td>6</td><td style="height:32px;"></td><td></td><td></td><td></td></tr>
+    <tr><td>7</td><td style="height:32px;"></td><td></td><td></td><td></td></tr>
+  </table>
+  <h3>Ce que je remarque en fin de semaine</h3>
+  <table class="fiche">
+    <tr><td>L'émotion qui revient</td><td></td></tr>
+    <tr><td>Le besoin souvent ignoré</td><td></td></tr>
+    <tr><td>L'action qui m'aide vraiment</td><td></td></tr>
+    <tr><td>Le rappel spirituel utile</td><td></td></tr>
+  </table>
+  <div class="mizan">🌸 <b>Avec Al Mizan</b> — <em>Résumé</em> : ton bilan hebdomadaire exportable fait cette relecture pour toi — compare-le à cette fiche.</div>
+  <div class="foot">Posture Sereine · Fiche 4 — Journal émotion · besoin · action</div>
+</div>
+
+<!-- ═══ FICHE 5 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Étape 3 · Clarifier</div>
+  <h1>Fiche 5 — Cartographie de mon fonctionnement</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Ton blocage n'est pas seulement dans tes pensées. Il peut être dans ton rythme, tes limites, ton énergie, ton rapport au regard et ta manière de décider.</div>
+  <p><em>Coche l'archétype dominant, puis choisis une correction douce. (Sans étiquette, sans diagnostic.)</em></p>
+  <table>
+    <tr><th></th><th>Archétype</th><th>Signes</th><th>Correction douce</th></tr>
+    <tr><td>☐</td><td><strong>Perfectionniste anxieuse</strong></td><td>Retouche, prépare, attend d'être sûre</td><td>Publier une version 80 % suffisante</td></tr>
+    <tr><td>☐</td><td><strong>Visionnaire dispersée</strong></td><td>Beaucoup d'idées, peu de finitions</td><td>Choisir une seule priorité visible</td></tr>
+    <tr><td>☐</td><td><strong>Sauveuse suradaptée</strong></td><td>Donne trop, baisse ses prix, s'oublie</td><td>Poser une limite claire avant d'aider</td></tr>
+    <tr><td>☐</td><td><strong>Invisible comparée</strong></td><td>Regarde les autres, se retire</td><td>Parler à une personne réelle, pas à tout internet</td></tr>
+    <tr><td>☐</td><td><strong>Évitante figée</strong></td><td>Sait quoi faire mais ne bouge pas</td><td>Réduire l'action jusqu'à 5 minutes</td></tr>
+    <tr><td>☐</td><td><strong>Sprinteuse épuisée</strong></td><td>Avance par pics puis s'effondre</td><td>Installer un minimum viable hebdomadaire</td></tr>
+  </table>
+  <h3>Mes six dimensions</h3>
+  <table>
+    <tr><th>Dimension</th><th>Ce qui me vide</th><th>Ce qui me remet dans l'axe</th></tr>
+    <tr><td>Énergie</td><td style="height:30px;"></td><td></td></tr>
+    <tr><td>Temps</td><td style="height:30px;"></td><td></td></tr>
+    <tr><td>Décision</td><td style="height:30px;"></td><td></td></tr>
+    <tr><td>Visibilité</td><td style="height:30px;"></td><td></td></tr>
+    <tr><td>Vente</td><td style="height:30px;"></td><td></td></tr>
+    <tr><td>Repos</td><td style="height:30px;"></td><td></td></tr>
+  </table>
+  <div class="mantra">« Je cesse de me corriger, je commence à me connaître. »</div>
+  <div class="mizan">🌸 <b>Avec Al Mizan</b> — <em>Tendances</em> : compare ton archétype à tes courbes sur 30 jours. Là où l'intuition et les données se rejoignent, tu tiens une vraie règle.</div>
+  <div class="foot">Posture Sereine · Fiche 5 — Cartographie de mon fonctionnement</div>
+</div>
+
+<!-- ═══ FICHE 6 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Étape 3 · Clarifier</div>
+  <h1>Fiche 6 — La grille P·E·C·C</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Les pensées automatiques ne sont pas forcément vraies ; elles sont souvent rapides, protectrices et anciennes. La grille P·E·C·C aide à revenir au réel.</div>
+  <p><em>Travaille une situation à la fois. Commence par le fait observable, puis seulement ensuite l'interprétation.</em></p>
+  <table class="fiche">
+    <tr><td><strong>P</strong> — Quelle est la pensée automatique exacte ?</td><td></td></tr>
+    <tr><td><strong>E</strong> — Quelle émotion, et quelle intensité 0-10 ?</td><td></td></tr>
+    <tr><td><strong>C</strong> — Quel comportement ai-je eu ?</td><td></td></tr>
+    <tr><td><strong>C</strong> — Quelle conséquence cela produit-il ?</td><td></td></tr>
+    <tr><td><strong>Biais</strong> — catastrophisme, tout-ou-rien, lecture de pensée, personnalisation, « je devrais » ?</td><td></td></tr>
+    <tr><td><strong>Alternative</strong> — quelle pensée serait plus juste, plus utile et plus conforme au réel ?</td><td></td></tr>
+    <tr><td><strong>Action-test</strong> — quelle petite action peut vérifier cette alternative ?</td><td></td></tr>
+  </table>
+  <div class="mantra">« Je ne positive pas de force.<br>Je reviens au réel — c'est lui qui libère. »</div>
+  <div class="mizan">🌸 <b>Avec Al Mizan</b> — <em>Mes pensées</em> : le journal TCC intégré reprend cette grille. Une pensée qui revient 3 fois dans la semaine = un schéma repéré, noir sur blanc.</div>
+  <div class="foot">Posture Sereine · Fiche 6 — La grille P·E·C·C</div>
+</div>
+
+<!-- ═══ FICHE 7 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Étape 4 · Repositionner</div>
+  <h1>Fiche 7 — Blessure entrepreneuriale<br>et protections anciennes</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Certaines réactions dans l'activité sont des protections apprises : se cacher, faire plaisir, tout contrôler, fuir la vente, se comparer. Cette fiche ne force pas le passé — elle repère ce qui se rejoue aujourd'hui, pour choisir une réponse adulte et digne.</div>
+  <table class="fiche tall">
+    <tr><td>Cette situation me rappelle…</td><td></td></tr>
+    <tr><td>La protection ancienne qui se réactive</td><td></td></tr>
+    <tr><td>Ce qu'elle essaye de protéger</td><td></td></tr>
+    <tr><td>Ce qu'elle me coûte aujourd'hui</td><td></td></tr>
+    <tr><td>Mon message de raḥma à cette part de moi</td><td></td></tr>
+    <tr><td>La nouvelle preuve de sécurité que je peux lui offrir</td><td></td></tr>
+  </table>
+  <div class="mantra">« Le présent n'est pas obligé de porter les lunettes du passé. »</div>
+  <div class="mizan">🌸 <b>Avec Al Mizan</b> — <em>Mes pensées</em> + <em>Respirer</em> : si l'exploration active trop, Respirer d'abord. La blessure se travaille depuis la sécurité, jamais depuis la panique.</div>
+  <div class="foot">Posture Sereine · Fiche 7 — Blessure entrepreneuriale et protections anciennes</div>
+</div>
+
+<!-- ═══ FICHE 8 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Étape 5 · Consolider</div>
+  <h1>Fiche 8 — Semaine respirable<br>et système minimum viable</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> La constance ne vient pas seulement de la motivation. Elle vient d'un système suffisamment simple pour <b>survivre aux semaines imparfaites</b>.</div>
+  <p><em>Pour chaque domaine, crée une version complète et une version minimum.</em></p>
+  <table>
+    <tr><th>Domaine</th><th>Version complète</th><th>Version minimum viable</th></tr>
+    <tr><td>Visibilité</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td>Vente / suivi</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td>Création / livraison</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td>Admin</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td>Apprentissage</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td>Repos / foi / famille</td><td style="height:32px;"></td><td></td></tr>
+  </table>
+  <h3>Mes 3 priorités de la semaine</h3>
+  <table>
+    <tr><th>#</th><th>Action exacte</th><th>Jour</th></tr>
+    <tr><td>1</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td>2</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td>3</td><td style="height:32px;"></td><td></td></tr>
+  </table>
+  <div class="mantra">« Le minimum n'est pas un échec :<br>c'est le fil qui empêche la rupture. »</div>
+  <div class="mizan">🌸 <b>Avec Al Mizan</b> — <em>Aujourd'hui</em> + <em>Turbulences</em> : le check-in du matin te dit en quelle version tu joues aujourd'hui, et Turbulences repère tes zones rouges pour les anticiper.</div>
+  <div class="foot">Posture Sereine · Fiche 8 — Semaine respirable et système minimum viable</div>
+</div>
+
+<!-- ═══ FICHE 9 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Étape 4 · Repositionner</div>
+  <h1>Fiche 9 — Visibilité, vente et tawakkul actif</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Se rendre visible n'est pas chercher l'approbation de tout le monde. C'est <b>rendre accessible une aide utile</b>, avec adab, clarté et limites.</div>
+  <h3>Clarifier mon offre</h3>
+  <table class="fiche">
+    <tr><td>J'aide qui ?</td><td></td></tr>
+    <tr><td>À travers quoi ?</td><td></td></tr>
+    <tr><td>Pour quel changement concret ?</td><td></td></tr>
+    <tr><td>La phrase simple de mon offre</td><td></td></tr>
+  </table>
+  <h3>Mon échelle de visibilité — progressive, pas violente</h3>
+  <table>
+    <tr><th>Niveau</th><th>Action de visibilité</th><th>Sécurité 0-10</th><th>Ajustement</th></tr>
+    <tr><td>2/10</td><td style="height:32px;"></td><td></td><td></td></tr>
+    <tr><td>4/10</td><td style="height:32px;"></td><td></td><td></td></tr>
+    <tr><td>6/10</td><td style="height:32px;"></td><td></td><td></td></tr>
+    <tr><td>8/10</td><td style="height:32px;"></td><td></td><td></td></tr>
+  </table>
+  <h3>Avant / après l'action</h3>
+  <table>
+    <tr><th>Avant — ce que je crains</th><th>Après — ce qui s'est réellement passé</th></tr>
+    <tr><td style="height:52px;"></td><td></td></tr>
+    <tr><th>Ce que je remets à Allāh</th><th>Ce que je peux améliorer concrètement</th></tr>
+    <tr><td style="height:52px;"></td><td></td></tr>
+  </table>
+  <div class="mantra">« Je fais ma part avec adab et clarté,<br>et je confie l'accueil du monde à Celui qui ouvre les cœurs. »</div>
+  <div class="mizan">🌸 <b>Avec Al Mizan</b> — <em>Respirer</em> avant l'exposition, <em>Mes pensées</em> après : noter la pensée qui monte au lieu de guetter les vues.</div>
+  <div class="foot">Posture Sereine · Fiche 9 — Visibilité, vente et tawakkul actif</div>
+</div>
+
+<!-- ═══ FICHE 10 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Étape 4 · Repositionner</div>
+  <h1>Fiche 10 — Limites, prix et amāna</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Tes limites ne sont pas un manque de générosité. Elles peuvent être une <b>amāna</b> : protéger ta santé, ton foyer, ta qualité de service et la justesse de la relation.</div>
+  <p><em>Identifie où tu te suradaptes, puis prépare une parole simple.</em></p>
+  <table>
+    <tr><th>Situation</th><th>Ce que je fais souvent</th><th>Limite saine</th></tr>
+    <tr><td>Messages hors cadre</td><td style="height:30px;"></td><td></td></tr>
+    <tr><td>Demandes gratuites</td><td style="height:30px;"></td><td></td></tr>
+    <tr><td>Prix / remise</td><td style="height:30px;"></td><td></td></tr>
+    <tr><td>Délais</td><td style="height:30px;"></td><td></td></tr>
+    <tr><td>Charge émotionnelle des clientes</td><td style="height:30px;"></td><td></td></tr>
+  </table>
+  <h3>Mes scripts de limite</h3>
+  <table class="fiche">
+    <tr><td>Dire non avec respect</td><td></td></tr>
+    <tr><td>Revenir au cadre</td><td></td></tr>
+    <tr><td>Annoncer un prix</td><td></td></tr>
+    <tr><td>Orienter vers une autre aide</td><td></td></tr>
+  </table>
+  <div class="mantra">« Dire non protège la qualité de mon oui. »</div>
+  <div class="mizan">🌸 <b>Avec Al Mizan</b> — <em>Tendances</em> : une limite posée d'après tes données d'énergie tient mieux qu'une limite posée sous le coup de l'épuisement.</div>
+  <div class="foot">Posture Sereine · Fiche 10 — Limites, prix et amāna</div>
+</div>
+
+<!-- ═══ FICHE 11 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Étape 5 · Consolider</div>
+  <h1>Fiche 11 — Plan 30 jours et anti-rechute</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> La transformation se consolide quand tu sais quoi faire les jours où l'ancien mode revient. Construis un plan simple, mesurable et miséricordieux.</div>
+  <table>
+    <tr><th>Semaine</th><th>Focus</th><th>Action principale</th><th>Preuve de réalité</th></tr>
+    <tr><td>1</td><td>Observer</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td>2</td><td>Réguler</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td>3</td><td>Agir</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td>4</td><td>Consolider</td><td style="height:32px;"></td><td></td></tr>
+  </table>
+  <h3>Mon plan anti-rechute</h3>
+  <table class="fiche">
+    <tr><td>Mes signaux faibles</td><td></td></tr>
+    <tr><td>Mon ancien mode par défaut</td><td></td></tr>
+    <tr><td>Mes 3 gestes de retour</td><td></td></tr>
+    <tr><td>Ma personne ressource</td><td></td></tr>
+    <tr><td>Ma phrase de rappel</td><td></td></tr>
+  </table>
+  <div class="mantra">« Une rechute n'efface pas le chemin.<br>Je réduis, je régule, je reviens — avec dignité. »</div>
+  <div class="mizan">🌸 <b>Avec Al Mizan</b> — <em>Résumé</em> : ton bilan hebdo exportable devient ton rituel de maintien. 10 minutes chaque fin de semaine, et le cap se garde.</div>
+  <div class="foot">Posture Sereine · Fiche 11 — Plan 30 jours et anti-rechute</div>
+</div>
+
+<!-- ═══ FICHES BONUS B1-B2 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Fiches bonus · Le cœur dans l'action</div>
+  <h1>Fiche B1 — Tawakkul actif</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Relier confiance et action. Le tawakkul n'est pas l'attente passive : c'est prendre les causes avec un cœur attaché à Allāh.</div>
+  <table class="fiche tall">
+    <tr><td>Quelle cause concrète puis-je prendre cette semaine ?</td><td></td></tr>
+    <tr><td>Qu'est-ce qui ne m'appartient pas dans cette situation ?</td><td></td></tr>
+    <tr><td>Quelle peur est-ce que je remets à Allāh ?</td><td></td></tr>
+  </table>
+
+  <h1 style="margin-top:26px;">Fiche B2 — Le regard des gens</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Sortir de la paralysie sociale. La comparaison éteint la gratitude ; la posture revient à sa propre responsabilité.</div>
+  <table class="fiche tall">
+    <tr><td>Quel regard est-ce que je crains, précisément ?</td><td></td></tr>
+    <tr><td>Qu'est-ce que je cherche à prouver — et à qui ?</td><td></td></tr>
+    <tr><td>Quel regard compte en dernier ?</td><td></td></tr>
+  </table>
+  <div class="mantra">« Le regard des créatures passe.<br>Ma responsabilité et ma sincérité restent. »</div>
+  <div class="foot">Posture Sereine · Fiches bonus B1-B2</div>
+</div>
+
+<!-- ═══ FICHES BONUS B3-B4 ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Fiches bonus · Le cœur dans l'action</div>
+  <h1>Fiche B3 — Ṣabr ou suradaptation ?</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Distinguer la patience noble de l'effacement nocif. Quelle difficulté dois-je traverser — et quelle difficulté dois-je cesser de m'imposer ?</div>
+  <table class="fiche tall">
+    <tr><td>La situation qui me pèse en ce moment</td><td></td></tr>
+    <tr><td>Est-ce une épreuve à traverser avec ṣabr ?</td><td></td></tr>
+    <tr><td>Ou une limite à poser ?</td><td></td></tr>
+    <tr><td>Ou une aide à demander ?</td><td></td></tr>
+  </table>
+
+  <h1 style="margin-top:26px;">Fiche B4 — Shukr des petites preuves</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Construire la motivation par la reconnaissance — et sortir du tout-ou-rien.</div>
+  <table class="fiche tall">
+    <tr><td>Qu'est-ce qui a été facilité pour moi cette semaine ?</td><td></td></tr>
+    <tr><td>Quelle petite preuve ai-je construite — que je peux honorer sans arrogance ?</td><td></td></tr>
+    <tr><td>Mon al-ḥamdu liLlāh de la semaine</td><td></td></tr>
+  </table>
+  <div class="mantra">« La constance aimée est plus durable<br>que l'intensité qui brûle. »</div>
+  <div class="foot">Posture Sereine · Fiches bonus B3-B4</div>
+</div>
+
+<!-- ═══ BONUS ═══ -->
+<div class="page">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="module">Bonus · Équilibre hebdomadaire</div>
+  <h1>Le rituel Al Mizan — mes six axes</h1>
+  <hr class="sep">
+  <div class="intention"><b>Intention ·</b> Al Mizan (« la balance ») sert ici de point de mesure : pas pour te juger, mais pour voir où l'équilibre s'est déplacé — et quel ajustement Allāh te permet de poser cette semaine.</div>
+  <table>
+    <tr><th>Axe</th><th>Question</th><th>Note /10</th><th>Ajustement</th></tr>
+    <tr><td><strong>Qalb</strong> 🤍</td><td>Mon cœur est-il en paix suffisante ?</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td><strong>Corps</strong> 🌿</td><td>Mon corps a-t-il eu du repos et de l'écoute ?</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td><strong>ʿAql</strong> 💭</td><td>Mes pensées sont-elles clarifiées ?</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td><strong>Action</strong> ✦</td><td>Ai-je pris une cause concrète cette semaine ?</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td><strong>Relations</strong> 🌸</td><td>Mes limites et mes liens sont-ils justes ?</td><td style="height:32px;"></td><td></td></tr>
+    <tr><td><strong>Rizq</strong> 🌾</td><td>Ai-je agi, puis remis le résultat à Allāh ?</td><td style="height:32px;"></td><td></td></tr>
+  </table>
+  <div class="mizan">🌸 <b>Avec Al Mizan Al Qalb</b> — fais ce rituel chaque fin de semaine avec ton <em>Résumé</em> sous les yeux : les six axes se remplissent presque tout seuls.</div>
+  <div class="mantra">« L'équilibre n'est pas un état à atteindre une fois pour toutes.<br>C'est une balance à réajuster, semaine après semaine, avec douceur. »</div>
+  <div class="foot">Posture Sereine · Bonus — Le rituel Al Mizan</div>
+</div>
+
+<!-- ═══ CLÔTURE ═══ -->
+<div class="page cover">
+  <div class="marque">جنة القلب · <b>Jannat Al Qalb</b> · Posture Sereine</div>
+  <div class="orn">✦ ✦ ✦</div>
+  <h1 style="font-size:34px;">Ce carnet est une trace,<br>pas un verdict</h1>
+  <p style="max-width:470px;margin:20px auto;font-style:italic;color:#7d6f61;">
+    Tu peux revenir à chaque fiche autant de fois que nécessaire.
+    Le but n'est pas de devenir une entrepreneure parfaite,
+    mais une femme plus alignée, plus lucide, plus stable —
+    et plus confiante dans les causes qu'elle prend.
+  </p>
+  <div class="mantra" style="max-width:500px;margin:26px auto;">« Comprendre ce qui te bloque, apaiser ce qui te pèse,<br>reprendre ta place dans ton activité. »<br><span style="font-size:13px;letter-spacing:3px;">— POSTURE SEREINE —</span></div>
+  <p style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:18px;color:var(--argile);">Qu'Allāh facilite ton chemin.</p>
+  <div class="signature">Nawel Oum Mona<small>Jannat Al Qalb — Le Jardin du Cœur</small></div>
+  <div class="foot" style="margin-top:44px;">
+    Jannat Al Qalb — Le Jardin du Cœur · « Revenir à l'essentiel, c'est retrouver la paix du cœur et la clarté de l'être. »<br>
+    Document personnel — ne remplace pas un suivi médical ou psychothérapeutique
+  </div>
+</div>
+
+</body>
+</html>
