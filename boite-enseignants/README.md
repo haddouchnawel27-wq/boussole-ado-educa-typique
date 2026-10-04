@@ -9,12 +9,12 @@ Pensée **en priorité** pour les **écoles musulmanes, bilingues français-arab
 
 ## 📂 Contenu
 - `index.html` — parcours d'accueil : 3 formats (2 h / 1 journée / 6 semaines), les **5 modules** (Comprendre · Observer · Adapter · Réguler · Coordonner), la **mallette en 5 parties**, et un **module spécifique « Apprendre l'arabe & mémoriser le Coran avec des profils TND »**.
-- `fiches.html` — **14 fiches imprimables** : F01→F12 + **F14 Arabe & Coran** + **F13 = les 12 situations de classe**. À remplir à l'écran puis imprimer / PDF.
+- `fiches.html` — fiches imprimables : F01→F12 + **F14 Arabe & Coran** + **fiches Dys** (F15 orthographe · F16 praxie · F17 calcul) + **F13 = les 12 situations de classe**. À remplir à l'écran puis imprimer / PDF.
 - `_assets/educa.css` — charte Educa Typique (rose · lavande · menthe · beige · Poppins/Nunito), imprimable A4.
 
-## 🔗 Réutilisation
-Les « ressources associées » du parcours pointent vers les **vrais outils existants** du dépôt
-(`parcours-clarte-tnd/outils-pro/` et `/apps/`, `/ressources/`) — aucun lien cassé.
+## 🔗 Autonomie (v1.1 — 04/10/2026)
+La Boîte est **autonome** : les modules de l'accueil renvoient **uniquement vers ses propres fiches** (ancres `fiches.html#…`).
+Les anciens liens vers l'**espace professionnel / boîte NeuroPed** (`parcours-clarte-tnd/outils-pro/`, `/apps/`, `/ressources/*.pdf`) ont été **désactivés** — plus aucun lien mélangé ni renvoi hors de la Boîte.
 
 ## 🛡️ Cadre
 Aucun diagnostic · les questionnaires organisent l'observation, ils n'étiquettent pas l'élève ·
