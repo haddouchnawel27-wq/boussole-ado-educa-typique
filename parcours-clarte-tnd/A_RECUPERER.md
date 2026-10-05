@@ -30,7 +30,7 @@ _Structure réelle du site : `/f0_fondations/<espace>/<outil>/`_
 | mon-equipe-de-soin | ✅ récupéré (`apps/mon-equipe-de-soin.html`) — **Espace Parents complet 🎉** |
 | ligne-du-temps-parcours-tnd | ✅ récupéré (`apps/ligne-du-temps-parcours-tnd.html`) |
 
-## 🤲 Voie Chifâ — `parents-musulmans.html` (espace optionnel) ✅ créé
+## 🤲 Jannat Al Qalb — `parents-musulmans.html` (espace optionnel) ✅ créé
 | Outil | Statut |
 |---|---|
 | dialoguer-avec-son-ado (ISL) | ✅ (`apps/dialoguer-avec-son-ado-ISL.html`) |
