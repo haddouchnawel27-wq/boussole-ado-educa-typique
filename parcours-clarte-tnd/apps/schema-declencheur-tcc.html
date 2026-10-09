@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schéma TCC : Déclencheur → Pensée → Émotion → Réaction — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#f5f0fa,#fff)}
+.bandeau{background:linear-gradient(135deg,#7c5cbf,#5a7a9f);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #7c5cbf;line-height:1.55}
+.intro strong{color:#5a3c8f}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #d8c9f0;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#7c5cbf;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#5a3c8f;border:1.5px solid #d8c9f0}
+
+.chaine{display:flex;flex-direction:column;gap:.5rem;background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm)}
+.chaine h2{margin:0 0 .5rem;color:#5a3c8f}
+.chaine .step{background:#faf6fb;border-left:5px solid var(--c);border-radius:var(--r-md);padding:.9rem 1rem;position:relative}
+.chaine .step h3{color:var(--c);margin:0 0 .3rem;font-size:1rem;display:flex;align-items:center;gap:.4rem}
+.chaine .step .sub{color:#666;font-size:.85rem;margin:0 0 .4rem;font-style:italic}
+.chaine .step textarea{width:100%;padding:.6em;border:1.5px solid #e8d8f0;border-radius:var(--r-sm);font-family:inherit;font-size:.93rem;background:#fff;min-height:60px;resize:vertical;line-height:1.5}
+.chaine .step textarea:focus{outline:2px solid var(--c)}
+.chaine .step .helper{margin-top:.5rem;padding:.4rem .7rem;background:#fff;border-radius:var(--r-sm);font-size:.84rem;color:#666;line-height:1.45}
+.chaine .step .helper strong{color:var(--c)}
+.chaine .arrow{text-align:center;color:#888;font-size:1.4rem;font-weight:800;margin:.1rem 0}
+
+.s1{--c:#e9a73a}
+.s2{--c:#7c5cbf}
+.s3{--c:#F39BC2}
+.s4{--c:#c25a30}
+
+.distorsions{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-top:5px solid #7c5cbf}
+.distorsions h3{margin:0 0 .5rem;color:#5a3c8f;font-size:1rem}
+.distorsions .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.4rem}
+.distorsions .card{background:#f6f0fb;border-radius:var(--r-sm);padding:.5rem .7rem;font-size:.85rem;line-height:1.45;cursor:pointer;transition:all .15s}
+.distorsions .card:hover{background:#e8d8f0}
+.distorsions .card strong{color:#5a3c8f;display:block;margin-bottom:.15rem}
+.distorsions .card.selected{background:#7c5cbf;color:#fff}
+.distorsions .card.selected strong{color:#fff}
+
+.reframe{background:linear-gradient(135deg,#fff,#f0f7ec);border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border:2px solid #5fa040;display:none}
+.reframe.visible{display:block}
+.reframe h2{color:#3d6e25;margin:0 0 .4rem}
+.reframe .new-step{margin-bottom:.6rem}
+.reframe .new-step .lbl{font-weight:700;color:#3d6e25;font-size:.92rem;margin-bottom:.2rem}
+.reframe .new-step textarea{width:100%;padding:.6em;border:1.5px solid #c5e0b5;border-radius:var(--r-sm);font-family:inherit;font-size:.93rem;background:#fff;min-height:50px;resize:vertical;line-height:1.5}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #7c5cbf;background:#fff;color:#7c5cbf;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#7c5cbf;color:#fff}
+.actions .primary{background:#7c5cbf;color:#fff}
+.actions .reframe-btn{background:#5fa040;color:#fff;border-color:#5fa040}
+.actions .reframe-btn:hover{background:#3d6e25;border-color:#3d6e25}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+.archives{background:#fff;border-radius:var(--r-md);padding:1rem;box-shadow:var(--shadow-sm)}
+.archives h3{margin:0 0 .5rem;color:#5a3c8f;font-size:.95rem}
+.archive-item{padding:.5rem .7rem;border-bottom:1px solid #f0e8f5;display:flex;justify-content:space-between;align-items:center;gap:.5rem;font-size:.88rem}
+.archive-item:last-child{border-bottom:none}
+.archive-item .meta{color:#888;font-size:.78rem}
+.archive-item button{padding:.2em .6em;font-size:.78rem}
+
+@media print{
+  .dossier-bar,.actions,.distorsions{display:none!important}
+  body{background:#fff}
+  .step,.reframe,.chaine{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../casa-familles/index.html">← La Casa des Familles</a>
+  <h1>🔗 Schéma TCC · Déclencheur → Pensée → Émotion → Réaction</h1>
+  <p class="sub">Décortique une situation difficile selon le schéma TCC. Tu vas voir le mécanisme — et là tu peux changer le maillon.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🔗 <strong>Le principe TCC :</strong> Ce n'est pas la situation qui crée notre émotion. C'est notre <strong>pensée</strong> sur cette situation. Cet outil te fait passer pas à pas : situation → ce que je me dis → ce que je ressens → ce que je fais. Puis on cherche une pensée alternative plus juste. C'est ça, la TCC, en pratique simple.
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:#5a3c8f">📁</label>
+    <select id="sel-archive"><option value="">— Nouveau —</option></select>
+    <input type="text" id="titre" placeholder="Titre (ex: « dispute des devoirs »)">
+    <button class="ghost" id="btn-charger">Charger</button>
+  </div>
+
+  <div class="chaine">
+    <h2>🔗 La chaîne TCC en 4 étapes</h2>
+
+    <div class="step s1">
+      <h3>1️⃣ DÉCLENCHEUR · Que s'est-il passé exactement ?</h3>
+      <div class="sub">Décris LES FAITS, sans interprétation. Comme si une caméra avait filmé.</div>
+      <textarea id="decl" placeholder="Ex: Mon enfant a refusé de faire ses devoirs à 17h, en criant « j'en ai marre ».&#10;(Pas : « il/elle ne respecte rien » — ça c'est déjà une pensée.)"></textarea>
+      <div class="helper"><strong>💡 Astuce :</strong> Si tu mets des adjectifs ou des jugements, c'est qu'on est déjà dans l'étape 2.</div>
+    </div>
+
+    <div class="arrow">⬇</div>
+
+    <div class="step s2">
+      <h3>2️⃣ PENSÉE · Qu'est-ce que je me suis dit dans ma tête ?</h3>
+      <div class="sub">La phrase exacte qui t'a traversé l'esprit. Souvent automatique, rapide, dure.</div>
+      <textarea id="pens" placeholder="Ex: « Il/elle me manque de respect. Je rate tout. Je ne sais pas être parent. »"></textarea>
+      <div class="helper"><strong>🔍 Indice :</strong> Demande-toi « Qu'est-ce que ça VEUT DIRE pour moi ? » Plusieurs fois. La vraie pensée se cache souvent en dessous.</div>
+    </div>
+
+    <div class="arrow">⬇</div>
+
+    <div class="step s3">
+      <h3>3️⃣ ÉMOTION · Qu'est-ce que j'ai ressenti ?</h3>
+      <div class="sub">Le ou les mots de l'émotion + l'intensité de 0 à 10.</div>
+      <textarea id="emo" placeholder="Ex: Colère 8/10 + impuissance 7/10 + honte 6/10."></textarea>
+      <div class="helper"><strong>💡 Souvent :</strong> sous la colère il y a de la peur, de la tristesse ou un besoin pas écouté.</div>
+    </div>
+
+    <div class="arrow">⬇</div>
+
+    <div class="step s4">
+      <h3>4️⃣ RÉACTION · Qu'est-ce que j'ai fait / dit ?</h3>
+      <div class="sub">Comportement, mots, ton. Sans jugement sur toi.</div>
+      <textarea id="reac" placeholder="Ex: J'ai crié. J'ai dit « tu vas voir », j'ai éteint la PS5 brutalement. Après je me suis isolé(e) et j'ai pleuré."></textarea>
+      <div class="helper"><strong>🌿 Important :</strong> tu n'es pas en train de te juger. Tu observes le mécanisme.</div>
+    </div>
+  </div>
+
+  <div class="distorsions">
+    <h3>🔍 Distorsions cognitives — peut-être y en a-t-il une dans ta pensée ?</h3>
+    <p style="color:#666;font-size:.85rem;margin:0 0 .5rem">Clique sur celle(s) qui te parle(nt) pour les marquer. Identifier une distorsion = premier pas pour la remettre en cause.</p>
+    <div class="grid">
+      <div class="card" data-d="catastrophe"><strong>Catastrophisation</strong>Imaginer le pire scénario possible.</div>
+      <div class="card" data-d="tout-rien"><strong>Tout ou rien</strong>« Soit je suis un parent parfait, soit je suis nul. »</div>
+      <div class="card" data-d="lecture"><strong>Lecture de pensée</strong>« Je SAIS ce qu'il/elle pense de moi. »</div>
+      <div class="card" data-d="personnaliser"><strong>Personnalisation</strong>« Tout est de ma faute. »</div>
+      <div class="card" data-d="generaliser"><strong>Généralisation</strong>« C'est TOUJOURS comme ça. JAMAIS… »</div>
+      <div class="card" data-d="devrait"><strong>Devrait / Faut</strong>« Je devrais y arriver. Il/elle devrait obéir. »</div>
+      <div class="card" data-d="etiquetage"><strong>Étiquetage</strong>« Je suis nul(le). Il/elle est ingrat(e). »</div>
+      <div class="card" data-d="filtre"><strong>Filtre négatif</strong>Ne voir QUE ce qui ne va pas.</div>
+      <div class="card" data-d="invalidant"><strong>Invalider le positif</strong>« Oui mais ça ne compte pas. »</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="reframe-btn" id="btn-reframe">🌱 Chercher une pensée alternative plus juste</button>
+  </div>
+
+  <div class="reframe" id="reframe-bloc">
+    <h2>🌱 Et si on essayait une pensée plus juste ?</h2>
+    <p style="color:#3d6e25;font-size:.92rem;margin:.2rem 0 .7rem">La nouvelle pensée n'est pas « positive forcée » — elle est <strong>juste, nuancée, factuelle</strong>. Plus proche de la réalité que la pensée automatique.</p>
+
+    <div class="new-step">
+      <div class="lbl">🔍 Quelle preuve y a-t-il que ma pensée n°2 est VRAIE ? Et que la situation n'est PAS comme je l'ai pensée ?</div>
+      <textarea id="preuves" placeholder="Pour : … &#10;Contre : … (souvent on n'a aucune preuve solide pour la pensée automatique)"></textarea>
+    </div>
+
+    <div class="new-step">
+      <div class="lbl">🌱 Nouvelle pensée alternative — plus juste, plus nuancée</div>
+      <textarea id="nouvelle-pensee" placeholder="Ex: « Il/elle est épuisé(e) après une journée d'école. Son refus parle de SA fatigue, pas de moi. Je peux dire stop et reprendre dans 1h. »"></textarea>
+    </div>
+
+    <div class="new-step">
+      <div class="lbl">💛 Si j'avais eu cette pensée à la place, j'aurais ressenti / fait quoi ?</div>
+      <textarea id="nouvelle-reaction" placeholder="Ex: J'aurais ressenti de la fatigue (légitime) au lieu de la colère. J'aurais dit « OK, on s'arrête, on reprend dans 1h après ton goûter. »"></textarea>
+    </div>
+
+    <div class="new-step">
+      <div class="lbl">🎯 Une fois cette pensée intégrée, qu'est-ce que je peux mettre en place pour la prochaine fois ?</div>
+      <textarea id="action-futur" placeholder="Ex: Goûter avant les devoirs. Annoncer 15 min à l'avance. M'autoriser à reporter à 18h si fatigue extrême."></textarea>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer cette analyse</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="archives">
+    <h3>📚 Mes analyses archivées</h3>
+    <div id="liste-archives"></div>
+  </div>
+
+  <div class="disclaimer">
+    Outil d'auto-analyse TCC. Pas un substitut à un suivi psychothérapeutique TCC professionnel. Si les schémas se répètent ou aggravent la souffrance, consulter un(e) psy formé(e) TCC.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../casa-familles/index.html" style="color:#7c5cbf">← La Casa des Familles</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_schema_tcc_v1';
+let distorsionsSelected=[];
+
+document.querySelectorAll('.distorsions .card').forEach(c=>{
+  c.onclick=()=>{
+    c.classList.toggle('selected');
+    distorsionsSelected=Array.from(document.querySelectorAll('.distorsions .card.selected')).map(x=>x.dataset.d);
+  };
+});
+
+document.getElementById('btn-reframe').onclick=()=>{
+  document.getElementById('reframe-bloc').classList.add('visible');
+  document.getElementById('reframe-bloc').scrollIntoView({behavior:'smooth'});
+};
+
+function collecter(){
+  return {
+    titre:document.getElementById('titre').value,
+    decl:document.getElementById('decl').value,
+    pens:document.getElementById('pens').value,
+    emo:document.getElementById('emo').value,
+    reac:document.getElementById('reac').value,
+    distorsions:distorsionsSelected,
+    preuves:document.getElementById('preuves').value,
+    nouvellePensee:document.getElementById('nouvelle-pensee').value,
+    nouvelleReaction:document.getElementById('nouvelle-reaction').value,
+    actionFutur:document.getElementById('action-futur').value,
+    date:new Date().toISOString()
+  };
+}
+function appliquer(o){
+  ['titre','decl','pens','emo','reac','preuves','nouvelle-pensee','nouvelle-reaction','action-futur'].forEach((id,i)=>{
+    const map={titre:'titre',decl:'decl',pens:'pens',emo:'emo',reac:'reac',preuves:'preuves','nouvelle-pensee':'nouvellePensee','nouvelle-reaction':'nouvelleReaction','action-futur':'actionFutur'};
+    document.getElementById(id).value=o[map[id]]||'';
+  });
+  distorsionsSelected=o.distorsions||[];
+  document.querySelectorAll('.distorsions .card').forEach(c=>c.classList.toggle('selected',distorsionsSelected.includes(c.dataset.d)));
+  if(o.nouvellePensee||o.preuves) document.getElementById('reframe-bloc').classList.add('visible');
+}
+function vider(){
+  ['titre','decl','pens','emo','reac','preuves','nouvelle-pensee','nouvelle-reaction','action-futur'].forEach(id=>document.getElementById(id).value='');
+  distorsionsSelected=[];
+  document.querySelectorAll('.distorsions .card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('reframe-bloc').classList.remove('visible');
+}
+
+function lire(){try{return JSON.parse(localStorage.getItem(KEY))||[]}catch(e){return[]}}
+function ecrire(a){localStorage.setItem(KEY,JSON.stringify(a))}
+function rendreArchives(){
+  const a=lire().sort((x,y)=>(y.date||'').localeCompare(x.date||''));
+  document.getElementById('sel-archive').innerHTML='<option value="">— Nouveau —</option>'+a.map((x,i)=>`<option value="${i}">${(x.titre||'(sans titre)').slice(0,40)} · ${(x.date||'').slice(0,10)}</option>`).join('');
+  document.getElementById('liste-archives').innerHTML=a.length===0?'<em style="color:#888;font-size:.85rem">Aucune analyse archivée.</em>':a.map((x,i)=>`<div class="archive-item"><span><strong>${(x.titre||'(sans titre)').slice(0,50)}</strong> <span class="meta">${(x.date||'').slice(0,10)}</span></span><span><button data-act="ouvrir" data-i="${i}">ouvrir</button> <button data-act="suppr" data-i="${i}">×</button></span></div>`).join('');
+  document.querySelectorAll('#liste-archives button').forEach(b=>{
+    b.onclick=()=>{
+      const arr=lire();const i=parseInt(b.dataset.i);
+      if(b.dataset.act==='ouvrir'){appliquer(arr[i]);window.scrollTo({top:0,behavior:'smooth'});}
+      else if(confirm('Supprimer ?')){arr.splice(i,1);ecrire(arr);rendreArchives();}
+    };
+  });
+}
+document.getElementById('btn-charger').onclick=()=>{
+  const idx=document.getElementById('sel-archive').value;
+  if(idx==='')vider();else appliquer(lire()[parseInt(idx)]);
+};
+document.getElementById('btn-save').onclick=()=>{
+  const o=collecter();if(!o.decl){alert('Décris au moins la situation (étape 1).');return}
+  const a=lire();a.push(o);ecrire(a);rendreArchives();alert('💾 Analyse archivée.');
+};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ?'))vider();};
+document.getElementById('btn-export').onclick=()=>{
+  const o=collecter();
+  let t=`SCHÉMA TCC · DÉCLENCHEUR → PENSÉE → ÉMOTION → RÉACTION\nEducaTypique · Création originale Nawel Haddouch\n\n`;
+  t+=`Titre : ${o.titre||'—'}\nDate : ${(o.date||'').slice(0,10)}\n\n`;
+  t+=`1️⃣ DÉCLENCHEUR : ${o.decl||'—'}\n\n`;
+  t+=`2️⃣ PENSÉE : ${o.pens||'—'}\n\n`;
+  t+=`3️⃣ ÉMOTION : ${o.emo||'—'}\n\n`;
+  t+=`4️⃣ RÉACTION : ${o.reac||'—'}\n\n`;
+  if(o.distorsions&&o.distorsions.length) t+=`🔍 DISTORSIONS REPÉRÉES : ${o.distorsions.join(', ')}\n\n`;
+  if(o.preuves||o.nouvellePensee){
+    t+=`========== RECADRAGE ==========\n`;
+    t+=`🔍 Preuves : ${o.preuves||'—'}\n\n`;
+    t+=`🌱 Nouvelle pensée : ${o.nouvellePensee||'—'}\n\n`;
+    t+=`💛 Nouvelle réaction : ${o.nouvelleReaction||'—'}\n\n`;
+    t+=`🎯 Action pour la prochaine fois : ${o.actionFutur||'—'}\n`;
+  }
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`schema-tcc-${(o.date||'').slice(0,10)}.txt`;a.click();
+};
+rendreArchives();
+</script>
+
+</body>
+</html>

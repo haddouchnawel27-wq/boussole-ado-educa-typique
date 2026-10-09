@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carte mentale « qui je suis » — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#eef6f5,#fff)}
+.bandeau{background:linear-gradient(135deg,#2a9d8f,#8ED9D2,#CBB6F6);padding:1.8rem 1.5rem;text-align:center;color:#fff;position:relative;overflow:hidden}
+.bandeau::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 30%,rgba(255,255,255,.2) 0%,transparent 50%);pointer-events:none}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem;position:relative;z-index:1}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.9rem;text-shadow:0 2px 8px rgba(0,0,0,.15);position:relative;z-index:1}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:700px;margin:0 auto;position:relative;z-index:1}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9;position:relative;z-index:1}
+
+.wrap{max-width:950px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1.1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #2a9d8f;line-height:1.55}
+.intro strong{color:#1a6a5a}
+.intro em{color:#7c5cbf;font-style:italic}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar label{font-weight:700;color:#1a6a5a;font-size:.9rem}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #c5dfdb;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#2a9d8f;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#1a6a5a;border:1.5px solid #c5dfdb}
+
+.progres-bar{background:#fff;padding:.7rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.progres-bar .lbl{font-weight:700;color:#1a6a5a;font-size:.85rem}
+.progres-bar .bar{flex:1;min-width:200px;height:14px;background:#eef6f5;border-radius:999px;overflow:hidden}
+.progres-bar .fill{height:100%;background:linear-gradient(90deg,#2a9d8f,#CBB6F6);border-radius:999px;transition:width .4s}
+.progres-bar .pct{font-weight:800;color:#1a6a5a;font-size:.9rem;min-width:50px;text-align:right}
+
+.facettes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.8rem}
+.facette{background:#fff;border-radius:var(--r-lg);padding:1rem 1.2rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c);transition:transform .15s, box-shadow .15s;display:flex;flex-direction:column;gap:.4rem}
+.facette:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.facette .head{display:flex;align-items:center;gap:.5rem}
+.facette .ic{font-size:1.6rem;line-height:1}
+.facette h3{color:var(--c);margin:0;font-family:var(--font-titre);font-size:1.05rem;flex:1}
+.facette .invitation{font-size:.85rem;color:#666;font-style:italic;line-height:1.45;margin:.2rem 0}
+.facette .pistes{background:#faf6fa;border-radius:var(--r-sm);padding:.5rem .7rem;font-size:.82rem;color:#555;line-height:1.5}
+.facette .pistes strong{color:var(--c)}
+.facette textarea{width:100%;padding:.6em .7em;border:1.5px solid #e8e0e8;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;background:#faf9f8;min-height:75px;resize:vertical;line-height:1.5}
+.facette textarea:focus{outline:2px solid var(--c);background:#fff}
+.facette.rempli{background:linear-gradient(135deg,#fff,#fafdfb)}
+
+/* Couleurs par facette */
+.f1{--c:#e05a8a} /* Forces */
+.f2{--c:#e9a73a} /* Valeurs */
+.f3{--c:#F39BC2} /* Pépites */
+.f4{--c:#9B85B8} /* Vulnérabilités */
+.f5{--c:#c25a30} /* Passions */
+.f6{--c:#7c5cbf} /* Rêves */
+.f7{--c:#5a7a9f} /* Croyances */
+.f8{--c:#5fa040} /* Super-pouvoir */
+
+/* Visualisation finale carte mentale */
+.carte-mentale{background:linear-gradient(135deg,#fff,#eef6f5);border-radius:var(--r-lg);padding:1.4rem;box-shadow:var(--shadow-md);border:2px solid #c5dfdb;display:none}
+.carte-mentale.visible{display:block;animation:fade-in .4s ease}
+@keyframes fade-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.carte-mentale h2{color:#1a6a5a;margin:0 0 .5rem;text-align:center;font-family:var(--font-titre)}
+.carte-mentale .citation-haut{text-align:center;color:#7c5cbf;font-style:italic;font-size:.95rem;margin:.3rem 0 .8rem;padding:.5rem 1rem;background:#faf6fb;border-radius:var(--r-sm)}
+.carte-mentale-svg{width:100%;max-width:700px;margin:0 auto;display:block}
+
+.facette-resume{background:#fff;border-radius:var(--r-md);padding:.7rem .9rem;margin-bottom:.5rem;border-left:4px solid var(--c)}
+.facette-resume h4{color:var(--c);margin:0 0 .25rem;font-size:.95rem;display:flex;align-items:center;gap:.4rem}
+.facette-resume p{margin:0;font-size:.9rem;line-height:1.5;color:#3a3a3a;white-space:pre-wrap}
+.facette-resume.vide{opacity:.5}
+.facette-resume.vide p{color:#888;font-style:italic}
+
+.facettes-resume-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.5rem;margin-top:.8rem}
+
+.mot-final{background:linear-gradient(135deg,#F0E8F5,#fff);padding:1rem 1.2rem;border-radius:var(--r-md);border-left:4px solid #9B85B8;font-size:.93rem;line-height:1.6;color:#5A4D6B;margin-top:.8rem}
+.mot-final strong{color:#5a3c8f;font-style:normal}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #2a9d8f;background:#fff;color:#1a6a5a;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem;transition:all .15s}
+.actions button:hover{background:#2a9d8f;color:#fff;transform:translateY(-2px)}
+.actions .primary{background:#2a9d8f;color:#fff}
+.actions .primary:hover{background:#1a6a5a;border-color:#1a6a5a}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+.btn-visualiser{padding:.8em 1.6em;background:linear-gradient(135deg,#2a9d8f,#CBB6F6);color:#fff;border:none;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:1rem;box-shadow:var(--shadow-md);transition:all .15s;display:block;margin:.5rem auto;text-align:center}
+.btn-visualiser:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.btn-visualiser:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+@media print{
+  body{background:#fff}
+  .dossier-bar,.actions,.btn-visualiser,.bandeau .retour,.progres-bar{display:none!important}
+  .facette,.carte-mentale,.intro,.facette-resume{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .carte-mentale{display:block!important;page-break-before:always}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../ados.html">← Espace ados</a>
+  <h1>🧠 Carte mentale « qui je suis »</h1>
+  <p class="sub">Une exploration honnête de 8 facettes de toi-même. Pas pour te juger — pour te connaître mieux.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🧠 <strong>Pourquoi ?</strong> À l'adolescence, ton cerveau cherche : <em>qui je suis ? qu'est-ce qui compte pour moi ? qu'est-ce qui me rend unique ?</em>
+    Cette carte t'aide à mettre des mots sur 8 facettes de toi. Le but n'est pas de t'enfermer dans une définition — c'est de t'<strong>observer toi-même</strong> avec bienveillance, comme si tu te rencontrais.
+    <br><br>
+    📝 Tu peux remplir dans le désordre, à ton rythme. Tu peux revenir plus tard pour ajuster. Tu peux faire plusieurs cartes à des moments différents pour voir comment tu évolues.
+  </div>
+
+  <div class="dossier-bar">
+    <label>📁</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouvelle carte</button>
+    <button class="ghost" id="btn-rename">✎ Renommer</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <div class="progres-bar">
+    <span class="lbl">📊 Carte remplie</span>
+    <div class="bar"><div class="fill" id="prog-fill" style="width:0%"></div></div>
+    <span class="pct" id="prog-pct">0/8</span>
+  </div>
+
+  <div class="facettes-grid" id="facettes-grid"></div>
+
+  <button class="btn-visualiser" id="btn-visualiser" disabled>✨ Voir ma carte mentale (au moins 4 facettes)</button>
+
+  <!-- VISUALISATION CARTE MENTALE -->
+  <section class="carte-mentale" id="carte-mentale">
+    <h2 id="titre-carte">🧠 Ma carte mentale</h2>
+    <div class="citation-haut" id="citation-haut"></div>
+    <svg class="carte-mentale-svg" id="svg-carte" viewBox="0 0 700 700" aria-label="Carte mentale qui je suis"></svg>
+    <h3 style="color:#1a6a5a;margin:1rem 0 .5rem;text-align:center">📋 Mes 8 facettes en détail</h3>
+    <div class="facettes-resume-grid" id="resume-grid"></div>
+    <div class="mot-final" id="mot-final"></div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer A4</button>
+    <button class="danger" id="btn-vider">🧹 Vider cette carte</button>
+  </div>
+
+  <div class="disclaimer">
+    Outil d'exploration de soi. Si tu te sens régulièrement « vide » ou « sans aucune facette claire », c'est un signal qui mérite d'être partagé avec un adulte de confiance ou un pro.
+    💛 <strong>Urgence ou détresse</strong> : 3114 (prévention suicide, gratuit, 24h/24)
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../ados.html" style="color:#1a6a5a">retour espace ados</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_carte_mentale_qui_je_suis_v1';
+let state={dossiers:{},dossier:null};
+
+const FACETTES = [
+  {id:'forces', cl:'f1', ic:'💪', titre:'Mes forces',
+    invitation:"3 choses que je sais faire bien, ou qu'on m'a déjà dit que je faisais bien.",
+    pistes:"<strong>Pistes :</strong> écouter · raconter · faire rire · dessiner · résoudre des problèmes · réconforter · observer les détails · m'organiser · improviser · garder mon calme..."},
+  {id:'valeurs', cl:'f2', ic:'💎', titre:'Mes valeurs',
+    invitation:"3 choses qui comptent VRAIMENT pour moi, qui me font sortir de mes gonds si on y touche.",
+    pistes:"<strong>Pistes :</strong> justice · amitié · honnêteté · liberté · famille · foi · respect · loyauté · créativité · indépendance · paix..."},
+  {id:'pepites', cl:'f3', ic:'✨', titre:'Mes pépites',
+    invitation:"Ce qui me rend unique. Pas forcément une compétence — quelque chose de moi que les autres n'ont pas pareil.",
+    pistes:"<strong>Pistes :</strong> ma sensibilité · mon humour · ma curiosité · mon courage · ma capacité à voir les détails · ma loyauté · ma résistance · mon imagination..."},
+  {id:'vulnerabilites', cl:'f4', ic:'🌿', titre:'Mes vulnérabilités',
+    invitation:"Mes zones plus fragiles. Pas pour me dévaloriser — pour les connaître et en prendre soin.",
+    pistes:"<strong>Pistes :</strong> les conflits · les changements imprévus · le bruit · le rejet · l'injustice · la critique · la solitude · la pression... Note ce qui te fragilise SANS te juger."},
+  {id:'passions', cl:'f5', ic:'🔥', titre:'Mes passions',
+    invitation:"Ce qui m'allume. Ce qui me fait oublier l'heure. Ce que je fais même quand personne ne me regarde.",
+    pistes:"<strong>Pistes :</strong> dessiner · jouer aux jeux vidéo · lire · regarder des séries · écouter podcasts/livres audio · faire du sport · cuisiner · coder · écrire · prendre soin des animaux · bricolage · jardinage · photo..."},
+  {id:'reves', cl:'f6', ic:'🌟', titre:'Mes rêves',
+    invitation:"À 1 an, 5 ans, 10 ans — qu'est-ce que j'aimerais voir dans ma vie ? Pas obligé d'être réaliste.",
+    pistes:"<strong>Pistes :</strong> un métier qui m'allume · vivre dans une autre ville/pays · apprendre une langue · créer quelque chose · rencontrer telle personne · sauver des animaux · changer une injustice..."},
+  {id:'croyances', cl:'f7', ic:'🧭', titre:'Mes croyances',
+    invitation:"Ce en quoi je crois fort. Ce qui me guide quand je doute.",
+    pistes:"<strong>Pistes :</strong> en moi · dans une foi religieuse · dans une cause · dans la nature · dans l'amitié · dans la justice · dans le travail · dans la chance · dans le destin..."},
+  {id:'pouvoir', cl:'f8', ic:'🦸', titre:'Mon super-pouvoir',
+    invitation:"LA chose que je sais faire mieux que la plupart des gens autour de moi. Souvent invisible pour moi.",
+    pistes:"<strong>Pistes :</strong> sentir l'humeur des autres · trouver des solutions originales · me souvenir des détails · imaginer des histoires · réconforter quelqu'un en 2 minutes · ne pas lâcher quand c'est dur · faire rire... Si tu ne sais pas, demande à 3 personnes qui te connaissent !"}
+];
+
+const CITATIONS = [
+  "« Tu n'as pas besoin de te ressembler pour être toi-même. »",
+  "« Ce qui te rend différent·e est aussi ce qui te rend précieux·se. »",
+  "« Ta carte n'est pas figée — elle évolue avec toi. »",
+  "« Connaître ses facettes ne veut pas dire les figer. Ça veut dire les voir. »",
+  "« Un adolescent qui se connaît a déjà fait la moitié du chemin. »"
+];
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {facettes:{},date:new Date().toISOString().slice(0,10)}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Ma carte 1":blank()};state.dossier="Ma carte 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function renderFacettes(){
+  const g=document.getElementById('facettes-grid');
+  const d=current();
+  g.innerHTML=FACETTES.map(f=>{
+    const val=(d.facettes&&d.facettes[f.id])||'';
+    const rempli=val.trim().length>0;
+    return `<div class="facette ${f.cl} ${rempli?'rempli':''}">
+      <div class="head">
+        <span class="ic">${f.ic}</span>
+        <h3>${esc(f.titre)}</h3>
+      </div>
+      <div class="invitation">${esc(f.invitation)}</div>
+      <div class="pistes">${f.pistes}</div>
+      <textarea data-f="${f.id}" placeholder="Écris ce qui te vient, dans tes mots à toi...">${esc(val)}</textarea>
+    </div>`;
+  }).join('');
+  g.querySelectorAll('textarea').forEach(t=>t.addEventListener('input',e=>{
+    const d=current();d.facettes=d.facettes||{};d.facettes[e.target.dataset.f]=e.target.value;
+    save();majProgres();
+  }));
+}
+
+function majProgres(){
+  const d=current();
+  const remplis=FACETTES.filter(f=>(d.facettes&&d.facettes[f.id]||'').trim().length>0).length;
+  document.getElementById('prog-pct').textContent=remplis+'/8';
+  document.getElementById('prog-fill').style.width=(remplis/8*100)+'%';
+  const btn=document.getElementById('btn-visualiser');
+  btn.disabled=(remplis<4);
+  btn.textContent=remplis>=4?'✨ Voir ma carte mentale':`✨ Voir ma carte mentale (${remplis}/4 facettes minimum)`;
+  // Re-render facette class si visualisée
+  document.querySelectorAll('.facette').forEach((el,i)=>{
+    const val=(d.facettes&&d.facettes[FACETTES[i].id]||'').trim();
+    el.classList.toggle('rempli', val.length>0);
+  });
+}
+
+function genererCarteMentale(){
+  const d=current();
+  const remplis=FACETTES.filter(f=>(d.facettes&&d.facettes[f.id]||'').trim().length>0);
+  if(remplis.length<4){alert('Remplis au moins 4 facettes pour voir ta carte.');return}
+
+  // Citation aléatoire
+  const cit=CITATIONS[Math.floor(Math.random()*CITATIONS.length)];
+  document.getElementById('citation-haut').textContent=cit+' — Nawel';
+
+  // SVG carte mentale circulaire
+  const svg=document.getElementById('svg-carte');
+  const cx=350, cy=350, r=200;
+  let html='';
+  // Cercle central
+  html+=`<defs>
+    <radialGradient id="grad-centre" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff"/>
+      <stop offset="100%" stop-color="#8ED9D2"/>
+    </radialGradient>
+  </defs>`;
+  html+=`<circle cx="${cx}" cy="${cy}" r="80" fill="url(#grad-centre)" stroke="#2a9d8f" stroke-width="3"/>`;
+  // Prénom au centre si renseigné
+  const prenomCarte=(state.dossier||'Moi').slice(0,12);
+  html+=`<text x="${cx}" y="${cy-15}" text-anchor="middle" font-size="14" fill="#1a6a5a" font-weight="800" letter-spacing="1">MOI</text>`;
+  html+=`<text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="22" fill="#1a6a5a" font-weight="800">🧠</text>`;
+  html+=`<text x="${cx}" y="${cy+35}" text-anchor="middle" font-size="11" fill="#5a3c8f" font-style="italic">${esc(prenomCarte)}</text>`;
+
+  // 8 branches
+  FACETTES.forEach((f,i)=>{
+    const angle=(i*45-90)*Math.PI/180;
+    const x=cx+r*Math.cos(angle);
+    const y=cy+r*Math.sin(angle);
+    const c=getCSSColor(f.cl);
+    const val=(d.facettes&&d.facettes[f.id]||'').trim();
+    const isRempli=val.length>0;
+    // Ligne du centre vers branche
+    const innerR=82;
+    const xStart=cx+innerR*Math.cos(angle);
+    const yStart=cy+innerR*Math.sin(angle);
+    html+=`<line x1="${xStart}" y1="${yStart}" x2="${x}" y2="${y}" stroke="${c}" stroke-width="${isRempli?3:1.5}" stroke-dasharray="${isRempli?'':'4 4'}"/>`;
+    // Bulle branche
+    const bulleR=55;
+    html+=`<circle cx="${x}" cy="${y}" r="${bulleR}" fill="${isRempli?c:'#fff'}" stroke="${c}" stroke-width="2.5" opacity="${isRempli?'1':'.6'}"/>`;
+    // Emoji
+    html+=`<text x="${x}" y="${y-5}" text-anchor="middle" font-size="22">${f.ic}</text>`;
+    // Titre
+    html+=`<text x="${x}" y="${y+20}" text-anchor="middle" font-size="10" fill="${isRempli?'#fff':c}" font-weight="800">${esc(f.titre.replace('Mes ','').replace('Mon ',''))}</text>`;
+  });
+  svg.innerHTML=html;
+
+  // Résumé textuel
+  const grid=document.getElementById('resume-grid');
+  grid.innerHTML=FACETTES.map(f=>{
+    const val=(d.facettes&&d.facettes[f.id]||'').trim();
+    const cssColor=getCSSColor(f.cl);
+    return `<div class="facette-resume ${val?'':'vide'}" style="--c:${cssColor}">
+      <h4>${f.ic} ${esc(f.titre)}</h4>
+      <p>${val?esc(val):'(à explorer plus tard...)'}</p>
+    </div>`;
+  }).join('');
+
+  // Mot final
+  document.getElementById('mot-final').innerHTML=`<strong>💛 Un mot de Nawel</strong><br>
+    Tu viens de te dresser un portrait honnête. Ce n'est pas le portrait DÉFINITIF — c'est le portrait <strong>d'aujourd'hui</strong>.
+    Reviens dans 3 mois, dans 6 mois, dans 1 an. Tu verras comment tu as évolué. Et tu verras que certaines choses, elles, restent stables — ce sont tes <strong>ancres</strong>.
+    <em>Tu es bien plus que la somme de ces 8 cases. Mais tu es au moins ces 8 facettes-là.</em>`;
+
+  document.getElementById('carte-mentale').classList.add('visible');
+  document.getElementById('carte-mentale').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function getCSSColor(cl){
+  const map={f1:'#e05a8a',f2:'#e9a73a',f3:'#F39BC2',f4:'#9B85B8',f5:'#c25a30',f6:'#7c5cbf',f7:'#5a7a9f',f8:'#5fa040'};
+  return map[cl]||'#888';
+}
+
+document.getElementById('btn-visualiser').onclick=genererCarteMentale;
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();renderFacettes();majProgres();document.getElementById('carte-mentale').classList.remove('visible');};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom de la nouvelle carte (ex: « Ma carte janvier 2026 ») :','Ma carte '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();renderFacettes();majProgres();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Tu ne peux pas supprimer la seule carte.');return}
+  if(confirm('Supprimer cette carte ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();renderFacettes();majProgres();document.getElementById('carte-mentale').classList.remove('visible');}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Carte enregistrée.')};
+document.getElementById('btn-vider').onclick=()=>{
+  if(confirm('Vider entièrement cette carte ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();renderFacettes();majProgres();document.getElementById('carte-mentale').classList.remove('visible');}
+};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  let t=`MA CARTE MENTALE « QUI JE SUIS »\nEducaTypique · Création originale Nawel Haddouch\n`;
+  t+=`Carte : ${state.dossier} · Date : ${d.date||new Date().toISOString().slice(0,10)}\n\n`;
+  FACETTES.forEach(f=>{
+    const val=(d.facettes&&d.facettes[f.id]||'').trim();
+    t+=`${f.ic} ${f.titre.toUpperCase()}\n`;
+    t+=val?val+'\n':'(à explorer)\n';
+    t+='\n';
+  });
+  t+='\n💛 Cette carte n\'est pas figée. Elle évolue avec toi.\n';
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`carte-mentale-${state.dossier.replace(/[^a-z0-9]/gi,'_')}-${(d.date||new Date().toISOString().slice(0,10))}.txt`;a.click();
+};
+
+load();refreshDossier();renderFacettes();majProgres();
+</script>
+
+</body>
+</html>
