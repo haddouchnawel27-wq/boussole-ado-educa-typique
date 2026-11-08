@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}</style>
+<title>Mon Atelier de Tri</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap">
+<style>
+/* Layout : une colonne calme, un fil de 7 étapes groupées en 3 temps (Vider · Trier · Choisir) */
+:root{
+  --bg:#f3f7f6; --surface:#ffffff; --surface-2:#e8f1ef; --ink:#1c2b2d; --muted:#5b6f71; --line:#d3e2df;
+  --teal:#1f7a80; --teal-ink:#ffffff; --mint:#9fdcc9; --mint-soft:#dff3ec;
+  --sun:#f2c14e; --sun-soft:#fcf1d4; --fire:#d9704f; --fire-soft:#f9e3da; --lav:#8f86c9; --lav-soft:#ebe8f7;
+  --display:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121b1d; --surface:#1a2629; --surface-2:#213236; --ink:#e6efee; --muted:#9fb3b3; --line:#2e4246;
+  --teal:#4fb3b8; --teal-ink:#0e1a1c; --mint:#5fae98; --mint-soft:#1f3a33;
+  --sun:#e8b948; --sun-soft:#3a3220; --fire:#e58b6c; --fire-soft:#3d261f; --lav:#a9a1e0; --lav-soft:#2a2840; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121b1d; --surface:#1a2629; --surface-2:#213236; --ink:#e6efee; --muted:#9fb3b3; --line:#2e4246;
+  --teal:#4fb3b8; --teal-ink:#0e1a1c; --mint:#5fae98; --mint-soft:#1f3a33;
+  --sun:#e8b948; --sun-soft:#3a3220; --fire:#e58b6c; --fire-soft:#3d261f; --lav:#a9a1e0; --lav-soft:#2a2840; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+.wrap{max-width:780px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.25}
+h1{font-size:clamp(1.7rem,4.5vw,2.3rem);font-weight:700}
+h2{font-size:1.35rem;font-weight:600}
+h3{font-size:1rem;font-weight:600}
+p{margin:0}
+.lede{color:var(--muted);max-width:62ch}
+.eyebrow{font-family:var(--display);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);font-weight:600}
+header{display:flex;flex-direction:column;gap:10px}
+
+/* Fil des étapes */
+nav.steps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.phase-soul{background:var(--lav-soft)}
+.modebar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.quote{border-left:3px solid var(--lav);padding:6px 12px;font-style:italic;color:var(--ink)}
+.quote cite{display:block;font-style:normal;font-size:.8rem;color:var(--muted);margin-top:2px}
+.checklist{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.checklist label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.checklist input{margin-top:5px;width:18px;height:18px;accent-color:var(--teal);flex:none}
+.phase{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.phase-name{font-family:var(--display);font-weight:600;font-size:.85rem;color:var(--muted)}
+.phase-btns{display:flex;flex-wrap:wrap;gap:6px}
+.stepbtn{font:600 .85rem var(--body);border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:999px;padding:5px 11px;cursor:pointer}
+.stepbtn[aria-current="step"]{background:var(--teal);color:var(--teal-ink);border-color:var(--teal)}
+.stepbtn.done:not([aria-current="step"]){border-color:var(--mint);background:var(--mint-soft)}
+@media (max-width:560px){nav.steps{grid-template-columns:1fr}}
+
+/* Carte d'exercice */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:16px}
+.why{background:var(--mint-soft);border-radius:12px;padding:10px 14px;font-size:.93rem}
+.why b{font-family:var(--display);font-weight:600}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input[type=text],textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%;min-width:0}
+textarea{resize:vertical;min-height:44px}
+input:focus-visible,textarea:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.grow{flex:1 1 200px;min-width:0}
+button.btn{font:700 .92rem var(--body);border:none;border-radius:10px;padding:9px 16px;cursor:pointer;background:var(--teal);color:var(--teal-ink)}
+button.ghost{background:transparent;color:var(--teal);border:1px solid var(--teal)}
+button.small{padding:5px 10px;font-size:.82rem}
+.foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+/* Minuteur */
+.timer{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.clock{font-family:var(--display);font-size:2.2rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--teal);min-width:5ch}
+.clock.over{color:var(--fire)}
+
+/* Post-its */
+.notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.note{background:var(--sun-soft);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;min-width:0;word-wrap:break-word;position:relative}
+.note .x{position:absolute;top:4px;right:6px;border:none;background:none;color:var(--muted);cursor:pointer;font-size:1rem;line-height:1}
+.note .t{padding-right:16px}
+.tag{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.empty{color:var(--muted);font-style:italic}
+
+/* Paniers */
+.baskets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:620px){.baskets{grid-template-columns:1fr}}
+.basket{border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0;border:2px dashed var(--line)}
+.basket h3{display:flex;gap:8px;align-items:center}
+.dot{width:12px;height:12px;border-radius:50%;flex:none}
+.b-fire{background:var(--fire-soft)} .b-fire .dot{background:var(--fire)}
+.b-grow{background:var(--mint-soft)} .b-grow .dot{background:var(--mint)}
+.b-noise{background:var(--lav-soft)} .b-noise .dot{background:var(--lav)}
+.chip{background:var(--surface);border-radius:8px;padding:6px 10px;font-size:.92rem;word-wrap:break-word}
+.unsorted{display:flex;flex-direction:column;gap:8px}
+.sortrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--surface-2);border-radius:10px;padding:8px 10px}
+.sortrow .t{flex:1 1 160px;min-width:0}
+.pill{font:700 .78rem var(--body);border-radius:999px;padding:5px 10px;border:1px solid transparent;cursor:pointer;color:var(--ink)}
+.pill.fire{background:var(--fire-soft);border-color:var(--fire)}
+.pill.grow{background:var(--mint-soft);border-color:var(--mint)}
+.pill.noise{background:var(--lav-soft);border-color:var(--lav)}
+
+/* Question unique */
+.qitem{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.qitem.out{opacity:.55}
+.qitem.out .t{text-decoration:line-through}
+.toggle{display:flex;gap:6px;flex-wrap:wrap}
+.toggle button{font:600 .82rem var(--body);border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:999px;padding:5px 11px;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--teal);color:var(--teal-ink);border-color:var(--teal)}
+
+/* Tournoi */
+.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch}
+.duel .vs{align-self:center;font-family:var(--display);font-weight:700;color:var(--muted)}
+.fighter{font:600 1.05rem var(--body);background:var(--surface-2);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:22px 14px;cursor:pointer;min-width:0;word-wrap:break-word}
+.fighter:hover{border-color:var(--teal)}
+@media (max-width:480px){.duel{grid-template-columns:1fr}.duel .vs{justify-self:center}}
+.winner{background:var(--sun-soft);border-radius:14px;padding:18px;text-align:center;display:flex;flex-direction:column;gap:6px}
+.winner strong{font-family:var(--display);font-size:1.3rem}
+.progress{font-size:.85rem;color:var(--muted)}
+
+/* Boussole */
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:420px}
+th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:middle}
+th{font-family:var(--display);font-weight:600;font-size:.85rem;color:var(--muted)}
+td.total{font-family:var(--display);font-weight:700;font-variant-numeric:tabular-nums;color:var(--teal);font-size:1.1rem}
+tr.best td{background:var(--mint-soft)}
+.score{display:flex;gap:4px}
+.score button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font:700 .85rem var(--body);cursor:pointer}
+.score button[aria-pressed="true"]{background:var(--teal);color:var(--teal-ink);border-color:var(--teal)}
+
+/* Corps */
+.bodygrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.bodygrid{grid-template-columns:1fr}}
+.bodycard{background:var(--surface-2);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.verdict{background:var(--sun-soft);border-radius:12px;padding:12px 14px}
+
+/* 3 du jour */
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:620px){.three{grid-template-columns:1fr}}
+.slot{border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.slot.s1{background:var(--fire-soft)} .slot.s2{background:var(--mint-soft)} .slot.s3{background:var(--sun-soft)}
+select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px;width:100%}
+.later{display:flex;flex-wrap:wrap;gap:6px}
+.later span{background:var(--surface-2);border-radius:8px;padding:4px 10px;font-size:.88rem}
+
+.disclaimer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+.reminder{border-left:4px solid var(--sun);padding:8px 14px;background:var(--surface);border-radius:0 12px 12px 0}
+@media (prefers-reduced-motion:no-preference){.card{animation:in .25s ease-out}@keyframes in{from{transform:translateY(6px)}to{transform:none}}}
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">EducaTypique · Outil d'auto-organisation</span>
+    <h1>Mon Atelier de Tri</h1>
+    <p class="lede">Ta tête est pleine et tout te paraît urgent ? On avance en quatre temps : d'abord on vide, ensuite on trie, puis on choisit, et enfin on s'ancre. Tes idées passent d'un exercice à l'autre et restent enregistrées sur cet appareil.</p>
+    <div class="modebar" role="group" aria-label="Version de l'atelier">
+      <span class="tag">Ma version :</span>
+      <div class="toggle">
+        <button id="mode-univ" data-mode="univ">Universelle</button>
+        <button id="mode-spi" data-mode="spi">Spirituelle (islam)</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="steps" aria-label="Étapes">
+    <div class="phase"><span class="phase-name">1 · Vider</span><div class="phase-btns" data-phase="0"></div></div>
+    <div class="phase"><span class="phase-name">2 · Trier</span><div class="phase-btns" data-phase="1"></div></div>
+    <div class="phase"><span class="phase-name">3 · Choisir</span><div class="phase-btns" data-phase="2"></div></div>
+    <div class="phase phase-soul"><span class="phase-name" id="phase4name">4 · S'ancrer</span><div class="phase-btns" data-phase="3"></div></div>
+  </nav>
+
+  <main id="stage"></main>
+
+  <p class="reminder"><b>À te rappeler :</b> une liste qui reste inachevée n'est pas un échec. Prioriser, c'est accepter de ne pas tout faire.</p>
+  <p class="disclaimer">Cet outil aide à s'organiser au quotidien. Il ne pose aucun diagnostic et ne remplace pas l'accompagnement d'un·e professionnel·le.</p>
+</div>
+
+<script>
+(function(){
+  var KEY="atelier-tri-v1";
+  var EXAMPLES=["Prendre RDV chez le dentiste","Répondre au message de Sam","Ranger le bureau","Réviser le contrôle de maths","Appeler mamie","Trier les photos du téléphone","Payer la facture d'électricité"];
+  var STEPS=[
+    {p:0,label:"Vide-cerveau"},{p:0,label:"3 paniers"},
+    {p:1,label:"Question unique"},{p:1,label:"Tournoi"},
+    {p:2,label:"Boussole"},{p:2,label:"Le corps"},{p:2,label:"3 du jour"},
+    {p:3,label:"Intention",spi:"Niyya"},{p:3,label:"Lâcher prise",spi:"Tawakkul"},{p:3,label:"Décision mûrie",spi:"Istikhâra"},{p:3,label:"Bilan du soir"}
+  ];
+  function SP(){return S.mode==="spi"}
+  function M(u,s){return SP()?s:u}
+  var uid=0;function nid(){return "i"+Date.now().toString(36)+(uid++)}
+  function fresh(){return{
+    step:0,examples:true,
+    items:EXAMPLES.map(function(t){return{id:nid(),text:t,basket:null,answer:"",out:false}}),
+    values:["Ma famille","Ma santé","Mon calme"],
+    options:["Option A","Option B"],
+    scores:{},body:{a:null,b:null},
+    day:{s1:"",s2:"",s3:""},visited:[0]
+  }}
+  var S;
+  try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
+  if(!S||!S.items)S=fresh();
+  var urlMode=(location.hash==="#spirituel")?"spi":(location.hash==="#universel")?"univ":null;
+  S.mode=urlMode||S.mode||"univ";
+  S.niyya=S.niyya||{};S.trust=S.trust||{};S.ist=S.ist||{};S.eve=S.eve||{g1:"",g2:"",g3:"",ok:"",next:""};
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+  var stage=document.getElementById("stage");
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+  function live(){return S.items.filter(function(i){return !i.out})}
+
+  // ---------- Navigation ----------
+  function renderNav(){
+    document.querySelectorAll(".phase-btns").forEach(function(box){box.innerHTML=""});
+    STEPS.forEach(function(st,i){
+      var b=document.createElement("button");
+      b.className="stepbtn"+(S.visited.indexOf(i)>-1?" done":"");
+      b.textContent=(i+1)+". "+(SP()&&st.spi?st.spi:st.label);
+      if(i===S.step)b.setAttribute("aria-current","step");
+      b.onclick=function(){go(i)};
+      document.querySelector('.phase-btns[data-phase="'+st.p+'"]').appendChild(b);
+    });
+  }
+  function go(i){
+    S.step=i;if(S.visited.indexOf(i)<0)S.visited.push(i);save();render();
+    stage.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  function foot(){
+    var prev=S.step>0?'<button class="btn ghost" data-go="'+(S.step-1)+'">← Étape précédente</button>':"<span></span>";
+    var next=S.step<STEPS.length-1?'<button class="btn" data-go="'+(S.step+1)+'">Étape suivante →</button>':'<button class="btn ghost" id="restart">Recommencer à zéro</button>';
+    return '<div class="foot">'+prev+next+'</div>';
+  }
+  function why(t){return '<p class="why"><b>Pourquoi ça marche :</b> '+t+'</p>'}
+
+  // ---------- 1. Vide-cerveau ----------
+  var timer={left:300,id:null};
+  function step1(){
+    var notes=S.items.map(function(i){
+      return '<div class="note"><button class="x" aria-label="Retirer" data-del="'+i.id+'">×</button><span class="t">'+esc(i.text)+'</span></div>';
+    }).join("")||'<p class="empty">Rien pour l\'instant. Écris la première chose qui te vient.</p>';
+    return '<section class="card"><span class="eyebrow">Étape 1 · Vider</span><h2>Le vide-cerveau minuté</h2>'+
+      '<p>Lance le minuteur et écris tout ce qui t\'encombre : tâches, soucis, envies, idées. Une idée par post-it, sans trier et sans juger. Quand ça sonne, tu t\'arrêtes.</p>'+
+      '<div class="timer"><span class="clock" id="clock">'+fmt(timer.left)+'</span>'+
+      '<button class="btn" id="tgo">'+(timer.id?"Pause":"Lancer 5 min")+'</button><button class="btn ghost small" id="treset">Remettre à 5:00</button></div>'+
+      '<form class="row" id="addf"><input class="grow" type="text" id="newidea" placeholder="Ex. : rappeler le collège, acheter des chaussures…" autocomplete="off"><button class="btn" type="submit">Ajouter</button></form>'+
+      (S.examples?'<p class="row"><span class="tag">Exemples affichés pour montrer le principe</span><button class="btn ghost small" id="clearex">Effacer les exemples</button></p>':'')+
+      '<div class="notes">'+notes+'</div>'+
+      why("tant que les idées restent dans la tête, elles paraissent toutes urgentes. Sur le papier, elles redeviennent des objets qu'on peut déplacer.")+foot()+'</section>';
+  }
+  function fmt(s){var m=Math.floor(Math.abs(s)/60),r=Math.abs(s)%60;return(s<0?"+":"")+m+":"+(r<10?"0":"")+r}
+  function tick(){
+    timer.left--;var c=document.getElementById("clock");
+    if(c){c.textContent=timer.left<=0?"Stop !":fmt(timer.left);c.classList.toggle("over",timer.left<=0)}
+    if(timer.left<=0){clearInterval(timer.id);timer.id=null;var b=document.getElementById("tgo");if(b)b.textContent="Lancer 5 min"}
+  }
+  function bind1(){
+    document.getElementById("addf").onsubmit=function(e){
+      e.preventDefault();var inp=document.getElementById("newidea");var v=inp.value.trim();if(!v)return;
+      S.items.push({id:nid(),text:v,basket:null,answer:"",out:false});save();render();document.getElementById("newidea").focus();
+    };
+    document.getElementById("tgo").onclick=function(){
+      if(timer.id){clearInterval(timer.id);timer.id=null;this.textContent="Reprendre"}
+      else{if(timer.left<=0)timer.left=300;timer.id=setInterval(tick,1000);this.textContent="Pause"}
+    };
+    document.getElementById("treset").onclick=function(){clearInterval(timer.id);timer.id=null;timer.left=300;render()};
+    var ce=document.getElementById("clearex");
+    if(ce)ce.onclick=function(){S.items=S.items.filter(function(i){return EXAMPLES.indexOf(i.text)<0});S.examples=false;save();render()};
+  }
+
+  // ---------- 2. Trois paniers ----------
+  var BASKETS=[
+    {k:"fire",cls:"b-fire",name:"Ça me brûle",hint:"urgent ou angoissant"},
+    {k:"grow",cls:"b-grow",name:"Ça me tient à cœur",hint:"important pour moi"},
+    {k:"noise",cls:"b-noise",name:"Ça fait du bruit",hint:"ni l'un ni l'autre"}
+  ];
+  function step2(){
+    var unsorted=S.items.filter(function(i){return !i.basket});
+    var rows=unsorted.map(function(i){
+      return '<div class="sortrow"><span class="t">'+esc(i.text)+'</span>'+
+        BASKETS.map(function(b){return '<button class="pill '+b.k+'" data-bk="'+b.k+'" data-id="'+i.id+'">'+b.name+'</button>'}).join("")+'</div>';
+    }).join("");
+    var cols=BASKETS.map(function(b){
+      var inside=S.items.filter(function(i){return i.basket===b.k});
+      return '<div class="basket '+b.cls+'"><h3><span class="dot"></span>'+b.name+' <span class="tag">'+inside.length+'</span></h3><span class="tag">'+b.hint+'</span>'+
+        (inside.map(function(i){return '<span class="chip">'+esc(i.text)+' <button class="x" style="border:none;background:none;color:var(--muted);cursor:pointer" aria-label="Remettre à trier" data-unb="'+i.id+'">↺</button></span>'}).join("")||'<span class="empty">Vide</span>')+'</div>';
+    }).join("");
+    var noise=S.items.filter(function(i){return i.basket==="noise"}).length;
+    return '<section class="card"><span class="eyebrow">Étape 2 · Vider</span><h2>Les 3 paniers</h2>'+
+      '<p>Pose chaque post-it dans un panier. Va vite : c\'est ta première impression qui compte.</p>'+
+      (rows?'<div class="unsorted"><span class="tag">À trier ('+unsorted.length+')</span>'+rows+'</div>':'<p class="empty">Tout est rangé.</p>')+
+      '<div class="baskets">'+cols+'</div>'+
+      (noise>0&&!rows?'<p class="why">Ton panier « bruit » contient '+noise+' idée'+(noise>1?'s':'')+'. Tu peux les laisser de côté : elles ne passeront pas aux étapes suivantes.</p>':'')+
+      why("le panier « bruit » est souvent le plus rempli, et le voir soulage déjà.")+foot()+'</section>';
+  }
+  function bind2(){
+    stage.querySelectorAll("[data-bk]").forEach(function(b){b.onclick=function(){find(b.dataset.id).basket=b.dataset.bk;save();render()}});
+    stage.querySelectorAll("[data-unb]").forEach(function(b){b.onclick=function(){find(b.dataset.unb).basket=null;save();render()}});
+  }
+  function find(id){return S.items.filter(function(i){return i.id===id})[0]}
+
+  // ---------- 3. Question unique ----------
+  function candidates(){return S.items.filter(function(i){return i.basket!=="noise"})}
+  function step3(){
+    var list=candidates();
+    var html=list.map(function(i){
+      return '<div class="qitem'+(i.out?' out':'')+'"><span class="t"><b>'+esc(i.text)+'</b></span>'+
+        '<label class="tag" for="ans-'+i.id+'">Si je ne le fais pas cette semaine, que se passe-t-il vraiment ?</label>'+
+        '<input type="text" id="ans-'+i.id+'" data-ans="'+i.id+'" value="'+esc(i.answer)+'" placeholder="Une phrase suffit">'+
+        '<div class="toggle"><button aria-pressed="'+(!i.out)+'" data-keep="'+i.id+'">Ça compte, je garde</button><button aria-pressed="'+i.out+'" data-out="'+i.id+'">Rien de grave, je sors</button></div></div>';
+    }).join("")||'<p class="empty">Aucune idée à examiner. Reviens à l\'étape 1 pour en ajouter.</p>';
+    return '<section class="card"><span class="eyebrow">Étape 3 · Trier</span><h2>La question unique</h2>'+
+      '<p>Pour chaque idée qui n\'est pas dans le panier « bruit », pose-toi une seule question et réponds en une phrase.</p>'+html+
+      why("ça casse le « tout est important ». Quand la réponse honnête est « rien de grave », l'idée peut attendre sans culpabilité.")+foot()+'</section>';
+  }
+  function bind3(){
+    stage.querySelectorAll("[data-ans]").forEach(function(inp){inp.oninput=function(){find(inp.dataset.ans).answer=inp.value;save()}});
+    stage.querySelectorAll("[data-keep]").forEach(function(b){b.onclick=function(){find(b.dataset.keep).out=false;save();render()}});
+    stage.querySelectorAll("[data-out]").forEach(function(b){b.onclick=function(){find(b.dataset.out).out=true;save();render()}});
+  }
+
+  // ---------- 4. Tournoi ----------
+  var T=null;
+  function finalists(){return candidates().filter(function(i){return !i.out})}
+  function startT(){var f=finalists();T={pool:f.map(function(i){return i.id}),champ:f.length?f[0].id:null,idx:1}}
+  function step4(){
+    if(!T)startT();
+    var f=T.pool;var body;
+    if(f.length<2){body='<p class="empty">Il faut au moins deux idées gardées à l\'étape 3 pour lancer le tournoi.</p>'}
+    else if(T.idx>=f.length){
+      body='<div class="winner"><span class="tag">Ce qui compte vraiment en ce moment</span><strong>'+esc(find(T.champ).text)+'</strong><span>C\'est par là que tu commences.</span></div>'+
+        '<div class="row"><button class="btn ghost" id="treplay">Refaire le tournoi</button></div>';
+    }else{
+      var a=find(T.champ),b=find(f[T.idx]);
+      body='<p class="progress">Duel '+T.idx+' sur '+(f.length-1)+'</p><p><b>Si tu ne pouvais en garder qu\'une, laquelle ?</b></p>'+
+        '<div class="duel"><button class="fighter" data-win="'+a.id+'">'+esc(a.text)+'</button><span class="vs">ou</span><button class="fighter" data-win="'+b.id+'">'+esc(b.text)+'</button></div>';
+    }
+    return '<section class="card"><span class="eyebrow">Étape 4 · Trier</span><h2>Le tournoi des idées</h2>'+
+      '<p>Deux idées s\'affrontent. La gagnante affronte la suivante, et ainsi de suite. À la fin, il n\'en reste qu\'une.</p>'+body+
+      why("comparer deux choses à la fois demande beaucoup moins d'effort que classer toute une liste d'un coup.")+foot()+'</section>';
+  }
+  function bind4(){
+    stage.querySelectorAll("[data-win]").forEach(function(b){b.onclick=function(){T.champ=b.dataset.win;T.idx++;render()}});
+    var r=document.getElementById("treplay");if(r)r.onclick=function(){startT();render()};
+  }
+
+  // ---------- 5. Boussole des valeurs ----------
+  function sc(o,v){return S.scores[o+"|"+v]||0}
+  function step5(){
+    var vals=S.values.map(function(v,k){return '<input type="text" id="val-'+k+'" data-val="'+k+'" value="'+esc(v)+'" aria-label="Valeur '+(k+1)+'">'}).join("");
+    var opts=S.options.map(function(o,k){return '<div class="row"><input class="grow" type="text" id="opt-'+k+'" data-opt="'+k+'" value="'+esc(o)+'" aria-label="Option '+(k+1)+'">'+(S.options.length>2?'<button class="btn ghost small" data-rmopt="'+k+'">Retirer</button>':'')+'</div>'}).join("");
+    var totals=S.options.map(function(o,k){return S.values.reduce(function(s,v,j){return s+sc(k,j)},0)});
+    var max=Math.max.apply(null,totals);
+    var rows=S.options.map(function(o,k){
+      return '<tr class="'+(max>0&&totals[k]===max?'best':'')+'"><td><b>'+esc(o)+'</b></td>'+
+        S.values.map(function(v,j){return '<td><div class="score">'+[0,1,2,3].map(function(n){return '<button aria-pressed="'+(sc(k,j)===n)+'" aria-label="'+esc(o)+', '+esc(v)+' : '+n+'" data-sc="'+k+'|'+j+'|'+n+'">'+n+'</button>'}).join("")+'</div></td>'}).join("")+
+        '<td class="total">'+totals[k]+'</td></tr>';
+    }).join("");
+    return '<section class="card"><span class="eyebrow">Étape 5 · Choisir</span><h2>La boussole des valeurs</h2>'+
+      '<p>Écris tes 3 valeurs du moment, puis les options entre lesquelles tu hésites. Note chaque option de 0 (pas du tout) à 3 (complètement) pour chaque valeur.</p>'+
+      '<h3>Mes 3 valeurs</h3><div class="three">'+vals+'</div>'+
+      '<h3>Mes options</h3>'+opts+(S.options.length<4?'<div class="row"><button class="btn ghost small" id="addopt">+ Ajouter une option</button></div>':'')+
+      '<div class="table-wrap"><table><thead><tr><th>Option</th>'+S.values.map(function(v){return '<th>'+esc(v)+'</th>'}).join("")+'<th>Total</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+      why("ça remplace « ce que je ressens à l'instant » par « ce qui compte pour moi ». Très utile en cas d'hypersensibilité ou de doute.")+foot()+'</section>';
+  }
+  function bind5(){
+    stage.querySelectorAll("[data-val]").forEach(function(i){i.onchange=function(){S.values[+i.dataset.val]=i.value;save();render()}});
+    stage.querySelectorAll("[data-opt]").forEach(function(i){i.onchange=function(){S.options[+i.dataset.opt]=i.value;save();render()}});
+    stage.querySelectorAll("[data-sc]").forEach(function(b){b.onclick=function(){var p=b.dataset.sc.split("|");S.scores[p[0]+"|"+p[1]]=+p[2];save();render()}});
+    var a=document.getElementById("addopt");if(a)a.onclick=function(){S.options.push("Option "+String.fromCharCode(65+S.options.length));save();render()};
+    stage.querySelectorAll("[data-rmopt]").forEach(function(b){b.onclick=function(){
+      var k=+b.dataset.rmopt;S.options.splice(k,1);var ns={};
+      Object.keys(S.scores).forEach(function(key){var p=key.split("|"),o=+p[0];if(o<k)ns[key]=S.scores[key];else if(o>k)ns[(o-1)+"|"+p[1]]=S.scores[key]});
+      S.scores=ns;save();render();
+    }});
+  }
+
+  // ---------- 6. Le corps qui tranche ----------
+  var FEEL=[{k:"tight",l:"Ça serre"},{k:"neutral",l:"Neutre"},{k:"relief",l:"Ça soulage"}];
+  function step6(){
+    var A=S.options[0]||"Option A",B=S.options[1]||"Option B";
+    function card(key,name){
+      return '<div class="bodycard"><span class="tag">J\'imagine que j\'ai déjà choisi</span><h3>'+esc(name)+'</h3>'+
+        '<p>Ferme les yeux 20 secondes. Où ça se passe dans ton corps ? Ventre, gorge, épaules ?</p>'+
+        '<div class="toggle">'+FEEL.map(function(f){return '<button aria-pressed="'+(S.body[key]===f.k)+'" data-feel="'+key+'|'+f.k+'">'+f.l+'</button>'}).join("")+'</div></div>';
+    }
+    var v="";
+    if(S.body.a&&S.body.b){
+      var r={tight:0,neutral:1,relief:2};
+      if(r[S.body.a]>r[S.body.b])v="Ton corps penche vers <b>"+esc(A)+"</b>.";
+      else if(r[S.body.b]>r[S.body.a])v="Ton corps penche vers <b>"+esc(B)+"</b>.";
+      else v="Ton corps ne tranche pas cette fois. Fie-toi à ta boussole des valeurs (étape 5).";
+      v='<div class="verdict">'+v+'</div>';
+    }
+    return '<section class="card"><span class="eyebrow">Étape 6 · Choisir</span><h2>Le corps qui tranche</h2>'+
+      '<p>On reprend les deux premières options de ta boussole. Imagine-toi une fois le choix fait, et note simplement ce que tu ressens.</p>'+
+      '<div class="bodygrid">'+card("a",A)+card("b",B)+'</div>'+v+
+      why("quand la tête tourne en boucle, le corps sait souvent déjà. Ce n'est pas une règle absolue, c'est un indice de plus.")+foot()+'</section>';
+  }
+  function bind6(){
+    stage.querySelectorAll("[data-feel]").forEach(function(b){b.onclick=function(){var p=b.dataset.feel.split("|");S.body[p[0]]=p[1];save();render()}});
+  }
+
+  // ---------- 7. Les 3 du jour ----------
+  var SLOTS=[{k:"s1",cls:"s1",l:"1 chose importante"},{k:"s2",cls:"s2",l:"1 chose utile"},{k:"s3",cls:"s3",l:"1 chose qui fait du bien"}];
+  function step7(){
+    var pool=live().filter(function(i){return i.basket!=="noise"});
+    var slots=SLOTS.map(function(s){
+      var opts='<option value="">Choisir dans ma liste…</option>'+pool.map(function(i){return '<option value="'+i.id+'"'+(S.day[s.k]===i.id?' selected':'')+'>'+esc(i.text)+'</option>'}).join("");
+      var custom=S.day[s.k]&&!find(S.day[s.k])?S.day[s.k]:"";
+      return '<div class="slot '+s.cls+'"><h3>'+s.l+'</h3><select id="sel-'+s.k+'" data-slot="'+s.k+'">'+opts+'</select>'+
+        '<input type="text" id="free-'+s.k+'" data-free="'+s.k+'" placeholder="…ou écris autre chose" value="'+esc(custom)+'"></div>';
+    }).join("");
+    var chosen=[S.day.s1,S.day.s2,S.day.s3];
+    var later=pool.filter(function(i){return chosen.indexOf(i.id)<0});
+    return '<section class="card"><span class="eyebrow">Étape 7 · Choisir</span><h2>La règle des 3 du jour</h2>'+
+      '<p>Ce matin, tu choisis au maximum trois choses. Le reste attend tranquillement dans la liste « plus tard ».</p>'+
+      '<div class="three">'+slots+'</div>'+
+      '<h3>Plus tard</h3><div class="later">'+(later.map(function(i){return '<span>'+esc(i.text)+'</span>'}).join("")||'<span class="empty">Rien en attente</span>')+'</div>'+
+      why("ça limite la surcharge et garantit une petite réussite chaque jour, ce qui nourrit la motivation (la dopamine).")+foot()+'</section>';
+  }
+  function bind7(){
+    stage.querySelectorAll("[data-slot]").forEach(function(s){s.onchange=function(){S.day[s.dataset.slot]=s.value;save();render()}});
+    stage.querySelectorAll("[data-free]").forEach(function(i){i.onchange=function(){if(i.value.trim()){S.day[i.dataset.free]=i.value.trim();save();render()}}});
+  }
+
+  // ---------- 8. Niyya ----------
+  function dayItems(){
+    return SLOTS.map(function(s){var v=S.day[s.k];if(!v)return null;var it=find(v);return{k:s.k,text:it?it.text:v}}).filter(Boolean);
+  }
+  function step8(){
+    var list=dayItems();
+    var html=list.map(function(d){
+      return '<div class="qitem"><b>'+esc(d.text)+'</b><label class="tag" for="niy-'+d.k+'">Je le fais pour…</label>'+
+        '<input type="text" id="niy-'+d.k+'" data-niy="'+d.k+'" value="'+esc(S.niyya[d.k]||"")+'" placeholder="Ex. : prendre soin du corps qu\'Allah m\'a confié"></div>';
+    }).join("")||'<p class="empty">Choisis d\'abord tes 3 du jour (étape 7), puis reviens poser une intention sur chacune.</p>';
+    if(!SP())html=html.replace(/prendre soin du corps qu\\'Allah m\\'a confié|prendre soin du corps qu'Allah m'a confié/g,"prendre soin de ma santé pour être en forme avec mes enfants");
+    return '<section class="card"><span class="eyebrow">Étape 8 · S\'ancrer</span><h2>'+M("Poser une intention","Poser une intention (niyya)")+'</h2>'+
+      '<p>Avant de commencer, relie chacune de tes 3 tâches du jour à '+M("ce qui compte pour toi","une intention sincère")+'. Une tâche banale devient un acte qui a du sens.</p>'+
+      M('','<p class="quote">« Les actes ne valent que par les intentions. »<cite>Hadith rapporté par al-Bukhârî et Muslim</cite></p>')+html+
+      why("donner un « pourquoi » à une tâche réveille la motivation, surtout quand le cerveau TDAH bloque sur les tâches sans intérêt immédiat.")+foot()+'</section>';
+  }
+  function bind8(){stage.querySelectorAll("[data-niy]").forEach(function(i){i.oninput=function(){S.niyya[i.dataset.niy]=i.value;save()}})}
+
+  // ---------- 9. Tawakkul ----------
+  function step9(){
+    var pool=S.items.filter(function(i){return i.basket==="fire"||(!i.out&&i.basket!=="noise")});
+    var rows=pool.map(function(i){
+      var v=S.trust[i.id];
+      return '<div class="sortrow"><span class="t">'+esc(i.text)+'</span><div class="toggle">'+
+        '<button aria-pressed="'+(v==="me")+'" data-tr="'+i.id+'|me">J\'agis</button>'+
+        '<button aria-pressed="'+(v==="god")+'" data-tr="'+i.id+'|god">'+M("Je lâche prise","Je confie à Allah")+'</button>'+
+        '<button aria-pressed="'+(v==="both")+'" data-tr="'+i.id+'|both">Un peu des deux</button></div></div>';
+    }).join("")||'<p class="empty">Aucune idée à examiner pour l\'instant.</p>';
+    var me=pool.filter(function(i){return S.trust[i.id]==="me"||S.trust[i.id]==="both"}).length;
+    var god=pool.filter(function(i){return S.trust[i.id]==="god"||S.trust[i.id]==="both"}).length;
+    return '<section class="card"><span class="eyebrow">Étape 9 · S\'ancrer</span><h2>'+M("Ce qui dépend de moi, ce que je lâche","Ce qui dépend de moi, ce que je confie (tawakkul)")+'</h2>'+
+      '<p>Pour chaque souci, demande-toi : est-ce que je peux agir dessus aujourd\'hui ? Si oui, tu agis. '+M("Si non, tu l'écris, tu reconnais que ça ne dépend pas de toi, et tu le poses.","Si non, tu le confies à Allah par une invocation, et tu le poses.")+'</p>'+
+      M('','<p class="quote">« Attache ta chamelle, puis place ta confiance en Allah. »<cite>Hadith rapporté par at-Tirmidhî</cite></p>')+
+      '<div class="unsorted">'+rows+'</div>'+
+      (me+god?'<p class="why">'+me+' chose'+(me>1?'s':'')+' sur laquelle tu peux agir · '+god+' chose'+(god>1?'s':'')+' que tu '+M("lâches","confies")+'. Ce que tu '+M("lâches","confies")+' n\'a plus besoin de tourner dans ta tête.</p>':'')+
+      why("l'anxiété vient souvent des choses qu'on ne contrôle pas. Les déposer libère de la place pour agir sur le reste.")+foot()+'</section>';
+  }
+  function bind9(){stage.querySelectorAll("[data-tr]").forEach(function(b){b.onclick=function(){var p=b.dataset.tr.split("|");S.trust[p[0]]=p[1];save();render()}})}
+
+  // ---------- 10. Istikhâra ----------
+  var IST=[
+    "J'ai fait mon tri et ma boussole des valeurs (étape 5) : je n'hésite plus qu'entre des options licites.",
+    "J'ai consulté une personne de confiance et de bon conseil (la shûrâ).",
+    "J'ai fait mes ablutions et prié deux unités de prière surérogatoires (rak'a).",
+    "J'ai récité l'invocation de l'istikhâra en nommant ma décision.",
+    "J'avance dans le choix qui me semble le meilleur et j'observe ce qui est facilité.",
+    "J'accepte l'issue avec confiance, même si elle n'est pas celle que j'espérais."
+  ];
+  var DEC=[
+    "J'ai fait mon tri et ma boussole des valeurs (étape 5) : il ne me reste que des options possibles.",
+    "J'en ai parlé à une personne de confiance et de bon conseil.",
+    "J'ai laissé passer une nuit avant de trancher.",
+    "Je me suis demandé : « Qu'est-ce que je conseillerais à une amie à ma place ? »",
+    "J'avance dans le choix qui me semble le meilleur et j'observe comment ça se passe.",
+    "J'accepte qu'aucun choix n'est parfait : je pourrai ajuster plus tard."
+  ];
+  function step10(){
+    if(!SP())return step10u();
+    var opts=S.options.map(function(o){return esc(o)}).join(" · ");
+    var list=IST.map(function(t,k){
+      return '<li><label for="ist-'+k+'"><input type="checkbox" id="ist-'+k+'" data-ist="'+k+'"'+(S.ist[k]?' checked':'')+'><span>'+t+'</span></label></li>';
+    }).join("");
+    return '<section class="card"><span class="eyebrow">Étape 10 · S\'ancrer</span><h2>Demander le bon choix (istikhâra)</h2>'+
+      '<p>Pour une décision qui compte, l\'istikhâra complète la réflexion sans la remplacer. Ta décision en cours : <b>'+opts+'</b>.</p>'+
+      '<ul class="checklist">'+list+'</ul>'+
+      '<p class="quote">Le Prophète ﷺ enseignait l\'istikhâra à ses compagnons « pour toutes les affaires, comme il leur enseignait une sourate du Coran ».<cite>Hadith de Jâbir, rapporté par al-Bukhârî</cite></p>'+
+      why("on n'attend pas forcément un rêve ou un signe. On réfléchit, on consulte, on demande, puis on avance sereinement. Ça coupe la rumination sur « et si je me trompe ? ».")+foot()+'</section>';
+  }
+  function step10u(){
+    var opts=S.options.map(function(o){return esc(o)}).join(" · ");
+    S.dec=S.dec||{};
+    var list=DEC.map(function(t,k){
+      return '<li><label for="dec-'+k+'"><input type="checkbox" id="dec-'+k+'" data-dec="'+k+'"'+(S.dec[k]?' checked':'')+'><span>'+t+'</span></label></li>';
+    }).join("");
+    return '<section class="card"><span class="eyebrow">Étape 10 · S\'ancrer</span><h2>Mûrir sa décision</h2>'+
+      '<p>Pour une décision qui compte, on se donne un petit rituel avant de trancher. Ta décision en cours : <b>'+opts+'</b>.</p>'+
+      '<ul class="checklist">'+list+'</ul>'+
+      why("un rituel clair coupe la rumination sur « et si je me trompe ? ». On réfléchit, on consulte, on laisse reposer, puis on avance sereinement.")+foot()+'</section>';
+  }
+  function bind10(){
+    stage.querySelectorAll("[data-dec]").forEach(function(c){c.onchange=function(){S.dec[c.dataset.dec]=c.checked;save()}});
+    stage.querySelectorAll("[data-ist]").forEach(function(c){c.onchange=function(){S.ist[c.dataset.ist]=c.checked;save()}})}
+
+
+  // ---------- 11. Bilan du soir ----------
+  function step11(){
+    function f(k,label,ph){return '<label class="tag" for="eve-'+k+'">'+label+'</label><input type="text" id="eve-'+k+'" data-eve="'+k+'" value="'+esc(S.eve[k]||"")+'" placeholder="'+ph+'">'}
+    var G=M("Merci pour…","Alhamdulillah pour…");
+    return '<section class="card"><span class="eyebrow">Étape 11 · S\'ancrer</span><h2>'+M("Le bilan du soir","Le bilan du soir (muhâsaba douce)")+'</h2>'+
+      '<p>Le soir, prends trois minutes. On ne fait pas son procès : on regarde sa journée avec bienveillance, '+M("comme on le ferait pour une amie.","comme Allah nous regarde avec miséricorde.")+'</p>'+
+      '<div class="three"><div class="slot s2">'+f("g1",G,"une chose")+'</div><div class="slot s2">'+f("g2",G,"une autre")+'</div><div class="slot s2">'+f("g3",G,"une troisième")+'</div></div>'+
+      f("ok","Ce que j'ai réussi aujourd'hui, même petit","Ex. : j'ai fait ma tâche importante")+
+      f("next",M("Ce que je dépose pour cette nuit","Ce que je confie à Allah pour cette nuit"),"Ex. : le résultat de mon examen")+
+      M('<p class="why"><b>Petit mais régulier :</b> trois minutes chaque soir valent mieux qu\'une grande séance une fois par mois.</p>','<p class="quote">« Les actes les plus aimés d\'Allah sont les plus réguliers, même s\'ils sont peu nombreux. »<cite>Hadith rapporté par al-Bukhârî et Muslim</cite></p>')+
+      why("la gratitude apaise le système nerveux avant le sommeil, et se rappeler ses réussites contre le sentiment « je n'ai rien fait » si fréquent chez les profils TDAH.")+foot()+'</section>';
+  }
+  function bind11(){stage.querySelectorAll("[data-eve]").forEach(function(i){i.oninput=function(){S.eve[i.dataset.eve]=i.value;save()}})}
+
+  var VIEWS=[[step1,bind1],[step2,bind2],[step3,bind3],[step4,bind4],[step5,bind5],[step6,bind6],[step7,bind7],[step8,bind8],[step9,bind9],[step10,bind10],[step11,bind11]];
+  var confirmReset=false;
+  document.querySelectorAll("[data-mode]").forEach(function(b){b.onclick=function(){S.mode=b.dataset.mode;save();render()}});
+  function render(){
+    document.querySelectorAll("[data-mode]").forEach(function(b){b.setAttribute("aria-pressed",String(S.mode===b.dataset.mode))});
+    document.getElementById("phase4name").textContent=M("4 · S'ancrer","4 · S'ancrer (spirituel)");
+    renderNav();
+    if(S.step!==3)T=null;
+    stage.innerHTML=VIEWS[S.step][0]();
+    VIEWS[S.step][1]();
+    stage.querySelectorAll("[data-del]").forEach(function(b){b.onclick=function(){S.items=S.items.filter(function(i){return i.id!==b.dataset.del});save();render()}});
+    stage.querySelectorAll("[data-go]").forEach(function(b){b.onclick=function(){go(+b.dataset.go)}});
+    var rs=document.getElementById("restart");
+    if(rs){
+      if(confirmReset)rs.textContent="Confirmer : tout effacer";
+      rs.onclick=function(){
+        if(!confirmReset){confirmReset=true;render();return}
+        confirmReset=false;S=fresh();S.items=[];S.examples=false;S.niyya={};S.trust={};S.ist={};S.eve={g1:"",g2:"",g3:"",ok:"",next:""};save();go(0);
+      };
+    }
+  }
+  render();
+})();
+</script>
+
+</html>

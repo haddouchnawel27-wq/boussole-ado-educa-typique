@@ -827,8 +827,10 @@ const TOOLS=[
   {id:"priorite", icon:"🛟", title:"Choisir UNE priorité", desc:"Quand tout semble urgent : n'en garder qu'une."},
   {id:"timer", icon:"⏱️", title:"Timer « on démarre »", desc:"Juste commencer, quelques minutes, pas plus."},
   {id:"checklist", icon:"✅", title:"Checklist express", desc:"Une petite liste à cocher, ça soulage la mémoire."},
-  {id:"breath", icon:"🫧", title:"Respirer", desc:"Faire redescendre la tension, ici et maintenant."}
+  {id:"breath", icon:"🫧", title:"Respirer", desc:"Faire redescendre la tension, ici et maintenant."},
+  {id:"atelier", icon:"🧭", title:"Atelier de tri", desc:"Vider, trier, choisir : un parcours pas à pas quand tout se mélange."}
 ];
+function openAtelier(){ location.href="../atelier-de-tri/#"+(db.prefs.spirit?"spirituel":"universel"); }
 function renderTools(focusTool){
   stopToolTimer(); stopBreath();
   app().innerHTML="";
@@ -852,7 +854,7 @@ function renderTools(focusTool){
   document.getElementById("home").onclick=renderIntro;
   app().querySelectorAll("[data-t]").forEach(b=> b.onclick=()=>openTool(b.getAttribute("data-t")));
 }
-function openTool(id){ ({ dump:toolDump, decoupe:toolDecoupe, priorite:toolPriorite, timer:toolTimer, checklist:toolChecklist, breath:toolBreath }[id]||renderTools)(); }
+function openTool(id){ ({ dump:toolDump, decoupe:toolDecoupe, priorite:toolPriorite, timer:toolTimer, checklist:toolChecklist, breath:toolBreath, atelier:openAtelier }[id]||renderTools)(); }
 
 /* 🎒 Vide-tête */
 function toolDump(){
