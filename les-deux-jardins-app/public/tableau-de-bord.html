@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tableau de Bord v3 · L'univers de Nawel</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, "Helvetica Neue", sans-serif;
+    background: #F8F2E8;
+    color: #4A4A4A;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 80px;
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(245, 194, 199, 0.20) 0%, transparent 30%),
+      radial-gradient(circle at 92% 18%, rgba(184, 224, 210, 0.18) 0%, transparent 28%),
+      radial-gradient(circle at 25% 80%, rgba(200, 182, 226, 0.18) 0%, transparent 30%),
+      radial-gradient(circle at 88% 88%, rgba(255, 216, 177, 0.18) 0%, transparent 32%);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: Georgia, "Cormorant Garamond", "Iowan Old Style", serif;
+    color: #3D3D3D;
+    font-weight: normal;
+    letter-spacing: 0.3px;
+  }
+
+  /* ====== HEADER ====== */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid #EFE6D2;
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-left { display: flex; align-items: center; gap: 14px; }
+
+  .header-logo {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #C8B6E2 0%, #F5C2C7 50%, #B8E0D2 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 14px rgba(200, 182, 226, 0.35);
+  }
+
+  .header-title { font-family: Georgia, serif; font-size: 19px; color: #3D3D3D; }
+  .header-subtitle {
+    font-size: 11px;
+    color: #8A8A8A;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .header-actions { display: flex; gap: 10px; align-items: center; }
+
+  .header-stat {
+    background: #FFFFFF;
+    border: 1px solid #EFE6D2;
+    padding: 7px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    color: #6B6B6B;
+    font-family: Georgia, serif;
+    font-style: italic;
+  }
+
+  .header-stat strong {
+    color: #9B85C4;
+    font-style: normal;
+    font-family: inherit;
+    font-weight: 600;
+  }
+
+  .btn-icon {
+    background: #FFFFFF;
+    border: 1px solid #EFE6D2;
+    padding: 8px 14px;
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #6B6B6B;
+    transition: all 0.25s ease;
+    font-family: inherit;
+  }
+
+  .btn-icon:hover {
+    background: #FAF3E0;
+    border-color: #C8B6E2;
+    color: #4A4A4A;
+  }
+
+  /* ====== CONTAINER ====== */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 28px;
+  }
+
+  /* ====== HERO ====== */
+  .hero {
+    text-align: center;
+    padding: 30px 20px 40px;
+  }
+
+  .hero-quote {
+    font-family: Georgia, serif;
+    font-style: italic;
+    color: #8A8A8A;
+    font-size: 14px;
+    letter-spacing: 0.4px;
+    margin-bottom: 14px;
+  }
+
+  .hero h1 {
+    font-size: 44px;
+    margin-bottom: 14px;
+    color: #3D3D3D;
+    line-height: 1.15;
+  }
+
+  .hero-subtitle {
+    max-width: 600px;
+    margin: 0 auto;
+    color: #6B6B6B;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .hero-stats {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .stat-pill {
+    background: #FFFFFF;
+    border: 1px solid #EFE6D2;
+    padding: 10px 18px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #5A5A5A;
+  }
+
+  .stat-pill strong {
+    font-family: Georgia, serif;
+    color: #3D3D3D;
+    font-size: 17px;
+    font-weight: normal;
+  }
+
+  /* ====== SEARCH ====== */
+  .search-bar {
+    max-width: 540px;
+    margin: 30px auto 0;
+    position: relative;
+  }
+
+  .search-bar input {
+    width: 100%;
+    padding: 14px 20px 14px 46px;
+    border-radius: 100px;
+    border: 1px solid #EFE6D2;
+    background: #FFFFFF;
+    font-family: inherit;
+    font-size: 14px;
+    color: #4A4A4A;
+    transition: all 0.25s ease;
+  }
+
+  .search-bar input:focus {
+    outline: none;
+    border-color: #C8B6E2;
+    box-shadow: 0 4px 16px rgba(200, 182, 226, 0.2);
+  }
+
+  .search-bar::before {
+    content: '🔍';
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    opacity: 0.6;
+  }
+
+  /* ====== SECTION ====== */
+  .section {
+    margin-bottom: 56px;
+  }
+
+  .section.hidden { display: none; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 6px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #EFE6D2;
+  }
+
+  .section-emoji { font-size: 24px; }
+
+  .section-title {
+    font-size: 26px;
+    color: #3D3D3D;
+    flex-shrink: 0;
+  }
+
+  .section-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--section-accent, #C8B6E2), transparent);
+    margin-bottom: 8px;
+  }
+
+  .section-subtitle {
+    color: #8A8A8A;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 14px;
+    margin-bottom: 22px;
+    margin-top: 4px;
+  }
+
+  /* ====== GRID ====== */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 18px;
+  }
+
+  /* ====== TOOL CARD ====== */
+  .tool-card {
+    background: #FFFFFF;
+    border: 1px solid #EFE6D2;
+    border-radius: 18px;
+    padding: 20px 20px 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tool-card.hidden { display: none; }
+
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--card-accent, #C8B6E2);
+    opacity: 0.85;
+  }
+
+  .tool-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.07);
+    border-color: var(--card-accent, #C8B6E2);
+  }
+
+  .tool-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    gap: 10px;
+  }
+
+  .tool-card-emoji { font-size: 26px; flex-shrink: 0; }
+
+  .tool-config-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #B8B8B8;
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .tool-config-btn:hover {
+    color: #9B85C4;
+    background: #F8F2E8;
+  }
+
+  .tool-card-name {
+    font-family: Georgia, serif;
+    font-size: 17px;
+    color: #3D3D3D;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .tool-card-desc {
+    font-size: 13px;
+    color: #6B6B6B;
+    line-height: 1.55;
+    margin-bottom: 14px;
+    flex: 1;
+  }
+
+  .tool-card-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .tag {
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 100px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    background: #FAF3E0;
+    color: #8A8A8A;
+    border: 1px solid #EFE6D2;
+  }
+
+  .tag.live { background: #DAF0E5; color: #3D7A55; border-color: #B8E0D2; }
+  .tag.local { background: #FFF1D6; color: #8A6E2A; border-color: #F0DDA8; }
+  .tag.dev { background: #F0E8FB; color: #6B5491; border-color: #D4C5E2; }
+  .tag.new { background: #FDE9EC; color: #8A4555; border-color: #F5C2C7; }
+  .tag.pro { background: #E8EBF5; color: #4A5A8A; border-color: #C5CDE0; }
+
+  .tool-card-actions {
+    display: flex;
+    gap: 8px;
+    border-top: 1px solid #FAF3E0;
+    padding-top: 12px;
+    margin-top: auto;
+  }
+
+  .btn-open {
+    flex: 1;
+    background: var(--card-accent, #C8B6E2);
+    color: #FFFFFF;
+    border: none;
+    padding: 9px 14px;
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-open:hover {
+    filter: brightness(0.92);
+    transform: translateY(-1px);
+  }
+
+  .btn-open.disabled {
+    background: #E0E0E0;
+    color: #9B9B9B;
+    cursor: not-allowed;
+  }
+
+  .btn-open.disabled:hover { transform: none; filter: none; }
+
+  .btn-copy {
+    background: #FFFFFF;
+    color: #8A8A8A;
+    border: 1px solid #EFE6D2;
+    padding: 9px 12px;
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .btn-copy:hover {
+    border-color: #C8B6E2;
+    color: #6B6B6B;
+  }
+
+  .path-status {
+    font-size: 10px;
+    color: #B8B8B8;
+    font-family: Georgia, serif;
+    font-style: italic;
+    margin-top: 6px;
+    letter-spacing: 0.3px;
+  }
+
+  .path-status.ok { color: #6BA67E; }
+  .path-status.live { color: #3D7A55; }
+
+  /* ====== CONFIG MODAL ====== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(74, 74, 74, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: #FFFFFF;
+    border-radius: 24px;
+    max-width: 540px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 32px 28px;
+  }
+
+  .modal h2 {
+    font-size: 22px;
+    margin-bottom: 6px;
+    color: #3D3D3D;
+  }
+
+  .modal-subtitle {
+    color: #8A8A8A;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 14px;
+    margin-bottom: 22px;
+  }
+
+  .modal label {
+    display: block;
+    font-size: 12px;
+    color: #6B6B6B;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    margin-top: 14px;
+  }
+
+  .modal input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #EFE6D2;
+    background: #FAF3E0;
+    font-family: "Consolas", "Monaco", monospace;
+    font-size: 13px;
+    color: #4A4A4A;
+  }
+
+  .modal input[type="text"]:focus {
+    outline: none;
+    border-color: #C8B6E2;
+    background: #FFFFFF;
+  }
+
+  .modal-hint {
+    font-size: 12px;
+    color: #8A8A8A;
+    font-family: Georgia, serif;
+    font-style: italic;
+    line-height: 1.5;
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: #F8F2E8;
+    border-radius: 10px;
+    border-left: 3px solid #C8B6E2;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: #9B85C4;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    transition: background 0.25s ease;
+  }
+
+  .btn-primary:hover { background: #7E6BA3; }
+
+  .btn-secondary {
+    background: transparent;
+    color: #8A8A8A;
+    border: 1px solid #EFE6D2;
+    padding: 10px 18px;
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+  }
+
+  .btn-secondary:hover { color: #4A4A4A; background: #FAF3E0; }
+
+  .help-section {
+    margin-top: 18px;
+    padding: 14px;
+    background: #F8F2E8;
+    border-radius: 12px;
+  }
+
+  .help-section h3 {
+    font-size: 15px;
+    color: #4A4A4A;
+    margin-bottom: 8px;
+  }
+
+  .help-section p {
+    font-size: 13px;
+    color: #6B6B6B;
+    line-height: 1.65;
+  }
+
+  .help-section code {
+    background: #FFFFFF;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-family: "Consolas", monospace;
+    font-size: 12px;
+    color: #6B5491;
+    border: 1px solid #EFE6D2;
+  }
+
+  /* ====== TOAST ====== */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #4A4A4A;
+    color: #FFFFFF;
+    padding: 12px 22px;
+    border-radius: 100px;
+    font-size: 13px;
+    z-index: 300;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ====== NO RESULTS ====== */
+  .no-results {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    color: #8A8A8A;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 16px;
+  }
+
+  .no-results.active { display: block; }
+
+  /* ====== FOOTER ====== */
+  .footer {
+    text-align: center;
+    padding: 50px 20px 30px;
+    color: #A8A8A8;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-top: 30px;
+  }
+
+  .footer-brand {
+    margin-top: 6px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #C8B6E2;
+    font-style: normal;
+  }
+
+  .footer-version {
+    margin-top: 4px;
+    font-size: 10px;
+    color: #C5C5C5;
+    letter-spacing: 1px;
+    font-style: normal;
+  }
+
+  /* ====== ANIMATIONS ====== */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width: 700px) {
+    .hero h1 { font-size: 32px; }
+    .header { padding: 14px 18px; flex-wrap: wrap; gap: 10px; }
+    .header-stat { display: none; }
+    .container { padding: 30px 18px; }
+    .section-title { font-size: 22px; }
+    .section-divider-line { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">✦</div>
+    <div>
+      <div class="header-title">L'univers de Nawel</div>
+      <div class="header-subtitle">Tableau de bord v3 · Tous mes outils</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <div class="header-stat"><strong id="liveCount">0</strong> en ligne · <strong id="localCount">0</strong> local</div>
+    <button class="btn-icon" onclick="openHelp()">❓ Aide</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ============ HERO ============ -->
+  <div class="hero">
+    <div class="hero-quote">« Bismillāhi r-raḥmāni r-raḥīm »</div>
+    <h1>Bienvenue chez toi, Nawel</h1>
+    <p class="hero-subtitle">
+      Tout ton univers professionnel rassemblé en un seul endroit. Les outils en ligne s'ouvrent
+      d'un clic, les fichiers locaux se configurent une seule fois.
+    </p>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Chercher un outil...">
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-pill"><strong id="statTotal">0</strong>outils au total</div>
+      <div class="stat-pill"><strong id="statJannat">0</strong>Jannat al Qulûb</div>
+      <div class="stat-pill"><strong id="statEduca">0</strong>Educa Typique</div>
+    </div>
+  </div>
+
+  <!-- ============ TOOLS SECTIONS ============ -->
+  <div id="sectionsContainer"></div>
+
+  <div id="noResults" class="no-results">
+    🌿 Aucun outil ne correspond à ta recherche.
+  </div>
+
+</div>
+
+<!-- ============ CONFIG MODAL ============ -->
+<div id="configModal" class="modal-overlay">
+  <div class="modal">
+    <h2 id="configModalTitle">Configurer le chemin</h2>
+    <p class="modal-subtitle" id="configModalSubtitle">Indique où se trouve ce fichier sur ton ordinateur.</p>
+
+    <label for="pathInput">Chemin du fichier</label>
+    <input type="text" id="pathInput" placeholder="file:///C:/Users/haddo/Downloads/nom-du-fichier.html">
+
+    <div class="modal-hint">
+      💡 <strong>Astuce :</strong> ouvre le fichier dans ton navigateur, copie l'URL complète depuis la barre d'adresse (commence par <code>file:///</code>), et colle-la ici.
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeConfig()">Annuler</button>
+      <button class="btn-secondary" onclick="clearPath()">Effacer</button>
+      <button class="btn-primary" onclick="savePath()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HELP MODAL ============ -->
+<div id="helpModal" class="modal-overlay">
+  <div class="modal">
+    <h2>Comment ça marche ?</h2>
+    <p class="modal-subtitle">L'essentiel en 3 points.</p>
+
+    <div class="help-section">
+      <h3>🌐 Outils en ligne (Netlify)</h3>
+      <p>
+        Un clic sur « Ouvrir » → l'outil s'ouvre dans un nouvel onglet. Aucune config requise.
+      </p>
+    </div>
+
+    <div class="help-section">
+      <h3>💾 Fichiers locaux</h3>
+      <p>
+        Clique sur ⚙️ en haut à droite de la carte, colle le chemin local (du genre
+        <code>file:///C:/Users/haddo/...</code>), enregistre. Tu ne le fais qu'une fois.
+      </p>
+    </div>
+
+    <div class="help-section">
+      <h3>📋 Si ça ne s'ouvre pas</h3>
+      <p>
+        Certains navigateurs bloquent les fichiers locaux. Clique sur 📋 pour copier le chemin et le coller dans un nouvel onglet.
+      </p>
+    </div>
+
+    <div class="help-section">
+      <h3>🔍 Recherche</h3>
+      <p>
+        Tape dans la barre de recherche pour filtrer les outils par nom, brand ou public.
+      </p>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="exportConfig()">📥 Exporter</button>
+      <button class="btn-secondary" onclick="importConfig()">📤 Importer</button>
+      <button class="btn-primary" onclick="closeHelp()">J'ai compris</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="importInput" accept=".json" style="display:none;">
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast"></div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  « Et c'est dans le rappel d'Allāh que les cœurs trouvent leur quiétude »<br>
+  Sourate Ar-Ra'd · 13:28
+  <div class="footer-brand">Nawel · Jannat al Qulûb · Educa Typique</div>
+  <div class="footer-version">Version 3 · 23 mai 2026</div>
+</footer>
+
+<script>
+  // ============ TOOLS DATA ============
+  // Each tool: { id, emoji, name, desc, tags, url (Netlify) OR localDefault }
+  const sections = [
+    {
+      id: 'jannat-hub',
+      title: 'Jannat al Qulûb — Cœur du cabinet',
+      emoji: '🌿',
+      accent: '#B7A3D1',
+      subtitle: 'Hub praticienne, auto-évaluations clientes et référentiel intégré',
+      tools: [
+        {
+          id: 'vc-hub-shifa',
+          emoji: '📋',
+          name: 'Hub Questionnaires Jannat al Qulûb',
+          desc: 'Portail anamnèses praticienne : universelle, 8 troubles Jannat al Qulûb, échelles cliniques, enfance/ado.',
+          tags: ['live', 'pro'],
+          url: 'https://anamneses-cr-voiechifa.netlify.app/'
+        },
+        {
+          id: 'vc-referentiel',
+          emoji: '📚',
+          name: 'Référentiel intégré Jannat al Qulûb',
+          desc: 'Référentiel complet de psychologie islamique pour la pratique.',
+          tags: ['live', 'pro'],
+          url: 'https://referentielshifa-complet-voiechifa.netlify.app/'
+        },
+        {
+          id: 'vc-bilan',
+          emoji: '🌸',
+          name: 'Bilan Émotionnel TCC',
+          desc: 'Évaluation émotionnelle initiale TCC pour adultes.',
+          tags: ['live'],
+          url: 'https://bilan-emotionnel.netlify.app/'
+        },
+        {
+          id: 'vc-boussole',
+          emoji: '🌿',
+          name: 'Boussole de l\'Âme',
+          desc: 'Évaluation psycho-spirituelle avec radar (nafs, qalb, maladies du cœur).',
+          tags: ['live'],
+          url: 'https://boussole-voiechifa.netlify.app/'
+        },
+        {
+          id: 'vc-schemas',
+          emoji: '💜',
+          name: 'Schémas Traumas',
+          desc: 'Évaluation 28 questions sur les schémas précoces inadaptés, avec rapport PDF.',
+          tags: ['live'],
+          url: 'https://schemas-traumas-voiechifa.netlify.app/'
+        }
+      ]
+    },
+    {
+      id: 'jannat-souffle',
+      title: 'Jannat al Qulûb — Souffle & Lumière',
+      emoji: '✨',
+      accent: '#C9A8D4',
+      subtitle: 'Cheminements spirituels pour adultes et adolescentes musulmanes',
+      tools: [
+        {
+          id: 'vc-souffle-adulte',
+          emoji: '🌙',
+          name: 'Souffle & Lumière (adulte)',
+          desc: 'Cheminement spirituel 5-10 min : intention, respiration, ancrage prophétique, Nom d\'Allāh, pas concret.',
+          tags: ['live'],
+          url: 'https://souffle-lumiere-voiechifa.netlify.app/'
+        },
+        {
+          id: 'vc-souffle-ado',
+          emoji: '🌟',
+          name: 'Trousse de secours Ados (musulmane)',
+          desc: 'Trousse pour ado musulmane en crise : 10 étapes, citation coranique, urgence intégrée.',
+          tags: ['live'],
+          url: 'https://boussoleado-souffle-lumiere-voiechifa.netlify.app/'
+        }
+      ]
+    },
+    {
+      id: 'jannat-pro',
+      title: 'Jannat al Qulûb — Outils praticienne',
+      emoji: '🔒',
+      accent: '#9B85C4',
+      subtitle: 'Outils cliniques réservés à l\'usage praticienne',
+      tools: [
+        {
+          id: 'vc-shifa-decodeur',
+          emoji: '🔮',
+          name: 'Décodeur clinique ✨',
+          desc: 'Décodeur clinique Jannat al Qulûb enrichi avec analyse JSON via API Claude.',
+          tags: ['local', 'pro', 'new'],
+          localDefault: 'SHIFA_decodeur.html'
+        }
+      ]
+    },
+    {
+      id: 'boussol-ados',
+      title: 'Boussol Ados — Educa Typique',
+      emoji: '🌸',
+      accent: '#F5C2C7',
+      subtitle: 'Adolescents 13-17 ans · Approche laïque & inclusive',
+      tools: [
+        {
+          id: 'ba-profil-cognitif',
+          emoji: '🧠',
+          name: 'Mon Profil Cognitif',
+          desc: 'Évaluation du profil d\'apprentissage et cognitif pour adolescents.',
+          tags: ['live'],
+          url: 'https://mon-profil-cognitif.netlify.app/'
+        },
+        {
+          id: 'ba-profil-neuro',
+          emoji: '🔒',
+          name: 'Mon Profil Neuro Pro',
+          desc: 'Version praticienne du profil neuro ado avec vue clinique.',
+          tags: ['live', 'pro'],
+          url: 'https://profil-neuro-ado.netlify.app/'
+        },
+        {
+          id: 'ba-boite-secours',
+          emoji: '🛟',
+          name: 'Ma Boîte à Secours Émotionnelle',
+          desc: '6 émotions, arborescence porte du corps/tête/cœur, pioche surprise, 5-4-3-2-1, n° d\'urgence FR.',
+          tags: ['live'],
+          url: 'https://secours-emotionnel-ados.netlify.app/'
+        },
+        {
+          id: 'ba-boite-mixte',
+          emoji: '🌿',
+          name: 'Boîte à Secours Mixte ✨',
+          desc: '8 émotions, base laïque + belief boxes « selon tes croyances » pour inclusion de toute foi.',
+          tags: ['local', 'new'],
+          localDefault: 'boite-secours-mixte (1).html'
+        }
+      ]
+    },
+    {
+      id: 'devoirs',
+      title: 'Devoirs Sans Crise — Educa Typique',
+      emoji: '🎒',
+      accent: '#B8E0D2',
+      subtitle: 'Enfants 6-12 ans · Hub Neuroo / Educa / Noury · App déployée avec sous-pages',
+      tools: [
+        {
+          id: 'dsc-app',
+          emoji: '🎒',
+          name: 'Devoirs Sans Crise (app)',
+          desc: 'Hub principal : profil enfant, 7 outils (Comprendre, Déclencheurs, Routine, Neuroo, Phrases parent, Plan anti-crise, Suivi 7j), respirer, mascottes.',
+          tags: ['live'],
+          url: 'https://kit-devoirs-sans-crises.netlify.app/'
+        },
+        {
+          id: 'dsc-parents',
+          emoji: '👨‍👩‍👧',
+          name: 'Boîte parents',
+          desc: 'Sous-page parents du hub Devoirs Sans Crise.',
+          tags: ['live'],
+          url: 'https://kit-devoirs-sans-crises.netlify.app/parents.html'
+        },
+        {
+          id: 'dsc-pct',
+          emoji: '📚',
+          name: 'Parcours Clarté TND (intégré)',
+          desc: 'Version intégrée du Parcours Clarté TND dans l\'app Devoirs Sans Crise (distincte de la landing Systeme.io).',
+          tags: ['live'],
+          url: 'https://kit-devoirs-sans-crises.netlify.app/parcours_clarte_tnd.html'
+        }
+      ]
+    },
+    {
+      id: 'emotions',
+      title: 'Boîte Émotions Neuroo',
+      emoji: '🌈',
+      accent: '#F4A89A',
+      subtitle: 'Enfants 6-12 ans · 19 émotions illustrées · Trio Neuroo/Educa/Noury',
+      tools: [
+        {
+          id: 'em-isl',
+          emoji: '🤲',
+          name: 'Boîte Émotions 6-12 ISL',
+          desc: 'Version musulmane (familles musulmanes) — 19 émotions, baromètre 5 niveaux, références prophétiques.',
+          tags: ['live'],
+          url: 'https://boite-outil-emotions-6-12ans-isl.netlify.app/'
+        },
+        {
+          id: 'em-laic',
+          emoji: '🌈',
+          name: 'Boîte Émotions v11 laïque',
+          desc: 'Version finalisée laïque, 19 émotions illustrées — base à déployer.',
+          tags: ['local'],
+          localDefault: 'boite-emotions-neuroo-v11.html'
+        }
+      ]
+    },
+    {
+      id: 'educa-transverse',
+      title: 'Educa Typique — Outils transverses',
+      emoji: '🧠',
+      accent: '#A8DADC',
+      subtitle: 'Outils transverses Educa Typique pour profilage et accompagnement',
+      tools: [
+        {
+          id: 'et-decodeur',
+          emoji: '🎯',
+          name: 'Le Décodeur Educa Typique',
+          desc: 'Outil de profilage cognitif Educa Typique.',
+          tags: ['live'],
+          url: 'https://decodeur-profil-educa-typique.netlify.app/'
+        },
+        {
+          id: 'et-assistante',
+          emoji: '🤖',
+          name: 'Mon Assistante',
+          desc: '5 types de docs : courrier pro ✅, retour cliente, synthèse, plan d\'action. Quelques bugs à corriger.',
+          tags: ['local', 'dev'],
+          localDefault: 'mon-assistante.html'
+        },
+        {
+          id: 'et-profil-apprentissage',
+          emoji: '🎓',
+          name: 'Profil d\'Apprentissage (satellite)',
+          desc: 'Diagnostic visuel / auditif / kinesthésique pour parents et ados.',
+          tags: ['local'],
+          localDefault: 'educatypique-profil-apprentissage.html'
+        },
+        {
+          id: 'et-kit-visuel',
+          emoji: '🎨',
+          name: 'Kit Visuel (satellite)',
+          desc: 'Kit de supports visuels Educa Typique.',
+          tags: ['local'],
+          localDefault: 'educatypique-kit-visuel.html'
+        }
+      ]
+    },
+    {
+      id: 'parcours',
+      title: 'Parcours Clarté TND',
+      emoji: '🌟',
+      accent: '#FFD8B1',
+      subtitle: 'Programme TND mamans · Sales funnel Systeme.io · 14 blocs HTML déployés',
+      tools: [
+        {
+          id: 'pct-landing',
+          emoji: '🌐',
+          name: 'Landing Parcours Clarté TND',
+          desc: 'Page de vente 14 blocs HTML inline-styled déployée sur Systeme.io.',
+          tags: ['local'],
+          localDefault: 'parcours-clarte-tnd-systemio.html'
+        }
+      ]
+    },
+    {
+      id: 'a-venir',
+      title: 'En développement',
+      emoji: '🚧',
+      accent: '#D4C5E2',
+      subtitle: 'Priorités prochaine session — chantiers en cours',
+      tools: [
+        {
+          id: 'dev-rc-hub',
+          emoji: '🌟',
+          name: 'Reprendre Confiance',
+          desc: 'Hub kit psychoéducatif PDF pour ados 13-17 — PRIORITÉ prochaine session.',
+          tags: ['dev'],
+          localDefault: 'reprendre-confiance.html'
+        },
+        {
+          id: 'dev-rc-homework',
+          emoji: '📝',
+          name: 'Module Homework 12-17',
+          desc: 'Module support devoirs ados à intégrer dans Reprendre Confiance.',
+          tags: ['dev'],
+          localDefault: 'reprendre-confiance-homework.html'
+        },
+        {
+          id: 'dev-respirer',
+          emoji: '🌬️',
+          name: 'Module Respirer (satellite)',
+          desc: 'Extraction du module Respirer en satellite autonome (2 modes, 4 sons).',
+          tags: ['dev'],
+          localDefault: 'educatypique-respirer.html'
+        },
+        {
+          id: 'dev-ebbinghaus',
+          emoji: '📅',
+          name: 'Planificateur Ebbinghaus',
+          desc: 'Réactivation des révisions J+12h / J+7 / J+30 (méthode Anne Gramond).',
+          tags: ['dev'],
+          localDefault: 'educatypique-ebbinghaus.html'
+        },
+        {
+          id: 'dev-cartable',
+          emoji: '🎒',
+          name: 'Atelier Cartable / Matériel',
+          desc: 'Organisation du matériel scolaire (cahiers, codes couleurs, fiche vérification).',
+          tags: ['dev'],
+          localDefault: 'educatypique-cartable.html'
+        },
+        {
+          id: 'dev-mots',
+          emoji: '💬',
+          name: 'Mots qui aident / freinent',
+          desc: 'Module discours positif vs négatif pour parents.',
+          tags: ['dev'],
+          localDefault: 'educatypique-mots.html'
+        },
+        {
+          id: 'dev-emotions-isl',
+          emoji: '🤲',
+          name: 'Boîte Émotions Neuroo ISL (next)',
+          desc: 'Version musulmane subtile de la Boîte Émotions Neuroo : du\'as, références prophétiques (Yūnus, Yūsuf, Ayyūb, Maryam).',
+          tags: ['dev'],
+          localDefault: 'boite-emotions-neuroo-isl.html'
+        }
+      ]
+    },
+    {
+      id: 'meta',
+      title: 'Méta-outils',
+      emoji: '🏠',
+      accent: '#D4A574',
+      subtitle: 'Vue d\'ensemble · Tableau de bord · Plan stratégique',
+      tools: [
+        {
+          id: 'meta-pense-bete',
+          emoji: '📒',
+          name: 'Pense-Bête Outils v4 FINALE',
+          desc: 'Ancien tableau de bord — peut servir de référence historique.',
+          tags: ['local'],
+          localDefault: 'Pense-Bete_Outils_Nawel_v4_FINALE (1).html'
+        }
+      ]
+    }
+  ];
+
+  const STORAGE_KEY = 'nawel-dashboard-paths-v3';
+  let currentEditingId = null;
+
+  // ============ STORAGE ============
+  function getPaths() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch (e) { return {}; }
+  }
+
+  function setPaths(paths) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(paths)); }
+    catch (e) { showToast('Erreur de sauvegarde'); }
+  }
+
+  // ============ RENDER ============
+  function renderSections() {
+    const container = document.getElementById('sectionsContainer');
+    const paths = getPaths();
+    container.innerHTML = '';
+
+    sections.forEach(section => {
+      const sectionEl = document.createElement('div');
+      sectionEl.className = 'section';
+      sectionEl.id = `section-${section.id}`;
+      sectionEl.style.setProperty('--section-accent', section.accent);
+      sectionEl.dataset.sectionName = section.title.toLowerCase();
+
+      sectionEl.innerHTML = `
+        <div class="section-header">
+          <span class="section-emoji">${section.emoji}</span>
+          <h2 class="section-title">${section.title}</h2>
+          <div class="section-divider-line"></div>
+        </div>
+        <p class="section-subtitle">${section.subtitle}</p>
+        <div class="tools-grid" id="grid-${section.id}"></div>
+      `;
+
+      container.appendChild(sectionEl);
+
+      const grid = sectionEl.querySelector(`#grid-${section.id}`);
+      section.tools.forEach(tool => {
+        const isOnline = !!tool.url;
+        const configured = !isOnline && !!paths[tool.id];
+
+        const card = document.createElement('div');
+        card.className = 'tool-card';
+        card.style.setProperty('--card-accent', section.accent);
+        card.dataset.searchText = `${tool.name} ${tool.desc} ${section.title} ${tool.tags.join(' ')}`.toLowerCase();
+
+        const tagLabels = {
+          live: '🌐 En ligne', local: '💾 Local', dev: '🚧 En dev',
+          new: '✨ Nouveau', pro: '🔒 Praticienne'
+        };
+        const tagsHtml = tool.tags.map(t =>
+          `<span class="tag ${t}">${tagLabels[t] || t}</span>`
+        ).join('');
+
+        let actionHtml = '';
+        let statusHtml = '';
+
+        if (isOnline) {
+          actionHtml = `
+            <a class="btn-open" href="${tool.url}" target="_blank" rel="noopener">🔓 Ouvrir</a>
+            <button class="btn-copy" onclick="copyUrl('${tool.url}')" title="Copier l'URL">📋</button>
+          `;
+          statusHtml = `<div class="path-status live">✓ Outil en ligne</div>`;
+        } else if (configured) {
+          actionHtml = `
+            <button class="btn-open" onclick="openTool('${tool.id}')">🔓 Ouvrir</button>
+            <button class="btn-copy" onclick="copyPath('${tool.id}')" title="Copier le chemin">📋</button>
+          `;
+          statusHtml = `<div class="path-status ok">✓ Chemin configuré</div>`;
+        } else {
+          actionHtml = `
+            <button class="btn-open" onclick="openConfig('${tool.id}', ${JSON.stringify(tool.name).replace(/"/g,'&quot;')}, '${tool.localDefault || ''}')">⚙️ Configurer</button>
+          `;
+          statusHtml = `<div class="path-status">💻 Local — s'ouvre sur ton ordinateur (à configurer)</div>`;
+        }
+
+        const configBtnHtml = isOnline ? '' :
+          `<button class="tool-config-btn" onclick="openConfig('${tool.id}', ${JSON.stringify(tool.name).replace(/"/g,'&quot;')}, '${tool.localDefault || ''}')" title="Configurer">⚙️</button>`;
+
+        card.innerHTML = `
+          <div class="tool-card-header">
+            <span class="tool-card-emoji">${tool.emoji}</span>
+            ${configBtnHtml}
+          </div>
+          <div class="tool-card-name">${tool.name}</div>
+          <div class="tool-card-desc">${tool.desc}</div>
+          <div class="tool-card-tags">${tagsHtml}</div>
+          <div class="tool-card-actions">${actionHtml}</div>
+          ${statusHtml}
+        `;
+
+        grid.appendChild(card);
+      });
+    });
+
+    updateStats();
+  }
+
+  // ============ STATS ============
+  function updateStats() {
+    let totalTools = 0, liveTools = 0, localTools = 0;
+    let jannatTools = 0, educaTools = 0;
+
+    sections.forEach(s => {
+      s.tools.forEach(t => {
+        totalTools++;
+        if (t.url) liveTools++;
+        else localTools++;
+        if (s.id.startsWith('jannat')) jannatTools++;
+        else if (s.id !== 'meta' && s.id !== 'a-venir') educaTools++;
+      });
+    });
+
+    document.getElementById('statTotal').textContent = totalTools;
+    document.getElementById('statJannat').textContent = jannatTools;
+    document.getElementById('statEduca').textContent = educaTools;
+    document.getElementById('liveCount').textContent = liveTools;
+    document.getElementById('localCount').textContent = localTools;
+  }
+
+  // ============ CONFIG MODAL ============
+  function openConfig(toolId, toolName, defaultName) {
+    currentEditingId = toolId;
+    const paths = getPaths();
+    const currentPath = paths[toolId] || '';
+
+    document.getElementById('configModalTitle').textContent = 'Configurer : ' + toolName;
+    document.getElementById('configModalSubtitle').textContent = 'Indique où se trouve ce fichier sur ton ordinateur.';
+
+    const input = document.getElementById('pathInput');
+    input.value = currentPath;
+    input.placeholder = defaultName ? `file:///C:/Users/haddo/Downloads/${defaultName}` : 'file:///C:/Users/haddo/Downloads/...';
+
+    document.getElementById('configModal').classList.add('active');
+    setTimeout(() => input.focus(), 100);
+  }
+
+  function closeConfig() {
+    document.getElementById('configModal').classList.remove('active');
+    currentEditingId = null;
+  }
+
+  function savePath() {
+    if (!currentEditingId) return;
+    const value = document.getElementById('pathInput').value.trim();
+    const paths = getPaths();
+
+    if (value) {
+      paths[currentEditingId] = value;
+      showToast('✓ Chemin enregistré');
+    } else {
+      delete paths[currentEditingId];
+      showToast('Chemin effacé');
+    }
+
+    setPaths(paths);
+    closeConfig();
+    renderSections();
+    applySearch();
+  }
+
+  function clearPath() {
+    if (!currentEditingId) return;
+    document.getElementById('pathInput').value = '';
+  }
+
+  // ============ OPEN TOOL (local files only) ============
+  function openTool(toolId) {
+    const paths = getPaths();
+    const path = paths[toolId];
+    if (!path) { showToast('Pas de chemin configuré'); return; }
+
+    try {
+      const win = window.open(path, '_blank');
+      if (!win || win.closed) {
+        copyToClipboard(path);
+        showToast('📋 Chemin copié — colle-le dans un nouvel onglet');
+      }
+    } catch (e) {
+      copyToClipboard(path);
+      showToast('📋 Chemin copié — colle-le dans un nouvel onglet');
+    }
+  }
+
+  function copyPath(toolId) {
+    const paths = getPaths();
+    const path = paths[toolId];
+    if (!path) return;
+    copyToClipboard(path);
+    showToast('📋 Chemin copié');
+  }
+
+  function copyUrl(url) {
+    copyToClipboard(url);
+    showToast('📋 URL copiée');
+  }
+
+  function copyToClipboard(text) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+    } else {
+      const t = document.createElement('textarea');
+      t.value = text;
+      document.body.appendChild(t);
+      t.select();
+      document.execCommand('copy');
+      document.body.removeChild(t);
+    }
+  }
+
+  // ============ HELP ============
+  function openHelp() { document.getElementById('helpModal').classList.add('active'); }
+  function closeHelp() { document.getElementById('helpModal').classList.remove('active'); }
+
+  // ============ SEARCH ============
+  function applySearch() {
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+    const noResults = document.getElementById('noResults');
+    let anyVisible = false;
+
+    document.querySelectorAll('.section').forEach(section => {
+      let sectionHasVisible = false;
+      const cards = section.querySelectorAll('.tool-card');
+      cards.forEach(card => {
+        const text = card.dataset.searchText || '';
+        if (!query || text.includes(query)) {
+          card.classList.remove('hidden');
+          sectionHasVisible = true;
+          anyVisible = true;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      section.classList.toggle('hidden', !sectionHasVisible);
+    });
+
+    noResults.classList.toggle('active', !anyVisible && query.length > 0);
+  }
+
+  document.getElementById('searchInput').addEventListener('input', applySearch);
+
+  // ============ EXPORT / IMPORT ============
+  function exportConfig() {
+    const paths = getPaths();
+    const blob = new Blob([JSON.stringify(paths, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'nawel-dashboard-config-v3.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('📥 Config exportée');
+  }
+
+  function importConfig() {
+    document.getElementById('importInput').click();
+  }
+
+  document.getElementById('importInput').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        setPaths(data);
+        renderSections();
+        applySearch();
+        closeHelp();
+        showToast('📤 Config importée');
+      } catch (err) {
+        showToast('❌ Fichier invalide');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  // ============ TOAST ============
+  let toastTimeout = null;
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove('show'), 2400);
+  }
+
+  // ============ INIT ============
+  renderSections();
+
+  // Close modals on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', (e) => {
+      if (e.target === m) m.classList.remove('active');
+    });
+  });
+
+  // Esc to close
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+    }
+  });
+
+  // Enter to save in config modal
+  document.getElementById('pathInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') savePath();
+  });
+</script>
+
+</body>
+</html>

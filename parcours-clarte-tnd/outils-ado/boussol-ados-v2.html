@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boussole Ados — Trousse de secours émotionnelle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bleu-nuit:    #0F2540;
+    --bleu:         #1E3A5F;
+    --bleu-clair:   #34547A;
+    --bleu-pale:    #D8E2EF;
+    --sauge:        #8FA67D;
+    --sauge-pale:   #DCE5D2;
+    --sauge-profond:#5F7A52;
+    --or:           #C3873C;
+    --or-clair:     #E5C88F;
+    --or-pale:      #F5E9D0;
+    --or-ombre:     #9C6A2B;
+    --creme:        #F7F3EA;
+    --creme-pur:    #FBF8F1;
+    --anthracite:   #2C3E50;
+    --gris-doux:    #6B7785;
+    --rouge-doux:   #B85C5C;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100vh; }
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--anthracite);
+    background:
+      radial-gradient(ellipse at top right, rgba(143, 166, 125, 0.15) 0%, transparent 55%),
+      radial-gradient(ellipse at bottom left, rgba(30, 58, 95, 0.08) 0%, transparent 60%),
+      linear-gradient(160deg, var(--creme) 0%, var(--creme-pur) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 16px 60px;
+    line-height: 1.65;
+    overflow-x: hidden;
+    position: relative;
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  /* Particules flottantes */
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    animation: floatUp 26s linear infinite;
+  }
+  .particle.gold { background: radial-gradient(circle, var(--or-clair) 0%, transparent 70%); }
+  .particle.blue { background: radial-gradient(circle, var(--bleu-clair) 0%, transparent 70%); }
+  .particle.sage { background: radial-gradient(circle, var(--sauge) 0%, transparent 70%); }
+  @keyframes floatUp {
+    0%   { transform: translateY(105vh) translateX(0); opacity: 0; }
+    15%  { opacity: 0.45; }
+    50%  { transform: translateY(50vh) translateX(15px); opacity: 0.3; }
+    100% { transform: translateY(-10vh) translateX(-10px); opacity: 0; }
+  }
+
+  /* App */
+  .app {
+    width: 100%;
+    max-width: 740px;
+    background: rgba(251, 248, 241, 0.85);
+    backdrop-filter: blur(12px) saturate(110%);
+    -webkit-backdrop-filter: blur(12px) saturate(110%);
+    border-radius: 20px;
+    box-shadow:
+      0 18px 50px rgba(15, 37, 64, 0.12),
+      0 4px 14px rgba(30, 58, 95, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(30, 58, 95, 0.10);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    animation: appear 0.8s ease;
+  }
+  @keyframes appear {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Header */
+  header.brand {
+    text-align: center;
+    padding: 32px 24px 18px;
+    position: relative;
+    border-bottom: 1px solid rgba(30, 58, 95, 0.08);
+    background: linear-gradient(180deg, rgba(216, 226, 239, 0.3) 0%, transparent 100%);
+  }
+  .brand-mark {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--or-ombre);
+    margin-bottom: 10px;
+    opacity: 0.85;
+  }
+  .brand-name {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    font-weight: 400;
+    color: var(--bleu-nuit);
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+  }
+  .brand-name em {
+    font-style: italic;
+    background: linear-gradient(120deg, var(--or-ombre), var(--or), var(--or-clair));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 400;
+    animation: shimmer 9s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% center; }
+    50%      { background-position: 100% center; }
+  }
+  .brand-tagline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--sauge-profond);
+    margin-top: 6px;
+    letter-spacing: 0.02em;
+  }
+  .urgence-link {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--gris-doux);
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid rgba(184, 92, 92, 0.3);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.6);
+    transition: all 0.25s;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .urgence-link:hover {
+    background: var(--rouge-doux);
+    color: var(--creme-pur);
+    border-color: var(--rouge-doux);
+  }
+  .ornament {
+    margin: 14px auto 0;
+    width: 110px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0.7;
+  }
+  .ornament .line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--bleu-clair), transparent); }
+  .ornament .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--or); }
+
+  /* Progress (10 steps) */
+  .progress {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    padding: 16px 24px 0;
+    flex-wrap: wrap;
+  }
+  .progress span {
+    width: 26px;
+    height: 3px;
+    background: rgba(30, 58, 95, 0.12);
+    border-radius: 3px;
+    transition: all 0.4s ease;
+  }
+  .progress span.active {
+    background: linear-gradient(to right, var(--bleu), var(--or));
+    width: 40px;
+  }
+  .progress span.done { background: var(--sauge); }
+
+  main { padding: 30px 32px 36px; position: relative; z-index: 1; }
+  .step { display: none; animation: stepIn 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+  .step.active { display: block; }
+  @keyframes stepIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    color: var(--bleu-nuit);
+    font-weight: 400;
+    font-size: 30px;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  h1::after { content: ""; display: block; width: 40px; height: 1px; background: var(--or); margin-top: 12px; }
+  h2 { font-family: 'Fraunces', serif; color: var(--bleu); font-weight: 500; font-size: 21px; margin: 20px 0 10px; }
+  h3 { font-family: 'Fraunces', serif; color: var(--bleu); font-size: 17px; font-weight: 500; margin-bottom: 8px; }
+  p { margin-bottom: 13px; font-size: 15.5px; line-height: 1.7; color: var(--anthracite); }
+  .lead { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 300; color: var(--bleu); line-height: 1.7; }
+  .arabic { font-family: 'Fraunces', serif; font-size: 24px; color: var(--or-ombre); text-align: center; margin: 12px 0; direction: rtl; line-height: 1.9; font-weight: 500; }
+  .translit { font-family: 'Fraunces', serif; font-style: italic; font-size: 16px; text-align: center; color: var(--sauge-profond); margin-bottom: 6px; }
+
+  /* Astuces box */
+  .astuce {
+    background: linear-gradient(135deg, rgba(245, 233, 208, 0.4), rgba(220, 229, 210, 0.35));
+    border: 1px solid rgba(195, 135, 60, 0.2);
+    border-left: 3px solid var(--or);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--anthracite);
+    position: relative;
+  }
+  .astuce::before {
+    content: "✦ ASTUCE";
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--or-ombre);
+    margin-bottom: 6px;
+  }
+  .astuce strong { color: var(--bleu-nuit); }
+  .astuce em { color: var(--sauge-profond); font-style: italic; }
+
+  /* Boutons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bleu-nuit);
+    color: var(--creme-pur);
+    border: none;
+    padding: 13px 28px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(15, 37, 64, 0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, var(--bleu), var(--or)); opacity: 0; transition: opacity 0.3s; }
+  .btn span { position: relative; z-index: 1; }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(15, 37, 64, 0.3); }
+  .btn:hover::before { opacity: 1; }
+  .btn:active { transform: translateY(0); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+  .btn-ghost { background: transparent; color: var(--bleu); border: 1px solid rgba(30, 58, 95, 0.25); box-shadow: none; }
+  .btn-ghost::before { display: none; }
+  .btn-ghost:hover { background: var(--bleu-pale); border-color: var(--bleu); }
+  .step-back {
+    background: none;
+    border: none;
+    color: var(--gris-doux);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    transition: all 0.2s;
+  }
+  .step-back:hover { color: var(--bleu); transform: translateX(-3px); }
+  .actions { margin-top: 26px; display: flex; gap: 14px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+
+  /* Cartes émotions */
+  .states-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin: 20px 0; }
+  .state-card {
+    background: var(--creme-pur);
+    border: 1px solid rgba(30, 58, 95, 0.12);
+    border-radius: 12px;
+    padding: 18px 12px 14px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .state-card::before {
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(to right, transparent, var(--or-clair), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .state-card:hover { transform: translateY(-3px); border-color: var(--bleu-clair); box-shadow: 0 10px 22px rgba(15, 37, 64, 0.10); }
+  .state-card:hover::before { opacity: 1; }
+  .state-card.selected { border-color: var(--or); background: linear-gradient(135deg, var(--creme-pur), var(--or-pale)); }
+  .state-card.selected::before { opacity: 1; background: var(--or); height: 3px; }
+  .state-symbol { display: block; font-family: 'Fraunces', serif; font-size: 22px; margin-bottom: 6px; color: var(--or); line-height: 1; transition: transform 0.4s, color 0.3s; }
+  .state-card:hover .state-symbol { transform: scale(1.18); color: var(--bleu); }
+  .state-card.selected .state-symbol { color: var(--or-ombre); }
+  .state-label { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--bleu-nuit); font-weight: 500; line-height: 1.3; }
+  .state-sublabel { display: block; font-size: 11px; color: var(--gris-doux); font-weight: 400; margin-top: 2px; font-style: italic; }
+
+  /* Slider */
+  .slider-zone { margin: 22px 0; }
+  .slider-zone label { display: block; margin-bottom: 12px; font-family: 'Fraunces', serif; font-style: italic; font-size: 16px; color: var(--bleu); }
+  input[type="range"] {
+    width: 100%; -webkit-appearance: none; appearance: none; height: 7px;
+    background: linear-gradient(to right, var(--sauge-pale), var(--sauge), var(--or));
+    border-radius: 4px; outline: none; box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--creme-pur); cursor: pointer; border: 3px solid var(--bleu-nuit);
+    box-shadow: 0 4px 10px rgba(15, 37, 64, 0.3); transition: transform 0.2s;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  input[type="range"]::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: var(--creme-pur); cursor: pointer; border: 3px solid var(--bleu-nuit); }
+  .slider-labels { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--gris-doux); letter-spacing: 0.03em; }
+  .intensity-display { text-align: center; margin-top: 16px; font-family: 'Fraunces', serif; font-weight: 500; font-size: 24px; color: var(--bleu-nuit); transition: transform 0.3s; }
+  .intensity-display.pulse { animation: gentle-pulse 0.5s ease; }
+  @keyframes gentle-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+  /* ─────────── SCAN CORPOREL ─────────── */
+  .body-scan-zone {
+    margin: 22px 0;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 18px;
+    align-items: start;
+  }
+  @media (max-width: 600px) {
+    .body-scan-zone { grid-template-columns: 1fr; }
+  }
+  .body-silhouette {
+    background: linear-gradient(135deg, var(--bleu-pale) 0%, var(--creme-pur) 100%);
+    border-radius: 14px;
+    padding: 18px 12px;
+    position: relative;
+    aspect-ratio: 1 / 1.4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(30, 58, 95, 0.08);
+  }
+  .body-svg { width: 100%; height: 100%; max-height: 320px; }
+  .body-svg .body-outline { fill: none; stroke: var(--bleu); stroke-width: 1.8; opacity: 0.6; }
+  .body-svg .body-zone {
+    fill: var(--sauge-pale);
+    stroke: var(--sauge);
+    stroke-width: 1.5;
+    opacity: 0.55;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .body-svg .body-zone:hover { opacity: 0.85; fill: var(--or-pale); stroke: var(--or); }
+  .body-svg .body-zone.active {
+    fill: var(--or-clair);
+    stroke: var(--or-ombre);
+    stroke-width: 2;
+    opacity: 1;
+    animation: zonePulse 2s ease-in-out infinite;
+  }
+  @keyframes zonePulse {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(195, 135, 60, 0)); }
+    50%      { filter: drop-shadow(0 0 8px rgba(195, 135, 60, 0.6)); }
+  }
+  .body-zone-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .body-zone-card {
+    background: var(--creme-pur);
+    border: 1px solid rgba(30, 58, 95, 0.10);
+    border-radius: 10px;
+    padding: 11px 14px;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+  .body-zone-card:hover {
+    border-color: var(--or-clair);
+    transform: translateX(3px);
+    box-shadow: 0 4px 10px rgba(15, 37, 64, 0.08);
+  }
+  .body-zone-card.active {
+    border-color: var(--or);
+    background: linear-gradient(135deg, var(--creme-pur), var(--or-pale));
+  }
+  .body-zone-icon {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    color: var(--or);
+    width: 26px;
+    text-align: center;
+    line-height: 1;
+  }
+  .body-zone-card.active .body-zone-icon { color: var(--or-ombre); }
+  .body-zone-text { flex: 1; }
+  .body-zone-name { font-weight: 500; font-size: 14px; color: var(--bleu-nuit); }
+  .body-zone-desc { font-size: 12px; color: var(--gris-doux); font-style: italic; line-height: 1.4; }
+  .body-guidance {
+    margin-top: 18px;
+    padding: 18px 20px;
+    background: linear-gradient(135deg, var(--bleu-pale), var(--sauge-pale));
+    border-radius: 12px;
+    border-left: 3px solid var(--bleu);
+    font-family: 'Fraunces', serif;
+    font-size: 15.5px;
+    color: var(--bleu-nuit);
+    line-height: 1.7;
+    display: none;
+    animation: fadeUp 0.5s ease;
+  }
+  .body-guidance.visible { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+  .body-guidance strong { color: var(--bleu); font-weight: 600; }
+  .body-guidance em { color: var(--or-ombre); font-style: italic; }
+  .body-guidance .qalb-note {
+    display: block;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(30, 58, 95, 0.12);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--gris-doux);
+  }
+
+  /* ─────────── TCC ISLAMIQUE ─────────── */
+  .tcc-intro {
+    background: var(--creme-pur);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin: 16px 0;
+    border: 1px solid rgba(30, 58, 95, 0.10);
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--bleu);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+  .tcc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 18px 0;
+  }
+  @media (max-width: 540px) {
+    .tcc-grid { grid-template-columns: 1fr; }
+  }
+  .tcc-card {
+    background: var(--creme-pur);
+    border: 1.5px solid rgba(30, 58, 95, 0.12);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .tcc-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--bleu), var(--or));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .tcc-card:hover {
+    border-color: var(--or-clair);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(15, 37, 64, 0.08);
+  }
+  .tcc-card.expanded {
+    background: linear-gradient(135deg, var(--creme-pur), var(--or-pale));
+    border-color: var(--or);
+  }
+  .tcc-card.expanded::before { opacity: 1; }
+  .tcc-card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .tcc-card-icon {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    color: var(--or);
+    line-height: 1;
+  }
+  .tcc-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--bleu-nuit);
+  }
+  .tcc-card-arab {
+    font-size: 11px;
+    color: var(--or-ombre);
+    font-style: italic;
+    margin-left: 4px;
+  }
+  .tcc-card-pattern {
+    font-style: italic;
+    font-size: 14px;
+    color: var(--anthracite);
+    margin: 8px 0;
+    line-height: 1.55;
+  }
+  .tcc-card-pattern::before { content: "« "; color: var(--or); }
+  .tcc-card-pattern::after { content: " »"; color: var(--or); }
+  .tcc-toggle-hint {
+    font-size: 11px;
+    color: var(--bleu);
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .tcc-toggle-hint::after {
+    content: "↓";
+    transition: transform 0.3s;
+    color: var(--or);
+  }
+  .tcc-card.expanded .tcc-toggle-hint::after { transform: rotate(180deg); }
+  .tcc-card-reframe {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+  }
+  .tcc-card.expanded .tcc-card-reframe { max-height: 400px; }
+  .tcc-reframe-inner {
+    padding-top: 12px;
+    margin-top: 12px;
+    border-top: 1px solid rgba(195, 135, 60, 0.25);
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--bleu-nuit);
+  }
+  .tcc-reframe-inner strong { color: var(--or-ombre); }
+  .tcc-reframe-inner .source {
+    display: block;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--bleu);
+    font-style: italic;
+    letter-spacing: 0.04em;
+  }
+  .tcc-cycle-note {
+    margin-top: 18px;
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--sauge-profond);
+    font-size: 14px;
+    padding: 14px;
+    background: rgba(220, 229, 210, 0.4);
+    border-radius: 10px;
+  }
+
+  /* Respiration */
+  .breath-zone { text-align: center; padding: 16px 0; }
+  .breath-circle-wrap { position: relative; width: 280px; height: 280px; margin: 24px auto; display: flex; align-items: center; justify-content: center; }
+  .breath-ring { position: absolute; border-radius: 50%; border: 1px solid var(--sauge); opacity: 0; }
+  .breath-ring.r1 { width: 100%; height: 100%; }
+  .breath-ring.r2 { width: 86%; height: 86%; }
+  .breath-ring.r3 { width: 72%; height: 72%; }
+  .breath-ring.pulse { animation: ringPulse 4s ease-out infinite; }
+  .breath-ring.r1.pulse { animation-delay: 0s; }
+  .breath-ring.r2.pulse { animation-delay: 0.6s; }
+  .breath-ring.r3.pulse { animation-delay: 1.2s; }
+  @keyframes ringPulse {
+    0%   { transform: scale(0.85); opacity: 0; border-color: var(--bleu-clair); }
+    30%  { opacity: 0.6; }
+    100% { transform: scale(1.35); opacity: 0; border-color: var(--or-clair); }
+  }
+  .breath-circle {
+    width: 200px; height: 200px; border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.5) 0%, transparent 50%),
+      radial-gradient(circle, var(--sauge) 0%, var(--bleu-clair) 60%, var(--bleu) 100%);
+    box-shadow: 0 8px 32px rgba(15, 37, 64, 0.35), inset 0 0 40px rgba(195, 135, 60, 0.15);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 4s cubic-bezier(0.4, 0, 0.6, 1);
+    position: relative; z-index: 2;
+  }
+  .breath-circle.inspire { transform: scale(1.32); }
+  .breath-circle.expire { transform: scale(0.80); transition-duration: 6s; }
+  .breath-text {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 21px;
+    color: var(--creme-pur); text-align: center;
+    text-shadow: 0 2px 8px rgba(15, 37, 64, 0.4); letter-spacing: 0.02em;
+  }
+  .breath-counter { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--bleu); margin-top: 8px; letter-spacing: 0.04em; }
+  .breath-instruction { font-family: 'Fraunces', serif; font-style: italic; color: var(--gris-doux); margin: 10px 0 18px; font-size: 15px; }
+
+  /* Encadrés */
+  .citation {
+    background: linear-gradient(135deg, rgba(220, 229, 210, 0.45) 0%, rgba(245, 233, 208, 0.35) 100%);
+    border-left: 3px solid var(--or); border-radius: 8px; padding: 18px 22px; margin: 16px 0;
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    color: var(--anthracite); font-size: 16px; line-height: 1.7;
+  }
+  .citation .source { display: block; margin-top: 10px; font-size: 12px; color: var(--bleu); font-style: normal; font-family: 'Inter', sans-serif; letter-spacing: 0.04em; font-weight: 500; }
+  .hadith-box {
+    background: var(--creme-pur); border: 1px solid rgba(30, 58, 95, 0.10);
+    border-radius: 12px; padding: 22px; margin: 16px 0;
+    box-shadow: 0 4px 14px rgba(15, 37, 64, 0.05); position: relative;
+  }
+  .hadith-box::before {
+    content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 50px; height: 2px; background: var(--or); border-radius: 0 0 3px 3px;
+  }
+  .tag {
+    display: inline-block; font-family: 'Inter', sans-serif; font-weight: 600;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--bleu); background: var(--bleu-pale);
+    padding: 4px 11px; border-radius: 999px; margin-bottom: 12px;
+  }
+
+  /* Nom d'Allah */
+  .nom-box {
+    background:
+      radial-gradient(circle at 20% 20%, rgba(245, 233, 208, 0.5) 0%, transparent 60%),
+      linear-gradient(135deg, var(--bleu-pale) 0%, var(--creme-pur) 100%);
+    border-radius: 14px; padding: 28px 22px; margin: 16px 0; text-align: center;
+    border: 1px solid rgba(195, 135, 60, 0.20); position: relative; overflow: hidden;
+  }
+  .nom-box::before, .nom-box::after { content: ""; position: absolute; width: 50px; height: 50px; border: 1px solid var(--or-clair); border-radius: 50%; opacity: 0.25; }
+  .nom-box::before { top: -18px; left: -18px; }
+  .nom-box::after { bottom: -18px; right: -18px; }
+  .nom-arabe { font-family: 'Fraunces', serif; font-size: 42px; color: var(--or-ombre); direction: rtl; margin-bottom: 6px; font-weight: 500; }
+  .nom-translit { font-family: 'Fraunces', serif; font-style: italic; font-size: 24px; color: var(--bleu); margin-bottom: 8px; }
+  .nom-sens { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--anthracite); opacity: 0.85; max-width: 460px; margin: 0 auto; line-height: 1.55; }
+  .dua-box { background: var(--creme-pur); border-radius: 10px; padding: 20px; margin-top: 14px; text-align: center; border: 1px dashed rgba(195, 135, 60, 0.4); transition: border-color 0.3s; }
+  .dua-box:hover { border-color: var(--or); border-style: solid; }
+  .dua-box .translit { font-size: 17px; color: var(--or-ombre); margin-bottom: 6px; }
+  .dua-box .sens { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--gris-doux); font-style: italic; }
+  .source-note {
+    font-family: 'Inter', sans-serif; font-size: 12px; color: var(--bleu);
+    margin-top: 16px; padding: 12px 14px; background: rgba(216, 226, 239, 0.4);
+    border-radius: 8px; line-height: 1.6;
+  }
+  .source-note strong { font-weight: 600; letter-spacing: 0.08em; color: var(--or-ombre); font-size: 10px; text-transform: uppercase; }
+
+  /* Actions */
+  .action-card {
+    background: var(--creme-pur); border-radius: 12px; padding: 22px;
+    border: 1px solid rgba(30, 58, 95, 0.10); margin: 16px 0;
+    box-shadow: 0 4px 12px rgba(15, 37, 64, 0.05);
+  }
+  .action-list { list-style: none; margin-top: 12px; }
+  .action-list li {
+    padding: 11px 0 11px 26px; position: relative; font-size: 15px; line-height: 1.65;
+    border-bottom: 1px solid rgba(30, 58, 95, 0.08); cursor: pointer; transition: all 0.3s;
+  }
+  .action-list li:last-child { border-bottom: none; }
+  .action-list li::before {
+    content: "▸"; position: absolute; left: 4px; top: 11px;
+    color: var(--or); font-size: 14px; transition: transform 0.3s, color 0.3s;
+  }
+  .action-list li:hover { padding-left: 32px; color: var(--bleu-nuit); }
+  .action-list li:hover::before { transform: translateX(3px); color: var(--bleu); }
+  .action-list li.chosen {
+    background: linear-gradient(135deg, var(--bleu-pale), var(--or-pale));
+    border-radius: 8px; padding: 12px 14px 12px 34px; margin: 4px 0;
+    border-bottom: none; color: var(--bleu-nuit); font-weight: 500;
+  }
+  .action-list li.chosen::before { content: "✓"; color: var(--or-ombre); font-size: 16px; top: 13px; left: 12px; }
+
+  /* Closing */
+  .closing-quote {
+    text-align: center; font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 19px; color: var(--bleu); margin: 26px 0; line-height: 1.7;
+    padding: 22px 16px; position: relative;
+  }
+  .closing-quote::before, .closing-quote::after { content: ""; position: absolute; left: 50%; transform: translateX(-50%); width: 60px; height: 1px; background: var(--or); }
+  .closing-quote::before { top: 0; }
+  .closing-quote::after { bottom: 0; }
+  .closing-quote small { display: block; margin-top: 14px; font-size: 12px; font-family: 'Inter', sans-serif; letter-spacing: 0.08em; color: var(--gris-doux); font-style: normal; font-weight: 500; }
+  .signature { text-align: center; font-family: 'Inter', sans-serif; color: var(--gris-doux); margin-top: 28px; font-size: 12px; letter-spacing: 0.14em; opacity: 0.7; text-transform: uppercase; font-weight: 500; }
+  .comparison-result {
+    text-align: center; margin: 18px 0; font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 17px; color: var(--bleu); padding: 14px 18px;
+    background: rgba(216, 226, 239, 0.4); border-radius: 8px;
+  }
+  .summary-card {
+    background: linear-gradient(135deg, var(--creme-pur), var(--bleu-pale));
+    border: 1px solid rgba(30, 58, 95, 0.15);
+    border-radius: 14px; padding: 22px; margin: 22px 0;
+    box-shadow: 0 6px 18px rgba(15, 37, 64, 0.08);
+  }
+  .summary-card h3 { text-align: center; margin-bottom: 14px; }
+  .summary-line {
+    display: flex; justify-content: space-between; padding: 8px 0;
+    border-bottom: 1px dashed rgba(30, 58, 95, 0.12); font-size: 14px;
+  }
+  .summary-line:last-child { border-bottom: none; }
+  .summary-line .lab { color: var(--gris-doux); font-style: italic; }
+  .summary-line .val { color: var(--bleu-nuit); font-weight: 500; }
+  .disclaimer {
+    margin-top: 28px; padding: 14px 16px; background: rgba(216, 226, 239, 0.35);
+    border-radius: 8px; font-size: 12px; color: var(--gris-doux); line-height: 1.65;
+    text-align: center; font-family: 'Inter', sans-serif; border: 1px solid rgba(30, 58, 95, 0.08);
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(15, 37, 64, 0.6); backdrop-filter: blur(6px);
+    z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.show { display: flex; animation: fadeIn 0.3s; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal {
+    background: var(--creme-pur); border-radius: 16px; max-width: 480px; width: 100%;
+    padding: 32px 28px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); position: relative;
+  }
+  .modal h2 { color: var(--bleu-nuit); margin-top: 0; }
+  .modal .urg-num {
+    background: var(--bleu-nuit); color: var(--creme-pur);
+    padding: 16px 20px; border-radius: 10px; margin: 14px 0;
+    text-align: center; font-family: 'Fraunces', serif;
+  }
+  .modal .urg-num .big { font-size: 36px; font-weight: 500; letter-spacing: 0.04em; display: block; margin-bottom: 4px; }
+  .modal .urg-num .desc { font-family: 'Inter', sans-serif; font-size: 13px; opacity: 0.85; font-style: italic; }
+  .modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 24px; color: var(--gris-doux); cursor: pointer; line-height: 1; }
+  .modal-close:hover { color: var(--bleu-nuit); }
+
+  footer {
+    text-align: center; margin-top: 22px; padding: 14px;
+    font-family: 'Inter', sans-serif; font-size: 12px; color: var(--gris-doux);
+    position: relative; z-index: 1; max-width: 740px; letter-spacing: 0.04em;
+  }
+  footer em { font-style: italic; color: var(--bleu); }
+
+  @media (max-width: 600px) {
+    body { padding: 16px 12px 40px; }
+    main { padding: 24px 20px 30px; }
+    .brand-name { font-size: 30px; }
+    h1 { font-size: 24px; }
+    .breath-circle-wrap { width: 240px; height: 240px; }
+    .breath-circle { width: 170px; height: 170px; }
+    .nom-arabe { font-size: 34px; }
+    .nom-translit { font-size: 20px; }
+    .states-grid { grid-template-columns: repeat(2, 1fr); }
+    .progress span { width: 22px; }
+    .progress span.active { width: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+<div class="app">
+  <header class="brand">
+    <button class="urgence-link" onclick="openUrgence()">⚠ Si c'est urgent</button>
+    <div class="brand-mark">Educa Typique</div>
+    <div class="brand-name">Boussole <em>Ados</em></div>
+    <div class="brand-tagline">Trousse de secours émotionnelle</div>
+    <div class="ornament">
+      <span class="line"></span><span class="dot"></span><span class="line"></span>
+    </div>
+  </header>
+
+  <div class="progress" id="progress">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <main>
+
+    <!-- 0 — ACCUEIL -->
+    <section class="step active" data-step="0">
+      <h1>Tu es au bon endroit.</h1>
+      <p class="lead">
+        Quelque chose te pèse. Tu ne sais pas quoi en faire.
+        Cette page est faite pour toi — pas pour te juger, pas pour te dire ce que tu dois ressentir.
+      </p>
+      <p>
+        Tu vas prendre 10 à 15 minutes. On va t'aider à <strong>nommer</strong> ce qui se passe,
+        à <strong>écouter ton corps</strong>, à <strong>respirer</strong>, à <strong>regarder tes pensées</strong>,
+        et à trouver <strong>un petit pas</strong>.
+      </p>
+      <div class="citation">
+        Allāh ne charge aucune âme au-delà de ce qu'elle peut porter.
+        <span class="source">— Sourate Al-Baqara, verset 286 (sens du verset)</span>
+      </div>
+      <div class="astuce">
+        Si c'est <strong>vraiment</strong> grave maintenant — si tu penses à te faire du mal — clique sur <em>« Si c'est urgent »</em> en haut. Tu n'es pas seul(e), et demander de l'aide n'est pas une faiblesse, c'est un acte de force.
+      </div>
+      <div class="actions">
+        <span></span>
+        <button class="btn" onclick="next()"><span>Je commence</span></button>
+      </div>
+    </section>
+
+    <!-- 1 — ÉMOTION -->
+    <section class="step" data-step="1">
+      <h1>Qu'est-ce qui se passe ?</h1>
+      <p>Choisis ce qui ressemble le plus à ce que tu ressens maintenant. Pas besoin d'être sûr(e).</p>
+      <div class="states-grid" id="statesGrid"></div>
+      <div class="astuce">
+        Tu peux ressentir <strong>plusieurs choses en même temps</strong>. C'est normal. Choisis celle qui <em>pèse le plus</em> en ce moment — tu pourras revenir et refaire avec une autre.
+      </div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" id="btnAfterState" onclick="next()" disabled><span>Continuer</span></button>
+      </div>
+    </section>
+
+    <!-- 2 — INTENSITÉ -->
+    <section class="step" data-step="2">
+      <h1>À quel point ?</h1>
+      <p>Sur une échelle de 0 à 10. Tu poseras le même curseur à la fin pour voir si quelque chose a bougé.</p>
+      <div class="slider-zone">
+        <label>Là, maintenant, c'est intense comment ?</label>
+        <input type="range" id="intensity" min="0" max="10" value="5">
+        <div class="slider-labels">
+          <span>0 — j'le sens à peine</span>
+          <span>10 — ça me submerge</span>
+        </div>
+        <div class="intensity-display" id="intensityValue">5 / 10</div>
+      </div>
+      <div class="astuce">
+        Les émotions <strong>montent et descendent comme des vagues</strong> — elles ne restent jamais à leur pic.
+        Mesurer, c'est déjà reprendre un peu de pouvoir. <em>Tu ne subis plus, tu observes</em>.
+      </div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" onclick="next()"><span>Continuer</span></button>
+      </div>
+    </section>
+
+    <!-- 3 — SCAN CORPOREL (NOUVEAU) -->
+    <section class="step" data-step="3">
+      <h1>Où ressens-tu ça dans ton corps ?</h1>
+      <p>
+        Une émotion, ce n'est pas que dans la tête — c'est aussi <strong>physique</strong>.
+        Pose-toi une seconde et observe : où ça se manifeste maintenant ? Coche les zones (plusieurs possibles).
+      </p>
+      <div class="body-scan-zone">
+        <div class="body-silhouette">
+          <svg class="body-svg" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+            <!-- Silhouette épurée -->
+            <!-- Tête -->
+            <ellipse class="body-outline" cx="100" cy="35" rx="22" ry="26"/>
+            <!-- Cou -->
+            <path class="body-outline" d="M 88 58 L 88 70 L 112 70 L 112 58"/>
+            <!-- Tronc -->
+            <path class="body-outline" d="M 70 75 Q 65 90 70 130 L 75 175 L 125 175 L 130 130 Q 135 90 130 75 Z"/>
+            <!-- Bras -->
+            <path class="body-outline" d="M 70 80 Q 50 100 45 145 L 50 175"/>
+            <path class="body-outline" d="M 130 80 Q 150 100 155 145 L 150 175"/>
+            <!-- Jambes -->
+            <path class="body-outline" d="M 80 175 L 78 240 L 85 270"/>
+            <path class="body-outline" d="M 120 175 L 122 240 L 115 270"/>
+            <path class="body-outline" d="M 100 175 L 100 235"/>
+
+            <!-- Zones cliquables -->
+            <circle class="body-zone" id="zone-tete" data-zone="tete" cx="100" cy="35" r="14"/>
+            <circle class="body-zone" id="zone-gorge" data-zone="gorge" cx="100" cy="68" r="8"/>
+            <circle class="body-zone" id="zone-coeur" data-zone="coeur" cx="100" cy="100" r="15"/>
+            <circle class="body-zone" id="zone-ventre" data-zone="ventre" cx="100" cy="140" r="14"/>
+            <circle class="body-zone" id="zone-mains" data-zone="mains" cx="48" cy="170" r="10"/>
+            <circle class="body-zone" id="zone-mains2" data-zone="mains" cx="152" cy="170" r="10"/>
+            <circle class="body-zone" id="zone-jambes" data-zone="jambes" cx="80" cy="240" r="9"/>
+            <circle class="body-zone" id="zone-jambes2" data-zone="jambes" cx="120" cy="240" r="9"/>
+          </svg>
+        </div>
+        <div class="body-zone-list" id="bodyZoneList"></div>
+      </div>
+      <div class="body-guidance" id="bodyGuidance"></div>
+      <div class="astuce">
+        <strong>Pourquoi le corps ?</strong> Le Prophète ﷺ a dit : <em>« Il y a dans le corps un morceau de chair : s'il est sain, tout le corps est sain ; s'il est corrompu, tout le corps est corrompu — c'est le cœur (qalb). »</em>
+        <span style="font-size: 11px; color: var(--bleu);">(rapporté par al-Bukhārī et Muslim, d'après an-Nu'mān ibn Bashīr — sens).</span>
+        Apprendre à <em>écouter ton corps</em>, c'est apprendre à écouter ton qalb.
+      </div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" onclick="next()"><span>Continuer</span></button>
+      </div>
+    </section>
+
+    <!-- 4 — RESPIRATION -->
+    <section class="step" data-step="4">
+      <h1>Le souffle d'abord.</h1>
+      <p id="breathIntro" class="lead"></p>
+      <div class="breath-zone">
+        <div class="breath-circle-wrap">
+          <div class="breath-ring r1"></div>
+          <div class="breath-ring r2"></div>
+          <div class="breath-ring r3"></div>
+          <div class="breath-circle" id="breathCircle">
+            <div class="breath-text" id="breathText">Prêt(e) ?</div>
+          </div>
+        </div>
+        <div class="breath-counter" id="breathCounter">&nbsp;</div>
+        <p class="breath-instruction" id="breathInstruction">Pose une main sur ton ventre. Suis le cercle.</p>
+        <button class="btn" id="breathBtn" onclick="toggleBreath()"><span>Commencer</span></button>
+      </div>
+      <div class="astuce">
+        <strong>Pourquoi ça marche ?</strong> Une expiration <em>longue</em> active le nerf vague — c'est physiologique, prouvé scientifiquement. Tu envoies un signal à ton cerveau : <em>« tout va bien, on peut redescendre »</em>.
+        Si la respiration ne marche pas du premier coup, c'est <strong>normal</strong> — ça s'apprend, comme tout.
+      </div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn btn-ghost" onclick="next()"><span>Continuer</span></button>
+      </div>
+    </section>
+
+    <!-- 5 — TCC ISLAMIQUE (NOUVEAU) -->
+    <section class="step" data-step="5">
+      <h1>Ce qui se passe dans ta tête</h1>
+      <p>
+        Une émotion forte n'est jamais seule. Elle est nourrie par trois autres choses :
+        une <strong>pensée</strong>, une <strong>perception</strong>, et un <strong>comportement</strong>.
+        Regardons les 4 ensemble — clique sur chaque carte pour découvrir un autre angle.
+      </p>
+      <div class="tcc-intro">
+        C'est la <em>boussole intérieure</em> : pensée ↔ émotion ↔ perception ↔ comportement.
+        Quand tu en changes une, les trois autres bougent.
+      </div>
+      <div class="tcc-grid" id="tccGrid"></div>
+      <div class="tcc-cycle-note" id="tccCycleNote"></div>
+      <div class="astuce">
+        Tu ne peux pas toujours changer la pensée qui surgit (elle vient toute seule).
+        Mais tu peux choisir d'<strong>écouter une autre voix</strong> à côté — celle de la Révélation, d'un ami sage, ou de ton meilleur(e) toi-même.
+        <em>« Quand tu changes la manière dont tu regardes les choses, les choses que tu regardes changent. »</em>
+      </div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" onclick="next()"><span>Continuer</span></button>
+      </div>
+    </section>
+
+    <!-- 6 — ANCRAGE -->
+    <section class="step" data-step="6">
+      <h1>Ce que la Révélation en dit</h1>
+      <p style="font-style: italic; color: var(--gris-doux);">
+        L'islam connaît ce que tu vis. Tu n'es ni le premier, ni la dernière. Et il y a une parole pour toi.
+      </p>
+      <div id="propheticContent"></div>
+      <div class="astuce">
+        <strong>Conseil de lecture :</strong> ne lis pas vite. Relis 2 ou 3 fois, à voix basse. Le Coran et les paroles du Prophète ﷺ
+        agissent par <em>tadabbur</em> — la méditation lente, pas la quantité.
+      </div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" onclick="next()"><span>Continuer</span></button>
+      </div>
+    </section>
+
+    <!-- 7 — NOM D'ALLAH -->
+    <section class="step" data-step="7">
+      <h1>Un Nom d'Allāh pour toi</h1>
+      <p>Allāh ﷻ se fait connaître par Ses plus beaux Noms. Chacun est une <strong>porte</strong>. Voici la tienne aujourd'hui.</p>
+      <div id="nomContent"></div>
+      <p style="margin-top: 18px; font-size: 14px; color: var(--gris-doux); font-style: italic; text-align: center;">
+        Répète l'invocation 7 fois, doucement, sans te précipiter.
+      </p>
+      <div class="astuce">
+        <strong>Le secret du dhikr :</strong> ce n'est pas la quantité, c'est la <em>présence du cœur</em>. Mieux vaut 7 fois en conscience que 100 fois machinal.
+        <em>« Le dhikr est la nourriture du cœur, comme l'eau est la nourriture du poisson »</em> — Ibn al-Qayyim, <em>al-Wābil aṣ-Ṣayyib</em>.
+      </div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" onclick="next()"><span>Continuer</span></button>
+      </div>
+    </section>
+
+    <!-- 8 — MICRO-ACTION -->
+    <section class="step" data-step="8">
+      <h1>Un petit pas, maintenant.</h1>
+      <p>Pas une montagne. Juste un truc tout simple. <strong>Clique</strong> sur celui que tu choisis.</p>
+      <div id="actionContent"></div>
+      <div class="astuce">
+        <strong>Le piège à éviter :</strong> vouloir tout changer en une journée. Le Prophète ﷺ a dit que <em>les œuvres les plus aimées d'Allāh sont les plus régulières, même si elles sont petites</em>
+        <span style="color: var(--bleu);">(al-Bukhārī &amp; Muslim, sens du hadith)</span>. Un petit pas par jour > un grand effort qui s'écroule.
+      </div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" onclick="next()"><span>Continuer</span></button>
+      </div>
+    </section>
+
+    <!-- 9 — CLÔTURE -->
+    <section class="step" data-step="9">
+      <h1>Bien. Tu as fait quelque chose.</h1>
+      <p style="font-size: 14px; color: var(--gris-doux);">Avant de partir, pose le curseur à nouveau. Juste pour voir.</p>
+      <div class="slider-zone">
+        <label>Maintenant, c'est intense comment ?</label>
+        <input type="range" id="intensityAfter" min="0" max="10" value="5">
+        <div class="slider-labels">
+          <span>0 — j'le sens à peine</span>
+          <span>10 — ça me submerge</span>
+        </div>
+        <div class="intensity-display" id="intensityAfterValue">5 / 10</div>
+      </div>
+      <div class="comparison-result" id="comparison"></div>
+
+      <div class="summary-card" id="summaryCard"></div>
+
+      <div class="closing-quote">
+        Et quand Mes serviteurs t'interrogent sur Moi… Je suis proche.
+        Je réponds à l'appel de celui qui M'invoque.
+        <small>— Sourate Al-Baqara, verset 186 (sens du verset)</small>
+      </div>
+
+      <div class="dua-box">
+        <div class="translit">« Allāhumma a‘innī ‘alā dhikrika wa shukrika wa ḥusni ‘ibādatik. »</div>
+        <div class="sens">Ô Allāh, aide-moi à T'évoquer, à Te remercier, et à T'adorer comme il se doit.</div>
+        <div style="font-size: 10px; color: var(--bleu); margin-top: 10px; letter-spacing: 0.08em; font-family: 'Inter', sans-serif; text-transform: uppercase; font-weight: 600;">
+          Du'ā prophétique · Abū Dāwūd, an-Nasā'ī (authentifiée)
+        </div>
+      </div>
+
+      <div class="astuce">
+        <strong>Ce que tu viens de faire est important.</strong> Tu as pris 10 minutes pour t'écouter, te respirer, te comprendre. C'est le contraire de la fuite. <em>Refais-le quand tu en as besoin</em> — c'est ta trousse, elle est toujours là.
+      </div>
+
+      <div class="signature">Educa Typique · Boussole Ados</div>
+
+      <div class="actions" style="justify-content: center; margin-top: 26px;">
+        <button class="btn" onclick="restart()"><span>Recommencer</span></button>
+      </div>
+
+      <div class="disclaimer">
+        Cet outil t'aide à traverser un moment difficile. Il ne remplace pas un suivi médical ou psychologique.
+        Si tu vas vraiment mal, parles-en à un adulte de confiance — un parent, un prof, l'infirmier(ère) de ton collège,
+        ou appelle le <strong>3114</strong> (gratuit, 24/7).
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Modal urgence -->
+<div class="modal-overlay" id="urgenceModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeUrgence()">×</button>
+    <h2>Tu vas vraiment mal ?</h2>
+    <p style="margin-top: 12px;"><strong>Tu n'es pas seul(e).</strong> Des personnes formées sont là, gratuitement, jour et nuit, juste pour t'écouter.</p>
+    <div class="urg-num">
+      <span class="big">3114</span>
+      <span class="desc">Numéro national de prévention du suicide<br>Gratuit, anonyme, 24h/24, 7j/7</span>
+    </div>
+    <p style="font-size: 14px; line-height: 1.7;">
+      Tu peux aussi en parler à <strong>quelqu'un autour de toi</strong> :<br>
+      • un parent, ou un autre membre de la famille en qui tu as confiance<br>
+      • un professeur, le ou la CPE, l'infirmier(ère) du collège/lycée<br>
+      • un imam ou une personne de référence à la mosquée<br>
+      • un ami(e) dont tu sais qu'il/elle prendra soin de toi
+    </p>
+    <p style="margin-top: 16px; font-style: italic; color: var(--bleu); font-family: 'Fraunces', serif;">
+      Le Prophète ﷺ a dit : <em>« Celui qui soulage un croyant d'une affliction de ce monde, Allāh le soulagera d'une affliction du Jour de la Résurrection »</em>
+      <span style="font-size: 11px; color: var(--gris-doux);">(Muslim — sens).</span>
+      Demander de l'aide, c'est offrir à quelqu'un l'occasion d'accomplir un bien immense. Tu ne déranges pas.
+    </p>
+    <div style="text-align: center; margin-top: 20px;">
+      <button class="btn btn-ghost" onclick="closeUrgence()"><span>Je retourne à l'app</span></button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <em>Boussole Ados</em> · Outil d'accompagnement émotionnel — par <em>Educa Typique</em><br>
+  Document confidentiel · Reproduction interdite sans autorisation
+</footer>
+
+<script>
+// ============================================================
+//  ZONES DU CORPS
+// ============================================================
+const BODY_ZONES = [
+  { id: "tete",   icon: "◌", name: "Tête, front",   desc: "Pensées qui s'emballent, mâchoires serrées, migraine, lourdeur" },
+  { id: "gorge",  icon: "○", name: "Gorge",          desc: "Boule, voix coincée, envie de pleurer bloquée" },
+  { id: "coeur",  icon: "♡", name: "Cœur, poitrine", desc: "Oppression, battements rapides, vide" },
+  { id: "ventre", icon: "◐", name: "Ventre",         desc: "Nœud, papillons, nausée, brûlure" },
+  { id: "mains",  icon: "✦", name: "Mains, bras",    desc: "Tremblements, moiteur, raideur, envie de bouger" },
+  { id: "jambes", icon: "▽", name: "Jambes, pieds",  desc: "Lourdes, agitées, ou besoin de fuir" }
+];
+
+// ============================================================
+//  ÉTATS — chaque émotion avec : symbole, intro respiration, ancrage, Nom, actions, TCC
+// ============================================================
+const STATES = {
+  stress: {
+    symbol: "⌇",
+    label: "Stress, pression",
+    sublabel: "examens, devoirs, attentes",
+    breathIntro: "Le stress te serre la poitrine, accélère ta tête. On va inverser ça : <em>inspirer 4 secondes, expirer 6</em>. L'expiration longue, c'est le signal au corps que tu peux te poser.",
+    inhale: 4, exhale: 6, cycles: 6,
+    inhaleText: "Yā Mu‘īn", exhaleText: "Aide-moi…",
+    prophetic: {
+      type: "Verset",
+      arabic: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
+      translit: "Lā yukallifu-llāhu nafsan illā wus‘ahā.",
+      sens: "« Allāh ne charge aucune âme au-delà de ce qu'elle peut porter. »",
+      source: "Sourate Al-Baqara, verset 286 (sens du verset)."
+    },
+    nom: {
+      arabe: "الْمُعِينُ", translit: "Al-Mu‘īn",
+      sens: "L'Aide — Celui qui assiste quand tu te sens dépassé(e).",
+      invocation: "« Allāhumma a‘innī. »",
+      invocationSens: "Ô Allāh, aide-moi.",
+      source: "Voir <em>Rabbi a‘innī wa lā tu‘in ‘alayya</em> (mon Seigneur, aide-moi, ne sois pas contre moi) rapportée par at-Tirmidhī (ḥasan)."
+    },
+    tcc: {
+      pensee:      { pattern: "Je n'y arriverai jamais, je suis dépassé(e).", reframe: "<strong>Le Prophète ﷺ a vécu Ṭā'if, Uḥud, Khaybar — chaque épreuve avait sa sortie.</strong> Toi aussi tu trouveras la tienne, étape par étape. Une seule tâche, puis la suivante." },
+      perception:  { pattern: "Tout est urgent, tout doit être parfait.", reframe: "Allāh ne te demande pas la perfection, Il te demande l'<strong>effort sincère</strong> (al-ijtihād). L'<em>iḥsān</em>, c'est faire ta part — pas tout porter sur tes épaules." },
+      comportement:{ pattern: "Soit je procrastine et je fuis, soit je me brûle à essayer de tout faire.", reframe: "<strong>Une chose à la fois</strong>, complètement. Puis la suivante. La méthode prophétique, c'est le <em>tarteeb</em> — mettre en ordre, hiérarchiser, sans paniquer." }
+    },
+    actions: [
+      "Pose le téléphone, prends un papier et écris en vrac ce qui te stresse — pas pour résoudre, juste pour vider.",
+      "Découpe ta tâche en <strong>une seule chose</strong> à faire dans les 15 prochaines minutes. Pas 10 — une.",
+      "Sors 5 minutes, marche, regarde le ciel. Ton cerveau a besoin d'une vraie pause, pas d'un scroll."
+    ]
+  },
+
+  anxiete: {
+    symbol: "◐",
+    label: "Anxiété, crise",
+    sublabel: "le cœur qui bat fort",
+    breathIntro: "Quand l'alarme se déclenche, c'est pas un danger réel — c'est ton corps qui s'est emballé. <em>Inspire 4, expire 6</em>. Pose une main sur ta poitrine.",
+    inhale: 4, exhale: 6, cycles: 6,
+    inhaleText: "Yā Ḥafīẓ", exhaleText: "Ḥasbiyallāh…",
+    prophetic: {
+      type: "Verset",
+      arabic: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
+      translit: "Ḥasbunā-llāhu wa ni‘ma al-wakīl.",
+      sens: "« Allāh nous suffit, et quel excellent Garant ! »",
+      source: "Sourate Āl ‘Imrān, verset 173 (sens du verset). Ibrāhīm ﷺ l'a prononcée alors qu'on le jetait au feu — le feu ne l'a pas brûlé."
+    },
+    nom: {
+      arabe: "الْحَفِيظُ", translit: "Al-Ḥafīẓ",
+      sens: "Le Protecteur — Celui qui veille sur toi, même quand tu ne le sens pas.",
+      invocation: "« Yā Ḥafīẓ, iḥfaẓnī. »",
+      invocationSens: "Ô Protecteur, garde-moi.",
+      source: "Le Prophète ﷺ a dit à Ibn ‘Abbās : <em>Iḥfaẓi-llāha yaḥfaẓka</em> — préserve [les limites d']Allāh, Il te préservera (at-Tirmidhī, ḥasan ṣaḥīḥ)."
+    },
+    tcc: {
+      pensee:      { pattern: "Quelque chose va mal tourner.", reframe: "Le futur est entre les mains d'Allāh. <strong>Anticiper sans agir, c'est s'épuiser pour rien.</strong> Tu vis le présent." },
+      perception:  { pattern: "Je dois tout contrôler, sinon le pire arrivera.", reframe: "<em>Ḥasbiyallāh wa ni'ma al-Wakīl</em> — Allāh me suffit, quel excellent Garant. Je fais les causes, <strong>Allāh gère les résultats</strong>. Lâcher n'est pas abandonner — c'est confier." },
+      comportement:{ pattern: "J'évite, je vérifie 10 fois, je rumine.", reframe: "<strong>Une chose à la fois.</strong> Si tu vérifies, tu vérifies <em>une fois</em> et tu passes. La rumination est un piège mental — sors par le mouvement." }
+    },
+    actions: [
+      "Nomme à voix basse : <strong>5</strong> choses que tu vois, <strong>4</strong> que tu peux toucher, <strong>3</strong> que tu entends. Ramène ta tête dans le présent.",
+      "Dis-toi : <em>« C'est une alarme. Pas un danger. Ça monte, ça va redescendre. »</em>",
+      "Marche 10 pas lents. Bouger casse la boucle de la panique."
+    ]
+  },
+
+  tristesse: {
+    symbol: "◇",
+    label: "Tristesse",
+    sublabel: "le poids dans la poitrine",
+    breathIntro: "La tristesse a besoin d'espace, pas qu'on la pousse dehors. On respire doucement, sans rien forcer. Laisse-toi tranquille.",
+    inhale: 4, exhale: 7, cycles: 5,
+    inhaleText: "Yā Wadūd", exhaleText: "Ar-Raḥmān…",
+    prophetic: {
+      type: "Verset",
+      arabic: "وَلَا تَيْأَسُوا مِن رَّوْحِ اللَّهِ",
+      translit: "Wa lā tay'asū min rawḥi-llāh.",
+      sens: "« Ne désespérez pas du soulagement d'Allāh. »",
+      source: "Sourate Yūsuf, verset 87 (sens du verset). Ya‘qūb ﷺ l'a dite à ses fils alors qu'il avait perdu Yūsuf depuis des années."
+    },
+    nom: {
+      arabe: "الْوَدُودُ", translit: "Al-Wadūd",
+      sens: "Le Très-Aimant — Celui qui t'aime, te connaît, ne te lâche pas.",
+      invocation: "« Yā Wadūd, imla' qalbī bi-maḥabbatika. »",
+      invocationSens: "Ô Très-Aimant, emplis mon cœur de Ton amour.",
+      source: "Coran : <em>Wa Huwa al-Ghafūru al-Wadūd</em> (Sourate Al-Burūj, verset 14 — sens). Cf. Cheikh ‘Abd ar-Razzāq al-Badr, <em>Fiqh al-Asmā' al-Ḥusnā</em>."
+    },
+    tcc: {
+      pensee:      { pattern: "Personne ne me comprend, ça ne s'arrêtera jamais.", reframe: "<strong>Ya‘qūb ﷺ a pleuré Yūsuf des années.</strong> Allāh ne lui a pas dit 'arrête de pleurer' — Il lui a envoyé la sortie au moment voulu. Ta tristesse est légitime, et elle a une fin." },
+      perception:  { pattern: "Je suis seul(e), même Allāh est loin.", reframe: "<strong>Allāh est plus proche de toi que ta veine jugulaire</strong> (Sourate Qāf, verset 16 — sens). Ta tristesse Le concerne. Le fait qu'Il te paraisse loin est une épreuve, pas une vérité." },
+      comportement:{ pattern: "Je me coupe des autres, je reste au lit, je scrolle.", reframe: "<strong>Un petit geste vivant suffit.</strong> Douche, sortir 5 min, message à 1 personne. Le mouvement réveille le cœur. L'isolement est l'ami du shayṭān." }
+    },
+    actions: [
+      "Sors 5 minutes à la lumière du jour. La lumière, c'est physique, ça aide le cerveau.",
+      "Envoie un message court à quelqu'un en qui tu as confiance — <em>« je vais pas trop fort en ce moment »</em>.",
+      "Note 3 choses, même minuscules : un sourire vu, un repas mangé, le ciel aujourd'hui."
+    ]
+  },
+
+  colere: {
+    symbol: "✦",
+    label: "Colère",
+    sublabel: "ça brûle, c'est injuste",
+    breathIntro: "La colère est une énergie réelle, pas un défaut. On va pas la nier — on la ralentit pour pas que tu fasses quelque chose que tu regrettes. <em>Inspire 4, expire 8</em>.",
+    inhale: 4, exhale: 8, cycles: 6,
+    inhaleText: "Yā Ḥalīm", exhaleText: "A‘ūdhu billāh…",
+    prophetic: {
+      type: "Hadith prophétique",
+      arabic: "لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ",
+      translit: "Laysa ash-shadīdu bi-ṣ-ṣuru‘ah, innamā ash-shadīdu alladhī yamliku nafsahu ‘inda al-ghaḍab.",
+      sens: "« Le fort n'est pas celui qui terrasse les autres. Le fort, c'est celui qui se maîtrise quand il est en colère. »",
+      source: "Rapporté par al-Bukhārī et Muslim, d'après Abū Hurayra (qu'Allāh l'agrée)."
+    },
+    nom: {
+      arabe: "الْحَلِيمُ", translit: "Al-Ḥalīm",
+      sens: "Le Longanime — Celui qui retient Sa puissance, qui ne réagit pas à chaud.",
+      invocation: "« Yā Ḥalīm, alhimnī ḥilmaka. »",
+      invocationSens: "Ô Longanime, inspire-moi Ta retenue.",
+      source: "Ibn al-Qayyim, <em>Madārij as-Sālikīn</em> : <em>al-ḥilm</em> n'est pas l'absence de colère, mais la maîtrise de l'âme quand elle monte."
+    },
+    tcc: {
+      pensee:      { pattern: "C'est injuste, il/elle l'a fait exprès.", reframe: "<strong>Le shayṭān adore que tu juges l'intention.</strong> Allāh seul connaît les cœurs. Tu n'es pas obligé(e) de réagir à ce que tu <em>imagines</em> de l'autre." },
+      perception:  { pattern: "Si je dis pas maintenant, je passe pour faible.", reframe: "Le Prophète ﷺ : <strong>le fort, c'est celui qui se maîtrise dans la colère</strong>. Le silence stratégique, c'est de la force, pas de la lâcheté." },
+      comportement:{ pattern: "Je crie, je claque la porte, j'envoie un message que je vais regretter.", reframe: "<strong>Je m'assieds, je bois, j'attends 20 minutes.</strong> Puis je décide à froid. Le Prophète ﷺ : <em>« Si l'un de vous est en colère debout, qu'il s'asseye »</em> (Abū Dāwūd)." }
+    },
+    actions: [
+      "Si tu es debout, <strong>assieds-toi</strong>. Si la colère reste, allonge-toi (Abū Dāwūd).",
+      "Bois un grand verre d'eau lentement. L'eau apaise littéralement le système nerveux.",
+      "<strong>Ne réponds pas maintenant.</strong> Écris ce que tu veux dire, garde-le 24h."
+    ]
+  },
+
+  solitude: {
+    symbol: "〇",
+    label: "Solitude, vide",
+    sublabel: "personne ne me comprend",
+    breathIntro: "Ce vide, c'est une vraie souffrance — pas une exagération. Respire doucement, et rappelle-toi : <em>Allāh est plus proche de toi que ta veine jugulaire</em> (Sourate Qāf 50:16 — sens).",
+    inhale: 5, exhale: 7, cycles: 5,
+    inhaleText: "Yā Qarīb", exhaleText: "Tu es là…",
+    prophetic: {
+      type: "Verset",
+      arabic: "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ",
+      translit: "Wa idhā sa'alaka ‘ibādī ‘annī fa-innī qarīb.",
+      sens: "« Et quand Mes serviteurs t'interrogent sur Moi… Je suis proche. Je réponds à l'appel de celui qui M'invoque, quand il M'invoque. »",
+      source: "Sourate Al-Baqara, verset 186 (sens du verset). C'est l'un des rares versets où Allāh parle de Lui-même directement, sans intermédiaire."
+    },
+    nom: {
+      arabe: "الْقَرِيبُ", translit: "Al-Qarīb",
+      sens: "Le Proche — Celui qui est plus proche de toi que toi-même.",
+      invocation: "« Yā Qarīb, kun ma‘ī. »",
+      invocationSens: "Ô Proche, sois avec moi.",
+      source: "Coran : <em>Inna Rabbī Qarībun Mujīb</em> — Certes mon Seigneur est Proche, Il répond (Sourate Hūd, verset 61 — sens)."
+    },
+    tcc: {
+      pensee:      { pattern: "Personne ne pense à moi, je n'ai pas ma place.", reframe: "<strong>Tu existes au plus précieux des regards — celui d'Allāh.</strong> Tes parents, tes amis, peuvent te négliger sans le vouloir. Pas Lui." },
+      perception:  { pattern: "Je dois être 'intéressant(e)' pour être aimé(e).", reframe: "<strong>Allāh est Al-Wadūd — Il aime sans condition de performance.</strong> Les amitiés vraies aussi. Si tu dois 'performer' pour être aimé(e), c'est pas de l'amour." },
+      comportement:{ pattern: "Je me coupe encore plus, ou je remplis le vide par des écrans / contacts inutiles.", reframe: "<strong>Un seul lien sincère vaut 100 contacts flous.</strong> Un message à <em>une</em> personne qui te connaît vraiment, c'est une porte." }
+    },
+    actions: [
+      "Envoie un message à <strong>une</strong> personne. N'importe quoi : <em>« t'es là ? »</em>, un mème, une question stupide. Ouvre la porte.",
+      "Parle à voix basse à Allāh, dans ta langue, sans formules — comme à un Ami qui sait déjà.",
+      "Sors 10 minutes. Regarde des gens, des arbres, le ciel. Tu fais partie de quelque chose de bien plus grand."
+    ]
+  },
+
+  trop_plein: {
+    symbol: "◉",
+    label: "Trop-plein",
+    sublabel: "tout en même temps",
+    breathIntro: "Trop d'émotions, trop de pensées, trop d'écrans, trop de monde. On va couper le bruit. <em>Inspire 5, expire 7</em>.",
+    inhale: 5, exhale: 7, cycles: 5,
+    inhaleText: "Yā Salām", exhaleText: "Pacifie…",
+    prophetic: {
+      type: "Verset",
+      arabic: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+      translit: "Alā bi-dhikrillāhi taṭma'innu al-qulūb.",
+      sens: "« N'est-ce point par le rappel d'Allāh que les cœurs s'apaisent ? »",
+      source: "Sourate Ar-Ra‘d, verset 28 (sens du verset)."
+    },
+    nom: {
+      arabe: "السَّلَامُ", translit: "As-Salām",
+      sens: "La Paix — Source de toute paix, exempt de tout trouble.",
+      invocation: "« Yā Salām, sallim qalbī. »",
+      invocationSens: "Ô Paix, pacifie mon cœur.",
+      source: "Le Prophète ﷺ disait après chaque prière : <em>Allāhumma anta as-Salām, wa minka as-salām</em> (rapporté par Muslim)."
+    },
+    tcc: {
+      pensee:      { pattern: "Trop d'infos, trop de gens, trop de bruit, je sature.", reframe: "<strong>Le Prophète ﷺ s'isolait à la grotte de Ḥirā'.</strong> Le retrait n'est pas une faiblesse — c'est une hygiène de l'âme. Tu as le droit de couper." },
+      perception:  { pattern: "Si je m'arrête, je serai en retard / je manque quelque chose.", reframe: "<strong>Tu ne perds rien en t'arrêtant.</strong> Tu retrouves ta tête. Et c'est ce qui te permet d'avancer. Le FOMO est une illusion." },
+      comportement:{ pattern: "Je scrolle, je grignote, j'augmente le bruit pour fuir le bruit.", reframe: "<strong>Une vraie pause : silence, eau, fenêtre ouverte, 10 minutes.</strong> Le scroll n'apaise rien — il anesthésie pour mieux faire mal plus tard." }
+    },
+    actions: [
+      "Coupe les notifications pendant 1 heure. Pas le téléphone — juste les notifs. Tu reviendras quand tu seras posé(e).",
+      "Prends une douche, ou lave-toi le visage à l'eau fraîche. Ramener le corps, c'est ramener la tête.",
+      "Pose une seule question : <em>« Qu'est-ce qui doit être fait maintenant, et qu'est-ce qui peut attendre ? »</em>"
+    ]
+  },
+
+  honte: {
+    symbol: "◍",
+    label: "Honte",
+    sublabel: "j'ai fait quelque chose…",
+    breathIntro: "La honte fait courber le dos et baisser les yeux. On va se redresser doucement, par le souffle. <em>Allāh est plus miséricordieux que tu ne l'imagines</em>.",
+    inhale: 4, exhale: 6, cycles: 6,
+    inhaleText: "Yā Ghafūr", exhaleText: "Pardonne-moi…",
+    prophetic: {
+      type: "Verset",
+      arabic: "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَى أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ",
+      translit: "Qul yā ‘ibādiya alladhīna asrafū ‘alā anfusihim lā taqnaṭū min raḥmatillāh.",
+      sens: "« Dis : Ô Mes serviteurs qui avez commis des excès à votre propre détriment, ne désespérez pas de la miséricorde d'Allāh. Allāh pardonne tous les péchés. »",
+      source: "Sourate Az-Zumar, verset 53 (sens du verset). Ibn al-Qayyim disait que c'est <em>« le plus grand espoir dans le Livre d'Allāh »</em>."
+    },
+    nom: {
+      arabe: "الْغَفُورُ", translit: "Al-Ghafūr",
+      sens: "Le Très-Pardonneur — Celui qui efface, qui couvre, qui ne tient pas rancune.",
+      invocation: "« Allāhumma innaka ‘Afuwwun tuḥibbu al-‘afwa, fa‘fu ‘annī. »",
+      invocationSens: "Ô Allāh, Tu es Celui qui efface, Tu aimes effacer ; alors efface mes fautes.",
+      source: "Du'ā enseignée par le Prophète ﷺ à ‘Ā'isha (qu'Allāh l'agrée) pour la nuit du Destin (at-Tirmidhī, authentique)."
+    },
+    tcc: {
+      pensee:      { pattern: "J'ai fait quelque chose de mal, je ne mérite pas le pardon.", reframe: "<strong>Az-Zumar 53 — ne désespère JAMAIS de la miséricorde d'Allāh.</strong> Tous les péchés. C'est dans le Livre, par Sa propre parole." },
+      perception:  { pattern: "Si les gens savaient, ils me jugeraient.", reframe: "<strong>Allāh est As-Sittīr — Celui qui voile.</strong> Il a couvert ta faute. Préserve cette couverture, répare entre toi et Lui, et ne te confesse pas à tout le monde." },
+      comportement:{ pattern: "Je me cache, je m'auto-punis, je rumine en boucle.", reframe: "<strong>Un istighfār sincère + une réparation si possible.</strong> Puis tu avances. La rumination est un autre piège — sortir de la faute, c'est aussi sortir de la rumination." }
+    },
+    actions: [
+      "Un <strong>seul</strong> <em>astaghfiru-llāh</em> dit lentement, en présence, vaut mieux que 100 répétés sans tête.",
+      "Ne raconte pas à tout le monde — protège-toi. Mais parle à <strong>une</strong> personne de confiance si ça te ronge.",
+      "<strong>Stop la rumination.</strong> Remplace <em>« Si j'avais… »</em> par : <em>« J'apprends, je répare, j'avance. »</em>"
+    ]
+  },
+
+  conflit: {
+    symbol: "⊗",
+    label: "Conflit",
+    sublabel: "famille, amis, prof…",
+    breathIntro: "Quand quelqu'un t'a blessé(e), ou que tu as l'impression que personne ne t'écoute, ta tête bouillonne. On respire avant de répondre — ça change tout.",
+    inhale: 4, exhale: 6, cycles: 6,
+    inhaleText: "Yā Ḥalīm", exhaleText: "Apaise…",
+    prophetic: {
+      type: "Hadith prophétique",
+      arabic: "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+      translit: "Man kāna yu'minu bi-llāhi wa-l-yawmi-l-ākhir fa-l-yaqul khayran aw li-yaṣmut.",
+      sens: "« Que celui qui croit en Allāh et au Jour Dernier dise du bien — ou qu'il se taise. »",
+      source: "Rapporté par al-Bukhārī et Muslim, d'après Abū Hurayra (qu'Allāh l'agrée)."
+    },
+    nom: {
+      arabe: "السَّلَامُ", translit: "As-Salām",
+      sens: "La Paix — qui peut s'installer entre toi et l'autre, si tu lui en laisses la place.",
+      invocation: "« Yā Salām, aṣliḥ bayninā. »",
+      invocationSens: "Ô Paix, mets de la paix entre nous.",
+      source: "Voir <em>Fiqh al-Asmā' al-Ḥusnā</em> de Cheikh ‘Abd ar-Razzāq al-Badr, chapitre As-Salām."
+    },
+    tcc: {
+      pensee:      { pattern: "Cette personne ne me respecte pas, elle ne m'écoute jamais.", reframe: "<strong>Peut-être. Peut-être pas.</strong> Le doute légitime laisse de la place à la rahma. Tu n'es pas obligé(e) de croire la pire interprétation." },
+      perception:  { pattern: "Si je cède, je perds. Si je gagne, la relation est cassée.", reframe: "<strong>Le but n'est pas de gagner, c'est de réparer.</strong> Le Prophète ﷺ : <em>« Que celui qui croit en Allāh dise du bien ou se taise »</em> (Bukhārī/Muslim)." },
+      comportement:{ pattern: "Je réponds à chaud, je coupe la conversation, je rumine.", reframe: "<strong>Pause 20 min minimum.</strong> Écrire ce que tu veux dire. Puis revenir en commençant par <em>« moi je »</em> — jamais <em>« toi tu »</em>. Ça change tout." }
+    },
+    actions: [
+      "Ne réponds pas maintenant. <strong>Pause de 20 minutes minimum</strong> avant de reprendre la discussion.",
+      "Écris ce que tu ressens (pas ce que tu veux dire à l'autre). Garde-le pour toi.",
+      "Quand tu reviens à la discussion : commence par <em>« moi je »</em>, jamais par <em>« toi tu »</em>."
+    ]
+  },
+
+  doute: {
+    symbol: "⊙",
+    label: "Doute, perdu(e)",
+    sublabel: "je sais plus où j'en suis",
+    breathIntro: "Quand tout devient flou — la foi, l'avenir, qui tu es — c'est pas grave. Ça arrive à tous les jeunes qui réfléchissent. <em>Respire, et demande à Celui qui sait</em>.",
+    inhale: 4, exhale: 6, cycles: 6,
+    inhaleText: "Yā Hādī", exhaleText: "Guide-moi…",
+    prophetic: {
+      type: "Verset",
+      arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+      translit: "Ihdinā-ṣ-ṣirāṭa-l-mustaqīm.",
+      sens: "« Guide-nous sur la voie droite. »",
+      source: "Sourate Al-Fātiḥa, verset 6 (sens du verset). Tu la dis 17 fois par jour au minimum dans tes prières."
+    },
+    nom: {
+      arabe: "الْهَادِي", translit: "Al-Hādī",
+      sens: "Le Guide — Celui qui éclaire la route quand tu ne sais plus où marcher.",
+      invocation: "« Yā Hādī, ihdinī. »",
+      invocationSens: "Ô Guide, guide-moi.",
+      source: "Coran : <em>Wa kafā bi-Rabbika Hādiyan wa Naṣīrā</em> — Et ton Seigneur suffit comme Guide et Soutien (Sourate Al-Furqān, verset 31 — sens)."
+    },
+    tcc: {
+      pensee:      { pattern: "Je sais plus en quoi je crois, je suis perdu(e).", reframe: "<strong>Le doute n'est pas un péché.</strong> C'est le mouvement d'une intelligence qui réfléchit. La sortie n'est pas dans l'émotion — c'est dans la <em>science</em> (apprendre auprès des savants)." },
+      perception:  { pattern: "Si je doute, c'est que ma foi est faible.", reframe: "<strong>Les plus grands Compagnons ont eu des moments de trouble.</strong> Le Prophète ﷺ : <em>« La foi est ce qui est dans le cœur et confirmé par les actes »</em>. Ce sont les actes qui maintiennent la foi quand l'émotion vacille." },
+      comportement:{ pattern: "Soit je m'isole avec mes doutes, soit je vais chercher 100 réponses sur Internet.", reframe: "<strong>Pas de réponse à chaud.</strong> Reviens à la base : une prière faite avec calme, lire 5 versets, parler à un savant de confiance. Internet n'est pas un cheikh." }
+    },
+    actions: [
+      "<strong>Ne décide rien d'important à chaud.</strong> Le doute n'est pas un mauvais conseiller — il te dit juste de ralentir.",
+      "Parle à un adulte musulman de confiance — un savant, un imam, une grande sœur/frère.",
+      "Reviens à <strong>une seule</strong> chose simple : une prière faite avec calme, un verset lu lentement."
+    ]
+  }
+};
+
+// ============================================================
+//  ÉTAT GLOBAL
+// ============================================================
+let currentStep = 0;
+let selectedState = null;
+let selectedBodyZones = new Set();
+let selectedAction = null;
+let breathTimer = null;
+let breathRunning = false;
+const TOTAL_STEPS = 10;
+
+// ============================================================
+//  PARTICULES
+// ============================================================
+function createParticles() {
+  const container = document.getElementById('particles');
+  const count = 20;
+  const types = ['gold', 'blue', 'sage'];
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle ' + types[i % 3];
+    const size = 3 + Math.random() * 5;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (20 + Math.random() * 14) + 's';
+    p.style.animationDelay = (Math.random() * 26) + 's';
+    container.appendChild(p);
+  }
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+function init() {
+  createParticles();
+
+  // Émotions
+  const grid = document.getElementById('statesGrid');
+  Object.entries(STATES).forEach(([key, data]) => {
+    const card = document.createElement('div');
+    card.className = 'state-card';
+    card.dataset.state = key;
+    card.innerHTML = `
+      <span class="state-symbol">${data.symbol}</span>
+      <span class="state-label">${data.label}<span class="state-sublabel">${data.sublabel}</span></span>
+    `;
+    card.onclick = () => selectState(key);
+    grid.appendChild(card);
+  });
+
+  // Zones corporelles
+  const zoneList = document.getElementById('bodyZoneList');
+  BODY_ZONES.forEach(z => {
+    const card = document.createElement('div');
+    card.className = 'body-zone-card';
+    card.dataset.zone = z.id;
+    card.innerHTML = `
+      <span class="body-zone-icon">${z.icon}</span>
+      <div class="body-zone-text">
+        <div class="body-zone-name">${z.name}</div>
+        <div class="body-zone-desc">${z.desc}</div>
+      </div>
+    `;
+    card.onclick = () => toggleBodyZone(z.id);
+    zoneList.appendChild(card);
+  });
+
+  // Zones SVG cliquables
+  document.querySelectorAll('.body-zone').forEach(el => {
+    el.onclick = () => toggleBodyZone(el.dataset.zone);
+  });
+
+  // Sliders
+  document.getElementById('intensity').addEventListener('input', e => {
+    const d = document.getElementById('intensityValue');
+    d.textContent = `${e.target.value} / 10`;
+    d.classList.remove('pulse'); void d.offsetWidth; d.classList.add('pulse');
+  });
+  document.getElementById('intensityAfter').addEventListener('input', e => {
+    const d = document.getElementById('intensityAfterValue');
+    d.textContent = `${e.target.value} / 10`;
+    d.classList.remove('pulse'); void d.offsetWidth; d.classList.add('pulse');
+    updateComparison();
+  });
+
+  updateProgress();
+}
+
+function selectState(key) {
+  selectedState = key;
+  document.querySelectorAll('.state-card').forEach(c => {
+    c.classList.toggle('selected', c.dataset.state === key);
+  });
+  document.getElementById('btnAfterState').disabled = false;
+}
+
+// ============================================================
+//  SCAN CORPOREL
+// ============================================================
+function toggleBodyZone(zoneId) {
+  if (selectedBodyZones.has(zoneId)) {
+    selectedBodyZones.delete(zoneId);
+  } else {
+    selectedBodyZones.add(zoneId);
+  }
+  // SVG
+  document.querySelectorAll('.body-zone').forEach(el => {
+    el.classList.toggle('active', selectedBodyZones.has(el.dataset.zone));
+  });
+  // Cartes
+  document.querySelectorAll('.body-zone-card').forEach(el => {
+    el.classList.toggle('active', selectedBodyZones.has(el.dataset.zone));
+  });
+  updateBodyGuidance();
+}
+
+function updateBodyGuidance() {
+  const guidance = document.getElementById('bodyGuidance');
+  if (selectedBodyZones.size === 0) {
+    guidance.classList.remove('visible');
+    return;
+  }
+  const zoneNames = BODY_ZONES.filter(z => selectedBodyZones.has(z.id)).map(z => z.name.toLowerCase()).join(', ');
+  const primaryZone = BODY_ZONES.find(z => selectedBodyZones.has(z.id));
+  let qalbNote = "";
+  if (selectedBodyZones.has('coeur')) {
+    qalbNote = `<span class="qalb-note">Tu as senti ça dans la <em>poitrine</em> — c'est là que siège le <strong>qalb</strong> (cœur spirituel) selon la tradition. Allāh dit dans le Coran que <em>« ce ne sont pas les yeux qui sont aveugles, mais bien les cœurs dans les poitrines »</em> (Sourate Al-Ḥajj, v. 46 — sens). Quand tu poseras ta main là, tu poseras ta main sur ton qalb.</span>`;
+  }
+  guidance.innerHTML = `
+    Tu ressens ça dans : <strong>${zoneNames}</strong>.<br><br>
+    C'est normal — chaque émotion s'installe quelque part dans le corps. Maintenant fais une chose simple :
+    <strong>pose ta main sur la zone la plus tendue</strong>, et <em>respire vers elle</em>, comme si ton souffle pouvait l'atteindre.
+    ${qalbNote}
+  `;
+  guidance.classList.add('visible');
+}
+
+// ============================================================
+//  TCC ISLAMIQUE
+// ============================================================
+function loadTCC() {
+  if (!selectedState) return;
+  const data = STATES[selectedState];
+  const grid = document.getElementById('tccGrid');
+  const cards = [
+    { key: "pensee",      icon: "◌", title: "La pensée",      arab: "al-fikr",   pattern: data.tcc.pensee.pattern,      reframe: data.tcc.pensee.reframe },
+    { key: "emotion",     icon: "♡", title: "L'émotion",      arab: "al-‘āṭifa", pattern: `Tu ressens : <em>${data.label.toLowerCase()}</em>.`, reframe: `<strong>Le Prophète ﷺ a pleuré</strong>, a été triste, a eu peur. Les émotions ne sont pas <em>haram</em> — ce sont des signaux. Ce qui compte, c'est ce que tu en fais.` },
+    { key: "perception",  icon: "◉", title: "La perception",  arab: "al-idrāk",  pattern: data.tcc.perception.pattern,  reframe: data.tcc.perception.reframe },
+    { key: "comportement",icon: "✦", title: "Le comportement",arab: "as-sulūk",  pattern: data.tcc.comportement.pattern, reframe: data.tcc.comportement.reframe }
+  ];
+  grid.innerHTML = cards.map(c => `
+    <div class="tcc-card" data-key="${c.key}" onclick="toggleTCC(this)">
+      <div class="tcc-card-head">
+        <span class="tcc-card-icon">${c.icon}</span>
+        <span class="tcc-card-title">${c.title}<span class="tcc-card-arab">— ${c.arab}</span></span>
+      </div>
+      <div class="tcc-card-pattern">${c.pattern}</div>
+      <div class="tcc-toggle-hint">Voir un autre angle</div>
+      <div class="tcc-card-reframe">
+        <div class="tcc-reframe-inner">${c.reframe}</div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('tccCycleNote').innerHTML = `
+    Note : si tu changes <strong>la perception</strong>, ta <em>pensée</em> change. Ta <em>pensée</em> change, ton <em>émotion</em> s'apaise. Ton émotion s'apaise, ton <em>comportement</em> devient libre. C'est ainsi qu'Allāh a fait la nafs.
+  `;
+}
+
+function toggleTCC(el) {
+  el.classList.toggle('expanded');
+}
+
+// ============================================================
+//  NAVIGATION
+// ============================================================
+function next() {
+  if (currentStep === 1 && !selectedState) return;
+  if (currentStep === 4) stopBreath();
+  currentStep = Math.min(currentStep + 1, TOTAL_STEPS - 1);
+  showStep();
+}
+function prev() {
+  if (currentStep === 4) stopBreath();
+  currentStep = Math.max(currentStep - 1, 0);
+  showStep();
+}
+function showStep() {
+  document.querySelectorAll('.step').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.step) === currentStep);
+  });
+  updateProgress();
+  if (currentStep === 4) loadBreath();
+  if (currentStep === 5) loadTCC();
+  if (currentStep === 6) loadProphetic();
+  if (currentStep === 7) loadNom();
+  if (currentStep === 8) loadActions();
+  if (currentStep === 9) {
+    const before = parseInt(document.getElementById('intensity').value);
+    document.getElementById('intensityAfter').value = before;
+    document.getElementById('intensityAfterValue').textContent = `${before} / 10`;
+    updateComparison();
+    buildSummary();
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function updateProgress() {
+  document.querySelectorAll('#progress span').forEach((s, i) => {
+    s.classList.toggle('active', i === currentStep);
+    s.classList.toggle('done', i < currentStep);
+  });
+}
+
+// ============================================================
+//  CONTENUS DYNAMIQUES
+// ============================================================
+function loadBreath() {
+  if (!selectedState) return;
+  const data = STATES[selectedState];
+  document.getElementById('breathIntro').innerHTML = data.breathIntro;
+  document.getElementById('breathText').textContent = 'Prêt(e) ?';
+  document.getElementById('breathCounter').innerHTML = '&nbsp;';
+  document.getElementById('breathCircle').classList.remove('inspire', 'expire');
+  document.querySelectorAll('.breath-ring').forEach(r => r.classList.remove('pulse'));
+  document.getElementById('breathBtn').innerHTML = '<span>Commencer</span>';
+}
+function loadProphetic() {
+  if (!selectedState) return;
+  const p = STATES[selectedState].prophetic;
+  document.getElementById('propheticContent').innerHTML = `
+    <div class="hadith-box">
+      <div class="tag">${p.type}</div>
+      <div class="arabic">${p.arabic}</div>
+      <div class="translit">${p.translit}</div>
+      <p style="margin-top: 12px; font-style: italic; color: var(--anthracite);">${p.sens}</p>
+      <div class="source-note"><strong>Source</strong><br>${p.source}</div>
+    </div>
+  `;
+}
+function loadNom() {
+  if (!selectedState) return;
+  const n = STATES[selectedState].nom;
+  document.getElementById('nomContent').innerHTML = `
+    <div class="nom-box">
+      <div class="nom-arabe">${n.arabe}</div>
+      <div class="nom-translit">${n.translit}</div>
+      <div class="nom-sens">${n.sens}</div>
+    </div>
+    <div class="dua-box">
+      <div class="translit">${n.invocation}</div>
+      <div class="sens">${n.invocationSens}</div>
+    </div>
+    <div class="source-note"><strong>Source</strong><br>${n.source}</div>
+  `;
+}
+function loadActions() {
+  if (!selectedState) return;
+  const actions = STATES[selectedState].actions;
+  document.getElementById('actionContent').innerHTML = `
+    <div class="action-card">
+      <h3>Trois portes</h3>
+      <ul class="action-list">
+        ${actions.map((a, i) => `<li data-i="${i}" onclick="chooseAction(this)">${a}</li>`).join('')}
+      </ul>
+    </div>
+  `;
+}
+function chooseAction(el) {
+  el.parentElement.querySelectorAll('li').forEach(li => li.classList.remove('chosen'));
+  el.classList.add('chosen');
+  selectedAction = el.textContent.trim();
+}
+function updateComparison() {
+  const before = parseInt(document.getElementById('intensity').value);
+  const after = parseInt(document.getElementById('intensityAfter').value);
+  const diff = before - after;
+  const el = document.getElementById('comparison');
+  if (diff > 0) {
+    el.innerHTML = `Tu es passé(e) de <strong>${before}</strong> à <strong>${after}</strong>. Une baisse de <strong>${diff} points</strong>. C'est ça, prendre soin de soi.`;
+  } else if (diff === 0) {
+    el.innerHTML = `Tu es à <strong>${after}</strong>. Le fait d'avoir pris ce temps est déjà un acte courageux.`;
+  } else {
+    el.innerHTML = `Tu es passé(e) de <strong>${before}</strong> à <strong>${after}</strong>. Parfois, nommer fait monter avant de descendre. Sois doux/douce avec toi.`;
+  }
+}
+
+function buildSummary() {
+  const state = STATES[selectedState];
+  const before = document.getElementById('intensity').value;
+  const after = document.getElementById('intensityAfter').value;
+  const zones = BODY_ZONES.filter(z => selectedBodyZones.has(z.id)).map(z => z.name).join(', ') || 'non renseignées';
+  document.getElementById('summaryCard').innerHTML = `
+    <h3>Ce que tu as exploré aujourd'hui</h3>
+    <div class="summary-line"><span class="lab">Émotion</span><span class="val">${state.label}</span></div>
+    <div class="summary-line"><span class="lab">Intensité avant → après</span><span class="val">${before} → ${after}</span></div>
+    <div class="summary-line"><span class="lab">Zones du corps</span><span class="val">${zones}</span></div>
+    <div class="summary-line"><span class="lab">Nom d'Allāh invoqué</span><span class="val">${state.nom.translit}</span></div>
+    <div class="summary-line"><span class="lab">Petit pas choisi</span><span class="val" style="text-align: right; max-width: 60%;">${selectedAction ? selectedAction.replace(/<[^>]+>/g, '').substring(0, 60) + '…' : '— à choisir'}</span></div>
+  `;
+}
+
+// ============================================================
+//  RESPIRATION
+// ============================================================
+function toggleBreath() {
+  if (breathRunning) stopBreath();
+  else startBreath();
+}
+function startBreath() {
+  if (!selectedState) return;
+  const data = STATES[selectedState];
+  breathRunning = true;
+  document.getElementById('breathBtn').innerHTML = '<span>Pause</span>';
+  document.querySelectorAll('.breath-ring').forEach(r => r.classList.add('pulse'));
+  let cycle = 0;
+  const totalCycles = data.cycles;
+  const runCycle = () => {
+    if (!breathRunning || cycle >= totalCycles) { finishBreath(); return; }
+    cycle++;
+    const circle = document.getElementById('breathCircle');
+    const text = document.getElementById('breathText');
+    const counter = document.getElementById('breathCounter');
+    circle.classList.remove('expire'); circle.classList.add('inspire');
+    circle.style.transitionDuration = data.inhale + 's';
+    text.textContent = data.inhaleText;
+    counter.innerHTML = `Inspire · ${data.inhale}s &nbsp;·&nbsp; cycle ${cycle} / ${totalCycles}`;
+    breathTimer = setTimeout(() => {
+      if (!breathRunning) return;
+      circle.classList.remove('inspire'); circle.classList.add('expire');
+      circle.style.transitionDuration = data.exhale + 's';
+      text.textContent = data.exhaleText;
+      counter.innerHTML = `Expire · ${data.exhale}s &nbsp;·&nbsp; cycle ${cycle} / ${totalCycles}`;
+      breathTimer = setTimeout(runCycle, data.exhale * 1000);
+    }, data.inhale * 1000);
+  };
+  runCycle();
+}
+function stopBreath() {
+  breathRunning = false;
+  if (breathTimer) clearTimeout(breathTimer);
+  document.querySelectorAll('.breath-ring').forEach(r => r.classList.remove('pulse'));
+  document.getElementById('breathBtn').innerHTML = '<span>Reprendre</span>';
+  document.getElementById('breathCircle').classList.remove('inspire', 'expire');
+}
+function finishBreath() {
+  breathRunning = false;
+  if (breathTimer) clearTimeout(breathTimer);
+  document.querySelectorAll('.breath-ring').forEach(r => r.classList.remove('pulse'));
+  document.getElementById('breathText').textContent = 'Voilà.';
+  document.getElementById('breathCounter').textContent = 'Le souffle est revenu.';
+  document.getElementById('breathBtn').innerHTML = '<span>Recommencer</span>';
+  document.getElementById('breathCircle').classList.remove('inspire', 'expire');
+}
+
+// ============================================================
+//  MODAL URGENCE
+// ============================================================
+function openUrgence() { document.getElementById('urgenceModal').classList.add('show'); }
+function closeUrgence() { document.getElementById('urgenceModal').classList.remove('show'); }
+
+// ============================================================
+//  RESTART
+// ============================================================
+function restart() {
+  currentStep = 0;
+  selectedState = null;
+  selectedBodyZones.clear();
+  selectedAction = null;
+  document.querySelectorAll('.state-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.body-zone').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.body-zone-card').forEach(el => el.classList.remove('active'));
+  document.getElementById('bodyGuidance').classList.remove('visible');
+  document.getElementById('btnAfterState').disabled = true;
+  document.getElementById('intensity').value = 5;
+  document.getElementById('intensityValue').textContent = '5 / 10';
+  document.getElementById('intensityAfter').value = 5;
+  document.getElementById('intensityAfterValue').textContent = '5 / 10';
+  stopBreath();
+  showStep();
+}
+
+init();
+</script>
+
+</body>
+</html>
