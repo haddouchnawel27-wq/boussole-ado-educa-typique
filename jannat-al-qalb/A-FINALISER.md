@@ -1,4 +1,4 @@
-# 🌿 Jannat Al Qalb — état d'avancement
+# 🌿 Jannat al Qulûb — état d'avancement
 
 _Mis à jour le 16/06/2026._
 

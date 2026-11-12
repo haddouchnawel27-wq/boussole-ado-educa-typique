@@ -1,0 +1,183 @@
+<title>Le coin du soir — Educa Typique</title>
+<style>
+  :root{
+    --et-teal:#3C6478; --et-magenta:#F050C8; --et-sky:#B4F0F0; --et-lavender:#C8A0F0;
+    --et-mint:#B4F0C8; --et-yellow:#F0F078; --et-charcoal:#4A4540; --et-taupe:#7D7269;
+    --et-beige:#F0E4D3; --et-offwhite:#FAF7F2;
+    --gold:#C3873C;
+    --bg:#FAF7F2; --surface:#FFFFFF; --soft:#F1ECF7; --border:#E7DEF3;
+    --ink:#4A4540; --muted:#7D7269;
+    --round:"Segoe UI Rounded","Trebuchet MS",Verdana,system-ui,sans-serif;
+    --body:"Lato","Open Sans","Segoe UI",system-ui,sans-serif;
+    --arab:"Amiri","Traditional Arabic",serif;
+    --shadow:0 16px 38px -22px rgba(60,100,120,.5);
+  }
+  :root[data-theme="dark"]{
+    --bg:#20242B; --surface:#2A2F38; --soft:#2f2a3a; --border:rgba(200,160,240,.28);
+    --ink:#EFEAF5; --muted:#B3AEC0; --et-teal:#8FC7DA;
+    --shadow:0 18px 44px -20px rgba(0,0,0,.6);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55;
+    -webkit-font-smoothing:antialiased;min-height:100vh;
+    background-image:
+      radial-gradient(680px 420px at 10% -6%, rgba(200,160,240,.28), transparent 60%),
+      radial-gradient(720px 440px at 92% 0%, rgba(180,240,240,.26), transparent 60%),
+      radial-gradient(900px 800px at 50% 122%, rgba(180,240,200,.22), transparent 62%),
+      radial-gradient(600px 460px at 78% 96%, rgba(240,240,120,.10), transparent 66%);
+    background-attachment:fixed;background-repeat:no-repeat}
+  :root[data-theme="dark"] body{background-image:
+      radial-gradient(680px 420px at 10% -6%, rgba(200,160,240,.16), transparent 60%),
+      radial-gradient(720px 440px at 92% 0%, rgba(60,100,120,.28), transparent 60%),
+      radial-gradient(900px 800px at 50% 122%, rgba(40,50,45,.5), transparent 62%)}
+  button{font-family:inherit;cursor:pointer}
+  .wrap{max-width:820px;margin:0 auto;padding:clamp(20px,4vw,40px)}
+
+  .top{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:6px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand .logo{width:44px;height:44px;border-radius:13px;background:var(--et-teal);flex:none;position:relative}
+  .brand .logo svg{position:absolute;inset:0;margin:auto;width:34px;height:34px}
+  .brand .t{font-family:var(--round);font-weight:800;font-size:19px;color:var(--et-teal);letter-spacing:-.01em}
+  :root[data-theme="dark"] .brand .t{color:var(--et-teal)}
+  .brand .s{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .controls{display:flex;gap:10px;align-items:center}
+  .mode{display:inline-flex;background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:4px;position:relative;font-family:var(--round)}
+  .mode button{position:relative;z-index:2;border:0;background:transparent;font-size:13.5px;font-weight:600;padding:6px 14px;border-radius:999px;color:var(--muted);transition:color .25s}
+  .mode .knob{position:absolute;z-index:1;top:4px;bottom:4px;border-radius:999px;background:linear-gradient(135deg,var(--et-lavender),#a97fe0);transition:left .3s cubic-bezier(.5,.05,.2,1),width .3s}
+  [data-mode="universel"] .mode .u,[data-mode="islamique"] .mode .i{color:#fff}
+  .icobtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--muted);display:grid;place-items:center;font-size:15px}
+
+  .hero{text-align:center;padding:clamp(18px,4vw,34px) 0 10px}
+  .kick{font-family:var(--round);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:12px;color:var(--et-lavender)}
+  .hero h1{font-family:var(--round);font-weight:800;font-size:clamp(30px,6vw,46px);margin:.2em 0 .12em;color:var(--et-teal);letter-spacing:-.02em}
+  :root[data-theme="dark"] .hero h1{color:#bfe6f0}
+  .hero p{color:var(--muted);max-width:48ch;margin:0 auto;font-size:15.5px}
+
+  .ages{display:flex;gap:8px;justify-content:center;margin:20px 0 6px;flex-wrap:wrap}
+  .age{font-family:var(--round);font-weight:700;border:1px solid var(--border);background:var(--surface);color:var(--muted);
+    border-radius:999px;padding:8px 18px;font-size:14px;transition:.15s}
+  .age.on{background:var(--et-teal);color:#fff;border-color:var(--et-teal)}
+  .age small{display:block;font-size:10.5px;font-weight:600;opacity:.8;text-transform:uppercase;letter-spacing:.05em}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-top:4px solid var(--et-lavender);
+    border-radius:22px;box-shadow:var(--shadow);padding:clamp(20px,3vw,30px);margin-top:16px}
+  .card h2{font-family:var(--round);font-weight:800;font-size:22px;color:var(--et-teal);margin:0 0 3px;display:flex;align-items:center;gap:10px}
+  :root[data-theme="dark"] .card h2{color:#bfe6f0}
+  .card .intro{color:var(--muted);font-size:14.5px;margin-bottom:18px}
+
+  .step{display:flex;gap:15px;align-items:flex-start;padding:15px 0;border-bottom:1px dashed var(--border)}
+  .step:last-of-type{border-bottom:0}
+  .step .n{width:42px;height:42px;border-radius:14px;flex:none;display:grid;place-items:center;font-family:var(--round);font-weight:800;font-size:18px;color:#fff}
+  .s1 .n{background:var(--et-sky);color:#1f5563}.s2 .n{background:var(--et-mint);color:#1f6b45}.s3 .n{background:var(--et-lavender);color:#4a2e78}
+  .step h3{font-family:var(--round);font-weight:700;font-size:16.5px;margin:2px 0 3px}
+  .step p{margin:0;font-size:14px;color:var(--muted)}
+
+  .dua{background:linear-gradient(180deg,rgba(200,160,240,.12),transparent);border:1px solid var(--border);
+    border-radius:16px;padding:18px 20px;margin-top:16px;text-align:center}
+  .dua .lbl{font-family:var(--round);font-weight:700;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--et-lavender);margin-bottom:9px;display:flex;align-items:center;gap:7px;justify-content:center}
+  .dua .ar{font-family:var(--arab);direction:rtl;font-size:26px;color:var(--et-teal);margin:2px 0 4px}
+  :root[data-theme="dark"] .dua .ar{color:#bfe6f0}
+  .dua .ph{font-style:italic;color:var(--et-taupe);font-size:14.5px}
+  :root[data-theme="dark"] .dua .ph{color:#cfc6dd}
+  .dua .fr{font-size:14px;margin-top:4px}
+  details.src{margin-top:8px;font-size:12px;color:var(--muted)}
+  details.src summary{cursor:pointer;color:var(--et-lavender);font-weight:700;list-style:none}
+  details.src summary::-webkit-details-marker{display:none}
+  details.src summary::before{content:"▸ voir la source"}
+  details.src summary{font-size:0}details.src summary::before{font-size:12px}
+  details.src[open] summary::before{content:"▾ source"}
+
+  .foot{margin-top:22px;display:flex;gap:11px;background:rgba(60,100,120,.07);border:1px solid var(--border);border-radius:14px;padding:13px 16px;font-size:12.5px;color:var(--muted)}
+  .foot svg{flex:none;width:18px;height:18px;color:var(--et-teal);margin-top:1px}
+  .note{margin-top:22px;text-align:center;font-size:12px;color:var(--muted);opacity:.85}
+
+  .u-only{display:none}[data-mode="universel"] .u-only{display:revert}
+  [data-mode="universel"] .i-only{display:none}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap" id="app" data-mode="universel">
+  <header class="top">
+    <div class="brand">
+      <span class="logo"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M12 30a20 13 0 0 1 16 0Z" fill="#2c4d5e"/><path d="M20 16v14" stroke="var(--et-mint)" stroke-width="4" stroke-linecap="round"/><path d="M20 24c-6-2-10 1-12 6 6 2 10-1 12-6Z" fill="var(--et-mint)"/><circle cx="20" cy="13" r="6" fill="var(--et-magenta)"/></svg></span>
+      <div><div class="t">Educa Typique</div><div class="s">Le Jardin des graines · Hub Enfants</div></div>
+    </div>
+    <div class="controls">
+      <div class="mode" role="group" aria-label="Mode">
+        <span class="knob" id="knob"></span>
+        <button class="u" data-mode-set="universel">Universel</button>
+        <button class="i" data-mode-set="islamique">Islamique</button>
+      </div>
+      <button class="icobtn" id="theme" aria-label="Clair / sombre">◐</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kick">Le coin du soir</div>
+    <h1>Un endormissement tout doux 🌙</h1>
+    <p>Un petit rituel pour aider ton enfant à ranger sa journée et glisser vers le sommeil, en douceur.</p>
+  </section>
+
+  <div class="ages" role="group" aria-label="Âge de l'enfant">
+    <button class="age on" data-age="3" onclick="setAge('3')">3 ans<small>tout-petit</small></button>
+    <button class="age" data-age="5" onclick="setAge('5')">5 ans<small>maternelle</small></button>
+    <button class="age" data-age="12" onclick="setAge('12')">12 ans<small>pré-ado</small></button>
+  </div>
+
+  <div class="card">
+    <h2>🌙 Le rituel du soir <span id="age-badge" style="font-family:var(--body);font-weight:400;font-size:13px;color:var(--muted)"></span></h2>
+    <p class="intro" id="intro"></p>
+
+    <div class="step s1"><span class="n">1</span><div><h3>Ranger la journée</h3><p id="st1"></p></div></div>
+    <div class="step s2"><span class="n">2</span><div><h3>La respiration du hibou</h3><p id="st2"></p></div></div>
+    <div class="step s3"><span class="n">3</span><div><h3>La lumière douce</h3><p id="st3"></p></div></div>
+
+    <div class="dua i-only">
+      <div class="lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:16px;height:16px"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg> L'invocation du coucher</div>
+      <div class="ar">بِاسْمِكَ اللَّٰهُمَّ أَمُوتُ وَأَحْيَا</div>
+      <div class="ph">Bismika Allāhumma amūtu wa aḥyā</div>
+      <div class="fr">« C'est en Ton nom, ô Allāh, que je meurs et que je vis. »</div>
+      <details class="src"><summary></summary>Sunna — rapporté par al-Bukhārī <span style="color:var(--gold);font-weight:700">· à valider par Nawel</span></details>
+    </div>
+
+    <div class="foot">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+      <span>Un rituel de bien-être, pas un traitement. Si le sommeil reste très difficile, parles-en à ton médecin ou pédiatre.</span>
+    </div>
+  </div>
+
+  <p class="note">Même douceur lumineuse que le jardin de Jannat al Qulûb — ici en version Educa, plus ludique. Essaie le toggle <b>Universel / Islamique</b> et change l'âge de l'enfant.</p>
+</div>
+
+<script>
+  var content={
+    "3":{intro:"Pour les tout-petits : des gestes courts, répétés chaque soir — la répétition rassure.",
+      st1:"Nomme avec lui 1 chose jolie de sa journée, puis range son doudou « qui va dormir aussi ».",
+      st2:"Souffle lentement comme un petit hibou : on gonfle le ventre, on souffle « houuu » 3 fois.",
+      st3:"On baisse la lumière ensemble : « la maison se met en mode nuit »."},
+    "5":{intro:"À la maternelle : l'enfant participe et choisit — il aime « faire tout seul ».",
+      st1:"Il raconte le meilleur moment ET un moment moins facile de sa journée.",
+      st2:"La respiration du hibou : 4 souffles lents, la main sur le ventre qui monte et descend.",
+      st3:"Il choisit sa veilleuse et éteint le plafond : c'est lui le « gardien de la nuit »."},
+    "12":{intro:"Pré-ado : plus d'autonomie, moins d'écrans le soir — on pose le cadre avec lui.",
+      st1:"Il note (tête ou carnet) 3 choses de sa journée : une réussie, une dure, une gratitude.",
+      st2:"Cohérence cardiaque douce : 5 respirations lentes, sans téléphone dans la chambre.",
+      st3:"Lumière tamisée + écran posé loin du lit au moins 30 min avant de dormir."}
+  };
+  var age="3";
+  function setAge(a){age=a;document.querySelectorAll(".age").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-age")===a);});render();}
+  function render(){
+    var c=content[age];
+    document.getElementById("intro").textContent=c.intro;
+    document.getElementById("st1").textContent=c.st1;
+    document.getElementById("st2").textContent=c.st2;
+    document.getElementById("st3").textContent=c.st3;
+    document.getElementById("age-badge").textContent="· adapté "+age+" ans";
+  }
+  var app=document.getElementById("app"),knob=document.getElementById("knob");
+  function place(){var m=app.getAttribute("data-mode");var el=document.querySelector(".mode ."+(m==="universel"?"u":"i"));knob.style.left=el.offsetLeft+"px";knob.style.width=el.offsetWidth+"px";}
+  document.querySelectorAll("[data-mode-set]").forEach(function(b){b.addEventListener("click",function(){app.setAttribute("data-mode",b.getAttribute("data-mode-set"));place();});});
+  document.getElementById("theme").addEventListener("click",function(){var c=document.documentElement.getAttribute("data-theme");var n=c==="dark"?"light":(c==="light"?"dark":(matchMedia("(prefers-color-scheme:dark)").matches?"light":"dark"));document.documentElement.setAttribute("data-theme",n);});
+  window.addEventListener("resize",place);
+  render();place();
+</script>

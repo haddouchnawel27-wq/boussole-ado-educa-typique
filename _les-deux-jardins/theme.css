@@ -1,0 +1,74 @@
+/* Les Deux Jardins — thème v1 (palette calibrée par Cowork, 7 juil 2026)
+   Règles d'or :
+   1. Fond de page = crème/blanc cassé, jamais blanc pur ni couleur saturée plein écran.
+   2. Doré (#C3873C) et sarcelle (#3C6478) = accents, jamais fonds de page.
+   3. Max 2–3 couleurs d'accent par écran ; le reste = neutres.
+   4. Texte = anthracite/charbon (#43463F / #4A4540), jamais #000.
+   5. Beaucoup d'air, coins arrondis 12–20px, ombres douces.
+   6. Accents Educa vifs mais posés sur fond clair (pas de pastel dilué).
+   Texte blanc UNIQUEMENT sur le sarcelle. */
+
+:root {
+  /* ---- SHELL commun ---- */
+  --bg:            #FBF7EF;  /* crème lin — fond de page */
+  --surface:       #FFFFFF;  /* cartes */
+  --surface-soft:  #F4EFE4;  /* zones de respiration */
+  --border:        #E7D8B8;  /* filets dorés très clairs */
+  --text:          #43463F;  /* texte principal */
+  --text-soft:     #7D7269;  /* texte secondaire */
+  --gold:          #C3873C;  /* accent signature */
+  --gold-dark:     #B4782D;
+  --gold-light:    #D4A050;
+
+  /* ---- Jardin du cœur — Jannat al Qulûb (adulte / pro) ---- */
+  --jq-green-deep: #3E4A38;
+  --jq-sage:       #7C8B6C;
+  --jq-tender:     #D9E4CB;
+  --jq-rose:       #C48B93;
+  --jq-cream:      #FBF7EF;
+
+  /* ---- Jardin des graines — Educa Typique (parents/enfants/ados) ---- */
+  --et-teal:       #3C6478;  /* signature, omniprésent en accent */
+  --et-magenta:    #F050C8;
+  --et-sky:        #B4F0F0;
+  --et-lavender:   #C8A0F0;
+  --et-mint:       #B4F0C8;
+  --et-yellow:     #F0F078;
+  --et-beige:      #F0E4D3;
+  --et-offwhite:   #FAF7F2;
+}
+
+/* ---------- Composants de référence ---------- */
+
+/* Bouton principal (Jardin du cœur) */
+.btn-gold {
+  background: linear-gradient(135deg,#D4A050,#C3873C,#B4782D);
+  color:#FBF7EF; border:none; border-radius:14px;
+  padding:12px 22px; font-family:Lato,Arial,sans-serif; letter-spacing:.3px;
+  box-shadow:0 4px 14px rgba(195,135,60,.22);
+}
+.btn-gold:hover { filter:brightness(1.05); }
+
+/* Bouton principal (Jardin des graines) */
+.btn-teal {
+  background:#3C6478; color:#FAF7F2; border-radius:16px; padding:12px 22px;
+  font-family:Quicksand,Nunito,sans-serif; font-weight:600;
+}
+
+/* Carte douce */
+.card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:18px; padding:22px 24px; box-shadow:0 6px 20px rgba(0,0,0,.04);
+}
+.card--jq { border-left:4px solid var(--jq-sage); }
+.card--et { border-top:4px solid var(--et-teal); }
+
+/* Étiquette thématique (Educa) */
+.tag { border-radius:999px; padding:4px 12px; font-size:13px; font-weight:600; color:#3C6478; }
+.tag.mint{background:#B4F0C8}.tag.sky{background:#B4F0F0}.tag.yellow{background:#F0F078}
+.tag.lav{background:#C8A0F0}.tag.rose{background:#F0E1E1}
+
+/* Associations recommandées (Educa = 1 accent dominant + neutres) :
+   Émotions/motivation → teal + magenta · Apprentissage → teal + yellow
+   Sommeil/ado → teal + lavender · Progrès/nature → teal + mint · Apaisement → teal + sky
+   Jardin du cœur : fond crème + titres green-deep + accents gold + touche rose. */

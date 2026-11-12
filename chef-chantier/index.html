@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Chef de Chantier — appli d'entraînement pour futurs pros des engins. 100% privée : tout reste sur ton téléphone.">
+<meta name="theme-color" content="#1d1f24">
+<title>CHEF DE CHANTIER 🚜</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9A%9C%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lato:wght@400;700;900&display=swap');
+  :root{--noir:#1d1f24;--acier:#2b2e36;--jaune:#f5c518;--orange:#e8752a;--blanc:#f4f2ee;--vert:#4caf7d;--rouge:#e05252;--gris:#8b8f99;}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{background:var(--noir);color:var(--blanc);font-family:'Lato',Arial,sans-serif;min-height:100vh;font-size:16px;}
+  .wrap{max-width:520px;margin:0 auto;padding:14px 14px 96px;}
+  /* bandes chantier */
+  .hazard{height:10px;background:repeating-linear-gradient(45deg,var(--jaune) 0 14px,var(--noir) 14px 28px);border-radius:3px;}
+  .hazard.red{background:repeating-linear-gradient(45deg,var(--rouge) 0 14px,var(--noir) 14px 28px);}
+  header{padding:14px 4px 10px;display:flex;justify-content:space-between;align-items:center;}
+  header h1{font-family:'Quicksand',sans-serif;font-size:20px;letter-spacing:1px;color:var(--jaune);}
+  .badge{background:var(--acier);border:1.5px solid var(--jaune);color:var(--jaune);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;}
+  .card{background:var(--acier);border-radius:14px;padding:16px;margin:10px 0;border:1px solid #3a3e48;}
+  .card h2{font-family:'Quicksand',sans-serif;font-size:16px;color:var(--jaune);margin-bottom:6px;}
+  .card p{color:#c9cbd1;font-size:14px;line-height:1.5;}
+  .card.alerte{border-color:var(--rouge);}
+  .card.alerte h2{color:var(--rouge);}
+  .btn{display:block;width:100%;background:var(--jaune);color:var(--noir);border:none;border-radius:12px;padding:14px;font-family:'Quicksand',sans-serif;font-weight:700;font-size:16px;cursor:pointer;margin:8px 0;text-align:center;}
+  .btn.sec{background:var(--acier);color:var(--blanc);border:1.5px solid var(--gris);}
+  .btn.orange{background:var(--orange);color:#fff;}
+  .btn.rouge{background:var(--rouge);color:#fff;}
+  .btn.vert{background:var(--vert);color:#fff;}
+  .btn:active{transform:scale(.98);}
+  a.btn{text-decoration:none;}
+  .row{display:flex;gap:8px;}
+  .row .btn{flex:1;}
+  .hidden{display:none!important;}
+  /* nav bas */
+  nav{position:fixed;bottom:0;left:0;right:0;background:var(--acier);border-top:2px solid var(--jaune);display:flex;max-width:520px;margin:0 auto;z-index:50;}
+  nav button{flex:1;background:none;border:none;color:var(--gris);padding:10px 2px 12px;font-size:10px;cursor:pointer;font-family:'Lato',Arial,sans-serif;}
+  nav button.on{color:var(--jaune);font-weight:700;}
+  nav button span{display:block;font-size:21px;margin-bottom:2px;}
+  /* bouton SOS flottant */
+  .sos-fab{position:fixed;right:12px;bottom:64px;z-index:60;width:54px;height:54px;border-radius:50%;background:var(--rouge);color:#fff;border:2px solid #fff3;font-size:24px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.5);}
+  /* bouton installer PWA */
+  .btn-install{position:fixed;left:50%;transform:translateX(-50%);bottom:78px;z-index:60;background:var(--jaune);color:var(--noir);border:none;border-radius:26px;padding:13px 22px;font-family:inherit;font-weight:900;font-size:15px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.45);}
+  .btn-install:active{transform:translateX(-50%) scale(.96);}
+  .ios-overlay{position:fixed;inset:0;z-index:120;background:rgba(10,12,15,.85);display:flex;align-items:center;justify-content:center;padding:20px;}
+  .ios-box{background:var(--acier);color:var(--blanc);border:2px solid var(--jaune);border-radius:18px;padding:24px;max-width:400px;}
+  .ios-box h3{color:var(--jaune);margin:0 0 12px;font-size:19px;}
+  .ios-box ol{margin:12px 0;padding-left:20px;}
+  .ios-box li{margin:9px 0;}
+  .ios-note{color:var(--gris);font-size:13.5px;margin-top:14px;}
+  .ios-box .btn-install{position:static;transform:none;width:100%;margin-top:14px;}
+  /* quiz */
+  .q-count{color:var(--gris);font-size:12px;text-align:center;margin:6px 0;}
+  .question{font-family:'Quicksand',sans-serif;font-size:19px;text-align:center;margin:16px 0 18px;line-height:1.35;}
+  .choice{background:var(--acier);border:2px solid #3a3e48;border-radius:14px;padding:16px;margin:8px 0;cursor:pointer;font-size:16px;display:flex;align-items:center;gap:12px;transition:border .15s;}
+  .choice:hover{border-color:var(--jaune);}
+  .choice .em{font-size:26px;}
+  /* jauge */
+  .jauge-wrap{display:flex;gap:6px;justify-content:center;margin:14px 0;flex-wrap:wrap;}
+  .jauge-btn{width:52px;height:52px;border-radius:50%;border:2px solid #3a3e48;background:var(--acier);color:var(--blanc);font-size:17px;font-weight:900;cursor:pointer;}
+  .jauge-btn.hot{border-color:var(--rouge);}
+  .jauge-btn.mid{border-color:var(--orange);}
+  .jauge-btn.cool{border-color:var(--vert);}
+  /* historique jauge */
+  .histo{display:flex;align-items:flex-end;gap:5px;height:90px;margin:10px 0 4px;justify-content:center;}
+  .histo .bar{flex:0 0 20px;max-width:24px;border-radius:4px 4px 0 0;background:var(--vert);display:flex;align-items:flex-start;justify-content:center;font-size:10px;font-weight:900;color:#0008;padding-top:2px;}
+  .histo .bar.mid{background:var(--orange);}
+  .histo .bar.hot{background:var(--rouge);color:#fff;}
+  .histo-lbl{display:flex;gap:5px;justify-content:center;font-size:9px;color:var(--gris);}
+  .histo-lbl span{flex:0 0 20px;max-width:24px;text-align:center;}
+  .streak{text-align:center;font-size:13px;color:var(--gris);margin-top:6px;}
+  .streak b{color:var(--jaune);}
+  /* garage */
+  .engins{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0;}
+  .engin{background:var(--noir);border:1.5px solid #3a3e48;border-radius:12px;padding:10px 4px;text-align:center;font-size:11px;color:var(--gris);}
+  .engin .ico{font-size:30px;display:block;margin-bottom:4px;filter:grayscale(1);opacity:.35;}
+  .engin.unlocked{border-color:var(--jaune);color:var(--blanc);}
+  .engin.unlocked .ico{filter:none;opacity:1;}
+  .xpbar{background:var(--noir);border-radius:10px;height:16px;overflow:hidden;border:1px solid #3a3e48;margin:8px 0;}
+  .xpfill{height:100%;background:linear-gradient(90deg,var(--orange),var(--jaune));width:0%;transition:width .5s;}
+  .grade{text-align:center;font-family:'Quicksand',sans-serif;color:var(--jaune);font-size:15px;margin:4px 0;}
+  /* fiche */
+  .fiche-item{display:flex;justify-content:space-between;gap:10px;background:var(--noir);border-radius:10px;padding:10px 14px;margin:6px 0;font-size:14px;}
+  .fiche-item b{color:var(--jaune);font-weight:700;text-align:right;}
+  .mission{background:var(--noir);border:1.5px solid #3a3e48;border-radius:12px;padding:12px 14px;margin:8px 0;display:flex;align-items:center;gap:10px;}
+  .mission.done{border-color:var(--vert);opacity:.75;}
+  .mission .em{font-size:24px;}
+  .mission .tx{flex:1;font-size:14px;}
+  .mission .tx small{color:var(--gris);display:block;font-size:11px;}
+  .mission button{background:var(--vert);border:none;color:#fff;border-radius:8px;padding:8px 12px;font-weight:700;cursor:pointer;}
+  /* checklist lycée */
+  .chk{background:var(--noir);border:1.5px solid #3a3e48;border-radius:12px;padding:12px 14px;margin:7px 0;display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;}
+  .chk .em{font-size:22px;}
+  .chk .box{margin-left:auto;width:26px;height:26px;border-radius:8px;border:2px solid var(--gris);display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 26px;}
+  .chk.done{border-color:var(--vert);}
+  .chk.done .box{border-color:var(--vert);background:var(--vert);color:#fff;}
+  .compteur{font-family:'Quicksand',sans-serif;font-size:34px;text-align:center;color:var(--jaune);margin:6px 0 2px;}
+  .compteur small{display:block;font-size:13px;color:var(--gris);font-family:'Lato',Arial,sans-serif;font-weight:400;}
+  input[type=date],input[type=number],input[type=text]{background:var(--noir);border:1.5px solid #3a3e48;border-radius:10px;color:var(--blanc);padding:11px 12px;font-size:15px;font-family:'Lato',Arial,sans-serif;width:100%;}
+  input:focus{outline:none;border-color:var(--jaune);}
+  label.lbl{display:block;font-size:12px;color:var(--gris);margin:8px 0 4px;}
+  /* paie */
+  .reservoir{background:var(--noir);border-radius:10px;height:22px;overflow:hidden;border:1px solid #3a3e48;margin:8px 0;}
+  .resfill{height:100%;background:linear-gradient(90deg,var(--vert),#7fd6a4);width:0%;transition:width .5s;}
+  .resfill.mid{background:linear-gradient(90deg,var(--orange),#f0a05e);}
+  .resfill.hot{background:linear-gradient(90deg,var(--rouge),#e88);}
+  .cat-chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0;}
+  .cat-chips button{background:var(--noir);border:1.5px solid #3a3e48;color:var(--blanc);border-radius:20px;padding:8px 12px;font-size:14px;cursor:pointer;}
+  .cat-chips button.on{border-color:var(--jaune);color:var(--jaune);font-weight:700;}
+  .dep{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--noir);border-radius:10px;padding:8px 12px;margin:5px 0;font-size:14px;}
+  .dep .sup{background:none;border:none;color:var(--gris);font-size:16px;cursor:pointer;padding:4px;}
+  .big-num{font-family:'Quicksand',sans-serif;font-size:26px;text-align:center;color:var(--blanc);}
+  /* respiration */
+  .souffle-zone{display:flex;flex-direction:column;align-items:center;padding:18px 0 8px;}
+  .cercle{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f7d354,var(--orange));transition:transform 4s ease-in-out;transform:scale(1);box-shadow:0 0 40px rgba(245,197,24,.25);}
+  .souffle-txt{font-family:'Quicksand',sans-serif;font-size:19px;color:var(--jaune);margin-top:56px;min-height:26px;}
+  .souffle-cycle{color:var(--gris);font-size:12px;margin-top:4px;}
+  .etape-num{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--jaune);color:var(--noir);font-weight:900;align-items:center;justify-content:center;font-size:14px;margin-right:8px;flex:0 0 26px;}
+  .timer-big{font-family:'Quicksand',sans-serif;font-size:44px;text-align:center;color:var(--blanc);letter-spacing:2px;margin:8px 0;}
+  .idee{background:var(--noir);border-radius:10px;padding:10px 14px;margin:6px 0;font-size:14px;display:flex;gap:10px;align-items:baseline;}
+  .idee small{color:var(--gris);flex:0 0 auto;}
+  .accueil-overlay{position:fixed;inset:0;background:rgba(15,16,20,.95);z-index:200;display:flex;align-items:center;justify-content:center;padding:18px;}
+  .accueil-overlay .card{max-width:440px;width:100%;border-color:var(--jaune);}
+  .toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:var(--jaune);color:var(--noir);font-weight:900;padding:12px 22px;border-radius:12px;z-index:99;box-shadow:0 8px 30px rgba(0,0,0,.5);display:none;font-family:'Quicksand',sans-serif;max-width:92vw;text-align:center;}
+  .disclaimer{color:#6b6f78;font-size:10px;text-align:center;margin-top:16px;line-height:1.5;}
+  /* facteur humain — comparatif ❌/✅ */
+  .vs{background:var(--noir);border-radius:10px;padding:9px 12px;margin:6px 0;font-size:13.5px;line-height:1.45;}
+  .vs .ko{color:var(--rouge);}
+  .vs .ok{color:var(--vert);margin-top:3px;}
+</style>
+</head>
+<body>
+<div class="accueil-overlay hidden" id="bienvenue">
+  <div class="card">
+    <div class="hazard"></div>
+    <h2 style="margin-top:12px;font-size:19px;">🚜 Salut, chef.</h2>
+    <p style="margin-top:8px;">Cette appli est en <b>version bêta</b>, et on cherche un vrai connaisseur d'engins pour la tester. C'est toi.<br><br>
+    Ici, <b>c'est TON chantier</b> : personne ne voit ce que tu fais, rien ne quitte ton téléphone, et c'est toi qui valides tes missions. Pas de notes, pas de contrôle, pas de piège.<br><br>
+    Ton job de bêta-testeur : explorer, prendre de l'XP, débloquer les engins… et surtout dire ce qui est nul, pour qu'on l'améliore.</p>
+    <button class="btn" onclick="entrer()">Entrer sur le chantier 🦺</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<button class="sos-fab" id="sosFab" onclick="show('scr-sos')" aria-label="Procédure zone rouge">🚨</button>
+<div class="wrap">
+  <div class="hazard"></div>
+  <header>
+    <h1>🚜 CHEF DE CHANTIER</h1>
+    <span class="badge" id="gradeBadge">Apprenti</span>
+  </header>
+
+  <!-- ═══ ÉCRAN GARAGE (accueil) ═══ -->
+  <section id="scr-garage">
+    <div class="card">
+      <div class="grade" id="gradeTxt">🔰 Apprenti — 0 XP</div>
+      <div class="xpbar"><div class="xpfill" id="xpfill"></div></div>
+      <p style="text-align:center;font-size:12px;color:var(--gris);">Chaque mission validée = de l'XP. Chaque niveau = un engin débloqué.</p>
+    </div>
+    <div class="card">
+      <h2>🏗️ Mon parc d'engins</h2>
+      <div class="engins" id="parc"></div>
+    </div>
+    <div class="card">
+      <h2>⚙️ Contrôle technique</h2>
+      <p>12 questions rapides pour établir ta fiche technique de conducteur. Tes réponses, ta machine. (+40 XP)</p>
+      <button class="btn" onclick="startQuiz()" id="btnQuiz">Démarrer le contrôle</button>
+      <a class="btn sec" href="sous-le-capot.html">🔧 Le grand contrôle « Sous le capot »</a>
+    </div>
+    <div class="card">
+      <h2>🌡️ Jauge de pression du jour</h2>
+      <p>Un vrai chef surveille sa jauge moteur. 10 secondes, chaque jour. (+10 XP le 1er relevé du jour)</p>
+      <button class="btn orange" onclick="show('scr-jauge')">Relever ma jauge</button>
+    </div>
+    <div class="card">
+      <h2>🆕 Mise à jour v2 — le bureau d'études a bossé</h2>
+      <p>
+        🔧 <b>« Sous le capot »</b> : le grand contrôle de la machine, en 7 postes<br>
+        🚨 <b>Procédure zone rouge</b> (bouton rouge, toujours à portée)<br>
+        🎒 <b>Chantier LYCÉE</b> : compte à rebours + checklist d'ouverture<br>
+        💰 <b>Paie de la semaine</b> : gère ton budget comme un chef<br>
+        📈 <b>Historique de jauge</b> + série de relevés<br>
+        🛠️ Boîte à idées bêta-testeur dans « Ma fiche »
+      </p>
+    </div>
+    <div class="card">
+      <h2>🆕 Nouveau poste — Le facteur humain 🤝</h2>
+      <p>L'équipe, après l'accident, le bon diagnostic. Les vraies compétences qui font un chef. <b>+100 XP à prendre.</b></p>
+      <button class="btn" onclick="show('scr-humain')">Ouvrir le poste « Humain »</button>
+    </div>
+    <p class="disclaimer">100 % privé : tout reste sur TON téléphone. Rien n'est envoyé nulle part.<br>Outil d'entraînement personnel — ne remplace aucun suivi médical ou psychologique.<br>Version BÊTA — ton avis d'expert compte : note ce qui est nul, on l'améliore.</p>
+  </section>
+
+  <!-- ═══ ÉCRAN QUIZ ═══ -->
+  <section id="scr-quiz" class="hidden">
+    <div class="q-count" id="qcount"></div>
+    <div class="question" id="qtext"></div>
+    <div id="qchoices"></div>
+  </section>
+
+  <!-- ═══ ÉCRAN JAUGE ═══ -->
+  <section id="scr-jauge" class="hidden">
+    <div class="card">
+      <h2>🌡️ Ta jauge moteur, là maintenant</h2>
+      <p>0 = moteur froid, tranquille · 10 = surchauffe totale</p>
+      <div class="jauge-wrap" id="jaugeBtns"></div>
+    </div>
+    <div class="card hidden" id="jaugeSuite">
+      <h2>Qu'est-ce qui a fait chauffer ?</h2>
+      <div id="jaugeCauses"></div>
+    </div>
+    <div class="card" id="jaugeHisto">
+      <h2>📈 Carnet d'entretien moteur</h2>
+      <p style="font-size:12px;">Tes derniers relevés. Un pro repère les jours où ça chauffe — et ce qui revient souvent.</p>
+      <div id="histoZone"></div>
+    </div>
+  </section>
+
+  <!-- ═══ ÉCRAN SOS / ZONE ROUGE ═══ -->
+  <section id="scr-sos" class="hidden">
+    <div class="hazard red"></div>
+    <div class="card alerte" style="margin-top:12px;">
+      <h2>🚨 Procédure zone rouge</h2>
+      <p>Sur un chantier, quand une machine surchauffe, on ne la force pas : on applique la procédure. 3 étapes, dans l'ordre. C'est un réflexe de pro, pas une fuite.</p>
+    </div>
+    <div class="card">
+      <h2><span class="etape-num">1</span>📻 Annonce radio</h2>
+      <p>Tu préviens, court et clair — comme à la radio de chantier :</p>
+      <div class="fiche-item"><span>Code 3</span><b>« Là je chauffe. Je sors 10 min, on en reparle. »</b></div>
+    </div>
+    <div class="card">
+      <h2><span class="etape-num">2</span>🚪 Sortie-soupape</h2>
+      <p>Tu sors, tu prends l'air, tu bouges. <b>Compte 10 pour démarrer</b> — et retiens ça de pro : une vague de pression met <b>environ 90 secondes</b> à retomber quand on ne la relance pas. Tiens 2 minutes dehors, t'as gagné. Le moteur redescend tout seul quand on coupe les gaz.</p>
+      <div class="timer-big hidden" id="sosTimer">10:00</div>
+      <button class="btn orange" id="btnSortie" onclick="toggleSortie()">Lancer les 10 minutes</button>
+    </div>
+    <div class="card">
+      <h2><span class="etape-num">3</span>💨 Purge du circuit</h2>
+      <p>5 respirations de décompression. Tu suis le piston : il monte, tu inspires — il descend, tu souffles.</p>
+      <div class="souffle-zone hidden" id="souffleZone">
+        <div class="cercle" id="cercle"></div>
+        <div class="souffle-txt" id="souffleTxt"></div>
+        <div class="souffle-cycle" id="souffleCycle"></div>
+      </div>
+      <button class="btn orange" id="btnSouffle" onclick="startSouffle()">Lancer la purge</button>
+    </div>
+    <button class="btn vert" onclick="finirSOS()">✅ Procédure terminée — moteur refroidi</button>
+    <button class="btn sec" onclick="show('scr-garage')">Retour au garage</button>
+  </section>
+
+  <!-- ═══ ÉCRAN MISSIONS ═══ -->
+  <section id="scr-missions" class="hidden">
+    <div class="card">
+      <h2>🎯 Missions de chantier</h2>
+      <p>Des vrais défis de pro. Tu valides quand c'est fait — c'est toi le chef, personne ne vérifie.</p>
+    </div>
+    <div id="missionList"></div>
+  </section>
+
+  <!-- ═══ ÉCRAN LYCÉE ═══ -->
+  <section id="scr-lycee" class="hidden">
+    <div class="card">
+      <h2>🎒 Ouverture du chantier LYCÉE</h2>
+      <div class="compteur" id="lyceeCompteur">J-?<small>avant l'ouverture du chantier</small></div>
+      <label class="lbl">Date de la rentrée :</label>
+      <input type="date" id="lyceeDate" onchange="setLyceeDate(this.value)">
+    </div>
+    <div class="card">
+      <h2>📋 Checklist d'ouverture de chantier</h2>
+      <p style="font-size:12px;">Aucun chef n'ouvre un chantier sans sa checklist. Chaque case cochée = +5 XP. Tout coché = mission validée (+40 XP).</p>
+      <div id="chkList"></div>
+    </div>
+    <div class="card">
+      <h2>🗺️ Plan zone rouge au lycée</h2>
+      <p>La sortie-soupape, au lycée, ça se <b>négocie AVANT la première surchauffe</b> — pas pendant. Avec le prof principal ou le CPE, à froid : « Quand je sens que je chauffe, je préfère sortir 5 minutes plutôt que de péter un câble. On peut convenir d'un signal ? »<br><br>Les pros appellent ça un <b>plan de prévention</b>. Ceux qui l'ont, gèrent. Ceux qui l'ont pas, subissent.</p>
+    </div>
+    <div class="card">
+      <h2>💰 La paie du chef</h2>
+      <p>Un chef de chantier gère aussi son budget — matos, carburant, imprévus.</p>
+      <button class="btn" onclick="show('scr-paie')">Gérer ma paie de la semaine</button>
+    </div>
+  </section>
+
+  <!-- ═══ ÉCRAN PAIE ═══ -->
+  <section id="scr-paie" class="hidden">
+    <div class="card">
+      <h2>💰 Paie de la semaine</h2>
+      <label class="lbl">Mon budget de la semaine (argent de poche, paie…) :</label>
+      <div class="row">
+        <input type="number" id="paieMontant" min="0" step="1" placeholder="ex : 20" inputmode="numeric">
+        <button class="btn" style="flex:0 0 90px;margin:0;" onclick="setPaie()">OK</button>
+      </div>
+      <div class="big-num" id="paieReste">—</div>
+      <div class="reservoir"><div class="resfill" id="resfill"></div></div>
+      <p style="text-align:center;font-size:12px;color:var(--gris);">Ton réservoir. Un pro ne roule jamais réservoir vide.</p>
+    </div>
+    <div class="card">
+      <h2>⛽ Noter une dépense</h2>
+      <div class="cat-chips" id="catChips"></div>
+      <div class="row">
+        <input type="number" id="depMontant" min="0" step="0.5" placeholder="€" inputmode="decimal">
+        <button class="btn orange" style="flex:0 0 110px;margin:0;" onclick="addDep()">Noter</button>
+      </div>
+      <div id="depList"></div>
+    </div>
+    <div class="card">
+      <h2>🎯 Objectif d'épargne</h2>
+      <p style="font-size:12px;">Le truc que tu veux te payer. Chaque euro mis de côté te rapproche.</p>
+      <label class="lbl">Quoi :</label>
+      <input type="text" id="objNom" placeholder="ex : casque, console, permis…" onchange="setObj()">
+      <label class="lbl">Prix (€) :</label>
+      <input type="number" id="objPrix" min="0" step="1" inputmode="numeric" onchange="setObj()">
+      <div id="objZone"></div>
+      <div class="row">
+        <input type="number" id="objMise" min="0" step="0.5" placeholder="€ à mettre de côté" inputmode="decimal">
+        <button class="btn vert" style="flex:0 0 130px;margin:0;" onclick="epargner()">🏦 De côté</button>
+      </div>
+    </div>
+    <button class="btn sec" onclick="nouvelleSemaine()">🔄 Nouvelle semaine (remet le réservoir à plein)</button>
+    <button class="btn sec" onclick="show('scr-lycee')">← Retour</button>
+  </section>
+
+  <!-- ═══ ÉCRAN FICHE ═══ -->
+  <section id="scr-fiche" class="hidden">
+    <div class="card">
+      <h2>📋 Ma fiche technique de conducteur</h2>
+      <p style="font-size:12px;color:var(--gris);">Construite avec TES réponses. Tu la montres seulement si tu veux.</p>
+      <div id="ficheContent"><p style="text-align:center;color:var(--gris);padding:16px;">Fais d'abord le contrôle technique ⚙️</p></div>
+    </div>
+    <div class="card">
+      <h2>📻 Mes codes radio</h2>
+      <p style="font-size:13px;">Sur un chantier, on communique court et clair — sinon accident. Les pros utilisent ces codes :</p>
+      <div class="fiche-item"><span>Code 1</span><b>« Pas d'accord. Je propose autre chose. »</b></div>
+      <div class="fiche-item"><span>Code 2</span><b>« Laisse-moi le faire à ma façon, je te montre le résultat. »</b></div>
+      <div class="fiche-item"><span>Code 3</span><b>« Là je chauffe. Je sors 10 min, on en reparle. »</b></div>
+    </div>
+    <div class="card">
+      <h2>🛠️ Boîte à idées du bêta-testeur</h2>
+      <p style="font-size:12px;">T'es le consultant officiel de cette appli. Ce qui est nul, ce qui manque : balance. 3 idées = mission validée (+25 XP).</p>
+      <div class="row">
+        <input type="text" id="ideeTxt" placeholder="Ton idée, même courte" maxlength="120">
+        <button class="btn" style="flex:0 0 90px;margin:0;" onclick="addIdee()">📤</button>
+      </div>
+      <div id="ideeList"></div>
+    </div>
+    <div class="card">
+      <h2>⚙️ Maintenance</h2>
+      <button class="btn sec" onclick="resetAll()">🗑️ Réinitialiser tout le chantier</button>
+      <p style="font-size:11px;color:var(--gris);text-align:center;">Efface tout (XP, fiche, relevés). Irréversible.</p>
+    </div>
+  </section>
+
+  <!-- ═══ ÉCRAN HUMAIN — le facteur humain sur le chantier ═══ -->
+  <section id="scr-humain" class="hidden">
+    <div class="hazard"></div>
+    <div class="card" style="margin-top:12px;">
+      <h2>🤝 Le facteur humain</h2>
+      <p>Un bon chef de chantier ne travaille jamais seul. Parler à son équipe, garder son sang-froid, réparer après un accident — <b>c'est une compétence du métier.</b></p>
+    </div>
+
+    <!-- ─── MODULE 1 · L'ÉQUIPE ─── -->
+    <div class="card">
+      <h2>🤝 Poste — L'équipe <span style="float:right;color:var(--vert);font-size:12px;">+30 XP</span></h2>
+      <p>Trois gestes de pro pour bosser avec les autres sans que ça parte en tonneau.</p>
+    </div>
+    <div class="card">
+      <h2>① Demander quelque chose</h2>
+      <p>La formule : « Est-ce que tu peux… <b>s'il te plaît</b> ? » — court, pas d'ordre, pas de reproche.</p>
+      <div class="vs"><div class="ko">❌ « Bouge de là. »</div><div class="ok">✅ « Tu peux me laisser passer ? »</div></div>
+      <div class="vs"><div class="ko">❌ « Arrête ça. »</div><div class="ok">✅ « Tu peux arrêter s'il te plaît ? Ça me soûle. »</div></div>
+      <div class="vs"><div class="ko">❌ « File-moi ça. »</div><div class="ok">✅ « Tu me le passes ? »</div></div>
+    </div>
+    <div class="card">
+      <h2>② Dire non</h2>
+      <p>Court. Ferme. <b>Sans se justifier.</b> Plus tu expliques, plus on insiste.</p>
+      <div class="fiche-item"><span>Versions courtes</span><b>« Non, ça me va pas. » · « Non merci. » · « Là non. »</b></div>
+      <p style="color:var(--jaune);font-size:13px;margin-top:8px;">Tu n'as pas à te justifier. Un non n'a pas besoin de mode d'emploi.</p>
+    </div>
+    <div class="card">
+      <h2>③ Désamorcer une provocation</h2>
+      <p>Celui qui provoque cherche <b>TA réaction</b>. S'il ne l'a pas, il s'arrête tout seul.</p>
+      <div class="fiche-item"><span>Options</span><b>Ne rien dire, partir · « Ouais, ok. » · « Je te réponds pas là. » · Voir un adulte</b></div>
+      <p style="color:var(--jaune);font-size:13px;margin-top:8px;">Ce n'est pas se dégonfler. C'est refuser de jouer à son jeu à lui.</p>
+      <button class="btn vert" id="btnEquipe" onclick="validEquipe()">✅ Compris, chef (+30 XP)</button>
+    </div>
+    <div class="card alerte">
+      <h2>🚨 Si ça tourne en boucle</h2>
+      <p>Si quelqu'un t'embête <b>EN BOUCLE</b>, ce n'est plus une blague — c'est du <b>harcèlement</b>. Ça se dit à un adulte, et vite. <b>Tu n'as pas à gérer ça seul.</b></p>
+      <button class="btn rouge" onclick="show('scr-sos')">🚨 Ouvrir la procédure zone rouge</button>
+    </div>
+
+    <!-- ─── MODULE 2 · APRÈS L'ACCIDENT ─── -->
+    <div class="hazard red"></div>
+    <div class="card" style="margin-top:12px;">
+      <h2>💥 Poste — Après l'accident <span style="float:right;color:var(--vert);font-size:12px;">+40 XP</span></h2>
+      <p>Sur un chantier, il y a des accidents. Ce qui distingue un pro, ce n'est pas de n'en avoir jamais — <b>c'est ce qu'il fait après.</b></p>
+    </div>
+    <div class="card"><h2><span class="etape-num">1</span>Je m'écarte</h2><p>Physiquement. Avant de faire ou dire plus.</p></div>
+    <div class="card"><h2><span class="etape-num">2</span>Je fais redescendre</h2><p>Respirer, marcher, boire. <b>Pas de discussion dans le rouge.</b></p></div>
+    <div class="card"><h2><span class="etape-num">3</span>Je regarde les dégâts</h2><p>Quelqu'un est touché ? Il faut prévenir ? <b>On le fait tout de suite.</b></p></div>
+    <div class="card"><h2><span class="etape-num">4</span>Je répare ce qui peut l'être</h2><p>Un mot, une excuse, un truc à recoller. <b>Réparer, ce n'est pas ramper.</b></p></div>
+    <div class="card"><h2><span class="etape-num">5</span>Je comprends — après</h2><p>Quand c'est froid, jamais pendant.</p></div>
+    <div class="card">
+      <h2>📝 Rapport d'incident</h2>
+      <p style="font-size:13px;">Remplir un rapport, c'est ce que fait un pro. <b>+40 XP au premier rempli.</b> (Privé, rien n'est envoyé.)</p>
+      <label class="lbl">Le déclencheur, c'était quoi ?</label>
+      <input type="text" id="rapDecl" maxlength="140" placeholder="…">
+      <label class="lbl">J'étais à combien sur ma jauge ? (0 à 10)</label>
+      <input type="number" id="rapJauge" min="0" max="10" inputmode="numeric" placeholder="0-10">
+      <label class="lbl">Y a-t-il eu un moment où j'aurais pu m'arrêter ?</label>
+      <input type="text" id="rapStop" maxlength="140" placeholder="…">
+      <label class="lbl">La prochaine fois, je teste quoi ? (une seule chose, petite)</label>
+      <input type="text" id="rapNext" maxlength="140" placeholder="…">
+      <button class="btn vert" onclick="submitRapport()">Enregistrer le rapport</button>
+      <div id="rapList"></div>
+    </div>
+    <div class="card">
+      <h2>💛 Ne rien ressentir, ça arrive</h2>
+      <p>Ne rien ressentir juste après, ça arrive plus souvent qu'on croit. <b>Ça ne veut pas dire que tu t'en fiches.</b> Le cerveau se met en pause quand c'est trop fort. Les émotions reviennent après — ou pas. <b>Les deux sont normaux. Et ça se travaille.</b></p>
+    </div>
+
+    <!-- ─── MODULE 3 · LE BON DIAGNOSTIC ─── -->
+    <div class="hazard"></div>
+    <div class="card" style="margin-top:12px;">
+      <h2>🎯 Poste — Le bon diagnostic <span style="float:right;color:var(--vert);font-size:12px;">+30 XP</span></h2>
+      <p>Avant de réparer une panne, un mécano identifie le bon problème. Pour les émotions, pareil : <b>mettre le bon mot fait déjà baisser la pression.</b></p>
+    </div>
+    <div class="card">
+      <h2>🔍 Le décodeur de pannes</h2>
+      <p style="font-size:13px;">Ce qu'on dit → ce qu'il y a peut-être dessous :</p>
+      <div id="decodeurZone"></div>
+    </div>
+    <div class="card">
+      <h2>Tu es à quoi, là ?</h2>
+      <p style="font-size:13px;">Touche l'émotion la plus proche.</p>
+      <div id="emoBtns"></div>
+      <div id="emoMsg"></div>
+    </div>
+    <div class="card">
+      <h2>🎮 Simulateur de chantier</h2>
+      <p style="font-size:13px;">4 situations. Choisis — et vois ce que ça donne. <b>+5 XP par scénario.</b></p>
+      <div id="scenZone"></div>
+    </div>
+    <button class="btn sec" onclick="show('scr-garage')">← Retour au garage</button>
+  </section>
+
+  <nav>
+    <button id="nav-garage" class="on" onclick="show('scr-garage')"><span>🏗️</span>Garage</button>
+    <button id="nav-jauge" onclick="show('scr-jauge')"><span>🌡️</span>Jauge</button>
+    <button id="nav-missions" onclick="show('scr-missions')"><span>🎯</span>Missions</button>
+    <button id="nav-humain" onclick="show('scr-humain')"><span>🤝</span>Équipe</button>
+    <button id="nav-lycee" onclick="show('scr-lycee')"><span>🎒</span>Lycée</button>
+    <button id="nav-fiche" onclick="show('scr-fiche')"><span>📋</span>Fiche</button>
+  </nav>
+</div>
+
+<script>
+// ═══════════ DONNÉES ═══════════
+const ENGINS=[
+  {ico:'🛞',nom:'Brouette',xp:0},
+  {ico:'🚜',nom:'Tracteur',xp:40},
+  {ico:'🚧',nom:'Compacteur',xp:80},
+  {ico:'🏗️',nom:'Grue',xp:140},
+  {ico:'🚛',nom:'Dumper',xp:200},
+  {ico:'⛏️',nom:'Pelleteuse',xp:280},
+  {ico:'🧱',nom:'Centrale béton',xp:360},
+  {ico:'🏆',nom:'Parc complet',xp:450}
+];
+const GRADES=[[0,'🔰 Apprenti'],[40,'🔧 Ouvrier'],[120,'⚙️ Chef d\'équipe'],[240,'👷 Chef de chantier'],[400,'🏆 Conducteur de travaux']];
+
+// Quiz "contrôle technique" — faire connaissance sans interrogatoire
+const QUIZ=[
+ {q:"Sur un chantier, tu préfères :",c:[['🔨','Faire, les mains dedans','faire'],['📋','Organiser et diriger','diriger']],k:'style'},
+ {q:"Ton moteur démarre le mieux quand :",c:[['🔧','Tu répares / construis un truc','concret'],['🏀','Tu bouges, tu te dépenses','bouger']],k:'carburant'},
+ {q:"Ce qui te fait caler direct :",c:[['📜','Les explications qui durent 3 heures','blabla'],['✍️','Devoir tout écrire','ecrit']],k:'calage'},
+ {q:"Quand quelqu'un te donne un ordre sec :",c:[['🔥','Ça chauffe direct','chauffe'],['🙄','Tu fais semblant puis tu fais à ta façon','contourne']],k:'ordre'},
+ {q:"Tu bosses mieux :",c:[['🧍','Seul, tranquille','seul'],['👥','En petite équipe que TU mènes','leader']],k:'equipe'},
+ {q:"Ta plus grosse fierté :",c:[['🏗️','Un truc que t\'as construit toi-même','construit'],['💪','Un truc que personne te croyait capable de faire','defi']],k:'fierte'},
+ {q:"Quand la pression monte, ton corps te prévient par :",c:[['🗯️','Tu commences à râler tout bas','rale'],['⚡','T\'as besoin de bouger / sortir','bouge']],k:'voyant'},
+ {q:"Ce qui te calme le plus vite :",c:[['🚪','Sortir, prendre l\'air','sortir'],['🎧','Être seul avec un truc à faire','seul_faire']],k:'frein'},
+ {q:"À la rentrée au lycée, ce qui te motive le plus :",c:[['🚜','Enfin conduire des engins','engins'],['🏠','Être loin de la maison, plus libre','liberte']],k:'lycee'},
+ {q:"Ce qui pourrait te pourrir la vie au lycée :",c:[['📚','Encore trop d\'écrit et de théorie','ecrit_lycee'],['👊','Des embrouilles avec les autres','embrouilles']],k:'risque'},
+ {q:"Si un prof te reprend devant tout le monde :",c:[['🌋','C\'est l\'humiliation, ça part en vrille','humiliation'],['🧊','Tu encaisses mais tu retiens','encaisse']],k:'prof'},
+ {q:"Ton avis compte : cette appli, pour l'instant…",c:[['👍','Ça peut le faire','ok'],['🛠️','Y a du taf, je te dirai quoi changer','ameliorer']],k:'beta'}
+];
+const FICHE_LABELS={
+ style:{faire:'Homme de terrain — les mains dedans',diriger:'Profil meneur — organise et dirige'},
+ carburant:{concret:'Carburant : le concret (réparer, construire)',bouger:'Carburant : le mouvement'},
+ calage:{blabla:'Cale sur : les longs discours',ecrit:'Cale sur : l\'écrit imposé'},
+ ordre:{chauffe:'Face aux ordres secs : surchauffe rapide',contourne:'Face aux ordres secs : contourne à sa façon'},
+ equipe:{seul:'Mode de travail : solo tranquille',leader:'Mode de travail : leader de petite équipe'},
+ fierte:{construit:'Fierté : ce qu\'il construit lui-même',defi:'Fierté : prouver qu\'on avait tort sur lui'},
+ voyant:{rale:'Voyant d\'alerte : râle à voix basse',bouge:'Voyant d\'alerte : besoin de bouger'},
+ frein:{sortir:'Frein efficace : sortir prendre l\'air',seul_faire:'Frein efficace : être seul avec un truc à faire'},
+ lycee:{engins:'Moteur lycée : conduire les engins',liberte:'Moteur lycée : la liberté'},
+ risque:{ecrit_lycee:'Risque lycée : l\'écrit et la théorie',embrouilles:'Risque lycée : les embrouilles'},
+ prof:{humiliation:'Point sensible : l\'humiliation publique',encaisse:'Point sensible : encaisse mais n\'oublie pas'},
+ beta:{ok:'Avis bêta-testeur : validé',ameliorer:'Avis bêta-testeur : à améliorer (voir avec lui)'}
+};
+const MISSIONS=[
+ {id:'m0',em:'🔧',t:'Faire « Sous le capot » et repartir avec ma feuille de route',s:'Le grand contrôle de la machine — tu la montres à qui tu veux',xp:30},
+ {id:'m7',em:'⏱️',t:'Le frein : compter 10 avant de répondre',s:'La vague met 90 secondes à passer — 10 suffisent pour ne pas partir en tonneau',xp:30},
+ {id:'m1',em:'🌡️',t:'Relever ma jauge 3 jours de suite',s:'Un pro connaît sa machine par cœur',xp:20},
+ {id:'m2',em:'🚪',t:'Utiliser la sortie-soupape 1 fois AVANT la zone rouge',s:'Sortir prendre l\'air quand le voyant s\'allume — procédure pro, pas une fuite',xp:30},
+ {id:'m3',em:'📻',t:'Utiliser un code radio 1 fois cette semaine',s:'« Pas d\'accord, je propose… » — court, clair, sans casse',xp:30},
+ {id:'m4',em:'🏗️',t:'Construire un engin en Legos de mémoire et l\'apporter en photo',s:'Démonstration de mémoire visuo-spatiale — peu de gens savent faire ça',xp:25},
+ {id:'m5',em:'🛠️',t:'Donner 3 idées pour améliorer cette appli',s:'Mission bêta-testeur officiel — la boîte à idées est dans « Ma fiche »',xp:25},
+ {id:'m6',em:'💤',t:'Repérer ce qui m\'aide à m\'endormir plus vite (3 soirs)',s:'Un moteur, ça se refroidit avant de couper le contact',xp:20},
+ {id:'m13',em:'🚨',t:'Faire la procédure zone rouge en entier 1 fois',s:'Annonce radio → sortie → purge. Le réflexe qui sauve les moteurs',xp:30},
+ {id:'m8',em:'💰',t:'Finir une semaine avec du carburant dans le réservoir',s:'Budget tenu sans passer dans le rouge = gestion de chef',xp:30},
+ {id:'m9',em:'🎒',t:'Checklist d\'ouverture du chantier LYCÉE à 100 %',s:'Se valide toute seule quand tout est coché',xp:40},
+ {id:'m10',em:'🚌',t:'Repérer mon trajet jusqu\'au lycée (horaires en photo)',s:'Un chef arrive sur site sans stress : il connaît sa route',xp:25},
+ {id:'m11',em:'🎤',t:'Présenter un engin à quelqu\'un pendant 2 minutes',s:'Mode expert : c\'est TOI qui expliques, l\'autre qui écoute',xp:25}
+];
+const CAUSES=[['🗣️','On m\'a donné un ordre / fait la morale'],['✍️','Un truc d\'école / d\'écrit'],['👥','Une embrouille avec quelqu\'un'],['🏠','Un truc à la maison'],['😤','Je sais pas trop, ça monte tout seul'],['✅','Rien — journée tranquille']];
+const CHECKS=[
+ ['📄','Dossier d\'inscription complet et rendu'],
+ ['👟','Chaussures de sécurité à ma taille'],
+ ['🦺','Tenue de chantier / bleu de travail prêt'],
+ ['🎒','Sac + trousse simple (pas besoin de plus)'],
+ ['🚌','Trajet repéré : bus, horaires — ou internat prêt'],
+ ['⏰','Réveil réglé + routine du matin testée 1 fois'],
+ ['📱','Emploi du temps en photo dans le téléphone'],
+ ['📻','Mes 3 codes radio relus'],
+ ['🗺️','Mon plan zone rouge au lycée (où sortir ? qui prévenir ?)'],
+ ['💤','Recalage sommeil commencé (1 semaine avant)']
+];
+const CATS=['🍔 Bouffe','🎮 Jeux','👕 Sape','🚌 Transport','🏦 Épargne','🛠️ Autre'];
+
+// ═══════════ ÉTAT (migration douce depuis la v1 — même clé) ═══════════
+const DEF={xp:0,fiche:{},missions:[],jauges:[],checks:[],idees:[],lyceeDate:'2026-09-01',
+ paie:{montant:0,dep:[],objNom:'',objPrix:0,objMis:0},lastJaugeXP:'',lastSosXP:'',
+ mEquipe:0,diagVocab:0,diagDone:[],rapports:[]};
+let S=Object.assign({},DEF,JSON.parse(localStorage.getItem('chantier')||'{}'));
+S.paie=Object.assign({},DEF.paie,S.paie||{});
+['missions','jauges','checks','idees','diagDone','rapports'].forEach(k=>{if(!Array.isArray(S[k]))S[k]=[];});
+function save(){localStorage.setItem('chantier',JSON.stringify(S));}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2400);}
+function addXP(n){S.xp+=n;save();render();toast('+'+n+' XP 🔧');}
+
+// ═══════════ NAVIGATION ═══════════
+const SCREENS=['scr-garage','scr-quiz','scr-jauge','scr-sos','scr-missions','scr-lycee','scr-paie','scr-fiche','scr-humain'];
+function show(id){SCREENS.forEach(s=>document.getElementById(s).classList.add('hidden'));document.getElementById(id).classList.remove('hidden');
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('on'));
+ const map={'scr-paie':'nav-lycee'};const nb=document.getElementById(map[id]||('nav-'+id.replace('scr-','')));if(nb)nb.classList.add('on');
+ document.getElementById('sosFab').style.display=(id==='scr-sos'||id==='scr-quiz')?'none':'block';
+ if(id==='scr-jauge')initJauge();
+ if(id==='scr-lycee')renderLycee();
+ if(id==='scr-paie')renderPaie();
+ if(id==='scr-sos')resetSOS();
+ if(id==='scr-humain')renderHumain();
+ window.scrollTo(0,0);}
+
+// ═══════════ RENDER ═══════════
+function render(){
+ // grade + xp
+ let grade=GRADES[0][1];GRADES.forEach(g=>{if(S.xp>=g[0])grade=g[1];});
+ document.getElementById('gradeBadge').textContent=grade.split(' ').slice(1).join(' ');
+ document.getElementById('gradeTxt').textContent=grade+' — '+S.xp+' XP';
+ const next=GRADES.find(g=>g[0]>S.xp);
+ document.getElementById('xpfill').style.width=(next?Math.min(100,100*S.xp/next[0]):100)+'%';
+ // parc
+ document.getElementById('parc').innerHTML=ENGINS.map(e=>'<div class="engin '+(S.xp>=e.xp?'unlocked':'')+'"><span class="ico">'+e.ico+'</span>'+e.nom+(S.xp>=e.xp?'':'<br>🔒 '+e.xp+' XP')+'</div>').join('');
+ // quiz bouton
+ if(Object.keys(S.fiche).length>=QUIZ.length){document.getElementById('btnQuiz').textContent='Refaire le contrôle';}
+ // missions
+ document.getElementById('missionList').innerHTML=MISSIONS.map(m=>{const done=S.missions.includes(m.id);
+  return '<div class="mission '+(done?'done':'')+'"><span class="em">'+m.em+'</span><div class="tx">'+m.t+'<small>'+m.s+' · +'+m.xp+' XP</small></div>'+(done?'<span>✅</span>':'<button onclick="doMission(\''+m.id+'\')">Fait</button>')+'</div>';}).join('');
+ // fiche
+ const keys=Object.keys(S.fiche);
+ if(keys.length){document.getElementById('ficheContent').innerHTML=keys.map(k=>{const lbl=FICHE_LABELS[k]&&FICHE_LABELS[k][S.fiche[k]];return lbl?'<div class="fiche-item"><span>✔</span><b>'+lbl+'</b></div>':''}).join('')
+  +(S.jauges.length?'<div class="fiche-item"><span>🌡️ Relevés de jauge</span><b>'+S.jauges.length+' relevé(s) · dernier : '+S.jauges[S.jauges.length-1].v+'/10</b></div>':'');}
+ renderIdees();
+}
+function doMission(id){if(!S.missions.includes(id)){S.missions.push(id);const m=MISSIONS.find(x=>x.id===id);addXP(m.xp);}}
+function autoMission(id,msg){if(!S.missions.includes(id)){S.missions.push(id);const m=MISSIONS.find(x=>x.id===id);S.xp+=m.xp;save();render();toast(msg+' +'+m.xp+' XP');}}
+
+// ═══════════ QUIZ ═══════════
+let qi=0;
+function startQuiz(){qi=0;S.fiche={};show('scr-quiz');showQ();}
+function showQ(){const q=QUIZ[qi];
+ document.getElementById('qcount').textContent='Contrôle technique — '+(qi+1)+' / '+QUIZ.length;
+ document.getElementById('qtext').textContent=q.q;
+ document.getElementById('qchoices').innerHTML=q.c.map((c,i)=>'<div class="choice" onclick="answer('+i+')"><span class="em">'+c[0]+'</span>'+c[1]+'</div>').join('');}
+function answer(i){const q=QUIZ[qi];S.fiche[q.k]=q.c[i][2];save();qi++;
+ if(qi<QUIZ.length){showQ();}else{addXP(40);toast('Contrôle technique validé ✅ +40 XP');show('scr-fiche');render();}}
+
+// ═══════════ JAUGE ═══════════
+function initJauge(){const w=document.getElementById('jaugeBtns');w.innerHTML='';
+ for(let i=0;i<=10;i++){const b=document.createElement('button');b.className='jauge-btn '+(i>=8?'hot':i>=5?'mid':'cool');b.textContent=i;b.onclick=()=>pickJauge(i);w.appendChild(b);}
+ document.getElementById('jaugeSuite').classList.add('hidden');renderHisto();}
+let jaugeVal=null;
+function pickJauge(v){jaugeVal=v;const s=document.getElementById('jaugeSuite');s.classList.remove('hidden');
+ document.getElementById('jaugeCauses').innerHTML=CAUSES.map((c,i)=>'<div class="choice" onclick="saveJauge('+i+')"><span class="em">'+c[0]+'</span>'+c[1]+'</div>').join('');
+ s.scrollIntoView({behavior:'smooth'});}
+function saveJauge(ci){S.jauges.push({d:today(),v:jaugeVal,c:CAUSES[ci][1]});
+ const premier=S.lastJaugeXP!==today();
+ if(premier){S.lastJaugeXP=today();S.xp+=10;}
+ save();render();
+ checkMissionJauge();
+ if(jaugeVal>=8){toast(premier?'+10 XP · Zone rouge repérée 🚨':'Zone rouge repérée 🚨');show('scr-sos');}
+ else{toast(premier?'+10 XP · Jauge enregistrée ✅':'Jauge enregistrée ✅ (XP déjà pris aujourd\'hui)');show('scr-garage');}}
+function checkMissionJauge(){ // 3 jours de suite → m1 auto
+ const jours=[...new Set(S.jauges.map(j=>j.d))].sort();
+ for(let i=0;i<=jours.length-3;i++){
+  const a=new Date(jours[i]),b=new Date(jours[i+1]),c=new Date(jours[i+2]);
+  if(b-a===86400000&&c-b===86400000){autoMission('m1','Mission « 3 jours de suite » validée ✅');break;}
+ }}
+function renderHisto(){
+ const z=document.getElementById('histoZone');
+ if(!S.jauges.length){z.innerHTML='<p style="text-align:center;color:var(--gris);font-size:13px;padding:8px;">Aucun relevé pour l\'instant. Le carnet se remplit tout seul.</p>';return;}
+ const last=S.jauges.slice(-12);
+ const bars=last.map(j=>'<div class="bar '+(j.v>=8?'hot':j.v>=5?'mid':'')+'" style="height:'+(12+j.v*7.5)+'px" title="'+j.d+' · '+j.c+'">'+j.v+'</div>').join('');
+ const lbls=last.map(j=>'<span>'+j.d.slice(8,10)+'/'+j.d.slice(5,7)+'</span>').join('');
+ // série de jours consécutifs (finissant aujourd'hui ou hier)
+ const jours=[...new Set(S.jauges.map(j=>j.d))].sort().reverse();
+ let streak=0;const t=new Date(today());
+ for(let i=0;i<jours.length;i++){
+  const d=new Date(jours[i]);
+  if(i===0&&(t-d)/86400000>1)break;
+  if(i===0){streak=1;t.setTime(d.getTime());continue;}
+  const prev=new Date(jours[i-1]);
+  if(prev-d===86400000)streak++;else break;
+ }
+ z.innerHTML='<div class="histo">'+bars+'</div><div class="histo-lbl">'+lbls+'</div>'
+  +(streak>1?'<div class="streak">🔥 Série en cours : <b>'+streak+' jours</b> de relevés d\'affilée</div>':'');
+}
+
+// ═══════════ SOS / ZONE ROUGE ═══════════
+let sortieTimer=null,sortieRest=600,souffleOn=false;
+function resetSOS(){clearInterval(sortieTimer);sortieTimer=null;sortieRest=600;souffleOn=false;
+ document.getElementById('sosTimer').classList.add('hidden');
+ document.getElementById('btnSortie').textContent='Lancer les 10 minutes';
+ document.getElementById('souffleZone').classList.add('hidden');
+ document.getElementById('btnSouffle').classList.remove('hidden');}
+function toggleSortie(){
+ if(sortieTimer){clearInterval(sortieTimer);sortieTimer=null;
+  document.getElementById('btnSortie').textContent='Relancer les 10 minutes';
+  toast('De retour au poste 👷');return;}
+ sortieRest=600;document.getElementById('sosTimer').classList.remove('hidden');
+ document.getElementById('btnSortie').textContent='✅ Je suis revenu';
+ tickSortie();sortieTimer=setInterval(tickSortie,1000);}
+function tickSortie(){
+ const m=Math.floor(sortieRest/60),s=sortieRest%60;
+ document.getElementById('sosTimer').textContent=m+':'+String(s).padStart(2,'0');
+ if(sortieRest<=0){clearInterval(sortieTimer);sortieTimer=null;
+  document.getElementById('sosTimer').textContent='0:00';
+  document.getElementById('btnSortie').textContent='✅ Les 10 min sont passées';}
+ sortieRest--;}
+function startSouffle(){
+ if(souffleOn)return;souffleOn=true;
+ document.getElementById('souffleZone').classList.remove('hidden');
+ document.getElementById('btnSouffle').classList.add('hidden');
+ runSouffle(1);}
+function runSouffle(cycle){
+ const c=document.getElementById('cercle'),t=document.getElementById('souffleTxt'),n=document.getElementById('souffleCycle');
+ if(cycle>5){t.textContent='Circuit purgé ✅';n.textContent='';c.style.transform='scale(1)';souffleOn=false;return;}
+ n.textContent='Respiration '+cycle+' / 5';
+ t.textContent='Le piston monte… inspire 💨';c.style.transition='transform 4s ease-in-out';c.style.transform='scale(1.65)';
+ setTimeout(()=>{if(!souffleOn)return;t.textContent='Bloque…';},4000);
+ setTimeout(()=>{if(!souffleOn)return;t.textContent='Le piston descend… souffle lentement';c.style.transition='transform 6s ease-in-out';c.style.transform='scale(1)';},6000);
+ setTimeout(()=>{if(!souffleOn)return;runSouffle(cycle+1);},12000);}
+function finirSOS(){
+ souffleOn=false;clearInterval(sortieTimer);sortieTimer=null;
+ autoMission('m13','Procédure zone rouge complète ✅');
+ if(S.lastSosXP!==today()){S.lastSosXP=today();S.xp+=15;save();render();toast('Moteur refroidi 🧊 +15 XP — réflexe de pro');}
+ else{toast('Moteur refroidi 🧊 Bien joué, chef');}
+ show('scr-garage');}
+
+// ═══════════ LYCÉE ═══════════
+function setLyceeDate(v){if(v){S.lyceeDate=v;save();renderLycee();}}
+function renderLycee(){
+ document.getElementById('lyceeDate').value=S.lyceeDate;
+ const diff=Math.ceil((new Date(S.lyceeDate)-new Date(today()))/86400000);
+ const cpt=document.getElementById('lyceeCompteur');
+ if(diff>0)cpt.innerHTML='J-'+diff+'<small>avant l\'ouverture du chantier</small>';
+ else if(diff===0)cpt.innerHTML='JOUR J 🚜<small>ouverture du chantier — casque vissé, tu gères</small>';
+ else cpt.innerHTML='Chantier ouvert 🦺<small>jour '+(1-diff)+' — le parc d\'engins t\'attend</small>';
+ document.getElementById('chkList').innerHTML=CHECKS.map((c,i)=>{const done=S.checks.includes(i);
+  return '<div class="chk '+(done?'done':'')+'" onclick="toggleChk('+i+')"><span class="em">'+c[0]+'</span>'+c[1]+'<span class="box">'+(done?'✔':'')+'</span></div>';}).join('')
+  +'<p style="text-align:center;font-size:12px;color:var(--gris);margin-top:8px;">'+S.checks.length+' / '+CHECKS.length+' — prêt à '+Math.round(100*S.checks.length/CHECKS.length)+' %</p>';}
+function toggleChk(i){
+ const idx=S.checks.indexOf(i);
+ if(idx>=0){S.checks.splice(idx,1);save();renderLycee();return;}
+ S.checks.push(i);S.xp+=5;save();render();renderLycee();
+ if(S.checks.length>=CHECKS.length){autoMission('m9','Chantier LYCÉE prêt à 100 % 🎒');}
+ else toast('+5 XP ✔');}
+
+// ═══════════ PAIE ═══════════
+let catSel=0;
+function renderPaie(){
+ const p=S.paie;
+ document.getElementById('paieMontant').value=p.montant||'';
+ const dep=p.dep.reduce((a,d)=>a+d.m,0);
+ const reste=Math.max(0,(p.montant||0)-dep);
+ const pct=p.montant?Math.max(0,Math.min(100,100*reste/p.montant)):0;
+ document.getElementById('paieReste').textContent=p.montant?(reste.toFixed(2).replace('.00','').replace('.',',')+' € restants sur '+p.montant+' €'):'Règle ton budget ↑';
+ const f=document.getElementById('resfill');f.style.width=pct+'%';f.className='resfill '+(pct<20?'hot':pct<50?'mid':'');
+ document.getElementById('catChips').innerHTML=CATS.map((c,i)=>'<button class="'+(i===catSel?'on':'')+'" onclick="catSel='+i+';renderPaie()">'+c+'</button>').join('');
+ document.getElementById('depList').innerHTML=p.dep.slice(-8).reverse().map((d,ri)=>{const i=p.dep.length-1-ri;
+  return '<div class="dep"><span>'+d.c+'</span><b>'+d.m.toFixed(2).replace('.00','').replace('.',',')+' €</b><button class="sup" onclick="delDep('+i+')">✕</button></div>';}).join('');
+ document.getElementById('objNom').value=p.objNom||'';
+ document.getElementById('objPrix').value=p.objPrix||'';
+ const oz=document.getElementById('objZone');
+ if(p.objPrix>0){const opct=Math.min(100,100*p.objMis/p.objPrix);
+  oz.innerHTML='<div class="big-num" style="font-size:18px;margin-top:8px;">'+(p.objNom||'Objectif')+' : '+p.objMis.toFixed(2).replace('.00','').replace('.',',')+' / '+p.objPrix+' €</div><div class="xpbar"><div class="xpfill" style="width:'+opct+'%"></div></div>'+(opct>=100?'<p style="text-align:center;color:var(--vert);font-weight:700;">🏆 Objectif atteint, chef !</p>':'');}
+ else oz.innerHTML='';}
+function setPaie(){const v=parseFloat(document.getElementById('paieMontant').value);
+ if(!isNaN(v)&&v>=0){S.paie.montant=v;save();renderPaie();toast('Réservoir réglé ⛽');}}
+function addDep(){const v=parseFloat(document.getElementById('depMontant').value);
+ if(isNaN(v)||v<=0){toast('Mets un montant 😉');return;}
+ S.paie.dep.push({c:CATS[catSel],m:v,d:today()});
+ if(CATS[catSel].indexOf('Épargne')>=0)S.paie.objMis+=v;
+ document.getElementById('depMontant').value='';save();renderPaie();toast('Dépense notée 📝');}
+function delDep(i){const d=S.paie.dep[i];if(!d)return;
+ if(d.c.indexOf('Épargne')>=0)S.paie.objMis=Math.max(0,S.paie.objMis-d.m);
+ S.paie.dep.splice(i,1);save();renderPaie();}
+function setObj(){S.paie.objNom=document.getElementById('objNom').value.trim();
+ S.paie.objPrix=parseFloat(document.getElementById('objPrix').value)||0;save();renderPaie();}
+function epargner(){const v=parseFloat(document.getElementById('objMise').value);
+ if(isNaN(v)||v<=0){toast('Mets un montant 😉');return;}
+ S.paie.dep.push({c:'🏦 Épargne',m:v,d:today()});S.paie.objMis+=v;
+ document.getElementById('objMise').value='';save();renderPaie();toast('🏦 Mis de côté — gestion de chef');}
+function nouvelleSemaine(){
+ if(!confirm('Nouvelle semaine ? Les dépenses repartent à zéro (l\'épargne est gardée).'))return;
+ const dep=S.paie.dep.reduce((a,d)=>a+d.m,0);
+ const tenu=S.paie.montant>0&&dep<=S.paie.montant;
+ S.paie.dep=[];save();renderPaie();
+ if(tenu)autoMission('m8','Semaine finie réservoir OK 💰');
+ else toast('Nouvelle semaine, nouveau chantier 🔄');}
+
+// ═══════════ IDÉES BÊTA-TESTEUR ═══════════
+function addIdee(){const inp=document.getElementById('ideeTxt');const t=inp.value.trim();
+ if(!t){toast('Écris ton idée d\'abord 😉');return;}
+ S.idees.push({d:today(),t:t});inp.value='';save();renderIdees();
+ if(S.idees.length>=3)autoMission('m5','Mission bêta-testeur validée 🛠️');
+ else toast('Idée transmise au bureau d\'études 📤 ('+S.idees.length+'/3)');}
+function renderIdees(){document.getElementById('ideeList').innerHTML=S.idees.slice().reverse().map(i=>'<div class="idee"><small>'+i.d.slice(8,10)+'/'+i.d.slice(5,7)+'</small>'+i.t.replace(/</g,'&lt;')+'</div>').join('');}
+
+// ═══════════ FACTEUR HUMAIN (équipe · après l'accident · diagnostic) ═══════════
+const DECODEUR=[
+ ['« Je suis énervé »','Je me sens traité injustement'],
+ ['« Je m\'en fous »','Je suis blessé mais je ne le montre pas'],
+ ['« Laisse-moi »','Je suis saturé'],
+ ['« Tu me soûles »','Je ne sais plus quoi répondre'],
+ ['« C\'est bon ! »','Je veux que la pression s\'arrête'],
+ ['« Tout le monde est contre moi »','Je me sens seul ou accusé']
+];
+const EMOTIONS=[
+ ['😡 En colère',"Légitime. La question n'est pas si tu as le droit — c'est combien tu laisses sortir."],
+ ['😳 Humilié',"Devant les autres, c'est le pire. Ta colère est normale. Écarte-toi avant de répondre."],
+ ['⚖️ Traité injustement',"C'est ton déclencheur n°1. Tu le sais — tu peux le voir arriver."],
+ ['🥱 Fatigué',"Fatigué = seuil qui descend. Tout monte plus vite. Sois plus vigilant."],
+ ['🧍 Seul',"Ça arrive, surtout loin de chez soi. Parles-en à quelqu'un."],
+ ['😞 Nul',"C'est un ressenti, pas un fait. Va relire ta fiche technique."]
+];
+const SCENARIOS=[
+ {t:"Un mec te met une claque derrière la tête en rigolant. Encore.",o:[
+  ['ko','Je me retourne et je le frappe',"Compréhensible — et ça te coûte cher : exclusion, sanction, et plus tard sur un chantier, un accident. Sa provocation devient TON problème."],
+  ['ok','Je m\'écarte et je vais voir un adulte',"Le plus solide. Ce n'est pas balancer — c'est refuser de payer pour lui."],
+  ['ok','« Arrête, là » et je m\'éloigne',"Court, ferme, et tu sors de la scène."],
+  ['mid','Je fais comme si de rien n\'était',"Ça marche une fois. Si ça se répète, c'est du harcèlement — et ça se dit à un adulte."]
+ ]},
+ {t:"En internat, quelqu'un prend tes affaires sans demander.",o:[
+  ['ko','Je crie dessus',"Tu as raison sur le fond, tu perds sur la forme. Et tu vas le recroiser tous les jours."],
+  ['ok','« C\'est à moi, tu demandes la prochaine fois. »',"Ferme, clair, sans agression."],
+  ['ko','Je ne dis rien et j\'accumule',"Le pire : ça recommencera, et un jour ça sortira d'un coup, en trop grand."]
+ ]},
+ {t:"Un prof te reprend devant toute la classe, injustement.",o:[
+  ['ko','Je réponds sec devant tout le monde',"Tu as peut-être raison — mais devant témoins, un prof ne peut pas reculer. Tu perds à tous les coups."],
+  ['ok','Je note, je respire, j\'en parle à la fin du cours',"Le plus intelligent. Tu gardes ton droit de dire, et tu choisis le moment. C'est du pilotage."],
+  ['ko','Je ne dis rien, jamais',"L'injustice non dite s'accumule. Dis-le — mais après, au calme."]
+ ]},
+ {t:"⭐ Sur un chantier, un collègue te cherche. Tu as un engin dans les mains.",o:[
+  ['ko','Je lâche tout et je vais le voir',"Un engin, ça ne se lâche pas sous le coup de la colère. C'est comme ça qu'on blesse quelqu'un."],
+  ['ok','Je finis ma manœuvre, je coupe, PUIS je vois',"C'est exactement le réflexe du métier. Sécurité d'abord, discussion ensuite. Tu penses déjà comme un pro."],
+  ['ko','Je réponds en continuant à manœuvrer',"Attention divisée = le moment où les accidents arrivent."]
+ ]}
+];
+function renderHumain(){
+ const be=document.getElementById('btnEquipe');
+ if(be){if(S.mEquipe){be.textContent='✅ Poste validé';be.className='btn sec';be.onclick=null;}}
+ document.getElementById('decodeurZone').innerHTML=DECODEUR.map(d=>'<div class="fiche-item"><span>'+d[0]+'</span><b style="color:var(--vert);">'+d[1]+'</b></div>').join('');
+ document.getElementById('emoBtns').innerHTML=EMOTIONS.map((e,i)=>'<button class="btn sec" style="margin:5px 0;" onclick="pickEmotion('+i+')">'+e[0]+'</button>').join('');
+ document.getElementById('scenZone').innerHTML=SCENARIOS.map((s,i)=>'<div class="card" style="background:var(--noir);margin:8px 0;"><p style="font-weight:700;color:var(--blanc);font-size:14px;">'+(i+1)+'. '+s.t+'</p>'+s.o.map((o,j)=>'<div class="choice" onclick="answerScen('+i+','+j+')">'+o[1]+'</div>').join('')+'<div id="scenR'+i+'"></div>'+(S.diagDone.includes(i)?'<p style="font-size:11px;color:var(--vert);text-align:right;margin-top:4px;">✔ +5 XP pris</p>':'')+'</div>').join('');
+ renderRapports();
+}
+function validEquipe(){if(S.mEquipe)return;S.mEquipe=1;addXP(30);renderHumain();}
+function pickEmotion(i){
+ document.getElementById('emoMsg').innerHTML='<div style="margin-top:10px;padding:12px;border-radius:10px;background:var(--noir);border-left:3px solid var(--jaune);font-size:14px;line-height:1.5;">'+EMOTIONS[i][1]+'</div>';
+ if(!S.diagVocab){S.diagVocab=1;S.xp+=10;save();render();toast('+10 XP · bon diagnostic 🎯');}
+}
+function answerScen(si,ci){
+ const o=SCENARIOS[si].o[ci];
+ const col=o[0]==='ok'?'var(--vert)':o[0]==='mid'?'var(--orange)':'var(--rouge)';
+ const ic=o[0]==='ok'?'✅':o[0]==='mid'?'⚠️':'❌';
+ document.getElementById('scenR'+si).innerHTML='<div style="margin-top:8px;padding:10px 12px;border-radius:10px;background:var(--acier);border-left:3px solid '+col+';font-size:13.5px;line-height:1.5;">'+ic+' '+o[2]+'</div>';
+ if(!S.diagDone.includes(si)){S.diagDone.push(si);S.xp+=5;save();render();toast('+5 XP · scénario analysé 🎯');}
+}
+function submitRapport(){
+ const decl=document.getElementById('rapDecl').value.trim();
+ const jauge=document.getElementById('rapJauge').value;
+ const stop=document.getElementById('rapStop').value.trim();
+ const next=document.getElementById('rapNext').value.trim();
+ if(!decl&&!next){toast('Remplis au moins le déclencheur et le prochain test 😉');return;}
+ S.rapports.push({d:today(),decl:decl,jauge:jauge,stop:stop,next:next});
+ const premier=S.rapports.length===1;if(premier)S.xp+=40;
+ save();render();
+ ['rapDecl','rapJauge','rapStop','rapNext'].forEach(id=>document.getElementById(id).value='');
+ renderRapports();
+ toast(premier?'+40 XP · premier rapport rempli, geste de pro 📝':'Rapport enregistré 📝');
+}
+function renderRapports(){
+ const z=document.getElementById('rapList');if(!z)return;
+ z.innerHTML=S.rapports.length?('<p style="font-size:12px;color:var(--gris);margin-top:10px;">Tes rapports (privés) :</p>'+S.rapports.slice().reverse().map(r=>'<div class="idee"><small>'+r.d.slice(8,10)+'/'+r.d.slice(5,7)+'</small>Déclencheur : '+(r.decl||'—').replace(/</g,'&lt;')+' → prochain test : '+(r.next||'—').replace(/</g,'&lt;')+'</div>').join('')):'';
+}
+
+// ═══════════ MAINTENANCE ═══════════
+function resetAll(){
+ if(!confirm('Tout effacer ? XP, fiche, relevés, budget… Irréversible.'))return;
+ if(!confirm('Sûr et certain, chef ?'))return;
+ localStorage.removeItem('chantier');location.reload();}
+
+// ═══════════ PREMIÈRE VISITE ═══════════
+function entrer(){S.hello=1;save();document.getElementById('bienvenue').classList.add('hidden');}
+if(!S.hello)document.getElementById('bienvenue').classList.remove('hidden');
+
+render();
+if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0){
+ window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
+
+// ═══════════ INSTALLATION PWA ═══════════
+var promptInstall=null;
+function dejaInstallee(){return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;}
+function estIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream;}
+// Android / Chrome : le navigateur signale que l'app est installable
+window.addEventListener('beforeinstallprompt',function(e){
+ e.preventDefault();promptInstall=e;
+ if(!dejaInstallee()){var b=document.getElementById('btnInstall');if(b)b.hidden=false;}
+});
+// iOS : pas d'événement → on affiche le bouton pour montrer la notice
+if(estIOS()&&!dejaInstallee()){
+ document.addEventListener('DOMContentLoaded',function(){var _bi=document.getElementById('btnInstall');if(_bi)_bi.hidden=false;});
+}
+function lancerInstall(){
+ if(estIOS()){document.getElementById('iosInstall').hidden=false;return;}
+ if(!promptInstall)return;
+ promptInstall.prompt();
+ promptInstall.userChoice.then(function(){promptInstall=null;document.getElementById('btnInstall').hidden=true;});
+}
+function fermerIos(){document.getElementById('iosInstall').hidden=true;}
+window.addEventListener('appinstalled',function(){var b=document.getElementById('btnInstall');if(b)b.hidden=true;});
+</script>
+
+<!-- Bouton installer -->
+<button id="btnInstall" class="btn-install" onclick="lancerInstall()" hidden>📲 Installer l'appli</button>
+<!-- Notice iPhone -->
+<div id="iosInstall" class="ios-overlay" hidden>
+  <div class="ios-box">
+    <h3>📲 Installer sur iPhone</h3>
+    <p>Sur iPhone, l'installation se fait en 2 gestes :</p>
+    <ol>
+      <li>Appuie sur le bouton <b>Partager</b> ⬆️ en bas de Safari</li>
+      <li>Choisis <b>« Sur l'écran d'accueil »</b></li>
+    </ol>
+    <p class="ios-note">Après ça, Chef de Chantier s'ouvre comme une vraie appli — même sans connexion.</p>
+    <button class="btn-install" onclick="fermerIos()">OK, compris</button>
+  </div>
+</div>
+</body>
+</html>

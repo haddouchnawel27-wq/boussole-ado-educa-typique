@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Décodeur — Educa Typique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bleu-nuit:     #2D3A4F;
+    --bleu:          #5B85C7;
+    --bleu-clair:    #93B0DD;
+    --bleu-pale:     #DCE6F4;
+    --menthe:        #7FB8A4;
+    --menthe-clair:  #A8D0BD;
+    --menthe-pale:   #D4EAE0;
+    --or:            #D4A574;
+    --or-clair:      #E8C99E;
+    --or-pale:       #F4E4CC;
+    --or-ombre:      #A87E4F;
+    --peche:         #F5B7A1;
+    --peche-clair:   #FAD0C0;
+    --peche-pale:    #FCE6D9;
+    --lavande:       #B5A5E8;
+    --lavande-pale:  #E8E2F8;
+    --creme:         #FAF5EC;
+    --creme-pur:     #FFFCF5;
+    --anthracite:    #2D3A4F;
+    --gris-doux:     #6B7785;
+    --vert-ok:       #7FB8A4;
+    --jaune-att:     #E8C266;
+    --orange-vig:    #E8A572;
+    --rouge-orient:  #E8919F;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100vh; }
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--anthracite);
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(91, 133, 199, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 20%, rgba(127, 184, 164, 0.10) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 90%, rgba(245, 183, 161, 0.10) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 80%, rgba(212, 165, 116, 0.08) 0%, transparent 50%),
+      linear-gradient(160deg, var(--creme) 0%, #F8F5EF 50%, var(--creme-pur) 100%);
+    background-size: 200% 200%;
+    background-attachment: fixed;
+    animation: bgShift 20s ease-in-out infinite alternate;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 14px 60px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+    font-size: 16px;
+  }
+  @keyframes bgShift { 0% { background-position: 0% 0%; } 100% { background-position: 100% 100%; } }
+
+  .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(50px); opacity: 0.3; animation: orbFloat 20s ease-in-out infinite alternate; }
+  .orb-1 { width: 280px; height: 280px; background: var(--bleu); top: 12%; left: -100px; }
+  .orb-2 { width: 240px; height: 240px; background: var(--menthe); top: 55%; right: -80px; animation-delay: -7s; }
+  .orb-3 { width: 200px; height: 200px; background: var(--peche); bottom: 8%; left: 30%; animation-delay: -12s; }
+  @keyframes orbFloat {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(40px, -30px) scale(1.1); }
+    100% { transform: translate(-30px, 40px) scale(0.95); }
+  }
+  .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .particle { position: absolute; border-radius: 50%; opacity: 0; animation: floatUp 28s linear infinite; filter: blur(0.3px); }
+  .particle.bleu    { background: radial-gradient(circle, var(--bleu-clair) 0%, transparent 70%); box-shadow: 0 0 10px var(--bleu-clair); }
+  .particle.menthe  { background: radial-gradient(circle, var(--menthe-clair) 0%, transparent 70%); box-shadow: 0 0 10px var(--menthe-clair); }
+  .particle.peche   { background: radial-gradient(circle, var(--peche-clair) 0%, transparent 70%); box-shadow: 0 0 10px var(--peche-clair); }
+  .particle.or      { background: radial-gradient(circle, var(--or-clair) 0%, transparent 70%); box-shadow: 0 0 10px var(--or-clair); }
+  .particle.lavande { background: radial-gradient(circle, var(--lavande) 0%, transparent 70%); box-shadow: 0 0 10px var(--lavande); }
+  @keyframes floatUp {
+    0%   { transform: translateY(105vh) translateX(0) rotate(0); opacity: 0; }
+    10%  { opacity: 0.55; }
+    50%  { transform: translateY(50vh) translateX(20px) rotate(180deg); opacity: 0.4; }
+    100% { transform: translateY(-10vh) translateX(-15px) rotate(360deg); opacity: 0; }
+  }
+
+  .app {
+    width: 100%;
+    max-width: 760px;
+    background: rgba(255, 252, 245, 0.88);
+    backdrop-filter: blur(14px) saturate(110%);
+    -webkit-backdrop-filter: blur(14px) saturate(110%);
+    border-radius: 22px;
+    box-shadow: 0 18px 50px rgba(45, 58, 79, 0.12), 0 4px 14px rgba(91, 133, 199, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(91, 133, 199, 0.12);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    animation: appear 0.8s ease;
+  }
+  @keyframes appear { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+  header.brand {
+    text-align: center;
+    padding: 30px 24px 16px;
+    position: relative;
+    border-bottom: 1px solid rgba(91, 133, 199, 0.10);
+    background: linear-gradient(180deg, rgba(220, 230, 244, 0.4) 0%, transparent 100%);
+  }
+  .brand-mark { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 0.42em; text-transform: uppercase; color: var(--menthe); margin-bottom: 8px; }
+  .brand-name { font-family: 'Fraunces', serif; font-size: 40px; font-weight: 500; color: var(--bleu-nuit); letter-spacing: 0.01em; line-height: 1.05; }
+  .brand-name em { font-style: italic; background: linear-gradient(120deg, var(--bleu) 0%, var(--menthe) 40%, var(--or) 75%, var(--peche) 100%); background-size: 250% auto; -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 400; animation: shimmer 9s ease-in-out infinite; }
+  @keyframes shimmer { 0%, 100% { background-position: 0% center; } 50% { background-position: 100% center; } }
+  .brand-tagline { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 15px; color: var(--bleu); margin-top: 4px; letter-spacing: 0.02em; }
+  .ornament { margin: 12px auto 0; width: 110px; height: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; opacity: 0.7; }
+  .ornament .line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--menthe), transparent); }
+  .ornament .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--or); }
+
+  .progress { display: flex; gap: 5px; justify-content: center; padding: 14px 24px 0; flex-wrap: wrap; }
+  .progress span { width: 26px; height: 3px; background: rgba(91, 133, 199, 0.15); border-radius: 3px; transition: all 0.4s ease; }
+  .progress span.active { background: linear-gradient(to right, var(--bleu), var(--menthe)); width: 40px; }
+  .progress span.done { background: var(--menthe); }
+
+  main { padding: 28px 30px 34px; position: relative; z-index: 1; }
+  .step { display: none; animation: stepIn 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+  .step.active { display: block; }
+  @keyframes stepIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  h1 { font-family: 'Fraunces', serif; color: var(--bleu-nuit); font-weight: 500; font-size: 30px; margin-bottom: 14px; line-height: 1.15; text-align: center; }
+  h1::after { content: ""; display: block; width: 38px; height: 2px; background: linear-gradient(to right, var(--bleu), var(--or)); margin: 10px auto 0; border-radius: 2px; }
+  h2 { font-family: 'Fraunces', serif; color: var(--bleu); font-weight: 500; font-size: 20px; margin: 18px 0 8px; text-align: center; }
+  h3 { font-family: 'Fraunces', serif; color: var(--bleu); font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  p { margin-bottom: 12px; font-size: 15.5px; line-height: 1.65; color: var(--anthracite); }
+  .lead { font-family: 'Fraunces', serif; font-style: italic; font-size: 17.5px; font-weight: 400; color: var(--bleu); line-height: 1.6; text-align: center; }
+  .step > p { text-align: center; }
+
+  .disclaimer-strong { background: linear-gradient(135deg, var(--peche-pale), var(--or-pale)); border-left: 3px solid var(--or); border-radius: 10px; padding: 16px 18px; margin: 16px 0; font-size: 14.5px; color: var(--anthracite); text-align: left; line-height: 1.65; }
+  .disclaimer-strong::before { content: "⚠ NOTE IMPORTANTE"; display: block; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.18em; color: var(--or-ombre); margin-bottom: 8px; }
+  .disclaimer-strong strong { color: var(--bleu-nuit); }
+  .disclaimer-strong em { color: var(--menthe); font-style: italic; }
+
+  .tip { background: rgba(220, 234, 224, 0.5); border: 1px solid rgba(127, 184, 164, 0.25); border-left: 3px solid var(--menthe); border-radius: 10px; padding: 12px 14px 12px 42px; margin: 14px 0; font-size: 14px; line-height: 1.55; color: var(--anthracite); text-align: left; position: relative; }
+  .tip::before { content: "💡"; position: absolute; left: 12px; top: 11px; font-size: 16px; }
+  .tip strong { color: var(--bleu-nuit); }
+
+  .btn { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--bleu) 0%, var(--bleu-nuit) 100%); color: var(--creme-pur); border: none; padding: 14px 30px; border-radius: 14px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.04em; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 4px 14px rgba(91, 133, 199, 0.3); position: relative; overflow: hidden; }
+  .btn::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, var(--bleu) 0%, var(--menthe) 50%, var(--or) 100%); opacity: 0; transition: opacity 0.4s; }
+  .btn::after { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent); transition: left 0.6s; }
+  .btn span { position: relative; z-index: 1; }
+  .btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(91, 133, 199, 0.4); }
+  .btn:hover:not(:disabled)::before { opacity: 1; }
+  .btn:hover:not(:disabled)::after { left: 100%; }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-ghost { background: transparent; color: var(--bleu); border: 1.5px solid rgba(91, 133, 199, 0.3); box-shadow: none; }
+  .btn-ghost::before { display: none; }
+  .btn-ghost:hover:not(:disabled) { background: var(--bleu-pale); border-color: var(--bleu); }
+  .btn-pro { background: linear-gradient(135deg, var(--or-ombre), var(--lavande)); box-shadow: 0 4px 14px rgba(168, 126, 79, 0.3); font-size: 13px; padding: 11px 22px; }
+  .btn-pro::before { background: linear-gradient(135deg, var(--lavande), var(--or)); }
+  .step-back { background: none; border: none; color: var(--gris-doux); cursor: pointer; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+  .step-back:hover { color: var(--bleu); transform: translateX(-3px); }
+  .actions { margin-top: 24px; display: flex; gap: 12px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin: 18px 0; }
+  .choice-card { background: var(--creme-pur); border: 1.5px solid rgba(91, 133, 199, 0.15); border-radius: 14px; padding: 18px 14px 16px; cursor: pointer; text-align: center; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }
+  .choice-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right, var(--bleu), var(--menthe), var(--peche), var(--or)); opacity: 0; transition: opacity 0.3s; border-radius: 14px 14px 0 0; }
+  .choice-card:hover { transform: translateY(-3px); border-color: var(--menthe); box-shadow: 0 10px 22px rgba(91, 133, 199, 0.12); }
+  .choice-card:hover::before { opacity: 1; }
+  .choice-card.selected { border-color: var(--or); background: linear-gradient(135deg, var(--creme-pur), var(--or-pale)); }
+  .choice-card.selected::before { opacity: 1; }
+  .choice-icon { display: block; font-family: 'Fraunces', serif; font-size: 28px; margin-bottom: 8px; color: var(--bleu); line-height: 1; transition: transform 0.4s, color 0.3s; }
+  .choice-card:hover .choice-icon { transform: scale(1.2) rotate(5deg); color: var(--menthe); }
+  .choice-card.selected .choice-icon { color: var(--or-ombre); }
+  .choice-label { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--bleu-nuit); font-weight: 600; line-height: 1.3; }
+  .choice-sublabel { display: block; font-size: 11.5px; color: var(--gris-doux); font-weight: 400; margin-top: 3px; font-style: italic; }
+  .domains-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; margin: 18px 0; }
+
+  /* Questionnaire — boutons agrandis et plus robustes */
+  .question-block { background: var(--creme-pur); border: 1px solid rgba(91, 133, 199, 0.12); border-radius: 12px; padding: 16px 18px; margin: 12px 0; transition: all 0.3s; }
+  .question-block:hover { border-color: var(--menthe-clair); box-shadow: 0 4px 12px rgba(91, 133, 199, 0.06); }
+  .question-block.answered { border-color: var(--menthe); background: linear-gradient(135deg, var(--creme-pur), rgba(212, 234, 224, 0.3)); }
+  .question-text { font-size: 15px; color: var(--bleu-nuit); margin-bottom: 12px; line-height: 1.5; font-weight: 500; }
+  .question-text .num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: linear-gradient(135deg, var(--bleu), var(--menthe)); color: var(--creme-pur); border-radius: 50%; font-size: 12px; font-weight: 700; margin-right: 10px; font-family: 'Inter', sans-serif; vertical-align: middle; }
+  .response-options { display: flex; gap: 6px; flex-wrap: wrap; }
+  .response-btn { flex: 1; min-width: 70px; padding: 10px 12px; background: var(--creme); border: 1.5px solid rgba(91, 133, 199, 0.15); border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--anthracite); text-align: center; transition: all 0.2s; user-select: none; }
+  .response-btn:hover { border-color: var(--menthe); background: var(--menthe-pale); transform: translateY(-1px); }
+  .response-btn.selected { background: linear-gradient(135deg, var(--bleu), var(--menthe)); color: var(--creme-pur); border-color: var(--bleu); transform: scale(1.03); box-shadow: 0 4px 10px rgba(91, 133, 199, 0.3); }
+  .questionnaire-progress { text-align: center; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--gris-doux); margin: 14px 0; font-weight: 500; letter-spacing: 0.04em; padding: 10px; background: var(--bleu-pale); border-radius: 8px; }
+  .questionnaire-progress strong { color: var(--bleu); font-weight: 700; }
+
+  .profile-summary { background: linear-gradient(135deg, var(--bleu-pale), var(--menthe-pale)); border-radius: 14px; padding: 22px; margin: 18px 0; text-align: center; }
+  .profile-level { font-family: 'Fraunces', serif; font-weight: 500; font-size: 26px; color: var(--bleu-nuit); margin: 8px 0; }
+  .profile-bar { width: 100%; height: 14px; background: rgba(255, 255, 255, 0.5); border-radius: 999px; overflow: hidden; margin: 14px 0 10px; position: relative; }
+  .profile-bar-fill { height: 100%; background: linear-gradient(to right, var(--vert-ok), var(--jaune-att), var(--orange-vig), var(--rouge-orient)); border-radius: 999px; transition: width 1s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 10px rgba(91, 133, 199, 0.3); }
+  .profile-scale { display: flex; justify-content: space-between; font-size: 11px; color: var(--gris-doux); margin-top: 4px; }
+  .profile-description { font-family: 'Fraunces', serif; font-style: italic; color: var(--anthracite); margin-top: 14px; line-height: 1.65; }
+
+  .orientations-list { display: flex; flex-direction: column; gap: 12px; margin: 18px 0; }
+  .orientation-card { background: var(--creme-pur); border: 1.5px solid rgba(91, 133, 199, 0.15); border-radius: 12px; padding: 16px 18px; transition: all 0.3s; }
+  .orientation-card:hover { border-color: var(--menthe); transform: translateX(3px); }
+  .orientation-card.priority { border-color: var(--or); background: linear-gradient(135deg, var(--or-pale), var(--creme-pur)); }
+  .orientation-card.priority::before { content: "★ Priorité"; display: inline-block; background: var(--or); color: var(--creme-pur); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 999px; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .orientation-pro { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 500; color: var(--bleu-nuit); margin-bottom: 6px; }
+  .orientation-desc { font-size: 14px; color: var(--anthracite); line-height: 1.55; margin-bottom: 6px; }
+  .orientation-why { font-size: 12.5px; color: var(--gris-doux); font-style: italic; border-top: 1px dashed rgba(91, 133, 199, 0.2); padding-top: 8px; margin-top: 8px; }
+
+  .cabinet-box { background: linear-gradient(135deg, var(--bleu-pale), var(--lavande-pale)); border-radius: 16px; padding: 22px 20px; margin: 18px 0; border: 1px solid rgba(91, 133, 199, 0.2); }
+  .cabinet-box h3 { color: var(--bleu); margin-bottom: 10px; text-align: center; }
+  .cabinet-box ul { list-style: none; margin-top: 10px; }
+  .cabinet-box li { padding: 8px 0 8px 24px; position: relative; font-size: 14px; line-height: 1.55; }
+  .cabinet-box li::before { content: "✦"; position: absolute; left: 4px; color: var(--or); font-size: 13px; }
+
+  .summary-card { background: linear-gradient(135deg, var(--creme-pur), var(--bleu-pale)); border: 1px solid rgba(91, 133, 199, 0.18); border-radius: 14px; padding: 22px; margin: 18px 0; box-shadow: 0 6px 18px rgba(45, 58, 79, 0.08); }
+  .summary-card h3 { text-align: center; margin-bottom: 12px; }
+  .summary-line { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(91, 133, 199, 0.15); font-size: 14px; }
+  .summary-line:last-child { border-bottom: none; }
+  .summary-line .lab { color: var(--gris-doux); font-style: italic; }
+  .summary-line .val { color: var(--bleu-nuit); font-weight: 600; text-align: right; max-width: 60%; }
+
+  .closing-quote { text-align: center; font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--bleu); margin: 22px 0; line-height: 1.65; padding: 20px 14px; position: relative; }
+  .closing-quote::before, .closing-quote::after { content: ""; position: absolute; left: 50%; transform: translateX(-50%); width: 50px; height: 1px; background: var(--or); }
+  .closing-quote::before { top: 0; } .closing-quote::after { bottom: 0; }
+  .closing-quote small { display: block; margin-top: 10px; font-size: 11.5px; font-family: 'Inter', sans-serif; letter-spacing: 0.06em; color: var(--gris-doux); font-style: normal; font-weight: 500; }
+  .signature { text-align: center; font-family: 'Inter', sans-serif; color: var(--gris-doux); margin-top: 24px; font-size: 11px; letter-spacing: 0.14em; opacity: 0.75; text-transform: uppercase; font-weight: 600; }
+  .footer-disclaimer { margin-top: 22px; padding: 14px 16px; background: rgba(220, 230, 244, 0.4); border-radius: 10px; font-size: 12px; color: var(--gris-doux); line-height: 1.6; text-align: center; border: 1px solid rgba(91, 133, 199, 0.12); }
+
+  /* ─────────── SECTION PRATICIENNE ─────────── */
+  .pro-gate { background: linear-gradient(135deg, var(--lavande-pale), var(--bleu-pale)); border-radius: 14px; padding: 18px 20px; margin: 22px 0; text-align: center; border: 1px solid rgba(181, 165, 232, 0.3); }
+  .pro-gate-label { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; color: var(--or-ombre); margin-bottom: 8px; }
+  .pro-gate-desc { font-family: 'Fraunces', serif; font-style: italic; color: var(--bleu); font-size: 14.5px; margin-bottom: 12px; }
+  .pro-panel { display: none; margin-top: 22px; animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+  .pro-panel.visible { display: block; }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+  .pro-section { background: var(--creme-pur); border-radius: 14px; padding: 22px; margin: 16px 0; border: 1px solid rgba(168, 126, 79, 0.25); box-shadow: 0 6px 18px rgba(45, 58, 79, 0.08); }
+  .pro-section h3 { display: flex; align-items: center; gap: 10px; color: var(--or-ombre); font-size: 18px; font-weight: 600; margin-bottom: 12px; text-align: left; }
+  .pro-section h3::before { content: ""; width: 4px; height: 18px; background: linear-gradient(to bottom, var(--or), var(--lavande)); border-radius: 2px; }
+  .pro-section h4 { font-family: 'Fraunces', serif; color: var(--bleu); font-size: 15px; font-weight: 600; margin: 14px 0 6px; }
+  .pro-section ul { list-style: none; margin: 8px 0; }
+  .pro-section ul li { padding: 6px 0 6px 22px; position: relative; font-size: 14px; line-height: 1.55; color: var(--anthracite); }
+  .pro-section ul li::before { content: "›"; position: absolute; left: 6px; color: var(--or); font-weight: 700; }
+  .pro-section ol { padding-left: 22px; margin: 8px 0; }
+  .pro-section ol li { padding: 4px 0; font-size: 14px; line-height: 1.55; color: var(--anthracite); }
+  .pro-section ol li::marker { color: var(--or); font-weight: 700; }
+  .pro-hypothesis { background: linear-gradient(135deg, var(--peche-pale), var(--creme-pur)); border-left: 3px solid var(--peche); border-radius: 8px; padding: 10px 14px; margin: 8px 0; font-size: 14px; }
+  .pro-hypothesis strong { color: var(--or-ombre); }
+  .pro-protocole { background: var(--bleu-pale); border-radius: 8px; padding: 12px 16px; margin: 8px 0; font-size: 14px; color: var(--bleu-nuit); }
+  .pro-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+  .pro-tag { background: var(--lavande-pale); color: var(--bleu-nuit); padding: 5px 11px; border-radius: 999px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.04em; }
+  .pro-tag.urgent { background: var(--rouge-orient); color: var(--creme-pur); }
+  .pro-tag.observation { background: var(--menthe); color: var(--creme-pur); }
+  .pro-tag.programme { background: var(--or); color: var(--creme-pur); }
+
+  footer { text-align: center; margin-top: 20px; padding: 12px; font-family: 'Inter', sans-serif; font-size: 11.5px; color: var(--gris-doux); position: relative; z-index: 1; max-width: 740px; }
+  footer em { font-style: italic; color: var(--bleu); }
+
+  /* ─────────── Modal PIN ─────────── */
+  .pin-overlay { position: fixed; inset: 0; background: rgba(45, 58, 79, 0.7); backdrop-filter: blur(6px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .pin-overlay.show { display: flex; animation: fadeIn 0.3s; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .pin-modal { background: var(--creme-pur); border-radius: 18px; max-width: 420px; width: 100%; padding: 28px 26px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); position: relative; text-align: center; }
+  .pin-modal h2 { color: var(--bleu-nuit); }
+  .pin-input { width: 100%; padding: 14px; font-size: 22px; text-align: center; letter-spacing: 0.3em; border: 2px solid var(--bleu-clair); border-radius: 10px; font-family: 'Inter', sans-serif; font-weight: 600; color: var(--bleu-nuit); background: var(--creme); margin: 14px 0; }
+  .pin-input:focus { outline: none; border-color: var(--or); box-shadow: 0 0 0 3px var(--or-pale); }
+  .pin-error { color: var(--rouge-orient); font-size: 13px; margin-top: 6px; min-height: 18px; font-weight: 500; }
+  .pin-close { position: absolute; top: 12px; right: 14px; background: none; border: none; font-size: 24px; color: var(--gris-doux); cursor: pointer; }
+
+  @media (max-width: 600px) {
+    body { padding: 14px 10px 40px; }
+    main { padding: 22px 18px 28px; }
+    .brand-name { font-size: 32px; }
+    h1 { font-size: 24px; }
+    .domains-grid { grid-template-columns: repeat(2, 1fr); }
+    .cards-grid { grid-template-columns: repeat(2, 1fr); }
+    .response-btn { font-size: 12px; padding: 9px 8px; min-width: 60px; }
+    .progress span { width: 22px; }
+    .progress span.active { width: 32px; }
+  }
+
+  /* ─────────── PRINT — synthèse imprimable propre ─────────── */
+  @media print {
+    body { background: white !important; padding: 0; animation: none; }
+    .orb, .particles, .progress, header.brand .urgence-link { display: none !important; }
+    .app { box-shadow: none; border: none; background: white; border-radius: 0; }
+    .step { display: none !important; }
+    .step[data-step="9"], .step[data-step="9"].active { display: block !important; }
+    .actions, .pro-gate { display: none !important; }
+    .pro-panel.visible { display: block !important; }
+    .closing-quote { page-break-inside: avoid; }
+    .pro-section { page-break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+    .btn { display: none !important; }
+    .summary-card, .pro-section, .cabinet-box, .footer-disclaimer { box-shadow: none !important; background: white !important; border: 1px solid #ccc; }
+    h1, h2, h3 { color: #000 !important; }
+    @page { margin: 2cm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<div class="particles" id="particles"></div>
+
+<div class="app">
+  <header class="brand">
+    <div class="brand-mark">Educa Typique · Outil d'observation</div>
+    <div class="brand-name">Le <em>Décodeur</em></div>
+    <div class="brand-tagline">Observer, comprendre, orienter</div>
+    <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
+  </header>
+
+  <div class="progress" id="progress">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <main>
+
+    <!-- 0 ACCUEIL -->
+    <section class="step active" data-step="0">
+      <h1>Bienvenue dans le Décodeur</h1>
+      <p class="lead">Un outil d'observation pédagogique pour repérer ce qui mérite d'être regardé de plus près — chez un enfant, un ado, ou un adulte.</p>
+      <p>Le Décodeur t'aide à <strong>nommer ce que tu observes</strong>, à <strong>comprendre</strong> dans quel domaine ces difficultés se situent, et à savoir <strong>vers quel professionnel s'orienter</strong>.</p>
+      <p style="color: var(--gris-doux); font-size: 14.5px;">⏱ Compte 10 à 15 minutes.</p>
+      <div class="disclaimer-strong">
+        <strong>Le Décodeur ne pose pas de diagnostic.</strong>
+        Educa Typique ne pose <strong>aucun diagnostic médical, psychologique ou neuropsychologique</strong>. Le cabinet se réserve le droit d'<em>observer l'enfant, l'ado ou l'adulte</em> lors de séances dédiées, afin de relever des difficultés et d'orienter vers les professionnels habilités (médecin, neuropsychologue, orthophoniste, ergothérapeute, psychomotricien, ophtalmologue spécialisé, etc.).
+      </div>
+      <div class="actions" style="justify-content: center;">
+        <button class="btn" onclick="next()"><span>Commencer l'observation</span></button>
+      </div>
+    </section>
+
+    <!-- 1 PROFIL -->
+    <section class="step" data-step="1">
+      <h1>Pour qui ?</h1>
+      <p>Cet outil s'adapte au profil observé. Choisis lequel correspond.</p>
+      <div class="cards-grid" id="profilGrid"></div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" id="btnAfterProfil" onclick="next()" disabled><span>Continuer</span></button>
+      </div>
+    </section>
+
+    <!-- 2 QUI -->
+    <section class="step" data-step="2">
+      <h1>Qui remplit ?</h1>
+      <p>Cela nous aide à formuler les questions de façon adaptée.</p>
+      <div class="cards-grid" id="qui_remplitGrid"></div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" id="btnAfterQuiRemplit" onclick="next()" disabled><span>Continuer</span></button>
+      </div>
+    </section>
+
+    <!-- 3 DOMAINE -->
+    <section class="step" data-step="3">
+      <h1>Quel domaine veux-tu observer ?</h1>
+      <p>Choisis celui où les difficultés sont les plus visibles aujourd'hui.</p>
+      <div class="domains-grid" id="domainesGrid"></div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" id="btnAfterDomaine" onclick="next()" disabled><span>Continuer</span></button>
+      </div>
+    </section>
+
+    <!-- 4 QUESTIONNAIRE -->
+    <section class="step" data-step="4">
+      <h1 id="quTitre">Observations</h1>
+      <p>Pour chaque question, choisis la fréquence qui correspond.</p>
+      <div class="questionnaire-progress" id="quProgress"></div>
+      <div id="quContent"></div>
+      <div class="tip"><strong>Réponds spontanément.</strong> Il n'y a pas de bonne ou mauvaise réponse — c'est ce que tu observes sur les dernières semaines.</div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" id="btnAfterQu" onclick="next()" disabled><span>Voir le profil →</span></button>
+      </div>
+    </section>
+
+    <!-- 5 RÉFLEXES -->
+    <section class="step" data-step="5">
+      <h1>Réflexes archaïques — Observation rapide</h1>
+      <p>Les réflexes archaïques peuvent rester actifs et perturber attention, motricité, apprentissages, émotions. Coche ce qui correspond.</p>
+      <div id="reflexesContent"></div>
+      <div class="tip"><strong>Spécialité Educa Typique :</strong> l'observation et l'intégration des réflexes archaïques font partie de notre approche neuro-pédagogique.</div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" onclick="next()"><span>Voir le profil →</span></button>
+      </div>
+    </section>
+
+    <!-- 6 PROFIL OBSERVÉ -->
+    <section class="step" data-step="6">
+      <h1>Le profil observé</h1>
+      <p>Voici ce qui ressort. Ce n'est <strong>pas un diagnostic</strong> — c'est une cartographie pour orienter le regard.</p>
+      <div id="profilResultat"></div>
+      <div class="tip"><strong>Important :</strong> ce niveau reflète <em>la fréquence</em> des observations cochées, pas la gravité réelle. Seul un professionnel habilité peut évaluer cliniquement.</div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" onclick="next()"><span>Voir les orientations →</span></button>
+      </div>
+    </section>
+
+    <!-- 7 ORIENTATIONS -->
+    <section class="step" data-step="7">
+      <h1>Vers qui s'orienter ?</h1>
+      <p>Le médecin traitant ou le pédiatre reste souvent <strong>la première porte d'entrée</strong>.</p>
+      <div id="orientationsResultat"></div>
+      <div class="disclaimer-strong">Ces propositions sont <strong>indicatives</strong>. Educa Typique ne se substitue à aucun professionnel de santé. Le choix final appartient à la famille et au médecin référent.</div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" onclick="next()"><span>Continuer →</span></button>
+      </div>
+    </section>
+
+    <!-- 8 CABINET -->
+    <section class="step" data-step="8">
+      <h1>Ce que propose Educa Typique</h1>
+      <p>Notre approche est <strong>complémentaire</strong> du parcours médical et paramédical, jamais en remplacement.</p>
+      <div class="cabinet-box">
+        <h3>En séance d'observation</h3>
+        <ul>
+          <li>Observation neuro-pédagogique en situation d'apprentissage et de jeu</li>
+          <li>Repérage de signes pouvant orienter vers un bilan spécialisé</li>
+          <li>Évaluation des réflexes archaïques non intégrés</li>
+          <li>Analyse des fonctions exécutives et stratégies d'apprentissage</li>
+          <li>Soutien parental et éducatif</li>
+        </ul>
+        <h3 style="margin-top: 18px;">En accompagnement</h3>
+        <ul>
+          <li>Travail d'intégration des réflexes archaïques</li>
+          <li>Stratégies neuro-pédagogiques personnalisées</li>
+          <li>Outils concrets pour la maison et l'école</li>
+          <li>Collaboration avec les professionnels qui suivent déjà la personne</li>
+        </ul>
+      </div>
+      <div class="tip"><strong>Le cabinet n'établit jamais de diagnostic.</strong> Il accompagne, observe, soutient et oriente.</div>
+      <div class="actions">
+        <button class="step-back" onclick="prev()">← Retour</button>
+        <button class="btn" onclick="next()"><span>Voir la synthèse →</span></button>
+      </div>
+    </section>
+
+    <!-- 9 SYNTHÈSE -->
+    <section class="step" data-step="9">
+      <h1>Synthèse</h1>
+      <p style="color: var(--gris-doux);">Ce récap peut être imprimé pour être apporté lors d'une consultation.</p>
+      <div class="summary-card" id="summaryCard"></div>
+
+      <div class="closing-quote">Observer, c'est déjà prendre soin.<small>— Posture Educa Typique</small></div>
+      <div class="signature">Educa Typique · Le Décodeur</div>
+
+      <div class="actions" style="justify-content: center; margin-top: 22px; gap: 10px;">
+        <button class="btn btn-ghost" onclick="printReport()"><span>🖨 Imprimer</span></button>
+        <button class="btn" onclick="restart()"><span>Recommencer</span></button>
+      </div>
+
+      <!-- Gate praticienne -->
+      <div class="pro-gate">
+        <div class="pro-gate-label">🔒 Réservé Praticienne — Educa Typique</div>
+        <div class="pro-gate-desc">Évaluation neuro-pédagogique détaillée, hypothèses cliniques, protocoles et programmes d'accompagnement.</div>
+        <button class="btn btn-pro" onclick="openPin()"><span>Accéder à la vue praticienne</span></button>
+      </div>
+
+      <!-- Panneau praticienne (caché par défaut) -->
+      <div class="pro-panel" id="proPanel">
+        <div id="proPanelContent"></div>
+      </div>
+
+      <div class="footer-disclaimer"><strong>Le Décodeur Educa Typique</strong> est un outil pédagogique d'observation. Il n'établit aucun diagnostic médical, psychologique ou neuropsychologique. Pour toute évaluation clinique, consulte un professionnel habilité.</div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Modal PIN -->
+<div class="pin-overlay" id="pinOverlay">
+  <div class="pin-modal">
+    <button class="pin-close" onclick="closePin()">×</button>
+    <h2>🔒 Vue praticienne</h2>
+    <p style="font-size: 14px; color: var(--gris-doux); margin-top: 10px;">Entre ton code à 4 chiffres pour accéder à l'évaluation détaillée.</p>
+    <input type="password" class="pin-input" id="pinInput" maxlength="4" placeholder="••••" inputmode="numeric" autocomplete="off">
+    <div class="pin-error" id="pinError">&nbsp;</div>
+    <button class="btn" onclick="checkPin()" style="width: 100%; justify-content: center;"><span>Accéder</span></button>
+    <p style="font-size: 11px; color: var(--gris-doux); margin-top: 16px; font-style: italic;">Code par défaut : <strong>1973</strong> — modifiable dans le code source.</p>
+  </div>
+</div>
+
+<footer>
+  <em>Le Décodeur</em> · Outil d'observation par <em>Educa Typique</em><br>
+  Document confidentiel · Reproduction interdite sans autorisation
+</footer>
+
+<script>
+// ============================================================
+//  CONFIG PIN (à personnaliser)
+// ============================================================
+const PIN_PRO = "1973";
+
+// ============================================================
+//  DONNÉES
+// ============================================================
+const PROFILS = {
+  enfant: { icon: "✿", label: "Enfant", sublabel: "6 à 12 ans" },
+  ado:    { icon: "✦", label: "Ado",    sublabel: "12 à 18 ans" },
+  adulte: { icon: "◉", label: "Adulte", sublabel: "18 ans et +" }
+};
+const QUI_REMPLIT = {
+  parent:    { icon: "♡", label: "Un parent",    sublabel: "pour son enfant ou ado" },
+  personne:  { icon: "✧", label: "La personne",  sublabel: "elle-même" },
+  pro:       { icon: "◈", label: "Un pro",       sublabel: "enseignant, éducateur" }
+};
+
+const DOMAINES = {
+  attention: { icon: "◐", label: "Attention", sublabel: "concentration, distractibilité",
+    questions: [
+      "A du mal à rester concentré(e) sur une tâche jusqu'à la fin",
+      "Semble rêveur(se), dans la lune",
+      "Se laisse distraire par les bruits ou mouvements autour",
+      "Oublie ce qu'il/elle vient d'entendre ou de faire",
+      "Fait des erreurs d'inattention dans les tâches simples",
+      "A besoin de bouger constamment pour réfléchir",
+      "Hyperfocalise sur un sujet précis et n'arrive plus à lâcher",
+      "Difficile de passer d'une tâche à une autre"
+    ]
+  },
+  apprentissages: { icon: "◇", label: "Apprentissages", sublabel: "lecture, écriture, calcul, mémoire",
+    questions: [
+      "Lecture lente, syllabique, ou évite la lecture",
+      "Confond des lettres similaires (b/d, p/q, m/n)",
+      "Écriture difficile, illisible, ou très lente",
+      "Difficulté importante avec chiffres et calculs",
+      "Oublie une consigne dite quelques minutes plus tôt",
+      "Apprend par cœur sans comprendre le sens",
+      "Comprend mieux à l'oral qu'à l'écrit (ou inverse)",
+      "Découragé(e) ou anxieux(se) face aux devoirs"
+    ]
+  },
+  langage: { icon: "○", label: "Langage", sublabel: "oral, vocabulaire, prononciation",
+    questions: [
+      "Vocabulaire limité par rapport à son âge",
+      "Difficulté à formuler des phrases complètes et structurées",
+      "Cherche ses mots fréquemment",
+      "Bégaie, répète des mots ou des syllabes",
+      "Mauvaise prononciation persistante après 5-6 ans",
+      "Difficulté à raconter une histoire dans l'ordre",
+      "Comprend mal les consignes complexes ou à étapes",
+      "Difficulté avec le second degré, l'humour, les métaphores"
+    ]
+  },
+  motricite: { icon: "✦", label: "Motricité", sublabel: "coordination, équilibre, geste",
+    questions: [
+      "Maladroit(e), tombe ou se cogne souvent",
+      "Difficulté à attraper, lancer ou rattraper une balle",
+      "Tient mal le crayon, écriture pénible",
+      "Lent(e) à s'habiller, à lacer ses chaussures",
+      "Mauvaise posture (avachi, tortillements)",
+      "Évite les activités sportives ou physiques",
+      "Confusion droite/gauche persistante après 7 ans",
+      "Difficulté à découper, plier, manipuler de petits objets"
+    ]
+  },
+  sensoriel: { icon: "◉", label: "Sensoriel", sublabel: "hyper / hypo-sensibilité",
+    questions: [
+      "Hypersensible aux bruits forts ou inhabituels",
+      "Gêné(e) par les lumières vives ou écrans",
+      "Évite certaines textures alimentaires ou vestimentaires",
+      "Réagit fortement aux étiquettes de vêtements, coutures",
+      "Cherche les contacts physiques forts",
+      "Ou au contraire évite tout contact physique",
+      "Mouvements répétitifs (balance, agite mains)",
+      "Besoin marqué de mordre, sucer, mâcher"
+    ]
+  },
+  social: { icon: "◍", label: "Social", sublabel: "relations, communication",
+    questions: [
+      "Difficulté à se faire des amis ou à les garder",
+      "Préfère jouer ou être seul(e) plutôt qu'en groupe",
+      "Ne comprend pas les codes sociaux implicites",
+      "Évite le contact visuel pendant les échanges",
+      "Comprend mal les émotions des autres",
+      "Réactions sociales jugées inappropriées",
+      "Isolement à l'école, au travail ou en famille",
+      "Conflits fréquents avec ses pairs"
+    ]
+  },
+  emotionnel: { icon: "♡", label: "Émotionnel", sublabel: "régulation, intensité",
+    questions: [
+      "Émotions très intenses, débordantes",
+      "Difficile à apaiser une fois énervé(e) ou en pleurs",
+      "Crises de colère ou de larmes fréquentes",
+      "Anxiété marquée (peurs, appréhensions)",
+      "Tristesse durable ou repli sur soi",
+      "Faible estime de soi, se dévalorise",
+      "Hypersensible aux remarques",
+      "Symptômes corporels (mal au ventre, à la tête) avant événements"
+    ]
+  },
+  executives: { icon: "⌬", label: "Fonctions exécutives", sublabel: "organisation, planification",
+    questions: [
+      "Difficulté importante à s'organiser dans le temps et l'espace",
+      "Oublie systématiquement ses affaires, son matériel",
+      "Mauvaise gestion du temps (en retard, dépassements)",
+      "Procrastine, repousse les tâches sans cesse",
+      "Difficulté à démarrer une tâche, même simple",
+      "Difficulté à hiérarchiser ce qui est important",
+      "Saute d'une activité à une autre sans en finir aucune",
+      "Mauvaise auto-évaluation : croit savoir, ou croit ne pas savoir"
+    ]
+  },
+  sommeil: { icon: "◌", label: "Sommeil & énergie", sublabel: "fatigue, rythme",
+    questions: [
+      "Difficulté importante à s'endormir",
+      "Réveils nocturnes fréquents",
+      "Cauchemars répétés",
+      "Sommeil non récupérateur",
+      "Coup de barre marqué en milieu de journée",
+      "Besoin de beaucoup plus de sommeil que ses pairs",
+      "Difficulté importante à se réveiller le matin",
+      "Ronflements bruyants, apnées, pauses respiratoires"
+    ]
+  }
+};
+
+const REFLEXES = [
+  { id: "moro",   text: "Sursaute facilement aux bruits ou changements brusques, anxiété diffuse" },
+  { id: "atnr",   text: "Posture asymétrique en écrivant, suit le mouvement de la main avec le corps" },
+  { id: "stnr",   text: "S'assied en W, mauvaise tenue, écriture penchée" },
+  { id: "spinal", text: "Difficulté à rester assis(e) tranquille, agitation persistante" },
+  { id: "babkin", text: "Tire la langue ou mâchonne en se concentrant" },
+  { id: "palmar", text: "Tient le crayon de façon crispée, fatigue rapide à l'écriture" }
+];
+
+const ORIENTATIONS = {
+  attention: [
+    { pro: "Médecin traitant / pédiatre", desc: "Première porte d'entrée. Évalue la santé générale et oriente.", why: "Toute observation persistante mérite d'abord un avis médical.", priority: true },
+    { pro: "Neuropsychologue", desc: "Bilan attentionnel et exécutif complet (TDA/H, profil cognitif).", why: "L'attention se mesure cliniquement par des tests étalonnés." },
+    { pro: "Ophtalmologue / orthoptiste neurovisuel", desc: "Élimine un trouble de la vision binoculaire qui mime l'inattention.", why: "30% des problèmes d'attention scolaire ont une origine visuelle." },
+    { pro: "Pédopsychiatre / neurologue", desc: "Si suspicion de TDA/H avec retentissement marqué.", why: "Seul un médecin peut poser un diagnostic et envisager un traitement." }
+  ],
+  apprentissages: [
+    { pro: "Médecin traitant / pédiatre", desc: "Coordonne les bilans à venir.", why: "Prescrit les bilans paramédicaux remboursés.", priority: true },
+    { pro: "Orthophoniste", desc: "Bilan du langage écrit et oral (dyslexie, dysorthographie).", why: "Référent des troubles spécifiques des apprentissages (DYS)." },
+    { pro: "Neuropsychologue", desc: "Bilan cognitif (mémoire, attention, raisonnement).", why: "Cartographie les forces et faiblesses cognitives." },
+    { pro: "Ergothérapeute", desc: "Si dysgraphie.", why: "L'écriture sollicite motricité fine + planification." },
+    { pro: "Orthoptiste neurovisuel", desc: "Bilan de la vision fonctionnelle.", why: "Beaucoup d'enfants DYS ont des troubles visuels associés." }
+  ],
+  langage: [
+    { pro: "Orthophoniste", desc: "Référent en première intention.", why: "C'est sa spécialité — bilan complet du langage.", priority: true },
+    { pro: "Médecin traitant / pédiatre", desc: "Pour la prescription du bilan.", why: "Ordonnance requise pour la prise en charge." },
+    { pro: "ORL / audiologiste", desc: "Vérifie l'audition (cause fréquente sous-estimée).", why: "Un déficit auditif léger perturbe le langage." },
+    { pro: "Pédopsychiatre", desc: "Si suspicion de TSA ou dysphasie sévère.", why: "Bilan global du développement." }
+  ],
+  motricite: [
+    { pro: "Médecin traitant / pédiatre", desc: "Évalue la santé générale et la croissance.", why: "Élimine causes médicales avant orientation.", priority: true },
+    { pro: "Psychomotricien(ne)", desc: "Bilan psychomoteur (motricité globale, schéma corporel).", why: "Évalue la maladresse, la coordination, l'organisation spatiale." },
+    { pro: "Ergothérapeute", desc: "Si difficulté de motricité fine et de geste graphique.", why: "Travaille les gestes fonctionnels du quotidien." },
+    { pro: "Praticien réflexes archaïques (Educa Typique)", desc: "Vérifie si des réflexes non intégrés perturbent la motricité.", why: "Cause fréquente sous-estimée chez les enfants maladroits." }
+  ],
+  sensoriel: [
+    { pro: "Médecin traitant / pédiatre", desc: "Coordination des bilans.", why: "Première étape avant tout bilan paramédical.", priority: true },
+    { pro: "Ergothérapeute (intégration sensorielle)", desc: "Bilan et accompagnement de l'intégration sensorielle.", why: "Spécialiste des troubles du traitement sensoriel." },
+    { pro: "ORL", desc: "Si hypersensibilité auditive marquée.", why: "Vérifie l'audition et le système vestibulaire." },
+    { pro: "Pédopsychiatre", desc: "Si profil sensoriel + difficultés sociales (suspicion TSA).", why: "L'hyper/hyposensibilité fait partie des critères des TSA." }
+  ],
+  social: [
+    { pro: "Médecin traitant / pédiatre", desc: "Première orientation.", why: "Bilan général avant orientations spécialisées.", priority: true },
+    { pro: "Pédopsychiatre", desc: "Bilan diagnostique global, notamment si suspicion TSA.", why: "Seul habilité à poser un diagnostic de TSA." },
+    { pro: "Neuropsychologue", desc: "Bilan cognitif et social.", why: "Évalue la cognition sociale et la Théorie de l'esprit." },
+    { pro: "Psychologue", desc: "Accompagnement psychothérapeutique si anxiété ou repli.", why: "Soutien émotionnel et travail relationnel." }
+  ],
+  emotionnel: [
+    { pro: "Médecin traitant / pédiatre", desc: "Évalue la santé globale et oriente.", why: "Élimine causes médicales et coordonne le suivi.", priority: true },
+    { pro: "Psychologue", desc: "Accompagnement psychothérapeutique (TCC enfant/ado).", why: "Référent pour la régulation émotionnelle." },
+    { pro: "Pédopsychiatre", desc: "Si symptômes intenses, persistants, retentissement fort.", why: "Évaluation diagnostique et éventuel traitement." },
+    { pro: "Neuropsychologue", desc: "Si l'émotionnel masque un profil cognitif particulier (HPI, TDA/H).", why: "Bilan complet pour comprendre le profil global." }
+  ],
+  executives: [
+    { pro: "Médecin traitant / pédiatre", desc: "Coordination des bilans.", why: "Première porte avant les bilans spécialisés.", priority: true },
+    { pro: "Neuropsychologue", desc: "Bilan des fonctions exécutives.", why: "Spécialiste de l'évaluation cognitive et exécutive." },
+    { pro: "Ergothérapeute", desc: "Stratégies concrètes d'organisation quotidienne.", why: "Aide à mettre en place des outils adaptés." },
+    { pro: "Pédopsychiatre", desc: "Si suspicion de TDA/H ou trouble exécutif marqué.", why: "Diagnostic et accompagnement médical." }
+  ],
+  sommeil: [
+    { pro: "Médecin traitant / pédiatre", desc: "Évalue l'hygiène de sommeil et oriente.", why: "Tout trouble du sommeil persistant mérite un avis médical.", priority: true },
+    { pro: "Médecin du sommeil / centre spécialisé", desc: "Si suspicion de pathologie (apnées, parasomnies).", why: "Polysomnographie et expertise spécifique." },
+    { pro: "ORL", desc: "Si ronflements, apnées, respiration buccale.", why: "Vérifie amygdales, végétations, voies aériennes." },
+    { pro: "Psychologue / pédopsychiatre", desc: "Si insomnie liée à l'anxiété, cauchemars répétés.", why: "Composante psycho-émotionnelle du sommeil." }
+  ]
+};
+
+// ============================================================
+//  ANALYSE PRATICIENNE — par domaine
+// ============================================================
+const PRO_ANALYSIS = {
+  attention: {
+    hypotheses: [
+      { titre: "TDA/H (Trouble Déficit Attention/Hyperactivité)", note: "À confirmer par neuropsy + médecin. Critères DSM-5/CIM-11. Vérifier les 3 dimensions : inattention, impulsivité, hyperactivité.", risque: "élevé" },
+      { titre: "Trouble du traitement sensoriel / hypersensibilité", note: "Souvent confondu avec TDA/H — l'enfant 'décroche' parce qu'il est saturé.", risque: "moyen" },
+      { titre: "Trouble neurovisuel non détecté", note: "Vision binoculaire, fixation, poursuite — bilan orthoptique systématique.", risque: "moyen" },
+      { titre: "Réflexes archaïques non intégrés (Moro, STNR)", note: "Spécialement si motricité ou hypersensibilité associées.", risque: "moyen" },
+      { titre: "Trouble du sommeil sous-jacent", note: "L'inattention diurne masque souvent un sommeil de mauvaise qualité.", risque: "à explorer" },
+      { titre: "Anxiété ou dépression", note: "Surtout chez l'ado — la rumination prend la place de l'attention.", risque: "à explorer" }
+    ],
+    protocole_observation: [
+      "Observer en tâche longue (>15min) ET en tâche courte (5min) — comparer la chute attentionnelle",
+      "Tester en environnement calme vs environnement bruyant",
+      "Noter les déclencheurs de décrochage et les apaiseurs",
+      "Observer la qualité du sommeil rapporté + écrans du soir",
+      "Test du Stroop simplifié + barrage simple en cabinet",
+      "Vérifier l'intégration du réflexe de Moro (test ATNR couché)",
+      "Évaluer la motivation intrinsèque vs extrinsèque sur la tâche"
+    ],
+    programme: {
+      duree: "12 à 16 séances sur 3-4 mois",
+      rythme: "1 séance / semaine en moyenne",
+      axes: [
+        "Axe 1 — Régulation neuro-sensorielle (réflexes archaïques + intégration sensorielle de base)",
+        "Axe 2 — Entraînement attentionnel par tâches étalonnées (méthode ARC : Attention–Régulation–Concentration)",
+        "Axe 3 — Stratégies métacognitives (auto-observation, planification visuelle, fractionnement)",
+        "Axe 4 — Accompagnement parental + lien école (transmission des outils)"
+      ]
+    },
+    outils: [
+      "Time-Timer® visuel (gestion du temps perçu)",
+      "Pomodoro adapté (cycles courts 10-15min selon âge)",
+      "Fiches métacognitives (avant la tâche / pendant / après)",
+      "Coussin d'équilibre / ballon-siège (canalisation motrice)",
+      "Casque anti-bruit ponctuel (régulation sensorielle)",
+      "Brain Gym® — séquences courtes d'activation hémisphérique",
+      "Carnet d'observation parental hebdomadaire"
+    ],
+    methodes: [
+      "Stanislas Dehaene — Apprendre ! (neurosciences de l'attention)",
+      "Pascale Toscani — Approche neuro-pédagogique",
+      "Sally Goddard Blythe — Reflexes, Learning and Behavior (RMTi)",
+      "Russell Barkley — TDAH et fonctions exécutives",
+      "Brain Gym® (Paul Dennison) — activation neuro-motrice"
+    ],
+    alertes_specifiques: [
+      "Si score élevé + isolement social → tester piste TSA",
+      "Si score élevé + sommeil très perturbé → orienter médecin avant tout autre bilan",
+      "Si fille ado avec inattention sans hyperactivité → TDA féminin souvent sous-diagnostiqué"
+    ]
+  },
+  apprentissages: {
+    hypotheses: [
+      { titre: "Dyslexie / dysorthographie", note: "Critères en orthophonie (NEEL, BALE). Bilan ortho impératif.", risque: "élevé" },
+      { titre: "Dyscalculie", note: "Si troubles spécifiques avec les nombres et le calcul.", risque: "élevé" },
+      { titre: "Dysgraphie", note: "Geste graphique perturbé — bilan ergo/psychomot.", risque: "moyen" },
+      { titre: "Trouble de la mémoire de travail", note: "Souvent associé à TDA/H — bilan neuropsy.", risque: "élevé" },
+      { titre: "Profil HPI (Haut Potentiel Intellectuel) avec dyssynchronie", note: "Peut masquer ou être masqué par les difficultés. Bilan WISC.", risque: "à explorer" },
+      { titre: "Trouble neurovisuel", note: "Non corrigé, mime tous les troubles DYS.", risque: "moyen" },
+      { titre: "Réflexes archaïques (STNR, ATNR, palmar)", note: "Bloquent posture d'apprentissage et coordination main-œil.", risque: "moyen" }
+    ],
+    protocole_observation: [
+      "Lecture chronométrée à voix haute (texte adapté à l'âge)",
+      "Dictée courte + analyse des erreurs (phonologiques, lexicales, grammaticales)",
+      "Calcul mental simple + posé — observer les stratégies",
+      "Empan mnésique inverse (chiffres à l'envers)",
+      "Copie d'un modèle visuel — observer la posture, le geste, la fatigue",
+      "Test de fluence verbale (mots commençant par P en 1 minute)",
+      "Observer la confiance / l'évitement face aux exercices"
+    ],
+    programme: {
+      duree: "16 à 24 séances sur 4-6 mois (souvent en parallèle d'orthophonie)",
+      rythme: "1 séance / semaine — coordination avec ortho et neuropsy",
+      axes: [
+        "Axe 1 — Stratégies métacognitives (apprendre à apprendre)",
+        "Axe 2 — Renforcement multi-sensoriel (visuel + auditif + kinesthésique)",
+        "Axe 3 — Travail des réflexes archaïques (STNR, ATNR, palmar)",
+        "Axe 4 — Outils compensatoires école + maison",
+        "Axe 5 — Lien école-famille-thérapeutes"
+      ]
+    },
+    outils: [
+      "Cartes mentales (mind-mapping) — Tony Buzan",
+      "Méthode des Lieux / palais de mémoire",
+      "Réglettes Cuisenaire (math)",
+      "Gestes Borel-Maisonny (lecture-écriture)",
+      "Méthode Singapour pour les mathématiques",
+      "Police de caractères adaptée (OpenDyslexic, Andika)",
+      "Codes couleur par matière",
+      "Carnet de stratégies personnelles"
+    ],
+    methodes: [
+      "Anne-Marie Gaignard — La revanche des nuls en orthographe",
+      "Bruno Hourst — Mieux apprendre (mémoire et émotions)",
+      "Jean-Philippe Lachaux — Le cerveau attentif (jeunes lecteurs)",
+      "Linda Kreger Silverman — The Visual-Spatial Learner",
+      "Pierre Vianin — L'aide stratégique aux élèves en difficulté"
+    ],
+    alertes_specifiques: [
+      "Toujours coordonner avec orthophoniste — référent légal des DYS",
+      "Si écriture très perturbée + douleur → suspicion dysgraphie, ergo en urgence",
+      "Si profil hétérogène (très bon à l'oral, faible à l'écrit) → bilan WISC pour piste HPI"
+    ]
+  },
+  langage: {
+    hypotheses: [
+      { titre: "Retard simple du langage", note: "Évolution favorable avec bain de langage + suivi.", risque: "moyen" },
+      { titre: "Dysphasie (Trouble Développemental du Langage – TDL)", note: "Bilan orthophonique impératif. Critères DSM-5.", risque: "élevé" },
+      { titre: "Trouble du Spectre Autistique (TSA)", note: "Si langage + difficultés sociales + intérêts restreints.", risque: "élevé" },
+      { titre: "Trouble auditif non détecté", note: "ORL en première intention. Cause fréquente sous-estimée.", risque: "moyen" },
+      { titre: "Retard pragmatique (compréhension des intentions)", note: "Sans atteinte structurelle du langage.", risque: "à explorer" },
+      { titre: "Bilinguisme avec interférences", note: "À distinguer d'un trouble réel.", risque: "à explorer" }
+    ],
+    protocole_observation: [
+      "Évaluer la production spontanée (vocabulaire actif, syntaxe)",
+      "Demander de raconter une histoire à partir d'images",
+      "Tester la compréhension de consignes complexes",
+      "Observer la réception du second degré / humour",
+      "Vérifier l'articulation (sons spécifiques selon l'âge)",
+      "Évaluer la prosodie (rythme, intonation, mélodie)"
+    ],
+    programme: {
+      duree: "16 à 24 séances en complément de l'orthophonie",
+      rythme: "1 séance / semaine",
+      axes: [
+        "Axe 1 — Coordination étroite avec l'orthophoniste",
+        "Axe 2 — Bain de langage enrichi (lecture partagée, comptines, narration)",
+        "Axe 3 — Travail des réflexes oraux (Babkin) si pertinent",
+        "Axe 4 — Pragmatique (intentions, second degré, codes implicites)",
+        "Axe 5 — Soutien parental — guidance interactive"
+      ]
+    },
+    outils: [
+      "Imagiers structurés par champ lexical",
+      "Comptines et virelangues",
+      "Lecture partagée quotidienne 10-15 min",
+      "Jeux de société langagiers (Dixit, Story Cubes)",
+      "Carnet de mots nouveaux / glossaire personnel",
+      "Théâtre d'objets — narration assistée",
+      "Vidéos courtes avec discussion (description, anticipation)"
+    ],
+    methodes: [
+      "Padovan — Réorganisation neurofonctionnelle",
+      "Méthode PROMPT (orthophonie articulatoire)",
+      "Tomatis — stimulation auditive",
+      "Hanen — Parler ensemble (guidance parentale)",
+      "Suzanne Borel-Maisonny — gestes phonétiques"
+    ],
+    alertes_specifiques: [
+      "Vérifier impérativement l'audition avant tout — bilan ORL",
+      "Si retard langage + très peu de contact visuel + intérêts restreints → orientation pédopsychiatre rapide (piste TSA)",
+      "Pour les bilingues : évaluer dans les DEUX langues avant de conclure"
+    ]
+  },
+  motricite: {
+    hypotheses: [
+      { titre: "TDC (Trouble Développemental de la Coordination) / Dyspraxie", note: "Bilan psychomotricien + ergothérapeute. DSM-5.", risque: "élevé" },
+      { titre: "Réflexes archaïques non intégrés (multiples)", note: "Moro, ATNR, STNR, spinal, Babinski — votre spécialité Educa Typique.", risque: "élevé" },
+      { titre: "Hyperlaxité ligamentaire", note: "Beighton score — orientation kiné ou rhumato pédiatrique.", risque: "à explorer" },
+      { titre: "Immaturité neuro-motrice globale", note: "Souvent évolutive — intégration des réflexes améliore.", risque: "moyen" },
+      { titre: "Trouble neurovisuel impactant la motricité", note: "Coordination main-œil perturbée — orthoptiste.", risque: "à explorer" }
+    ],
+    protocole_observation: [
+      "Test de marche en ligne droite + sur ligne (équilibre)",
+      "Stations unipodales (équilibre statique)",
+      "Test de Romberg (proprioception)",
+      "Lancer-rattraper de balle (coordination)",
+      "Imitation de gestes (praxies)",
+      "Test latéralité (œil, main, pied dominants)",
+      "Évaluation des principaux réflexes archaïques (Moro, ATNR, STNR, palmar)",
+      "Observation graphique : posture, tenue du crayon, pression, fatigue"
+    ],
+    programme: {
+      duree: "20 à 30 séances sur 6 à 9 mois (programme RMTi ou similaire)",
+      rythme: "1 séance/sem en cabinet + exercices quotidiens à la maison (5-10 min)",
+      axes: [
+        "Axe 1 — Évaluation et intégration des réflexes archaïques (RMTi adapté)",
+        "Axe 2 — Bilatéral intégration (Brain Gym, mouvements croisés)",
+        "Axe 3 — Renforcement proprioception et équilibre",
+        "Axe 4 — Graphomotricité (si écriture concernée)",
+        "Axe 5 — Coordination avec psychomot et/ou ergo"
+      ]
+    },
+    outils: [
+      "Mouvements RMTi (séquences spécifiques)",
+      "Brain Gym® — 26 mouvements éducatifs",
+      "Ballon Klein / coussin d'équilibre",
+      "Pâte à modeler / pâte à pétrir (motricité fine + tactile)",
+      "Parcours de motricité maison (à inventer chaque semaine)",
+      "Trampoline (rebond + proprioception)",
+      "Ardoise et craies (geste libre avant graphisme)"
+    ],
+    methodes: [
+      "Sally Goddard Blythe — Reflexes, Learning and Behavior",
+      "RMTi (Rhythmic Movement Training International) — Harald Blomberg",
+      "Brain Gym® — Paul et Gail Dennison",
+      "Diane Sweeney — Bilateral Integration",
+      "Bonnie Bainbridge Cohen — Body-Mind Centering®"
+    ],
+    alertes_specifiques: [
+      "Toujours coordonner avec psychomot ou ergo — pas seul",
+      "Si maladresse + douleurs articulaires → consultation rhumato pédiatrique",
+      "Si la motricité ne progresse pas malgré 6 mois → réorienter pour bilan neurologique"
+    ]
+  },
+  sensoriel: {
+    hypotheses: [
+      { titre: "Trouble du Traitement Sensoriel (TTS)", note: "Classification A. Jean Ayres — bilan ergothérapeute formé.", risque: "élevé" },
+      { titre: "TSA léger / Asperger", note: "Hyper-sensorialité fait partie des critères DSM-5.", risque: "élevé" },
+      { titre: "Hypersensibilité émotionnelle / haut potentiel sensible", note: "Sans pathologie — accompagnement.", risque: "à explorer" },
+      { titre: "Réflexes archaïques (Moro) non intégrés", note: "Lien direct avec hypersensibilité aux bruits, lumière.", risque: "moyen" },
+      { titre: "Anxiété somatisée", note: "Le corps amplifie les sensations en cas de stress chronique.", risque: "moyen" }
+    ],
+    protocole_observation: [
+      "Profil sensoriel Dunn (questionnaire structuré)",
+      "Observer en situation : entrée/sortie école, transitions, repas",
+      "Tester réaction à différentes textures (tissus, papier, sable)",
+      "Évaluer la tolérance auditive (musique douce, conversations)",
+      "Observer recherche/évitement de pression",
+      "Vérifier intégration du réflexe de Moro"
+    ],
+    programme: {
+      duree: "16 à 20 séances sur 4-6 mois",
+      rythme: "1 séance / semaine + ajustement environnemental quotidien",
+      axes: [
+        "Axe 1 — Coordination avec ergothérapeute (intégration sensorielle Ayres)",
+        "Axe 2 — Intégration du réflexe de Moro (RMTi)",
+        "Axe 3 — Aménagement de l'environnement (école et maison)",
+        "Axe 4 — Stratégies de régulation à la personne (boîte à outils sensoriels)",
+        "Axe 5 — Accompagnement parental — comprendre, expliquer, anticiper"
+      ]
+    },
+    outils: [
+      "Casque anti-bruit (Loop, Peltor)",
+      "Couverture lestée",
+      "Brossage Wilbarger (formation requise)",
+      "Diffuseur de lumière douce",
+      "Boîte à textures à explorer en jeu",
+      "Coussin de billes pour pression profonde",
+      "Carte 'pause sensorielle' pour l'école"
+    ],
+    methodes: [
+      "A. Jean Ayres — Sensory Integration",
+      "Lucy Jane Miller — Sensational Kids",
+      "Patricia Wilbarger — Brushing Protocol",
+      "Olga Bogdashina — Perception sensorielle dans l'autisme",
+      "Profil Sensoriel de Winnie Dunn"
+    ],
+    alertes_specifiques: [
+      "Hypersensibilité + difficultés sociales + intérêts restreints → orientation pédopsychiatre (TSA)",
+      "Brossage Wilbarger : ne JAMAIS le pratiquer sans formation préalable",
+      "Si l'aménagement environnemental ne suffit pas → bilan ergothérapique impératif"
+    ]
+  },
+  social: {
+    hypotheses: [
+      { titre: "Trouble du Spectre Autistique (TSA)", note: "Critères DSM-5 : interaction sociale + communication + intérêts/comportements restreints. Pédopsychiatre.", risque: "élevé" },
+      { titre: "Phobie sociale / anxiété sociale", note: "Surtout chez l'ado — psychologue + éventuellement pédopsychiatre.", risque: "élevé" },
+      { titre: "Trouble pragmatique du langage", note: "Sans atteinte structurelle — orthophoniste spécialisé.", risque: "moyen" },
+      { titre: "Profil HPI mal accompagné", note: "Décalage avec les pairs — vécu de solitude. Bilan WISC.", risque: "à explorer" },
+      { titre: "Harcèlement scolaire vécu", note: "Toujours explorer activement avec la personne.", risque: "à explorer" },
+      { titre: "Dépression chez l'ado", note: "Repli social = symptôme fréquent.", risque: "à explorer" }
+    ],
+    protocole_observation: [
+      "Observer en situation duelle vs en groupe (différences nettes ?)",
+      "Tester la reconnaissance d'émotions (photos / cartes)",
+      "Évaluer la Théorie de l'Esprit (test des fausses croyances Sally-Anne adapté)",
+      "Jeu libre avec un pair — observer initiation et maintien d'interaction",
+      "Discuter du quotidien social (école, amis, famille) — qualité du vécu",
+      "Explorer activement la possibilité de harcèlement"
+    ],
+    programme: {
+      duree: "20 à 30 séances + suivi long terme si TSA",
+      rythme: "1 séance / semaine — individuel ou petit groupe selon besoin",
+      axes: [
+        "Axe 1 — Si suspicion TSA → orientation pédopsychiatre rapide",
+        "Axe 2 — Habiletés sociales (programme structuré, scénarios sociaux)",
+        "Axe 3 — Travail émotionnel (reconnaissance, expression, régulation)",
+        "Axe 4 — Soutien à l'estime de soi",
+        "Axe 5 — Guidance parentale + lien école"
+      ]
+    },
+    outils: [
+      "Scénarios sociaux (Carol Gray) — comic strip conversations",
+      "Cartes d'émotions (Cat-Kit, jeu Émotions)",
+      "Vidéo modeling (situations sociales filmées)",
+      "Groupe d'habiletés sociales structuré",
+      "Carnet de bord social (auto-observation)",
+      "Théâtre / jeux de rôle légers"
+    ],
+    methodes: [
+      "Michelle Garcia Winner — Social Thinking",
+      "Carol Gray — Social Stories",
+      "PEERS Program (UCLA) — habiletés sociales ado",
+      "Tony Attwood — Le syndrome d'Asperger",
+      "ABA / TEACCH (pour les cas TSA confirmés, en équipe spécialisée)"
+    ],
+    alertes_specifiques: [
+      "Repli social brutal + tristesse + perte d'intérêt → urgence pédopsy (dépression ado)",
+      "Si pensées noires verbalisées : orientation immédiate, ne pas attendre",
+      "Toujours explorer la piste harcèlement avant les autres hypothèses"
+    ]
+  },
+  emotionnel: {
+    hypotheses: [
+      { titre: "Trouble anxieux (anxiété généralisée, phobies, séparation)", note: "Critères DSM-5. Psychologue puis pédopsychiatre si sévère.", risque: "élevé" },
+      { titre: "Dysrégulation émotionnelle (composante TDA/H)", note: "Fréquente dans le TDA/H — souvent sous-évaluée.", risque: "élevé" },
+      { titre: "Dépression de l'enfant ou de l'ado", note: "Vigilance accrue — orientation pédopsy.", risque: "élevé" },
+      { titre: "Trauma non traité", note: "Histoire personnelle / familiale à explorer doucement.", risque: "à explorer" },
+      { titre: "TSA mal repéré (sur-effort social = épuisement)", note: "Surtout les filles. Bilan TSA si confluence d'indices.", risque: "à explorer" },
+      { titre: "Hyper-sensibilité émotionnelle (non pathologique)", note: "Accompagnement éducatif suffit souvent.", risque: "moyen" }
+    ],
+    protocole_observation: [
+      "Identifier les déclencheurs récurrents (transitions, frustration, foule)",
+      "Échelle d'intensité émotionnelle (0-10) sur plusieurs situations",
+      "Durée moyenne avant retour au calme",
+      "Stratégies actuelles d'apaisement (efficaces ou non)",
+      "Présence d'événements de vie marquants (déménagement, deuil, conflit)",
+      "Qualité du sommeil et de l'alimentation associés"
+    ],
+    programme: {
+      duree: "16 à 24 séances + suivi psychologique en parallèle",
+      rythme: "1 séance/sem (cabinet) — coordination étroite avec psy",
+      axes: [
+        "Axe 1 — Coordination avec psychologue (TCC, ACT adaptée)",
+        "Axe 2 — Régulation par le corps (respiration, mouvement, ancrage)",
+        "Axe 3 — Cartographie émotionnelle (nommer, reconnaître, accueillir)",
+        "Axe 4 — Travail des réflexes archaïques (Moro principalement)",
+        "Axe 5 — Outils familiaux (boîte à outils anti-crise)"
+      ]
+    },
+    outils: [
+      "Roue des émotions (Plutchik adaptée enfant)",
+      "Thermomètre des émotions (0-10)",
+      "Journal émotionnel illustré",
+      "Boîte à outils sensoriels anti-crise (objet, balle, livre, musique)",
+      "Carte 'STOP' (Stop – Souffle – Observe – Pratique)",
+      "Cohérence cardiaque (3-6-5)",
+      "Plan d'urgence émotionnelle (qui appeler, où aller)"
+    ],
+    methodes: [
+      "Catherine Gueguen — Vivre heureux avec son enfant",
+      "Isabelle Filliozat — L'intelligence du cœur",
+      "Russ Harris — ACT pour ado",
+      "Aaron Beck — TCC (adaptation enfant/ado)",
+      "Daniel Siegel — Le cerveau de votre enfant"
+    ],
+    alertes_specifiques: [
+      "Pensées suicidaires, automutilation → orientation IMMÉDIATE (pédopsy, urgence)",
+      "Si fille ado très investie scolairement + effondrements émotionnels → piste TSA à explorer",
+      "Anxiété + symptômes corporels persistants → bilan médical en premier"
+    ]
+  },
+  executives: {
+    hypotheses: [
+      { titre: "TDA/H — surtout sous-type inattentif", note: "Critères DSM-5. Neuropsy + médecin.", risque: "élevé" },
+      { titre: "Dysexécutif léger sans TDA/H", note: "Profil mineur — accompagnement neuro-pédago suffit souvent.", risque: "moyen" },
+      { titre: "Anxiété chronique masquée", note: "La rumination consomme la ressource exécutive.", risque: "moyen" },
+      { titre: "Dépression chez l'ado/adulte", note: "Apathie et lenteur d'initiation = symptômes.", risque: "à explorer" },
+      { titre: "Surcharge cognitive (devoirs, écrans, sommeil insuffisant)", note: "Cause environnementale à éliminer avant pathologie.", risque: "à explorer" },
+      { titre: "Profil HPI avec retard exécutif", note: "Dyssynchronie classique — accompagnement adapté.", risque: "à explorer" }
+    ],
+    protocole_observation: [
+      "Tester la planification (faire un projet en 5 étapes)",
+      "Observer le démarrage de tâche (latence, évitement, blocage ?)",
+      "Tester la flexibilité (changer les règles en cours)",
+      "Évaluer l'inhibition (test Go/NoGo simplifié)",
+      "Tester la mémoire de travail (empan inverse)",
+      "Observer la perception du temps (estimer une durée)",
+      "Évaluer l'auto-évaluation (anticiper la réussite vs résultat réel)"
+    ],
+    programme: {
+      duree: "16 à 24 séances sur 4-6 mois",
+      rythme: "1 séance / semaine + outils quotidiens à la maison",
+      axes: [
+        "Axe 1 — Coordination avec neuropsy (bilan préalable idéal)",
+        "Axe 2 — Stratégies métacognitives explicites (apprendre à planifier)",
+        "Axe 3 — Outils visuels d'organisation (agenda, listes, codes)",
+        "Axe 4 — Décomposition systématique des tâches complexes",
+        "Axe 5 — Travail de l'inhibition (jeux, mindfulness adaptée)"
+      ]
+    },
+    outils: [
+      "Time-Timer® (visualisation du temps qui s'écoule)",
+      "Agenda visuel à pictogrammes ou photos",
+      "Cartes 'comment faire' par tâche récurrente",
+      "Plan de la semaine affiché — codes couleur",
+      "Listes 'à faire' + 'fait' avec satisfaction visible",
+      "Boîte/sac pré-préparé(e) (anti-oublis)",
+      "Application Trello / Kanban simplifié pour les ados"
+    ],
+    methodes: [
+      "Adele Diamond — Executive Functions framework",
+      "Russell Barkley — Executive Functions: What They Are",
+      "Peg Dawson — Smart but Scattered (méthode COACH)",
+      "Joyce Cooper-Kahn — Late, Lost, and Unprepared",
+      "Méthode CO-OP (Cognitive Orientation to Occupational Performance)"
+    ],
+    alertes_specifiques: [
+      "Si fonctions exécutives perturbées + tristesse + perte plaisir → priorité dépression",
+      "Si décrochage scolaire récent + chute des notes → urgence accompagnement",
+      "Adulte avec dysexécutif soudain → bilan médical avant accompagnement (causes organiques)"
+    ]
+  },
+  sommeil: {
+    hypotheses: [
+      { titre: "Syndrome d'apnées du sommeil (SAS)", note: "Si ronflements + apnées + fatigue diurne. ORL + médecin du sommeil.", risque: "élevé" },
+      { titre: "Insomnie d'endormissement (hygiène + anxiété)", note: "Cause fréquente, traitement comportemental.", risque: "élevé" },
+      { titre: "Réflexe de Moro persistant", note: "Système nerveux constamment en alerte — sommeil léger.", risque: "moyen" },
+      { titre: "Hypersensibilité sensorielle (TTS)", note: "Difficile de se 'couper' du monde pour dormir.", risque: "moyen" },
+      { titre: "Anxiété nocturne / cauchemars", note: "Composante psycho-émotionnelle — psy.", risque: "à explorer" },
+      { titre: "Surcharge écrans / mélatonine perturbée", note: "Cause environnementale principale ado.", risque: "à explorer" }
+    ],
+    protocole_observation: [
+      "Agenda du sommeil pendant 2 semaines (heure coucher, endormissement, réveils, lever)",
+      "Inventaire des écrans (heure, type, contenu)",
+      "Environnement de la chambre (lumière, bruit, température)",
+      "Rituel du soir (existant ? cohérent ?)",
+      "Activité physique de la journée",
+      "Alimentation du soir (sucre, caféine, dîner tardif)",
+      "Signes ORL (ronflements, bouche ouverte, sommeil agité)"
+    ],
+    programme: {
+      duree: "8 à 12 séances + suivi mensuel léger",
+      rythme: "1 séance / 2 sem au début, puis espacement",
+      axes: [
+        "Axe 1 — Médecin/ORL en premier si signes d'apnée",
+        "Axe 2 — Hygiène du sommeil structurée (rituel, écrans, environnement)",
+        "Axe 3 — Travail du réflexe de Moro si persistant",
+        "Axe 4 — Régulation émotionnelle si composante anxieuse",
+        "Axe 5 — Accompagnement parental — cadre, constance, anticipation"
+      ]
+    },
+    outils: [
+      "Agenda du sommeil illustré (tracking visuel)",
+      "Rituel coucher imagé (étapes affichées)",
+      "Time-Timer® pour la transition au coucher",
+      "Doudou / objet transitionnel adapté à l'âge",
+      "Lumière douce (3000K max) en soirée",
+      "Bouillotte / couverture lestée (si pertinent)",
+      "Casque/bouchons d'oreille (si environnement bruyant)"
+    ],
+    methodes: [
+      "Marie-Josèphe Challamel — Le sommeil de l'enfant",
+      "Charles Morin — TCC de l'insomnie",
+      "William Pantley — No-Cry Sleep Solution",
+      "Sally Goddard Blythe — pour le réflexe de Moro",
+      "Recommandations HAS — sommeil de l'enfant"
+    ],
+    alertes_specifiques: [
+      "Ronflements bruyants + apnées observées → orientation ORL/médecin du sommeil IMMÉDIATE",
+      "Cauchemars répétés + signes d'anxiété → psy en complément",
+      "Adulte avec insomnie chronique → médecin traitant avant tout autre accompagnement"
+    ]
+  }
+};
+
+// ============================================================
+//  ÉTAT GLOBAL
+// ============================================================
+let currentStep = 0;
+let selectedProfil = null;
+let selectedQuiRemplit = null;
+let selectedDomaine = null;
+let responses = {};
+let reflexesObserved = new Set();
+const TOTAL_STEPS = 10;
+
+// ============================================================
+//  PARTICULES
+// ============================================================
+function createParticles() {
+  const container = document.getElementById('particles');
+  const types = ['bleu', 'menthe', 'peche', 'or', 'lavande'];
+  for (let i = 0; i < 26; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle ' + types[i % types.length];
+    const size = 3 + Math.random() * 6;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (22 + Math.random() * 14) + 's';
+    p.style.animationDelay = (Math.random() * 30) + 's';
+    container.appendChild(p);
+  }
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+function init() {
+  createParticles();
+  const pg = document.getElementById('profilGrid');
+  Object.entries(PROFILS).forEach(([key, data]) => {
+    const card = document.createElement('div');
+    card.className = 'choice-card';
+    card.dataset.key = key;
+    card.innerHTML = '<span class="choice-icon">' + data.icon + '</span><span class="choice-label">' + data.label + '<span class="choice-sublabel">' + data.sublabel + '</span></span>';
+    card.onclick = () => selectProfil(key);
+    pg.appendChild(card);
+  });
+  const qrg = document.getElementById('qui_remplitGrid');
+  Object.entries(QUI_REMPLIT).forEach(([key, data]) => {
+    const card = document.createElement('div');
+    card.className = 'choice-card';
+    card.dataset.key = key;
+    card.innerHTML = '<span class="choice-icon">' + data.icon + '</span><span class="choice-label">' + data.label + '<span class="choice-sublabel">' + data.sublabel + '</span></span>';
+    card.onclick = () => selectQuiRemplit(key);
+    qrg.appendChild(card);
+  });
+  const dg = document.getElementById('domainesGrid');
+  Object.entries(DOMAINES).forEach(([key, data]) => {
+    const card = document.createElement('div');
+    card.className = 'choice-card';
+    card.dataset.key = key;
+    card.innerHTML = '<span class="choice-icon">' + data.icon + '</span><span class="choice-label">' + data.label + '<span class="choice-sublabel">' + data.sublabel + '</span></span>';
+    card.onclick = () => selectDomaine(key);
+    dg.appendChild(card);
+  });
+  updateProgress();
+
+  // Enter key in PIN input
+  document.getElementById('pinInput').addEventListener('keypress', e => {
+    if (e.key === 'Enter') checkPin();
+  });
+}
+
+function selectProfil(key) {
+  selectedProfil = key;
+  document.querySelectorAll('#profilGrid .choice-card').forEach(c => c.classList.toggle('selected', c.dataset.key === key));
+  document.getElementById('btnAfterProfil').disabled = false;
+}
+function selectQuiRemplit(key) {
+  selectedQuiRemplit = key;
+  document.querySelectorAll('#qui_remplitGrid .choice-card').forEach(c => c.classList.toggle('selected', c.dataset.key === key));
+  document.getElementById('btnAfterQuiRemplit').disabled = false;
+}
+function selectDomaine(key) {
+  selectedDomaine = key;
+  responses = {};
+  document.querySelectorAll('#domainesGrid .choice-card').forEach(c => c.classList.toggle('selected', c.dataset.key === key));
+  document.getElementById('btnAfterDomaine').disabled = false;
+}
+
+// ============================================================
+//  NAVIGATION
+// ============================================================
+function next() {
+  currentStep = Math.min(currentStep + 1, TOTAL_STEPS - 1);
+  showStep();
+}
+function prev() {
+  currentStep = Math.max(currentStep - 1, 0);
+  showStep();
+}
+function showStep() {
+  document.querySelectorAll('.step').forEach(s => s.classList.toggle('active', parseInt(s.dataset.step) === currentStep));
+  updateProgress();
+  if (currentStep === 4) loadQuestionnaire();
+  if (currentStep === 5) loadReflexes();
+  if (currentStep === 6) loadProfilResultat();
+  if (currentStep === 7) loadOrientations();
+  if (currentStep === 9) buildSummary();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function updateProgress() {
+  document.querySelectorAll('#progress span').forEach((s, i) => {
+    s.classList.toggle('active', i === currentStep);
+    s.classList.toggle('done', i < currentStep);
+  });
+}
+
+// ============================================================
+//  QUESTIONNAIRE — robuste
+// ============================================================
+function loadQuestionnaire() {
+  if (!selectedDomaine) return;
+  const d = DOMAINES[selectedDomaine];
+  document.getElementById('quTitre').textContent = "Observations · " + d.label;
+  const labels = ["Jamais", "Parfois", "Souvent", "Toujours"];
+  const container = document.getElementById('quContent');
+  container.innerHTML = '';
+  d.questions.forEach((q, i) => {
+    const block = document.createElement('div');
+    block.className = 'question-block';
+    block.dataset.qIdx = i;
+    const textDiv = document.createElement('div');
+    textDiv.className = 'question-text';
+    textDiv.innerHTML = '<span class="num">' + (i + 1) + '</span>' + q;
+    block.appendChild(textDiv);
+    const opts = document.createElement('div');
+    opts.className = 'response-options';
+    labels.forEach((lab, j) => {
+      const btn = document.createElement('div');
+      btn.className = 'response-btn';
+      btn.textContent = lab;
+      btn.onclick = function() { respond(i, j, btn); };
+      opts.appendChild(btn);
+    });
+    block.appendChild(opts);
+    container.appendChild(block);
+  });
+  updateQuProgress();
+}
+function respond(qIdx, val, el) {
+  responses[qIdx] = val;
+  const opts = el.parentElement;
+  opts.querySelectorAll('.response-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  // Mark question block as answered
+  const block = opts.parentElement;
+  block.classList.add('answered');
+  updateQuProgress();
+}
+function updateQuProgress() {
+  if (!selectedDomaine) return;
+  const total = DOMAINES[selectedDomaine].questions.length;
+  const done = Object.keys(responses).length;
+  document.getElementById('quProgress').innerHTML = 'Question <strong>' + done + ' / ' + total + '</strong> · ' + Math.round(done / total * 100) + '%';
+  document.getElementById('btnAfterQu').disabled = (done < total);
+}
+
+// ============================================================
+//  RÉFLEXES
+// ============================================================
+function loadReflexes() {
+  const container = document.getElementById('reflexesContent');
+  container.innerHTML = '';
+  REFLEXES.forEach(r => {
+    const block = document.createElement('div');
+    block.className = 'question-block';
+    block.style.cursor = 'pointer';
+    block.dataset.id = r.id;
+    block.innerHTML = '<div style="display: flex; align-items: flex-start; gap: 12px;">' +
+      '<div style="width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--bleu-clair); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.25s;" class="check-box">' +
+      '<span class="check-mark" style="opacity: 0; color: var(--creme-pur); font-size: 14px; font-weight: 700;">✓</span></div>' +
+      '<div style="flex: 1; font-size: 14.5px; line-height: 1.5; color: var(--bleu-nuit);">' + r.text + '</div></div>';
+    block.onclick = function() { toggleReflexe(r.id, block); };
+    container.appendChild(block);
+  });
+}
+function toggleReflexe(id, el) {
+  if (reflexesObserved.has(id)) {
+    reflexesObserved.delete(id);
+    el.style.background = 'var(--creme-pur)';
+    el.style.borderColor = 'rgba(91, 133, 199, 0.12)';
+    el.querySelector('.check-box').style.background = 'transparent';
+    el.querySelector('.check-box').style.borderColor = 'var(--bleu-clair)';
+    el.querySelector('.check-mark').style.opacity = '0';
+  } else {
+    reflexesObserved.add(id);
+    el.style.background = 'linear-gradient(135deg, var(--or-pale), var(--peche-pale))';
+    el.style.borderColor = 'var(--or)';
+    el.querySelector('.check-box').style.background = 'var(--or)';
+    el.querySelector('.check-box').style.borderColor = 'var(--or)';
+    el.querySelector('.check-mark').style.opacity = '1';
+  }
+}
+
+// ============================================================
+//  PROFIL & ORIENTATIONS
+// ============================================================
+function computeScore() {
+  const total = Object.values(responses).reduce((s, v) => s + v, 0);
+  const max = DOMAINES[selectedDomaine].questions.length * 3;
+  return { total, max, percent: Math.round(total / max * 100) };
+}
+function getLevel(percent) {
+  if (percent < 25)  return { label: "Peu de signaux",   color: "var(--vert-ok)",      desc: "Sur les observations faites, peu de signaux particuliers ressortent. Reste attentif(ve)." };
+  if (percent < 50)  return { label: "À surveiller",     color: "var(--jaune-att)",    desc: "Quelques observations méritent d'être suivies. Pas d'urgence, mais en parler au médecin." };
+  if (percent < 75)  return { label: "À observer attentivement", color: "var(--orange-vig)", desc: "Plusieurs signes convergent. Recommandé d'en parler au médecin pour envisager un bilan." };
+  return                  { label: "Consultation recommandée",  color: "var(--rouge-orient)", desc: "De nombreuses observations convergent. Avis professionnel rapidement conseillé." };
+}
+function loadProfilResultat() {
+  const s = computeScore();
+  const lvl = getLevel(s.percent);
+  document.getElementById('profilResultat').innerHTML =
+    '<div class="profile-summary">' +
+      '<div style="font-size: 14px; color: var(--gris-doux); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600;">' + DOMAINES[selectedDomaine].label + '</div>' +
+      '<div class="profile-level" style="color: ' + lvl.color + ';">' + lvl.label + '</div>' +
+      '<div class="profile-bar"><div class="profile-bar-fill" style="width: ' + s.percent + '%;"></div></div>' +
+      '<div class="profile-scale"><span>Peu</span><span>À surveiller</span><span>À observer</span><span>À consulter</span></div>' +
+      '<div class="profile-description">' + lvl.desc + '</div>' +
+    '</div>' +
+    '<div style="text-align: center; font-size: 13px; color: var(--gris-doux); margin-top: 14px; font-style: italic;">' +
+      'Réflexes archaïques observés : <strong>' + reflexesObserved.size + ' / 6</strong>' +
+      (reflexesObserved.size >= 3 ? '<br>→ Plusieurs signes — une observation en cabinet Educa Typique peut être pertinente.' : '') +
+    '</div>';
+}
+function loadOrientations() {
+  if (!selectedDomaine) return;
+  const orientations = ORIENTATIONS[selectedDomaine];
+  const html = orientations.map(o =>
+    '<div class="orientation-card ' + (o.priority ? 'priority' : '') + '">' +
+      '<div class="orientation-pro">' + o.pro + '</div>' +
+      '<div class="orientation-desc">' + o.desc + '</div>' +
+      '<div class="orientation-why">Pourquoi : ' + o.why + '</div>' +
+    '</div>'
+  ).join('');
+  document.getElementById('orientationsResultat').innerHTML = html;
+}
+
+// ============================================================
+//  SYNTHÈSE
+// ============================================================
+function buildSummary() {
+  if (!selectedDomaine) return;
+  const s = computeScore();
+  const lvl = getLevel(s.percent);
+  const d = DOMAINES[selectedDomaine];
+  document.getElementById('summaryCard').innerHTML =
+    '<h3>Ce que tu as observé aujourd\'hui</h3>' +
+    '<div class="summary-line"><span class="lab">Profil</span><span class="val">' + PROFILS[selectedProfil].label + ' (' + PROFILS[selectedProfil].sublabel + ')</span></div>' +
+    '<div class="summary-line"><span class="lab">Rempli par</span><span class="val">' + QUI_REMPLIT[selectedQuiRemplit].label + '</span></div>' +
+    '<div class="summary-line"><span class="lab">Domaine</span><span class="val">' + d.label + '</span></div>' +
+    '<div class="summary-line"><span class="lab">Niveau</span><span class="val" style="color: ' + lvl.color + ';">' + lvl.label + '</span></div>' +
+    '<div class="summary-line"><span class="lab">Réflexes archaïques</span><span class="val">' + reflexesObserved.size + ' / 6</span></div>' +
+    '<div class="summary-line"><span class="lab">Date</span><span class="val">' + new Date().toLocaleDateString('fr-FR') + '</span></div>' +
+    '<div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(91, 133, 199, 0.15); font-size: 13px; color: var(--gris-doux); font-style: italic; text-align: center;">' +
+      'Rappel : Le Décodeur ne pose pas de diagnostic. Apporte ce récap à ton médecin pour engager la discussion.' +
+    '</div>';
+}
+
+// ============================================================
+//  PRINT — déclenche window.print() avec setup
+// ============================================================
+function printReport() {
+  // Si le panneau pro est visible, il restera affiché à l'impression
+  // sinon seule la synthèse est imprimée
+  window.print();
+}
+
+// ============================================================
+//  PIN + VUE PRATICIENNE
+// ============================================================
+function openPin() {
+  document.getElementById('pinOverlay').classList.add('show');
+  setTimeout(() => document.getElementById('pinInput').focus(), 100);
+}
+function closePin() {
+  document.getElementById('pinOverlay').classList.remove('show');
+  document.getElementById('pinInput').value = '';
+  document.getElementById('pinError').innerHTML = '&nbsp;';
+}
+function checkPin() {
+  const val = document.getElementById('pinInput').value;
+  if (val === PIN_PRO) {
+    closePin();
+    showProPanel();
+  } else {
+    document.getElementById('pinError').textContent = 'Code incorrect — réessaye.';
+    document.getElementById('pinInput').value = '';
+  }
+}
+function showProPanel() {
+  const panel = document.getElementById('proPanel');
+  panel.classList.add('visible');
+  renderProPanel();
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function renderProPanel() {
+  if (!selectedDomaine) return;
+  const pa = PRO_ANALYSIS[selectedDomaine];
+  const s = computeScore();
+  const lvl = getLevel(s.percent);
+  const d = DOMAINES[selectedDomaine];
+
+  // Détail des réponses
+  const reponseLabels = ["Jamais", "Parfois", "Souvent", "Toujours"];
+  let detailReponses = '<ol>';
+  d.questions.forEach((q, i) => {
+    const val = responses[i];
+    const lab = (val !== undefined) ? reponseLabels[val] : "—";
+    const color = val >= 2 ? 'var(--rouge-orient)' : (val === 1 ? 'var(--jaune-att)' : 'var(--vert-ok)');
+    detailReponses += '<li style="margin-bottom: 4px;">' + q + ' <strong style="color: ' + color + ';">→ ' + lab + '</strong></li>';
+  });
+  detailReponses += '</ol>';
+
+  // Réflexes détaillés
+  let reflexesDetail = '<ul>';
+  REFLEXES.forEach(r => {
+    const checked = reflexesObserved.has(r.id);
+    reflexesDetail += '<li style="' + (checked ? 'color: var(--or-ombre); font-weight: 600;' : 'color: var(--gris-doux);') + '">' + (checked ? '✓ ' : '○ ') + r.text + '</li>';
+  });
+  reflexesDetail += '</ul>';
+
+  // Hypothèses
+  let hypoHtml = '';
+  pa.hypotheses.forEach(h => {
+    const tagClass = h.risque === 'élevé' ? 'urgent' : (h.risque === 'moyen' ? 'observation' : 'programme');
+    hypoHtml += '<div class="pro-hypothesis">' +
+      '<span class="pro-tag ' + tagClass + '">' + h.risque + '</span><br>' +
+      '<strong>' + h.titre + '</strong><br>' +
+      '<span style="font-size: 13px; color: var(--gris-doux);">' + h.note + '</span>' +
+    '</div>';
+  });
+
+  // Protocole observation
+  let protocoleHtml = '<ul>';
+  pa.protocole_observation.forEach(p => protocoleHtml += '<li>' + p + '</li>');
+  protocoleHtml += '</ul>';
+
+  // Programme
+  let progAxes = '<ol>';
+  pa.programme.axes.forEach(a => progAxes += '<li>' + a + '</li>');
+  progAxes += '</ol>';
+  const progHtml = '<div class="pro-protocole">' +
+    '<div style="margin-bottom: 8px;"><span class="pro-tag programme">Durée</span> ' + pa.programme.duree + '</div>' +
+    '<div style="margin-bottom: 8px;"><span class="pro-tag programme">Rythme</span> ' + pa.programme.rythme + '</div>' +
+    '<h4>Axes de travail</h4>' + progAxes +
+    '</div>';
+
+  // Outils
+  let outilsHtml = '<ul>';
+  pa.outils.forEach(o => outilsHtml += '<li>' + o + '</li>');
+  outilsHtml += '</ul>';
+
+  // Méthodes
+  let methodesHtml = '<ul>';
+  pa.methodes.forEach(m => methodesHtml += '<li>' + m + '</li>');
+  methodesHtml += '</ul>';
+
+  // Alertes
+  let alertesHtml = '<ul>';
+  pa.alertes_specifiques.forEach(a => alertesHtml += '<li style="color: var(--rouge-orient); font-weight: 500;">' + a + '</li>');
+  alertesHtml += '</ul>';
+
+  document.getElementById('proPanelContent').innerHTML =
+    '<div class="pro-section">' +
+      '<h3>📋 Identifiants</h3>' +
+      '<div class="pro-meta">' +
+        '<span class="pro-tag">Profil · ' + PROFILS[selectedProfil].label + ' (' + PROFILS[selectedProfil].sublabel + ')</span>' +
+        '<span class="pro-tag">Rempli par · ' + QUI_REMPLIT[selectedQuiRemplit].label + '</span>' +
+        '<span class="pro-tag">Domaine · ' + d.label + '</span>' +
+        '<span class="pro-tag" style="background: ' + lvl.color + '; color: white;">' + lvl.label + ' (' + s.percent + '%)</span>' +
+        '<span class="pro-tag">Date · ' + new Date().toLocaleDateString('fr-FR') + '</span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="pro-section">' +
+      '<h3>📝 Détail des réponses</h3>' +
+      detailReponses +
+    '</div>' +
+    '<div class="pro-section">' +
+      '<h3>🔄 Réflexes archaïques (' + reflexesObserved.size + '/6)</h3>' +
+      reflexesDetail +
+    '</div>' +
+    '<div class="pro-section">' +
+      '<h3>🧠 Hypothèses cliniques à explorer</h3>' +
+      '<p style="font-size: 13px; color: var(--gris-doux); font-style: italic; margin-bottom: 10px;">Hypothèses à confirmer cliniquement par les professionnels habilités. Ne constitue pas un diagnostic.</p>' +
+      hypoHtml +
+    '</div>' +
+    '<div class="pro-section">' +
+      '<h3>🔍 Protocole d\'observation en cabinet</h3>' +
+      '<p style="font-size: 13px; color: var(--gris-doux); font-style: italic;">À mettre en place en séance pour valider/préciser le profil.</p>' +
+      protocoleHtml +
+    '</div>' +
+    '<div class="pro-section">' +
+      '<h3>🌱 Programme d\'accompagnement suggéré</h3>' +
+      progHtml +
+    '</div>' +
+    '<div class="pro-section">' +
+      '<h3>🛠 Outils recommandés</h3>' +
+      outilsHtml +
+    '</div>' +
+    '<div class="pro-section">' +
+      '<h3>📚 Méthodes & références</h3>' +
+      methodesHtml +
+    '</div>' +
+    '<div class="pro-section" style="border-color: var(--rouge-orient);">' +
+      '<h3 style="color: var(--rouge-orient);">⚠ Alertes spécifiques</h3>' +
+      alertesHtml +
+    '</div>' +
+    '<div class="footer-disclaimer" style="margin-top: 18px;">' +
+      '<strong>Document interne praticienne — Educa Typique</strong><br>' +
+      'Cette analyse est un outil de travail. Elle n\'établit pas de diagnostic et doit être confrontée à l\'observation directe et à l\'évaluation des professionnels habilités. Confidentialité absolue requise.' +
+    '</div>';
+}
+
+// ============================================================
+//  RESTART
+// ============================================================
+function restart() {
+  currentStep = 0;
+  selectedProfil = null;
+  selectedQuiRemplit = null;
+  selectedDomaine = null;
+  responses = {};
+  reflexesObserved.clear();
+  document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('btnAfterProfil').disabled = true;
+  document.getElementById('btnAfterQuiRemplit').disabled = true;
+  document.getElementById('btnAfterDomaine').disabled = true;
+  document.getElementById('btnAfterQu').disabled = true;
+  document.getElementById('proPanel').classList.remove('visible');
+  showStep();
+}
+
+init();
+</script>
+
+</body>
+</html>
