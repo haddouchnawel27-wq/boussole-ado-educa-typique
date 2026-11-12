@@ -36,6 +36,11 @@
     min-height:100vh;line-height:1.55;padding-bottom:env(safe-area-inset-bottom)}
   body.dys{letter-spacing:.03em;word-spacing:.08em;line-height:1.8}
   body.lowsensory *{animation:none!important;transition:none!important}
+  .sosfab{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:50;
+    font:700 .85rem var(--font);color:#fff;background:#B85C4E;border:none;border-radius:999px;padding:9px 14px;
+    box-shadow:0 4px 14px rgba(120,60,50,.25);cursor:pointer;opacity:.92}
+  .sosfab:hover,.sosfab:focus-visible{opacity:1}
+  .sosfab:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
   body.lowsensory .btn{box-shadow:none}
   .reco{display:inline-block;font-size:.7rem;font-weight:800;color:#fff;background:var(--primary);
     border-radius:999px;padding:2px 9px;margin-left:8px;vertical-align:middle}
@@ -148,6 +153,7 @@
   <div class="footer">Le point du jour · 100% local, sans wifi 🌿</div>
 </div>
 <div class="toast" id="toast"></div>
+<button class="sosfab" id="sosfab" hidden aria-label="J'ai besoin d'aide, maintenant">🛟 Aide</button>
 
 <script>
 /* ═══════════════════════════════════════════════════════════════════
@@ -229,6 +235,7 @@ const BRIEF_SCORED = ["blocages","anxiete","surcharge_emotionnelle"]; // route B
 
 /* seuils section (0..15) et global (proportionnel, calé sur /75) */
 function sectionLevel(v){ if(v<=4)return"low"; if(v<=8)return"moderate"; if(v<=12)return"high"; return"very_high"; }
+const LV_WORD={ low:"ça va", moderate:"un peu chargé", high:"chargé", very_high:"beaucoup de surcharge" };
 function globalLevel(sum,n){ const p = n? sum/(15*n) : 0;
   if(p<=0.24)return"stable"; if(p<=0.47)return"vigilance"; if(p<=0.69)return"surcharge"; return"crise"; }
 const GLOBAL_TXT = {
@@ -245,7 +252,7 @@ const KEY="lpj:v1";
 const DEFAULT={ history:[], draft:null, rescues:[], wins:[], tools:{ dump:"", decoupe:{task:"",steps:[]}, checklist:[] }, prefs:{dys:false, spirit:false, profil:[], lowSensory:false} };
 let db = load();
 function load(){ let d; try{ d=Object.assign(structuredClone(DEFAULT), JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){ d=structuredClone(DEFAULT); }
-  d.prefs=Object.assign({dys:false,spirit:false,profil:[],lowSensory:false}, d.prefs||{});
+  d.prefs=Object.assign({dys:false,spirit:false,profil:[],lowSensory:false,textSize:0}, d.prefs||{});
   if(!Array.isArray(d.prefs.profil)) d.prefs.profil=[];
   if(!Array.isArray(d.wins)) d.wins=[];
   return d; }
@@ -307,8 +314,12 @@ function renderIntro(){
     <div class="row" style="margin-top:6px">
       <button class="linkbtn" id="dys">🔤 Confort dys : ${db.prefs.dys?"activé":"désactivé"}</button>
       <button class="linkbtn" id="spirit">🕊️ Spirituel : ${db.prefs.spirit?"activé":"désactivé"}</button>
+      <button class="linkbtn" id="tsize">🔠 Texte : ${TEXT_SIZES[db.prefs.textSize||0].label}</button>
     </div>
+    <button class="linkbtn" id="wipe" style="margin-top:4px">🗑️ Effacer toutes mes données</button>
   </section>`));
+  document.getElementById("tsize").onclick = ()=>{ db.prefs.textSize=((db.prefs.textSize||0)+1)%TEXT_SIZES.length; save(); applyTextSize(); renderIntro(); };
+  document.getElementById("wipe").onclick = renderWipe;
   document.getElementById("start").onclick = ()=>{ newSession(); buildEtatFlow(); renderStep(); };
   const r=document.getElementById("resume"); if(r) r.onclick = resumeDraft;
   const h=document.getElementById("hist"); if(h) h.onclick = renderHistory;
@@ -318,6 +329,39 @@ function renderIntro(){
   document.getElementById("wins").onclick = renderWins;
   document.getElementById("profil").onclick = renderProfil;
   document.getElementById("spirit").onclick = ()=>{ db.prefs.spirit=!db.prefs.spirit; save(); renderIntro(); };
+}
+
+/* ─── taille du texte ─── */
+const TEXT_SIZES=[{label:"normal",scale:1},{label:"grand",scale:1.12},{label:"très grand",scale:1.25}];
+function applyTextSize(){ const s=TEXT_SIZES[db.prefs.textSize||0]||TEXT_SIZES[0]; document.documentElement.style.setProperty("--scale", s.scale); }
+
+/* ─── tout effacer (confirmation dans la page) ─── */
+function renderWipe(){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">
+    <div class="toolbar"><button class="linkbtn" id="home">‹ Accueil</button></div>
+    <div class="card">
+      <h2 style="margin-top:0">Effacer toutes mes données</h2>
+      <p class="muted">Ça supprime de cet appareil : tes points précédents, ton brouillon, tes réussites, le contenu de ta boîte à outils et tes réglages.</p>
+      <p class="muted">Rien n'est gardé ailleurs : une fois effacé, on ne peut pas le récupérer.</p>
+      <button class="btn" id="keep" style="margin-top:8px">Non, je garde tout</button>
+      <button class="btn secondary" id="confirmwipe" style="margin-top:10px">Oui, tout effacer</button>
+    </div>
+  </section>`));
+  document.getElementById("home").onclick=renderIntro;
+  document.getElementById("keep").onclick=renderIntro;
+  document.getElementById("confirmwipe").onclick=()=>{
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    db=structuredClone(DEFAULT); db.prefs.textSize=0;
+    document.body.classList.remove("dys","lowsensory"); applyTextSize();
+    toast("Tout est effacé 🌿"); renderIntro();
+  };
+}
+
+/* ─── bouton d'aide visible partout (sauf accueil et écran de crise) ─── */
+function syncSosFab(){
+  const fab=document.getElementById("sosfab"); if(!fab) return;
+  const a=app(); fab.hidden = !!(a.querySelector("#start") || a.querySelector("[data-crisis]"));
 }
 
 function progressHead(labelExtra){
@@ -441,7 +485,7 @@ function renderSummary(){
     const s=SECTIONS[sid]; const v=scores[sid]; const lv=sectionLevel(v);
     const flag = (lv==="high"||lv==="very_high");
     secHtml += `<div class="secrow">
-      <div class="top"><span>${esc(s.label)}</span><span style="color:var(--text-soft)">${v}/15</span></div>
+      <div class="top"><span>${esc(s.label)}</span><span style="color:var(--text-soft)">${LV_WORD[lv]}</span></div>
       <div class="scorebar"><i class="lvl-${lv}" style="width:${Math.round(v/15*100)}%"></i></div>
       ${flag? `<div class="msg">${esc(s.msg)}</div><div class="chips"><span class="chip">${esc(s.action)}</span></div>`:""}
     </div>`;
@@ -459,7 +503,7 @@ function renderSummary(){
     <div class="card">
       <h2 style="margin-top:0;font-size:1.2rem">Par domaine</h2>
       ${secHtml}
-      <p class="tiny" style="margin-top:10px">Repère : <b>${sum}</b> ${S.mode==="bref"?"(mode bref — lecture partielle, c'est normal)":""}. Plus la barre est courte, plus ça va de ce côté-là.</p>
+      <p class="tiny" style="margin-top:10px">Plus la barre est courte, plus ça va de ce côté-là.${S.mode==="bref"?" Mode bref : on a regardé l'essentiel, c'est normal.":""} Ta fatigue est une information, pas un échec.</p>
     </div>
     <button class="btn" id="coach" style="margin-top:8px">🛟 Prends-moi par la main</button>
     <button class="btn secondary" id="tools" style="margin-top:8px">🧰 Ouvrir un outil concret</button>
@@ -481,7 +525,7 @@ function renderSummary(){
 let bTimer=null, bOn=false;
 function renderCrisis(){
   app().innerHTML="";
-  app().appendChild(el(`<section class="screen">
+  app().appendChild(el(`<section class="screen" data-crisis>
     <div class="card center" style="border-left:5px solid #B85C4E">
       <h2 style="margin-top:0">On ralentit ensemble 🤍</h2>
       <p class="muted">Ton système est saturé, et c'est OK. On ne demande rien de plus. On respire, doucement.</p>
@@ -519,7 +563,7 @@ function renderHistory(){
   let rows = db.history.length? db.history.map(r=>`
     <div class="secrow" style="border-bottom:1px solid var(--border);padding-bottom:10px">
       <div class="top"><span>${frDate(r.date)}</span><span class="badge b-${r.level}" style="font-size:.72rem">${GLOBAL_TXT[r.level].badge}</span></div>
-      <div class="tiny">état : ${esc(r.etat||"—")} · énergie : ${esc(r.energie||"—")} · repère ${r.sum}${r.mode==="bref"?" (bref)":""}</div>
+      <div class="tiny">état : ${esc(r.etat||"—")} · énergie : ${esc(r.energie||"—")}${r.mode==="bref"?" · mode bref":""}</div>
     </div>`).join("") : `<div class="tiny center" style="padding:20px">Aucun point encore. Reviens quand tu veux 🌿</div>`;
   app().appendChild(el(`<section class="screen">
     <button class="linkbtn" id="home">‹ Accueil</button>
@@ -827,8 +871,10 @@ const TOOLS=[
   {id:"priorite", icon:"🛟", title:"Choisir UNE priorité", desc:"Quand tout semble urgent : n'en garder qu'une."},
   {id:"timer", icon:"⏱️", title:"Timer « on démarre »", desc:"Juste commencer, quelques minutes, pas plus."},
   {id:"checklist", icon:"✅", title:"Checklist express", desc:"Une petite liste à cocher, ça soulage la mémoire."},
-  {id:"breath", icon:"🫧", title:"Respirer", desc:"Faire redescendre la tension, ici et maintenant."}
+  {id:"breath", icon:"🫧", title:"Respirer", desc:"Faire redescendre la tension, ici et maintenant."},
+  {id:"atelier", icon:"🧭", title:"Atelier de tri", desc:"Vider, trier, choisir : un parcours pas à pas quand tout se mélange."}
 ];
+function openAtelier(){ location.href="../atelier-de-tri/#"+(db.prefs.spirit?"spirituel":"universel"); }
 function renderTools(focusTool){
   stopToolTimer(); stopBreath();
   app().innerHTML="";
@@ -852,7 +898,7 @@ function renderTools(focusTool){
   document.getElementById("home").onclick=renderIntro;
   app().querySelectorAll("[data-t]").forEach(b=> b.onclick=()=>openTool(b.getAttribute("data-t")));
 }
-function openTool(id){ ({ dump:toolDump, decoupe:toolDecoupe, priorite:toolPriorite, timer:toolTimer, checklist:toolChecklist, breath:toolBreath }[id]||renderTools)(); }
+function openTool(id){ ({ dump:toolDump, decoupe:toolDecoupe, priorite:toolPriorite, timer:toolTimer, checklist:toolChecklist, breath:toolBreath, atelier:openAtelier }[id]||renderTools)(); }
 
 /* 🎒 Vide-tête */
 function toolDump(){
@@ -913,36 +959,68 @@ function toolDecoupe(){
   document.getElementById("reset").onclick=()=>{ if(confirm("Vider cette tâche et ses pas ?")){ d.task=""; d.steps=[]; save(); toolDecoupe(); } };
 }
 
-/* 🛟 Choisir UNE priorité (décision, non stockée) */
+/* 🛟 Choisir UNE priorité — 3 petits temps : noter · alléger · choisir.
+   Gardé sur l'appareil (on peut s'arrêter et reprendre). */
+function ensurePrio(){ const t=ensureTools();
+  if(!t.prio||typeof t.prio!=="object") t.prio={ text:"", wait:{}, choice:"", step:"list" };
+  if(typeof t.prio.wait!=="object"||!t.prio.wait) t.prio.wait={};
+  return t.prio; }
+function prioLines(p){ return p.text.split("\n").map(s=>s.trim()).filter(Boolean); }
 function toolPriorite(){
-  app().innerHTML="";
-  app().appendChild(el(`<section class="screen">${toolHead("Choisir UNE priorité")}
-    <div class="card" style="border-left:5px solid var(--c-teal)">
-      <h2 style="margin-top:0">Une seule chose 🛟</h2>
-      <p class="muted">Écris tout ce qui te tire (une ligne par chose). Puis on n'en garde <b>qu'une</b> — le reste attend, promis.</p>
-      <textarea id="cands" placeholder="Une chose par ligne…"></textarea>
-      <button class="btn" id="show" style="margin-top:12px">Voir mes options →</button>
-      <div id="picker" style="margin-top:12px"></div>
-    </div></section>`));
+  const p=ensurePrio(); app().innerHTML="";
+  const head=toolHead("Choisir UNE priorité");
+  const lines=prioLines(p);
+  let body="";
+  if(p.step==="list"||!lines.length){
+    p.step="list";
+    body=`<h2 style="margin-top:0">Une seule chose 🛟</h2>
+      <p class="muted">Note tout ce qui occupe ta tête en ce moment, une chose par ligne. Ensuite, on n'en garde <b>qu'une</b>. Le reste peut attendre.</p>
+      <textarea id="cands" placeholder="Ex. : rappeler l'école&#10;faire les courses&#10;répondre à ce message…">${esc(p.text)}</textarea>
+      <button class="btn" id="next" style="margin-top:12px">C'est noté →</button>`;
+  } else if(p.step==="wait"){
+    const rows=lines.map((l,i)=>{ const w=!!p.wait[l];
+      return `<div class="opt" style="cursor:default;flex-wrap:wrap;gap:8px;${w?"opacity:.6":""}">
+        <span style="flex:1 1 160px;min-width:0;${w?"text-decoration:line-through":""}">${esc(l)}</span>
+        <button class="btn ghost small" data-w="${i}" aria-pressed="${w}">${w?"↺ Finalement, ça compte":"Ça peut attendre"}</button>
+      </div>`; }).join("");
+    body=`<h2 style="margin-top:0">On allège la liste 🍃</h2>
+      <p class="muted">Pour chaque chose, demande-toi : <b>si je ne le fais pas cette semaine, que se passe-t-il vraiment ?</b> Si la réponse est « rien de grave », ça peut attendre.</p>
+      <div class="opts" style="margin-top:10px">${rows}</div>
+      <div class="row" style="margin-top:12px"><button class="btn ghost small" id="back">‹ Modifier ma liste</button><button class="btn" id="next">Continuer →</button></div>`;
+  } else if(p.step==="pick"){
+    const keep=lines.filter(l=>!p.wait[l]); const pool=keep.length?keep:lines;
+    body=`<h2 style="margin-top:0">Laquelle, aujourd'hui ? 🛟</h2>
+      <p class="muted">Si tu ne pouvais en faire qu'<b>une seule</b> aujourd'hui, ce serait laquelle ? Il n'y a pas de mauvaise réponse.</p>
+      <div class="opts" style="margin-top:10px">${pool.map((l,i)=>`<button class="opt" data-pick="${i}"><span class="dot"></span><span>${esc(l)}</span></button>`).join("")}</div>
+      <button class="btn ghost small" id="back" style="margin-top:12px">‹ Revenir</button>`;
+    p._pool=pool;
+  } else {
+    const waiting=lines.filter(l=>l!==p.choice);
+    body=`<div class="center">
+      <p class="tiny" style="margin:0">Ta seule chose, aujourd'hui :</p>
+      <h2 style="margin:.2em 0">${esc(p.choice)}</h2>
+      <p class="muted">Le reste peut attendre. Tu n'as pas besoin de tout résoudre aujourd'hui. 🌿</p></div>
+      ${waiting.length?`<p class="tiny muted" style="margin-top:10px">En attente, tranquillement : ${waiting.map(esc).join(" · ")}</p>`:""}
+      <button class="btn" id="cut" style="margin-top:12px">🪜 Découper en petits pas</button>
+      <button class="btn ghost small" id="restart" style="margin-top:10px">↺ Refaire avec une nouvelle liste</button>`;
+  }
+  app().appendChild(el(`<section class="screen">${head}<div class="card" style="border-left:5px solid var(--c-teal)">${body}</div></section>`));
   wireToolHead();
-  document.getElementById("show").onclick=()=>{
-    const lines=document.getElementById("cands").value.split("\n").map(s=>s.trim()).filter(Boolean);
-    const box=document.getElementById("picker"); box.innerHTML="";
-    if(!lines.length){ toast("Écris au moins une chose 🌿"); return; }
-    box.appendChild(el(`<p class="tiny muted">Laquelle, si tu ne pouvais en faire qu'<b>une</b> ?</p>`));
-    const opts=el(`<div class="opts"></div>`);
-    lines.forEach(l=>{
-      const b=el(`<button class="opt"><span class="dot"></span><span>${esc(l)}</span></button>`);
-      b.onclick=()=>{ box.innerHTML="";
-        box.appendChild(el(`<div class="card center" style="border-left:5px solid var(--primary);margin:6px 0 0">
-          <p class="tiny" style="margin:0">Ta seule chose, maintenant :</p>
-          <h2 style="margin:.2em 0">${esc(l)}</h2>
-          <p class="muted">Le reste attend — vraiment. Fais juste le premier pas vers celle-là. 🌿</p></div>`));
-      };
-      opts.appendChild(b);
-    });
-    box.appendChild(opts);
+  const go=s=>{ p.step=s; save(); toolPriorite(); };
+  const ta=document.getElementById("cands");
+  if(ta) ta.oninput=()=>{ p.text=ta.value; save(); };
+  const nx=document.getElementById("next");
+  if(nx) nx.onclick=()=>{
+    if(p.step==="list"){ if(!prioLines(p).length){ toast("Note au moins une chose 🌿"); return; } go(prioLines(p).length>1?"wait":"pick"); }
+    else go("pick");
   };
+  const bk=document.getElementById("back"); if(bk) bk.onclick=()=>go(p.step==="pick"&&lines.length>1?"wait":"list");
+  app().querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{ const l=lines[+b.dataset.w]; if(p.wait[l]) delete p.wait[l]; else p.wait[l]=true; save(); toolPriorite(); });
+  app().querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>{ p.choice=p._pool[+b.dataset.pick]; go("done"); });
+  const cut=document.getElementById("cut");
+  if(cut) cut.onclick=()=>{ const t=ensureTools(); if(t.decoupe.task!==p.choice){ t.decoupe={ task:p.choice, steps:[] }; } save(); toolDecoupe(); };
+  const rs=document.getElementById("restart");
+  if(rs) rs.onclick=()=>{ ensureTools().prio={ text:"", wait:{}, choice:"", step:"list" }; save(); toolPriorite(); };
 }
 
 /* ⏱️ Timer « on démarre » */
@@ -1081,7 +1159,11 @@ function renderWins(){
 if("serviceWorker" in navigator){ window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
 document.body.classList.toggle("dys", !!db.prefs.dys);
 document.body.classList.toggle("lowsensory", !!db.prefs.lowSensory);
+applyTextSize();
+document.getElementById("sosfab").onclick=()=>{ stopBreath(); stopToolTimer(); startCoach({ needsReg:true, sos:true }); };
+new MutationObserver(syncSosFab).observe(app(), { childList:true });
 renderIntro();
+syncSosFab();
 </script>
 </body>
 </html>

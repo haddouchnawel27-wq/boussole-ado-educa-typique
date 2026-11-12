@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Casa des Familles — Educa Typique</title>
+<meta name="description" content="La boîte à outils des parents d'enfants et d'ados neuro-atypiques. Comprendre, apaiser le quotidien, tenir le cap.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Nunito:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../parcours-clarte-tnd/assets/charte.css">
+<style>
+  .hero{
+    text-align:center;padding:2.6rem 1.2rem 2rem;
+    background:linear-gradient(150deg,var(--rose-clair) 0%, var(--lavande) 55%, var(--peche) 100%);
+    border-bottom:4px solid #fff;
+  }
+  .hero .marque{
+    font-family:var(--font-titre);font-size:.76rem;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--violet-fonce);opacity:.85;
+  }
+  .hero h1{color:var(--violet-fonce);margin:.5rem 0 .3rem}
+  .hero .slogan{color:var(--texte);font-size:1.05rem;margin:0 auto;max-width:46ch}
+  .hero .age{
+    display:inline-block;margin-top:1rem;background:#fff;border-radius:999px;
+    padding:.4em 1.1em;font-weight:700;color:var(--rose-titre);box-shadow:var(--shadow-sm);
+    font-size:.92rem;
+  }
+  .educa{
+    width:104px;height:104px;border-radius:50%;object-fit:contain;background:#fff;
+    border:4px solid #fff;box-shadow:var(--shadow-md);margin-bottom:.6rem;
+  }
+
+  .intro{
+    max-width:62ch;margin:2rem auto 0;text-align:center;color:var(--texte);font-size:1.04rem;
+  }
+
+  section.bloc{margin-top:2.6rem}
+  section.bloc > h2{
+    display:flex;align-items:center;gap:.55rem;margin-bottom:.2rem;color:var(--c,var(--violet-titre));
+  }
+  section.bloc > p.chapeau{color:var(--muted);margin:.1rem 0 1rem;max-width:60ch}
+
+  .grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:.9rem}
+
+  a.outil{
+    display:flex;flex-direction:column;gap:.25rem;
+    background:#fff;border:1px solid var(--border);border-left:5px solid var(--c,var(--rose-soutenu));
+    border-radius:var(--r-md);padding:1rem 1.1rem;
+    text-decoration:none;color:var(--texte);
+    box-shadow:var(--shadow-sm);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  a.outil:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);text-decoration:none}
+  a.outil .nom{font-family:var(--font-titre);font-weight:600;color:var(--c,var(--rose-titre));font-size:1rem}
+  a.outil .desc{font-size:.89rem;color:var(--muted);line-height:1.45}
+
+  /* couleurs par bloc */
+  .b-comprendre{--c:var(--violet-titre)}
+  .b-quotidien{--c:var(--rose-titre)}
+  .b-ado{--c:var(--teal-titre)}
+  .b-parent{--c:#c25a80}
+  .b-demarches{--c:var(--bleu-sarcelle)}
+  .b-spirituel{--c:var(--sable-fonce)}
+  .b-ressources{--c:var(--violet-titre)}
+
+  .ressources-liste{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.5rem}
+  .ressources-liste a{
+    background:var(--beige);border:1px solid var(--border);border-radius:var(--r-sm);
+    padding:.6em .9em;font-size:.9rem;color:var(--texte);font-weight:600;
+  }
+  .ressources-liste a:hover{background:#fff;box-shadow:var(--shadow-sm);text-decoration:none}
+
+  .avenir{
+    background:var(--beige);border:1px dashed var(--lavande);border-radius:var(--r-lg);
+    padding:1.3rem 1.5rem;margin-top:2.6rem;
+  }
+  .avenir h2{margin-top:0}
+  .avenir ul{margin:.4rem 0 0;padding-left:1.1rem;color:var(--muted)}
+  .avenir li{margin-bottom:.3rem}
+
+  .pied{
+    text-align:center;color:var(--muted);padding:2.8rem 1rem 3rem;font-size:.9rem;margin-top:2rem;
+  }
+  .pied img{width:100%;max-width:520px;height:auto;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);margin-bottom:1rem}
+  .pied strong{display:block;font-family:var(--font-titre);color:var(--violet-titre);margin-bottom:.2rem}
+
+  /* --- chapitres par âge --- */
+  .chapitre{max-width:1040px;margin:3.2rem auto 0;padding:0 1.2rem;}
+  .chapitre:first-of-type{margin-top:2rem;}
+  .chapitre .bandeau{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;
+    padding:1rem 1.4rem;border-radius:16px;background:linear-gradient(120deg,var(--c1),var(--c2));}
+  .chapitre .bandeau h2{margin:0;font-size:1.35rem;color:#452a75;font-family:'Poppins','Nunito',sans-serif;}
+  .chapitre .bandeau .age{background:rgba(255,255,255,.72);border-radius:999px;
+    padding:.25rem .85rem;font-size:.86rem;font-weight:700;color:#5a3c8f;white-space:nowrap;}
+  .chapitre .sous{margin:.7rem 0 0;color:var(--muted);font-size:.95rem;max-width:66ch;}
+
+  /* --- barre de saut --- */
+  .sauts{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.93);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--border);
+    display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;padding:.6rem 1rem;}
+  .sauts a{text-decoration:none;font-size:.88rem;font-weight:700;color:#5a3c8f;
+    background:#F4EEFD;border:1px solid #E7D6F5;border-radius:999px;padding:.35rem .9rem;}
+  .sauts a:hover{background:#E7D6F5;}
+  @media (max-width:560px){ .sauts a{font-size:.8rem;padding:.3rem .7rem;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <img class="educa" src="../parcours-clarte-tnd/assets/mascottes/educa.png" alt="Educa, la mascotte guide d'Educa Typique" onerror="this.remove()">
+  <div class="marque">Educa Typique</div>
+  <h1>🏠 La Casa des Familles</h1>
+  <p class="slogan">La maison des parents. Comprendre son enfant, apaiser le quotidien, et tenir le cap sans s'épuiser.</p>
+  <span class="age">👧 Enfants dès 4 ans &nbsp;·&nbsp; 🧑 et leurs grands frères et sœurs ados</span>
+</header>
+
+<div class="container">
+
+  <p class="intro">
+    Tous les outils sont <strong>gratuits, sans inscription</strong>, et fonctionnent directement dans votre navigateur.
+    Ce que vous y écrivez reste sur votre appareil — rien n'est envoyé nulle part.
+  </p>
+
+  <div class="disclaimer" style="max-width:62ch;margin:1.4rem auto 0">
+    Ces outils aident à comprendre et à accompagner. Ils ne posent pas de diagnostic
+    et ne remplacent pas l'avis d'un professionnel de santé.
+  </div>
+
+
+<nav class="sauts">
+  <a href="#enfant">👶 Mon enfant a 0-10 ans</a>
+  <a href="#ado">🧑 Mon enfant est ado</a>
+  <a href="#toujours">💗 Quel que soit son âge</a>
+</nav>
+
+
+  <div class="chapitre" id="enfant" style="--c1:#BDEAD7;--c2:#CDE6F5">
+    <div class="bandeau">
+      <h2>👶 Mon enfant a 0 à 10 ans</h2>
+      <span class="age">naissance · maternelle · élémentaire</span>
+    </div>
+    <p class="sous">Comprendre son fonctionnement, apaiser le quotidien, et jouer — parce qu'un jeu se refuse moins qu'un exercice.</p>
+  </div>
+
+  <!-- ============ COMPRENDRE ============ -->
+  <section class="bloc b-comprendre">
+    <h2>🧠 Comprendre mon enfant</h2>
+    <p class="chapeau">Avant de corriger, comprendre. Ces guides expliquent ce qui se passe dans sa tête.</p>
+    <div class="grille">
+      <a class="outil" href="../parcours-clarte-tnd/apps/guide-tdah-top.html">
+        <span class="nom">Guide TDAH + TOP</span>
+        <span class="desc">Comprendre, désamorcer, retrouver la sérénité à la maison.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/guide-hpi.html">
+        <span class="nom">Guide HPI</span>
+        <span class="desc">Accompagner un enfant à haut potentiel sans le surcharger.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/boussole-diagnostic-dys.html">
+        <span class="nom">Boussole des bilans DYS</span>
+        <span class="desc">Quel bilan, quel professionnel, à quel âge, dans quel ordre.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/pyramide-7-niveaux.html">
+        <span class="nom">La pyramide des 7 niveaux</span>
+        <span class="desc">Ses besoins, du plus fondamental au plus élevé.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/ligne-du-temps-parcours-tnd.html">
+        <span class="nom">La ligne du temps</span>
+        <span class="desc">Visualiser le chemin déjà parcouru et les étapes à venir.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/cours-tnd-interactif.html">
+        <span class="nom">Cours TND interactif</span>
+        <span class="desc">Six chapitres et un quiz, à votre rythme, pour comprendre les troubles du neurodéveloppement.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/trouble-dys-executif.html">
+        <span class="nom">Dys ou fonctions exécutives ?</span>
+        <span class="desc">Distinguer ce qui relève des apprentissages et ce qui relève de l'organisation.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/apprendre-a-apprendre.html">
+        <span class="nom">Apprendre à apprendre</span>
+        <span class="desc">Les méthodes de travail qui tiennent vraiment : se tester, espacer, reformuler.</span></a>
+    </div>
+  </section>
+
+  <!-- ============ QUOTIDIEN ============ -->
+  <section class="bloc b-quotidien">
+    <h2>🏡 Le quotidien qui coince</h2>
+    <p class="chapeau">Les devoirs, les crises, les consignes qui ne passent pas. Les outils du jour le jour.</p>
+    <div class="grille">
+      <a class="outil" href="../parcours-clarte-tnd/apps/devoirs-sans-crise.html">
+        <span class="nom">Devoirs Sans Crise</span>
+        <span class="desc">L'application complète : routines, anti-crise, suivi.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/routines-educatypique.html">
+        <span class="nom">Installer des routines</span>
+        <span class="desc">Matin, soir, devoirs — des routines qui tiennent vraiment.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/guide-consignes-efficaces.html">
+        <span class="nom">Des consignes efficaces</span>
+        <span class="desc">5 règles pour être suivi, sans avoir à crier.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/kit-gestion-emotions.html">
+        <span class="nom">Kit gestion des émotions</span>
+        <span class="desc">Accompagner les émotions au moment où ça déborde.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/contenus-reseaux/kit-ramener-le-calme.html">
+        <span class="nom">Ramener le calme</span>
+        <span class="desc">Des gestes simples pour faire redescendre la pression.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/emotionometre-parental.html">
+        <span class="nom">Émotionomètre parental</span>
+        <span class="desc">12 situations, 3 phrases — l'impact réel sur le cœur de l'enfant.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/detecteur-de-paroles.html">
+        <span class="nom">Le détecteur de paroles</span>
+        <span class="desc">Cœur ou bombe : ce que vos mots produisent, en 15 situations.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/mon-plan-pas-a-pas.html">
+        <span class="nom">Mon plan pas à pas</span>
+        <span class="desc">L'enfant construit son plan, coche, et avance seul.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/boite-emotions-19.html">
+        <span class="nom">La boîte à émotions — 19 émotions</span>
+        <span class="desc">L'application maître : nommer, comprendre et traverser chacune des 19 émotions.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/devoirs-sans-crise-6-10-ans.html">
+        <span class="nom">Devoirs sans crise — 6-10 ans</span>
+        <span class="desc">Le kit psychoéducatif TDAH pensé pour les plus jeunes.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/recadrer-sans-exploser.html">
+        <span class="nom">Recadrer sans exploser</span>
+        <span class="desc">Reprendre son enfant sans que le ton monte, et sans culpabiliser après.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/schema-declencheur-tcc.html">
+        <span class="nom">Le schéma déclencheur</span>
+        <span class="desc">Repérer ce qui met le feu aux poudres, avant l'étincelle.</span></a>
+    </div>
+  </section>
+
+
+  <!-- ============ LUDOTHÈQUE ============ -->
+  <section class="bloc b-ludotheque">
+    <h2>🎲 La ludothèque</h2>
+    <p class="chapeau">On apprend mieux en jouant — et un jeu se refuse moins qu'un exercice.</p>
+    <div class="grille">
+      <a class="outil" href="../parcours-clarte-tnd/apps/des-emotions.html">
+        <span class="nom">Les dés des émotions</span>
+        <span class="desc">On lance, on nomme, on raconte. À deux ou à toute la famille.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/cartes-scenarios-parent-enfant.html">
+        <span class="nom">Cartes de scénarios</span>
+        <span class="desc">Des situations du quotidien à rejouer ensemble, à froid.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/apprivoise-tes-emotions.html">
+        <span class="nom">Apprivoise tes émotions</span>
+        <span class="desc">Trois mini-jeux : décoder, répondre, faire travailler sa mémoire.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/memoire-en-images.html">
+        <span class="nom">Mémoire en images</span>
+        <span class="desc">Un memory qui entraîne la mémoire de travail sans en avoir l'air.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/jeux-maison-fe.html">
+        <span class="nom">Jeux maison — fonctions exécutives</span>
+        <span class="desc">Attention, inhibition, mémoire, flexibilité : avec ce qu'on a sous la main.</span></a>
+    </div>
+  </section>
+
+  <div class="chapitre" id="ado" style="--c1:#F8CFE0;--c2:#CBB6F6">
+    <div class="bandeau">
+      <h2>🧑 Mon enfant est ado</h2>
+      <span class="age">11 ans et plus</span>
+    </div>
+    <p class="sous">Ces outils sont pour <b>vous</b>, le parent — pas pour lui. L'ado a son propre espace, avec ses propres outils.</p>
+  </div>
+
+  <!-- ============ ADO ============ -->
+  <section class="bloc b-ado">
+    <h2>🧑 Quand l'enfant devient ado</h2>
+    <p class="chapeau">Pour les parents d'adolescents. Le lien change de forme — il ne se casse pas.</p>
+    <div class="grille">
+      <a class="outil" href="../parcours-clarte-tnd/apps/dialoguer-avec-son-ado.html">
+        <span class="nom">Dialoguer avec son ado</span>
+        <span class="desc">Livret interactif : rouvrir le dialogue et accueillir les émotions.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/autonomie-ado.html">
+        <span class="nom">Accompagner l'autonomie</span>
+        <span class="desc">Passer de protecteur à guide, sans lâcher le fil.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/contrat-confiance-ado.html">
+        <span class="nom">Le contrat de confiance</span>
+        <span class="desc">Construire l'autonomie sans surveiller — à signer à deux.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/reprendre-confiance.html">
+        <span class="nom">Reprendre confiance</span>
+        <span class="desc">Estime de soi et confiance, après les années difficiles.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/premiers-secours-psy-ado-familles.html">
+        <span class="nom">Premiers secours psy — l'ado qui inquiète</span>
+        <span class="desc">Quand s'inquiéter, qui appeler, quoi dire — la version pour les familles.</span></a>
+    </div>
+  </section>
+
+
+  <div class="chapitre" id="toujours" style="--c1:#FFD6C2;--c2:#FFE9A8">
+    <div class="bandeau">
+      <h2>💗 Quel que soit son âge</h2>
+      <span class="age">et le vôtre</span>
+    </div>
+    <p class="sous">Vous tenir debout, avancer dans les démarches, et — si vous le souhaitez — la dimension spirituelle.</p>
+  </div>
+
+  <!-- ============ PARENT ============ -->
+  <section class="bloc b-parent">
+    <h2>💗 Et vous, dans tout ça ?</h2>
+    <p class="chapeau">Un parent épuisé n'accompagne plus personne. Ces outils sont pour vous, pas pour l'enfant.</p>
+    <div class="grille">
+      <a class="outil" href="../parcours-clarte-tnd/apps/maman-neuro-atypique.html">
+        <span class="nom">Maman neuro-atypique</span>
+        <span class="desc">Pour les mères elles-mêmes TDAH, TSA ou HPI.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/chrono-energies-maman.html">
+        <span class="nom">Le chrono des énergies</span>
+        <span class="desc">Cartographier son énergie pour arrêter de tout donner aux autres.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/matrice-urgent-important.html">
+        <span class="nom">Urgent ou important ?</span>
+        <span class="desc">Prioriser ce qui compte vraiment, sans s'épuiser.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/profils-couple-educatif.html">
+        <span class="nom">Profils du couple éducatif</span>
+        <span class="desc">Mieux co-éduquer en comprenant vos deux styles.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/aide-epuise.html">
+        <span class="nom">Quand le parent est épuisé</span>
+        <span class="desc">Un point d'arrêt quand vous n'en pouvez plus. Sans jugement.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/controle-influence-lache.html">
+        <span class="nom">Contrôle · influence · je lâche</span>
+        <span class="desc">Trier ce qui dépend de vous, ce que vous pouvez infléchir, et ce qu'il faut poser.</span></a>
+    </div>
+  </section>
+
+  <!-- ============ DÉMARCHES ============ -->
+  <section class="bloc b-demarches">
+    <h2>📑 Les démarches</h2>
+    <p class="chapeau">La paperasse et les rendez-vous : les rendre praticables.</p>
+    <div class="grille">
+      <a class="outil" href="../parcours-clarte-tnd/apps/mdph-pas-a-pas.html">
+        <span class="nom">Mon dossier MDPH pas à pas</span>
+        <span class="desc">Constituer le dossier, étape par étape, sans se perdre.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/mon-equipe-de-soin.html">
+        <span class="nom">Mon équipe de soin</span>
+        <span class="desc">Rassembler tous les professionnels : contacts, rendez-vous, suivi.</span></a>
+    </div>
+  </section>
+
+  <!-- ============ SPIRITUEL ============ -->
+  <section class="bloc b-spirituel">
+    <h2>🤲 Dimension spirituelle <span style="font-weight:400;font-size:.85rem;color:var(--muted)">— optionnel</span></h2>
+    <p class="chapeau">Pour les familles qui souhaitent y adosser une dimension spirituelle.</p>
+    <div class="grille">
+      <a class="outil" href="../parcours-clarte-tnd/apps/neuro-tarbiya.html">
+        <span class="nom">Neuro-Tarbiya &amp; Sabr Reset</span>
+        <span class="desc">Éducation et patience active, à la croisée du cerveau et du cœur.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/dialoguer-avec-son-ado-ISL.html">
+        <span class="nom">Dialoguer avec son ado — édition familles musulmanes</span>
+        <span class="desc">Le même livret, avec sa dimension spirituelle.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/methode-rahma.html">
+        <span class="nom">Méthode R.A.H.M.A</span>
+        <span class="desc">Un protocole parental conscient, en cinq temps.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/methode-rahma-prophetique.html">
+        <span class="nom">R.A.H.M.A — voie prophétique</span>
+        <span class="desc">La même méthode, adossée à la tradition.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/boite-emotions-19-ISL.html">
+        <span class="nom">La boîte à émotions — édition familles musulmanes</span>
+        <span class="desc">Les 19 émotions, avec les repères de la tradition.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/tri-des-pensees.html">
+        <span class="nom">Le jeu du chuchotement</span>
+        <span class="desc">Reconnaître la pensée qui souffle le doute, et lui répondre.</span></a>
+      <a class="outil" href="../parcours-clarte-tnd/apps/jeux-adaptes-rahma-tech.html">
+        <span class="nom">Jeux adaptés R.A.H.M.A</span>
+        <span class="desc">Des jeux courts, dans l'esprit de la méthode.</span></a>
+    </div>
+  </section>
+
+  <!-- ============ RESSOURCES ============ -->
+  <section class="bloc b-ressources">
+    <h2>📄 Fiches à imprimer</h2>
+    <p class="chapeau">Des fiches synthétiques à garder sous la main ou à donner à l'école.</p>
+    <div class="ressources-liste">
+      <a href="../parcours-clarte-tnd/ressources/Fiche_TDAH.pdf">Fiche TDAH</a>
+      <a href="../parcours-clarte-tnd/ressources/Fiche_TSA.pdf">Fiche TSA</a>
+      <a href="../parcours-clarte-tnd/ressources/Fiche_Dyscalculie.pdf">Fiche Dyscalculie</a>
+      <a href="../parcours-clarte-tnd/ressources/Fiche_Dysorthographie.pdf">Fiche Dysorthographie</a>
+      <a href="../parcours-clarte-tnd/ressources/Fiche_Dyspraxie.pdf">Fiche Dyspraxie</a>
+      <a href="../parcours-clarte-tnd/ressources/Carte_Identite_Cognitive.pdf">Carte d'identité cognitive</a>
+      <a href="../parcours-clarte-tnd/ressources/Fiche_Strategies_Metacognition.pdf">Stratégies de métacognition</a>
+      <a href="../parcours-clarte-tnd/ressources/Fiche12_Guide_Parents_Consignes.pdf">Guide parents : consignes</a>
+      <a href="../parcours-clarte-tnd/ressources/Fiche_Valeurs_Ados.pdf">Valeurs des ados</a>
+      <a href="../parcours-clarte-tnd/ressources/Veille_TND.pdf">Veille TND</a>
+    </div>
+  </section>
+
+  <!-- ============ À VENIR ============ -->
+  <div class="avenir">
+    <h2>🚧 Ce qui arrive bientôt</h2>
+    <p style="margin:.2rem 0 .6rem;color:var(--muted)">
+      Les 20 outils annoncés ici sont désormais en ligne. Il reste à construire :
+    </p>
+    <ul>
+      <li>Un <strong>espace maternelle 4-6 ans</strong>, entièrement à créer — c'est le plus grand manque du catalogue.</li>
+      <li>La série <strong>posture parentale</strong> : le moment spécial, féliciter quand tout va bien, le cadre d'attitude.</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer class="pied">
+  <img src="../parcours-clarte-tnd/assets/mascottes/groupe-mascottes.png" alt="Neuroo, Educa et Noury, les mascottes d'Educa Typique" loading="lazy" onerror="this.remove()">
+  <strong>Educa Typique · Nawel Haddouch</strong>
+  Neuropédagogue TND · Psychopraticienne TCC<br>
+  « Comprendre chaque enfant, valoriser chaque parcours. »
+</footer>
+
+</body>
+</html>
