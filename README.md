@@ -1,10 +1,10 @@
-# 🧭 Boussole — Boîte à outils d'accompagnement des ados
+# 🧭 Cap Educa — Boîte à outils d'accompagnement des ados
 
 Application web **100 % locale et privée** conçue pour soutenir l'accompagnement
 des adolescents : TCC, gestion des émotions, TND/dys, neuropédagogie, coaching
 parental et secourisme en santé mentale.
 
-> ⚠️ Boussole est un **outil de soutien**. Il ne remplace ni un diagnostic, ni un
+> ⚠️ Cap Educa est un **outil de soutien**. Il ne remplace ni un diagnostic, ni un
 > suivi médical, ni l'avis d'un professionnel de santé.
 
 ## ✨ Confidentialité d'abord
@@ -52,7 +52,7 @@ parental et secourisme en santé mentale.
 - **Tableau de bord** : aperçu du jour par jeune (humeur, dernière émotion,
   jetons) et actions rapides
 - **Suggestions bienveillantes** : après une émotion intense ou une humeur basse,
-  Boussole propose un outil d'apaisement (respiration, ancrage, plan de sécurité)
+  Cap Educa propose un outil d'apaisement (respiration, ancrage, plan de sécurité)
 - **Recherche d'outils**, **favoris** épinglables et **outils récents**
 
 ## ▶️ Utilisation

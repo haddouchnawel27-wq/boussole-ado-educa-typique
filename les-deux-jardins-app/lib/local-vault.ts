@@ -129,6 +129,11 @@ export function localVaultIsUnlocked(scope: string): boolean {
   return activeVault?.scope === scope;
 }
 
+/** Portée du coffre déjà ouvert, utilisable même pendant un rafraîchissement de session. */
+export function activeLocalVaultScope(): string | null {
+  return activeVault?.scope ?? null;
+}
+
 /**
  * Initialise la sauvegarde locale sans demander un second mot de passe.
  * La clé aléatoire est liée à ce profil de navigateur : la connexion

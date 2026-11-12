@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#D4628C" />
+<meta name="description" content="Assistant réseaux sociaux anti-blocage, personnel et 100% hors-ligne." />
+<title>Mon Chargé de Com</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Chargé de Com" />
+<style>
+  /* ═══════════════════════════════════════════════════════════════
+     Mon Chargé de Com — 100 % local, hors-ligne, sans dépendance.
+     Palette douce cohérente avec l'univers Boussole. Polices système
+     (aucun chargement réseau → marche même sans wifi).
+     ═══════════════════════════════════════════════════════════════ */
+  :root{
+    --primary:#D4628C; --primary-dark:#B84A75; --primary-soft:#FCE7EE;
+    --accent:#B19CD9; --menthe:#A8E6CF; --peche:#FFB997;
+    --bg:#FFF9FB; --card:#FFFFFF; --input:#FFF5F8;
+    --text:#3D2E36; --text-soft:#7A6670; --text-mute:#A89098;
+    --border:#F0D5DE; --shadow:rgba(212,98,140,.12); --shadow-h:rgba(212,98,140,.22);
+    --radius:18px; --scale:1;
+    --font: "Nunito","Segoe UI",system-ui,-apple-system,sans-serif;
+    --font-display: "Fraunces","Georgia",serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{font-size:calc(16px * var(--scale))}
+  body{
+    margin:0; font-family:var(--font); color:var(--text);
+    background:linear-gradient(160deg,var(--bg) 0%,#FFF 100%);
+    min-height:100vh; line-height:1.55; padding-bottom:env(safe-area-inset-bottom);
+  }
+  body.dys{ letter-spacing:.03em; word-spacing:.08em; line-height:1.75; }
+  .wrap{max-width:560px;margin:0 auto;padding:20px 16px 96px}
+  h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-.01em;line-height:1.2}
+  h1{font-size:1.9rem;margin:.2em 0 .1em;color:var(--primary)}
+  h2{font-size:1.35rem;margin:.4em 0 .5em}
+  h3{font-size:1.05rem;margin:.2em 0}
+  p{margin:.4em 0}
+  .muted{color:var(--text-soft)}
+  .tiny{font-size:.82rem;color:var(--text-mute)}
+  .center{text-align:center}
+
+  header.app{text-align:center;padding:8px 0 18px}
+  header.app .mascot{font-size:2.4rem;line-height:1}
+  header.app .tagline{font-family:var(--font-display);font-style:italic;color:var(--text-soft);margin:.1em 0 0}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:20px;margin:14px 0;box-shadow:0 4px 22px var(--shadow)}
+  .card.soft{background:var(--primary-soft);border-color:#F3CDD9}
+
+  button{font-family:var(--font);cursor:pointer;border:none;font-size:1rem}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+    width:100%;padding:16px 20px;border-radius:14px;font-weight:700;
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;
+    box-shadow:0 6px 18px var(--shadow-h);transition:transform .15s ease,opacity .15s ease}
+  .btn:active{transform:translateY(1px)}
+  .btn.secondary{background:var(--card);color:var(--primary);border:1.5px solid var(--primary)}
+  .btn.ghost{background:var(--input);color:var(--text-soft);border:1.5px solid var(--border);box-shadow:none}
+  .btn.small{width:auto;padding:10px 16px;font-size:.9rem;border-radius:12px}
+  .btn.menthe{background:linear-gradient(135deg,var(--menthe),#7FCBAF);color:#204b3a}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .btn-row .btn{flex:1 1 140px;width:auto}
+
+  label.field{display:block;font-weight:700;font-size:.92rem;margin:14px 0 6px}
+  input[type=text],input[type=date],textarea,select{
+    width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid var(--border);
+    background:var(--input);color:var(--text);font-family:var(--font);font-size:1rem}
+  textarea{min-height:96px;resize:vertical;line-height:1.5}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary)}
+
+  .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+  .pill{padding:9px 15px;border-radius:999px;border:1.5px solid var(--border);
+    background:var(--input);color:var(--text-soft);font-weight:600;font-size:.9rem}
+  .pill.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+  /* sliders check-in */
+  .slider{margin:16px 0}
+  .slider .lab{display:flex;justify-content:space-between;font-weight:700;font-size:.92rem;margin-bottom:4px}
+  .slider .lab .val{color:var(--primary)}
+  .slider .ends{display:flex;justify-content:space-between;font-size:.75rem;color:var(--text-mute)}
+  input[type=range]{width:100%;height:30px;-webkit-appearance:none;appearance:none;background:transparent;margin:2px 0}
+  input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:8px;background:var(--border)}
+  input[type=range]::-moz-range-track{height:8px;border-radius:8px;background:var(--border)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;
+    background:var(--primary);border:3px solid #fff;box-shadow:0 2px 8px var(--shadow-h);margin-top:-9px;cursor:pointer}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--primary);
+    border:3px solid #fff;box-shadow:0 2px 8px var(--shadow-h);cursor:pointer}
+
+  /* résultat score */
+  .gauge{height:14px;border-radius:10px;background:linear-gradient(90deg,var(--menthe),var(--peche),var(--primary));position:relative;margin:10px 0 6px}
+  .gauge .mark{position:absolute;top:-6px;width:4px;height:26px;border-radius:3px;background:var(--text);transform:translateX(-50%)}
+
+  /* respiration */
+  .breath-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;gap:14px}
+  .bubble{width:150px;height:150px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#fff,var(--accent));
+    box-shadow:0 8px 30px rgba(177,156,217,.4);transition:transform 4s ease-in-out;transform:scale(.55)}
+  .bubble.big{transform:scale(1)}
+  .breath-word{font-family:var(--font-display);font-size:1.5rem;color:var(--accent);min-height:1.4em}
+
+  /* ancrage 5-4-3-2-1 */
+  .ground-step{font-size:1.15rem;text-align:center;margin:10px 0}
+  .ground-step b{color:var(--primary);font-size:1.6rem;display:block;font-family:var(--font-display)}
+
+  /* listes */
+  .item{background:var(--input);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin:10px 0}
+  .item h3{margin:0 0 4px}
+  .item .meta{font-size:.78rem;color:var(--text-mute)}
+  .item .body{white-space:pre-wrap;margin-top:6px}
+  .item .acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .item .acts button{font-size:.82rem;padding:7px 12px;border-radius:10px;background:var(--card);
+    border:1px solid var(--border);color:var(--text-soft);font-weight:600}
+
+  .empty{text-align:center;color:var(--text-mute);padding:26px 10px;font-style:italic}
+
+  /* nav bas */
+  nav.bottom{position:fixed;bottom:0;left:0;right:0;background:#fffdfe;border-top:1px solid var(--border);
+    display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:20}
+  nav.bottom button{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;
+    color:var(--text-mute);font-size:.68rem;font-weight:700;padding:4px 8px;border-radius:10px}
+  nav.bottom button .ic{font-size:1.25rem}
+  nav.bottom button.on{color:var(--primary)}
+
+  .screen{display:none;animation:fade .25s ease}
+  .screen.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  .backlink{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--text-soft);
+    font-weight:700;padding:6px 0;margin-bottom:4px;font-size:.95rem}
+  .note{font-size:.8rem;color:var(--text-mute);background:var(--input);border-radius:10px;padding:10px 12px;margin-top:12px}
+  .toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%) translateY(20px);opacity:0;
+    background:var(--text);color:#fff;padding:11px 18px;border-radius:999px;font-weight:700;font-size:.9rem;
+    transition:all .25s ease;z-index:40;pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="app">
+    <div class="mascot">🧭</div>
+    <h1>Mon Chargé de Com</h1>
+    <p class="tagline">On respire, on se recentre, on publie — à ton rythme.</p>
+  </header>
+
+  <!-- ════════════ ACCUEIL ════════════ -->
+  <section id="s-accueil" class="screen on">
+    <div class="card soft center">
+      <h2 style="margin-top:0">Bonjour 🌸</h2>
+      <p class="muted">Ni jugement, ni pression. Un seul objectif : t'aider à passer à l'action, doucement.</p>
+    </div>
+    <button class="btn" style="font-size:1.1rem;padding:20px" onclick="go('checkin')">🫧 Je veux publier… mais ça bloque</button>
+    <div class="btn-row">
+      <button class="btn secondary" onclick="startAtelier()">✍️ Je suis prête à écrire</button>
+      <button class="btn ghost" onclick="go('calendrier')">📅 Mon calendrier</button>
+    </div>
+    <div class="card">
+      <h3>💡 Le principe</h3>
+      <p class="muted tiny" style="line-height:1.6">Quand on est bloquée, ce n'est pas de la paresse — c'est trop de charge mentale d'un coup. Alors on fait dans l'ordre : <b>on nomme ce qu'on ressent → on s'apaise → une seule mini-action</b>. Pas « tout publier ». Juste le prochain petit pas.</p>
+    </div>
+  </section>
+
+  <!-- ════════════ CHECK-IN ════════════ -->
+  <section id="s-checkin" class="screen">
+    <button class="backlink" onclick="go('accueil')">‹ Accueil</button>
+    <h2>Comment tu te sens, là ?</h2>
+    <p class="muted tiny">Glisse chaque curseur. Personne ne le verra — c'est juste pour t'orienter.</p>
+    <div class="card" id="sliders"></div>
+
+    <label class="field">⏳ J'ai à peu près…</label>
+    <div class="pill-row" id="time-pills"></div>
+
+    <button class="btn" onclick="finishCheckin()">Voir ce dont j'ai besoin →</button>
+  </section>
+
+  <!-- ════════════ RÉSULTAT / ORIENTATION ════════════ -->
+  <section id="s-orient" class="screen">
+    <button class="backlink" onclick="go('checkin')">‹ Modifier</button>
+    <div class="card">
+      <h2 id="orient-title" style="margin-top:0"></h2>
+      <p id="orient-msg" class="muted"></p>
+      <div class="gauge"><div class="mark" id="gauge-mark"></div></div>
+      <div style="display:flex;justify-content:space-between" class="tiny"><span>Posée</span><span>Débordée</span></div>
+    </div>
+    <div id="orient-actions"></div>
+  </section>
+
+  <!-- ════════════ RÉGULATION (séquence) ════════════ -->
+  <section id="s-regul" class="screen">
+    <button class="backlink" onclick="go('orient')">‹ Retour</button>
+    <div id="regul-body"></div>
+  </section>
+
+  <!-- ════════════ ATELIER D'ÉCRITURE ════════════ -->
+  <section id="s-atelier" class="screen">
+    <button class="backlink" onclick="go('accueil')">‹ Accueil</button>
+    <h2>Atelier d'écriture</h2>
+    <p class="muted tiny">On assemble ton post morceau par morceau. Tu remplis, tu ajustes, c'est à toi.</p>
+
+    <label class="field">📱 Plateforme</label>
+    <div class="pill-row" id="atelier-platform"></div>
+
+    <label class="field">🎯 Ton sujet, en une phrase</label>
+    <input type="text" id="atelier-topic" placeholder="ex : gérer sa charge mentale de maman" />
+
+    <label class="field">🧩 Un angle (choisis, ça déclenche l'écriture)</label>
+    <div class="pill-row" id="atelier-angle"></div>
+
+    <label class="field">🪝 Une accroche (clique pour l'utiliser)</label>
+    <div id="hooks-list"></div>
+
+    <div class="btn-row">
+      <button class="btn ghost small" onclick="shuffleHooks()">🎲 D'autres accroches</button>
+    </div>
+
+    <label class="field">✏️ Ton brouillon</label>
+    <textarea id="atelier-draft" placeholder="Ton accroche apparaîtra ici, puis tu continues avec tes mots…"></textarea>
+
+    <div class="btn-row">
+      <button class="btn menthe small" onclick="assembleDraft()">🧱 Squelette prêt-à-remplir</button>
+      <button class="btn ghost small" onclick="copyText(document.getElementById('atelier-draft').value)">📋 Copier</button>
+    </div>
+
+    <label class="field">✨ Finitions (clique pour ajouter à la fin)</label>
+    <div class="pill-row" id="atelier-cta"></div>
+    <div class="btn-row">
+      <button class="btn ghost small" onclick="addHashtags()"># Suggérer des hashtags</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn secondary" onclick="saveDraftToLibrary()">💾 Garder dans ma bibliothèque</button>
+      <button class="btn" onclick="planDraft()">📅 Planifier</button>
+    </div>
+    <div class="note">💡 Astuce anti-freeze : ne vise pas « le post parfait ». Vise « un post publiable ». Tu peux enregistrer et revenir plus tard sans culpabiliser.</div>
+  </section>
+
+  <!-- ════════════ CALENDRIER ════════════ -->
+  <section id="s-calendrier" class="screen">
+    <button class="backlink" onclick="go('accueil')">‹ Accueil</button>
+    <h2>Calendrier éditorial</h2>
+    <p class="muted tiny">Simple et visuel. Ce que tu prévois, sans te surcharger.</p>
+    <div id="calendar-list"></div>
+    <button class="btn secondary" onclick="startAtelier()">✍️ Créer un contenu</button>
+  </section>
+
+  <!-- ════════════ BIBLIOTHÈQUE ════════════ -->
+  <section id="s-biblio" class="screen">
+    <button class="backlink" onclick="go('accueil')">‹ Accueil</button>
+    <h2>Ma bibliothèque</h2>
+    <p class="muted tiny">Tes brouillons, accroches et idées gardés au chaud.</p>
+    <div id="library-list"></div>
+  </section>
+
+  <!-- ════════════ RÉGLAGES ════════════ -->
+  <section id="s-reglages" class="screen">
+    <button class="backlink" onclick="go('accueil')">‹ Accueil</button>
+    <h2>Réglages & données</h2>
+
+    <div class="card">
+      <h3>🤲 Mode spirituel</h3>
+      <p class="muted tiny">Ajoute un recentrage doux (Noms d'Allah, invocation) dans le mode apaisement.</p>
+      <div class="pill-row"><button class="pill" id="tg-spirit" onclick="toggleSpirit()"></button></div>
+    </div>
+
+    <div class="card">
+      <h3>🔤 Confort de lecture</h3>
+      <p class="muted tiny">Espacement renforcé (dys).</p>
+      <div class="pill-row"><button class="pill" id="tg-dys" onclick="toggleDys()"></button></div>
+      <label class="field">Taille du texte</label>
+      <div class="pill-row" id="scale-pills"></div>
+    </div>
+
+    <div class="card">
+      <h3>💾 Tes données</h3>
+      <p class="muted tiny">Tout est stocké <b>uniquement</b> sur cet appareil. Rien n'est envoyé sur Internet.</p>
+      <div class="btn-row">
+        <button class="btn ghost small" onclick="exportData()">⬇️ Exporter (sauvegarde)</button>
+        <button class="btn ghost small" onclick="document.getElementById('import-file').click()">⬆️ Importer</button>
+      </div>
+      <input type="file" id="import-file" accept="application/json" style="display:none" onchange="importData(event)" />
+      <div class="btn-row"><button class="btn ghost small" style="color:#B84A75;border-color:#F0C0CF" onclick="eraseAll()">🗑️ Tout effacer</button></div>
+    </div>
+    <p class="tiny center">Mon Chargé de Com · 100 % local, sans wifi · conçu avec ☕</p>
+  </section>
+</div>
+
+<nav class="bottom">
+  <button id="nav-accueil" onclick="go('accueil')"><span class="ic">🏠</span>Accueil</button>
+  <button id="nav-atelier" onclick="startAtelier()"><span class="ic">✍️</span>Écrire</button>
+  <button id="nav-calendrier" onclick="go('calendrier')"><span class="ic">📅</span>Agenda</button>
+  <button id="nav-biblio" onclick="go('biblio')"><span class="ic">📚</span>Biblio</button>
+  <button id="nav-reglages" onclick="go('reglages')"><span class="ic">⚙️</span>Réglages</button>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   STORE — persistance locale (localStorage). Aucun réseau.
+   ═══════════════════════════════════════════════════════════════════ */
+const KEY='mcc:v1';
+const DEFAULT={ checkins:[], drafts:[], library:[], calendar:[],
+  prefs:{spiritual:true, dys:false, scale:1} };
+let db = load();
+function load(){ try{ return Object.assign(structuredClone(DEFAULT), JSON.parse(localStorage.getItem(KEY)||'{}')); }catch(e){ return structuredClone(DEFAULT); } }
+function save(){ localStorage.setItem(KEY, JSON.stringify(db)); }
+function uid(){ return Date.now().toString(36)+Math.floor(performance.now()*1000%1e6).toString(36); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════════════════════════ */
+const SCREENS=['accueil','checkin','orient','regul','atelier','calendrier','biblio','reglages'];
+const NAVMAP={accueil:'nav-accueil',atelier:'nav-atelier',calendrier:'nav-calendrier',biblio:'nav-biblio',reglages:'nav-reglages'};
+function go(name){
+  SCREENS.forEach(s=>document.getElementById('s-'+s).classList.toggle('on', s===name));
+  Object.values(NAVMAP).forEach(id=>document.getElementById(id).classList.remove('on'));
+  if(NAVMAP[name]) document.getElementById(NAVMAP[name]).classList.add('on');
+  window.scrollTo({top:0,behavior:'auto'});
+  if(name==='calendrier') renderCalendar();
+  if(name==='biblio') renderLibrary();
+  if(name==='reglages') renderSettings();
+}
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),1800); }
+async function copyText(txt){ if(!txt){toast('Rien à copier');return;} try{ await navigator.clipboard.writeText(txt); toast('Copié ✓'); }catch(e){ toast('Copie impossible'); } }
+
+/* ═══════════════════════════════════════════════════════════════════
+   CHECK-IN — 5 dimensions + temps dispo
+   ═══════════════════════════════════════════════════════════════════ */
+const DIMS=[
+  {k:'energie', label:'Mon énergie', lo:'Épuisée', hi:"Pleine d'énergie", invert:true},
+  {k:'stress', label:'Mon stress', lo:'Très calme', hi:'Très stressée', invert:false},
+  {k:'clarte', label:"Ma clarté d'esprit", lo:'Toute confuse', hi:'Très claire', invert:true},
+  {k:'peur', label:'La peur du regard des autres', lo:'Aucune', hi:'Énorme', invert:false},
+  {k:'charge', label:'Ma charge mentale', lo:'Légère', hi:'Saturée', invert:false},
+];
+let checkin={energie:2,stress:2,clarte:2,peur:2,charge:2,temps:'10 min'};
+const TIMES=['2 min','10 min','30 min'];
+
+function renderSliders(){
+  const box=document.getElementById('sliders'); box.innerHTML='';
+  DIMS.forEach(d=>{
+    const wrap=document.createElement('div'); wrap.className='slider';
+    wrap.innerHTML=`
+      <div class="lab"><span>${d.label}</span><span class="val" id="v-${d.k}"></span></div>
+      <input type="range" min="0" max="4" step="1" value="${checkin[d.k]}" id="r-${d.k}" aria-label="${d.label}">
+      <div class="ends"><span>${d.lo}</span><span>${d.hi}</span></div>`;
+    box.appendChild(wrap);
+    const r=wrap.querySelector('#r-'+d.k), v=wrap.querySelector('#v-'+d.k);
+    const upd=()=>{ checkin[d.k]=+r.value; v.textContent=['0','1','2','3','4'][r.value]+'/4'; };
+    r.addEventListener('input',upd); upd();
+  });
+  const tp=document.getElementById('time-pills'); tp.innerHTML='';
+  TIMES.forEach(t=>{ const b=document.createElement('button'); b.className='pill'+(checkin.temps===t?' on':''); b.textContent=t;
+    b.onclick=()=>{checkin.temps=t; renderSliders();}; tp.appendChild(b); });
+}
+/* score de blocage 0-20 : stress + peur + charge + (4-énergie) + (4-clarté) */
+function blocageScore(){ return checkin.stress+checkin.peur+checkin.charge+(4-checkin.energie)+(4-checkin.clarte); }
+
+function finishCheckin(){
+  const score=blocageScore();
+  db.checkins.push({id:uid(), date:new Date().toISOString(), ...checkin, score}); save();
+  const t=document.getElementById('orient-title'), m=document.getElementById('orient-msg'), acts=document.getElementById('orient-actions');
+  document.getElementById('gauge-mark').style.left=(score/20*100)+'%';
+  acts.innerHTML='';
+  if(score>=13){
+    t.textContent="🫧 On apaise d'abord";
+    m.textContent="Ton système est en surcharge, et c'est OK. On ne produit rien tout de suite. On respire, on se recentre, puis une toute petite action — sans forcer.";
+    acts.innerHTML=`<button class="btn" onclick="startRegulation()">Commencer l'apaisement →</button>
+      <button class="btn ghost" style="margin-top:8px" onclick="go('accueil')">Pas maintenant, juste souffler</button>`;
+  } else if(score>=7){
+    t.textContent='🌗 On y va en douceur';
+    m.textContent='Tu es capable de créer, mais avec accompagnement. On peut faire un mini-recentrage express, puis écrire une seule chose simple.';
+    acts.innerHTML=`<button class="btn secondary" onclick="startRegulation()">Recentrage express (2 min)</button>
+      <button class="btn" style="margin-top:8px" onclick="startAtelier()">Aller écrire tout de suite →</button>`;
+  } else {
+    t.textContent='🌱 Tu es prête !';
+    m.textContent="Belle énergie. On file à l'atelier : on choisit un angle, une accroche, et hop — un post qui sort.";
+    acts.innerHTML=`<button class="btn" onclick="startAtelier()">Aller écrire →</button>
+      <button class="btn ghost" style="margin-top:8px" onclick="startRegulation()">Un petit ancrage avant ?</button>`;
+  }
+  go('orient');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RÉGULATION — décharge → respiration → ancrage → (spirituel) → micro-action
+   ═══════════════════════════════════════════════════════════════════ */
+let regulStep=0;
+const NOMS=[
+  {ar:'As-Salām', fr:'La Source de la Paix', note:"Il apaise ce qui s'agite en toi."},
+  {ar:'Al-Laṭīf', fr:'Le Subtil, le Bienveillant', note:'Il connaît la douceur dont tu as besoin.'},
+  {ar:'Al-Fattāḥ', fr:'Celui qui ouvre', note:'Il ouvre les portes et dénoue les blocages.'},
+  {ar:'Ash-Shāfī', fr:'Celui qui guérit', note:"Le résultat Lui appartient ; tu n'es qu'une cause."},
+];
+function startRegulation(){ regulStep=0; renderRegul(); go('regul'); }
+function nextRegul(){ regulStep++; renderRegul(); window.scrollTo({top:0}); }
+
+function renderRegul(){
+  const spirit=db.prefs.spiritual;
+  const steps=['decharge','respiration','ancrage', spirit?'spirituel':null, 'action'].filter(Boolean);
+  if(regulStep>=steps.length){ go('accueil'); return; }
+  const step=steps[regulStep];
+  const body=document.getElementById('regul-body');
+  const progress=`<p class="tiny center">Étape ${regulStep+1} / ${steps.length}</p>`;
+
+  if(step==='decharge'){
+    body.innerHTML=progress+`
+      <h2>Vide ton sac 🗯️</h2>
+      <p class="muted">Écris tout ce qui tourne dans ta tête, sans filtre, sans ordre. Personne ne le lira. Le simple fait de le déposer allège.</p>
+      <textarea id="decharge-txt" placeholder="Ce qui me bloque, ce que je crains, ce qui me fatigue…">${(regulData.decharge||'')}</textarea>
+      <button class="btn" style="margin-top:12px" onclick="regulData.decharge=document.getElementById('decharge-txt').value; nextRegul()">C'est déposé →</button>
+      <button class="btn ghost" style="margin-top:8px" onclick="nextRegul()">Passer</button>`;
+  }
+  else if(step==='respiration'){
+    body.innerHTML=progress+`
+      <h2 class="center">Respiration guidée</h2>
+      <div class="pill-row center" style="justify-content:center" id="breath-modes"></div>
+      <div class="breath-stage">
+        <div class="bubble" id="bubble"></div>
+        <div class="breath-word" id="breath-word">Prête ?</div>
+      </div>
+      <button class="btn" id="breath-btn" onclick="toggleBreath()">▶︎ Commencer</button>
+      <button class="btn ghost" style="margin-top:8px" onclick="stopBreath();nextRegul()">Continuer →</button>`;
+    renderBreathModes();
+  }
+  else if(step==='ancrage'){
+    body.innerHTML=progress+`
+      <h2 class="center">Ancrage 5-4-3-2-1</h2>
+      <p class="muted center">Reviens dans ton corps, ici, maintenant. Prends ton temps à chaque étape.</p>
+      <div class="card" id="ground-card"></div>
+      <div class="btn-row">
+        <button class="btn ghost small" id="ground-prev" onclick="groundNav(-1)">‹</button>
+        <button class="btn small" id="ground-next" onclick="groundNav(1)">Suivant ›</button>
+      </div>`;
+    groundIdx=0; renderGround();
+  }
+  else if(step==='spirituel'){
+    const n=NOMS[Math.floor(Math.random()*NOMS.length)];
+    body.innerHTML=progress+`
+      <h2 class="center">Recentrage 🤲</h2>
+      <div class="card soft center">
+        <div style="font-family:var(--font-display);font-size:1.8rem;color:var(--primary)">${n.ar}</div>
+        <div class="muted" style="font-style:italic">${n.fr}</div>
+        <p class="tiny" style="margin-top:8px">${n.note}</p>
+      </div>
+      <div class="card">
+        <p style="font-style:italic;text-align:center">« Ô Toi qui apaises les cœurs, apaise le mien. Facilite pour moi ce qui me semble lourd, et ôte de mon cœur la peur du regard des créatures. »</p>
+        <p class="tiny center muted">Je ne suis qu'une cause — le résultat T'appartient.</p>
+      </div>
+      <button class="btn" onclick="nextRegul()">Je me sens plus posée →</button>`;
+  }
+  else if(step==='action'){
+    body.innerHTML=progress+`
+      <h2 class="center">Une seule mini-action ✨</h2>
+      <p class="muted center">Pas « tout faire ». Juste <b>le prochain petit pas</b>, adapté à ton énergie et à tes ${checkin.temps}.</p>
+      <div id="micro-list"></div>
+      <div class="note">Tu peux aussi choisir de <b>reporter sans culpabiliser</b>. Se reposer, c'est aussi une action.</div>
+      <button class="btn ghost" style="margin-top:12px" onclick="go('accueil')">Je reporte, et c'est très bien 🌿</button>`;
+    renderMicroActions();
+  }
+}
+
+/* --- respiration --- */
+const BREATH={
+  coherence:{name:'Cohérence',in:5,hold:0,out:5},
+  carree:{name:'Carrée',in:4,hold:4,out:4,hold2:4},
+  '478':{name:'4-7-8',in:4,hold:7,out:8},
+};
+let breathMode='coherence', breathTimer=null, breathOn=false;
+function renderBreathModes(){
+  const box=document.getElementById('breath-modes'); box.innerHTML='';
+  Object.entries(BREATH).forEach(([k,v])=>{ const b=document.createElement('button');
+    b.className='pill'+(breathMode===k?' on':''); b.textContent=v.name;
+    b.onclick=()=>{breathMode=k; renderBreathModes();}; box.appendChild(b); });
+}
+function toggleBreath(){ breathOn?stopBreath():startBreath(); }
+function startBreath(){
+  breathOn=true; const btn=document.getElementById('breath-btn'); if(btn) btn.textContent='⏸ Pause';
+  const p=BREATH[breathMode]; const bubble=document.getElementById('bubble'), word=document.getElementById('breath-word');
+  const seq=[['Inspire…',p.in,true]];
+  if(p.hold) seq.push(['Retiens…',p.hold,null]);
+  seq.push(['Expire…',p.out,false]);
+  if(p.hold2) seq.push(['Retiens…',p.hold2,null]);
+  let i=0;
+  const run=()=>{ if(!breathOn) return; const [w,sec,big]=seq[i%seq.length];
+    if(word) word.textContent=w;
+    if(bubble && big!==null){ bubble.style.transitionDuration=sec+'s'; bubble.classList.toggle('big',big); }
+    i++; breathTimer=setTimeout(run, sec*1000); };
+  run();
+}
+function stopBreath(){ breathOn=false; if(breathTimer) clearTimeout(breathTimer);
+  const btn=document.getElementById('breath-btn'); if(btn) btn.textContent='▶︎ Reprendre';
+  const word=document.getElementById('breath-word'); if(word) word.textContent='Bien 🌿'; }
+
+/* --- ancrage --- */
+const GROUND=[
+  ['5','choses que tu VOIS autour de toi'],
+  ['4','choses que tu peux TOUCHER'],
+  ['3','sons que tu ENTENDS'],
+  ['2','odeurs que tu SENS'],
+  ['1','chose que tu GOÛTES ou une qualité que tu aimes en toi'],
+];
+let groundIdx=0;
+function renderGround(){
+  const c=document.getElementById('ground-card'); if(!c) return;
+  const [n,txt]=GROUND[groundIdx];
+  c.innerHTML=`<div class="ground-step"><b>${n}</b>${txt}</div>`;
+  document.getElementById('ground-prev').style.visibility=groundIdx===0?'hidden':'visible';
+  document.getElementById('ground-next').textContent=groundIdx===GROUND.length-1?'Terminé ✓':'Suivant ›';
+}
+function groundNav(dir){
+  if(dir>0 && groundIdx===GROUND.length-1){ nextRegul(); return; }
+  groundIdx=Math.max(0,Math.min(GROUND.length-1,groundIdx+dir)); renderGround();
+}
+
+/* --- micro-actions --- */
+function renderMicroActions(){
+  const light=['Ouvrir un brouillon et écrire UNE phrase, même moche',
+    "Choisir juste le sujet du prochain post (rien d'autre)",
+    'Enregistrer une idée dans la bibliothèque',
+    'Relire un ancien post qui a bien marché'];
+  const medium=["Écrire une accroche à l'atelier",
+    "Assembler le squelette d'un post",
+    'Choisir un angle et 2 idées'];
+  const full=["Écrire un post complet à l'atelier",
+    'Planifier 1 contenu dans le calendrier'];
+  let pool = checkin.temps==='2 min' ? light : (checkin.temps==='30 min' ? [...medium,...full] : [...light.slice(0,2),...medium]);
+  const box=document.getElementById('micro-list'); box.innerHTML='';
+  pool.forEach(a=>{ const b=document.createElement('button'); b.className='btn secondary'; b.style.marginTop='8px'; b.textContent=a;
+    b.onclick=()=>{ if(a.includes('atelier')||a.includes('accroche')||a.includes('squelette')||a.includes('angle')) startAtelier();
+      else if(a.includes('calendrier')) go('calendrier');
+      else if(a.includes('bibliothèque')) go('biblio');
+      else { toast('En route 🌸'); go('accueil'); } };
+    box.appendChild(b); });
+}
+let regulData={};
+
+/* ═══════════════════════════════════════════════════════════════════
+   ATELIER — templates (aucune IA, marche hors-ligne)
+   ═══════════════════════════════════════════════════════════════════ */
+const PLATFORMS=['Instagram','Facebook','LinkedIn','TikTok'];
+const ANGLES=[
+  {name:'Histoire perso', hint:"Un moment vécu → ce que ça t'a appris"},
+  {name:'Conseil pratique', hint:'1 problème → 3 pistes concrètes'},
+  {name:'Question / réflexion', hint:'Une question qui fait réfléchir ta communauté'},
+  {name:'Coulisses', hint:'Ce que les gens ne voient pas de ton travail'},
+  {name:'Mythe à casser', hint:'« On croit que… en vrai… »'},
+];
+const HOOKS=[
+  "Tu n'as pas besoin d'être parfaite pour publier.",
+  "Personne ne t'a dit ça sur [SUJET], et pourtant…",
+  "Si tu te sens dépassée par [SUJET], lis ça jusqu'au bout.",
+  "J'ai longtemps cru que [SUJET] devait être compliqué. J'avais tort.",
+  "3 choses que j'aurais aimé savoir sur [SUJET].",
+  "Arrête de culpabiliser avec [SUJET]. Voici pourquoi.",
+  "La vérité que personne n'ose dire sur [SUJET].",
+  "Petit rappel doux pour aujourd'hui : tu fais déjà de ton mieux.",
+  "On m'a souvent demandé comment je gère [SUJET]. Voici ma vraie réponse.",
+  "[SUJET] : ce qui a tout changé pour moi (et personne n'en parle).",
+  "Si tu ne devais retenir qu'une chose sur [SUJET], ce serait ça.",
+  "Le conseil sur [SUJET] que j'aurais aimé recevoir plus tôt.",
+  "Spoiler : [SUJET], ce n'est pas une question de motivation.",
+  "Tu n'es pas seule à galérer avec [SUJET]. Vraiment.",
+  "J'ai testé pendant des mois pour [SUJET]. Voici ce qui marche.",
+  "Ce petit détail sur [SUJET] change tout, et il est gratuit.",
+  "Avant, [SUJET] me stressait. Aujourd'hui, voilà comment je fais.",
+  "Et si [SUJET] était plus simple qu'on te l'a fait croire ?",
+  "Ce que j'aurais dit à la moi d'il y a 5 ans sur [SUJET].",
+  "Un rappel pour celle qui doute ce soir à propos de [SUJET].",
+];
+const CTAS=[
+  "📌 Enregistre ce post pour le relire quand tu en auras besoin.",
+  "💬 Dis-moi en commentaire : et toi, comment tu vis ça ?",
+  "🔁 Partage à une amie qui a besoin de lire ça aujourd'hui.",
+  "👉 Écris-moi « OUI » en commentaire si ça te parle.",
+  "❤️ Un petit like si tu veux plus de contenus comme celui-ci.",
+  "📩 Envoie-moi un message si tu veux qu'on en parle ensemble.",
+  "🔖 Abonne-toi pour ne pas rater la suite.",
+  "🌸 Prends soin de toi, et reviens quand tu veux.",
+];
+let atelier={platform:'Instagram',angle:null};
+function startAtelier(){ renderAtelier(); go('atelier'); }
+function renderAtelier(){
+  const pf=document.getElementById('atelier-platform'); pf.innerHTML='';
+  PLATFORMS.forEach(p=>{ const b=document.createElement('button'); b.className='pill'+(atelier.platform===p?' on':''); b.textContent=p;
+    b.onclick=()=>{atelier.platform=p; renderAtelier();}; pf.appendChild(b); });
+  const an=document.getElementById('atelier-angle'); an.innerHTML='';
+  ANGLES.forEach(a=>{ const b=document.createElement('button'); b.className='pill'+(atelier.angle===a.name?' on':''); b.textContent=a.name;
+    b.title=a.hint; b.onclick=()=>{atelier.angle=a.name; renderAtelier();}; an.appendChild(b); });
+  if(!atelier._hooks) atelier._hooks = HOOKS.slice(0,6);
+  const topic=(document.getElementById('atelier-topic').value||'').trim();
+  const fill=h=> topic? h.replace(/\[SUJET\]/g, topic) : h.replace(/\[SUJET\]/g, '[ton sujet]');
+  const hl=document.getElementById('hooks-list'); hl.innerHTML='';
+  atelier._hooks.forEach(h0=>{ const h=fill(h0); const d=document.createElement('div'); d.className='item'; d.style.cursor='pointer';
+    d.innerHTML=`<div class="body" style="margin:0">${escapeHtml(h)}</div>`;
+    d.onclick=()=>{ const ta=document.getElementById('atelier-draft');
+      ta.value = h + (ta.value?'\n\n'+ta.value:'\n\n'); toast('Accroche ajoutée ✓'); ta.focus(); };
+    hl.appendChild(d); });
+  const cta=document.getElementById('atelier-cta');
+  if(cta){ cta.innerHTML='';
+    CTAS.forEach(c=>{ const b=document.createElement('button'); b.className='pill'; b.textContent=c;
+      b.onclick=()=>{ const ta=document.getElementById('atelier-draft');
+        ta.value=(ta.value?ta.value.replace(/\s+$/,'')+'\n\n':'')+c; toast('CTA ajouté ✓'); ta.focus(); };
+      cta.appendChild(b); });
+  }
+}
+function shuffleHooks(){
+  const pool=HOOKS.slice();
+  for(let i=pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
+  atelier._hooks=pool.slice(0,6); renderAtelier(); toast('De nouvelles accroches 🎲');
+}
+function addHashtags(){
+  const topic=(document.getElementById('atelier-topic').value||'').trim();
+  const stop=new Set(['de','la','le','les','des','du','un','une','à','a','au','aux','en','et','ou','sa','son','ses','ma','mon','mes','pour','avec','sans','sur','dans','par','se','ce','que','qui','comment']);
+  const words=topic.toLowerCase().replace(/[^a-zà-ÿ0-9\s]/gi,' ').split(/\s+/).filter(w=>w.length>2 && !stop.has(w));
+  const fromTopic=words.slice(0,4).map(w=>'#'+w.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,''));
+  const generic=['#chargedecom','#reseauxsociaux','#communaute','#partage','#bienveillance'];
+  const tags=[...new Set([...fromTopic, ...generic])].filter(Boolean).slice(0,8).join(' ');
+  const ta=document.getElementById('atelier-draft');
+  ta.value=(ta.value?ta.value.replace(/\s+$/,'')+'\n\n':'')+tags; toast('Hashtags ajoutés #'); ta.focus();
+}
+function assembleDraft(){
+  const topic=document.getElementById('atelier-topic').value.trim()||'[ton sujet]';
+  const angle=ANGLES.find(a=>a.name===atelier.angle);
+  const ta=document.getElementById('atelier-draft');
+  let skeleton='';
+  const base=ta.value.trim();
+  skeleton += (base?base+'\n\n':'🪝 ACCROCHE : \n\n');
+  if(angle){
+    if(angle.name==='Histoire perso') skeleton+=`📖 L'HISTOIRE\nUn jour, à propos de ${topic}, il s'est passé…\n\n💡 CE QUE J'EN RETIENS\n…\n`;
+    else if(angle.name==='Conseil pratique') skeleton+=`Sur ${topic}, voici 3 pistes :\n1. …\n2. …\n3. …\n`;
+    else if(angle.name==='Question / réflexion') skeleton+=`Et toi, comment tu vis ${topic} ?\nMoi, je remarque que…\n`;
+    else if(angle.name==='Coulisses') skeleton+=`Ce qu'on ne voit pas de ${topic}, c'est…\n`;
+    else skeleton+=`On croit que ${topic}, c'est … En vrai, …\n`;
+  } else {
+    skeleton+=`À propos de ${topic} :\n…\n`;
+  }
+  skeleton+=`\n📣 CTA : Enregistre ce post si ça te parle 🌸`;
+  ta.value=skeleton; toast('Squelette prêt ✏️');
+}
+function saveDraftToLibrary(){
+  const txt=document.getElementById('atelier-draft').value.trim();
+  if(!txt){ toast("Écris quelque chose d'abord"); return; }
+  db.library.unshift({id:uid(), type:'brouillon', platform:atelier.platform, angle:atelier.angle||'', content:txt, date:new Date().toISOString()});
+  save(); toast('Gardé dans ta bibliothèque 💾');
+}
+function planDraft(){
+  const txt=document.getElementById('atelier-draft').value.trim();
+  if(!txt){ toast("Écris quelque chose d'abord"); return; }
+  const when=prompt("Pour quel jour ? (AAAA-MM-JJ, ou laisse vide pour aujourd'hui)", new Date().toISOString().slice(0,10)) ;
+  if(when===null) return;
+  const date=(when.trim()||new Date().toISOString().slice(0,10));
+  db.calendar.push({id:uid(), date, platform:atelier.platform, content:txt, status:'prévu'});
+  db.calendar.sort((a,b)=>a.date.localeCompare(b.date));
+  save(); toast('Planifié 📅'); go('calendrier');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CALENDRIER & BIBLIOTHÈQUE
+   ═══════════════════════════════════════════════════════════════════ */
+function frDate(iso){ try{ return new Date(iso+(iso.length<=10?'T00:00:00':'')).toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'long'}); }catch(e){ return iso; } }
+function renderCalendar(){
+  const box=document.getElementById('calendar-list'); box.innerHTML='';
+  if(!db.calendar.length){ box.innerHTML="<div class=\"empty\">Rien de prévu pour l'instant — et c'est OK 🌱</div>"; return; }
+  db.calendar.forEach(c=>{
+    const d=document.createElement('div'); d.className='item';
+    d.innerHTML=`<div class="meta">📅 ${frDate(c.date)} · ${c.platform} · ${c.status}</div>
+      <div class="body">${escapeHtml(c.content).slice(0,240)}${c.content.length>240?'…':''}</div>
+      <div class="acts">
+        <button onclick="copyText(${jsq(c.content)})">📋 Copier</button>
+        <button onclick="markDone('${c.id}')">${c.status==='publié'?'↩︎ À faire':'✓ Publié'}</button>
+        <button onclick="delCalendar('${c.id}')">🗑️</button>
+      </div>`;
+    box.appendChild(d);
+  });
+}
+function markDone(id){ const c=db.calendar.find(x=>x.id===id); if(c){ c.status=c.status==='publié'?'prévu':'publié'; save(); renderCalendar(); } }
+function delCalendar(id){ db.calendar=db.calendar.filter(x=>x.id!==id); save(); renderCalendar(); toast('Supprimé'); }
+
+function renderLibrary(){
+  const box=document.getElementById('library-list'); box.innerHTML='';
+  if(!db.library.length){ box.innerHTML="<div class=\"empty\">Ta bibliothèque est vide. Enregistre un brouillon depuis l'atelier ✍️</div>"; return; }
+  db.library.forEach(it=>{
+    const d=document.createElement('div'); d.className='item';
+    d.innerHTML=`<div class="meta">💾 ${it.platform||''} ${it.angle?'· '+it.angle:''} · ${frDate(it.date)}</div>
+      <div class="body">${escapeHtml(it.content).slice(0,240)}${it.content.length>240?'…':''}</div>
+      <div class="acts">
+        <button onclick="copyText(${jsq(it.content)})">📋 Copier</button>
+        <button onclick="reuseDraft('${it.id}')">✍️ Reprendre</button>
+        <button onclick="delLibrary('${it.id}')">🗑️</button>
+      </div>`;
+    box.appendChild(d);
+  });
+}
+function reuseDraft(id){ const it=db.library.find(x=>x.id===id); if(!it) return; startAtelier();
+  if(it.platform) atelier.platform=it.platform; renderAtelier();
+  document.getElementById('atelier-draft').value=it.content; toast('Repris ✏️'); }
+function delLibrary(id){ db.library=db.library.filter(x=>x.id!==id); save(); renderLibrary(); toast('Supprimé'); }
+
+function escapeHtml(s){ return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function jsq(s){ return "'"+(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n').replace(/\r/g,'')+"'"; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   RÉGLAGES & DONNÉES
+   ═══════════════════════════════════════════════════════════════════ */
+function applyPrefs(){
+  document.body.classList.toggle('dys', !!db.prefs.dys);
+  document.documentElement.style.setProperty('--scale', db.prefs.scale||1);
+}
+function renderSettings(){
+  const s=document.getElementById('tg-spirit'); s.textContent=db.prefs.spiritual?'Activé ✓':'Désactivé'; s.classList.toggle('on',!!db.prefs.spiritual);
+  const dy=document.getElementById('tg-dys'); dy.textContent=db.prefs.dys?'Activé ✓':'Désactivé'; dy.classList.toggle('on',!!db.prefs.dys);
+  const sp=document.getElementById('scale-pills'); sp.innerHTML='';
+  [['Normal',1],['Grand',1.15],['Très grand',1.3]].forEach(([lab,v])=>{
+    const b=document.createElement('button'); b.className='pill'+((db.prefs.scale||1)===v?' on':''); b.textContent=lab;
+    b.onclick=()=>{ db.prefs.scale=v; save(); applyPrefs(); renderSettings(); }; sp.appendChild(b); });
+}
+function toggleSpirit(){ db.prefs.spiritual=!db.prefs.spiritual; save(); renderSettings(); }
+function toggleDys(){ db.prefs.dys=!db.prefs.dys; save(); applyPrefs(); renderSettings(); }
+
+function exportData(){
+  const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='mon-charge-de-com-sauvegarde-'+new Date().toISOString().slice(0,10)+'.json'; a.click();
+  URL.revokeObjectURL(a.href); toast('Sauvegarde exportée ⬇️');
+}
+function importData(ev){
+  const f=ev.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{ const d=JSON.parse(r.result); db=Object.assign(structuredClone(DEFAULT), d); save(); applyPrefs(); renderSettings(); toast('Sauvegarde importée ✓'); }
+    catch(e){ toast('Fichier illisible'); } ev.target.value=''; };
+  r.readAsText(f);
+}
+function eraseAll(){
+  if(!confirm('Tout effacer définitivement ? (check-ins, brouillons, calendrier, réglages)')) return;
+  localStorage.removeItem(KEY); db=load(); applyPrefs(); toast('Tout est effacé'); go('accueil');
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════════════════ */
+applyPrefs();
+renderSliders();
+go('accueil');
+
+/* PWA — enregistrement du service worker (ignoré sur file://, actif en https) */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
