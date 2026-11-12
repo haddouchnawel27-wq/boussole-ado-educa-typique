@@ -1,4 +1,4 @@
-# Al Mizan Al Qalb — build « Claude Design » (fichier unique, autonome)
+# Educa Typique — build « Claude Design » (fichier unique, autonome)
 
 Version visuelle conçue par Nawel avec Claude Design, transformée en **un seul
 fichier HTML autonome** :

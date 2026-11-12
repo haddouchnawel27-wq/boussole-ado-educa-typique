@@ -1,4 +1,4 @@
-# 🌿 Jannat Al Qalb — état d'avancement
+# 🌿 Educa Typique — état d'avancement
 
 _Mis à jour le 16/06/2026._
 
