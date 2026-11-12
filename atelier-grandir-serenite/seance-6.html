@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Séance 6 — Aller plus loin &amp; consolider · Support d'animation · Educa Typique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{--sarcelle:#3C6478;--sarcelle-fonce:#2C4D5E;--rose:#F050C8;--rose-fonce:#C0369C;--menthe:#6FBF9A;--jaune:#E6B800;--charbon:#4A4540;--taupe:#7D7269;--beige:#F0E4D3;--blanc-casse:#FAF7F2;--liseret:#E6DCCB;--vert:#2f8f5b;--rouge:#B4504A;}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+body{margin:0;background:var(--blanc-casse);font-family:'Lato',Arial,sans-serif;color:var(--charbon);line-height:1.66;font-size:15px;padding-bottom:50px;}
+.wrap{max-width:820px;margin:0 auto;padding:0 18px;}
+.bar{position:sticky;top:0;z-index:50;display:flex;gap:12px;align-items:center;background:rgba(246,242,234,.96);backdrop-filter:blur(4px);padding:10px 18px;border-bottom:1px solid var(--liseret);}
+.bar .t{font-weight:700;color:var(--sarcelle-fonce);font-size:12.5px;}
+.bar .sp{margin-left:auto;}
+.bar button{border:none;border-radius:999px;padding:8px 15px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Lato';background:var(--sarcelle);color:#fff;}
+.cover{margin:16px 0 0;background:linear-gradient(135deg,var(--sarcelle-fonce),var(--rose-fonce) 125%);color:#fff;padding:40px 34px 32px;border-radius:24px;text-align:center;box-shadow:0 12px 34px rgba(44,77,94,.3);}
+.cover .marque{font-family:'Quicksand';font-weight:700;font-size:12px;letter-spacing:5px;text-transform:uppercase;opacity:.95;}
+.cover .chip{display:inline-block;margin-top:14px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:5px 16px;font-family:'Quicksand';font-weight:700;font-size:12px;letter-spacing:1px;}
+.cover h1{font-family:'Quicksand';font-size:28px;margin:14px 0 8px;line-height:1.14;}
+.cover .sous{font-style:italic;font-size:14px;opacity:.96;max-width:620px;margin:0 auto;}
+.cover .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size:12.5px;opacity:.95;}
+.phasehd{background:linear-gradient(135deg,var(--rose-fonce),var(--rose) 80%);color:#fff;border-radius:16px;padding:14px 22px;margin:26px 0 8px;box-shadow:0 8px 22px rgba(192,54,156,.2);display:flex;align-items:center;gap:14px;}
+.phasehd .tm{flex:none;font-family:'Quicksand';font-weight:700;font-size:13px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:4px 12px;}
+.phasehd h2{font-family:'Quicksand';font-size:19px;margin:0;}
+.phasehd .ph{font-size:11.5px;opacity:.9;font-family:'Quicksand';font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.card{background:#fff;border-radius:16px;box-shadow:0 5px 16px rgba(75,75,75,.07);padding:4px 24px 18px;margin:12px 0;border-top:4px solid var(--sarcelle);}
+.card.r{border-top-color:var(--rose);}
+h3{font-family:'Quicksand';font-size:16.5px;color:var(--sarcelle-fonce);margin:16px 0 6px;}
+h3 .cn{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:7px;background:var(--sarcelle);color:#fff;font-size:12px;margin-right:8px;padding:0 6px;}
+h4{font-family:'Quicksand';font-size:14px;color:var(--rose-fonce);margin:13px 0 4px;}
+p{margin:0 0 10px;} ul,ol{margin:7px 0;padding-left:20px;} li{margin:5px 0;}
+.obj{background:#eef4f6;border-left:4px solid var(--sarcelle);border-radius:8px;padding:8px 14px;margin:9px 0;font-size:13.5px;}
+.obj b{color:var(--sarcelle-fonce);}
+.say{font-family:'Quicksand';font-style:italic;font-weight:600;color:var(--sarcelle-fonce);background:#fbf2fa;border-left:4px solid var(--rose);padding:10px 15px;border-radius:8px;margin:9px 0;position:relative;}
+.say::before{content:'🗣️ ce que je dis';position:absolute;top:-9px;left:12px;background:var(--rose);color:#fff;font-family:'Lato';font-style:normal;font-weight:700;font-size:9.5px;letter-spacing:.5px;text-transform:uppercase;padding:1px 8px;border-radius:999px;}
+.say p{margin:3px 0;}
+.anim{background:#f3f8f5;border-left:4px solid var(--menthe);border-radius:8px;padding:9px 14px;margin:9px 0;font-size:13.5px;}
+.anim .lab{font-family:'Quicksand';font-weight:700;font-size:11px;color:var(--vert);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px;}
+.ex{background:var(--beige);border-radius:9px;padding:9px 14px;margin:9px 0;font-size:13.5px;}
+.ex .lab{font-family:'Quicksand';font-weight:700;color:var(--sarcelle-fonce);}
+.note{background:#fffaf0;border:1px dashed var(--jaune);border-radius:9px;padding:9px 14px;margin:9px 0;font-size:13px;}
+table{width:100%;border-collapse:collapse;margin:9px 0;font-size:13px;}
+th{background:var(--sarcelle);color:#fff;font-family:'Quicksand';padding:8px 9px;text-align:left;}
+td{border:1px solid var(--liseret);padding:7px 9px;vertical-align:top;background:#fff;}
+td .s{font-family:'Quicksand';font-weight:700;color:var(--rose-fonce);}
+.garde{background:#fff7ef;border:1px solid var(--jaune);border-left:4px solid var(--jaune);border-radius:12px;padding:12px 18px;margin:14px 0;font-size:13.5px;}
+.maison{background:linear-gradient(135deg,#fbf2fa,var(--blanc-casse));border:1.5px dashed var(--rose);border-radius:12px;padding:10px 16px;margin:12px 0 2px;font-size:13.5px;}
+.maison .lab{font-family:'Quicksand';font-weight:700;font-size:12px;color:var(--rose-fonce);text-transform:uppercase;letter-spacing:.5px;}
+.foot{text-align:center;font-size:10.5px;color:var(--taupe);margin:26px 0 0;padding-top:12px;border-top:1px solid var(--liseret);}
+@media print{.bar{display:none!important;}body{background:#fff;}.card{box-shadow:none;break-inside:avoid;}.phasehd{break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="bar"><span class="t">🎓 Séance 6 · support d'animation · Educa Typique</span><span class="sp"></span><button onclick="window.print()">🖨️ Imprimer / PDF</button></div>
+<div class="wrap">
+
+<div class="cover">
+  <div class="marque">✦ Educa Typique · Nawel ✦</div>
+  <div class="chip">SÉANCE 6 · SUPPORT D'ANIMATION</div>
+  <h1>Aller plus loin<br>&amp; consolider</h1>
+  <div class="sous">Distinguer une difficulté passagère d'une difficulté persistante, savoir vers qui orienter, puis rassembler tous les outils dans un plan familial sur quatre semaines. La séance de clôture.</div>
+  <div class="meta"><span>⏱️ 1h30</span><span>📚 chapitres 16 → 17 + clôture</span><span>👥 atelier parents</span></div>
+</div>
+
+<div class="card">
+  <div class="obj"><b>Fil rouge de la séance :</b> savoir reconnaître quand une difficulté dépasse l'accompagnement parental et vers qui se tourner, sans dramatiser ni minimiser — puis repartir avec un plan clair et réaliste pour tenir dans la durée.</div>
+  <h4>🎒 Matériel à prévoir</h4>
+  <ul style="font-size:13.5px;margin:4px 0;">
+    <li>fiches : Signaux à surveiller · Préparer un rendez-vous · Plan familial 4 semaines · La dernière page à remplir ;</li>
+    <li>le paperboard du tour de météo de la séance 1 (pour mesurer le chemin) ;</li>
+    <li>de quoi créer un petit « mur des victoires » (post-its).</li>
+  </ul>
+</div>
+
+<!-- PHASE 1 -->
+<div class="phasehd"><span class="tm">15 min</span><div><div class="ph">Phase 1 · Ouverture</div><h2>Accueil &amp; grand retour</h2></div></div>
+<div class="card r">
+  <div class="say"><p>C'est notre dernière séance ensemble. Avant d'aller plus loin, regardons le chemin : souvenez-vous de la difficulté avec laquelle vous êtes arrivé·e la première fois. Qu'est-ce qui a changé, même un peu, à la maison ?</p></div>
+  <div class="anim"><span class="lab">Animation</span>Reprends le paperboard de la S1. Chaque parent dit une chose qui a bougé. Tu soulignes : le changement vient des petites actions répétées, pas des grands bouleversements.</div>
+</div>
+
+<!-- PHASE 2 -->
+<div class="phasehd"><span class="tm">20 min</span><div><div class="ph">Phase 2 · Comprendre</div><h2>Quand demander de l'aide ?</h2></div></div>
+<div class="card">
+  <h3><span class="cn">16</span>Repérer les situations qui demandent une vigilance</h3>
+  <div class="say"><p>Accompagner son enfant, c'est aussi savoir qu'on n'est pas seul et qu'à certains moments, il faut un professionnel. Demander de l'aide n'est pas un échec parental — c'est une forme de soin.</p></div>
+  <h4>Difficulté ponctuelle ou persistante ?</h4>
+  <p>Une difficulté qui apparaît, qu'on comprend et qui s'améliore avec un ajustement → on continue à accompagner. Une difficulté qui <b>dure, revient sans cesse, s'aggrave, ou touche plusieurs domaines à la fois</b> → on sollicite un avis.</p>
+  <table>
+    <tr><th>Domaine</th><th>Signaux qui invitent à consulter</th></tr>
+    <tr><td>Corps / sommeil</td><td>fatigue inhabituelle, maux répétés, troubles du sommeil durables</td></tr>
+    <tr><td>Émotions</td><td>tristesse durable, anxiété forte, perte d'élan, idées noires</td></tr>
+    <tr><td>École</td><td>refus scolaire persistant, suspicion de harcèlement</td></tr>
+    <tr><td>Apprentissages</td><td>difficultés importantes et durables malgré le soutien</td></tr>
+    <tr><td>Développement</td><td>questionnements autour du TDAH, d'un TND…</td></tr>
+  </table>
+  <div class="garde"><p style="margin:0;"><b>⚖️ Posture essentielle :</b> on n'évoque pas de diagnostic, on ne nomme pas de trouble. On décrit des <b>faits observables</b> et on oriente vers le bon professionnel (médecin, psychologue, orthophoniste, structure scolaire). À qui parler dépend de la situation — en cas de doute, le médecin traitant est une bonne porte d'entrée.</p></div>
+</div>
+
+<!-- PHASE 3 -->
+<div class="phasehd"><span class="tm">15 min</span><div><div class="ph">Phase 3 · Comprendre</div><h2>Mon plan familial sur quatre semaines</h2></div></div>
+<div class="card">
+  <h3><span class="cn">17</span>Consolider dans une démarche progressive</h3>
+  <div class="say"><p>Vous avez maintenant beaucoup d'outils. Pour ne pas vous disperser, on les range dans un rythme simple sur un mois : une grande intention par semaine.</p></div>
+  <table>
+    <tr><th>Semaine</th><th>Priorité</th><th>Outil principal</th></tr>
+    <tr><td><span class="s">Semaine 1</span></td><td>Comprendre</td><td>Radar + observation ABC</td></tr>
+    <tr><td><span class="s">Semaine 2</span></td><td>Organiser</td><td>Routine + checklist</td></tr>
+    <tr><td><span class="s">Semaine 3</span></td><td>Apprendre</td><td>Stratégies + mémorisation</td></tr>
+    <tr><td><span class="s">Semaine 4</span></td><td>Ajuster</td><td>Bilan + message à l'école si besoin</td></tr>
+  </table>
+  <div class="note">🔁 Ce plan est un <b>cycle</b>, pas une ligne d'arrivée : au bout des 4 semaines, on recommence avec une nouvelle priorité. C'est ça, accompagner dans la durée.</div>
+</div>
+
+<!-- PHASE 4 -->
+<div class="phasehd"><span class="tm">30 min</span><div><div class="ph">Phase 4 · Atelier pratique</div><h2>Mon plan 4 semaines + ma dernière page</h2></div></div>
+<div class="card r">
+  <div class="obj"><b>Objectif :</b> repartir avec un plan familial personnalisé et un engagement concret, écrit de sa main.</div>
+  <h4>① Mon plan familial 4 semaines (18 min)</h4>
+  <div class="anim"><span class="lab">Animation</span>Chaque parent remplit son plan : la priorité de chaque semaine, l'outil choisi, et son signe de progrès. Tu veilles au réalisme : pas de surcharge, on part de là où en est la famille.</div>
+  <h4>② La dernière page à remplir (12 min)</h4>
+  <div class="anim"><span class="lab">Animation</span>Chacun complète : « Cette semaine, je choisis de commencer par… », la difficulté à observer, l'outil, l'action, le signe de progrès, la date du bilan, et <b>la personne qui peut me soutenir</b>. C'est l'engagement de sortie.</div>
+  <div class="ex"><span class="lab">Astuce —</span> inviter chacun à prendre une photo de sa page, pour l'avoir sur son téléphone.</div>
+</div>
+
+<!-- PHASE 5 -->
+<div class="phasehd"><span class="tm">10 min</span><div><div class="ph">Phase 5 · Clôture du parcours</div><h2>Le mur des victoires</h2></div></div>
+<div class="card">
+  <div class="say">
+    <p>On ne se quitte pas sur une liste de choses à faire, mais sur ce que vous avez déjà accompli. Accompagner un enfant, ce n'est pas tout anticiper ni ne jamais se tromper — c'est observer, répondre, ajuster, et recommencer.</p>
+    <p>L'enfant n'a pas besoin d'un parent parfait. Il a besoin d'un adulte qui pose un cadre, écoute, soutient, répare et croit en sa capacité à grandir.</p>
+    <p>Une petite action répétée vaut mieux qu'une longue liste de bonnes résolutions. Commencez par une seule priorité. Testez. Observez. Ajustez. Puis recommencez.</p>
+  </div>
+  <div class="anim"><span class="lab">Animation — mur des victoires &amp; clôture</span>Chaque parent écrit sur un post-it une petite victoire du parcours et la colle au mur. Tour final : chacun lit la sienne. Remerciements, et rappel de l'éventuel rendez-vous de suivi à 1 mois.</div>
+  <div class="maison"><span class="lab">Après l'atelier</span>
+    <p style="margin:5px 0 0;">Vivre le <b>plan familial 4 semaines</b> à son rythme. Option : un rendez-vous de suivi à 1 mois pour faire le point et ajuster ensemble.</p>
+  </div>
+  <div class="garde"><p style="margin:0;"><b>⚖️ Rappel final :</b> cet atelier outille les parents ; il ne pose aucun diagnostic et ne remplace pas un avis médical, psychologique, orthophonique ou scolaire. En cas de difficulté importante ou durable, on oriente.</p></div>
+</div>
+
+<div class="foot">Educa Typique · Nawel · Atelier « Grandir, apprendre et s'organiser avec sérénité » · Séance 6 — support d'animation · aucun diagnostic · ne remplace pas un avis professionnel.</div>
+</div>
+</body>
+</html>

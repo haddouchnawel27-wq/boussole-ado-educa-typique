@@ -1,4 +1,4 @@
-// Anamnèse structurée native (miroir fidèle de l'outil « Voie Chifa »).
+// Anamnèse structurée native (miroir fidèle de l'outil « Jannat Al Qalb »).
 // ~70 items, 10 sections. Stockée dans la fiche (colonne bilan.anamnese : clé → valeur).
 // Jamais un diagnostic : un recueil structuré. Les alertes priment toujours sur le reste.
 

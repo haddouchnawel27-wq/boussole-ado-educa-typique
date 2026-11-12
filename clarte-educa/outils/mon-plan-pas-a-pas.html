@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Plan Pas-à-Pas — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fff5f8,#fff)}
+.bandeau{background:linear-gradient(135deg,#F39BC2,#7c5cbf);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #F39BC2;line-height:1.55}
+.intro strong{color:#a04268}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #f0c8d8;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#F39BC2;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#a04268;border:1.5px solid #f0c8d8}
+
+.principe{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid #7c5cbf}
+.principe h2{color:#5a3c8f;margin:0 0 .3rem;font-size:1.1rem}
+.principe-etapes{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.5rem}
+@media (max-width:600px){.principe-etapes{grid-template-columns:1fr}}
+.principe-etape{background:#faf6fb;border-radius:var(--r-md);padding:.7rem .8rem;text-align:center;border-top:3px solid var(--c)}
+.principe-etape .ic{font-size:1.4rem;line-height:1}
+.principe-etape h3{color:var(--c);margin:.2rem 0;font-size:.92rem}
+.principe-etape p{margin:.15rem 0;font-size:.82rem;color:#666;line-height:1.4}
+
+.pe1{--c:#e9a73a} /* Choisir */
+.pe2{--c:#7c5cbf} /* Verbaliser */
+.pe3{--c:#5fa040} /* Exécuter */
+
+.tache-choix{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:5px solid #e9a73a}
+.tache-choix h2{color:#a07000;margin:0 0 .4rem}
+.taches-suggerees{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.4rem;margin-top:.4rem}
+.tache-btn{padding:.7em .8em;background:#fff8eb;border:1.5px solid #f0d8b8;color:#a07000;border-radius:var(--r-md);cursor:pointer;font-family:inherit;font-weight:700;font-size:.88rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.2rem}
+.tache-btn:hover{background:#fff;border-color:#e9a73a;transform:translateY(-2px)}
+.tache-btn .ic-tache{font-size:1.4rem;line-height:1}
+.tache-btn.selected{background:linear-gradient(135deg,#e9a73a,#F39BC2);color:#fff;border-color:#e9a73a}
+.input-perso{margin-top:.5rem;display:flex;gap:.4rem;flex-wrap:wrap}
+.input-perso input{flex:1;min-width:200px;padding:.5em .7em;border:1.5px solid #f0d8b8;border-radius:var(--r-md);font-family:inherit;font-size:.95rem;background:#fff8eb}
+.input-perso button{padding:.5em 1em;background:#e9a73a;color:#fff;border:none;border-radius:var(--r-md);cursor:pointer;font-weight:700;font-family:inherit;font-size:.88rem}
+
+.plan-actuel{background:linear-gradient(135deg,#fff,#fff5f8);border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border:2px solid #f0c8d8;display:none}
+.plan-actuel.visible{display:block}
+.plan-actuel h2{color:#a04268;margin:0 0 .4rem;display:flex;align-items:center;gap:.5rem;justify-content:space-between;flex-wrap:wrap}
+.plan-actuel h2 .titre-tache{font-family:var(--font-titre);font-size:1.2rem}
+.plan-actuel h2 .btn-changer{font-size:.78rem;padding:.25em .7em;background:#fff;border:1.5px solid #F39BC2;color:#a04268;border-radius:999px;cursor:pointer;font-family:inherit;font-weight:700}
+
+.etapes-list{display:flex;flex-direction:column;gap:.5rem;margin-top:.7rem}
+.etape-item{background:#fff;border-radius:var(--r-md);padding:.7rem .9rem;display:flex;align-items:center;gap:.6rem;border-left:4px solid #7c5cbf;transition:all .15s}
+.etape-item.checked{background:#f0f9ec;border-left-color:#5fa040;opacity:.7}
+.etape-item.checked .etape-txt{text-decoration:line-through}
+.etape-item .picto-select{width:38px;height:38px;border:1.5px solid #d8c9f0;border-radius:var(--r-sm);background:#faf6fb;font-size:1.3rem;text-align:center;cursor:pointer}
+.etape-item .picto-select:focus{outline:2px solid #7c5cbf}
+.etape-item .etape-txt{flex:1;font-size:.95rem;color:#3a3a3a;background:transparent;border:none;padding:.3em;font-family:inherit}
+.etape-item .etape-txt:focus{outline:1.5px solid #7c5cbf;background:#fff}
+.etape-item .check-btn{width:32px;height:32px;border-radius:50%;border:2px solid #d8c9f0;background:#fff;cursor:pointer;font-size:1.1rem;color:#7c5cbf;font-weight:800}
+.etape-item.checked .check-btn{background:#5fa040;color:#fff;border-color:#5fa040}
+.etape-item .btn-suppr{background:transparent;border:none;color:#c25a30;cursor:pointer;font-size:1.2rem;padding:0 .4rem}
+
+.add-etape{margin-top:.5rem;display:flex;gap:.4rem;flex-wrap:wrap}
+.add-etape input{flex:1;min-width:200px;padding:.5em .7em;border:1.5px solid #f0c8d8;border-radius:var(--r-md);font-family:inherit;font-size:.93rem;background:#fff5f8}
+.add-etape button{padding:.5em 1em;background:#F39BC2;color:#fff;border:none;border-radius:var(--r-md);cursor:pointer;font-weight:700;font-family:inherit;font-size:.88rem}
+
+.progres-tache{margin-top:.6rem;background:#fff;border-radius:var(--r-md);padding:.6rem .9rem;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.progres-tache .lbl{font-weight:700;color:#a04268;font-size:.85rem}
+.progres-tache .bar{flex:1;min-width:200px;height:14px;background:#f0e8f5;border-radius:999px;overflow:hidden}
+.progres-tache .fill{height:100%;background:linear-gradient(90deg,#F39BC2,#5fa040);border-radius:999px;transition:width .3s}
+.progres-tache .pct{font-weight:800;color:#a04268;font-size:.9rem}
+
+.felicitations{background:linear-gradient(135deg,#fff,#f0f9ec);border-radius:var(--r-md);padding:1rem 1.2rem;border:2px solid #5fa040;margin-top:.6rem;text-align:center;display:none}
+.felicitations.visible{display:block}
+.felicitations h3{color:#3d6e25;margin:0;font-size:1.2rem}
+.felicitations p{margin:.3rem 0;color:#3d6e25;font-size:.95rem;line-height:1.5}
+
+.parent-tip{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.9rem 1.2rem;border-radius:var(--r-md);font-size:.92rem;line-height:1.6;color:#5A4D6B}
+.parent-tip strong{color:#5a3c8f}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #F39BC2;background:#fff;color:#a04268;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#F39BC2;color:#fff}
+.actions .primary{background:#F39BC2;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+@media print{
+  body{background:#fff}
+  .dossier-bar,.actions,.add-etape,.bandeau .retour{display:none!important}
+  .plan-actuel,.principe,.tache-choix{box-shadow:none;border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../index.html">← Retour au parcours</a>
+  <h1>📋 Mon Plan Pas-à-Pas</h1>
+  <p class="sub">L'enfant choisit une tâche, dicte ses étapes, coche en avançant. Métacognition + autonomie + cerveau qui voit le chemin. 6-14 ans.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    📋 <strong>Pourquoi ?</strong> Beaucoup d'enfants TND <em>n'arrivent pas à démarrer</em> les tâches du quotidien (sac d'école, habillage, douche, devoirs). Pas par paresse — leur cerveau ne « voit » pas le chemin. Cet outil leur permet de <strong>SE construire</strong> leur plan en 3 temps. Magie : <em>quand on dit comment on va faire, on se met à le faire.</em>
+  </div>
+
+  <div class="principe">
+    <h2>🌟 Le principe en 3 étapes</h2>
+    <div class="principe-etapes">
+      <div class="principe-etape pe1"><div class="ic">🎯</div><h3>1. CHOISIR</h3><p>L'enfant choisit la tâche qu'il/elle veut faire</p></div>
+      <div class="principe-etape pe2"><div class="ic">💬</div><h3>2. VERBALISER</h3><p>L'enfant DIT les étapes pour y arriver (ou les écrit)</p></div>
+      <div class="principe-etape pe3"><div class="ic">✅</div><h3>3. EXÉCUTER</h3><p>L'enfant fait, coche, l'adulte commente positivement</p></div>
+    </div>
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:#a04268">📁 Enfant :</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouveau</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <!-- Choix de tâche -->
+  <section class="tache-choix" id="zone-choix">
+    <h2>🎯 Étape 1 — Quelle tâche tu veux faire ?</h2>
+    <p style="color:#666;font-size:.92rem;margin:.2rem 0 .5rem">Clique sur une tâche suggérée OU tape la tienne en dessous.</p>
+    <div class="taches-suggerees" id="taches-grid"></div>
+    <div class="input-perso">
+      <input type="text" id="tache-perso" placeholder="Ex: « Préparer mon contrôle d'histoire »">
+      <button id="btn-commencer-perso">Démarrer →</button>
+    </div>
+  </section>
+
+  <!-- Plan actuel -->
+  <section class="plan-actuel" id="plan-actuel">
+    <h2>
+      <span>📋 <span class="titre-tache" id="titre-tache-actuel"></span></span>
+      <button class="btn-changer" id="btn-changer">✎ Changer de tâche</button>
+    </h2>
+    <div class="parent-tip" style="margin-top:.5rem">
+      💡 <strong>Pour le parent :</strong> Laisse l'enfant <em>dire et écrire ses étapes lui-même</em> — même si elles sont imparfaites. Ce qui compte ce n'est PAS la perfection — c'est qu'il/elle se construise sa carte mentale. Si bloqué : tu demandes « et après ? », pas tu écris à sa place.
+    </div>
+
+    <h3 style="color:#5a3c8f;margin:.7rem 0 .3rem;font-size:1rem">💬 Étape 2 — Les étapes pour y arriver</h3>
+    <div class="etapes-list" id="etapes-list"></div>
+    <div class="add-etape">
+      <input type="text" id="new-etape" placeholder="Ex: « Sortir mon cahier d'histoire »">
+      <button id="btn-add-etape">+ Ajouter</button>
+    </div>
+
+    <div class="progres-tache">
+      <span class="lbl">✅ Étape 3 — Progression</span>
+      <div class="bar"><div class="fill" id="prog-tache-fill" style="width:0%"></div></div>
+      <span class="pct" id="prog-tache-pct">0/0</span>
+    </div>
+
+    <div class="felicitations" id="felicitations">
+      <h3>🎉 BRAVO !</h3>
+      <p>Tu as fait toutes les étapes que tu avais prévues.<br>Ton cerveau vient d'apprendre quelque chose d'énorme : <strong>tu sais te faire un plan, et tu sais le suivre.</strong></p>
+      <p style="font-style:italic;color:#5fa040">— Nawel</p>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Cet outil entraîne la métacognition et l'auto-régulation. Pour des difficultés importantes d'initiation / planification : compléter avec un bilan neuropsy (fonctions exécutives) ou ergothérapie.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../index.html" style="color:#a04268">retour au parcours</a>
+  </p>
+</div>
+
+<script>
+const KEY='clarte_educa_plan_v1';
+try{ if(!localStorage.getItem('clarte_educa_plan_v1') && localStorage.getItem('educatypique_mon_plan_pas_a_pas_v1')){ localStorage.setItem('clarte_educa_plan_v1', localStorage.getItem('educatypique_mon_plan_pas_a_pas_v1')); } }catch(e){}
+let state={dossiers:{},dossier:null};
+
+const TACHES_SUGGEREES = [
+  {ic:'🎒',nom:"Préparer mon sac d'école"},
+  {ic:'👕',nom:"M'habiller le matin"},
+  {ic:'🚿',nom:"Prendre ma douche"},
+  {ic:'🦷',nom:"Me brosser les dents"},
+  {ic:'📚',nom:"Faire mes devoirs"},
+  {ic:'🛏',nom:"Faire mon lit"},
+  {ic:'🍽',nom:"Mettre la table"},
+  {ic:'📖',nom:"Lire 10 minutes"},
+  {ic:'🧹',nom:"Ranger ma chambre"},
+  {ic:'🎂',nom:"Préparer mon anniversaire"},
+  {ic:'✏️',nom:"Réviser un contrôle"},
+  {ic:'🎁',nom:"Faire un cadeau à quelqu'un"}
+];
+
+const PICTOS = ['⭐','📚','🎒','👕','🦷','🚿','🛏','🍽','📖','✏️','🎮','⚽','🎨','🎵','📺','🍎','💧','🧹','🚪','🪟','🛋','🪥','🧴','📱','💡','🔔','⏰','📝','✂️','📐'];
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {tache:null,etapes:[]}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Enfant 1":blank()};state.dossier="Enfant 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function renderTachesSuggerees(){
+  const g=document.getElementById('taches-grid');
+  g.innerHTML=TACHES_SUGGEREES.map((t,i)=>`<button class="tache-btn" data-i="${i}"><span class="ic-tache">${t.ic}</span>${esc(t.nom)}</button>`).join('');
+  g.querySelectorAll('.tache-btn').forEach(b=>b.onclick=()=>{
+    const i=parseInt(b.dataset.i);const t=TACHES_SUGGEREES[i];
+    demarrer(t.ic+' '+t.nom);
+  });
+}
+
+function demarrer(tache){
+  current().tache=tache;
+  current().etapes=current().etapes||[];
+  save();renderPlan();
+}
+
+document.getElementById('btn-commencer-perso').onclick=()=>{
+  const v=document.getElementById('tache-perso').value.trim();
+  if(!v)return;demarrer('🎯 '+v);document.getElementById('tache-perso').value='';
+};
+
+document.getElementById('btn-changer').onclick=()=>{
+  if(confirm('Changer de tâche ? Les étapes actuelles seront effacées.')){
+    current().tache=null;current().etapes=[];save();renderPlan();
+  }
+};
+
+function renderPlan(){
+  const d=current();
+  const zoneChoix=document.getElementById('zone-choix');
+  const planActuel=document.getElementById('plan-actuel');
+  if(!d.tache){
+    zoneChoix.style.display='block';
+    planActuel.classList.remove('visible');
+    return;
+  }
+  zoneChoix.style.display='none';
+  planActuel.classList.add('visible');
+  document.getElementById('titre-tache-actuel').textContent=d.tache;
+  // Étapes
+  const list=document.getElementById('etapes-list');
+  if(!d.etapes||d.etapes.length===0){
+    list.innerHTML='<em style="color:#888;font-size:.9rem;font-style:italic">Aucune étape. Ajoute la première en dessous !</em>';
+  } else {
+    list.innerHTML=d.etapes.map((e,i)=>`<div class="etape-item ${e.done?'checked':''}" data-i="${i}">
+      <select class="picto-select" data-i="${i}">${PICTOS.map(p=>`<option value="${p}" ${p===e.picto?'selected':''}>${p}</option>`).join('')}</select>
+      <input type="text" class="etape-txt" value="${esc(e.txt)}" data-i="${i}">
+      <button class="check-btn" data-i="${i}">${e.done?'✓':''}</button>
+      <button class="btn-suppr" data-i="${i}" title="Supprimer">×</button>
+    </div>`).join('');
+    list.querySelectorAll('.check-btn').forEach(b=>b.onclick=()=>{
+      const i=parseInt(b.dataset.i);current().etapes[i].done=!current().etapes[i].done;save();renderPlan();
+    });
+    list.querySelectorAll('.btn-suppr').forEach(b=>b.onclick=()=>{
+      current().etapes.splice(parseInt(b.dataset.i),1);save();renderPlan();
+    });
+    list.querySelectorAll('.etape-txt').forEach(inp=>inp.addEventListener('input',e=>{
+      current().etapes[parseInt(e.target.dataset.i)].txt=e.target.value;save();
+    }));
+    list.querySelectorAll('.picto-select').forEach(sel=>sel.addEventListener('change',e=>{
+      current().etapes[parseInt(e.target.dataset.i)].picto=e.target.value;save();renderPlan();
+    }));
+  }
+  // Progression
+  const total=(d.etapes||[]).length;
+  const done=(d.etapes||[]).filter(e=>e.done).length;
+  document.getElementById('prog-tache-pct').textContent=done+'/'+total;
+  document.getElementById('prog-tache-fill').style.width=(total>0?(done/total*100):0)+'%';
+  // Félicitations
+  const fel=document.getElementById('felicitations');
+  if(total>=2 && done===total) fel.classList.add('visible');
+  else fel.classList.remove('visible');
+}
+
+document.getElementById('btn-add-etape').onclick=()=>{
+  const v=document.getElementById('new-etape').value.trim();if(!v)return;
+  current().etapes=current().etapes||[];
+  current().etapes.push({picto:PICTOS[Math.floor(Math.random()*PICTOS.length)],txt:v,done:false});
+  save();renderPlan();document.getElementById('new-etape').value='';
+};
+document.getElementById('new-etape').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('btn-add-etape').click()});
+
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();renderPlan();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom :','Enfant '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();renderPlan();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible.');return}
+  if(confirm('Supprimer ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();renderPlan();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ce plan ?')){state.dossiers[state.dossier]=blank();save();renderPlan();}};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  if(!d.tache){alert('Choisis d\'abord une tâche !');return}
+  let t=`MON PLAN PAS-À-PAS\nEducaTypique · Création originale Nawel Haddouch\n\n`;
+  t+=`🎯 TÂCHE : ${d.tache}\n\n💬 ÉTAPES :\n`;
+  (d.etapes||[]).forEach((e,i)=>t+=`  ${e.done?'[✓]':'[ ]'} ${e.picto||'·'}  ${i+1}. ${e.txt}\n`);
+  const total=(d.etapes||[]).length;const done=(d.etapes||[]).filter(e=>e.done).length;
+  t+=`\n✅ Progression : ${done}/${total}\n`;
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`plan-pas-a-pas-${new Date().toISOString().slice(0,10)}.txt`;a.click();
+};
+
+load();refreshDossier();renderTachesSuggerees();renderPlan();
+</script>
+
+</body>
+</html>

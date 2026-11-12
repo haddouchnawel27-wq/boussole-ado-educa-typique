@@ -21,7 +21,7 @@ export const METEO: Record<Meteo, { cls: string; label: string }> = {
   orage: { cls: "bg-[rgba(196,80,90,.16)] text-[#a94b54]", label: "Orageux" },
 };
 
-// Invocations RÉELLES issues du « Guide du'ā » (Voie Chifā) — chacune avec sa source.
+// Invocations RÉELLES issues du « Guide du'ā » (Jannat Al Qalb) — chacune avec sa source.
 export const DUAS: Dua[] = [
   {
     etat: "Apaisement · déposer le contrôle (tawakkul)",
@@ -53,7 +53,7 @@ export const LIBRARY: { nm: string; ds: string; type: "clin" | "spir"; relig?: b
   { nm: "Ancrage 5-4-3-2-1", ds: "Régulation express par les sens", type: "clin", source_type: "validated_corpus", reference: "Référentiel clinique", verification_status: "verified", verified_by: "équipe clinique", verified_at: "2026-08-01" },
   { nm: "Respiration apaisante", ds: "Cohérence cardiaque guidée", type: "clin", source_type: "validated_corpus", reference: "Référentiel clinique", verification_status: "verified", verified_by: "équipe clinique", verified_at: "2026-08-01" },
   { nm: "Fenêtre de tolérance", ds: "Repérer haut / bas d'activation", type: "clin", source_type: "validated_corpus", reference: "Référentiel clinique", verification_status: "verified", verified_by: "équipe clinique", verified_at: "2026-08-01" },
-  { nm: "Module invocations (du'ā)", ds: "Adab & conditions — corpus validé", type: "spir", relig: true, source_type: "validated_corpus", reference: "Guide du'ā Voie Chifā", verification_status: "verified", verified_by: "Nawel", verified_at: "2026-08-01" },
+  { nm: "Module invocations (du'ā)", ds: "Adab & conditions — corpus validé", type: "spir", relig: true, source_type: "validated_corpus", reference: "Guide du'ā Jannat Al Qalb", verification_status: "verified", verified_by: "Nawel", verified_at: "2026-08-01" },
 ];
 
 export function demoClients(): Client[] {
