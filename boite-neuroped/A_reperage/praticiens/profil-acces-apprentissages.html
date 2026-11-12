@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profil d'accès aux apprentissages — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#eef6f5,#fff)}
+.bandeau{background:linear-gradient(135deg,#2a9d8f,#8ED9D2);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.7rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:1100px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #2a9d8f;line-height:1.55}
+.intro strong{color:#1a6a5a}
+.intro em{color:#888}
+
+.posture{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.88rem;color:#5A4D6B;line-height:1.5}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #c5dfdb;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#2a9d8f;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#1a6a5a;border:1.5px solid #c5dfdb}
+
+.tabs{display:flex;gap:.3rem;background:#fff;padding:.4rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);flex-wrap:wrap}
+.tabs button{flex:1;min-width:130px;padding:.6em .9em;background:transparent;color:#666;border:none;font-weight:700;cursor:pointer;border-radius:var(--r-sm);font-family:inherit;font-size:.88rem}
+.tabs button.active{background:#2a9d8f;color:#fff}
+.tabs button:hover:not(.active){background:#eef6f5}
+
+.section{display:none}
+.section.active{display:block}
+
+.bloc{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c)}
+.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.1rem}
+.bloc .intro-bloc{color:#666;font-size:.9rem;margin-bottom:.6rem;font-style:italic}
+
+/* VAK */
+.vak-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.7rem}
+.vak-card{background:#faf6fa;border-radius:var(--r-md);padding:.9rem 1rem;border-top:4px solid var(--c)}
+.vak-card h3{color:var(--c);margin:0 0 .3rem;font-size:1rem;display:flex;align-items:center;gap:.4rem}
+.vak-card .items{display:flex;flex-direction:column;gap:.3rem;margin-top:.3rem}
+.vak-card .item{background:#fff;border-radius:var(--r-sm);padding:.4rem .6rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;font-size:.85rem}
+.vak-card .item .echelle{display:flex;gap:.2rem}
+.vak-card .item .echelle label{width:24px;height:24px;border-radius:50%;background:#f0e8f5;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#888;border:2px solid transparent}
+.vak-card .item .echelle label:hover{border-color:var(--c)}
+.vak-card .item .echelle input{display:none}
+.vak-card .item .echelle input:checked + .v{background:var(--c);color:#fff;width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center}
+
+.v-color{--c:#e05a8a}
+.a-color{--c:#7c5cbf}
+.k-color{--c:#2a9d8f}
+.lect-color{--c:#e9a73a}
+
+/* Gardner mini */
+.gardner-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.5rem}
+.gardner-card{background:#faf6fa;border-radius:var(--r-md);padding:.7rem .8rem;border-left:4px solid var(--c)}
+.gardner-card h4{color:var(--c);margin:0 0 .2rem;font-size:.92rem}
+.gardner-card .echelle-line{display:flex;gap:.2rem;margin-top:.3rem;align-items:center;flex-wrap:wrap}
+.gardner-card .echelle-line .lbl{font-size:.78rem;color:#666;margin-right:.3rem}
+.gardner-card .echelle-line label{width:24px;height:24px;border-radius:50%;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#888;border:2px solid #ddd}
+.gardner-card .echelle-line label:hover{border-color:var(--c)}
+.gardner-card .echelle-line input{display:none}
+.gardner-card .echelle-line input:checked + .v{background:var(--c);color:#fff;border-radius:50%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border:none}
+
+/* Attentions */
+.attentions-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem}
+.att-card{background:#faf6fa;border-radius:var(--r-md);padding:.8rem .9rem;border-top:4px solid var(--c)}
+.att-card h4{color:var(--c);margin:0 0 .25rem;font-size:.95rem}
+.att-card .def{color:#666;font-size:.82rem;margin-bottom:.4rem;font-style:italic}
+.att-card textarea{width:100%;padding:.5em;border:1.5px solid #e0d8dc;border-radius:var(--r-sm);font-family:inherit;font-size:.85rem;background:#fff;min-height:50px;resize:vertical}
+
+/* Gestes mentaux */
+.gestes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem}
+.geste-card{background:#faf6fa;border-radius:var(--r-md);padding:.8rem .9rem;border-left:4px solid var(--c)}
+.geste-card h4{color:var(--c);margin:0 0 .2rem;font-size:.95rem}
+.geste-card .def{color:#666;font-size:.82rem;margin-bottom:.4rem}
+.geste-card .echelle-line{display:flex;gap:.2rem;align-items:center;margin-top:.3rem;flex-wrap:wrap}
+.geste-card .echelle-line .lbl-min{font-size:.75rem;color:#888}
+.geste-card .echelle-line label{width:24px;height:24px;border-radius:50%;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#888;border:2px solid #ddd}
+.geste-card .echelle-line label:hover{border-color:var(--c)}
+.geste-card .echelle-line input{display:none}
+.geste-card .echelle-line input:checked + .v{background:var(--c);color:#fff;border-radius:50%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;border:none}
+
+/* Synthèse */
+.synthese-bloc{background:linear-gradient(135deg,#fff,#eef6f5);border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border:2px solid #c5dfdb;display:none}
+.synthese-bloc.visible{display:block}
+.synthese-bloc h2{color:#1a6a5a;margin:0 0 .5rem}
+.profil-resume{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.5rem;margin-top:.6rem}
+.profil-resume .col{background:#fff;padding:.7rem .9rem;border-radius:var(--r-md);border-top:4px solid var(--c)}
+.profil-resume .col h4{color:var(--c);margin:0 0 .2rem;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+.profil-resume .col .val{font-size:1.05rem;font-weight:800;color:var(--c)}
+.profil-resume .col .dom{font-size:.82rem;color:#666;margin-top:.15rem}
+.preco-bloc{background:#fff;border-radius:var(--r-md);padding:.7rem .9rem;border-left:4px solid #5fa040;margin-top:.5rem;font-size:.9rem;line-height:1.55}
+.preco-bloc strong{color:#3d6e25}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #2a9d8f;background:#fff;color:#1a6a5a;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#2a9d8f;color:#fff}
+.actions .primary{background:#2a9d8f;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+@media print{
+  .tabs,.actions,.dossier-bar{display:none!important}
+  .section{display:block!important}
+  body{background:#fff}
+  .bloc,.synthese-bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace pros</a>
+  <h1>🎓 Profil d'accès aux apprentissages</h1>
+  <p class="sub">Comment l'enfant <em>accède</em> à l'information — distinct des compétences scolaires. Pour adapter la pédagogie au cerveau, pas l'inverse.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🎓 <strong>Objectif :</strong> Repérer COMMENT cet enfant apprend (canal sensoriel privilégié + intelligence dominante Gardner + forme d'attention + gestes mentaux La Garanderie). <em>« Comment » ≠ « quoi sait-il faire »</em> — c'est complémentaire du <strong>Profil compétences scolaires</strong>.
+  </div>
+
+  <div class="posture">
+    🌿 <strong>Posture :</strong> Pas de « style d'apprentissage » figé (le mythe VAK pur est obsolète). L'enfant a des <strong>préférences fonctionnelles</strong> qu'on utilise pour ouvrir une porte — puis on l'expose progressivement aux autres canaux. Adapter d'abord, élargir ensuite.
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:#1a6a5a">📁 Enfant :</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouveau</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+  <div class="dossier-bar">
+    <input type="text" id="prenom" placeholder="Prénom / initiales">
+    <input type="text" id="age" placeholder="Âge">
+    <input type="date" id="date">
+  </div>
+
+  <div class="tabs">
+    <button class="active" data-tab="vak">👁👂✋ Canaux VAK+L</button>
+    <button data-tab="gardner">🧠 Intelligences Gardner</button>
+    <button data-tab="attentions">🎯 4 attentions</button>
+    <button data-tab="gestes">🌟 Gestes mentaux</button>
+    <button data-tab="synthese">📊 Synthèse + reco</button>
+  </div>
+
+  <!-- VAK + Lecture -->
+  <section class="section active" id="vak">
+    <div class="bloc" style="--c:#e05a8a">
+      <h2>👁👂✋📖 Canaux d'entrée privilégiés</h2>
+      <div class="intro-bloc">VAK enrichi de Lecture/Écriture (4e canal souvent oublié). Pour chaque item : 0 jamais · 1 parfois · 2 souvent · 3 toujours.</div>
+      <div class="vak-grid" id="vak-grid"></div>
+    </div>
+  </section>
+
+  <!-- GARDNER -->
+  <section class="section" id="gardner">
+    <div class="bloc" style="--c:#7c5cbf">
+      <h2>🧠 Les 9 intelligences (H. Gardner)</h2>
+      <div class="intro-bloc">L'enfant a souvent 2-3 intelligences dominantes. Coter de 0 (faible) à 3 (forte) selon ce qu'on observe.</div>
+      <div class="gardner-grid" id="gardner-grid"></div>
+    </div>
+  </section>
+
+  <!-- ATTENTIONS -->
+  <section class="section" id="attentions">
+    <div class="bloc" style="--c:#e9a73a">
+      <h2>🎯 Les 4 formes d'attention</h2>
+      <div class="intro-bloc">L'attention n'est pas une seule chose. Quatre formes distinctes — souvent un profil hétérogène.</div>
+      <div class="attentions-grid" id="attentions-grid"></div>
+    </div>
+  </section>
+
+  <!-- GESTES MENTAUX -->
+  <section class="section" id="gestes">
+    <div class="bloc" style="--c:#9B85B8">
+      <h2>🌟 Gestes mentaux (Antoine de La Garanderie)</h2>
+      <div class="intro-bloc">5 gestes mentaux : attention · mémorisation · compréhension · réflexion · imagination créatrice. Repérer ceux qui sont disponibles vs ceux à renforcer.</div>
+      <div class="gestes-grid" id="gestes-grid"></div>
+    </div>
+  </section>
+
+  <!-- SYNTHÈSE -->
+  <section class="section" id="synthese">
+    <div class="synthese-bloc visible" id="syn-bloc">
+      <h2>📊 Synthèse du profil d'accès</h2>
+      <div class="profil-resume" id="profil-resume"></div>
+      <div id="preconisations"></div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Le « style d'apprentissage » VAK pur (apprendre uniquement par un canal) est un neuromythe. Cet outil identifie des <strong>préférences fonctionnelles</strong> à utiliser pour ouvrir l'accès — pas pour enfermer l'enfant dans une case.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../professionnels.html" style="color:#2a9d8f">retour espace pros</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_profil_acces_apprentissages_v1';
+let state={dossiers:{},dossier:null};
+
+const CANAUX_VAK = [
+  {id:'v',titre:'👁 Visuel',couleur:'#e05a8a',items:[
+    "Retient mieux ce qu'il/elle a vu (schéma, image, vidéo).",
+    "Prend des notes spontanément, illustre.",
+    "A besoin de voir un exemple écrit/dessiné pour comprendre.",
+    "Distractible par l'environnement visuel chargé.",
+    "Se souvient de la position d'un mot sur la page."
+  ]},
+  {id:'a',titre:'👂 Auditif',couleur:'#7c5cbf',items:[
+    "Retient ce qu'on lui explique oralement.",
+    "Aime qu'on lui lise les consignes.",
+    "Se parle à soi-même quand il/elle réfléchit.",
+    "Distractible par les bruits ambiants.",
+    "Aime expliquer à haute voix pour mémoriser."
+  ]},
+  {id:'k',titre:'✋ Kinesthésique',couleur:'#2a9d8f',items:[
+    "A besoin de manipuler, faire pour comprendre.",
+    "Aime les jeux corporels, sport, ateliers.",
+    "Apprend en faisant des mouvements (compter sur doigts).",
+    "Difficile de rester immobile pour apprendre.",
+    "Utilise son corps quand il/elle raconte."
+  ]},
+  {id:'l',titre:'📖 Lecture/Écriture',couleur:'#e9a73a',items:[
+    "Aime lire seul(e) pour apprendre.",
+    "Préfère prendre des notes écrites.",
+    "Retient mieux après avoir écrit/recopié.",
+    "Aime les listes, les fiches, les résumés.",
+    "Apprend mieux par texte que par vidéo."
+  ]}
+];
+
+const GARDNER = [
+  {id:'ling',nom:'Linguistique',couleur:'#e05a8a',desc:"Mots, langues, lecture, expression"},
+  {id:'logico',nom:'Logico-math',couleur:'#7c5cbf',desc:"Logique, chiffres, raisonnement"},
+  {id:'spa',nom:'Spatiale',couleur:'#2a9d8f',desc:"Visualiser dans l'espace, dessiner, cartes"},
+  {id:'mus',nom:'Musicale',couleur:'#e9a73a',desc:"Sons, rythmes, mélodies, instruments"},
+  {id:'kin',nom:'Kinesthésique',couleur:'#F39BC2',desc:"Corps, sport, gestes habiles"},
+  {id:'inter',nom:'Interpersonnelle',couleur:'#8ED9D2',desc:"Comprendre les autres, leadership"},
+  {id:'intra',nom:'Intrapersonnelle',couleur:'#9B85B8',desc:"Se connaître, introspection"},
+  {id:'nat',nom:'Naturaliste',couleur:'#5fa040',desc:"Nature, animaux, classifications"},
+  {id:'exis',nom:'Existentielle',couleur:'#FFD6C2',desc:"Sens de la vie, philosophie (post-Gardner)"}
+];
+
+const ATTENTIONS = [
+  {id:'soutenue',nom:'Attention soutenue',couleur:'#e05a8a',def:"Maintenir le focus dans la durée."},
+  {id:'selective',nom:'Attention sélective',couleur:'#7c5cbf',def:"Ignorer les distracteurs, choisir l'info pertinente."},
+  {id:'divisee',nom:'Attention divisée',couleur:'#2a9d8f',def:"Faire 2 choses en même temps (ex: écouter + écrire)."},
+  {id:'alternee',nom:'Attention alternée',couleur:'#e9a73a',def:"Passer souplement d'une tâche à l'autre."}
+];
+
+const GESTES = [
+  {id:'g-att',nom:'Attention',couleur:'#e05a8a',def:"Donner sa présence mentale (regarder, écouter, se laisser imprégner)."},
+  {id:'g-mem',nom:'Mémorisation',couleur:'#7c5cbf',def:"Évoquer en imagination pour faire revenir plus tard."},
+  {id:'g-comp',nom:'Compréhension',couleur:'#2a9d8f',def:"Mettre en lien, faire sens (auditif/visuel)."},
+  {id:'g-ref',nom:'Réflexion',couleur:'#e9a73a',def:"Mobiliser ses acquis pour résoudre un problème."},
+  {id:'g-ima',nom:'Imagination créatrice',couleur:'#9B85B8',def:"Inventer du nouveau à partir de ses évocations."}
+];
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function blank(){return {prenom:'',age:'',date:'',vak:{},gardner:{},attentions:{},gestes:{}}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Enfant 1":blank()};state.dossier="Enfant 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+  document.getElementById('prenom').value=current().prenom||'';
+  document.getElementById('age').value=current().age||'';
+  document.getElementById('date').value=current().date||new Date().toISOString().slice(0,10);
+}
+
+function renderVAK(){
+  const g=document.getElementById('vak-grid');
+  g.innerHTML=CANAUX_VAK.map(c=>`
+    <div class="vak-card ${c.id}-color" style="--c:${c.couleur}">
+      <h3>${esc(c.titre)}</h3>
+      <div class="items">
+        ${c.items.map((it,i)=>`
+          <div class="item">
+            <span>${esc(it)}</span>
+            <div class="echelle">
+              ${[0,1,2,3].map(v=>`<label><input type="radio" name="vak_${c.id}_${i}" value="${v}"><span class="v">${v}</span></label>`).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderGardner(){
+  const g=document.getElementById('gardner-grid');
+  g.innerHTML=GARDNER.map(c=>`
+    <div class="gardner-card" style="--c:${c.couleur}">
+      <h4>${esc(c.nom)}</h4>
+      <div style="font-size:.78rem;color:#666">${esc(c.desc)}</div>
+      <div class="echelle-line">
+        <span class="lbl">0-3 :</span>
+        ${[0,1,2,3].map(v=>`<label><input type="radio" name="gard_${c.id}" value="${v}"><span class="v">${v}</span></label>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAttentions(){
+  const g=document.getElementById('attentions-grid');
+  g.innerHTML=ATTENTIONS.map(c=>`
+    <div class="att-card" style="--c:${c.couleur}">
+      <h4>${esc(c.nom)}</h4>
+      <div class="def">${esc(c.def)}</div>
+      <div style="display:flex;gap:.2rem;align-items:center;margin-bottom:.4rem">
+        <span style="font-size:.78rem;color:#666">Niveau 0-3 :</span>
+        ${[0,1,2,3].map(v=>`<label style="width:24px;height:24px;border-radius:50%;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#888;border:2px solid #ddd;margin:0 1px"><input type="radio" name="att_${c.id}" value="${v}" style="display:none"><span class="v" style="width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center">${v}</span></label>`).join('')}
+      </div>
+      <textarea name="att_note_${c.id}" placeholder="Observations qualitatives, contexte…"></textarea>
+    </div>
+  `).join('');
+  // Wire up
+  document.querySelectorAll('#attentions-grid input[type="radio"]').forEach(r=>{
+    r.addEventListener('change', e=>{
+      // Visual feedback
+      const labels=r.closest('div').querySelectorAll('label');
+      labels.forEach(l=>{const inp=l.querySelector('input');if(inp.checked){l.style.background=ATTENTIONS.find(a=>'att_'+a.id===r.name).couleur;l.style.color='#fff';l.style.borderColor=ATTENTIONS.find(a=>'att_'+a.id===r.name).couleur}else{l.style.background='#fff';l.style.color='#888';l.style.borderColor='#ddd'}});
+    });
+  });
+}
+
+function renderGestes(){
+  const g=document.getElementById('gestes-grid');
+  g.innerHTML=GESTES.map(c=>`
+    <div class="geste-card" style="--c:${c.couleur}">
+      <h4>${esc(c.nom)}</h4>
+      <div class="def">${esc(c.def)}</div>
+      <div class="echelle-line">
+        <span class="lbl-min">Maîtrise :</span>
+        ${[0,1,2,3].map(v=>`<label><input type="radio" name="gest_${c.id}" value="${v}"><span class="v">${v}</span></label>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function appliquer(){
+  const d=current();
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{
+    const n=r.name;
+    const path=n.split('_');
+    let val;
+    if(n.startsWith('vak_')){val=d.vak&&d.vak[path[1]]&&d.vak[path[1]][path[2]]}
+    else if(n.startsWith('gard_')){val=d.gardner&&d.gardner[path[1]]}
+    else if(n.startsWith('att_')){val=d.attentions&&d.attentions[path[1]]}
+    else if(n.startsWith('gest_')){val=d.gestes&&d.gestes[path[1]]}
+    r.checked=(val!==undefined&&parseInt(r.value)===parseInt(val));
+  });
+  document.querySelectorAll('textarea[name^="att_note_"]').forEach(t=>{
+    const id=t.name.replace('att_note_','');
+    t.value=(d.attentions&&d.attentions['note_'+id])||'';
+  });
+}
+
+function wireUp(){
+  document.addEventListener('change',e=>{
+    const r=e.target;
+    if(!r.name) return;
+    const d=current();
+    if(r.name.startsWith('vak_')){
+      const [,id,i]=r.name.split('_');
+      d.vak=d.vak||{};d.vak[id]=d.vak[id]||{};d.vak[id][i]=parseInt(r.value);save();
+    } else if(r.name.startsWith('gard_')){
+      const id=r.name.split('_')[1];d.gardner=d.gardner||{};d.gardner[id]=parseInt(r.value);save();
+    } else if(r.name.startsWith('att_note_')){
+      const id=r.name.replace('att_note_','');d.attentions=d.attentions||{};d.attentions['note_'+id]=r.value;save();
+    } else if(r.name.startsWith('att_')){
+      const id=r.name.split('_')[1];d.attentions=d.attentions||{};d.attentions[id]=parseInt(r.value);save();
+    } else if(r.name.startsWith('gest_')){
+      const id=r.name.split('_').slice(1).join('_');d.gestes=d.gestes||{};d.gestes[id]=parseInt(r.value);save();
+    }
+    majSynthese();
+  });
+}
+
+function majSynthese(){
+  const d=current();
+  // VAK : moyenne par canal
+  const vakMoyennes={};
+  CANAUX_VAK.forEach(c=>{
+    const items=d.vak&&d.vak[c.id]||{};
+    const vals=Object.values(items).filter(v=>typeof v==='number');
+    vakMoyennes[c.id]=vals.length?(vals.reduce((s,v)=>s+v,0)/vals.length):null;
+  });
+  // Top canal VAK
+  let topVAK=null,maxV=-1;
+  CANAUX_VAK.forEach(c=>{if(vakMoyennes[c.id]!==null&&vakMoyennes[c.id]>maxV){maxV=vakMoyennes[c.id];topVAK=c}});
+  // Top intelligences
+  const intellArr=GARDNER.map(g=>({g,v:d.gardner&&d.gardner[g.id]!==undefined?d.gardner[g.id]:null})).filter(x=>x.v!==null).sort((a,b)=>b.v-a.v);
+  const top2Int=intellArr.slice(0,2);
+  // Attention la plus solide / la plus faible
+  const attArr=ATTENTIONS.map(a=>({a,v:d.attentions&&d.attentions[a.id]!==undefined?d.attentions[a.id]:null})).filter(x=>x.v!==null);
+  const attFort=attArr.length?attArr.reduce((m,x)=>x.v>m.v?x:m):null;
+  const attFaible=attArr.length?attArr.reduce((m,x)=>x.v<m.v?x:m):null;
+  // Gestes
+  const gestArr=GESTES.map(g=>({g,v:d.gestes&&d.gestes[g.id]!==undefined?d.gestes[g.id]:null})).filter(x=>x.v!==null);
+  const gestFort=gestArr.length?gestArr.reduce((m,x)=>x.v>m.v?x:m):null;
+  const gestFaible=gestArr.length?gestArr.reduce((m,x)=>x.v<m.v?x:m):null;
+
+  const resume=document.getElementById('profil-resume');
+  resume.innerHTML=`
+    <div class="col" style="--c:${topVAK?topVAK.couleur:'#aaa'}">
+      <h4>Canal dominant</h4>
+      <div class="val">${topVAK?topVAK.titre:'—'}</div>
+      <div class="dom">${topVAK?maxV.toFixed(1)+'/3':'(pas de donnée)'}</div>
+    </div>
+    <div class="col" style="--c:${top2Int[0]?top2Int[0].g.couleur:'#aaa'}">
+      <h4>Intelligence ★</h4>
+      <div class="val">${top2Int[0]?top2Int[0].g.nom:'—'}</div>
+      <div class="dom">${top2Int[1]?'+ '+top2Int[1].g.nom:''}</div>
+    </div>
+    <div class="col" style="--c:${attFort?attFort.a.couleur:'#aaa'}">
+      <h4>Attention ★</h4>
+      <div class="val">${attFort?attFort.a.nom:'—'}</div>
+      <div class="dom">${attFaible&&attFaible.a.id!==attFort?.a.id?'⚠ Fragile : '+attFaible.a.nom:''}</div>
+    </div>
+    <div class="col" style="--c:${gestFort?gestFort.g.couleur:'#aaa'}">
+      <h4>Geste mental ★</h4>
+      <div class="val">${gestFort?gestFort.g.nom:'—'}</div>
+      <div class="dom">${gestFaible&&gestFaible.g.id!==gestFort?.g.id?'⚠ À renforcer : '+gestFaible.g.nom:''}</div>
+    </div>
+  `;
+
+  // Préconisations
+  let preco='';
+  if(topVAK){
+    const recos={
+      v:"Privilégier supports visuels : schémas, cartes mentales, surlignage couleurs, vidéos courtes. Affichages bien aérés.",
+      a:"Privilégier l'oral : explication, questions-réponses, podcasts, dictée à l'adulte. Autoriser à se parler à soi-même.",
+      k:"Privilégier la manipulation : objets, gestes, mouvement, théâtre. Apprendre en faisant. Pause motrice avant tâche cognitive.",
+      l:"Privilégier l'écrit : fiches résumés, listes, lecture autonome, prise de notes systématique."
+    };
+    preco+=`<div class="preco-bloc"><strong>📌 Sur le canal dominant :</strong> ${recos[topVAK.id]}</div>`;
+  }
+  if(top2Int.length>0){
+    preco+=`<div class="preco-bloc"><strong>🧠 Sur les intelligences fortes :</strong> exploiter ${top2Int.map(x=>x.g.nom).join(' + ')} comme leviers de motivation. Connecter les apprentissages à ces zones d'intérêt.</div>`;
+  }
+  if(attFaible && attFaible.v<=1){
+    preco+=`<div class="preco-bloc"><strong>🎯 Attention à renforcer :</strong> ${attFaible.a.nom} (${attFaible.v}/3). ${attFaible.a.id==='soutenue'?'Pomodoro adapté (10 min/3 min pause).':attFaible.a.id==='selective'?'Réduire les distracteurs visuels et sonores.':attFaible.a.id==='divisee'?'Éviter le double tâche, surtout en charge cognitive.':'Travailler les transitions structurées entre tâches.'}</div>`;
+  }
+  if(gestFaible && gestFaible.v<=1){
+    preco+=`<div class="preco-bloc"><strong>🌟 Geste mental à enseigner explicitement :</strong> ${gestFaible.g.nom} — utiliser la pédagogie La Garanderie (faire évoquer ce qui vient d'être vu/entendu, dialogue pédagogique).</div>`;
+  }
+  if(!preco) preco='<div style="color:#888;font-style:italic">Renseigne au moins quelques items pour activer les préconisations.</div>';
+  document.getElementById('preconisations').innerHTML=preco;
+}
+
+['prenom','age','date'].forEach(k=>{
+  document.getElementById(k).addEventListener('input',e=>{current()[k]=e.target.value;save();});
+});
+
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(b.dataset.tab).classList.add('active');
+    if(b.dataset.tab==='synthese') majSynthese();
+  };
+});
+
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();appliquer();majSynthese();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom :','Enfant '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();appliquer();majSynthese();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible.');return}
+  if(confirm('Supprimer ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();appliquer();majSynthese();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{
+  if(confirm('Vider ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();appliquer();majSynthese();}
+};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  let t=`PROFIL D'ACCÈS AUX APPRENTISSAGES — EducaTypique\nCréation originale Nawel Haddouch\n\nEnfant : ${d.prenom||'—'} · ${d.age||'—'} · ${d.date||'—'}\n\n`;
+  t+='== CANAUX VAK + LECTURE ==\n';
+  CANAUX_VAK.forEach(c=>{
+    const it=d.vak&&d.vak[c.id]||{};
+    const vals=Object.values(it).filter(v=>typeof v==='number');
+    const moy=vals.length?(vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(1):'—';
+    t+=`${c.titre} : moy ${moy}/3\n`;
+    c.items.forEach((q,i)=>t+=`  · (${it[i]!==undefined?it[i]:'?'}) ${q}\n`);
+    t+='\n';
+  });
+  t+='\n== INTELLIGENCES (Gardner) ==\n';
+  GARDNER.forEach(g=>{t+=`  ${g.nom} : ${d.gardner&&d.gardner[g.id]!==undefined?d.gardner[g.id]+'/3':'—'}\n`});
+  t+='\n== ATTENTIONS ==\n';
+  ATTENTIONS.forEach(a=>{
+    t+=`  ${a.nom} : ${d.attentions&&d.attentions[a.id]!==undefined?d.attentions[a.id]+'/3':'—'}\n`;
+    if(d.attentions&&d.attentions['note_'+a.id]) t+=`     Note : ${d.attentions['note_'+a.id]}\n`;
+  });
+  t+='\n== GESTES MENTAUX (La Garanderie) ==\n';
+  GESTES.forEach(g=>{t+=`  ${g.nom} : ${d.gestes&&d.gestes[g.id]!==undefined?d.gestes[g.id]+'/3':'—'}\n`});
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`profil-acces-${d.prenom||'enfant'}-${(d.date||new Date().toISOString().slice(0,10))}.txt`;a.click();
+};
+
+load();refreshDossier();renderVAK();renderGardner();renderAttentions();renderGestes();appliquer();wireUp();majSynthese();
+</script>
+
+</body>
+</html>

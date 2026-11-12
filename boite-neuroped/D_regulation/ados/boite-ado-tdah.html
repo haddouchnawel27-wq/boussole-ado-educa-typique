@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boîte Ado TDAH — Crises, Cartes & Confiance · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#FEF6EF 0%,#F5F0F7 50%,#F0F7F5 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2D3E3A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:920px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,107,107,0.5)}50%{box-shadow:0 0 0 12px rgba(232,107,107,0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes shimmer{0%,100%{opacity:0.6}50%{opacity:1}}
+@keyframes flip-in{from{opacity:0;transform:rotateY(90deg)}to{opacity:1;transform:rotateY(0)}}
+@keyframes slide-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* ============ HEADER ============ */
+.hdr{text-align:center;padding:38px 24px 28px;margin-bottom:22px;background:linear-gradient(135deg,#FFF6F0 0%,#F5E8F0 50%,#EDF4F0 100%);border-radius:24px;border:1px solid rgba(155,133,184,0.25);box-shadow:0 8px 28px rgba(155,133,184,0.08);position:relative;overflow:hidden}
+.hdr::before{content:'🆘';position:absolute;top:18px;right:24px;font-size:46px;opacity:0.15;transform:rotate(-12deg)}
+.hdr::after{content:'🎴';position:absolute;bottom:18px;left:22px;font-size:38px;opacity:0.12;transform:rotate(10deg)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#E86B6B,#9B85B8);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px;position:relative;z-index:1}
+.float-icon{font-size:48px;margin-bottom:6px;display:inline-block;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1}
+.hdr h1{font-family:Georgia,serif;font-size:30px;font-weight:400;color:#2D3E3A;margin-bottom:8px;position:relative;z-index:1}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A6B66;position:relative;z-index:1;max-width:580px;margin:0 auto}
+
+/* ============ INTRO ============ */
+.intro{background:#FFFFFF;border-radius:18px;padding:22px 24px;margin-bottom:20px;border:1px solid rgba(155,133,184,0.18);box-shadow:0 4px 14px rgba(155,133,184,0.06);animation:fadeIn 0.6s ease-out}
+.intro p{font-size:15px;color:#3D4E4A;line-height:1.7;margin-bottom:8px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#9B85B8}
+.intro .quote{font-family:Georgia,serif;font-style:italic;font-size:14px;color:#7A6B85;border-left:3px solid #C9A8D5;padding-left:14px;margin:14px 0 6px}
+
+/* ============ MODE SWITCHER ============ */
+.mode-bar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;background:#FFFFFF;padding:10px;border-radius:14px;margin-bottom:18px;box-shadow:0 2px 10px rgba(155,133,184,0.06);border:1px solid rgba(155,133,184,0.15)}
+.mode-btn{background:#F8F4F6;color:#5A6B66;border:none;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.25s;font-family:inherit}
+.mode-btn:hover{background:#F0E8F0;color:#7A6B85}
+.mode-btn.active{background:linear-gradient(135deg,#9B85B8,#C9A8D5);color:#fff;box-shadow:0 4px 10px rgba(155,133,184,0.3)}
+
+/* ============ NAV ONGLETS ============ */
+.nav{display:flex;gap:6px;background:#FFFFFF;padding:8px;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 12px rgba(155,133,184,0.08);overflow-x:auto;border:1px solid rgba(155,133,184,0.15);scrollbar-width:thin}
+.nav::-webkit-scrollbar{height:6px}
+.nav::-webkit-scrollbar-thumb{background:#C9A8D5;border-radius:3px}
+.nav button{background:transparent;color:#5A6B66;border:none;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.25s;white-space:nowrap;font-family:inherit;display:flex;align-items:center;gap:6px}
+.nav button:hover{background:#F8F0F4;color:#7A6B85}
+.nav button.active{background:linear-gradient(135deg,#9B85B8,#B595D5);color:#fff;box-shadow:0 4px 10px rgba(155,133,184,0.3)}
+.nav .em{font-size:16px}
+
+/* ============ SECTIONS ============ */
+.panel{display:none;animation:fadeIn 0.4s ease-out}
+.panel.active{display:block}
+.section{background:#FFFFFF;border-radius:20px;padding:26px 24px;margin-bottom:18px;border:1px solid rgba(155,133,184,0.18);box-shadow:0 4px 14px rgba(155,133,184,0.05)}
+.section h2{font-family:Georgia,serif;font-size:22px;font-weight:500;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#7A8782;font-style:italic;margin-bottom:18px;line-height:1.55}
+
+/* ============ THERMOMÈTRE VJOR ============ */
+.thermo-wrap{display:grid;grid-template-columns:1fr;gap:14px;margin-top:18px}
+.thermo-level{padding:18px 20px;border-radius:14px;border-left:6px solid;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden}
+.thermo-level::before{content:'';position:absolute;top:0;right:0;width:90px;height:90px;border-radius:50%;opacity:0.08;transform:translate(28%,-28%)}
+.thermo-vert{background:linear-gradient(135deg,#E8F5EC,#DFF0E2);border-color:#6CA89E}
+.thermo-vert::before{background:#6CA89E}
+.thermo-jaune{background:linear-gradient(135deg,#FFF9E8,#FCF3D8);border-color:#E0B83E}
+.thermo-jaune::before{background:#E0B83E}
+.thermo-orange{background:linear-gradient(135deg,#FFEEDC,#FCDBBE);border-color:#E89556}
+.thermo-orange::before{background:#E89556}
+.thermo-rouge{background:linear-gradient(135deg,#FCE2E2,#F5C9C9);border-color:#C9573A;animation:pulse 2.5s infinite}
+.thermo-rouge::before{background:#C9573A}
+.thermo-level h3{font-family:Georgia,serif;font-size:18px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.thermo-level .scale{display:inline-block;padding:2px 10px;background:rgba(255,255,255,0.65);border-radius:10px;font-size:12px;font-weight:700;margin-left:8px}
+.thermo-level .what{font-size:14px;color:#3D4E4A;margin-bottom:10px;line-height:1.6}
+.thermo-level .what strong{display:block;margin-top:8px;color:#2D3E3A;font-size:13px;text-transform:uppercase;letter-spacing:0.5px}
+.thermo-level .what ul{list-style:none;padding:0;margin:4px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.thermo-level .what li{background:rgba(255,255,255,0.7);padding:4px 10px;border-radius:8px;font-size:12.5px;color:#3D4E4A;display:inline-block}
+.thermo-input{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;background:#F8F4F6;border-radius:12px;margin-top:18px;flex-wrap:wrap}
+.thermo-input label{font-size:14px;color:#5A6B66;font-weight:600}
+.thermo-slider{width:200px;accent-color:#9B85B8}
+.thermo-value{font-size:22px;font-weight:700;color:#9B85B8;font-family:Georgia,serif;min-width:34px;text-align:center}
+.thermo-feedback{margin-top:14px;padding:14px 18px;border-radius:12px;font-family:Georgia,serif;font-style:italic;font-size:14.5px;text-align:center;min-height:50px;display:flex;align-items:center;justify-content:center;background:#F0E8F0;color:#5A4D6B}
+
+/* ============ CARTES SITUATIONS ============ */
+.cat-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;justify-content:center}
+.cat-btn{background:#F8F4F6;color:#5A6B66;border:1px solid rgba(155,133,184,0.2);padding:8px 14px;border-radius:20px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.25s;font-family:inherit}
+.cat-btn:hover{background:#F0E8F0}
+.cat-btn.active{background:linear-gradient(135deg,#9B85B8,#C9A8D5);color:#fff;border-color:transparent}
+
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:18px}
+.card{background:#FBF8F4;border-radius:14px;padding:18px;cursor:pointer;transition:all 0.3s;border:2px solid transparent;position:relative;overflow:hidden;animation:slide-up 0.4s ease-out}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(155,133,184,0.15)}
+.card.active{border-color:#9B85B8;background:linear-gradient(135deg,#FFF0F4,#F5E8F0)}
+.card-cat{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 9px;border-radius:8px;margin-bottom:10px}
+.card-cat.conflit{background:#FCE2E2;color:#C9573A}
+.card-cat.subst{background:#FFEEDC;color:#B86D3A}
+.card-cat.sexto{background:#F5E8F0;color:#9B5B85}
+.card-cat.violence{background:#E0E8F5;color:#5B6BC9}
+.card-level{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:8px;background:#fff;color:#7A6B85;margin-left:6px;border:1px solid rgba(155,133,184,0.2)}
+.card-title{font-family:Georgia,serif;font-size:15.5px;font-weight:600;color:#2D3E3A;margin-bottom:8px;line-height:1.4}
+.card-situation{font-size:13px;color:#5A6B66;line-height:1.55;font-style:italic}
+
+.card-detail{display:none;background:linear-gradient(135deg,#FFF8F2,#F5E8F0);border-radius:18px;padding:24px;margin-top:14px;border:1px solid rgba(155,133,184,0.25);animation:fadeIn 0.4s ease-out}
+.card-detail.show{display:block}
+.detail-row{margin-bottom:14px;padding-bottom:14px;border-bottom:1px dashed rgba(155,133,184,0.2)}
+.detail-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.detail-row strong{display:block;color:#9B85B8;font-size:11.5px;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px;font-weight:700}
+.detail-row p{font-size:14px;color:#3D4E4A;line-height:1.6}
+.detail-row .phrase-utile{display:inline-block;background:#fff;padding:8px 14px;border-radius:10px;margin-top:6px;border-left:3px solid #6CA89E;font-style:italic;color:#2D3E3A}
+.detail-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+@media (max-width:600px){.detail-options{grid-template-columns:1fr}}
+.option-box{background:#fff;padding:12px 14px;border-radius:10px;border-left:4px solid}
+.option-a{border-color:#6CA89E}
+.option-b{border-color:#9B85B8}
+.option-box h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.option-a h4{color:#4A8576}
+.option-b h4{color:#6E5594}
+.option-box p{font-size:13px;color:#3D4E4A;line-height:1.55}
+.variante{background:#FFF6E8;padding:12px 14px;border-radius:10px;font-size:13px;color:#7A5A2A;line-height:1.55;border-left:3px solid #E0B83E;margin-top:8px}
+
+.gabarit{background:#fff;border-radius:14px;padding:18px;margin-top:14px;border:2px dashed rgba(155,133,184,0.3)}
+.gabarit h4{font-family:Georgia,serif;font-size:14px;color:#9B85B8;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.gabarit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+@media (max-width:480px){.gabarit-grid{grid-template-columns:1fr}}
+.gab-field{display:flex;flex-direction:column;gap:4px}
+.gab-field label{font-size:11px;color:#7A6B85;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.gab-field input,.gab-field select,.gab-field textarea{padding:8px 10px;border:1px solid rgba(155,133,184,0.25);border-radius:8px;font-size:13px;color:#2D3E3A;background:#FBF8F4;font-family:inherit;width:100%;resize:vertical}
+.gab-field textarea{min-height:50px}
+.gab-checkboxes{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.gab-cb{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#3D4E4A;cursor:pointer;padding:4px 10px;background:#FBF8F4;border-radius:8px;transition:all 0.2s}
+.gab-cb:hover{background:#F5E8F0}
+.gab-cb input{accent-color:#9B85B8}
+.gab-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn-save{background:linear-gradient(135deg,#6CA89E,#88B8AA);color:#fff;border:none;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:0.4px;transition:transform 0.2s}
+.btn-save:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(108,168,158,0.3)}
+.btn-clear{background:#F5F0F7;color:#7A6B85;border:1px solid rgba(155,133,184,0.25)}
+.btn-clear:hover{background:#F0E8F0}
+
+/* ============ DÉTECTEUR D'INJUSTICE ============ */
+.injustice-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+@media (max-width:680px){.injustice-steps{grid-template-columns:1fr}}
+.inj-step{background:linear-gradient(135deg,#FFF6F0,#F5E8F0);border-radius:14px;padding:18px 16px;border:1px solid rgba(155,133,184,0.2)}
+.inj-step-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#9B85B8,#C9A8D5);color:#fff;font-weight:700;font-size:14px;margin-bottom:10px}
+.inj-step h3{font-family:Georgia,serif;font-size:15px;color:#2D3E3A;margin-bottom:8px}
+.inj-step p{font-size:13px;color:#5A6B66;line-height:1.55;margin-bottom:8px}
+.inj-step ul{list-style:none;padding:0;margin:6px 0 0}
+.inj-step li{padding:4px 0 4px 14px;position:relative;font-size:12.5px;color:#3D4E4A;line-height:1.5}
+.inj-step li::before{content:'→';position:absolute;left:0;color:#9B85B8;font-weight:bold}
+.inj-step textarea{width:100%;padding:8px 10px;margin-top:6px;border:1px solid rgba(155,133,184,0.25);border-radius:8px;font-size:12.5px;font-family:inherit;background:#fff;resize:vertical;min-height:60px}
+.inj-react{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.react-btn{padding:10px 8px;border-radius:10px;border:2px solid transparent;font-size:11.5px;font-weight:600;cursor:pointer;transition:all 0.25s;font-family:inherit;text-align:center}
+.react-ignorer{background:#E8F5EC;color:#4A8576;border-color:#6CA89E}
+.react-expliquer{background:#FFF9E8;color:#9B7E2A;border-color:#E0B83E}
+.react-aider{background:#E0E8F5;color:#5B6BC9;border-color:#7A8CD0}
+.react-btn.selected{transform:scale(1.05);box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+
+.inj-example{background:#F8F4F6;border-radius:12px;padding:16px 18px;margin-top:18px;border-left:4px solid #9B85B8}
+.inj-example h4{font-family:Georgia,serif;font-size:14px;color:#9B85B8;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.8px}
+.inj-example .ex-line{padding:5px 0;font-size:13px;color:#3D4E4A;display:flex;gap:8px;align-items:flex-start}
+.inj-example .ex-line strong{color:#7A6B85;min-width:90px;font-weight:600}
+
+/* ============ PROTOCOLE 3 NIVEAUX ============ */
+.proto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+@media (max-width:680px){.proto-grid{grid-template-columns:1fr}}
+.proto-card{padding:20px 18px;border-radius:14px;border-top:5px solid}
+.proto-jaune-card{background:linear-gradient(135deg,#FFF9E8,#FCF3D8);border-color:#E0B83E}
+.proto-orange-card{background:linear-gradient(135deg,#FFEEDC,#FCDBBE);border-color:#E89556}
+.proto-rouge-card{background:linear-gradient(135deg,#FCE2E2,#F5C9C9);border-color:#C9573A}
+.proto-card h3{font-family:Georgia,serif;font-size:17px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.proto-card .level{display:inline-block;padding:2px 9px;background:rgba(255,255,255,0.7);border-radius:10px;font-size:11px;font-weight:700;margin-bottom:10px}
+.proto-card .protocol{font-size:13.5px;color:#3D4E4A;line-height:1.65}
+.proto-card .protocol strong{color:#2D3E3A;display:block;margin-bottom:4px;margin-top:8px;font-size:12px;text-transform:uppercase;letter-spacing:0.5px}
+.proto-card .protocol .key{background:rgba(255,255,255,0.6);padding:8px 12px;border-radius:8px;display:block;margin-top:6px;font-style:italic;font-family:Georgia,serif}
+
+.proto-quote{margin-top:18px;padding:18px 22px;background:linear-gradient(135deg,#FFF0F4,#F5E8F0);border-radius:14px;border-left:5px solid #9B85B8;font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A4D6B;line-height:1.65;text-align:center}
+
+.crise-protocol{background:#fff;border-radius:14px;padding:20px;margin-top:18px;border:1px solid rgba(155,133,184,0.2)}
+.crise-protocol h3{font-family:Georgia,serif;font-size:17px;color:#2D3E3A;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.crise-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:680px){.crise-steps{grid-template-columns:1fr 1fr}}
+.crise-step{background:linear-gradient(160deg,#FFF6F0,#F5E8F0);border-radius:12px;padding:14px 12px;text-align:center;border-top:3px solid #9B85B8;position:relative}
+.crise-step-num{display:inline-block;width:24px;height:24px;line-height:24px;background:#9B85B8;color:#fff;border-radius:50%;font-size:12px;font-weight:700;margin-bottom:6px}
+.crise-step h4{font-family:Georgia,serif;font-size:14px;color:#2D3E3A;margin-bottom:5px}
+.crise-step p{font-size:11.5px;color:#5A6B66;line-height:1.45}
+
+/* ============ ROUE DES CHOIX ============ */
+.roue-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-top:18px}
+.roue-card{background:linear-gradient(135deg,#FFF0F4,#F5E8F0);border-radius:14px;padding:16px 14px;text-align:center;cursor:pointer;transition:all 0.3s;border:2px solid transparent;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:pop 0.4s ease-out}
+.roue-card:hover{transform:translateY(-3px) rotate(-1deg);box-shadow:0 8px 20px rgba(155,133,184,0.15)}
+.roue-card.selected{background:linear-gradient(135deg,#9B85B8,#C9A8D5);color:#fff;border-color:#7A6B85;transform:scale(1.03)}
+.roue-card.selected p{color:#fff}
+.roue-card .roue-icon{font-size:30px;margin-bottom:8px;display:block}
+.roue-card p{font-family:Georgia,serif;font-size:13px;color:#3D4E4A;line-height:1.45;font-style:italic}
+.roue-info{margin-top:18px;padding:16px 20px;background:#F8F4F6;border-radius:12px;font-size:13.5px;color:#5A6B66;line-height:1.6;text-align:center}
+.roue-info strong{color:#9B85B8;display:block;margin-bottom:4px;font-family:Georgia,serif;font-size:15px}
+
+/* ============ SCORING ============ */
+.score-zone{background:linear-gradient(135deg,#FFF6F0,#F5E8F0);border-radius:16px;padding:24px;margin-top:14px;border:1px solid rgba(155,133,184,0.2)}
+.score-rules{font-size:14px;color:#3D4E4A;line-height:1.7;margin-bottom:18px}
+.score-rules h3{font-family:Georgia,serif;font-size:16px;color:#9B85B8;margin-bottom:10px}
+.score-items{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
+@media (max-width:580px){.score-items{grid-template-columns:1fr}}
+.score-item{background:#fff;border-radius:10px;padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all 0.25s;border:2px solid transparent;font-size:13.5px;color:#3D4E4A}
+.score-item:hover{background:#FBF8F4}
+.score-item.done{background:linear-gradient(135deg,#E8F5EC,#DFF0E2);border-color:#6CA89E;color:#4A8576;font-weight:600}
+.score-item.done::after{content:'✓';margin-left:auto;color:#6CA89E;font-weight:700;font-size:18px}
+.score-points{display:inline-block;background:#9B85B8;color:#fff;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:700;margin-right:8px}
+.score-display{text-align:center;padding:20px;background:#fff;border-radius:14px;border:1px dashed rgba(155,133,184,0.3)}
+.score-display .score-big{font-family:Georgia,serif;font-size:42px;font-weight:700;color:#9B85B8;line-height:1}
+.score-display .score-target{font-size:14px;color:#7A6B85;font-style:italic;margin-top:6px}
+.score-display .score-msg{font-size:13.5px;color:#3D4E4A;margin-top:10px;font-family:Georgia,serif;font-style:italic;min-height:20px}
+
+/* ============ DOSSIERS + NOTES ============ */
+.dossier-bar{background:#FFFFFF;border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(155,133,184,0.06);border:1px solid rgba(155,133,184,0.15)}
+.dossier-bar label{font-size:13px;font-weight:600;color:#5A6B66}
+.dossier-bar input,.dossier-bar select{padding:7px 12px;border:1px solid rgba(155,133,184,0.25);border-radius:9px;font-size:13px;background:#FBF8F4;font-family:inherit;color:#2D3E3A;min-width:150px}
+.dossier-bar button{background:#F5E8F0;color:#7A6B85;border:1px solid rgba(155,133,184,0.25);padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.dossier-bar button:hover{background:#E8D8E8}
+.dossier-bar .btn-export{background:linear-gradient(135deg,#9B85B8,#C9A8D5);color:#fff;border:none}
+
+.notes-section{margin-top:14px}
+.notes-section label{display:block;font-size:13px;font-weight:600;color:#5A6B66;margin-bottom:6px}
+.notes-section textarea{width:100%;padding:12px 14px;border:1px solid rgba(155,133,184,0.25);border-radius:10px;font-size:14px;color:#2D3E3A;background:#FBF8F4;font-family:inherit;line-height:1.55;min-height:90px;resize:vertical}
+
+/* ============ MODE PRO ============ */
+.pro-zone{display:none;background:linear-gradient(135deg,#E8F0F5,#DEEAF0);border-radius:12px;padding:14px 16px;margin-top:12px;border-left:4px solid #6080A0}
+.show-pro .pro-zone{display:block}
+.pro-zone label{display:flex;align-items:center;gap:6px;font-size:12px;color:#4A6580;font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.pro-zone label::before{content:'📋';font-size:14px}
+.pro-zone textarea{width:100%;padding:10px 12px;border:1px solid rgba(96,128,160,0.25);border-radius:8px;font-size:13px;color:#2D3E3A;background:#fff;font-family:inherit;min-height:60px;resize:vertical}
+
+/* ============ FOOTER ============ */
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif;animation:shimmer 5s ease-in-out infinite}
+.footer .brand-foot{color:#9B85B8;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .small{color:#8A9892;font-size:11px;margin-top:4px;display:block}
+
+/* ============ PRINT ============ */
+@media print{
+body{background:#fff;padding:10px}
+.mode-bar,.nav,.dossier-bar,.btn-save,.btn-clear,.cat-bar{display:none !important}
+.panel{display:block !important;page-break-after:always}
+.section{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+.card-detail{display:block !important}
+.thermo-level,.proto-card,.inj-step,.roue-card{break-inside:avoid}
+}
+
+@media (max-width:600px){
+.hdr{padding:30px 18px 22px}
+.hdr h1{font-family:Georgia,serif;font-size:22px}
+.section{padding:20px 18px}
+.nav{padding:6px}
+.nav button{padding:9px 12px;font-size:12px}
+.cards-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a href="../../ados.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#9B85B8;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(155,133,184,0.2)">← Ados</a>
+
+<div class="wrap">
+
+<!-- ============ HEADER ============ -->
+<div class="hdr">
+<span class="brand">Boîte Ado TDAH · EducaTypique</span>
+<div class="float-icon">🆘</div>
+<h1>Crises, Cartes & Confiance</h1>
+<p>Une boîte à outils complète pour les ados TDAH (et ceux qui les accompagnent) — quand la colère monte, quand l'injustice pique, quand il faut une bouée vite.</p>
+</div>
+
+<!-- ============ INTRO ============ -->
+<div class="intro">
+<p>Cette boîte rassemble <strong>6 outils opérationnels</strong> pensés pour les adolescents (12-17 ans) au cerveau TDAH, hypersensibles, ou marqués par des violences relationnelles (harcèlement, conflit fraternel). Les outils fonctionnent <strong>seul, en duo avec un parent, ou en séance avec un pro</strong>.</p>
+<p class="quote">« Ton cerveau TDAH, c'est une voiture puissante sans frein ABS. On va installer un mini frein. Ton problème, c'est pas l'émotion — c'est ce que tu fais dans les 10 secondes qui suivent. »</p>
+<p>Choisis ton mode ci-dessous puis navigue dans les 6 onglets. Tes notes et tes choix sont gardés en mémoire dans ton appareil (rien n'est envoyé ailleurs).</p>
+</div>
+
+<!-- ============ MODE SWITCHER ============ -->
+<div class="mode-bar">
+<button class="mode-btn active" data-mode="ado" onclick="setMode('ado')">🎧 Mode Ado</button>
+<button class="mode-btn" data-mode="parent" onclick="setMode('parent')">👋 Mode Parent</button>
+<button class="mode-btn" data-mode="pro" onclick="setMode('pro')">📋 Mode Pro</button>
+</div>
+
+<!-- ============ DOSSIER BAR ============ -->
+<div class="dossier-bar">
+<label>📁 Dossier :</label>
+<select id="dossierSelect" onchange="changeDossier()">
+<option value="default">Mon dossier</option>
+</select>
+<input type="text" id="newDossier" placeholder="Nouveau dossier...">
+<button onclick="addDossier()">+ Créer</button>
+<button onclick="deleteDossier()" class="btn-clear">🗑 Supprimer</button>
+<button onclick="exportTXT()" class="btn-export">📥 Exporter en .txt</button>
+</div>
+
+<!-- ============ NAV ONGLETS ============ -->
+<div class="nav">
+<button class="active" data-tab="thermo" onclick="switchTab('thermo')"><span class="em">🌡️</span> Thermomètre</button>
+<button data-tab="cartes" onclick="switchTab('cartes')"><span class="em">🎴</span> 12 Cartes-Situations</button>
+<button data-tab="injustice" onclick="switchTab('injustice')"><span class="em">⚖️</span> Détecteur d'injustice</button>
+<button data-tab="proto" onclick="switchTab('proto')"><span class="em">🚨</span> Protocole crise</button>
+<button data-tab="roue" onclick="switchTab('roue')"><span class="em">🎯</span> Roue des Choix</button>
+<button data-tab="score" onclick="switchTab('score')"><span class="em">⭐</span> Mini-scoring</button>
+</div>
+
+<!-- ============ PANEL 1 — THERMOMÈTRE VJOR ============ -->
+<div class="panel active" id="panel-thermo">
+<div class="section">
+<h2>🌡️ Thermomètre de charge — V/J/O/R</h2>
+<div class="sub">À combien tu te sens là, sur 10 ? Repère ta zone et utilise le bon outil. Plus tu repères tôt, moins il faudra intervenir fort.</div>
+
+<div class="thermo-input">
+<label>Je suis à :</label>
+<input type="range" min="0" max="10" value="0" class="thermo-slider" id="thermoSlider" oninput="updateThermo(this.value)">
+<span class="thermo-value" id="thermoValue">0</span><span style="font-size:14px;color:#7A6B85">/10</span>
+</div>
+<div class="thermo-feedback" id="thermoFeedback">Glisse le curseur pour voir où tu te situes.</div>
+
+<div class="thermo-wrap">
+
+<div class="thermo-level thermo-vert" id="lvl-vert">
+<h3>🟢 Disponible<span class="scale">0–2 / 10</span></h3>
+<div class="what">
+Je suis OK. Mon cerveau est dispo pour apprendre, écouter, coopérer.
+<strong>Ce que je sens :</strong>
+<ul><li>Je regarde</li><li>J'écoute</li><li>Je réponds</li><li>J'accepte la consigne</li><li>Je tolère l'attente</li></ul>
+<strong>Ce qui aide :</strong>
+<ul><li>Continuer ce que je fais</li><li>Encourager l'effort</li><li>Valoriser une réussite</li></ul>
+</div>
+</div>
+
+<div class="thermo-level thermo-jaune" id="lvl-jaune">
+<h3>🟡 En effort important<span class="scale">3–5 / 10</span></h3>
+<div class="what">
+Je tiens encore, mais je dépense beaucoup d'énergie. Si on n'allège pas, je vais saturer.
+<strong>Ce que je sens :</strong>
+<ul><li>Agitation légère</li><li>Soupirs</li><li>Évitement discret</li><li>Irritabilité</li><li>Fatigue visible</li><li>Concentration fragile</li></ul>
+<strong>Outil micro 30 sec :</strong>
+<ul><li>2 respirations</li><li>Verre d'eau</li><li>Nommer 1 mot ("agacé", "fatigué")</li></ul>
+</div>
+</div>
+
+<div class="thermo-level thermo-orange" id="lvl-orange">
+<h3>🟠 En surcharge<span class="scale">6–8 / 10</span></h3>
+<div class="what">
+Mon cerveau commence à perdre le contrôle. Si on ne baisse pas la pression maintenant, l'explosion arrive.
+<strong>Ce que je sens :</strong>
+<ul><li>Opposition</li><li>Pleurs</li><li>Rigidité</li><li>Refus</li><li>Repli</li><li>Hypersensibilité au bruit / changement</li></ul>
+<strong>PAUSE 90 sec + éloignement :</strong>
+<ul><li>Sortir de la pièce 2–10 min</li><li>Marcher · Eau froide mains</li><li>Choisir option A (2 min) ou B (10 min)</li></ul>
+</div>
+</div>
+
+<div class="thermo-level thermo-rouge" id="lvl-rouge">
+<h3>🔴 En débordement<span class="scale">9–10 / 10</span></h3>
+<div class="what">
+Plus capable de raisonner ou de coopérer. L'objectif n'est plus pédagogique — c'est la sécurité.
+<strong>Ce que je vis :</strong>
+<ul><li>Crise · hurlements · fuite</li><li>Effondrement · agressivité</li><li>Impossible de m'apaiser seul</li></ul>
+<strong>Sécurité d'abord :</strong>
+<ul><li>Adulte référent</li><li>Lieu sûr (chambre, cour, hall)</li><li>NE PAS argumenter</li><li>Reprise APRÈS retour calme, jamais en plein débordement</li></ul>
+</div>
+</div>
+
+</div>
+
+<div class="proto-quote">« Quand t'es rouge, on ne règle pas le problème, on te met en sécurité. »</div>
+
+<div class="notes-section">
+<label>📝 Mes notes (déclencheurs, ce qui m'aide, ce qui aggrave) :</label>
+<textarea id="notes-thermo" placeholder="Ex : Je passe orange après l'école quand je suis fatigué. Ce qui m'aide : 15 min seul dans ma chambre. Ce qui aggrave : qu'on me parle des devoirs tout de suite."></textarea>
+</div>
+
+<div class="pro-zone">
+<label>Observations pro · Thermomètre</label>
+<textarea id="pro-thermo" placeholder="Niveau habituel observé en séance, signaux précoces, déclencheurs récurrents, capacité de redescente, durée moyenne du retour au calme..."></textarea>
+</div>
+</div>
+</div>
+
+<!-- ============ PANEL 2 — 12 CARTES SITUATIONS ============ -->
+<div class="panel" id="panel-cartes">
+<div class="section">
+<h2>🎴 12 Cartes-Situations</h2>
+<div class="sub">Tire une carte → réponds aux 3 questions (30-60 sec) → PAUSE 90 sec → refais ton choix. Règle d'or : pas de morale, juste coût/bénéfice + sécurité.</div>
+
+<div class="cat-bar">
+<button class="cat-btn active" data-cat="all" onclick="filterCards('all')">Toutes (12)</button>
+<button class="cat-btn" data-cat="conflit" onclick="filterCards('conflit')">🔥 Conflit/Fugue (3)</button>
+<button class="cat-btn" data-cat="subst" onclick="filterCards('subst')">💊 Substances/Pression (3)</button>
+<button class="cat-btn" data-cat="sexto" onclick="filterCards('sexto')">📱 Sexto/Chantage (3)</button>
+<button class="cat-btn" data-cat="violence" onclick="filterCards('violence')">⚡ Violence/Provoc (3)</button>
+</div>
+
+<div class="cards-grid" id="cardsGrid">
+<!-- cartes générées par JS -->
+</div>
+
+<div class="card-detail" id="cardDetail">
+<!-- détail carte sélectionnée -->
+</div>
+
+<div class="pro-zone">
+<label>Observations pro · Cartes travaillées</label>
+<textarea id="pro-cartes" placeholder="Quelles cartes l'ado a choisies, ses options spontanées, ses progrès dans le choix d'options sûres, situations à retravailler..."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============ PANEL 3 — DÉTECTEUR D'INJUSTICE ============ -->
+<div class="panel" id="panel-injustice">
+<div class="section">
+<h2>⚖️ Détecteur d'injustice</h2>
+<div class="sub">Le cerveau TDAH (surtout après harcèlement) lit certaines situations comme injustes alors que l'intention n'était pas forcément là. Cet outil entraîne le temps de réflexion avant la réaction.</div>
+
+<div class="injustice-steps">
+
+<div class="inj-step">
+<span class="inj-step-num">1</span>
+<h3>Repérer le signal</h3>
+<p>Mon « détecteur d'injustice » s'est activé. C'est quoi qui me pique ?</p>
+<ul>
+<li>Un reproche</li>
+<li>Une critique</li>
+<li>Une remarque du prof</li>
+<li>Une moquerie d'un camarade</li>
+<li>Un conflit avec ma sœur/mon frère</li>
+</ul>
+<textarea id="inj-signal" placeholder="Décris la situation en 2 phrases..."></textarea>
+</div>
+
+<div class="inj-step">
+<span class="inj-step-num">2</span>
+<h3>Vérifier la réalité</h3>
+<p>Je réponds à 3 questions avant de réagir :</p>
+<ul>
+<li><strong>Faits</strong> : qu'est-ce qui s'est passé exactement ?</li>
+<li><strong>Mon interprétation</strong> : ce que j'en ai pensé sur le moment</li>
+<li><strong>Autre explication</strong> : et si la personne voulait dire autre chose ?</li>
+</ul>
+<textarea id="inj-faits" placeholder="Faits :"></textarea>
+<textarea id="inj-interp" placeholder="Mon interprétation :" style="margin-top:6px"></textarea>
+<textarea id="inj-autre" placeholder="Autre explication possible :" style="margin-top:6px"></textarea>
+</div>
+
+<div class="inj-step">
+<span class="inj-step-num">3</span>
+<h3>Choisir la réaction</h3>
+<p>Selon la gravité, 3 options :</p>
+<div class="inj-react">
+<button class="react-btn react-ignorer" onclick="selectReact(this)">🟢 Ignorer<br><span style="font-size:10px;font-weight:400">Si pas grave</span></button>
+<button class="react-btn react-expliquer" onclick="selectReact(this)">🟡 Expliquer calmement<br><span style="font-size:10px;font-weight:400">"J'aime pas cette remarque"</span></button>
+<button class="react-btn react-aider" onclick="selectReact(this)">🔵 Demander de l'aide<br><span style="font-size:10px;font-weight:400">Si vraiment injuste</span></button>
+</div>
+<textarea id="inj-reaction" placeholder="Ce que je vais dire ou faire concrètement :" style="margin-top:8px"></textarea>
+</div>
+
+</div>
+
+<div class="inj-example">
+<h4>🎯 Exemple : la phrase de la sœur</h4>
+<div class="ex-line"><strong>Situation :</strong> Ma sœur dit « tu es toujours lente »</div>
+<div class="ex-line"><strong>Réaction impulsive :</strong> Crier · m'énerver · provoquer un conflit</div>
+<div class="ex-line"><strong>Faits :</strong> Ma sœur a dit cette phrase</div>
+<div class="ex-line"><strong>Interprétation :</strong> « Elle se moque de moi »</div>
+<div class="ex-line"><strong>Autre possibilité :</strong> Elle est peut-être agacée parce qu'on est en retard</div>
+<div class="ex-line"><strong>Réaction choisie :</strong> 🟡 « Je n'aime pas quand tu dis ça. Si on est en retard on peut le dire autrement. »</div>
+</div>
+
+<div class="pro-zone">
+<label>Observations pro · Détecteur d'injustice</label>
+<textarea id="pro-injustice" placeholder="Capacité à différencier faits/interprétation, fréquence d'activation du détecteur, profils de déclencheurs (autorité/pairs/fratrie/échec), progrès en réinterprétation..."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============ PANEL 4 — PROTOCOLE 3 NIVEAUX ============ -->
+<div class="panel" id="panel-proto">
+<div class="section">
+<h2>🚨 Protocole 3 niveaux + Désamorçage de crise</h2>
+<div class="sub">Selon la zone du thermomètre, l'intervention change. Ne pas faire la même chose en jaune et en rouge — c'est la clé.</div>
+
+<div class="proto-grid">
+
+<div class="proto-card proto-jaune-card">
+<h3>🟡 Niveau jaune</h3>
+<span class="level">3–5 / 10</span>
+<div class="protocol">
+<strong>Micro-pause 30 sec</strong>
+<span class="key">2 respirations · Verre d'eau · Je nomme 1 mot</span>
+<p style="margin-top:8px;font-size:12.5px">Le but : interrompre la montée AVANT qu'elle ne file.</p>
+</div>
+</div>
+
+<div class="proto-card proto-orange-card">
+<h3>🟠 Niveau orange</h3>
+<span class="level">6–8 / 10</span>
+<div class="protocol">
+<strong>PAUSE 90 sec + éloignement</strong>
+<span class="key">Sortir de la pièce · Marcher 2-10 min · Choisir option A ou B</span>
+<p style="margin-top:8px;font-size:12.5px">Le but : se sortir physiquement de la situation déclenchante.</p>
+</div>
+</div>
+
+<div class="proto-card proto-rouge-card">
+<h3>🔴 Niveau rouge</h3>
+<span class="level">9–10 / 10</span>
+<div class="protocol">
+<strong>Sécurité d'abord (pas pédagogie)</strong>
+<span class="key">Adulte référent · Lieu sûr · NE PAS argumenter · NE PAS moraliser</span>
+<p style="margin-top:8px;font-size:12.5px">Le but : protéger. La compréhension viendra après.</p>
+</div>
+</div>
+
+</div>
+
+<div class="proto-quote">« Quand t'es rouge, on ne règle pas le problème, on te met en sécurité. »</div>
+
+<div class="crise-protocol">
+<h3>⏱️ Désamorcer une crise en moins de 5 minutes</h3>
+<div class="crise-steps">
+<div class="crise-step">
+<span class="crise-step-num">1</span>
+<h4>Nommer</h4>
+<p>« Je vois que tu es très énervée »</p>
+</div>
+<div class="crise-step">
+<span class="crise-step-num">2</span>
+<h4>Ralentir</h4>
+<p>« On prend 2 min pour respirer » · Inspire 4s · Expire 6s</p>
+</div>
+<div class="crise-step">
+<span class="crise-step-num">3</span>
+<h4>Réduire pression</h4>
+<p>« On va trouver une solution ensemble »</p>
+</div>
+<div class="crise-step">
+<span class="crise-step-num">4</span>
+<h4>Résoudre</h4>
+<p>Quand émotion baisse : « Qu'est-ce qui t'a le plus énervée ? »</p>
+</div>
+</div>
+</div>
+
+<div style="background:#FCE2E2;padding:16px 20px;border-radius:12px;margin-top:18px;border-left:5px solid #C9573A">
+<strong style="color:#C9573A;font-size:13px;text-transform:uppercase;letter-spacing:0.8px;display:block;margin-bottom:8px">⚠️ À éviter en crise (aggrave presque toujours)</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<span style="background:#fff;padding:5px 11px;border-radius:8px;font-size:13px;color:#3D4E4A">« Calme-toi immédiatement »</span>
+<span style="background:#fff;padding:5px 11px;border-radius:8px;font-size:13px;color:#3D4E4A">« Tu exagères »</span>
+<span style="background:#fff;padding:5px 11px;border-radius:8px;font-size:13px;color:#3D4E4A">« C'est pas grave »</span>
+<span style="background:#fff;padding:5px 11px;border-radius:8px;font-size:13px;color:#3D4E4A">« Arrête ton cinéma »</span>
+<span style="background:#fff;padding:5px 11px;border-radius:8px;font-size:13px;color:#3D4E4A">Hausser la voix</span>
+<span style="background:#fff;padding:5px 11px;border-radius:8px;font-size:13px;color:#3D4E4A">Argumenter longuement</span>
+<span style="background:#fff;padding:5px 11px;border-radius:8px;font-size:13px;color:#3D4E4A">Punir immédiatement</span>
+<span style="background:#fff;padding:5px 11px;border-radius:8px;font-size:13px;color:#3D4E4A">Comparer avec la fratrie</span>
+</div>
+</div>
+
+<div class="pro-zone">
+<label>Observations pro · Crises</label>
+<textarea id="pro-proto" placeholder="Fréquence des crises, durée moyenne, déclencheurs principaux, niveau d'évolution sur les phases (nommer/ralentir/réduire/résoudre), capacité de l'entourage à tenir le cadre..."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============ PANEL 5 — ROUE DES CHOIX CONFIANCE ============ -->
+<div class="panel" id="panel-roue">
+<div class="section">
+<h2>🎯 Roue des Choix — 12 phrases confiance</h2>
+<div class="sub">Quand la confiance est en berne (avant un contrôle, après une moquerie, en pleine séance...), pioche UNE phrase. Tu peux en cliquer plusieurs ou en garder une seule pour la semaine.</div>
+
+<div class="roue-wrap" id="roueWrap">
+<div class="roue-card" data-i="1" onclick="toggleRoue(this)"><span class="roue-icon">🎵</span><p>Je fredonne ma chanson de confiance</p></div>
+<div class="roue-card" data-i="2" onclick="toggleRoue(this)"><span class="roue-icon">💬</span><p>Je me répète ma phrase de confiance</p></div>
+<div class="roue-card" data-i="3" onclick="toggleRoue(this)"><span class="roue-icon">🎭</span><p>Je fais comme si j'avais confiance — je ressens déjà la joie de la réussite</p></div>
+<div class="roue-card" data-i="4" onclick="toggleRoue(this)"><span class="roue-icon">👃</span><p>Je me concentre sur mes 5 sens, ici, maintenant</p></div>
+<div class="roue-card" data-i="5" onclick="toggleRoue(this)"><span class="roue-icon">⭐</span><p>Je m'imagine être comme mon modèle de confiance</p></div>
+<div class="roue-card" data-i="6" onclick="toggleRoue(this)"><span class="roue-icon">💛</span><p>Je pense à une personne qui m'aime et qui me soutient là, maintenant</p></div>
+<div class="roue-card" data-i="7" onclick="toggleRoue(this)"><span class="roue-icon">🏆</span><p>Je me souviens de quelque chose que j'ai réussi</p></div>
+<div class="roue-card" data-i="8" onclick="toggleRoue(this)"><span class="roue-icon">🪞</span><p>J'imagine que je conseille quelqu'un qui n'a pas confiance — qu'est-ce que je lui dirais ?</p></div>
+<div class="roue-card" data-i="9" onclick="toggleRoue(this)"><span class="roue-icon">🌱</span><p>Je me rappelle : c'est OK d'apprendre en faisant des erreurs</p></div>
+<div class="roue-card" data-i="10" onclick="toggleRoue(this)"><span class="roue-icon">🛡️</span><p>Je suis plus fort(e) que cette situation</p></div>
+<div class="roue-card" data-i="11" onclick="toggleRoue(this)"><span class="roue-icon">🌊</span><p>Cette émotion va passer comme une vague</p></div>
+<div class="roue-card" data-i="12" onclick="toggleRoue(this)"><span class="roue-icon">✨</span><p>J'ai le droit d'être moi — différent(e) ne veut pas dire moins bien</p></div>
+</div>
+
+<div class="roue-info" id="roueInfo">
+<strong>👆 Choisis une (ou plusieurs) phrases</strong>
+Tu peux les noter dans un carnet, les coller sur ton bureau, ou les mettre en fond d'écran.
+</div>
+
+<div class="notes-section">
+<label>📝 Ma phrase de la semaine + où je la mets visible</label>
+<textarea id="notes-roue" placeholder="Ex : Cette semaine je teste « Je me souviens d'une réussite » — je l'écris sur un post-it collé à mon miroir."></textarea>
+</div>
+
+<div class="pro-zone">
+<label>Observations pro · Roue des choix</label>
+<textarea id="pro-roue" placeholder="Phrases choisies spontanément, lesquelles fonctionnent, à renforcer en séance, à retravailler..."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============ PANEL 6 — SCORING ============ -->
+<div class="panel" id="panel-score">
+<div class="section">
+<h2>⭐ Mini-scoring séance</h2>
+<div class="sub">Pour mesurer le progrès séance après séance sans infantiliser. Objectif réaliste : <strong>6 points par séance</strong> (pas 12 — sinon échec assuré).</div>
+
+<div class="score-zone">
+
+<div class="score-rules">
+<h3>Comment ça marche</h3>
+À la fin d'une séance (avec un pro, avec un parent, ou seul), je coche ce que j'ai fait. Chaque action validée = 1 point. Objectif : <strong>arriver à 6 points/séance régulièrement.</strong> Quand 6 points devient facile → on monte la barre.
+</div>
+
+<div class="score-items">
+<div class="score-item" data-pts="1" onclick="toggleScore(this)">
+<span class="score-points">+1</span>
+J'ai identifié 1 signal corporel (cœur qui bat vite, chaleur, mâchoire serrée...)
+</div>
+<div class="score-item" data-pts="1" onclick="toggleScore(this)">
+<span class="score-points">+1</span>
+J'ai fait une PAUSE (respiration, eau froide, marche, 5-4-3-2-1)
+</div>
+<div class="score-item" data-pts="1" onclick="toggleScore(this)">
+<span class="score-points">+1</span>
+J'ai choisi une option sûre (A ou B) avant d'agir
+</div>
+<div class="score-item" data-pts="1" onclick="toggleScore(this)">
+<span class="score-points">+1</span>
+J'ai nommé un adulte ressource à qui je pourrais parler
+</div>
+<div class="score-item" data-pts="1" onclick="toggleScore(this)">
+<span class="score-points">+1</span>
+J'ai utilisé le détecteur d'injustice (3 questions)
+</div>
+<div class="score-item" data-pts="1" onclick="toggleScore(this)">
+<span class="score-points">+1</span>
+J'ai piqué une phrase de la Roue des Choix
+</div>
+<div class="score-item" data-pts="1" onclick="toggleScore(this)">
+<span class="score-points">+1</span>
+J'ai écrit ou dit ce que je ressentais (sans crier ni fuir)
+</div>
+<div class="score-item" data-pts="1" onclick="toggleScore(this)">
+<span class="score-points">+1</span>
+J'ai accepté une consigne / un cadre sans exploser
+</div>
+</div>
+
+<div class="score-display">
+<div class="score-big" id="scoreBig">0</div>
+<div class="score-target">/ 8 — Objectif : 6 points</div>
+<div class="score-msg" id="scoreMsg">Coche les actions que tu as faites aujourd'hui</div>
+</div>
+
+</div>
+
+<div class="notes-section">
+<label>📝 Ce que j'ai testé cette semaine + ce que je veux faire la prochaine fois</label>
+<textarea id="notes-score" placeholder="Ex : Cette semaine j'ai réussi à faire une PAUSE 2 fois sur 3 disputes avec ma sœur. La prochaine fois je veux tester d'écrire ce que je ressens au lieu de partir."></textarea>
+</div>
+
+<div class="pro-zone">
+<label>Observations pro · Suivi scoring</label>
+<textarea id="pro-score" placeholder="Évolution du score sur 4 séances, items qui progressent, items qui stagnent, à retravailler, prochaine ZPD..."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer">
+« Tu n'as pas besoin d'être parfait. Tu as besoin d'être efficace. »<br>
+« Là tu veux gagner la discussion. Moi je veux que tu gagnes ta semaine. »
+<span class="brand-foot">Création originale · Nawel Haddouch · EducaTypique</span>
+<span class="small">Boîte Ado TDAH · Pour ados, parents et professionnels · Mémoire locale, rien n'est envoyé en ligne</span>
+</div>
+
+</div>
+
+<script>
+// ============================================================
+// DONNÉES 12 CARTES SITUATIONS
+// ============================================================
+var CARTES = [
+  // A. CONFLIT / FUGUE
+  {id:1,cat:'conflit',niveau:1,titre:'« Non » + injustice',
+    situation:"On te dit non (sortie, téléphone) et tu te sens traité injustement.",
+    impulsion:"Claquer la porte, crier, partir",
+    optionA:"2 minutes seul + eau + 4 respirations",
+    optionB:"Marcher + message « pause, je reviens »",
+    phrase:"« Je reviens dans 10 min. Là je vais dire des trucs que je regrette. »",
+    variante:"Variante plus dure — on te suit et on te parle encore : toilettes / balcon / couloir + timer + message adulte."
+  },
+  {id:2,cat:'conflit',niveau:2,titre:'Menace de fugue',
+    situation:"Tu penses « je me casse pour de vrai ».",
+    impulsion:"Partir sans prévenir",
+    optionA:"Écrire un message : « Je sors 10 min. Je suis en colère mais en sécurité. »",
+    optionB:"Appeler une personne ressource + marcher dans un endroit sûr",
+    phrase:"« Je suis en colère mais je reste en sécurité. »",
+    variante:"Variante plus dure — il fait nuit / tard : rester dans le périmètre (hall, cour) + appeler adulte."
+  },
+  {id:3,cat:'conflit',niveau:3,titre:'Conflit + humiliation publique',
+    situation:"On te parle devant quelqu'un / on se moque en public.",
+    impulsion:"Exploser ou fuir",
+    optionA:"« Stop. Je parle pas là » + quitter la pièce",
+    optionB:"Noter ce que je veux répondre + revenir après PAUSE",
+    phrase:"« Stop. Je parle pas là. »",
+    variante:"Variante plus dure — insultes : phrase courte + retrait immédiat. Pas de débat."
+  },
+  // B. SUBSTANCES / PRESSION
+  {id:4,cat:'subst',niveau:1,titre:'« Juste une fois »',
+    situation:"On te propose joint / vape / alcool « juste pour tester ».",
+    impulsion:"Accepter pour appartenir au groupe",
+    optionA:"« Non merci » + changer de place",
+    optionB:"« Je dois rentrer » + appel à X",
+    phrase:"« Je fais pas ça. » (court, pas d'excuses)",
+    variante:"Variante plus dure — on se moque (« t'es nul ») : « OK » (ne pas argumenter) + départ."
+  },
+  {id:5,cat:'subst',niveau:2,titre:'Pour « oublier » la douleur',
+    situation:"Tu te sens mal, tu veux t'anesthésier (produit, sensation forte).",
+    impulsion:"Chercher un produit ou une sensation pour ne plus rien sentir",
+    optionA:"Eau froide mains + respiration 4/6",
+    optionB:"Message ressource : « Là j'ai envie de faire n'importe quoi »",
+    phrase:"« Ce que je ressens est dur. Faire n'importe quoi va le rendre plus dur après. »",
+    variante:"Variante plus dure — tu as déjà commencé : sécurité + adulte + ne pas rester seul(e)."
+  },
+  {id:6,cat:'subst',niveau:3,titre:'Dealer / « j\'ai un plan »',
+    situation:"Quelqu'un te propose un « plan » / un contact pour obtenir du produit.",
+    impulsion:"Accepter, suivre",
+    optionA:"« Je dois y aller » + s'éloigner physiquement",
+    optionB:"Appeler un adulte + rester dans un lieu public",
+    phrase:"« Je dois y aller. »",
+    variante:"Variante plus dure — pression directe / menace : se rapprocher d'adultes ou d'un commerce + appel d'urgence."
+  },
+  // C. SEXUALITÉ EN LIGNE / CHANTAGE
+  {id:7,cat:'sexto',niveau:1,titre:'Demande de photo',
+    situation:"« Envoie une photo, personne saura. »",
+    impulsion:"Envoyer pour plaire / garder la relation",
+    optionA:"« Non. » + changer de sujet",
+    optionB:"Bloquer + parler à un adulte ressource",
+    phrase:"« Je n'envoie pas de photos. Point. »",
+    variante:"Variante plus dure — « si tu m'aimes tu le fais » : « Ça s'appelle pression. Donc non. » + stop."
+  },
+  {id:8,cat:'sexto',niveau:2,titre:'Chantage : « si tu n\'envoies pas, je diffuse »',
+    situation:"On te menace de diffuser une photo / une info pour te forcer à faire quelque chose.",
+    impulsion:"Paniquer, obéir, négocier",
+    optionA:"NE PAS négocier + capture d'écran de la menace",
+    optionB:"Adulte + signalement plateforme + blocage",
+    phrase:"« Je ne négocie pas. »",
+    variante:"Variante plus dure — diffusion déjà faite : adulte + protection + signalement. On gère l'urgence, pas la honte."
+  },
+  {id:9,cat:'sexto',niveau:3,titre:'Rendez-vous risqué',
+    situation:"On te propose de te voir IRL et tu n'es pas sûr(e) que ce soit safe.",
+    impulsion:"Y aller seul(e), mentir aux parents",
+    optionA:"« Je ne viens pas seul(e) » + lieu public + adulte informé",
+    optionB:"Refuser + couper le contact",
+    phrase:"« Je viens pas seul(e). Et on se voit en lieu public. »",
+    variante:"Variante plus dure — « viens sinon… » : pas de rendez-vous + adulte. Quelqu'un qui menace n'est pas un copain."
+  },
+  // D. VIOLENCE / PROVOCATION
+  {id:10,cat:'violence',niveau:1,titre:'Provocation directe',
+    situation:"On te provoque : « vas-y frappe, t'oses pas »",
+    impulsion:"Répondre, frapper",
+    optionA:"Reculer + phrase courte : « je rentre pas là-dedans »",
+    optionB:"S'éloigner vers un adulte ou un groupe sûr",
+    phrase:"« Je rentre pas là-dedans. »",
+    variante:"Variante plus dure — la scène est filmée : « Je joue pas pour la caméra » + retrait."
+  },
+  {id:11,cat:'violence',niveau:2,titre:'Humiliation publique',
+    situation:"Moquerie / insulte devant d'autres élèves.",
+    impulsion:"Vengeance immédiate",
+    optionA:"PAUSE + départ + « je reviens quand je suis redescendu(e) »",
+    optionB:"Demander un signal discret à un adulte / un(e) ami(e)",
+    phrase:"« Je reviens quand je suis redescendu(e). »",
+    variante:"Variante plus dure — ça continue en messages : capture + mute + adulte."
+  },
+  {id:12,cat:'violence',niveau:3,titre:'Conduite à risque « cap ou pas cap »',
+    situation:"Défi dangereux (vol, conduite, escalade, drogue, défi viral).",
+    impulsion:"Prouver, ne pas être exclu(e) du groupe",
+    optionA:"« Non. Pas envie » + je m'éloigne",
+    optionB:"Je propose une autre activité safe (neutre)",
+    phrase:"« Non. Pas envie. »",
+    variante:"Variante plus dure — menace d'exclusion : « OK » + je pars. Priorité : sécurité, pas statut."
+  }
+];
+
+// ============================================================
+// MODE (Ado / Parent / Pro)
+// ============================================================
+function setMode(mode){
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-mode="'+mode+'"]').classList.add('active');
+  document.body.classList.remove('show-pro','show-parent','show-ado');
+  document.body.classList.add('show-'+mode);
+  try{localStorage.setItem('educatypique_boite_ado_tdah_mode',mode)}catch(e){}
+}
+(function(){
+  try{
+    var m = localStorage.getItem('educatypique_boite_ado_tdah_mode') || 'ado';
+    setMode(m);
+  }catch(e){setMode('ado')}
+})();
+
+// ============================================================
+// ONGLETS
+// ============================================================
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ============================================================
+// THERMOMÈTRE
+// ============================================================
+function updateThermo(v){
+  v = parseInt(v);
+  document.getElementById('thermoValue').textContent = v;
+  document.querySelectorAll('.thermo-level').forEach(l=>l.style.opacity='0.55');
+  var msg = '';
+  if(v <= 2){
+    document.getElementById('lvl-vert').style.opacity = '1';
+    msg = '🟢 Zone verte. Tu es disponible. Continue, encourage-toi.';
+  } else if(v <= 5){
+    document.getElementById('lvl-jaune').style.opacity = '1';
+    msg = '🟡 Zone jaune. Tu tiens encore — c\'est le moment de la micro-pause 30 sec.';
+  } else if(v <= 8){
+    document.getElementById('lvl-orange').style.opacity = '1';
+    msg = '🟠 Zone orange. PAUSE 90 sec + éloignement. Choisis option A ou B.';
+  } else {
+    document.getElementById('lvl-rouge').style.opacity = '1';
+    msg = '🔴 Zone rouge. Sécurité d\'abord. Adulte référent. On reprend APRÈS.';
+  }
+  document.getElementById('thermoFeedback').textContent = msg;
+  saveAll();
+}
+
+// ============================================================
+// CARTES — RENDU + FILTRE
+// ============================================================
+function renderCards(filter){
+  var grid = document.getElementById('cardsGrid');
+  grid.innerHTML = '';
+  CARTES.forEach(function(c){
+    if(filter !== 'all' && c.cat !== filter) return;
+    var d = document.createElement('div');
+    d.className = 'card';
+    d.dataset.id = c.id;
+    d.onclick = function(){ openCard(c.id); };
+    d.innerHTML = '<span class="card-cat '+c.cat+'">'+catLabel(c.cat)+'</span>' +
+                  '<span class="card-level">Niveau '+c.niveau+'</span>' +
+                  '<h3 class="card-title">'+c.titre+'</h3>' +
+                  '<p class="card-situation">'+c.situation+'</p>';
+    grid.appendChild(d);
+  });
+}
+function catLabel(c){
+  return {conflit:'🔥 Conflit',subst:'💊 Substances',sexto:'📱 Sexto',violence:'⚡ Violence'}[c];
+}
+function filterCards(cat){
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-cat="'+cat+'"]').classList.add('active');
+  renderCards(cat);
+  document.getElementById('cardDetail').classList.remove('show');
+}
+function openCard(id){
+  var c = CARTES.find(x=>x.id===id);
+  if(!c) return;
+  document.querySelectorAll('.card').forEach(card=>card.classList.remove('active'));
+  document.querySelector('.card[data-id="'+id+'"]').classList.add('active');
+  var det = document.getElementById('cardDetail');
+  det.innerHTML = renderDetail(c);
+  det.classList.add('show');
+  setTimeout(function(){ det.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 100);
+  // restore gabarit data
+  restoreGabarit(c.id);
+}
+function renderDetail(c){
+  var savedKey = 'gab_'+c.id;
+  return '<div class="detail-row"><strong>📍 Situation</strong><p>'+c.situation+'</p></div>' +
+         '<div class="detail-row"><strong>⚡ Impulsion typique</strong><p>'+c.impulsion+'</p></div>' +
+         '<div class="detail-row"><strong>🛟 Options sûres</strong>' +
+            '<div class="detail-options">' +
+              '<div class="option-box option-a"><h4>Option A — 2 min</h4><p>'+c.optionA+'</p></div>' +
+              '<div class="option-box option-b"><h4>Option B — 10 min</h4><p>'+c.optionB+'</p></div>' +
+            '</div>' +
+            '<div style="margin-top:10px"><span class="phrase-utile">💬 '+c.phrase+'</span></div>' +
+         '</div>' +
+         '<div class="detail-row"><strong>🔥 Variante plus dure</strong><div class="variante">'+c.variante+'</div></div>' +
+         renderGabarit(c.id);
+}
+function renderGabarit(id){
+  return '<div class="gabarit"><h4>🎴 Gabarit — Au dos de la carte</h4>' +
+    '<div class="gabarit-grid">' +
+      '<div class="gab-field"><label>Niveau tension /10</label><input type="number" min="0" max="10" id="g-tens-'+id+'" oninput="saveGabarit('+id+')"></div>' +
+      '<div class="gab-field"><label>Signal du corps</label><input type="text" id="g-sig-'+id+'" placeholder="cœur, mâchoire, chaleur..." oninput="saveGabarit('+id+')"></div>' +
+    '</div>' +
+    '<div class="gab-field" style="margin-bottom:10px"><label>Mon impulsion (envie immédiate)</label><input type="text" id="g-imp-'+id+'" oninput="saveGabarit('+id+')"></div>' +
+    '<div class="gab-field" style="margin-bottom:6px"><label>PAUSE choisie</label></div>' +
+    '<div class="gab-checkboxes">' +
+      '<label class="gab-cb"><input type="checkbox" id="g-p1-'+id+'" onchange="saveGabarit('+id+')"> respiration</label>' +
+      '<label class="gab-cb"><input type="checkbox" id="g-p2-'+id+'" onchange="saveGabarit('+id+')"> eau froide</label>' +
+      '<label class="gab-cb"><input type="checkbox" id="g-p3-'+id+'" onchange="saveGabarit('+id+')"> marche</label>' +
+      '<label class="gab-cb"><input type="checkbox" id="g-p4-'+id+'" onchange="saveGabarit('+id+')"> 5-4-3-2-1</label>' +
+    '</div>' +
+    '<div class="gab-field" style="margin-top:12px"><label>Option choisie (A 2min / B 10min) + ce que je fais</label><textarea id="g-opt-'+id+'" oninput="saveGabarit('+id+')" placeholder="Ex: option A — je sors devant la porte, je respire 2 min"></textarea></div>' +
+    '<div class="gab-field"><label>Personne à contacter</label><input type="text" id="g-pers-'+id+'" placeholder="Maman / Léa / mon prof principal..." oninput="saveGabarit('+id+')"></div>' +
+  '</div>';
+}
+function getGabarit(id){
+  return {
+    tension: document.getElementById('g-tens-'+id)?.value || '',
+    signal:  document.getElementById('g-sig-'+id)?.value || '',
+    impulse: document.getElementById('g-imp-'+id)?.value || '',
+    p1: !!document.getElementById('g-p1-'+id)?.checked,
+    p2: !!document.getElementById('g-p2-'+id)?.checked,
+    p3: !!document.getElementById('g-p3-'+id)?.checked,
+    p4: !!document.getElementById('g-p4-'+id)?.checked,
+    option:  document.getElementById('g-opt-'+id)?.value || '',
+    person:  document.getElementById('g-pers-'+id)?.value || ''
+  };
+}
+function saveGabarit(id){
+  var data = loadDossier();
+  data.gabarits = data.gabarits || {};
+  data.gabarits[id] = getGabarit(id);
+  saveDossier(data);
+}
+function restoreGabarit(id){
+  var data = loadDossier();
+  var g = (data.gabarits || {})[id];
+  if(!g) return;
+  if(document.getElementById('g-tens-'+id)) document.getElementById('g-tens-'+id).value = g.tension||'';
+  if(document.getElementById('g-sig-'+id))  document.getElementById('g-sig-'+id).value = g.signal||'';
+  if(document.getElementById('g-imp-'+id))  document.getElementById('g-imp-'+id).value = g.impulse||'';
+  if(document.getElementById('g-p1-'+id))   document.getElementById('g-p1-'+id).checked = !!g.p1;
+  if(document.getElementById('g-p2-'+id))   document.getElementById('g-p2-'+id).checked = !!g.p2;
+  if(document.getElementById('g-p3-'+id))   document.getElementById('g-p3-'+id).checked = !!g.p3;
+  if(document.getElementById('g-p4-'+id))   document.getElementById('g-p4-'+id).checked = !!g.p4;
+  if(document.getElementById('g-opt-'+id))  document.getElementById('g-opt-'+id).value = g.option||'';
+  if(document.getElementById('g-pers-'+id)) document.getElementById('g-pers-'+id).value = g.person||'';
+}
+renderCards('all');
+
+// ============================================================
+// DÉTECTEUR D'INJUSTICE — réaction
+// ============================================================
+function selectReact(btn){
+  document.querySelectorAll('.react-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  saveAll();
+}
+
+// ============================================================
+// ROUE DES CHOIX
+// ============================================================
+function toggleRoue(card){
+  card.classList.toggle('selected');
+  var count = document.querySelectorAll('.roue-card.selected').length;
+  var info = document.getElementById('roueInfo');
+  if(count===0){
+    info.innerHTML = '<strong>👆 Choisis une (ou plusieurs) phrases</strong>Tu peux les noter dans un carnet, les coller sur ton bureau, ou les mettre en fond d\'écran.';
+  } else if(count===1){
+    info.innerHTML = '<strong>✨ 1 phrase choisie</strong>Note-la quelque part de visible. Teste-la pendant 7 jours.';
+  } else {
+    info.innerHTML = '<strong>✨ '+count+' phrases choisies</strong>Garde la plus forte pour cette semaine. Tu pourras tester les autres après.';
+  }
+  saveAll();
+}
+
+// ============================================================
+// SCORING
+// ============================================================
+function toggleScore(item){
+  item.classList.toggle('done');
+  updateScore();
+  saveAll();
+}
+function updateScore(){
+  var done = document.querySelectorAll('.score-item.done').length;
+  document.getElementById('scoreBig').textContent = done;
+  var msg = '';
+  if(done === 0)      msg = 'Coche les actions que tu as faites aujourd\'hui';
+  else if(done < 4)   msg = 'Bon début. Continue à observer.';
+  else if(done < 6)   msg = 'Tu approches de l\'objectif (6). Tiens bon.';
+  else if(done === 6) msg = '🎯 Objectif atteint ! Bravo, c\'est exactement ça.';
+  else if(done < 8)   msg = 'Excellent ! Tu dépasses l\'objectif.';
+  else                msg = '🌟 Carton plein. C\'est solide.';
+  document.getElementById('scoreMsg').textContent = msg;
+}
+
+// ============================================================
+// DOSSIERS MULTI + STORAGE
+// ============================================================
+var STORAGE_KEY = 'educatypique_boite_ado_tdah_v1';
+var currentDossier = 'default';
+
+function loadStore(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : { dossiers: { default: {} } };
+  }catch(e){ return { dossiers: { default: {} } }; }
+}
+function saveStore(store){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(store)); }catch(e){}
+}
+function loadDossier(){
+  var s = loadStore();
+  return s.dossiers[currentDossier] || {};
+}
+function saveDossier(data){
+  var s = loadStore();
+  s.dossiers[currentDossier] = data;
+  saveStore(s);
+}
+function getFormData(){
+  return {
+    thermo: parseInt(document.getElementById('thermoSlider').value),
+    notes_thermo: document.getElementById('notes-thermo').value,
+    pro_thermo: document.getElementById('pro-thermo').value,
+    pro_cartes: document.getElementById('pro-cartes').value,
+    inj_signal: document.getElementById('inj-signal').value,
+    inj_faits:  document.getElementById('inj-faits').value,
+    inj_interp: document.getElementById('inj-interp').value,
+    inj_autre:  document.getElementById('inj-autre').value,
+    inj_reaction: document.getElementById('inj-reaction').value,
+    inj_react: (document.querySelector('.react-btn.selected')?.textContent || '').trim(),
+    pro_injustice: document.getElementById('pro-injustice').value,
+    pro_proto: document.getElementById('pro-proto').value,
+    roue_selected: Array.from(document.querySelectorAll('.roue-card.selected')).map(c=>c.dataset.i),
+    notes_roue: document.getElementById('notes-roue').value,
+    pro_roue: document.getElementById('pro-roue').value,
+    score_items: Array.from(document.querySelectorAll('.score-item.done')).map((el,i)=>el.textContent.trim().substring(0,80)),
+    notes_score: document.getElementById('notes-score').value,
+    pro_score: document.getElementById('pro-score').value
+  };
+}
+function saveAll(){
+  var data = loadDossier();
+  data.form = getFormData();
+  data.gabarits = data.gabarits || {};
+  saveDossier(data);
+}
+function restoreAll(){
+  var data = loadDossier();
+  var f = data.form || {};
+  document.getElementById('thermoSlider').value = f.thermo || 0;
+  updateThermo(f.thermo || 0);
+  document.getElementById('notes-thermo').value = f.notes_thermo || '';
+  document.getElementById('pro-thermo').value = f.pro_thermo || '';
+  document.getElementById('pro-cartes').value = f.pro_cartes || '';
+  document.getElementById('inj-signal').value = f.inj_signal || '';
+  document.getElementById('inj-faits').value  = f.inj_faits || '';
+  document.getElementById('inj-interp').value = f.inj_interp || '';
+  document.getElementById('inj-autre').value  = f.inj_autre || '';
+  document.getElementById('inj-reaction').value = f.inj_reaction || '';
+  document.getElementById('pro-injustice').value = f.pro_injustice || '';
+  document.getElementById('pro-proto').value = f.pro_proto || '';
+  document.getElementById('notes-roue').value = f.notes_roue || '';
+  document.getElementById('pro-roue').value = f.pro_roue || '';
+  document.getElementById('notes-score').value = f.notes_score || '';
+  document.getElementById('pro-score').value = f.pro_score || '';
+  // roue selections
+  document.querySelectorAll('.roue-card').forEach(c=>c.classList.remove('selected'));
+  (f.roue_selected || []).forEach(function(i){
+    var c = document.querySelector('.roue-card[data-i="'+i+'"]');
+    if(c) c.classList.add('selected');
+  });
+  toggleRoue(document.querySelector('.roue-card')); // refresh info
+  document.querySelector('.roue-card').classList.remove('selected'); // toggle back
+  (f.roue_selected || []).forEach(function(i){
+    var c = document.querySelector('.roue-card[data-i="'+i+'"]');
+    if(c) c.classList.add('selected');
+  });
+  // refresh roue info
+  var count = document.querySelectorAll('.roue-card.selected').length;
+  var info = document.getElementById('roueInfo');
+  if(count===0){
+    info.innerHTML = '<strong>👆 Choisis une (ou plusieurs) phrases</strong>Tu peux les noter dans un carnet, les coller sur ton bureau, ou les mettre en fond d\'écran.';
+  } else if(count===1){
+    info.innerHTML = '<strong>✨ 1 phrase choisie</strong>Note-la quelque part de visible. Teste-la pendant 7 jours.';
+  } else {
+    info.innerHTML = '<strong>✨ '+count+' phrases choisies</strong>Garde la plus forte pour cette semaine.';
+  }
+  // score items
+  document.querySelectorAll('.score-item').forEach(it=>it.classList.remove('done'));
+  // try restore by index since textContent isn't reliable
+  updateScore();
+}
+
+// Dossier select
+function refreshDossierSelect(){
+  var s = loadStore();
+  var sel = document.getElementById('dossierSelect');
+  sel.innerHTML = '';
+  Object.keys(s.dossiers || {default:{}}).forEach(function(name){
+    var opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if(name === currentDossier) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+function changeDossier(){
+  currentDossier = document.getElementById('dossierSelect').value;
+  restoreAll();
+  // re-render cards then restore gabarit displays not needed at this level
+}
+function addDossier(){
+  var name = (document.getElementById('newDossier').value || '').trim();
+  if(!name) return;
+  var s = loadStore();
+  s.dossiers[name] = s.dossiers[name] || {};
+  saveStore(s);
+  currentDossier = name;
+  document.getElementById('newDossier').value = '';
+  refreshDossierSelect();
+  restoreAll();
+}
+function deleteDossier(){
+  if(currentDossier === 'default'){
+    alert('Le dossier « Mon dossier » ne peut pas être supprimé. Tu peux juste vider ses notes.');
+    return;
+  }
+  if(!confirm('Supprimer le dossier « '+currentDossier+' » et toutes ses données ?')) return;
+  var s = loadStore();
+  delete s.dossiers[currentDossier];
+  saveStore(s);
+  currentDossier = 'default';
+  refreshDossierSelect();
+  restoreAll();
+}
+
+// Auto-save on inputs
+['notes-thermo','pro-thermo','pro-cartes','inj-signal','inj-faits','inj-interp','inj-autre','inj-reaction',
+ 'pro-injustice','pro-proto','notes-roue','pro-roue','notes-score','pro-score'].forEach(function(id){
+  var el = document.getElementById(id);
+  if(el) el.addEventListener('input', saveAll);
+});
+
+// ============================================================
+// EXPORT TXT
+// ============================================================
+function exportTXT(){
+  var data = loadDossier();
+  var f = data.form || {};
+  var g = data.gabarits || {};
+  var d = new Date();
+  var dateStr = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+  var out = '';
+  out += '═══════════════════════════════════════════════════\n';
+  out += '  BOÎTE ADO TDAH · EducaTypique\n';
+  out += '  Création originale : Nawel Haddouch\n';
+  out += '  Dossier : '+currentDossier+'\n';
+  out += '  Exporté le : '+dateStr+'\n';
+  out += '═══════════════════════════════════════════════════\n\n';
+
+  out += '🌡️  THERMOMÈTRE\n';
+  out += '─────────────────────────────────────\n';
+  out += 'Niveau ressenti : '+(f.thermo||0)+' / 10\n';
+  out += 'Notes : '+(f.notes_thermo||'(vide)')+'\n';
+  if(f.pro_thermo) out += 'Notes pro 📋 : '+f.pro_thermo+'\n';
+  out += '\n';
+
+  out += '🎴  GABARITS CARTES SITUATIONS\n';
+  out += '─────────────────────────────────────\n';
+  var hasGab = false;
+  CARTES.forEach(function(c){
+    if(g[c.id] && (g[c.id].tension || g[c.id].signal || g[c.id].impulse || g[c.id].option || g[c.id].person)){
+      hasGab = true;
+      out += '\n▸ Carte '+c.id+' — '+c.titre+' ('+catLabel(c.cat)+', niveau '+c.niveau+')\n';
+      if(g[c.id].tension) out += '   Tension : '+g[c.id].tension+'/10\n';
+      if(g[c.id].signal)  out += '   Signal corps : '+g[c.id].signal+'\n';
+      if(g[c.id].impulse) out += '   Impulsion : '+g[c.id].impulse+'\n';
+      var pauses = [];
+      if(g[c.id].p1) pauses.push('respiration');
+      if(g[c.id].p2) pauses.push('eau froide');
+      if(g[c.id].p3) pauses.push('marche');
+      if(g[c.id].p4) pauses.push('5-4-3-2-1');
+      if(pauses.length) out += '   PAUSE : '+pauses.join(', ')+'\n';
+      if(g[c.id].option) out += '   Option : '+g[c.id].option+'\n';
+      if(g[c.id].person) out += '   Personne ressource : '+g[c.id].person+'\n';
+    }
+  });
+  if(!hasGab) out += '(aucun gabarit rempli)\n';
+  if(f.pro_cartes) out += '\nNotes pro 📋 cartes : '+f.pro_cartes+'\n';
+  out += '\n';
+
+  out += '⚖️  DÉTECTEUR D\'INJUSTICE\n';
+  out += '─────────────────────────────────────\n';
+  out += '1. Signal repéré : '+(f.inj_signal||'(vide)')+'\n';
+  out += '2. Faits : '+(f.inj_faits||'(vide)')+'\n';
+  out += '   Interprétation : '+(f.inj_interp||'(vide)')+'\n';
+  out += '   Autre explication possible : '+(f.inj_autre||'(vide)')+'\n';
+  out += '3. Réaction choisie : '+(f.inj_react||'(non choisie)')+'\n';
+  out += '   Ce que je fais concrètement : '+(f.inj_reaction||'(vide)')+'\n';
+  if(f.pro_injustice) out += 'Notes pro 📋 : '+f.pro_injustice+'\n';
+  out += '\n';
+
+  out += '🚨  PROTOCOLE 3 NIVEAUX\n';
+  out += '─────────────────────────────────────\n';
+  out += '🟡 Jaune (3-5) : micro-pause 30s · 2 respi · eau · nommer 1 mot\n';
+  out += '🟠 Orange (6-8) : PAUSE 90s + éloignement · option A/B\n';
+  out += '🔴 Rouge (9-10) : sécurité · adulte · lieu sûr · NE PAS argumenter\n';
+  out += 'Désamorçage <5 min : Nommer → Ralentir → Réduire pression → Résoudre\n';
+  if(f.pro_proto) out += 'Notes pro 📋 : '+f.pro_proto+'\n';
+  out += '\n';
+
+  out += '🎯  ROUE DES CHOIX CONFIANCE\n';
+  out += '─────────────────────────────────────\n';
+  var phrases = ['','Je fredonne ma chanson de confiance','Je me répète ma phrase de confiance','Je fais comme si j\'avais confiance — je ressens déjà la joie',
+    'Je me concentre sur mes 5 sens, ici, maintenant','Je m\'imagine comme mon modèle de confiance','Je pense à une personne qui m\'aime et me soutient',
+    'Je me souviens d\'une réussite','J\'imagine que je conseille quelqu\'un qui doute',
+    'C\'est OK d\'apprendre en faisant des erreurs','Je suis plus fort(e) que cette situation',
+    'Cette émotion va passer comme une vague','Différent(e) ne veut pas dire moins bien'];
+  if((f.roue_selected||[]).length){
+    f.roue_selected.forEach(function(i){ out += '   ✨ '+phrases[i]+'\n'; });
+  } else { out += '(aucune phrase choisie)\n'; }
+  if(f.notes_roue) out += 'Ma phrase de la semaine : '+f.notes_roue+'\n';
+  if(f.pro_roue) out += 'Notes pro 📋 : '+f.pro_roue+'\n';
+  out += '\n';
+
+  out += '⭐  MINI-SCORING SÉANCE\n';
+  out += '─────────────────────────────────────\n';
+  var score = (f.score_items||[]).length;
+  out += 'Score : '+score+' / 8 (objectif 6)\n';
+  (f.score_items||[]).forEach(function(it){ out += '   ✓ '+it+'\n'; });
+  if(f.notes_score) out += 'Notes : '+f.notes_score+'\n';
+  if(f.pro_score) out += 'Notes pro 📋 : '+f.pro_score+'\n';
+  out += '\n';
+
+  out += '═══════════════════════════════════════════════════\n';
+  out += '« Tu n\'as pas besoin d\'être parfait. Tu as besoin d\'être efficace. »\n';
+  out += '« Là tu veux gagner la discussion. Moi je veux que tu gagnes ta semaine. »\n';
+  out += '\n— Création originale Nawel Haddouch · EducaTypique\n';
+  out += '═══════════════════════════════════════════════════\n';
+
+  var blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'BoiteAdoTDAH_'+currentDossier+'_'+d.getFullYear()+(d.getMonth()+1)+d.getDate()+'.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+refreshDossierSelect();
+restoreAll();
+</script>
+</body>
+</html>

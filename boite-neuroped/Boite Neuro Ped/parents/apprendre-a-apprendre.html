@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apprendre à apprendre — 8 séances · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#f5f0fa,#fff)}
+.bandeau{background:linear-gradient(135deg,#7c5cbf,#F39BC2);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:1000px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #7c5cbf;line-height:1.55}
+.intro strong{color:#5a3c8f}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #d8c9f0;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#7c5cbf;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#5a3c8f;border:1.5px solid #d8c9f0}
+
+.tabs{display:flex;gap:.3rem;background:#fff;padding:.4rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);flex-wrap:wrap}
+.tabs button{flex:1;min-width:120px;padding:.6em .9em;background:transparent;color:#666;border:none;font-weight:700;cursor:pointer;border-radius:var(--r-sm);font-family:inherit;font-size:.88rem}
+.tabs button.active{background:#7c5cbf;color:#fff}
+.tabs button:hover:not(.active){background:#f6f0fb}
+
+.section{display:none}
+.section.active{display:block}
+
+.progres-bar{background:#fff;padding:.7rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.progres-bar .lbl{font-weight:700;color:#5a3c8f;font-size:.85rem}
+.progres-bar .bar{flex:1;min-width:200px;height:14px;background:#f0e8f5;border-radius:999px;overflow:hidden}
+.progres-bar .fill{height:100%;background:linear-gradient(90deg,#7c5cbf,#F39BC2);border-radius:999px;transition:width .3s}
+.progres-bar .pct{font-weight:800;color:#5a3c8f;font-size:.9rem;min-width:50px;text-align:right}
+
+/* VAK Quiz */
+.vak-bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:5px solid #7c5cbf}
+.vak-bloc h2{color:#5a3c8f;margin:0 0 .4rem}
+.vak-question{background:#faf6fb;border-radius:var(--r-md);padding:.7rem 1rem;margin-bottom:.5rem}
+.vak-question .qst{font-weight:700;color:#3a3a3a;margin-bottom:.4rem;font-size:.93rem}
+.vak-question .options{display:flex;flex-direction:column;gap:.25rem}
+.vak-question .options label{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem .6rem;background:#fff;border-radius:var(--r-sm);cursor:pointer;font-size:.88rem;line-height:1.4;border:1.5px solid transparent}
+.vak-question .options label:hover{border-color:#7c5cbf}
+.vak-question .options input{margin-top:.15rem}
+.vak-question .options label:has(input:checked){background:#7c5cbf;color:#fff}
+
+.vak-resultat{background:linear-gradient(135deg,#fff,#f6f0fb);border-radius:var(--r-md);padding:1rem 1.2rem;border-top:4px solid #7c5cbf;margin-top:.6rem;display:none}
+.vak-resultat.visible{display:block}
+.vak-resultat h3{color:#5a3c8f;margin:0 0 .3rem}
+.vak-resultat .scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:.4rem;margin:.4rem 0}
+.vak-resultat .s-card{background:#fff;border-radius:var(--r-sm);padding:.5rem .6rem;text-align:center;border-top:3px solid var(--c)}
+.vak-resultat .s-card .let{font-size:1.3rem;font-weight:800;color:var(--c)}
+.vak-resultat .s-card .nb{font-size:1.4rem;font-weight:800;color:var(--c)}
+.vak-resultat .s-card .nom{font-size:.78rem;color:#888}
+.vak-resultat .reco{padding:.5rem .7rem;background:#fff;border-radius:var(--r-sm);font-size:.88rem;line-height:1.5;margin-top:.4rem;border-left:3px solid #5fa040}
+.vak-resultat .reco strong{color:#3d6e25}
+
+/* Séances */
+.seances-grid{display:grid;gap:.6rem}
+.seance-card{background:#fff;border-radius:var(--r-md);padding:.9rem 1.1rem;border-left:5px solid var(--c);box-shadow:var(--shadow-sm)}
+.seance-card h3{color:var(--c);margin:0 0 .3rem;font-size:1rem;display:flex;align-items:center;gap:.4rem;justify-content:space-between;flex-wrap:wrap}
+.seance-card h3 .check-label{display:flex;align-items:center;gap:.3rem;font-size:.82rem;font-weight:700;cursor:pointer;color:#666}
+.seance-card h3 .check-label.done{color:#5fa040}
+.seance-card .obj{font-size:.85rem;color:#666;font-style:italic;margin-bottom:.4rem;line-height:1.45}
+.seance-card .exos{background:#faf6fb;border-radius:var(--r-sm);padding:.5rem .7rem;font-size:.85rem;line-height:1.5;margin-bottom:.4rem}
+.seance-card .exos ul{margin:.15rem 0;padding-left:1.2rem}
+.seance-card .exos strong{color:var(--c)}
+.seance-card textarea{width:100%;padding:.4em .55em;border:1px solid #e0d0e8;border-radius:var(--r-sm);font-family:inherit;font-size:.85rem;background:#faf6fb;min-height:50px;resize:vertical;line-height:1.45;margin-top:.3rem}
+.seance-card textarea:focus{outline:1.5px solid var(--c);background:#fff}
+.seance-card.done{background:#f0f9ec;border-left-color:#5fa040;opacity:.85}
+
+.s1{--c:#e05a8a}
+.s2{--c:#7c5cbf}
+.s3{--c:#F39BC2}
+.s4{--c:#2a9d8f}
+.s5{--c:#e9a73a}
+.s6{--c:#8ED9D2}
+.s7{--c:#5a7a9f}
+.s8{--c:#5fa040}
+
+/* Stratégies */
+.strategies-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.5rem;margin-top:.5rem}
+.strategie-card{background:#fff;border-radius:var(--r-md);padding:.8rem 1rem;border-top:4px solid var(--c)}
+.strategie-card h4{color:var(--c);margin:0 0 .2rem;font-size:.95rem}
+.strategie-card p{margin:.2rem 0;font-size:.83rem;line-height:1.5;color:#555}
+.strategie-card .a-tester{margin-top:.3rem;display:flex;align-items:center;gap:.3rem;font-size:.78rem;color:#666;cursor:pointer;font-weight:700}
+.strategie-card .a-tester.actif{color:var(--c)}
+
+.scr{--c:#e9a73a} /* Pomodoro */
+.sle{--c:#7c5cbf} /* Leitner */
+.smr{--c:#2a9d8f} /* Sais/Comprends/Retiens */
+.saq{--c:#F39BC2} /* Auto-questionnement */
+.scc{--c:#e05a8a} /* Carte conceptuelle */
+.sfm{--c:#5fa040} /* Feynman */
+.smn{--c:#8ED9D2} /* Mnémotechnique */
+.sla{--c:#9B85B8} /* Lecture active */
+
+/* Carnet */
+.carnet{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:5px solid #2a9d8f}
+.carnet h2{color:#1a6a5a;margin:0 0 .5rem}
+.carnet .entrees{display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem;max-height:400px;overflow-y:auto}
+.carnet .entree{background:#eef6f5;border-radius:var(--r-sm);padding:.5rem .7rem;font-size:.88rem;line-height:1.45;border-left:3px solid #2a9d8f;position:relative}
+.carnet .entree .date{font-size:.75rem;color:#888;margin-bottom:.15rem}
+.carnet .entree .btn-suppr{position:absolute;top:.3rem;right:.4rem;background:transparent;border:none;color:#c25a30;cursor:pointer;font-size:1rem;padding:0}
+.carnet .add-zone{display:flex;gap:.4rem;margin-top:.5rem;flex-wrap:wrap}
+.carnet .add-zone textarea{flex:1;min-width:200px;padding:.5em .7em;border:1.5px solid #c5dfdb;border-radius:var(--r-sm);font-family:inherit;font-size:.92rem;background:#faf9e8;min-height:50px;resize:vertical;line-height:1.5}
+.carnet .add-zone button{padding:.5em 1.2em;background:#2a9d8f;color:#fff;border:none;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #7c5cbf;background:#fff;color:#5a3c8f;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#7c5cbf;color:#fff}
+.actions .primary{background:#7c5cbf;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+.actions .danger:hover{background:#c25a30;color:#fff}
+
+@media print{
+  .tabs,.dossier-bar,.actions,.bandeau .retour{display:none!important}
+  .section{display:block!important}
+  body{background:#fff}
+  .seance-card,.strategie-card,.vak-bloc,.carnet,.intro{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../parents.html">← Espace parents</a>
+  <h1>🎓 Apprendre à apprendre — 8 séances</h1>
+  <p class="sub">Protocole signature EducaTypique. Le but n'est pas d'apprendre PLUS — c'est d'apprendre MIEUX, en comprenant comment ton cerveau retient. Pour ados, parents et pros.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🎓 <strong>Pourquoi ce programme ?</strong> Apprendre à apprendre est la <strong>méta-compétence</strong> la plus puissante — surtout pour un cerveau atypique. Quand on connaît son canal préféré (VAK), ses stratégies efficaces, et qu'on développe sa métacognition (savoir comment je sais), on devient autonome. <strong>8 séances</strong> + <strong>quiz VAK</strong> + <strong>8 stratégies</strong> + <strong>carnet méthodes testées</strong>.
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:#5a3c8f">📁</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouveau</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <div class="progres-bar">
+    <span class="lbl">📊 Progression 8 séances</span>
+    <div class="bar"><div class="fill" id="prog-fill" style="width:0%"></div></div>
+    <span class="pct" id="prog-pct">0/8</span>
+  </div>
+
+  <div class="tabs">
+    <button class="active" data-tab="vak">👁👂✋ Quiz VAK</button>
+    <button data-tab="seances">🎓 8 séances</button>
+    <button data-tab="strategies">🛠 8 stratégies</button>
+    <button data-tab="carnet">📒 Mes méthodes testées</button>
+  </div>
+
+  <!-- VAK QUIZ -->
+  <section class="section active" id="vak">
+    <div class="vak-bloc">
+      <h2>👁👂✋ Quel est ton canal d'apprentissage préféré ?</h2>
+      <p style="color:#666;font-size:.9rem;margin-top:0">8 questions rapides. Choisis la réponse qui te parle le plus. Pas de mauvaise réponse.</p>
+      <div id="quiz-vak"></div>
+      <button class="primary" id="btn-result-vak" style="padding:.6em 1.4em;background:#7c5cbf;color:#fff;border:none;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:.5rem">✨ Voir mon profil VAK</button>
+      <div class="vak-resultat" id="vak-resultat"></div>
+    </div>
+  </section>
+
+  <!-- 8 SÉANCES -->
+  <section class="section" id="seances">
+    <div class="seances-grid" id="seances-grid"></div>
+  </section>
+
+  <!-- 8 STRATÉGIES -->
+  <section class="section" id="strategies">
+    <div class="strategies-grid" id="strategies-grid"></div>
+  </section>
+
+  <!-- CARNET -->
+  <section class="section" id="carnet">
+    <div class="carnet">
+      <h2>📒 Aujourd'hui j'ai testé...</h2>
+      <p style="color:#666;font-size:.9rem;margin-top:0">Note ce que tu as essayé · ce qui a marché · ce qui n'a pas marché. C'est <strong>ton carnet de bord</strong> de méthodes.</p>
+      <div class="add-zone">
+        <textarea id="new-entree" placeholder="Ex: « Aujourd'hui j'ai testé Pomodoro 10/3 pour les maths. → Beaucoup mieux. À refaire. »"></textarea>
+        <button id="btn-add-entree">+ Ajouter</button>
+      </div>
+      <div class="entrees" id="liste-entrees"></div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Programme pédagogique non-thérapeutique. Si l'apprentissage reste très difficile malgré ces outils, consulter un orthopédagogue / neuropsychologue pour bilan ciblé.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../parents.html" style="color:#5a3c8f">retour espace parents</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_apprendre_a_apprendre_v1';
+let state={dossiers:{},dossier:null};
+
+const QUIZ_VAK = [
+  {q:"Quand on m'explique quelque chose, je retiens mieux si...", o:[
+    {l:"On me MONTRE un schéma ou une image", c:'V'},
+    {l:"On me l'EXPLIQUE oralement avec des exemples", c:'A'},
+    {l:"On me LAISSE le faire / manipuler moi-même", c:'K'}
+  ]},
+  {q:"Pour mémoriser, ce qui marche le mieux pour moi c'est...", o:[
+    {l:"Faire des cartes mentales, des couleurs, des dessins", c:'V'},
+    {l:"Répéter à voix haute, écouter, expliquer à quelqu'un", c:'A'},
+    {l:"Bouger en récitant, écrire en grand, fabriquer", c:'K'}
+  ]},
+  {q:"Quand je lis, je préfère...", o:[
+    {l:"Surligner et faire des schémas dans la marge", c:'V'},
+    {l:"Lire à voix haute ou écouter en audio", c:'A'},
+    {l:"Prendre des notes en écrivant à la main", c:'K'}
+  ]},
+  {q:"Pour comprendre une consigne complexe, j'aime...", o:[
+    {l:"La voir écrite, avec un exemple visuel", c:'V'},
+    {l:"L'entendre expliquée plusieurs fois", c:'A'},
+    {l:"Essayer de la faire pas-à-pas", c:'K'}
+  ]},
+  {q:"Quand je suis dans la classe et que je décroche, c'est souvent parce que...", o:[
+    {l:"Mon regard part — quelque chose m'attire visuellement", c:'V'},
+    {l:"Le bruit me distrait ou je me parle dans la tête", c:'A'},
+    {l:"J'ai besoin de bouger, je triture, je gigote", c:'K'}
+  ]},
+  {q:"Une journée idéale d'apprentissage pour moi c'est...", o:[
+    {l:"Des documents bien présentés, du calme visuel", c:'V'},
+    {l:"Des échanges, du débat, de la musique", c:'A'},
+    {l:"Du mouvement, des ateliers, des manipulations", c:'K'}
+  ]},
+  {q:"Quand j'ai une émotion forte, j'ai besoin de...", o:[
+    {l:"M'isoler dans un endroit visuellement calme", c:'V'},
+    {l:"Parler / écouter une voix apaisante", c:'A'},
+    {l:"Bouger / sortir / faire du sport", c:'K'}
+  ]},
+  {q:"Mon premier réflexe pour expliquer quelque chose c'est de...", o:[
+    {l:"Dessiner un schéma", c:'V'},
+    {l:"Le raconter avec mes mots", c:'A'},
+    {l:"Montrer en faisant", c:'K'}
+  ]}
+];
+
+const SEANCES = [
+  {n:1, cl:'s1', titre:'🪞 Découvrir mon cerveau qui apprend', obj:"Comprendre que le cerveau N'EST PAS une éponge qui absorbe — c'est un MOTEUR qui doit s'allumer. Pas de honte si certaines choses sont dures : c'est juste que ton moteur tourne autrement.",
+   exos:["Faire le quiz VAK (onglet précédent)","Écrire 3 choses que tu retiens FACILEMENT (ex: paroles de chansons, plans de jeux vidéo) — c'est ton cerveau qui marche","Écrire 3 choses qui te résistent (tables, dates, orthographe) — ce ne sont pas TOI le problème, c'est le canal"]},
+  {n:2, cl:'s2', titre:'🎯 Identifier où ça bloque vraiment', obj:"Pas TOUTE l'école est dure. Identifier précisément OÙ ça coince : matière ? moment ? type de tâche ? Plus c'est précis, plus c'est réparable.",
+   exos:["Liste les 3 matières les plus dures","Pour chacune : qu'est-ce qui coince ? lire ? écrire ? mémoriser ? comprendre ? rester attentif ?","Demander à un adulte de confirmer ou compléter"]},
+  {n:3, cl:'s3', titre:'🌱 Apprendre à se mettre en route', obj:"Le démarrage est LA difficulté n°1 du cerveau atypique. On découvre la règle des 5 minutes + les rituels de mise au travail.",
+   exos:["Tester la règle 5 min : tu commences 5 min, et on voit. Souvent l'élan vient EN faisant.","Créer ton rituel de démarrage : 1 action concrète et toujours la même (sortir 1 cahier · boire 1 verre d'eau · 3 respirations)","Tester le « par où je commence » : choisir la tâche la PLUS petite en premier, pas la plus importante"]},
+  {n:4, cl:'s4', titre:'⏱ Pomodoro adapté & gestion du temps', obj:"Le temps est invisible pour un cerveau TDAH. On le rend VISIBLE et on le découpe.",
+   exos:["Tester Pomodoro 10 min focus + 3 min pause mouvement (au lieu du classique 25/5 trop long)","Utiliser un Time Timer ou une horloge analogique pour VOIR le temps qui passe","Choisir 1 tâche, fixer 10 min, et y aller. Pas de perfection — juste démarrer"]},
+  {n:5, cl:'s5', titre:'🧠 Mémoriser pour de vrai', obj:"Mémoriser n'est pas répéter 10 fois. C'est ESPACÉ : J+1, J+3, J+7. Et c'est ACTIF : se tester, pas relire.",
+   exos:["Choisir 5 choses à mémoriser cette semaine","Les revoir J+1 (le lendemain), J+3 (3 jours après), J+7 (1 semaine après)","Se tester en cachant la réponse — pas en relisant"]},
+  {n:6, cl:'s6', titre:'🌟 Métacognition — savoir comment je sais', obj:"Métacognition = penser sur sa propre pensée. C'est la clé qui transforme un élève en autonome.",
+   exos:["Après chaque exercice, te poser 3 questions : Qu'est-ce que je SAIS ? Qu'est-ce que je COMPRENDS ? Qu'est-ce que je RETIENS ?","Si bloqué : poser la question « qu'est-ce qui me bloque ? » au lieu de « pourquoi je n'y arrive pas ? »","Tenir un mini-carnet : « ce que j'ai appris cette semaine »"]},
+  {n:7, cl:'s7', titre:'🛟 Quand je suis bloqué — protocole', obj:"Tout le monde bloque. La différence c'est ce qu'on fait QUAND on bloque. Protocole en 4 temps.",
+   exos:["1) Respire 3× profondément","2) Note ce que tu ne comprends pas (avec tes mots)","3) Va voir ailleurs (autre exercice, autre matière) — 5 min","4) Reviens avec un œil neuf — demande de l'aide SI besoin"]},
+  {n:8, cl:'s8', titre:'🌳 Ma méthode à moi — synthèse', obj:"Tu n'es pas obligé(e) d'utiliser TOUT ce qu'on a vu. Tu choisis CE QUI MARCHE POUR TOI. Tu fais ta propre méthode.",
+   exos:["Relire le carnet de méthodes testées","Choisir tes 3-5 outils favoris (ceux qui ont marché)","Les écrire sur une fiche À TOI — c'est TA méthode, signée par toi","Refaire le bilan dans 1 mois : qu'est-ce qui marche encore ? qu'est-ce qui a changé ?"]}
+];
+
+const STRATEGIES = [
+  {id:'pomodoro', cl:'scr', titre:'⏱ Pomodoro adapté', desc:"10 min focus + 3 min pause mouvement (au lieu du classique 25/5 trop long pour TDAH). 3 cycles puis pause longue 15 min."},
+  {id:'leitner', cl:'sle', titre:'🗃 Boîte de Leitner', desc:"5 boîtes de cartes-révision : ce que tu sais bien recule en boîte 5 (à revoir rarement), ce que tu hésites reste en boîte 1 (à revoir souvent). Auto-régulation parfaite."},
+  {id:'scr-mc', cl:'smr', titre:'📋 Sais / Comprends / Retiens', desc:"Après chaque chapitre, te poser 3 questions : Qu'est-ce que je SAIS (faits) ? Qu'est-ce que je COMPRENDS (sens) ? Qu'est-ce que je RETIENS (durable) ?"},
+  {id:'autoq', cl:'saq', titre:'❓ Auto-questionnement', desc:"Avant de réviser : 5 questions « si on me demandait sur ce chapitre, quelles seraient les 5 questions ? ». Ça active ton cerveau et te montre les vrais enjeux."},
+  {id:'carte', cl:'scc', titre:'🧠 Carte conceptuelle', desc:"Au lieu de réviser linéaire, dessiner une carte mentale : concept central → branches → sous-branches. Idéal canal Visuel. Avec couleurs."},
+  {id:'feynman', cl:'sfm', titre:'🎤 Méthode Feynman', desc:"Expliquer le concept à quelqu'un qui ne sait rien (ou à un doudou). Si tu ne peux pas l'expliquer simplement, tu ne l'as pas compris. Très puissant."},
+  {id:'mnemo', cl:'smn', titre:'🎨 Mnémotechniques', desc:"Phrases moyens-mémo (« Mais Où Est Donc Or Ni Car »), images mentales absurdes, acronymes. Plus c'est délirant, mieux ça reste."},
+  {id:'lecact', cl:'sla', titre:'📖 Lecture active', desc:"Lire en surlignant 3 idées clés MAX par page · résumer chaque paragraphe en 1 phrase à voix haute · noter 1 question par paragraphe."}
+];
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {vak:{},seances:{},strategies:[],entrees:[]}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Mon parcours 1":blank()};state.dossier="Mon parcours 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function renderQuizVAK(){
+  const c=document.getElementById('quiz-vak');
+  c.innerHTML=QUIZ_VAK.map((q,i)=>`<div class="vak-question"><div class="qst">${i+1}. ${esc(q.q)}</div><div class="options">${q.o.map((o,j)=>`<label><input type="radio" name="vak_${i}" value="${o.c}"><span>${esc(o.l)}</span></label>`).join('')}</div></div>`).join('');
+  // Apply saved
+  const v=current().vak||{};
+  Object.entries(v).forEach(([k,val])=>{
+    if(k.startsWith('q_')){
+      const i=parseInt(k.slice(2));
+      document.querySelectorAll(`input[name="vak_${i}"]`).forEach(r=>{if(r.value===val) r.checked=true});
+    }
+  });
+  c.querySelectorAll('input[type="radio"]').forEach(r=>r.addEventListener('change',e=>{
+    const i=parseInt(r.name.split('_')[1]);
+    current().vak=current().vak||{};current().vak['q_'+i]=r.value;save();
+  }));
+}
+
+function calcVAK(){
+  const counts={V:0,A:0,K:0};
+  const v=current().vak||{};
+  Object.entries(v).forEach(([k,val])=>{if(k.startsWith('q_'))counts[val]=(counts[val]||0)+1});
+  return counts;
+}
+
+document.getElementById('btn-result-vak').onclick=()=>{
+  const c=calcVAK();
+  const total=c.V+c.A+c.K;
+  if(total<5){alert('Réponds au moins à 5 questions pour avoir un résultat fiable.');return}
+  // Dominant
+  const dom=['V','A','K'].reduce((a,b)=>c[b]>c[a]?b:a);
+  const labels={V:'Visuel',A:'Auditif',K:'Kinesthésique'};
+  const recos={
+    V:"Tu apprends d'abord par les yeux. Utilise <strong>schémas, couleurs, cartes mentales, vidéos courtes, surlignage</strong>. Ta zone de bureau doit être bien rangée visuellement.",
+    A:"Tu apprends d'abord par les oreilles. Utilise <strong>lecture à voix haute, podcasts, audio-leçons, expliquer à quelqu'un</strong>. Autorise-toi à te parler à toi-même en révisant.",
+    K:"Tu apprends d'abord par le corps. Utilise <strong>manipulation, mouvement, écriture à la main, gestes, fabrication</strong>. Bouge en révisant — c'est OK !"
+  };
+  const r=document.getElementById('vak-resultat');
+  r.innerHTML=`<h3>🌟 Ton profil VAK</h3>
+    <div class="scores">
+      <div class="s-card" style="--c:#e05a8a"><div class="let">V</div><div class="nb">${c.V}</div><div class="nom">Visuel</div></div>
+      <div class="s-card" style="--c:#7c5cbf"><div class="let">A</div><div class="nb">${c.A}</div><div class="nom">Auditif</div></div>
+      <div class="s-card" style="--c:#2a9d8f"><div class="let">K</div><div class="nb">${c.K}</div><div class="nom">Kinesthésique</div></div>
+    </div>
+    <p style="font-size:.95rem;margin:.4rem 0"><strong>Canal dominant : ${labels[dom]} (${c[dom]}/${total})</strong></p>
+    <div class="reco">${recos[dom]}</div>
+    <p style="font-size:.82rem;color:#888;margin-top:.4rem;font-style:italic">💡 Tu as probablement les 3 canaux — le but n'est pas de t'enfermer dans une case mais d'identifier ton CANAL PRÉFÉRÉ pour t'en servir comme porte d'entrée.</p>`;
+  r.classList.add('visible');
+};
+
+function renderSeances(){
+  const g=document.getElementById('seances-grid');
+  const d=current();
+  g.innerHTML=SEANCES.map(s=>{
+    const sdata=(d.seances&&d.seances['s'+s.n])||{};
+    const done=!!sdata.done;
+    return `<div class="seance-card ${s.cl} ${done?'done':''}">
+      <h3>S${s.n} · ${esc(s.titre)}
+        <label class="check-label ${done?'done':''}"><input type="checkbox" ${done?'checked':''} data-seance="${s.n}"> ${done?'✓ Faite':'À faire'}</label>
+      </h3>
+      <div class="obj">🎯 ${esc(s.obj)}</div>
+      <div class="exos"><strong>Exercices :</strong><ul>${s.exos.map(e=>`<li>${esc(e)}</li>`).join('')}</ul></div>
+      <textarea data-seance-note="${s.n}" placeholder="Mes notes après cette séance...">${esc(sdata.note||'')}</textarea>
+    </div>`;
+  }).join('');
+  g.querySelectorAll('[data-seance]').forEach(c=>c.onchange=e=>{
+    const n=parseInt(e.target.dataset.seance);
+    current().seances=current().seances||{};current().seances['s'+n]=current().seances['s'+n]||{};
+    current().seances['s'+n].done=e.target.checked;save();renderSeances();majProgres();
+  });
+  g.querySelectorAll('[data-seance-note]').forEach(t=>t.addEventListener('input',e=>{
+    const n=parseInt(e.target.dataset.seanceNote);
+    current().seances=current().seances||{};current().seances['s'+n]=current().seances['s'+n]||{};
+    current().seances['s'+n].note=e.target.value;save();
+  }));
+}
+
+function majProgres(){
+  const d=current();
+  const done=SEANCES.filter(s=>d.seances&&d.seances['s'+s.n]&&d.seances['s'+s.n].done).length;
+  document.getElementById('prog-pct').textContent=done+'/8';
+  document.getElementById('prog-fill').style.width=(done/8*100)+'%';
+}
+
+function renderStrategies(){
+  const g=document.getElementById('strategies-grid');
+  const d=current();
+  g.innerHTML=STRATEGIES.map(s=>{
+    const testee=(d.strategies||[]).includes(s.id);
+    return `<div class="strategie-card ${s.cl}">
+      <h4>${esc(s.titre)}</h4>
+      <p>${esc(s.desc)}</p>
+      <label class="a-tester ${testee?'actif':''}"><input type="checkbox" data-strat="${s.id}" ${testee?'checked':''}> ${testee?'✓ Déjà testée':'À tester'}</label>
+    </div>`;
+  }).join('');
+  g.querySelectorAll('[data-strat]').forEach(c=>c.onchange=e=>{
+    const id=e.target.dataset.strat;
+    const d=current();d.strategies=d.strategies||[];
+    if(e.target.checked && !d.strategies.includes(id)) d.strategies.push(id);
+    else if(!e.target.checked) d.strategies=d.strategies.filter(x=>x!==id);
+    save();renderStrategies();
+  });
+}
+
+function renderEntrees(){
+  const c=document.getElementById('liste-entrees');
+  const d=current();
+  const arr=(d.entrees||[]).slice().reverse();
+  if(arr.length===0){c.innerHTML='<em style="color:#888;font-size:.85rem">Aucune entrée. Ajoute ta première au-dessus !</em>';return}
+  c.innerHTML=arr.map((e,i)=>`<div class="entree"><div class="date">${esc(e.date)}</div>${esc(e.txt).replace(/\n/g,'<br>')}<button class="btn-suppr" data-i="${arr.length-1-i}" title="Supprimer">×</button></div>`).join('');
+  c.querySelectorAll('.btn-suppr').forEach(b=>b.onclick=()=>{
+    if(confirm('Supprimer cette entrée ?')){current().entrees.splice(parseInt(b.dataset.i),1);save();renderEntrees();}
+  });
+}
+
+document.getElementById('btn-add-entree').onclick=()=>{
+  const t=document.getElementById('new-entree').value.trim();
+  if(!t)return;
+  current().entrees=current().entrees||[];
+  current().entrees.push({date:new Date().toLocaleDateString('fr-FR'),txt:t});
+  save();renderEntrees();
+  document.getElementById('new-entree').value='';
+};
+
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(b.dataset.tab).classList.add('active');
+});
+
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();renderQuizVAK();renderSeances();renderStrategies();renderEntrees();majProgres();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom :','Mon parcours '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();renderQuizVAK();renderSeances();renderStrategies();renderEntrees();majProgres();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible.');return}
+  if(confirm('Supprimer ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();renderQuizVAK();renderSeances();renderStrategies();renderEntrees();majProgres();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();renderQuizVAK();renderSeances();renderStrategies();renderEntrees();majProgres();}};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  let t=`APPRENDRE À APPRENDRE — 8 SÉANCES\nEducaTypique · Création originale Nawel Haddouch\nDossier : ${state.dossier}\n\n`;
+  const c=calcVAK();const total=c.V+c.A+c.K;
+  if(total>0){const dom=['V','A','K'].reduce((a,b)=>c[b]>c[a]?b:a);t+=`PROFIL VAK : V=${c.V} · A=${c.A} · K=${c.K} → dominant ${dom}\n\n`}
+  t+=`PROGRESSION 8 SÉANCES :\n`;
+  SEANCES.forEach(s=>{
+    const sd=(d.seances&&d.seances['s'+s.n])||{};
+    t+=`  ${sd.done?'[✓]':'[ ]'} S${s.n} · ${s.titre}\n`;
+    if(sd.note) t+=`      Note : ${sd.note}\n`;
+  });
+  t+=`\nSTRATÉGIES TESTÉES : ${(d.strategies||[]).map(id=>STRATEGIES.find(s=>s.id===id)?.titre||id).join(' · ')||'(aucune)'}\n\n`;
+  t+=`CARNET DE BORD :\n`;
+  (d.entrees||[]).forEach(e=>t+=`  · ${e.date} — ${e.txt}\n`);
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`apprendre-a-apprendre-${state.dossier.replace(/[^a-z0-9]/gi,'_')}.txt`;a.click();
+};
+
+load();refreshDossier();renderQuizVAK();renderSeances();renderStrategies();renderEntrees();majProgres();
+</script>
+
+</body>
+</html>

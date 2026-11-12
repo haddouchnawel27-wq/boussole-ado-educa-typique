@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilan Neuropéda 4 Théoriciens — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#f5f0fa,#fff)}
+.bandeau{background:linear-gradient(135deg,#7c5cbf,#5a7a9f);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.7rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:1050px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #7c5cbf;line-height:1.55}
+.intro strong{color:#5a3c8f}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #d8c9f0;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#7c5cbf;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#5a3c8f;border:1.5px solid #d8c9f0}
+
+.tabs{display:flex;gap:.3rem;background:#fff;padding:.4rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);flex-wrap:wrap}
+.tabs button{flex:1;min-width:130px;padding:.6em .9em;background:transparent;color:#666;border:none;font-weight:700;cursor:pointer;border-radius:var(--r-sm);font-family:inherit;font-size:.88rem}
+.tabs button.active{background:var(--c-active);color:#fff}
+.tabs button[data-tab="piaget"]{--c-active:#7c5cbf}
+.tabs button[data-tab="vygotski"]{--c-active:#2a9d8f}
+.tabs button[data-tab="bowlby"]{--c-active:#F39BC2}
+.tabs button[data-tab="erikson"]{--c-active:#e9a73a}
+.tabs button[data-tab="synth"]{--c-active:#5a3c8f}
+
+.section{display:none}
+.section.active{display:block}
+
+.theoricien{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c)}
+.theoricien h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem;display:flex;align-items:center;gap:.4rem}
+.theoricien .concept{background:#faf6fb;border-left:4px solid var(--c);padding:.6rem .9rem;border-radius:var(--r-sm);margin-bottom:.7rem;font-size:.9rem;line-height:1.55;color:#444;font-style:italic}
+.theoricien .concept strong{color:var(--c);font-style:normal}
+
+.activite-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.6rem}
+.activite{background:#fafbfc;border-radius:var(--r-md);padding:.7rem .9rem;border-left:4px solid var(--c)}
+.activite h4{color:var(--c);margin:0 0 .3rem;font-size:.93rem}
+.activite .obj{color:#666;font-size:.82rem;font-style:italic;margin-bottom:.4rem;line-height:1.45}
+.activite .echelle{display:flex;gap:.25rem;margin-top:.3rem}
+.activite .echelle label{flex:1;padding:.35em .5em;background:#fff;border:1.5px solid #e0d0e8;border-radius:var(--r-sm);cursor:pointer;font-size:.78rem;font-weight:700;color:#666;text-align:center}
+.activite .echelle label:hover{border-color:var(--c)}
+.activite .echelle input{display:none}
+.activite .echelle input:checked + .v{background:var(--c);color:#fff;display:block;margin:-.35em -.5em;padding:.35em .5em;border-radius:var(--r-sm)}
+.activite textarea{width:100%;margin-top:.4rem;padding:.4em .55em;border:1px solid #e0d0e8;border-radius:var(--r-sm);font-family:inherit;font-size:.83rem;background:#fff;min-height:40px;resize:vertical;line-height:1.4}
+
+.tp{--c:#7c5cbf}
+.tv{--c:#2a9d8f}
+.tb{--c:#F39BC2}
+.te{--c:#e9a73a}
+
+/* Synthèse */
+.synthese-bloc{background:linear-gradient(135deg,#fff,#f5f0fa);border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border:2px solid #d8c9f0}
+.synthese-bloc h2{color:#5a3c8f;margin:0 0 .5rem}
+.synth-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem;margin:.5rem 0}
+.synth-card{background:#fff;border-radius:var(--r-md);padding:.7rem .9rem;border-top:3px solid var(--c)}
+.synth-card h3{color:var(--c);margin:0 0 .3rem;font-size:.93rem}
+.synth-card textarea{width:100%;padding:.4em .55em;border:1px solid #e0d0e8;border-radius:var(--r-sm);font-family:inherit;font-size:.85rem;background:#faf6fb;min-height:60px;resize:vertical;line-height:1.45}
+
+.profil-final{background:#fff;border-radius:var(--r-md);padding:.9rem 1.1rem;margin-top:.6rem;border-left:5px solid #5a3c8f}
+.profil-final h3{color:#5a3c8f;margin:0 0 .3rem}
+.profil-final textarea{width:100%;padding:.5em;border:1.5px solid #d8c9f0;border-radius:var(--r-sm);font-family:inherit;font-size:.93rem;background:#faf6fb;min-height:70px;resize:vertical;line-height:1.55}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #7c5cbf;background:#fff;color:#5a3c8f;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#7c5cbf;color:#fff}
+.actions .primary{background:#7c5cbf;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+
+@media print{
+  body{background:#fff}
+  .tabs,.dossier-bar,.actions,.bandeau .retour{display:none!important}
+  .section{display:block!important}
+  .theoricien,.synthese-bloc,.intro{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace pros</a>
+  <h1>🏛️ Bilan Neuropéda — 4 Théoriciens</h1>
+  <p class="sub">Évaluation pédagogique sur les 4 grandes dimensions du développement : <strong>Piaget</strong> (cognitif) · <strong>Vygotski</strong> (ZPD) · <strong>Bowlby</strong> (attachement) · <strong>Erikson</strong> (psychosocial).</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🏛️ <strong>Pourquoi cet outil ?</strong> Croise les <strong>4 piliers du développement</strong> pour dresser un profil global. Permet d'aller au-delà du fonctionnel pur (FE, sensoriel) pour comprendre <em>où en est l'enfant dans son développement psycho-cognitif global</em>. Chaque section : 5 activités-supports cotées + observations qualitatives.
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:#5a3c8f">📁</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouveau</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+  <div class="dossier-bar">
+    <input type="text" data-k="prenom" placeholder="Prénom / initiales">
+    <input type="text" data-k="age" placeholder="Âge">
+    <input type="date" data-k="date">
+    <input type="text" data-k="pro" placeholder="Pro évaluateur">
+  </div>
+
+  <div class="tabs">
+    <button class="active" data-tab="piaget">🧠 Piaget</button>
+    <button data-tab="vygotski">📈 Vygotski</button>
+    <button data-tab="bowlby">💗 Bowlby</button>
+    <button data-tab="erikson">🌱 Erikson</button>
+    <button data-tab="synth">🪞 Synthèse</button>
+  </div>
+
+  <!-- PIAGET -->
+  <section class="section active" id="piaget">
+    <div class="theoricien tp" style="--c:#7c5cbf">
+      <h2>🧠 Piaget — Raisonnement logique / concret</h2>
+      <div class="concept"><strong>Concept clé :</strong> l'enfant construit ses opérations mentales par stades (sensori-moteur · pré-opératoire · opératoire concret · formel). Évaluer ici sa capacité de raisonnement logique et de manipulation concrète.</div>
+      <div class="activite-grid" id="g-piaget"></div>
+    </div>
+  </section>
+
+  <!-- VYGOTSKI -->
+  <section class="section" id="vygotski">
+    <div class="theoricien tv" style="--c:#2a9d8f">
+      <h2>📈 Vygotski — Zone Proximale de Développement</h2>
+      <div class="concept"><strong>Concept clé :</strong> entre ce que l'enfant SAIT faire seul et ce qu'il fait AVEC AIDE, il y a la ZPD — la zone d'apprentissage active. Évaluer ici l'écart entre autonomie et étayage.</div>
+      <div class="activite-grid" id="g-vygotski"></div>
+    </div>
+  </section>
+
+  <!-- BOWLBY -->
+  <section class="section" id="bowlby">
+    <div class="theoricien tb" style="--c:#F39BC2">
+      <h2>💗 Bowlby / Ainsworth — Attachement &amp; affectivité</h2>
+      <div class="concept"><strong>Concept clé :</strong> la sécurité affective conditionne TOUT — exploration, apprentissage, régulation. Évaluer ici l'expression émotionnelle, la qualité du lien et la capacité à demander de l'aide.</div>
+      <div class="activite-grid" id="g-bowlby"></div>
+    </div>
+  </section>
+
+  <!-- ERIKSON -->
+  <section class="section" id="erikson">
+    <div class="theoricien te" style="--c:#e9a73a">
+      <h2>🌱 Erikson — Estime de soi et motivation</h2>
+      <div class="concept"><strong>Concept clé :</strong> à chaque âge, un défi psychosocial à résoudre (confiance, autonomie, initiative, compétence...). Évaluer ici l'estime de soi, le rapport à la réussite et la motivation intrinsèque.</div>
+      <div class="activite-grid" id="g-erikson"></div>
+    </div>
+  </section>
+
+  <!-- SYNTHESE -->
+  <section class="section" id="synth">
+    <div class="synthese-bloc">
+      <h2>🪞 Synthèse globale du bilan</h2>
+      <div class="synth-grid">
+        <div class="synth-card" style="--c:#7c5cbf"><h3>🧠 Lecture Piaget</h3><textarea data-syn="s-piaget" placeholder="Stade dominant, opérations stables, manipulations nécessaires…"></textarea></div>
+        <div class="synth-card" style="--c:#2a9d8f"><h3>📈 Lecture Vygotski</h3><textarea data-syn="s-vygotski" placeholder="Type d'étayage efficace, ZPD active, fenêtre d'apprentissage…"></textarea></div>
+        <div class="synth-card" style="--c:#F39BC2"><h3>💗 Lecture Bowlby</h3><textarea data-syn="s-bowlby" placeholder="Type d'attachement repéré, sécurité affective, expression émo…"></textarea></div>
+        <div class="synth-card" style="--c:#e9a73a"><h3>🌱 Lecture Erikson</h3><textarea data-syn="s-erikson" placeholder="Défi psychosocial en cours, estime de soi, motivation…"></textarea></div>
+      </div>
+      <div class="profil-final">
+        <h3>🎯 Profil global + recommandations</h3>
+        <textarea data-syn="s-global" placeholder="Profil intégrateur des 4 dimensions. Compétences à renforcer · type de soutien optimal · stratégies de séance · aménagements maison/école · orientations pluri-pro."></textarea>
+      </div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer A4</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Outil pédagogique non-diagnostique. Croise avec : Pack Fondation Pro · Profil FE · Atelier ZPD · bilans pluri-pro selon profil.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../professionnels.html" style="color:#5a3c8f">retour espace pros</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_bilan_4_theoriciens_v1';
+let state={dossiers:{},dossier:null};
+
+const ACTIVITES = {
+  piaget:[
+    {id:'classement', t:"Classement (objets, formes, animaux)", obj:"Capacité de catégorisation logique"},
+    {id:'incoherence', t:"Repérage d'incohérences (histoire ou image)", obj:"Pensée critique, raisonnement"},
+    {id:'justif', t:"Justification logique (« pourquoi tu as choisi ça ? »)", obj:"Argumentation, pensée causale"},
+    {id:'abstrait', t:"Résistance à l'abstrait", obj:"Bloque ou réussit sur du non-tangible ?"},
+    {id:'manip', t:"Besoin de manipulation", obj:"A-t-il/elle besoin du concret pour comprendre ?"}
+  ],
+  vygotski:[
+    {id:'pliage', t:"Pliage / dessin complexe", obj:"Motricité fine guidée"},
+    {id:'pbmath', t:"Problème mathématique (adapté à l'âge)", obj:"Raisonnement quantitatif"},
+    {id:'consigne', t:"Compréhension d'une consigne en 3 étapes", obj:"Mémoire de travail + exécution"},
+    {id:'persev', t:"Persévérance face à la difficulté", obj:"Que fait-il/elle quand bloqué(e) ?"},
+    {id:'echec', t:"Réaction à l'échec", obj:"Frustration · abandon · demande d'aide ?"}
+  ],
+  bowlby:[
+    {id:'roue', t:"Roue des émotions (identifier ce qu'il/elle ressent)", obj:"Vocabulaire émotionnel"},
+    {id:'histoire', t:"Histoire inachevée à projeter (« et après ? »)", obj:"Capacité de projection émotionnelle"},
+    {id:'frustration', t:"Gestion d'une frustration provoquée légère", obj:"Régulation émotionnelle en situation"},
+    {id:'rel-adulte', t:"Relation avec l'adulte pro", obj:"Confiance, contact visuel, demande d'aide"},
+    {id:'fratrie', t:"Discussion sur la fratrie / les amis", obj:"Qualité des liens affectifs"}
+  ],
+  erikson:[
+    {id:'fleur', t:"Fleur des réussites (qu'est-ce qu'il/elle a réussi cette semaine ?)", obj:"Auto-perception positive"},
+    {id:'compliments', t:"Réaction aux compliments sincères", obj:"Reçoit-il/elle ? Minimise-t-il/elle ?"},
+    {id:'echec2', t:"Réaction aux remarques (échec doux)", obj:"Critique constructive supportée ?"},
+    {id:'thermo', t:"Thermomètre de motivation (« j'ai envie de venir à ces séances ? »)", obj:"Motivation intrinsèque"},
+    {id:'interets', t:"Centres d'intérêt spontanés", obj:"Passions, leviers de motivation"}
+  ]
+};
+
+const ECHELLES = {
+  piaget:[{v:'R',l:'Réussite'},{v:'D',l:'Difficulté'}],
+  vygotski:[{v:'A',l:'Autonome'},{v:'AV',l:'Avec aide'},{v:'BL',l:'Bloqué'}],
+  bowlby:[{v:'C',l:'Claire'},{v:'B',l:'Blocage / insécurité'}],
+  erikson:[{v:'P',l:'Positive'},{v:'F',l:'Faible / négative'}]
+};
+
+const COULEURS={piaget:'#7c5cbf',vygotski:'#2a9d8f',bowlby:'#F39BC2',erikson:'#e9a73a'};
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {meta:{},vals:{},notes:{},syn:{}}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Bilan 1":blank()};state.dossier="Bilan 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function renderActivites(){
+  Object.entries(ACTIVITES).forEach(([key,arr])=>{
+    const g=document.getElementById('g-'+key);
+    const ech=ECHELLES[key];
+    g.innerHTML=arr.map(a=>`<div class="activite t${key.charAt(0)}" style="--c:${COULEURS[key]}">
+      <h4>${esc(a.t)}</h4>
+      <div class="obj">🎯 ${esc(a.obj)}</div>
+      <div class="echelle">
+        ${ech.map(e=>`<label><input type="radio" name="${key}_${a.id}" value="${e.v}"><span class="v">${esc(e.l)}</span></label>`).join('')}
+      </div>
+      <textarea data-note="${key}_${a.id}" placeholder="Observations qualitatives, exemples vus..."></textarea>
+    </div>`).join('');
+  });
+}
+
+function appliquer(){
+  const d=current();
+  document.querySelectorAll('[data-k]').forEach(el=>el.value=(d.meta&&d.meta[el.dataset.k])||'');
+  document.querySelectorAll('[data-syn]').forEach(el=>el.value=(d.syn&&d.syn[el.dataset.syn])||'');
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{
+    r.checked=(d.vals&&d.vals[r.name]===r.value);
+  });
+  document.querySelectorAll('[data-note]').forEach(t=>t.value=(d.notes&&d.notes[t.dataset.note])||'');
+}
+
+document.addEventListener('change',e=>{
+  const el=e.target;const d=current();
+  if(el.dataset.k){d.meta=d.meta||{};d.meta[el.dataset.k]=el.value;save();}
+  else if(el.type==='radio'){d.vals=d.vals||{};d.vals[el.name]=el.value;save();}
+});
+document.addEventListener('input',e=>{
+  const el=e.target;const d=current();
+  if(el.dataset.k){d.meta=d.meta||{};d.meta[el.dataset.k]=el.value;save();}
+  else if(el.dataset.syn){d.syn=d.syn||{};d.syn[el.dataset.syn]=el.value;save();}
+  else if(el.dataset.note){d.notes=d.notes||{};d.notes[el.dataset.note]=el.value;save();}
+});
+
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(b.dataset.tab).classList.add('active');
+});
+
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();appliquer();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom :','Bilan '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible.');return}
+  if(confirm('Supprimer ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();appliquer();}};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  let t=`BILAN NEUROPÉDA — 4 THÉORICIENS\nEducaTypique · Création originale Nawel Haddouch\n\n`;
+  Object.entries(d.meta||{}).forEach(([k,v])=>{if(v) t+=`${k} : ${v}\n`});t+='\n';
+  Object.entries(ACTIVITES).forEach(([key,arr])=>{
+    t+=`══ ${key.toUpperCase()} ══\n`;
+    arr.forEach(a=>{
+      const v=(d.vals||{})[key+'_'+a.id];
+      const n=(d.notes||{})[key+'_'+a.id];
+      t+=`  ${a.t}\n    Cotation : ${v||'—'}\n`;
+      if(n) t+=`    Obs : ${n}\n`;
+    });t+='\n';
+  });
+  t+=`══ SYNTHÈSE ══\n`;
+  ['s-piaget','s-vygotski','s-bowlby','s-erikson','s-global'].forEach(k=>{const v=(d.syn||{})[k];if(v) t+=`${k} :\n${v}\n\n`});
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`bilan-4-theoriciens-${(d.meta?.prenom)||'enfant'}-${(d.meta?.date)||new Date().toISOString().slice(0,10)}.txt`;a.click();
+};
+
+load();refreshDossier();renderActivites();
+document.querySelector('[data-k="date"]').valueAsDate=new Date();
+appliquer();
+</script>
+
+</body>
+</html>

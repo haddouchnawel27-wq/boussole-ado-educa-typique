@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Accompagner l'autonomie de mon ado — Educa Typique</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { margin: 1.5cm; size: A4; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body {
+    font-family: 'Nunito', 'Quicksand', sans-serif;
+    color: #2E2A5C;
+    line-height: 1.6;
+    background: #F7F2EC;
+    padding: 2rem;
+    font-size: 11pt;
+  }
+  .page {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    background: #FFFFFF;
+    padding: 2.5rem 3rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-radius: 8px;
+  }
+  /* BANDEAU TRICOLORE (charte 3 mascottes) */
+  .strip {
+    display: flex;
+    height: 8px;
+    margin: -2.5rem -3rem 2rem -3rem;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+  }
+  .strip > div { height: 100%; }
+  /* EN-TÊTE */
+  .header { text-align: center; margin-bottom: 2.2rem; }
+  .brand {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14pt;
+    color: #F39BC2;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .tagline {
+    font-size: 9pt;
+    color: #7A6E94;
+    font-style: italic;
+    margin-top: 0.3rem;
+  }
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22pt;
+    color: #2E2A5C;
+    font-weight: 700;
+    margin-top: 1.2rem;
+    line-height: 1.2;
+  }
+  h1 .accent { color: #F39BC2; }
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13pt;
+    color: #2E2A5C;
+    font-weight: 600;
+    margin: 1.8rem 0 0.6rem;
+    padding-left: 0.7rem;
+    border-left: 4px solid #CBB6F6;
+  }
+  h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11pt;
+    color: #D87BA8;
+    font-weight: 600;
+    margin: 0.9rem 0 0.3rem;
+  }
+  p { margin-bottom: 0.7rem; }
+  ul { padding-left: 1.3rem; margin-bottom: 0.7rem; }
+  li { margin-bottom: 0.4rem; }
+  strong { color: #2E2A5C; font-weight: 700; }
+  em { color: #6B6680; font-style: italic; }
+
+  /* ENCADRÉ CITATION */
+  .opening {
+    background: linear-gradient(135deg, #FBEFE6 0%, #F8CFE0 100%);
+    padding: 1.3rem 1.5rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    text-align: center;
+    font-style: italic;
+    font-size: 11.5pt;
+    color: #2E2A5C;
+    border-left: 4px solid #F39BC2;
+  }
+  /* ENCADRÉ PILIER */
+  .pillar {
+    background: #FBEFE6;
+    border-radius: 10px;
+    padding: 1.1rem 1.3rem;
+    margin: 0.9rem 0;
+    border-left: 4px solid;
+  }
+  .pillar.p1 { border-left-color: #F39BC2; background: #FCE6EE; }
+  .pillar.p2 { border-left-color: #CBB6F6; background: #F2EAFC; }
+  .pillar.p3 { border-left-color: #BDEAD7; background: #EAF7F1; }
+  .pillar.p4 { border-left-color: #8ED9D2; background: #E4F4F2; }
+  .pillar-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #2E2A5C;
+    margin-bottom: 0.4rem;
+    font-size: 11.5pt;
+  }
+  .pillar-emoji { font-size: 14pt; margin-right: 0.4rem; }
+
+  /* TABLEAU OUI / NON */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 0.8rem 0;
+  }
+  .compare > div {
+    padding: 0.9rem 1rem;
+    border-radius: 8px;
+  }
+  .compare .no {
+    background: #FFE8E8;
+    border-left: 3px solid #E89B9B;
+  }
+  .compare .yes {
+    background: #E4F4F2;
+    border-left: 3px solid #8ED9D2;
+  }
+  .compare .label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 9pt;
+    margin-bottom: 0.3rem;
+    color: #6B6680;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* FOOTER */
+  .closing {
+    background: #FFD6C2;
+    padding: 1.3rem 1.5rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+    text-align: center;
+    color: #2E2A5C;
+    font-weight: 500;
+  }
+  .closing strong { color: #D87BA8; }
+
+  /* LIGNE DÉCORATIVE */
+  .line {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #CBB6F6 30%, #CBB6F6 70%, transparent);
+    margin: 1.5rem 0;
+  }
+  .signature {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 9pt;
+    color: #7A6E94;
+    font-style: italic;
+  }
+  .signature strong {
+    color: #F39BC2;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  /* IMPRESSION */
+  @media print {
+    body { background: #FFFFFF; padding: 0; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; max-width: none; }
+    .page-break { page-break-before: always; }
+    .print-bar { display: none !important; }
+  }
+  .print-bar {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: #F39BC2; color: white;
+    padding: 0.7rem 1rem; text-align: center;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-family: 'Nunito', sans-serif;
+  }
+  .print-bar button {
+    background: white; color: #F39BC2;
+    border: none; padding: 0.45rem 1.2rem; margin-left: 0.5rem;
+    border-radius: 6px; cursor: pointer;
+    font-weight: 700; font-size: 10pt;
+    font-family: 'Nunito', sans-serif;
+  }
+  .body-pad { padding-top: 3rem; }
+</style>
+</head>
+<body>
+
+<div class="print-bar">
+  🌷 Fiche prête — Imprime-la ou enregistre-la en PDF
+  <button onclick="window.print()">🖨️ Imprimer / PDF</button>
+</div>
+
+<div class="body-pad">
+
+<!-- ═══════════════ PAGE 1 ═══════════════ -->
+<div class="page">
+
+  <div class="strip">
+    <div style="background:#F39BC2; flex:3"></div>
+    <div style="background:#CBB6F6; flex:2"></div>
+    <div style="background:#8ED9D2; flex:1"></div>
+  </div>
+
+  <div class="header">
+    <div class="brand">EDUCA TYPIQUE</div>
+    <div class="tagline">Comprendre chaque enfant, valoriser chaque parcours</div>
+    <h1>Accompagner l'autonomie<br><span class="accent">de mon ado</span></h1>
+    <div style="font-size:10pt; color:#7A6E94; margin-top:0.4rem; font-style:italic;">
+      Fiche psychoéducative pour parents · Tranche d'âge 12-17 ans
+    </div>
+  </div>
+
+  <div class="opening">
+    « Contrairement à ce qu'il laisse parfois entendre,<br>
+    votre adolescent·e a <strong>toujours</strong> besoin de vous —<br>
+    peut-être même <strong>plus que jamais</strong>, mais <em>autrement</em>. »
+  </div>
+
+  <h2>Ce qui se joue à l'adolescence</h2>
+
+  <p>L'adolescence est <strong>une période de transition</strong> entre l'enfance et l'âge adulte. Votre enfant traverse une mue intérieure : il ou elle apprend, pas à pas, à devenir <strong>autonome</strong> et <strong>indépendant·e</strong>.</p>
+
+  <p>Cette prise de distance est <strong>normale, saine et nécessaire</strong>. Pourtant, en tant que parent, elle peut être <em>vécue comme un éloignement, une perte, un rejet</em>. Et c'est là que naissent souvent les tensions et les conflits du quotidien.</p>
+
+  <p>Notre ado vit alors un paradoxe difficile à porter : il dépend encore de nous <em>matériellement, affectivement, socialement</em>… mais il aspire de toutes ses forces à plus de liberté. Pour traverser cette étape, il a besoin de :</p>
+
+  <ul>
+    <li>🌱 <strong>Reconnaissance</strong> à sa juste valeur</li>
+    <li>🌷 <strong>Confiance</strong> de notre part</li>
+    <li>🌿 <strong>Écoute</strong> sans jugement</li>
+    <li>🪷 <strong>Responsabilités</strong> à sa mesure</li>
+    <li>🌸 <strong>Limites</strong> structurantes</li>
+  </ul>
+
+  <h2>Notre rôle parental doit évoluer</h2>
+
+  <p>Quand notre enfant était petit, nous étions <strong>éducateur·rice</strong> et <strong>protecteur·rice</strong>. À l'adolescence, ces deux casquettes doivent doucement laisser la place à deux autres :</p>
+
+  <div class="compare">
+    <div class="no">
+      <div class="label">❌ Hier · l'enfance</div>
+      <strong>Éducateur · Protecteur</strong><br>
+      <em>« Je décide pour toi, je te protège de tout. »</em>
+    </div>
+    <div class="yes">
+      <div class="label">✅ Aujourd'hui · l'adolescence</div>
+      <strong>Guide · Confident</strong><br>
+      <em>« Je marche à côté de toi, je suis là si tu as besoin. »</em>
+    </div>
+  </div>
+
+  <p>Ce passage est <strong>progressif</strong>. Il ne se fait pas en un jour. Mais sans ce changement de posture, le conflit devient quasi inévitable.</p>
+
+  <div class="signature">
+    <strong>Educa Typique</strong> · Fiche psychoéducative parents · Page 1/3
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2 ═══════════════ -->
+<div class="page page-break">
+
+  <div class="strip">
+    <div style="background:#F39BC2; flex:3"></div>
+    <div style="background:#CBB6F6; flex:2"></div>
+    <div style="background:#8ED9D2; flex:1"></div>
+  </div>
+
+  <h2>4 piliers pour accompagner l'autonomie</h2>
+
+  <div class="pillar p1">
+    <div class="pillar-title"><span class="pillar-emoji">🌷</span>1. Accueillir le désir d'autonomie comme une étape saine</div>
+    <p style="margin-bottom:0.4rem;">Notre ado qui veut s'éloigner n'est pas un ado qui nous rejette. Il <em>se construit</em>. Accepter qu'il fasse ses propres expériences — <strong>même si cela passe par des erreurs et des échecs</strong> — c'est lui faire un cadeau immense.</p>
+    <p style="margin-bottom:0;"><strong>En pratique :</strong> respirer profondément avant de réagir. Se rappeler que cette phase a une fin, et qu'elle est le passage obligé vers un·e adulte solide.</p>
+  </div>
+
+  <div class="pillar p2">
+    <div class="pillar-title"><span class="pillar-emoji">🌿</span>2. Soutenir l'autonomie de façon progressive</div>
+    <p style="margin-bottom:0.4rem;">Confier des responsabilités <strong>graduées</strong> selon l'âge et la maturité. Trop d'un coup génère anxiété et sentiment d'incompétence. Pas assez nourrit la frustration et le sentiment d'être infantilisé·e.</p>
+    <p style="margin-bottom:0.4rem;"><strong>Le bon dosage :</strong> placer son ado en <strong>situation de réussite</strong>. Lâcher la pression scolaire. Établir un <em>contrat de confiance</em> plutôt qu'un contrôle permanent.</p>
+    <div class="compare" style="margin-top:0.6rem;">
+      <div class="no">
+        <div class="label">❌ Ce qui épuise</div>
+        <em>« As-tu fait tes devoirs ?<br>Tu ne sortiras pas tant que… »</em>
+      </div>
+      <div class="yes">
+        <div class="label">✅ Ce qui responsabilise</div>
+        <em>« Comment tu organises<br>ton travail cette semaine ? »</em>
+      </div>
+    </div>
+  </div>
+
+  <div class="pillar p3">
+    <div class="pillar-title"><span class="pillar-emoji">🌸</span>3. Instaurer un dialogue ouvert</div>
+    <p style="margin-bottom:0.4rem;">Maintenir la communication est <strong>primordial</strong>. Mais pas n'importe comment :</p>
+    <ul style="margin-bottom:0.5rem;">
+      <li><strong>Questions ouvertes</strong> qui invitent à développer : <em>Pourquoi ? Comment ? Qu'est-ce que tu en penses ?</em></li>
+      <li><strong>Éviter les questions fermées</strong> qui se ferment par oui/non : <em>Est-ce que tu… ? Ne crois-tu pas que… ?</em></li>
+      <li><strong>Pratiquer l'écoute active</strong> : être vraiment disponible, regarder dans les yeux, ne pas couper la parole, ne pas chercher à convaincre ni à raisonner immédiatement</li>
+      <li>Pas d'interrogatoire ! Ces moments doivent rester <em>agréables</em></li>
+      <li>Si le face-à-face bloque : <strong>autoriser l'écrit</strong> (texto, mail, message). Notre ado y est souvent plus à l'aise</li>
+    </ul>
+    <p style="margin-bottom:0;"><strong>Le piège classique :</strong> vouloir tout de suite <em>donner une solution</em>. Souvent, notre ado a juste besoin d'être entendu·e, pas conseillé·e.</p>
+  </div>
+
+  <div class="pillar p4">
+    <div class="pillar-title"><span class="pillar-emoji">🪷</span>4. Construire une confiance mutuelle et graduée</div>
+    <p style="margin-bottom:0.4rem;">La confiance est <strong>bidirectionnelle</strong>. Nous devons croire en ses capacités naissantes ; il doit pouvoir croire que nos règles sont là pour <em>le protéger</em>, pas pour le frustrer.</p>
+    <p style="margin-bottom:0.4rem;"><strong>Attentes réalistes :</strong> on ne fait pas confiance de la même façon à un·e ado de 12 ans et à un·e de 16 ans. Chaque jeune évolue à son rythme.</p>
+    <p style="margin-bottom:0;"><strong>Et nous, on peut se tromper aussi :</strong> reconnaître une erreur parentale renforce la confiance de notre ado, et lui apprend que <em>l'erreur est humaine</em>. C'est un cadeau pour la suite.</p>
+  </div>
+
+  <div class="signature">
+    <strong>Educa Typique</strong> · Fiche psychoéducative parents · Page 2/3
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 3 ═══════════════ -->
+<div class="page page-break">
+
+  <div class="strip">
+    <div style="background:#F39BC2; flex:3"></div>
+    <div style="background:#CBB6F6; flex:2"></div>
+    <div style="background:#8ED9D2; flex:1"></div>
+  </div>
+
+  <h2>3 pratiques concrètes à essayer cette semaine</h2>
+
+  <h3>🌱 Pratique 1 — La phrase qui change tout</h3>
+  <p>Quand notre ado nous partage un souci, au lieu de répondre par un conseil ou un jugement, essayer simplement :</p>
+  <div class="opening" style="font-size:11pt; margin:0.6rem 0;">
+    « Je comprends que cela t'affecte. Tu veux m'en dire plus ? »
+  </div>
+  <p>Cette phrase montre qu'on l'écoute, sans minimiser, sans donner de solution toute faite. Notre ado se sent <strong>vu·e</strong>, et c'est souvent <em>tout ce dont il ou elle avait besoin</em>.</p>
+
+  <div class="line"></div>
+
+  <h3>🌷 Pratique 2 — Le contrat de confiance</h3>
+  <p>Choisir <strong>un seul domaine</strong> (devoirs, sorties, écrans, rangement de la chambre…) et proposer à notre ado de définir <em>ensemble</em> :</p>
+  <ul>
+    <li>Ce qu'il ou elle s'engage à faire</li>
+    <li>Ce que nous, parents, on s'engage à <strong>ne plus</strong> faire (rabâcher, vérifier, surveiller…)</li>
+    <li>Une date pour faire le point ensemble (2 semaines, 1 mois)</li>
+  </ul>
+  <p>Si le contrat est respecté, on peut l'<strong>assouplir</strong> pour aller vers plus d'autonomie. S'il est écorné, on le revoit ensemble — <em>sans punition, sans drame</em>.</p>
+
+  <div class="line"></div>
+
+  <h3>🌿 Pratique 3 — Se montrer en humain·e, pas seulement en parent</h3>
+  <p>Oser parler de nos propres émotions, de nos inquiétudes, de nos doutes : <em>« Ce que tu m'as dit hier m'a touché·e, j'aimerais qu'on en reparle. »</em> · <em>« Je me trompe parfois, et je suis prêt·e à le reconnaître quand c'est le cas. »</em></p>
+  <p>Cette posture invite notre ado à faire de même. Le dialogue s'ouvre <strong>par l'exemple</strong>, pas par la consigne.</p>
+
+  <div class="closing">
+    🌷 <strong>L'essentiel à retenir</strong> 🌷<br>
+    <span style="font-size:10.5pt;">
+    Notre ado a besoin de nous, <strong>mais autrement</strong>.<br>
+    Notre rôle : passer de <em>protecteur</em> à <strong>guide bienveillant</strong>.<br>
+    L'autonomie n'est pas un cadeau qu'on offre — c'est un <strong>chemin qu'on accompagne</strong>.
+    </span>
+  </div>
+
+  <div class="line"></div>
+
+  <div style="text-align:center; margin-top:1.2rem; font-size:9.5pt; color:#7A6E94;">
+    <strong style="color:#F39BC2; font-family:'Poppins',sans-serif;">Educa Typique</strong><br>
+    <em>Spécialiste TND · Neuropédagogue · Coach adolescents</em><br>
+    <span style="font-size:8.5pt;">Document à reproduire librement dans un cadre non commercial · Pour toute question : prenez rendez-vous au cabinet</span>
+  </div>
+
+  <div class="signature" style="margin-top:1.5rem;">
+    <strong>Educa Typique</strong> · Fiche psychoéducative parents · Page 3/3
+  </div>
+</div>
+
+</div>
+
+</body>
+</html>

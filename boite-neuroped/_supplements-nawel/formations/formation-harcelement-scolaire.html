@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Educa Typique — Formation : Le Harcèlement scolaire</title>
+<style>
+  :root{
+    --sarcelle:#3C6478;
+    --sarcelle-fonce:#2C4C5C;
+    --magenta:#F050C8;
+    --cielclair:#B4F0F0;
+    --lavande:#C8A0F0;
+    --menthe:#B4F0C8;
+    --jaune:#F0F078;
+    --charbon:#4A4540;
+    --taupe:#7D7269;
+    --beige:#F0E4D3;
+    --blanccasse:#FAF7F2;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--beige); font-family:'Trebuchet MS','Segoe UI',Verdana,sans-serif; color:var(--charbon);}
+  .page{max-width:880px; margin:0 auto; padding:40px 26px 70px;}
+
+  /* COVER */
+  .cover{background:var(--sarcelle); color:#fff; border-radius:22px; padding:56px 40px; text-align:center; margin-bottom:10px;}
+  .cover .logo{font-size:15px; letter-spacing:3px; text-transform:uppercase; opacity:0.85; margin-bottom:22px;}
+  .cover .logo svg{vertical-align:middle; margin-right:6px;}
+  .cover h1{font-size:34px; margin:0 0 10px; line-height:1.25;}
+  .cover p.souscrit{font-size:16px; font-style:italic; opacity:0.9; max-width:520px; margin:0 auto;}
+  .cover .badge-programme{display:inline-block; margin-top:26px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.4); border-radius:20px; padding:6px 18px; font-size:13px;}
+
+  .motdenawel{background:#fff; border-radius:18px; padding:26px 30px; margin:26px 0; box-shadow:0 2px 10px rgba(60,100,120,0.08); border-left:6px solid var(--magenta);}
+  .motdenawel h3{margin-top:0; color:var(--sarcelle-fonce);}
+
+  /* TOC */
+  .toc{background:#fff; border-radius:18px; padding:26px 30px; margin:26px 0; box-shadow:0 2px 10px rgba(60,100,120,0.08);}
+  .toc h2{color:var(--sarcelle-fonce); margin-top:0;}
+  .toc ol{padding-left:20px; line-height:2;}
+  .toc ol li b{color:var(--sarcelle-fonce);}
+
+  /* MODULE */
+  section.module{background:#fff; border-radius:20px; padding:0; margin:34px 0; box-shadow:0 3px 14px rgba(60,100,120,0.1); overflow:hidden; page-break-inside:avoid;}
+  .module-head{background:var(--sarcelle); color:#fff; padding:22px 30px; display:flex; align-items:center; gap:18px;}
+  .module-head .num{background:#fff; color:var(--sarcelle-fonce); font-weight:bold; font-size:22px; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .module-head h2{margin:0; font-size:21px; line-height:1.3;}
+  .module-body{padding:26px 30px 30px;}
+  .etiquette{display:inline-block; border-radius:14px; padding:4px 14px; font-size:12px; font-weight:bold; color:var(--sarcelle-fonce); margin-bottom:14px;}
+  .et-jaune{background:var(--jaune);}
+  .et-magenta{background:var(--magenta); color:#fff;}
+  .et-lavande{background:var(--lavande);}
+  .et-ciel{background:var(--cielclair);}
+  .et-menthe{background:var(--menthe);}
+
+  .objectif{background:var(--blanccasse); border:1px dashed var(--taupe); border-radius:12px; padding:12px 16px; font-size:14px; margin-bottom:18px;}
+  .objectif b{color:var(--sarcelle-fonce);}
+
+  .contenu p{font-size:14.5px; line-height:1.65;}
+  .contenu ul{font-size:14.5px; line-height:1.6; padding-left:20px;}
+
+  .callout-tnd{background:linear-gradient(135deg,#fff,var(--blanccasse)); border:2px solid var(--lavande); border-radius:14px; padding:16px 20px; margin:18px 0; font-size:14px;}
+  .callout-tnd .tag{display:inline-block; background:var(--lavande); color:var(--sarcelle-fonce); font-weight:bold; font-size:12px; border-radius:10px; padding:3px 12px; margin-bottom:8px;}
+
+  .exercice{background:#FDFCF9; border-radius:14px; padding:18px 22px; margin-top:22px; border-top:4px solid var(--menthe);}
+  .exercice h4{margin:0 0 12px; color:var(--sarcelle-fonce); font-size:15px;}
+  .exercice .instructions{font-size:13px; color:var(--taupe); margin-bottom:12px; font-style:italic;}
+
+  table.grille{width:100%; border-collapse:collapse; margin-top:8px; font-size:13px;}
+  table.grille th{background:var(--sarcelle); color:#fff; padding:8px 6px; text-align:left; font-weight:normal;}
+  table.grille td{border-top:1px solid var(--beige); padding:8px 6px; vertical-align:top;}
+  table.grille td.center{text-align:center;}
+  table.grille input[type=checkbox]{width:18px; height:18px;}
+  table.grille input[type=text], table.grille textarea{width:100%; border:1px solid var(--beige); border-radius:6px; padding:6px 8px; font-family:inherit; font-size:12.5px; background:#fff; resize:vertical;}
+
+  .champ{margin-bottom:12px;}
+  .champ label{display:block; font-weight:bold; font-size:13.5px; margin-bottom:4px; color:var(--sarcelle-fonce);}
+  input[type=text], textarea{width:100%; border:1px solid var(--beige); border-radius:8px; padding:8px 10px; font-family:inherit; font-size:13.5px; color:var(--charbon); background:#fff; resize:vertical;}
+  textarea{min-height:44px;}
+
+  .checklist{list-style:none; padding:0; margin:0;}
+  .checklist li{display:flex; align-items:flex-start; gap:10px; padding:6px 0; font-size:13.5px; border-bottom:1px dotted var(--beige);}
+  .checklist input[type=checkbox]{margin-top:2px; width:18px; height:18px; flex-shrink:0;}
+
+  .encadre-clot{background:var(--sarcelle); color:#fff; border-radius:18px; padding:28px 32px; margin:34px 0;}
+  .encadre-clot h3{margin-top:0;}
+  .encadre-clot .num-utile{background:rgba(255,255,255,0.12); border-radius:12px; padding:10px 16px; margin-top:14px; font-size:14px;}
+  .encadre-clot a{color:var(--jaune);}
+
+  .boutons{display:flex; gap:10px; margin-top:16px;}
+  button.action{background:var(--sarcelle); color:#fff; border:none; padding:8px 18px; border-radius:20px; font-size:13px; cursor:pointer; font-family:inherit;}
+  button.action.secondaire{background:#fff; color:var(--sarcelle-fonce); border:1px solid var(--sarcelle);}
+
+  footer.legal{text-align:center; margin-top:20px; font-size:11.5px; color:var(--taupe); line-height:1.6;}
+
+  @media print{
+    body{background:#fff;}
+    .boutons{display:none;}
+    section.module{box-shadow:none; border:1px solid var(--beige);}
+    .cover{page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="cover">
+    <div class="logo">
+      <svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="2" r="2" fill="#fff"/><path d="M2 12 Q7 4 12 12" stroke="#fff" stroke-width="2" fill="none"/></svg>
+      educatypique
+    </div>
+    <h1>🌿 Le Harcèlement scolaire<br>quand mon enfant TND est concerné</h1>
+    <p class="souscrit">Comprendre, repérer, accompagner — un support de formation pour les mères, pas à pas, sans jugement.</p>
+    <div class="badge-programme">Formation Educa Typique — module complémentaire</div>
+  </div>
+
+  <div class="motdenawel">
+    <h3>Le mot de Nawel</h3>
+    <p style="font-size:14.5px; line-height:1.65;">Coucou maman,</p>
+    <p style="font-size:14.5px; line-height:1.65;">Si tu ouvres ce support, c'est peut-être que quelque chose t'inquiète déjà — un silence inhabituel, une phrase glissée avant de dormir, un refus d'aller à l'école. Ou peut-être que tu veux simplement comprendre, avant que ça n'arrive, comment protéger ton enfant.</p>
+    <p style="font-size:14.5px; line-height:1.65;">Ton enfant TND (TDAH, TSA, dys, HPI complexe…) n'est pas plus « fragile » qu'un autre. Mais ses particularités — une manière différente de décoder les codes sociaux, une hypersensibilité, un rythme différent — peuvent, dans certains groupes, devenir la porte d'entrée d'un harcèlement. Ce n'est jamais la faute de sa différence. C'est toujours un choix de celui ou celle qui harcèle, dans une dynamique de groupe qu'on peut comprendre et désamorcer.</p>
+    <p style="font-size:14.5px; line-height:1.65;">Ce support n'est pas là pour poser un diagnostic ni pour remplacer un professionnel (psychologue, médecin scolaire, référent harcèlement). Il est là pour te donner des repères clairs, un vocabulaire commun, et des outils concrets à utiliser avec ton enfant, à ton rythme.</p>
+    <p style="font-size:14.5px; line-height:1.65;"><b>Tu n'es pas seule. On avance ensemble, un module à la fois.</b></p>
+  </div>
+
+  <div class="toc">
+    <h2>📖 Sommaire</h2>
+    <ol>
+      <li><b>Qu'est-ce que le harcèlement ?</b> — les 3 critères qui font la différence</li>
+      <li><b>Les différents types de harcèlement</b> — verbal, physique, social, numérique</li>
+      <li><b>La spirale dominant-dominé</b> — comment une situation s'installe et s'aggrave</li>
+      <li><b>Profils du harceleur</b> — comprendre sans excuser</li>
+      <li><b>Profils du harcelé</b> — la différence n'est jamais une faute</li>
+      <li><b>Conflit ou harcèlement ?</b> — apprendre à distinguer</li>
+      <li><b>Les impacts du harcèlement</b> — sur le corps, le cœur, la scolarité</li>
+      <li><b>Les témoins</b> — le rôle silencieux mais décisif du groupe</li>
+      <li><b>Pourquoi le harcelé n'en parle plus</b> — comprendre le silence pour l'ouvrir</li>
+    </ol>
+  </div>
+
+  <!-- MODULE 01 -->
+  <section class="module">
+    <div class="module-head"><div class="num">01</div><h2>Qu'est-ce que le harcèlement ?</h2></div>
+    <div class="module-body">
+      <span class="etiquette et-jaune">🔍 Comprendre</span>
+      <div class="objectif"><b>Objectif :</b> savoir reconnaître un harcèlement à partir de trois critères précis, plutôt que d'une impression.</div>
+      <div class="contenu">
+        <p>Le harcèlement, ce n'est pas « une dispute qui a mal tourné ». C'est une violence qui répond à <b>trois critères réunis</b> (définition reprise des travaux du chercheur Dan Olweus, référence internationale sur le sujet) :</p>
+        <ul>
+          <li><b>La répétition</b> — ce n'est pas un incident isolé, mais quelque chose qui se reproduit, souvent sur plusieurs semaines ou mois.</li>
+          <li><b>L'intentionnalité</b> — le but, conscient ou non, est de faire mal, d'humilier, de dominer.</li>
+          <li><b>Le déséquilibre de force</b> — la victime ne peut pas se défendre à armes égales (seule contre un groupe, plus jeune, plus fragile, moins à l'aise avec les codes sociaux…).</li>
+        </ul>
+        <p>C'est la réunion des trois qui fait le harcèlement — pas un seul de ces éléments pris isolément.</p>
+      </div>
+      <div class="callout-tnd">
+        <span class="tag">Le regard TND</span>
+        <p style="margin:0;">Ton enfant peut avoir plus de mal à identifier lui-même la répétition ou à mesurer le déséquilibre de force — surtout s'il a l'habitude de « ne pas trop savoir » ce qui relève de la norme sociale. C'est pour ça que ton regard extérieur, patient et régulier, compte énormément : c'est souvent toi qui repères la répétition avant lui.</p>
+      </div>
+      <div class="exercice">
+        <h4>🧩 Exercice — Les 3 critères, présents ou non ?</h4>
+        <p class="instructions">Pense à une situation qui t'inquiète. Coche ce qui est présent selon toi, à ce stade.</p>
+        <ul class="checklist">
+          <li><input type="checkbox"> Cela s'est déjà reproduit plusieurs fois (pas un épisode isolé)</li>
+          <li><input type="checkbox"> J'ai le sentiment que c'était fait pour blesser ou dominer, pas juste maladroit</li>
+          <li><input type="checkbox"> Mon enfant n'a pas pu se défendre à armes égales (seul, en groupe contre lui, timide, etc.)</li>
+        </ul>
+        <div class="champ" style="margin-top:12px;"><label>Ce que je note pour en reparler avec un professionnel si besoin</label><textarea></textarea></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 02 -->
+  <section class="module">
+    <div class="module-head"><div class="num">02</div><h2>Les différents types de harcèlement</h2></div>
+    <div class="module-body">
+      <span class="etiquette et-menthe">🌱 Repérer</span>
+      <div class="objectif"><b>Objectif :</b> connaître les 4 formes de harcèlement pour ne pas en laisser une invisible.</div>
+      <div class="contenu">
+        <p>Le harcèlement ne se limite pas aux coups. Il prend souvent des formes plus discrètes, parfois invisibles pour un adulte non averti.</p>
+      </div>
+      <div class="exercice">
+        <h4>🧩 Tableau — les 4 formes de harcèlement</h4>
+        <table class="grille">
+          <tr><th>Type</th><th>Ce que ça peut ressembler</th><th>Déjà observé ?</th></tr>
+          <tr><td><b>Verbal</b></td><td>Moqueries répétées, surnoms humiliants, insultes, critiques sur la voix, le débit, les mots utilisés</td><td class="center"><input type="checkbox"></td></tr>
+          <tr><td><b>Physique</b></td><td>Coups, bousculades, vols ou dégradations d'affaires, gestes d'intimidation</td><td class="center"><input type="checkbox"></td></tr>
+          <tr><td><b>Social / relationnel</b></td><td>Exclusion du groupe, rumeurs, mise à l'écart organisée, « personne ne veut être avec lui »</td><td class="center"><input type="checkbox"></td></tr>
+          <tr><td><b>Numérique (cyberharcèlement)</b></td><td>Messages moqueurs, groupes de discussion, photos détournées, comptes créés pour humilier — souvent hors du regard des adultes</td><td class="center"><input type="checkbox"></td></tr>
+        </table>
+      </div>
+      <div class="callout-tnd">
+        <span class="tag">Le regard TND</span>
+        <p style="margin:0;">Le cyberharcèlement est particulièrement difficile à repérer chez un enfant TND qui a déjà du mal à verbaliser ses émotions au quotidien — il peut se refermer davantage sans que rien ne « se voie ». Le harcèlement social (exclusion) est aussi souvent minimisé par l'entourage scolaire (« il préfère être seul »), alors qu'il s'agit parfois d'une exclusion organisée, pas d'un choix de l'enfant.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 03 -->
+  <section class="module">
+    <div class="module-head"><div class="num">03</div><h2>La spirale dominant-dominé</h2></div>
+    <div class="module-body">
+      <span class="etiquette et-magenta">⚡ Comprendre le mécanisme</span>
+      <div class="objectif"><b>Objectif :</b> comprendre comment une situation s'installe progressivement, pour intervenir avant qu'elle ne se fige.</div>
+      <div class="contenu">
+        <p>Le harcèlement ne surgit rarement d'un coup : il s'installe par étapes, comme un engrenage qui se resserre.</p>
+        <ul>
+          <li><b>1. Le test</b> — une première moquerie, un premier geste, presque anodin en apparence : on observe la réaction de l'autre.</li>
+          <li><b>2. L'absence de réponse efficace</b> — l'enfant ne répond pas, se fige, rit jaune, ou répond d'une manière qui ne dissuade pas (souvent involontairement, faute d'avoir les codes ou la confiance pour le faire).</li>
+          <li><b>3. Le renforcement</b> — l'agresseur perçoit que « ça marche », que ça ne coûte rien, parfois même que ça amuse le groupe. Le comportement se répète.</li>
+          <li><b>4. L'installation des rôles</b> — le groupe se polarise : certains rejoignent le dominant par peur de devenir la cible à leur tour, d'autres se taisent. Les rôles « dominant / dominé » se figent aux yeux de tous, y compris de l'enfant lui-même.</li>
+          <li><b>5. L'isolement</b> — l'enfant harcelé s'enferme dans le rôle qu'on lui attribue, perd confiance, et la spirale s'auto-entretient si rien n'intervient de l'extérieur.</li>
+        </ul>
+        <p>Cette spirale n'est jamais figée à jamais : elle peut être interrompue à chaque étape, par un adulte, par un témoin qui bouge, ou par un enfant qui retrouve des appuis.</p>
+      </div>
+      <div class="callout-tnd">
+        <span class="tag">Le regard TND</span>
+        <p style="margin:0;">À l'étape 2, un enfant TND peut avoir davantage de mal à mobiliser « la bonne réponse sociale » dans l'instant — pas par manque de force intérieure, mais parce que décoder une situation sociale rapide et y répondre de façon assertive demande des ressources cognitives que le stress épuise encore plus vite chez lui. Ce n'est pas un échec de sa part : c'est un point d'appui à travailler ensemble (voir module 6 sur l'assertivité, à construire avec ton enfant).</p>
+      </div>
+      <div class="exercice">
+        <h4>🧩 Où en est la situation ?</h4>
+        <p class="instructions">À quelle étape penses-tu que se situe la situation de ton enfant aujourd'hui ?</p>
+        <div class="champ"><textarea placeholder="Ex : je pense qu'on est encore à l'étape 2-3, ça ne semble pas encore figé dans le regard des autres élèves..."></textarea></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 04 -->
+  <section class="module">
+    <div class="module-head"><div class="num">04</div><h2>Profils du harceleur</h2></div>
+    <div class="module-body">
+      <span class="etiquette et-lavande">🧠 Comprendre sans excuser</span>
+      <div class="objectif"><b>Objectif :</b> comprendre ce qui pousse un enfant à harceler — non pas pour l'excuser, mais pour mieux agir sur la dynamique.</div>
+      <div class="contenu">
+        <p>Il n'existe pas un profil unique de l'enfant harceleur, mais des traits qui reviennent souvent dans la littérature sur le sujet :</p>
+        <ul>
+          <li>Un fort besoin de <b>statut social</b> et de reconnaissance dans le groupe, obtenu par la domination plutôt que par d'autres moyens.</li>
+          <li>Une <b>faible empathie apparente</b> dans l'instant (qui ne signifie pas une absence totale d'empathie — souvent une empathie sélective, désactivée envers la cible).</li>
+          <li>Parfois, un enfant lui-même en difficulté ailleurs (victime de violence à la maison, harcelé dans un autre contexte, en manque de cadre) qui rejoue une position de force qu'il ne trouve pas ailleurs.</li>
+          <li>Un besoin d'appartenance au groupe si fort qu'il entraîne d'autres enfants à devenir complices, parfois contre leur propre inclination.</li>
+        </ul>
+        <p><b>Comprendre n'est jamais excuser</b> : le comportement reste toujours de la responsabilité de celui qui le commet, et doit être nommé et stoppé. Comprendre sert seulement à choisir la bonne porte d'entrée pour agir avec l'établissement scolaire.</p>
+      </div>
+      <div class="callout-tnd">
+        <span class="tag">Le regard TND</span>
+        <p style="margin:0;">Un enfant TND peut aussi, parfois, se retrouver du côté du harceleur — souvent sans en mesurer la portée sociale ou émotionnelle sur l'autre, par difficulté à se représenter l'impact de ses actes. Si c'est la situation de ton enfant, ce module te concerne aussi : la posture reste la même, comprendre sans juger, pour l'aider à ajuster son comportement.</p>
+      </div>
+      <div class="exercice">
+        <h4>🧩 Grille d'observation (à remplir avec prudence, sans conclure trop vite)</h4>
+        <table class="grille">
+          <tr><th>Signal observé</th><th>Chez mon enfant ?</th><th>Note</th></tr>
+          <tr><td>Besoin marqué d'être « le chef » du groupe</td><td class="center"><input type="checkbox"></td><td><input type="text"></td></tr>
+          <tr><td>Minimise ou nie l'impact de ses moqueries</td><td class="center"><input type="checkbox"></td><td><input type="text"></td></tr>
+          <tr><td>Reproduit une dynamique qu'il subit lui-même ailleurs</td><td class="center"><input type="checkbox"></td><td><input type="text"></td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 05 -->
+  <section class="module">
+    <div class="module-head"><div class="num">05</div><h2>Profils du harcelé</h2></div>
+    <div class="module-body">
+      <span class="etiquette et-ciel">☁️ Sans jugement</span>
+      <div class="objectif"><b>Objectif :</b> repérer les facteurs de vulnérabilité, sans jamais en faire une « responsabilité » de l'enfant.</div>
+      <div class="contenu">
+        <p>Certains enfants sont statistiquement plus exposés au harcèlement — pas parce qu'ils « le cherchent » ou « le méritent », mais parce que leurs différences sont visibles dans un environnement qui valorise la conformité :</p>
+        <ul>
+          <li>Une <b>différence visible</b> (façon de parler, de bouger, centres d'intérêt hors normes, particularités sensorielles).</li>
+          <li>Une <b>difficulté à décoder les codes sociaux implicites</b> du groupe (fréquente chez les enfants TSA, mais pas seulement).</li>
+          <li>Une <b>hypersensibilité émotionnelle</b> qui peut être perçue par le groupe comme un point faible à exploiter.</li>
+          <li>Un <b>réseau amical restreint</b> en amont, qui laisse l'enfant seul face au groupe.</li>
+          <li>Une <b>difficulté à s'affirmer</b> dans l'instant, à dire non ou à répondre du tac au tac.</li>
+        </ul>
+        <p><b>À retenir absolument :</b> ces facteurs expliquent une plus grande exposition statistique, jamais une responsabilité. La seule responsabilité du harcèlement est celle de qui le commet.</p>
+      </div>
+      <div class="callout-tnd">
+        <span class="tag">Le regard TND</span>
+        <p style="margin:0;">Beaucoup des facteurs ci-dessus recoupent directement le quotidien d'un enfant TND. Ce n'est pas une fatalité — c'est une information qui te permet d'anticiper, de renforcer son cercle amical, et de travailler ses appuis (voir « Devenir assertif », outil à construire ensemble dans un module ultérieur) plutôt que d'attendre que le problème se présente.</p>
+      </div>
+      <div class="exercice">
+        <h4>🧩 Ses forces, ses points d'appui</h4>
+        <p class="instructions">Avant de se concentrer sur les vulnérabilités, notons ce qui protège déjà ton enfant.</p>
+        <div class="champ"><label>Une qualité de mon enfant qui le protège déjà</label><textarea></textarea></div>
+        <div class="champ"><label>Une personne (adulte ou enfant) sur qui il peut s'appuyer aujourd'hui</label><textarea></textarea></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 06 -->
+  <section class="module">
+    <div class="module-head"><div class="num">06</div><h2>Conflit ou harcèlement ?</h2></div>
+    <div class="module-body">
+      <span class="etiquette et-jaune">🔍 Distinguer</span>
+      <div class="objectif"><b>Objectif :</b> apprendre à distinguer une dispute ponctuelle d'une situation de harcèlement, pour ajuster ta réponse.</div>
+      <div class="contenu">
+        <p>Un conflit et un harcèlement peuvent se ressembler en surface, mais ils appellent des réponses très différentes.</p>
+      </div>
+      <div class="exercice">
+        <h4>🧩 Grille de distinction</h4>
+        <table class="grille">
+          <tr><th>Critère</th><th>Conflit</th><th>Harcèlement</th></tr>
+          <tr><td>Fréquence</td><td>Épisode ponctuel</td><td>Répété, sur la durée</td></tr>
+          <tr><td>Rapport de force</td><td>Équilibré, les deux se défendent</td><td>Déséquilibré, une seule personne domine</td></tr>
+          <tr><td>Visibilité</td><td>Souvent visible, signalé spontanément</td><td>Souvent caché, minimisé, non signalé</td></tr>
+          <tr><td>Réaction de l'enfant</td><td>Colère, indignation exprimée</td><td>Repli, résignation, silence</td></tr>
+        </table>
+        <p class="instructions" style="margin-top:14px;">À toi de jouer : pense à une situation récente et coche la colonne qui correspond le mieux.</p>
+        <table class="grille">
+          <tr><th>Situation observée</th><th>Conflit</th><th>Harcèlement</th></tr>
+          <tr><td><textarea placeholder="Décris la situation en une ou deux phrases"></textarea></td><td class="center"><input type="checkbox"></td><td class="center"><input type="checkbox"></td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 07 -->
+  <section class="module">
+    <div class="module-head"><div class="num">07</div><h2>Les impacts du harcèlement</h2></div>
+    <div class="module-body">
+      <span class="etiquette et-magenta">💛 Prendre soin</span>
+      <div class="objectif"><b>Objectif :</b> repérer les signaux d'impact chez ton enfant, pour ajuster ton accompagnement à temps.</div>
+      <div class="contenu">
+        <p>Le harcèlement laisse des traces à plusieurs niveaux, parfois discrètes :</p>
+        <ul>
+          <li><b>Psychologique</b> — anxiété, tristesse persistante, perte d'estime de soi, discours dévalorisant.</li>
+          <li><b>Corporel</b> — troubles du sommeil, maux de ventre ou de tête récurrents, perte ou augmentation de l'appétit.</li>
+          <li><b>Scolaire</b> — baisse des résultats, désinvestissement, refus ou peur d'aller à l'école.</li>
+          <li><b>Social</b> — isolement, perte de confiance envers les autres, difficulté à se faire de nouveaux amis même après la fin de la situation.</li>
+        </ul>
+        <p>Chez un enfant TND, ces impacts peuvent s'ajouter à des fragilités déjà présentes (estime de soi déjà travaillée, régulation émotionnelle déjà en chantier) — d'où l'importance de ne pas laisser une situation s'installer trop longtemps.</p>
+      </div>
+      <div class="exercice">
+        <h4>🧩 Mon tableau de repérage (à remplir sur plusieurs semaines)</h4>
+        <table class="grille">
+          <tr><th>Signal</th><th>Date 1</th><th>Date 2</th><th>Date 3</th><th>Observations</th></tr>
+          <tr><td>Tristesse, pleurs sans raison apparente</td><td class="center"><input type="checkbox"></td><td class="center"><input type="checkbox"></td><td class="center"><input type="checkbox"></td><td><input type="text"></td></tr>
+          <tr><td>Troubles du sommeil</td><td class="center"><input type="checkbox"></td><td class="center"><input type="checkbox"></td><td class="center"><input type="checkbox"></td><td><input type="text"></td></tr>
+          <tr><td>Refus ou peur d'aller à l'école</td><td class="center"><input type="checkbox"></td><td class="center"><input type="checkbox"></td><td class="center"><input type="checkbox"></td><td><input type="text"></td></tr>
+          <tr><td>Baisse des résultats scolaires</td><td class="center"><input type="checkbox"></td><td class="center"><input type="checkbox"></td><td class="center"><input type="checkbox"></td><td><input type="text"></td></tr>
+          <tr><td>Isolement, absence d'amis évoqués</td><td class="center"><input type="checkbox"></td><td class="center"><input type="checkbox"></td><td class="center"><input type="checkbox"></td><td><input type="text"></td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 08 -->
+  <section class="module">
+    <div class="module-head"><div class="num">08</div><h2>Les témoins</h2></div>
+    <div class="module-body">
+      <span class="etiquette et-menthe">👥 Le rôle du groupe</span>
+      <div class="objectif"><b>Objectif :</b> comprendre le rôle décisif — et souvent invisible — des témoins dans une situation de harcèlement.</div>
+      <div class="contenu">
+        <p>Le harcèlement n'est presque jamais une histoire à deux : c'est une histoire de groupe. On distingue généralement trois postures :</p>
+        <ul>
+          <li><b>Le témoin actif complice</b> — il rit, encourage, filme, relaie — parfois par adhésion, parfois par peur de devenir la prochaine cible.</li>
+          <li><b>Le témoin passif</b> — il ne dit rien, ne fait rien, souvent par peur ou par sidération. Son silence, sans qu'il le veuille, renforce le sentiment d'impunité de l'agresseur.</li>
+          <li><b>Le témoin défenseur</b> — rare, souvent isolé lui-même dans ce rôle — celui qui intervient, dit stop, ou va chercher un adulte.</li>
+        </ul>
+        <p>C'est ce qu'on appelle « l'effet spectateur » : plus il y a de témoins silencieux, moins chacun se sent individuellement responsable d'agir. Faire bouger même un seul témoin peut suffire à faire basculer une situation.</p>
+      </div>
+      <div class="callout-tnd">
+        <span class="tag">Le regard TND</span>
+        <p style="margin:0;">Un enfant TND peut lui-même être témoin d'une situation visant un autre enfant, sans savoir comment réagir, ou par peur de mal faire. C'est une occasion d'en parler avec lui aussi : que ferait-il s'il voyait ça arriver à un camarade ?</p>
+      </div>
+      <div class="exercice">
+        <h4>🧩 En discuter avec mon enfant</h4>
+        <div class="champ"><label>« Si tu voyais ça arriver à quelqu'un d'autre, qu'est-ce que tu ferais ? »</label><textarea placeholder="Note ce qu'il/elle te répond, sans le corriger dans l'instant."></textarea></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE 09 -->
+  <section class="module">
+    <div class="module-head"><div class="num">09</div><h2>Pourquoi le harcelé n'en parle plus ?</h2></div>
+    <div class="module-body">
+      <span class="etiquette et-lavande">🤍 Écouter</span>
+      <div class="objectif"><b>Objectif :</b> comprendre les raisons du silence, pour ouvrir la parole sans forcer.</div>
+      <div class="contenu">
+        <p>Beaucoup d'enfants harcelés cessent d'en parler, même à leurs parents, pour des raisons qui reviennent souvent :</p>
+        <ul>
+          <li><b>La honte</b> — un sentiment irrationnel mais très fréquent, comme si la situation disait quelque chose de négatif sur soi.</li>
+          <li><b>La peur des représailles</b> — si j'en parle, ça va empirer.</li>
+          <li><b>La peur de ne pas être cru</b> — ou d'être minimisé (« ce n'est pas si grave », « c'est pour rire »).</li>
+          <li><b>Le sentiment que ça ne changera rien</b> — parfois après une première tentative de signalement restée sans effet.</li>
+          <li><b>Le désir de protéger ses parents</b> — ne pas les inquiéter, ne pas être « un problème de plus ».</li>
+          <li><b>La normalisation</b> — « c'est comme ça au collège », intégrée comme une fatalité.</li>
+        </ul>
+        <p>Ouvrir la parole ne se fait presque jamais par une question directe frontale (« est-ce qu'on t'embête ? » reçoit souvent un « non » automatique). Cela se fait plutôt par une présence répétée, des questions ouvertes, et la certitude donnée à l'enfant qu'il ne sera ni jugé ni « pris en charge » sans son accord.</p>
+      </div>
+      <div class="exercice">
+        <h4>🧩 Grille — ouvrir la parole sans forcer</h4>
+        <div class="champ"><label>Un moment du quotidien où la parole se libère plus facilement (trajet, coucher, activité manuelle...)</label><textarea></textarea></div>
+        <div class="champ"><label>Une phrase ouverte à essayer (plutôt qu'une question fermée)</label><textarea placeholder="Ex : « Il y a des jours où l'école est plus dure que d'autres, non ? »"></textarea></div>
+        <div class="champ"><label>Ce que je veux éviter de dire ou de faire dans l'instant</label><textarea placeholder="Ex : promettre d'aller voir le prof immédiatement sans lui en parler d'abord"></textarea></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="encadre-clot">
+    <h3>🌸 Pour clore ce module</h3>
+    <p style="font-size:14px; line-height:1.6;">Ce support te donne des repères, pas des certitudes. Chaque enfant, chaque situation est singulière — et ce n'est jamais à toi de porter seule le diagnostic ni la résolution d'une situation de harcèlement. Si une inquiétude se confirme, l'orientation vers l'établissement scolaire (référent harcèlement), un(e) psychologue, ou un accompagnement Educa Typique dédié reste la suite la plus sûre.</p>
+    <div class="num-utile">
+      📞 <b>3018</b> — numéro national gratuit et anonyme contre le harcèlement et les violences numériques (appel, tchat sur <a href="https://3018.fr">3018.fr</a>, application 3018).<br>
+      🏫 Le référent harcèlement de l'établissement scolaire de ton enfant.
+    </div>
+    <p style="font-size:14px; margin-top:18px;"><b>Tu es plus solide que tu ne le crois. On avance ensemble.</b><br>Nawel — Educa Typique</p>
+  </div>
+
+  <div class="boutons">
+    <button class="action" onclick="window.print()">🖨️ Imprimer</button>
+    <button class="action secondaire" onclick="viderTout()">↺ Vider tous les champs</button>
+  </div>
+
+  <footer class="legal">
+    Educa Typique — Accompagnement des mères face aux TND<br>
+    Créé avec ❤️ par Nawel Oum Mona · Document protégé — Reproduction soumise à autorisation<br>
+    Contenu pédagogique — ne remplace ni un diagnostic ni un accompagnement professionnel individualisé.
+  </footer>
+</div>
+<script>
+function viderTout(){
+  document.querySelectorAll('input[type=text], textarea').forEach(f=>f.value='');
+  document.querySelectorAll('input[type=checkbox]').forEach(c=>c.checked=false);
+}
+</script>
+</body>
+</html>

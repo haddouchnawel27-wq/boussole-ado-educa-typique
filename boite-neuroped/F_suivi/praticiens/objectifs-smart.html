@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tableau d'objectifs SMART — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,#2a9d8f,#8ED9D2);padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:#fff;margin:0;text-shadow:0 2px 4px rgba(0,0,0,.15)}
+.bandeau .sub{color:#fff;max-width:740px;margin:.4rem auto 0;opacity:.95}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.2);padding:.3em .9em;border-radius:999px}
+
+.layout{max-width:1200px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:230px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start}
+.nav-sticky h3{color:#2a9d8f;margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.9rem}
+.nav-sticky li{margin:.15rem 0}
+.nav-sticky a{display:block;padding:.4rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm)}
+.nav-sticky a:hover{background:#e0f4f1;color:#2a9d8f}
+.nav-sticky a.actif{background:#2a9d8f;color:#fff;font-weight:700}
+
+.contenu{display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid #2a9d8f;border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:#2a9d8f;font-family:var(--font-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:#2a9d8f;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+section.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+section.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-smart{--c:#7c5cbf}
+.bloc-trans{--c:#e05a8a}
+.bloc-formul{--c:#2a9d8f}
+.bloc-domaines{--c:#8ED9D2}
+.bloc-niveau{--c:#a87800}
+.bloc-prio{--c:#a02040}
+.bloc-plan{--c:#CBB6F6}
+.bloc-suivi{--c:#F39BC2}
+.bloc-reeval{--c:#FFD6C2}
+.bloc-eleve{--c:#2a9d8f}
+.bloc-syn{--c:var(--rose-soutenu)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ textarea{min-height:60px;resize:vertical}
+.champ.full{grid-column:1/-1}
+
+/* SMART acronyme */
+.smart-grille{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;margin-top:.4rem}
+@media (max-width:760px){.smart-grille{grid-template-columns:1fr 1fr}}
+.smart-card{background:#fff;border-radius:var(--r-md);padding:.8rem .9rem;border-top:5px solid var(--c-l);box-shadow:var(--shadow-sm);text-align:center}
+.smart-letter{font-size:2.4rem;font-weight:900;color:var(--c-l);line-height:1;margin-bottom:.2rem}
+.smart-name{font-weight:700;font-size:.95rem;color:var(--c-l)}
+.smart-q{font-size:.82rem;color:var(--muted);font-style:italic;margin-top:.3rem}
+
+/* Tables */
+.table-base{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.4rem}
+.table-base th, .table-base td{padding:.4em .55em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.table-base th{background:var(--beige);color:var(--c);font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+.table-base tr:hover{background:#fcfafd}
+
+/* Domaines tabs */
+.domaines-tabs{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.4rem;margin-bottom:.6rem}
+.domaine-tab{background:var(--beige);border:none;padding:.4em .9em;border-radius:999px;cursor:pointer;font-family:var(--font-body);font-weight:700;font-size:.85rem;color:var(--muted);box-shadow:none}
+.domaine-tab.actif{background:#8ED9D2;color:#fff}
+.domaine-tab:hover{background:#e0f4f1;color:#2a9d8f}
+.domaine-tab.actif:hover{background:#2a9d8f;color:#fff}
+.domaine-contenu{display:none}
+.domaine-contenu.actif{display:block}
+
+/* Plan d'action table */
+.plan-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:780px}
+.plan-table th, .plan-table td{padding:.4em .5em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.plan-table th{background:var(--beige);color:#CBB6F6;font-weight:700;font-size:.78rem}
+.plan-table td input, .plan-table td textarea, .plan-table td select{width:100%;padding:.2em;border:none;background:transparent;font-family:var(--font-body);font-size:.85rem;resize:vertical}
+.plan-table td input:focus, .plan-table td textarea:focus, .plan-table td select:focus{outline:1px solid var(--turquoise);background:#fff}
+.plan-wrap{overflow-x:auto;margin-top:.4rem}
+
+/* Priorité table */
+.prio-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 30px;gap:.3rem;padding:.4rem 0;border-bottom:1px solid var(--border);align-items:center}
+@media (max-width:760px){.prio-row{grid-template-columns:1fr}}
+.prio-row input, .prio-row select{padding:.3em .4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.85rem;width:100%}
+.prio-row .supp{background:transparent;color:var(--muted);border:none;cursor:pointer;font-size:1.1rem;box-shadow:none}
+.prio-entete{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 30px;gap:.3rem;padding:.3rem 0;font-size:.74rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+@media (max-width:760px){.prio-entete{display:none}}
+
+/* Suivi hebdo */
+.suivi-row{display:grid;grid-template-columns:60px 2fr 2fr 2fr 1.5fr;gap:.4rem;padding:.4rem .5rem;border-bottom:1px solid var(--border)}
+.suivi-row .sem-badge{background:#F39BC2;color:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem}
+.suivi-row textarea{padding:.3em .4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.85rem;min-height:38px;resize:vertical}
+@media (max-width:760px){.suivi-row{grid-template-columns:1fr}}
+
+/* Mesure de réussite */
+.mesure-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:680px}
+.mesure-table th, .mesure-table td{padding:.4em .5em;border:1px solid var(--border);text-align:left}
+.mesure-table th{background:var(--beige);color:#F39BC2;font-size:.78rem;font-weight:700}
+.mesure-table td input{width:100%;padding:.2em;border:none;background:transparent;font-family:var(--font-body);font-size:.85rem}
+.mesure-wrap{overflow-x:auto;margin-top:.4rem}
+
+/* Supports cochables */
+.checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.3rem;margin-top:.4rem}
+.check{background:var(--beige);border-radius:var(--r-sm);padding:.4rem .6rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.88rem}
+.check input:checked + span{color:var(--c, var(--rose-titre));font-weight:700}
+
+/* Motivation 0-10 */
+.motiv-bar{display:flex;gap:.25rem;flex-wrap:wrap;margin-top:.4rem}
+.motiv-bar label{padding:.4em .7em;background:var(--beige);border-radius:50%;cursor:pointer;font-weight:700;font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.motiv-bar input{display:none}
+.motiv-bar input:checked + .v{background:#2a9d8f;color:#fff;border-radius:50%;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+
+/* Décision finale */
+.decision-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.3rem;margin-top:.4rem}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:#2a9d8f;border:2px solid #2a9d8f}
+.actions button:hover{background:#2a9d8f;color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .dossiers, .retour, details.apropos {display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .sub{color:#2a9d8f !important;text-shadow:none}
+  .domaine-contenu{display:block !important}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>🎯 Tableau d'objectifs SMART</h1>
+  <p class="sub">Transformer les observations et besoins en objectifs concrets, mesurables, réalistes. Un objectif flou produit une intervention floue. Et une intervention floue donne des résultats flous.</p>
+</section>
+
+<div class="layout">
+
+  <aside class="nav-sticky">
+    <h3>📑 Sections</h3>
+    <ol id="nav">
+      <li><a href="#bloc-meta">Identité &amp; cadre</a></li>
+      <li><a href="#bloc-smart">Comprendre SMART</a></li>
+      <li><a href="#bloc-trans">Vague → SMART</a></li>
+      <li><a href="#bloc-formul">Formuler un objectif</a></li>
+      <li><a href="#bloc-domaines">Catalogue par domaine</a></li>
+      <li><a href="#bloc-niveau">Niveau d'exigence</a></li>
+      <li><a href="#bloc-prio">Prioriser</a></li>
+      <li><a href="#bloc-plan">Plan d'action</a></li>
+      <li><a href="#bloc-suivi">Suivi hebdomadaire</a></li>
+      <li><a href="#bloc-reeval">Réévaluation</a></li>
+      <li><a href="#bloc-eleve">Version enfant / ado</a></li>
+      <li><a href="#bloc-syn">Synthèse</a></li>
+    </ol>
+    <div class="dossiers" style="margin-top:.6rem">
+      <h4>📂 Plans enregistrés</h4>
+      <div id="liste-dossiers"></div>
+    </div>
+  </aside>
+
+  <main class="contenu">
+
+    <details class="apropos">
+      <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+      <div class="grid8">
+        <div><strong>1. Objectif</strong>Passer de « il doit faire des efforts » à « pendant 2 semaines, il utilisera une check-list 4 soirs sur 5 ». Mesurable, ajustable.</div>
+        <div><strong>2. Quand l'utiliser</strong>Après anamnèse + ABC + profil exécutif/apprentissages/sensoriel. Début d'accompagnement, bilan intermédiaire, après crise répétée.</div>
+        <div><strong>3. Pour quel profil TND</strong>Tous TND. Critique pour TDAH (organisation, attention), TSA (flexibilité, social), troubles dys (apprentissages adaptés), opposition (cadre clair).</div>
+        <div><strong>4. Mode d'emploi</strong>1-2 objectifs si très fragile, 2-3 classique, 3-4 max ado actif. Pas plus. Au-delà = liste de vœux, pas un plan.</div>
+        <div><strong>5. Grille à remplir</strong>Formulation SMART + catalogue par domaine + plan d'action + suivi hebdo 4 semaines + réévaluation.</div>
+        <div><strong>6. Analyse</strong>Si échec : ce n'est pas forcément l'enfant. Objectif trop haut ? support insuffisant ? environnement coûteux ? adulte incohérent ? On ajuste.</div>
+        <div><strong>7. Recommandations</strong>Réévaluer tous les 15 jours. Objectif doit être : assez difficile pour progresser, pas tellement qu'il fabrique de l'échec.</div>
+        <div><strong>8. Phrase de synthèse</strong>"Les objectifs ont été formulés selon une logique SMART afin de favoriser des progrès observables, réalistes et mesurables. Réévaluation prévue le …"</div>
+      </div>
+    </details>
+
+    <div class="posture">
+      💡 <strong>Posture :</strong> un objectif SMART n'est pas une arme de pression. C'est une information : soit la stratégie fonctionne, soit elle doit être ajustée. Si l'enfant échoue malgré un effort réel, le problème n'est peut-être pas lui.
+    </div>
+
+    <!-- META -->
+    <section id="bloc-meta" class="bloc bloc-meta">
+      <h2>Identité &amp; cadre</h2>
+      <div class="grille">
+        <div class="champ"><label>Prénom / initiales</label><input data-k="prenom" type="text"></div>
+        <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+        <div class="champ"><label>Date d'élaboration</label><input data-k="date" type="date"></div>
+        <div class="champ"><label>Auteur(s)</label><input data-k="auteur" type="text" placeholder="parent, enseignant, pro…"></div>
+        <div class="champ full"><label>Besoins repérés (issus de l'anamnèse + profils)</label><textarea data-k="besoins-repere" placeholder="ex : attention courte, organisation cartable, régulation colère, peur de l'échec…"></textarea></div>
+      </div>
+    </section>
+
+    <!-- SMART ACRONYME -->
+    <section id="bloc-smart" class="bloc bloc-smart">
+      <h2>🔤 Comprendre SMART</h2>
+      <div class="smart-grille">
+        <div class="smart-card" style="--c-l:#7c5cbf"><div class="smart-letter">S</div><div class="smart-name">Spécifique</div><div class="smart-q">Qu'est-ce qu'on veut exactement ?</div></div>
+        <div class="smart-card" style="--c-l:#e05a8a"><div class="smart-letter">M</div><div class="smart-name">Mesurable</div><div class="smart-q">Comment saura-t-on que ça progresse ?</div></div>
+        <div class="smart-card" style="--c-l:#2a9d8f"><div class="smart-letter">A</div><div class="smart-name">Atteignable</div><div class="smart-q">Possible avec son profil actuel ?</div></div>
+        <div class="smart-card" style="--c-l:#a87800"><div class="smart-letter">R</div><div class="smart-name">Réaliste / pertinent</div><div class="smart-q">Est-ce vraiment prioritaire ?</div></div>
+        <div class="smart-card" style="--c-l:#c25a30"><div class="smart-letter">T</div><div class="smart-name">Temporel</div><div class="smart-q">Sur quelle durée observe-t-on ?</div></div>
+      </div>
+      <p style="margin-top:.7rem;padding:.6rem .9rem;background:#e0f4f1;border-radius:var(--r-sm);font-size:.88rem;color:#2a9d8f;font-weight:700">
+        Exemple : <em style="font-weight:normal">vague</em> = « il doit mieux gérer ses émotions ». <em style="font-weight:normal">SMART</em> = « pendant 3 semaines, lorsque son émotion atteint le niveau 2 ou 3, il utilisera la carte pause ou demandera de l'aide dans au moins 3 situations sur 5, avec rappel adulte si nécessaire. »
+      </p>
+    </section>
+
+    <!-- VAGUE → SMART -->
+    <section id="bloc-trans" class="bloc bloc-trans">
+      <h2>🔄 Transformer un objectif vague en SMART</h2>
+      <table class="table-base" style="--c:#e05a8a">
+        <thead><tr><th>Objectif vague</th><th>Objectif SMART</th></tr></thead>
+        <tbody>
+          <tr><td>Être plus attentif</td><td>Rester engagé 10 min sur une tâche courte avec timer, 4 jours / 5</td></tr>
+          <tr><td>Mieux gérer la colère</td><td>Utiliser le thermomètre avant le niveau 4 dans 3 situations / 5</td></tr>
+          <tr><td>Être plus autonome</td><td>Préparer son sac avec check-list 4 soirs / semaine</td></tr>
+          <tr><td>Faire ses devoirs</td><td>Commencer les devoirs dans les 10 min après installation, avec 1ère étape visible</td></tr>
+          <tr><td>Moins crier</td><td>Demander une pause avec phrase ou carte dans 3 situations de tension</td></tr>
+          <tr><td>Mieux s'organiser</td><td>Ranger les feuilles dans le bon classeur chaque vendredi avec aide adulte</td></tr>
+          <tr><td>Améliorer les relations</td><td>Attendre son tour de parole dans un jeu pendant 10 min, 2× / semaine</td></tr>
+          <tr><td>Réduire l'évitement</td><td>Faire les 5 premières min de la tâche anxiogène avec aide adulte</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- FORMULATION SMART -->
+    <section id="bloc-formul" class="bloc bloc-formul">
+      <h2>✏️ Formuler un objectif SMART</h2>
+      <p class="intro">Remplir cette grille pour CHAQUE objectif. Puis assembler en formulation finale.</p>
+      <div class="grille">
+        <div class="champ full"><label>Besoin repéré</label><input data-k="f-besoin" type="text"></div>
+        <div class="champ full"><label>Objectif général (1 phrase)</label><input data-k="f-general" type="text" placeholder="ex : améliorer l'autonomie organisationnelle"></div>
+        <div class="champ"><label>Comportement attendu précis</label><textarea data-k="f-comportement" placeholder="ex : préparer son cartable avec check-list"></textarea></div>
+        <div class="champ"><label>Situation concernée</label><textarea data-k="f-situation" placeholder="ex : le soir avant le coucher"></textarea></div>
+        <div class="champ"><label>Fréquence attendue</label><input data-k="f-frequence" type="text" placeholder="ex : 4 soirs sur 5"></div>
+        <div class="champ"><label>Durée / délai</label><input data-k="f-duree" type="text" placeholder="ex : sur 3 semaines"></div>
+        <div class="champ"><label>Niveau d'aide autorisé</label><input data-k="f-aide" type="text" placeholder="ex : rappel verbal, pas de prise en charge"></div>
+        <div class="champ"><label>Support utilisé</label><input data-k="f-support" type="text" placeholder="ex : check-list affichée sur la porte"></div>
+        <div class="champ"><label>Critère de réussite</label><input data-k="f-critere" type="text" placeholder="ex : check-list utilisée et cartable complet le matin"></div>
+        <div class="champ"><label>Date de réévaluation</label><input data-k="f-reeval" type="date"></div>
+        <div class="champ full"><label>📝 Formulation finale SMART (assembler les éléments ci-dessus)</label><textarea data-k="f-finale" style="min-height:80px;background:#e0f4f1" placeholder="Pendant …, dans la situation …, l'enfant devra …, avec …, au moins …."></textarea></div>
+      </div>
+    </section>
+
+    <!-- CATALOGUE DOMAINES -->
+    <section id="bloc-domaines" class="bloc bloc-domaines">
+      <h2>📚 Catalogue d'objectifs SMART par domaine</h2>
+      <p class="intro">7 domaines, modèles d'objectifs à adapter. Clique sur une catégorie.</p>
+      <div class="domaines-tabs" id="domaines-tabs"></div>
+      <div id="domaines-contenu"></div>
+    </section>
+
+    <!-- NIVEAU D'EXIGENCE -->
+    <section id="bloc-niveau" class="bloc bloc-niveau">
+      <h2>⚖️ Choisir le bon niveau d'exigence</h2>
+      <p class="intro">Assez difficile pour progresser. Pas tellement qu'il fabrique de l'échec.</p>
+      <table class="table-base" style="--c:#a87800">
+        <thead><tr><th>Erreur</th><th>Conséquence</th></tr></thead>
+        <tbody>
+          <tr><td>Objectif trop ambitieux</td><td>Échec, découragement, opposition</td></tr>
+          <tr><td>Objectif trop vague</td><td>Impossible à mesurer</td></tr>
+          <tr><td>Objectifs trop nombreux</td><td>Dispersion</td></tr>
+          <tr><td>Objectif décidé sans l'enfant / ado</td><td>Faible engagement</td></tr>
+          <tr><td>Objectif sans support</td><td>Dépendance à la volonté</td></tr>
+          <tr><td>Objectif sans réévaluation</td><td>Stagnation</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:.6rem;padding:.5rem .8rem;background:#fff3e0;border-radius:var(--r-sm);font-size:.88rem;color:#a87800;font-weight:700">
+        ⚠️ Si tu mets 12 objectifs en même temps, tu n'as pas un plan. Tu as une liste de vœux.<br>
+        <em style="font-weight:normal">Maximum recommandé :</em> 1-2 si enfant très fragile, 2-3 accompagnement classique, 3-4 ado actif.
+      </p>
+    </section>
+
+    <!-- PRIORISER -->
+    <section id="bloc-prio" class="bloc bloc-prio">
+      <h2>🎯 Prioriser les objectifs</h2>
+      <p class="intro">Pour chaque objectif envisagé, évaluer urgence, impact, faisabilité.</p>
+      <div class="prio-entete">
+        <div>Objectif envisagé</div><div>Urgence</div><div>Impact</div><div>Faisabilité</div><div>Priorité</div><div></div>
+      </div>
+      <div id="prio-corps"></div>
+      <button id="btn-add-prio" style="margin-top:.4rem;background:#fff;color:#a02040;border:2px solid #a02040">+ Ajouter</button>
+    </section>
+
+    <!-- PLAN D'ACTION -->
+    <section id="bloc-plan" class="bloc bloc-plan">
+      <h2>📋 Plan d'action</h2>
+      <p class="intro">Pour chaque objectif retenu : support, accompagnant, fréquence, durée, critère.</p>
+      <div class="plan-wrap">
+        <table class="plan-table">
+          <thead>
+            <tr><th>Objectif SMART</th><th>Support utilisé</th><th>Qui accompagne ?</th><th>Fréquence</th><th>Durée d'essai</th><th>Critère de réussite</th></tr>
+          </thead>
+          <tbody id="plan-corps"></tbody>
+        </table>
+      </div>
+      <button id="btn-add-plan" style="margin-top:.4rem;background:#fff;color:#CBB6F6;border:2px solid #CBB6F6">+ Objectif</button>
+
+      <h3 style="margin-top:.8rem;color:#CBB6F6;font-size:1rem">Supports possibles (cocher pour ce plan)</h3>
+      <div class="checklist" id="liste-supports" style="--c:#CBB6F6"></div>
+    </section>
+
+    <!-- SUIVI HEBDO -->
+    <section id="bloc-suivi" class="bloc bloc-suivi">
+      <h2>📈 Suivi hebdomadaire sur 4 semaines</h2>
+      <div id="suivi-hebdo"></div>
+
+      <h3 style="margin-top:1rem;color:#F39BC2;font-size:1rem">Mesure de réussite chiffrée</h3>
+      <div class="mesure-wrap">
+        <table class="mesure-table">
+          <thead><tr><th>Critère</th><th>Début</th><th>Semaine 2</th><th>Semaine 4</th><th>Commentaire</th></tr></thead>
+          <tbody>
+            <tr><td>Fréquence du comportement attendu</td><td><input data-k="m-freq-deb"></td><td><input data-k="m-freq-s2"></td><td><input data-k="m-freq-s4"></td><td><input data-k="m-freq-com"></td></tr>
+            <tr><td>Niveau d'aide nécessaire</td><td><input data-k="m-aide-deb"></td><td><input data-k="m-aide-s2"></td><td><input data-k="m-aide-s4"></td><td><input data-k="m-aide-com"></td></tr>
+            <tr><td>Autonomie</td><td><input data-k="m-auto-deb"></td><td><input data-k="m-auto-s2"></td><td><input data-k="m-auto-s4"></td><td><input data-k="m-auto-com"></td></tr>
+            <tr><td>Intensité des crises</td><td><input data-k="m-int-deb"></td><td><input data-k="m-int-s2"></td><td><input data-k="m-int-s4"></td><td><input data-k="m-int-com"></td></tr>
+            <tr><td>Durée de retour au calme</td><td><input data-k="m-cal-deb"></td><td><input data-k="m-cal-s2"></td><td><input data-k="m-cal-s4"></td><td><input data-k="m-cal-com"></td></tr>
+            <tr><td>Qualité de la restitution</td><td><input data-k="m-rest-deb"></td><td><input data-k="m-rest-s2"></td><td><input data-k="m-rest-s4"></td><td><input data-k="m-rest-com"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- REEVALUATION -->
+    <section id="bloc-reeval" class="bloc bloc-reeval">
+      <h2>🔍 Réévaluation après 2 à 4 semaines</h2>
+      <div class="grille">
+        <div class="champ"><label>L'objectif était-il clair ?</label><textarea data-k="r-1"></textarea></div>
+        <div class="champ"><label>Était-il réaliste ?</label><textarea data-k="r-2"></textarea></div>
+        <div class="champ"><label>Le support était-il adapté ?</label><textarea data-k="r-3"></textarea></div>
+        <div class="champ"><label>L'enfant savait-il quoi faire exactement ?</label><textarea data-k="r-4"></textarea></div>
+        <div class="champ"><label>Les adultes ont-ils été cohérents ?</label><textarea data-k="r-5"></textarea></div>
+        <div class="champ"><label>A-t-on observé un progrès ?</label><textarea data-k="r-6"></textarea></div>
+        <div class="champ"><label>Faut-il maintenir, simplifier ou augmenter ?</label><textarea data-k="r-7"></textarea></div>
+        <div class="champ"><label>Faut-il changer de stratégie ?</label><textarea data-k="r-8"></textarea></div>
+      </div>
+      <h3 style="margin-top:.8rem;color:#FFD6C2;font-size:1rem">Décision finale</h3>
+      <div class="decision-grille" style="--c:#FFD6C2">
+        <label class="check"><input type="checkbox" data-k="dec-atteint"><span>✓ Objectif atteint</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-partiel"><span>~ Partiellement atteint</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-poursuivre"><span>→ À poursuivre</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-simplifier"><span>↓ À simplifier</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-modifier"><span>↺ À modifier</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-nonprio"><span>⏸ Non prioritaire actuellement</span></label>
+        <label class="check"><input type="checkbox" data-k="dec-bilan"><span>📋 Besoin d'un autre bilan / avis spécialisé</span></label>
+      </div>
+    </section>
+
+    <!-- VERSION ENFANT / ADO -->
+    <section id="bloc-eleve" class="bloc bloc-eleve">
+      <h2>👶🧑 Version enfant / ado — « mon objectif »</h2>
+      <div class="champ full"><label>Cette semaine, je travaille sur :</label><textarea data-k="enf-objectif"></textarea></div>
+      <div class="champ full" style="margin-top:.5rem"><label>Ce que je dois faire exactement</label><textarea data-k="enf-quoi"></textarea></div>
+      <div style="margin-top:.5rem">
+        <label style="font-weight:700;color:#2a9d8f">Ce qui peut m'aider (cocher) :</label>
+        <div class="checklist" style="--c:#2a9d8f;margin-top:.3rem">
+          <label class="check"><input type="checkbox" data-k="aide-adulte"><span>un adulte</span></label>
+          <label class="check"><input type="checkbox" data-k="aide-checklist"><span>une check-list</span></label>
+          <label class="check"><input type="checkbox" data-k="aide-timer"><span>un timer</span></label>
+          <label class="check"><input type="checkbox" data-k="aide-pause"><span>une pause</span></label>
+          <label class="check"><input type="checkbox" data-k="aide-exemple"><span>un exemple</span></label>
+          <label class="check"><input type="checkbox" data-k="aide-phrase"><span>une phrase utile</span></label>
+          <label class="check"><input type="checkbox" data-k="aide-calme"><span>un espace calme</span></label>
+        </div>
+        <div class="champ" style="margin-top:.4rem"><label>Autre aide</label><input data-k="aide-autre" type="text"></div>
+      </div>
+      <div class="champ full" style="margin-top:.6rem"><label>Comment je saurai que j'ai progressé</label><textarea data-k="enf-progres"></textarea></div>
+      <div style="margin-top:.6rem">
+        <strong style="color:#2a9d8f">Mon score de motivation (0-10)</strong>
+        <div class="motiv-bar" id="motiv-bar"></div>
+        <p style="margin-top:.4rem;padding:.5rem .7rem;background:#e0f4f1;border-radius:var(--r-sm);font-size:.85rem;color:#2a9d8f;font-weight:700;font-style:italic">
+          💬 « Pourquoi tu n'as pas mis moins ? » — cette question fait émerger les ressources, bien plus que « pourquoi tu n'es pas plus motivé ? »
+        </p>
+      </div>
+    </section>
+
+    <!-- SYNTHESE -->
+    <section id="bloc-syn" class="bloc bloc-syn">
+      <h2>✍️ Synthèse</h2>
+      <div class="champ full"><label>Priorités retenues</label><textarea data-k="syn-prio"></textarea></div>
+      <div class="champ full" style="margin-top:.5rem"><label>Supports proposés (synthèse)</label><textarea data-k="syn-supports"></textarea></div>
+      <div class="champ"><label>Date de réévaluation</label><input data-k="syn-reeval" type="date"></div>
+      <div class="champ full" style="margin-top:.5rem"><label>Phrase de synthèse pour bilan / compte rendu</label><textarea data-k="syn-phrase" style="min-height:90px" placeholder="Les objectifs d'accompagnement ont été formulés selon une logique SMART afin de favoriser …."></textarea></div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer</button>
+      <button id="btn-exporter">📄 Exporter (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer</button>
+      <button id="btn-vider" class="danger">🧹 Vider</button>
+    </div>
+
+    <div class="disclaimer">
+      Un objectif SMART ne se substitue pas à l'évaluation clinique. Si l'enfant n'atteint pas ses objectifs malgré un cadre adapté, considérer d'autres bilans (médical, neuropsy, ortho).
+    </div>
+
+    <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+      Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+    </p>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'neuroped_smart_v1';
+let currentId = null;
+
+const DOMAINES = [
+  { id:'attention', nom:'A. Attention', icone:'🎯', objs:[
+    ['attention courte', 'Rester engagé 8 à 10 minutes sur une tâche avec timer, 4 fois / semaine'],
+    ['distractibilité', 'Terminer une activité dans un espace épuré avec maximum 2 rappels adultes'],
+    ['agitation', 'Utiliser une pause motrice avant la tâche écrite, 3 fois / semaine'],
+    ['décrochage', 'Reformuler la consigne avant de commencer dans 4 situations sur 5']
+  ]},
+  { id:'fe', nom:'B. Fonctions exécutives', icone:'🧠', objs:[
+    ['initiation difficile', 'Commencer par la première étape indiquée dans les 3 min suivant la consigne'],
+    ['organisation', 'Utiliser une check-list cartable 4 soirs sur 5'],
+    ['planification', 'Découper un devoir en 3 étapes avant de commencer, 2× / semaine'],
+    ['gestion du temps', 'Utiliser un timer pour réaliser deux blocs de 10 min de travail'],
+    ['flexibilité', 'Accepter un plan B proposé dans 3 situations sur 5'],
+    ['mémoire de travail', 'Utiliser un support écrit pour suivre une consigne en 3 étapes']
+  ]},
+  { id:'app', nom:'C. Apprentissages', icone:'📚', objs:[
+    ['compréhension consigne', 'Surligner les mots importants avant de répondre dans 4 exercices sur 5'],
+    ['mémorisation', 'Réviser une leçon avec récupération active 3× dans la semaine'],
+    ['restitution', 'Expliquer oralement une notion avant passage à l\'écrit, 2× / semaine'],
+    ['lenteur', 'Réaliser une quantité réduite mais complète dans le temps prévu'],
+    ['écriture coûteuse', 'Utiliser une réponse orale, schéma ou dictée vocale selon la tâche'],
+    ['peur de l\'erreur', 'Corriger une erreur sans abandonner dans 3 situations sur 5']
+  ]},
+  { id:'emo', nom:'D. Émotions', icone:'💗', objs:[
+    ['identifier l\'émotion', 'Nommer l\'émotion principale après une situation difficile, 3× / semaine'],
+    ['intensité émotionnelle', 'Indiquer son niveau sur le thermomètre dans 4 situations sur 5'],
+    ['colère', 'Utiliser une stratégie de retour au calme avant le niveau 4'],
+    ['anxiété', 'Utiliser une phrase alternative TCC dans 3 situations anxiogènes'],
+    ['honte', 'Demander de l\'aide au lieu d\'abandonner dans 2 situations scolaires'],
+    ['retour au calme', 'Revenir à un niveau 2 ou moins en moins de 15 min avec aide adulte']
+  ]},
+  { id:'comp', nom:'E. Comportement', icone:'🎭', objs:[
+    ['cris', 'Remplacer le cri par la carte pause dans 3 situations sur 5'],
+    ['fuite', 'Aller dans l\'espace calme prévu au lieu de quitter sans prévenir'],
+    ['opposition', 'Choisir entre deux options proposées dans 4 situations sur 5'],
+    ['agressivité verbale', 'Utiliser « je suis trop énervé pour parler » avec rappel adulte'],
+    ['destruction', 'Poser l\'objet et s\'éloigner dans 3 situations de tension'],
+    ['réparation', 'Faire une réparation concrète après conflit dans les 30 min suivant le retour au calme']
+  ]},
+  { id:'social', nom:'F. Habiletés sociales', icone:'🤝', objs:[
+    ['attendre son tour', 'Attendre son tour dans un jeu structuré pendant 10 min'],
+    ['poser une question', 'Poser au moins une question à l\'autre dans un échange guidé'],
+    ['accepter le refus', 'Utiliser une phrase adaptée après un refus dans 3 situations sur 5'],
+    ['réparer après conflit', 'Formuler une excuse ou réparation concrète après retour au calme'],
+    ['entrer en relation', 'Utiliser un script d\'entrée en contact 2× / semaine'],
+    ['se protéger', 'Dire « stop » ou demander l\'aide d\'un adulte face à une moquerie']
+  ]},
+  { id:'auto', nom:'G. Autonomie', icone:'🚀', objs:[
+    ['routine matin', 'Suivre une routine visuelle du matin 4 jours sur 5'],
+    ['devoirs', 'Préparer le matériel nécessaire avant les devoirs avec check-list'],
+    ['hygiène', 'Réaliser une routine d\'hygiène en 4 étapes avec support visuel'],
+    ['rangement', 'Ranger son espace de travail chaque soir en 5 minutes'],
+    ['sommeil', 'Commencer la routine coucher à heure fixe 5 soirs sur 7'],
+    ['écrans', 'Éteindre l\'écran après timer dans 4 situations sur 5 avec transition prévue']
+  ]}
+];
+
+const SUPPORTS = ['Timer','Check-list','Carte pause','Thermomètre émotionnel','Roue des émotions','Planning visuel','Script social','Tableau de renforcement','Consigne écrite','Carte mentale','Routine','Modèle exemple'];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// === Domaines tabs ===
+function renderDomaines(){
+  const tabs = document.getElementById('domaines-tabs');
+  tabs.innerHTML = DOMAINES.map((d,i)=>`
+    <button class="domaine-tab${i===0?' actif':''}" data-cible="dom-${d.id}">${d.icone} ${esc(d.nom)}</button>
+  `).join('');
+  const cont = document.getElementById('domaines-contenu');
+  cont.innerHTML = DOMAINES.map((d,i)=>`
+    <div class="domaine-contenu${i===0?' actif':''}" id="dom-${d.id}">
+      <table class="table-base" style="--c:#8ED9D2">
+        <thead><tr><th>Besoin</th><th>Objectif SMART possible</th><th>Retenir ?</th></tr></thead>
+        <tbody>
+          ${d.objs.map((o,j)=>`
+            <tr>
+              <td>${esc(o[0])}</td>
+              <td>${esc(o[1])}</td>
+              <td style="text-align:center"><input type="checkbox" data-k="catalog-${d.id}-${j}"></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `).join('');
+  tabs.querySelectorAll('.domaine-tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      tabs.querySelectorAll('.domaine-tab').forEach(b=> b.classList.remove('actif'));
+      btn.classList.add('actif');
+      document.querySelectorAll('.domaine-contenu').forEach(c=> c.classList.remove('actif'));
+      document.getElementById(btn.dataset.cible).classList.add('actif');
+    });
+  });
+}
+
+function renderSupports(){
+  document.getElementById('liste-supports').innerHTML = SUPPORTS.map((s,i)=>`
+    <label class="check"><input type="checkbox" data-k="sup-${i}"><span>${esc(s)}</span></label>
+  `).join('');
+}
+
+function renderMotiv(){
+  const bar = document.getElementById('motiv-bar');
+  bar.innerHTML = '';
+  for(let i=0;i<=10;i++){
+    bar.innerHTML += `<label><input type="radio" name="motivation" value="${i}"><span class="v">${i}</span></label>`;
+  }
+}
+
+// === Prio rows ===
+function ajouterPrio(d){
+  const cont = document.getElementById('prio-corps');
+  const row = document.createElement('div');
+  row.className = 'prio-row';
+  row.innerHTML = `
+    <input type="text" data-prio="obj" placeholder="Objectif envisagé" value="${esc(d?.obj||'')}">
+    <select data-prio="urg"><option value="">—</option><option ${d?.urg=='faible'?'selected':''}>faible</option><option ${d?.urg=='moyen'?'selected':''}>moyen</option><option ${d?.urg=='fort'?'selected':''}>fort</option></select>
+    <select data-prio="imp"><option value="">—</option><option ${d?.imp=='faible'?'selected':''}>faible</option><option ${d?.imp=='moyen'?'selected':''}>moyen</option><option ${d?.imp=='fort'?'selected':''}>fort</option></select>
+    <select data-prio="fais"><option value="">—</option><option ${d?.fais=='faible'?'selected':''}>faible</option><option ${d?.fais=='moyen'?'selected':''}>moyen</option><option ${d?.fais=='fort'?'selected':''}>fort</option></select>
+    <select data-prio="ret"><option value="">—</option><option ${d?.ret=='oui'?'selected':''}>oui</option><option ${d?.ret=='non'?'selected':''}>non</option></select>
+    <button type="button" class="supp">×</button>
+  `;
+  row.querySelector('.supp').addEventListener('click', ()=> row.remove());
+  cont.appendChild(row);
+}
+document.getElementById('btn-add-prio').addEventListener('click', ()=> ajouterPrio());
+
+function collecterPrio(){
+  return Array.from(document.querySelectorAll('#prio-corps .prio-row')).map(r=>({
+    obj: r.querySelector('[data-prio="obj"]').value,
+    urg: r.querySelector('[data-prio="urg"]').value,
+    imp: r.querySelector('[data-prio="imp"]').value,
+    fais: r.querySelector('[data-prio="fais"]').value,
+    ret: r.querySelector('[data-prio="ret"]').value
+  }));
+}
+
+// === Plan d'action rows ===
+function ajouterPlan(d){
+  const tbody = document.getElementById('plan-corps');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><textarea data-plan="obj" rows="2">${esc(d?.obj||'')}</textarea></td>
+    <td><input type="text" data-plan="support" value="${esc(d?.support||'')}"></td>
+    <td><input type="text" data-plan="qui" value="${esc(d?.qui||'')}"></td>
+    <td><input type="text" data-plan="freq" value="${esc(d?.freq||'')}"></td>
+    <td><input type="text" data-plan="duree" value="${esc(d?.duree||'')}"></td>
+    <td><input type="text" data-plan="critere" value="${esc(d?.critere||'')}"></td>
+  `;
+  tbody.appendChild(tr);
+}
+document.getElementById('btn-add-plan').addEventListener('click', ()=> ajouterPlan());
+
+function collecterPlan(){
+  return Array.from(document.querySelectorAll('#plan-corps tr')).map(tr=>({
+    obj: tr.querySelector('[data-plan="obj"]').value,
+    support: tr.querySelector('[data-plan="support"]').value,
+    qui: tr.querySelector('[data-plan="qui"]').value,
+    freq: tr.querySelector('[data-plan="freq"]').value,
+    duree: tr.querySelector('[data-plan="duree"]').value,
+    critere: tr.querySelector('[data-plan="critere"]').value
+  }));
+}
+
+// === Suivi hebdo (4 semaines fixes) ===
+function renderSuivi(){
+  const cont = document.getElementById('suivi-hebdo');
+  cont.innerHTML = '';
+  for(let i=1;i<=4;i++){
+    cont.innerHTML += `
+      <div class="suivi-row">
+        <div class="sem-badge">S${i}</div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:700">Objectif travaillé</label>
+          <textarea data-k="sh-obj-${i}"></textarea>
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:700">Réussites</label>
+          <textarea data-k="sh-r-${i}"></textarea>
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:700">Difficultés</label>
+          <textarea data-k="sh-d-${i}"></textarea>
+        </div>
+        <div>
+          <label style="font-size:.78rem;color:var(--muted);font-weight:700">Ajustement</label>
+          <textarea data-k="sh-a-${i}"></textarea>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// === Save / Load ===
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type==='checkbox' ? el.checked : el.value;
+  });
+  document.querySelectorAll('input[type="radio"]:checked').forEach(r=>{ o['radio_'+r.name] = r.value; });
+  o._prio = collecterPrio();
+  o._plan = collecterPlan();
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{ r.checked = (o['radio_'+r.name] === r.value); });
+  document.getElementById('prio-corps').innerHTML = '';
+  if(o._prio && o._prio.length) o._prio.forEach(d=> ajouterPrio(d));
+  else for(let i=0;i<3;i++) ajouterPrio();
+  document.getElementById('plan-corps').innerHTML = '';
+  if(o._plan && o._plan.length) o._plan.forEach(d=> ajouterPlan(d));
+  else for(let i=0;i<3;i++) ajouterPlan();
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else el.value = '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=> r.checked = false);
+  document.getElementById('prio-corps').innerHTML = '';
+  for(let i=0;i<3;i++) ajouterPrio();
+  document.getElementById('plan-corps').innerHTML = '';
+  for(let i=0;i<3;i++) ajouterPlan();
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucun plan.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · ${esc((o.date||o._ts||'').slice(0,10))}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire();
+      const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer ce plan ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom.'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr); rendreDossiers(); alert('Plan enregistré.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const l = ['Tableau d\'objectifs SMART — Boîte NeuroPed',''];
+  l.push('Enfant : '+(o.prenom||'—')+' · '+(o.age||'—')+' · Date : '+(o.date||'—'));
+  l.push('Auteur(s) : '+(o.auteur||'—'));
+  l.push('Besoins repérés : '+(o['besoins-repere']||'—'));
+  l.push('');
+  l.push('== Objectif SMART formulé ==');
+  l.push('Besoin : '+(o['f-besoin']||'—'));
+  l.push('Général : '+(o['f-general']||'—'));
+  l.push('Comportement : '+(o['f-comportement']||'—'));
+  l.push('Situation : '+(o['f-situation']||'—'));
+  l.push('Fréquence : '+(o['f-frequence']||'—'));
+  l.push('Durée : '+(o['f-duree']||'—'));
+  l.push('Aide : '+(o['f-aide']||'—'));
+  l.push('Support : '+(o['f-support']||'—'));
+  l.push('Critère : '+(o['f-critere']||'—'));
+  l.push('Réévaluation : '+(o['f-reeval']||'—'));
+  l.push('🎯 Formulation finale : '+(o['f-finale']||'—'));
+  l.push('');
+  l.push('== Catalogue retenu ==');
+  DOMAINES.forEach(d=>{
+    d.objs.forEach((ob,j)=>{ if(o['catalog-'+d.id+'-'+j]) l.push('  ✓ ['+d.nom+'] '+ob[1]); });
+  });
+  l.push('');
+  l.push('== Priorisation ==');
+  (o._prio||[]).forEach(p=>{ if(p.obj) l.push('  · '+p.obj+' · urg:'+p.urg+' · imp:'+p.imp+' · fais:'+p.fais+' · retenu:'+p.ret); });
+  l.push('');
+  l.push('== Plan d\'action ==');
+  (o._plan||[]).forEach(p=>{ if(p.obj) l.push('  · '+p.obj+' | support:'+p.support+' | qui:'+p.qui+' | freq:'+p.freq+' | durée:'+p.duree+' | critère:'+p.critere); });
+  const sup = SUPPORTS.filter((_,i)=> o['sup-'+i]);
+  if(sup.length) l.push('Supports : '+sup.join(', '));
+  l.push('');
+  l.push('== Suivi hebdomadaire ==');
+  for(let i=1;i<=4;i++) l.push('S'+i+' : obj='+(o['sh-obj-'+i]||'—')+' / R='+(o['sh-r-'+i]||'—')+' / D='+(o['sh-d-'+i]||'—')+' / A='+(o['sh-a-'+i]||'—'));
+  l.push('');
+  l.push('== Réévaluation ==');
+  for(let i=1;i<=8;i++) l.push('Q'+i+' : '+(o['r-'+i]||'—'));
+  const dec = ['atteint','partiel','poursuivre','simplifier','modifier','nonprio','bilan'].filter(k=> o['dec-'+k]);
+  l.push('Décision : '+(dec.join(', ')||'—'));
+  l.push('');
+  l.push('== Version enfant / ado ==');
+  l.push('Objectif : '+(o['enf-objectif']||'—'));
+  l.push('Quoi : '+(o['enf-quoi']||'—'));
+  l.push('Motivation : '+(o['radio_motivation']||'—')+'/10');
+  l.push('Progrès : '+(o['enf-progres']||'—'));
+  l.push('');
+  l.push('== Synthèse ==');
+  l.push('Priorités : '+(o['syn-prio']||'—'));
+  l.push('Supports : '+(o['syn-supports']||'—'));
+  l.push('Réévaluation : '+(o['syn-reeval']||'—'));
+  l.push(o['syn-phrase']||'—');
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'smart-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{ if(confirm('Vider le formulaire ?')) vider(); });
+
+// Nav scroll
+const navLinks = document.querySelectorAll('#nav a');
+function majNav(){
+  const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 120) actif = c; });
+  navLinks.forEach(a=>{ a.classList.toggle('actif', actif && a.getAttribute('href') === '#'+actif.id); });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+// Init
+renderDomaines();
+renderSupports();
+renderMotiv();
+renderSuivi();
+for(let i=0;i<3;i++) ajouterPrio();
+for(let i=0;i<3;i++) ajouterPlan();
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+majNav();
+</script>
+
+</body>
+</html>

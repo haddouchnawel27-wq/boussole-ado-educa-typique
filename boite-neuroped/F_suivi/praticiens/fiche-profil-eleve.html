@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiche profil élève — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,#7c5cbf,#CBB6F6);padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:#fff;margin:0;text-shadow:0 2px 4px rgba(0,0,0,.15)}
+.bandeau .sub{color:#fff;max-width:760px;margin:.4rem auto 0;opacity:.95}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.2);padding:.3em .9em;border-radius:999px}
+
+.layout{max-width:1200px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:230px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start}
+.nav-sticky h3{color:#7c5cbf;margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.9rem}
+.nav-sticky li{margin:.15rem 0}
+.nav-sticky a{display:block;padding:.4rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm)}
+.nav-sticky a:hover{background:#e8e0f5;color:#7c5cbf}
+.nav-sticky a.actif{background:#7c5cbf;color:#fff;font-weight:700}
+
+.contenu{display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid #7c5cbf;border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:#7c5cbf;font-family:var(--font-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:#7c5cbf;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+section.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+section.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-forces{--c:#2a9d8f}
+.bloc-diff{--c:#c25a30}
+.bloc-aide{--c:#8ED9D2}
+.bloc-aggrave{--c:#a02040}
+.bloc-signes{--c:#a87800}
+.bloc-amenagement{--c:#7c5cbf}
+.bloc-crise{--c:#e05a8a}
+.bloc-restitution{--c:#F39BC2}
+.bloc-coord{--c:#CBB6F6}
+.bloc-courte{--c:var(--rose-titre)}
+.bloc-syn{--c:var(--rose-soutenu)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ textarea{min-height:60px;resize:vertical}
+.champ.full{grid-column:1/-1}
+
+/* Difficultés table */
+.diff-row{display:grid;grid-template-columns:1.5fr 80px 80px 80px 2fr;gap:.4rem;padding:.4rem .5rem;border-bottom:1px solid var(--border);align-items:center}
+.diff-row .domaine{font-weight:700;font-size:.88rem}
+.diff-row .besoin{display:flex;justify-content:center}
+.diff-row textarea{padding:.3em .4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.83rem;min-height:36px;resize:vertical}
+.diff-entete{display:grid;grid-template-columns:1.5fr 80px 80px 80px 2fr;gap:.4rem;padding:.3rem .5rem;font-size:.74rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+.diff-entete div:not(:first-child):not(:last-child){text-align:center}
+@media (max-width:760px){.diff-row, .diff-entete{grid-template-columns:1fr}}
+
+.checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.3rem;margin-top:.4rem}
+.check{background:var(--beige);border-radius:var(--r-sm);padding:.4rem .6rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.88rem}
+.check input:checked + span{color:var(--c, var(--rose-titre));font-weight:700}
+
+/* Aggrave / signes */
+.notes-row{display:grid;grid-template-columns:1fr 60px 2fr;gap:.4rem;padding:.4rem .5rem;border-bottom:1px solid var(--border);align-items:center}
+.notes-row .check-cell{display:flex;justify-content:center}
+.notes-row .texte{font-size:.9rem}
+.notes-row textarea{padding:.3em .4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.83rem;min-height:32px;resize:vertical}
+@media (max-width:760px){.notes-row{grid-template-columns:1fr}}
+
+/* Aménagements (5 catégories) */
+.amenagement-cat{background:var(--beige);border-radius:var(--r-md);padding:.7rem 1rem;margin-bottom:.6rem;border-left:5px solid var(--c-am)}
+.amenagement-cat h3{margin:0 0 .3rem;color:var(--c-am);font-size:1rem}
+.am-consignes{--c-am:#7c5cbf}
+.am-ecrit{--c-am:#e05a8a}
+.am-eval{--c-am:#F39BC2}
+.am-attention{--c-am:#2a9d8f}
+.am-senso{--c-am:#8ED9D2}
+
+/* Crise grille */
+.crise-grille{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.4rem}
+@media (max-width:760px){.crise-grille{grid-template-columns:1fr}}
+.crise-card{background:#fff;border-radius:var(--r-md);padding:.8rem 1rem}
+.crise-faire{background:#e8f5ec;border:1px solid #1b7a4a}
+.crise-eviter{background:#fdeaea;border:1px solid #a02040}
+.crise-card h3{margin:0 0 .3rem}
+.crise-faire h3{color:#1b7a4a}
+.crise-eviter h3{color:#a02040}
+
+/* Restitution */
+.rest-row{display:grid;grid-template-columns:1.5fr 80px 80px 2fr;gap:.4rem;padding:.4rem .5rem;border-bottom:1px solid var(--border);align-items:center}
+.rest-row .mode{font-weight:700;font-size:.88rem}
+.rest-row .choix{display:flex;justify-content:center}
+.rest-row textarea{padding:.3em .4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.83rem;min-height:32px;resize:vertical}
+.rest-entete{display:grid;grid-template-columns:1.5fr 80px 80px 2fr;gap:.4rem;padding:.3rem .5rem;font-size:.74rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+.rest-entete div:not(:first-child):not(:last-child){text-align:center}
+@media (max-width:760px){.rest-row, .rest-entete{grid-template-columns:1fr}}
+
+/* Version courte */
+.bloc-courte{background:linear-gradient(135deg,#fff,var(--rose-clair));border:2px dashed var(--rose-titre);page-break-before:always}
+.courte-preview{background:#fff;border-radius:var(--r-md);padding:1.2rem;margin-top:.6rem;font-size:.92rem;border:1px solid var(--rose-clair)}
+.courte-preview .meta-print{font-size:.85rem;color:var(--muted);border-bottom:1px solid var(--border);padding-bottom:.5rem;margin-bottom:.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.courte-preview h4{color:var(--rose-titre);margin:.7rem 0 .2rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--rose-clair);padding-bottom:.15rem}
+.courte-preview p{margin:.2rem 0;font-size:.88rem}
+.courte-preview ul{margin:.2rem 0;padding-left:1.3rem;font-size:.88rem}
+.courte-preview .double{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+@media (max-width:680px){.courte-preview .double{grid-template-columns:1fr}}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:#7c5cbf;border:2px solid #7c5cbf}
+.actions button:hover{background:#7c5cbf;color:#fff}
+.actions .imp-courte{background:var(--rose-titre);color:#fff;border-color:var(--rose-titre)}
+.actions .imp-courte:hover{background:var(--rose-soutenu)}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .dossiers, .retour, details.apropos {display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .sub{color:#7c5cbf !important;text-shadow:none}
+}
+.print-courte-seule .bloc:not(.bloc-courte):not(.bloc-meta),
+.print-courte-seule .posture,
+.print-courte-seule details.apropos {display:none !important}
+.print-courte-seule .bloc-courte{page-break-before:auto;border:2px solid var(--rose-titre)}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>🏫 Fiche profil élève — pour l'école</h1>
+  <p class="sub">Synthèse claire, courte et opérationnelle pour l'équipe éducative. Une fiche école n'est pas une biographie : ce qui aide · ce qui aggrave · quoi faire concrètement.</p>
+</section>
+
+<div class="layout">
+
+  <aside class="nav-sticky">
+    <h3>📑 Sections</h3>
+    <ol id="nav">
+      <li><a href="#bloc-meta">Identité &amp; cadre</a></li>
+      <li><a href="#bloc-forces">Forces</a></li>
+      <li><a href="#bloc-diff">Difficultés</a></li>
+      <li><a href="#bloc-aide">Ce qui aide</a></li>
+      <li><a href="#bloc-aggrave">Ce qui aggrave</a></li>
+      <li><a href="#bloc-signes">Signes de surcharge</a></li>
+      <li><a href="#bloc-amenagement">Aménagements pédago</a></li>
+      <li><a href="#bloc-crise">En cas de crise</a></li>
+      <li><a href="#bloc-restitution">Mode de restitution</a></li>
+      <li><a href="#bloc-coord">Coordination école</a></li>
+      <li><a href="#bloc-courte">🃏 Version courte (à transmettre)</a></li>
+      <li><a href="#bloc-syn">Synthèse</a></li>
+    </ol>
+    <div class="dossiers" style="margin-top:.6rem">
+      <h4>📂 Fiches enregistrées</h4>
+      <div id="liste-dossiers"></div>
+    </div>
+  </aside>
+
+  <main class="contenu">
+
+    <details class="apropos">
+      <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+      <div class="grid8">
+        <div><strong>1. Objectif</strong>Transmettre à l'école une synthèse opérationnelle pour faciliter les adaptations pédagogiques, relationnelles et comportementales — pas une biographie.</div>
+        <div><strong>2. Quand l'utiliser</strong>À la rentrée, lors d'une équipe éducative, à un changement de classe / d'enseignant, après un bilan diagnostique, ou en cas de difficulté repérée.</div>
+        <div><strong>3. Pour quel profil TND</strong>Tous TND avec impact scolaire : TDAH, TSA, dys, TDL, TDC, anxiété, surcharge sensorielle, dysrégulation émotionnelle.</div>
+        <div><strong>4. Mode d'emploi</strong>Remplir la version longue ici (interne), puis utiliser la <strong>version courte auto-générée</strong> pour la transmission. Bouton « Imprimer version courte ».</div>
+        <div><strong>5. Grille à remplir</strong>Forces + difficultés (13 domaines) + ce qui aide / aggrave + crise + restitution + coordination. Version courte tient en 1 page A4.</div>
+        <div><strong>6. Analyse</strong>L'école a besoin de 3 choses : ce qui aide, ce qui aggrave, quoi faire concrètement. Le reste = bruit. Si tu écris 8 pages, elle ne sera pas utilisée.</div>
+        <div><strong>7. Recommandations</strong>Personne référente identifiée. Réévaluation après 4-6 semaines. Indicateurs simples et observables.</div>
+        <div><strong>8. Phrase de synthèse</strong>"L'élève présente des besoins spécifiques. Les adaptations proposées visent à réduire la charge cognitive, prévenir la surcharge, restituer ses compétences."</div>
+      </div>
+    </details>
+
+    <div class="posture">
+      💡 <strong>Posture :</strong> les enseignants gèrent une classe entière, des programmes, des urgences. Une bonne fiche école ne dit pas tout — elle dit ce qu'il faut savoir pour <strong>agir juste</strong>, en 5 minutes de lecture maximum.
+    </div>
+
+    <!-- META -->
+    <section id="bloc-meta" class="bloc bloc-meta">
+      <h2>Identité &amp; cadre</h2>
+      <div class="grille">
+        <div class="champ"><label>Nom et prénom de l'élève</label><input data-k="nom" type="text"></div>
+        <div class="champ"><label>Date de naissance</label><input data-k="ddn" type="date"></div>
+        <div class="champ"><label>Classe</label><input data-k="classe" type="text"></div>
+        <div class="champ"><label>Établissement</label><input data-k="etab" type="text"></div>
+        <div class="champ"><label>Date de rédaction</label><input data-k="date" type="date"></div>
+        <div class="champ"><label>Personne référente famille</label><input data-k="ref-famille" type="text"></div>
+        <div class="champ full"><label>Professionnels impliqués</label><textarea data-k="pros" placeholder="orthophoniste, neuropsy, ergo, médecin, pédopsy…"></textarea></div>
+        <div class="champ"><label>Aménagements existants</label>
+          <select data-k="amenagement-en-cours" multiple style="min-height:90px">
+            <option>PAP</option><option>PPS</option><option>PAI</option><option>AESH</option><option>ULIS</option><option>Aucun</option><option>En cours de demande</option>
+          </select>
+        </div>
+        <div class="champ"><label>Document transmis à</label>
+          <select data-k="destinataire" multiple style="min-height:90px">
+            <option>Enseignant·e principal·e</option><option>Équipe enseignante</option><option>AESH</option><option>CPE</option><option>Direction</option><option>Équipe éducative</option><option>Médecin scolaire</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORCES -->
+    <section id="bloc-forces" class="bloc bloc-forces">
+      <h2>🌟 Profil global — forces &amp; ressources</h2>
+      <p class="intro">Ne pas sauter cette partie. Un accompagnement centré uniquement sur les difficultés fabrique de la résistance.</p>
+      <div class="grille">
+        <div class="champ"><label>Intérêts / passions</label><textarea data-k="f-interets"></textarea></div>
+        <div class="champ"><label>Compétences scolaires</label><textarea data-k="f-scolaire"></textarea></div>
+        <div class="champ"><label>Compétences orales</label><textarea data-k="f-oral"></textarea></div>
+        <div class="champ"><label>Raisonnement</label><textarea data-k="f-raison"></textarea></div>
+        <div class="champ"><label>Créativité</label><textarea data-k="f-creativite"></textarea></div>
+        <div class="champ"><label>Mémoire</label><textarea data-k="f-memoire"></textarea></div>
+        <div class="champ"><label>Relation aux adultes</label><textarea data-k="f-adultes"></textarea></div>
+        <div class="champ"><label>Relation aux pairs</label><textarea data-k="f-pairs"></textarea></div>
+        <div class="champ"><label>Qualités personnelles</label><textarea data-k="f-qualites"></textarea></div>
+        <div class="champ"><label>Situations où il réussit mieux</label><textarea data-k="f-situations"></textarea></div>
+      </div>
+    </section>
+
+    <!-- DIFFICULTES -->
+    <section id="bloc-diff" class="bloc bloc-diff">
+      <h2>⚠️ Difficultés principales observées</h2>
+      <p class="intro">Pour chaque domaine, cocher le niveau de besoin et préciser dans les observations.</p>
+      <div class="diff-entete">
+        <div>Domaine</div>
+        <div>Faible</div>
+        <div>Moyen</div>
+        <div>Fort</div>
+        <div>Observations utiles</div>
+      </div>
+      <div id="liste-diff"></div>
+      <div class="champ full" style="margin-top:.6rem"><label>🎯 3 difficultés prioritaires à prendre en compte (action école)</label><textarea data-k="diff-prio" placeholder="1.&#10;2.&#10;3." style="min-height:80px"></textarea></div>
+    </section>
+
+    <!-- CE QUI AIDE -->
+    <section id="bloc-aide" class="bloc bloc-aide">
+      <h2>✅ Ce qui aide l'élève</h2>
+      <div class="champ full"><label>Adaptations qui aident concrètement (texte libre)</label><textarea data-k="aide-libre" style="min-height:90px" placeholder="ex : place calme, exemple visible, timer, casque, droit à l'erreur explicite…"></textarea></div>
+      <h3 style="margin-top:.7rem;color:#8ED9D2;font-size:1rem">Supports recommandés (cocher)</h3>
+      <div class="checklist" id="liste-supports" style="--c:#8ED9D2"></div>
+    </section>
+
+    <!-- CE QUI AGGRAVE -->
+    <section id="bloc-aggrave" class="bloc bloc-aggrave">
+      <h2>🚫 Ce qui aggrave</h2>
+      <p class="intro">Cocher les facteurs présents + notes utiles pour l'équipe.</p>
+      <div id="liste-aggrave"></div>
+      <p style="margin-top:.5rem;padding:.5rem .7rem;background:#fde6dc;border-radius:var(--r-sm);font-size:.88rem;color:#a02040;font-weight:700">
+        💡 Ce qui ressemble à de l'opposition peut être une réponse à la surcharge ou à l'anxiété. Ça n'empêche pas le cadre — ça demande un cadre <strong>plus intelligent</strong>.
+      </p>
+    </section>
+
+    <!-- SIGNES SURCHARGE -->
+    <section id="bloc-signes" class="bloc bloc-signes">
+      <h2>📡 Signes de surcharge ou de montée émotionnelle</h2>
+      <p class="intro">Pour chaque signe, cocher s'il est présent et préciser l'action recommandée.</p>
+      <div id="liste-signes"></div>
+      <p style="margin-top:.5rem;padding:.5rem .7rem;background:#fff3e0;border-radius:var(--r-sm);font-size:.88rem;color:#a87800;font-weight:700;font-style:italic">
+        💬 « Je vois que ça devient coûteux. On fait une pause courte ou on reprend avec une étape plus simple. »
+      </p>
+    </section>
+
+    <!-- AMENAGEMENTS PEDAGO -->
+    <section id="bloc-amenagement" class="bloc bloc-amenagement">
+      <h2>🛠️ Aménagements pédagogiques recommandés</h2>
+      <p class="intro">5 catégories. Cocher uniquement ce qui est pertinent pour cet élève.</p>
+
+      <div class="amenagement-cat am-consignes">
+        <h3>📋 Consignes</h3>
+        <div class="checklist" id="am-consignes" style="--c:#7c5cbf"></div>
+      </div>
+      <div class="amenagement-cat am-ecrit">
+        <h3>✏️ Travail écrit</h3>
+        <div class="checklist" id="am-ecrit" style="--c:#e05a8a"></div>
+      </div>
+      <div class="amenagement-cat am-eval">
+        <h3>📝 Évaluations</h3>
+        <div class="checklist" id="am-eval" style="--c:#F39BC2"></div>
+      </div>
+      <div class="amenagement-cat am-attention">
+        <h3>🎯 Attention &amp; comportement</h3>
+        <div class="checklist" id="am-attention" style="--c:#2a9d8f"></div>
+      </div>
+      <div class="amenagement-cat am-senso">
+        <h3>🌈 Sensorialité</h3>
+        <div class="checklist" id="am-senso" style="--c:#8ED9D2"></div>
+      </div>
+    </section>
+
+    <!-- CRISE -->
+    <section id="bloc-crise" class="bloc bloc-crise">
+      <h2>🆘 Stratégie en cas de crise ou débordement</h2>
+      <div class="crise-grille">
+        <div class="crise-card crise-faire">
+          <h3>✅ À FAIRE</h3>
+          <div class="checklist" id="crise-faire" style="--c:#1b7a4a;grid-template-columns:1fr"></div>
+        </div>
+        <div class="crise-card crise-eviter">
+          <h3>❌ À ÉVITER</h3>
+          <div class="checklist" id="crise-eviter" style="--c:#a02040;grid-template-columns:1fr"></div>
+        </div>
+      </div>
+      <div class="champ full" style="margin-top:.6rem"><label>Phrase commune recommandée pour les adultes (la même pour tout le monde)</label><textarea data-k="crise-phrase" placeholder="ex : « Je vois que c'est trop difficile maintenant. Pause courte. On reprend après. »" style="min-height:60px"></textarea></div>
+    </section>
+
+    <!-- RESTITUTION -->
+    <section id="bloc-restitution" class="bloc bloc-restitution">
+      <h2>💬 Mode de restitution adapté</h2>
+      <p class="intro">L'objectif est d'évaluer la compétence visée, pas l'obstacle périphérique.</p>
+      <div class="rest-entete">
+        <div>Mode</div>
+        <div>Adapté</div>
+        <div>À éviter</div>
+        <div>Notes</div>
+      </div>
+      <div id="liste-restitution"></div>
+    </section>
+
+    <!-- COORDINATION -->
+    <section id="bloc-coord" class="bloc bloc-coord">
+      <h2>🤝 Coordination famille — école</h2>
+      <div class="grille">
+        <div class="champ"><label>Personne référente à l'école</label><input data-k="ref-ecole" type="text"></div>
+        <div class="champ"><label>Moyen de communication</label>
+          <select data-k="comm">
+            <option value="">—</option><option>Carnet de liaison</option><option>Mail</option><option>ENT</option><option>Téléphone</option><option>Application dédiée</option><option>RDV en présentiel</option>
+          </select>
+        </div>
+        <div class="champ"><label>Fréquence des retours</label>
+          <select data-k="freq">
+            <option value="">—</option><option>Hebdomadaire</option><option>Bi-mensuelle</option><option>Mensuelle</option><option>Selon besoin</option><option>Trimestrielle</option>
+          </select>
+        </div>
+        <div class="champ"><label>Date de réévaluation</label><input data-k="date-reeval" type="date"></div>
+        <div class="champ full"><label>Objectif prioritaire actuel</label><textarea data-k="obj-prio"></textarea></div>
+        <div class="champ full"><label>Aménagement à tester pendant 4 semaines</label><textarea data-k="amen-test"></textarea></div>
+        <div class="champ full"><label>Indicateurs de progrès (cocher)</label>
+          <div class="checklist" id="liste-indicateurs" style="--c:#CBB6F6"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VERSION COURTE -->
+    <section id="bloc-courte" class="bloc bloc-courte">
+      <h2>🃏 Version courte — synthèse opérationnelle (à transmettre à l'école)</h2>
+      <p class="intro">Auto-générée à partir des sections ci-dessus. Bouton ci-dessous pour imprimer cette page seule en A4.</p>
+      <button id="btn-imp-courte" class="imp-courte" style="background:var(--rose-titre);color:#fff;border:2px solid var(--rose-titre);margin-bottom:.6rem">🖨️ Imprimer la version courte seule</button>
+      <div class="courte-preview" id="courte-preview"></div>
+    </section>
+
+    <!-- SYNTHESE -->
+    <section id="bloc-syn" class="bloc bloc-syn">
+      <h2>✍️ Phrase de synthèse</h2>
+      <div class="champ full"><label>Phrase type pour équipe éducative</label><textarea data-k="syn-phrase" style="min-height:100px" placeholder="L'élève présente des besoins spécifiques qui peuvent impacter …. Les adaptations proposées visent à …. Une réévaluation des aménagements est recommandée après … semaines."></textarea></div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer</button>
+      <button id="btn-exporter">📄 Exporter (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer fiche complète</button>
+      <button id="btn-vider" class="danger">🧹 Vider</button>
+    </div>
+
+    <div class="disclaimer">
+      Cette fiche ne pose pas de diagnostic. Elle présente les besoins fonctionnels observés pour soutenir l'élève dans son cadre scolaire. Toute orientation diagnostique relève des professionnels habilités.
+    </div>
+
+    <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+      Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+    </p>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'neuroped_fiche_eleve_v1';
+let currentId = null;
+
+const DOMAINES_DIFF = [
+  'Attention','Impulsivité','Mémoire de travail','Organisation',
+  'Compréhension des consignes','Lecture','Écriture / graphisme',
+  'Calcul / raisonnement math','Lenteur','Régulation émotionnelle',
+  'Sensorialité','Relations sociales','Autonomie'
+];
+
+const SUPPORTS = ['Consigne courte','Consigne écrite','Pictogrammes','Carte mentale','Exemple modèle','Check-list','Timer visuel','Casque anti-bruit','Pause motrice','Ordinateur','Dictée vocale','Code couleur','Place calme','Réduction de copie','Évaluation aménagée'];
+
+const AGGRAVE = [
+  'Consignes longues','Double tâche','Bruit / agitation','Changements imprévus',
+  'Remarques devant le groupe','Pression temporelle','Copie longue','Attente prolongée',
+  'Évaluation surprise','Tâche trop ouverte','Humiliation / comparaison','Sanction sans explication',
+  'Fatigue fin de journée','Récréation / cantine surchargée'
+];
+
+const SIGNES = [
+  ['Agitation', 'réduire la charge / proposer pause'],
+  ['Opposition verbale', 'consigne courte + choix limité'],
+  ['Retrait / mutisme', 'laisser du temps + reformuler'],
+  ['Pleurs', 'sécuriser, éviter exposition'],
+  ['Provocation', 'ne pas entrer en bras de fer'],
+  ['Fuite du regard', 'baisser la pression'],
+  ['Se bouche les oreilles', 'réduire stimulation sonore'],
+  ['Manipulation forte d\'objet', 'proposer objet adapté'],
+  ['Lenteur soudaine', 'vérifier fatigue / compréhension'],
+  ['Soupirs / irritabilité', 'intervenir tôt']
+];
+
+const AM_CONSIGNES = ['Donner une consigne à la fois','Vérifier la compréhension','Demander une reformulation','Écrire les étapes au tableau','Surligner les mots importants','Donner un exemple réalisé','Éviter les consignes implicites'];
+const AM_ECRIT = ['Réduire la copie','Fournir le cours imprimé','Autoriser ordinateur','Autoriser dictée vocale','Accepter réponses courtes','Accepter schémas / cartes mentales','Ne pas pénaliser doublement l\'orthographe hors dictée','Privilégier la qualité à la quantité'];
+const AM_EVAL = ['Temps supplémentaire','Tiers temps si prévu','Évaluation fractionnée','Oral possible','QCM ou réponses guidées','Consignes lues à voix haute','Espace calme','Réduction du nombre d\'exercices','Entraînement avant évaluation','Éviter évaluations surprises si anxiété forte'];
+const AM_ATTENTION = ['Place proche adulte / loin distracteurs','Pauses courtes programmées','Mission active','Timer','Contrat de travail court','Renforcement positif précis','Rappel discret','Signal non verbal convenu','Éviter remarques publiques'];
+const AM_SENSO = ['Casque anti-bruit','Place calme','Pause sensorielle','Éviter cantine trop exposée si possible','Réduire supports visuellement chargés','Permettre objet discret de manipulation','Anticiper sorties / événements bruyants'];
+
+const CRISE_FAIRE = ['Parler peu','Voix basse','Éloigner le public','Proposer deux choix simples','Autoriser une pause','Réduire la stimulation','Maintenir la limite calmement','Attendre le retour au calme avant discussion'];
+const CRISE_EVITER = ['Sermonner devant la classe','Humilier','Menacer en boucle','Forcer à expliquer pendant la crise','Toucher sans prévenir','Débattre','Comparer aux autres élèves','Exiger des excuses immédiates'];
+
+const RESTITUTION = ['Oral','Écrit long','QCM','Schéma','Carte mentale','Manipulation','Exposé préparé','Dictée vocale','Réponse à trous','Évaluation fractionnée'];
+
+const INDICATEURS = ['Moins de crises','Moins d\'évitement','Meilleure entrée dans la tâche','Devoirs mieux notés / transmis','Moins d\'oublis','Meilleure restitution orale / écrite','Fatigue réduite','Relations sociales plus apaisées','Autonomie en progrès'];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// === Difficultés ===
+function renderDifficultes(){
+  const cont = document.getElementById('liste-diff');
+  cont.innerHTML = DOMAINES_DIFF.map((d,i)=>`
+    <div class="diff-row">
+      <div class="domaine">${esc(d)}</div>
+      <div class="besoin"><input type="radio" name="diff-${i}" value="faible"></div>
+      <div class="besoin"><input type="radio" name="diff-${i}" value="moyen"></div>
+      <div class="besoin"><input type="radio" name="diff-${i}" value="fort"></div>
+      <textarea data-k="diff-obs-${i}" placeholder="Observations utiles"></textarea>
+    </div>
+  `).join('');
+}
+
+function renderAggrave(){
+  const cont = document.getElementById('liste-aggrave');
+  cont.innerHTML = `
+    <div class="diff-entete" style="grid-template-columns:2fr 60px 2fr">
+      <div>Facteur aggravant</div><div style="text-align:center">Présent</div><div>Notes</div>
+    </div>
+  ` + AGGRAVE.map((f,i)=>`
+    <div class="notes-row">
+      <div class="texte">${esc(f)}</div>
+      <div class="check-cell"><input type="checkbox" data-k="agg-${i}"></div>
+      <textarea data-k="agg-notes-${i}"></textarea>
+    </div>
+  `).join('');
+}
+
+function renderSignes(){
+  const cont = document.getElementById('liste-signes');
+  cont.innerHTML = `
+    <div class="diff-entete" style="grid-template-columns:1fr 60px 2fr">
+      <div>Signe précoce</div><div style="text-align:center">Présent</div><div>Action recommandée</div>
+    </div>
+  ` + SIGNES.map((s,i)=>`
+    <div class="notes-row">
+      <div class="texte">${esc(s[0])}</div>
+      <div class="check-cell"><input type="checkbox" data-k="signe-${i}"></div>
+      <textarea data-k="signe-action-${i}">${esc(s[1])}</textarea>
+    </div>
+  `).join('');
+}
+
+function renderChecklist(id, items, prefix){
+  document.getElementById(id).innerHTML = items.map((it,i)=>`
+    <label class="check"><input type="checkbox" data-k="${prefix}-${i}"><span>${esc(it)}</span></label>
+  `).join('');
+}
+
+function renderRestitution(){
+  const cont = document.getElementById('liste-restitution');
+  cont.innerHTML = RESTITUTION.map((r,i)=>`
+    <div class="rest-row">
+      <div class="mode">${esc(r)}</div>
+      <div class="choix"><input type="checkbox" data-k="rest-adapt-${i}"></div>
+      <div class="choix"><input type="checkbox" data-k="rest-evit-${i}"></div>
+      <textarea data-k="rest-notes-${i}"></textarea>
+    </div>
+  `).join('');
+}
+
+// === Version courte (auto-générée) ===
+function getVal(k){ const el = document.querySelector(`[data-k="${k}"]`); return el ? el.value : ''; }
+function getCheckedFromList(prefix, items){
+  return items.map((_,i)=> document.querySelector(`[data-k="${prefix}-${i}"]:checked`) ? items[i] : null).filter(Boolean);
+}
+
+function renderCourte(){
+  const cont = document.getElementById('courte-preview');
+  const diffPrio = getVal('diff-prio') || '—';
+  const aide = getVal('aide-libre') || '—';
+  const supports = getCheckedFromList('sup', SUPPORTS);
+  const aggrave = AGGRAVE.filter((_,i)=> document.querySelector(`[data-k="agg-${i}"]`)?.checked);
+
+  // Difficultés prioritaires (besoin fort)
+  const diffFortes = DOMAINES_DIFF.filter((_,i)=> document.querySelector(`input[name="diff-${i}"]:checked`)?.value === 'fort');
+
+  // Aménagements cochés (toutes catégories)
+  const allAm = []
+    .concat(AM_CONSIGNES.filter((_,i)=> document.querySelector(`[data-k="am-cons-${i}"]`)?.checked).map(s=>'(Consigne) '+s))
+    .concat(AM_ECRIT.filter((_,i)=> document.querySelector(`[data-k="am-ecrit-${i}"]`)?.checked).map(s=>'(Écrit) '+s))
+    .concat(AM_EVAL.filter((_,i)=> document.querySelector(`[data-k="am-eval-${i}"]`)?.checked).map(s=>'(Éval) '+s))
+    .concat(AM_ATTENTION.filter((_,i)=> document.querySelector(`[data-k="am-att-${i}"]`)?.checked).map(s=>'(Attention) '+s))
+    .concat(AM_SENSO.filter((_,i)=> document.querySelector(`[data-k="am-senso-${i}"]`)?.checked).map(s=>'(Sensorialité) '+s));
+
+  const criseF = CRISE_FAIRE.filter((_,i)=> document.querySelector(`[data-k="crise-f-${i}"]`)?.checked);
+  const criseE = CRISE_EVITER.filter((_,i)=> document.querySelector(`[data-k="crise-e-${i}"]`)?.checked);
+  const crisePhrase = getVal('crise-phrase');
+
+  const restAdapt = RESTITUTION.filter((_,i)=> document.querySelector(`[data-k="rest-adapt-${i}"]`)?.checked);
+
+  cont.innerHTML = `
+    <div class="meta-print">
+      <span><strong>👤 ${esc(getVal('nom')||'—')}</strong> · ${esc(getVal('classe')||'—')} · né(e) le ${esc(getVal('ddn')||'—')}</span>
+      <span>📅 ${esc(getVal('date')||'—')}</span>
+    </div>
+    <p style="font-size:.82rem;color:var(--muted);font-style:italic;margin:.1rem 0 .4rem">
+      ${esc(getVal('etab')||'—')} · transmis à : ${Array.from(document.querySelector('[data-k="destinataire"]')?.selectedOptions||[]).map(o=>o.value).join(', ') || '—'}
+    </p>
+
+    <h4>🌟 Forces de l'élève</h4>
+    <p>${esc([getVal('f-interets'),getVal('f-scolaire'),getVal('f-qualites'),getVal('f-situations')].filter(Boolean).join(' · ')||'—')}</p>
+
+    <h4>⚠️ Besoins principaux</h4>
+    ${diffFortes.length ? `<p>${esc(diffFortes.join(' · '))}</p>` : ''}
+    <p>${esc(diffPrio).replace(/\n/g,'<br>')}</p>
+
+    <div class="double">
+      <div>
+        <h4>✅ Ce qui aide</h4>
+        <p>${esc(aide).replace(/\n/g,'<br>')}</p>
+        ${supports.length ? `<p><strong>Supports :</strong> ${esc(supports.join(' · '))}</p>` : ''}
+      </div>
+      <div>
+        <h4>🚫 Ce qui aggrave</h4>
+        <p>${aggrave.length ? esc(aggrave.join(' · ')) : '—'}</p>
+      </div>
+    </div>
+
+    <h4>🛠️ Aménagements prioritaires</h4>
+    ${allAm.length ? `<ul>${allAm.slice(0,12).map(a=>`<li>${esc(a)}</li>`).join('')}</ul>` : '<p>—</p>'}
+
+    <div class="double">
+      <div>
+        <h4>🆘 En cas de surcharge / crise</h4>
+        ${criseF.length ? `<p><strong>Faire :</strong> ${esc(criseF.join(' · '))}</p>` : ''}
+        ${criseE.length ? `<p><strong>Éviter :</strong> ${esc(criseE.join(' · '))}</p>` : ''}
+        ${crisePhrase ? `<p style="font-style:italic;color:#e05a8a">💬 « ${esc(crisePhrase)} »</p>` : ''}
+      </div>
+      <div>
+        <h4>💬 Mode de restitution recommandé</h4>
+        <p>${restAdapt.length ? esc(restAdapt.join(' · ')) : '—'}</p>
+      </div>
+    </div>
+
+    <h4>🤝 Coordination</h4>
+    <p>Référent école : <strong>${esc(getVal('ref-ecole')||'—')}</strong> · communication : ${esc(getVal('comm')||'—')} · fréquence : ${esc(getVal('freq')||'—')}</p>
+    <p>Réévaluation prévue : <strong>${esc(getVal('date-reeval')||'—')}</strong></p>
+
+    <p style="margin-top:.7rem;padding-top:.4rem;border-top:1px solid var(--rose-clair);font-size:.78rem;color:var(--muted);font-style:italic">
+      Cette fiche présente des besoins fonctionnels observés. Elle ne pose pas de diagnostic. À réévaluer avec l'équipe éducative.
+    </p>
+  `;
+}
+
+// === Save / Load ===
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') o[el.dataset.k] = el.checked;
+    else if(el.multiple){
+      o[el.dataset.k] = Array.from(el.selectedOptions).map(opt=>opt.value);
+    } else o[el.dataset.k] = el.value;
+  });
+  document.querySelectorAll('input[type="radio"]:checked').forEach(r=>{ o['radio_'+r.name] = r.value; });
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else if(el.multiple){
+      const vals = o[el.dataset.k] || [];
+      Array.from(el.options).forEach(opt=>{ opt.selected = vals.includes(opt.value); });
+    } else el.value = o[el.dataset.k] || '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{ r.checked = (o['radio_'+r.name] === r.value); });
+  renderCourte();
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else if(el.multiple) Array.from(el.options).forEach(opt=> opt.selected = false);
+    else el.value = '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=> r.checked = false);
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+  // Restore default signe actions
+  SIGNES.forEach((s,i)=>{ const ta = document.querySelector(`[data-k="signe-action-${i}"]`); if(ta) ta.value = s[1]; });
+  renderCourte();
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucune fiche.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.nom||'?')}</strong> · ${esc(o.classe||'')} · ${esc((o.date||o._ts||'').slice(0,10))}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire();
+      const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.nom){ alert('Renseigne au moins le nom de l\'élève.'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr); rendreDossiers(); alert('Fiche enregistrée.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const l = ['Fiche profil élève — Boîte NeuroPed',''];
+  l.push('Élève : '+(o.nom||'—')+' · Classe : '+(o.classe||'—'));
+  l.push('Date : '+(o.date||'—')+' · Établissement : '+(o.etab||'—'));
+  l.push('');
+  l.push('== Forces ==');
+  ['f-interets','f-scolaire','f-oral','f-raison','f-creativite','f-memoire','f-adultes','f-pairs','f-qualites','f-situations'].forEach(k=>{ if(o[k]) l.push('· '+k+' : '+o[k]); });
+  l.push('');
+  l.push('== Difficultés ==');
+  DOMAINES_DIFF.forEach((d,i)=>{
+    const niv = o['radio_diff-'+i];
+    const obs = o['diff-obs-'+i];
+    if(niv || obs) l.push('· '+d+' : '+(niv||'—')+(obs ? ' — '+obs : ''));
+  });
+  l.push('Priorités : '+(o['diff-prio']||'—'));
+  l.push('');
+  l.push('== Ce qui aide ==');
+  l.push(o['aide-libre']||'—');
+  const sup = SUPPORTS.filter((_,i)=> o['sup-'+i]);
+  if(sup.length) l.push('Supports : '+sup.join(', '));
+  l.push('');
+  l.push('== Ce qui aggrave ==');
+  AGGRAVE.forEach((f,i)=>{ if(o['agg-'+i]) l.push('  ✓ '+f+(o['agg-notes-'+i] ? ' — '+o['agg-notes-'+i] : '')); });
+  l.push('');
+  l.push('== Signes de surcharge ==');
+  SIGNES.forEach((s,i)=>{ if(o['signe-'+i]) l.push('  ✓ '+s[0]+' → '+(o['signe-action-'+i]||s[1])); });
+  l.push('');
+  l.push('== Aménagements ==');
+  AM_CONSIGNES.forEach((s,i)=>{ if(o['am-cons-'+i]) l.push('  · [Consignes] '+s); });
+  AM_ECRIT.forEach((s,i)=>{ if(o['am-ecrit-'+i]) l.push('  · [Écrit] '+s); });
+  AM_EVAL.forEach((s,i)=>{ if(o['am-eval-'+i]) l.push('  · [Éval] '+s); });
+  AM_ATTENTION.forEach((s,i)=>{ if(o['am-att-'+i]) l.push('  · [Attention] '+s); });
+  AM_SENSO.forEach((s,i)=>{ if(o['am-senso-'+i]) l.push('  · [Sensorialité] '+s); });
+  l.push('');
+  l.push('== En cas de crise ==');
+  CRISE_FAIRE.forEach((s,i)=>{ if(o['crise-f-'+i]) l.push('  ✓ FAIRE : '+s); });
+  CRISE_EVITER.forEach((s,i)=>{ if(o['crise-e-'+i]) l.push('  ✗ ÉVITER : '+s); });
+  l.push('Phrase commune : '+(o['crise-phrase']||'—'));
+  l.push('');
+  l.push('== Restitution ==');
+  RESTITUTION.forEach((r,i)=>{
+    if(o['rest-adapt-'+i]) l.push('  ✓ Adapté : '+r);
+    if(o['rest-evit-'+i]) l.push('  ✗ À éviter : '+r);
+  });
+  l.push('');
+  l.push('== Coordination ==');
+  l.push('Référent école : '+(o['ref-ecole']||'—'));
+  l.push('Communication : '+(o.comm||'—')+' · Fréquence : '+(o.freq||'—'));
+  l.push('Réévaluation : '+(o['date-reeval']||'—'));
+  l.push('Objectif prioritaire : '+(o['obj-prio']||'—'));
+  l.push('Aménagement à tester : '+(o['amen-test']||'—'));
+  const ind = INDICATEURS.filter((_,i)=> o['ind-'+i]);
+  if(ind.length) l.push('Indicateurs : '+ind.join(', '));
+  l.push('');
+  l.push('== Synthèse ==');
+  l.push(o['syn-phrase']||'—');
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'fiche-eleve-'+(o.nom||'eleve').replace(/\s+/g,'-')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=>{
+  document.body.classList.remove('print-courte-seule');
+  window.print();
+});
+
+document.getElementById('btn-imp-courte').addEventListener('click', ()=>{
+  renderCourte();
+  document.body.classList.add('print-courte-seule');
+  window.print();
+  setTimeout(()=> document.body.classList.remove('print-courte-seule'), 500);
+});
+
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(confirm('Vider le formulaire ?')) vider();
+});
+
+// Re-render version courte à chaque modif
+document.addEventListener('input', renderCourte);
+document.addEventListener('change', renderCourte);
+
+// Nav scroll
+const navLinks = document.querySelectorAll('#nav a');
+function majNav(){
+  const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 120) actif = c; });
+  navLinks.forEach(a=>{ a.classList.toggle('actif', actif && a.getAttribute('href') === '#'+actif.id); });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+// Init
+renderDifficultes();
+renderChecklist('liste-supports', SUPPORTS, 'sup');
+renderAggrave();
+renderSignes();
+renderChecklist('am-consignes', AM_CONSIGNES, 'am-cons');
+renderChecklist('am-ecrit', AM_ECRIT, 'am-ecrit');
+renderChecklist('am-eval', AM_EVAL, 'am-eval');
+renderChecklist('am-attention', AM_ATTENTION, 'am-att');
+renderChecklist('am-senso', AM_SENSO, 'am-senso');
+renderChecklist('crise-faire', CRISE_FAIRE, 'crise-f');
+renderChecklist('crise-eviter', CRISE_EVITER, 'crise-e');
+renderRestitution();
+renderChecklist('liste-indicateurs', INDICATEURS, 'ind');
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+renderCourte();
+majNav();
+</script>
+
+</body>
+</html>

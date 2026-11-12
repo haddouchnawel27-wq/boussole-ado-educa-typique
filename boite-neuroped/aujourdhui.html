@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aujourd'hui — Mode rapide · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#FFF8F0 0%,#F0F5F8 50%,#F0F8F5 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2D3E3A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:900px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes shimmer{0%,100%{opacity:0.6}50%{opacity:1}}
+@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(232,107,107,0.4)}50%{box-shadow:0 0 0 14px rgba(232,107,107,0)}}
+
+.hdr{text-align:center;padding:40px 24px 30px;margin-bottom:22px;background:linear-gradient(135deg,#FFF6EE 0%,#F5E8F0 35%,#E8F0F5 70%,#E8F5EC 100%);border-radius:24px;border:1px solid rgba(96,140,180,0.22);box-shadow:0 8px 28px rgba(96,140,180,0.08);position:relative;overflow:hidden}
+.hdr::before{content:'🧭';position:absolute;top:18px;right:22px;font-size:50px;opacity:0.13;transform:rotate(-8deg)}
+.hdr::after{content:'⏱️';position:absolute;bottom:18px;left:22px;font-size:44px;opacity:0.13;transform:rotate(8deg)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#E86B6B,#608CB4,#6CA89E);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px;position:relative;z-index:1}
+.float-icon{font-size:54px;margin-bottom:6px;display:inline-block;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1}
+.hdr h1{font-family:Georgia,serif;font-size:32px;font-weight:400;color:#2D3E3A;margin-bottom:8px;position:relative;z-index:1}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15.5px;color:#5A6B66;position:relative;z-index:1;max-width:600px;margin:0 auto;line-height:1.55}
+
+/* ============ QUESTION CENTRALE ============ */
+.question{background:#FFFFFF;border-radius:18px;padding:24px;margin-bottom:22px;border:1px solid rgba(96,140,180,0.18);box-shadow:0 4px 14px rgba(96,140,180,0.06);text-align:center}
+.question h2{font-family:Georgia,serif;font-size:22px;color:#2D3E3A;margin-bottom:8px;font-weight:500}
+.question p{font-size:14.5px;color:#7A8782;font-style:italic;margin:0}
+
+/* ============ CARTES SITUATION ============ */
+.situations-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+@media (max-width:880px){.situations-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:540px){.situations-grid{grid-template-columns:1fr}}
+.sit-card{background:#FFFFFF;border-radius:18px;padding:22px 20px;cursor:pointer;transition:all 0.3s;border-top:6px solid;text-align:left;position:relative;animation:fadeIn 0.4s ease-out;display:flex;flex-direction:column}
+.sit-card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,0,0,0.1)}
+.sit-card.active{transform:scale(1.02);box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+.sit-card .sit-icon{font-size:42px;display:block;margin-bottom:8px;animation:float 4s ease-in-out infinite}
+.sit-card h3{font-family:Georgia,serif;font-size:18px;color:#2D3E3A;margin-bottom:5px;font-weight:600;line-height:1.35}
+.sit-card .sit-tagline{font-size:13px;color:#7A8782;font-style:italic;line-height:1.5;margin-bottom:10px}
+
+.sit-crise{border-color:#C9573A;animation:pulse-red 2.5s infinite}
+.sit-devoirs{border-color:#E0B83E}
+.sit-routine{border-color:#9B85B8}
+.sit-ecole{border-color:#608CB4}
+.sit-comprendre{border-color:#6CA89E}
+.sit-ajuster{border-color:#D98C8C}
+
+/* ============ DÉTAIL DE LA SITUATION ============ */
+.detail-area{display:none;animation:fadeIn 0.5s}
+.detail-area.show{display:block}
+
+.detail-header{background:linear-gradient(135deg,#FFF8F0,#F5F0F7);border-radius:20px;padding:22px 26px;margin-bottom:18px;border:1px solid rgba(96,140,180,0.18);box-shadow:0 4px 14px rgba(96,140,180,0.06)}
+.detail-header .d-back{display:inline-block;background:#FAF4E8;color:#5A6B66;border:none;padding:6px 14px;border-radius:14px;font-size:12.5px;font-weight:600;cursor:pointer;margin-bottom:12px;font-family:inherit;transition:all 0.2s}
+.detail-header .d-back:hover{background:#F0E0D5}
+.detail-header h2{font-family:Georgia,serif;font-size:24px;color:#2D3E3A;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.detail-header h2 .d-icon{font-size:38px}
+.detail-header p{font-size:14.5px;color:#5A6B66;line-height:1.65;font-style:italic;margin:0}
+
+.outils-suggestes{margin-bottom:18px}
+.outils-suggestes h3{font-family:Georgia,serif;font-size:17px;color:#608CB4;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.outil-link{display:flex;align-items:flex-start;gap:14px;background:#FFFFFF;border-radius:14px;padding:16px 18px;margin-bottom:10px;text-decoration:none;color:#2D3E3A;border:1px solid rgba(96,140,180,0.15);transition:all 0.25s;position:relative;overflow:hidden}
+.outil-link:hover{transform:translateX(4px);box-shadow:0 6px 16px rgba(96,140,180,0.1);border-color:rgba(96,140,180,0.35)}
+.outil-link::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,#608CB4,#6CA89E)}
+.outil-link .o-emoji{font-size:32px;flex-shrink:0;line-height:1}
+.outil-link .o-content{flex:1}
+.outil-link .o-title{font-family:Georgia,serif;font-size:15.5px;color:#2D3E3A;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.outil-link .o-priority{display:inline-block;background:#FCE2E2;color:#C9573A;padding:2px 8px;border-radius:7px;font-size:10px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;margin-left:8px}
+.outil-link .o-priority.medium{background:#FFEEDC;color:#9B5C3A}
+.outil-link .o-priority.normal{background:#E8F5EC;color:#4A8576}
+.outil-link .o-desc{font-size:13px;color:#5A6B66;line-height:1.55}
+.outil-link .o-arrow{color:#608CB4;font-size:18px;align-self:center;flex-shrink:0}
+
+.conseil-box{background:linear-gradient(135deg,#FFF6EE,#F5E8F0);border-radius:14px;padding:16px 20px;margin-top:14px;border-left:5px solid #E89556}
+.conseil-box h4{font-family:Georgia,serif;font-size:14px;color:#9B5C3A;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700}
+.conseil-box p{font-size:13.5px;color:#3D4E4A;line-height:1.65;margin:0}
+
+/* ============ NAVIGATION GLOBALE ============ */
+.global-nav{background:#FFFFFF;border-radius:14px;padding:14px 18px;margin-bottom:22px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;box-shadow:0 2px 10px rgba(96,140,180,0.06);border:1px solid rgba(96,140,180,0.15)}
+.global-nav a{background:linear-gradient(135deg,#FAF4E8,#F0F5F8);color:#5A6B66;text-decoration:none;padding:9px 16px;border-radius:14px;font-size:13px;font-weight:600;transition:all 0.2s;border:1.5px solid transparent}
+.global-nav a:hover{background:#F0F5F8;color:#608CB4;border-color:#C9D8E5}
+.global-nav a.boite{background:linear-gradient(135deg,#608CB4,#6CA89E);color:#fff}
+.global-nav a.boite:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(96,140,180,0.25);color:#fff}
+
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif;animation:shimmer 5s ease-in-out infinite}
+.footer .brand-foot{color:#608CB4;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .small{color:#8A9892;font-size:11px;margin-top:4px;display:block}
+
+@media (max-width:600px){
+.hdr{padding:30px 18px 22px}
+.hdr h1{font-size:24px}
+.situations-grid{grid-template-columns:1fr}
+.detail-header{padding:18px}
+.detail-header h2{font-size:20px}
+.outil-link{padding:14px}
+.outil-link .o-emoji{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Mode rapide · EducaTypique</span>
+<div class="float-icon">🧭</div>
+<h1>Aujourd'hui</h1>
+<p>Qu'est-ce qui se passe maintenant ? Choisis ta situation. On t'envoie directement aux 3-4 outils les plus utiles. Pas de perte de temps.</p>
+</div>
+
+<!-- NAVIGATION GLOBALE -->
+<div class="global-nav">
+<a href="index.html" class="boite">📦 Toute la boîte</a>
+<a href="parents.html">👋 Parents</a>
+<a href="ados.html">🎧 Ados</a>
+<a href="professionnels.html">📋 Professionnels</a>
+</div>
+
+<!-- QUESTION CENTRALE -->
+<div class="question" id="questionArea">
+<h2>🌿 Qu'est-ce qui se passe pour toi maintenant ?</h2>
+<p>Clique sur la situation qui correspond le mieux à ton moment présent</p>
+</div>
+
+<!-- SITUATIONS -->
+<div class="situations-grid" id="situationsGrid">
+
+<div class="sit-card sit-crise" onclick="showSituation('crise')">
+<span class="sit-icon">🆘</span>
+<h3>C'est la crise / je craque</h3>
+<div class="sit-tagline">Mon enfant déborde, je suis sur les genoux, il faut quelque chose maintenant.</div>
+</div>
+
+<div class="sit-card sit-devoirs" onclick="showSituation('devoirs')">
+<span class="sit-icon">📚</span>
+<h3>Les devoirs sont une bataille</h3>
+<div class="sit-tagline">Chaque soir = pleurs, cris, opposition. Je veux que ça change.</div>
+</div>
+
+<div class="sit-card sit-routine" onclick="showSituation('routine')">
+<span class="sit-icon">🌙</span>
+<h3>Routines matin / soir cassées</h3>
+<div class="sit-tagline">Le matin c'est l'enfer, le coucher dure 2 heures. Besoin de structure.</div>
+</div>
+
+<div class="sit-card sit-ecole" onclick="showSituation('ecole')">
+<span class="sit-icon">🏫</span>
+<h3>Convoc école / dossier MDPH</h3>
+<div class="sit-tagline">Il faut préparer une réunion ESS, monter un dossier, faire un recours.</div>
+</div>
+
+<div class="sit-card sit-comprendre" onclick="showSituation('comprendre')">
+<span class="sit-icon">🧠</span>
+<h3>Je veux comprendre mon enfant</h3>
+<div class="sit-tagline">Identifier son profil, repérer ses besoins, savoir comment il fonctionne.</div>
+</div>
+
+<div class="sit-card sit-ajuster" onclick="showSituation('ajuster')">
+<span class="sit-icon">💛</span>
+<h3>Je veux ajuster ma posture</h3>
+<div class="sit-tagline">Je sens que je crie trop, je veux poser un autre cadre, mieux réagir.</div>
+</div>
+
+</div>
+
+<!-- DÉTAIL DE LA SITUATION -->
+<div class="detail-area" id="detailArea">
+<!-- généré par JS -->
+</div>
+
+<div class="footer">
+« Le bon outil au bon moment vaut mieux que 100 outils mal connus. »<br>
+« Trouve celui qu'il te faut MAINTENANT. »
+<span class="brand-foot">Mode Aujourd'hui · Création originale Nawel Haddouch · EducaTypique</span>
+<span class="small">Si tu veux explorer toute la boîte, va sur l'accueil</span>
+<div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-top:1.2rem">
+  <a href="index.html" style="padding:.4em 1em;background:#fff;border:1px solid #608CB4;color:#608CB4;border-radius:999px;text-decoration:none;font-weight:600;font-size:.78rem;font-style:normal;font-family:'Nunito',sans-serif">🏠 Accueil</a>
+  <a href="parents.html" style="padding:.4em 1em;background:#fff;border:1px solid #C44878;color:#C44878;border-radius:999px;text-decoration:none;font-weight:600;font-size:.78rem;font-style:normal;font-family:'Nunito',sans-serif">🏡 Parents</a>
+  <a href="ados.html" style="padding:.4em 1em;background:#fff;border:1px solid #6CA89E;color:#5E9080;border-radius:999px;text-decoration:none;font-weight:600;font-size:.78rem;font-style:normal;font-family:'Nunito',sans-serif">🌱 Ados</a>
+  <a href="professionnels.html" style="padding:.4em 1em;background:#fff;border:1px solid #7c5cbf;color:#7c5cbf;border-radius:999px;text-decoration:none;font-weight:600;font-size:.78rem;font-style:normal;font-family:'Nunito',sans-serif">🎓 Pros</a>
+  <a href="a-propos.html" style="padding:.4em 1em;background:#608CB4;color:#fff;border-radius:999px;text-decoration:none;font-weight:600;font-size:.78rem;font-style:normal;font-family:'Nunito',sans-serif">ℹ️ À propos</a>
+</div>
+<span class="small" style="margin-top:1rem">💛 Urgence : 3114 (prévention suicide) · 15 (SAMU) · 119 (enfance en danger)</span>
+</div>
+
+</div>
+
+<script>
+// ============================================================
+// SITUATIONS → OUTILS
+// ============================================================
+var SITUATIONS = {
+  crise: {
+    icon:'🆘', titre:'C\'est la crise / je craque',
+    desc:"Quand l'émotion explose, l'objectif n'est plus pédagogique — c'est la sécurité. Voici les outils faits pour ce moment, dans l'ordre d'urgence.",
+    outils:[
+      {emoji:'🆘',titre:'Boîte Ado TDAH — Protocole crise',url:'D_regulation/ados/boite-ado-tdah.html',
+        desc:'Protocole 3 niveaux V/J/O/R + désamorçage en < 5 min : Nommer → Ralentir → Réduire pression → Résoudre.',priority:'urgence'},
+      {emoji:'💛',titre:'Méthode R.A.H.M.A — protocole guidé',url:'D_regulation/parents/methode-rahma.html',
+        desc:'Le protocole en 5 étapes pour répondre à la crise : Reconnaître · Accueillir · Harmoniser · Modéliser · Accompagner.',priority:'urgence'},
+      {emoji:'🛟',titre:'Kit Émotions parents (15 outils)',url:'D_regulation/parents/kit-emotions.html',
+        desc:'Outils d\'urgence + plan retour au calme + thermomètre 5 niveaux.',priority:'medium'},
+      {emoji:'🌿',titre:'Sabr & Reset (Voie Chifā)',url:'F0_fondations/parents/neuro-tarbiya-merkez.html',
+        desc:'Pour les familles musulmanes : protocole prophétique 6 étapes + respiration animée 4-6.',priority:'medium'}
+    ],
+    conseil:"En pleine crise, NE PAS chercher à raisonner ni argumenter. Sécuriser d'abord, parler après — quand l'émotion est redescendue. Tu peux toi aussi avoir besoin de t'éloigner 2 minutes pour respirer."
+  },
+  devoirs: {
+    icon:'📚', titre:'Les devoirs sont une bataille',
+    desc:"Le moment devoirs cristallise souvent fatigue + frustration + déclencheurs scolaires. Voici les outils pour casser le cycle.",
+    outils:[
+      {emoji:'⏰',titre:'Routines EducaTypique — Routine devoirs collège',url:'F0_fondations/parents/routines-educatypique.html',
+        desc:'Routine devoirs structurée 20-40 min avec méthode 10-5 + règle "1 minute pour commencer".',priority:'urgence'},
+      {emoji:'📋',titre:'Pack Fondation Pro — Profil exécutif',url:'B_observation/praticiens/pack-fondation.html',
+        desc:'Identifier où ça bloque vraiment : entrée tâche · attention · MdT · planification · régulation.',priority:'medium'},
+      {emoji:'💡',titre:'Guide TDAH+TOP parents',url:'F0_fondations/parents/guide-tdah-top.html',
+        desc:'Comprendre pourquoi devoirs = bataille pour les profils TDAH/TOP + 3 petits pas atypiques.',priority:'medium'},
+      {emoji:'🎲',titre:'20 jeux maison sans matériel',url:'E_ludotheque/parents/jeux-maison-fe.html',
+        desc:'Entraîner les FE par le jeu (focus, attention, mémoire) sur les MOMENTS HORS devoirs — pour préparer le terrain.',priority:'normal'}
+    ],
+    conseil:"Astuce Nawel : décompresse 30 min APRÈS l'école avant les devoirs. Le cerveau est saturé. La méthode 10-5 (10 min travail / 5 min pause) marche mieux que 1h continue. Choisir 3 priorités max, pas faire toute la liste."
+  },
+  routine: {
+    icon:'🌙', titre:'Routines matin / soir cassées',
+    desc:"Le rythme structuré du quotidien est un cadeau au cerveau atypique. Si c'est cassé, voici les outils pour reconstruire.",
+    outils:[
+      {emoji:'⏰',titre:'Routines EducaTypique (kit complet)',url:'F0_fondations/parents/routines-educatypique.html',
+        desc:'5 onglets : bienfaits, routines par âge (4 tranches), ma routine perso, carrousel visuel, rentrée scolaire.',priority:'urgence'},
+      {emoji:'⏱️',titre:'Chrono énergies maman',url:'F0_fondations/parents/chrono-energies-maman.html',
+        desc:'Pour caler la routine sur tes propres niveaux d\'énergie (anti-burn-out parental).',priority:'medium'},
+      {emoji:'🏛️',titre:'Pyramide 7 niveaux — diagnostic',url:'F0_fondations/parents/pyramide-7-niveaux.html',
+        desc:'Si la routine ne tient pas, c\'est peut-être que la base (sécurité, attachement) est fragile. Diagnostic possible.',priority:'normal'}
+    ],
+    conseil:"Une routine non négociable + 80% du reste flexible = ratio qui marche. Visuels au mur > rappels oraux. Et toi-même : suis-tu une routine qui te rend dispo ?"
+  },
+  ecole: {
+    icon:'🏫', titre:'Convoc école / dossier MDPH',
+    desc:"Côté administratif : MDPH, ESS, recours, AESH. Voici tout ce qu'il te faut pour préparer sereinement.",
+    outils:[
+      {emoji:'📋',titre:'MDPH pas à pas — guide complet',url:'F0_fondations/parents/mdph-pas-a-pas.html',
+        desc:'8 onglets : comprendre · choisir parcours · pièces · AEEH + 6 compléments · procédure · LPI école · recours RAPO · alliés.',priority:'urgence'},
+      {emoji:'📋',titre:'Bilan 90 min + Programme 12 séances',url:'F_suivi/praticiens/bilan-programme-12.html',
+        desc:'Pour les pros : trame d\'évaluation complète + restitution 1 page à transmettre à l\'école.',priority:'medium'},
+      {emoji:'📃',titre:'Pack Fondation Pro — Plan d\'action',url:'B_observation/praticiens/pack-fondation.html',
+        desc:'Onglet 5 : Plan d\'action parent-école avec 3 priorités · adaptations · indicateurs · réévaluation.',priority:'medium'}
+    ],
+    conseil:"Astuce Nawel : exige le projet PPS 15 jours AVANT la CDAPH (article R146-29). Ne va JAMAIS seul(e) à l'ESS. Trouve des alliés (pro qui suit l'enfant, asso, autre parent). Tout ce qui doit être dit doit être ÉCRIT dans le GEVA-Sco."
+  },
+  comprendre: {
+    icon:'🧠', titre:'Je veux comprendre mon enfant',
+    desc:"Comprendre son profil, ses besoins, sa façon de fonctionner = base de tout accompagnement juste.",
+    outils:[
+      {emoji:'🏡',titre:'Couple Éducatif 25×25 profils',url:'F0_fondations/parents/profils-couple-educatif.html',
+        desc:'2 quiz (12 questions chacun) → profil enfant + profil parent + analyse de la combinaison + plan d\'ajustement.',priority:'urgence'},
+      {emoji:'🌈',titre:'Mon Profil d\'Apprentissage (ado)',url:'A_reperage/ados/profil-apprentissage.html',
+        desc:'Quiz complet 3-en-1 : Canal VAK + 8 intelligences Gardner + 7 profils personnalité. 50 questions.',priority:'medium'},
+      {emoji:'📋',titre:'Pack Fondation Pro 5 outils',url:'B_observation/praticiens/pack-fondation.html',
+        desc:'Pour pros : radar 7 axes · grille contextuelle · déclencheurs · profil FE · plan d\'action.',priority:'medium'},
+      {emoji:'📘',titre:'Guide HPI parents',url:'F0_fondations/parents/guide-hpi.html',
+        desc:'Si suspicion HPI : caractéristiques, ressentis, accompagnement, ressources.',priority:'normal'}
+    ],
+    conseil:"Comprendre n'est pas diagnostiquer. Les outils EducaTypique aident à lire le fonctionnement — sans poser d'étiquette. Pour un diagnostic, orientation vers neuropsy ou pédopsychiatre."
+  },
+  ajuster: {
+    icon:'💛', titre:'Je veux ajuster ma posture',
+    desc:"Tu sens que tu cries trop, que tu réagis mal. C'est déjà énorme de le voir. Voici les outils pour transformer ça.",
+    outils:[
+      {emoji:'💛',titre:'Méthode R.A.H.M.A signature',url:'D_regulation/parents/methode-rahma.html',
+        desc:'5 lettres pour changer ta posture face aux crises + 12 scénarios fréquents + protocole guidé.',priority:'urgence'},
+      {emoji:'🏛️',titre:'Pyramide 7 niveaux',url:'F0_fondations/parents/pyramide-7-niveaux.html',
+        desc:'Identifier où mettre tes cailloux EN PRIORITÉ dans ta posture parentale. Plan de construction.',priority:'medium'},
+      {emoji:'🏡',titre:'Couple Éducatif — ton profil parent',url:'F0_fondations/parents/profils-couple-educatif.html',
+        desc:'Identifie ton profil parmi 25 (Contrôlant · Éducateur · Fragilisé) → pistes d\'ajustement personnalisées.',priority:'medium'},
+      {emoji:'☪️',titre:'Neuro-Tarbiya — Voie Chifā',url:'F0_fondations/parents/neuro-tarbiya-merkez.html',
+        desc:'Pour les familles musulmanes : posture parentale fondée dans la voie prophétique.',priority:'normal'},
+      {emoji:'⏱️',titre:'Chrono énergies maman',url:'F0_fondations/parents/chrono-energies-maman.html',
+        desc:'Anti-burn-out parental : repérer tes propres signaux + plages de repos.',priority:'normal'}
+    ],
+    conseil:"« On ne donne pas ce qu'on n'a pas. » Si tu es vidé(e), tu ne pourras pas être présent(e) émotionnellement. Travailler SA propre régulation = premier acte parental. Pas honte, juste lucidité."
+  }
+};
+
+// ============================================================
+// AFFICHAGE
+// ============================================================
+function showSituation(key){
+  var sit = SITUATIONS[key];
+  if(!sit) return;
+  document.querySelectorAll('.sit-card').forEach(c=>c.classList.remove('active'));
+  document.querySelector('.sit-'+key).classList.add('active');
+
+  var priorityLabels = {urgence:'URGENT',medium:'IMPORTANT',normal:'À LIRE'};
+
+  var html = '<div class="detail-header">' +
+    '<button class="d-back" onclick="hideDetails()">← Choisir une autre situation</button>' +
+    '<h2><span class="d-icon">'+sit.icon+'</span>'+sit.titre+'</h2>' +
+    '<p>'+sit.desc+'</p>' +
+    '</div>';
+
+  html += '<div class="outils-suggestes">' +
+    '<h3>🛠️ Les outils faits pour ce moment</h3>';
+  sit.outils.forEach(function(o){
+    var pClass = o.priority || 'normal';
+    html += '<a class="outil-link" href="'+o.url+'">' +
+      '<span class="o-emoji">'+o.emoji+'</span>' +
+      '<div class="o-content">' +
+        '<div class="o-title">'+o.titre+'<span class="o-priority '+pClass+'">'+priorityLabels[pClass]+'</span></div>' +
+        '<div class="o-desc">'+o.desc+'</div>' +
+      '</div>' +
+      '<span class="o-arrow">→</span>' +
+    '</a>';
+  });
+  html += '</div>';
+
+  if(sit.conseil){
+    html += '<div class="conseil-box"><h4>💡 Conseil Nawel</h4><p>'+sit.conseil+'</p></div>';
+  }
+
+  var detail = document.getElementById('detailArea');
+  detail.innerHTML = html;
+  detail.classList.add('show');
+  setTimeout(function(){ detail.scrollIntoView({behavior:'smooth',block:'start'}); }, 100);
+}
+
+function hideDetails(){
+  document.getElementById('detailArea').classList.remove('show');
+  document.querySelectorAll('.sit-card').forEach(c=>c.classList.remove('active'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

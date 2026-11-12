@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boussole diagnostic DYS — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#eef6f5,#fff)}
+.bandeau{background:linear-gradient(135deg,#2a9d8f,#7c5cbf);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:1000px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #2a9d8f;line-height:1.55}
+.intro strong{color:#1a6a5a}
+
+.etape-zero{background:linear-gradient(135deg,#fff4ef,#fff);border:2px solid #e07b3a;border-radius:var(--r-lg);padding:1.1rem 1.3rem;position:relative}
+.etape-zero::before{content:"⚠️ ÉTAPE 0 OBLIGATOIRE";position:absolute;top:-12px;left:1rem;background:#e07b3a;color:#fff;font-size:.72rem;font-weight:800;padding:.2em .7em;border-radius:999px;letter-spacing:1px}
+.etape-zero h2{color:#a04a10;margin:.3rem 0 .3rem}
+.etape-zero p{margin:.3rem 0;line-height:1.5;color:#5a4400;font-size:.92rem}
+.etape-zero ul{padding-left:1.4rem;margin:.4rem 0;line-height:1.7;font-size:.92rem;color:#5a4400}
+
+.choix-trouble{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:5px solid #2a9d8f}
+.choix-trouble h2{color:#1a6a5a;margin:0 0 .5rem}
+.troubles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.5rem;margin-top:.5rem}
+.trouble-btn{display:flex;flex-direction:column;align-items:center;gap:.3rem;padding:.9rem .6rem;background:#faf9e8;border:2px solid transparent;border-radius:var(--r-md);cursor:pointer;font-family:inherit;color:var(--c);font-weight:700;font-size:.92rem;transition:all .15s;text-align:center}
+.trouble-btn:hover{background:#fff;border-color:var(--c);transform:translateY(-2px)}
+.trouble-btn.active{background:linear-gradient(135deg,var(--c),var(--c2));color:#fff;border-color:var(--c)}
+.trouble-btn .ic{font-size:1.6rem;line-height:1}
+.trouble-btn .desc-trb{font-size:.78rem;font-weight:400;color:#666}
+.trouble-btn.active .desc-trb{color:rgba(255,255,255,.9)}
+
+.tr-lex{--c:#7c5cbf;--c2:#9B85B8} /* Dyslexie */
+.tr-ort{--c:#e05a8a;--c2:#F39BC2} /* Dysorthographie */
+.tr-cal{--c:#2a9d8f;--c2:#8ED9D2} /* Dyscalculie */
+.tr-gra{--c:#e9a73a;--c2:#F6C9A8} /* Dysgraphie */
+.tr-pra{--c:#5a7a9f;--c2:#8ECCD9} /* Dyspraxie */
+.tr-pha{--c:#5fa040;--c2:#a3c98f} /* Dysphasie */
+
+.parcours{background:#fff;border-radius:var(--r-lg);padding:1.3rem 1.5rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c);display:none}
+.parcours.visible{display:block}
+.parcours h2{color:var(--c);margin:0 0 .3rem;font-size:1.3rem}
+.parcours .signes{background:#faf6f8;border-left:4px solid var(--c);padding:.7rem .9rem;border-radius:var(--r-sm);margin-bottom:.6rem}
+.parcours .signes h3{color:var(--c);margin:0 0 .3rem;font-size:.95rem}
+.parcours .signes ul{margin:.2rem 0;padding-left:1.3rem;font-size:.88rem;line-height:1.5}
+.parcours .age-cible{background:#fff4e0;border-radius:var(--r-sm);padding:.5rem .8rem;font-size:.92rem;color:#7a5400;margin-bottom:.6rem;border-left:3px solid #e9a73a}
+.parcours .age-cible strong{color:#a07000}
+
+.etapes-pro{display:flex;flex-direction:column;gap:.6rem;margin-top:.5rem;counter-reset:etape-num}
+.etape-pro{background:#faf6f8;border-radius:var(--r-md);padding:.8rem 1rem;border-left:4px solid var(--c);position:relative;padding-left:3rem}
+.etape-pro::before{counter-increment:etape-num;content:counter(etape-num);position:absolute;left:.6rem;top:.7rem;width:30px;height:30px;background:var(--c);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem}
+.etape-pro h4{color:var(--c);margin:0 0 .2rem;font-size:.95rem}
+.etape-pro p{margin:.15rem 0;font-size:.85rem;line-height:1.45;color:#555}
+.etape-pro .pourquoi{font-style:italic;color:#888;margin-top:.2rem;font-size:.82rem}
+
+.outils-recos{background:linear-gradient(135deg,#fff,#f0e8f5);border-radius:var(--r-md);padding:.7rem .9rem;border-left:4px solid #7c5cbf;margin-top:.6rem}
+.outils-recos h3{color:#5a3c8f;margin:0 0 .3rem;font-size:.92rem}
+.outils-chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.3rem}
+.outils-chips a{padding:.2em .6em;background:#fff;border:1.5px solid #7c5cbf;color:#5a3c8f;border-radius:999px;font-size:.78rem;text-decoration:none;font-weight:700}
+.outils-chips a:hover{background:#7c5cbf;color:#fff}
+
+.mot-final{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.9rem 1.2rem;border-radius:var(--r-md);font-size:.93rem;line-height:1.6;color:#5A4D6B;font-style:italic;margin-top:.7rem}
+.mot-final strong{color:#5a3c8f;font-style:normal}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #2a9d8f;background:#fff;color:#1a6a5a;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#2a9d8f;color:#fff}
+
+@media print{
+  body{background:#fff}
+  .actions,.bandeau .retour{display:none!important}
+  .choix-trouble,.parcours,.etape-zero,.intro{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../parents.html">← Espace parents</a>
+  <h1>🧭 Boussole diagnostic DYS</h1>
+  <p class="sub">Tu suspectes un trouble DYS chez ton enfant ? Cette boussole te montre par quel pro commencer, à quel âge, dans quel ordre.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🧭 <strong>Pourquoi cette boussole ?</strong> Quand on suspecte un trouble DYS, on est souvent perdu : Quel bilan d'abord ? Quel pro ? À quel âge ? Cette boussole t'oriente trouble par trouble — avec une <strong>étape 0 obligatoire</strong> que beaucoup oublient.
+  </div>
+
+  <!-- ÉTAPE 0 OBLIGATOIRE -->
+  <section class="etape-zero">
+    <h2>👁👂 Avant TOUT bilan DYS : on vérifie la vue et l'ouïe</h2>
+    <p><strong>Pourquoi ?</strong> Beaucoup d'enfants étiquetés « DYS » avaient en fait un trouble visuel non corrigé (vision flou, troubles oculomoteurs) ou auditif (otites séreuses non vues, surdité partielle). C'est <strong>moins coûteux à vérifier</strong>, et ça évite des années de rééducation inutile.</p>
+    <ul>
+      <li>👁 <strong>Ophtalmologue + orthoptiste</strong> : examen visuel complet (acuité + vision binoculaire + oculomotricité)</li>
+      <li>👂 <strong>ORL + audiogramme</strong> : tests d'audition adaptés à l'âge</li>
+    </ul>
+    <p style="margin-top:.5rem"><strong>Une fois ces 2 bilans normaux</strong> (ou anomalies corrigées) : on peut passer à la suite ci-dessous.</p>
+  </section>
+
+  <!-- CHOIX TROUBLE -->
+  <section class="choix-trouble">
+    <h2>🎯 Quel trouble tu suspectes ?</h2>
+    <p style="color:#666;font-size:.92rem;margin:.2rem 0 .5rem">Clique sur celui qui correspond le plus à ce que tu observes. (Si plusieurs : commence par le plus marqué, puis fais les autres.)</p>
+    <div class="troubles-grid">
+      <button class="trouble-btn tr-lex" data-tr="lex"><div class="ic">📖</div>Dyslexie<div class="desc-trb">Lecture</div></button>
+      <button class="trouble-btn tr-ort" data-tr="ort"><div class="ic">📝</div>Dysorthographie<div class="desc-trb">Orthographe</div></button>
+      <button class="trouble-btn tr-cal" data-tr="cal"><div class="ic">🔢</div>Dyscalculie<div class="desc-trb">Calcul</div></button>
+      <button class="trouble-btn tr-gra" data-tr="gra"><div class="ic">✍</div>Dysgraphie<div class="desc-trb">Écriture</div></button>
+      <button class="trouble-btn tr-pra" data-tr="pra"><div class="ic">🤸</div>Dyspraxie<div class="desc-trb">Motricité</div></button>
+      <button class="trouble-btn tr-pha" data-tr="pha"><div class="ic">💬</div>Dysphasie<div class="desc-trb">Langage oral</div></button>
+    </div>
+  </section>
+
+  <!-- PARCOURS DÉTAILLÉ -->
+  <div id="parcours-container"></div>
+
+  <div class="actions">
+    <button onclick="window.print()">🖨 Imprimer ce parcours</button>
+    <a href="mdph-pas-a-pas.html" style="padding:.55em 1.2em;background:#7c5cbf;color:#fff;border-radius:999px;font-weight:700;font-family:inherit;font-size:.9rem;text-decoration:none">→ MDPH pas à pas</a>
+    <a href="mon-equipe-de-soin.html" style="padding:.55em 1.2em;background:#2a9d8f;color:#fff;border-radius:999px;font-weight:700;font-family:inherit;font-size:.9rem;text-decoration:none">👥 Mon équipe de soin</a>
+  </div>
+
+  <div class="disclaimer">
+    Cette boussole est une orientation pédagogique. Le diagnostic officiel est posé par les professionnels qualifiés (médecin, neuropsy, orthophoniste, ergo, psychomot). Ne pas s'auto-diagnostiquer à partir de ces informations.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../parents.html" style="color:#1a6a5a">retour espace parents</a>
+  </p>
+</div>
+
+<script>
+const TROUBLES = {
+  lex:{titre:'📖 Dyslexie — Trouble spécifique de la lecture',cl:'tr-lex',c:'#7c5cbf',
+    signes:["Lecture lente, saccadée, avec hésitations","Inversions de lettres (b/d, p/q, m/n) qui persistent après le CP","Difficulté à mémoriser les sons des lettres","Évite la lecture, refus d'aller à l'école","Fatigue extrême en lecture, mal de tête","Décodage et compréhension dissociés (comprend bien à l'oral)"],
+    age:"Repérable dès le CP-CE1 (6-8 ans). Bilan à partir de la fin du CP si signes persistants 6+ mois.",
+    etapes:[
+      {t:"Échanger avec l'enseignant·e",p:"Observer la classe, partager les inquiétudes, demander un PPRE.",pq:"Trace écrite avant tout. Évite le « il/elle n'est pas concentré·e ».",d:1},
+      {t:"Médecin traitant / pédiatre",p:"Vérifier qu'il n'y a pas autre chose (anxiété, anémie, sommeil). Prescrit le bilan.",pq:"Pivot officiel du parcours.",d:2},
+      {t:"BILAN ORTHOPHONIQUE complet",p:"Lecture (BALE, ALOUETTE, ODEDYS) · phonologie · conscience phonologique · compréhension.",pq:"L'orthophoniste pose le diagnostic dyslexie (avec critères : -1.5 écart-type).",d:3},
+      {t:"Bilan neuropsy (si bilan ortho positif ou doute)",p:"Évalue le profil cognitif global (WISC) — pour écarter autres troubles associés.",pq:"Le neuropsy donne le tableau d'ensemble. Souvent en complément.",d:4},
+      {t:"Mise en place rééducation + aménagements école",p:"Séances ortho 1-2×/sem, PAP rédigé, outils numériques (lecteur de texte).",pq:"Plus c'est précoce, plus c'est efficace. Pas attendre l'aggravation.",d:5}
+    ]},
+  ort:{titre:'📝 Dysorthographie — Trouble spécifique de l\'orthographe',cl:'tr-ort',c:'#e05a8a',
+    signes:["Fautes nombreuses même sur mots simples appris","Difficulté à appliquer les règles d'orthographe","Inversion ou omission de lettres","Écriture phonétique persistante (« je manje »)","Souvent associé à la dyslexie","Performances décevantes en production écrite malgré bonne expression orale"],
+    age:"Diagnostic à partir du CE2 (8-9 ans). Avant, attendre la fin du CE1.",
+    etapes:[
+      {t:"Échanger avec l'enseignant·e",p:"Demander des productions écrites datées + comparer à la classe.",pq:"Voir si le décalage est constant."},
+      {t:"Médecin traitant",p:"Bilan global d'abord, prescription bilan ortho.",pq:""},
+      {t:"BILAN ORTHOPHONIQUE — orthographe ciblée",p:"L2MA, BALE-orthographe. Évalue les 3 voies (phonologique, lexicale, sémantique).",pq:"Trouve quelle voie est touchée."},
+      {t:"Bilan neuropsy si association",p:"Si dyslexie + dysorthographie + autres : WISC pour vue d'ensemble.",pq:""},
+      {t:"Rééducation + dispenses",p:"PAP avec dispense d'orthographe en notation, autorisation outils correction (Antidote).",pq:"Pas une indulgence — un aménagement légitime."}
+    ]},
+  cal:{titre:'🔢 Dyscalculie — Trouble spécifique du calcul',cl:'tr-cal',c:'#2a9d8f',
+    signes:["Difficulté à dénombrer (au-delà de 10)","Confusion des chiffres et de leur position (52 vs 25)","Compte sur ses doigts au-delà de 8 ans","Difficulté à mémoriser les tables","Pas de sens du nombre (combien fait 7 + 5 ?)","Problèmes mathématiques compris à l'oral mais bloqués à l'écrit"],
+    age:"Repérable au CE1-CE2 (7-9 ans). Diagnostic ferme vers 8-10 ans.",
+    etapes:[
+      {t:"Échanger avec l'enseignant·e",p:"Identifier précisément ce qui coince (numération ? calcul ? résolution ? géométrie ?).",pq:""},
+      {t:"Médecin traitant",p:"Bilan général + prescription bilan ortho ou neuropsy selon profil.",pq:""},
+      {t:"BILAN ORTHOPHONIQUE — calcul",p:"ZAREKI, TEDI-MATH. Évalue numération, calcul, résolution.",pq:"L'orthophoniste fait aussi le calcul, pas que la lecture."},
+      {t:"Bilan neuropsy",p:"WISC + raisonnement. Souvent associé à difficultés de raisonnement spatial / mémoire de travail.",pq:""},
+      {t:"Rééducation manipulative",p:"Manipulation concrète (jetons, abaques, cubes). Calculatrice autorisée. Aménagements écrit.",pq:"Le concret avant l'abstrait, toujours."}
+    ]},
+  gra:{titre:'✍ Dysgraphie — Trouble spécifique de l\'écriture',cl:'tr-gra',c:'#e9a73a',
+    signes:["Écriture illisible ou très lente","Tenue du crayon crispée, douloureuse","Lettres mal formées, irrégulières","Fatigue rapide à l'écrit","Refuse de prendre des notes","Posture inconfortable pour écrire"],
+    age:"À explorer dès la fin du CP (7 ans). Diagnostic stable vers 8-9 ans.",
+    etapes:[
+      {t:"Échanger avec l'enseignant·e",p:"Photocopies de productions écrites datées (devoir, contrôle).",pq:""},
+      {t:"Médecin traitant",p:"Prescrit bilan psychomot et/ou ergo.",pq:""},
+      {t:"BILAN ERGOTHÉRAPIE / PSYCHOMOT",p:"BHK (écriture), MABC (motricité globale et fine).",pq:"Souvent les 2 sont complémentaires."},
+      {t:"Rééducation graphomotrice",p:"Séances ergo + outils (stylo ergonomique, support incliné).",pq:""},
+      {t:"Outils numériques + PAP",p:"Clavier autorisé, ordinateur en classe pour productions longues, dispense écrit.",pq:"Si écriture pénible, on contourne — pas on s'acharne."}
+    ]},
+  pra:{titre:'🤸 Dyspraxie (TDC) — Trouble développemental de la coordination',cl:'tr-pra',c:'#5a7a9f',
+    signes:["Maladresse importante (chute, casse, cogne)","Coordination des 2 mains difficile","Difficulté à apprendre le vélo, à lacer, à nager","Geste graphique pénible","Difficulté à se repérer dans l'espace","Habillage très lent ou aide nécessaire"],
+    age:"Repérable dès 4-5 ans. Diagnostic ferme à 6-7 ans (après évolution maturative). À RÉÉVALUER vers 10 ans.",
+    etapes:[
+      {t:"Médecin traitant / pédiatre",p:"Examen neurologique global. Prescription bilans pluridisciplinaires.",pq:"Écarter pathologie neurologique d'abord."},
+      {t:"BILAN PSYCHOMOTRICITÉ",p:"MABC-2, NP-Mot, schéma corporel, équilibre.",pq:"Le psychomot évalue motricité globale + tonique."},
+      {t:"BILAN ERGOTHÉRAPIE",p:"Motricité fine, écriture, autonomie quotidienne, perception visuo-spatiale.",pq:"L'ergo complète psychomot. Les 2 ensemble = bilan complet."},
+      {t:"Bilan neuropsy",p:"WISC obligatoire — souvent TDC + difficultés cognitives associées.",pq:""},
+      {t:"Rééducation + aménagements lourds",p:"Ergo 1-2×/sem, ordinateur en classe, dispense écriture, EPS adapté.",pq:"Cumul rééducation + adaptations. Souvent éligible MDPH."}
+    ]},
+  pha:{titre:'💬 Dysphasie — Trouble spécifique du langage oral',cl:'tr-pha',c:'#5fa040',
+    signes:["Premiers mots tardifs (au-delà de 18 mois)","Premières phrases tardives (au-delà de 3 ans)","Mots déformés, mal articulés","Difficulté à comprendre des consignes simples","Vocabulaire pauvre pour son âge","Frustration et colère face à l'incompréhension"],
+    age:"Repérable très tôt (2-3 ans). Diagnostic ferme à 4-5 ans (avant : retard simple possible).",
+    etapes:[
+      {t:"Médecin traitant / pédiatre",p:"Écarter problème auditif. Prescrit bilan ortho.",pq:"L'audition d'abord."},
+      {t:"BILAN ORTHOPHONIQUE COMPLET — langage oral",p:"EVALO, ELO, N-EEL. Évalue compréhension + production.",pq:"L'orthophoniste pose le diagnostic dysphasie."},
+      {t:"Bilan ORL approfondi",p:"Au moindre doute auditif (otites séreuses fréquentes, surdité partielle).",pq:"OBLIGATOIRE avant diagnostic dysphasie."},
+      {t:"Bilan neuropsy",p:"Profil cognitif global pour écarter retard intellectuel global.",pq:"Important pour différencier dysphasie pure vs autre."},
+      {t:"Rééducation intensive + signes",p:"Ortho 2-3×/sem, Makaton / PECS (canaux supplémentaires), AESH possible.",pq:"Plus c'est précoce et intensif, mieux c'est."}
+    ]}
+};
+
+const OUTILS_LIES = [
+  {t:'📋 Mon équipe de soin',l:'mon-equipe-de-soin.html'},
+  {t:'📑 MDPH pas à pas',l:'mdph-pas-a-pas.html'},
+  {t:'🧩 Repérage TND enfant',l:'../../A_reperage/parents/reperage-tnd-enfant.html'},
+  {t:'🎓 Apprendre à apprendre',l:'../../C_comprehension/parents/apprendre-a-apprendre.html'}
+];
+
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+document.querySelectorAll('.trouble-btn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.trouble-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  const t=TROUBLES[b.dataset.tr];
+  if(!t)return;
+  const c=document.getElementById('parcours-container');
+  c.innerHTML=`<section class="parcours visible" style="--c:${t.c}">
+    <h2>${esc(t.titre)}</h2>
+    <div class="signes"><h3>📋 Signes à repérer</h3><ul>${t.signes.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div>
+    <div class="age-cible">📅 <strong>Âge cible :</strong> ${esc(t.age)}</div>
+    <h3 style="color:${t.c};margin:.6rem 0 .3rem">🗺 Parcours conseillé (dans l'ordre)</h3>
+    <div class="etapes-pro">
+      ${t.etapes.map(e=>`<div class="etape-pro"><h4>${esc(e.t)}</h4><p>${esc(e.p)}</p>${e.pq?`<p class="pourquoi">💡 ${esc(e.pq)}</p>`:''}</div>`).join('')}
+    </div>
+    <div class="outils-recos">
+      <h3>🔗 Outils EducaTypique liés</h3>
+      <div class="outils-chips">${OUTILS_LIES.map(o=>`<a href="${o.l}">${esc(o.t)}</a>`).join('')}</div>
+    </div>
+    <div class="mot-final">
+      💛 <strong>Rappel Nawel :</strong> Le diagnostic n'est pas une étiquette qui colle à ton enfant — c'est une <em>clé</em> qui ouvre les bons aménagements et les bons accompagnements. Sans diagnostic, on adapte au feeling. Avec, on adapte au profil réel. Ça change tout.
+    </div>
+  </section>`;
+  c.scrollIntoView({behavior:'smooth',block:'start'});
+});
+</script>
+
+</body>
+</html>

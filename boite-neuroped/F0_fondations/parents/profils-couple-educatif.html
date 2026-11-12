@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Couple éducatif — 25 profils enfants × 25 profils parents · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#FFF8F5 0%,#F5F0F7 50%,#F0F8F5 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2D3E3A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:960px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes shimmer{0%,100%{opacity:0.6}50%{opacity:1}}
+
+.hdr{text-align:center;padding:40px 24px 28px;margin-bottom:22px;background:linear-gradient(135deg,#FFF6EE 0%,#F5E8F0 50%,#E8F0F5 100%);border-radius:24px;border:1px solid rgba(217,140,140,0.22);box-shadow:0 8px 28px rgba(217,140,140,0.08);position:relative;overflow:hidden}
+.hdr::before{content:'🏡';position:absolute;top:18px;right:22px;font-size:48px;opacity:0.13;transform:rotate(-8deg)}
+.hdr::after{content:'🧩';position:absolute;bottom:18px;left:22px;font-size:42px;opacity:0.13;transform:rotate(8deg)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#D98C8C,#9B85B8);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px;position:relative;z-index:1}
+.float-icon{font-size:52px;margin-bottom:6px;display:inline-block;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1}
+.hdr h1{font-family:Georgia,serif;font-size:30px;font-weight:400;color:#2D3E3A;margin-bottom:6px;position:relative;z-index:1}
+.hdr .baseline{font-family:Georgia,serif;font-size:14px;font-style:italic;color:#9B85B8;margin-bottom:10px;position:relative;z-index:1;letter-spacing:1.5px}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A6B66;position:relative;z-index:1;max-width:680px;margin:0 auto}
+
+.intro{background:#FFFFFF;border-radius:18px;padding:22px 24px;margin-bottom:20px;border:1px solid rgba(217,140,140,0.18);box-shadow:0 4px 14px rgba(217,140,140,0.06)}
+.intro p{font-size:15px;color:#3D4E4A;line-height:1.7;margin-bottom:10px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#9B85B8}
+.intro .principe{background:linear-gradient(135deg,#FFF6EE,#F5E8F0);border-radius:12px;padding:14px 18px;margin:12px 0;text-align:center;font-family:Georgia,serif;font-style:italic;font-size:15px;color:#6E5594;line-height:1.55}
+
+.dossier-bar{background:#FFFFFF;border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(217,140,140,0.06);border:1px solid rgba(217,140,140,0.15)}
+.dossier-bar label{font-size:13px;font-weight:600;color:#5A6B66}
+.dossier-bar input,.dossier-bar select{padding:7px 12px;border:1px solid rgba(217,140,140,0.25);border-radius:9px;font-size:13px;background:#FFFBF6;font-family:inherit;color:#2D3E3A;min-width:150px}
+.dossier-bar button{background:#F8F0F0;color:#7A5C5C;border:1px solid rgba(217,140,140,0.25);padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.dossier-bar button:hover{background:#F0E0E0}
+.dossier-bar .btn-export{background:linear-gradient(135deg,#D98C8C,#E8A8A8);color:#fff;border:none}
+.dossier-bar .btn-print{background:linear-gradient(135deg,#9B85B8,#B59ECE);color:#fff;border:none}
+
+.nav{display:flex;gap:6px;background:#FFFFFF;padding:8px;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 12px rgba(217,140,140,0.08);overflow-x:auto;border:1px solid rgba(217,140,140,0.15)}
+.nav::-webkit-scrollbar{height:6px}
+.nav::-webkit-scrollbar-thumb{background:#E8C9C9;border-radius:3px}
+.nav button{background:transparent;color:#5A6B66;border:none;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.25s;white-space:nowrap;font-family:inherit;display:flex;align-items:center;gap:6px}
+.nav button:hover{background:#F8F0F0;color:#7A5C5C}
+.nav button.active{background:linear-gradient(135deg,#D98C8C,#E8A8A8);color:#fff;box-shadow:0 4px 10px rgba(217,140,140,0.3)}
+
+.panel{display:none;animation:fadeIn 0.4s ease-out}
+.panel.active{display:block}
+.section{background:#FFFFFF;border-radius:20px;padding:26px 24px;margin-bottom:18px;border:1px solid rgba(217,140,140,0.18);box-shadow:0 4px 14px rgba(217,140,140,0.05)}
+.section h2{font-family:Georgia,serif;font-size:22px;font-weight:500;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#7A8782;font-style:italic;margin-bottom:18px;line-height:1.55}
+
+/* ============ QUIZ ============ */
+.quiz-progress{height:8px;background:#F5E8E2;border-radius:4px;overflow:hidden;margin-bottom:18px}
+.quiz-progress-bar{height:100%;background:linear-gradient(90deg,#D98C8C,#9B85B8);transition:width 0.3s ease}
+
+.quiz-question{background:#FBF8F4;border-radius:16px;padding:20px;margin-bottom:14px;border-left:5px solid #D98C8C;animation:fadeIn 0.3s}
+.quiz-question h4{font-family:Georgia,serif;font-size:16px;color:#2D3E3A;margin-bottom:14px;font-weight:600;line-height:1.5}
+.quiz-question h4 .q-num{display:inline-block;background:#D98C8C;color:#fff;padding:2px 9px;border-radius:8px;font-size:11.5px;font-weight:700;margin-right:8px;letter-spacing:0.4px}
+.quiz-options-grid{display:grid;grid-template-columns:1fr;gap:8px}
+.quiz-opt-q{background:#fff;border:2px solid transparent;border-radius:10px;padding:11px 14px;cursor:pointer;transition:all 0.25s;font-size:14px;color:#3D4E4A;display:flex;align-items:center;gap:10px}
+.quiz-opt-q:hover{background:#FFF6EE;border-color:#E8C9C9}
+.quiz-opt-q.selected{background:linear-gradient(135deg,#FFF0F0,#F5E8F0);border-color:#D98C8C;color:#2D3E3A;font-weight:500}
+.quiz-opt-q .opt-dot{width:18px;height:18px;border-radius:50%;border:2px solid #C9A8D5;flex-shrink:0;background:#fff;transition:all 0.2s}
+.quiz-opt-q.selected .opt-dot{background:#D98C8C;border-color:#D98C8C;position:relative}
+.quiz-opt-q.selected .opt-dot::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:6px;height:6px;background:#fff;border-radius:50%}
+
+.quiz-nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px;padding-top:18px;border-top:1px dashed rgba(217,140,140,0.22)}
+.btn-quiz{background:linear-gradient(135deg,#D98C8C,#E8A8A8);color:#fff;border:none;padding:10px 22px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;letter-spacing:0.3px;transition:all 0.2s;font-family:inherit}
+.btn-quiz:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(217,140,140,0.3)}
+.btn-quiz:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-quiz.secondary{background:#F8F0F0;color:#7A5C5C}
+.btn-quiz.secondary:hover{background:#F0E0E0}
+
+/* ============ RÉSULTATS PROFILS ============ */
+.profile-card{background:linear-gradient(135deg,#FFF8F0,#F5E8F0);border-radius:18px;padding:24px;margin-top:14px;border:1px solid rgba(217,140,140,0.22);animation:fadeIn 0.4s}
+.profile-card .cat-badge{display:inline-block;padding:4px 12px;background:#fff;color:#9B85B8;border-radius:12px;font-size:11px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;margin-bottom:8px}
+.profile-card h3{font-family:Georgia,serif;font-size:22px;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.profile-card .profile-icon{font-size:30px}
+.profile-card .description{font-size:14.5px;color:#3D4E4A;line-height:1.65;margin-bottom:14px;padding:12px 16px;background:#fff;border-radius:10px;border-left:4px solid #9B85B8;font-style:italic}
+.profile-card h4{font-family:Georgia,serif;font-size:13px;color:#9B85B8;margin:14px 0 6px;text-transform:uppercase;letter-spacing:0.6px;font-weight:700}
+.profile-card .forces, .profile-card .vigilances{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.profile-card .forces span{background:#E8F5EC;color:#4A8576;padding:3px 10px;border-radius:12px;font-size:12.5px;font-weight:500}
+.profile-card .vigilances span{background:#FFEEDC;color:#9B5C3A;padding:3px 10px;border-radius:12px;font-size:12.5px;font-weight:500}
+.profile-card .besoins{background:#FFF6EE;padding:12px 16px;border-radius:10px;margin-top:8px;font-size:13.5px;color:#3D4E4A;line-height:1.55;border-left:3px solid #E89556}
+.profile-card .besoins strong{color:#9B5C3A;display:block;margin-bottom:4px;font-size:11.5px;text-transform:uppercase;letter-spacing:0.4px}
+
+/* ============ COMBINAISON ============ */
+.combo-header{background:linear-gradient(135deg,#FFF6EE,#F5E8F0,#E8F0F5);border-radius:18px;padding:24px;margin-bottom:18px;border:1px solid rgba(155,133,184,0.22);text-align:center}
+.combo-header .combo-x{font-family:Georgia,serif;font-size:32px;color:#9B85B8;font-weight:300}
+.combo-header h3{font-family:Georgia,serif;font-size:18px;color:#2D3E3A;margin:8px 0;font-weight:500}
+.combo-header .combo-tag{display:inline-block;padding:5px 14px;background:#fff;border-radius:14px;font-size:13px;color:#9B85B8;margin:0 4px;border:1px solid rgba(155,133,184,0.22);font-weight:600}
+
+.combo-analyse{background:#FBF8F4;border-radius:16px;padding:20px 22px;margin-bottom:14px;border-left:5px solid}
+.combo-analyse.harmonie{border-color:#6CA89E}
+.combo-analyse.friction{border-color:#E0B83E}
+.combo-analyse.risque{border-color:#C9573A}
+.combo-analyse h4{font-family:Georgia,serif;font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.combo-analyse.harmonie h4{color:#4A8576}
+.combo-analyse.friction h4{color:#9B7E2A}
+.combo-analyse.risque h4{color:#C9573A}
+.combo-analyse p{font-size:13.5px;color:#3D4E4A;line-height:1.65;margin:0}
+.combo-analyse ul{margin:8px 0 0 0;padding-left:20px}
+.combo-analyse li{font-size:13.5px;color:#3D4E4A;line-height:1.55;margin-bottom:4px}
+
+.combo-reco{background:linear-gradient(135deg,#F0F8F5,#E8F0F5);border-radius:16px;padding:20px 22px;margin-top:14px;border-left:5px solid #608CB4}
+.combo-reco h4{font-family:Georgia,serif;font-size:16px;color:#608CB4;margin-bottom:10px}
+.combo-reco ul{margin:0;padding-left:20px}
+.combo-reco li{font-size:13.5px;color:#3D4E4A;line-height:1.65;margin-bottom:6px}
+.combo-reco li strong{color:#2D3E3A}
+
+.notes-block{margin-top:18px}
+.notes-block label{display:block;font-size:13px;color:#9B85B8;font-weight:600;margin-bottom:6px}
+.notes-block textarea{width:100%;padding:10px 14px;border:1px solid rgba(217,140,140,0.22);border-radius:10px;font-size:14px;color:#2D3E3A;background:#FFFBF6;font-family:inherit;line-height:1.55;min-height:80px;resize:vertical}
+
+/* ============ EMPTY STATE ============ */
+.empty{text-align:center;padding:40px 20px;color:#7A6B66;font-style:italic;font-size:14.5px;line-height:1.6}
+.empty .e-icon{font-size:42px;margin-bottom:12px;opacity:0.5}
+
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif;animation:shimmer 5s ease-in-out infinite}
+.footer .brand-foot{color:#D98C8C;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .small{color:#8A9892;font-size:11px;margin-top:4px;display:block}
+
+@media print{
+body{background:#fff;padding:10px}
+.nav,.dossier-bar,.quiz-nav,.btn-quiz{display:none !important}
+.panel{display:block !important;page-break-after:always}
+.section,.profile-card,.combo-analyse{box-shadow:none;page-break-inside:avoid}
+}
+
+@media (max-width:600px){
+.hdr{padding:30px 18px 22px}
+.hdr h1{font-size:22px}
+.section{padding:20px 18px}
+}
+</style>
+</head>
+<body>
+<a href="../../parents.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#D98C8C;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(217,140,140,0.2)">← Parents</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Méthode signature · EducaTypique</span>
+<div class="float-icon">🏡</div>
+<h1>Le Couple Éducatif</h1>
+<div class="baseline">25 PROFILS ENFANTS × 25 PROFILS PARENTS</div>
+<p>Découvre le profil de ton enfant + le tien · Comprends ce qui s'accorde et ce qui se grippe · Reçois un plan d'ajustement pour ta combinaison unique.</p>
+</div>
+
+<div class="intro">
+<p>Pas de jugement — juste une <strong>cartographie</strong>. Chaque profil parent et chaque profil enfant a ses forces et ses zones de vigilance. Ce qui compte, ce n'est ni le profil de l'enfant, ni le profil du parent : <strong>c'est leur combinaison</strong>.</p>
+<div class="principe">
+« Un même parent peut être idéal pour un enfant et inadapté pour un autre.<br>
+Un même enfant peut s'épanouir avec un adulte et s'éteindre avec un autre.<br>
+La clé : connaître la combinaison pour l'ajuster. »
+</div>
+<p><strong>Comment ça marche :</strong> tu remplis le quiz « ton enfant » (12 questions), puis le quiz « toi en tant que parent » (12 questions). L'outil identifie les deux profils dominants et te donne l'analyse de la combinaison + des conseils ciblés.</p>
+</div>
+
+<div class="dossier-bar">
+<label>📁 Dossier :</label>
+<select id="dossierSelect" onchange="changeDossier()">
+<option value="default">Mon dossier</option>
+</select>
+<input type="text" id="newDossier" placeholder="Nouveau (ex: Léa, Sami, Couple…)">
+<button onclick="addDossier()">+ Créer</button>
+<button onclick="deleteDossier()">🗑 Supprimer</button>
+<button onclick="exportTXT()" class="btn-export">📥 Exporter en .txt</button>
+<button onclick="window.print()" class="btn-print">🖨️ Imprimer</button>
+</div>
+
+<div class="nav">
+<button class="active" data-tab="quiz-enfant" onclick="switchTab('quiz-enfant')">1️⃣ Profil enfant</button>
+<button data-tab="quiz-parent" onclick="switchTab('quiz-parent')">2️⃣ Profil parent</button>
+<button data-tab="resultats" onclick="switchTab('resultats')">3️⃣ Résultats & combinaison</button>
+<button data-tab="catalog" onclick="switchTab('catalog')">📚 Catalogue 25+25</button>
+</div>
+
+<!-- ============================================================
+     PANEL 1 — QUIZ ENFANT
+     ============================================================ -->
+<div class="panel active" id="panel-quiz-enfant">
+<div class="section">
+<h2>1️⃣ Profil de ton enfant</h2>
+<div class="sub">12 questions · Réponds spontanément en pensant à un comportement habituel (pas l'exception).</div>
+<div class="quiz-progress"><div class="quiz-progress-bar" id="barEnfant" style="width:0%"></div></div>
+<div id="quizEnfantContainer"></div>
+<div class="quiz-nav">
+<button class="btn-quiz secondary" onclick="resetQuiz('enfant')">🔄 Réinitialiser</button>
+<button class="btn-quiz" onclick="finishQuiz('enfant')">Voir le profil enfant →</button>
+</div>
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 2 — QUIZ PARENT
+     ============================================================ -->
+<div class="panel" id="panel-quiz-parent">
+<div class="section">
+<h2>2️⃣ Profil parent — toi</h2>
+<div class="sub">12 questions · Réponds avec honnêteté sur ta posture HABITUELLE (pas celle des bons jours).</div>
+<div class="quiz-progress"><div class="quiz-progress-bar" id="barParent" style="width:0%"></div></div>
+<div id="quizParentContainer"></div>
+<div class="quiz-nav">
+<button class="btn-quiz secondary" onclick="resetQuiz('parent')">🔄 Réinitialiser</button>
+<button class="btn-quiz" onclick="finishQuiz('parent')">Voir le profil parent →</button>
+</div>
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 3 — RÉSULTATS & COMBINAISON
+     ============================================================ -->
+<div class="panel" id="panel-resultats">
+
+<div class="section">
+<h2>3️⃣ Résultats & analyse de combinaison</h2>
+<div class="sub">Profil dominant de ton enfant × profil dominant parent + recommandations ciblées.</div>
+
+<div id="resultsArea">
+<div class="empty">
+<div class="e-icon">📭</div>
+Remplis les deux quiz (onglets 1 et 2) puis reviens ici pour découvrir la combinaison.
+</div>
+</div>
+
+<div class="notes-block">
+<label>📝 Mes observations + ce que je veux ajuster</label>
+<textarea id="notes-combo" placeholder="Ex : Sami est plutôt « Atypique TDAH » et moi « Contrôlante perfectionniste » → forte friction sur l'organisation. Je veux tester de poser moins d'exigences + accepter le désordre dans sa chambre 1 fois sur 2."></textarea>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 4 — CATALOGUE 25+25
+     ============================================================ -->
+<div class="panel" id="panel-catalog">
+
+<div class="section">
+<h2>📚 Catalogue des 50 profils</h2>
+<div class="sub">25 profils enfants en 3 catégories · 25 profils parents en 3 catégories. Clique pour explorer.</div>
+
+<h3 style="font-family:Georgia,serif;font-size:18px;color:#D98C8C;margin:18px 0 10px">👶 25 PROFILS ENFANTS</h3>
+
+<div id="catalogEnfants"></div>
+
+<h3 style="font-family:Georgia,serif;font-size:18px;color:#9B85B8;margin:24px 0 10px">🏡 25 PROFILS PARENTS</h3>
+
+<div id="catalogParents"></div>
+
+</div>
+</div>
+
+<div class="footer">
+« Un même parent peut être idéal pour un enfant et inadapté pour un autre. »<br>
+« Connaître la combinaison, c'est pouvoir l'ajuster. »
+<span class="brand-foot">25 × 25 profils du Couple Éducatif · Création originale Nawel Haddouch · EducaTypique</span>
+<span class="small">Adapté de l'Ebook RAHMA · Mémoire locale, rien n'est envoyé en ligne · Imprimable</span>
+</div>
+
+</div>
+
+<script>
+// ============================================================
+// 25 PROFILS ENFANTS (3 catégories)
+// ============================================================
+var PROFILS_ENFANTS = {
+  // ============ SENSIBLES (8) ============
+  hypersensible:{cat:'sensible',icon:'🌸',nom:'Hypersensible',
+    desc:"Ressent tout très intensément, capte les ambiances avant les autres. Pleure facilement, peut se sentir submergé par les stimuli.",
+    forces:['Empathie profonde','Intuition fine','Créativité','Détecte ce que les autres ne voient pas'],
+    vigilances:['Surcharge sensorielle','Peurs nocturnes','Difficile à consoler','Évite les conflits'],
+    besoins:"Environnement calme · validation émotionnelle systématique · adultes prévisibles · diminuer les sollicitations excessives · permission de se retirer sans honte."
+  },
+  empathique:{cat:'sensible',icon:'💛',nom:'Empathique',
+    desc:"Très attentif à l'humeur des autres. Console, aide spontanément, mais peut s'oublier soi-même.",
+    forces:['Tisse des liens forts','Médiateur naturel','Lit les non-dits','Bienveillance'],
+    vigilances:['Sur-adaptation','Difficile de dire non','Porte le poids des autres','Peut s\'oublier'],
+    besoins:"Permettre l'égoïsme sain · enseigner à dire non · reconnaître ses propres besoins · pas se servir de lui comme « petit thérapeute »."
+  },
+  timide:{cat:'sensible',icon:'🦋',nom:'Timide',
+    desc:"Prend du temps à se sentir à l'aise. Observe avant de participer. Peut paraître distant alors qu'il est juste prudent.",
+    forces:['Observation fine','Discrétion','Pas d\'impulsivité','Réflexion profonde'],
+    vigilances:['Isolement','Évitement','Anxiété sociale','Peur du jugement'],
+    besoins:"Respecter son rythme · ne pas forcer la sociabilisation · valoriser ce qu'il fait quand il ose · ne PAS l'appeler « timide » devant lui (étiquette)."
+  },
+  introverti:{cat:'sensible',icon:'🌿',nom:'Introverti',
+    desc:"Recharge ses batteries dans la solitude. Aime les interactions profondes plutôt que multiples. A besoin de temps seul.",
+    forces:['Profondeur','Concentration','Autonomie intellectuelle','Loyauté en amitié'],
+    vigilances:['Mal compris','Étiqueté « sauvage »','Épuisé par la stimulation','Peut être perçu froid'],
+    besoins:"Coin calme à la maison · respecter le besoin de seul · ne PAS l'obliger aux fêtes/sorties surchargées · valoriser la qualité plutôt que la quantité des liens."
+  },
+  emotif:{cat:'sensible',icon:'💧',nom:'Émotif',
+    desc:"Les émotions montent vite et fort. Pleure pour ce qui semble peu, rit aux éclats, se met en colère intensément.",
+    forces:['Authenticité','Vivacité émotionnelle','Honnêteté','Spontanéité'],
+    vigilances:['Crises intenses','Difficile à apaiser','Étiquette « dramatique »','Peut être jugé immature'],
+    besoins:"Valider l'émotion AVANT de cadrer · ne pas minimiser (« c\'est rien ») · enseigner à nommer · proposer outils de régulation."
+  },
+  reveur:{cat:'sensible',icon:'☁️',nom:'Rêveur / Imaginatif',
+    desc:"Vit beaucoup dans sa tête. Mondes intérieurs riches. Peut sembler distrait, lointain, mais c'est sa façon de penser.",
+    forces:['Créativité','Imagination débordante','Pensée originale','Capacité d\'évasion'],
+    vigilances:['Distrait en classe','Peut décrocher','Étiquette « dans la lune »','Peur du concret'],
+    besoins:"Valoriser l'imaginaire · canaliser sans étouffer · ramener au présent doucement · proposer activités créatives (écriture, dessin, théâtre)."
+  },
+  anxieux:{cat:'sensible',icon:'🌧️',nom:'Anxieux',
+    desc:"Anticipe ce qui pourrait mal tourner. Pose beaucoup de questions « et si... ». Peut développer rituels rassurants.",
+    forces:['Prévoyance','Conscience des risques','Empathie pour ceux qui souffrent','Réflexivité'],
+    vigilances:['Tracasseries excessives','Évitement','Somatisation','Difficulté à lâcher prise'],
+    besoins:"Routines prévisibles · annoncer les changements à l'avance · ne PAS rassurer en banalisant (« c\'est rien ») · enseigner à mettre les peurs en mots."
+  },
+  doux:{cat:'sensible',icon:'🧸',nom:'Doux / Câlin',
+    desc:"Cherche le contact physique, les câlins, les mots tendres. Plus jeune que son âge sur le plan affectif.",
+    forces:['Affection démonstrative','Sécurité relationnelle','Empathie tactile','Joie simple'],
+    vigilances:['Peut sembler immature','Recherche d\'approbation','Difficulté à dire non','Dépendance affective'],
+    besoins:"Câlins préservés sans honte (même tard dans l'enfance) · pas forcer l'autonomie affective · enseigner à se rassurer seul progressivement."
+  },
+
+  // ============ DYNAMIQUES (9) ============
+  explorateur:{cat:'dynamique',icon:'🗺️',nom:'Explorateur',
+    desc:"Touche à tout, demande pourquoi, démonte les choses. A besoin de comprendre par lui-même, pas en étant juste « informé ».",
+    forces:['Curiosité','Initiative','Apprentissage par l\'action','Adaptabilité'],
+    vigilances:['Casse beaucoup','Peut se mettre en danger','Inattentif aux consignes','Disperse'],
+    besoins:"Espace pour expérimenter en sécurité · matériel à manipuler · ne pas surinterdire · canaliser la curiosité plutôt que la freiner."
+  },
+  energique:{cat:'dynamique',icon:'⚡',nom:'Énergique',
+    desc:"Toujours en mouvement. Sport, jeux physiques, danse. Sa joie est physique. Peut sembler intenable.",
+    forces:['Vitalité','Endurance','Joie de vivre','Sports / arts physiques'],
+    vigilances:['Bouge en classe','Casse','Bruyant','Peut écraser les autres'],
+    besoins:"Dépense physique quotidienne ++ · ne PAS le faire rester assis trop longtemps · valoriser le mouvement comme intelligence."
+  },
+  impulsif:{cat:'dynamique',icon:'🎯',nom:'Impulsif',
+    desc:"Agit avant de réfléchir. Coupe la parole, démarre avant la consigne, prend des risques sans évaluer.",
+    forces:['Réactivité','Spontanéité','Audace','Pas d\'inhibition paralysante'],
+    vigilances:['Erreurs fréquentes','Conflits sociaux','Accidents','Frustration des autres'],
+    besoins:"Entraîner la PAUSE 5 sec · règle « 1 minute pour commencer » · ne PAS punir l'impulsivité (c\'est neuro) · enseigner inhibition."
+  },
+  competitif:{cat:'dynamique',icon:'🏆',nom:'Compétitif',
+    desc:"Veut gagner, être le premier, le meilleur. Difficile à supporter d'être en dessous. Peut être beau joueur ou très mauvais perdant.",
+    forces:['Motivation forte','Endurance face à l\'effort','Goût du défi','Leadership possible'],
+    vigilances:['Mauvais perdant','Stress de performance','Rivalité fratrie','Image fragile si défaite'],
+    besoins:"Valoriser le progrès personnel · enseigner à perdre · ne PAS comparer aux autres · varier les terrains de jeu."
+  },
+  leader:{cat:'dynamique',icon:'👑',nom:'Leader',
+    desc:"Organise les autres, prend la parole, dirige. Naturel pour les autres. Peut basculer en dominant si pas guidé.",
+    forces:['Charisme','Organisation','Vision','Influence positive possible'],
+    vigilances:['Dominant','N\'écoute pas','Manipule','Peut devenir « petit chef »'],
+    besoins:"Confier des responsabilités VRAIES · enseigner l'écoute · ne PAS écraser le leadership mais l'orienter · enseigner la coopération."
+  },
+  aventureux:{cat:'dynamique',icon:'🪂',nom:'Aventureux',
+    desc:"Aime le nouveau, les voyages, les défis. N'a pas peur de l'inconnu. Cherche l'adrénaline.",
+    forces:['Courage','Ouverture','Adaptabilité','Goût du nouveau'],
+    vigilances:['Prises de risque','Fuit l\'ennui','Peut être imprudent','Adrénaline addictive'],
+    besoins:"Canaliser via sports, voyages, défis encadrés · enseigner l'évaluation du risque · ne PAS surprotéger (frustration explosive)."
+  },
+  spontane:{cat:'dynamique',icon:'🎈',nom:'Spontané',
+    desc:"Dit ce qu'il pense, fait ce qu'il sent, sans filtre. Vif, vivant, parfois maladroit socialement.",
+    forces:['Authenticité','Honnêteté','Joie communicative','Pas de calcul'],
+    vigilances:['Maladresse sociale','Conflits par franchise','Étiqueté « impoli »','Blessures involontaires'],
+    besoins:"Enseigner empathie sans étouffer l'authenticité · faire la différence entre franc et blessant · valoriser la vérité avec tact."
+  },
+  sociable:{cat:'dynamique',icon:'🤝',nom:'Sociable',
+    desc:"Connaît tout le monde, fait des amis partout, ne supporte pas la solitude. Aime être entouré.",
+    forces:['Réseau','Aisance','Adaptabilité sociale','Communicant'],
+    vigilances:['Mal dans la solitude','Suiveur possible','Dépendance au regard','Superficialité possible'],
+    besoins:"Apprendre à être bien seul · choisir ses amis (qualité>quantité) · valoriser la profondeur."
+  },
+  joueur:{cat:'dynamique',icon:'🎭',nom:'Joueur / Humoriste',
+    desc:"Fait rire, joue, théâtralise. Utilise l'humour pour gérer les émotions, parfois pour cacher la souffrance.",
+    forces:['Humour','Désamorce les tensions','Créativité','Joie partagée'],
+    vigilances:['Cache mal-être','N\'est pas pris au sérieux','Évite l\'émotion par l\'humour'],
+    besoins:"Valoriser l'humour ET les moments sérieux · vérifier régulièrement ce qu'il y a derrière les blagues · pas l'enfermer dans le rôle du clown."
+  },
+
+  // ============ ATYPIQUES (8) ============
+  tdah:{cat:'atypique',icon:'💫',nom:'TDAH',
+    desc:"Cerveau qui carbure. Attention fluctuante, impulsivité, hyperactivité parfois. Très intense, très intelligent, très fatigué.",
+    forces:['Pensée rapide','Créativité','Énergie','Hyperfocus sur l\'intérêt','Hyperempathie souvent'],
+    vigilances:['Fatigue cognitive intense','Estime fragile','Conflits sociaux','Échec scolaire possible'],
+    besoins:"Cadre stable + flexibilité · découpage tâches · pauses · mouvement · valoriser les efforts (pas les résultats) · supports visuels."
+  },
+  hpi:{cat:'atypique',icon:'🌟',nom:'HPI (Haut Potentiel)',
+    desc:"Pensée arborescente, vitesse de raisonnement élevée, intensités. Hypersensibilité fréquente. Ennui scolaire possible.",
+    forces:['Pensée complexe','Apprentissages rapides','Curiosité large','Empathie souvent intense'],
+    vigilances:['Ennui = décrochage','Hypersensibilité','Hyperexigence envers soi','Décalage social'],
+    besoins:"Stimulation intellectuelle · accès à la complexité · ne pas confondre avec arrogance · accompagnement psychoaffectif."
+  },
+  opposant:{cat:'atypique',icon:'🛡️',nom:'Opposant',
+    desc:"Dit non par principe. Conteste, négocie, défie. Souvent profil très sensible derrière l'armure.",
+    forces:['Caractère','Sens de la justice','Pas suiveur','Capacité de leadership'],
+    vigilances:['Conflits permanents','Épuise l\'entourage','Échec scolaire','Isolement'],
+    besoins:"Choisir ses batailles · proposer des choix (pas des ordres) · règles courtes et claires · réparation > punition · valoriser la JUSTICE qu'il cherche."
+  },
+  hypercurieux:{cat:'atypique',icon:'🔬',nom:'Hypercurieux',
+    desc:"Pose des questions à l'infini, veut tout comprendre, démonte tout. Peut épuiser l'entourage par sa curiosité.",
+    forces:['Soif de savoir','Apprentissages rapides','Pensée originale','Persévérance sur l\'intérêt'],
+    vigilances:['Épuise par les « pourquoi »','Dérange en classe','Frustré par l\'ignorance des autres','Hyperfocus sélectif'],
+    besoins:"Nourrir avec ressources (livres, docus, expériences) · enseigner à dire « je ne sais pas, allons chercher » · valoriser la curiosité."
+  },
+  independant:{cat:'atypique',icon:'🦅',nom:'Indépendant',
+    desc:"Veut faire seul, déteste qu'on lui dicte. Apprend mieux par lui-même. Préfère la solitude productive.",
+    forces:['Autonomie','Pas de dépendance','Auto-discipline','Capacité de résolution'],
+    vigilances:['Refuse l\'aide','Isolement','Mal accepter les règles','Solitude excessive'],
+    besoins:"Respecter l'autonomie · proposer aide sans imposer · règles négociées · valoriser sans étouffer."
+  },
+  perfectionniste:{cat:'atypique',icon:'💎',nom:'Perfectionniste',
+    desc:"Veut tout réussir parfaitement. Recommence, gomme, se met une pression énorme. Peur de l'erreur paralysante.",
+    forces:['Exigence','Minutie','Travail soigné','Persévérance'],
+    vigilances:['Anxiété','Procrastination par peur','Estime fragile','Burn-out scolaire'],
+    besoins:"Valoriser l'erreur comme apprentissage · poser des limites de temps · enseigner « mieux = bien fait, pas parfait »."
+  },
+  hyperfocus:{cat:'atypique',icon:'🎯',nom:'Hyper-focusé (intérêt spécifique)',
+    desc:"Passion intense pour 1 ou 2 sujets (dinosaures, trains, code, kpop…). Connaît tout sur le sujet, peu intéressé par le reste.",
+    forces:['Expertise précoce','Persévérance','Pensée spécialisée','Joie sur l\'intérêt'],
+    vigilances:['Rigidité','Difficulté à élargir','Décalage social','Refus de l\'imposé'],
+    besoins:"Honorer l'intérêt spécifique · l'utiliser comme PORTE pour entrer dans d'autres apprentissages · ne PAS le couper de sa passion."
+  },
+  creatif:{cat:'atypique',icon:'🎨',nom:'Créatif / Original',
+    desc:"Pense autrement, fait autrement, voit autrement. Solutions originales, idées inattendues. Peut sembler bizarre.",
+    forces:['Originalité','Solutions hors-cadre','Pensée latérale','Art / écriture / invention'],
+    vigilances:['Mal compris','Étiqueté « bizarre »','Décalage scolaire','Solitude possible'],
+    besoins:"Valoriser l'originalité · ne PAS chercher à normaliser · proposer cadres créatifs · accepter les détours."
+  }
+};
+
+// ============================================================
+// 25 PROFILS PARENTS (3 catégories)
+// ============================================================
+var PROFILS_PARENTS = {
+  // ============ CONTRÔLANTS (8) ============
+  autoritaire:{cat:'controlant',icon:'⚔️',nom:'Autoritaire',
+    desc:"« C'est moi qui décide. » Règles strictes, peu de dialogue. Pense bien faire en posant un cadre fort.",
+    forces:['Cadre clair','Règles connues','Pas d\'ambiguïté','Repères stables'],
+    vigilances:['Peu d\'écoute','Soumission ou opposition forte','Manque empathie','Cassure du lien possible'],
+    besoins:"S'autoriser à écouter · introduire négociation pour les non-essentiels · garder le ferme MAIS ajouter le tendre."
+  },
+  perfectionniste_p:{cat:'controlant',icon:'📐',nom:'Perfectionniste',
+    desc:"Veut le mieux pour son enfant. Exige beaucoup. A du mal à accepter l'imperfection.",
+    forces:['Standards élevés','Soin','Investissement','Visions long terme'],
+    vigilances:['Anxiété transmise','Enfant écrasé','Estime conditionnelle','Burn-out parental'],
+    besoins:"Valoriser l'effort > la perfection · accepter le « assez bon » · soigner SA propre relation à l'erreur."
+  },
+  critique:{cat:'controlant',icon:'🔍',nom:'Critique',
+    desc:"Voit ce qui ne va pas avant ce qui va. Corrige, reprend, fait remarquer. Pense aider en pointant les défauts.",
+    forces:['Œil clinique','Détecte les problèmes tôt','Ne laisse pas passer','Standards'],
+    vigilances:['Enfant qui se sent jamais assez','Recherche d\'approbation','Estime cassée','Lien abîmé'],
+    besoins:"Ratio 5:1 — 5 valorisations pour 1 correction · décrire ce qu'on AIME chez lui · garder le critique pour les actes (pas la personne)."
+  },
+  moraliste:{cat:'controlant',icon:'📖',nom:'Moraliste',
+    desc:"Donne des leçons, sermonne, enseigne le bien et le mal en permanence. Pense que c'est ainsi qu'on éduque.",
+    forces:['Valeurs claires','Transmission','Cadre moral fort','Recul réflexif'],
+    vigilances:['Discours trop long','Enfant qui n\'écoute plus','Culpabilité installée','Évite la spontanéité'],
+    besoins:"Une leçon par jour suffit · enseigner par l'EXEMPLE plus que par les mots · privilégier les questions aux affirmations."
+  },
+  directif:{cat:'controlant',icon:'📋',nom:'Directif',
+    desc:"Planifie tout, prévoit tout, contrôle tout. Sécurise l'enfant par l'organisation. Difficile de lâcher.",
+    forces:['Organisation','Anticipation','Cadre rassurant','Pas de chaos'],
+    vigilances:['Enfant peu autonome','Étouffement','Refus de l\'imprévu','Frustration mutuelle'],
+    besoins:"Lâcher 20% de contrôle · laisser l'enfant choisir au moins 1 chose par jour · accepter l'imprévu comme apprentissage."
+  },
+  strict:{cat:'controlant',icon:'⚖️',nom:'Strict',
+    desc:"Règles non-négociables, conséquences appliquées sans exception. Sécurité dans la fermeté.",
+    forces:['Constance','Pas de manipulation possible','Cadre prévisible','Sécurité juridique'],
+    vigilances:['Manque souplesse','Pas adapté aux profils sensibles','Conflits intenses','Risque rupture lien ado'],
+    besoins:"Garder le ferme MAIS apprendre à plier sans casser · différencier non-négociable et négociable · accueillir l'émotion sans céder."
+  },
+  presse:{cat:'controlant',icon:'⏱️',nom:'Pressé / Performant',
+    desc:"Toujours en course. Vite, vite, vite. Enfant doit suivre le rythme adulte. Peu de temps « inutile ».",
+    forces:['Efficacité','Pas de temps perdu','Modèle de dynamisme','Énergie'],
+    vigilances:['Stress transmis','Enfant qui n\'a pas le droit de lent','Pas d\'écoute disponible','Burn-out famille'],
+    besoins:"Ralentir consciemment · prévoir des temps « rien à faire » · soigner SA propre charge mentale."
+  },
+  programmateur:{cat:'controlant',icon:'📅',nom:'Programmateur',
+    desc:"Sport, musique, langue, soutien scolaire, art… l'enfant a un planning de PDG. Tout pour son avenir.",
+    forces:['Investissement','Stimulation riche','Multiples expériences','Opportunités'],
+    vigilances:['Enfant surchargé','Pas de temps libre','Anxiété','Décrochage possible'],
+    besoins:"Réduire à 1-2 activités max · prévoir 1 après-midi vide par semaine · demander à l'enfant ce qu'il VEUT (pas ce qu'on PENSE bon pour lui)."
+  },
+
+  // ============ ÉDUCATEURS (9) ============
+  guide:{cat:'educateur',icon:'🧭',nom:'Guide',
+    desc:"Accompagne sans imposer. Pose le cadre, puis laisse explorer. Présent quand l'enfant en a besoin.",
+    forces:['Posture juste','Écoute','Autonomie favorisée','Sécurité ET liberté'],
+    vigilances:['Peut sous-estimer le besoin de cadre serré','Trop de confiance parfois'],
+    besoins:"Continue comme ça · ajuste finement selon les périodes (cadre + serré en crise, lâche-prise en stabilité)."
+  },
+  coach:{cat:'educateur',icon:'🏅',nom:'Coach',
+    desc:"Questionne plutôt qu'imposer. Aide l'enfant à trouver ses propres réponses. Valorise les progrès.",
+    forces:['Métacognition','Autonomie cognitive','Confiance en soi','Apprend à apprendre'],
+    vigilances:['Peut sembler trop \'distant\'','Parfois besoin de directives directes','Effort cognitif demandé'],
+    besoins:"Continue à questionner · mais sache parfois donner une réponse directe (l'enfant a aussi besoin qu'on l'aide concrètement)."
+  },
+  pedagogue:{cat:'educateur',icon:'📚',nom:'Pédagogue',
+    desc:"Explique, illustre, contextualise. Trouve les bonnes images pour faire comprendre. Patient.",
+    forces:['Sens de l\'explication','Adapté à l\'âge','Soif de transmettre','Patience'],
+    vigilances:['Peut sur-expliquer','L\'enfant n\'apprend pas en faisant','Tendance à parler trop'],
+    besoins:"Continue d\'expliquer · mais laisse aussi l'enfant TÂTONNER sans intervenir · réduis les explications de 30%."
+  },
+  empathique_p:{cat:'educateur',icon:'💞',nom:'Empathique',
+    desc:"Lit les émotions de l'enfant, valide, accueille. L'enfant se sent vu, compris, entendu.",
+    forces:['Lien profond','Sécurité affective','Régulation émotionnelle modèle','Confiance mutuelle'],
+    vigilances:['Peut négliger le cadre','Trop dans le ressenti','Difficile de poser limites','Fusion possible'],
+    besoins:"Garde l'empathie ET pose le cadre · valider l'émotion ne veut pas dire valider tout comportement."
+  },
+  equilibre:{cat:'educateur',icon:'⚖️',nom:'Équilibré',
+    desc:"Sait alterner ferme et tendre selon les besoins. Posture flexible mais constante sur le fond.",
+    forces:['Adaptabilité','Cohérence','Modèle sain','Sécurité ET liberté'],
+    vigilances:['Standards parfois trop élevés sur soi-même','Peut sembler distant aux profils intenses'],
+    besoins:"Profil idéal. Continue. Soigne-toi aussi (épuisement parental possible chez les équilibrés)."
+  },
+  bienveillant:{cat:'educateur',icon:'💛',nom:'Bienveillant',
+    desc:"Pose un regard inconditionnellement positif. Soutient, encourage, valorise. Pas dans le jugement.",
+    forces:['Estime de soi','Sécurité','Joie partagée','Lien fort'],
+    vigilances:['Peut être trop doux','Manque parfois de cadre','Évite le conflit','Enfant peu cadré'],
+    besoins:"Continue la bienveillance · ET pose des limites quand nécessaire (la bienveillance n'est pas l'absence de limites)."
+  },
+  joueur_p:{cat:'educateur',icon:'🎲',nom:'Joueur / Complice',
+    desc:"Joue avec son enfant, rit, fait l'idiot, partage des moments légers. Crée du lien par le plaisir.",
+    forces:['Complicité','Joie','Lien fort','Détente'],
+    vigilances:['Peut manquer de hauteur parfois','Risque copain plutôt que parent','Cadre incertain'],
+    besoins:"Garde le jeu ET garde aussi ta posture d'adulte cadrant · alterner les rôles selon les moments."
+  },
+  patient:{cat:'educateur',icon:'🌳',nom:'Patient',
+    desc:"Ne s'énerve pas, attend, accompagne dans le temps. L'enfant a le droit d'être lent.",
+    forces:['Sérénité','Respect du rythme','Cadre apaisant','Confiance dans le temps'],
+    vigilances:['Peut être trop accommodant','Manque de fermeté parfois','Difficile de poser non'],
+    besoins:"Continue à être patient · ajoute la fermeté quand nécessaire (non = non, calmement mais fermement)."
+  },
+  reflexif:{cat:'educateur',icon:'🪷',nom:'Réflexif / Conscient',
+    desc:"S'interroge sur sa posture, lit, se forme, retravaille ses propres blessures. Veut éduquer mieux que ce qu'il a reçu.",
+    forces:['Conscience','Évolution','Modélisation positive','Rupture transgénérationnelle'],
+    vigilances:['Sur-analyse','Auto-critique excessive','Culpabilité','Perte de spontanéité'],
+    besoins:"Continue à te former · mais accepte d'être imparfait · l'enfant a besoin d'un parent VIVANT plus que d'un parent THÉORIQUE."
+  },
+
+  // ============ FRAGILISÉS (8) ============
+  permissif:{cat:'fragilise',icon:'☁️',nom:'Permissif',
+    desc:"Difficile à dire non. Cède pour avoir la paix. L'enfant peu cadré, prend l'ascendant.",
+    forces:['Bienveillance','Pas de violence','Recherche du bien-être','Pas autoritaire'],
+    vigilances:['Enfant peu cadré','Tyran possible','Insécurité','Conflits dehors'],
+    besoins:"Apprendre à poser des limites SANS culpabilité · le cadre est un cadeau d'amour, pas une violence · 3 règles non-négociables clairement posées."
+  },
+  anxieux_p:{cat:'fragilise',icon:'🌧️',nom:'Anxieux',
+    desc:"Inquiet pour son enfant, anticipe les drames. Transmet l'inquiétude. Surprotection possible.",
+    forces:['Vigilance','Présence','Soins','Anticipation'],
+    vigilances:['Anxiété transmise','Surprotection','Enfant peu autonome','Évitement'],
+    besoins:"Travailler son anxiété en thérapie · ne PAS transmettre via les paroles (« fais attention » répété) · laisser l'enfant prendre des risques mesurés."
+  },
+  deborde:{cat:'fragilise',icon:'🌪️',nom:'Débordé / Épuisé',
+    desc:"Charge mentale, pro, plusieurs enfants, fatigue. Bonne intention mais peu de ressources émotionnelles.",
+    forces:['Beaucoup d\'amour','Engagement','Sacrifices','Tient debout'],
+    vigilances:['Impatience','Cris','Pas de disponibilité','Culpabilité'],
+    besoins:"S'autoriser à demander de l'aide · réduire ce qu'on porte · prioriser le lien sur la performance domestique · se reposer."
+  },
+  surprotecteur:{cat:'fragilise',icon:'🛡️',nom:'Surprotecteur',
+    desc:"Évite à l'enfant tout obstacle, toute frustration, toute difficulté. Pense le protéger, l'empêche de grandir.",
+    forces:['Présence','Soin','Vigilance','Anticipation des problèmes'],
+    vigilances:['Enfant peu résilient','Anxiété transmise','Pas d\'apprentissage de la frustration','Dépendance'],
+    besoins:"Laisser tomber 1 fois sur 2 quand on a envie d'intervenir · laisser l'enfant vivre la frustration · accepter qu'il se débrouille mal au début."
+  },
+  absent:{cat:'fragilise',icon:'🚪',nom:'Absent (mental)',
+    desc:"Physiquement présent mais ailleurs (écrans, travail, charge mentale). L'enfant cherche le contact.",
+    forces:['Présence physique','Pourvoit aux besoins matériels','Pas envahissant','Liberté'],
+    vigilances:['Manque de lien','Solitude enfant','Recherche d\'attention par crise','Dépression enfant possible'],
+    besoins:"15 min « spécial » par jour SANS téléphone · contact yeux dans yeux · écouter VRAIMENT 5 min · présence > performance."
+  },
+  inconstant:{cat:'fragilise',icon:'🎲',nom:'Inconstant',
+    desc:"Règles qui changent selon l'humeur. Un jour très ferme, un jour très laxiste. L'enfant ne sait jamais à quoi s'attendre.",
+    forces:['Spontanéité','Adaptabilité','Pas rigide','Capacité de réajustement'],
+    vigilances:['Insécurité','Enfant manipule ou subit','Pas de repères','Anxiété'],
+    besoins:"Identifier 3 règles vraiment non-négociables et S'Y TENIR · le reste peut bouger · prévisibilité = sécurité."
+  },
+  culpabilise:{cat:'fragilise',icon:'😔',nom:'Culpabilisé',
+    desc:"Pense ne pas être assez. Compare aux autres parents. Sur-compense, fait trop, s'oublie.",
+    forces:['Engagement','Reflexivité','Lecture','Soif de bien faire'],
+    vigilances:['Épuisement','Modèle culpabilisé','Sur-fait','Pas de modèle de l\'estime de soi'],
+    besoins:"Lâcher le « parent parfait » · 80% suffit · accepter ses limites · se valoriser devant l'enfant (l'enfant copie l'estime de soi vue chez le parent)."
+  },
+  reactif:{cat:'fragilise',icon:'🌋',nom:'Réactif émotionnel',
+    desc:"Émotions montent vite, explosion possible, regrets après. Modèle d'émotion non régulée.",
+    forces:['Authenticité','Pas de masque','Vivacité','Réparation possible'],
+    vigilances:['Crises adultes','Modèle inverse','Peur transmise','Lien abîmé'],
+    besoins:"Travailler SA propre régulation (thérapie · respiration · pause) · enseigner par l'exemple de réparation · ne pas se cacher derrière « c\'est mon caractère »."
+  }
+};
+
+// ============================================================
+// QUESTIONS QUIZ ENFANT (12) — chaque réponse pointe vers profils
+// ============================================================
+var QUESTIONS_ENFANT = [
+  { q:"Quand ton enfant rencontre une situation nouvelle (nouvelle école, anniversaire, sortie...) :",
+    o:[
+      {t:"Il se cache, observe à distance, met longtemps à entrer", p:['timide','introverti','anxieux','hypersensible']},
+      {t:"Il fonce direct, fait le tour, parle à tout le monde", p:['energique','sociable','aventureux','spontane']},
+      {t:"Il pose mille questions avant d'y aller", p:['hypercurieux','reflexif','anxieux']},
+      {t:"Il dit non, refuse de participer", p:['opposant','independant','perfectionniste']}
+    ]},
+  { q:"Face à une difficulté (devoir, jeu, conflit avec un copain) :",
+    o:[
+      {t:"Il pleure, se décourage vite, demande qu'on fasse à sa place", p:['hypersensible','emotif','doux']},
+      {t:"Il insiste, recommence, en fait une affaire personnelle", p:['perfectionniste','competitif','hyperfocus']},
+      {t:"Il abandonne et passe à autre chose", p:['energique','impulsif','reveur']},
+      {t:"Il s'énerve, jette, claque", p:['emotif','impulsif','opposant','reactif']}
+    ]},
+  { q:"À la maison, tu le retrouves le plus souvent :",
+    o:[
+      {t:"Dans sa chambre, en train de lire / dessiner / construire seul(e)", p:['introverti','reveur','creatif','independant','hyperfocus']},
+      {t:"En train de courir, danser, sauter partout", p:['energique','aventureux','explorateur']},
+      {t:"Avec toi à te raconter sa journée / vouloir un câlin", p:['doux','empathique','sociable']},
+      {t:"En train de démonter / explorer / poser des questions", p:['explorateur','hypercurieux','tdah','hpi']}
+    ]},
+  { q:"Sa relation avec les autres enfants :",
+    o:[
+      {t:"Il a 1-2 amis proches qu'il aime profondément", p:['introverti','empathique','doux']},
+      {t:"Il connaît tout le monde, change souvent de copains", p:['sociable','energique','spontane']},
+      {t:"Il préfère jouer seul(e), les autres l'agacent", p:['independant','reveur','hyperfocus','hpi']},
+      {t:"Il a du mal à se faire des amis (étiquette « bizarre » / décalé)", p:['hpi','creatif','hypersensible','tdah','hyperfocus']}
+    ]},
+  { q:"À l'école, le retour des enseignants est plutôt :",
+    o:[
+      {t:"« Discret, sérieux, peut-être trop dans sa coquille »", p:['timide','introverti','hypersensible','anxieux']},
+      {t:"« Agité, ne tient pas en place, perturbe »", p:['energique','tdah','impulsif','opposant']},
+      {t:"« Intelligent mais rêveur, dans la lune »", p:['reveur','hpi','creatif','tdah']},
+      {t:"« Brillant mais s'ennuie ou conteste »", p:['hpi','opposant','independant','hyperfocus']}
+    ]},
+  { q:"Face à la frustration (jouet refusé, perdre à un jeu, attendre…) :",
+    o:[
+      {t:"Il pleure, s'effondre, peut bouder longtemps", p:['hypersensible','emotif','perfectionniste']},
+      {t:"Il fait une crise immédiate, peut taper / crier", p:['impulsif','emotif','reactif','tdah']},
+      {t:"Il négocie, conteste, argumente", p:['opposant','independant','hpi']},
+      {t:"Il accepte assez bien, passe à autre chose", p:['equilibre','spontane','sociable']}
+    ]},
+  { q:"Quand tu poses une règle (heure du coucher, écran limité…) :",
+    o:[
+      {t:"Il obéit (mais peut bouder)", p:['doux','perfectionniste','anxieux','timide']},
+      {t:"Il négocie, argumente, essaie de te faire changer d'avis", p:['opposant','hpi','independant','leader']},
+      {t:"Il fait semblant d'accepter et contourne en cachette", p:['independant','reveur','hyperfocus']},
+      {t:"Il refuse en bloc, crise immédiate", p:['opposant','impulsif','tdah','reactif']}
+    ]},
+  { q:"Son intérêt principal :",
+    o:[
+      {t:"Un sujet/une passion qu'il connaît à fond (dinos, foot, k-pop, code…)", p:['hyperfocus','hpi','creatif']},
+      {t:"Beaucoup de choses, il touche à tout", p:['explorateur','hypercurieux','energique','sociable']},
+      {t:"Les histoires, l'imaginaire, les jeux symboliques", p:['reveur','creatif','doux','sensible']},
+      {t:"Le sport, le mouvement, l'action", p:['energique','aventureux','competitif','tdah']}
+    ]},
+  { q:"Sa sensibilité corporelle / sensorielle :",
+    o:[
+      {t:"Très sensible aux bruits, lumières, étiquettes, textures…", p:['hypersensible','tdah','anxieux','hpi']},
+      {t:"Plutôt indifférent, supporte tout", p:['energique','aventureux','equilibre','spontane']},
+      {t:"Cherche les sensations fortes, bouge, touche", p:['energique','impulsif','aventureux','tdah']},
+      {t:"Sélectif (certaines choses oui, d'autres non)", p:['hyperfocus','independant','creatif']}
+    ]},
+  { q:"Avec toi (ou autre parent), il se montre :",
+    o:[
+      {t:"Câlin, demande de l'affection, te suit partout", p:['doux','empathique','anxieux']},
+      {t:"Indépendant, ne demande pas d'attention, fait sa vie", p:['independant','introverti','reveur','hyperfocus']},
+      {t:"En opposition fréquente, conflits réguliers", p:['opposant','impulsif','reactif']},
+      {t:"Te raconte plein de choses, intense en émotions partagées", p:['empathique','emotif','sociable']}
+    ]},
+  { q:"Quand on lui propose une activité qu'il n'a pas choisie :",
+    o:[
+      {t:"Il essaie, accepte sans broncher", p:['doux','equilibre','spontane']},
+      {t:"Il pose des questions, veut comprendre POURQUOI", p:['hypercurieux','hpi','reflexif']},
+      {t:"Il refuse en bloc s'il n'aime pas", p:['opposant','independant','hyperfocus','perfectionniste']},
+      {t:"Il a besoin de temps pour s'adapter, démarre lentement", p:['timide','introverti','anxieux']}
+    ]},
+  { q:"Ce qui le caractérise le plus selon toi :",
+    o:[
+      {t:"Son intensité émotionnelle (vit tout fort)", p:['hypersensible','emotif','hpi','tdah']},
+      {t:"Son énergie débordante", p:['energique','aventureux','impulsif','tdah']},
+      {t:"Sa créativité / son originalité", p:['creatif','reveur','hpi','hyperfocus']},
+      {t:"Son caractère affirmé / son refus de céder", p:['opposant','independant','leader','perfectionniste']}
+    ]}
+];
+
+// ============================================================
+// QUESTIONS QUIZ PARENT (12)
+// ============================================================
+var QUESTIONS_PARENT = [
+  { q:"Face à une crise de ton enfant, ta première réaction :",
+    o:[
+      {t:"Je hausse le ton, j'impose le silence", p:['autoritaire','strict','reactif']},
+      {t:"Je m'agenouille, je lui parle calmement, je nomme l'émotion", p:['guide','empathique_p','bienveillant','reflexif']},
+      {t:"Je cède pour avoir la paix", p:['permissif','deborde','culpabilise']},
+      {t:"Je m'éloigne pour ne pas exploser moi-même", p:['reactif','deborde','absent']}
+    ]},
+  { q:"Quand ton enfant rapporte une mauvaise note :",
+    o:[
+      {t:"Je suis déçu·e, je lui demande pourquoi, on cherche ce qui n'a pas marché", p:['critique','perfectionniste_p','directif']},
+      {t:"Je valorise l'effort, je dédramatise, je propose de l'aide", p:['bienveillant','empathique_p','equilibre','coach']},
+      {t:"Je m'inquiète, je crains pour son avenir", p:['anxieux_p','perfectionniste_p','surprotecteur']},
+      {t:"Je ne lui dis rien de spécial, ça arrive", p:['absent','permissif','equilibre']}
+    ]},
+  { q:"Sur les écrans à la maison :",
+    o:[
+      {t:"Règles strictes, horaires fixes, peu de négociation", p:['autoritaire','strict','directif']},
+      {t:"Cadre clair mais avec discussion régulière", p:['guide','equilibre','reflexif']},
+      {t:"J'aimerais cadrer mais je n'y arrive pas vraiment", p:['permissif','deborde','culpabilise']},
+      {t:"Je laisse, j'ai mieux à faire", p:['absent','permissif','deborde']}
+    ]},
+  { q:"Quand ton enfant exprime une émotion forte (peur, colère, tristesse) :",
+    o:[
+      {t:"Je lui dis « c'est rien », « passe à autre chose »", p:['autoritaire','strict','presse','reactif']},
+      {t:"Je valide « je vois que tu es… c'est normal de ressentir ça »", p:['empathique_p','bienveillant','reflexif','guide']},
+      {t:"Je m'inquiète pour lui, je le surprotège", p:['anxieux_p','surprotecteur','culpabilise']},
+      {t:"Je suis débordé·e, je n'ai pas l'énergie pour gérer", p:['deborde','reactif','absent']}
+    ]},
+  { q:"Sur les devoirs / le travail scolaire :",
+    o:[
+      {t:"Je supervise tout, je vérifie chaque exercice", p:['perfectionniste_p','directif','controlant']},
+      {t:"Je suis disponible si besoin mais je laisse faire", p:['guide','equilibre','patient']},
+      {t:"C'est un sujet de conflit quotidien", p:['perfectionniste_p','reactif','anxieux_p']},
+      {t:"Je n'ai pas le temps de m'en occuper vraiment", p:['absent','deborde']}
+    ]},
+  { q:"Tu te reconnais dans cette phrase :",
+    o:[
+      {t:"« Je veux que mon enfant ait le meilleur, je m'investis énormément »", p:['perfectionniste_p','programmateur','controlant']},
+      {t:"« J'essaie d'écouter, de comprendre, je me forme »", p:['reflexif','guide','coach','empathique_p']},
+      {t:"« Je suis dépassé·e, je fais ce que je peux »", p:['deborde','culpabilise','reactif']},
+      {t:"« Je préfère laisser mon enfant trouver son chemin »", p:['permissif','absent','patient']}
+    ]},
+  { q:"Quand ton enfant ne respecte pas une règle :",
+    o:[
+      {t:"Conséquence appliquée immédiatement, pas de négo", p:['strict','autoritaire','directif']},
+      {t:"Je rappelle la règle calmement, conséquence si récidive", p:['guide','equilibre','coach','bienveillant']},
+      {t:"Je discute, je m'énerve, je cède parfois", p:['permissif','inconstant','deborde']},
+      {t:"J'explose, puis je culpabilise", p:['reactif','culpabilise']}
+    ]},
+  { q:"Tu compares ton enfant à :",
+    o:[
+      {t:"D'autres enfants (frère/sœur, copains, niveau classe)", p:['critique','perfectionniste_p','anxieux_p']},
+      {t:"Je ne compare pas, chacun son rythme", p:['equilibre','bienveillant','reflexif','patient']},
+      {t:"À moi enfant (« moi à ton âge je… »)", p:['moraliste','critique','autoritaire']},
+      {t:"À ce qu'il pourrait être (potentiel)", p:['perfectionniste_p','programmateur','coach']}
+    ]},
+  { q:"Ton niveau d'énergie disponible pour l'éducation au quotidien :",
+    o:[
+      {t:"Bon, je tiens la barre", p:['equilibre','guide','patient','bienveillant']},
+      {t:"Variable, ça dépend du jour", p:['inconstant','reactif']},
+      {t:"Faible, je suis épuisé·e", p:['deborde','absent','culpabilise']},
+      {t:"Élevé mais sous tension/contrôle permanent", p:['directif','perfectionniste_p','presse','controlant']}
+    ]},
+  { q:"Tu écoutes vraiment ton enfant (sans interrompre, sans téléphone) :",
+    o:[
+      {t:"Plusieurs fois par jour, des temps dédiés", p:['empathique_p','guide','bienveillant','reflexif']},
+      {t:"Quand j'y pense / quand j'ai le temps", p:['deborde','inconstant','programmateur']},
+      {t:"Rarement, je l'avoue", p:['absent','presse','deborde']},
+      {t:"Je l'écoute mais je donne vite ma solution / leçon", p:['moraliste','directif','controlant','presse']}
+    ]},
+  { q:"Tes propres émotions, tu les gères :",
+    o:[
+      {t:"Bien, je travaille dessus", p:['reflexif','equilibre','guide','coach']},
+      {t:"Variable, je peux exploser parfois", p:['reactif','deborde','inconstant']},
+      {t:"Je les cache, je tiens", p:['perfectionniste_p','autoritaire','presse']},
+      {t:"Je me sens souvent dépassé·e émotionnellement", p:['anxieux_p','culpabilise','deborde']}
+    ]},
+  { q:"Si tu pouvais changer UNE chose dans ta posture, ce serait :",
+    o:[
+      {t:"Crier moins / mieux gérer ma colère", p:['reactif','autoritaire','strict','presse']},
+      {t:"Lâcher prise, contrôler moins", p:['perfectionniste_p','directif','programmateur','anxieux_p']},
+      {t:"Poser plus de cadre", p:['permissif','deborde','culpabilise','absent']},
+      {t:"Être plus présent·e, écouter mieux", p:['absent','presse','deborde','programmateur']}
+    ]}
+];
+
+// ============================================================
+// COMBINAISONS 3x3 — analyse par catégories dominantes
+// ============================================================
+var COMBOS = {
+  'sensible-controlant':{harmonie:"Le parent contrôlant peut sembler offrir un cadre rassurant à l'enfant sensible — mais ce cadre est souvent perçu comme étouffant ou dur.",
+    frictions:["L'enfant sensible perçoit la fermeté comme une attaque","Il intériorise les critiques et développe une estime fragile","Évite les conflits = se ferme, se cache, ou somatise"],
+    risques:["Anxiété chronique","Perfectionnisme paralysant","Rupture du lien à l'adolescence","Dépression silencieuse"],
+    reco:["Adoucir le ton (pas le cadre — le ton)","Augmenter le ratio 5 valorisations pour 1 correction","Valider l'émotion AVANT de cadrer","Travailler SA propre régulation pour ne pas tirer la corde","Demander à l'enfant comment il a vécu la consigne"]
+  },
+  'sensible-educateur':{harmonie:"Combinaison harmonieuse — l'enfant sensible se sent profondément vu et compris. Cadre + bienveillance équilibrés.",
+    frictions:["Risque que l'enfant devienne trop dépendant émotionnellement","Le parent peut hésiter à cadrer par peur de blesser","L'enfant peut éviter les défis"],
+    risques:["Sur-protection","Difficulté à affronter le monde extérieur (école, copains)","Manque d'apprentissage de la frustration"],
+    reco:["Maintenir la bienveillance MAIS pousser doucement aux défis","Confier des petites missions qui sortent de la zone de confort","Ne pas faire à sa place quand il peut","Préparer aux situations difficiles (jeux de rôle école/conflits)","Lui apprendre à se rassurer SEUL"]
+  },
+  'sensible-fragilise':{harmonie:"Tous les deux dans la difficulté — le parent a souvent vécu lui-même cette sensibilité. Beaucoup d'empathie possible.",
+    frictions:["Co-anxiété : l'un nourrit l'angoisse de l'autre","Surprotection","Peu de cadre car le parent évite les conflits","Risque fusion"],
+    risques:["Enfant peu autonome","Anxiété mutuelle","Évitement scolaire/social","Sur-adaptation à l'adulte"],
+    reco:["**Priorité : travailler SA propre anxiété/régulation (thérapie, soutien)**","Demander de l'aide pour cadrer (autre parent, école, pro)","Routines stables non-négociables (rassurent les deux)","Ne PAS transmettre les inquiétudes en cascade","Modèle de bienveillance ENVERS SOI à montrer à l'enfant"]
+  },
+  'dynamique-controlant':{harmonie:"Le parent contrôlant peut canaliser l'énergie de l'enfant dynamique — quand le cadre est ferme MAIS valorisant.",
+    frictions:["Conflits de pouvoir réguliers","Enfant qui se sent enfermé, contraint","Comportements défi en compensation","Peut s'épuiser à se conformer"],
+    risques:["Opposition de plus en plus forte","Crise à l'adolescence","Rupture du lien","Estime fragilisée"],
+    reco:["Lâcher 30% de contrôle sur le non-essentiel","Offrir des choix encadrés ('A ou B?')","Canaliser l'énergie via sport intense quotidien","Valoriser ce que l'enfant a de positif (audace, initiative…)","Différencier non-négociable et négociable"]
+  },
+  'dynamique-educateur':{harmonie:"Très bon match : le parent éducateur canalise sans étouffer. L'enfant dynamique se sent vu ET cadré.",
+    frictions:["L'enfant peut tester les limites par jeu","Le parent peut s'épuiser face à l'énergie constante","Risque de manque de fermeté"],
+    risques:["Enfant peu cadré si parent trop souple","Énergie qui déborde","Conflits scolaires"],
+    reco:["Maintenir un cadre clair MÊME en restant bienveillant","Dépense physique quotidienne ++","Confier des responsabilités VRAIES (canalise leadership)","Apprendre à dire NON sans s'énerver","Garder du temps pour SOI (recharge)"]
+  },
+  'dynamique-fragilise':{harmonie:"Combinaison difficile — l'enfant a besoin de cadre, le parent est débordé pour le poser.",
+    frictions:["Parent épuisé par l'énergie","Enfant qui prend le pouvoir","Conflits cycliques","Risque de cris/explosions"],
+    risques:["Enfant tyran","Échec scolaire","Parent en burn-out","Conflits familiaux"],
+    reco:["**Demander de l'aide (autre parent, école, asso, pro)**","Mettre en place 3 règles non-négociables CLAIRES","Activité physique structurée pour l'enfant (sport, club)","Routines fixes (matin, soir) — non négociables","Prendre du temps SEUL pour se ressourcer","Ne PAS culpabiliser, agir étape par étape"]
+  },
+  'atypique-controlant':{harmonie:"Très difficile — le cerveau atypique (TDAH, HPI, opposant) ne fonctionne PAS avec un cadre rigide standard. Conflits permanents.",
+    frictions:["Parent qui ne comprend pas pourquoi l'enfant n'obéit pas","Enfant qui ne PEUT PAS obéir comme attendu (problème neuro, pas volonté)","Spirale punitions/échec","Estime cassée"],
+    risques:["Échec scolaire grave","Trouble du comportement","Rupture lien","Trouble anxieux/dépressif","Conflits familiaux explosifs"],
+    reco:["**Se former sur le profil neuro de l'enfant (lecture, asso, pro)**","Cadre SOUPLE mais cohérent (TDAH ≠ paresse, HPI ≠ arrogance, opposant ≠ caprice)","Découper toutes les tâches","Renforcement positif ratio 5:1","Choisir ses batailles","Médiation pro si conflits réguliers"]
+  },
+  'atypique-educateur':{harmonie:"Match idéal — le parent éducateur adapte sa posture aux besoins atypiques. L'enfant peut s'épanouir.",
+    frictions:["L'enfant peut quand même être éprouvant (énergie, intensité, conflits)","Le parent peut s'épuiser","Le couple peut être en désaccord sur l'éducation"],
+    risques:["Burn-out parental","Différence avec l'autre parent","Isolement social"],
+    reco:["Continuer la posture (c'est la bonne)","Se faire SOUTENIR (groupes parents, pro)","Prendre soin de SOI","Vérifier régulièrement la cohérence avec l'autre parent","Célébrer les progrès, même petits"]
+  },
+  'atypique-fragilise':{harmonie:"Combinaison à risque — l'enfant atypique a besoin de cadre adapté, le parent fragilisé peine à le poser.",
+    frictions:["Parent débordé, épuisé","Enfant non cadré qui s'amplifie","Cris fréquents","Culpabilité massive"],
+    risques:["Échec scolaire","Comportements à risque (ado)","Burn-out parental","Trouble familial","Lien abîmé"],
+    reco:["**Demander de l'aide pro IMPÉRATIVEMENT (neuropsy, neuropédagogue, psy)**","Se former sur le profil (urgence)","Mettre 3 routines fixes non-négociables","Travailler SES propres émotions","Construire un VRAI réseau de soutien","Ne pas s'isoler","Lire/écouter des ressources sur le profil de l'enfant"]
+  }
+};
+
+// ============================================================
+// STATE
+// ============================================================
+var STORAGE_KEY = 'educatypique_couple_educatif_v1';
+var currentDossier = 'default';
+var quizState = { enfant:{}, parent:{} };
+
+function loadStore(){ try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : { dossiers:{default:{}} }; }catch(e){ return { dossiers:{default:{}} }; } }
+function saveStore(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
+function loadDossier(){ return loadStore().dossiers[currentDossier] || {}; }
+function saveDossier(d){ var s = loadStore(); s.dossiers[currentDossier] = d; saveStore(s); }
+
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  if(tab === 'resultats') renderResults();
+  if(tab === 'catalog') renderCatalog();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ============================================================
+// RENDER QUIZ
+// ============================================================
+function renderQuiz(who){
+  var qs = who === 'enfant' ? QUESTIONS_ENFANT : QUESTIONS_PARENT;
+  var container = document.getElementById('quiz'+(who==='enfant'?'Enfant':'Parent')+'Container');
+  container.innerHTML = '';
+  qs.forEach(function(q, qi){
+    var div = document.createElement('div');
+    div.className = 'quiz-question';
+    var html = '<h4><span class="q-num">Q'+(qi+1)+'</span>'+q.q+'</h4>';
+    html += '<div class="quiz-options-grid">';
+    q.o.forEach(function(opt, oi){
+      html += '<div class="quiz-opt-q" data-q="'+qi+'" data-o="'+oi+'" onclick="selectOpt(\''+who+'\','+qi+','+oi+')"><span class="opt-dot"></span>'+opt.t+'</div>';
+    });
+    html += '</div>';
+    div.innerHTML = html;
+    container.appendChild(div);
+  });
+}
+function selectOpt(who, qi, oi){
+  quizState[who][qi] = oi;
+  document.querySelectorAll('#quiz'+(who==='enfant'?'Enfant':'Parent')+'Container .quiz-opt-q[data-q="'+qi+'"]').forEach(el=>el.classList.remove('selected'));
+  document.querySelector('#quiz'+(who==='enfant'?'Enfant':'Parent')+'Container .quiz-opt-q[data-q="'+qi+'"][data-o="'+oi+'"]').classList.add('selected');
+  var qs = who === 'enfant' ? QUESTIONS_ENFANT : QUESTIONS_PARENT;
+  var rep = Object.keys(quizState[who]).length;
+  var pct = Math.round(rep/qs.length*100);
+  document.getElementById('bar'+(who==='enfant'?'Enfant':'Parent')).style.width = pct+'%';
+  saveAll();
+}
+function resetQuiz(who){
+  if(!confirm('Réinitialiser ce quiz ?')) return;
+  quizState[who] = {};
+  document.querySelectorAll('#quiz'+(who==='enfant'?'Enfant':'Parent')+'Container .quiz-opt-q').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('bar'+(who==='enfant'?'Enfant':'Parent')).style.width = '0%';
+  saveAll();
+}
+function finishQuiz(who){
+  var qs = who === 'enfant' ? QUESTIONS_ENFANT : QUESTIONS_PARENT;
+  var rep = Object.keys(quizState[who]).length;
+  if(rep < qs.length){
+    if(!confirm('Tu n\'as pas répondu à toutes les questions ('+rep+'/'+qs.length+'). Voir le résultat quand même ?')) return;
+  }
+  if(who === 'enfant') switchTab('quiz-parent'); else switchTab('resultats');
+}
+
+// ============================================================
+// CALCUL PROFIL DOMINANT
+// ============================================================
+function computeProfile(who){
+  var qs = who === 'enfant' ? QUESTIONS_ENFANT : QUESTIONS_PARENT;
+  var profiles = who === 'enfant' ? PROFILS_ENFANTS : PROFILS_PARENTS;
+  var scores = {};
+  Object.keys(profiles).forEach(function(k){ scores[k] = 0; });
+  for(var qi in quizState[who]){
+    var oi = quizState[who][qi];
+    var opt = qs[qi].o[oi];
+    if(opt && opt.p){
+      opt.p.forEach(function(pkey){
+        scores[pkey] = (scores[pkey] || 0) + 1;
+      });
+    }
+  }
+  // top 3 profils
+  var sorted = Object.keys(scores).sort(function(a,b){return scores[b]-scores[a];});
+  var top = sorted.filter(function(k){return scores[k]>0;}).slice(0,3);
+  // catégorie dominante
+  var catScores = {sensible:0, dynamique:0, atypique:0, controlant:0, educateur:0, fragilise:0};
+  Object.keys(scores).forEach(function(k){
+    catScores[profiles[k].cat] = (catScores[profiles[k].cat] || 0) + scores[k];
+  });
+  var catDom = Object.keys(catScores).sort(function(a,b){return catScores[b]-catScores[a];})[0];
+  return { top:top, scores:scores, catDom:catDom };
+}
+
+// ============================================================
+// RENDER RÉSULTATS
+// ============================================================
+function renderResults(){
+  var area = document.getElementById('resultsArea');
+  var repE = Object.keys(quizState.enfant).length;
+  var repP = Object.keys(quizState.parent).length;
+  if(repE === 0 && repP === 0){
+    area.innerHTML = '<div class="empty"><div class="e-icon">📭</div>Remplis les deux quiz (onglets 1 et 2) puis reviens ici pour découvrir la combinaison.</div>';
+    return;
+  }
+  var html = '';
+  var resE = repE > 0 ? computeProfile('enfant') : null;
+  var resP = repP > 0 ? computeProfile('parent') : null;
+
+  // PROFIL ENFANT
+  if(resE && resE.top.length > 0){
+    var p = PROFILS_ENFANTS[resE.top[0]];
+    var catLabel = {sensible:'🌸 Sensibles', dynamique:'⚡ Dynamiques', atypique:'🌟 Atypiques'}[resE.catDom];
+    html += '<div class="profile-card">' +
+      '<span class="cat-badge">👶 PROFIL ENFANT · '+catLabel+'</span>' +
+      '<h3><span class="profile-icon">'+p.icon+'</span>'+p.nom+'</h3>' +
+      '<div class="description">'+p.desc+'</div>' +
+      '<h4>💪 Forces</h4><div class="forces">'+p.forces.map(f=>'<span>'+f+'</span>').join('')+'</div>' +
+      '<h4>⚠️ Points de vigilance</h4><div class="vigilances">'+p.vigilances.map(v=>'<span>'+v+'</span>').join('')+'</div>' +
+      '<div class="besoins"><strong>💡 Besoins essentiels</strong>'+p.besoins+'</div>';
+    if(resE.top.length > 1){
+      html += '<div style="margin-top:14px;font-size:13px;color:#7A6B66"><strong>Profils secondaires détectés :</strong> '+resE.top.slice(1).map(k=>PROFILS_ENFANTS[k].icon+' '+PROFILS_ENFANTS[k].nom).join(' · ')+'</div>';
+    }
+    html += '</div>';
+  }
+
+  // PROFIL PARENT
+  if(resP && resP.top.length > 0){
+    var p = PROFILS_PARENTS[resP.top[0]];
+    var catLabel = {controlant:'⚔️ Contrôlants', educateur:'🧭 Éducateurs', fragilise:'🌧️ Fragilisés'}[resP.catDom];
+    html += '<div class="profile-card" style="background:linear-gradient(135deg,#F0F5F8,#F5F0F7)">' +
+      '<span class="cat-badge" style="color:#608CB4">🏡 PROFIL PARENT · '+catLabel+'</span>' +
+      '<h3><span class="profile-icon">'+p.icon+'</span>'+p.nom+'</h3>' +
+      '<div class="description" style="border-color:#608CB4">'+p.desc+'</div>' +
+      '<h4 style="color:#608CB4">💪 Forces</h4><div class="forces">'+p.forces.map(f=>'<span>'+f+'</span>').join('')+'</div>' +
+      '<h4 style="color:#608CB4">⚠️ Points de vigilance</h4><div class="vigilances">'+p.vigilances.map(v=>'<span>'+v+'</span>').join('')+'</div>' +
+      '<div class="besoins" style="border-color:#7AA0C6"><strong style="color:#608CB4">💡 Pistes pour toi</strong>'+p.besoins+'</div>';
+    if(resP.top.length > 1){
+      html += '<div style="margin-top:14px;font-size:13px;color:#7A6B66"><strong>Profils secondaires détectés :</strong> '+resP.top.slice(1).map(k=>PROFILS_PARENTS[k].icon+' '+PROFILS_PARENTS[k].nom).join(' · ')+'</div>';
+    }
+    html += '</div>';
+  }
+
+  // COMBINAISON
+  if(resE && resP){
+    var key = resE.catDom + '-' + resP.catDom;
+    var combo = COMBOS[key];
+    if(combo){
+      var pE = PROFILS_ENFANTS[resE.top[0]];
+      var pP = PROFILS_PARENTS[resP.top[0]];
+      html += '<div class="combo-header">' +
+        '<div style="font-size:13px;color:#9B85B8;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🧩 ANALYSE DE LA COMBINAISON</div>' +
+        '<span class="combo-tag">'+pE.icon+' '+pE.nom+'</span>' +
+        '<span class="combo-x"> × </span>' +
+        '<span class="combo-tag">'+pP.icon+' '+pP.nom+'</span>' +
+        '<h3>Catégories : '+ resE.catDom.charAt(0).toUpperCase()+resE.catDom.slice(1) + ' × ' + resP.catDom.charAt(0).toUpperCase()+resP.catDom.slice(1) +'</h3>' +
+      '</div>';
+
+      html += '<div class="combo-analyse harmonie"><h4>🟢 Points d\'harmonie possibles</h4><p>'+combo.harmonie+'</p></div>';
+      html += '<div class="combo-analyse friction"><h4>🟡 Frictions probables</h4><ul>'+combo.frictions.map(f=>'<li>'+f+'</li>').join('')+'</ul></div>';
+      html += '<div class="combo-analyse risque"><h4>🔴 Risques à long terme si pas ajusté</h4><ul>'+combo.risques.map(r=>'<li>'+r+'</li>').join('')+'</ul></div>';
+      html += '<div class="combo-reco"><h4>🛠️ Plan d\'ajustement (5 actions)</h4><ul>'+combo.reco.map(r=>'<li>'+r+'</li>').join('')+'</ul></div>';
+    }
+  }
+
+  area.innerHTML = html;
+}
+
+// ============================================================
+// CATALOGUE
+// ============================================================
+function renderCatalog(){
+  var cE = document.getElementById('catalogEnfants');
+  var cP = document.getElementById('catalogParents');
+  if(cE.innerHTML !== '') return;
+  // Enfants
+  var html = '';
+  ['sensible','dynamique','atypique'].forEach(function(cat){
+    var catLabel = {sensible:'🌸 Sensibles', dynamique:'⚡ Dynamiques', atypique:'🌟 Atypiques'}[cat];
+    html += '<h4 style="font-family:Georgia,serif;font-size:14px;color:#D98C8C;margin:14px 0 8px;text-transform:uppercase;letter-spacing:0.6px">'+catLabel+'</h4>';
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">';
+    Object.keys(PROFILS_ENFANTS).forEach(function(k){
+      var p = PROFILS_ENFANTS[k];
+      if(p.cat === cat){
+        html += '<div style="background:#FBF8F4;border-radius:10px;padding:10px 14px;border-left:3px solid #D98C8C;font-size:13.5px"><span style="font-size:18px">'+p.icon+'</span> <strong>'+p.nom+'</strong></div>';
+      }
+    });
+    html += '</div>';
+  });
+  cE.innerHTML = html;
+
+  // Parents
+  html = '';
+  ['controlant','educateur','fragilise'].forEach(function(cat){
+    var catLabel = {controlant:'⚔️ Contrôlants', educateur:'🧭 Éducateurs', fragilise:'🌧️ Fragilisés'}[cat];
+    html += '<h4 style="font-family:Georgia,serif;font-size:14px;color:#9B85B8;margin:14px 0 8px;text-transform:uppercase;letter-spacing:0.6px">'+catLabel+'</h4>';
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">';
+    Object.keys(PROFILS_PARENTS).forEach(function(k){
+      var p = PROFILS_PARENTS[k];
+      if(p.cat === cat){
+        html += '<div style="background:#FBF8F4;border-radius:10px;padding:10px 14px;border-left:3px solid #9B85B8;font-size:13.5px"><span style="font-size:18px">'+p.icon+'</span> <strong>'+p.nom+'</strong></div>';
+      }
+    });
+    html += '</div>';
+  });
+  cP.innerHTML = html;
+}
+
+// ============================================================
+// SAVE/RESTORE
+// ============================================================
+function saveAll(){
+  var d = loadDossier();
+  d.quizState = quizState;
+  d.notes = document.getElementById('notes-combo').value;
+  saveDossier(d);
+}
+function restoreAll(){
+  var d = loadDossier();
+  quizState = d.quizState || { enfant:{}, parent:{} };
+  document.getElementById('notes-combo').value = d.notes || '';
+  // restore selection
+  Object.keys(quizState.enfant).forEach(function(qi){
+    var oi = quizState.enfant[qi];
+    var el = document.querySelector('#quizEnfantContainer .quiz-opt-q[data-q="'+qi+'"][data-o="'+oi+'"]');
+    if(el) el.classList.add('selected');
+  });
+  Object.keys(quizState.parent).forEach(function(qi){
+    var oi = quizState.parent[qi];
+    var el = document.querySelector('#quizParentContainer .quiz-opt-q[data-q="'+qi+'"][data-o="'+oi+'"]');
+    if(el) el.classList.add('selected');
+  });
+  var qsE = QUESTIONS_ENFANT.length;
+  var qsP = QUESTIONS_PARENT.length;
+  document.getElementById('barEnfant').style.width = Math.round(Object.keys(quizState.enfant).length/qsE*100)+'%';
+  document.getElementById('barParent').style.width = Math.round(Object.keys(quizState.parent).length/qsP*100)+'%';
+}
+document.getElementById('notes-combo').addEventListener('input', saveAll);
+
+// ============================================================
+// DOSSIERS
+// ============================================================
+function refreshDossierSelect(){
+  var s = loadStore();
+  var sel = document.getElementById('dossierSelect');
+  sel.innerHTML = '';
+  Object.keys(s.dossiers||{default:{}}).forEach(function(name){
+    var opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if(name === currentDossier) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+function changeDossier(){
+  currentDossier = document.getElementById('dossierSelect').value;
+  document.querySelectorAll('.quiz-opt-q').forEach(el=>el.classList.remove('selected'));
+  restoreAll();
+}
+function addDossier(){
+  var name = (document.getElementById('newDossier').value||'').trim();
+  if(!name) return;
+  var s = loadStore();
+  s.dossiers[name] = s.dossiers[name] || {};
+  saveStore(s);
+  currentDossier = name;
+  document.getElementById('newDossier').value='';
+  refreshDossierSelect();
+  document.querySelectorAll('.quiz-opt-q').forEach(el=>el.classList.remove('selected'));
+  quizState = { enfant:{}, parent:{} };
+  document.getElementById('notes-combo').value = '';
+  document.getElementById('barEnfant').style.width = '0%';
+  document.getElementById('barParent').style.width = '0%';
+  saveAll();
+}
+function deleteDossier(){
+  if(currentDossier==='default'){ alert('Le dossier « Mon dossier » ne peut pas être supprimé.'); return; }
+  if(!confirm('Supprimer le dossier « '+currentDossier+' » ?')) return;
+  var s = loadStore(); delete s.dossiers[currentDossier]; saveStore(s);
+  currentDossier='default'; refreshDossierSelect();
+  document.querySelectorAll('.quiz-opt-q').forEach(el=>el.classList.remove('selected'));
+  quizState = { enfant:{}, parent:{} };
+  restoreAll();
+}
+
+// ============================================================
+// EXPORT TXT
+// ============================================================
+function exportTXT(){
+  var d = loadDossier();
+  var dt = new Date();
+  var dateStr = dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();
+  var out = '';
+  out += '═══════════════════════════════════════════════════\n';
+  out += '  LE COUPLE ÉDUCATIF — 25 × 25 PROFILS\n';
+  out += '  Création originale : Nawel Haddouch · EducaTypique\n';
+  out += '  Dossier : '+currentDossier+'\n';
+  out += '  Exporté le : '+dateStr+'\n';
+  out += '═══════════════════════════════════════════════════\n\n';
+
+  var resE = Object.keys(quizState.enfant).length > 0 ? computeProfile('enfant') : null;
+  var resP = Object.keys(quizState.parent).length > 0 ? computeProfile('parent') : null;
+
+  out += '👶 PROFIL ENFANT\n';
+  out += '─────────────────────────────────────\n';
+  if(resE && resE.top.length){
+    var p = PROFILS_ENFANTS[resE.top[0]];
+    out += 'Catégorie : '+resE.catDom+'\n';
+    out += 'Profil dominant : '+p.icon+' '+p.nom+'\n';
+    out += 'Description : '+p.desc+'\n';
+    out += 'Forces : '+p.forces.join(' · ')+'\n';
+    out += 'Vigilances : '+p.vigilances.join(' · ')+'\n';
+    out += 'Besoins : '+p.besoins+'\n';
+    if(resE.top.length>1) out += 'Profils secondaires : '+resE.top.slice(1).map(k=>PROFILS_ENFANTS[k].nom).join(', ')+'\n';
+  } else out += '(quiz non rempli)\n';
+  out += '\n';
+
+  out += '🏡 PROFIL PARENT\n';
+  out += '─────────────────────────────────────\n';
+  if(resP && resP.top.length){
+    var p = PROFILS_PARENTS[resP.top[0]];
+    out += 'Catégorie : '+resP.catDom+'\n';
+    out += 'Profil dominant : '+p.icon+' '+p.nom+'\n';
+    out += 'Description : '+p.desc+'\n';
+    out += 'Forces : '+p.forces.join(' · ')+'\n';
+    out += 'Vigilances : '+p.vigilances.join(' · ')+'\n';
+    out += 'Pistes pour moi : '+p.besoins+'\n';
+    if(resP.top.length>1) out += 'Profils secondaires : '+resP.top.slice(1).map(k=>PROFILS_PARENTS[k].nom).join(', ')+'\n';
+  } else out += '(quiz non rempli)\n';
+  out += '\n';
+
+  if(resE && resP){
+    out += '🧩  COMBINAISON\n';
+    out += '─────────────────────────────────────\n';
+    var key = resE.catDom + '-' + resP.catDom;
+    var combo = COMBOS[key];
+    if(combo){
+      out += '🟢 Harmonie : '+combo.harmonie+'\n\n';
+      out += '🟡 Frictions :\n';
+      combo.frictions.forEach(function(f){ out += '  · '+f+'\n'; });
+      out += '\n🔴 Risques long terme :\n';
+      combo.risques.forEach(function(r){ out += '  · '+r+'\n'; });
+      out += '\n🛠️ Plan d\'ajustement :\n';
+      combo.reco.forEach(function(r){ out += '  ✓ '+r+'\n'; });
+    }
+    out += '\n';
+  }
+
+  out += '📝 NOTES PERSONNELLES\n';
+  out += '─────────────────────────────────────\n';
+  out += (d.notes || '(vide)') + '\n\n';
+
+  out += '═══════════════════════════════════════════════════\n';
+  out += '« Un même parent peut être idéal pour un enfant et inadapté pour un autre. »\n';
+  out += '« Connaître la combinaison, c\'est pouvoir l\'ajuster. »\n';
+  out += '\n— Création originale Nawel Haddouch · EducaTypique\n';
+  out += '═══════════════════════════════════════════════════\n';
+
+  var blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'CoupleEducatif_'+currentDossier+'_'+dt.getFullYear()+(dt.getMonth()+1)+dt.getDate()+'.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderQuiz('enfant');
+renderQuiz('parent');
+refreshDossierSelect();
+restoreAll();
+</script>
+</body>
+</html>

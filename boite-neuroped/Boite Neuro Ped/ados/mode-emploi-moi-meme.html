@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mode d'emploi de moi-même · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { margin: 1.5cm; size: A4; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    color: #2E2A5C;
+    line-height: 1.6;
+    background: #F7F2EC;
+    font-size: 11pt;
+  }
+  .topbar {
+    position: sticky; top:0; z-index: 100;
+    background: linear-gradient(135deg, #1a6a5a 0%, #2A8E7C 100%);
+    color: #fff; padding: .6rem 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; justify-content: center;
+  }
+  .topbar a, .topbar button {
+    color: #fff; background: rgba(255,255,255,.15); text-decoration: none;
+    border: none; padding: .4rem .9rem; border-radius: 999px;
+    font-family: 'Nunito', sans-serif; font-weight: 600; font-size: .85rem;
+    cursor: pointer;
+  }
+  .topbar a:hover, .topbar button:hover { background: rgba(255,255,255,.3); }
+  .topbar .home { background: rgba(255,255,255,.25); }
+  .topbar select {
+    background: #fff; color: #1a6a5a; border: none;
+    padding: .4rem .8rem; border-radius: 999px;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .85rem;
+  }
+
+  .container { padding: 1.5rem 1rem; max-width: 950px; margin: 0 auto; }
+
+  .header {
+    background: linear-gradient(135deg, #2A8E7C 0%, #4DB3A1 100%);
+    color: #fff;
+    padding: 2rem 2.2rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .header h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24pt; font-weight: 700; margin-bottom: .3rem;
+  }
+  .header .tagline { font-size: 10pt; opacity: .9; font-style: italic; }
+  .brand-tag {
+    background: rgba(255,255,255,.2);
+    display: inline-block; padding: .25rem .9rem;
+    border-radius: 999px; font-size: 8.5pt; font-weight: 700;
+    letter-spacing: 1px; margin-bottom: .8rem;
+  }
+
+  .tabs {
+    display: flex; gap: .5rem; margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .tab {
+    flex: 1; min-width: 200px;
+    background: #fff; border: 2px solid #ccc;
+    padding: .9rem 1rem; border-radius: 12px;
+    cursor: pointer; text-align: center;
+    font-family: 'Poppins', sans-serif; font-weight: 600;
+    color: #6b6680; transition: all .15s;
+    font-size: 10pt;
+  }
+  .tab:hover { background: #f5f0fa; }
+  .tab.active {
+    background: linear-gradient(135deg, #2A8E7C, #4DB3A1);
+    color: #fff; border-color: transparent;
+    box-shadow: 0 4px 12px rgba(42,142,124,.25);
+  }
+  .tab .emoji { font-size: 1.4rem; display: block; margin-bottom: .25rem; }
+
+  .panel {
+    background: #fff;
+    padding: 2rem 2.2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.06);
+  }
+  .panel.hidden { display: none; }
+
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16pt;
+    color: #1a6a5a;
+    font-weight: 700;
+    margin-bottom: .3rem;
+  }
+  h2 .num {
+    background: #1a6a5a; color: #fff;
+    padding: .15rem .6rem;
+    border-radius: 999px;
+    font-size: 11pt;
+    margin-right: .5rem;
+  }
+  .section-meta {
+    color: #6b6680; font-style: italic;
+    font-size: 10pt; margin-bottom: 1rem;
+  }
+  h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12pt;
+    color: #2a8e7c;
+    font-weight: 600;
+    margin: 1.4rem 0 .5rem;
+    padding-left: .7rem;
+    border-left: 4px solid #4DB3A1;
+  }
+
+  .block {
+    background: #f5f0fa;
+    padding: 1.1rem 1.3rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    border-left: 4px solid #CBB6F6;
+  }
+  .block.green { background: #E4F4F2; border-left-color: #4DB3A1; }
+  .block.yellow { background: #FFF7E0; border-left-color: #E9C46A; }
+  .block.orange { background: #FFE8D6; border-left-color: #F4A261; }
+  .block.red { background: #FFE0E0; border-left-color: #E76F51; }
+  .block.peach { background: #FFF1EA; border-left-color: #FFD6C2; }
+
+  .check-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .4rem .8rem;
+    margin: .6rem 0;
+  }
+  .check-grid label {
+    display: flex; align-items: flex-start; gap: .5rem;
+    padding: .5rem .7rem;
+    background: rgba(255,255,255,.7);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 10.5pt;
+  }
+  .check-grid label:hover { background: #fff; }
+  .check-grid input[type="checkbox"] { margin-top: .2rem; flex-shrink: 0; }
+
+  input[type="text"], textarea {
+    width: 100%; padding: .7rem .9rem;
+    border: 1.5px solid #d0d0d0;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 10.5pt;
+    color: #2E2A5C;
+    background: #fff;
+    margin-top: .4rem;
+  }
+  input[type="text"]:focus, textarea:focus {
+    outline: none; border-color: #2A8E7C;
+  }
+  textarea { min-height: 70px; resize: vertical; }
+
+  .three-words {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: .5rem; margin: .5rem 0;
+  }
+
+  /* Thermomètre */
+  .thermo {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .5rem; margin: 1rem 0 1.4rem;
+  }
+  .thermo > div {
+    padding: 1rem .8rem; border-radius: 10px;
+    text-align: center; color: #fff;
+    font-weight: 600;
+  }
+  .thermo .v { background: #4DB3A1; }
+  .thermo .j { background: #E9C46A; color: #5a4a00; }
+  .thermo .o { background: #F4A261; }
+  .thermo .r { background: #E76F51; }
+  .thermo .lbl { font-size: 9pt; opacity: .9; text-transform: uppercase; letter-spacing: 1px; margin-bottom: .3rem; }
+  .thermo .num { font-size: 14pt; font-weight: 700; margin-bottom: .2rem; }
+  .thermo .desc { font-size: 9.5pt; line-height: 1.3; }
+
+  /* Tableau traduction */
+  .trad {
+    background: #f5f0fa; border-radius: 10px;
+    padding: 1.1rem 1.3rem; margin-bottom: 1rem;
+  }
+  .trad-row {
+    display: grid; grid-template-columns: 1fr 30px 1.3fr;
+    gap: .7rem; align-items: center;
+    padding: .5rem 0;
+    border-bottom: 1px dashed #d0c8e5;
+  }
+  .trad-row:last-child { border-bottom: none; }
+  .trad-row .src { font-weight: 600; color: #6b4daa; }
+  .trad-row .arr { text-align: center; color: #CBB6F6; font-size: 1.2rem; }
+  .trad-row .dst { color: #2A8E7C; font-style: italic; }
+
+  /* Phrases de remplacement */
+  .swap {
+    background: #FFF7E0;
+    padding: 1rem 1.2rem;
+    border-radius: 10px; margin-bottom: .6rem;
+    display: grid;
+    grid-template-columns: 1fr 30px 1fr;
+    gap: .6rem; align-items: center;
+    border-left: 4px solid #E9C46A;
+  }
+  .swap .bad { color: #b13c20; font-weight: 600; font-style: italic; }
+  .swap .arr { text-align: center; color: #E9C46A; font-size: 1.3rem; font-weight: 700; }
+  .swap .good { color: #1a6a5a; font-weight: 600; }
+
+  /* Roue émotions */
+  .roue-emo {
+    display: grid; gap: .6rem;
+  }
+  .roue-emo > div {
+    padding: .9rem 1.1rem; border-radius: 8px;
+    display: grid; grid-template-columns: 130px 1fr;
+    gap: .8rem; align-items: center;
+  }
+  .roue-emo > div strong { font-size: 11pt; }
+  .roue-emo .colere { background: #FFE0E0; border-left: 4px solid #E76F51; }
+  .roue-emo .tristesse { background: #E0EAF7; border-left: 4px solid #608CB4; }
+  .roue-emo .peur { background: #EAF5F2; border-left: 4px solid #4DB3A1; }
+  .roue-emo .honte { background: #F2EAFC; border-left: 4px solid #CBB6F6; }
+  .roue-emo .joie { background: #FFF7E0; border-left: 4px solid #E9C46A; }
+
+  /* Stepper */
+  .stepper {
+    display: flex; align-items: center; gap: .5rem;
+    background: #f5f0fa; padding: 1rem; border-radius: 10px;
+    margin: 1rem 0; flex-wrap: wrap;
+  }
+  .stepper .step {
+    background: #fff; padding: .5rem 1rem;
+    border-radius: 999px; font-weight: 600;
+    font-size: 10pt; color: #6b4daa;
+  }
+  .stepper .arr { color: #CBB6F6; font-size: 1.3rem; }
+
+  /* Actions */
+  .actions {
+    display: flex; gap: .5rem; flex-wrap: wrap;
+    margin-top: 1.5rem; padding-top: 1.2rem;
+    border-top: 1px dashed #d0d0d0;
+  }
+  .actions button {
+    background: #2A8E7C; color: #fff;
+    border: none; padding: .65rem 1.3rem;
+    border-radius: 999px; font-weight: 700;
+    cursor: pointer; font-family: 'Nunito', sans-serif;
+    font-size: 10pt;
+  }
+  .actions button:hover { background: #1a6a5a; }
+  .actions button.secondary { background: #fff; color: #2A8E7C; border: 1.5px solid #2A8E7C; }
+  .actions button.secondary:hover { background: #f5f0fa; }
+  .actions button.danger { background: #fff; color: #b13c20; border: 1.5px solid #b13c20; }
+  .actions button.danger:hover { background: #FFE0E0; }
+
+  .opening {
+    background: linear-gradient(135deg, #E4F4F2 0%, #f5f0fa 100%);
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    margin: 1rem 0 1.4rem;
+    text-align: center;
+    font-style: italic;
+    font-size: 11pt;
+    color: #1a6a5a;
+    border-left: 4px solid #2A8E7C;
+  }
+  .opening strong { color: #1a6a5a; font-style: normal; }
+
+  .signature {
+    text-align: center;
+    margin-top: 2rem; padding-top: 1rem;
+    border-top: 1px dashed #d0d0d0;
+    font-size: 9pt; color: #7A6E94; font-style: italic;
+  }
+  .signature strong { color: #1a6a5a; font-style: normal; font-family: 'Poppins', sans-serif; }
+
+  .mini-version {
+    background: #E4F4F2; padding: 1rem 1.2rem;
+    border-radius: 10px; margin-top: 1rem;
+    border-left: 4px solid #4DB3A1;
+    font-size: 10pt;
+  }
+  .mini-version strong { color: #1a6a5a; }
+
+  @media print {
+    body { background: #fff; }
+    .topbar, .tabs, .actions { display: none !important; }
+    .panel.hidden { display: block !important; page-break-before: always; }
+    .panel { box-shadow: none; padding: 1rem; }
+    .header { box-shadow: none; }
+  }
+
+  @media (max-width: 700px) {
+    .check-grid { grid-template-columns: 1fr; }
+    .three-words { grid-template-columns: 1fr; }
+    .thermo { grid-template-columns: 1fr 1fr; }
+    .trad-row, .swap { grid-template-columns: 1fr; gap: .3rem; }
+    .trad-row .arr, .swap .arr { display: none; }
+    .roue-emo > div { grid-template-columns: 1fr; }
+    .panel { padding: 1.2rem; }
+    .header { padding: 1.5rem 1.2rem; }
+    .header h1 { font-size: 18pt; }
+    .tab { min-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="../../ados.html" class="home">🌱 Ados</a>
+  <select id="fiche-select" onchange="loadFiche()">
+    <option value="">— Choisir une fiche —</option>
+  </select>
+  <button onclick="nouvelleFiche()">+ Nouvelle fiche</button>
+  <button onclick="sauverFiche()">💾 Sauver</button>
+  <button onclick="exporterTxt()">📄 Export TXT</button>
+  <button onclick="window.print()">🖨 Imprimer</button>
+  <button onclick="supprimerFiche()" style="background:rgba(255,200,200,.2)">🗑 Supprimer</button>
+</nav>
+
+<div class="container">
+
+<div class="header">
+  <div class="brand-tag">EDUCA TYPIQUE · CRÉATION ORIGINALE NAWEL</div>
+  <h1>🪞 Mode d'emploi de moi-même</h1>
+  <div class="tagline">Comprendre ce qui se passe quand tout va bien, quand ça monte, et ce qui aide vraiment</div>
+</div>
+
+<input type="text" id="meta-prenom" placeholder="Mon prénom (optionnel)" style="background:#fff; max-width:300px; margin-bottom:1rem;">
+
+<div class="tabs">
+  <div class="tab active" data-tab="moi" onclick="showTab('moi')">
+    <span class="emoji">🪞</span>Mon mode d'emploi
+  </div>
+  <div class="tab" data-tab="thermo" onclick="showTab('thermo')">
+    <span class="emoji">🌡</span>Thermomètre & vocabulaire
+  </div>
+  <div class="tab" data-tab="radar" onclick="showTab('radar')">
+    <span class="emoji">🚨</span>Mon radar de crise
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 1 — MOI ═══════════════ -->
+<div class="panel" id="tab-moi">
+
+  <div class="opening">
+    Un support pour <strong>mieux comprendre ce qui se passe</strong> quand tout va bien, quand ça monte, et ce qui aide vraiment.
+  </div>
+
+  <h2><span class="num">1</span>Moi en version normale</h2>
+  <div class="section-meta">Avant que ça monte, c'est qui moi ?</div>
+
+  <div class="block green">
+    <strong>Trois mots qui me décrivent :</strong>
+    <div class="three-words">
+      <input type="text" id="m1-mot1" placeholder="1.">
+      <input type="text" id="m1-mot2" placeholder="2.">
+      <input type="text" id="m1-mot3" placeholder="3.">
+    </div>
+  </div>
+
+  <div class="block">
+    <strong>Ce que les adultes ne comprennent pas toujours chez moi :</strong>
+    <textarea id="m1-incompris"></textarea>
+  </div>
+
+  <div class="block">
+    <strong>Ce que je réussis bien, même si on ne le remarque pas assez :</strong>
+    <textarea id="m1-reussis"></textarea>
+  </div>
+
+  <div class="block green">
+    <strong>Les moments où je me sens tranquille :</strong>
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="m1-tr-seul"> Quand je suis seul·e</label>
+      <label><input type="checkbox" data-id="m1-tr-jeu"> Quand je joue</label>
+      <label><input type="checkbox" data-id="m1-tr-sport"> Quand je fais du sport</label>
+      <label><input type="checkbox" data-id="m1-tr-dessin"> Quand je dessine / crée</label>
+      <label><input type="checkbox" data-id="m1-tr-confiance"> Avec quelqu'un de confiance</label>
+      <label><input type="checkbox" data-id="m1-tr-libre"> Quand personne ne me demande rien</label>
+    </div>
+    <input type="text" id="m1-tr-autre" placeholder="Autre :">
+  </div>
+
+  <div class="block">
+    <strong>Une matière / activité où je me sens capable :</strong>
+    <input type="text" id="m1-capable">
+  </div>
+
+  <h2><span class="num">2</span>Moi quand ça commence à monter</h2>
+
+  <div class="block yellow">
+    <strong>Mon corps me prévient comment ?</strong>
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="m2-c-dents"> Je serre les dents</label>
+      <label><input type="checkbox" data-id="m2-c-chaud"> J'ai chaud</label>
+      <label><input type="checkbox" data-id="m2-c-fort"> Je parle plus fort</label>
+      <label><input type="checkbox" data-id="m2-c-souffle"> Je souffle / je râle</label>
+      <label><input type="checkbox" data-id="m2-c-bouge"> Je bouge beaucoup</label>
+      <label><input type="checkbox" data-id="m2-c-partir"> J'ai envie de partir</label>
+      <label><input type="checkbox" data-id="m2-c-insulte"> J'ai envie d'insulter</label>
+      <label><input type="checkbox" data-id="m2-c-coupe"> Je coupe la parole</label>
+      <label><input type="checkbox" data-id="m2-c-silence"> Je ne veux plus répondre</label>
+    </div>
+    <input type="text" id="m2-c-autre" placeholder="Autre :">
+  </div>
+
+  <div class="block">
+    <strong>Dans ces moments-là, dans ma tête je me dis souvent :</strong>
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="m2-t-injuste"> C'est injuste</label>
+      <label><input type="checkbox" data-id="m2-t-accuse"> On m'accuse encore</label>
+      <label><input type="checkbox" data-id="m2-t-comp"> Ils ne comprennent rien</label>
+      <label><input type="checkbox" data-id="m2-t-laisse"> Laisse-moi tranquille</label>
+      <label><input type="checkbox" data-id="m2-t-explose"> Je vais exploser</label>
+      <label><input type="checkbox" data-id="m2-t-fiche"> Je m'en fiche</label>
+      <label><input type="checkbox" data-id="m2-t-montre"> Je vais leur montrer</label>
+    </div>
+    <input type="text" id="m2-t-autre" placeholder="Autre pensée :">
+  </div>
+
+  <h2><span class="num">3</span>Ce qui appuie sur mes boutons</h2>
+  <div class="section-meta">Ce qui me fait monter vite</div>
+
+  <div class="block orange">
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="m3-b-remarque"> Les remarques devant les autres</label>
+      <label><input type="checkbox" data-id="m3-b-injustice"> Les injustices</label>
+      <label><input type="checkbox" data-id="m3-b-consignes"> Les consignes longues</label>
+      <label><input type="checkbox" data-id="m3-b-bruit"> Le bruit</label>
+      <label><input type="checkbox" data-id="m3-b-ecriture"> L'écriture</label>
+      <label><input type="checkbox" data-id="m3-b-changement"> Les changements de programme</label>
+      <label><input type="checkbox" data-id="m3-b-fratrie"> Mon frère / ma sœur</label>
+      <label><input type="checkbox" data-id="m3-b-insistent"> Les adultes qui insistent</label>
+      <label><input type="checkbox" data-id="m3-b-provoque"> Les gens qui me provoquent</label>
+      <label><input type="checkbox" data-id="m3-b-punitions"> Les punitions injustes</label>
+      <label><input type="checkbox" data-id="m3-b-fatigue"> Quand je suis fatigué·e</label>
+      <label><input type="checkbox" data-id="m3-b-coupe"> Quand on me coupe</label>
+    </div>
+    <input type="text" id="m3-b-autre" placeholder="Autre :">
+  </div>
+
+  <div class="block">
+    <strong>Le déclencheur numéro 1 chez moi, c'est :</strong>
+    <textarea id="m3-decl1"></textarea>
+  </div>
+
+  <h2><span class="num">4</span>Mes réactions automatiques</h2>
+  <div class="section-meta">Quand je suis à bout, je fais plutôt :</div>
+
+  <div class="block red">
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="m4-r-malparle"> Je réponds mal</label>
+      <label><input type="checkbox" data-id="m4-r-insulte"> J'insulte</label>
+      <label><input type="checkbox" data-id="m4-r-refuse"> Je refuse</label>
+      <label><input type="checkbox" data-id="m4-r-pars"> Je pars</label>
+      <label><input type="checkbox" data-id="m4-r-provoque"> Je provoque</label>
+      <label><input type="checkbox" data-id="m4-r-ferme"> Je me ferme</label>
+      <label><input type="checkbox" data-id="m4-r-rigole"> Je rigole pour cacher</label>
+      <label><input type="checkbox" data-id="m4-r-dernier"> Je cherche à avoir le dernier mot</label>
+      <label><input type="checkbox" data-id="m4-r-tape"> Je tape / pousse</label>
+      <label><input type="checkbox" data-id="m4-r-menace"> Je menace</label>
+      <label><input type="checkbox" data-id="m4-r-pleure"> Je pleure mais je ne le montre pas</label>
+    </div>
+    <input type="text" id="m4-r-autre" placeholder="Autre :">
+  </div>
+
+  <div class="block">
+    <strong>Après coup, je ressens souvent :</strong>
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="m4-a-veux"> Je m'en veux</label>
+      <label><input type="checkbox" data-id="m4-a-enerve"> Je suis encore plus énervé·e</label>
+      <label><input type="checkbox" data-id="m4-a-raison"> Je trouve que j'avais raison</label>
+      <label><input type="checkbox" data-id="m4-a-fatigue"> Je suis fatigué·e</label>
+      <label><input type="checkbox" data-id="m4-a-fiche"> Je fais comme si je m'en fichais</label>
+      <label><input type="checkbox" data-id="m4-a-triste"> Je suis triste</label>
+      <label><input type="checkbox" data-id="m4-a-honte"> J'ai honte</label>
+      <label><input type="checkbox" data-id="m4-a-sais"> Je ne sais pas</label>
+    </div>
+  </div>
+
+  <h2><span class="num">5</span>Ce qui peut m'aider pour de vrai</h2>
+
+  <div class="block green">
+    <strong>Quand je monte, ce qui peut m'aider :</strong>
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="m5-a-10min"> Qu'on me laisse 10 minutes</label>
+      <label><input type="checkbox" data-id="m5-a-doux"> Qu'on me parle doucement</label>
+      <label><input type="checkbox" data-id="m5-a-stop"> Qu'on arrête de répéter</label>
+      <label><input type="checkbox" data-id="m5-a-choix"> Qu'on me donne un choix simple</label>
+      <label><input type="checkbox" data-id="m5-a-expl"> Qu'on m'explique pourquoi</label>
+      <label><input type="checkbox" data-id="m5-a-public"> Qu'on ne me parle pas devant tout le monde</label>
+      <label><input type="checkbox" data-id="m5-a-ecrit"> Qu'on me laisse écrire moins / autrement</label>
+      <label><input type="checkbox" data-id="m5-a-bouger"> Qu'on me propose de bouger</label>
+      <label><input type="checkbox" data-id="m5-a-injustice"> Qu'on reconnaisse quand c'est injuste</label>
+    </div>
+    <input type="text" id="m5-a-autre" placeholder="Autre :">
+  </div>
+
+  <div class="block green">
+    <strong>La phrase qu'un adulte pourrait me dire pour éviter que ça parte trop loin :</strong>
+    <textarea id="m5-phrase-ok"></textarea>
+  </div>
+
+  <div class="block red">
+    <strong>La phrase qu'il ne faut surtout pas me dire quand je suis énervé·e :</strong>
+    <textarea id="m5-phrase-no"></textarea>
+  </div>
+
+  <h2><span class="num">6</span>Mini-contrat</h2>
+  <div class="section-meta">Sur les prochains rendez-vous, je veux travailler surtout :</div>
+
+  <div class="block peach">
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="m6-c-insulter"> Moins insulter</label>
+      <label><input type="checkbox" data-id="m6-c-exploser"> Moins exploser</label>
+      <label><input type="checkbox" data-id="m6-c-fratrie"> Mieux gérer mon frère / ma sœur</label>
+      <label><input type="checkbox" data-id="m6-c-remarques"> Mieux gérer les remarques</label>
+      <label><input type="checkbox" data-id="m6-c-dire"> Mieux dire ce que je ressens</label>
+      <label><input type="checkbox" data-id="m6-c-punir"> Moins me faire punir</label>
+      <label><input type="checkbox" data-id="m6-c-refuser"> Moins refuser</label>
+      <label><input type="checkbox" data-id="m6-c-dormir"> Mieux dormir</label>
+      <label><input type="checkbox" data-id="m6-c-comprendre"> Mieux comprendre ce qui se passe dans ma tête</label>
+    </div>
+    <input type="text" id="m6-c-autre" placeholder="Autre :">
+  </div>
+
+  <div class="block peach">
+    <strong>Mon objectif numéro 1 :</strong>
+    <textarea id="m6-obj1"></textarea>
+  </div>
+
+  <div class="signature"><strong>Educa Typique</strong> · Création originale Nawel · Support psychoéducatif ado</div>
+</div>
+
+<!-- ═══════════════ TAB 2 — THERMO ═══════════════ -->
+<div class="panel hidden" id="tab-thermo">
+
+  <h2>🌡 Le cerveau quand ça déborde</h2>
+
+  <div class="opening">
+    <strong>Phrase clé :</strong> Quand je suis trop haut, je ne règle pas le problème.<br>
+    Je <strong>baisse d'abord l'intensité</strong>.
+  </div>
+
+  <h3>3 cerveaux qui se parlent</h3>
+  <div class="block green">
+    <strong>🧠 Le cerveau qui réfléchit</strong> — Écouter, attendre, écrire, choisir ses mots, se contrôler.
+  </div>
+  <div class="block orange">
+    <strong>🚨 Le cerveau alarme</strong> — Détecte l'injustice, la honte, la provocation, le rejet ou la frustration.
+  </div>
+  <div class="block red">
+    <strong>💥 Le corps en réaction</strong> — Attaque, fuite, blocage ou contrôle quand l'alarme est trop forte.
+  </div>
+
+  <h3>Le thermomètre émotionnel</h3>
+  <div class="thermo">
+    <div class="v">
+      <div class="lbl">0-3</div>
+      <div class="num">Zone verte</div>
+      <div class="desc">Je suis disponible</div>
+    </div>
+    <div class="j">
+      <div class="lbl">4-5</div>
+      <div class="num">Zone jaune</div>
+      <div class="desc">Je commence à monter</div>
+    </div>
+    <div class="o">
+      <div class="lbl">6-7</div>
+      <div class="num">Zone orange</div>
+      <div class="desc">Je dois faire une pause</div>
+    </div>
+    <div class="r">
+      <div class="lbl">8-10</div>
+      <div class="num">Zone rouge</div>
+      <div class="desc">Je ne discute plus</div>
+    </div>
+  </div>
+
+  <h2>Derrière « je suis énervé », il peut y avoir…</h2>
+
+  <div class="trad">
+    <div class="trad-row">
+      <div class="src">Je dis : « Je suis énervé »</div>
+      <div class="arr">→</div>
+      <div class="dst">Je me sens injustement traité·e</div>
+    </div>
+    <div class="trad-row">
+      <div class="src">« Je m'en fiche »</div>
+      <div class="arr">→</div>
+      <div class="dst">Je suis blessé·e mais je ne veux pas le montrer</div>
+    </div>
+    <div class="trad-row">
+      <div class="src">« Laisse-moi »</div>
+      <div class="arr">→</div>
+      <div class="dst">Je suis saturé·e</div>
+    </div>
+    <div class="trad-row">
+      <div class="src">« Tu me saoules »</div>
+      <div class="arr">→</div>
+      <div class="dst">Je ne sais plus comment répondre</div>
+    </div>
+    <div class="trad-row">
+      <div class="src">« C'est bon ! »</div>
+      <div class="arr">→</div>
+      <div class="dst">Je veux que la pression s'arrête</div>
+    </div>
+    <div class="trad-row">
+      <div class="src">« Vous êtes tous contre moi »</div>
+      <div class="arr">→</div>
+      <div class="dst">Je me sens seul·e ou accusé·e</div>
+    </div>
+  </div>
+
+  <h2>🎡 Ma roue simplifiée des émotions</h2>
+
+  <div class="roue-emo">
+    <div class="colere">
+      <strong>😠 Colère</strong>
+      <span>agacé · contrarié · frustré · furieux · vexé · humilié · révolté · tendu · impatient · explosif</span>
+    </div>
+    <div class="tristesse">
+      <strong>😢 Tristesse</strong>
+      <span>déçu · seul · blessé · rejeté · découragé · vidé · incompris</span>
+    </div>
+    <div class="peur">
+      <strong>😨 Peur / Anxiété</strong>
+      <span>inquiet · stressé · paniqué · bloqué · méfiant · sous pression · pas en sécurité</span>
+    </div>
+    <div class="honte">
+      <strong>😳 Honte</strong>
+      <span>gêné · nul · exposé · rabaissé · humilié · ridicule · jugé</span>
+    </div>
+    <div class="joie">
+      <strong>😊 Joie / Apaisement</strong>
+      <span>fier · calme · motivé · libre · compris · respecté · capable</span>
+    </div>
+  </div>
+
+  <h2>🔄 Je traduis ma colère</h2>
+
+  <div class="block">
+    Quand je dis : <strong>« Vous me saoulez. »</strong>, je peux traduire par :
+    <div class="check-grid" style="margin-top:.7rem;">
+      <label><input type="checkbox" data-id="t-tr-sature"> Je suis saturé·e</label>
+      <label><input type="checkbox" data-id="t-tr-accuse"> Je me sens accusé·e</label>
+      <label><input type="checkbox" data-id="t-tr-arret"> J'ai besoin qu'on arrête de parler</label>
+      <label><input type="checkbox" data-id="t-tr-comp"> Je ne comprends pas ce qu'on attend de moi</label>
+      <label><input type="checkbox" data-id="t-tr-pause"> J'ai besoin d'une pause</label>
+      <label><input type="checkbox" data-id="t-tr-blesse"> Je suis blessé·e mais je ne veux pas le dire</label>
+    </div>
+  </div>
+
+  <div class="block">
+    <strong>Ma traduction personnelle :</strong>
+    <textarea id="t-tr-perso"></textarea>
+  </div>
+
+  <h2>💬 Phrases de remplacement</h2>
+
+  <div class="swap">
+    <span class="bad">« Ferme-la. »</span>
+    <span class="arr">→</span>
+    <span class="good">« Stop. Je monte. Je fais une pause. »</span>
+  </div>
+  <div class="swap">
+    <span class="bad">« Je m'en fiche. »</span>
+    <span class="arr">→</span>
+    <span class="good">« Là, je suis trop énervé·e pour répondre correctement. »</span>
+  </div>
+  <div class="swap">
+    <span class="bad">« Vous êtes relous. »</span>
+    <span class="arr">→</span>
+    <span class="good">« J'ai besoin qu'on me laisse deux minutes. »</span>
+  </div>
+  <div class="swap">
+    <span class="bad">« C'est bon, lâche-moi ! »</span>
+    <span class="arr">→</span>
+    <span class="good">« Je t'ai entendu, mais là je ne peux pas continuer. »</span>
+  </div>
+
+  <div class="block green">
+    <strong>Mes propres phrases de remplacement (perso) :</strong>
+    <textarea id="t-swap-perso" placeholder="Au lieu de… → je peux dire…"></textarea>
+  </div>
+
+  <div class="signature"><strong>Educa Typique</strong> · Création originale Nawel · Outil émotions, fonctionnement et vocabulaire</div>
+</div>
+
+<!-- ═══════════════ TAB 3 — RADAR ═══════════════ -->
+<div class="panel hidden" id="tab-radar">
+
+  <h2>🚨 Mon radar de crise</h2>
+
+  <div class="opening">
+    À remplir <strong>après une situation compliquée</strong>. Pas pendant : pendant, le cerveau est déjà en mode alarme.
+  </div>
+
+  <div class="block">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:.7rem;">
+      <div>
+        <strong>📅 Date :</strong>
+        <input type="text" id="r-date" placeholder="JJ/MM/AAAA">
+      </div>
+      <div>
+        <strong>🕐 Moment :</strong>
+        <div class="check-grid" style="grid-template-columns:1fr 1fr;">
+          <label><input type="checkbox" data-id="r-m-matin"> Matin</label>
+          <label><input type="checkbox" data-id="r-m-midi"> Midi</label>
+          <label><input type="checkbox" data-id="r-m-aprem"> Après-midi</label>
+          <label><input type="checkbox" data-id="r-m-soir"> Soir</label>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:.7rem;">
+      <strong>📍 Lieu :</strong>
+      <div class="check-grid" style="grid-template-columns:repeat(3,1fr);">
+        <label><input type="checkbox" data-id="r-l-maison"> Maison</label>
+        <label><input type="checkbox" data-id="r-l-ecole"> École / lycée</label>
+        <label><input type="checkbox" data-id="r-l-trajet"> Trajet</label>
+        <label><input type="checkbox" data-id="r-l-activ"> Activité</label>
+      </div>
+      <input type="text" id="r-l-autre" placeholder="Autre lieu :" style="margin-top:.4rem;">
+    </div>
+  </div>
+
+  <h3>1. Ce qui s'est passé</h3>
+  <div class="block"><textarea id="r-1" rows="3"></textarea></div>
+
+  <h3>2. Juste avant, il y avait quoi ?</h3>
+  <div class="block">
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="r-2-injustice"> Une injustice</label>
+      <label><input type="checkbox" data-id="r-2-demande"> Une demande</label>
+      <label><input type="checkbox" data-id="r-2-remarque"> Une remarque</label>
+      <label><input type="checkbox" data-id="r-2-bruit"> Du bruit</label>
+      <label><input type="checkbox" data-id="r-2-provoc"> Une provocation</label>
+      <label><input type="checkbox" data-id="r-2-frustr"> Une frustration</label>
+      <label><input type="checkbox" data-id="r-2-refus"> Un refus</label>
+      <label><input type="checkbox" data-id="r-2-consigne"> Une consigne d'adulte</label>
+      <label><input type="checkbox" data-id="r-2-fatigue"> De la fatigue</label>
+      <label><input type="checkbox" data-id="r-2-fratrie"> Une dispute avec frère / sœur</label>
+    </div>
+    <input type="text" id="r-2-autre" placeholder="Autre :">
+    <div style="margin-top:.7rem;">
+      <strong>Le vrai déclencheur, c'était :</strong>
+      <textarea id="r-2-decl"></textarea>
+    </div>
+  </div>
+
+  <h3>3. Mon émotion principale</h3>
+  <div class="block">
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="r-3-colere"> En colère</label>
+      <label><input type="checkbox" data-id="r-3-vexe"> Vexé·e</label>
+      <label><input type="checkbox" data-id="r-3-humilie"> Humilié·e</label>
+      <label><input type="checkbox" data-id="r-3-triste"> Triste</label>
+      <label><input type="checkbox" data-id="r-3-stresse"> Stressé·e</label>
+      <label><input type="checkbox" data-id="r-3-decu"> Déçu·e</label>
+      <label><input type="checkbox" data-id="r-3-jaloux"> Jaloux·se</label>
+      <label><input type="checkbox" data-id="r-3-sature"> Saturé·e</label>
+      <label><input type="checkbox" data-id="r-3-inquiet"> Inquiet·ète</label>
+      <label><input type="checkbox" data-id="r-3-incompris"> Incompris·e</label>
+      <label><input type="checkbox" data-id="r-3-fatigue"> Fatigué·e</label>
+    </div>
+    <input type="text" id="r-3-autre" placeholder="Autre :">
+    <div style="margin-top:.7rem;">
+      <strong>Intensité de 0 à 10 :</strong>
+      <input type="text" id="r-3-intensite" placeholder="__ / 10" style="max-width:120px;">
+    </div>
+  </div>
+
+  <h3>4. Ce que mon corps disait</h3>
+  <div class="block yellow">
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="r-4-dents"> Je serrais les dents</label>
+      <label><input type="checkbox" data-id="r-4-fort"> Je parlais fort</label>
+      <label><input type="checkbox" data-id="r-4-tremble"> Je tremblais</label>
+      <label><input type="checkbox" data-id="r-4-ventre"> Mal au ventre</label>
+      <label><input type="checkbox" data-id="r-4-chaud"> J'avais chaud</label>
+      <label><input type="checkbox" data-id="r-4-bouger"> J'avais envie de bouger</label>
+      <label><input type="checkbox" data-id="r-4-respire"> Je respirais vite</label>
+      <label><input type="checkbox" data-id="r-4-pression"> Pression dans la poitrine</label>
+      <label><input type="checkbox" data-id="r-4-partir"> Envie de partir</label>
+    </div>
+    <input type="text" id="r-4-autre" placeholder="Autre :">
+  </div>
+
+  <h3>5. Ce que j'ai pensé</h3>
+  <div class="block">
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="r-5-injuste"> C'est injuste</label>
+      <label><input type="checkbox" data-id="r-5-cherche"> Il / elle me cherche</label>
+      <label><input type="checkbox" data-id="r-5-accuse"> On m'accuse encore</label>
+      <label><input type="checkbox" data-id="r-5-comprend"> Ils ne comprennent rien</label>
+      <label><input type="checkbox" data-id="r-5-explose"> Je vais exploser</label>
+      <label><input type="checkbox" data-id="r-5-defendre"> Je dois me défendre</label>
+      <label><input type="checkbox" data-id="r-5-fiche"> Je m'en fiche</label>
+    </div>
+    <input type="text" id="r-5-autre" placeholder="Autre pensée :">
+    <div style="margin-top:.7rem;">
+      <strong>Ma pensée exacte :</strong>
+      <textarea id="r-5-perso"></textarea>
+    </div>
+  </div>
+
+  <h3>6. Ce que j'ai fait</h3>
+  <div class="block red">
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="r-6-insulte"> J'ai insulté</label>
+      <label><input type="checkbox" data-id="r-6-crie"> J'ai crié</label>
+      <label><input type="checkbox" data-id="r-6-refuse"> J'ai refusé</label>
+      <label><input type="checkbox" data-id="r-6-parti"> Je suis parti·e</label>
+      <label><input type="checkbox" data-id="r-6-provoque"> J'ai provoqué</label>
+      <label><input type="checkbox" data-id="r-6-menace"> J'ai menacé</label>
+      <label><input type="checkbox" data-id="r-6-coupe"> J'ai coupé la parole</label>
+      <label><input type="checkbox" data-id="r-6-ferme"> Je me suis fermé·e</label>
+      <label><input type="checkbox" data-id="r-6-pause"> J'ai réussi à faire une pause</label>
+      <label><input type="checkbox" data-id="r-6-aide"> J'ai demandé de l'aide</label>
+    </div>
+    <input type="text" id="r-6-autre" placeholder="Autre :">
+  </div>
+
+  <h3>7. Résultat</h3>
+  <div class="block">
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="r-7-calme"> Ça s'est calmé</label>
+      <label><input type="checkbox" data-id="r-7-empire"> Ça a empiré</label>
+      <label><input type="checkbox" data-id="r-7-puni"> J'ai été puni·e</label>
+      <label><input type="checkbox" data-id="r-7-regret"> J'ai regretté</label>
+      <label><input type="checkbox" data-id="r-7-reste"> Je suis resté·e énervé·e</label>
+      <label><input type="checkbox" data-id="r-7-reparle"> On a pu reparler</label>
+      <label><input type="checkbox" data-id="r-7-isole"> Je me suis isolé·e</label>
+    </div>
+    <input type="text" id="r-7-autre" placeholder="Autre :">
+  </div>
+
+  <h3>8. Ce que je peux tester la prochaine fois</h3>
+  <div class="block green">
+    <div class="check-grid">
+      <label><input type="checkbox" data-id="r-8-monte"> Dire « je monte »</label>
+      <label><input type="checkbox" data-id="r-8-pause"> Faire une pause</label>
+      <label><input type="checkbox" data-id="r-8-sortir"> Sortir de la pièce</label>
+      <label><input type="checkbox" data-id="r-8-eau"> Boire un verre d'eau</label>
+      <label><input type="checkbox" data-id="r-8-respire"> Respirer 5 fois</label>
+      <label><input type="checkbox" data-id="r-8-ecrit"> Écrire au lieu de parler</label>
+      <label><input type="checkbox" data-id="r-8-tard"> Demander qu'on me parle plus tard</label>
+      <label><input type="checkbox" data-id="r-8-sature"> Dire « je suis saturé·e »</label>
+      <label><input type="checkbox" data-id="r-8-reparer"> Réparer après coup</label>
+    </div>
+    <input type="text" id="r-8-autre" placeholder="Autre :">
+    <div style="margin-top:.7rem;">
+      <strong>Ma phrase de secours :</strong>
+      <textarea id="r-8-phrase"></textarea>
+    </div>
+  </div>
+
+  <div class="mini-version">
+    <strong>📌 Mini-version express :</strong><br>
+    Déclencheur → Émotion → Intensité → Réaction → Conséquence → Ce que je teste la prochaine fois
+  </div>
+
+  <div class="signature"><strong>Educa Typique</strong> · Création originale Nawel · Fiche d'auto-observation</div>
+</div>
+
+<div class="actions">
+  <button onclick="sauverFiche()">💾 Sauver cette fiche</button>
+  <button class="secondary" onclick="exporterTxt()">📄 Export TXT</button>
+  <button class="secondary" onclick="window.print()">🖨 Imprimer</button>
+</div>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'educatypique_mode_emploi_v1';
+let currentFiche = null;
+
+function showTab(tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+  document.querySelectorAll('.panel').forEach(p => p.classList.add('hidden'));
+  document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function getAllFields() {
+  const data = { prenom: document.getElementById('meta-prenom').value };
+  document.querySelectorAll('input[type="text"], textarea').forEach(el => {
+    if (el.id) data[el.id] = el.value;
+  });
+  document.querySelectorAll('input[type="checkbox"][data-id]').forEach(el => {
+    data[el.dataset.id] = el.checked;
+  });
+  return data;
+}
+
+function setAllFields(data) {
+  if (!data) return;
+  document.getElementById('meta-prenom').value = data.prenom || '';
+  document.querySelectorAll('input[type="text"], textarea').forEach(el => {
+    if (el.id) el.value = data[el.id] || '';
+  });
+  document.querySelectorAll('input[type="checkbox"][data-id]').forEach(el => {
+    el.checked = !!data[el.dataset.id];
+  });
+}
+
+function clearAllFields() {
+  document.getElementById('meta-prenom').value = '';
+  document.querySelectorAll('input[type="text"], textarea').forEach(el => {
+    if (el.id) el.value = '';
+  });
+  document.querySelectorAll('input[type="checkbox"][data-id]').forEach(el => {
+    el.checked = false;
+  });
+}
+
+function getStore() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function setStore(store) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+}
+
+function refreshSelect() {
+  const sel = document.getElementById('fiche-select');
+  const store = getStore();
+  sel.innerHTML = '<option value="">— Choisir une fiche —</option>';
+  Object.keys(store).sort().forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if (name === currentFiche) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function nouvelleFiche() {
+  const name = prompt('Nom de la nouvelle fiche (ex: « 14 mai · maison ») :');
+  if (!name) return;
+  clearAllFields();
+  currentFiche = name;
+  sauverFiche();
+}
+
+function sauverFiche() {
+  if (!currentFiche) {
+    const name = prompt('Nom de cette fiche :');
+    if (!name) return;
+    currentFiche = name;
+  }
+  const store = getStore();
+  store[currentFiche] = getAllFields();
+  setStore(store);
+  refreshSelect();
+  alert(`Fiche « ${currentFiche} » sauvegardée ✓`);
+}
+
+function loadFiche() {
+  const sel = document.getElementById('fiche-select');
+  const name = sel.value;
+  if (!name) return;
+  currentFiche = name;
+  const store = getStore();
+  setAllFields(store[name]);
+}
+
+function supprimerFiche() {
+  if (!currentFiche) { alert('Aucune fiche sélectionnée.'); return; }
+  if (!confirm(`Supprimer la fiche « ${currentFiche} » ?`)) return;
+  const store = getStore();
+  delete store[currentFiche];
+  setStore(store);
+  currentFiche = null;
+  clearAllFields();
+  refreshSelect();
+}
+
+function exporterTxt() {
+  const data = getAllFields();
+  let txt = '╔══════════════════════════════════════════════╗\n';
+  txt +=   '║  MODE D\'EMPLOI DE MOI-MÊME                   ║\n';
+  txt +=   '║  Educa Typique · Création originale Nawel    ║\n';
+  txt +=   '╚══════════════════════════════════════════════╝\n\n';
+  if (data.prenom) txt += `Prénom : ${data.prenom}\n`;
+  if (currentFiche) txt += `Fiche : ${currentFiche}\n`;
+  txt += `Date d'export : ${new Date().toLocaleString('fr-FR')}\n\n`;
+
+  // Tab 1
+  txt += '═══ 1 · MOI EN VERSION NORMALE ═══\n\n';
+  txt += `Trois mots qui me décrivent : ${data['m1-mot1']||''} · ${data['m1-mot2']||''} · ${data['m1-mot3']||''}\n`;
+  if (data['m1-incompris']) txt += `Ce que les adultes ne comprennent pas : ${data['m1-incompris']}\n`;
+  if (data['m1-reussis']) txt += `Ce que je réussis bien : ${data['m1-reussis']}\n`;
+  const tr = [];
+  if (data['m1-tr-seul']) tr.push('seul'); if (data['m1-tr-jeu']) tr.push('jeu');
+  if (data['m1-tr-sport']) tr.push('sport'); if (data['m1-tr-dessin']) tr.push('dessin');
+  if (data['m1-tr-confiance']) tr.push('confiance'); if (data['m1-tr-libre']) tr.push('libre');
+  if (data['m1-tr-autre']) tr.push(data['m1-tr-autre']);
+  if (tr.length) txt += `Moments tranquilles : ${tr.join(', ')}\n`;
+  if (data['m1-capable']) txt += `Matière où je me sens capable : ${data['m1-capable']}\n`;
+
+  txt += '\n═══ 3 · DÉCLENCHEUR N°1 ═══\n';
+  if (data['m3-decl1']) txt += `${data['m3-decl1']}\n`;
+
+  txt += '\n═══ 5 · CE QUI AIDE ═══\n';
+  if (data['m5-phrase-ok']) txt += `Phrase qui aide : « ${data['m5-phrase-ok']} »\n`;
+  if (data['m5-phrase-no']) txt += `Phrase qu'il NE faut PAS dire : « ${data['m5-phrase-no']} »\n`;
+
+  txt += '\n═══ 6 · OBJECTIF N°1 ═══\n';
+  if (data['m6-obj1']) txt += `${data['m6-obj1']}\n`;
+
+  // Tab 3 radar
+  if (data['r-date'] || data['r-1']) {
+    txt += '\n═══ MON RADAR DE CRISE ═══\n';
+    if (data['r-date']) txt += `Date : ${data['r-date']}\n`;
+    if (data['r-1']) txt += `Ce qui s'est passé : ${data['r-1']}\n`;
+    if (data['r-2-decl']) txt += `Le vrai déclencheur : ${data['r-2-decl']}\n`;
+    if (data['r-3-intensite']) txt += `Intensité : ${data['r-3-intensite']}\n`;
+    if (data['r-5-perso']) txt += `Ma pensée : ${data['r-5-perso']}\n`;
+    if (data['r-8-phrase']) txt += `Ma phrase de secours : « ${data['r-8-phrase']} »\n`;
+  }
+
+  txt += '\n──────────────────────\nEduca Typique · Boîte NeuroPed\n';
+
+  const blob = new Blob([txt], {type: 'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `mode-emploi-${(data.prenom||'fiche').toLowerCase().replace(/\s+/g,'-')}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// init
+refreshSelect();
+</script>
+
+</body>
+</html>

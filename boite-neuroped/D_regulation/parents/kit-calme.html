@@ -1,0 +1,1279 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kit de contenu — Ramener le calme · Neuroo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Gloock&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Charte Neuroo — alignée sur parcours_clarte_tnd.html */
+  --rose-soutenu: #d89ba6;
+  --rose-deep:    #bc7482;
+  --lavande:      #e0d7ee;
+  --lav-deep:     #8e77b8;
+  --menthe:       #d5eae0;
+  --menthe-deep:  #74a898;
+  --violet-titre: #5b4789;
+  --violet-deep:  #41316a;
+  --creme:        #f5efe6;
+  --creme-warm:   #faf5eb;
+  --creme-deep:   #eee6d9;
+  --ink:          #2a2438;
+  --ink-soft:     rgba(42,36,56,.78);
+  --ink-faint:    rgba(42,36,56,.45);
+
+  /* Cartographie Sensible — typographic system */
+  --display: "Gloock", "Poppins", Georgia, serif;
+  --serif:   "Instrument Serif", "Poppins", Georgia, serif;
+  --body:    "Nunito", system-ui, sans-serif;
+  --mono:    "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--creme);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-image:
+    radial-gradient(rgba(42,36,56,.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: 0 0;
+}
+
+/* ── Layout ───────────────────────────────────────────────────────────── */
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 80px 48px 120px;
+}
+
+@media (max-width: 720px) {
+  .wrap { padding: 56px 24px 80px; }
+}
+
+/* ── Header ───────────────────────────────────────────────────────────── */
+.kit-header {
+  border: 1px solid rgba(42,36,56,.12);
+  background: var(--creme-warm);
+  padding: 56px 56px 48px;
+  margin-bottom: 80px;
+  position: relative;
+}
+.kit-header::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(42,36,56,.06);
+  pointer-events: none;
+}
+.kit-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+.kit-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.05;
+  margin: 0 0 18px;
+  color: var(--ink);
+}
+.kit-sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(18px, 2vw, 22px);
+  color: var(--ink-soft);
+  max-width: 640px;
+  margin: 0;
+}
+.kit-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 36px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(42,36,56,.1);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.kit-meta b { color: var(--ink); font-weight: 500; }
+
+/* ── Section frame ────────────────────────────────────────────────────── */
+section { margin-bottom: 96px; }
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  margin-bottom: 36px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(42,36,56,.12);
+}
+.section-num {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--ink-faint);
+  letter-spacing: .1em;
+  flex-shrink: 0;
+}
+.section-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(28px, 3.5vw, 40px);
+  margin: 0;
+  line-height: 1.1;
+  flex: 1;
+}
+.section-tag {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink-faint);
+  font-size: 16px;
+}
+
+/* ── Carrousel grid ───────────────────────────────────────────────────── */
+.carousel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+}
+.plate {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.plate-img {
+  background: var(--creme-warm);
+  border: 1px solid rgba(42,36,56,.12);
+  padding: 8px;
+  position: relative;
+}
+.plate-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.plate-marker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+.plate-caption {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+/* ── Stories strip ────────────────────────────────────────────────────── */
+.stories-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+.story {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.story-img {
+  background: var(--creme-warm);
+  border: 1px solid rgba(42,36,56,.12);
+  padding: 6px;
+  aspect-ratio: 9/16;
+  overflow: hidden;
+}
+.story-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.story-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.story-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: .12em;
+}
+.story-tag {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.story-note {
+  font-family: var(--body);
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+.story-note .pill {
+  display: inline-block;
+  background: var(--lavande);
+  color: var(--violet-deep);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-right: 6px;
+  vertical-align: 1px;
+}
+
+/* ── Reel timeline ────────────────────────────────────────────────────── */
+.reel-intro {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-soft);
+  max-width: 760px;
+  margin: 0 0 40px;
+}
+.reel-track {
+  position: relative;
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+}
+.reel-block {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 32px;
+  padding: 28px 0;
+  border-top: 1px solid rgba(42,36,56,.1);
+}
+.reel-block:first-child { border-top: 0; }
+.reel-time {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink-faint);
+  letter-spacing: .08em;
+  padding-top: 4px;
+}
+.reel-time strong {
+  display: block;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 28px;
+  color: var(--violet-titre);
+  letter-spacing: 0;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+.reel-content { min-width: 0; }
+.reel-phase {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+}
+.reel-headline {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 22px;
+  margin: 0 0 18px;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.reel-row {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 18px;
+  margin-bottom: 14px;
+  align-items: start;
+}
+.reel-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding-top: 3px;
+}
+.reel-label.visuel { color: var(--menthe-deep); }
+.reel-label.voix   { color: var(--rose-deep); }
+.reel-text {
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.reel-text .quote {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink);
+  margin-top: 6px;
+  padding-left: 14px;
+  border-left: 2px solid var(--rose-soutenu);
+}
+.reel-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  margin: 12px 0 6px;
+}
+@media (max-width: 720px) {
+  .reel-block { grid-template-columns: 1fr; gap: 12px; }
+  .reel-row { grid-template-columns: 70px 1fr; gap: 12px; }
+}
+
+/* ── Production notes table ───────────────────────────────────────────── */
+.notes {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0;
+  border: 1px solid rgba(42,36,56,.12);
+  background: var(--creme-warm);
+  margin-top: 32px;
+}
+.notes > * {
+  padding: 16px 22px;
+  border-bottom: 1px solid rgba(42,36,56,.08);
+}
+.notes > *:nth-last-child(-n+2) { border-bottom: 0; }
+.notes-key {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-right: 1px solid rgba(42,36,56,.08);
+}
+.notes-val {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+@media (max-width: 600px) {
+  .notes { grid-template-columns: 1fr; }
+  .notes-key { border-right: 0; padding-bottom: 4px; }
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────── */
+.kit-footer {
+  margin-top: 96px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(42,36,56,.12);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.disclaimer {
+  font-family: var(--serif);
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink-faint);
+  font-size: 13px;
+  max-width: 520px;
+  margin-top: 8px;
+}
+
+/* ── Storyboard grid (Reel frames) ────────────────────────────────────── */
+.storyboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+.shot {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.shot-img {
+  background: var(--creme-warm);
+  border: 1px solid rgba(42,36,56,.12);
+  padding: 6px;
+  aspect-ratio: 9/16;
+  overflow: hidden;
+}
+.shot-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.shot-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.shot-time {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--violet-titre);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.shot-tag {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+/* ── Captions (IG / FB) ───────────────────────────────────────────────── */
+.captions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+@media (min-width: 900px) {
+  .captions-grid { grid-template-columns: 1fr 1fr; }
+}
+.caption {
+  background: var(--creme-warm);
+  border: 1px solid rgba(42,36,56,.12);
+  padding: 28px 30px 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.caption::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(42,36,56,.06);
+  pointer-events: none;
+}
+.caption-platform {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 6px;
+}
+.caption-platform .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.caption-platform.ig .dot  { background: var(--rose-deep); }
+.caption-platform.fb .dot  { background: var(--lav-deep); }
+.caption-target {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 400;
+  margin: 0 0 16px;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.caption-body {
+  font-family: var(--body);
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  white-space: pre-wrap;
+  margin: 0;
+  flex: 1;
+}
+.caption-body strong { color: var(--ink); font-weight: 600; }
+.caption-body em { font-family: var(--serif); font-style: italic; color: var(--ink); }
+.caption-hashtags {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(42,36,56,.18);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--lav-deep);
+  word-break: break-word;
+  line-height: 1.6;
+}
+.caption-copy {
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+/* ── Schedule strip ───────────────────────────────────────────────────── */
+.schedule {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+@media (max-width: 720px) {
+  .schedule { grid-template-columns: repeat(2, 1fr); }
+}
+.day {
+  background: var(--creme-warm);
+  border: 1px solid rgba(42,36,56,.12);
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 130px;
+}
+.day-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.day-date {
+  font-family: var(--display);
+  font-size: 22px;
+  color: var(--violet-titre);
+  line-height: 1;
+}
+.day-action {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  margin-top: auto;
+}
+.day.highlight {
+  background: var(--lavande);
+  border-color: var(--lav-deep);
+}
+.day.highlight .day-date { color: var(--violet-deep); }
+
+/* ── Print ────────────────────────────────────────────────────────────── */
+@media print {
+  body { background: white; background-image: none; }
+  .wrap { max-width: none; padding: 24px; }
+  section { break-inside: avoid; margin-bottom: 32px; }
+  .reel-block { break-inside: avoid; }
+  .caption { break-inside: avoid; }
+}
+
+/* ── Accent rule ──────────────────────────────────────────────────────── */
+.rule {
+  width: 48px;
+  height: 1px;
+  background: var(--rose-soutenu);
+  margin: 24px 0;
+  border: 0;
+}
+</style>
+</head>
+<body>
+<a href="../../parents.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#e05a8a;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(224,90,138,0.2)">← Boîte NeuroPed</a><!--data-back-link-injected-->
+<div class="wrap">
+
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<!--  Header                                                              -->
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<header class="kit-header">
+  <div class="kit-eyebrow">Cartographie Sensible · Atlas du jeune cerveau</div>
+  <h1 class="kit-title">Ramener le calme<br>dans les moments<br>de tension.</h1>
+  <hr class="rule">
+  <p class="kit-sub">
+    Kit de contenu Neuroo — un carrousel de sept plaques, cinq stories,
+    un Reel de trente secondes. Une seule conversation, trois portes d'entrée.
+  </p>
+  <div class="kit-meta">
+    <span><b>Marque</b> · Neuroo / Neuro Educa</span>
+    <span><b>Audience</b> · Parents TND</span>
+    <span><b>Ton</b> · Educatypique · tutoiement</span>
+    <span><b>Format</b> · 1080×1080 / 1080×1920 / Reel 30s</span>
+  </div>
+</header>
+
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<!--  Section 1 — Carrousel                                               -->
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="section-head">
+    <div class="section-num">I — 7 plaques</div>
+    <h2 class="section-title">Carrousel · Les erreurs qu'on fait sans s'en rendre compte</h2>
+    <div class="section-tag">à publier en feed</div>
+  </div>
+
+  <div class="carousel-grid">
+
+    <div class="plate">
+      <div class="plate-img"><img src="carrousel_neuroo_01.png" alt="Plaque I — observation initiale"></div>
+      <div class="plate-marker">Pl. I · 01 / 07</div>
+      <div class="plate-caption">Hook — « Il a hurlé au supermarché. Tu as cru qu'il te testait. »</div>
+    </div>
+
+    <div class="plate">
+      <div class="plate-img"><img src="carrousel_neuroo_02.png" alt="Plaque II — l'effort qui ne se voit pas"></div>
+      <div class="plate-marker">Pl. II · 02 / 07</div>
+      <div class="plate-caption">Erreur 1 — « Fais un effort. » Marathon vs promenade.</div>
+    </div>
+
+    <div class="plate">
+      <div class="plate-img"><img src="carrousel_neuroo_03.png" alt="Plaque III — deux systèmes, deux rythmes"></div>
+      <div class="plate-marker">Pl. III · 03 / 07</div>
+      <div class="plate-caption">Erreur 2 — « Regarde ta sœur. » Deux constellations distinctes.</div>
+    </div>
+
+    <div class="plate">
+      <div class="plate-img"><img src="carrousel_neuroo_04.png" alt="Plaque IV — point de saturation"></div>
+      <div class="plate-marker">Pl. IV · 04 / 07</div>
+      <div class="plate-caption">Erreur 3 — Quatre ordres en trois secondes.</div>
+    </div>
+
+    <div class="plate">
+      <div class="plate-img"><img src="carrousel_neuroo_05.png" alt="Plaque V — court-circuit sensoriel"></div>
+      <div class="plate-marker">Pl. V · 05 / 07</div>
+      <div class="plate-caption">Erreur 4 — Ce n'est pas un caprice. C'est un court-circuit sensoriel.</div>
+    </div>
+
+    <div class="plate">
+      <div class="plate-img"><img src="carrousel_neuroo_06.png" alt="Plaque VI — vases communicants"></div>
+      <div class="plate-marker">Pl. VI · 06 / 07</div>
+      <div class="plate-caption">Erreur 5 — T'oublier. Un parent vidé ne peut pas remplir.</div>
+    </div>
+
+    <div class="plate">
+      <div class="plate-img"><img src="carrousel_neuroo_07.png" alt="Plaque VII — trajectoire de clarté"></div>
+      <div class="plate-marker">Pl. VII · 07 / 07</div>
+      <div class="plate-caption">CTA — Parcours Clarté TND. Lien en bio.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<!--  Section 2 — Stories                                                 -->
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="section-head">
+    <div class="section-num">II — 5 stories</div>
+    <h2 class="section-title">Stories · Ramener le calme</h2>
+    <div class="section-tag">à publier aujourd'hui</div>
+  </div>
+
+  <div class="stories-strip">
+
+    <div class="story">
+      <div class="story-img"><img src="story_neuroo_01_hook.png" alt="Story 1 — le constat"></div>
+      <div class="story-meta">
+        <span class="story-num">01 / 05</span>
+        <span class="story-tag">Le constat</span>
+      </div>
+      <div class="story-note">
+        Ouvre la série. Aucun sticker.
+      </div>
+    </div>
+
+    <div class="story">
+      <div class="story-img"><img src="story_neuroo_02_sondage.png" alt="Story 2 — le sondage"></div>
+      <div class="story-meta">
+        <span class="story-num">02 / 05</span>
+        <span class="story-tag">Le sondage</span>
+      </div>
+      <div class="story-note">
+        <span class="pill">Sticker</span> Sondage IG « Hausser / Baisser la voix » dans la zone pointillée.
+      </div>
+    </div>
+
+    <div class="story">
+      <div class="story-img"><img src="story_neuroo_03_geste.png" alt="Story 3 — les 3 gestes"></div>
+      <div class="story-meta">
+        <span class="story-num">03 / 05</span>
+        <span class="story-tag">Les 3 gestes</span>
+      </div>
+      <div class="story-note">
+        Pédagogie. Aucun sticker — laisser respirer.
+      </div>
+    </div>
+
+    <div class="story">
+      <div class="story-img"><img src="story_neuroo_04_dm.png" alt="Story 4 — l'écoute"></div>
+      <div class="story-meta">
+        <span class="story-num">04 / 05</span>
+        <span class="story-tag">L'écoute</span>
+      </div>
+      <div class="story-note">
+        <span class="pill">Sticker</span> « Envoyer un message » avec prompt « raconte-moi en DM ».
+      </div>
+    </div>
+
+    <div class="story">
+      <div class="story-img"><img src="story_neuroo_05_teaser.png" alt="Story 5 — le teaser"></div>
+      <div class="story-meta">
+        <span class="story-num">05 / 05</span>
+        <span class="story-tag">Le teaser</span>
+      </div>
+      <div class="story-note">
+        <span class="pill">Sticker</span> Rappel IG « Mercredi · les 3 phrases ».
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<!--  Section 3 — Reel script                                             -->
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="section-head">
+    <div class="section-num">III — 30 secondes</div>
+    <h2 class="section-title">Reel · Apaiser un enfant en pleine crise</h2>
+    <div class="section-tag">aucun visage à l'écran</div>
+  </div>
+
+  <p class="reel-intro">
+    Ton bas, débit lent (≈ 130 mots/min). Tu incarnes le calme que tu enseignes.
+    Plans longs, aucun jump-cut nerveux. Le rythme du Reel <em>est</em> la leçon.
+  </p>
+
+  <ol class="reel-track">
+
+    <li class="reel-block">
+      <div class="reel-time"><strong>0–3 s</strong>Hook</div>
+      <div class="reel-content">
+        <div class="reel-phase">Arrêt du scroll</div>
+        <h3 class="reel-headline">« Pendant qu'il hurle, tu lui dis : "calme-toi". »</h3>
+        <div class="reel-row">
+          <div class="reel-label visuel">Visuel</div>
+          <div class="reel-text">
+            Plan fixe, mains à plat sur une table en bois, paumes vers le bas, lumière dorée de fin de journée.
+            Texte plein écran (Gloock blanc, fond légèrement flouté). Le son ambiant <em>se coupe</em> brutalement →
+            silence total pendant ~0,5 s.
+          </div>
+        </div>
+        <div class="reel-row">
+          <div class="reel-label voix">Voix</div>
+          <div class="reel-text">
+            <span class="quote">« Si tu lui dis ça, ça ne marche pas. Et c'est normal. »</span>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li class="reel-block">
+      <div class="reel-time"><strong>3–10 s</strong>Promesse</div>
+      <div class="reel-content">
+        <div class="reel-phase">Le contrat avec le viewer</div>
+        <h3 class="reel-headline">« Trois gestes qui apaisent vraiment. »</h3>
+        <div class="reel-row">
+          <div class="reel-label visuel">Visuel</div>
+          <div class="reel-text">
+            Travelling lent sur un carnet ouvert, page blanche. Une main entre dans le cadre et écrit au crayon, en cursive : <em>« 3 gestes »</em>.
+            Trois petits cercles vides apparaissent en dessous. Ambiance ASMR : grattement du crayon, respiration calme.
+          </div>
+        </div>
+        <div class="reel-row">
+          <div class="reel-label voix">Voix</div>
+          <div class="reel-text">
+            <span class="quote">« Aujourd'hui, je te partage les trois gestes qui apaisent vraiment. Pas de magie. De la neuroscience. Et ça prend trente secondes à apprendre. »</span>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li class="reel-block">
+      <div class="reel-time"><strong>10–25 s</strong>Révélation</div>
+      <div class="reel-content">
+        <div class="reel-phase">Les trois gestes — 5 s chacun</div>
+
+        <div class="reel-sub">Geste I · 10–15 s — Tu t'accroupis</div>
+        <div class="reel-row">
+          <div class="reel-label visuel">Visuel</div>
+          <div class="reel-text">
+            La caméra descend lentement du niveau debout au niveau du sol (POV adulte qui s'accroupit).
+            On voit un tapis, un rayon de soleil, un coin de pièce calme. Le premier cercle du carnet se remplit en surimpression.
+            Texte : <em>« I. Tu t'accroupis. »</em>
+          </div>
+        </div>
+        <div class="reel-row">
+          <div class="reel-label voix">Voix</div>
+          <div class="reel-text">
+            <span class="quote">« Un. Tu te mets à sa hauteur. Son cerveau arrête de te voir comme une menace. »</span>
+          </div>
+        </div>
+
+        <div class="reel-sub">Geste II · 15–20 s — Tu te tais</div>
+        <div class="reel-row">
+          <div class="reel-label visuel">Visuel</div>
+          <div class="reel-text">
+            Gros plan macro sur la mine d'un crayon qui pose trois points sur le papier — <em>. . .</em> Le grattement est très doux.
+            Le deuxième cercle se remplit. Texte : <em>« II. Tu te tais. »</em>
+          </div>
+        </div>
+        <div class="reel-row">
+          <div class="reel-label voix">Voix</div>
+          <div class="reel-text">
+            <span class="quote">« Deux. Tu arrêtes de parler. Tes mots, là, il ne peut pas les traiter. »</span>
+          </div>
+        </div>
+
+        <div class="reel-sub">Geste III · 20–25 s — Tu respires lentement</div>
+        <div class="reel-row">
+          <div class="reel-label visuel">Visuel</div>
+          <div class="reel-text">
+            Plan du dessus sur une tasse fumante posée sur la table. La vapeur monte au ralenti, à la cadence d'une respiration lente —
+            inspire 4 s, expire 6 s. Le troisième cercle se remplit. Texte : <em>« III. Tu respires lentement. »</em>
+          </div>
+        </div>
+        <div class="reel-row">
+          <div class="reel-label voix">Voix</div>
+          <div class="reel-text">
+            <span class="quote">« Trois. Tu respires. Lentement. Son système nerveux copie le tien. C'est ça, le vrai super-pouvoir. »</span>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li class="reel-block">
+      <div class="reel-time"><strong>25–30 s</strong>CTA</div>
+      <div class="reel-content">
+        <div class="reel-phase">Boucle &amp; teaser</div>
+        <h3 class="reel-headline">« Enregistre-le. Pour la prochaine fois. »</h3>
+        <div class="reel-row">
+          <div class="reel-label visuel">Visuel</div>
+          <div class="reel-text">
+            Le carnet se ferme doucement. Sur la couverture, écrit à la main : <em>« Ramener le calme »</em>.
+            Fondu sur un fond crème avec, au centre : <strong>« Enregistre ce Reel. Pour la prochaine crise. »</strong>
+            En bas : <code style="font-family:var(--mono);font-size:13px;">@neuroo · Mercredi → les 3 phrases qui changent tout 🔔</code>
+          </div>
+        </div>
+        <div class="reel-row">
+          <div class="reel-label voix">Voix</div>
+          <div class="reel-text">
+            <span class="quote">« Enregistre-le. Pour la prochaine fois. Et mercredi, je te donne les trois phrases qui font le reste du chemin. »</span>
+          </div>
+        </div>
+      </div>
+    </li>
+
+  </ol>
+
+  <!-- Production notes -->
+  <div class="notes">
+    <div class="notes-key">Musique</div>
+    <div class="notes-val">Piano lent, type Nils Frahm ou Ólafur Arnalds. Ducké à -18 dB pendant la voix off.</div>
+
+    <div class="notes-key">Voix off</div>
+    <div class="notes-val">Ton bas, débit ≈ 130 mots/min. Tu <em>incarnes</em> le calme que tu enseignes.</div>
+
+    <div class="notes-key">Sound design</div>
+    <div class="notes-val">Silence brutal après le hook (~0,5 s) — c'est ce qui retient le pouce. Bruits de carnet/crayon en ASMR léger.</div>
+
+    <div class="notes-key">Texte à l'écran</div>
+    <div class="notes-val">Police serif (Gloock ou Instrument Serif). Apparition ligne par ligne. Aucune transition agressive.</div>
+
+    <div class="notes-key">Sous-titres</div>
+    <div class="notes-val">Burned-in obligatoires (≈ 85 % du feed est mute).</div>
+
+    <div class="notes-key">Cadence visuelle</div>
+    <div class="notes-val">Plans longs (4–6 s). Aucun jump-cut nerveux. Le rythme du Reel doit <em>être</em> le calme.</div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<!--  Section 4 — Reel storyboard                                         -->
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="section-head">
+    <div class="section-num">IV — 6 cadres</div>
+    <h2 class="section-title">Storyboard du Reel · plan par plan</h2>
+    <div class="section-tag">référence de tournage</div>
+  </div>
+
+  <p class="reel-intro">
+    Ces six cadres résument visuellement les intentions de la vidéo —
+    pas de visage, pas de personne représentée. Ils servent de référence
+    de tournage et peuvent aussi être réutilisés tels quels comme images de couverture
+    si tu préfères ne pas filmer.
+  </p>
+
+  <div class="storyboard-grid">
+
+    <div class="shot">
+      <div class="shot-img"><img src="reel_storyboard_01_hook.png" alt="Cadre I — Hook"></div>
+      <div class="shot-meta"><span class="shot-time">0–3 s</span><span class="shot-tag">Hook</span></div>
+    </div>
+
+    <div class="shot">
+      <div class="shot-img"><img src="reel_storyboard_02_promesse.png" alt="Cadre II — Promesse"></div>
+      <div class="shot-meta"><span class="shot-time">3–10 s</span><span class="shot-tag">Promesse</span></div>
+    </div>
+
+    <div class="shot">
+      <div class="shot-img"><img src="reel_storyboard_03_geste1.png" alt="Cadre III — Geste I"></div>
+      <div class="shot-meta"><span class="shot-time">10–15 s</span><span class="shot-tag">Tu t'accroupis</span></div>
+    </div>
+
+    <div class="shot">
+      <div class="shot-img"><img src="reel_storyboard_04_geste2.png" alt="Cadre IV — Geste II"></div>
+      <div class="shot-meta"><span class="shot-time">15–20 s</span><span class="shot-tag">Tu te tais</span></div>
+    </div>
+
+    <div class="shot">
+      <div class="shot-img"><img src="reel_storyboard_05_geste3.png" alt="Cadre V — Geste III"></div>
+      <div class="shot-meta"><span class="shot-time">20–25 s</span><span class="shot-tag">Tu respires</span></div>
+    </div>
+
+    <div class="shot">
+      <div class="shot-img"><img src="reel_storyboard_06_cta.png" alt="Cadre VI — CTA"></div>
+      <div class="shot-meta"><span class="shot-time">25–30 s</span><span class="shot-tag">CTA</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<!--  Section 5 — Captions Instagram & Facebook                           -->
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="section-head">
+    <div class="section-num">V — copies</div>
+    <h2 class="section-title">Captions · Instagram &amp; Facebook</h2>
+    <div class="section-tag">prêtes à coller</div>
+  </div>
+
+  <p class="reel-intro">
+    Deux registres distincts. Sur Instagram, on hooke vite, on aère, on termine par un mur de hashtags ciblés.
+    Sur Facebook, on raconte une histoire — l'audience est plus âgée, plus lente, allergique aux hashtags. Aucun copier-coller direct entre les deux.
+  </p>
+
+  <h3 style="font-family:var(--display); font-size:24px; font-weight:400; margin:24px 0 14px; color:var(--violet-titre);">
+    Carrousel · « 5 erreurs qu'on fait sans s'en rendre compte »
+  </h3>
+
+  <div class="captions-grid">
+
+    <div class="caption">
+      <div class="caption-platform ig"><span class="dot"></span>Instagram · feed</div>
+      <h4 class="caption-target">On l'aime. Et on se trompe quand même.</h4>
+      <p class="caption-body"><strong>5 erreurs qu'on fait sans s'en rendre compte avec un enfant TND.</strong>
+Pas pour culpabiliser — pour décoder.
+
+→ « Fais un effort. » Son cerveau en fait déjà trois fois plus.
+→ « Regarde ta sœur. » Une comparaison, des années de doute.
+→ Quatre ordres en trois secondes. Saturation.
+→ Punir une crise. Punir un enfant qui se noie.
+→ T'oublier. Un parent vidé ne peut pas remplir.
+
+Glisse jusqu'au bout du carrousel ↦
+La 7ᵉ plaque est la plus importante.
+
+<em>Tu te reconnais dans une de ces erreurs ? Dis-moi en commentaire laquelle t'a parlé.</em>
+
+——
+🔖 Enregistre ce post pour le relire dans une journée difficile.
+↗ Partage-le à un parent qui en a besoin.</p>
+      <div class="caption-hashtags">
+        #TND&nbsp; #neurodéveloppement&nbsp; #parentalitébienveillante&nbsp; #autisme&nbsp; #tdah&nbsp; #dys&nbsp; #neuroatypique&nbsp; #parentalité&nbsp; #educatypique&nbsp; #parcoursclarte&nbsp; #neurosciences&nbsp; #troublesneurodéveloppementaux
+      </div>
+      <div class="caption-copy">≈ 110 mots · 12 hashtags · ton tendre, sans urgence</div>
+    </div>
+
+    <div class="caption">
+      <div class="caption-platform fb"><span class="dot"></span>Facebook · publication</div>
+      <h4 class="caption-target">Tu n'es pas une mauvaise mère. Tu es une mère à qui personne n'a expliqué.</h4>
+      <p class="caption-body">Hier, une maman m'a écrit : <em>« Je me suis énervée. Encore. Et je me déteste. »</em>
+
+Je voudrais lui dire — et te dire, si tu lis ça : tu n'es pas une mauvaise mère. Tu es une mère à qui personne n'a expliqué.
+
+Personne ne nous apprend ce qu'est un trouble du neurodéveloppement. Personne ne nous dit que <em>« fais un effort »</em>, pour un enfant TND, ça résonne comme <em>« ce que tu fais ne compte pas »</em>. Que comparer à la sœur ou au frère, en deux secondes, plante une voix dans la tête de l'enfant pour des années. Que punir une crise, c'est punir un enfant qui se noie de ne pas savoir nager.
+
+Aujourd'hui je t'ai préparé un petit atlas — 7 plaques pour observer ce qu'on fait sans s'en rendre compte. Ce n'est pas un manuel de culpabilité. C'est une carte.
+
+(L'avant-dernière plaque parle de toi. La dernière aussi. Va jusqu'au bout.)
+
+Tu te reconnais dans une de ces erreurs ? Réponds-moi en commentaire — je lis tout, je réponds à chacune.
+
+— <em>Le Parcours Clarté ne pose pas de diagnostic et ne remplace pas un professionnel de santé.</em></p>
+      <div class="caption-copy">≈ 220 mots · 0 hashtag · narratif, ton lettre ouverte</div>
+    </div>
+
+  </div>
+
+  <h3 style="font-family:var(--display); font-size:24px; font-weight:400; margin:48px 0 14px; color:var(--violet-titre);">
+    Reel · « Apaiser un enfant en pleine crise »
+  </h3>
+
+  <div class="captions-grid">
+
+    <div class="caption">
+      <div class="caption-platform ig"><span class="dot"></span>Instagram · Reel</div>
+      <h4 class="caption-target">Tu lui dis « calme-toi ». Et ça empire.</h4>
+      <p class="caption-body">C'est normal. Son cerveau, en pleine crise, ne peut littéralement pas traiter tes mots.
+
+Voici les 3 gestes qui marchent vraiment ↓
+
+<strong>1.</strong> Tu t'accroupis.
+<strong>2.</strong> Tu te tais.
+<strong>3.</strong> Tu respires lentement.
+
+Son système nerveux copie le tien.
+Pas de magie — de la neurobiologie.
+
+——
+🔖 Enregistre ce Reel pour la prochaine crise.
+🔔 Mercredi : les 3 phrases qui changent tout.</p>
+      <div class="caption-hashtags">
+        #TND&nbsp; #autisme&nbsp; #tdah&nbsp; #dys&nbsp; #parentalité&nbsp; #neurodéveloppement&nbsp; #crisecomportementale&nbsp; #parentalitéconsciente&nbsp; #educatypique&nbsp; #régulationémotionnelle
+      </div>
+      <div class="caption-copy">≈ 60 mots · 10 hashtags · format Reel court</div>
+    </div>
+
+    <div class="caption">
+      <div class="caption-platform fb"><span class="dot"></span>Facebook · vidéo</div>
+      <h4 class="caption-target">Trente secondes. Trois gestes. Et la prochaine crise sera différente.</h4>
+      <p class="caption-body">Pendant qu'il hurle, on lui dit <em>« calme-toi »</em>. Et ça empire. Pas parce qu'il est têtu — parce que son cerveau, en pleine crise, ne peut pas traiter nos mots. C'est neurobiologique.
+
+Dans cette vidéo, je te partage ce que la recherche en neurosciences nous a appris sur la régulation émotionnelle des enfants. Trois gestes simples. Aucune magie. Beaucoup de répétition.
+
+L'idée n'est pas que ça marche du premier coup. L'idée, c'est qu'à force, ton enfant apprend à apaiser son propre système nerveux — parce qu'il a vu le tien le faire.
+
+Si tu connais un parent qui en a besoin ce soir : partage-lui.
+
+Mercredi, je publie la suite — les 3 phrases qui apaisent vraiment, à dire à la place de <em>« calme-toi »</em>.
+
+— <em>Le Parcours Clarté ne pose pas de diagnostic et ne remplace pas un professionnel de santé.</em></p>
+      <div class="caption-copy">≈ 165 mots · 0 hashtag · upload natif (pas de cross-post auto)</div>
+    </div>
+
+  </div>
+
+  <p style="font-family:var(--serif); font-style:italic; color:var(--ink-faint); font-size:14px; margin-top:24px; max-width:760px;">
+    Note : pour les <strong>5 stories</strong>, aucune caption n'est nécessaire (le texte est déjà dans l'image). Sur Facebook, dépose-les dans
+    <em>Story Facebook</em> avec les mêmes stickers — sondage et boîte de message existent aussi côté Meta.
+  </p>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<!--  Section 6 — Mercredi : « 3 phrases qui apaisent »                   -->
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="section-head">
+    <div class="section-num">VI — mercredi 13·05</div>
+    <h2 class="section-title">Carrousel · Les 3 phrases qui apaisent vraiment</h2>
+    <div class="section-tag">à dire à la place de « calme-toi »</div>
+  </div>
+
+  <p class="reel-intro">
+    Trois phrases courtes, trois leviers neuro-biologiques distincts —
+    <strong>nommer</strong> ce que l'enfant vit, <strong>signaler</strong> qu'on ne part pas,
+    <strong>offrir</strong> un rythme corporel à imiter. Aucune n'est magique. Toutes sont apprenables.
+  </p>
+
+  <div class="carousel-grid">
+
+    <div class="plate">
+      <div class="plate-img"><img src="carrousel_3phrases_01.png" alt="Plaque I — la phrase qui n'aide pas"></div>
+      <div class="plate-marker">Pl. I · 01 / 05</div>
+      <div class="plate-caption">Hook — « calme-toi » retiré du vocabulaire.</div>
+    </div>
+
+    <div class="plate">
+      <div class="plate-img"><img src="carrousel_3phrases_02.png" alt="Plaque II — la validation"></div>
+      <div class="plate-marker">Pl. II · 02 / 05</div>
+      <div class="plate-caption">Phrase I — « Je vois que c'est dur. » <em>La validation.</em></div>
+    </div>
+
+    <div class="plate">
+      <div class="plate-img"><img src="carrousel_3phrases_03.png" alt="Plaque III — la présence"></div>
+      <div class="plate-marker">Pl. III · 03 / 05</div>
+      <div class="plate-caption">Phrase II — « Je reste avec toi. » <em>La présence.</em></div>
+    </div>
+
+    <div class="plate">
+      <div class="plate-img"><img src="carrousel_3phrases_04.png" alt="Plaque IV — la co-régulation"></div>
+      <div class="plate-marker">Pl. IV · 04 / 05</div>
+      <div class="plate-caption">Phrase III — « On respire ensemble. » <em>La co-régulation.</em></div>
+    </div>
+
+    <div class="plate">
+      <div class="plate-img"><img src="carrousel_3phrases_05.png" alt="Plaque V — récapitulatif"></div>
+      <div class="plate-marker">Pl. V · 05 / 05</div>
+      <div class="plate-caption">Récap + CTA Parcours Clarté.</div>
+    </div>
+
+  </div>
+
+  <h3 style="font-family:var(--display); font-size:24px; font-weight:400; margin:48px 0 14px; color:var(--violet-titre);">
+    Captions · Instagram &amp; Facebook
+  </h3>
+
+  <div class="captions-grid">
+
+    <div class="caption">
+      <div class="caption-platform ig"><span class="dot"></span>Instagram · feed</div>
+      <h4 class="caption-target">À dire à la place de « calme-toi ».</h4>
+      <p class="caption-body">Mardi je t'ai dit que <em>« calme-toi »</em> ne marche pas.
+Aujourd'hui je te donne ce qu'on dit à la place.
+
+Trois phrases. Trois leviers du système nerveux.
+
+<strong>I.</strong> « Je vois que c'est dur. »
+→ Tu nommes l'émotion. Son cerveau passe du mode menace au mode connexion.
+
+<strong>II.</strong> « Je reste avec toi. »
+→ Tu n'exiges rien. Tu signales seulement que tu ne pars pas. La sécurité passe avant l'apprentissage.
+
+<strong>III.</strong> « On respire ensemble. »
+→ Tu poses ta main sur ta poitrine. Tu inspires lentement. Son système nerveux finit par se caler sur le tien.
+
+——
+<em>Laquelle te semble la plus dure à dire ? Réponds en commentaire — sans filtre.</em>
+
+🔖 Enregistre pour la prochaine fois.</p>
+      <div class="caption-hashtags">
+        #TND&nbsp; #neurodéveloppement&nbsp; #parentalitébienveillante&nbsp; #autisme&nbsp; #tdah&nbsp; #dys&nbsp; #neuroatypique&nbsp; #parentalité&nbsp; #educatypique&nbsp; #corégulation&nbsp; #régulationémotionnelle&nbsp; #parcoursclarte
+      </div>
+      <div class="caption-copy">≈ 130 mots · 12 hashtags · structure I/II/III scannable</div>
+    </div>
+
+    <div class="caption">
+      <div class="caption-platform fb"><span class="dot"></span>Facebook · publication</div>
+      <h4 class="caption-target">Trois phrases que personne ne nous a apprises.</h4>
+      <p class="caption-body">L'autre jour, mon fils a fondu en larmes au milieu du salon. Pas pour une raison rationnelle — pour trop de bruit, trop de monde, trop de fatigue à la fois.
+
+Mon premier réflexe, comme la majorité d'entre nous, ça aurait été <em>« calme-toi »</em>. Sauf que <em>« calme-toi »</em>, pour un enfant qui est déjà submergé, ça résonne comme une exigence supplémentaire — et ça ne marche pas. C'est même neurologiquement contre-productif.
+
+Voilà ce qu'on peut dire à la place. Trois phrases qui s'appuient chacune sur un levier différent du système nerveux :
+
+<strong>1. « Je vois que c'est dur. »</strong>
+Tu nommes ce qu'il vit. Le simple fait de mettre des mots sur une émotion la régule — c'est documenté en neurosciences depuis vingt ans (Lieberman, UCLA, 2007).
+
+<strong>2. « Je reste avec toi. »</strong>
+Tu n'exiges rien. Tu ne corriges pas. Tu offres une présence sans condition. Pour un enfant en détresse, savoir que l'adulte ne part pas est plus apaisant que tous les conseils du monde.
+
+<strong>3. « On respire ensemble. »</strong>
+Tu inspires lentement. Tu poses ta main sur ta poitrine. Son système nerveux miroir cherche le tien et, à force, s'y synchronise. C'est ce qu'on appelle la <em>co-régulation</em>.
+
+Ces trois phrases ne marchent pas du premier coup. Mais à force, ton enfant apprend à apaiser son propre système — parce qu'il a vu le tien le faire des centaines de fois.
+
+Si tu connais un parent qui est dans la vague en ce moment, partage-lui.
+
+— <em>Le Parcours Clarté ne pose pas de diagnostic et ne remplace pas un professionnel de santé.</em></p>
+      <div class="caption-copy">≈ 290 mots · 0 hashtag · 1 référence scientifique discrète</div>
+    </div>
+
+  </div>
+
+  <p style="font-family:var(--serif); font-style:italic; color:var(--ink-faint); font-size:14px; margin-top:24px; max-width:760px;">
+    <strong style="color:var(--violet-titre);">Astuce de séquence :</strong> le mardi (Reel) on dit ce qui ne marche pas.
+    Le mercredi (ce post), on tient la promesse. Cette logique « problème jour J → solution jour J+1 »
+    augmente significativement la rétention sur sept jours.
+  </p>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<!--  Section 7 — Calendrier de publication                               -->
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="section-head">
+    <div class="section-num">VII — 7 jours</div>
+    <h2 class="section-title">Calendrier de publication</h2>
+    <div class="section-tag">semaine du 10 mai</div>
+  </div>
+
+  <p class="reel-intro">
+    Le carrousel ouvre la semaine. Les stories ancrent dans le présent. Le Reel relance mardi.
+    Mercredi : la promesse tenue (les 3 phrases). Jeudi : silence — on laisse l'algorithme respirer.
+    Vendredi : un témoignage de la communauté (DMs reçus). Week-end : repos éditorial.
+  </p>
+
+  <div class="schedule">
+
+    <div class="day highlight">
+      <div class="day-label">Dim. 10·05</div>
+      <div class="day-date">J 1</div>
+      <div class="day-action">Carrousel<br>+ 5 stories</div>
+    </div>
+
+    <div class="day">
+      <div class="day-label">Lun. 11·05</div>
+      <div class="day-date">J 2</div>
+      <div class="day-action">Réponses DMs<br>+ repartage stories des suiveurs</div>
+    </div>
+
+    <div class="day highlight">
+      <div class="day-label">Mar. 12·05</div>
+      <div class="day-date">J 3</div>
+      <div class="day-action">Reel<br>« 3 gestes »</div>
+    </div>
+
+    <div class="day highlight">
+      <div class="day-label">Mer. 13·05</div>
+      <div class="day-date">J 4</div>
+      <div class="day-action">Post<br>« 3 phrases qui apaisent »</div>
+    </div>
+
+    <div class="day">
+      <div class="day-label">Jeu. 14·05</div>
+      <div class="day-date">J 5</div>
+      <div class="day-action">Silence éditorial<br><em>(repos algo)</em></div>
+    </div>
+
+    <div class="day">
+      <div class="day-label">Ven. 15·05</div>
+      <div class="day-date">J 6</div>
+      <div class="day-action">Story témoignage<br><em>(DM reçu en début de semaine)</em></div>
+    </div>
+
+    <div class="day">
+      <div class="day-label">Sam. 16·05</div>
+      <div class="day-date">J 7</div>
+      <div class="day-action">Repos<br><em>(et toi aussi)</em></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<!--  Footer                                                              -->
+<!-- ─────────────────────────────────────────────────────────────────── -->
+<footer class="kit-footer">
+  <div>
+    Neuroo — Cartographie Sensible<br>
+    <span class="disclaimer">
+      Le Parcours Clarté ne pose pas de diagnostic et ne remplace pas un professionnel de santé.
+    </span>
+  </div>
+  <div>Kit du 10·05·2026</div>
+</footer>
+
+</div>
+</body>
+</html>

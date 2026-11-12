@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espace Ados — Boîte NeuroPed · Boussol</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_assets/charte.css">
+<style>
+.bandeau{
+  background:linear-gradient(135deg,var(--menthe),var(--turquoise));
+  padding:2.5rem 1.5rem;
+  text-align:center;
+}
+.bandeau h1{color:var(--teal-titre)}
+.bandeau .sub{color:var(--texte);max-width:640px;margin:.6rem auto 0;font-size:1.05rem}
+.retour{display:inline-block;margin:.8rem 0;color:var(--violet-titre);font-weight:700}
+
+.axes{max-width:1100px;margin:2rem auto;padding:0 1.5rem;display:grid;gap:1.4rem}
+.axe{
+  background:#fff;
+  border-radius:var(--r-lg);
+  padding:1.4rem 1.6rem;
+  box-shadow:var(--shadow-sm);
+  border-left:6px solid var(--c);
+}
+.axe h2{color:var(--c);margin:0 0 .3rem}
+.axe .lbl{color:var(--muted);font-size:.9rem;margin-bottom:.8rem}
+.outils{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.7rem;margin-top:.8rem}
+.outil{
+  display:block;
+  padding:.8rem 1rem;
+  background:var(--beige);
+  border-radius:var(--r-md);
+  color:var(--texte);
+  text-decoration:none;
+  border:1px solid var(--border);
+  transition:transform .15s, box-shadow .15s;
+}
+.outil:hover{transform:translateY(-3px);box-shadow:var(--shadow-sm);text-decoration:none}
+.outil strong{display:block;color:var(--c);margin-bottom:.15rem}
+.outil .desc{font-size:.85rem;color:var(--muted)}
+.outil.avenir{opacity:.55;background:repeating-linear-gradient(45deg,#fafafa,#fafafa 8px,#f3f0f7 8px,#f3f0f7 16px);cursor:not-allowed}
+.outil.avenir::after{content:" · à venir";font-size:.8em;color:var(--muted);font-weight:400}
+
+.A{--c:var(--axe-A)}
+.B{--c:var(--axe-B)}
+.C{--c:var(--axe-C)}
+.D{--c:var(--axe-D)}
+.E{--c:var(--axe-E)}
+
+/* 🔍 RECHERCHE LIVE */
+.recherche-bloc{max-width:1100px;margin:1rem auto;padding:0 1.5rem}
+.recherche-inner{background:#fff;border-radius:var(--r-lg);padding:.7rem 1rem;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;border-left:5px solid var(--teal-titre)}
+.recherche-inner label{font-size:1.1rem}
+.recherche-inner input{flex:1;min-width:220px;padding:.55em .9em;border:1.5px solid #c5dfdb;border-radius:999px;font-family:inherit;font-size:.95rem;background:#eef6f5}
+.recherche-inner input:focus{outline:2px solid var(--teal-titre);background:#fff}
+.recherche-inner .count{font-size:.82rem;color:#666;font-weight:700;min-width:140px;text-align:right}
+.recherche-inner .clear-btn{padding:.35em .8em;background:#fff;border:1.5px solid #c5dfdb;color:#1a6a5a;border-radius:999px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem;display:none}
+.recherche-inner .clear-btn.visible{display:inline-block}
+.axe.hidden-search{display:none}
+.outil.hidden-search{display:none !important}
+.no-results{display:none;background:#fff;border:1.5px dashed #c5dfdb;border-radius:var(--r-md);padding:1.2rem;text-align:center;color:#888;font-style:italic;margin:1rem auto;max-width:1100px}
+.no-results.visible{display:block}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="index.html">← Retour à la boîte</a>
+  <h1>🧭 Espace Ados</h1>
+  <p class="sub">Mieux te connaître, gérer tes émotions, entraîner ton cerveau. Tout est anonyme, à ton rythme, et tu peux arrêter quand tu veux.</p>
+</section>
+
+<!-- 🔍 RECHERCHE LIVE -->
+<div class="recherche-bloc">
+  <div class="recherche-inner">
+    <label for="recherche-outils">🔍</label>
+    <input type="text" id="recherche-outils" placeholder="Cherche ton outil (ex: émotions, valeurs, crise, attention...)" autocomplete="off">
+    <button class="clear-btn" id="clear-recherche">✕ Effacer</button>
+    <span class="count" id="count-outils">20 outils</span>
+  </div>
+</div>
+<div class="no-results" id="no-results">Aucun outil ne correspond. Essaie un autre mot-clé (ou efface pour tout réafficher).</div>
+
+<section class="axes">
+
+  <article class="axe A">
+    <h2>A · Repérage</h2>
+    <div class="lbl">Auto-questionnaires pour faire le point — incluant le Boussol Motivationnel signature EducaTypique.</div>
+    <div class="outils">
+      <a class="outil" href="A_reperage/ados/profil-apprentissage.html" style="background:linear-gradient(135deg,#fff,#fff5f9);border:1.5px solid #F39BC2"><strong>🌈 Mon Profil d'Apprentissage — NOUVEAU</strong><span class="desc">Quiz complet 3-en-1 : Canal VAK + 8 intelligences Gardner + 7 profils personnalité. 50 questions, résultat synthèse. Création originale Nawel.</span></a>
+      <a class="outil" href="A_reperage/ados/constellation-motivationnelle.html" style="background:linear-gradient(135deg,#fff,#f3edff);border:1.5px solid #7c5cbf"><strong>🌌 Ma Constellation Motivationnelle — NOUVEAU</strong><span class="desc">4 étoiles (Cerveau · Cœur · Corps · Vie), 20 jauges lunaires, constellation visuelle et évolution dans le temps. Création originale Nawel.</span></a>
+      <a class="outil" href="A_reperage/ados/profil-cognitif.html" style="background:linear-gradient(135deg,#fff,#eef6f5);border:1.5px solid #6CA89E"><strong>🧠 Mon profil cognitif</strong><span class="desc">Comment ton cerveau apprend : ton canal préféré (visuel · auditif · kinesthésique), tes intelligences fortes, tes types d'attention. Création originale Nawel.</span></a>
+      <a class="outil" href="A_reperage/ados/profil-neuro.html" style="background:linear-gradient(135deg,#fff,#f5f0fa);border:1.5px solid #9B85B8"><strong>🌸 Mon profil neuro</strong><span class="desc">42 phrases × 5 facettes (énergie · pensée · émotions · social · sensoriel). Pour mieux te connaître et trouver les outils qui te correspondent vraiment. Création originale Nawel.</span></a>
+      <a class="outil" href="A_reperage/ados/reperage-tnd-ado.html" style="background:linear-gradient(135deg,#fff,#e8f4f8);border:1.5px solid #2D7D9A"><strong>🧩 Repérage TND ado — outil complet</strong><span class="desc">9 domaines (TDAH · HPI · TOP · TSA · DYS · Anxiété · Moral · Comportements à risque · Alimentation/Corps), 80 questions confidentielles, synthèse bienveillante par axe + IA en option. Indices, sans diagnostic. Création originale Nawel.</span></a>
+    </div>
+  </article>
+
+  <article class="axe B">
+    <h2>B · Observation &amp; évaluation</h2>
+    <div class="lbl">Suivre ce qui change semaine après semaine.</div>
+    <div class="outils">
+      <a class="outil" href="F_suivi/ados/fiche-introspective-hebdo.html" style="background:linear-gradient(135deg,#fff,#e0f4f1);border:1.5px solid var(--teal-titre)"><strong>📔 Fiche introspective hebdo</strong><span class="desc">Une fois par semaine, je m'arrête, je regarde, j'écris. Ce qui marche, ce qui m'apprend, ce dont je suis fier·e.</span></a>
+      <a class="outil" href="F_suivi/ados/journal-reussites.html" style="background:linear-gradient(135deg,#fff,#fde6dc);border:1.5px solid var(--rose-titre)"><strong>⭐ Journal des réussites</strong><span class="desc">Chaque jour, je note 1-3 choses que j'ai bien faites. Au bout de quelques semaines, mon cerveau voit le positif tout seul.</span></a>
+      <a class="outil" href="F_suivi/ados/chrono-energies.html" style="background:linear-gradient(135deg,#fff,#ffe8d8);border:1.5px solid #e05a8a"><strong>⚡ Chrono des énergies — NOUVEAU</strong><span class="desc">Mes pics et mes creux heure par heure. Pour planifier les tâches difficiles quand mon cerveau est dispo.</span></a>
+    </div>
+  </article>
+
+  <article class="axe C">
+    <h2>C · Compréhension &amp; expression</h2>
+    <div class="lbl">Cartes &amp; visuels pour mettre des mots et trier ce qui bouillonne.</div>
+    <div class="outils">
+      <a class="outil" href="C_comprehension/ados/mode-emploi-moi-meme.html" style="background:linear-gradient(135deg,#fff,#e4f4f2);border:1.5px solid #2A8E7C"><strong>🪞 Mode d'emploi de moi-même · NOUVEAU</strong><span class="desc">Création originale Nawel · 3 outils en 1 pour <strong>te comprendre toi-même</strong> : (1) <strong>🪞 Mon mode d'emploi</strong> — 6 sections (moi en version normale · quand ça monte · ce qui appuie sur mes boutons · mes réactions auto · ce qui aide vraiment · mini-contrat objectif n°1). (2) <strong>🌡 Thermomètre & vocabulaire</strong> — les 3 cerveaux · zones VJOR 0-10 · derrière « je suis énervé » il y a quoi · roue des émotions (colère/tristesse/peur/honte/joie) · phrases de remplacement. (3) <strong>🚨 Mon radar de crise</strong> — fiche d'auto-observation post-crise 8 sections (à remplir APRÈS, pas pendant). Multi-fiches · export TXT · imprimable A4.</span></a>
+      <a class="outil" href="C_comprehension/ados/reprendre-confiance.html" style="background:linear-gradient(135deg,#fff,#f0f6fa);border:1.5px solid #3C6478"><strong>🌱 Reprendre confiance — Kit ado v2 COMPLET · NOUVEAU</strong><span class="desc">Création originale Nawel · Kit psychoéducatif pour ados 12-17 ans anxieux, bloqués, faible estime. <strong>9 fiches complètes</strong> : (1) Comprendre ma boucle de blocage · (2) Mes pensées qui m'enfoncent · (3) Transformer une pensée sans se mentir · (4) Plan anti-procrastination · (5) Méthode de travail simple · (6) Gérer l'anxiété avant un contrôle · (7) Reconstruire mon estime de soi · (8) Demander de l'aide intelligemment · (9) Suivi sur 7 jours. + Section interactive « Quand je bloque, je fais quoi ? » (comprendre · me remettre en action · remplacer la pensée) + Mode d'emploi parents + Avertissement pro. Parcours 7 jours. Imprimable.</span></a>
+      <a class="outil" href="D_regulation/ados/mes-valeurs-ado.html" style="background:linear-gradient(135deg,#fff,#fff5e8);border:1.5px solid #e9a73a"><strong>💎 Mes valeurs — Top 5 (raccourci axe D)</strong><span class="desc">Création originale Nawel · Aussi un outil de <strong>compréhension de soi</strong> : parcours 6 étapes pour découvrir tes valeurs profondes (meilleurs moments · ce qui m'énerve · héros · dilemme · 20 valeurs · top 5). Voir version complète dans l'axe D régulation.</span></a>
+      <a class="outil" href="C_comprehension/ados/carte-mentale-qui-je-suis.html" style="background:linear-gradient(135deg,#fff,#eef6f5);border:1.5px solid #2a9d8f"><strong>🧠 Carte mentale « qui je suis » · NOUVEAU</strong><span class="desc">Création originale Nawel · 8 facettes (forces · valeurs · pépites · vulnérabilités · passions · rêves · croyances · super-pouvoir) + visualisation SVG circulaire + multi-cartes pour suivre ton évolution.</span></a>
+      <a class="outil" href="C_comprehension/ados/aide-epuise-ado.html" style="background:linear-gradient(135deg,#fff,#eef6f5);border:1.5px solid #2a9d8f"><strong>💚 Ce qui m'aide / 🟧 ce qui m'épuise · NOUVEAU</strong><span class="desc">Tri rapide : ce qui te recharge vs ce qui te vide. 24 suggestions cliquables + ajout libre + bilan auto avec conseils. Multi-cartes pour suivre tes changements.</span></a>
+    </div>
+  </article>
+
+  <article class="axe D">
+    <h2>D · Régulation émotionnelle</h2>
+    <div class="lbl">Quand ça déborde, des outils accessibles en 30 secondes.</div>
+    <div class="outils">
+      <a class="outil" href="D_regulation/ados/boite-ado-tdah.html" style="background:linear-gradient(135deg,#fff,#f5e8f0);border:1.5px solid #9B85B8"><strong>🆘 Boîte Ado TDAH · Crises, Cartes & Confiance — NOUVEAU</strong><span class="desc">6 outils complets : Thermomètre V/J/O/R · 12 cartes-situations (Conflit/Substances/Sexto/Violence) · Détecteur d'injustice · Protocole crise 3 niveaux · Roue des Choix 12 phrases · Scoring 6 pts. Pour ados TDAH hypersensibles. Création originale Nawel.</span></a>
+      <a class="outil" href="D_regulation/ados/thermometre-bruit.html" style="background:linear-gradient(135deg,#fff,#e0f4f1);border:1.5px solid #2a9d8f"><strong>🔊 Thermomètre du bruit</strong><span class="desc">Connaître mon seuil de tolérance, repérer ma surcharge auditive, choisir ma stratégie.</span></a>
+      <a class="outil" href="D_regulation/ados/carnet-interoception.html" style="background:linear-gradient(135deg,#fff,#f0e8f5);border:1.5px solid #7c5cbf"><strong>🧭 Carnet d'intéroception — NOUVEAU</strong><span class="desc">Décoder mon corps pour mieux comprendre mes émotions. Spécial TSA/TDAH/hypersensibilité.</span></a>
+      <a class="outil" href="D_regulation/ados/emotion-5-etapes.html" style="background:linear-gradient(135deg,#fff,#fff5f8);border:1.5px solid #F39BC2"><strong>🌊 Émotion en 5 étapes — NOUVEAU</strong><span class="desc">Repérer · Nommer · Décoder · Apaiser · Choisir. Quand une émotion forte t'a traversé(e), tu décodes en 5 étapes simples. Synthèse + archives.</span></a>
+      <a class="outil" href="D_regulation/ados/mes-valeurs-ado.html" style="background:linear-gradient(135deg,#fff,#fff5e8);border:1.5px solid #e9a73a"><strong>💎 Mes valeurs — Top 5 · NOUVEAU</strong><span class="desc">Création originale Nawel · Parcours 6 étapes (meilleurs moments · ce qui m'énerve · héros · dilemme · 20 valeurs · top 5). Ta boussole intérieure.</span></a>
+      <a class="outil" href="D_regulation/ados/boite-secours.html" style="background:linear-gradient(135deg,#fff,#fff5f0);border:1.5px solid #e89556"><strong>🆘 Boîte à secours émotionnelle</strong><span class="desc">Création originale Nawel · Quand ça déborde MAINTENANT — pas demain. Trousse d'urgence ado avec : techniques d'apaisement immédiat (respiration 4-6 · 5-4-3-2-1 · ancrage glaçon) · phrases anti-rumination · numéros utiles (3114 prévention suicide 24h/24 · 119 enfance · Fil Santé Jeunes 0800 235 236) · plan B en cas de pic. Sauvegarde locale.</span></a>
+      <a class="outil" href="D_regulation/ados/appli-emotions-ados.html" style="background:linear-gradient(135deg,#fff,#fff5f8);border:1.5px solid #F39BC2"><strong>🎨 App émotions ados — REFAIT</strong><span class="desc">Mon vocabulaire émotionnel · 6 familles × 50+ nuances (trahi, soulagé, indigné, déstabilisé…) avec sens / besoin / exemple + journal perso. Plus tu mets de mots précis, plus tu apprivoises.</span></a>
+      <a class="outil" href="D_regulation/ados/module-joie.html" style="background:linear-gradient(135deg,#fff,#fff9e8);border:1.5px solid #E0B83E"><strong>☀️ Module joie — REFAIT</strong><span class="desc">Parcours 7 jours pour entraîner ton cerveau au positif (savourer · gratitude · forces · lien · corps · rire · bilan) + 30 petites joies à cocher + journal de gratitude. Pas du fake bonheur — un muscle à développer.</span></a>
+    </div>
+  </article>
+
+  <article class="axe E">
+    <h2>E · Ludothèque cognitive</h2>
+    <div class="lbl">Mini-jeux courts pour entraîner attention, mémoire, flexibilité.</div>
+    <div class="outils">
+      <a class="outil" href="E_ludotheque/ados/roue-conversation.html" style="background:linear-gradient(135deg,#fff,#fff5e8);border:1.5px solid #e9a73a"><strong>🎡 Roue de conversation · NOUVEAU</strong><span class="desc">Tirer une question au sort pour ouvrir un dialogue. 4 modes (ado-parent · entre amis · introspectif · famille) · 8 catégories · 5 règles du jeu. SANS pression.</span></a>
+      <a class="outil" href="E_ludotheque/ados/jeux-cognitifs-ados.html" style="background:linear-gradient(135deg,#fff,#f5f0fa);border:1.5px solid #7c5cbf"><strong>🎮 Pack 3 mini-jeux cognitifs · NOUVEAU</strong><span class="desc">Stroop coloré (inhibition) · Séquences (mémoire de travail) · Cherche l'intrus (attention) · Tes records sauvegardés. 5 min/jeu suffisent.</span></a>
+      <a class="outil" href="E_ludotheque/ados/choisis-une-reponse.html" style="background:linear-gradient(135deg,#fff,#fff5f8);border:1.5px solid #F39BC2"><strong>🎮 Choisis une réponse · NOUVEAU</strong><span class="desc">12 situations sociales × 3 réponses (avec ami·e, prof, parent, couple, pression groupe, réseaux, conflit famille...) + impact court/long terme + alternative R.A.H.M.A.</span></a>
+      <a class="outil" href="E_ludotheque/parents/jeux-adaptes-rahma-tech.html" style="background:linear-gradient(135deg,#fff,#fff5e8);border:1.5px solid #e89556"><strong>🎮 Pack 10 jeux maison adaptés · Team Rahma-Tech · NOUVEAU</strong><span class="desc">10 jeux ORIGINAUX inspirés des classiques (Dobble · Set · Halli Galli · Time's Up · Loup-Garou · Tangram · Devine qui · Memory · Story Cubes) mais 100% maison sans matériel. Pour chaque jeu : règles · variantes · neuro + adaptations TDAH/TSA/Dys. Plusieurs niveaux ado (Catégorie secrète · Bluff des animaux · Mots qui partagent un cousin...). Filtres par fonction.</span></a>
+      <a class="outil" href="E_ludotheque/parents/apprivoise-tes-emotions.html" style="background:linear-gradient(135deg,#fff,#f5e8f0);border:1.5px solid #7c5cbf"><strong>🎮 Pack 3 mini-jeux · Apprivoise tes émotions</strong><span class="desc">3 jeux dans 1 : 🎨 trouve la nuance émotionnelle · 🎭 décode la scène sociale (avec scénarios ados : ami silencieux, prof qui humilie, cousin·e en détresse, harcèlement de groupe…) · 🛑 mot interdit (à 2 avec un parent). Filtres ado · records.</span></a>
+      <a class="outil" href="E_ludotheque/parents/jeux-maison-fe.html" style="background:linear-gradient(135deg,#fff,#f0f9ec);border:1.5px solid #5fa040"><strong>🎯 20 jeux maison FE (utilisable seul·e)</strong><span class="desc">20 jeux originaux Nawel pour entraîner attention, mémoire, flexibilité, inhibition. Sans matériel.</span></a>
+      <a class="outil" href="E_ludotheque/parents/jeu-chitane.html" style="background:linear-gradient(135deg,#fff,#fdf8ec);border:1.5px solid #B49058"><strong>🃏 Jeu Chitane — Tri des pensées · NOUVEAU</strong><span class="desc">Création originale Nawel · Voie Chifā — Reconnaître la voix qui sabote (rumination/distorsions) vs la voix utile (raison/fitra). 24 cartes avec niveau 10-14 et 14+ · feedback + alternative saine. Ancrage islamique optionnel · outil TCC universel.</span></a>
+    </div>
+  </article>
+
+</section>
+
+<!-- 🎉 Section "tout est livré" -->
+<section style="max-width:1100px;margin:1rem auto;padding:0 1.5rem">
+  <div style="background:linear-gradient(135deg,#fff,#eef6f5);border:1.5px solid #5fa040;border-radius:var(--r-lg);padding:1rem 1.5rem;text-align:center">
+    <span style="font-size:1.4rem">🎉</span>
+    <strong style="color:#3d6e25;font-family:var(--font-titre)">Tous les outils ados sont disponibles !</strong>
+    <span style="display:block;font-size:.85rem;color:#666;margin-top:.3rem">27 outils interactifs prêts à explorer. Nouveaux outils ajoutés régulièrement selon vos retours.</span>
+  </div>
+</section>
+
+<!-- FOOTER ENRICHI -->
+<footer style="max-width:1100px;margin:2rem auto 0;padding:0 1.5rem">
+  <div style="background:linear-gradient(135deg,#fff,#eef6f5);border-radius:var(--r-lg);padding:1.5rem 1.8rem;border-top:4px solid var(--teal-titre);box-shadow:var(--shadow-sm);text-align:center">
+    <div style="font-family:var(--font-titre);font-size:1.05rem;color:var(--teal-titre);font-weight:800;margin-bottom:.4rem">🌱 Espace Ados — Boîte NeuroPed</div>
+    <p style="color:var(--muted);font-size:.92rem;margin:.3rem 0 .8rem">Création originale Nawel Haddouch · EducaTypique<br>
+      <span style="font-size:.85rem">Outils gratuits · 100% anonyme · rien envoyé en ligne · ton rythme</span></p>
+    <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem">
+      <a href="index.html" style="padding:.45em 1em;background:#fff;border:1.5px solid var(--violet-titre);color:var(--violet-titre);border-radius:999px;text-decoration:none;font-weight:700;font-size:.85rem">🏠 Accueil</a>
+      <a href="aujourdhui.html" style="padding:.45em 1em;background:#fff;border:1.5px solid var(--rose-titre);color:var(--rose-titre);border-radius:999px;text-decoration:none;font-weight:700;font-size:.85rem">📍 Mode Aujourd'hui</a>
+      <a href="parents.html" style="padding:.45em 1em;background:#fff;border:1.5px solid var(--pub-parents);color:#a04268;border-radius:999px;text-decoration:none;font-weight:700;font-size:.85rem">🏡 Parents</a>
+      <a href="professionnels.html" style="padding:.45em 1em;background:#fff;border:1.5px solid var(--pub-praticiens);color:var(--violet-titre);border-radius:999px;text-decoration:none;font-weight:700;font-size:.85rem">🎓 Pros</a>
+      <a href="ressources.html" style="padding:.45em 1em;background:#fff;border:1.5px solid #e89556;color:#a04500;border-radius:999px;text-decoration:none;font-weight:700;font-size:.85rem">📚 Ressources</a>
+      <a href="a-propos.html" style="padding:.45em 1em;background:var(--teal-titre);color:#fff;border-radius:999px;text-decoration:none;font-weight:700;font-size:.85rem">ℹ️ À propos Nawel</a>
+    </div>
+    <p style="margin-top:1rem;font-size:.78rem;color:#999;font-style:italic">💛 Si tu vas mal et que ces outils ne suffisent pas, n'hésite pas à parler à un adulte de confiance ou à appeler le 3114 (gratuit, anonyme, 24h/24)</p>
+  </div>
+</footer>
+
+<p style="text-align:center;color:#aaa;padding:1rem;font-size:.78rem">
+  © 2026 Nawel Haddouch · EducaTypique — Tous droits réservés
+</p>
+
+<script>
+// 🔍 RECHERCHE LIVE
+(function(){
+  const input=document.getElementById('recherche-outils');
+  const countEl=document.getElementById('count-outils');
+  const clearBtn=document.getElementById('clear-recherche');
+  const noResults=document.getElementById('no-results');
+  if(!input)return;
+  const totalOutils=document.querySelectorAll('.axes .outil').length;
+  countEl.textContent=totalOutils+' outils';
+
+  function filtrer(){
+    const q=input.value.trim().toLowerCase();
+    clearBtn.classList.toggle('visible', q.length>0);
+    const axes=document.querySelectorAll('.axes .axe');
+    let totalVisible=0;
+    axes.forEach(axe=>{
+      const outils=axe.querySelectorAll('.outil');
+      let visibleDansAxe=0;
+      outils.forEach(o=>{
+        const text=o.textContent.toLowerCase();
+        const match=q===''||text.includes(q);
+        o.classList.toggle('hidden-search', !match);
+        if(match)visibleDansAxe++;
+      });
+      axe.classList.toggle('hidden-search', visibleDansAxe===0 && q!=='');
+      totalVisible+=visibleDansAxe;
+    });
+    if(q===''){
+      countEl.textContent=totalOutils+' outils';
+      noResults.classList.remove('visible');
+    } else {
+      countEl.textContent=totalVisible+'/'+totalOutils+' outil(s)';
+      noResults.classList.toggle('visible', totalVisible===0);
+    }
+  }
+  input.addEventListener('input', filtrer);
+  clearBtn.addEventListener('click', ()=>{input.value='';input.focus();filtrer();});
+  input.addEventListener('keydown', e=>{if(e.key==='Escape'){input.value='';filtrer();}});
+})();
+</script>
+
+</body>
+</html>

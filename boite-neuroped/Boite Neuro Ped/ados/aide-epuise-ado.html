@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ce qui m'aide / ce qui m'épuise — Ado · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#eef6f5,#fff)}
+.bandeau{background:linear-gradient(135deg,#2a9d8f,#8ED9D2,#F39BC2);padding:1.8rem 1.5rem;text-align:center;color:#fff;position:relative;overflow:hidden}
+.bandeau::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 30%,rgba(255,255,255,.2),transparent 60%);pointer-events:none}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem;position:relative;z-index:1}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15);position:relative;z-index:1}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto;position:relative;z-index:1}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9;position:relative;z-index:1}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid var(--teal-titre);line-height:1.55}
+.intro strong{color:var(--teal-fonce)}
+
+.dossier-bar{background:#fff;padding:.7rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.dossier-bar select,.dossier-bar input{padding:.4em .8em;border:1.5px solid #c5dfdb;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:var(--teal-titre);color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:var(--teal-fonce);border:1.5px solid #c5dfdb}
+
+.deux-colonnes{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:700px){.deux-colonnes{grid-template-columns:1fr}}
+
+.colonne{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c)}
+.colonne h2{color:var(--c);margin:0 0 .3rem;font-family:var(--font-titre);font-size:1.15rem;display:flex;align-items:center;gap:.5rem}
+.colonne .sub{color:#666;font-size:.88rem;font-style:italic;margin-bottom:.6rem;line-height:1.5}
+.col-aide{--c:#5fa040}
+.col-epuise{--c:#c25a30}
+
+.items-list{display:flex;flex-direction:column;gap:.35rem;min-height:120px}
+.item{background:var(--ic-bg);border-left:4px solid var(--c);border-radius:var(--r-sm);padding:.5rem .7rem;display:flex;align-items:center;gap:.5rem;font-size:.92rem;line-height:1.4;animation:slide-in .25s ease}
+.col-aide .item{--ic-bg:#f0f9ec}
+.col-epuise .item{--ic-bg:#fff4ef}
+@keyframes slide-in{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+.item .txt{flex:1}
+.item .btn-suppr{background:transparent;border:none;color:#888;cursor:pointer;font-size:1rem;padding:0 .3rem}
+.item .btn-suppr:hover{color:#c25a30}
+.empty-state{color:#aaa;font-style:italic;text-align:center;padding:1.5rem .5rem;font-size:.88rem}
+
+.add-zone{display:flex;gap:.4rem;margin-top:.6rem;flex-wrap:wrap}
+.add-zone input{flex:1;min-width:160px;padding:.5em .7em;border:1.5px solid #c5dfdb;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;background:#faf9f8}
+.col-aide .add-zone input{border-color:#c5e0b5;background:#fafdf5}
+.col-epuise .add-zone input{border-color:#f0c8b8;background:#fff8f5}
+.add-zone button{padding:.5em 1em;background:var(--c);color:#fff;border:none;border-radius:var(--r-md);cursor:pointer;font-weight:700;font-family:inherit;font-size:.88rem}
+
+.suggestions{background:#fff;border-radius:var(--r-lg);padding:1rem 1.2rem;box-shadow:var(--shadow-sm);border-left:4px solid #9B85B8}
+.suggestions h3{color:#5a3c8f;margin:0 0 .4rem;font-size:1rem}
+.suggestions p{color:#666;font-size:.85rem;margin:0 0 .5rem;font-style:italic}
+.sugg-grid{display:flex;flex-wrap:wrap;gap:.3rem}
+.sugg-btn{padding:.3em .7em;background:#faf6fb;border:1.5px solid #d8c9f0;color:#5a3c8f;border-radius:999px;cursor:pointer;font-family:inherit;font-size:.83rem;font-weight:700;transition:all .15s}
+.sugg-btn:hover{background:#5a3c8f;color:#fff;transform:translateY(-1px)}
+.sugg-btn.aide{border-color:#5fa040;color:#3d6e25}
+.sugg-btn.aide:hover{background:#5fa040;color:#fff}
+.sugg-btn.epuise{border-color:#c25a30;color:#8a3010}
+.sugg-btn.epuise:hover{background:#c25a30;color:#fff}
+
+.bilan{background:linear-gradient(135deg,#fff,#eef6f5);border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border:2px solid #c5dfdb;display:none}
+.bilan.visible{display:block}
+.bilan h2{color:var(--teal-fonce);margin:0 0 .5rem}
+.bilan .compteurs{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.6rem}
+.bilan .compteur{background:#fff;border-radius:var(--r-md);padding:.7rem .9rem;text-align:center;border-top:3px solid var(--c)}
+.bilan .compteur .nb{font-size:1.5rem;font-weight:800;color:var(--c)}
+.bilan .compteur .lbl{font-size:.78rem;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.bilan .compteur.c-aide{--c:#5fa040}
+.bilan .compteur.c-epuise{--c:#c25a30}
+
+.mot-final{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.9rem 1.2rem;border-radius:var(--r-md);font-size:.93rem;line-height:1.6;color:#5A4D6B;margin-top:.6rem}
+.mot-final strong{color:#5a3c8f}
+
+.actions{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid var(--teal-titre);background:#fff;color:var(--teal-fonce);border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:var(--teal-titre);color:#fff}
+.actions .primary{background:var(--teal-titre);color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+
+@media print{
+  body{background:#fff}
+  .dossier-bar,.actions,.add-zone,.suggestions,.bandeau .retour{display:none!important}
+  .colonne,.bilan{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../ados.html">← Espace ados</a>
+  <h1>💚 Ce qui m'aide / 🟧 ce qui m'épuise</h1>
+  <p class="sub">Repère ce qui te recharge vraiment vs ce qui te vide. Pour mieux choisir où mettre ton énergie cette semaine.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    💚 <strong>Pourquoi ?</strong> Quand tu es fatigué, déprimé ou anxieux, ton cerveau ne fait plus la différence entre <em>« ce qui me fait du bien »</em> et <em>« ce qui me fait croire que ça va aller »</em>. Cet outil t'aide à <strong>VOIR clairement</strong> ce qui te recharge vraiment, et ce qui te vide même si tu pensais le contraire.
+  </div>
+
+  <div class="dossier-bar">
+    <label style="font-weight:700;color:var(--teal-fonce)">📁</label>
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouvelle carte</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <div class="suggestions">
+    <h3>💡 Pistes — clique pour ajouter (côté correspondant)</h3>
+    <p>Pas obligé de t'en servir, juste pour t'aider à démarrer. Tu peux aussi taper directement dans les zones ci-dessous.</p>
+    <div class="sugg-grid" id="sugg-grid"></div>
+  </div>
+
+  <div class="deux-colonnes">
+    <section class="colonne col-aide">
+      <h2>💚 Ce qui m'AIDE</h2>
+      <div class="sub">Ce qui me recharge, me détend, me reconnecte à moi. Même les petits trucs.</div>
+      <div class="items-list" id="liste-aide"></div>
+      <div class="add-zone">
+        <input type="text" id="new-aide" placeholder="Ex: « Marcher avec mon chien »">
+        <button id="btn-add-aide">+ Ajouter</button>
+      </div>
+    </section>
+
+    <section class="colonne col-epuise">
+      <h2>🟧 Ce qui m'ÉPUISE</h2>
+      <div class="sub">Ce qui me vide, me met en alarme, me prend mon énergie sans rien me rendre.</div>
+      <div class="items-list" id="liste-epuise"></div>
+      <div class="add-zone">
+        <input type="text" id="new-epuise" placeholder="Ex: « Le bruit dans la classe »">
+        <button id="btn-add-epuise">+ Ajouter</button>
+      </div>
+    </section>
+  </div>
+
+  <button id="btn-bilan" style="padding:.7em 1.5em;background:linear-gradient(135deg,var(--teal-titre),#8ED9D2);color:#fff;border:none;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:1rem;box-shadow:var(--shadow-sm);align-self:center;margin-top:.5rem">✨ Faire mon bilan</button>
+
+  <section class="bilan" id="bilan-bloc">
+    <h2>🪞 Mon bilan</h2>
+    <div class="compteurs">
+      <div class="compteur c-aide"><div class="nb" id="nb-aide">0</div><div class="lbl">💚 m'aident</div></div>
+      <div class="compteur c-epuise"><div class="nb" id="nb-epuise">0</div><div class="lbl">🟧 m'épuisent</div></div>
+    </div>
+    <div class="mot-final" id="message-bilan"></div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Outil d'auto-observation. Si tu observes que TOUT t'épuise et rien ne te recharge depuis longtemps, c'est un signal qui mérite l'écoute d'un adulte de confiance ou d'un pro.
+    💛 <strong>3114</strong> (prévention suicide, gratuit, 24h/24)
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../ados.html" style="color:var(--teal-fonce)">retour espace ados</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_aide_epuise_ado_v1';
+let state={dossiers:{},dossier:null};
+
+const SUGGESTIONS = [
+  // Aide
+  {t:'Marcher dehors', side:'aide'},
+  {t:'Écouter ma musique', side:'aide'},
+  {t:'Parler avec un·e ami·e', side:'aide'},
+  {t:'Prendre une douche', side:'aide'},
+  {t:'Dessiner / créer', side:'aide'},
+  {t:'Faire du sport', side:'aide'},
+  {t:'Dormir', side:'aide'},
+  {t:'Caresser mon animal', side:'aide'},
+  {t:'Manger un truc bon', side:'aide'},
+  {t:'Sourire à quelqu\'un', side:'aide'},
+  {t:'Respirer 5 min', side:'aide'},
+  {t:'Regarder une série', side:'aide'},
+  // Épuise
+  {t:'Scroller sans fin', side:'epuise'},
+  {t:'Comparaisons réseaux sociaux', side:'epuise'},
+  {t:'Disputes', side:'epuise'},
+  {t:'Bruit constant', side:'epuise'},
+  {t:'Lumière forte', side:'epuise'},
+  {t:'Tâches qui s\'accumulent', side:'epuise'},
+  {t:'Critiques répétées', side:'epuise'},
+  {t:'Manque de sommeil', side:'epuise'},
+  {t:'Faire semblant que ça va', side:'epuise'},
+  {t:'Trop de monde', side:'epuise'},
+  {t:'Notes / contrôles', side:'epuise'},
+  {t:'Pression « tu dois »', side:'epuise'}
+];
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {aide:[],epuise:[]}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Ma carte 1":blank()};state.dossier="Ma carte 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function renderSuggestions(){
+  const c=document.getElementById('sugg-grid');
+  c.innerHTML=SUGGESTIONS.map(s=>`<button class="sugg-btn ${s.side}" data-t="${esc(s.t)}" data-s="${s.side}">${esc(s.t)}</button>`).join('');
+  c.querySelectorAll('.sugg-btn').forEach(b=>b.onclick=()=>{
+    const d=current();d[b.dataset.s]=d[b.dataset.s]||[];
+    if(!d[b.dataset.s].includes(b.dataset.t)){d[b.dataset.s].push(b.dataset.t);save();renderListes();}
+  });
+}
+
+function renderListes(){
+  const d=current();
+  ['aide','epuise'].forEach(side=>{
+    const l=document.getElementById('liste-'+side);
+    if(!d[side]||d[side].length===0){l.innerHTML='<div class="empty-state">'+(side==='aide'?'Ajoute ce qui te recharge 💚':'Ajoute ce qui te vide 🟧')+'</div>';return}
+    l.innerHTML=d[side].map((it,i)=>`<div class="item"><span class="txt">${esc(it)}</span><button class="btn-suppr" data-i="${i}" data-s="${side}" title="Retirer">×</button></div>`).join('');
+    l.querySelectorAll('.btn-suppr').forEach(b=>b.onclick=()=>{
+      const d=current();d[b.dataset.s].splice(parseInt(b.dataset.i),1);save();renderListes();
+    });
+  });
+}
+
+document.getElementById('btn-add-aide').onclick=()=>{
+  const v=document.getElementById('new-aide').value.trim();if(!v)return;
+  const d=current();d.aide=d.aide||[];d.aide.push(v);save();renderListes();document.getElementById('new-aide').value='';
+};
+document.getElementById('btn-add-epuise').onclick=()=>{
+  const v=document.getElementById('new-epuise').value.trim();if(!v)return;
+  const d=current();d.epuise=d.epuise||[];d.epuise.push(v);save();renderListes();document.getElementById('new-epuise').value='';
+};
+document.getElementById('new-aide').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('btn-add-aide').click()});
+document.getElementById('new-epuise').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('btn-add-epuise').click()});
+
+document.getElementById('btn-bilan').onclick=()=>{
+  const d=current();
+  const na=(d.aide||[]).length;
+  const ne=(d.epuise||[]).length;
+  document.getElementById('nb-aide').textContent=na;
+  document.getElementById('nb-epuise').textContent=ne;
+  let msg='';
+  if(na===0 && ne===0) msg='<strong>Bienvenue !</strong> Commence par ajouter quelques éléments dans chaque colonne.';
+  else if(na>ne) msg='<strong>💚 Bonne nouvelle :</strong> tu as identifié plus de choses qui te rechargent que de choses qui te vident. <em>Garde cette liste près de toi quand ça va moins bien</em> — c\'est ta boîte à secours.';
+  else if(ne>na) msg='<strong>🟧 Attention :</strong> tu as plus de choses qui t\'épuisent que de choses qui te rechargent. <em>Ce n\'est pas grave</em> — mais c\'est un signal pour cette semaine : essaie d\'ajouter 1 ou 2 choses qui te font du bien, et de réduire UN truc qui te vide. <strong>Si ça dure trop longtemps, parle à un adulte de confiance ou un pro.</strong>';
+  else msg='<strong>⚖ Équilibré.</strong> Tu as autant de choses qui te rechargent que de choses qui te vident. <em>L\'enjeu maintenant :</em> est-ce que tu peux <strong>doser tes journées</strong> pour que les « aides » contre-balancent les « épuisants » ?';
+  msg+='<br><br>💛 <em>Une émotion ou une journée n\'est pas une étiquette. Tu peux faire évoluer ta liste à n\'importe quel moment.</em> — Nawel';
+  document.getElementById('message-bilan').innerHTML=msg;
+  document.getElementById('bilan-bloc').classList.add('visible');
+  document.getElementById('bilan-bloc').scrollIntoView({behavior:'smooth',block:'start'});
+};
+
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();renderListes();document.getElementById('bilan-bloc').classList.remove('visible');};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom de la nouvelle carte :','Ma carte '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();renderListes();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Tu ne peux pas supprimer la seule carte.');return}
+  if(confirm('Supprimer cette carte ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();renderListes();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider cette carte ?')){state.dossiers[state.dossier]=blank();save();renderListes();document.getElementById('bilan-bloc').classList.remove('visible');}};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  let t=`CE QUI M'AIDE / CE QUI M'ÉPUISE — ${state.dossier}\nEducaTypique · Création originale Nawel Haddouch\nDate : ${new Date().toLocaleDateString('fr-FR')}\n\n`;
+  t+=`💚 CE QUI M'AIDE (${(d.aide||[]).length}) :\n`;(d.aide||[]).forEach(x=>t+='  • '+x+'\n');
+  t+=`\n🟧 CE QUI M'ÉPUISE (${(d.epuise||[]).length}) :\n`;(d.epuise||[]).forEach(x=>t+='  • '+x+'\n');
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`aide-epuise-${state.dossier.replace(/[^a-z0-9]/gi,'_')}-${new Date().toISOString().slice(0,10)}.txt`;a.click();
+};
+
+load();refreshDossier();renderSuggestions();renderListes();
+</script>
+
+</body>
+</html>

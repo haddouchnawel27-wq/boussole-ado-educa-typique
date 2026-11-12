@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma Boîte à Secours Émotionnelle — Boussol Ados</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#F0F7F5 0%,#F5F0F7 50%,#FEF6EF 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2D3E3A;line-height:1.6;padding:24px 16px 48px;min-height:100vh}
+.wrap{max-width:680px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+@keyframes breathe-in{0%{transform:scale(1)}100%{transform:scale(1.4)}}
+@keyframes breathe-out{0%{transform:scale(1.4)}100%{transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes shimmer{0%,100%{opacity:0.6}50%{opacity:1}}
+
+.hdr{text-align:center;padding:40px 24px 32px;margin-bottom:24px;background:linear-gradient(160deg,#FFF8F2,#F0F0F8 50%,#E8F2EE);border-radius:24px;border:1px solid rgba(108,168,158,0.25);box-shadow:0 6px 24px rgba(108,168,158,0.08)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#6CA89E,#9B85B8);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+.float-icon{font-size:48px;margin-bottom:8px;display:inline-block;animation:float 3s ease-in-out infinite}
+.hdr h1{font-family:Georgia,serif;font-size:30px;font-weight:400;color:#2D3E3A;margin-bottom:8px}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A6B66}
+
+.welcome{background:#FFFFFF;border-radius:18px;padding:20px 22px;margin-bottom:22px;border:1px solid rgba(108,168,158,0.2);box-shadow:0 4px 14px rgba(108,168,158,0.06);animation:fadeIn 0.6s ease-out}
+.welcome p{font-size:15px;color:#3D4E4A;line-height:1.65}
+.welcome strong{color:#6CA89E}
+
+.section{background:#FFFFFF;border-radius:20px;padding:24px 22px;margin-bottom:18px;border:1px solid rgba(108,168,158,0.18);box-shadow:0 4px 14px rgba(155,133,184,0.05);animation:fadeIn 0.6s ease-out}
+.section-num{display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;background:linear-gradient(135deg,#6CA89E,#9B85B8);color:#fff;border-radius:50%;font-size:13px;font-weight:600;margin-right:10px;vertical-align:middle}
+.section h2{font-family:Georgia,serif;font-size:20px;font-weight:500;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center}
+.section .sub{font-size:13px;color:#7A8782;font-style:italic;margin-bottom:18px;margin-left:38px}
+
+.breathe-box{text-align:center;padding:20px 0 10px}
+.breathe-circle{display:inline-block;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,#A8D5C0 0%,#6CA89E 70%);margin:0 auto 14px;transition:transform 4s ease-in-out;box-shadow:0 0 30px rgba(108,168,158,0.3)}
+.breathe-circle.inhale{animation:breathe-in 4s ease-in-out forwards}
+.breathe-circle.exhale{animation:breathe-out 6s ease-in-out forwards}
+.breathe-instruction{font-family:Georgia,serif;font-size:22px;color:#2D3E3A;min-height:32px;margin-bottom:6px;font-style:italic}
+.breathe-counter{font-size:13px;color:#7A8782;margin-bottom:14px}
+.btn-breathe{background:linear-gradient(135deg,#6CA89E,#88B8AA);color:#fff;border:none;padding:11px 26px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:0.5px;transition:transform 0.2s,box-shadow 0.2s}
+.btn-breathe:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(108,168,158,0.3)}
+.btn-breathe:disabled{opacity:0.5;cursor:not-allowed}
+
+.emotions{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:11px;margin-top:8px}
+.emo-card{background:#FBF8F4;border:2px solid transparent;border-radius:16px;padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.25s ease;font-size:13px;color:#3D4E4A}
+.emo-card:hover{background:#F5F0E8;transform:translateY(-2px)}
+.emo-card.active{background:linear-gradient(135deg,#FFF0E8,#F5E8F0);border-color:#9B85B8;box-shadow:0 4px 14px rgba(155,133,184,0.18)}
+.emo-card .emo-icon{font-size:28px;display:block;margin-bottom:6px}
+.emo-card .emo-name{font-weight:600;color:#2D3E3A;font-family:Georgia,serif}
+
+.doors{display:none;margin-top:18px;animation:fadeIn 0.5s ease-out}
+.doors.show{display:block}
+.door{background:#FBF8F4;border-radius:14px;padding:16px 18px;margin-bottom:10px;border-left:4px solid;animation:pop 0.4s ease-out}
+.door.corps{border-color:#E8A87C}
+.door.tete{border-color:#9B85B8}
+.door.coeur{border-color:#6CA89E}
+.door h3{font-family:Georgia,serif;font-size:16px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.door.corps h3{color:#B86D3A}
+.door.tete h3{color:#6E5594}
+.door.coeur h3{color:#4A8576}
+.door ul{list-style:none;padding-left:4px}
+.door li{padding:5px 0 5px 18px;position:relative;font-size:14px;color:#3D4E4A;line-height:1.55}
+.door li::before{content:'\2022';position:absolute;left:4px;color:inherit;font-weight:bold;opacity:0.6}
+
+.tirage-box{text-align:center;padding:14px 0 8px}
+.tirage-display{min-height:90px;background:linear-gradient(135deg,#FFF8F2,#F0F0F8);border-radius:16px;padding:20px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:16px;color:#3D4E4A;line-height:1.6;border:1px dashed rgba(108,168,158,0.3);font-style:italic}
+.tirage-display .emoji{font-size:32px;display:block;margin-bottom:8px}
+.btn-tirage{background:linear-gradient(135deg,#E8A87C,#F0B894);color:#fff;border:none;padding:11px 26px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:0.5px;transition:transform 0.2s}
+.btn-tirage:hover{transform:translateY(-2px) rotate(-1deg);box-shadow:0 6px 14px rgba(232,168,124,0.3)}
+
+.ancrage-step{background:#FBF8F4;border-radius:12px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.25s ease;border:2px solid transparent}
+.ancrage-step:hover{background:#F5F0E8}
+.ancrage-step.done{background:linear-gradient(135deg,#E8F4EE,#E0EEDF);border-color:rgba(108,168,158,0.3)}
+.ancrage-step.done .ancrage-num{background:#6CA89E;color:#fff}
+.ancrage-step.done::after{content:'\2713';color:#6CA89E;font-size:20px;font-weight:bold;margin-left:auto}
+.ancrage-num{width:38px;height:38px;line-height:38px;border-radius:50%;background:#E8E0D5;color:#6E5E48;text-align:center;font-weight:700;font-size:18px;flex-shrink:0;transition:all 0.25s}
+.ancrage-text{font-size:14px;color:#3D4E4A}
+.ancrage-text strong{color:#2D3E3A}
+
+.refuge-card{background:linear-gradient(135deg,#FFF8F2 0%,#F5F0F7 100%);border-radius:18px;padding:30px 24px;margin:10px 0 14px;text-align:center;font-family:Georgia,serif;font-style:italic;font-size:18px;color:#3D4E4A;line-height:1.6;min-height:120px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(155,133,184,0.2);transition:opacity 0.4s}
+.btn-refuge{background:linear-gradient(135deg,#9B85B8,#B59ECE);color:#fff;border:none;padding:11px 26px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:0.5px;transition:transform 0.2s;display:block;margin:0 auto}
+.btn-refuge:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(155,133,184,0.3)}
+
+.sos{background:linear-gradient(135deg,#FFF0EC,#FFE8E0);border-radius:18px;padding:22px;margin-top:22px;border:1px solid rgba(232,135,108,0.3)}
+.sos h2{color:#C9573A;font-family:Georgia,serif;font-size:18px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sos p{font-size:14px;color:#5A4541;margin-bottom:8px;line-height:1.6}
+.sos .help-line{background:#fff;border-radius:10px;padding:12px 14px;margin-top:10px;font-size:13.5px;color:#3D4E4A;border-left:3px solid #C9573A;line-height:1.7}
+.sos .help-title{color:#C9573A;font-weight:600;margin-bottom:6px;display:block}
+.sos .help-num{color:#C9573A;font-weight:600}
+
+.foot{text-align:center;padding:24px 16px 8px;color:#7A8782;font-size:12px;font-style:italic;font-family:Georgia,serif;animation:shimmer 4s ease-in-out infinite}
+.foot .brand-foot{color:#6CA89E;font-style:normal;font-weight:600;margin-top:10px;display:block;letter-spacing:1px;font-size:10px;text-transform:uppercase}
+
+@media (max-width:480px){
+.hdr{padding:32px 18px 26px}
+.hdr h1{font-size:24px}
+.section{padding:20px 18px}
+.emotions{grid-template-columns:repeat(2,1fr)}
+.refuge-card{font-size:16px;padding:24px 18px}
+}
+</style>
+</head>
+<body>
+<a href="../../ados.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#7c5cbf;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(124,92,191,0.2)">← Boîte NeuroPed</a><!--data-back-link-injected-->
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">Boussol Ados · Educa Typique</span>
+<div class="float-icon">🛟</div>
+<h1>Ma Boîte à Secours Émotionnelle</h1>
+<p>Quand ça déborde à l'intérieur, viens piocher ici</p>
+</div>
+
+<div class="welcome">
+<p>👋 <strong>Salut toi.</strong> Si tu es ici, c'est que quelque chose remue fort en toi. C'est OK. <strong>Toutes les émotions ont le droit d'exister</strong> — elles veulent juste te dire quelque chose. Cette boîte ne fait pas disparaître ce que tu ressens, mais elle te donne des <strong>outils concrets</strong> pour traverser la vague sans te noyer. Prends ce qui te parle, laisse le reste. 🌿</p>
+</div>
+
+<div class="section">
+<h2><span class="section-num">1</span>Respire d'abord</h2>
+<div class="sub">Avant tout : 3 cycles de respiration. Inspire 4 sec, expire 6 sec.</div>
+<div class="breathe-box">
+<div class="breathe-circle" id="circle"></div>
+<div class="breathe-instruction" id="b-instr">Prêt(e) ? Clique sur "Commencer"</div>
+<div class="breathe-counter" id="b-count">3 cycles à faire</div>
+<button class="btn-breathe" id="btn-breathe" onclick="startBreathing()">Commencer</button>
+</div>
+</div>
+
+<div class="section">
+<h2><span class="section-num">2</span>Qu'est-ce que tu ressens ?</h2>
+<div class="sub">Choisis l'émotion la plus forte. Ça ouvrira tes 3 portes de secours.</div>
+<div class="emotions" id="emotions">
+<div class="emo-card" data-emo="colere"><span class="emo-icon">🔥</span><span class="emo-name">Colère</span></div>
+<div class="emo-card" data-emo="tristesse"><span class="emo-icon">💧</span><span class="emo-name">Tristesse</span></div>
+<div class="emo-card" data-emo="anxiete"><span class="emo-icon">🌪️</span><span class="emo-name">Anxiété</span></div>
+<div class="emo-card" data-emo="frustration"><span class="emo-icon">⚡</span><span class="emo-name">Frustration</span></div>
+<div class="emo-card" data-emo="fatigue"><span class="emo-icon">🌙</span><span class="emo-name">Fatigue</span></div>
+<div class="emo-card" data-emo="debordement"><span class="emo-icon">🌊</span><span class="emo-name">Débordement</span></div>
+</div>
+
+<div class="doors" id="doors">
+<div class="door corps">
+<h3>🌿 Porte du Corps</h3>
+<ul id="corps-list"></ul>
+</div>
+<div class="door tete">
+<h3>💭 Porte de la Tête</h3>
+<ul id="tete-list"></ul>
+</div>
+<div class="door coeur">
+<h3>💛 Porte du Cœur</h3>
+<ul id="coeur-list"></ul>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2><span class="section-num">3</span>Pioche surprise</h2>
+<div class="sub">Tu ne sais pas quoi faire ? Laisse le hasard te guider.</div>
+<div class="tirage-box">
+<div class="tirage-display" id="tirage"><div><span class="emoji">🎴</span>Clique sur le bouton pour piocher une technique au hasard</div></div>
+<button class="btn-tirage" onclick="tirerCarte()">🎲 Piocher une technique</button>
+</div>
+</div>
+
+<div class="section">
+<h2><span class="section-num">4</span>Reviens dans ton corps — 5·4·3·2·1</h2>
+<div class="sub">Quand tu te sens loin, perdu(e), ou en panique : reconnecte tes sens. Coche au fur et à mesure.</div>
+<div class="ancrage-step" onclick="this.classList.toggle('done')">
+<div class="ancrage-num">5</div>
+<div class="ancrage-text"><strong>5 choses que tu VOIS</strong> autour de toi. Regarde vraiment — les couleurs, les formes, les détails.</div>
+</div>
+<div class="ancrage-step" onclick="this.classList.toggle('done')">
+<div class="ancrage-num">4</div>
+<div class="ancrage-text"><strong>4 choses que tu TOUCHES.</strong> Ton vêtement, ta peau, un objet — sens les textures.</div>
+</div>
+<div class="ancrage-step" onclick="this.classList.toggle('done')">
+<div class="ancrage-num">3</div>
+<div class="ancrage-text"><strong>3 sons que tu ENTENDS.</strong> Même les plus discrets — un frigo, ta respiration, un oiseau.</div>
+</div>
+<div class="ancrage-step" onclick="this.classList.toggle('done')">
+<div class="ancrage-num">2</div>
+<div class="ancrage-text"><strong>2 odeurs que tu SENS.</strong> Ou des odeurs que tu peux imaginer (ton parfum, du pain chaud…).</div>
+</div>
+<div class="ancrage-step" onclick="this.classList.toggle('done')">
+<div class="ancrage-num">1</div>
+<div class="ancrage-text"><strong>1 saveur dans ta bouche.</strong> Le goût qu'il y a, ou un souvenir doux.</div>
+</div>
+</div>
+
+<div class="section">
+<h2><span class="section-num">5</span>Mes phrases-refuge</h2>
+<div class="sub">Des mots doux à se dire à soi-même, comme on parlerait à sa meilleure amie.</div>
+<div class="refuge-card" id="refuge">« Ce que je ressens est légitime. Cette émotion va passer, comme un nuage dans le ciel. »</div>
+<button class="btn-refuge" onclick="nouvellePhraseRefuge()">✨ Une autre phrase</button>
+</div>
+
+<div class="sos">
+<h2>🆘 Quand c'est trop fort</h2>
+<p>Si tu te sens vraiment mal, si des pensées noires arrivent, si tu te fais du mal ou y penses : <strong>tu n'as pas à rester seul(e).</strong></p>
+<p><strong>Parle à quelqu'un MAINTENANT</strong> — un parent, un adulte de confiance, ta praticienne. Ce n'est pas une faiblesse, c'est du courage.</p>
+<div class="help-line">
+<span class="help-title">📞 Lignes d'écoute gratuites et confidentielles :</span>
+• <span class="help-num">Fil Santé Jeunes</span> : 0 800 235 236 (gratuit, anonyme, 9h-23h)<br>
+• <span class="help-num">3114</span> — Numéro national de prévention du suicide (24h/24)
+</div>
+</div>
+
+<div class="foot">
+« Tu es plus fort(e) que ce que tu crois, plus aimé(e) que tu ne le sens »<br>
+<span class="brand-foot">Boussol Ados · Educa Typique · Nawel Oum Mona</span>
+</div>
+
+</div>
+
+<script>
+// ============ RESPIRATION ============
+var cyclesDone = 0;
+var totalCycles = 3;
+var breathing = false;
+
+function startBreathing(){
+  if(breathing) return;
+  breathing = true;
+  cyclesDone = 0;
+  document.getElementById("btn-breathe").disabled = true;
+  document.getElementById("btn-breathe").textContent = "En cours...";
+  doCycle();
+}
+
+function doCycle(){
+  if(cyclesDone >= totalCycles){
+    document.getElementById("b-instr").textContent = "Bravo. 🌿";
+    document.getElementById("b-count").textContent = "3 cycles terminés — comment te sens-tu ?";
+    document.getElementById("btn-breathe").disabled = false;
+    document.getElementById("btn-breathe").textContent = "Recommencer";
+    breathing = false;
+    return;
+  }
+  var circle = document.getElementById("circle");
+  var instr = document.getElementById("b-instr");
+  var count = document.getElementById("b-count");
+  
+  instr.textContent = "Inspire...";
+  count.textContent = "Cycle " + (cyclesDone + 1) + " / " + totalCycles;
+  circle.className = "breathe-circle inhale";
+  
+  setTimeout(function(){
+    instr.textContent = "Expire doucement...";
+    circle.className = "breathe-circle exhale";
+    
+    setTimeout(function(){
+      cyclesDone++;
+      doCycle();
+    }, 6000);
+  }, 4000);
+}
+
+// ============ ÉMOTIONS ============
+var portes = {
+  colere: {
+    corps: [
+      "Marche d\u2019un pas rapide pendant 2 min, secoue tes bras",
+      "Crie dans un coussin ou chante très fort une chanson",
+      "Pousse contre un mur de toutes tes forces 10 secondes",
+      "Cours sur place 20 secondes pour décharger"
+    ],
+    tete: [
+      "Note 3 choses qui t\u2019énervent — sans filtre, juste pour vider",
+      "Demande-toi : « Qu\u2019est-ce qui me blesse vraiment derrière ? »",
+      "Compte à rebours lent : 10, 9, 8… jusqu\u2019à 0",
+      "Dis dans ta tête : « Ma colère est un signal, pas une vérité »"
+    ],
+    coeur: [
+      "Pose ta main sur ta poitrine. Dis-toi : « C\u2019est OK d\u2019être en colère »",
+      "Écris une lettre que tu ne posteras pas",
+      "Pense à quelqu\u2019un qui te comprend, imagine son regard doux",
+      "Rappelle-toi : la colère cache souvent une blessure qui mérite de la douceur"
+    ]
+  },
+  tristesse: {
+    corps: [
+      "Enroule-toi dans une couverture moelleuse, fais un cocon",
+      "Bois quelque chose de chaud — tisane, lait, chocolat",
+      "Étire-toi doucement comme un chat au réveil",
+      "Pose les mains sur ton ventre, sens ta respiration calme"
+    ],
+    tete: [
+      "Écris 3 lignes sur ce qui te rend triste, juste pour le déposer",
+      "Regarde une photo ou un souvenir doux",
+      "Dis-toi : « Cette vague va passer, comme toutes les autres »",
+      "Demande-toi : « De quoi j\u2019aurais besoin là, tout de suite ? »"
+    ],
+    coeur: [
+      "Mets la main sur ton cœur, dis-toi : « Je suis là pour toi »",
+      "Pense à un être (humain ou animal) qui t\u2019aime vraiment",
+      "Pleure si ça vient — les larmes sont un médicament naturel",
+      "Rappelle-toi : être triste ne veut pas dire être seul(e) au monde"
+    ]
+  },
+  anxiete: {
+    corps: [
+      "Respiration 4-2-6 : inspire 4 sec, retiens 2 sec, expire 6 sec",
+      "Pieds bien à plat — sens le sol qui te porte",
+      "Bouge tes orteils, tes doigts, ta nuque — reviens dans ton corps",
+      "Bois un grand verre d\u2019eau lentement, gorgée par gorgée"
+    ],
+    tete: [
+      "Écris ton inquiétude en haut d\u2019une feuille, puis dis : « OK, je l\u2019ai entendue »",
+      "Demande-toi : « Est-ce dans MA tête ou dans la réalité ? »",
+      "Liste 3 choses sur lesquelles tu as VRAIMENT du contrôle, là, maintenant",
+      "Rappelle-toi : ton cerveau te protège, il exagère parfois"
+    ],
+    coeur: [
+      "Imagine une personne aimante qui pose une main rassurante sur ton épaule",
+      "Dis-toi : « Je suis en sécurité dans cet instant précis »",
+      "Pense à un endroit qui te calme — vraiment, en détail (sons, odeurs)",
+      "Rappelle-toi : tu as déjà traversé d\u2019autres tempêtes — tu sais faire"
+    ]
+  },
+  frustration: {
+    corps: [
+      "Tape des pieds 10 secondes, fort, comme un cheval qui piaffe",
+      "Serre les poings très fort 5 secondes, puis relâche d\u2019un coup",
+      "Chante ou crie ta chanson préférée à fond",
+      "Sors marcher 5 min, même autour de la maison"
+    ],
+    tete: [
+      "Écris : « Ce qui me frustre, c\u2019est… » et laisse couler",
+      "Demande-toi : « Qu\u2019est-ce que j\u2019attendais qui n\u2019est pas arrivé ? »",
+      "Pose-toi : « Est-ce que je peux changer ça ou pas ? » Si non → on lâche",
+      "Rappelle-toi : la frustration veut dire que quelque chose compte pour toi"
+    ],
+    coeur: [
+      "Dis-toi : « C\u2019est dur, et c\u2019est OK que ce soit dur »",
+      "Pense à un moment où tu as surmonté un blocage — tu sais faire",
+      "Pose-toi cette question douce : « De quoi j\u2019aurais besoin pour me sentir mieux ? »",
+      "Rappelle-toi : tu fais de ton mieux avec ce que tu as"
+    ]
+  },
+  fatigue: {
+    corps: [
+      "Allonge-toi 5 minutes, yeux fermés, juste pour respirer",
+      "Étire-toi doucement, comme un câlin que tu te fais",
+      "Bois un verre d\u2019eau — la déshydratation amplifie la fatigue",
+      "Marche 3 min dehors si possible, même 1 minute suffit"
+    ],
+    tete: [
+      "Demande-toi : « C\u2019est la fatigue physique, mentale, ou émotionnelle ? »",
+      "Identifie UNE seule chose à faire maintenant — pas dix",
+      "Annule mentalement ce qui n\u2019est pas vital aujourd\u2019hui",
+      "Rappelle-toi : se reposer n\u2019est pas perdre du temps, c\u2019est se reconstruire"
+    ],
+    coeur: [
+      "Sois doux(ce) avec toi comme avec un(e) ami(e) épuisé(e)",
+      "Permets-toi de ne rien faire sans culpabiliser",
+      "Pense à un cocon imaginaire qui t\u2019enveloppe entièrement",
+      "Rappelle-toi : ton corps a le droit de demander une pause"
+    ]
+  },
+  debordement: {
+    corps: [
+      "STOP. Pose les deux mains à plat sur tes cuisses ou une table",
+      "Respire 3 fois très lentement, en allongeant l\u2019expiration",
+      "Bois un verre d\u2019eau froide, sens-la descendre",
+      "Va dans un endroit calme — même les toilettes 2 min"
+    ],
+    tete: [
+      "Écris sur une feuille TOUT ce qui tourne dans ta tête, en vrac",
+      "Choisis UNE seule chose à régler en premier. Une seule.",
+      "Dis-toi : « Trop, c\u2019est trop. J\u2019ai le droit de souffler »",
+      "Rappelle-toi : tu n\u2019as pas à tout porter en même temps"
+    ],
+    coeur: [
+      "Ferme les yeux. Pose la main sur ton cœur. Dis : « Je suis là »",
+      "Pense à un endroit où tu te sens en sécurité, en détail",
+      "Rappelle-toi qu\u2019aucune émotion ne dure plus de 90 secondes si on la laisse passer",
+      "Permets-toi de demander de l\u2019aide — ce n\u2019est pas un échec"
+    ]
+  }
+};
+
+document.querySelectorAll(".emo-card").forEach(function(card){
+  card.addEventListener("click", function(){
+    document.querySelectorAll(".emo-card").forEach(function(c){c.classList.remove("active")});
+    card.classList.add("active");
+    var emo = card.dataset.emo;
+    afficherPortes(emo);
+  });
+});
+
+function afficherPortes(emo){
+  var data = portes[emo];
+  document.getElementById("corps-list").innerHTML = data.corps.map(function(s){return "<li>" + s + "</li>"}).join("");
+  document.getElementById("tete-list").innerHTML = data.tete.map(function(s){return "<li>" + s + "</li>"}).join("");
+  document.getElementById("coeur-list").innerHTML = data.coeur.map(function(s){return "<li>" + s + "</li>"}).join("");
+  document.getElementById("doors").classList.add("show");
+}
+
+// ============ TIRAGE ALÉATOIRE ============
+var techniques = [
+  {emoji:"🌬️", txt:"Souffle 3 fois sur ton pouce comme sur une bougie — lentement, longuement."},
+  {emoji:"❄️", txt:"Passe les poignets sous l\u2019eau fraîche pendant 30 secondes."},
+  {emoji:"🎵", txt:"Mets ta chanson préférée et danse 1 minute, même mal — surtout mal !"},
+  {emoji:"🌳", txt:"Imagine que tu es un arbre, les racines profondes, le vent souffle mais tu tiens bon."},
+  {emoji:"✋", txt:"Écarte tes 5 doigts. Pour chaque doigt, nomme une chose pour laquelle tu es reconnaissant(e)."},
+  {emoji:"📝", txt:"Prends un papier, écris ce qui te pèse, puis déchire-le en mille morceaux."},
+  {emoji:"🫂", txt:"Donne-toi un câlin : croise les bras et serre-toi 20 secondes. Vraiment."},
+  {emoji:"🐢", txt:"Bouge en mode ralenti pendant 1 minute — comme une tortue qui sait que tout va bien."},
+  {emoji:"🌈", txt:"Cherche dans la pièce : un objet rouge, un orange, un jaune, un vert, un bleu, un violet."},
+  {emoji:"🍋", txt:"Bois lentement un verre d\u2019eau froide ou tiède. Sens-le descendre, vraiment."},
+  {emoji:"🐌", txt:"Marche en mode escargot pendant 30 secondes. Sens chaque pas."},
+  {emoji:"😆", txt:"Force un sourire 20 secondes. Ton cerveau finit par y croire — c\u2019est prouvé."},
+  {emoji:"📞", txt:"Envoie un message à une personne qui te fait du bien (juste « salut, je pense à toi »)."},
+  {emoji:"🎨", txt:"Gribouille n\u2019importe quoi sur une feuille pendant 2 minutes. Pas besoin que ce soit beau."},
+  {emoji:"☁️", txt:"Allonge-toi, regarde le plafond (ou le ciel) et laisse tes pensées passer comme des nuages."}
+];
+
+function tirerCarte(){
+  var t = techniques[Math.floor(Math.random() * techniques.length)];
+  document.getElementById("tirage").innerHTML = "<div><span class=\"emoji\">" + t.emoji + "</span>" + t.txt + "</div>";
+}
+
+// ============ PHRASES REFUGE ============
+var phrases = [
+  "« Ce que je ressens est légitime. Cette émotion va passer, comme un nuage dans le ciel. »",
+  "« Je n\u2019ai pas à être fort(e) tout le temps. J\u2019ai le droit d\u2019être fatigué(e), triste, ou perdu(e). »",
+  "« Je fais de mon mieux avec ce que j\u2019ai, là, maintenant. Et c\u2019est suffisant. »",
+  "« Je mérite la même douceur que celle que je donne aux autres. »",
+  "« Cette tempête intérieure ne dit rien de ma valeur. Elle dit juste que je suis vivant(e). »",
+  "« Je peux ne pas avoir toutes les réponses, et avancer quand même. »",
+  "« Mes émotions ne sont pas des ennemies — elles essaient juste de me parler. »",
+  "« Je suis exactement là où je dois être pour apprendre ce que je dois apprendre. »",
+  "« Demander de l\u2019aide n\u2019est pas une faiblesse. C\u2019est une intelligence. »",
+  "« Aujourd\u2019hui, je m\u2019autorise à juste exister, sans avoir à tout réparer. »",
+  "« Je ne suis pas seul(e), même quand ça en a l\u2019air. »",
+  "« Mon corps, mon cœur, mon esprit méritent ma tendresse — surtout maintenant. »"
+];
+
+var lastPhrase = -1;
+function nouvellePhraseRefuge(){
+  var idx;
+  do { idx = Math.floor(Math.random() * phrases.length); } while(idx === lastPhrase && phrases.length > 1);
+  lastPhrase = idx;
+  var refuge = document.getElementById("refuge");
+  refuge.style.opacity = "0";
+  setTimeout(function(){
+    refuge.textContent = phrases[idx];
+    refuge.style.opacity = "1";
+  }, 300);
+}
+</script>
+</body>
+</html>

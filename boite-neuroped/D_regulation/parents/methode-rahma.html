@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Méthode R.A.H.M.A — Protocole parental conscient · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#FFF8F5 0%,#F5F0F7 50%,#F0F7F5 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2D3E3A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:900px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes shimmer{0%,100%{opacity:0.6}50%{opacity:1}}
+@keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(217,140,140,0.4)}70%{box-shadow:0 0 0 14px rgba(217,140,140,0)}100%{box-shadow:0 0 0 0 rgba(217,140,140,0)}}
+
+/* ============ HEADER ============ */
+.hdr{text-align:center;padding:40px 24px 30px;margin-bottom:22px;background:linear-gradient(135deg,#FFF6EE 0%,#F5E8E2 50%,#F0E8F0 100%);border-radius:24px;border:1px solid rgba(217,140,140,0.22);box-shadow:0 8px 28px rgba(217,140,140,0.08);position:relative;overflow:hidden}
+.hdr::before{content:'💛';position:absolute;top:18px;right:22px;font-size:46px;opacity:0.15;transform:rotate(-8deg)}
+.hdr::after{content:'🕊️';position:absolute;bottom:18px;left:22px;font-size:42px;opacity:0.13;transform:rotate(8deg)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#D98C8C,#9B85B8);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px;position:relative;z-index:1}
+.float-icon{font-size:54px;margin-bottom:4px;display:inline-block;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1}
+.hdr h1{font-family:Georgia,serif;font-size:34px;font-weight:400;color:#2D3E3A;margin-bottom:10px;position:relative;z-index:1;letter-spacing:2px}
+.hdr .signature{font-family:Georgia,serif;font-size:15px;font-style:italic;color:#7A5C5C;margin-bottom:8px;position:relative;z-index:1}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A6B66;position:relative;z-index:1;max-width:640px;margin:0 auto}
+
+/* ============ INTRO ============ */
+.intro{background:#FFFFFF;border-radius:18px;padding:24px 26px;margin-bottom:20px;border:1px solid rgba(217,140,140,0.18);box-shadow:0 4px 14px rgba(217,140,140,0.06);animation:fadeIn 0.6s ease-out}
+.intro p{font-size:15px;color:#3D4E4A;line-height:1.7;margin-bottom:10px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#D98C8C}
+.intro .manifeste{font-family:Georgia,serif;font-style:italic;font-size:17px;color:#7A5C5C;text-align:center;padding:18px;background:linear-gradient(135deg,#FFF6EE,#F5E8F0);border-radius:14px;margin:14px 0;line-height:1.5}
+
+/* ============ NAV ============ */
+.nav{display:flex;gap:6px;background:#FFFFFF;padding:8px;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 12px rgba(217,140,140,0.08);overflow-x:auto;border:1px solid rgba(217,140,140,0.15);scrollbar-width:thin}
+.nav::-webkit-scrollbar{height:6px}
+.nav::-webkit-scrollbar-thumb{background:#E8C9C9;border-radius:3px}
+.nav button{background:transparent;color:#5A6B66;border:none;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.25s;white-space:nowrap;font-family:inherit;display:flex;align-items:center;gap:6px}
+.nav button:hover{background:#F8F0F0;color:#7A5C5C}
+.nav button.active{background:linear-gradient(135deg,#D98C8C,#E8A8A8);color:#fff;box-shadow:0 4px 10px rgba(217,140,140,0.3)}
+
+/* ============ PANELS ============ */
+.panel{display:none;animation:fadeIn 0.4s ease-out}
+.panel.active{display:block}
+.section{background:#FFFFFF;border-radius:20px;padding:26px 24px;margin-bottom:18px;border:1px solid rgba(217,140,140,0.18);box-shadow:0 4px 14px rgba(217,140,140,0.05)}
+.section h2{font-family:Georgia,serif;font-size:22px;font-weight:500;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#7A8782;font-style:italic;margin-bottom:18px;line-height:1.55}
+
+/* ============ MÉTHODE — 5 LETTRES ============ */
+.rahma-letters{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0}
+@media (max-width:680px){.rahma-letters{grid-template-columns:1fr}}
+.letter-card{padding:18px 14px;border-radius:14px;cursor:pointer;transition:all 0.3s;border-top:5px solid;text-align:center;position:relative;animation:pop 0.4s ease-out}
+.letter-R{background:linear-gradient(160deg,#FCE2E2,#F5C9C9);border-color:#C9573A}
+.letter-A{background:linear-gradient(160deg,#FFEEDC,#FCDBBE);border-color:#E89556}
+.letter-H{background:linear-gradient(160deg,#FFF9E8,#FCF3D8);border-color:#E0B83E}
+.letter-M{background:linear-gradient(160deg,#E8F5EC,#DFF0E2);border-color:#6CA89E}
+.letter-A2{background:linear-gradient(160deg,#F0E8F0,#E8D5E8);border-color:#9B85B8}
+.letter-card:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 8px 20px rgba(0,0,0,0.08)}
+.letter-card.active{transform:scale(1.05);box-shadow:0 8px 24px rgba(0,0,0,0.15)}
+.letter-big{font-family:Georgia,serif;font-size:42px;font-weight:700;color:#2D3E3A;line-height:1;display:block;margin-bottom:6px}
+.letter-name{font-family:Georgia,serif;font-size:14px;font-weight:600;color:#2D3E3A;margin-bottom:4px;display:block}
+.letter-tagline{font-size:11px;color:#5A6B66;font-style:italic;line-height:1.35}
+
+.letter-detail{background:linear-gradient(135deg,#FFFBF6,#FFF6EE);border-radius:18px;padding:24px;margin-top:8px;border:1px solid rgba(217,140,140,0.22)}
+.letter-detail h3{font-family:Georgia,serif;font-size:22px;color:#2D3E3A;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.letter-detail h3 .ldot{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#D98C8C,#E8A8A8);color:#fff;font-weight:700;font-size:20px;font-family:Georgia,serif}
+.letter-detail .objectif{background:#fff;padding:14px 18px;border-radius:12px;margin-bottom:14px;border-left:4px solid #D98C8C}
+.letter-detail .objectif strong{display:block;color:#D98C8C;font-size:11.5px;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px}
+.letter-detail .objectif p{font-size:14px;color:#3D4E4A;margin:0;line-height:1.6}
+.letter-detail .phrase-cle{background:linear-gradient(135deg,#F5E8F0,#E8D5E8);padding:14px 18px;border-radius:12px;margin-bottom:14px;font-family:Georgia,serif;font-style:italic;font-size:15.5px;color:#6E5594;line-height:1.5;text-align:center}
+.letter-detail h4{font-family:Georgia,serif;font-size:15px;color:#2D3E3A;margin:14px 0 8px;display:flex;align-items:center;gap:6px}
+.letter-detail .exemple{background:#FFFBF6;padding:12px 16px;border-radius:10px;border-left:3px solid #E0B83E;margin-bottom:8px;font-size:13.5px;color:#3D4E4A;line-height:1.6}
+.letter-detail .exemple strong{color:#9B7E2A;display:block;margin-bottom:3px;font-size:12px;text-transform:uppercase;letter-spacing:0.5px}
+.letter-detail .alert{background:#FCE2E2;padding:12px 16px;border-radius:10px;border-left:3px solid #C9573A;margin-top:10px;font-size:13.5px;color:#7A4040}
+.letter-detail .alert strong{color:#C9573A;display:block;margin-bottom:3px}
+
+/* ============ PROTOCOLE GUIDÉ ============ */
+.proto-intro{background:linear-gradient(135deg,#FFF6EE,#F5E8F0);border-radius:14px;padding:18px 22px;margin-bottom:18px;border-left:5px solid #D98C8C}
+.proto-intro p{font-size:14px;color:#3D4E4A;line-height:1.65;margin-bottom:0}
+
+.proto-step{background:#FBF8F4;border-radius:14px;padding:18px 20px;margin-bottom:14px;border-left:4px solid #D98C8C;transition:all 0.25s}
+.proto-step.active{background:linear-gradient(135deg,#FFF6EE,#F5E8E2);transform:scale(1.01)}
+.proto-step.done{background:linear-gradient(135deg,#E8F5EC,#DFF0E2);border-color:#6CA89E}
+.proto-step.done .ps-num{background:#6CA89E}
+.proto-step.done .ps-num::after{content:' ✓';font-size:14px}
+.ps-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.ps-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#D98C8C,#E8A8A8);color:#fff;font-weight:700;font-size:18px;font-family:Georgia,serif;flex-shrink:0}
+.ps-title{font-family:Georgia,serif;font-size:17px;color:#2D3E3A;margin:0;flex:1}
+.ps-hint{font-size:13px;color:#7A6B66;font-style:italic;line-height:1.5;margin-bottom:10px;padding-left:48px}
+.ps-textarea{margin-left:48px}
+.ps-textarea textarea{width:100%;padding:10px 14px;border:1px solid rgba(217,140,140,0.25);border-radius:10px;font-size:14px;color:#2D3E3A;background:#FFFBF6;font-family:inherit;line-height:1.55;min-height:60px;resize:vertical}
+.ps-textarea textarea:focus{outline:none;border-color:#D98C8C;background:#fff}
+
+.proto-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:18px;border-top:1px dashed rgba(217,140,140,0.22)}
+.btn{background:linear-gradient(135deg,#D98C8C,#E8A8A8);color:#fff;border:none;padding:11px 22px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;letter-spacing:0.3px;transition:all 0.2s;font-family:inherit}
+.btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(217,140,140,0.3)}
+.btn-secondary{background:#F8F0F0;color:#7A5C5C;border:1px solid rgba(217,140,140,0.25)}
+.btn-secondary:hover{background:#F0E0E0}
+.btn-export{background:linear-gradient(135deg,#9B85B8,#B59ECE);color:#fff}
+
+/* ============ BIBLIOTHÈQUE SCÉNARIOS ============ */
+.scenarios{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:18px}
+.scn-card{background:#FBF8F4;border-radius:14px;padding:16px 18px;cursor:pointer;transition:all 0.3s;border-left:4px solid #D98C8C}
+.scn-card:hover{background:#FFF6EE;transform:translateY(-2px);box-shadow:0 6px 16px rgba(217,140,140,0.12)}
+.scn-card h4{font-family:Georgia,serif;font-size:15px;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.scn-card .scn-age{display:inline-block;font-size:10.5px;background:#FCE2E2;color:#C9573A;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;margin-bottom:6px}
+.scn-card p{font-size:13px;color:#5A6B66;line-height:1.5;margin-bottom:0}
+
+.scn-detail{display:none;background:linear-gradient(135deg,#FFFBF6,#FFF6EE);border-radius:18px;padding:24px;margin-top:14px;border:1px solid rgba(217,140,140,0.22);animation:fadeIn 0.4s}
+.scn-detail.show{display:block}
+.scn-detail h3{font-family:Georgia,serif;font-size:19px;color:#2D3E3A;margin-bottom:6px}
+.scn-detail .scn-context{font-size:13.5px;color:#7A5C5C;font-style:italic;margin-bottom:18px;padding:10px 14px;background:#FFFBF6;border-radius:10px;border-left:3px solid #D98C8C}
+.scn-rahma-step{padding:14px 16px;border-radius:10px;margin-bottom:10px;background:#fff;border-left:4px solid}
+.scn-rahma-step .step-letter{display:inline-block;font-family:Georgia,serif;font-size:18px;font-weight:700;width:30px;height:30px;line-height:30px;text-align:center;color:#fff;border-radius:50%;margin-right:10px}
+.scn-rahma-step.s-R{border-color:#C9573A}
+.scn-rahma-step.s-R .step-letter{background:#C9573A}
+.scn-rahma-step.s-A1{border-color:#E89556}
+.scn-rahma-step.s-A1 .step-letter{background:#E89556}
+.scn-rahma-step.s-H{border-color:#E0B83E}
+.scn-rahma-step.s-H .step-letter{background:#E0B83E}
+.scn-rahma-step.s-M{border-color:#6CA89E}
+.scn-rahma-step.s-M .step-letter{background:#6CA89E}
+.scn-rahma-step.s-A2{border-color:#9B85B8}
+.scn-rahma-step.s-A2 .step-letter{background:#9B85B8}
+.scn-rahma-step strong{display:block;font-family:Georgia,serif;font-size:14px;color:#2D3E3A;margin-bottom:4px}
+.scn-rahma-step .quote{display:block;font-family:Georgia,serif;font-style:italic;font-size:13.5px;color:#3D4E4A;background:#FFFBF6;padding:8px 12px;border-radius:8px;margin-top:6px}
+
+/* ============ DOSSIER + NOTES ============ */
+.dossier-bar{background:#FFFFFF;border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(217,140,140,0.06);border:1px solid rgba(217,140,140,0.15)}
+.dossier-bar label{font-size:13px;font-weight:600;color:#5A6B66}
+.dossier-bar input,.dossier-bar select{padding:7px 12px;border:1px solid rgba(217,140,140,0.25);border-radius:9px;font-size:13px;background:#FFFBF6;font-family:inherit;color:#2D3E3A;min-width:150px}
+.dossier-bar button{background:#F8F0F0;color:#7A5C5C;border:1px solid rgba(217,140,140,0.25);padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.dossier-bar button:hover{background:#F0E0E0}
+.dossier-bar .btn-export{background:linear-gradient(135deg,#D98C8C,#E8A8A8);color:#fff;border:none}
+
+/* ============ ARCHIVES ============ */
+.archives{margin-top:18px}
+.archive-item{background:#FBF8F4;border-radius:12px;padding:12px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-left:3px solid #9B85B8}
+.archive-item .arch-meta{flex:1;min-width:0}
+.archive-item .arch-date{font-size:11.5px;color:#7A6B66;text-transform:uppercase;letter-spacing:0.5px}
+.archive-item .arch-title{font-family:Georgia,serif;font-size:14px;color:#2D3E3A;margin:2px 0;font-weight:600}
+.archive-item .arch-summary{font-size:12.5px;color:#5A6B66;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.archive-item button{background:#F0E0E0;color:#7A5C5C;border:none;padding:5px 10px;border-radius:7px;font-size:11.5px;cursor:pointer;font-family:inherit;flex-shrink:0}
+.archive-item button:hover{background:#E0C0C0}
+
+/* ============ FOOTER ============ */
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif;animation:shimmer 5s ease-in-out infinite}
+.footer .brand-foot{color:#D98C8C;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .small{color:#8A9892;font-size:11px;margin-top:4px;display:block}
+
+@media print{
+body{background:#fff;padding:10px}
+.nav,.dossier-bar,.btn,.proto-actions{display:none !important}
+.panel{display:block !important;page-break-after:always}
+.section{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+.letter-detail,.scn-detail{display:block !important}
+.letter-card,.proto-step,.scn-card{break-inside:avoid}
+}
+
+@media (max-width:600px){
+.hdr{padding:30px 18px 22px}
+.hdr h1{font-size:24px}
+.section{padding:20px 18px}
+.scenarios{grid-template-columns:1fr}
+.ps-textarea,.ps-hint{margin-left:0}
+}
+</style>
+</head>
+<body>
+<a href="../../parents.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#D98C8C;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(217,140,140,0.2)">← Parents</a>
+
+<div class="wrap">
+
+<!-- ============ HEADER ============ -->
+<div class="hdr">
+<span class="brand">Méthode signature · EducaTypique</span>
+<div class="float-icon">💛</div>
+<h1>R . A . H . M . A</h1>
+<div class="signature">— رحمة — Bienveillance · Tendresse · Compassion</div>
+<p>La méthode parentale consciente en 5 lettres. Un protocole universel pour traverser les tempêtes émotionnelles avec votre enfant — sans crier, sans céder, sans s'effondrer.</p>
+</div>
+
+<!-- ============ INTRO ============ -->
+<div class="intro">
+<p>R.A.H.M.A est <strong>la méthode signature de Nawel Haddouch</strong>. Cinq étapes pour transformer un moment de crise en moment d'apprentissage. Pas une recette miracle — une <strong>boussole</strong> qui fonctionne à n'importe quel âge, dans n'importe quelle situation difficile.</p>
+<p class="manifeste">« Éduquer un enfant, c'est former une âme. »<br><span style="font-size:13px">— Nawel Haddouch</span></p>
+<p><strong>Comment utiliser cette boussole :</strong> consulte d'abord les 5 lettres pour comprendre, puis utilise le <strong>protocole guidé</strong> pour une situation réelle. La <strong>bibliothèque de scénarios</strong> donne des exemples vivants pour chaque situation fréquente.</p>
+</div>
+
+<!-- ============ DOSSIER BAR ============ -->
+<div class="dossier-bar">
+<label>📁 Dossier :</label>
+<select id="dossierSelect" onchange="changeDossier()">
+<option value="default">Mon dossier</option>
+</select>
+<input type="text" id="newDossier" placeholder="Nouveau (ex: Léa, Noor...)">
+<button onclick="addDossier()">+ Créer</button>
+<button onclick="deleteDossier()">🗑 Supprimer</button>
+<button onclick="exportTXT()" class="btn-export">📥 Exporter en .txt</button>
+</div>
+
+<!-- ============ NAV ============ -->
+<div class="nav">
+<button class="active" data-tab="methode" onclick="switchTab('methode')">📖 La Méthode</button>
+<button data-tab="protocole" onclick="switchTab('protocole')">🛠️ Protocole guidé</button>
+<button data-tab="scenarios" onclick="switchTab('scenarios')">🎴 Bibliothèque scénarios</button>
+<button data-tab="archives" onclick="switchTab('archives')">📚 Mes archives</button>
+</div>
+
+<!-- ============================================================
+     PANEL 1 — LA MÉTHODE (5 LETTRES)
+     ============================================================ -->
+<div class="panel active" id="panel-methode">
+
+<div class="section">
+<h2>📖 La Méthode R.A.H.M.A en 5 lettres</h2>
+<div class="sub">Cliquez sur une lettre pour découvrir l'étape en détail. Chaque étape compte — ne sautez aucune.</div>
+
+<div class="rahma-letters">
+<div class="letter-card letter-R active" data-l="R" onclick="showLetter('R')">
+<span class="letter-big">R</span>
+<span class="letter-name">Reconnaître</span>
+<span class="letter-tagline">l'émotion de l'enfant</span>
+</div>
+<div class="letter-card letter-A" data-l="A1" onclick="showLetter('A1')">
+<span class="letter-big">A</span>
+<span class="letter-name">Accueillir</span>
+<span class="letter-tagline">l'émotion sans valider le comportement</span>
+</div>
+<div class="letter-card letter-H" data-l="H" onclick="showLetter('H')">
+<span class="letter-big">H</span>
+<span class="letter-name">Harmoniser</span>
+<span class="letter-tagline">avec le cadre et les limites</span>
+</div>
+<div class="letter-card letter-M" data-l="M" onclick="showLetter('M')">
+<span class="letter-big">M</span>
+<span class="letter-name">Modéliser</span>
+<span class="letter-tagline">des comportements alternatifs</span>
+</div>
+<div class="letter-card letter-A2" data-l="A2" onclick="showLetter('A2')">
+<span class="letter-big">A</span>
+<span class="letter-name">Accompagner</span>
+<span class="letter-tagline">vers solution et réparation</span>
+</div>
+</div>
+
+<div class="letter-detail" id="letterDetail">
+<!-- contenu dynamique -->
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 2 — PROTOCOLE GUIDÉ
+     ============================================================ -->
+<div class="panel" id="panel-protocole">
+
+<div class="section">
+<h2>🛠️ Protocole guidé — Une situation, étape par étape</h2>
+<div class="sub">Remplis chaque étape pour structurer ta réponse. Tu peux sauvegarder pour archiver et faire des bilans.</div>
+
+<div class="proto-intro">
+<p>💡 <strong>Conseil :</strong> ne remplis pas en plein milieu de la crise. Tu peux le faire <strong>juste après</strong> pour réfléchir, ou <strong>à froid</strong> pour préparer la prochaine fois.</p>
+</div>
+
+<!-- ÉTAPE 0 -->
+<div class="proto-step" data-step="0">
+<div class="ps-head">
+<span class="ps-num">0</span>
+<h3 class="ps-title">La situation</h3>
+</div>
+<p class="ps-hint">Décris en quelques phrases ce qui s'est passé. Reste factuel·le.</p>
+<div class="ps-textarea">
+<textarea id="step-0" placeholder="Ex : Léa (8 ans, TDAH) a éclaté en sanglots à 19h parce que je lui ai demandé d'éteindre la tablette. Elle a crié, jeté le coussin, claqué la porte."></textarea>
+</div>
+</div>
+
+<!-- ÉTAPE R -->
+<div class="proto-step" data-step="R">
+<div class="ps-head">
+<span class="ps-num" style="background:linear-gradient(135deg,#C9573A,#E0735C)">R</span>
+<h3 class="ps-title">Reconnaître l'émotion</h3>
+</div>
+<p class="ps-hint">Quelle émotion vit ton enfant ? Nomme-la sans juger. Écris ce que tu pourrais lui dire pour valider ce qu'il ressent.</p>
+<div class="ps-textarea">
+<textarea id="step-R" placeholder="Ex : « Je vois que tu es très en colère et frustrée parce que je t'ai demandé d'arrêter la tablette d'un coup. »"></textarea>
+</div>
+</div>
+
+<!-- ÉTAPE A1 -->
+<div class="proto-step" data-step="A1">
+<div class="ps-head">
+<span class="ps-num" style="background:linear-gradient(135deg,#E89556,#F0AC7E)">A</span>
+<h3 class="ps-title">Accueillir l'émotion (sans valider le comportement)</h3>
+</div>
+<p class="ps-hint">Distingue l'émotion (légitime) du comportement (à recadrer). Comment lui dire que ce qu'elle ressent est OK ?</p>
+<div class="ps-textarea">
+<textarea id="step-A1" placeholder="Ex : « C'est normal d'être en colère quand on doit arrêter quelque chose qu'on aime. Tous les enfants se sentent comme ça parfois. »"></textarea>
+</div>
+</div>
+
+<!-- ÉTAPE H -->
+<div class="proto-step" data-step="H">
+<div class="ps-head">
+<span class="ps-num" style="background:linear-gradient(135deg,#E0B83E,#EBC55F)">H</span>
+<h3 class="ps-title">Harmoniser avec le cadre et les limites</h3>
+</div>
+<p class="ps-hint">Rappelle calmement la règle. Pas en cri. En phrase courte. Quelles limites sont concernées ?</p>
+<div class="ps-textarea">
+<textarea id="step-H" placeholder="Ex : « Cependant, dans notre famille, on ne crie pas sur les autres et on ne jette pas les coussins. La tablette s'arrête à 19h, c'est la règle. »"></textarea>
+</div>
+</div>
+
+<!-- ÉTAPE M -->
+<div class="proto-step" data-step="M">
+<div class="ps-head">
+<span class="ps-num" style="background:linear-gradient(135deg,#6CA89E,#88B8AA)">M</span>
+<h3 class="ps-title">Modéliser un comportement alternatif</h3>
+</div>
+<p class="ps-hint">Montre concrètement ce qu'on peut faire à la place. Si possible, fais-le toi-même devant lui/elle.</p>
+<div class="ps-textarea">
+<textarea id="step-M" placeholder="Ex : « Quand je suis très en colère moi aussi, je prends 3 grandes respirations. Tu veux essayer avec moi ? On souffle ensemble. »"></textarea>
+</div>
+</div>
+
+<!-- ÉTAPE A2 -->
+<div class="proto-step" data-step="A2">
+<div class="ps-head">
+<span class="ps-num" style="background:linear-gradient(135deg,#9B85B8,#B59ECE)">A</span>
+<h3 class="ps-title">Accompagner vers solution et réparation</h3>
+</div>
+<p class="ps-hint">Quand le calme revient, propose une réparation et une stratégie pour la prochaine fois. L'enfant participe.</p>
+<div class="ps-textarea">
+<textarea id="step-A2" placeholder="Ex : « Quel coussin tu peux ramasser maintenant ? Et la prochaine fois que je t'annonce la fin de la tablette, qu'est-ce qui pourrait t'aider à mieux le vivre ? Un timer 5 min avant ? »"></textarea>
+</div>
+</div>
+
+<div class="proto-actions">
+<button class="btn" onclick="saveProtocole()">💾 Sauvegarder dans archives</button>
+<button class="btn btn-secondary" onclick="clearProtocole()">🧹 Effacer tous les champs</button>
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 3 — BIBLIOTHÈQUE SCÉNARIOS
+     ============================================================ -->
+<div class="panel" id="panel-scenarios">
+
+<div class="section">
+<h2>🎴 Bibliothèque de scénarios — R.A.H.M.A en situation</h2>
+<div class="sub">12 situations fréquentes, étape par étape. Cliquez pour voir le protocole appliqué.</div>
+
+<div class="scenarios" id="scenariosGrid">
+<!-- généré par JS -->
+</div>
+
+<div class="scn-detail" id="scnDetail">
+<!-- contenu dynamique -->
+</div>
+
+</div>
+</div>
+
+<!-- ============================================================
+     PANEL 4 — ARCHIVES
+     ============================================================ -->
+<div class="panel" id="panel-archives">
+
+<div class="section">
+<h2>📚 Mes archives R.A.H.M.A</h2>
+<div class="sub">Tes protocoles sauvegardés. Relis, compare, repère les progrès.</div>
+
+<div class="archives" id="archivesList">
+<!-- généré par JS -->
+</div>
+
+</div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer">
+« La douceur n'est présente dans une chose sans qu'elle ne l'embellisse. »
+<span class="brand-foot">Méthode R.A.H.M.A · Création originale Nawel Haddouch · EducaTypique</span>
+<span class="small">Mémoire locale, rien n'est envoyé en ligne · Imprimable</span>
+</div>
+
+</div>
+
+<script>
+// ============================================================
+// CONTENU DES 5 LETTRES
+// ============================================================
+var LETTERS = {
+  R: {
+    letter: 'R',
+    nom: 'Reconnaître l\'émotion de l\'enfant',
+    objectif: 'Observer et nommer l\'émotion que l\'enfant exprime, sans la juger ni la minimiser.',
+    phrase: '« Je vois que tu es très en colère parce que ton frère a pris ton jouet. »',
+    explication: "C'est le miroir émotionnel. Reconnaître permet à l'enfant de se sentir vu, entendu, compris. Cela valide son expérience intérieure et ouvre la porte au dialogue. Cette reconnaissance immédiate est fondamentale pour désamorcer les crises et éviter que l'enfant ne se sente seul face à ses ressentis intenses.",
+    exemples: [
+      {ctx:'Crise de colère',mot:'« Tu es très énervée, je le vois »'},
+      {ctx:'Tristesse silencieuse',mot:'« Tu as l\'air triste, qu\'est-ce qui se passe ? »'},
+      {ctx:'Peur',mot:'« Je vois que ça te fait peur »'},
+      {ctx:'Frustration',mot:'« C\'est frustrant quand ça ne marche pas comme on veut »'}
+    ],
+    alert: 'NE PAS dire : « Tu n\'as pas à être en colère pour ça », « Arrête de pleurer », « Ce n\'est pas grave ». Cela invalide l\'émotion et augmente la crise.'
+  },
+  A1: {
+    letter: 'A',
+    nom: 'Accueillir l\'émotion, sans valider le comportement',
+    objectif: 'Faire comprendre à l\'enfant que toutes les émotions sont acceptables — mais pas tous les comportements.',
+    phrase: '« Tu as tout à fait le droit d\'être frustré ou en colère, c\'est une émotion normale. »',
+    explication: "Cette étape distingue l'émotion du comportement. L'enfant apprend que ses ressentis sont légitimes, même si la manière de les exprimer n'est pas appropriée. Cela évite la culpabilisation de l'enfant pour ses émotions, ce qui est essentiel pour son développement émotionnel sain.",
+    exemples: [
+      {ctx:'Après reconnaissance',mot:'« C\'est normal de ressentir de la colère quand on perd »'},
+      {ctx:'Distinction émo/comportement',mot:'« Avoir peur est OK. Mais on ne tape pas son frère parce qu\'on a peur »'},
+      {ctx:'Validation',mot:'« Tous les enfants se sentent parfois comme ça »'}
+    ],
+    alert: 'Attention : accueillir ≠ tout permettre. On accueille le ressenti, pas l\'acte. Le cadre vient à l\'étape H.'
+  },
+  H: {
+    letter: 'H',
+    nom: 'Harmoniser avec le cadre et les limites',
+    objectif: 'Réintroduire la règle ou la limite qui a pu être transgressée, calmement et fermement.',
+    phrase: '« Cependant, dans notre famille, nous ne frappons pas quand nous sommes en colère. »',
+    explication: "Une fois l'émotion reconnue et accueillie, il est temps de rappeler le cadre. Cette étape réintroduit la structure et la sécurité du cadre éducatif. C'est un rappel ferme mais bienveillant des règles qui assurent la sécurité et le respect de tous.",
+    exemples: [
+      {ctx:'Violence verbale',mot:'« On ne crie pas sur les autres dans notre maison »'},
+      {ctx:'Casse d\'objet',mot:'« On ne casse pas les jouets quand on est frustré »'},
+      {ctx:'Refus de la règle',mot:'« La règle est : pas d\'écran après 19h. Cette règle est pour ton sommeil »'}
+    ],
+    alert: 'Phrase courte. Pas de discours. L\'enfant en crise n\'entend pas un long argumentaire. Ferme + bref + clair.'
+  },
+  M: {
+    letter: 'M',
+    nom: 'Modéliser des comportements alternatifs',
+    objectif: 'Montrer concrètement comment gérer cette émotion autrement — par l\'exemple si possible.',
+    phrase: '« Quand je suis en colère, moi, je prends 3 grandes respirations. Tu veux essayer avec moi ? »',
+    explication: "Les enfants apprennent énormément par l'exemple. Le parent montre comment il gère ses propres émotions ou propose des alternatives concrètes. Cette étape donne à l'enfant des outils pratiques et observables pour gérer ses émotions de manière constructive.",
+    exemples: [
+      {ctx:'Respiration',mot:'« Comme ça : inspire... expire... avec moi »'},
+      {ctx:'Coussin défouloir',mot:'« Tu peux taper ce coussin tant que tu veux, vas-y »'},
+      {ctx:'Verbalisation',mot:'« Tu peux dire : "Je suis en colère parce que..." »'},
+      {ctx:'Retrait au calme',mot:'« Tu peux aller dans le coin doux 5 min, comme moi quand je sature »'}
+    ],
+    alert: 'L\'enfant copie ce qu\'il voit, pas ce qu\'on lui dit. Si tu cries en disant « ne crie pas », il retiendra le cri.'
+  },
+  A2: {
+    letter: 'A',
+    nom: 'Accompagner vers solution et réparation',
+    objectif: 'Quand le calme revient, guider l\'enfant vers une réparation et une stratégie pour la prochaine fois.',
+    phrase: '« Que pourrais-tu faire pour réparer ton erreur ? Et la prochaine fois, qu\'est-ce qui pourrait t\'aider ? »',
+    explication: "L'enfant est ainsi impliqué activement dans la résolution du problème, ce qui renforce son autonomie, sa responsabilité et sa capacité à trouver des solutions. C'est une démarche qui encourage la réflexion post-action et la croissance personnelle.",
+    exemples: [
+      {ctx:'Réparation matérielle',mot:'« Tu peux ramasser ce coussin maintenant »'},
+      {ctx:'Réparation relationnelle',mot:'« Comment tu pourrais montrer à ta sœur que tu es désolé(e) ? »'},
+      {ctx:'Plan futur',mot:'« La prochaine fois, qu\'est-ce qui t\'aiderait à mieux le vivre ? »'},
+      {ctx:'Co-construction outil',mot:'« On peut faire un timer 5 min ensemble pour la prochaine fois ? »'}
+    ],
+    alert: 'NE jamais faire à chaud. Toujours QUAND le calme est revenu. Sinon c\'est juste une punition déguisée.'
+  }
+};
+
+// ============================================================
+// 12 SCÉNARIOS — R.A.H.M.A APPLIQUÉ
+// ============================================================
+var SCENARIOS = [
+  {id:1,age:'3-6 ans',titre:'Crise au supermarché (refus jouet)',
+    context:"Au rayon jouets, votre enfant veut un jouet, vous refusez. Il se jette par terre, hurle, donne des coups de pied.",
+    R:"« Je vois que tu es très très déçu(e) et en colère parce que je dis non à ce jouet. »",
+    A1:"« C'est normal d'être déçu(e) quand on veut quelque chose et qu'on ne l'a pas. C'est dur cette émotion. »",
+    H:"« Mais le jouet, on ne l'achète pas. Et on ne donne pas de coups quand on est en colère. »",
+    M:"Vous vous mettez à sa hauteur, vous respirez calmement et lentement à côté de lui : « Regarde maman/papa : on souffle. »",
+    A2:"En sortant : « Tu veux dessiner ta colère en rentrant ? Et la prochaine fois qu'on va au magasin, on regarde 2 minutes les jouets puis on s'en va sans en acheter, d'accord ? »"
+  },
+  {id:2,age:'3-6 ans',titre:'Coucher : il/elle ne veut pas dormir',
+    context:"Heure du coucher. L'enfant se relève 5 fois, pleure, vous tient en otage.",
+    R:"« Je vois que tu n'as pas envie de dormir tout seul(e), tu te sens peut-être un peu seul(e) ? »",
+    A1:"« C'est normal de ne pas aimer le moment du coucher. Plein d'enfants n'aiment pas ça. »",
+    H:"« Mais le coucher c'est à 20h, c'est la règle pour que ton corps grandisse bien. On ne refait pas tous les jours. »",
+    M:"« Regarde, je vais aussi me reposer maintenant. Voilà comment je m'allonge calmement. »",
+    A2:"« Demain on essaie de mettre ton doudou différemment, ou on lit une histoire en plus avant le coucher. Tu choisis. »"
+  },
+  {id:3,age:'6-10 ans',titre:'Devoirs : refus + crise',
+    context:"« Je ne veux pas faire mes devoirs ! C'est nul ! Je suis nul(le) ! » + larmes ou colère.",
+    R:"« Je vois que c'est vraiment dur pour toi en ce moment, tu es énervé(e) et fatigué(e). »",
+    A1:"« C'est normal de se sentir comme ça après l'école. Le cerveau est fatigué. C'est légitime ce que tu ressens. »",
+    H:"« Mais les devoirs, il faut les faire, c'est ton travail à toi. On va pas tout faire, juste l'essentiel. »",
+    M:"« Regarde, on commence par la chose la plus facile, juste 5 minutes. Je m'assois à côté. Voilà comment je fais quand j'ai un truc dur à faire moi : je découpe en petits morceaux. »",
+    A2:"« Bravo pour ces 5 minutes. La prochaine fois, on essaie 7 minutes ? Et après les devoirs, ce qui te ferait plaisir ? »"
+  },
+  {id:4,age:'6-10 ans',titre:'Bagarre frère/sœur',
+    context:"Un enfant a tapé l'autre. Cris, larmes, accusations.",
+    R:"(à celui qui a tapé) « Je vois que tu étais très en colère contre ta sœur, ça a explosé. » (à l'autre) « Et toi tu es triste et tu as eu mal. »",
+    A1:"« C'est normal d'être en colère entre frères et sœurs. Et c'est normal d'avoir mal quand on a été tapé. Les deux émotions sont vraies. »",
+    H:"« Mais dans cette maison, on ne tape pas. C'est non-négociable. »",
+    M:"« Quand on est en colère, on peut dire : \"Stop, tu m'énerves, j'ai besoin d'espace\". Je vais vous montrer comment on se sépare 5 minutes pour respirer. »",
+    A2:"Après le calme : « Qu'est-ce qui a déclenché ? Qu'est-ce qu'on pourrait faire la prochaine fois ? Comment tu peux réparer maintenant ? »"
+  },
+  {id:5,age:'10-14 ans',titre:'Adolescent refuse de parler',
+    context:"Votre ado claque les portes, répond par grognements, s'enferme dans sa chambre.",
+    R:"(plus tard, calmement) « J'ai l'impression que quelque chose te pèse en ce moment. »",
+    A1:"« C'est normal à ton âge d'avoir des moments où on a besoin de se replier. Je respecte ça. »",
+    H:"« Mais claquer les portes, hurler à la maison, ça ne va pas. Je ne te le permets pas. »",
+    M:"« Quand moi je sature, je vais marcher 20 minutes. Ou j'écris ce que je ressens. Je peux te montrer mon carnet si tu veux. »",
+    A2:"« Si tu n'as pas envie de parler maintenant, c'est OK. Mais voici un papier, écris-moi quand tu veux ce qui te pèse. Je suis là. »"
+  },
+  {id:6,age:'10-14 ans',titre:'Crise écrans (refus d\'arrêter)',
+    context:"L'enfant doit éteindre la tablette/console, refuse, crise.",
+    R:"« Je vois que c'est très frustrant pour toi d'arrêter d'un coup. Tu étais en plein dans ton jeu. »",
+    A1:"« C'est normal de ne pas vouloir s'arrêter — les jeux sont faits pour qu'on n'ait pas envie d'arrêter. »",
+    H:"« Mais la règle de la maison c'est 1h le soir. La règle reste. »",
+    M:"« Quand moi je dois m'arrêter de regarder ma série, je me dis : \"Je finis ce niveau / ce passage et j'arrête.\" Tu peux faire pareil ? »",
+    A2:"« Demain, je te préviens 5 minutes avant l'arrêt. Comme ça tu peux finir ce que tu fais. Ça marche ? »"
+  },
+  {id:7,age:'tout âge',titre:'Crise après école (fatigue cognitive)',
+    context:"L'enfant rentre, et 10 minutes après c'est l'explosion pour un rien.",
+    R:"« Je vois que tu es à cran. La journée a été longue, c'est ça ? »",
+    A1:"« C'est normal d'être épuisé(e) après l'école. Ton cerveau a beaucoup travaillé. »",
+    H:"« Mais tu ne peux pas crier sur tout le monde dans la maison. Ce n'est pas la faute des autres. »",
+    M:"« Quand je rentre du travail moi, j'ai besoin de 15 minutes seule pour respirer. Je vais te montrer un coin calme. »",
+    A2:"« On peut prévoir 15 minutes seul(e) chaque jour après l'école avant de parler de quoi que ce soit ? »"
+  },
+  {id:8,age:'tout âge',titre:'Erreur scolaire / mauvaise note',
+    context:"L'enfant rentre avec une mauvaise note, s'effondre ou se met en colère.",
+    R:"« Je vois que cette note te fait mal, tu te sens nul(le) là. »",
+    A1:"« C'est normal d'avoir des émotions fortes quand on rate quelque chose. Tout le monde rate parfois. »",
+    H:"« Mais cette note ne dit pas qui tu es. Et notre règle dans la famille : on ne s'écrase pas pour une erreur. »",
+    M:"« Quand moi je rate quelque chose, je me demande : qu'est-ce que ça m'apprend ? Tu veux qu'on regarde ensemble ce qui n'a pas marché ? »",
+    A2:"« Qu'est-ce qu'on pourrait mettre en place pour la prochaine évaluation ? Tu veux qu'on demande de l'aide à ton professeur ? »"
+  },
+  {id:9,age:'6-14 ans',titre:'Refus d\'aller à l\'école',
+    context:"L'enfant pleure ou se cabre le matin : « Je veux pas y aller ! »",
+    R:"« Je vois que là, tu n'as vraiment pas envie d'aller à l'école. Qu'est-ce qui se passe ? »",
+    A1:"« C'est normal d'avoir des matins où on aimerait rester à la maison. »",
+    H:"« Mais l'école c'est obligatoire et c'est important pour toi. On ne peut pas ne pas y aller comme ça. »",
+    M:"« Moi quand je dois aller à un truc dur, je me dis : \"Juste pour aujourd'hui, je vais faire de mon mieux\". On peut faire pareil ? »",
+    A2:"« On va aller à l'école aujourd'hui. Mais ce soir on parle de ce qui t'inquiète, d'accord ? Si c'est plus grave, on en parle avec le maître/la maîtresse demain. »"
+  },
+  {id:10,age:'tout âge',titre:'Jalousie envers frère/sœur',
+    context:"« Tu l'aimes plus que moi ! Tu fais toujours tout pour lui/elle ! »",
+    R:"« Je vois que tu as l'impression que je m'occupe plus de ton frère/sœur en ce moment. »",
+    A1:"« C'est normal de ressentir de la jalousie. Tous les frères et sœurs ressentent ça parfois. C'est même légitime. »",
+    H:"« Mais ce n'est pas vrai que je l'aime plus. Je t'aime aussi fort. Et on ne se compare pas dans notre famille. »",
+    M:"« Quand moi je me sens un peu mis de côté, je demande directement de l'attention. Tu peux me dire : \"Maman, j'ai besoin d'un moment avec toi\". »",
+    A2:"« Veux-tu qu'on planifie un moment juste toi et moi cette semaine ? Tu choisis ce qu'on fait. »"
+  },
+  {id:11,age:'6-14 ans',titre:'Mensonge découvert',
+    context:"Vous découvrez que votre enfant vous a menti (devoir non fait, sortie cachée…).",
+    R:"« Je vois que tu m'as menti sur X. »",
+    A1:"« Je comprends que parfois on a peur d'être grondé ou jugé. C'est humain d'avoir voulu cacher. »",
+    H:"« Mais dans notre famille, on ne se ment pas. La confiance se construit avec l'honnêteté. »",
+    M:"« Quand moi j'ai fait quelque chose de mal, je préfère le dire directement et accepter les conséquences. C'est plus simple à long terme. »",
+    A2:"« Qu'est-ce qui aurait pu t'aider à venir m'en parler avant ? Et maintenant, comment on répare ? »"
+  },
+  {id:12,age:'10-17 ans',titre:'Hypersensibilité à l\'injustice (souvent TDAH + harcèlement passé)',
+    context:"L'ado réagit fortement à toute critique ou remarque perçue comme injuste. Explosion immédiate.",
+    R:"« Je vois que tu as ressenti ça comme très injuste. Pour toi c'est une vraie attaque. »",
+    A1:"« C'est normal d'être sensible à l'injustice — c'est une qualité même. Et avec ton passé, tes capteurs sont plus sensibles. »",
+    H:"« Mais exploser et insulter n'est pas la bonne réponse. Le cadre c'est : exprimer sans agresser. »",
+    M:"« Quand moi je sens l'injustice monter, je me dis 3 secondes : \"Est-ce vraiment de l'injustice ou ma sensibilité ?\" Je te montre. »",
+    A2:"« Pour la prochaine fois : on peut faire un signe entre nous quand tu sens monter ? Et on parle après pour décortiquer ensemble si c'était réellement injuste ou pas. »"
+  }
+];
+
+// ============================================================
+// STORAGE
+// ============================================================
+var STORAGE_KEY = 'educatypique_rahma_v1';
+var currentDossier = 'default';
+
+function loadStore(){
+  try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : { dossiers:{default:{archives:[]}} }; }
+  catch(e){ return { dossiers:{default:{archives:[]}} }; }
+}
+function saveStore(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
+function loadDossier(){ var d = loadStore().dossiers[currentDossier] || {archives:[]}; d.archives = d.archives || []; return d; }
+function saveDossier(d){ var s = loadStore(); s.dossiers[currentDossier] = d; saveStore(s); }
+
+// ============================================================
+// ONGLETS
+// ============================================================
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  if(tab === 'archives') renderArchives();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ============================================================
+// LETTRES — DÉTAIL
+// ============================================================
+function showLetter(l){
+  document.querySelectorAll('.letter-card').forEach(c=>c.classList.remove('active'));
+  document.querySelector('[data-l="'+l+'"]').classList.add('active');
+  var data = LETTERS[l];
+  var html = '<h3><span class="ldot">'+data.letter+'</span>'+data.nom+'</h3>' +
+    '<div class="objectif"><strong>🎯 Objectif</strong><p>'+data.objectif+'</p></div>' +
+    '<div class="phrase-cle">💬 '+data.phrase+'</div>' +
+    '<p style="font-size:14px;color:#3D4E4A;line-height:1.65">'+data.explication+'</p>' +
+    '<h4>📚 Exemples concrets</h4>';
+  data.exemples.forEach(function(e){
+    html += '<div class="exemple"><strong>'+e.ctx+'</strong>'+e.mot+'</div>';
+  });
+  html += '<div class="alert"><strong>⚠️ Attention</strong>'+data.alert+'</div>';
+  document.getElementById('letterDetail').innerHTML = html;
+}
+showLetter('R');
+
+// ============================================================
+// PROTOCOLE GUIDÉ
+// ============================================================
+function clearProtocole(){
+  if(!confirm('Effacer tous les champs du protocole en cours ?')) return;
+  ['step-0','step-R','step-A1','step-H','step-M','step-A2'].forEach(function(id){
+    document.getElementById(id).value = '';
+  });
+  saveCurrentProto();
+}
+function getProto(){
+  return {
+    situation: document.getElementById('step-0').value,
+    R: document.getElementById('step-R').value,
+    A1: document.getElementById('step-A1').value,
+    H: document.getElementById('step-H').value,
+    M: document.getElementById('step-M').value,
+    A2: document.getElementById('step-A2').value
+  };
+}
+function setProto(p){
+  document.getElementById('step-0').value = p.situation || '';
+  document.getElementById('step-R').value = p.R || '';
+  document.getElementById('step-A1').value = p.A1 || '';
+  document.getElementById('step-H').value = p.H || '';
+  document.getElementById('step-M').value = p.M || '';
+  document.getElementById('step-A2').value = p.A2 || '';
+}
+function saveCurrentProto(){
+  var d = loadDossier();
+  d.current = getProto();
+  saveDossier(d);
+}
+function restoreCurrentProto(){
+  var d = loadDossier();
+  setProto(d.current || {});
+}
+['step-0','step-R','step-A1','step-H','step-M','step-A2'].forEach(function(id){
+  document.getElementById(id).addEventListener('input', saveCurrentProto);
+});
+
+function saveProtocole(){
+  var p = getProto();
+  if(!p.situation && !p.R && !p.A1 && !p.H && !p.M && !p.A2){
+    alert('Remplis au moins une étape avant de sauvegarder.');
+    return;
+  }
+  var d = loadDossier();
+  d.archives = d.archives || [];
+  var now = new Date();
+  d.archives.unshift({
+    date: now.toLocaleDateString('fr-FR'),
+    timestamp: now.getTime(),
+    proto: p,
+    summary: (p.situation || '(sans titre)').substring(0,90)
+  });
+  saveDossier(d);
+  alert('✓ Protocole sauvegardé dans tes archives.');
+}
+
+function renderArchives(){
+  var d = loadDossier();
+  var list = d.archives || [];
+  var container = document.getElementById('archivesList');
+  if(list.length === 0){
+    container.innerHTML = '<p style="text-align:center;color:#7A6B66;font-style:italic;padding:30px">Aucun protocole archivé pour le moment. Va dans l\'onglet « Protocole guidé » pour en remplir un et le sauvegarder.</p>';
+    return;
+  }
+  container.innerHTML = list.map(function(a,i){
+    return '<div class="archive-item"><div class="arch-meta"><div class="arch-date">'+a.date+'</div><div class="arch-title">'+a.summary+'</div><div class="arch-summary">Étapes remplies : '+countSteps(a.proto)+'/5</div></div><button onclick="loadArchive('+i+')">Voir / réutiliser</button><button onclick="deleteArchive('+i+')" style="background:#FCE2E2;color:#C9573A">🗑</button></div>';
+  }).join('');
+}
+function countSteps(p){
+  var n = 0;
+  ['R','A1','H','M','A2'].forEach(function(k){ if(p[k]) n++; });
+  return n;
+}
+function loadArchive(i){
+  var d = loadDossier();
+  setProto(d.archives[i].proto);
+  saveCurrentProto();
+  switchTab('protocole');
+}
+function deleteArchive(i){
+  if(!confirm('Supprimer ce protocole archivé ?')) return;
+  var d = loadDossier();
+  d.archives.splice(i,1);
+  saveDossier(d);
+  renderArchives();
+}
+
+// ============================================================
+// SCÉNARIOS
+// ============================================================
+function renderScenarios(){
+  var grid = document.getElementById('scenariosGrid');
+  grid.innerHTML = SCENARIOS.map(function(s){
+    return '<div class="scn-card" onclick="openScenario('+s.id+')"><span class="scn-age">'+s.age+'</span><h4>'+s.titre+'</h4><p>'+s.context.substring(0,90)+'...</p></div>';
+  }).join('');
+}
+function openScenario(id){
+  var s = SCENARIOS.find(x=>x.id===id);
+  if(!s) return;
+  var det = document.getElementById('scnDetail');
+  det.innerHTML = '<h3>🎴 '+s.titre+'</h3>' +
+    '<div class="scn-context">'+s.context+'</div>' +
+    '<div class="scn-rahma-step s-R"><strong><span class="step-letter">R</span>Reconnaître</strong><span class="quote">'+s.R+'</span></div>' +
+    '<div class="scn-rahma-step s-A1"><strong><span class="step-letter">A</span>Accueillir (sans valider comportement)</strong><span class="quote">'+s.A1+'</span></div>' +
+    '<div class="scn-rahma-step s-H"><strong><span class="step-letter">H</span>Harmoniser avec cadre</strong><span class="quote">'+s.H+'</span></div>' +
+    '<div class="scn-rahma-step s-M"><strong><span class="step-letter">M</span>Modéliser</strong><span class="quote">'+s.M+'</span></div>' +
+    '<div class="scn-rahma-step s-A2"><strong><span class="step-letter">A</span>Accompagner solution & réparation</strong><span class="quote">'+s.A2+'</span></div>' +
+    '<div style="text-align:center;margin-top:14px"><button class="btn" onclick="reuseScenario('+id+')">📝 Réutiliser ce protocole dans mon dossier</button></div>';
+  det.classList.add('show');
+  setTimeout(function(){ det.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 100);
+}
+function reuseScenario(id){
+  var s = SCENARIOS.find(x=>x.id===id);
+  if(!s) return;
+  setProto({situation:'Inspiré du scénario : '+s.titre+'. '+s.context, R:s.R, A1:s.A1, H:s.H, M:s.M, A2:s.A2});
+  saveCurrentProto();
+  switchTab('protocole');
+}
+
+// ============================================================
+// DOSSIERS
+// ============================================================
+function refreshDossierSelect(){
+  var s = loadStore();
+  var sel = document.getElementById('dossierSelect');
+  sel.innerHTML = '';
+  Object.keys(s.dossiers||{default:{archives:[]}}).forEach(function(name){
+    var opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if(name === currentDossier) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+function changeDossier(){
+  currentDossier = document.getElementById('dossierSelect').value;
+  restoreCurrentProto();
+  renderArchives();
+}
+function addDossier(){
+  var name = (document.getElementById('newDossier').value||'').trim();
+  if(!name) return;
+  var s = loadStore();
+  s.dossiers[name] = s.dossiers[name] || {archives:[]};
+  saveStore(s);
+  currentDossier = name;
+  document.getElementById('newDossier').value='';
+  refreshDossierSelect();
+  restoreCurrentProto();
+  renderArchives();
+}
+function deleteDossier(){
+  if(currentDossier==='default'){ alert('Le dossier « Mon dossier » ne peut pas être supprimé.'); return; }
+  if(!confirm('Supprimer le dossier « '+currentDossier+' » et tous ses archives ?')) return;
+  var s = loadStore(); delete s.dossiers[currentDossier]; saveStore(s);
+  currentDossier='default'; refreshDossierSelect(); restoreCurrentProto(); renderArchives();
+}
+
+// ============================================================
+// EXPORT TXT
+// ============================================================
+function exportTXT(){
+  var d = loadDossier();
+  var dt = new Date();
+  var dateStr = dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();
+  var out = '';
+  out += '═══════════════════════════════════════════════════\n';
+  out += '  MÉTHODE R.A.H.M.A · EducaTypique\n';
+  out += '  Création originale : Nawel Haddouch\n';
+  out += '  Dossier : '+currentDossier+'\n';
+  out += '  Exporté le : '+dateStr+'\n';
+  out += '═══════════════════════════════════════════════════\n\n';
+
+  out += '🛠️  PROTOCOLE EN COURS\n';
+  out += '─────────────────────────────────────\n';
+  var p = d.current || {};
+  out += 'Situation : '+(p.situation||'(vide)')+'\n\n';
+  out += 'R · Reconnaître : '+(p.R||'(vide)')+'\n\n';
+  out += 'A · Accueillir : '+(p.A1||'(vide)')+'\n\n';
+  out += 'H · Harmoniser : '+(p.H||'(vide)')+'\n\n';
+  out += 'M · Modéliser : '+(p.M||'(vide)')+'\n\n';
+  out += 'A · Accompagner : '+(p.A2||'(vide)')+'\n\n';
+
+  out += '📚  ARCHIVES ('+ (d.archives||[]).length +' protocoles)\n';
+  out += '─────────────────────────────────────\n';
+  (d.archives||[]).forEach(function(a,i){
+    out += '\n▸ #'+(i+1)+' — '+a.date+'\n';
+    out += '   Situation : '+(a.proto.situation||'(vide)')+'\n';
+    out += '   R: '+(a.proto.R||'-')+'\n';
+    out += '   A: '+(a.proto.A1||'-')+'\n';
+    out += '   H: '+(a.proto.H||'-')+'\n';
+    out += '   M: '+(a.proto.M||'-')+'\n';
+    out += '   A: '+(a.proto.A2||'-')+'\n';
+  });
+
+  out += '\n═══════════════════════════════════════════════════\n';
+  out += '« Éduquer un enfant, c\'est former une âme. »\n';
+  out += '« La douceur n\'est présente dans une chose sans qu\'elle ne l\'embellisse. »\n';
+  out += '\n— Création originale Nawel Haddouch · EducaTypique\n';
+  out += '═══════════════════════════════════════════════════\n';
+
+  var blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'RAHMA_'+currentDossier+'_'+dt.getFullYear()+(dt.getMonth()+1)+dt.getDate()+'.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderScenarios();
+refreshDossierSelect();
+restoreCurrentProto();
+</script>
+</body>
+</html>

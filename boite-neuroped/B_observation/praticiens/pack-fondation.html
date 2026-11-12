@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pack Fondation Pro — Observer · Comprendre · Ajuster · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#F0F5F8 0%,#F5F0F7 50%,#FEF6EF 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2D3E3A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:980px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes shimmer{0%,100%{opacity:0.6}50%{opacity:1}}
+
+/* ============ HEADER ============ */
+.hdr{text-align:center;padding:38px 24px 28px;margin-bottom:22px;background:linear-gradient(135deg,#F0F8F5 0%,#E8EEF5 50%,#FFF6F0 100%);border-radius:24px;border:1px solid rgba(96,140,180,0.22);box-shadow:0 8px 28px rgba(96,140,180,0.08);position:relative;overflow:hidden}
+.hdr::before{content:'📋';position:absolute;top:18px;right:22px;font-size:46px;opacity:0.12;transform:rotate(-8deg)}
+.hdr::after{content:'📊';position:absolute;bottom:18px;left:22px;font-size:40px;opacity:0.12;transform:rotate(8deg)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#608CB4,#6CA89E);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px;position:relative;z-index:1}
+.float-icon{font-size:50px;margin-bottom:6px;display:inline-block;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1}
+.hdr h1{font-family:Georgia,serif;font-size:30px;font-weight:400;color:#2D3E3A;margin-bottom:6px;position:relative;z-index:1}
+.hdr .baseline{font-family:Georgia,serif;font-size:14px;font-style:italic;color:#608CB4;margin-bottom:10px;position:relative;z-index:1;letter-spacing:1.5px}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A6B66;position:relative;z-index:1;max-width:680px;margin:0 auto}
+
+/* ============ INTRO ============ */
+.intro{background:#FFFFFF;border-radius:18px;padding:24px;margin-bottom:20px;border:1px solid rgba(96,140,180,0.18);box-shadow:0 4px 14px rgba(96,140,180,0.06);animation:fadeIn 0.6s ease-out}
+.intro p{font-size:15px;color:#3D4E4A;line-height:1.7;margin-bottom:10px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#608CB4}
+.intro .questions{background:linear-gradient(135deg,#F0F8F5,#E8EEF5);padding:18px;border-radius:14px;margin:14px 0;text-align:center}
+.intro .questions ol{display:inline-block;text-align:left;list-style:decimal;padding-left:24px;font-family:Georgia,serif;font-size:14.5px;line-height:1.7;color:#3D4E4A}
+.intro .questions ol li{margin-bottom:4px}
+
+/* ============ DOSSIER BAR ============ */
+.dossier-bar{background:#FFFFFF;border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(96,140,180,0.06);border:1px solid rgba(96,140,180,0.15)}
+.dossier-bar label{font-size:13px;font-weight:600;color:#5A6B66}
+.dossier-bar input,.dossier-bar select{padding:7px 12px;border:1px solid rgba(96,140,180,0.25);border-radius:9px;font-size:13px;background:#FBF8F4;font-family:inherit;color:#2D3E3A;min-width:150px}
+.dossier-bar button{background:#F0F5F8;color:#608CB4;border:1px solid rgba(96,140,180,0.25);padding:7px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.dossier-bar button:hover{background:#E0EEDF}
+.dossier-bar .btn-export{background:linear-gradient(135deg,#608CB4,#7AA0C6);color:#fff;border:none}
+.dossier-bar .btn-print{background:linear-gradient(135deg,#6CA89E,#88B8AA);color:#fff;border:none}
+
+/* ============ NAV ============ */
+.nav{display:flex;gap:6px;background:#FFFFFF;padding:8px;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 12px rgba(96,140,180,0.08);overflow-x:auto;border:1px solid rgba(96,140,180,0.15);scrollbar-width:thin}
+.nav::-webkit-scrollbar{height:6px}
+.nav::-webkit-scrollbar-thumb{background:#C9D8E5;border-radius:3px}
+.nav button{background:transparent;color:#5A6B66;border:none;padding:11px 14px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.25s;white-space:nowrap;font-family:inherit;display:flex;align-items:center;gap:6px}
+.nav button:hover{background:#F0F5F8;color:#608CB4}
+.nav button.active{background:linear-gradient(135deg,#608CB4,#7AA0C6);color:#fff;box-shadow:0 4px 10px rgba(96,140,180,0.3)}
+
+/* ============ SECTIONS ============ */
+.panel{display:none;animation:fadeIn 0.4s ease-out}
+.panel.active{display:block}
+.section{background:#FFFFFF;border-radius:20px;padding:26px 24px;margin-bottom:18px;border:1px solid rgba(96,140,180,0.18);box-shadow:0 4px 14px rgba(96,140,180,0.05)}
+.section h2{font-family:Georgia,serif;font-size:22px;font-weight:500;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section .sub{font-size:13.5px;color:#7A8782;font-style:italic;margin-bottom:18px;line-height:1.55}
+.section h3{font-family:Georgia,serif;font-size:16px;color:#608CB4;margin:18px 0 10px;font-weight:600}
+
+.consigne{background:#F0F8F5;border-left:4px solid #6CA89E;padding:12px 16px;border-radius:10px;margin-bottom:14px;font-size:13.5px;color:#3D4E4A;line-height:1.55}
+.consigne strong{color:#4A8576;display:block;margin-bottom:3px;font-size:12px;text-transform:uppercase;letter-spacing:0.5px}
+
+.encart-final{background:linear-gradient(135deg,#F0F5F8,#F5F0F7);padding:14px 18px;border-radius:12px;margin-top:18px;border-left:5px solid #608CB4;font-family:Georgia,serif;font-style:italic;font-size:14.5px;color:#3D4E4A;line-height:1.55;text-align:center}
+
+/* ============ OUTIL 1 — RADAR ============ */
+.radar-input-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:14px 0}
+.radar-row{background:#FBF8F4;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-left:4px solid}
+.radar-row.r-1{border-color:#608CB4}
+.radar-row.r-2{border-color:#6CA89E}
+.radar-row.r-3{border-color:#9B85B8}
+.radar-row.r-4{border-color:#E0B83E}
+.radar-row.r-5{border-color:#E89556}
+.radar-row.r-6{border-color:#D98C8C}
+.radar-row.r-7{border-color:#7AA0C6}
+.radar-label{font-weight:600;color:#2D3E3A;flex:1;min-width:200px;font-size:14px}
+.radar-label .icon{font-size:18px;margin-right:6px}
+.radar-scale{display:flex;gap:6px;align-items:center}
+.radar-scale label{display:flex;flex-direction:column;align-items:center;cursor:pointer;font-size:11px;color:#7A6B66;font-weight:600}
+.radar-scale input[type=radio]{accent-color:#608CB4;cursor:pointer;width:18px;height:18px;margin:0 0 3px}
+
+.radar-svg-wrap{background:#FBF8F4;border-radius:14px;padding:18px;margin-top:14px;display:flex;justify-content:center}
+.radar-svg{max-width:480px;width:100%;height:auto}
+
+.radar-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media (max-width:600px){.radar-actions{grid-template-columns:1fr}}
+.actions-box{padding:14px 16px;border-radius:12px}
+.box-forces{background:linear-gradient(135deg,#E8F5EC,#DFF0E2);border-left:4px solid #6CA89E}
+.box-vigil{background:linear-gradient(135deg,#FFEEDC,#FCDBBE);border-left:4px solid #E89556}
+.actions-box h4{font-family:Georgia,serif;font-size:14px;margin-bottom:8px}
+.box-forces h4{color:#4A8576}
+.box-vigil h4{color:#9B5C3A}
+.actions-box textarea{width:100%;padding:9px 12px;border:1px solid rgba(96,140,180,0.25);border-radius:8px;font-size:13px;background:#fff;font-family:inherit;min-height:60px;resize:vertical}
+
+/* ============ OUTIL 2 — GRILLE CONTEXTUELLE ============ */
+.context-table-wrap{overflow-x:auto;margin-top:14px}
+.context-table{width:100%;border-collapse:collapse;font-size:13px;background:#FBF8F4;border-radius:12px;overflow:hidden}
+.context-table th{background:linear-gradient(135deg,#608CB4,#7AA0C6);color:#fff;font-weight:600;padding:10px 8px;text-align:center;font-size:11.5px;text-transform:uppercase;letter-spacing:0.5px}
+.context-table th:first-child{text-align:left;padding-left:14px}
+.context-table td{padding:8px 6px;text-align:center;border-bottom:1px solid rgba(96,140,180,0.12);background:#fff}
+.context-table td:first-child{text-align:left;font-weight:600;padding-left:14px;font-size:13px;color:#3D4E4A}
+.context-table select{padding:5px 6px;border:1px solid rgba(96,140,180,0.25);border-radius:6px;font-size:13px;background:#FBF8F4;font-family:inherit;color:#2D3E3A;cursor:pointer;width:100%;max-width:60px}
+.context-table tr:hover td{background:#F8FBFD}
+
+.context-questions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media (max-width:600px){.context-questions{grid-template-columns:1fr}}
+.ctx-q{background:#FBF8F4;border-radius:12px;padding:14px 16px;border-left:4px solid #608CB4}
+.ctx-q label{display:block;font-size:12.5px;color:#608CB4;font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.4px}
+.ctx-q textarea{width:100%;padding:8px 12px;border:1px solid rgba(96,140,180,0.22);border-radius:8px;font-size:13px;background:#fff;font-family:inherit;min-height:50px;resize:vertical}
+
+/* ============ OUTIL 3 — DÉCLENCHEURS ============ */
+.decl-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media (max-width:740px){.decl-grid{grid-template-columns:1fr}}
+.decl-card{background:#FBF8F4;border-radius:14px;padding:16px;border-left:4px solid}
+.decl-card.dc1{border-color:#C9573A}
+.decl-card.dc2{border-color:#E89556}
+.decl-card.dc3{border-color:#E0B83E}
+.decl-card.dc4{border-color:#9B85B8}
+.decl-card.dc5{border-color:#6CA89E}
+.decl-card.dc6{border-color:#608CB4}
+.decl-card label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:6px}
+.decl-card.dc1 label{color:#C9573A}
+.decl-card.dc2 label{color:#9B5C3A}
+.decl-card.dc3 label{color:#9B7E2A}
+.decl-card.dc4 label{color:#6E5594}
+.decl-card.dc5 label{color:#4A8576}
+.decl-card.dc6 label{color:#608CB4}
+.decl-card textarea{width:100%;padding:9px 12px;border:1px solid rgba(96,140,180,0.22);border-radius:8px;font-size:13px;background:#fff;font-family:inherit;min-height:55px;resize:vertical}
+
+.aide-memoire{background:linear-gradient(135deg,#F0F5F8,#F5F0F7);border-radius:14px;padding:16px 18px;margin-top:16px}
+.aide-memoire h4{font-family:Georgia,serif;font-size:14px;color:#608CB4;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.6px}
+.aide-memoire-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:600px){.aide-memoire-grid{grid-template-columns:1fr}}
+.am-col h5{font-family:Georgia,serif;font-size:13px;margin-bottom:6px;color:#2D3E3A}
+.am-col .chips{display:flex;flex-wrap:wrap;gap:5px}
+.am-col .chips span{background:#fff;padding:3px 9px;border-radius:14px;font-size:11.5px;color:#3D4E4A;border:1px solid rgba(96,140,180,0.18)}
+
+/* ============ OUTIL 4 — PROFIL FE ============ */
+.fe-rubrique{background:#FBF8F4;border-radius:14px;padding:16px 18px;margin-bottom:14px;border-left:4px solid #608CB4}
+.fe-rubrique h3{font-family:Georgia,serif;font-size:15px;color:#2D3E3A;margin-bottom:10px;font-weight:600;margin-top:0}
+.fe-item{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px dashed rgba(96,140,180,0.15)}
+.fe-item:last-child{border-bottom:none}
+.fe-item-label{flex:1;font-size:13.5px;color:#3D4E4A;line-height:1.45}
+.fe-item-scale{display:flex;gap:5px;flex-shrink:0}
+.fe-item-scale label{display:flex;flex-direction:column;align-items:center;cursor:pointer;font-size:10.5px;color:#7A6B66;font-weight:600}
+.fe-item-scale input[type=radio]{accent-color:#608CB4;cursor:pointer;width:16px;height:16px;margin:0 0 2px}
+
+.fe-synthesis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+@media (max-width:740px){.fe-synthesis{grid-template-columns:1fr}}
+.fe-synth-box{background:#FBF8F4;border-radius:12px;padding:14px 16px;border-left:4px solid}
+.fe-s1{border-color:#6CA89E}
+.fe-s2{border-color:#E89556}
+.fe-s3{border-color:#9B85B8}
+.fe-s4{border-color:#608CB4}
+.fe-synth-box label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px}
+.fe-s1 label{color:#4A8576}
+.fe-s2 label{color:#9B5C3A}
+.fe-s3 label{color:#6E5594}
+.fe-s4 label{color:#608CB4}
+.fe-synth-box textarea{width:100%;padding:8px 12px;border:1px solid rgba(96,140,180,0.22);border-radius:8px;font-size:13px;background:#fff;font-family:inherit;min-height:60px;resize:vertical}
+
+/* ============ OUTIL 5 — PLAN D'ACTION ============ */
+.plan-priorite{background:linear-gradient(135deg,#F0F8F5,#E8EEF5);border-radius:16px;padding:18px 20px;margin-bottom:14px;border-left:5px solid #6CA89E}
+.plan-priorite h3{font-family:Georgia,serif;font-size:16px;color:#4A8576;margin:0 0 12px;display:flex;align-items:center;gap:10px}
+.plan-priorite h3 .priority-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#6CA89E,#88B8AA);color:#fff;font-weight:700;font-size:14px;font-family:Georgia,serif}
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+@media (max-width:740px){.plan-grid{grid-template-columns:1fr}}
+.plan-field{display:flex;flex-direction:column;gap:4px}
+.plan-field label{font-size:11.5px;color:#608CB4;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.plan-field input,.plan-field textarea{padding:8px 10px;border:1px solid rgba(96,140,180,0.22);border-radius:8px;font-size:13px;background:#fff;font-family:inherit;color:#2D3E3A;resize:vertical}
+.plan-field textarea{min-height:50px}
+.plan-field.full{grid-column:1/-1}
+
+.plan-example{background:#FFFBF6;border-radius:10px;padding:12px 14px;margin-top:14px;font-size:12.5px;color:#5A6B66;line-height:1.55;border-left:3px solid #E0B83E}
+.plan-example strong{color:#9B7E2A;display:block;margin-bottom:3px;font-size:11.5px;text-transform:uppercase;letter-spacing:0.5px}
+
+/* ============ FOOTER ============ */
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif;animation:shimmer 5s ease-in-out infinite}
+.footer .brand-foot{color:#608CB4;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+.footer .small{color:#8A9892;font-size:11px;margin-top:4px;display:block}
+
+@media print{
+body{background:#fff;padding:10px}
+.nav,.dossier-bar{display:none !important}
+.panel{display:block !important;page-break-after:always}
+.section{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+.context-table-wrap{overflow:visible}
+}
+
+@media (max-width:600px){
+.hdr{padding:30px 18px 22px}
+.hdr h1{font-size:22px}
+.section{padding:20px 18px}
+.nav{padding:6px}
+.nav button{padding:9px 11px;font-size:11.5px}
+.radar-row{padding:11px 13px}
+.radar-label{min-width:auto;width:100%}
+.radar-scale{width:100%;justify-content:space-between}
+.fe-item{flex-direction:column;align-items:flex-start;gap:6px}
+.fe-item-scale{width:100%;justify-content:space-between}
+}
+</style>
+</head>
+<body>
+<a href="../../professionnels.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#608CB4;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(96,140,180,0.2)">← Professionnels</a>
+
+<div class="wrap">
+
+<!-- ============ HEADER ============ -->
+<div class="hdr">
+<span class="brand">Pack Fondation Pro · EducaTypique</span>
+<div class="float-icon">📋</div>
+<h1>Pack Fondation Pro</h1>
+<div class="baseline">OBSERVER · COMPRENDRE · AJUSTER</div>
+<p>5 outils intégrés pour les professionnels — radar fonctionnel, grille contextuelle, déclencheurs/besoins, profil exécutif, plan d'action. Un système de lecture du fonctionnement de l'enfant pour agir de façon plus juste.</p>
+</div>
+
+<!-- ============ INTRO ============ -->
+<div class="intro">
+<p>Pas 15 fiches dispersées : <strong>une gamme cohérente de 5 outils</strong> qui se complètent. Du repérage global au plan d'action concret. Pensée pour neuropédagogues, AESH, psychologues, ergo/psychomot, enseignants spécialisés, parents experts.</p>
+<div class="questions">
+<strong style="color:#608CB4;font-family:Georgia,serif;font-size:14px">La colonne vertébrale — 4 questions</strong>
+<ol>
+<li>Qu'est-ce qu'on observe ?</li>
+<li>Qu'est-ce que ça peut signifier ?</li>
+<li>Qu'est-ce qu'on évite comme mauvaise interprétation ?</li>
+<li>Qu'est-ce qu'on fait concrètement ensuite ?</li>
+</ol>
+</div>
+<p>Chaque outil est imprimable A4. Tes données restent locales — multi-dossiers pour suivre plusieurs enfants.</p>
+</div>
+
+<!-- ============ DOSSIER BAR ============ -->
+<div class="dossier-bar">
+<label>📁 Dossier :</label>
+<select id="dossierSelect" onchange="changeDossier()">
+<option value="default">Mon dossier</option>
+</select>
+<input type="text" id="newDossier" placeholder="Nouveau (ex: Léa, S.M, Cas 2026-03...)">
+<button onclick="addDossier()">+ Créer</button>
+<button onclick="deleteDossier()">🗑 Supprimer</button>
+<button onclick="exportTXT()" class="btn-export">📥 Exporter en .txt</button>
+<button onclick="window.print()" class="btn-print">🖨️ Imprimer</button>
+</div>
+
+<!-- ============ NAV ============ -->
+<div class="nav">
+<button class="active" data-tab="radar" onclick="switchTab('radar')">1️⃣ Radar global</button>
+<button data-tab="context" onclick="switchTab('context')">2️⃣ Grille contextuelle</button>
+<button data-tab="declench" onclick="switchTab('declench')">3️⃣ Déclencheurs / Besoins</button>
+<button data-tab="fe" onclick="switchTab('fe')">4️⃣ Profil attentionnel / exécutif</button>
+<button data-tab="plan" onclick="switchTab('plan')">5️⃣ Plan d'action</button>
+</div>
+
+<!-- ============================================================
+     OUTIL 1 — RADAR GLOBAL DU FONCTIONNEMENT
+     ============================================================ -->
+<div class="panel active" id="panel-radar">
+
+<div class="section">
+<h2>1️⃣ Le Radar global du fonctionnement</h2>
+<div class="sub">Visualisez les forces, les fragilités et les écarts de fonctionnement de l'enfant.</div>
+
+<p style="font-size:14px;color:#3D4E4A;margin-bottom:10px">Le Radar global donne une vue d'ensemble visuelle du profil de l'enfant — domaines de confort et zones qui demandent davantage d'accompagnement.</p>
+
+<div class="consigne">
+<strong>Consigne</strong>
+Pour chaque domaine, attribuez une note de 1 à 5 selon l'aisance observée dans le quotidien.<br>
+<span style="font-size:12px">1 = difficulté importante · 2 = difficulté marquée · 3 = aisance variable · 4 = plutôt à l'aise · 5 = très à l'aise</span>
+</div>
+
+<div class="radar-input-grid">
+<div class="radar-row r-1">
+<span class="radar-label"><span class="icon">💬</span>Langage et communication</span>
+<div class="radar-scale" data-axis="lang">
+<label><input type="radio" name="lang" value="1" onchange="updateRadar()">1</label>
+<label><input type="radio" name="lang" value="2" onchange="updateRadar()">2</label>
+<label><input type="radio" name="lang" value="3" onchange="updateRadar()">3</label>
+<label><input type="radio" name="lang" value="4" onchange="updateRadar()">4</label>
+<label><input type="radio" name="lang" value="5" onchange="updateRadar()">5</label>
+</div>
+</div>
+<div class="radar-row r-2">
+<span class="radar-label"><span class="icon">🤸</span>Motricité et coordination</span>
+<div class="radar-scale" data-axis="motr">
+<label><input type="radio" name="motr" value="1" onchange="updateRadar()">1</label>
+<label><input type="radio" name="motr" value="2" onchange="updateRadar()">2</label>
+<label><input type="radio" name="motr" value="3" onchange="updateRadar()">3</label>
+<label><input type="radio" name="motr" value="4" onchange="updateRadar()">4</label>
+<label><input type="radio" name="motr" value="5" onchange="updateRadar()">5</label>
+</div>
+</div>
+<div class="radar-row r-3">
+<span class="radar-label"><span class="icon">🎯</span>Attention et fonctions exécutives</span>
+<div class="radar-scale" data-axis="att">
+<label><input type="radio" name="att" value="1" onchange="updateRadar()">1</label>
+<label><input type="radio" name="att" value="2" onchange="updateRadar()">2</label>
+<label><input type="radio" name="att" value="3" onchange="updateRadar()">3</label>
+<label><input type="radio" name="att" value="4" onchange="updateRadar()">4</label>
+<label><input type="radio" name="att" value="5" onchange="updateRadar()">5</label>
+</div>
+</div>
+<div class="radar-row r-4">
+<span class="radar-label"><span class="icon">📚</span>Apprentissages scolaires</span>
+<div class="radar-scale" data-axis="appr">
+<label><input type="radio" name="appr" value="1" onchange="updateRadar()">1</label>
+<label><input type="radio" name="appr" value="2" onchange="updateRadar()">2</label>
+<label><input type="radio" name="appr" value="3" onchange="updateRadar()">3</label>
+<label><input type="radio" name="appr" value="4" onchange="updateRadar()">4</label>
+<label><input type="radio" name="appr" value="5" onchange="updateRadar()">5</label>
+</div>
+</div>
+<div class="radar-row r-5">
+<span class="radar-label"><span class="icon">💛</span>Relations sociales et émotions</span>
+<div class="radar-scale" data-axis="soc">
+<label><input type="radio" name="soc" value="1" onchange="updateRadar()">1</label>
+<label><input type="radio" name="soc" value="2" onchange="updateRadar()">2</label>
+<label><input type="radio" name="soc" value="3" onchange="updateRadar()">3</label>
+<label><input type="radio" name="soc" value="4" onchange="updateRadar()">4</label>
+<label><input type="radio" name="soc" value="5" onchange="updateRadar()">5</label>
+</div>
+</div>
+<div class="radar-row r-6">
+<span class="radar-label"><span class="icon">🎒</span>Autonomie et organisation</span>
+<div class="radar-scale" data-axis="auto">
+<label><input type="radio" name="auto" value="1" onchange="updateRadar()">1</label>
+<label><input type="radio" name="auto" value="2" onchange="updateRadar()">2</label>
+<label><input type="radio" name="auto" value="3" onchange="updateRadar()">3</label>
+<label><input type="radio" name="auto" value="4" onchange="updateRadar()">4</label>
+<label><input type="radio" name="auto" value="5" onchange="updateRadar()">5</label>
+</div>
+</div>
+<div class="radar-row r-7">
+<span class="radar-label"><span class="icon">🌊</span>Sensoriel et régulation</span>
+<div class="radar-scale" data-axis="sens">
+<label><input type="radio" name="sens" value="1" onchange="updateRadar()">1</label>
+<label><input type="radio" name="sens" value="2" onchange="updateRadar()">2</label>
+<label><input type="radio" name="sens" value="3" onchange="updateRadar()">3</label>
+<label><input type="radio" name="sens" value="4" onchange="updateRadar()">4</label>
+<label><input type="radio" name="sens" value="5" onchange="updateRadar()">5</label>
+</div>
+</div>
+</div>
+
+<div class="radar-svg-wrap">
+<svg class="radar-svg" viewBox="-220 -240 440 480" id="radarSvg" xmlns="http://www.w3.org/2000/svg">
+<!-- grilles -->
+<g stroke="#D0DEE8" fill="none" stroke-width="1">
+<polygon id="ring1" points=""></polygon>
+<polygon id="ring2" points=""></polygon>
+<polygon id="ring3" points=""></polygon>
+<polygon id="ring4" points=""></polygon>
+<polygon id="ring5" points="" stroke="#608CB4" stroke-width="1.5"></polygon>
+</g>
+<!-- axes -->
+<g stroke="#C9D8E5" stroke-width="1" id="axesGroup"></g>
+<!-- labels -->
+<g font-family="Georgia,serif" font-size="11" fill="#3D4E4A" id="labelsGroup"></g>
+<!-- polygone résultat -->
+<polygon id="radarPoly" points="" fill="rgba(96,140,180,0.28)" stroke="#608CB4" stroke-width="2"></polygon>
+<!-- points résultat -->
+<g id="radarPoints"></g>
+</svg>
+</div>
+
+<div class="radar-actions">
+<div class="actions-box box-forces">
+<h4>✅ Forces principales</h4>
+<textarea id="radar-forces" placeholder="Ex : très bonne mémoire visuelle. Curiosité sur les sciences. Humour. Persévérance sur ses intérêts."></textarea>
+</div>
+<div class="actions-box box-vigil">
+<h4>⚠️ Points de vigilance</h4>
+<textarea id="radar-vigil" placeholder="Ex : attention soutenue fragile en lecture. Saturation sensorielle en bruit > 30 min. Autonomie organisation à étayer."></textarea>
+</div>
+</div>
+
+<div class="encart-final">Le but n'est pas de juger, mais de visualiser. Une force peut devenir un appui pour soutenir un domaine plus fragile.</div>
+</div>
+</div>
+
+<!-- ============================================================
+     OUTIL 2 — GRILLE CONTEXTUELLE
+     ============================================================ -->
+<div class="panel" id="panel-context">
+
+<div class="section">
+<h2>2️⃣ Le fonctionnement selon les contextes</h2>
+<div class="sub">Repérez quand, où et dans quelles conditions l'enfant fonctionne différemment.</div>
+
+<p style="font-size:14px;color:#3D4E4A;margin-bottom:10px">Un enfant ne fonctionne pas pareil selon les lieux, les personnes, les exigences ou le moment. C'est une information précieuse, pas une incohérence.</p>
+
+<div class="consigne">
+<strong>Consigne</strong>
+Pour chaque domaine × contexte, indiquez : <strong>+</strong> plutôt à l'aise · <strong>±</strong> variable · <strong>–</strong> difficulté marquée
+</div>
+
+<div class="context-table-wrap">
+<table class="context-table" id="ctxTable">
+<thead>
+<tr>
+<th>Domaine</th>
+<th>Maison</th>
+<th>École</th>
+<th>Avec pairs</th>
+<th>Autonomie</th>
+<th>Transition</th>
+<th>Fin journée</th>
+</tr>
+</thead>
+<tbody>
+<!-- généré JS -->
+</tbody>
+</table>
+</div>
+
+<div class="context-questions">
+<div class="ctx-q">
+<label>Dans quels contextes le plus disponible ?</label>
+<textarea id="ctx-q1" placeholder="Ex : à la maison le matin, en autonomie tâche choisie."></textarea>
+</div>
+<div class="ctx-q">
+<label>Dans quels contextes le plus en difficulté ?</label>
+<textarea id="ctx-q2" placeholder="Ex : transitions école/maison, fin de journée en groupe."></textarea>
+</div>
+<div class="ctx-q">
+<label>Qu'est-ce qui l'aide ?</label>
+<textarea id="ctx-q3" placeholder="Ex : repère visuel transition, pause 15 min avant devoirs, environnement calme."></textarea>
+</div>
+<div class="ctx-q">
+<label>Qu'est-ce qui aggrave la difficulté ?</label>
+<textarea id="ctx-q4" placeholder="Ex : bruit + injonctions multiples, comparaison à la fratrie, exigence parfaitionniste."></textarea>
+</div>
+</div>
+
+<div class="encart-final">Quand une difficulté n'apparaît pas partout, ça ne veut pas dire qu'elle n'existe pas. Ça veut souvent dire qu'elle dépend du contexte.</div>
+</div>
+</div>
+
+<!-- ============================================================
+     OUTIL 3 — DÉCLENCHEURS / MANIFESTATIONS / BESOINS
+     ============================================================ -->
+<div class="panel" id="panel-declench">
+
+<div class="section">
+<h2>3️⃣ Déclencheurs · Manifestations · Besoins · Réponses</h2>
+<div class="sub">Passer du jugement rapide à une lecture plus juste du comportement.</div>
+
+<p style="font-size:14px;color:#3D4E4A;margin-bottom:10px">Le comportement n'est pas seulement un problème à faire cesser — c'est souvent un signal à décoder. Décrivez avant de conclure.</p>
+
+<div class="consigne">
+<strong>Consigne</strong>
+Choisissez une situation difficile et décrivez-la de façon factuelle. Distinguez l'observation de l'interprétation.
+</div>
+
+<div class="decl-grid">
+<div class="decl-card dc1">
+<label>📍 Situation déclenchante (quand, où, contexte)</label>
+<textarea id="dec-situation" placeholder="Ex : retour de l'école à 16h45, devoirs à commencer, ambiance sonore élevée fratrie."></textarea>
+</div>
+<div class="decl-card dc2">
+<label>👁️ Ce qu'on observe concrètement</label>
+<textarea id="dec-observe" placeholder="Ex : claquement de cahier, hausse du ton, refus verbal, larmes, retrait dans la chambre."></textarea>
+</div>
+<div class="decl-card dc3">
+<label>⚠️ Ce que l'adulte risque de croire (à éviter)</label>
+<textarea id="dec-croire" placeholder="Ex : 'il provoque', 'elle exagère', 'caprice', 'opposition'."></textarea>
+</div>
+<div class="decl-card dc4">
+<label>🧠 Hypothèse de besoin / difficulté</label>
+<textarea id="dec-besoin" placeholder="Ex : surcharge cognitive après l'école + fatigue exécutive, besoin de transition + récup avant tâche."></textarea>
+</div>
+<div class="decl-card dc5">
+<label>✅ Réponse utile (sur le moment ou prévention)</label>
+<textarea id="dec-utile" placeholder="Ex : décaler les devoirs de 30 min, goûter au calme, pause sensorielle, 1 consigne à la fois."></textarea>
+</div>
+<div class="decl-card dc6">
+<label>❌ Réponse à éviter (aggrave généralement)</label>
+<textarea id="dec-eviter" placeholder="Ex : commencer immédiatement les devoirs, hausser le ton, comparer à la fratrie, punir le retrait."></textarea>
+</div>
+</div>
+
+<div class="aide-memoire">
+<h4>🧰 Aide-mémoire</h4>
+<div class="aide-memoire-grid">
+<div class="am-col">
+<h5>Déclencheurs fréquents</h5>
+<div class="chips">
+<span>changement imprévu</span>
+<span>consigne longue</span>
+<span>bruit important</span>
+<span>fatigue</span>
+<span>frustration</span>
+<span>attente longue</span>
+<span>tâche floue</span>
+<span>surcharge écrit</span>
+<span>difficulté à s'arrêter</span>
+<span>difficulté à commencer seul</span>
+<span>injustice perçue</span>
+<span>fin de journée</span>
+</div>
+</div>
+<div class="am-col">
+<h5>Besoins fréquents</h5>
+<div class="chips">
+<span>être rassuré</span>
+<span>repère visuel</span>
+<span>consigne simplifiée</span>
+<span>pause</span>
+<span>aide au lancement</span>
+<span>guidage étapes</span>
+<span>retour au calme</span>
+<span>réduire surcharge</span>
+<span>anticipation</span>
+<span>cadre clair</span>
+<span>validation émotion</span>
+<span>autonomie partielle</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="encart-final">Le comportement n'est pas seulement un problème à faire cesser. Il est souvent un signal à décoder.</div>
+</div>
+</div>
+
+<!-- ============================================================
+     OUTIL 4 — PROFIL ATTENTIONNEL ET EXÉCUTIF
+     ============================================================ -->
+<div class="panel" id="panel-fe">
+
+<div class="section">
+<h2>4️⃣ Le profil attentionnel et exécutif</h2>
+<div class="sub">Repérer les difficultés invisibles qui freinent l'enfant dans les apprentissages et le quotidien.</div>
+
+<p style="font-size:14px;color:#3D4E4A;margin-bottom:10px">Quand les fonctions exécutives sont fragiles, l'enfant peut sembler opposant, immature, distrait ou peu autonome. En réalité, il est souvent débordé par la charge.</p>
+
+<div class="consigne">
+<strong>Consigne</strong>
+Pour chaque item, cochez : <strong>S</strong> Souvent · <strong>P</strong> Parfois · <strong>R</strong> Rarement
+</div>
+
+<div id="feGrid">
+<!-- généré JS -->
+</div>
+
+<div class="fe-synthesis">
+<div class="fe-synth-box fe-s1">
+<label>💪 Points forts repérés</label>
+<textarea id="fe-forts"></textarea>
+</div>
+<div class="fe-synth-box fe-s2">
+<label>⚠️ Points de fragilité repérés</label>
+<textarea id="fe-fragiles"></textarea>
+</div>
+<div class="fe-synth-box fe-s3">
+<label>🧠 Hypothèses de fonctionnement</label>
+<textarea id="fe-hyp"></textarea>
+</div>
+<div class="fe-synth-box fe-s4">
+<label>🛠️ Aides utiles à tester</label>
+<textarea id="fe-aides"></textarea>
+</div>
+</div>
+
+<div class="encart-final">Quand les fonctions exécutives sont fragiles, l'enfant peut sembler opposant, immature, distrait ou peu autonome. En réalité, il est souvent débordé par la charge de la tâche.</div>
+</div>
+</div>
+
+<!-- ============================================================
+     OUTIL 5 — PLAN D'ACTION
+     ============================================================ -->
+<div class="panel" id="panel-plan">
+
+<div class="section">
+<h2>5️⃣ Le plan d'action parent-école</h2>
+<div class="sub">Transformer les observations en actions concrètes, simples et cohérentes.</div>
+
+<p style="font-size:14px;color:#3D4E4A;margin-bottom:10px">Observer est utile. Comprendre est essentiel. Mais à un moment, il faut agir. Le vrai piège : vouloir tout travailler en même temps. <strong>Ici, on cible 3 priorités max.</strong></p>
+
+<div class="consigne">
+<strong>Consigne</strong>
+Choisissez 3 priorités maximum. Pour chacune : objectif concret · adaptations · qui · fréquence · indicateurs · date de réévaluation.
+</div>
+
+<!-- PRIORITÉ 1 -->
+<div class="plan-priorite">
+<h3><span class="priority-num">1</span>Priorité 1</h3>
+<div class="plan-grid">
+<div class="plan-field full"><label>Objectif concret</label><input type="text" id="p1-obj" placeholder="Ex : commencer une tâche en moins de 3 minutes avec un support visuel"></div>
+<div class="plan-field full"><label>Adaptations / actions mises en place</label><textarea id="p1-act" placeholder="Ex : consigne courte (1 étape), première étape déjà lancée par l'adulte, minuteur visuel 5 min"></textarea></div>
+<div class="plan-field"><label>Qui s'en charge ?</label><input type="text" id="p1-qui" placeholder="Ex : parent + maître/maîtresse"></div>
+<div class="plan-field"><label>Fréquence</label><input type="text" id="p1-freq" placeholder="Ex : à chaque devoir, tous les jours"></div>
+<div class="plan-field full"><label>Indicateurs de progrès observables</label><textarea id="p1-ind" placeholder="Ex : moins d'évitement, moins de relances, mise au travail plus rapide"></textarea></div>
+<div class="plan-field"><label>Date de réévaluation</label><input type="date" id="p1-date"></div>
+</div>
+</div>
+
+<!-- PRIORITÉ 2 -->
+<div class="plan-priorite" style="border-color:#9B85B8">
+<h3 style="color:#6E5594"><span class="priority-num" style="background:linear-gradient(135deg,#9B85B8,#B59ECE)">2</span>Priorité 2</h3>
+<div class="plan-grid">
+<div class="plan-field full"><label>Objectif concret</label><input type="text" id="p2-obj" placeholder="Ex : passer d'une activité à l'autre avec une seule relance"></div>
+<div class="plan-field full"><label>Adaptations / actions mises en place</label><textarea id="p2-act" placeholder="Ex : annonce en amont + pictogramme + rituel de transition"></textarea></div>
+<div class="plan-field"><label>Qui s'en charge ?</label><input type="text" id="p2-qui"></div>
+<div class="plan-field"><label>Fréquence</label><input type="text" id="p2-freq"></div>
+<div class="plan-field full"><label>Indicateurs de progrès observables</label><textarea id="p2-ind" placeholder="Ex : moins de refus, moins de colère, transition plus fluide"></textarea></div>
+<div class="plan-field"><label>Date de réévaluation</label><input type="date" id="p2-date"></div>
+</div>
+</div>
+
+<!-- PRIORITÉ 3 -->
+<div class="plan-priorite" style="border-color:#E89556">
+<h3 style="color:#9B5C3A"><span class="priority-num" style="background:linear-gradient(135deg,#E89556,#F0AC7E)">3</span>Priorité 3</h3>
+<div class="plan-grid">
+<div class="plan-field full"><label>Objectif concret</label><input type="text" id="p3-obj" placeholder="Ex : repérer les signes de saturation avant le débordement"></div>
+<div class="plan-field full"><label>Adaptations / actions mises en place</label><textarea id="p3-act" placeholder="Ex : pause régulière, allègement sollicitations, espace calme dédié"></textarea></div>
+<div class="plan-field"><label>Qui s'en charge ?</label><input type="text" id="p3-qui"></div>
+<div class="plan-field"><label>Fréquence</label><input type="text" id="p3-freq"></div>
+<div class="plan-field full"><label>Indicateurs de progrès observables</label><textarea id="p3-ind" placeholder="Ex : moins de crises, récupération plus rapide"></textarea></div>
+<div class="plan-field"><label>Date de réévaluation</label><input type="date" id="p3-date"></div>
+</div>
+</div>
+
+<div class="plan-example">
+<strong>💡 Exemple de bonne formulation</strong>
+Au lieu de « il doit mieux se concentrer » → « commencer les devoirs en moins de 5 minutes avec un support visuel, observé sur 4 jours/5 d'ici 3 semaines ». Comportement observable + mesurable + horizon temporel.
+</div>
+
+<div class="encart-final">Un accompagnement efficace n'est pas celui qui accumule les intentions. C'est celui qui choisit des priorités claires, des réponses réalistes et un suivi régulier.</div>
+</div>
+
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer">
+« Vous ne vendez pas des fiches. Vous proposez un système de lecture du fonctionnement de l'enfant. »<br>
+« Mieux lire le fonctionnement de l'enfant pour agir de façon plus juste. »
+<span class="brand-foot">Pack Fondation Pro · Création originale Nawel Haddouch · EducaTypique</span>
+<span class="small">5 outils intégrés · Observer · Comprendre · Ajuster · Mémoire locale, rien n'est envoyé en ligne</span>
+</div>
+
+</div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+var STORAGE_KEY = 'educatypique_pack_fondation_v1';
+var currentDossier = 'default';
+
+var AXES = [
+  {key:'lang',label:'Langage / communication'},
+  {key:'motr',label:'Motricité / coordination'},
+  {key:'att', label:'Attention / fonctions exécutives'},
+  {key:'appr',label:'Apprentissages scolaires'},
+  {key:'soc', label:'Relations sociales / émotions'},
+  {key:'auto',label:'Autonomie / organisation'},
+  {key:'sens',label:'Sensoriel / régulation'}
+];
+
+var CTX_ROWS = [
+  'Compréhension des consignes',
+  'Entrée dans la tâche',
+  'Gestion de l\'attention',
+  'Régulation émotionnelle',
+  'Relations sociales',
+  'Organisation / autonomie',
+  'Régulation sensorielle',
+  'Tolérance à l\'imprévu'
+];
+var CTX_COLS = ['maison','ecole','pairs','auto','transition','finJ'];
+
+var FE_RUBRIQUES = [
+  {nom:'1. Entrée dans la tâche', items:[
+    'Commence seul(e) une activité demandée',
+    'A besoin d\'un adulte pour se lancer',
+    'Évite quand la tâche paraît difficile',
+    'Se met au travail seulement si la première étape est guidée'
+  ]},
+  {nom:'2. Compréhension et maintien des consignes', items:[
+    'Comprend une consigne simple',
+    'Oublie une consigne à plusieurs étapes',
+    'Perd le fil en cours de tâche',
+    'Demande souvent qu\'on répète'
+  ]},
+  {nom:'3. Attention et inhibition', items:[
+    'Se laisse distraire facilement',
+    'A du mal à attendre son tour',
+    'Répond trop vite',
+    'Coupe la parole ou interrompt',
+    'A du mal à freiner une impulsion'
+  ]},
+  {nom:'4. Flexibilité cognitive', items:[
+    'Supporte mal les changements',
+    'Se bloque si sa stratégie ne fonctionne pas',
+    'Passe difficilement d\'une activité à une autre',
+    'A besoin d\'être rassuré(e) avant de changer'
+  ]},
+  {nom:'5. Planification et organisation', items:[
+    'Prépare son matériel seul(e)',
+    'Oublie ce qu\'il/elle doit faire',
+    'A du mal à organiser les étapes',
+    'Termine difficilement une tâche dans l\'ordre attendu'
+  ]},
+  {nom:'6. Autorégulation émotionnelle', items:[
+    'Tolère la frustration',
+    'Se décourage rapidement',
+    'S\'énerve face à l\'erreur',
+    'A besoin d\'un adulte pour se recentrer'
+  ]}
+];
+
+// ============================================================
+// STORAGE
+// ============================================================
+function loadStore(){
+  try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : { dossiers:{default:{}} }; }
+  catch(e){ return { dossiers:{default:{}} }; }
+}
+function saveStore(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
+function loadDossier(){ return loadStore().dossiers[currentDossier] || {}; }
+function saveDossier(d){ var s = loadStore(); s.dossiers[currentDossier] = d; saveStore(s); }
+
+// ============================================================
+// NAV
+// ============================================================
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ============================================================
+// OUTIL 1 — RADAR
+// ============================================================
+function buildRadarSvg(){
+  // 7 axes, radius 180
+  var n = 7, R = 180;
+  // axes lines
+  var axes = '';
+  for(var i=0;i<n;i++){
+    var ang = (Math.PI*2*i/n) - Math.PI/2;
+    var x = Math.cos(ang)*R, y = Math.sin(ang)*R;
+    axes += '<line x1="0" y1="0" x2="'+x.toFixed(2)+'" y2="'+y.toFixed(2)+'" />';
+  }
+  document.getElementById('axesGroup').innerHTML = axes;
+
+  // 5 rings (concentric polygons)
+  for(var r=1;r<=5;r++){
+    var pts = [];
+    var rr = R*r/5;
+    for(var i=0;i<n;i++){
+      var ang = (Math.PI*2*i/n) - Math.PI/2;
+      pts.push((Math.cos(ang)*rr).toFixed(2)+','+(Math.sin(ang)*rr).toFixed(2));
+    }
+    document.getElementById('ring'+r).setAttribute('points', pts.join(' '));
+  }
+
+  // labels
+  var labelHtml = '';
+  AXES.forEach(function(a, i){
+    var ang = (Math.PI*2*i/n) - Math.PI/2;
+    var x = Math.cos(ang)*(R+30), y = Math.sin(ang)*(R+30) + 4;
+    var anchor = (x < -10 ? 'end' : (x > 10 ? 'start' : 'middle'));
+    // Split label sur deux lignes si long
+    var parts = a.label.split(' / ');
+    if(parts.length === 2){
+      labelHtml += '<text x="'+x.toFixed(0)+'" y="'+(y-7).toFixed(0)+'" text-anchor="'+anchor+'">'+parts[0]+'</text>';
+      labelHtml += '<text x="'+x.toFixed(0)+'" y="'+(y+7).toFixed(0)+'" text-anchor="'+anchor+'">/ '+parts[1]+'</text>';
+    } else {
+      labelHtml += '<text x="'+x.toFixed(0)+'" y="'+y.toFixed(0)+'" text-anchor="'+anchor+'">'+a.label+'</text>';
+    }
+  });
+  document.getElementById('labelsGroup').innerHTML = labelHtml;
+}
+function updateRadar(){
+  var n = 7, R = 180;
+  var pts = [];
+  var pointsHtml = '';
+  AXES.forEach(function(a, i){
+    var input = document.querySelector('input[name="'+a.key+'"]:checked');
+    var v = input ? parseInt(input.value) : 0;
+    var ang = (Math.PI*2*i/n) - Math.PI/2;
+    var rr = R * v / 5;
+    var x = Math.cos(ang)*rr, y = Math.sin(ang)*rr;
+    pts.push(x.toFixed(2)+','+y.toFixed(2));
+    if(v>0) pointsHtml += '<circle cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="5" fill="#608CB4" stroke="#fff" stroke-width="2"/>';
+  });
+  document.getElementById('radarPoly').setAttribute('points', pts.join(' '));
+  document.getElementById('radarPoints').innerHTML = pointsHtml;
+  saveAll();
+}
+
+// ============================================================
+// OUTIL 2 — GRILLE CONTEXTUELLE
+// ============================================================
+function buildCtxTable(){
+  var tbody = document.querySelector('#ctxTable tbody');
+  tbody.innerHTML = '';
+  CTX_ROWS.forEach(function(row, r){
+    var tr = document.createElement('tr');
+    var html = '<td>'+row+'</td>';
+    CTX_COLS.forEach(function(col){
+      var id = 'ctx-'+r+'-'+col;
+      html += '<td><select id="'+id+'" onchange="saveAll()"><option value=""></option><option value="+">+</option><option value="±">±</option><option value="–">–</option></select></td>';
+    });
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+}
+
+// ============================================================
+// OUTIL 4 — PROFIL FE
+// ============================================================
+function buildFEGrid(){
+  var container = document.getElementById('feGrid');
+  container.innerHTML = '';
+  FE_RUBRIQUES.forEach(function(rub, ri){
+    var div = document.createElement('div');
+    div.className = 'fe-rubrique';
+    var html = '<h3>'+rub.nom+'</h3>';
+    rub.items.forEach(function(item, ii){
+      var n = 'fe-'+ri+'-'+ii;
+      html += '<div class="fe-item">' +
+              '<span class="fe-item-label">'+item+'</span>' +
+              '<div class="fe-item-scale">' +
+                '<label><input type="radio" name="'+n+'" value="S" onchange="saveAll()">S</label>' +
+                '<label><input type="radio" name="'+n+'" value="P" onchange="saveAll()">P</label>' +
+                '<label><input type="radio" name="'+n+'" value="R" onchange="saveAll()">R</label>' +
+              '</div>' +
+              '</div>';
+    });
+    div.innerHTML = html;
+    container.appendChild(div);
+  });
+}
+
+// ============================================================
+// SAVE / RESTORE
+// ============================================================
+function getFormData(){
+  var d = {};
+  // Radar
+  AXES.forEach(function(a){
+    var input = document.querySelector('input[name="'+a.key+'"]:checked');
+    d['radar_'+a.key] = input ? parseInt(input.value) : 0;
+  });
+  d.radar_forces = document.getElementById('radar-forces').value;
+  d.radar_vigil  = document.getElementById('radar-vigil').value;
+  // Context grid
+  d.ctx = {};
+  for(var r=0;r<CTX_ROWS.length;r++){
+    CTX_COLS.forEach(function(col){
+      var el = document.getElementById('ctx-'+r+'-'+col);
+      if(el) d.ctx[r+'-'+col] = el.value;
+    });
+  }
+  d.ctx_q1 = document.getElementById('ctx-q1').value;
+  d.ctx_q2 = document.getElementById('ctx-q2').value;
+  d.ctx_q3 = document.getElementById('ctx-q3').value;
+  d.ctx_q4 = document.getElementById('ctx-q4').value;
+  // Déclencheurs
+  d.dec_situation = document.getElementById('dec-situation').value;
+  d.dec_observe   = document.getElementById('dec-observe').value;
+  d.dec_croire    = document.getElementById('dec-croire').value;
+  d.dec_besoin    = document.getElementById('dec-besoin').value;
+  d.dec_utile     = document.getElementById('dec-utile').value;
+  d.dec_eviter    = document.getElementById('dec-eviter').value;
+  // FE
+  d.fe = {};
+  FE_RUBRIQUES.forEach(function(rub, ri){
+    rub.items.forEach(function(item, ii){
+      var input = document.querySelector('input[name="fe-'+ri+'-'+ii+'"]:checked');
+      d.fe[ri+'-'+ii] = input ? input.value : '';
+    });
+  });
+  d.fe_forts   = document.getElementById('fe-forts').value;
+  d.fe_fragiles= document.getElementById('fe-fragiles').value;
+  d.fe_hyp     = document.getElementById('fe-hyp').value;
+  d.fe_aides   = document.getElementById('fe-aides').value;
+  // Plan
+  [1,2,3].forEach(function(p){
+    d['p'+p+'_obj']  = document.getElementById('p'+p+'-obj').value;
+    d['p'+p+'_act']  = document.getElementById('p'+p+'-act').value;
+    d['p'+p+'_qui']  = document.getElementById('p'+p+'-qui').value;
+    d['p'+p+'_freq'] = document.getElementById('p'+p+'-freq').value;
+    d['p'+p+'_ind']  = document.getElementById('p'+p+'-ind').value;
+    d['p'+p+'_date'] = document.getElementById('p'+p+'-date').value;
+  });
+  return d;
+}
+function saveAll(){
+  var d = loadDossier();
+  d.form = getFormData();
+  saveDossier(d);
+}
+function restoreAll(){
+  var d = loadDossier();
+  var f = d.form || {};
+  // Radar
+  AXES.forEach(function(a){
+    document.querySelectorAll('input[name="'+a.key+'"]').forEach(r=>r.checked=false);
+    if(f['radar_'+a.key]){
+      var el = document.querySelector('input[name="'+a.key+'"][value="'+f['radar_'+a.key]+'"]');
+      if(el) el.checked = true;
+    }
+  });
+  document.getElementById('radar-forces').value = f.radar_forces || '';
+  document.getElementById('radar-vigil').value  = f.radar_vigil  || '';
+  updateRadar();
+  // Context
+  for(var r=0;r<CTX_ROWS.length;r++){
+    CTX_COLS.forEach(function(col){
+      var el = document.getElementById('ctx-'+r+'-'+col);
+      if(el) el.value = (f.ctx || {})[r+'-'+col] || '';
+    });
+  }
+  document.getElementById('ctx-q1').value = f.ctx_q1 || '';
+  document.getElementById('ctx-q2').value = f.ctx_q2 || '';
+  document.getElementById('ctx-q3').value = f.ctx_q3 || '';
+  document.getElementById('ctx-q4').value = f.ctx_q4 || '';
+  // Déclencheurs
+  document.getElementById('dec-situation').value = f.dec_situation || '';
+  document.getElementById('dec-observe').value   = f.dec_observe || '';
+  document.getElementById('dec-croire').value    = f.dec_croire || '';
+  document.getElementById('dec-besoin').value    = f.dec_besoin || '';
+  document.getElementById('dec-utile').value     = f.dec_utile || '';
+  document.getElementById('dec-eviter').value    = f.dec_eviter || '';
+  // FE
+  FE_RUBRIQUES.forEach(function(rub, ri){
+    rub.items.forEach(function(item, ii){
+      document.querySelectorAll('input[name="fe-'+ri+'-'+ii+'"]').forEach(r=>r.checked=false);
+      var val = (f.fe || {})[ri+'-'+ii];
+      if(val){
+        var el = document.querySelector('input[name="fe-'+ri+'-'+ii+'"][value="'+val+'"]');
+        if(el) el.checked = true;
+      }
+    });
+  });
+  document.getElementById('fe-forts').value    = f.fe_forts || '';
+  document.getElementById('fe-fragiles').value = f.fe_fragiles || '';
+  document.getElementById('fe-hyp').value      = f.fe_hyp || '';
+  document.getElementById('fe-aides').value    = f.fe_aides || '';
+  // Plan
+  [1,2,3].forEach(function(p){
+    document.getElementById('p'+p+'-obj').value  = f['p'+p+'_obj']  || '';
+    document.getElementById('p'+p+'-act').value  = f['p'+p+'_act']  || '';
+    document.getElementById('p'+p+'-qui').value  = f['p'+p+'_qui']  || '';
+    document.getElementById('p'+p+'-freq').value = f['p'+p+'_freq'] || '';
+    document.getElementById('p'+p+'-ind').value  = f['p'+p+'_ind']  || '';
+    document.getElementById('p'+p+'-date').value = f['p'+p+'_date'] || '';
+  });
+}
+
+// Auto-save sur textarea/inputs
+['radar-forces','radar-vigil','ctx-q1','ctx-q2','ctx-q3','ctx-q4',
+ 'dec-situation','dec-observe','dec-croire','dec-besoin','dec-utile','dec-eviter',
+ 'fe-forts','fe-fragiles','fe-hyp','fe-aides',
+ 'p1-obj','p1-act','p1-qui','p1-freq','p1-ind','p1-date',
+ 'p2-obj','p2-act','p2-qui','p2-freq','p2-ind','p2-date',
+ 'p3-obj','p3-act','p3-qui','p3-freq','p3-ind','p3-date'].forEach(function(id){
+  var el = document.getElementById(id);
+  if(el) el.addEventListener('input', saveAll);
+});
+
+// ============================================================
+// DOSSIERS
+// ============================================================
+function refreshDossierSelect(){
+  var s = loadStore();
+  var sel = document.getElementById('dossierSelect');
+  sel.innerHTML = '';
+  Object.keys(s.dossiers||{default:{}}).forEach(function(name){
+    var opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if(name === currentDossier) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+function changeDossier(){ currentDossier = document.getElementById('dossierSelect').value; restoreAll(); }
+function addDossier(){
+  var name = (document.getElementById('newDossier').value||'').trim();
+  if(!name) return;
+  var s = loadStore();
+  s.dossiers[name] = s.dossiers[name] || {};
+  saveStore(s);
+  currentDossier = name;
+  document.getElementById('newDossier').value='';
+  refreshDossierSelect(); restoreAll();
+}
+function deleteDossier(){
+  if(currentDossier==='default'){ alert('Le dossier « Mon dossier » ne peut pas être supprimé.'); return; }
+  if(!confirm('Supprimer le dossier « '+currentDossier+' » et toutes ses données ?')) return;
+  var s = loadStore(); delete s.dossiers[currentDossier]; saveStore(s);
+  currentDossier='default'; refreshDossierSelect(); restoreAll();
+}
+
+// ============================================================
+// EXPORT TXT
+// ============================================================
+function exportTXT(){
+  var d = loadDossier();
+  var f = d.form || {};
+  var dt = new Date();
+  var dateStr = dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();
+  var out = '';
+  out += '═══════════════════════════════════════════════════\n';
+  out += '  PACK FONDATION PRO · Observer · Comprendre · Ajuster\n';
+  out += '  Création originale : Nawel Haddouch · EducaTypique\n';
+  out += '  Dossier : '+currentDossier+'\n';
+  out += '  Exporté le : '+dateStr+'\n';
+  out += '═══════════════════════════════════════════════════\n\n';
+
+  out += '1️⃣  RADAR GLOBAL (1=difficulté · 5=très à l\'aise)\n';
+  out += '─────────────────────────────────────\n';
+  AXES.forEach(function(a){
+    var v = f['radar_'+a.key] || 0;
+    var bar = '█'.repeat(v) + '░'.repeat(5-v);
+    out += '  '+a.label.padEnd(38, ' ')+' '+bar+'  '+v+'/5\n';
+  });
+  out += '\n  ✅ Forces : '+(f.radar_forces||'(vide)')+'\n';
+  out += '  ⚠️  Vigilance : '+(f.radar_vigil||'(vide)')+'\n\n';
+
+  out += '2️⃣  GRILLE CONTEXTUELLE (+ aisé · ± variable · – difficulté)\n';
+  out += '─────────────────────────────────────\n';
+  out += '                              MAI  ÉCO  PAI  AUT  TRA  FJ \n';
+  CTX_ROWS.forEach(function(row, r){
+    var line = '  '+row.padEnd(28, ' ');
+    CTX_COLS.forEach(function(col){
+      var v = (f.ctx||{})[r+'-'+col] || '·';
+      line += '  '+v.padEnd(3, ' ');
+    });
+    out += line+'\n';
+  });
+  out += '\n  Plus disponible : '+(f.ctx_q1||'(vide)')+'\n';
+  out += '  Plus en difficulté : '+(f.ctx_q2||'(vide)')+'\n';
+  out += '  Ce qui aide : '+(f.ctx_q3||'(vide)')+'\n';
+  out += '  Ce qui aggrave : '+(f.ctx_q4||'(vide)')+'\n\n';
+
+  out += '3️⃣  DÉCLENCHEURS · MANIFESTATIONS · BESOINS · RÉPONSES\n';
+  out += '─────────────────────────────────────\n';
+  out += '  📍 Situation : '+(f.dec_situation||'(vide)')+'\n\n';
+  out += '  👁️  Observé : '+(f.dec_observe||'(vide)')+'\n\n';
+  out += '  ⚠️  Risque d\'interprétation : '+(f.dec_croire||'(vide)')+'\n\n';
+  out += '  🧠 Hypothèse besoin : '+(f.dec_besoin||'(vide)')+'\n\n';
+  out += '  ✅ Réponse utile : '+(f.dec_utile||'(vide)')+'\n\n';
+  out += '  ❌ À éviter : '+(f.dec_eviter||'(vide)')+'\n\n';
+
+  out += '4️⃣  PROFIL ATTENTIONNEL & EXÉCUTIF (S Souvent · P Parfois · R Rarement)\n';
+  out += '─────────────────────────────────────\n';
+  FE_RUBRIQUES.forEach(function(rub, ri){
+    out += '\n  '+rub.nom+'\n';
+    rub.items.forEach(function(item, ii){
+      var v = (f.fe||{})[ri+'-'+ii] || '·';
+      out += '    ['+v+'] '+item+'\n';
+    });
+  });
+  out += '\n  💪 Points forts : '+(f.fe_forts||'(vide)')+'\n';
+  out += '  ⚠️  Fragilités : '+(f.fe_fragiles||'(vide)')+'\n';
+  out += '  🧠 Hypothèses : '+(f.fe_hyp||'(vide)')+'\n';
+  out += '  🛠️  Aides à tester : '+(f.fe_aides||'(vide)')+'\n\n';
+
+  out += '5️⃣  PLAN D\'ACTION (3 priorités max)\n';
+  out += '─────────────────────────────────────\n';
+  [1,2,3].forEach(function(p){
+    out += '\n  ▸ PRIORITÉ '+p+'\n';
+    out += '    Objectif : '+(f['p'+p+'_obj']||'(vide)')+'\n';
+    out += '    Adaptations : '+(f['p'+p+'_act']||'(vide)')+'\n';
+    out += '    Qui : '+(f['p'+p+'_qui']||'(vide)')+'\n';
+    out += '    Fréquence : '+(f['p'+p+'_freq']||'(vide)')+'\n';
+    out += '    Indicateurs : '+(f['p'+p+'_ind']||'(vide)')+'\n';
+    out += '    Réévaluation : '+(f['p'+p+'_date']||'(vide)')+'\n';
+  });
+
+  out += '\n═══════════════════════════════════════════════════\n';
+  out += '« Mieux lire le fonctionnement de l\'enfant pour agir de façon plus juste. »\n';
+  out += '« Un système de lecture, pas une collection de fiches. »\n';
+  out += '\n— Création originale Nawel Haddouch · EducaTypique\n';
+  out += '═══════════════════════════════════════════════════\n';
+
+  var blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'PackFondationPro_'+currentDossier+'_'+dt.getFullYear()+(dt.getMonth()+1)+dt.getDate()+'.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+buildRadarSvg();
+buildCtxTable();
+buildFEGrid();
+refreshDossierSelect();
+restoreAll();
+</script>
+</body>
+</html>

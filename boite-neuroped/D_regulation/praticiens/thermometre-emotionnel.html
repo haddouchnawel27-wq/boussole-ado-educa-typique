@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermomètre émotionnel — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,#1b7a4a,#c25a30);padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:#fff;margin:0}
+.bandeau .sub{color:#fff;max-width:740px;margin:.4rem auto 0;opacity:.95}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.2);padding:.3em .9em;border-radius:999px}
+
+.layout{max-width:1200px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:230px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start}
+.nav-sticky h3{color:var(--violet-titre);margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.9rem}
+.nav-sticky li{margin:.15rem 0}
+.nav-sticky a{display:block;padding:.4rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm)}
+.nav-sticky a:hover{background:var(--rose-clair);color:var(--rose-titre)}
+.nav-sticky a.actif{background:var(--rose-titre);color:#fff;font-weight:700}
+
+.contenu{display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid var(--rose-soutenu);border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:var(--rose-titre);font-family:var(--font-titre)}
+.apropos summary::marker{color:var(--rose-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:var(--rose-titre);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+section.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+section.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-thermo{--c:var(--violet-titre)}
+.bloc-enfant{--c:#2a9d8f}
+.bloc-ado{--c:#7c5cbf}
+.bloc-corps{--c:#e05a8a}
+.bloc-pensees{--c:#F39BC2}
+.bloc-comp{--c:#CBB6F6}
+.bloc-besoins{--c:#8ED9D2}
+.bloc-strat{--c:#FFD6C2}
+.bloc-carte{--c:var(--rose-titre)}
+.bloc-suivi{--c:#a02040}
+.bloc-syn{--c:var(--rose-soutenu)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ textarea{min-height:60px;resize:vertical}
+.champ.full{grid-column:1/-1}
+
+/* Le thermomètre visuel */
+.thermo-visuel{display:grid;grid-template-columns:80px 1fr;gap:1.5rem;margin-top:.6rem}
+@media (max-width:680px){.thermo-visuel{grid-template-columns:50px 1fr}}
+.thermo-bar{display:flex;flex-direction:column;border-radius:30px;overflow:hidden;border:3px solid var(--texte);min-height:480px}
+.thermo-zone{flex:1;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.4rem;cursor:default;transition:transform .15s}
+.thermo-zone:hover{transform:scaleX(1.05)}
+.thermo-niveaux{display:flex;flex-direction:column;gap:.5rem}
+.niv-card{background:#fff;border-radius:var(--r-md);padding:.7rem 1rem;border-left:5px solid var(--c);box-shadow:var(--shadow-sm);display:grid;grid-template-columns:50px 1fr;gap:.6rem;align-items:flex-start;cursor:pointer;transition:transform .15s, box-shadow .15s}
+.niv-card:hover{transform:translateX(3px);box-shadow:var(--shadow-md)}
+.niv-card.actif{background:linear-gradient(90deg, var(--c-fond), #fff);box-shadow:var(--shadow-md)}
+.niv-num{font-size:1.8rem;font-weight:900;color:var(--c);text-align:center;line-height:1}
+.niv-card h4{margin:0;color:var(--c);font-size:1rem}
+.niv-card .niv-desc{font-size:.85rem;color:var(--muted);margin:.1rem 0 .3rem}
+.niv-card .niv-tags{display:flex;flex-wrap:wrap;gap:.3rem;font-size:.75rem}
+.niv-card .niv-tag{background:var(--beige);padding:.1em .55em;border-radius:999px;color:var(--texte)}
+
+/* Versions enfant / ado */
+.versions{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:880px){.versions{grid-template-columns:1fr}}
+.version-card{background:#fff;border-radius:var(--r-md);padding:.7rem 1rem;border:2px solid var(--c);box-shadow:var(--shadow-sm)}
+.version-card h3{margin:0 0 .4rem;color:var(--c)}
+.version-table{width:100%;border-collapse:collapse;font-size:.86rem}
+.version-table th, .version-table td{padding:.3em .4em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.version-table th{background:var(--beige);font-size:.78rem}
+.version-card-enfant{--c:#2a9d8f}
+.version-card-ado{--c:#7c5cbf}
+
+/* Signes corporels : tableau cochable + niveau d'apparition */
+.corps-row{display:grid;grid-template-columns:1fr 90px 200px;gap:.4rem;padding:.4rem .5rem;border-bottom:1px solid var(--border);align-items:center}
+.corps-row:last-child{border-bottom:none}
+.corps-row .texte{font-size:.92rem}
+.corps-row .check-coche{display:flex;justify-content:center}
+.corps-row .niveaux-row{display:flex;gap:.2rem;flex-wrap:wrap}
+.corps-row .niveaux-row label{padding:.15em .5em;border-radius:50%;background:var(--beige);font-size:.75rem;font-weight:700;cursor:pointer;width:24px;height:24px;display:flex;align-items:center;justify-content:center}
+.corps-row .niveaux-row input{display:none}
+.corps-row .niveaux-row input:checked + .v{background:var(--c);color:#fff;width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.corps-row .niveaux-row .v{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%}
+@media (max-width:760px){.corps-row{grid-template-columns:1fr}.corps-row .niveaux-row{justify-content:flex-start}}
+.entete-corps{display:grid;grid-template-columns:1fr 90px 200px;gap:.4rem;padding:.3rem .5rem;font-size:.76rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+@media (max-width:760px){.entete-corps{display:none}}
+
+/* Stratégies par niveau */
+.strat-niveau{background:var(--beige);border-radius:var(--r-md);padding:.8rem 1rem;margin-top:.5rem;border-left:5px solid var(--c-strat)}
+.strat-niveau h4{margin:0 0 .3rem;color:var(--c-strat);font-size:1rem}
+.strat-niveau .checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.3rem;margin:.3rem 0}
+.strat-niveau .check{background:#fff;border-radius:var(--r-sm);padding:.35rem .5rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.86rem}
+.strat-niveau .check input:checked + span{color:var(--c-strat);font-weight:700}
+.strat-niveau .phrase{margin-top:.4rem;font-style:italic;font-size:.85rem;color:var(--texte);background:rgba(255,255,255,.6);padding:.4em .7em;border-radius:var(--r-sm)}
+.strat-niveau .perso{margin-top:.4rem}
+.strat-niveau .perso textarea{width:100%;min-height:50px;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.86rem;resize:vertical}
+
+/* Carte personnelle 5 niveaux */
+.carte-table{width:100%;border-collapse:collapse;margin-top:.4rem;font-size:.85rem}
+.carte-table th, .carte-table td{padding:.4em .5em;border:1px solid var(--border);vertical-align:top;text-align:left}
+.carte-table th{background:var(--beige);font-weight:700;color:var(--violet-titre);font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+.carte-table th.niv-cell{text-align:center;width:60px}
+.carte-table td.niv-cell{text-align:center;font-weight:900;font-size:1.2rem;color:#fff}
+.carte-table textarea{width:100%;min-height:38px;padding:.25em;border:none;background:transparent;font-family:var(--font-body);font-size:.85rem;resize:vertical}
+.carte-table textarea:focus{outline:1px solid var(--turquoise);background:#fff}
+
+/* Suivi */
+.suivi-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:680px}
+.suivi-table th, .suivi-table td{padding:.4em .5em;border:1px solid var(--border);text-align:left}
+.suivi-table th{background:var(--beige);font-weight:700;font-size:.78rem;color:var(--violet-titre)}
+.suivi-table td input, .suivi-table td select{width:100%;padding:.2em;border:none;background:transparent;font-family:var(--font-body);font-size:.85rem}
+.suivi-table td input:focus, .suivi-table td select:focus{outline:1px solid var(--turquoise);background:#fff}
+.suivi-wrap{overflow-x:auto;margin-top:.4rem}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:var(--rose-titre);border:2px solid var(--rose-titre)}
+.actions button:hover{background:var(--rose-titre);color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .dossiers, .retour, details.apropos {display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .sub{color:var(--rose-titre) !important}
+  .retour{display:none}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>🌡️ Thermomètre émotionnel</h1>
+  <p class="sub">Repérer l'intensité, les signes corporels, les pensées et les comportements à chaque niveau — pour intervenir AVANT que ça déborde, pas pendant.</p>
+</section>
+
+<div class="layout">
+
+  <aside class="nav-sticky">
+    <h3>📑 Sections</h3>
+    <ol id="nav">
+      <li><a href="#bloc-meta">Identité &amp; cadre</a></li>
+      <li><a href="#bloc-thermo">Le thermomètre</a></li>
+      <li><a href="#bloc-versions">Versions enfant / ado</a></li>
+      <li><a href="#bloc-corps">Signes corporels</a></li>
+      <li><a href="#bloc-pensees">Pensées par niveau</a></li>
+      <li><a href="#bloc-comp">Comportements par niveau</a></li>
+      <li><a href="#bloc-besoins">Besoins par niveau</a></li>
+      <li><a href="#bloc-strat">Stratégies par niveau</a></li>
+      <li><a href="#bloc-carte">Carte personnelle</a></li>
+      <li><a href="#bloc-suivi">Suivi</a></li>
+      <li><a href="#bloc-syn">Synthèse</a></li>
+    </ol>
+    <div class="dossiers" style="margin-top:.6rem">
+      <h4>📂 Cartes enregistrées</h4>
+      <div id="liste-dossiers"></div>
+    </div>
+  </aside>
+
+  <main class="contenu">
+
+    <details class="apropos">
+      <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+      <div class="grid8">
+        <div><strong>1. Objectif</strong>Aider l'enfant ou l'ado à identifier l'intensité de son émotion, reconnaître les signes corporels associés et choisir une stratégie de régulation adaptée.</div>
+        <div><strong>2. Quand l'utiliser</strong>D'abord <strong>au calme</strong> pour l'enseigner. Ensuite : en prévention, après une situation, dans les petits signaux. JAMAIS UNIQUEMENT pendant l'explosion.</div>
+        <div><strong>3. Pour quel profil TND</strong>Tout enfant/ado qui explose vite, dit « je ne sais pas » sur ses émotions, ne repère pas les signes avant la crise, a besoin d'un outil visuel.</div>
+        <div><strong>4. Mode d'emploi</strong>Présenter les 6 niveaux. Faire identifier les signes propres à cet enfant. Construire la carte personnelle. Utiliser comme langage commun adulte/enfant.</div>
+        <div><strong>5. Grille à remplir</strong>Signes corporels par niveau + carte personnelle 5 niveaux + tableau de suivi. Reste personnalisable par enfant.</div>
+        <div><strong>6. Analyse</strong>Le progrès n'est pas « plus aucune émotion ». C'est : repère plus tôt, demande pause, redescend plus vite, atteint moins souvent les niveaux 4-5.</div>
+        <div><strong>7. Recommandations</strong>S'associe au protocole de crise, à la roue des émotions, et au triangle TCC. Doit devenir un langage partagé, jamais une accusation.</div>
+        <div><strong>8. Phrase de synthèse</strong>"Le travail au thermomètre vise à anticiper les débordements, repérer les signes précoces et permettre à l'enfant de choisir une stratégie avant l'explosion."</div>
+      </div>
+    </details>
+
+    <div class="posture">
+      💡 <strong>Posture :</strong> on n'apprend pas à utiliser un thermomètre pendant que la maison brûle. On l'enseigne au calme. Et dire « tu es à 4 » sur un ton méprisant, c'est juste mettre de l'huile sur le barbecue.
+    </div>
+
+    <!-- META -->
+    <section id="bloc-meta" class="bloc bloc-meta">
+      <h2>Identité &amp; cadre</h2>
+      <div class="grille">
+        <div class="champ"><label>Prénom / initiales</label><input data-k="prenom" type="text"></div>
+        <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+        <div class="champ"><label>Date</label><input data-k="date" type="date"></div>
+        <div class="champ"><label>Auteur(s)</label><input data-k="auteur" type="text" placeholder="pro, parent, conjoint…"></div>
+        <div class="champ full"><label>Émotions où l'outil est principalement utile pour cet enfant</label><textarea data-k="emo-cibles" placeholder="colère, anxiété, frustration, honte, surcharge…"></textarea></div>
+      </div>
+    </section>
+
+    <!-- THERMO VISUEL -->
+    <section id="bloc-thermo" class="bloc bloc-thermo">
+      <h2>🌡️ Le thermomètre — vue d'ensemble</h2>
+      <p class="intro">6 niveaux, 0 (calme) à 5 (débordement). Clique sur une carte de niveau pour voir le détail.</p>
+      <div class="thermo-visuel">
+        <div class="thermo-bar" id="thermo-bar"></div>
+        <div class="thermo-niveaux" id="thermo-niveaux"></div>
+      </div>
+    </section>
+
+    <!-- VERSIONS ENFANT / ADO -->
+    <section id="bloc-versions" class="bloc bloc-enfant">
+      <h2>👶 Version enfant · 🧑 Version ado</h2>
+      <p class="intro">Choisir la version adaptée. Les deux peuvent coexister, mais l'ado ne supportera pas longtemps un langage de maternelle.</p>
+      <div class="versions">
+        <div class="version-card version-card-enfant">
+          <h3>👶 Mon thermomètre des émotions (version enfant)</h3>
+          <table class="version-table">
+            <thead><tr><th>Niv</th><th>Couleur</th><th>Ce que je ressens</th><th>Ce que je peux faire</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>🟦 Bleu/vert</td><td>je suis calme</td><td>je continue</td></tr>
+              <tr><td>1</td><td>🟢 Vert</td><td>ça commence à me gêner</td><td>je le dis</td></tr>
+              <tr><td>2</td><td>🟡 Jaune</td><td>je suis tendu</td><td>je respire / demande aide</td></tr>
+              <tr><td>3</td><td>🟠 Orange</td><td>je suis très énervé / inquiet</td><td>je fais une pause</td></tr>
+              <tr><td>4</td><td>🔴 Rouge</td><td>je vais exploser</td><td>je m'éloigne avec l'adulte</td></tr>
+              <tr><td>5</td><td>🟥 Rouge foncé</td><td>je ne me contrôle plus</td><td>l'adulte me protège</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="version-card version-card-ado">
+          <h3>🧑 Mon niveau d'activation (version ado)</h3>
+          <table class="version-table">
+            <thead><tr><th>Niv</th><th>État interne</th><th>Signes possibles</th><th>Décision utile</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>stable</td><td>je réfléchis clairement</td><td>je continue</td></tr>
+              <tr><td>1</td><td>irrité / inquiet</td><td>tension légère, impatience</td><td>je remarque le signal</td></tr>
+              <tr><td>2</td><td>sous pression</td><td>cœur rapide, pensées rapides</td><td>je baisse la charge</td></tr>
+              <tr><td>3</td><td>en alerte</td><td>envie de fuir, répondre sèchement</td><td>pause stratégique</td></tr>
+              <tr><td>4</td><td>en débordement</td><td>cris, clash, fermeture</td><td>je stoppe l'interaction</td></tr>
+              <tr><td>5</td><td>hors contrôle</td><td>danger, violence, crise majeure</td><td>sécurité d'abord</td></tr>
+            </tbody>
+          </table>
+          <p style="margin:.4rem 0 0;font-size:.85rem;font-style:italic;color:var(--muted)">
+            « Mon objectif n'est pas d'être calme tout le temps. Mon objectif est de repérer assez tôt quand je monte, pour éviter que mon cerveau parte en mode survie. »
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIGNES CORPORELS -->
+    <section id="bloc-corps" class="bloc bloc-corps">
+      <h2>🫀 Signes corporels — à repérer</h2>
+      <p class="intro">Cocher les signes présents chez cet enfant, et noter à quel niveau (1-5) ils apparaissent généralement.</p>
+      <div class="entete-corps">
+        <div>Signe corporel</div>
+        <div style="text-align:center">Présent</div>
+        <div>Apparaît au niveau</div>
+      </div>
+      <div id="liste-corps" style="--c:#e05a8a"></div>
+    </section>
+
+    <!-- PENSEES PAR NIVEAU -->
+    <section id="bloc-pensees" class="bloc bloc-pensees">
+      <h2>💭 Pensées fréquentes par niveau</h2>
+      <p class="intro">Les pensées « pièges » qui font monter. À nommer pour les travailler en TCC.</p>
+      <div id="liste-pensees"></div>
+      <p style="margin-top:.6rem;padding:.6rem .8rem;background:var(--beige);border-radius:var(--r-sm);font-size:.88rem;color:var(--violet-titre);font-style:italic">
+        🎯 <strong>Question TCC utile :</strong> « Quelle pensée a fait monter ton thermomètre ? »<br>
+        Ex : Situation : devoir difficile · Pensée : « Je suis nul » · Émotion : honte + colère · Comportement : refus, fuite ou provocation.
+      </p>
+    </section>
+
+    <!-- COMPORTEMENTS PAR NIVEAU -->
+    <section id="bloc-comp" class="bloc bloc-comp">
+      <h2>🎭 Comportements visibles par niveau</h2>
+      <p class="intro">Ce qu'on voit de l'extérieur, par intensité.</p>
+      <div id="liste-comp"></div>
+      <p style="margin-top:.6rem;padding:.6rem .8rem;background:var(--rose-clair);border-radius:var(--r-sm);font-size:.88rem;color:var(--rose-titre);font-weight:700">
+        ⚠️ Quand l'enfant est à 4 ou 5, ce n'est plus le moment de « faire comprendre ». C'est le moment de réduire le danger et la stimulation. La pédagogie revient après.
+      </p>
+    </section>
+
+    <!-- BESOINS PAR NIVEAU -->
+    <section id="bloc-besoins" class="bloc bloc-besoins">
+      <h2>🌱 Besoins par niveau</h2>
+      <p class="intro">À chaque niveau, l'enfant a un besoin différent. Y répondre correctement, c'est désamorcer.</p>
+      <div id="liste-besoins"></div>
+    </section>
+
+    <!-- STRATEGIES PAR NIVEAU -->
+    <section id="bloc-strat" class="bloc bloc-strat">
+      <h2>🧰 Stratégies adaptées par niveau</h2>
+      <p class="intro">Coche celles qui marchent pour cet enfant. Ajoute des stratégies perso.</p>
+      <div id="liste-strat"></div>
+    </section>
+
+    <!-- CARTE PERSONNELLE -->
+    <section id="bloc-carte" class="bloc bloc-carte">
+      <h2>🃏 Carte personnelle de régulation</h2>
+      <p class="intro">Le document à imprimer et à garder. Personnalisé pour cet enfant.</p>
+      <div style="overflow-x:auto">
+      <table class="carte-table">
+        <thead>
+          <tr>
+            <th class="niv-cell">Niv</th>
+            <th>Mes signes</th>
+            <th>Ce que je peux faire</th>
+            <th>Ce que l'adulte peut faire</th>
+          </tr>
+        </thead>
+        <tbody id="carte-corps"></tbody>
+      </table>
+      </div>
+      <div style="margin-top:.8rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem">
+        <div class="champ"><label>Mes 3 signes d'alerte</label><textarea data-k="alerte-3" placeholder="1.&#10;2.&#10;3."></textarea></div>
+        <div class="champ"><label>Mes 3 stratégies utiles</label><textarea data-k="strat-3" placeholder="1.&#10;2.&#10;3."></textarea></div>
+        <div class="champ"><label>Ce qui aggrave</label><textarea data-k="aggrave" placeholder="ex : parler trop, toucher sans prévenir, faire la morale…"></textarea></div>
+      </div>
+      <style>@media (max-width:760px){.bloc-carte .champ{grid-column:1/-1}}</style>
+    </section>
+
+    <!-- SUIVI -->
+    <section id="bloc-suivi" class="bloc bloc-suivi">
+      <h2>📈 Suivi des progrès</h2>
+      <p class="intro">Le progrès n'est pas « il ne ressent plus de colère ». Le progrès, c'est : il sait quoi faire avec sa colère avant qu'elle prenne le volant.</p>
+      <div class="suivi-wrap">
+        <table class="suivi-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Situation</th>
+              <th>Niv max</th>
+              <th>Stratégie utilisée</th>
+              <th>Retour calme</th>
+              <th>Réparation</th>
+            </tr>
+          </thead>
+          <tbody id="suivi-corps"></tbody>
+        </table>
+      </div>
+      <button id="btn-add-suivi" style="margin-top:.5rem;background:#fff;color:var(--violet-titre);border:2px solid var(--violet-titre)">+ Ligne de suivi</button>
+
+      <div style="margin-top:.8rem">
+        <strong style="color:var(--violet-titre)">Progrès à observer (cocher au fil du temps) :</strong>
+        <div class="checklist" id="liste-progres" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.3rem;margin-top:.4rem"></div>
+      </div>
+    </section>
+
+    <!-- SYNTHESE -->
+    <section id="bloc-syn" class="bloc bloc-syn">
+      <h2>✍️ Synthèse</h2>
+      <div class="champ full"><label>Phrase de synthèse pour bilan / compte rendu</label><textarea data-k="syn-phrase" style="min-height:90px" placeholder="L'utilisation du thermomètre émotionnel vise à aider l'enfant / l'ado à …. Les premiers signes repérés sont …. Les stratégies recommandées sont …."></textarea></div>
+      <div class="champ full" style="margin-top:.6rem"><label>Articulation avec les autres outils (protocole de crise, roue des émotions, triangle TCC)</label><textarea data-k="syn-liens"></textarea></div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer</button>
+      <button id="btn-exporter">📄 Exporter (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer (carte personnelle)</button>
+      <button id="btn-vider" class="danger">🧹 Vider</button>
+    </div>
+
+    <div class="disclaimer">
+      Cet outil ne remplace pas un accompagnement spécialisé si les crises sont fréquentes, dangereuses, ou associées à des idées noires, automutilation, anxiété sévère.
+    </div>
+
+    <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+      Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+    </p>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'neuroped_thermo_emo_v1';
+let currentId = null;
+
+const NIVEAUX = [
+  { n:0, label:'Calme', desc:'Disponible, stable, ouvert.', couleur:'#1b7a4a', cFond:'#e8f5ec',
+    tags:['écoute','répond','coopère','apprend'],
+    pensees:'« Tout va bien. »  « Je peux gérer. »',
+    comportements:'Écoute, répond, coopère, apprend',
+    besoin:'Apprendre, renforcer, anticiper',
+    objStrat:'Préparer',
+    strat:['Apprendre les émotions','Choisir les outils de retour au calme','Créer une carte pause','S\'entraîner aux scripts','Identifier les déclencheurs','Répéter les routines'],
+    phrase:'« On s\'entraîne maintenant pour que ton cerveau sache quoi faire quand ça montera. »' },
+  { n:1, label:'Petit signal', desc:'Gêne, irritation, inquiétude légère.', couleur:'#2a9d8f', cFond:'#e0f4f1',
+    tags:['soupire','râle','bouge','grimace'],
+    pensees:'« Ça m\'agace. » « Je n\'aime pas ça. » « Je ne suis pas à l\'aise. »',
+    comportements:'Soupire, râle, bouge, grimace',
+    besoin:'Être entendu, nommer l\'émotion',
+    objStrat:'Repérer tôt',
+    strat:['Dire « je commence à m\'énerver »','Respirer lentement','Demander une précision','Bouger légèrement','Boire','Changer de position','Prévenir l\'adulte'],
+    phrase:'« Je suis à 1. Je peux encore agir facilement. »' },
+  { n:2, label:'Tension', desc:'Agitation, frustration, anxiété qui monte.', couleur:'#8ED9D2', cFond:'#e8f6f4',
+    tags:['voix plus forte','négocie','évite'],
+    pensees:'« Je vais rater. » « Ça m\'énerve. » « Je veux arrêter. »',
+    comportements:'Parle plus fort, négocie, s\'agite, évite',
+    besoin:'Réduire la charge, clarifier, aider',
+    objStrat:'Éviter l\'escalade',
+    strat:['Pause courte','Respiration carrée','Aide pour commencer','Consigne réduite','Objet à manipuler','Marche de 2 minutes','Enlever un déclencheur','Reformuler la demande'],
+    phrase:'« Tu es en train de monter. On réduit la charge maintenant, pas dans dix minutes. »' },
+  { n:3, label:'Alerte', desc:'Colère forte, pleurs, opposition, blocage.', couleur:'#FFD6C2', cFond:'#fff3e8',
+    tags:['refuse','pleure','se ferme','provoque'],
+    pensees:'« C\'est injuste. » « Je n\'y arriverai jamais. » « Laissez-moi. »',
+    comportements:'Refuse, pleure, se ferme, provoque, fuit',
+    besoin:'Pause, espace, guidage court',
+    objStrat:'Désescalade',
+    strat:['Pause obligatoire','S\'éloigner du groupe','Parler moins','Proposer deux choix simples','Baisser la stimulation','Arrêter temporairement la tâche','Carte « je ne peux pas parler maintenant »'],
+    phrase:'« Là, ton cerveau est en alerte. On ne débat pas. Pause d\'abord. »' },
+  { n:4, label:'Crise', desc:'Perte de contrôle partielle, cris, fuite, agressivité.', couleur:'#F39BC2', cFond:'#fde6ef',
+    tags:['crie','insulte','jette','panique'],
+    pensees:'« Je m\'en fiche. » « Je déteste tout. » « Je veux partir. »',
+    comportements:'Crie, insulte, jette, tape, panique, part',
+    besoin:'Sécurité, silence, retrait, adulte stable',
+    objStrat:'Sécuriser',
+    strat:['Voix basse','Phrases courtes','Distance physique','Retirer les objets dangereux','Protéger les autres','Éviter le contact si non consenti','Ne pas faire de morale','Attendre la redescente'],
+    phrase:'« Je ne te laisse pas te faire mal ni faire mal. Je suis là. On reparlera quand ce sera redescendu. »' },
+  { n:5, label:'Débordement', desc:'Mise en danger, violence, panique majeure.', couleur:'#a02040', cFond:'#f5d6dc',
+    tags:['danger','violence','crise majeure'],
+    pensees:'Pensées confuses, panique, perte d\'accès au raisonnement',
+    comportements:'Mise en danger, violence importante, crise incontrôlable',
+    besoin:'Protection, protocole de crise, aide extérieure si nécessaire',
+    objStrat:'Protection',
+    strat:['Mettre en sécurité','Éloigner les personnes vulnérables','Appliquer le protocole de crise','Appeler responsable / parent / pro si nécessaire','Contacter les urgences si danger immédiat','Documenter l\'événement après coup'],
+    phrase:'À ce niveau, on ne cherche pas à avoir raison. On cherche à éviter le drame.' }
+];
+
+const SIGNES_CORPS = [
+  'Cœur qui bat vite','Respiration rapide','Gorge serrée','Ventre noué','Mains serrées',
+  'Mâchoire serrée','Chaleur dans le visage','Envie de pleurer','Envie de crier','Envie de fuir',
+  'Tremblements','Fatigue soudaine','Tête vide','Pensées qui tournent'
+];
+
+const PROGRES = [
+  'Repère plus tôt les signes',
+  'Dit son niveau',
+  'Demande une pause',
+  'Utilise une stratégie avant l\'explosion',
+  'Revient plus vite au calme',
+  'Accepte mieux l\'aide',
+  'Répare après coup',
+  'Atteint moins souvent les niveaux 4-5'
+];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// === Thermomètre visuel ===
+function renderThermo(){
+  const bar = document.getElementById('thermo-bar');
+  bar.innerHTML = '';
+  // Du bas (0) au haut (5) → reverse pour affichage visuel
+  [...NIVEAUX].reverse().forEach(niv=>{
+    const z = document.createElement('div');
+    z.className = 'thermo-zone';
+    z.style.background = niv.couleur;
+    z.textContent = niv.n;
+    z.title = niv.label;
+    bar.appendChild(z);
+  });
+
+  const niveaux = document.getElementById('thermo-niveaux');
+  niveaux.innerHTML = NIVEAUX.map(niv=>`
+    <div class="niv-card" style="--c:${niv.couleur};--c-fond:${niv.cFond}">
+      <div class="niv-num">${niv.n}</div>
+      <div>
+        <h4>${esc(niv.label)} — <em style="font-weight:normal;color:var(--muted)">objectif : ${esc(niv.objStrat)}</em></h4>
+        <div class="niv-desc">${esc(niv.desc)}</div>
+        <div class="niv-tags">
+          ${niv.tags.map(t=>`<span class="niv-tag">${esc(t)}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// === Signes corporels ===
+function renderCorps(){
+  const cont = document.getElementById('liste-corps');
+  cont.innerHTML = SIGNES_CORPS.map((s,i)=>`
+    <div class="corps-row" style="--c:#e05a8a">
+      <div class="texte">${esc(s)}</div>
+      <div class="check-coche"><input type="checkbox" data-k="corps-on-${i}"></div>
+      <div class="niveaux-row">
+        ${[1,2,3,4,5].map(v=>`
+          <label><input type="radio" name="corps-niv-${i}" value="${v}"><span class="v">${v}</span></label>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+// === Pensées / comportements / besoins par niveau ===
+function renderPensees(){
+  const cont = document.getElementById('liste-pensees');
+  cont.innerHTML = NIVEAUX.map(niv=>`
+    <div class="niv-card" style="--c:${niv.couleur}">
+      <div class="niv-num">${niv.n}</div>
+      <div>
+        <h4>${esc(niv.label)}</h4>
+        <p style="margin:.2rem 0;font-size:.9rem;font-style:italic">${esc(niv.pensees)}</p>
+        <label style="font-size:.78rem;color:var(--muted);font-weight:700">Pensées spécifiques à cet enfant :</label>
+        <textarea data-k="pen-${niv.n}" style="width:100%;min-height:38px;padding:.3em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.85rem;resize:vertical"></textarea>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderComp(){
+  const cont = document.getElementById('liste-comp');
+  cont.innerHTML = NIVEAUX.map(niv=>`
+    <div class="niv-card" style="--c:${niv.couleur}">
+      <div class="niv-num">${niv.n}</div>
+      <div>
+        <h4>${esc(niv.label)}</h4>
+        <p style="margin:.2rem 0;font-size:.9rem">${esc(niv.comportements)}</p>
+        <label style="font-size:.78rem;color:var(--muted);font-weight:700">Comportements observés chez cet enfant :</label>
+        <textarea data-k="comp-${niv.n}" style="width:100%;min-height:38px;padding:.3em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.85rem;resize:vertical"></textarea>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderBesoins(){
+  const cont = document.getElementById('liste-besoins');
+  cont.innerHTML = NIVEAUX.map(niv=>`
+    <div class="niv-card" style="--c:${niv.couleur}">
+      <div class="niv-num">${niv.n}</div>
+      <div>
+        <h4>${esc(niv.label)} — <em style="font-weight:normal;color:var(--c)">${esc(niv.besoin)}</em></h4>
+      </div>
+    </div>
+  `).join('');
+}
+
+// === Stratégies par niveau ===
+function renderStrategies(){
+  const cont = document.getElementById('liste-strat');
+  cont.innerHTML = NIVEAUX.map(niv=>`
+    <div class="strat-niveau" style="--c-strat:${niv.couleur}">
+      <h4>${niv.n} · ${esc(niv.label)} — objectif : ${esc(niv.objStrat)}</h4>
+      <div class="checklist">
+        ${niv.strat.map((s,i)=>`
+          <label class="check"><input type="checkbox" data-k="strat-${niv.n}-${i}"><span>${esc(s)}</span></label>
+        `).join('')}
+      </div>
+      <div class="phrase">💬 ${esc(niv.phrase)}</div>
+      <div class="perso">
+        <label style="font-size:.78rem;color:var(--muted);font-weight:700">Stratégie perso à ajouter pour cet enfant :</label>
+        <textarea data-k="strat-perso-${niv.n}"></textarea>
+      </div>
+    </div>
+  `).join('');
+}
+
+// === Carte personnelle ===
+function renderCarte(){
+  const corps = document.getElementById('carte-corps');
+  corps.innerHTML = NIVEAUX.slice(1).map(niv=>`
+    <tr>
+      <td class="niv-cell" style="background:${niv.couleur}">${niv.n}</td>
+      <td><textarea data-k="carte-signes-${niv.n}" placeholder="Ses signes à ce niveau…"></textarea></td>
+      <td><textarea data-k="carte-enfant-${niv.n}" placeholder="Ce qu'il/elle peut faire…"></textarea></td>
+      <td><textarea data-k="carte-adulte-${niv.n}" placeholder="Ce que l'adulte peut faire…"></textarea></td>
+    </tr>
+  `).join('');
+}
+
+// === Suivi ===
+function ajouterSuivi(donnees){
+  const tbody = document.getElementById('suivi-corps');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="date" data-suivi="date" value="${esc(donnees?.date||'')}"></td>
+    <td><input type="text" data-suivi="situation" value="${esc(donnees?.situation||'')}"></td>
+    <td><select data-suivi="niv">
+      <option value="">—</option>
+      ${[1,2,3,4,5].map(v=>`<option value="${v}" ${donnees?.niv==v?'selected':''}>${v}</option>`).join('')}
+    </select></td>
+    <td><input type="text" data-suivi="strat" value="${esc(donnees?.strat||'')}"></td>
+    <td><input type="text" data-suivi="calme" value="${esc(donnees?.calme||'')}" placeholder="min"></td>
+    <td><select data-suivi="rep">
+      <option value="">—</option>
+      <option value="oui" ${donnees?.rep=='oui'?'selected':''}>oui</option>
+      <option value="non" ${donnees?.rep=='non'?'selected':''}>non</option>
+    </select></td>
+  `;
+  tbody.appendChild(tr);
+}
+document.getElementById('btn-add-suivi').addEventListener('click', ()=> ajouterSuivi());
+
+function collecterSuivi(){
+  return Array.from(document.querySelectorAll('#suivi-corps tr')).map(tr=>({
+    date: tr.querySelector('[data-suivi="date"]').value,
+    situation: tr.querySelector('[data-suivi="situation"]').value,
+    niv: tr.querySelector('[data-suivi="niv"]').value,
+    strat: tr.querySelector('[data-suivi="strat"]').value,
+    calme: tr.querySelector('[data-suivi="calme"]').value,
+    rep: tr.querySelector('[data-suivi="rep"]').value
+  }));
+}
+
+function appliquerSuivi(arr){
+  const tbody = document.getElementById('suivi-corps');
+  tbody.innerHTML = '';
+  if(arr && arr.length) arr.forEach(d=> ajouterSuivi(d));
+  else for(let i=0;i<3;i++) ajouterSuivi();
+}
+
+// === Progrès cochables ===
+function renderProgres(){
+  const cont = document.getElementById('liste-progres');
+  cont.innerHTML = PROGRES.map((p,i)=>`
+    <label class="check" style="background:var(--beige);border-radius:var(--r-sm);padding:.4rem .6rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.88rem">
+      <input type="checkbox" data-k="prog-${i}"><span>${esc(p)}</span>
+    </label>
+  `).join('');
+}
+
+// === Save/Load ===
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type==='checkbox' ? el.checked : el.value;
+  });
+  document.querySelectorAll('input[type="radio"]:checked').forEach(r=>{
+    o['radio_'+r.name] = r.value;
+  });
+  o._suivi = collecterSuivi();
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{
+    r.checked = (o['radio_'+r.name] === r.value);
+  });
+  appliquerSuivi(o._suivi || []);
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else el.value = '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=> r.checked = false);
+  appliquerSuivi([]);
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucune carte.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · ${esc((o.date||o._ts||'').slice(0,10))}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire();
+      const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer cette carte ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom (ou initiales).'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr);
+  rendreDossiers();
+  alert('Carte enregistrée.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const lignes = ['Thermomètre émotionnel — Boîte NeuroPed',''];
+  lignes.push('Enfant : '+(o.prenom||'—')+' · '+(o.age||'—')+' · Date : '+(o.date||'—'));
+  lignes.push('Auteur : '+(o.auteur||'—'));
+  lignes.push('Émotions cibles : '+(o['emo-cibles']||'—'));
+  lignes.push('');
+  lignes.push('== Signes corporels présents ==');
+  SIGNES_CORPS.forEach((s,i)=>{
+    if(o['corps-on-'+i]) lignes.push('  ✓ '+s+(o['radio_corps-niv-'+i] ? ' (niveau '+o['radio_corps-niv-'+i]+')' : ''));
+  });
+  lignes.push('');
+  NIVEAUX.forEach(niv=>{
+    lignes.push('== NIVEAU '+niv.n+' — '+niv.label+' ==');
+    lignes.push('  Pensées de cet enfant : '+(o['pen-'+niv.n]||'—'));
+    lignes.push('  Comportements observés : '+(o['comp-'+niv.n]||'—'));
+    lignes.push('  Stratégies cochées :');
+    niv.strat.forEach((s,i)=>{ if(o['strat-'+niv.n+'-'+i]) lignes.push('    ✓ '+s); });
+    if(o['strat-perso-'+niv.n]) lignes.push('  Stratégie perso : '+o['strat-perso-'+niv.n]);
+    lignes.push('');
+  });
+  lignes.push('== Carte personnelle ==');
+  NIVEAUX.slice(1).forEach(niv=>{
+    lignes.push('Niv '+niv.n+' — Signes : '+(o['carte-signes-'+niv.n]||'—'));
+    lignes.push('           Enfant : '+(o['carte-enfant-'+niv.n]||'—'));
+    lignes.push('           Adulte : '+(o['carte-adulte-'+niv.n]||'—'));
+  });
+  lignes.push('');
+  lignes.push('3 signes d\'alerte : '+(o['alerte-3']||'—'));
+  lignes.push('3 stratégies utiles : '+(o['strat-3']||'—'));
+  lignes.push('Ce qui aggrave : '+(o.aggrave||'—'));
+  lignes.push('');
+  lignes.push('== Suivi ==');
+  (o._suivi||[]).forEach(s=>{
+    if(s.date||s.situation) lignes.push('  · '+(s.date||'')+' · '+(s.situation||'')+' · niv '+(s.niv||'?')+' · strat : '+(s.strat||'')+' · calme : '+(s.calme||'')+' · rep : '+(s.rep||''));
+  });
+  lignes.push('');
+  lignes.push('== Synthèse ==');
+  lignes.push(o['syn-phrase']||'—');
+  const blob = new Blob([lignes.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'thermo-emo-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(confirm('Vider le formulaire ? (les cartes enregistrées ne seront pas touchées)')) vider();
+});
+
+// Nav scroll
+const navLinks = document.querySelectorAll('#nav a');
+function majNav(){
+  const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 120) actif = c; });
+  navLinks.forEach(a=>{ a.classList.toggle('actif', actif && a.getAttribute('href') === '#'+actif.id); });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+// Init
+renderThermo();
+renderCorps();
+renderPensees();
+renderComp();
+renderBesoins();
+renderStrategies();
+renderCarte();
+renderProgres();
+appliquerSuivi([]);
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+majNav();
+</script>
+
+</body>
+</html>

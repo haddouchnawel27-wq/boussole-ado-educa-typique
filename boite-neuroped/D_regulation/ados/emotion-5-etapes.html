@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Émotion en 5 étapes — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fff5f8,#f0e8f5)}
+.bandeau{background:linear-gradient(135deg,#F39BC2,#CBB6F6);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #F39BC2;line-height:1.55}
+.intro strong{color:#a84268}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar label{font-weight:700;color:#5a3c8f;font-size:.9rem}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #d8c9f0;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.45em 1em;background:#7c5cbf;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#5a3c8f;border:1.5px solid #d8c9f0}
+
+.etape{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);position:relative}
+.etape::before{content:counter(etapes);counter-increment:etapes;position:absolute;top:-15px;left:1.4rem;background:var(--c);color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;box-shadow:var(--shadow-sm)}
+body{counter-reset:etapes}
+.etape h2{color:var(--c);margin:.3rem 0 .2rem;font-size:1.15rem;display:flex;align-items:center;gap:.4rem}
+.etape .titre-question{color:#666;font-style:italic;font-size:.9rem;margin-bottom:.6rem}
+.etape textarea{width:100%;padding:.7em;border:1.5px solid #e8d8f0;border-radius:var(--r-md);font-family:inherit;font-size:.95rem;background:#faf6fb;min-height:80px;resize:vertical;line-height:1.5}
+.etape textarea:focus{outline:2px solid var(--c);background:#fff}
+.etape .helper{margin-top:.6rem;padding:.6rem .8rem;background:#fff5f8;border-radius:var(--r-sm);font-size:.85rem;line-height:1.5;color:#666}
+.etape .helper strong{color:var(--c)}
+
+.e1{--c:#F39BC2} /* Repérer */
+.e2{--c:#e9a73a} /* Nommer */
+.e3{--c:#7c5cbf} /* Décoder */
+.e4{--c:#2a9d8f} /* Apaiser */
+.e5{--c:#5fa040} /* Choisir */
+
+.banque-emo{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem}
+.banque-emo button{padding:.25em .7em;background:#fff;border:1.5px solid #e8d8f0;border-radius:999px;cursor:pointer;font-family:inherit;font-size:.82rem;color:#5a3c8f;font-weight:700}
+.banque-emo button:hover{background:#7c5cbf;color:#fff;border-color:#7c5cbf}
+
+.banque-corps{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem}
+.banque-corps button{padding:.25em .7em;background:#fff;border:1.5px solid #f0d8b8;border-radius:999px;cursor:pointer;font-family:inherit;font-size:.82rem;color:#a07000;font-weight:700}
+.banque-corps button:hover{background:#e9a73a;color:#fff;border-color:#e9a73a}
+
+.thermo{display:flex;gap:.4rem;justify-content:center;margin:.5rem 0;flex-wrap:wrap}
+.thermo button{width:50px;height:50px;border-radius:50%;border:2px solid #ddd;background:#fff;font-size:1.4rem;cursor:pointer}
+.thermo button.actif{box-shadow:0 0 0 3px var(--c);transform:scale(1.1)}
+.thermo .lbl-thermo{text-align:center;font-size:.8rem;color:#888;width:100%;margin-top:.3rem}
+
+.choix-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.5rem;margin-top:.5rem}
+.choix-card{padding:.7rem .9rem;background:#fff;border:2px solid #d8c9f0;border-radius:var(--r-md);cursor:pointer;font-size:.88rem;line-height:1.4;text-align:left;font-family:inherit}
+.choix-card:hover{border-color:#5fa040;background:#f0f9ec}
+.choix-card.selected{background:#5fa040;color:#fff;border-color:#5fa040;font-weight:700}
+
+.synthese{background:linear-gradient(135deg,#fff,#fff5f8);border-radius:var(--r-lg);padding:1.2rem;border:2px solid #d8c9f0;margin-top:.5rem;display:none}
+.synthese.visible{display:block}
+.synthese h2{color:#7c5cbf;margin:0 0 .5rem}
+.synthese p{margin:.3rem 0;line-height:1.55;font-size:.92rem}
+.synthese .citation{font-style:italic;color:#7c5cbf;border-left:3px solid #F39BC2;padding-left:.7rem;margin-top:.8rem;font-size:.95rem}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #7c5cbf;background:#fff;color:#7c5cbf;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#7c5cbf;color:#fff}
+.actions .primary{background:#7c5cbf;color:#fff}
+.actions .primary:hover{background:#5a3c8f}
+
+.archives{background:#fff;border-radius:var(--r-md);padding:1rem;box-shadow:var(--shadow-sm)}
+.archives h3{margin:0 0 .5rem;color:#5a3c8f;font-size:.95rem}
+.archive-item{padding:.5rem .7rem;border-bottom:1px solid #f0e8f5;display:flex;justify-content:space-between;align-items:center;gap:.5rem;font-size:.88rem}
+.archive-item:last-child{border-bottom:none}
+.archive-item .meta{color:#888;font-size:.78rem}
+.archive-item button{padding:.2em .6em;font-size:.78rem}
+
+@media print{
+  .dossier-bar,.actions,.banque-emo,.banque-corps{display:none!important}
+  body{background:#fff}
+  .etape,.synthese,.intro{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../ados.html">← Espace ados</a>
+  <h1>🌊 Émotion en 5 étapes</h1>
+  <p class="sub">Une émotion forte t'a traversé(e) ? On la décode ensemble, tranquillement, en 5 étapes simples.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🌊 <strong>Pourquoi ?</strong> Quand une émotion forte arrive, ton cerveau passe en mode survie. Le but de cet outil : <strong>ralentir, repérer, comprendre, apaiser, choisir</strong>. Pas de jugement. Tu remplis dans ton rythme. Tu peux sauter une étape si tu bloques.
+  </div>
+
+  <div class="dossier-bar">
+    <label>📁</label>
+    <select id="sel-archive"><option value="">— Nouveau —</option></select>
+    <input type="text" id="titre" placeholder="Titre de cette émotion (ex: « ma colère après le contrôle »)">
+    <button class="ghost" id="btn-charger">Charger</button>
+  </div>
+
+  <!-- ÉTAPE 1 -->
+  <section class="etape e1">
+    <h2>👁 Repérer · Qu'est-ce qui m'arrive là maintenant ?</h2>
+    <div class="titre-question">Où je le sens dans mon corps ? Quel niveau d'intensité ?</div>
+    <textarea id="e1-corps" placeholder="Ex: ma poitrine est serrée, mon ventre est noué, ma tête chauffe…"></textarea>
+    <div class="banque-corps">
+      <button type="button" data-add="e1-corps">poitrine serrée</button>
+      <button type="button" data-add="e1-corps">gorge nouée</button>
+      <button type="button" data-add="e1-corps">ventre tendu</button>
+      <button type="button" data-add="e1-corps">mâchoires crispées</button>
+      <button type="button" data-add="e1-corps">poings fermés</button>
+      <button type="button" data-add="e1-corps">tête lourde</button>
+      <button type="button" data-add="e1-corps">larmes</button>
+      <button type="button" data-add="e1-corps">chaud / froid</button>
+      <button type="button" data-add="e1-corps">tremblements</button>
+    </div>
+    <div class="thermo" id="thermo-e1" style="--c:#F39BC2">
+      <button type="button" data-niv="1">🟢</button>
+      <button type="button" data-niv="2">🟡</button>
+      <button type="button" data-niv="3">🟠</button>
+      <button type="button" data-niv="4">🔴</button>
+      <span class="lbl-thermo">Intensité : 🟢 légère · 🟡 moyenne · 🟠 forte · 🔴 explosive</span>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 2 -->
+  <section class="etape e2">
+    <h2>🏷 Nommer · Quelle émotion (ou mélange) ?</h2>
+    <div class="titre-question">Mets un mot précis. Souvent c'est un mélange — pas grave.</div>
+    <textarea id="e2-emo" placeholder="Ex: colère + injustice + déception…"></textarea>
+    <div class="banque-emo">
+      <button type="button" data-add="e2-emo">colère</button>
+      <button type="button" data-add="e2-emo">tristesse</button>
+      <button type="button" data-add="e2-emo">peur</button>
+      <button type="button" data-add="e2-emo">honte</button>
+      <button type="button" data-add="e2-emo">jalousie</button>
+      <button type="button" data-add="e2-emo">injustice</button>
+      <button type="button" data-add="e2-emo">déception</button>
+      <button type="button" data-add="e2-emo">solitude</button>
+      <button type="button" data-add="e2-emo">rejet</button>
+      <button type="button" data-add="e2-emo">frustration</button>
+      <button type="button" data-add="e2-emo">anxiété</button>
+      <button type="button" data-add="e2-emo">trahison</button>
+      <button type="button" data-add="e2-emo">vide</button>
+      <button type="button" data-add="e2-emo">épuisement</button>
+    </div>
+    <div class="helper"><strong>💡 Astuce :</strong> Sous la colère il y a souvent de la <em>peur</em>, de la <em>tristesse</em> ou un <em>besoin pas écouté</em>. Cherche en dessous.</div>
+  </section>
+
+  <!-- ÉTAPE 3 -->
+  <section class="etape e3">
+    <h2>🔍 Décoder · D'où ça vient ?</h2>
+    <div class="titre-question">Le déclencheur · ce qui s'est passé AVANT · le besoin caché derrière l'émotion.</div>
+    <textarea id="e3-decoder" placeholder="Ex: la prof m'a humilié devant la classe alors que j'avais fait des efforts. J'ai besoin d'être reconnu, pas démoli."></textarea>
+    <div class="helper"><strong>🎯 Question clé :</strong> « De quoi j'aurais besoin là, à cette seconde, pour me sentir mieux ? » (Pas ce qui est possible — ce qui serait juste pour moi.)</div>
+  </section>
+
+  <!-- ÉTAPE 4 -->
+  <section class="etape e4">
+    <h2>🌿 Apaiser · Qu'est-ce qui va me faire du bien MAINTENANT ?</h2>
+    <div class="titre-question">Choisis une (ou plusieurs) stratégies d'apaisement adaptées à TON corps en ce moment.</div>
+    <div class="choix-grille">
+      <button type="button" class="choix-card" data-apaise="respi">🫁 Respiration 4-6 (3 cycles)</button>
+      <button type="button" class="choix-card" data-apaise="eau">💧 Boire un grand verre d'eau froide</button>
+      <button type="button" class="choix-card" data-apaise="marcher">🚶 Sortir / marcher 5 min</button>
+      <button type="button" class="choix-card" data-apaise="seul">🛏 Être seul(e) 10 min sans écran</button>
+      <button type="button" class="choix-card" data-apaise="musique">🎧 Musique apaisante</button>
+      <button type="button" class="choix-card" data-apaise="ecrire">✍ Écrire ce que je ressens (vider)</button>
+      <button type="button" class="choix-card" data-apaise="bouger">💪 Bouger fort (sport, danse)</button>
+      <button type="button" class="choix-card" data-apaise="contact">🤗 Appeler quelqu'un qui me fait du bien</button>
+      <button type="button" class="choix-card" data-apaise="ancrage">🌍 Ancrage : 5 choses que je vois, 4 que je touche, 3 que j'entends</button>
+      <button type="button" class="choix-card" data-apaise="dua">🤲 Du'a / dhikr (si ça te porte)</button>
+    </div>
+    <textarea id="e4-autre" placeholder="Autre chose qui m'aide ?" style="margin-top:.5rem"></textarea>
+  </section>
+
+  <!-- ÉTAPE 5 -->
+  <section class="etape e5">
+    <h2>🎯 Choisir · Et ensuite, je fais quoi ?</h2>
+    <div class="titre-question">Une fois apaisé(e), comment je veux gérer la situation ? Pas dans la panique — dans le calme.</div>
+    <textarea id="e5-action" placeholder="Ex: Je vais expliquer à la prof demain ce qui s'est passé. OU : Je laisse passer et je reparlerai en privé."></textarea>
+    <div class="helper"><strong>💛 Rappel Nawel :</strong> Tu peux choisir de <strong>NE RIEN faire</strong> tout de suite. Attendre 24h avant d'agir n'est pas de la lâcheté — c'est de la sagesse exécutive.</div>
+    <button type="button" class="primary" id="btn-synthese" style="margin-top:.7rem;padding:.6em 1.5em;background:#5fa040;color:#fff;border:none;border-radius:999px;font-weight:700;cursor:pointer">✨ Générer ma synthèse</button>
+  </section>
+
+  <!-- SYNTHÈSE -->
+  <section class="synthese" id="synthese-bloc">
+    <h2>💛 Ce que je traverse, en quelques mots</h2>
+    <div id="synth-contenu"></div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer cette émotion</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer</button>
+    <button id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="archives">
+    <h3>📚 Mes émotions archivées</h3>
+    <div id="liste-archives"></div>
+  </div>
+
+  <div class="disclaimer">
+    Cet outil aide à comprendre une émotion forte. Il ne remplace pas un suivi pro si les émotions reviennent trop fort, trop souvent, ou s'accompagnent d'idées noires.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../ados.html" style="color:#7c5cbf">retour espace ados</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_emotion5_v1';
+let intensite=null;
+let apaisements=[];
+
+document.querySelectorAll('[data-add]').forEach(b=>{
+  b.onclick=()=>{
+    const ta=document.getElementById(b.dataset.add);
+    const sep=ta.value && !ta.value.endsWith(' ')?', ':'';
+    ta.value=(ta.value||'')+sep+b.textContent;
+    ta.dispatchEvent(new Event('input'));
+  };
+});
+document.querySelectorAll('#thermo-e1 button[data-niv]').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('#thermo-e1 button').forEach(x=>x.classList.remove('actif'));
+    b.classList.add('actif');intensite=parseInt(b.dataset.niv);
+  };
+});
+document.querySelectorAll('[data-apaise]').forEach(b=>{
+  b.onclick=()=>{
+    b.classList.toggle('selected');
+    apaisements=Array.from(document.querySelectorAll('.choix-card.selected')).map(x=>x.textContent.trim());
+  };
+});
+
+function collecter(){
+  return {
+    titre:document.getElementById('titre').value,
+    corps:document.getElementById('e1-corps').value,
+    intensite,
+    emo:document.getElementById('e2-emo').value,
+    decoder:document.getElementById('e3-decoder').value,
+    apaisements,
+    apaiseAutre:document.getElementById('e4-autre').value,
+    action:document.getElementById('e5-action').value,
+    date:new Date().toISOString()
+  };
+}
+function appliquer(o){
+  document.getElementById('titre').value=o.titre||'';
+  document.getElementById('e1-corps').value=o.corps||'';
+  document.getElementById('e2-emo').value=o.emo||'';
+  document.getElementById('e3-decoder').value=o.decoder||'';
+  document.getElementById('e4-autre').value=o.apaiseAutre||'';
+  document.getElementById('e5-action').value=o.action||'';
+  intensite=o.intensite||null;
+  document.querySelectorAll('#thermo-e1 button').forEach(b=>{
+    b.classList.toggle('actif',parseInt(b.dataset.niv)===intensite);
+  });
+  apaisements=o.apaisements||[];
+  document.querySelectorAll('.choix-card').forEach(b=>{
+    b.classList.toggle('selected',apaisements.includes(b.textContent.trim()));
+  });
+}
+
+function vider(){
+  ['titre','e1-corps','e2-emo','e3-decoder','e4-autre','e5-action'].forEach(id=>document.getElementById(id).value='');
+  intensite=null;apaisements=[];
+  document.querySelectorAll('#thermo-e1 button, .choix-card').forEach(b=>b.classList.remove('actif','selected'));
+  document.getElementById('synthese-bloc').classList.remove('visible');
+}
+
+function genSyntheseTxt(o){
+  const niveaux=['','légère','moyenne','forte','explosive'];
+  const lvl=o.intensite?niveaux[o.intensite]:'(non précisée)';
+  const apaisesTxt=(o.apaisements||[]).concat(o.apaiseAutre?[o.apaiseAutre]:[]).filter(x=>x).join(', ')||'(à choisir)';
+  return `🌊 <strong>Ce que tu traverses :</strong> ${o.emo||'(émotion à nommer)'} d'intensité <strong>${lvl}</strong>.`+
+    (o.corps?`<p>Ton corps te parle : ${o.corps}.</p>`:'')+
+    (o.decoder?`<p>🔍 Tu décodes : <em>${o.decoder}</em></p>`:'')+
+    `<p>🌿 Pour t'apaiser maintenant : ${apaisesTxt}.</p>`+
+    (o.action?`<p>🎯 Et ensuite tu choisis : <strong>${o.action}</strong></p>`:'')+
+    `<div class="citation">💛 « Une émotion qui passe par la conscience perd 50% de son pouvoir de te submerger. Tu viens de faire exactement ça. » — Nawel</div>`;
+}
+
+document.getElementById('btn-synthese').onclick=()=>{
+  const o=collecter();
+  document.getElementById('synth-contenu').innerHTML=genSyntheseTxt(o);
+  document.getElementById('synthese-bloc').classList.add('visible');
+  document.getElementById('synthese-bloc').scrollIntoView({behavior:'smooth',block:'start'});
+};
+
+function lire(){try{return JSON.parse(localStorage.getItem(KEY))||[]}catch(e){return[]}}
+function ecrire(a){localStorage.setItem(KEY,JSON.stringify(a))}
+function rendreArchives(){
+  const a=lire().sort((x,y)=>(y.date||'').localeCompare(x.date||''));
+  const sel=document.getElementById('sel-archive');
+  sel.innerHTML='<option value="">— Nouveau —</option>'+a.map((x,i)=>`<option value="${i}">${(x.titre||'(sans titre)').slice(0,40)} · ${(x.date||'').slice(0,10)}</option>`).join('');
+  document.getElementById('liste-archives').innerHTML=a.length===0?'<em style="color:#888;font-size:.85rem">Aucune émotion archivée.</em>':a.map((x,i)=>`<div class="archive-item"><span><strong>${(x.titre||'(sans titre)').slice(0,50)}</strong> <span class="meta">${(x.date||'').slice(0,10)} · ${x.emo||''}</span></span><span><button data-act="ouvrir" data-i="${i}">ouvrir</button> <button data-act="suppr" data-i="${i}">×</button></span></div>`).join('');
+  document.querySelectorAll('#liste-archives button').forEach(b=>{
+    b.onclick=()=>{
+      const arr=lire();const i=parseInt(b.dataset.i);
+      if(b.dataset.act==='ouvrir'){appliquer(arr[i]);window.scrollTo({top:0,behavior:'smooth'});}
+      else if(confirm('Supprimer ?')){arr.splice(i,1);ecrire(arr);rendreArchives();}
+    };
+  });
+}
+document.getElementById('btn-charger').onclick=()=>{
+  const idx=document.getElementById('sel-archive').value;
+  if(idx==='')vider();else appliquer(lire()[parseInt(idx)]);
+};
+document.getElementById('btn-save').onclick=()=>{
+  const o=collecter();if(!o.emo){alert('Note au moins l\'émotion (étape 2).');return}
+  const a=lire();a.push(o);ecrire(a);rendreArchives();alert('💛 Émotion archivée. Tu peux la relire plus tard pour voir comment tu évolues.');
+};
+document.getElementById('btn-export').onclick=()=>{
+  const o=collecter();
+  const niveaux=['','légère','moyenne','forte','explosive'];
+  let t=`ÉMOTION EN 5 ÉTAPES — EducaTypique\nCréation originale Nawel Haddouch\n\n`;
+  t+=`Titre : ${o.titre||'—'}\nDate : ${(o.date||'').slice(0,10)}\n\n`;
+  t+=`1. CORPS : ${o.corps||'—'}\n   Intensité : ${o.intensite?niveaux[o.intensite]:'—'}\n\n`;
+  t+=`2. ÉMOTION : ${o.emo||'—'}\n\n`;
+  t+=`3. DÉCODER : ${o.decoder||'—'}\n\n`;
+  t+=`4. APAISER : ${(o.apaisements||[]).join(', ')||'—'}\n`;
+  if(o.apaiseAutre)t+=`   Autre : ${o.apaiseAutre}\n`;
+  t+=`\n5. CHOISIR ENSUITE : ${o.action||'—'}\n`;
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`emotion-5etapes-${(o.date||'').slice(0,10)}.txt`;a.click();
+};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ?'))vider();};
+rendreArchives();
+</script>
+
+</body>
+</html>

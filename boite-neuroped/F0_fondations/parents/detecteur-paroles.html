@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Détecteur de Paroles — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:#fdf8f3}
+
+.bandeau{
+  background:linear-gradient(135deg,var(--rose-soutenu),var(--lavande));
+  padding:1.8rem 1.5rem;text-align:center;position:relative;overflow:hidden;
+}
+.bandeau::before{content:"💗";position:absolute;top:1rem;left:1.4rem;font-size:1.8rem;opacity:.7}
+.bandeau::after{content:"💣";position:absolute;top:1rem;right:1.4rem;font-size:1.8rem;opacity:.7}
+.bandeau .auteur{display:inline-block;background:rgba(255,255,255,.25);color:#fff;padding:.3em 1em;border-radius:999px;font-size:.85rem;font-weight:700;margin-bottom:.8rem}
+.bandeau h1{color:#fff;margin:0;font-size:clamp(1.6rem,3vw,2.2rem);text-shadow:0 2px 4px rgba(0,0,0,.15);font-family:var(--font-titre)}
+.bandeau .sub{color:#fff;max-width:680px;margin:.5rem auto 0;font-size:1rem;opacity:.95;font-style:italic}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.25);padding:.3em .9em;border-radius:999px;font-size:.88rem}
+
+.container{max-width:900px;margin:1.4rem auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1.2rem}
+
+.intro-bloc{background:linear-gradient(135deg,#fff,var(--rose-clair));border-radius:var(--r-lg);padding:1.2rem 1.5rem;border-left:6px solid var(--rose-titre);box-shadow:var(--shadow-sm)}
+.intro-bloc h2{color:var(--rose-titre);margin:0 0 .4rem;font-family:var(--font-titre)}
+.intro-bloc p{margin:.4rem 0;line-height:1.6;color:var(--texte)}
+.intro-bloc .punchline{background:rgba(255,255,255,.7);padding:.6rem .8rem;border-radius:var(--r-sm);font-weight:700;color:var(--rose-titre);font-style:italic;margin-top:.5rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+/* Scoreboard */
+.scoreboard{background:#fff;border-radius:var(--r-lg);padding:1rem 1.4rem;box-shadow:var(--shadow-sm);display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center;border-top:6px solid var(--violet-titre)}
+.score-cell{display:flex;flex-direction:column;align-items:center;gap:.2rem}
+.score-cell .ico{font-size:2rem;line-height:1}
+.score-cell .num{font-size:1.6rem;font-weight:900;font-family:var(--font-titre)}
+.score-cell .lbl{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.score-cell.coeur .num{color:#1b7a4a}
+.score-cell.bombe .num{color:#a02040}
+.progres-bar{background:var(--beige);border-radius:999px;height:14px;overflow:hidden;position:relative;width:100%}
+.progres-fill{height:100%;background:linear-gradient(90deg,#1b7a4a,var(--rose-titre));border-radius:999px;transition:width .4s ease;width:0%}
+.progres-info{font-size:.82rem;color:var(--muted);margin-top:.3rem;text-align:center;font-weight:700}
+
+/* Situation card */
+.situation-card{background:#fff;border-radius:var(--r-xl);padding:1.6rem 1.8rem;box-shadow:var(--shadow-md);border-top:8px solid var(--violet-titre)}
+.situation-num{font-size:.85rem;color:var(--violet-titre);font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:.3rem}
+.situation-titre{color:var(--violet-titre);margin:0 0 .4rem;font-family:var(--font-titre);font-size:1.4rem;line-height:1.3}
+.situation-contexte{color:var(--muted);font-style:italic;font-size:.95rem;margin-bottom:1rem;line-height:1.5}
+
+.question-cle{background:var(--beige);padding:.7rem 1rem;border-radius:var(--r-md);font-weight:700;color:var(--texte);text-align:center;margin:.6rem 0 1rem;font-size:1.02rem}
+.question-cle::before{content:"❓ ";opacity:.7}
+
+.options-grille{display:flex;flex-direction:column;gap:.6rem}
+.option-btn{
+  background:#fff;border:2.5px solid var(--border);border-radius:var(--r-lg);
+  padding:1rem 1.2rem;cursor:pointer;text-align:left;font-family:var(--font-body);
+  transition:all .15s;display:grid;grid-template-columns:42px 1fr;gap:.8rem;align-items:center;
+  font-size:1rem;line-height:1.5;color:var(--texte);
+}
+.option-btn:hover:not(:disabled){border-color:var(--rose-soutenu);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.option-btn:disabled{cursor:default;opacity:.6}
+.option-btn .lettre{background:var(--rose-soutenu);color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;font-family:var(--font-titre)}
+.option-btn.choisie-coeur{border-color:#1b7a4a;background:linear-gradient(135deg,#fff,#e8f5ec)}
+.option-btn.choisie-coeur .lettre{background:#1b7a4a}
+.option-btn.choisie-bombe{border-color:#a02040;background:linear-gradient(135deg,#fff,#fdeaea)}
+.option-btn.choisie-bombe .lettre{background:#a02040}
+.option-btn.revelee-coeur{border-color:#1b7a4a;background:#f3faf5}
+.option-btn.revelee-bombe{border-color:#a02040;background:#fdf2f4}
+
+/* Révélation */
+.revelation{
+  display:none;animation:fadeIn .4s ease;
+  margin-top:1rem;
+}
+.revelation.actif{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+
+.rev-coeur, .rev-bombe{
+  border-radius:var(--r-lg);padding:1.2rem 1.4rem;text-align:center;
+  border:3px solid var(--c-rev);background:linear-gradient(135deg, var(--c-rev-fond), #fff);
+}
+.rev-coeur{--c-rev:#1b7a4a;--c-rev-fond:#e8f5ec}
+.rev-bombe{--c-rev:#a02040;--c-rev-fond:#fdeaea}
+.rev-icone{font-size:3.5rem;line-height:1;margin-bottom:.3rem}
+.rev-titre{color:var(--c-rev);font-family:var(--font-titre);font-size:1.4rem;font-weight:800;margin:.3rem 0}
+.rev-impact{font-size:.95rem;color:var(--texte);line-height:1.6;margin:.6rem 0;background:rgba(255,255,255,.7);padding:.7rem 1rem;border-radius:var(--r-sm)}
+.rev-impact strong{color:var(--c-rev)}
+.rev-cnv{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);margin-top:.7rem;text-align:left;border-left:5px solid #2a9d8f}
+.rev-cnv strong{display:block;color:#2a9d8f;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem}
+.rev-cnv .phrase-cnv{font-size:1.02rem;font-style:italic;color:var(--texte);line-height:1.5}
+
+.bouton-suivant{
+  margin-top:1rem;background:var(--rose-titre);color:#fff;border:none;
+  padding:.8em 1.6em;border-radius:999px;font-weight:800;cursor:pointer;
+  font-family:var(--font-body);font-size:1.02rem;box-shadow:var(--shadow-sm);
+  display:block;margin-left:auto;
+}
+.bouton-suivant:hover{background:var(--rose-soutenu);transform:translateY(-2px)}
+
+/* Bilan final */
+.bilan-final{display:none;background:linear-gradient(135deg,var(--lavande),var(--rose-clair));border-radius:var(--r-xl);padding:2rem 2.2rem;color:var(--texte);box-shadow:var(--shadow-md);text-align:center}
+.bilan-final.actif{display:block}
+.bilan-final h2{color:var(--rose-titre);margin:0 0 .5rem;font-family:var(--font-titre);font-size:1.6rem}
+.bilan-final .grand-score{display:flex;gap:1.5rem;justify-content:center;margin:1.2rem 0}
+.bilan-final .gs-card{background:#fff;border-radius:var(--r-lg);padding:1rem 1.4rem;min-width:120px;border-top:5px solid var(--c-bf)}
+.bilan-final .gs-card .gs-ico{font-size:2.5rem;line-height:1}
+.bilan-final .gs-card .gs-num{font-size:2.2rem;font-weight:900;color:var(--c-bf);font-family:var(--font-titre);line-height:1.1}
+.bilan-final .gs-card .gs-lbl{font-size:.85rem;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.5px}
+.bilan-final .gs-card.coeur{--c-bf:#1b7a4a}
+.bilan-final .gs-card.bombe{--c-bf:#a02040}
+.bilan-final .verdict{background:#fff;padding:1.2rem 1.4rem;border-radius:var(--r-md);margin:1rem 0;font-size:1rem;line-height:1.6;text-align:left;border-left:6px solid var(--rose-titre)}
+.bilan-final .verdict h4{margin:0 0 .4rem;color:var(--rose-titre);font-family:var(--font-titre);font-size:1.1rem}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.2rem 0 2rem}
+.actions button{background:#fff;color:var(--rose-titre);border:2px solid var(--rose-titre)}
+.actions button:hover{background:var(--rose-titre);color:#fff}
+.actions .danger{color:#c25a30;border-color:#c25a30}
+
+@media print{
+  .retour, .actions{display:none !important}
+  body{background:#fff}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .sub, .bandeau .auteur{color:var(--rose-titre) !important;text-shadow:none;background:transparent !important}
+  .bandeau::before, .bandeau::after{display:none}
+  .situation-card, .intro-bloc, .bilan-final, .scoreboard{box-shadow:none;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../parents.html">← Espace parents</a>
+  <div class="auteur">© Création originale — EducaTypique</div>
+  <h1>💗 Le Détecteur de Paroles 💣</h1>
+  <p class="sub">Cœur ou bombe — qu'est-ce que tes mots font vraiment ?</p>
+</section>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <div id="intro-zone" class="intro-bloc">
+    <h2>👋 Avant de commencer</h2>
+    <p>Tu es parent. Tu fais ce que tu peux, avec ce que tu as, le soir à 19h après ta propre journée. <strong>Ce n'est pas un test</strong>. Personne ne va te juger.</p>
+    <p>L'idée est simple : pour 15 situations du quotidien avec un enfant TDAH (ou pas), on te propose 3 façons de dire la même chose. Tu choisis celle qui te ressemble. L'outil te montre ce que <strong>son cerveau entend vraiment</strong>.</p>
+    <p>Pas pour culpabiliser. Pour ouvrir des portes.</p>
+    <div class="punchline">💡 La même intention, formulée différemment, fait soit un 💗 (un cœur qui se remplit) soit un 💣 (une bombe qui s'ajoute). Au bout de 50 fois par jour, ça fait toute la différence.</div>
+  </div>
+
+  <div class="posture">
+    🧠 <strong>Rappel neuro :</strong> le cerveau TDAH est hypersensible aux émotions parentales. Une parole bienveillante libère de la dopamine (coopération). Une parole dure active le cortisol (lutte ou fuite). Ce n'est pas de la magie — c'est de la chimie.
+  </div>
+
+  <!-- SCOREBOARD -->
+  <div id="scoreboard-zone" class="scoreboard" style="display:none">
+    <div class="score-cell coeur">
+      <div class="ico">💗</div>
+      <div class="num" id="score-coeurs">0</div>
+      <div class="lbl">Cœurs</div>
+    </div>
+    <div>
+      <div class="progres-bar"><div class="progres-fill" id="progres-fill"></div></div>
+      <div class="progres-info" id="progres-info">Situation 1 sur 15</div>
+    </div>
+    <div class="score-cell bombe">
+      <div class="ico">💣</div>
+      <div class="num" id="score-bombes">0</div>
+      <div class="lbl">Bombes</div>
+    </div>
+  </div>
+
+  <!-- CARTE SITUATION (générée en JS) -->
+  <div id="carte-situation" class="situation-card" style="display:none"></div>
+
+  <!-- BILAN FINAL -->
+  <div id="bilan-final" class="bilan-final">
+    <h2>✨ Ta journée type</h2>
+    <p style="font-style:italic;color:var(--texte);max-width:520px;margin:.5rem auto">Voici ce que ton enfant reçoit, sur 15 situations du quotidien :</p>
+    <div class="grand-score">
+      <div class="gs-card coeur">
+        <div class="gs-ico">💗</div>
+        <div class="gs-num" id="bilan-coeurs">0</div>
+        <div class="gs-lbl">Cœurs</div>
+      </div>
+      <div class="gs-card bombe">
+        <div class="gs-ico">💣</div>
+        <div class="gs-num" id="bilan-bombes">0</div>
+        <div class="gs-lbl">Bombes</div>
+      </div>
+    </div>
+    <div class="verdict" id="verdict-zone"></div>
+
+    <button class="bouton-suivant" id="btn-recommencer">🔄 Recommencer</button>
+  </div>
+
+  <!-- BOUTON DEMARRER -->
+  <div id="bouton-demarrer-zone" style="text-align:center">
+    <button class="bouton-suivant" id="btn-demarrer" style="margin:0 auto">▶️ Démarrer le test</button>
+  </div>
+
+  <div class="actions" id="actions-finales" style="display:none">
+    <button id="btn-exporter">📄 Exporter mon bilan (TXT)</button>
+    <button id="btn-imprimer">🖨️ Imprimer</button>
+  </div>
+
+  <p style="text-align:center;color:var(--muted);padding:1rem 0;font-size:.85rem">
+    EducaTypique · Méthode Educa — <a href="../../parents.html">retour espace parents</a><br>
+    <em>Inspiré du concept de jeu d'impact des paroles — création originale EducaTypique</em>
+  </p>
+
+</div>
+
+<script>
+const STORAGE = 'educatypique_detecteur_paroles_v1';
+
+// === 15 SITUATIONS TDAH-FRIENDLY ===
+const SITUATIONS = [
+  {
+    titre:"📱 « Je te dis d'arrêter ! »",
+    contexte:"19h. Tu lui as déjà demandé 3 fois de poser la tablette. Il est plongé dedans. Tu sens la colère monter.",
+    question:"Que dis-tu maintenant ?",
+    options:[
+      { lettre:"A", phrase:"« J'EN AI MARRE, j'ai dit STOP ! Tu poses ça TOUT DE SUITE ou je te coupe le Wi-Fi pour 3 jours ! »", type:"bombe", impact:"Son cerveau interprète : <strong>menace + perte de contrôle imminente</strong>. Cortisol activé. Au mieux il obéit par peur, au pire il explose. Demain : même crise, en pire.", cnv:"« Dans 5 minutes on arrête. Je sais que c'est dur pour ton cerveau — on va prévoir un truc à faire après. »" },
+      { lettre:"B", phrase:"« Allez s'il te plaît, fais un effort, juste cette fois… j'ai vraiment pas envie qu'on se dispute. »", type:"bombe", impact:"Tu te mets en position basse, il sent ta fatigue. Son cerveau lit : <strong>cadre instable</strong>. Il va tester encore plus loin. Tu épuises ton autorité.", cnv:"« On était d'accord que c'était jusqu'à 19h. Pose la tablette, je te montre l'activité qu'on fait après. »" },
+      { lettre:"C", phrase:"« Je vois que c'est dur de t'arrêter. C'est normal — ton cerveau est dedans. On fait ensemble : je compte jusqu'à 10 et tu poses. »", type:"coeur", impact:"Tu nommes ce qu'il vit (validation) + tu maintiens le cadre + tu co-régules avec lui. Son cerveau reçoit : <strong>sécurité + structure</strong>. Dopamine. Coopération.", cnv:"Tu as déjà la bonne formulation ici. C'est ça la base." }
+    ]
+  },
+  {
+    titre:"📚 Le devoir bâclé",
+    contexte:"Tu vois son cahier : il a torché en 5 min ce qui devait prendre 20. C'est illisible, à moitié faux.",
+    question:"Quelle est ta première phrase ?",
+    options:[
+      { lettre:"A", phrase:"« C'est quoi ce torchon ?! Tu te moques de moi ? Tu vas TOUT recommencer, et proprement ! »", type:"bombe", impact:"Honte massive. Il enregistre : <strong>« je suis nul, je décois maman »</strong>. À terme : évitement de l'école, mensonges, devoirs cachés. Tu perds le canal de communication.", cnv:"« Je vois que tu as voulu finir vite. Qu'est-ce qui était dur ? On regarde ensemble. »" },
+      { lettre:"B", phrase:"« Bon… c'est pas grave, laisse, je dirai à la maîtresse que tu étais fatigué. »", type:"bombe", impact:"Tu prends à ta charge ce qui est à lui. Son cerveau apprend : <strong>« si je bâcle, maman gère »</strong>. Tu nourris la fuite et l'irresponsabilité, sans le vouloir.", cnv:"« On reprend ensemble juste 2 minutes pour corriger ce qui est important. Pas tout, juste l'essentiel. »" },
+      { lettre:"C", phrase:"« Je vois que tu as expédié. Qu'est-ce qui s'est passé ? On regarde ce qu'on peut améliorer en 5 minutes, pas plus. »", type:"coeur", impact:"Tu nommes le fait + tu cherches le besoin derrière + tu cadres avec une limite raisonnable. Son cerveau reçoit : <strong>« on me parle pas comme à un coupable »</strong>. Il devient capable d'expliquer.", cnv:"Bonne formulation déjà. À renforcer." }
+    ]
+  },
+  {
+    titre:"🥄 Le repas non terminé",
+    contexte:"Il n'a quasi rien mangé. Il pousse son assiette : « J'ai pas faim. »",
+    question:"Tu dis quoi ?",
+    options:[
+      { lettre:"A", phrase:"« Tu ne sors pas de table tant que tu n'as pas fini ! Je me suis cassée à cuisiner pour ça ?! »", type:"bombe", impact:"Tu lies nourriture + culpabilité + obéissance. Risque d'installer un trouble du comportement alimentaire à terme. Il apprend que manger = obligation, pas plaisir.", cnv:"« Tu n'as pas faim. Ok. Si tu as faim plus tard, voici ce qui est dispo. Pas de truc sucré entre les repas. »" },
+      { lettre:"B", phrase:"« Bon, tant pis, je te fais des pâtes alors. »", type:"bombe", impact:"Tu cèdes au sélectif. Son cerveau apprend : <strong>« je négocie, j'obtiens »</strong>. Sélectivité alimentaire qui s'aggrave + perte d'autorité.", cnv:"« Tu n'as pas faim maintenant, ok. Le repas est là si tu reviens. Je ne fais pas autre chose ce soir. »" },
+      { lettre:"C", phrase:"« Tu n'as pas faim ce soir, ça arrive. Pas de souci. Si tu as faim plus tard, je te montrerai quoi prendre. »", type:"coeur", impact:"Tu acceptes son ressenti corporel (intéroception) + tu maintiens un cadre sans escalade + tu lui donnes les moyens d'agir seul.", cnv:"Bonne base. Pas besoin de plus." }
+    ]
+  },
+  {
+    titre:"🌅 Le matin qui dérape",
+    contexte:"7h45. Il n'est pas habillé. Toi tu es prête depuis 20 min. Vous êtes en retard.",
+    question:"Tu lances :",
+    options:[
+      { lettre:"A", phrase:"« MAIS QU'EST-CE QUE TU FAIS ?! On va être en retard À CAUSE DE TOI ! Habille-toi maintenant ! »", type:"bombe", impact:"Tu mets le stress sur lui alors que c'est ton cerveau qui anticipe le retard. Lui ne perçoit pas le temps (FE déficientes). Il se fige ou explose. Le matin devient un trauma quotidien.", cnv:"« Je vois que tu es bloqué. T-shirt sur le lit, pantalon à côté. Mets ce que tu trouves d'abord, on ajuste après. »" },
+      { lettre:"B", phrase:"(Tu l'habilles toi-même en silence, mâchoire serrée)", type:"bombe", impact:"Il sent ta tension sans comprendre. Il apprend : <strong>« quand maman est silencieuse, c'est grave »</strong>. Il n'apprend pas l'autonomie, et toi tu accumules de la rancune.", cnv:"« On manque de temps. Je t'aide pour le pull, toi tu fais le pantalon. Demain on prépare les habits la veille. »" },
+      { lettre:"C", phrase:"« T-shirt sur le lit, pantalon à côté. Tu commences, je reviens dans 3 min t'aider. »", type:"coeur", impact:"Tu compenses la fonction exécutive manquante (planification) en externalisant les étapes. Pas de jugement. Cadre clair. Aide annoncée.", cnv:"Parfait. Petite étape concrète + aide programmée = sécurité." }
+    ]
+  },
+  {
+    titre:"🧥 La veste par terre",
+    contexte:"Encore. Tu rentres, sa veste est sur le sol de l'entrée. La 5e fois cette semaine.",
+    question:"Tu réagis comment ?",
+    options:[
+      { lettre:"A", phrase:"« Ah non mais c'est PAS POSSIBLE ! Combien de fois faut-il te le dire ?! Tu fais EXPRÈS ou quoi ?! »", type:"bombe", impact:"« Tu fais exprès » = accusation. Or il ne fait PAS exprès — son cerveau n'enregistre pas « accrocher la veste » comme une priorité. Tu cognes sur sa honte sans changer le comportement.", cnv:"« Je vois la veste. Tu l'accroches, je t'attends pour le goûter. »" },
+      { lettre:"B", phrase:"(Tu la ramasses en soupirant, tu te dis « j'ai pas le courage ce soir »)", type:"bombe", impact:"Tu lui apprends que d'autres font à sa place. Tu nourris ta propre rancune silencieuse. Demain, même scène. Tu épuises tes réserves.", cnv:"« La veste, s'il te plaît. Je t'attends pour le goûter, c'est mieux comme ça. »" },
+      { lettre:"C", phrase:"« La veste, s'il te plaît. Je sais que ton cerveau l'oublie — un autocollant sur la porte ça t'aiderait ? »", type:"coeur", impact:"Tu reconnais le fonctionnement de son cerveau + tu proposes une <strong>aide externe (support visuel)</strong>. Tu sors du cycle « répétition agacée → ressentiment ».", cnv:"Excellent. Aide externe + ton non-accusatoire." }
+    ]
+  },
+  {
+    titre:"😡 Le « JE TE DÉTESTE »",
+    contexte:"Tu viens de refuser quelque chose. Il hurle « JE TE DÉTESTE ! TU ES MÉCHANTE ! » et claque sa porte.",
+    question:"Ton premier réflexe :",
+    options:[
+      { lettre:"A", phrase:"(Tu fonces dans sa chambre) « TU NE ME PARLES PAS COMME ÇA ! Tu me dois le respect ! »", type:"bombe", impact:"Tu réagis à la forme (ses mots) sans entendre le fond (sa détresse). Tu nourris exactement la confusion émotionnelle qui aggrave le TOP. Vous êtes maintenant 2 cerveaux en lutte.", cnv:"(Tu respires, tu attends 10 min). Plus tard : « Tu étais très en colère. Tes mots étaient violents — on en reparlera. Maintenant, raconte-moi ce qui t'a touché. »" },
+      { lettre:"B", phrase:"« Bon, ça va, je vais te le dire à ton père quand il rentre. »", type:"bombe", impact:"Tu désactives ton autorité + tu utilises l'autre parent comme menace. Le cadre devient instable. À long terme : il manipule mieux que vous coordonez.", cnv:"« Je t'ai entendu. On en parle quand tu es calme, pas maintenant. »" },
+      { lettre:"C", phrase:"« Je t'ai entendu. Tu es en colère. On en reparle quand ça sera redescendu. Je suis là. »", type:"coeur", impact:"Tu sépares <strong>l'émotion (acceptée)</strong> du <strong>comportement (à reprendre plus tard)</strong>. Tu ne disparais pas mais tu ne nourris pas l'escalade. Tu portes le cadre sans menace.", cnv:"C'est la formulation phare. À retenir." }
+    ]
+  },
+  {
+    titre:"💤 Le coucher qui n'en finit pas",
+    contexte:"22h30. Il sort de sa chambre pour la 4e fois : « J'ai pas sommeil… j'ai soif… j'ai pensé à un truc… »",
+    question:"Tu lui dis :",
+    options:[
+      { lettre:"A", phrase:"« RETOURNE TE COUCHER MAINTENANT, je ne veux plus te voir avant demain ! »", type:"bombe", impact:"Tu nourris son anxiété nocturne. Or les enfants TDAH ont souvent un endormissement chaotique (mélatonine retardée). Ton « va te coucher » = injonction impossible.", cnv:"« Reviens dans ton lit. Je passe te voir dans 5 min. Si tu as besoin de quelque chose, attends-moi là. »" },
+      { lettre:"B", phrase:"« Bon, allez, viens regarder un truc avec moi 10 min, et après tu dors. »", type:"bombe", impact:"Écran avant dodo = pire chose pour son cerveau TDAH (lumière bleue + dopamine = sommeil encore plus retardé). Tu déstabilises le rituel.", cnv:"« Tu viens dans le canapé 5 min, tu peux lire ou je te lis. Pas d'écran à cette heure. »" },
+      { lettre:"C", phrase:"« Tu n'arrives pas à dormir, ça arrive. Va dans ton lit, ferme les yeux, je passe te voir dans 5 min. »", type:"coeur", impact:"Tu valides l'expérience (insomnie pas obéissance) + tu maintiens le cadre (au lit) + tu rassures (« je reviens »). Co-régulation au coucher.", cnv:"Parfait. Pas besoin d'autre." }
+    ]
+  },
+  {
+    titre:"🪥 Brosse à dents (encore)",
+    contexte:"Tu as demandé 3 fois. Il ne l'a pas fait. Tu le retrouves au lit, dents pas brossées.",
+    question:"Tu réagis :",
+    options:[
+      { lettre:"A", phrase:"« Tu te moques de moi ?! 3 fois je t'ai dit ! TU TE LÈVES ET TU VAS TE BROSSER LES DENTS ! »", type:"bombe", impact:"Honte + injonction tardive. Il associe brossage = conflit. Le matin demain, même scène. Cycle infini.", cnv:"« Allez, on y va ensemble, je t'accompagne. Demain on fera le brossage juste après le pyjama. »" },
+      { lettre:"B", phrase:"« Bon allez tant pis pour ce soir, dors. »", type:"bombe", impact:"Cadre dissous. Hygiène délaissée. Il apprend que tes règles ont une date d'expiration.", cnv:"« On le fait quand même. Je t'accompagne. Demain on essaie de le faire avant le pyjama. »" },
+      { lettre:"C", phrase:"« Tu l'as pas fait. Je viens avec toi, on y va ensemble. Demain on changera l'ordre pour que ça passe mieux. »", type:"coeur", impact:"Tu tiens le cadre SANS punir + tu accompagnes physiquement + tu réfléchis stratégie pour demain. Pas de drame.", cnv:"Très bien. Cadre + accompagnement + apprentissage." }
+    ]
+  },
+  {
+    titre:"🎒 Le sac oublié à l'école",
+    contexte:"Il rentre sans son sac. « Je l'ai laissé en classe, je sais pas… »",
+    question:"Tu dis :",
+    options:[
+      { lettre:"A", phrase:"« MAIS C'EST PAS VRAI ! Tu es vraiment incapable de tenir un sac une journée ?! »", type:"bombe", impact:"Insulte directe à son intelligence + à sa mémoire de travail (la zone TDAH la plus déficitaire). Tu cognes pile là où ça fait le plus mal. Honte amplifiée.", cnv:"« Ton cerveau a glissé sur le sac. Demain on installe un rappel à la porte de la classe. »" },
+      { lettre:"B", phrase:"« Bon je vais te chercher ton sac, t'inquiète, c'est pas grave. »", type:"bombe", impact:"Tu déresponsabilises totalement. Il n'apprend pas à compenser. Tu deviens son cerveau exécutif extérieur — épuisant pour toi, infantilisant pour lui.", cnv:"« On va le chercher ensemble demain matin. Et on met en place un truc pour que ça arrive moins. »" },
+      { lettre:"C", phrase:"« Ton cerveau TDAH a oublié. Pas grave en soi. Mais on met en place un truc pour que ça arrive moins. Tu as une idée ? »", type:"coeur", impact:"Tu normalises (cerveau, pas faute) + tu refuses le drame + tu l'impliques dans la SOLUTION. Tu lui apprends à compenser plutôt qu'à avoir honte.", cnv:"Excellent. Normaliser + impliquer dans la solution = c'est ça l'éducation TDAH." }
+    ]
+  },
+  {
+    titre:"🏫 « J'irai pas à l'école demain »",
+    contexte:"Dimanche soir. Voix d'angoisse. « J'irai pas demain. Personne ne m'aime, je sers à rien là-bas. »",
+    question:"Tu réponds :",
+    options:[
+      { lettre:"A", phrase:"« Mais arrête de dramatiser ! Bien sûr que tu iras ! Tout le monde t'aime ! »", type:"bombe", impact:"Tu nies son ressenti. Il enregistre : <strong>« personne ne me comprend, même pas ma mère »</strong>. Anxiété qui s'amplifie + perte de confiance dans le canal parental.", cnv:"« Quelque chose s'est passé. Raconte-moi. Je suis là, on regarde ensemble. »" },
+      { lettre:"B", phrase:"« Bon, si t'es vraiment pas bien, tu restes à la maison demain. »", type:"bombe", impact:"Tu nourris l'évitement scolaire. À court terme : soulagement. À 6 mois : phobie scolaire installée, intervention médicale nécessaire.", cnv:"« On en parle. Tu iras demain, on cherchera ensemble comment rendre la journée moins dure. »" },
+      { lettre:"C", phrase:"« Quelque chose te pèse fort ce soir. Raconte-moi ce qui s'est passé cette semaine. On regarde ensemble. »", type:"coeur", impact:"Tu accueilles l'émotion + tu cherches le déclencheur précis + tu maintiens l'idée qu'il y va MAIS qu'on cherche la solution ensemble. Tu ne le laisses pas seul avec sa douleur.", cnv:"Le bon réflexe. Accueillir avant tout." }
+    ]
+  },
+  {
+    titre:"👫 « Tu préfères ma sœur »",
+    contexte:"Conflit fratrie. Il sort : « De toute façon, tu préfères ma sœur. Tu la défends toujours. »",
+    question:"Ta réponse :",
+    options:[
+      { lettre:"A", phrase:"« Mais qu'est-ce que tu racontes ?! Je vous aime PAREIL ! Arrête tes bêtises ! »", type:"bombe", impact:"Tu balaies son ressenti. Il enregistre : <strong>« je peux pas exprimer ce que je vois »</strong>. Le sentiment d'injustice (typique TDAH) reste, refoulé. Il ressortira en colère plus tard.", cnv:"« Tu as ressenti ça aujourd'hui. Raconte-moi ce qui t'a donné cette impression. »" },
+      { lettre:"B", phrase:"« Oui, c'est vrai qu'elle, elle me complique pas la vie comme toi. »", type:"bombe", impact:"💥 Phrase qui blesse pour des années. Même dite à chaud, elle s'imprime. Il deviendra l'enfant « problème » dans son propre récit. À éviter coûte que coûte.", cnv:"« Tu sens une différence. Raconte-moi pourquoi tu ressens ça — pas pour me défendre, pour te comprendre. »" },
+      { lettre:"C", phrase:"« Tu as ressenti ça. Raconte-moi ce qui te donne cette impression — je veux comprendre, pas me défendre. »", type:"coeur", impact:"Tu accueilles SANS te défendre + tu cherches les <strong>faits précis</strong> derrière le ressenti + tu lui montres que sa perception compte. Désamorce le sentiment d'injustice.", cnv:"Parfait. Accueillir, comprendre, sans se défendre." }
+    ]
+  },
+  {
+    titre:"📺 « Encore 10 minutes ! »",
+    contexte:"Il négocie le temps d'écran pour la 3e fois ce soir. Il sait que tu cèdes parfois.",
+    question:"Tu fais :",
+    options:[
+      { lettre:"A", phrase:"« Si je dis non, c'est non ! Discussion terminée ! »", type:"bombe", impact:"Tu coupes mais sans expliquer le pourquoi. Il enregistre : <strong>« maman est arbitraire »</strong>. Au prochain « non », même bataille. Tu fatigues ton autorité sans la légitimer.", cnv:"« Le cadre c'était 19h. C'est 19h. Pas 19h10. On range. Demain, même cadre. »" },
+      { lettre:"B", phrase:"« Bon allez, 10 minutes, vraiment les dernières. »", type:"bombe", impact:"Tu lui apprends que la négociation marche si elle est insistante. Demain : 5 négociations au lieu de 3. Tu nourris exactement le comportement que tu veux faire baisser.", cnv:"« Le cadre c'était 19h. C'est 19h. Pas de prolongation. Demain on respectera l'horaire. »" },
+      { lettre:"C", phrase:"« Le cadre c'était 19h. C'est 19h. Pas de prolongation. On range. Demain, même horaire — c'est important que ce soit prévisible pour ton cerveau. »", type:"coeur", impact:"Tu tiens le cadre (clarté parentale) + tu expliques pourquoi (prévisibilité = sécurité pour cerveau TDAH) + pas de menace, juste un fait. Autorité légitime.", cnv:"C'est ça la clarté parentale. Cadre + raison + pas d'émotion." }
+    ]
+  },
+  {
+    titre:"🤬 L'insulte qui sort",
+    contexte:"En pleine crise, il te lance : « T'es trop conne ! » Tu sens ton sang qui monte.",
+    question:"Tu réponds :",
+    options:[
+      { lettre:"A", phrase:"« COMMENT TU OSES ?! Tu me parles avec respect ou tu prends une claque ! »", type:"bombe", impact:"💣💣 Risque de violence physique réelle. Honte massive si tu cèdes à la pulsion. Si tu frappes : il apprend que <strong>« en cas de conflit, on frappe »</strong>. Il le reproduira. Toujours.", cnv:"(Tu respires 3 fois. Tu attends.) « Tu es très en colère. Je n'accepte pas qu'on me parle comme ça. On en reparle quand c'est redescendu. »" },
+      { lettre:"B", phrase:"(Tu pleures, tu sors de la pièce sans rien dire)", type:"bombe", impact:"Il apprend que ses mots ont le pouvoir de te briser. À long terme : culpabilité chez lui + perte de ton autorité + il ne sait pas où sont les limites.", cnv:"« Ces mots me blessent. Je ne reste pas dans cette conversation. On reprend plus tard, calmement. »" },
+      { lettre:"C", phrase:"« Tu es très en colère. Je n'accepte pas qu'on me parle comme ça. On reprend cette discussion quand ce sera redescendu. »", type:"coeur", impact:"Tu nommes son émotion + tu poses la limite ferme + tu remets le dialogue à plus tard (pas annulé). Tu protèges la relation ET le cadre.", cnv:"Le bon réflexe en crise. Émotion accueillie + limite claire + dialogue différé." }
+    ]
+  },
+  {
+    titre:"🌟 Il a bien fait quelque chose",
+    contexte:"Il a rangé sa chambre sans qu'on lui demande. Tu vois ça en passant.",
+    question:"Tu réagis comment ?",
+    options:[
+      { lettre:"A", phrase:"(Tu ne dis rien — c'était la moindre des choses, après tout)", type:"bombe", impact:"Tu rates l'occasion de renforcer un comportement positif. Pour un cerveau TDAH en quête de dopamine, l'absence de reconnaissance = punition. Demain, sa chambre sera à nouveau en bordel.", cnv:"« Ta chambre est rangée ! J'ai vu, et ça me fait plaisir. »" },
+      { lettre:"B", phrase:"« Enfin ! C'est pas trop tôt, ça t'arrive de faire un effort ! »", type:"bombe", impact:"Tu rends le renforcement négatif. Il enregistre : <strong>« quoi que je fasse, c'est jamais bien »</strong>. Démotivation totale. Plus aucune raison d'essayer.", cnv:"« J'ai vu que tu as rangé. Merci. Ça me fait du bien. »" },
+      { lettre:"C", phrase:"« J'ai vu ta chambre. Tu l'as rangée. Merci. Tu peux être fier·e — c'est exactement le genre de truc qui demande beaucoup à ton cerveau. »", type:"coeur", impact:"Tu nommes précisément + tu remercies + tu nommes l'effort réel (pas juste le résultat). Dopamine boostée. Comportement renforcé pour la prochaine fois.", cnv:"Excellent. Renforcement précis et reconnaissant de l'effort." }
+    ]
+  },
+  {
+    titre:"❤️ Le câlin demandé",
+    contexte:"Il vient vers toi, tête baissée : « Maman, je peux avoir un câlin ? » Tu es en train de faire 3 choses.",
+    question:"Tu fais :",
+    options:[
+      { lettre:"A", phrase:"« Pas maintenant chéri, je suis occupée. Plus tard. »", type:"bombe", impact:"Tu manques un moment de connexion ESSENTIEL. Pour un ado TDAH+TOP, demander un câlin = signe de vulnérabilité rare. Tu le refuses → il n'osera plus.", cnv:"« Viens. (tu poses ce que tu fais) 30 secondes pour toi. »" },
+      { lettre:"B", phrase:"(Tu le serres mécaniquement contre toi en continuant à regarder ton téléphone)", type:"bombe", impact:"Le câlin sans présence = pas un câlin. Il le sent. Il enregistre : <strong>« même quand maman me prend dans ses bras, elle est ailleurs »</strong>. Solitude amplifiée.", cnv:"« Viens (poser le téléphone, le regarder, le serrer vraiment). »" },
+      { lettre:"C", phrase:"« Viens. (Tu poses tout, tu le regardes, tu le serres vraiment pendant 20 secondes.) »", type:"coeur", impact:"<strong>20 secondes de câlin réel = libération d'ocytocine</strong>. Lien renforcé pour toute la journée. Une des choses les plus précieuses que tu peux faire. Et c'est gratuit.", cnv:"C'est la base de la sécurité relationnelle. 20 secondes de vraie présence > 1h distraite." }
+    ]
+  }
+];
+
+let etat = {
+  index:0,
+  coeurs:0,
+  bombes:0,
+  reponses:[]  // { situation, lettre, type }
+};
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function lireData(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || null; } catch(e){ return null; } }
+function ecrireData(d){ localStorage.setItem(STORAGE, JSON.stringify(d)); }
+
+function renderSituation(){
+  if(etat.index >= SITUATIONS.length){
+    showBilan();
+    return;
+  }
+  const s = SITUATIONS[etat.index];
+  const carte = document.getElementById('carte-situation');
+
+  // Mélanger les options pour ne pas que C soit toujours la bonne
+  const optsAvecIdx = s.options.map((o,i)=>({...o, _orig:i}));
+  // Garder l'ordre A/B/C original mais la "bonne réponse" est celle marquée coeur
+  // On laisse l'ordre stable mais on randomise les lettres affichées pour éviter le pattern
+  const lettres = ['A','B','C'].sort(()=> Math.random() - 0.5);
+
+  carte.innerHTML = `
+    <div class="situation-num">Situation ${etat.index + 1} / ${SITUATIONS.length}</div>
+    <h2 class="situation-titre">${esc(s.titre)}</h2>
+    <p class="situation-contexte">${esc(s.contexte)}</p>
+    <div class="question-cle">${esc(s.question)}</div>
+    <div class="options-grille">
+      ${optsAvecIdx.map((o,i)=>`
+        <button class="option-btn" data-idx="${i}">
+          <div class="lettre">${lettres[i]}</div>
+          <div>${esc(o.phrase)}</div>
+        </button>
+      `).join('')}
+    </div>
+    <div class="revelation" id="revelation"></div>
+  `;
+
+  // Listeners
+  carte.querySelectorAll('.option-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const idx = parseInt(btn.dataset.idx);
+      choisirOption(idx, s);
+    });
+  });
+
+  majProgres();
+}
+
+function choisirOption(idx, situation){
+  const opt = situation.options[idx];
+  // Désactiver tous
+  document.querySelectorAll('.option-btn').forEach(b=> b.disabled = true);
+
+  // Marquer le choix
+  const btnChoisi = document.querySelector(`.option-btn[data-idx="${idx}"]`);
+  btnChoisi.classList.add(opt.type === 'coeur' ? 'choisie-coeur' : 'choisie-bombe');
+
+  // Révéler les autres
+  document.querySelectorAll('.option-btn').forEach((b, i)=>{
+    if(i !== idx){
+      const otherOpt = situation.options[i];
+      b.classList.add(otherOpt.type === 'coeur' ? 'revelee-coeur' : 'revelee-bombe');
+    }
+  });
+
+  // Comptage
+  if(opt.type === 'coeur') etat.coeurs++;
+  else etat.bombes++;
+
+  etat.reponses.push({
+    situation: situation.titre,
+    type: opt.type,
+    phrase_choisie: opt.phrase,
+    impact: opt.impact,
+    cnv: opt.cnv
+  });
+
+  ecrireData(etat);
+  majScores();
+
+  // Afficher la révélation
+  const rev = document.getElementById('revelation');
+  if(opt.type === 'coeur'){
+    rev.innerHTML = `
+      <div class="rev-coeur">
+        <div class="rev-icone">💗</div>
+        <div class="rev-titre">Cœur !</div>
+        <div class="rev-impact">${opt.impact}</div>
+        ${opt.cnv ? `<div class="rev-cnv"><strong>💡 Note pour toi</strong><div class="phrase-cnv">${esc(opt.cnv)}</div></div>` : ''}
+      </div>
+      <button class="bouton-suivant" id="btn-suivant">${etat.index + 1 >= SITUATIONS.length ? '🎯 Voir mon bilan' : 'Situation suivante →'}</button>
+    `;
+  } else {
+    rev.innerHTML = `
+      <div class="rev-bombe">
+        <div class="rev-icone">💣</div>
+        <div class="rev-titre">Bombe</div>
+        <div class="rev-impact">${opt.impact}</div>
+        ${opt.cnv ? `<div class="rev-cnv"><strong>🌱 Reformulation possible</strong><div class="phrase-cnv">${esc(opt.cnv)}</div></div>` : ''}
+      </div>
+      <button class="bouton-suivant" id="btn-suivant">${etat.index + 1 >= SITUATIONS.length ? '🎯 Voir mon bilan' : 'Situation suivante →'}</button>
+    `;
+  }
+  rev.classList.add('actif');
+  rev.scrollIntoView({behavior:'smooth', block:'center'});
+
+  document.getElementById('btn-suivant').addEventListener('click', ()=>{
+    etat.index++;
+    renderSituation();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+}
+
+function majScores(){
+  document.getElementById('score-coeurs').textContent = etat.coeurs;
+  document.getElementById('score-bombes').textContent = etat.bombes;
+}
+
+function majProgres(){
+  const pct = (etat.index / SITUATIONS.length) * 100;
+  document.getElementById('progres-fill').style.width = pct + '%';
+  document.getElementById('progres-info').textContent = `Situation ${Math.min(etat.index + 1, SITUATIONS.length)} sur ${SITUATIONS.length}`;
+}
+
+function showBilan(){
+  document.getElementById('carte-situation').style.display = 'none';
+  document.getElementById('scoreboard-zone').style.display = 'none';
+  document.getElementById('bilan-coeurs').textContent = etat.coeurs;
+  document.getElementById('bilan-bombes').textContent = etat.bombes;
+
+  const total = etat.coeurs + etat.bombes;
+  const pctCoeurs = Math.round((etat.coeurs / total) * 100);
+
+  let verdict = '';
+  if(pctCoeurs >= 80){
+    verdict = `
+      <h4>🌟 Tu as un cerveau parental déjà très ajusté</h4>
+      <p>${etat.coeurs} cœurs sur ${total}, c'est exceptionnel. Tu as déjà intégré les principes de la communication bienveillante et structurée. Ton enfant baigne dans un climat sécurisant.</p>
+      <p><strong>Conseil :</strong> sois indulgente avec toi-même quand ça lâche. Personne ne reste à 80%+ tout le temps, surtout pas avec un enfant TDAH+TOP. La répétition compte plus que la perfection.</p>
+    `;
+  } else if(pctCoeurs >= 50){
+    verdict = `
+      <h4>🌱 Tu es sur le bon chemin, et c'est précieux</h4>
+      <p>${etat.coeurs} cœurs sur ${total}, c'est solide. Tu connais les bonnes formulations dans pas mal de situations. Les bombes restantes sont souvent celles qui sortent quand tu es épuisée, en fin de journée, ou prise par surprise.</p>
+      <p><strong>Conseil :</strong> identifie 1 ou 2 situations où tu as fait bombe et qui se répètent souvent chez toi. Travaille la reformulation alternative et entraîne-la à froid, avant la prochaine crise. C'est le Pilier 1 du Guide TDAH+TOP : la gestion de tes propres émotions parentales.</p>
+    `;
+  } else if(pctCoeurs >= 25){
+    verdict = `
+      <h4>💪 Tu es au cœur du combat, et tu n'es pas seule</h4>
+      <p>${etat.coeurs} cœurs sur ${total}. Ne lis pas ça comme un mauvais score. Lis ça comme une <strong>information précieuse</strong> : tu vis sans doute en confusion émotionnelle (cf. Partie 3 du Guide TDAH+TOP), et c'est épuisant. Tes réactions sont celles de quelqu'un qui n'en peut plus, pas de quelqu'un de mauvais.</p>
+      <p><strong>Conseil :</strong> tu as besoin de souffler avant de pouvoir reformuler. Pas l'inverse. Commence par <strong>le Pilier 1</strong> (gestion de tes propres émotions). Et si possible, ne porte pas ça toute seule — un accompagnement parental aide vraiment.</p>
+    `;
+  } else {
+    verdict = `
+      <h4>🛟 Cet outil dit ce que tu sais déjà : tu es épuisée</h4>
+      <p>${etat.coeurs} cœurs sur ${total}. Tu n'es pas une mauvaise mère. Tu es une personne en souffrance qui essaie de tenir un système ingérable seule. Tes réactions sont celles d'un cerveau saturé.</p>
+      <p><strong>Conseil urgent :</strong> tu ne peux pas changer cet état avec des conseils écrits. Tu as besoin d'un <strong>accompagnement parental</strong>, et possiblement d'un soutien pour toi-même (psy, médecin, groupe de parents TDAH). Ce n'est pas un échec — c'est une étape nécessaire. Tu n'es pas seule.</p>
+    `;
+  }
+
+  document.getElementById('verdict-zone').innerHTML = verdict;
+  document.getElementById('bilan-final').classList.add('actif');
+  document.getElementById('actions-finales').style.display = 'flex';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function demarrer(){
+  etat = { index:0, coeurs:0, bombes:0, reponses:[] };
+  ecrireData(etat);
+  document.getElementById('intro-zone').style.display = 'none';
+  document.getElementById('posture').style.display = 'none';
+  document.getElementById('bouton-demarrer-zone').style.display = 'none';
+  document.getElementById('bilan-final').classList.remove('actif');
+  document.getElementById('scoreboard-zone').style.display = 'grid';
+  document.getElementById('carte-situation').style.display = 'block';
+  document.getElementById('actions-finales').style.display = 'none';
+  renderSituation();
+  majScores();
+}
+
+document.getElementById('btn-demarrer').addEventListener('click', demarrer);
+document.getElementById('btn-recommencer').addEventListener('click', ()=>{
+  if(confirm('Recommencer depuis le début ? (Tes réponses précédentes seront effacées)')){
+    demarrer();
+  }
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const l = ['Le Détecteur de Paroles — EducaTypique',''];
+  l.push('Résultat : '+etat.coeurs+' cœurs · '+etat.bombes+' bombes (sur '+(etat.coeurs+etat.bombes)+' situations)');
+  l.push('');
+  l.push('== Détail des situations ==');
+  etat.reponses.forEach((r,i)=>{
+    l.push((i+1)+'. '+r.situation+' → '+(r.type==='coeur'?'💗 Cœur':'💣 Bombe'));
+    l.push('   Phrase : '+r.phrase_choisie);
+    if(r.type==='bombe' && r.cnv) l.push('   Reformulation : '+r.cnv);
+    l.push('');
+  });
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'detecteur-paroles-'+new Date().toISOString().slice(0,10)+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+
+// Reprendre une session sauvegardée ?
+window.addEventListener('DOMContentLoaded', ()=>{
+  const saved = lireData();
+  if(saved && saved.index > 0 && saved.index < SITUATIONS.length){
+    if(confirm('Tu as une session en cours (à la situation '+(saved.index+1)+'). La reprendre ?')){
+      etat = saved;
+      document.getElementById('intro-zone').style.display = 'none';
+      document.getElementById('bouton-demarrer-zone').style.display = 'none';
+      document.getElementById('scoreboard-zone').style.display = 'grid';
+      document.getElementById('carte-situation').style.display = 'block';
+      renderSituation();
+      majScores();
+    }
+  }
+});
+
+// Donner un id à la posture pour la masquer au démarrage
+document.querySelector('.posture').id = 'posture';
+</script>
+
+</body>
+</html>

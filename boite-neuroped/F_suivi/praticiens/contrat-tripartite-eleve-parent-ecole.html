@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contrat tripartite Élève · Parent · École · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { margin: 1.5cm; size: A4; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    color: #1a1a2e;
+    line-height: 1.6;
+    background: #F4F6F8;
+    font-size: 11pt;
+  }
+  .topbar {
+    position: sticky; top:0; z-index: 100;
+    background: linear-gradient(135deg, #2c3e50 0%, #4a6580 100%);
+    color: #fff; padding: .6rem 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    display: flex; gap: .5rem; flex-wrap: wrap; justify-content: center; align-items: center;
+  }
+  .topbar a, .topbar button {
+    color: #fff; background: rgba(255,255,255,.15); text-decoration: none;
+    border: none; padding: .4rem .9rem; border-radius: 999px;
+    font-family: 'Nunito', sans-serif; font-weight: 600; font-size: .85rem;
+    cursor: pointer;
+  }
+  .topbar a:hover, .topbar button:hover { background: rgba(255,255,255,.3); }
+  .topbar select {
+    background: #fff; color: #2c3e50; border: none;
+    padding: .4rem .8rem; border-radius: 999px;
+    font-weight: 700; font-size: .85rem;
+  }
+  .topbar .pro-badge {
+    background: #c54a30; color: #fff;
+    padding: .25rem .8rem; border-radius: 999px;
+    font-size: 8.5pt; font-weight: 800;
+    letter-spacing: 1px;
+  }
+  .container { padding: 2rem 1rem; max-width: 900px; margin: 0 auto; }
+  .page {
+    background: #FFFFFF;
+    padding: 2.5rem 3rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+  .strip {
+    display: flex; height: 8px;
+    margin: -2.5rem -3rem 2rem -3rem;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+  }
+  .strip > div { height: 100%; }
+  .strip > div:nth-child(1) { background: #2c3e50; flex: 1; }
+  .strip > div:nth-child(2) { background: #4a6580; flex: 1; }
+  .strip > div:nth-child(3) { background: #2A8E7C; flex: 1; }
+
+  .header { text-align: center; margin-bottom: 2rem; }
+  .brand {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14pt; color: #2c3e50; font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .pro-tag {
+    background: #c54a30; color: #fff;
+    display: inline-block; padding: .25rem 1rem;
+    border-radius: 999px; font-size: 8.5pt; font-weight: 800;
+    letter-spacing: 2px; margin: .8rem 0;
+  }
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22pt; color: #1a1a2e; font-weight: 700;
+    margin-top: 1rem; line-height: 1.2;
+  }
+  h1 .accent { color: #2A8E7C; }
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14pt; color: #1a1a2e; font-weight: 600;
+    margin: 1.8rem 0 0.8rem; padding-left: 0.7rem;
+    border-left: 4px solid #2A8E7C;
+  }
+  h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12pt; color: #2A8E7C; font-weight: 600;
+    margin: 1rem 0 0.4rem;
+  }
+  p { margin-bottom: 0.7rem; }
+  ul { padding-left: 1.4rem; margin-bottom: 0.8rem; }
+  li { margin-bottom: 0.4rem; }
+  strong { color: #1a1a2e; font-weight: 700; }
+  em { color: #5a6678; }
+
+  .opening {
+    background: linear-gradient(135deg, #E4F4F2 0%, #F2EAFC 100%);
+    padding: 1.3rem 1.5rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    text-align: center;
+    font-style: italic;
+    color: #1a6a5a;
+    border-left: 4px solid #2A8E7C;
+  }
+
+  .pillar {
+    background: #F4F6F8; border-radius: 10px;
+    padding: 1.1rem 1.3rem; margin: 0.9rem 0;
+    border-left: 4px solid #4a6580;
+  }
+  .pillar.green { background: #E4F4F2; border-left-color: #2A8E7C; }
+  .pillar.gold { background: #FFF7E0; border-left-color: #c89400; }
+  .pillar.purple { background: #ebe2f8; border-left-color: #7c5cbf; }
+  .pillar.red { background: #FFE0E0; border-left-color: #c54a30; }
+  .pillar-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; color: #1a1a2e;
+    margin-bottom: 0.4rem; font-size: 11.5pt;
+  }
+
+  .contexte-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: .8rem; margin: 1.2rem 0;
+  }
+  .ctx-card {
+    background: #fff;
+    border: 2px solid #4a6580;
+    padding: 1rem 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .ctx-card:hover {
+    background: #f4f6f8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  }
+  .ctx-card .ic { font-size: 1.8rem; margin-bottom: .3rem; }
+  .ctx-card .titre {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; color: #2c3e50;
+    font-size: 11pt; margin-bottom: .3rem;
+  }
+  .ctx-card .desc { font-size: 9.5pt; color: #5a6678; }
+
+  .contrat-section {
+    background: linear-gradient(135deg, #FFFEFB 0%, #F4F6F8 100%);
+    border: 2px solid #2c3e50;
+    padding: 1.5rem 1.8rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+  }
+
+  .form-block {
+    background: #fff;
+    padding: 1.1rem 1.3rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    border-left: 4px solid #4a6580;
+  }
+  .form-block label {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: .3rem;
+    font-size: 10pt;
+  }
+  input[type="text"], input[type="date"], textarea, select {
+    width: 100%; padding: .7rem .9rem;
+    border: 1.5px solid #ccd1d6;
+    border-radius: 6px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 10pt;
+    color: #1a1a2e;
+    background: #fff;
+    margin-bottom: .5rem;
+  }
+  input[type="text"]:focus, input[type="date"]:focus, textarea:focus, select:focus {
+    outline: none; border-color: #2A8E7C;
+  }
+  textarea { min-height: 70px; resize: vertical; }
+
+  .partie {
+    background: #fff;
+    border: 2px solid #4a6580;
+    padding: 1.2rem 1.4rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-top: 2.5rem;
+  }
+  .partie.eleve { border-color: #2A8E7C; }
+  .partie.parent { border-color: #7c5cbf; }
+  .partie.ecole { border-color: #c89400; }
+  .partie .role {
+    position: absolute; top: -12px; left: 1.1rem;
+    padding: .2rem .9rem;
+    border-radius: 999px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; font-size: 9.5pt;
+    color: #fff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .partie.eleve .role { background: #2A8E7C; }
+  .partie.parent .role { background: #7c5cbf; }
+  .partie.ecole .role { background: #c89400; }
+  .partie .role-titre {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: .5rem;
+    font-size: 11.5pt;
+  }
+
+  .signature-zone {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px dashed #ccd1d6;
+  }
+  .signature-zone .sig {
+    text-align: center;
+    background: #fff;
+    padding: 1rem .8rem;
+    border-radius: 8px;
+    border: 1.5px solid #ccd1d6;
+  }
+  .signature-zone .sig.eleve { border-color: #2A8E7C; }
+  .signature-zone .sig.parent { border-color: #7c5cbf; }
+  .signature-zone .sig.ecole { border-color: #c89400; }
+  .signature-zone .label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 9pt;
+    margin-bottom: .3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .signature-zone .eleve .label { color: #2A8E7C; }
+  .signature-zone .parent .label { color: #7c5cbf; }
+  .signature-zone .ecole .label { color: #c89400; }
+  .signature-zone .line {
+    border-bottom: 2px solid currentColor;
+    margin: 1.5rem 0 .5rem;
+    opacity: .3;
+  }
+  .signature-zone .note {
+    font-size: 8.5pt;
+    color: #5a6678;
+    font-style: italic;
+  }
+
+  .legal {
+    background: #f4f6f8; border-left: 4px solid #2c3e50;
+    padding: 1rem 1.2rem; border-radius: 8px;
+    margin: 1rem 0; font-size: 10pt;
+  }
+  .legal strong { color: #2c3e50; }
+
+  .actions {
+    display: flex; gap: .5rem; flex-wrap: wrap;
+    margin-top: 1.5rem; justify-content: center;
+  }
+  .actions button {
+    background: #2c3e50; color: #fff;
+    border: none; padding: .65rem 1.3rem;
+    border-radius: 999px; font-weight: 700;
+    cursor: pointer; font-family: 'Nunito', sans-serif;
+    font-size: 10pt;
+  }
+  .actions button.secondary { background: #fff; color: #2c3e50; border: 1.5px solid #2c3e50; }
+
+  .signature-foot {
+    text-align: center; margin-top: 1.5rem;
+    font-size: 9pt; color: #5a6678; font-style: italic;
+  }
+  .signature-foot strong {
+    color: #2c3e50; font-family: 'Poppins', sans-serif;
+    font-weight: 600; font-style: normal;
+  }
+
+  .source {
+    background: #ebe2f8; border: 1px dashed #7c5cbf;
+    border-radius: 8px; padding: .8rem 1.1rem;
+    font-size: 9.5pt; color: #6b4daa; font-style: italic;
+    margin: 1rem 0;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; }
+    .topbar, .actions { display: none !important; }
+    .container { padding: 0; }
+  }
+  @media (max-width: 700px) {
+    .page { padding: 1.5rem 1.2rem; }
+    .strip { margin: -1.5rem -1.2rem 1.5rem -1.2rem; }
+    .signature-zone { grid-template-columns: 1fr; }
+    h1 { font-size: 18pt; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <span class="pro-badge">PRO · ÉCOLE</span>
+  <a href="../../professionnels.html">🏠 Praticiens</a>
+  <a href="../../parents/F0_fondations/parents/contrat-confiance-ado.html">📘 Version parents</a>
+  <select id="fiche-select" onchange="loadFiche()">
+    <option value="">— Choisir un dossier —</option>
+  </select>
+  <button onclick="nouveauDossier()">+ Nouveau</button>
+  <button onclick="sauverDossier()">💾 Sauver</button>
+  <button onclick="exporterTxt()">📄 Export TXT</button>
+  <button onclick="window.print()">🖨 Imprimer</button>
+  <button onclick="supprimerDossier()" style="background:rgba(255,200,200,.2);">🗑</button>
+</nav>
+
+<div class="container">
+
+<!-- ═══════════════ PRÉSENTATION ═══════════════ -->
+<div class="page">
+  <div class="strip"><div></div><div></div><div></div></div>
+
+  <div class="header">
+    <div class="brand">EDUCA TYPIQUE</div>
+    <div class="pro-tag">VERSION PROFESSIONNELLE · ÉTABLISSEMENT</div>
+    <h1>🤝 Contrat tripartite<br><span class="accent">Élève · Parent · École</span></h1>
+    <div style="font-size:10pt; color:#5a6678; margin-top:0.6rem; font-style:italic;">
+      Outil de coordination pour CPE · psy-EN · enseignant référent · directeur·rice · médiation · PAP/PPS/PAI/PPRE
+    </div>
+  </div>
+
+  <div class="opening">
+    Un contrat à <strong>3 parties</strong> qui formalise les engagements réciproques de l'élève, de la famille et de l'établissement.<br>
+    Utilisable pour : <strong>médiation après incident</strong> · <strong>réintégration post-exclusion</strong> · <strong>démarche TND</strong> · <strong>convention de réussite</strong> · <strong>complément à un PAP/PPS/PAI/PPRE</strong>.
+  </div>
+
+  <h2>📍 Cas d'usage typiques</h2>
+
+  <div class="contexte-cards">
+    <div class="ctx-card" onclick="loadContexte('mediation')">
+      <div class="ic">⚖️</div>
+      <div class="titre">Médiation après conflit</div>
+      <div class="desc">Désaccord élève-prof, élève-élève avec implication familiale, plainte. Restaurer le cadre.</div>
+    </div>
+    <div class="ctx-card" onclick="loadContexte('reintegration')">
+      <div class="ic">🚪</div>
+      <div class="titre">Réintégration post-exclusion</div>
+      <div class="desc">Après exclusion temporaire, conseil de discipline. Reprise structurée et progressive.</div>
+    </div>
+    <div class="ctx-card" onclick="loadContexte('absenteisme')">
+      <div class="ic">📅</div>
+      <div class="titre">Absentéisme / Décrochage</div>
+      <div class="desc">Absences répétées, refus scolaire anxieux, décrochage en cours. Engagement progressif au retour.</div>
+    </div>
+    <div class="ctx-card" onclick="loadContexte('tnd')">
+      <div class="ic">🧩</div>
+      <div class="titre">Démarche TND en cours</div>
+      <div class="desc">Bilan TND en cours, aménagements informels avant officialisation PAP/PPS. Cadre transitoire.</div>
+    </div>
+    <div class="ctx-card" onclick="loadContexte('comportement')">
+      <div class="ic">⚡</div>
+      <div class="titre">Trouble du comportement</div>
+      <div class="desc">Difficultés relationnelles, impulsivité, conflits récurrents. Plan d'action coordonné.</div>
+    </div>
+    <div class="ctx-card" onclick="loadContexte('reussite')">
+      <div class="ic">🎯</div>
+      <div class="titre">Convention de réussite</div>
+      <div class="desc">Élève en difficulté scolaire (PPRE). Objectifs ciblés et accompagnement renforcé.</div>
+    </div>
+  </div>
+
+  <h2>📋 Principes du contrat tripartite</h2>
+
+  <div class="pillar green">
+    <div class="pillar-title">1. ⚖️ Équilibre des 3 parties</div>
+    Aucune partie n'est « plus puissante » que les autres. Chacune a des <strong>engagements</strong> ET des <strong>droits</strong>. L'élève n'est pas le seul à devoir « se conformer » — le parent et l'école s'engagent aussi.
+  </div>
+  <div class="pillar purple">
+    <div class="pillar-title">2. 📝 Engagements écrits, datés, signés</div>
+    Pas d'accord vague. Chaque engagement est <strong>précis, mesurable, daté</strong>. Le document est signé par les 3 parties et chacune en garde un exemplaire.
+  </div>
+  <div class="pillar gold">
+    <div class="pillar-title">3. 📆 Points d'étape réguliers</div>
+    Au minimum un point intermédiaire avant le bilan final. Format court (15-30 min), avec les 3 parties présentes.
+  </div>
+  <div class="pillar">
+    <div class="pillar-title">4. 🔄 Ajustement plutôt que sanction</div>
+    Si un engagement est écorné, on <strong>revoit ensemble</strong> ce qui n'a pas marché. Le contrat est un outil de progrès, pas de coercition.
+  </div>
+  <div class="pillar red">
+    <div class="pillar-title">5. ⚠️ Ce que le contrat n'est PAS</div>
+    Pas un substitut au PAP/PPS/PAI/PPRE. Pas un acte juridique opposable. Pas une procédure disciplinaire. C'est <strong>un outil pédagogique de coordination</strong>.
+  </div>
+
+  <div class="signature-foot"><strong>EducaTypique PRO</strong> · Outil de coordination école-famille-élève</div>
+</div>
+
+<!-- ═══════════════ LE CONTRAT À REMPLIR ═══════════════ -->
+<div class="page page-break">
+  <div class="strip"><div></div><div></div><div></div></div>
+
+  <h2>📋 Le contrat à remplir ensemble</h2>
+
+  <div class="form-block">
+    <label>Type de dispositif / Contexte</label>
+    <select id="c-type">
+      <option value="">— Choisir —</option>
+      <option>Médiation après conflit</option>
+      <option>Réintégration post-exclusion temporaire</option>
+      <option>Réintégration post-conseil de discipline</option>
+      <option>Suivi absentéisme / décrochage</option>
+      <option>Démarche TND en cours (transitoire)</option>
+      <option>Complément à un PAP existant</option>
+      <option>Complément à un PPS existant</option>
+      <option>Complément à un PAI existant</option>
+      <option>Complément à un PPRE existant</option>
+      <option>Convention de réussite (élève en difficulté)</option>
+      <option>Trouble du comportement / plan d'action coordonné</option>
+      <option>Autre (préciser ci-dessous)</option>
+    </select>
+    <input type="text" id="c-type-autre" placeholder="Si autre : précisez">
+  </div>
+
+  <div class="contrat-section">
+    <h3 style="text-align:center;color:#2c3e50;margin-top:0;padding:0;border:none;font-size:14pt;">📜 CONTRAT TRIPARTITE</h3>
+
+    <div class="form-block">
+      <label>Établissement</label>
+      <input type="text" id="c-etab" placeholder="Nom · ville · niveau (collège, lycée, classe…)">
+      <label>Élève concerné·e</label>
+      <input type="text" id="c-eleve" placeholder="Prénom · Nom · Classe · Date de naissance">
+      <label>Date de signature</label>
+      <input type="date" id="c-date">
+      <label>Date du premier point d'étape</label>
+      <input type="date" id="c-date-point">
+      <label>Date du bilan final</label>
+      <input type="date" id="c-date-bilan">
+    </div>
+
+    <h3 style="color:#2c3e50;">🎯 Constat partagé</h3>
+    <div class="form-block">
+      <label>Description factuelle de la situation (sans interprétation)</label>
+      <textarea id="c-constat" rows="3" placeholder="Ex: « Sarah, élève en 4e, présente depuis 6 sem un absentéisme croissant (12 demi-journées en 2 mois). Échanges avec la famille indiquent une anxiété scolaire en lien avec un conflit dans la classe. Bilan TND en cours. »"></textarea>
+
+      <label>Objectifs partagés du contrat</label>
+      <textarea id="c-objectifs" rows="2" placeholder="Ex: « Restaurer un retour à l'école régulier sans escalade. Travailler le lien aux pairs. Permettre les aménagements anxiété en attendant officialisation PAP. »"></textarea>
+    </div>
+
+    <h3 style="color:#2A8E7C;">🌱 Engagements de l'élève</h3>
+    <div class="partie eleve">
+      <span class="role">Élève</span>
+      <textarea id="c-eng-eleve" rows="5" placeholder="Engagements précis, mesurables, datés. Ex:&#10;1. Je m'engage à venir au collège 5 jours sur 5 (sauf maladie justifiée).&#10;2. Si je sens une crise d'angoisse, je vais à l'infirmerie au lieu de partir.&#10;3. Je travaille mes cours absents (rattrapage) au CDI le mardi midi.&#10;4. Je rencontre la psy-EN une fois par semaine pendant 6 semaines."></textarea>
+    </div>
+
+    <h3 style="color:#7c5cbf;">👨‍👩 Engagements des parents</h3>
+    <div class="partie parent">
+      <span class="role">Parent(s) / Tuteur·rice</span>
+      <textarea id="c-eng-parent" rows="5" placeholder="Engagements précis, mesurables. Ex:&#10;1. Nous nous engageons à signaler les absences uniquement pour motif médical justifié.&#10;2. Nous assurons un cadre stable de sommeil (couché à 22h30 en semaine).&#10;3. Nous rencontrons la CPE / psy-EN une fois par mois.&#10;4. Nous poursuivons activement la démarche pédopsychiatrique / TND en cours."></textarea>
+    </div>
+
+    <h3 style="color:#c89400;">🏫 Engagements de l'établissement</h3>
+    <div class="partie ecole">
+      <span class="role">Établissement</span>
+      <textarea id="c-eng-ecole" rows="5" placeholder="Engagements précis, mesurables. Ex:&#10;1. L'infirmerie ouvre un accueil prioritaire à Sarah en cas de crise d'angoisse.&#10;2. Le CDI accueille Sarah le mardi midi avec le matériel des cours manqués (resp: documentaliste).&#10;3. La psy-EN reçoit Sarah toutes les semaines pendant 6 sem.&#10;4. Aménagement transitoire : 1/3 temps évaluations, sortie 5 min en cours si besoin (resp: CPE communique aux profs).&#10;5. Médiation entre élèves animée par CPE le X."></textarea>
+    </div>
+
+    <h3 style="color:#2c3e50;">👥 Référent·e de suivi dans l'établissement</h3>
+    <div class="form-block">
+      <input type="text" id="c-ref" placeholder="Nom · Fonction (CPE, psy-EN, prof principal, infirmier·ère…) · Coordonnées">
+      <label>Modalités de communication entre les 3 parties</label>
+      <textarea id="c-modalites" placeholder="Ex: « Échange par mail bi-mensuel CPE ↔ parents. Carnet de bord élève visé chaque semaine par prof principal. Réunion tripartite mensuelle 30 min. »"></textarea>
+    </div>
+
+    <h3 style="color:#2c3e50;">🎉 Si le contrat est respecté</h3>
+    <div class="form-block">
+      <textarea id="c-si-respecte" placeholder="Ex: « Reconduction allégée du dispositif. Officialisation des aménagements via PAP au prochain équipe éducative. Sarah est valorisée publiquement lors du conseil de classe. »"></textarea>
+    </div>
+
+    <h3 style="color:#c54a30;">⚠️ Si le contrat est écorné</h3>
+    <div class="form-block">
+      <textarea id="c-si-ecorne" placeholder="Ex: « Pas de sanction automatique. Réunion tripartite extraordinaire dans les 5 jours pour comprendre les obstacles et ajuster. Si récidive après ajustement → réflexion sur dispositif renforcé (SESSAD, MDA, etc.). »"></textarea>
+    </div>
+
+    <div class="signature-zone">
+      <div class="sig eleve">
+        <div class="label">Signature de l'élève</div>
+        <div class="line"></div>
+        <input type="text" id="c-nom-eleve" placeholder="Prénom" style="text-align:center; border:none; background:transparent; max-width:160px;">
+        <div class="note">Je m'engage à respecter ma part</div>
+      </div>
+      <div class="sig parent">
+        <div class="label">Signature parent·s</div>
+        <div class="line"></div>
+        <input type="text" id="c-nom-parent" placeholder="Prénom·s" style="text-align:center; border:none; background:transparent; max-width:160px;">
+        <div class="note">Titulaire·s autorité parentale</div>
+      </div>
+      <div class="sig ecole">
+        <div class="label">Signature établissement</div>
+        <div class="line"></div>
+        <input type="text" id="c-nom-ecole" placeholder="Nom · fonction" style="text-align:center; border:none; background:transparent; max-width:160px;">
+        <div class="note">Chef·fe d'établissement ou délégué·e</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>📝 Bilan du point d'étape</h2>
+  <div class="form-block">
+    <label>Date du point</label>
+    <input type="date" id="b-date">
+    <label>Engagements respectés</label>
+    <textarea id="b-respecte" placeholder="Pour chaque partie, lister ce qui a marché"></textarea>
+    <label>Engagements écornés ou non respectés</label>
+    <textarea id="b-ecorne" placeholder="Pour chaque partie, sans accusation — factuel"></textarea>
+    <label>Hypothèses sur les obstacles</label>
+    <textarea id="b-obstacles" placeholder="Pourquoi ça n'a pas marché ? Surinvestissement ? Sous-estimation ? Élément externe (deuil, déménagement…) ?"></textarea>
+    <label>Ajustements décidés</label>
+    <textarea id="b-ajuste" placeholder="Quelles modifications au contrat. Resignature ou avenant ?"></textarea>
+    <label>Date du prochain rendez-vous</label>
+    <input type="date" id="b-suivant">
+  </div>
+
+  <div class="legal">
+    📋 <strong>Cadre légal de référence :</strong> Ce contrat n'a pas valeur de PAP/PPS/PAI/PPRE qui sont des dispositifs réglementés (Circulaire n°2014-088 et suivantes). Il peut <strong>compléter</strong> ces dispositifs ou servir de <strong>cadre transitoire</strong>. Il ne constitue pas une procédure disciplinaire (cf. Code de l'éducation Art. R421-10 et suivants).
+  </div>
+
+  <div class="source">
+    📚 <strong>Adaptation EducaTypique PRO</strong> — Inspiré des principes de coordination école-famille (Discipline Positive de Jane Nelsen pour la mécanique du contrat de confiance, recommandations Éducation Nationale pour la coordination des dispositifs d'accompagnement, pratiques de médiation scolaire). Pour version parents non-pro : voir <a href="../../F0_fondations/parents/contrat-confiance-ado.html">contrat de confiance parent-ado</a>.
+  </div>
+
+  <div class="signature-foot" style="margin-top:1.5rem;">
+    <strong>EducaTypique PRO · Nawel Haddouch</strong><br>
+    <em>Neuropédagogue TND · Conseillère TCC · Accompagnatrice ados</em><br>
+    <span style="font-size:8.5pt;">Outil de coordination établissement-famille-élève · Conservation selon les règles habituelles d'archivage scolaire et confidentialité élève</span>
+  </div>
+</div>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'educatypique_contrat_tripartite_v1';
+let currentFiche = null;
+
+const CONTEXTES = {
+  mediation: {
+    'c-type': 'Médiation après conflit',
+    'c-constat': 'Suite à un conflit survenu le [DATE] entre [DESCRIPTION : élève-élève · élève-enseignant · élève-personnel], une rencontre tripartite est organisée pour restaurer le cadre et prévenir la récidive. Les faits constatés sont : [DÉTAILLER]. L\'élève reconnaît / conteste les faits. La famille a été reçue le [DATE].',
+    'c-objectifs': '(1) Permettre à l\'élève de comprendre les conséquences de ses actes. (2) Restaurer la relation pédagogique. (3) Définir des règles claires et des modalités de communication renforcées. (4) Prévenir la réitération.',
+    'c-eng-eleve': '1. Je m\'engage à présenter des excuses formelles à [destinataire] avant le [date].\n2. Je m\'engage à respecter le cadre de la classe (parler quand on me donne la parole, ne pas perturber).\n3. Si je sens monter une tension, j\'utilise la stratégie convenue : [sortir 5 min · aller voir CPE · respirer].\n4. Je participe à un atelier de gestion des émotions / médiation entre pairs.',
+    'c-eng-parent': '1. Nous nous engageons à recevoir l\'information de tout incident de la part de l\'établissement et à en discuter avec notre enfant.\n2. Nous soutenons la stratégie convenue à la maison (renforcement positif, suivi du carnet).\n3. Nous nous rendons disponibles pour une rencontre mensuelle avec [référent·e].',
+    'c-eng-ecole': '1. L\'équipe pédagogique est informée du dispositif (note interne du [date]).\n2. La CPE / le CPE-référent·e reçoit l\'élève toutes les 2 semaines pendant 2 mois.\n3. Mise en place d\'un carnet de suivi visé par le prof principal chaque vendredi.\n4. Atelier de médiation entre pairs animé par psy-EN le [date].\n5. Communication aux parents par mail sous 24h en cas de nouvel incident.'
+  },
+  reintegration: {
+    'c-type': 'Réintégration post-exclusion temporaire',
+    'c-constat': 'L\'élève a été exclu·e temporairement du [date] au [date] suite à [motif]. La réintégration s\'organise dans un cadre tripartite pour sécuriser le retour et prévenir un nouvel incident.',
+    'c-objectifs': '(1) Reprise progressive et structurée de la scolarité. (2) Rattrapage des cours manqués sans surcharge. (3) Restauration des relations avec l\'équipe pédagogique. (4) Mise en place d\'un cadre soutenant durant la période sensible.',
+    'c-eng-eleve': '1. Je m\'engage à être présent·e à tous les cours dès le jour de réintégration.\n2. Je m\'engage à rattraper les cours manqués au CDI (créneaux : [...]).\n3. Je m\'engage à un comportement respectueux et coopératif.\n4. En cas de difficulté, je sollicite immédiatement [référent·e] avant d\'agir.',
+    'c-eng-parent': '1. Nous accompagnons notre enfant le jour de la réintégration (entretien préalable avec CPE).\n2. Nous assurons un cadre de vie favorable (sommeil, devoirs supervisés).\n3. Nous communiquons immédiatement à [référent·e] toute difficulté observée à la maison.\n4. Nous participons aux rencontres tripartites planifiées.',
+    'c-eng-ecole': '1. La CPE accueille l\'élève le jour de réintégration et fait le point en début et fin de semaine pendant 4 semaines.\n2. Le prof principal vise un carnet de suivi quotidien la 1ère semaine, hebdomadaire ensuite.\n3. Aménagement rattrapage : photocopies des cours manqués, créneau CDI dédié, soutien si nécessaire.\n4. Les enseignants sont informés du contrat et soutiennent une posture d\'accueil.\n5. Bilan tripartite à 4 et 8 semaines.'
+  },
+  absenteisme: {
+    'c-type': 'Suivi absentéisme / décrochage',
+    'c-constat': 'L\'élève présente un absentéisme significatif (X demi-journées non justifiées sur Y) depuis [date]. Échanges avec la famille indiquent [contexte : anxiété, conflit, mal-être, désinvestissement…]. Mise en place d\'un cadre de réengagement progressif.',
+    'c-objectifs': '(1) Réduire l\'absentéisme à X demi-journées max sur la période. (2) Comprendre et lever les obstacles au retour. (3) Restaurer un lien positif à l\'école. (4) Si besoin, orienter vers dispositif adapté (PAP, SAPAD, MDA, soin).',
+    'c-eng-eleve': '1. Je m\'engage à venir au collège/lycée tous les jours.\n2. Si je n\'arrive pas à venir, j\'appelle l\'établissement avant 9h pour expliquer.\n3. Je rencontre [psy-EN / CPE] une fois par semaine pendant 6 semaines.\n4. Je rattrape les cours manqués selon le plan convenu.',
+    'c-eng-parent': '1. Nous vérifions la présence effective au collège/lycée chaque matin.\n2. Nous justifions chaque absence par un motif précis (médical, autre).\n3. Nous poursuivons activement la démarche de soin engagée (psy, médecin) le cas échéant.\n4. Nous participons aux points tripartites planifiés.',
+    'c-eng-ecole': '1. Suivi quotidien de présence par CPE, contact famille en cas d\'absence le jour même.\n2. Entretiens hebdomadaires psy-EN ou CPE.\n3. Aménagement transitoire si besoin (1/2 journée allégée, sortie autorisée si crise…).\n4. Orientation possible vers SAPAD, MDA, ou dispositif adapté si situation persiste.\n5. Bilan tripartite à 4 et 8 semaines.'
+  },
+  tnd: {
+    'c-type': 'Démarche TND en cours (transitoire)',
+    'c-constat': 'Un bilan TND est en cours pour l\'élève (RDV pédopsychiatrie / neuropsy le [date], résultats attendus [date]). En attendant l\'officialisation d\'un PAP/PPS, ce contrat met en place des aménagements transitoires pour soulager l\'élève.',
+    'c-objectifs': '(1) Permettre les aménagements pédagogiques sans attendre la formalisation. (2) Maintenir l\'élève en réussite et en sécurité émotionnelle. (3) Préparer une équipe éducative pour officialisation du dispositif définitif. (4) Documenter les besoins observés.',
+    'c-eng-eleve': '1. Je m\'engage à utiliser les aménagements mis en place (tiers temps, supports adaptés).\n2. Je signale tôt à [référent·e] si je sens que ça ne fonctionne pas.\n3. Je participe activement à mon bilan (rendez-vous, restitutions).\n4. Je communique avec mes parents et mes professeurs sur ce qui m\'aide ou pas.',
+    'c-eng-parent': '1. Nous poursuivons activement le parcours diagnostique (RDV bilan complémentaires si demandés).\n2. Nous transmettons les conclusions diagnostiques à l\'établissement dès réception.\n3. Nous coordonnons avec les professionnels (médecin scolaire, pédopsy).\n4. Nous demandons formellement le PAP/PPS dès que le diagnostic est posé.',
+    'c-eng-ecole': '1. Aménagements transitoires (tiers temps évaluations, place adaptée, supports allégés, sortie autorisée…) à partir du [date].\n2. Note d\'information aux enseignants signée du chef d\'établissement.\n3. Suivi par psy-EN et / ou médecin scolaire.\n4. Préparation de l\'équipe éducative dès réception des bilans pour formalisation PAP/PPS.\n5. Point tripartite à mi-parcours.'
+  },
+  comportement: {
+    'c-type': 'Trouble du comportement / plan d\'action coordonné',
+    'c-constat': 'L\'élève présente depuis [période] des difficultés relationnelles et/ou comportementales récurrentes (impulsivité, conflits avec pairs, difficulté de régulation émotionnelle, [autre…]). Plan coordonné mis en place pour soutenir l\'élève et prévenir l\'escalade.',
+    'c-objectifs': '(1) Réduire les incidents (cible : passage de X à Y par mois). (2) Mettre en place des stratégies de régulation efficaces et reconnues par l\'élève. (3) Restaurer une dynamique scolaire positive. (4) Identifier si un suivi spécialisé est nécessaire.',
+    'c-eng-eleve': '1. Je m\'engage à utiliser la stratégie convenue avant de réagir (respirer · sortir 5 min · aller voir [référent·e]).\n2. Je participe à un atelier de gestion des émotions une fois par semaine.\n3. Je tiens un carnet de bord quotidien (auto-évaluation simple).\n4. Je rencontre [psy-EN] toutes les 2 semaines.',
+    'c-eng-parent': '1. Nous appliquons à la maison les mêmes stratégies de régulation (cohérence éducative).\n2. Nous tenons un suivi familial du carnet de bord.\n3. Si suspicion TND, nous engageons une démarche diagnostique.\n4. Nous participons aux rencontres tripartites mensuelles.',
+    'c-eng-ecole': '1. Note d\'équipe : tous les enseignants connaissent la stratégie de régulation et l\'encouragent (pas de stigmatisation).\n2. Place de classe adaptée si besoin (loin des distracteurs, près de l\'enseignant).\n3. Atelier régulation émotions animé par psy-EN ou intervenant·e externe.\n4. Carnet de bord visé chaque jour par prof principal pendant 4 sem, puis hebdomadaire.\n5. Bilan tripartite mensuel.'
+  },
+  reussite: {
+    'c-type': 'Convention de réussite (élève en difficulté scolaire)',
+    'c-constat': 'L\'élève présente des difficultés scolaires significatives en [matière·s] (moyenne : X/20 sur le trimestre). Le PPRE déjà mis en place est complété par cette convention pour engager l\'élève et la famille dans une dynamique de progrès.',
+    'c-objectifs': '(1) Atteindre [objectif scolaire précis : moyenne X dans Y matière au prochain trimestre]. (2) Développer une méthode de travail autonome. (3) Restaurer la confiance en soi scolaire. (4) Évaluer la nécessité d\'un dispositif renforcé (SEGPA, RASED, soutien spécifique) à mi-année.',
+    'c-eng-eleve': '1. Je m\'engage à faire mes devoirs tous les soirs (minimum X min en [matière]).\n2. Je participe activement au soutien scolaire / dispositif PPRE (X séances/sem).\n3. Je sollicite mes enseignants quand je ne comprends pas (au moins 1 question par semaine).\n4. Je tiens un cahier de méthode où je note mes stratégies qui fonctionnent.',
+    'c-eng-parent': '1. Nous mettons en place un cadre de travail à la maison (heure dédiée, lieu calme).\n2. Nous supervisons les devoirs sans faire à la place de notre enfant.\n3. Nous communiquons régulièrement avec le prof principal (mensuellement).\n4. Si un suivi externe (orthophonie, soutien) est jugé utile, nous l\'engageons.',
+    'c-eng-ecole': '1. Le PPRE est mis en œuvre selon les modalités définies (X séances/sem en [matière]).\n2. Le prof principal organise un point individuel mensuel avec l\'élève.\n3. Tutorat éventuel par un·e élève plus avancé·e (système de pair·e·s).\n4. Évaluations adaptées en cas de besoin (déculpabilisantes, formatives).\n5. Bilan tripartite mensuel + à mi-trimestre, et bilan final en fin de trimestre.'
+  }
+};
+
+function loadContexte(key) {
+  const ctx = CONTEXTES[key];
+  if (!ctx) return;
+  if (!confirm(`Charger les suggestions pour le contexte « ${ctx['c-type']} » ?\n\n` +
+               `⚠️ Les champs VIDES seront pré-remplis.\n` +
+               `Les champs déjà remplis ne seront PAS écrasés.\n\n` +
+               `Tu pourras tout modifier ensuite avec les 3 parties.`)) return;
+
+  Object.keys(ctx).forEach(k => {
+    const el = document.getElementById(k);
+    if (el && !el.value.trim()) {
+      if (el.tagName === 'SELECT') {
+        const opt = Array.from(el.options).find(o => o.value === ctx[k] || o.textContent === ctx[k]);
+        if (opt) opt.selected = true;
+      } else {
+        el.value = ctx[k];
+      }
+    }
+  });
+
+  alert(`✓ Contexte « ${ctx['c-type']} » chargé.\n\nAdapte avec les 3 parties.`);
+  document.getElementById('c-etab').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function getAllFields() {
+  const data = {};
+  document.querySelectorAll('input[type="text"], input[type="date"], textarea, select').forEach(el => {
+    if (el.id) data[el.id] = el.value;
+  });
+  return data;
+}
+function setAllFields(data) {
+  if (!data) return;
+  document.querySelectorAll('input[type="text"], input[type="date"], textarea, select').forEach(el => {
+    if (el.id) el.value = data[el.id] || '';
+  });
+}
+function clearAllFields() {
+  document.querySelectorAll('input[type="text"], input[type="date"], textarea, select').forEach(el => {
+    if (el.id) el.value = '';
+  });
+}
+function getStore() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function setStore(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+function refreshSelect() {
+  const sel = document.getElementById('fiche-select');
+  const store = getStore();
+  sel.innerHTML = '<option value="">— Choisir un dossier —</option>';
+  Object.keys(store).sort().forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if (name === currentFiche) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function nouveauDossier() {
+  const name = prompt('Titre du dossier (ex: « Sarah · 4e · réintégration nov ») :');
+  if (!name) return;
+  clearAllFields();
+  currentFiche = name;
+  sauverDossier();
+}
+function sauverDossier() {
+  if (!currentFiche) {
+    const name = prompt('Titre du dossier :');
+    if (!name) return;
+    currentFiche = name;
+  }
+  const store = getStore();
+  store[currentFiche] = getAllFields();
+  setStore(store);
+  refreshSelect();
+  alert(`Dossier « ${currentFiche} » sauvegardé ✓`);
+}
+function loadFiche() {
+  const name = document.getElementById('fiche-select').value;
+  if (!name) return;
+  currentFiche = name;
+  setAllFields(getStore()[name]);
+}
+function supprimerDossier() {
+  if (!currentFiche) { alert('Aucun dossier sélectionné.'); return; }
+  if (!confirm(`Supprimer « ${currentFiche} » ?`)) return;
+  const store = getStore();
+  delete store[currentFiche];
+  setStore(store);
+  currentFiche = null;
+  clearAllFields();
+  refreshSelect();
+}
+
+function exporterTxt() {
+  const d = getAllFields();
+  let t = '╔══════════════════════════════════════════════╗\n';
+  t +=   '║  CONTRAT TRIPARTITE ÉLÈVE · PARENT · ÉCOLE   ║\n';
+  t +=   '║  EducaTypique PRO · Nawel Haddouch           ║\n';
+  t +=   '╚══════════════════════════════════════════════╝\n\n';
+  if (currentFiche) t += `Dossier : ${currentFiche}\n`;
+  t += `Date d'export : ${new Date().toLocaleString('fr-FR')}\n\n`;
+
+  if (d['c-type']) t += `Type / Contexte : ${d['c-type']}\n`;
+  if (d['c-etab']) t += `Établissement : ${d['c-etab']}\n`;
+  if (d['c-eleve']) t += `Élève : ${d['c-eleve']}\n`;
+  if (d['c-date']) t += `Date signature : ${d['c-date']}\n`;
+  if (d['c-date-point']) t += `Point d'étape prévu : ${d['c-date-point']}\n`;
+  if (d['c-date-bilan']) t += `Bilan final prévu : ${d['c-date-bilan']}\n`;
+
+  if (d['c-constat']) t += `\n═══ CONSTAT PARTAGÉ ═══\n${d['c-constat']}\n`;
+  if (d['c-objectifs']) t += `\n═══ OBJECTIFS ═══\n${d['c-objectifs']}\n`;
+
+  if (d['c-eng-eleve']) t += `\n═══ ENGAGEMENTS ÉLÈVE ═══\n${d['c-eng-eleve']}\n`;
+  if (d['c-eng-parent']) t += `\n═══ ENGAGEMENTS PARENTS ═══\n${d['c-eng-parent']}\n`;
+  if (d['c-eng-ecole']) t += `\n═══ ENGAGEMENTS ÉTABLISSEMENT ═══\n${d['c-eng-ecole']}\n`;
+
+  if (d['c-ref']) t += `\nRéférent·e suivi : ${d['c-ref']}\n`;
+  if (d['c-modalites']) t += `Modalités de communication : ${d['c-modalites']}\n`;
+  if (d['c-si-respecte']) t += `\nSi contrat respecté : ${d['c-si-respecte']}\n`;
+  if (d['c-si-ecorne']) t += `Si contrat écorné : ${d['c-si-ecorne']}\n`;
+
+  t += `\nSignatures :\n- Élève : ${d['c-nom-eleve']||'____'}\n- Parent : ${d['c-nom-parent']||'____'}\n- École : ${d['c-nom-ecole']||'____'}\n`;
+
+  if (d['b-date'] || d['b-respecte']) {
+    t += '\n═══ POINT D\'ÉTAPE ═══\n';
+    if (d['b-date']) t += `Date : ${d['b-date']}\n`;
+    if (d['b-respecte']) t += `Respecté : ${d['b-respecte']}\n`;
+    if (d['b-ecorne']) t += `Écorné : ${d['b-ecorne']}\n`;
+    if (d['b-obstacles']) t += `Obstacles : ${d['b-obstacles']}\n`;
+    if (d['b-ajuste']) t += `Ajustements : ${d['b-ajuste']}\n`;
+    if (d['b-suivant']) t += `Prochain RDV : ${d['b-suivant']}\n`;
+  }
+
+  t += '\n──────────────────────\nEducaTypique PRO · Boîte NeuroPed\n';
+
+  const blob = new Blob([t], {type: 'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `contrat-tripartite-${(currentFiche||'dossier').toLowerCase().replace(/\s+/g,'-')}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+refreshSelect();
+</script>
+
+</body>
+</html>

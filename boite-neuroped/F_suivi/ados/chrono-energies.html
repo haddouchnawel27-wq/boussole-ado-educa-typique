@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Chrono des Énergies — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:#f9f5ef}
+
+.bandeau{
+  background:linear-gradient(135deg,#FFD6C2,#F39BC2);
+  padding:1.8rem 1.5rem;text-align:center;position:relative;overflow:hidden;
+}
+.bandeau::after{content:"⚡";position:absolute;top:1rem;right:1.4rem;font-size:1.8rem;opacity:.7}
+.bandeau .auteur{display:inline-block;background:rgba(255,255,255,.25);color:#fff;padding:.3em 1em;border-radius:999px;font-size:.85rem;font-weight:700;margin-bottom:.8rem}
+.bandeau h1{color:#fff;margin:0;font-size:clamp(1.6rem,3vw,2.2rem);text-shadow:0 2px 4px rgba(0,0,0,.15);font-family:var(--font-titre)}
+.bandeau .sub{color:#fff;max-width:680px;margin:.5rem auto 0;font-size:1rem;opacity:.95;font-style:italic}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.25);padding:.3em .9em;border-radius:999px;font-size:.88rem}
+
+.container{max-width:1100px;margin:1.4rem auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.92rem;color:#5A4D6B;font-weight:600}
+
+.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c)}
+.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem;font-family:var(--font-titre)}
+.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-chrono{--c:#e05a8a}
+.bloc-graph{--c:#7c5cbf}
+.bloc-pattern{--c:#2a9d8f}
+.bloc-strat{--c:#a87800}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+
+/* Chrono — grille horaire */
+.chrono-zone{margin-top:.5rem}
+.chrono-row{
+  display:grid;grid-template-columns:80px 1fr auto;gap:.5rem;
+  padding:.5rem .6rem;border-bottom:1px solid var(--border);align-items:center;
+}
+.chrono-row .heure{font-weight:800;color:#e05a8a;font-family:var(--font-titre);font-size:.95rem}
+.chrono-row .echelle{display:flex;gap:.3rem;flex-wrap:wrap}
+.chrono-row .echelle label{
+  display:flex;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:50%;background:var(--beige);cursor:pointer;
+  font-weight:700;font-size:.85rem;color:var(--muted);
+  border:2px solid transparent;transition:all .15s;
+}
+.chrono-row .echelle label:hover{border-color:#e05a8a}
+.chrono-row .echelle input{display:none}
+.chrono-row .echelle input:checked + .v{width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:50%;font-weight:800}
+.chrono-row .echelle .v{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%}
+.chrono-row .activite{font-size:.83rem;color:var(--muted)}
+.chrono-row .activite input{
+  width:120px;padding:.3em .5em;border:1px solid var(--border);
+  border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.83rem;
+}
+@media (max-width:680px){
+  .chrono-row{grid-template-columns:1fr;gap:.3rem}
+  .chrono-row .activite input{width:100%}
+}
+
+/* Niveaux énergie */
+.niv-0 .v{background:#a02040;color:#fff}
+.niv-1 .v{background:#c25a30;color:#fff}
+.niv-2 .v{background:#a87800;color:#fff}
+.niv-3 .v{background:#8ED9D2;color:#fff}
+.niv-4 .v{background:#2a9d8f;color:#fff}
+.niv-5 .v{background:#1b7a4a;color:#fff}
+
+.legende-energie{
+  display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;
+  font-size:.78rem;color:var(--muted);margin:.6rem 0;
+  background:var(--beige);padding:.6rem;border-radius:var(--r-sm);
+}
+.legende-energie span{display:inline-flex;align-items:center;gap:.25rem;background:#fff;padding:.2em .55em;border-radius:999px}
+.legende-energie b{display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:50%;background:var(--c-leg);color:#fff;font-weight:700;font-size:.7rem}
+
+/* Graphique évolution */
+.graph-zone{margin-top:.5rem;background:var(--beige);border-radius:var(--r-md);padding:1rem;overflow-x:auto}
+.graph-canvas{display:flex;align-items:flex-end;gap:4px;height:160px;min-width:600px}
+.graph-bar-col{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;min-width:30px}
+.graph-bar{width:100%;background:var(--c-bar);border-radius:4px 4px 0 0;min-height:4px;display:flex;align-items:flex-start;justify-content:center;color:#fff;font-size:.65rem;font-weight:700;padding-top:2px;transition:height .3s ease}
+.graph-bar.b0{background:#a02040}
+.graph-bar.b1{background:#c25a30}
+.graph-bar.b2{background:#a87800}
+.graph-bar.b3{background:#8ED9D2}
+.graph-bar.b4{background:#2a9d8f}
+.graph-bar.b5{background:#1b7a4a}
+.graph-bar.empty{background:#e8dff0;height:4px}
+.graph-label{font-size:.7rem;color:var(--muted);text-align:center;font-weight:700;white-space:nowrap}
+
+/* Pattern detection */
+.pattern-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem;margin-top:.4rem}
+.pattern-card{background:var(--beige);border-radius:var(--r-md);padding:.8rem 1rem;border-left:5px solid var(--c-pat)}
+.pattern-card h4{margin:0 0 .3rem;color:var(--c-pat);font-size:.95rem;font-family:var(--font-titre)}
+.pattern-card .stat{font-size:1.4rem;font-weight:900;color:var(--c-pat);font-family:var(--font-titre);line-height:1.2}
+.pattern-card .lbl{font-size:.82rem;color:var(--muted);margin-top:.2rem}
+.pat-1{--c-pat:#2a9d8f}
+.pat-2{--c-pat:#a02040}
+.pat-3{--c-pat:#7c5cbf}
+.pat-4{--c-pat:#a87800}
+
+/* Stratégies par moment */
+.moment-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r-md);padding:.9rem 1.1rem;margin-bottom:.5rem;border-left:5px solid var(--c-m)}
+.moment-card h4{margin:0 0 .3rem;color:var(--c-m);font-family:var(--font-titre);font-size:1rem;display:flex;align-items:center;gap:.4rem}
+.moment-card .corps{font-size:.88rem;color:var(--muted);margin-bottom:.4rem}
+.moment-card .actions-liste{display:flex;flex-wrap:wrap;gap:.3rem;margin:.3rem 0}
+.moment-card .action-chip{background:var(--beige);padding:.25em .6em;border-radius:999px;font-size:.82rem;color:var(--c-m);font-weight:600;border:1px solid var(--c-m)}
+.moment-card .perso{margin-top:.5rem}
+.moment-card .perso label{font-size:.78rem;color:var(--muted);font-weight:700}
+.moment-card .perso textarea{width:100%;min-height:40px;padding:.3em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.85rem;resize:vertical;margin-top:.2rem}
+.mc-matin{--c-m:#a87800}
+.mc-midi{--c-m:#e05a8a}
+.mc-aprem{--c-m:#7c5cbf}
+.mc-soir{--c-m:#2a9d8f}
+
+/* Multi-jours */
+.jours-tabs{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.6rem}
+.jour-tab{background:var(--beige);border:2px solid transparent;border-radius:var(--r-sm);padding:.5em 1em;cursor:pointer;font-family:var(--font-body);font-weight:700;color:var(--muted);font-size:.85rem;display:flex;flex-direction:column;align-items:center;gap:.1rem;min-width:60px}
+.jour-tab.actif{background:#e05a8a;color:#fff;border-color:#e05a8a}
+.jour-tab .jour-court{font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;opacity:.9}
+.jour-tab .jour-num{font-size:1rem;font-weight:900}
+.jour-tab .badge-moy{font-size:.65rem;background:rgba(0,0,0,.15);border-radius:999px;padding:0 .4em;margin-top:.15rem;display:none}
+.jour-tab.actif .badge-moy, .jour-tab[data-rempli="1"] .badge-moy{display:block}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 1.5rem}
+.actions button{background:#fff;color:#e05a8a;border:2px solid #e05a8a}
+.actions button:hover{background:#e05a8a;color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+@media print{
+  .retour, .actions{display:none !important}
+  body{background:#fff}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau::after{display:none}
+  .bandeau h1, .bandeau .sub, .bandeau .auteur{color:#e05a8a !important;text-shadow:none;background:transparent !important}
+  .bloc, .chrono-row, .pattern-card, .moment-card{box-shadow:none;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../ados.html">← Espace ados</a>
+  <div class="auteur">© Création originale — EducaTypique</div>
+  <h1>⚡ Mon Chrono des Énergies</h1>
+  <p class="sub">Repérer mes pics et mes creux pour piloter ma journée — pas la subir.</p>
+</section>
+
+<div class="container">
+
+  <div class="posture">
+    💡 <strong>Pourquoi ?</strong> Le cerveau TDAH (et beaucoup d'autres) <strong>ne fonctionne pas à plat</strong> sur la journée. Il y a des <em>fenêtres</em> où tout coule, et des <em>creux</em> où rien ne rentre. Le problème, c'est qu'on essaie souvent de faire les choses difficiles aux pires moments. Ce carnet sert à <strong>cartographier tes propres rythmes</strong>.
+  </div>
+
+  <!-- META -->
+  <section class="bloc bloc-meta">
+    <h2>👤 Identité</h2>
+    <div class="grille">
+      <div class="champ"><label>Mon prénom</label><input data-k="prenom" type="text"></div>
+      <div class="champ"><label>Semaine du</label><input data-k="semaine" type="date"></div>
+    </div>
+  </section>
+
+  <!-- CHRONO -->
+  <section class="bloc bloc-chrono">
+    <h2>⚡ Mon niveau d'énergie heure par heure</h2>
+    <p class="intro">Choisis un jour, puis pour chaque créneau de la journée, note ton niveau d'énergie (0 vidée → 5 au top) et ce que tu faisais. Pas tous les jours — quand tu y penses.</p>
+
+    <!-- Tabs jours -->
+    <div class="jours-tabs" id="jours-tabs"></div>
+
+    <div class="legende-energie">
+      <span><b style="background:#a02040">0</b> vidée / coma</span>
+      <span><b style="background:#c25a30">1</b> très basse</span>
+      <span><b style="background:#a87800">2</b> mollasse</span>
+      <span><b style="background:#8ED9D2">3</b> ok / moyenne</span>
+      <span><b style="background:#2a9d8f">4</b> bien / focus</span>
+      <span><b style="background:#1b7a4a">5</b> au top / hyperfocus</span>
+    </div>
+
+    <div class="chrono-zone" id="chrono-zone"></div>
+  </section>
+
+  <!-- GRAPHIQUE -->
+  <section class="bloc bloc-graph">
+    <h2>📊 Mon graphique du jour</h2>
+    <p class="intro">Vue d'ensemble en barres. Les couleurs reprennent la légende.</p>
+    <div class="graph-zone">
+      <div class="graph-canvas" id="graph-canvas"></div>
+    </div>
+  </section>
+
+  <!-- PATTERN -->
+  <section class="bloc bloc-pattern">
+    <h2>🔍 Ce que je vois (patterns)</h2>
+    <p class="intro">Stats automatiques basées sur les jours déjà remplis cette semaine.</p>
+    <div class="pattern-cards" id="patterns"></div>
+    <div class="champ" style="margin-top:.7rem"><label>Ce que je remarque (notes libres)</label><textarea data-k="notes-patterns" style="min-height:60px" placeholder="ex : à chaque fois que je mange à 13h, je m'effondre à 14h… le mardi je suis toujours vidée…"></textarea></div>
+  </section>
+
+  <!-- STRATEGIES PAR MOMENT -->
+  <section class="bloc bloc-strat">
+    <h2>🧰 Mes stratégies par moment</h2>
+    <p class="intro">Pour chaque période de la journée, qu'est-ce qui t'aide vraiment ?</p>
+
+    <div class="moment-card mc-matin">
+      <h4>🌅 Matin (7h–12h)</h4>
+      <div class="corps">Souvent un démarrage difficile en TDAH. Le cerveau met du temps à allumer ses fonctions exécutives.</div>
+      <div class="actions-liste">
+        <span class="action-chip">Lumière forte au réveil</span>
+        <span class="action-chip">Petit déj' protéiné</span>
+        <span class="action-chip">Eau dès le réveil</span>
+        <span class="action-chip">Mouvement court</span>
+        <span class="action-chip">Pas d'écran avant 9h</span>
+      </div>
+      <div class="perso">
+        <label>Ce qui m'aide à MOI le matin :</label>
+        <textarea data-k="strat-matin"></textarea>
+      </div>
+    </div>
+
+    <div class="moment-card mc-midi">
+      <h4>☀️ Midi (12h–14h)</h4>
+      <div class="corps">Pic d'énergie pour beaucoup, MAIS post-repas = chute. Pile à éviter pour les tâches lourdes.</div>
+      <div class="actions-liste">
+        <span class="action-chip">Repas pas trop lourd</span>
+        <span class="action-chip">Pause 10 min après</span>
+        <span class="action-chip">Pas de cours difficiles à 14h</span>
+        <span class="action-chip">Marche courte</span>
+      </div>
+      <div class="perso">
+        <label>Ce qui m'aide à MOI à midi :</label>
+        <textarea data-k="strat-midi"></textarea>
+      </div>
+    </div>
+
+    <div class="moment-card mc-aprem">
+      <h4>🌤️ Après-midi (14h–18h)</h4>
+      <div class="corps">Variable. Souvent un creux entre 14h et 16h, puis remontée. Période où la frustration et l'irritabilité montent vite.</div>
+      <div class="actions-liste">
+        <span class="action-chip">Snack glucides lents 16h</span>
+        <span class="action-chip">Pause sensorielle</span>
+        <span class="action-chip">Tâche manuelle si creux</span>
+        <span class="action-chip">Hydratation</span>
+        <span class="action-chip">Sortie / lumière naturelle</span>
+      </div>
+      <div class="perso">
+        <label>Ce qui m'aide à MOI l'après-midi :</label>
+        <textarea data-k="strat-aprem"></textarea>
+      </div>
+    </div>
+
+    <div class="moment-card mc-soir">
+      <h4>🌙 Soir (18h–22h)</h4>
+      <div class="corps">Pour beaucoup de TDAH : <strong>2e pic d'énergie</strong> tardif (« je suis enfin productif·ve à 23h »). Piège : ça décale tout le sommeil.</div>
+      <div class="actions-liste">
+        <span class="action-chip">Activité difficile entre 18-20h</span>
+        <span class="action-chip">Pas d'écran après 21h</span>
+        <span class="action-chip">Rituel coucher fixe</span>
+        <span class="action-chip">Lumière tamisée</span>
+        <span class="action-chip">Pas de débat important</span>
+      </div>
+      <div class="perso">
+        <label>Ce qui m'aide à MOI le soir :</label>
+        <textarea data-k="strat-soir"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button id="btn-enregistrer">💾 Enregistrer</button>
+    <button id="btn-exporter">📄 Exporter (TXT)</button>
+    <button id="btn-imprimer">🖨️ Imprimer</button>
+    <button id="btn-vider" class="danger">🧹 Tout effacer</button>
+  </div>
+
+  <p style="text-align:center;color:var(--muted);padding:1rem 0;font-size:.85rem">
+    EducaTypique · Méthode Educa — <a href="../../ados.html">retour espace ados</a>
+  </p>
+
+</div>
+
+<script>
+const STORAGE = 'educatypique_chrono_energies_v1';
+
+const HEURES = ['7h','8h','9h','10h','11h','12h','13h','14h','15h','16h','17h','18h','19h','20h','21h','22h'];
+const JOURS = [
+  { id:'lun', court:'Lun', long:'Lundi' },
+  { id:'mar', court:'Mar', long:'Mardi' },
+  { id:'mer', court:'Mer', long:'Mercredi' },
+  { id:'jeu', court:'Jeu', long:'Jeudi' },
+  { id:'ven', court:'Ven', long:'Vendredi' },
+  { id:'sam', court:'Sam', long:'Samedi' },
+  { id:'dim', court:'Dim', long:'Dimanche' }
+];
+
+let etat = {
+  prenom:'', semaine:'',
+  jours:{},  // { 'lun': { '7h': {niv:3, act:'cours maths'}, ... } }
+  strategies:{},
+  'notes-patterns':''
+};
+let jourActif = 'lun';
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function lireData(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || null; } catch(e){ return null; } }
+function ecrireData(){ localStorage.setItem(STORAGE, JSON.stringify(etat)); }
+
+// === Tabs jours ===
+function renderTabsJours(){
+  const cont = document.getElementById('jours-tabs');
+  cont.innerHTML = JOURS.map(j=>{
+    const data = etat.jours[j.id] || {};
+    const rempli = Object.keys(data).length > 0 ? '1' : '0';
+    let moy = '';
+    if(rempli === '1'){
+      const niveaux = Object.values(data).map(d=>d.niv).filter(n=>n!==undefined && n!=='');
+      if(niveaux.length > 0){
+        const m = (niveaux.reduce((a,b)=>a+parseInt(b,10),0) / niveaux.length).toFixed(1);
+        moy = `<div class="badge-moy">moy ${m}</div>`;
+      }
+    }
+    return `
+      <button class="jour-tab ${j.id===jourActif?'actif':''}" data-jour="${j.id}" data-rempli="${rempli}">
+        <span class="jour-court">${j.court}</span>
+        <span class="jour-num">${j.long}</span>
+        ${moy}
+      </button>
+    `;
+  }).join('');
+  cont.querySelectorAll('.jour-tab').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      jourActif = b.dataset.jour;
+      cont.querySelectorAll('.jour-tab').forEach(x=> x.classList.remove('actif'));
+      b.classList.add('actif');
+      renderChrono();
+      renderGraph();
+    });
+  });
+}
+
+// === Chrono (grille horaire) ===
+function renderChrono(){
+  const cont = document.getElementById('chrono-zone');
+  const data = etat.jours[jourActif] || {};
+  cont.innerHTML = HEURES.map(h=>{
+    const d = data[h] || { niv:'', act:'' };
+    return `
+      <div class="chrono-row">
+        <div class="heure">${h}</div>
+        <div class="echelle">
+          ${[0,1,2,3,4,5].map(n=>`
+            <label class="niv-${n}">
+              <input type="radio" name="niv-${jourActif}-${h}" value="${n}" ${d.niv==n?'checked':''}>
+              <span class="v">${n}</span>
+            </label>
+          `).join('')}
+        </div>
+        <div class="activite">
+          <input type="text" placeholder="activité…" data-act="${h}" value="${esc(d.act)}">
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Listeners
+  cont.querySelectorAll('input[type="radio"]').forEach(r=>{
+    r.addEventListener('change', ()=>{
+      const h = r.name.split('-').slice(2).join('-');
+      if(!etat.jours[jourActif]) etat.jours[jourActif] = {};
+      if(!etat.jours[jourActif][h]) etat.jours[jourActif][h] = { niv:'', act:'' };
+      etat.jours[jourActif][h].niv = r.value;
+      ecrireData();
+      renderTabsJours();
+      renderGraph();
+      renderPatterns();
+    });
+  });
+  cont.querySelectorAll('input[data-act]').forEach(inp=>{
+    inp.addEventListener('input', ()=>{
+      const h = inp.dataset.act;
+      if(!etat.jours[jourActif]) etat.jours[jourActif] = {};
+      if(!etat.jours[jourActif][h]) etat.jours[jourActif][h] = { niv:'', act:'' };
+      etat.jours[jourActif][h].act = inp.value;
+      ecrireData();
+    });
+  });
+}
+
+// === Graphique du jour ===
+function renderGraph(){
+  const cont = document.getElementById('graph-canvas');
+  const data = etat.jours[jourActif] || {};
+  cont.innerHTML = HEURES.map(h=>{
+    const d = data[h];
+    const niv = d && d.niv !== '' ? parseInt(d.niv,10) : null;
+    const hauteur = niv !== null ? Math.max(8, (niv/5)*150) : 4;
+    const cls = niv !== null ? 'b'+niv : 'empty';
+    return `
+      <div class="graph-bar-col">
+        <div class="graph-bar ${cls}" style="height:${hauteur}px" title="${h} : ${niv!==null?niv+'/5':'non noté'}${d&&d.act?' — '+d.act:''}">${niv!==null?niv:''}</div>
+        <div class="graph-label">${h}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// === Patterns ===
+function renderPatterns(){
+  const cont = document.getElementById('patterns');
+  // Calculs
+  let totalNiveaux = 0;
+  let countNiveaux = 0;
+  let heuresHauteEnergie = {};  // h → count
+  let heuresBasseEnergie = {};
+  let joursAvecData = 0;
+
+  JOURS.forEach(j=>{
+    const data = etat.jours[j.id] || {};
+    let aDesNiveaux = false;
+    HEURES.forEach(h=>{
+      const d = data[h];
+      if(d && d.niv !== '' && d.niv !== undefined){
+        const n = parseInt(d.niv,10);
+        totalNiveaux += n;
+        countNiveaux++;
+        aDesNiveaux = true;
+        if(n >= 4){ heuresHauteEnergie[h] = (heuresHauteEnergie[h]||0) + 1; }
+        if(n <= 1){ heuresBasseEnergie[h] = (heuresBasseEnergie[h]||0) + 1; }
+      }
+    });
+    if(aDesNiveaux) joursAvecData++;
+  });
+
+  const moyenne = countNiveaux > 0 ? (totalNiveaux/countNiveaux).toFixed(1) : '—';
+
+  // Heure haute énergie principale
+  let topHaute = Object.entries(heuresHauteEnergie).sort((a,b)=>b[1]-a[1])[0];
+  let topBasse = Object.entries(heuresBasseEnergie).sort((a,b)=>b[1]-a[1])[0];
+
+  cont.innerHTML = `
+    <div class="pattern-card pat-1">
+      <h4>📈 Énergie moyenne</h4>
+      <div class="stat">${moyenne}<span style="font-size:.9rem;font-weight:400;color:var(--muted)">/5</span></div>
+      <div class="lbl">${countNiveaux} créneaux notés · ${joursAvecData} jour(s) cette semaine</div>
+    </div>
+    <div class="pattern-card pat-2">
+      <h4>🌟 Ma fenêtre haute</h4>
+      <div class="stat">${topHaute ? topHaute[0] : '—'}</div>
+      <div class="lbl">${topHaute ? 'À ce créneau, j\'ai été ≥4 dans '+topHaute[1]+' jour(s)' : 'Pas encore assez de données'}</div>
+    </div>
+    <div class="pattern-card pat-3">
+      <h4>📉 Mon creux principal</h4>
+      <div class="stat">${topBasse ? topBasse[0] : '—'}</div>
+      <div class="lbl">${topBasse ? 'À ce créneau, j\'ai été ≤1 dans '+topBasse[1]+' jour(s)' : 'Pas encore assez de données'}</div>
+    </div>
+    <div class="pattern-card pat-4">
+      <h4>💡 Conseil</h4>
+      <div style="font-size:.88rem;line-height:1.5;margin-top:.3rem">
+        ${countNiveaux < 10 ?
+          'Remplis au moins 2-3 jours pour voir tes patterns.' :
+          topHaute ?
+          'Programme tes <strong>tâches difficiles</strong> dans ta fenêtre haute ('+topHaute[0]+'). Ne te bats pas dans ton creux.' :
+          'Continue à remplir, les patterns vont émerger.'
+        }
+      </div>
+    </div>
+  `;
+}
+
+// === Strategies + autres champs ===
+document.querySelectorAll('textarea[data-k]').forEach(ta=>{
+  ta.addEventListener('input', ()=>{
+    const k = ta.dataset.k;
+    if(k.startsWith('strat-')) etat.strategies[k] = ta.value;
+    else etat[k] = ta.value;
+    ecrireData();
+  });
+});
+document.querySelectorAll('input[data-k]').forEach(inp=>{
+  inp.addEventListener('input', ()=>{
+    etat[inp.dataset.k] = inp.value;
+    ecrireData();
+  });
+});
+
+// === Actions ===
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  ecrireData();
+  alert('Ton chrono est enregistré ⚡');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const l = ['Mon Chrono des Énergies — EducaTypique',''];
+  l.push((etat.prenom||'Mon prénom')+' · Semaine du '+(etat.semaine||'—'));
+  l.push('');
+  JOURS.forEach(j=>{
+    const data = etat.jours[j.id];
+    if(data && Object.keys(data).length > 0){
+      l.push('== '+j.long+' ==');
+      HEURES.forEach(h=>{
+        const d = data[h];
+        if(d && (d.niv !== '' || d.act)){
+          l.push('  '+h+' : '+(d.niv !== '' ? d.niv+'/5' : '—')+(d.act ? ' — '+d.act : ''));
+        }
+      });
+      l.push('');
+    }
+  });
+  l.push('== Notes patterns ==');
+  l.push(etat['notes-patterns']||'—');
+  l.push('');
+  l.push('== Mes stratégies ==');
+  ['matin','midi','aprem','soir'].forEach(m=>{
+    if(etat.strategies['strat-'+m]) l.push(m+' : '+etat.strategies['strat-'+m]);
+  });
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'chrono-energies-'+(etat.prenom||'moi')+'-'+new Date().toISOString().slice(0,10)+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(!confirm('⚠️ Effacer toutes tes données ?')) return;
+  localStorage.removeItem(STORAGE);
+  location.reload();
+});
+
+// === Init ===
+const saved = lireData();
+if(saved){
+  etat = Object.assign(etat, saved);
+  if(!etat.jours) etat.jours = {};
+  if(!etat.strategies) etat.strategies = {};
+}
+// Remplir UI
+document.querySelector('[data-k="prenom"]').value = etat.prenom || '';
+document.querySelector('[data-k="semaine"]').value = etat.semaine || '';
+if(!etat.semaine){
+  const today = new Date();
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - (today.getDay()+6)%7);
+  document.querySelector('[data-k="semaine"]').valueAsDate = monday;
+  etat.semaine = monday.toISOString().slice(0,10);
+}
+document.querySelector('[data-k="notes-patterns"]').value = etat['notes-patterns'] || '';
+['strat-matin','strat-midi','strat-aprem','strat-soir'].forEach(k=>{
+  const el = document.querySelector(`[data-k="${k}"]`);
+  if(el && etat.strategies[k]) el.value = etat.strategies[k];
+});
+
+renderTabsJours();
+renderChrono();
+renderGraph();
+renderPatterns();
+</script>
+
+</body>
+</html>

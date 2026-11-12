@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profil de compétences scolaires — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,var(--menthe),var(--peche));padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:var(--teal-titre);margin:0}
+.bandeau .sub{color:var(--texte);max-width:720px;margin:.4rem auto 0}
+.retour{display:inline-block;margin:0 0 .6rem;color:var(--violet-titre);font-weight:700;text-decoration:none}
+
+.wrap{max-width:1100px;margin:1.4rem auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid var(--teal-titre);border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:var(--teal-titre);font-family:var(--font-titre)}
+.apropos summary::marker{color:var(--rose-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:var(--rose-titre);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.meta{background:#fff;border-radius:var(--r-lg);padding:1.2rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--teal-titre)}
+.meta h2{margin:0 0 .5rem;color:var(--teal-titre)}
+.meta-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.7rem}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;font-size:.85rem;color:var(--texte)}
+.champ input, .champ select{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ input:focus, .champ select:focus{outline:2px solid var(--turquoise);background:#fff}
+
+.consigne{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.8em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B}
+
+.domaine{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+.domaine h2{color:var(--c);margin:0 0 .15rem;display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.domaine h2 .badge{font-size:.8rem;font-weight:700;background:var(--c);color:#fff;padding:.2em .7em;border-radius:999px}
+.domaine .def{color:var(--muted);font-size:.9rem;margin-bottom:.7rem;font-style:italic}
+
+.item{display:grid;grid-template-columns:1fr auto;gap:.6rem;align-items:center;padding:.5rem .6rem;border-bottom:1px solid var(--border)}
+.item:last-child{border-bottom:none}
+.item .texte{font-size:.95rem}
+.item .echelle{display:flex;gap:.3rem;flex-wrap:nowrap}
+.item .echelle label{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--beige);cursor:pointer;font-size:.85rem;font-weight:700;color:var(--muted);border:2px solid transparent;transition:all .15s}
+.item .echelle label:hover{background:#fff;border-color:var(--c)}
+.item .echelle input{display:none}
+.item .echelle input:checked + .v{background:var(--c);color:#fff}
+.item .echelle .v{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%}
+@media (max-width:600px){.item{grid-template-columns:1fr}.item .echelle{justify-content:flex-start}}
+
+.legende-echelle{display:flex;justify-content:flex-end;gap:.5rem;font-size:.75rem;color:var(--muted);margin-bottom:.4rem}
+.legende-echelle span{display:flex;align-items:center;gap:.2rem}
+.legende-echelle b{display:inline-block;width:1.4em;text-align:center;background:var(--beige);border-radius:50%;font-weight:700}
+
+.profil{background:#fff;border-radius:var(--r-lg);padding:1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--teal-titre)}
+.profil h2{color:var(--teal-titre);margin:0 0 .5rem}
+.profil .lignes{display:flex;flex-direction:column;gap:.5rem;margin-top:.8rem}
+.profil .ligne{display:grid;grid-template-columns:220px 1fr 100px;gap:.6rem;align-items:center}
+@media (max-width:680px){.profil .ligne{grid-template-columns:1fr;gap:.2rem}}
+.profil .nom{font-weight:700;color:var(--texte)}
+.profil .barre{height:22px;background:var(--beige);border-radius:999px;overflow:hidden}
+.profil .remplissage{height:100%;border-radius:999px;transition:width .4s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:.5em;color:#fff;font-weight:700;font-size:.78rem}
+.profil .verdict{text-align:right;font-size:.85rem;font-weight:700}
+.v-solide{color:#1b7a4a}
+.v-surveiller{color:#a87800}
+.v-fragile{color:#c25a30}
+.v-difficulte{color:#a02040}
+
+.reco{background:#fff;border-radius:var(--r-lg);padding:1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--rose-titre)}
+.reco h2{color:var(--rose-titre);margin:0 0 .5rem}
+.reco .bloc-reco{background:var(--beige);border-radius:var(--r-md);padding:.8rem 1rem;margin-bottom:.6rem;border-left:5px solid var(--c)}
+.reco .bloc-reco h3{margin:0 0 .3rem;color:var(--c);font-size:1rem}
+.reco .bloc-reco ul{margin:.3rem 0 0;padding-left:1.2rem;font-size:.92rem}
+
+.synthese{background:#fff;border-radius:var(--r-lg);padding:1.2rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--rose-soutenu)}
+.synthese h2{color:var(--rose-soutenu);margin:0 0 .5rem}
+.synthese textarea{width:100%;min-height:90px;padding:.6em;border:1px solid var(--border);border-radius:var(--r-md);background:var(--beige);font-family:var(--font-body);font-size:.95rem}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:var(--teal-titre);border:2px solid var(--teal-titre)}
+.actions button:hover{background:var(--teal-titre);color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+.actions .danger:hover{background:var(--rose-titre);color:#fff}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:.8rem}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.3rem .5rem;font-size:.9rem;border-radius:var(--r-sm)}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.2em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .actions, .retour, .dossiers, details.apropos, .legende-echelle {display:none !important}
+  body{background:#fff}
+  .domaine, .meta, .profil, .reco, .synthese {box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .item .echelle input:not(:checked) + .v{opacity:.3}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>📚 Profil de compétences scolaires</h1>
+  <p class="sub">Repérer où passe et où bloque l'enfant dans les compétences scolaires de base : lecture, compréhension, écriture, orthographe, calcul, résolution de problèmes, mémorisation. <em>Complémentaire du Profil d'accès aux apprentissages (modalités).</em></p>
+</section>
+
+<div class="wrap">
+
+  <details class="apropos">
+    <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+    <div class="grid8">
+      <div><strong>1. Objectif</strong>Cartographier les points d'appui et les freins dans 7 domaines d'apprentissage, pour cibler aménagements scolaires et bilans spécialisés.</div>
+      <div><strong>2. Quand l'utiliser</strong>Après l'anamnèse, avant la fiche profil élève. À refaire tous les 3-6 mois et au changement de niveau scolaire.</div>
+      <div><strong>3. Pour quel profil TND</strong>Tout enfant en difficulté scolaire. Particulièrement pertinent pour dyslexie, dysorthographie, dyscalculie, dyspraxie, TDL, TDAH, TSA, TDI.</div>
+      <div><strong>4. Mode d'emploi</strong>Cotation par parent, enseignant ou pro (cotation conjointe idéale). 70 items, échelle 0-3, sur les 4 dernières semaines.</div>
+      <div><strong>5. Grille à remplir</strong>7 domaines × 10 items. 0 jamais · 1 parfois · 2 souvent · 3 toujours. Profil visuel + recommandations en temps réel.</div>
+      <div><strong>6. Analyse</strong>Score / 30 par domaine. Solide (0-7), à surveiller (8-15), fragile (16-22), en grande difficulté (23-30). Croiser avec FE et anamnèse.</div>
+      <div><strong>7. Recommandations</strong>Aménagements ciblés (police, audio, ordinateur, dictée vocale, manipulation…) + orientation (orthophonie, ergo, neuropsy).</div>
+      <div><strong>8. Phrase de synthèse</strong>"Le profil d'accès aux apprentissages révèle une fragilité sur [domaines]. On propose [aménagements]. Bilan recommandé : [pro]."</div>
+    </div>
+  </details>
+
+  <section class="meta">
+    <h2>Identité</h2>
+    <div class="meta-grille">
+      <div class="champ"><label>Prénom / initiales</label><input data-k="prenom" type="text"></div>
+      <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+      <div class="champ"><label>Classe</label><input data-k="classe" type="text" placeholder="CE2, 6e…"></div>
+      <div class="champ"><label>Date</label><input data-k="date" type="date"></div>
+      <div class="champ"><label>Observateur</label><select data-k="observateur"><option value="">—</option><option>Parent</option><option>Enseignant</option><option>Professionnel</option><option>Conjoint parent+enseignant</option></select></div>
+    </div>
+    <div class="consigne" style="margin-top:.8rem">
+      <strong>Consigne :</strong> coter selon ce qu'on observe sur les <strong>4 dernières semaines</strong>, dans le cadre scolaire ou des devoirs. Pour les domaines où l'enfant n'est pas encore exposé (ex : un CP qui ne fait pas de résolution complexe), laisser non coté.
+    </div>
+  </section>
+
+  <div id="domaines"></div>
+
+  <section class="profil">
+    <h2>📊 Profil d'apprentissage</h2>
+    <p style="color:var(--muted);font-size:.9rem;margin-top:0">Score / 30 par domaine. Plus la barre est longue, plus le domaine est en difficulté.</p>
+    <div class="lignes" id="lignes-profil"></div>
+    <p style="margin-top:1rem;font-size:.85rem;color:var(--muted)">
+      <strong>Légende :</strong>
+      <span style="color:#1b7a4a">● solide (0-7)</span> ·
+      <span style="color:#a87800">● à surveiller (8-15)</span> ·
+      <span style="color:#c25a30">● fragile (16-22)</span> ·
+      <span style="color:#a02040">● en grande difficulté (23-30)</span>
+    </p>
+  </section>
+
+  <section class="reco" id="reco-section" style="display:none">
+    <h2>🌱 Aménagements &amp; orientations ciblés</h2>
+    <p style="color:var(--muted);font-size:.9rem;margin-top:0">Affichés uniquement pour les domaines fragiles ou en grande difficulté.</p>
+    <div id="reco-contenu"></div>
+  </section>
+
+  <section class="synthese">
+    <h2>✍️ Phrase de synthèse</h2>
+    <textarea data-k="synthese" placeholder="Le profil d'accès aux apprentissages de … révèle …. On propose …. Bilan recommandé : …."></textarea>
+    <div style="margin-top:.8rem">
+      <div class="champ"><label>Observations qualitatives (forces, exceptions, écart oral/écrit, fatigue, motivation…)</label><textarea data-k="obs-qual" style="min-height:80px"></textarea></div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button id="btn-enregistrer">💾 Enregistrer</button>
+    <button id="btn-exporter">📄 Exporter (TXT)</button>
+    <button id="btn-imprimer">🖨️ Imprimer</button>
+    <button id="btn-vider" class="danger">🧹 Vider</button>
+  </div>
+
+  <div class="dossiers">
+    <strong style="color:var(--teal-titre)">📂 Profils enregistrés</strong>
+    <div id="liste-dossiers" style="margin-top:.4rem"></div>
+  </div>
+
+  <div class="disclaimer">
+    Ce profil n'établit pas de diagnostic dys. Tout repérage doit être confirmé par les bilans des professionnels habilités (orthophonie, neuropsychologie, ergothérapie selon le domaine).
+  </div>
+
+  <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+    Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+  </p>
+
+</div>
+
+<script>
+const STORAGE = 'neuroped_profil_apprentissages_v1';
+let currentId = null;
+
+const DOMAINES = [
+  {
+    id:'lect', nom:'1. Lecture (déchiffrage / fluence)', icone:'📖', couleur:'#7c5cbf',
+    def:"Identification des mots, vitesse de lecture, automatismes du décodage.",
+    items:[
+      "Confond des sons proches (b/d, p/q, m/n).",
+      "Lit lentement, mot à mot.",
+      "Saute des lignes, perd la place dans le texte.",
+      "Se fatigue très vite en lisant.",
+      "Inverse des syllabes ou des lettres dans les mots.",
+      "Devine plus qu'il/elle ne déchiffre.",
+      "Lit avec hésitations, retours en arrière fréquents.",
+      "Confond des mots visuellement proches (chat/chien, monter/montagne).",
+      "Ne respecte pas la ponctuation en lisant à voix haute.",
+      "Évite la lecture à voix haute en classe."
+    ],
+    reco:[
+      "Lecture audio (audiobook, vocalisation par tablette) pour accéder au contenu.",
+      "Police adaptée (OpenDyslexic, Lexie) et texte aéré (interligne 1.5, marges larges).",
+      "Lecture en duo (un mot lui / un mot l'adulte) pour réduire la charge.",
+      "Surligneur ou règle de lecture pour ne pas perdre la ligne."
+    ],
+    orient:"Bilan orthophonique (suspicion dyslexie). Bilan ORL et ophtalmo pour écarter cause périphérique."
+  },
+  {
+    id:'comp', nom:'2. Compréhension de lecture', icone:'🧩', couleur:'#e05a8a',
+    def:"Saisir le sens d'un texte, faire des inférences, mémoriser ce qu'on a lu.",
+    items:[
+      "Comprend mal ce qu'il/elle vient de lire.",
+      "A du mal à répondre aux questions sur un texte.",
+      "Mémorise mal les histoires.",
+      "Ne saisit pas le sens implicite (sous-entendus, métaphores).",
+      "A besoin qu'on lui relise ou explique oralement.",
+      "Comprend nettement mieux à l'oral qu'à l'écrit.",
+      "Restitue les détails mais pas l'idée principale.",
+      "A du mal avec les pronoms (qui désigne quoi dans la phrase).",
+      "Comprend les phrases courtes mais perd le fil sur les longues.",
+      "Manque de vocabulaire pour saisir le sens."
+    ],
+    reco:[
+      "Cartes mentales et schémas pour structurer un texte avant lecture.",
+      "Questions « avant / pendant / après » pour guider l'attention.",
+      "Reformulation orale après chaque paragraphe.",
+      "Versions audio + lecture simultanée (multimodale)."
+    ],
+    orient:"Bilan orthophonique langage oral. Bilan neuropsychologique si compréhension large fragile."
+  },
+  {
+    id:'ecrit', nom:'3. Écriture / graphisme', icone:'✏️', couleur:'#F39BC2',
+    def:"Geste graphique : tenue du crayon, formation des lettres, vitesse, lisibilité.",
+    items:[
+      "Écriture lente, fatigante.",
+      "Tenue du crayon crispée, douloureuse ou maladroite.",
+      "Lettres mal formées, illisibles.",
+      "Mauvaise gestion de l'espace de la feuille (lignes, marges).",
+      "Difficulté à recopier depuis le tableau.",
+      "Évite toute tâche qui demande d'écrire.",
+      "Appuie trop fort, la pointe casse ou la feuille se troue.",
+      "Posture du corps inadaptée (se penche, se tord, écrit couché).",
+      "L'écriture régresse nettement en fin de journée.",
+      "Différence importante entre brouillon (bâclé) et propre (soigné mais lent)."
+    ],
+    reco:[
+      "Ordinateur en classe avec clavier (PAP / PPS).",
+      "Réduction de la copie (photocopier, photo, polycopiés).",
+      "Cahiers à lignes Seyès agrandies / lignes de couleur.",
+      "Crayon ergonomique, lest, plan incliné selon profil."
+    ],
+    orient:"Bilan ergothérapie (suspicion dyspraxie / TDC). Bilan psychomotricité."
+  },
+  {
+    id:'ortho', nom:'4. Orthographe / expression écrite', icone:'📝', couleur:'#CBB6F6',
+    def:"Transcription écrite : segmentation, orthographe, syntaxe, organisation du propos.",
+    items:[
+      "Fait beaucoup de fautes même sur des mots simples.",
+      "Oublie des lettres, des syllabes, des accents.",
+      "Ne segmente pas correctement les mots (« lavion », « il ya »).",
+      "A du mal à transcrire ses idées par écrit.",
+      "Productions écrites très en dessous du niveau oral.",
+      "N'arrive pas à organiser un paragraphe.",
+      "Difficultés avec les accords (sujet/verbe, genre, nombre).",
+      "Erreurs sur les homophones (a/à, et/est, son/sont, ses/ces).",
+      "Ne maîtrise pas la ponctuation (point, virgule, majuscule).",
+      "Productions très courtes même quand on en demande davantage."
+    ],
+    reco:[
+      "Dictée vocale (Word, Google Docs, app dédiée).",
+      "Correcteur orthographique autorisé.",
+      "Plan oral avant production écrite (3 idées principales).",
+      "Évaluation orale ou enregistrée en parallèle de l'écrit."
+    ],
+    orient:"Bilan orthophonique (suspicion dysorthographie). Aménagements PAP/PPS pour évaluations."
+  },
+  {
+    id:'calc', nom:'5. Calcul / sens du nombre', icone:'🔢', couleur:'#2a9d8f',
+    def:"Compétences numériques de base : reconnaissance des chiffres, opérations, valeur du nombre.",
+    items:[
+      "Confond les chiffres (3/8, 6/9, 12/21).",
+      "Difficulté à mémoriser les tables d'addition / multiplication.",
+      "Compte encore sur ses doigts pour des calculs simples au-delà de l'âge attendu.",
+      "Erreurs fréquentes dans la pose des opérations.",
+      "A du mal à estimer une quantité ou un ordre de grandeur.",
+      "Ne comprend pas la valeur du nombre (dizaine, centaine, virgule).",
+      "Difficulté à compter à rebours ou de 2 en 2, 5 en 5.",
+      "Confond les signes opératoires (+, −, ×, ÷).",
+      "A du mal avec les conversions (cm/m, g/kg, €/centimes, heures/min).",
+      "Évite ou bloque sur le calcul mental."
+    ],
+    reco:[
+      "Manipulation concrète (cubes, jetons, monnaie) avant l'abstrait.",
+      "Ligne numérique visible en permanence.",
+      "Tables affichées ou autorisées en évaluation.",
+      "Couleurs pour les colonnes (unités, dizaines, centaines)."
+    ],
+    orient:"Bilan orthophonique logico-mathématique (suspicion dyscalculie). Bilan neuropsy si suspicion plus large."
+  },
+  {
+    id:'pb', nom:'6. Résolution de problèmes', icone:'🧮', couleur:'#8ED9D2',
+    def:"Comprendre un énoncé, choisir une stratégie, résoudre, vérifier.",
+    items:[
+      "Bloque dès qu'il y a un énoncé long.",
+      "Ne sait pas par où commencer face à un problème.",
+      "Confond les questions et choisit la mauvaise opération.",
+      "Ne vérifie pas la cohérence du résultat.",
+      "Réussit le calcul isolé mais bloque sur l'énoncé.",
+      "Demande qu'on lui réexplique plusieurs fois la consigne.",
+      "Mélange les données (utilise les mauvais nombres de l'énoncé).",
+      "Donne un résultat aberrant sans s'en rendre compte.",
+      "Difficulté avec les problèmes à plusieurs étapes.",
+      "Connaît les opérations mais ne sait pas QUAND les utiliser."
+    ],
+    reco:[
+      "Schématiser l'énoncé (dessin, ligne, tableau) avant tout calcul.",
+      "Méthode en 4 étapes affichée : 1. je relis · 2. j'entoure les nombres · 3. je dessine · 4. je calcule.",
+      "Énoncés courts, vocabulaire clair, sans pièges inutiles.",
+      "Verbalisation de la démarche (« qu'est-ce qu'on cherche ? »)."
+    ],
+    orient:"Bilan orthophonique pragmatique. Bilan neuropsy pour fonctions de raisonnement."
+  },
+  {
+    id:'memo', nom:'7. Mémorisation des leçons', icone:'🗒️', couleur:'#FFD6C2',
+    def:"Capacité à mémoriser durablement les contenus appris.",
+    items:[
+      "Apprend mais oublie le lendemain.",
+      "Travaille longtemps sans mémoriser efficacement.",
+      "Ne sait pas par où commencer pour réviser.",
+      "Confond les notions proches.",
+      "Restitue mal à l'écrit ce qu'il/elle sait à l'oral.",
+      "Doit répéter de très nombreuses fois pour retenir.",
+      "Difficulté à mémoriser les définitions, dates, formules.",
+      "Apprend par cœur sans comprendre le sens.",
+      "Mémorise mieux quand il/elle dessine, bouge, manipule.",
+      "A besoin d'un environnement très calme pour fixer une info."
+    ],
+    reco:[
+      "Techniques actives : cartes mentales, fiches synthèses, dessins.",
+      "Répétition espacée (J+1, J+3, J+7) plutôt qu'une seule session.",
+      "Quizz oraux courts pour réactiver la mémoire à long terme.",
+      "Découper les leçons en sous-objectifs courts (3 idées par séance)."
+    ],
+    orient:"Bilan neuropsy si mémoire de travail en cause. Coaching méthodes d'apprentissage."
+  }
+];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function rendreDomaines(){
+  const cont = document.getElementById('domaines');
+  cont.innerHTML = DOMAINES.map(d=>`
+    <section class="domaine" id="d-${d.id}" style="--c:${d.couleur}">
+      <h2>${d.icone} ${esc(d.nom)} <span class="badge" id="badge-${d.id}">— / 30</span></h2>
+      <p class="def">${esc(d.def)}</p>
+      <div class="legende-echelle">
+        <span><b>0</b> jamais</span>
+        <span><b>1</b> parfois</span>
+        <span><b>2</b> souvent</span>
+        <span><b>3</b> toujours</span>
+      </div>
+      ${d.items.map((it,i)=>`
+        <div class="item">
+          <div class="texte">${esc(it)}</div>
+          <div class="echelle" data-q="${d.id}_${i}">
+            ${[0,1,2,3].map(v=>`
+              <label>
+                <input type="radio" name="${d.id}_${i}" value="${v}">
+                <span class="v">${v}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </section>
+  `).join('');
+
+  cont.querySelectorAll('input[type="radio"]').forEach(r=>{
+    r.addEventListener('change', recalculer);
+  });
+}
+
+function scoreDomaine(d){
+  let s = 0, n = 0;
+  d.items.forEach((_,i)=>{
+    const checked = document.querySelector(`input[name="${d.id}_${i}"]:checked`);
+    if(checked){ s += parseInt(checked.value,10); n++; }
+  });
+  return { score:s, n, max:30 };
+}
+
+function verdict(score, nReponses){
+  if(nReponses === 0) return { label:'non coté', classe:'', niveau:-1 };
+  if(score<=7) return { label:'solide', classe:'v-solide', niveau:0 };
+  if(score<=15) return { label:'à surveiller', classe:'v-surveiller', niveau:1 };
+  if(score<=22) return { label:'fragile', classe:'v-fragile', niveau:2 };
+  return { label:'en grande difficulté', classe:'v-difficulte', niveau:3 };
+}
+
+function recalculer(){
+  const lignes = document.getElementById('lignes-profil');
+  const fragiles = [];
+  lignes.innerHTML = DOMAINES.map(d=>{
+    const r = scoreDomaine(d);
+    const v = verdict(r.score, r.n);
+    document.getElementById('badge-'+d.id).textContent = (r.n>0 ? r.score : '—') + ' / 30';
+    const pct = r.n>0 ? Math.round((r.score/30)*100) : 0;
+    if(v.niveau>=2) fragiles.push(d);
+    return `
+      <div class="ligne">
+        <div class="nom" style="color:${d.couleur}">${d.icone} ${esc(d.nom)}</div>
+        <div class="barre"><div class="remplissage" style="width:${pct}%;background:${d.couleur}">${r.n>0 ? r.score+'/30' : ''}</div></div>
+        <div class="verdict ${v.classe}">${v.label}</div>
+      </div>
+    `;
+  }).join('');
+
+  const recoSec = document.getElementById('reco-section');
+  const recoCont = document.getElementById('reco-contenu');
+  if(fragiles.length === 0){
+    recoSec.style.display = 'none';
+  } else {
+    recoSec.style.display = 'block';
+    recoCont.innerHTML = fragiles.map(d=>`
+      <div class="bloc-reco" style="--c:${d.couleur}">
+        <h3>${d.icone} ${esc(d.nom)}</h3>
+        <strong style="font-size:.85rem;color:var(--muted)">Aménagements / stratégies :</strong>
+        <ul>${d.reco.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
+        <p style="margin:.4rem 0 0;font-size:.85rem"><strong style="color:var(--rose-titre)">Orientation possible :</strong> ${esc(d.orient)}</p>
+      </div>
+    `).join('');
+  }
+}
+
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{ o[el.dataset.k] = el.value; });
+  DOMAINES.forEach(d=>{
+    d.items.forEach((_,i)=>{
+      const c = document.querySelector(`input[name="${d.id}_${i}"]:checked`);
+      o[d.id+'_'+i] = c ? c.value : '';
+    });
+  });
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{ el.value = o[el.dataset.k] || ''; });
+  DOMAINES.forEach(d=>{
+    d.items.forEach((_,i)=>{
+      const v = o[d.id+'_'+i];
+      document.querySelectorAll(`input[name="${d.id}_${i}"]`).forEach(r=>{ r.checked = (r.value === v); });
+    });
+  });
+  recalculer();
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{ el.value=''; });
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{ r.checked = false; });
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+  recalculer();
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML = '<em style="color:var(--muted);font-size:.85rem">Aucun profil enregistré.</em>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span>${esc(o.prenom||'?')} · ${esc(o.classe||'')} · ${esc(o.age||'')} · ${esc((o.date||o._ts||'').slice(0,10))} · ${esc(o.observateur||'')}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire();
+      const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer ce profil ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom (ou initiales).'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr);
+  rendreDossiers();
+  alert('Profil enregistré.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const lignes = ["Profil d'accès aux apprentissages — Boîte NeuroPed",''];
+  lignes.push('Prénom : '+(o.prenom||'—')+' · Âge : '+(o.age||'—')+' · Classe : '+(o.classe||'—')+' · Date : '+(o.date||'—'));
+  lignes.push('Observateur : '+(o.observateur||'—'));
+  lignes.push('');
+  DOMAINES.forEach(d=>{
+    const r = scoreDomaine(d);
+    const v = verdict(r.score, r.n);
+    lignes.push('== '+d.nom+' : '+(r.n>0 ? r.score+'/30' : 'non coté')+' — '+v.label+' ==');
+    d.items.forEach((it,i)=>{
+      lignes.push('  · ('+(o[d.id+'_'+i]||'?')+') '+it);
+    });
+    lignes.push('');
+  });
+  lignes.push('== Observations qualitatives ==');
+  lignes.push(o['obs-qual'] || '—');
+  lignes.push('');
+  lignes.push('== Phrase de synthèse ==');
+  lignes.push(o.synthese || '—');
+  const blob = new Blob([lignes.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'profil-apprentissages-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(confirm('Vider le formulaire ? (les profils enregistrés ne seront pas touchés)')) vider();
+});
+
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDomaines();
+recalculer();
+rendreDossiers();
+</script>
+
+</body>
+</html>

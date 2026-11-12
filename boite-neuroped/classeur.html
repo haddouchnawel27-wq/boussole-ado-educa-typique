@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classeur professionnel — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_assets/charte.css">
+<style>
+body{background:#f7f4f1}
+
+/* Nav latérale */
+.nav-classeur{
+  position:fixed;top:0;left:0;width:240px;height:100vh;
+  background:#fff;border-right:1px solid var(--border);
+  overflow-y:auto;padding:1.5rem .9rem;z-index:10;
+  display:flex;flex-direction:column;justify-content:center;
+}
+/* Si le contenu dépasse, on bascule en alignement haut pour garder l'accès */
+@media (max-height:680px){
+  .nav-classeur{justify-content:flex-start}
+}
+.nav-classeur h3{margin:0 0 .5rem;color:var(--violet-titre);font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-classeur a{display:block;padding:.4rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm);font-size:.88rem;margin:.1rem 0}
+.nav-classeur a:hover{background:var(--lavande);color:#fff}
+.nav-classeur a.actif{background:var(--violet-titre);color:#fff;font-weight:700}
+.nav-classeur .retour{display:inline-block;margin-bottom:.6rem;color:var(--rose-titre);font-weight:700;font-size:.88rem}
+.nav-classeur .imp-btn{
+  display:block;width:100%;margin-top:.8rem;
+  background:var(--rose-titre);color:#fff;border:none;
+  padding:.6em 1em;border-radius:999px;cursor:pointer;font-weight:700;
+  font-family:var(--font-body);font-size:.88rem;
+  box-shadow:var(--shadow-sm);
+}
+.imp-btn:hover{background:var(--rose-soutenu)}
+
+.contenu{margin-left:240px;padding:0}
+@media (max-width:900px){
+  .nav-classeur{position:static;width:auto;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .contenu{margin-left:0}
+}
+
+/* Page-écran A4 */
+.page{
+  max-width:900px;margin:2rem auto;
+  background:#fff;border-radius:var(--r-lg);
+  padding:3rem 3.5rem;
+  box-shadow:var(--shadow-md);
+  min-height:60vh;
+  scroll-margin-top:1rem;
+}
+@media (max-width:760px){.page{padding:1.5rem 1.2rem}}
+.page h1{font-size:clamp(1.6rem,3vw,2.3rem);color:var(--violet-titre);margin:0 0 .3em}
+.page h2{font-size:1.4rem;color:var(--violet-titre);margin:1.6em 0 .4em;border-bottom:2px solid var(--rose-clair);padding-bottom:.2em}
+.page h3{color:var(--rose-titre);font-size:1.05rem;margin:1.1em 0 .3em}
+.page p{margin:.6em 0;font-size:1rem;line-height:1.6}
+.page ul, .page ol{margin:.5em 0;padding-left:1.4rem;line-height:1.7}
+.page li{margin:.15em 0}
+.page strong{color:var(--violet-titre)}
+
+/* Page de garde */
+.garde{
+  background:linear-gradient(135deg, var(--lavande) 0%, var(--rose-clair) 100%);
+  color:var(--texte);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;min-height:75vh;
+}
+.garde h1{color:var(--violet-titre);font-size:clamp(2rem,4vw,3rem);margin:0;line-height:1.1}
+.garde .sous{font-size:1.05rem;color:var(--rose-titre);max-width:620px;margin:1rem 0 0;font-style:italic;line-height:1.5}
+.garde .type{margin-top:2rem;padding:.5em 1.5em;background:#fff;border-radius:999px;font-weight:700;color:var(--violet-titre);font-size:.95rem}
+.garde .blocs{margin-top:2.5rem;width:100%;max-width:560px;display:grid;grid-template-columns:1fr 1fr;gap:.7rem;text-align:left}
+@media (max-width:680px){.garde .blocs{grid-template-columns:1fr}}
+.garde .bloc{background:rgba(255,255,255,.8);padding:.7rem 1rem;border-radius:var(--r-md)}
+.garde .bloc strong{display:block;color:var(--violet-titre);font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem}
+.garde .bloc input{
+  width:100%;padding:.4em .6em;border:1px solid var(--border);
+  border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.95rem;
+}
+
+/* Cadre pro */
+.cadre-bloc{background:var(--beige);border-left:5px solid var(--violet-titre);padding:1rem 1.4rem;border-radius:var(--r-md);margin:.8rem 0}
+.cadre-bloc h3{margin-top:0;color:var(--violet-titre)}
+.limites{background:#fdeaea;border-left:5px solid var(--rose-titre);padding:1rem 1.4rem;border-radius:var(--r-md);margin:.8rem 0}
+.limites h3{margin-top:0;color:var(--rose-titre)}
+.limites ul li{color:var(--texte)}
+.principes-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.8rem;margin:.8rem 0}
+.principe{background:#fff;border-top:5px solid var(--c);border-radius:var(--r-md);padding:.9rem 1.1rem;box-shadow:var(--shadow-sm);position:relative}
+.principe::before{content:attr(data-n);position:absolute;top:-14px;left:1rem;background:var(--c);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem}
+.principe h4{margin:.4rem 0 .3rem;color:var(--c);font-size:1rem}
+.principe p{margin:0;font-size:.92rem;color:var(--muted)}
+.p1{--c:#7c5cbf}.p2{--c:#e05a8a}.p3{--c:#2a9d8f}.p4{--c:#a87800}.p5{--c:#c25a30}
+
+/* Mode d'emploi - 7 étapes */
+.etapes-emploi{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.7rem;margin:1rem 0}
+.etape-emploi{background:#fff;border-left:5px solid var(--c-e);border-radius:var(--r-md);padding:.7rem 1rem;box-shadow:var(--shadow-sm);position:relative}
+.etape-emploi::before{content:attr(data-n);position:absolute;top:-14px;left:.8rem;background:var(--c-e);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem}
+.etape-emploi h4{margin:.3rem 0 .15rem;color:var(--c-e);font-size:.95rem}
+.etape-emploi p{margin:0;font-size:.85rem;color:var(--muted)}
+.e1{--c-e:#7c5cbf}.e2{--c-e:#e05a8a}.e3{--c-e:#F39BC2}.e4{--c-e:#2a9d8f}.e5{--c-e:#8ED9D2}.e6{--c-e:#a87800}.e7{--c-e:#c25a30}
+.cle{background:#fff3e0;border-left:5px solid #e6a800;padding:.7em 1em;border-radius:var(--r-sm);font-size:1rem;color:#5a4a00;font-weight:700;margin:1rem 0}
+.regle-or{background:linear-gradient(135deg,#fff,var(--jaune-doux));border:2px solid #e6a800;padding:1rem 1.4rem;border-radius:var(--r-md);margin:1rem 0;text-align:center}
+.regle-or h3{margin-top:0;color:#a87800}
+
+/* Sommaire */
+.partie{margin:1.6rem 0;background:var(--beige);border-radius:var(--r-lg);padding:1.2rem 1.5rem;border-left:6px solid var(--c-p)}
+.partie h3{margin:0 0 .5rem;color:var(--c-p);font-size:1.15rem;display:flex;align-items:center;gap:.5rem}
+.partie .fiches{display:grid;gap:.4rem}
+.fiche-card{
+  display:grid;grid-template-columns:50px 1fr auto;gap:.7rem;align-items:center;
+  background:#fff;padding:.7rem 1rem;border-radius:var(--r-md);
+  border:1px solid var(--border);text-decoration:none;color:var(--texte);
+  transition:transform .15s, box-shadow .15s;
+}
+.fiche-card:hover{transform:translateX(4px);box-shadow:var(--shadow-sm);text-decoration:none}
+.fiche-num{background:var(--c-p);color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem}
+.fiche-content strong{display:block;color:var(--c-p);font-size:.98rem;margin-bottom:.1rem}
+.fiche-content .desc{font-size:.85rem;color:var(--muted);line-height:1.4}
+.fiche-card .fleche{color:var(--c-p);font-size:1.3rem;font-weight:700}
+.partie-1{--c-p:#7c5cbf}
+.partie-2{--c-p:#a02040}
+.partie-3{--c-p:#F39BC2}
+.partie-4{--c-p:#2a9d8f}
+.partie-5{--c-p:#a87800}
+
+/* Arbre décisionnel */
+.arbre-table{width:100%;border-collapse:collapse;font-size:.95rem;margin-top:.8rem}
+.arbre-table th, .arbre-table td{padding:.6em .9em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.arbre-table th{background:var(--violet-titre);color:#fff;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+.arbre-table tr:nth-child(even){background:var(--beige)}
+.arbre-table .situation{font-weight:700;color:var(--violet-titre)}
+.arbre-table .fiches-list{display:flex;flex-wrap:wrap;gap:.3rem}
+.arbre-table .fiche-pill{
+  background:#fff;border:1.5px solid var(--c-pill);color:var(--c-pill);
+  padding:.15em .55em;border-radius:999px;font-size:.78rem;font-weight:700;
+  text-decoration:none;display:inline-block;
+}
+.arbre-table .fiche-pill:hover{background:var(--c-pill);color:#fff}
+.pill-1, .pill-2, .pill-3, .pill-4{--c-pill:#7c5cbf}
+.pill-5, .pill-6, .pill-7{--c-pill:#a02040}
+.pill-8, .pill-9, .pill-10{--c-pill:#F39BC2}
+.pill-11, .pill-12{--c-pill:#2a9d8f}
+.pill-13, .pill-14, .pill-15{--c-pill:#a87800}
+
+@media print{
+  @page{size:A4;margin:1.5cm}
+  body{background:#fff}
+  .nav-classeur, .imp-btn, .retour{display:none !important}
+  .contenu{margin-left:0}
+  .page{
+    max-width:100%;margin:0;
+    box-shadow:none;border-radius:0;border:none;
+    page-break-after:always;
+    padding:1rem;
+  }
+  .page:last-child{page-break-after:auto}
+  .fiche-card{break-inside:avoid}
+  .principe, .etape-emploi{break-inside:avoid}
+  .garde{min-height:auto;padding:3rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<aside class="nav-classeur">
+  <a class="retour" href="index.html">← Boîte NeuroPed</a>
+  <h3>📑 Le classeur</h3>
+  <a href="#page-garde">1. Page de garde</a>
+  <a href="#page-cadre">2. Cadre professionnel</a>
+  <a href="#page-emploi">3. Mode d'emploi</a>
+  <a href="#page-sommaire">4. Sommaire des 15 fiches</a>
+  <a href="#page-arbre">5. Arbre décisionnel</a>
+  <button class="imp-btn" onclick="window.print()">🖨️ Imprimer le classeur entier</button>
+  <p style="margin-top:.8rem;font-size:.78rem;color:var(--muted);font-style:italic;line-height:1.4">
+    Conseil : « Imprimer au format PDF » pour conserver un classeur numérique.
+  </p>
+</aside>
+
+<main class="contenu">
+
+  <!-- PAGE 1 — Page de garde -->
+  <section id="page-garde" class="page garde">
+    <h1>Boîte à outils<br>neuro-pédagogique<br><span style="color:var(--rose-titre)">spécialisée TND</span></h1>
+    <p class="sous">Neurosciences · apprentissages · émotions · TCC · comportements · habiletés sociales · accompagnement des adolescents</p>
+    <div class="type">Classeur professionnel d'observation, d'accompagnement et de coordination</div>
+
+    <div class="blocs">
+      <div class="bloc">
+        <strong>Public concerné</strong>
+        Enfants, adolescents et jeunes présentant des besoins spécifiques liés aux apprentissages, à l'attention, aux fonctions exécutives, aux émotions, au comportement, à la sensorialité ou aux habiletés sociales.
+      </div>
+      <div class="bloc">
+        <strong>Utilisation</strong>
+        Accompagnement individuel · guidance parentale · coordination école-famille · préparation d'objectifs · suivi des progrès.
+      </div>
+      <div class="bloc">
+        <strong>Nom de la professionnelle</strong>
+        <input type="text" placeholder="ex : Nadia Haddoum">
+      </div>
+      <div class="bloc">
+        <strong>Année</strong>
+        <input type="text" placeholder="2026">
+      </div>
+    </div>
+
+    <p style="margin-top:2rem;font-size:.85rem;color:var(--muted)">Neuroo · Educa Typique</p>
+  </section>
+
+  <!-- PAGE 2 — Cadre professionnel -->
+  <section id="page-cadre" class="page">
+    <h1>📋 Cadre professionnel</h1>
+
+    <div class="cadre-bloc">
+      <h3>Objectif général du classeur</h3>
+      <p>Cette boîte à outils aide à mieux comprendre le fonctionnement de l'enfant ou de l'adolescent afin de proposer un accompagnement <strong>adapté, structuré et mesurable</strong>.</p>
+      <p>Elle permet de repérer les besoins : <em>cognitifs, attentionnels, exécutifs, émotionnels, sensoriels, comportementaux, d'apprentissage, relationnels, familiaux et scolaires.</em></p>
+      <p style="font-weight:700;font-style:italic;color:var(--rose-titre)">Le but n'est pas de faire « plus de fiches ». Le but est de prendre de meilleures décisions.</p>
+    </div>
+
+    <h2>Cadre d'utilisation</h2>
+    <p>Ce classeur peut être utilisé dans le cadre :</p>
+    <ul>
+      <li>d'un <strong>premier entretien</strong> avec une famille ;</li>
+      <li>d'une <strong>observation neuro-pédagogique</strong> ;</li>
+      <li>d'un <strong>accompagnement TND</strong> au long cours ;</li>
+      <li>d'une <strong>guidance parentale</strong> ;</li>
+      <li>d'un <strong>suivi adolescent</strong> ;</li>
+      <li>d'une <strong>coordination avec l'école</strong> (équipe éducative) ;</li>
+      <li>d'un <strong>travail autour des émotions</strong> ou des comportements difficiles ;</li>
+      <li>d'un <strong>suivi des objectifs et progrès</strong>.</li>
+    </ul>
+
+    <div class="limites">
+      <h3>⚠️ Limites professionnelles</h3>
+      <p>Ce document :</p>
+      <ul>
+        <li>ne pose pas de diagnostic médical ;</li>
+        <li>ne remplace pas un <strong>bilan neuropsychologique</strong> ;</li>
+        <li>ne remplace pas un <strong>bilan orthophonique</strong> ;</li>
+        <li>ne remplace pas un <strong>bilan psychomoteur ou ergothérapeutique</strong> ;</li>
+        <li>ne remplace pas une <strong>consultation médicale, pédopsychiatrique ou psychologique</strong> ;</li>
+        <li>ne remplace pas les <strong>dispositifs institutionnels</strong> : PAP, PPS, PAI, MDPH, équipe éducative.</li>
+      </ul>
+      <p style="margin-top:.6rem;font-style:italic;background:#fff;padding:.6em .8em;border-radius:var(--r-sm)">
+        <strong>Formulation à garder :</strong> « Les outils proposés permettent d'identifier des besoins fonctionnels et d'adapter l'accompagnement. Ils ne constituent pas un diagnostic. »
+      </p>
+    </div>
+
+    <h2>Cinq principes d'intervention</h2>
+    <div class="principes-grille">
+      <div class="principe p1" data-n="1">
+        <h4>Observer avant d'interpréter</h4>
+        <p>Un comportement doit être décrit avant d'être expliqué. Dire « il provoque » ne suffit pas.</p>
+      </div>
+      <div class="principe p2" data-n="2">
+        <h4>Adapter avant d'exiger</h4>
+        <p>L'exigence doit être maintenue quand elle est juste, mais rendue accessible.</p>
+      </div>
+      <div class="principe p3" data-n="3">
+        <h4>Enseigner les compétences</h4>
+        <p>On ne peut pas exiger durablement une compétence qui n'a jamais été enseignée. Demander « calme-toi » ne suffit pas.</p>
+      </div>
+      <div class="principe p4" data-n="4">
+        <h4>Mesurer les progrès</h4>
+        <p>Sans indicateurs, on navigue au ressenti. Et le ressenti adulte est parfois biaisé.</p>
+      </div>
+      <div class="principe p5" data-n="5">
+        <h4>Coordonner les adultes</h4>
+        <p>Un enfant TND a besoin de cohérence. Si chaque adulte improvise dans son coin, l'enfant paie la facture.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 3 — Mode d'emploi -->
+  <section id="page-emploi" class="page">
+    <h1>📖 Mode d'emploi synthétique</h1>
+    <p>Ce classeur s'utilise en suivant une logique simple. <strong>Pas besoin de tout remplir</strong> — il faut savoir ce qu'on cherche.</p>
+
+    <div class="etapes-emploi">
+      <div class="etape-emploi e1" data-n="1">
+        <h4>Observer</h4>
+        <p>Que se passe-t-il concrètement ?</p>
+      </div>
+      <div class="etape-emploi e2" data-n="2">
+        <h4>Comprendre</h4>
+        <p>Quel besoin ou fonction peut expliquer la difficulté ?</p>
+      </div>
+      <div class="etape-emploi e3" data-n="3">
+        <h4>Choisir l'outil</h4>
+        <p>Apprentissage, émotion, comportement, sensorialité, école, famille, social ?</p>
+      </div>
+      <div class="etape-emploi e4" data-n="4">
+        <h4>Fixer un objectif SMART</h4>
+        <p>Qu'est-ce qu'on veut voir changer précisément ?</p>
+      </div>
+      <div class="etape-emploi e5" data-n="5">
+        <h4>Mettre en place</h4>
+        <p>Support, adaptation, script, routine, protocole, guidance.</p>
+      </div>
+      <div class="etape-emploi e6" data-n="6">
+        <h4>Mesurer</h4>
+        <p>Est-ce que ça progresse réellement ?</p>
+      </div>
+      <div class="etape-emploi e7" data-n="7">
+        <h4>Ajuster</h4>
+        <p>Garder ce qui fonctionne. Modifier ce qui bloque.</p>
+      </div>
+    </div>
+
+    <div class="cle">
+      💡 <em>Phrase centrale :</em> Une fiche n'est utile que si elle conduit à une décision concrète.
+    </div>
+
+    <div class="regle-or">
+      <h3>📌 Règle d'or</h3>
+      <p style="margin:.4rem 0">Ne pas remplir toutes les fiches « pour faire complet ».</p>
+      <p style="margin:.4rem 0;font-style:italic;color:var(--texte);font-weight:700">
+        La bonne question est :<br>
+        « De quelle information ai-je besoin maintenant pour mieux accompagner cet enfant ? »
+      </p>
+      <p style="margin:.4rem 0;font-size:.9rem;color:var(--muted)">C'est cette question qui doit guider le choix de l'outil.</p>
+    </div>
+  </section>
+
+  <!-- PAGE 4 — Sommaire des 15 fiches -->
+  <section id="page-sommaire" class="page">
+    <h1>📑 Sommaire des 15 fiches</h1>
+    <p>Les fiches sont numérotées dans l'ordre logique d'utilisation. Clique sur une fiche pour l'ouvrir.</p>
+
+    <!-- Partie 1 — Évaluation globale -->
+    <div class="partie partie-1">
+      <h3>🔍 Partie 1 — Évaluation globale</h3>
+      <div class="fiches">
+        <a class="fiche-card" href="F_suivi/praticiens/anamnese-tnd.html">
+          <div class="fiche-num">1</div>
+          <div class="fiche-content">
+            <strong>Anamnèse neuro-pédagogique TND</strong>
+            <span class="desc">Recueillir les informations globales : développement, école, émotions, famille, forces.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+        <a class="fiche-card" href="A_reperage/praticiens/profil-fonctions-executives.html">
+          <div class="fiche-num">2</div>
+          <div class="fiche-content">
+            <strong>Profil des fonctions exécutives</strong>
+            <span class="desc">Repérer les fragilités attentionnelles, organisationnelles, mnésiques et exécutives.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+        <a class="fiche-card" href="A_reperage/praticiens/profil-competences-scolaires.html">
+          <div class="fiche-num">3</div>
+          <div class="fiche-content">
+            <strong>Profil d'accès aux apprentissages</strong>
+            <span class="desc">Identifier les conditions qui facilitent compréhension, mémorisation et restitution.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+        <a class="fiche-card" href="A_reperage/praticiens/profil-sensoriel.html">
+          <div class="fiche-num">4</div>
+          <div class="fiche-content">
+            <strong>Profil sensoriel simplifié</strong>
+            <span class="desc">Repérer surcharges, évitements, recherches sensorielles et besoins d'adaptation.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Partie 2 — Comportements et crises -->
+    <div class="partie partie-2">
+      <h3>🆘 Partie 2 — Comportements et crises</h3>
+      <div class="fiches">
+        <a class="fiche-card" href="B_observation/praticiens/grille-abc.html">
+          <div class="fiche-num">5</div>
+          <div class="fiche-content">
+            <strong>Grille ABC du comportement</strong>
+            <span class="desc">Observer antécédents, comportement, conséquences.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+        <a class="fiche-card" href="D_regulation/praticiens/protocole-crise.html">
+          <div class="fiche-num">6</div>
+          <div class="fiche-content">
+            <strong>Protocole de crise</strong>
+            <span class="desc">Savoir quoi faire avant, pendant et après une crise. Carte de poche imprimable.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+        <a class="fiche-card" href="B_observation/praticiens/analyse-fonctionnelle.html">
+          <div class="fiche-num">7</div>
+          <div class="fiche-content">
+            <strong>Analyse fonctionnelle + plan d'intervention</strong>
+            <span class="desc">Comprendre la fonction du comportement et enseigner une compétence de remplacement.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Partie 3 — Émotions et TCC -->
+    <div class="partie partie-3">
+      <h3>💗 Partie 3 — Émotions et TCC</h3>
+      <div class="fiches">
+        <a class="fiche-card" href="D_regulation/praticiens/thermometre-emotionnel.html">
+          <div class="fiche-num">8</div>
+          <div class="fiche-content">
+            <strong>Thermomètre émotionnel</strong>
+            <span class="desc">Identifier l'intensité émotionnelle et choisir une stratégie adaptée.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+        <a class="fiche-card" href="D_regulation/praticiens/roue-emotions.html">
+          <div class="fiche-num">9</div>
+          <div class="fiche-content">
+            <strong>Roue des émotions</strong>
+            <span class="desc">Nommer précisément les émotions et identifier les besoins associés.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+        <a class="fiche-card" href="C_comprehension/praticiens/triangle-tcc.html">
+          <div class="fiche-num">10</div>
+          <div class="fiche-content">
+            <strong>Triangle TCC pensée — émotion — comportement</strong>
+            <span class="desc">Relier situation, pensée, émotion, comportement et conséquence.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Partie 4 — Objectifs et suivi -->
+    <div class="partie partie-4">
+      <h3>🎯 Partie 4 — Objectifs et suivi</h3>
+      <div class="fiches">
+        <a class="fiche-card" href="F_suivi/praticiens/objectifs-smart.html">
+          <div class="fiche-num">11</div>
+          <div class="fiche-content">
+            <strong>Tableau d'objectifs SMART</strong>
+            <span class="desc">Transformer les besoins en objectifs précis et mesurables.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+        <a class="fiche-card" href="F_suivi/praticiens/tableau-suivi-progres.html">
+          <div class="fiche-num">12</div>
+          <div class="fiche-content">
+            <strong>Tableau de suivi des progrès</strong>
+            <span class="desc">Mesurer l'évolution, ajuster les stratégies, objectiver les progrès.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Partie 5 — Famille, école et social -->
+    <div class="partie partie-5">
+      <h3>🏫 Partie 5 — Famille, école et social</h3>
+      <div class="fiches">
+        <a class="fiche-card" href="F_suivi/praticiens/fiche-profil-eleve.html">
+          <div class="fiche-num">13</div>
+          <div class="fiche-content">
+            <strong>Fiche profil élève pour l'école</strong>
+            <span class="desc">Transmettre à l'équipe éducative besoins et adaptations prioritaires. Version courte A4.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+        <a class="fiche-card" href="F0_fondations/parents/guide-consignes-efficaces.html">
+          <div class="fiche-num">14</div>
+          <div class="fiche-content">
+            <strong>Guide parents : consignes efficaces</strong>
+            <span class="desc">Aider les parents à formuler des demandes claires, concrètes, adaptées.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+        <a class="fiche-card" href="A_reperage/praticiens/profil-habiletes-sociales.html">
+          <div class="fiche-num">15</div>
+          <div class="fiche-content">
+            <strong>Profil socio-relationnel + habiletés sociales</strong>
+            <span class="desc">Évaluer et entraîner compétences sociales, relationnelles et de protection.</span>
+          </div>
+          <div class="fleche">→</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 5 — Arbre décisionnel -->
+  <section id="page-arbre" class="page">
+    <h1>🧭 Arbre décisionnel rapide</h1>
+    <p>Quelle est la situation principale ? Quelles fiches utiliser en priorité ? Tableau de décision express.</p>
+
+    <table class="arbre-table">
+      <thead>
+        <tr><th style="width:42%">Situation principale</th><th>Fiches à utiliser en priorité</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="situation">Premier entretien</td><td class="fiches-list">
+          <a class="fiche-pill pill-1" href="F_suivi/praticiens/anamnese-tnd.html" title="Anamnèse">F1</a>
+        </td></tr>
+        <tr><td class="situation">Difficultés d'attention</td><td class="fiches-list">
+          <a class="fiche-pill pill-2" href="A_reperage/praticiens/profil-fonctions-executives.html" title="Profil FE">F2</a>
+          <a class="fiche-pill pill-11" href="F_suivi/praticiens/objectifs-smart.html" title="SMART">F11</a>
+          <a class="fiche-pill pill-12" href="F_suivi/praticiens/tableau-suivi-progres.html" title="Suivi">F12</a>
+        </td></tr>
+        <tr><td class="situation">Difficultés d'apprentissage</td><td class="fiches-list">
+          <a class="fiche-pill pill-2" href="A_reperage/praticiens/profil-fonctions-executives.html">F2</a>
+          <a class="fiche-pill pill-3" href="A_reperage/praticiens/profil-competences-scolaires.html">F3</a>
+          <a class="fiche-pill pill-11" href="F_suivi/praticiens/objectifs-smart.html">F11</a>
+          <a class="fiche-pill pill-12" href="F_suivi/praticiens/tableau-suivi-progres.html">F12</a>
+        </td></tr>
+        <tr><td class="situation">Blocage scolaire / devoirs</td><td class="fiches-list">
+          <a class="fiche-pill pill-5" href="B_observation/praticiens/grille-abc.html">F5</a>
+          <a class="fiche-pill pill-2" href="A_reperage/praticiens/profil-fonctions-executives.html">F2</a>
+          <a class="fiche-pill pill-3" href="A_reperage/praticiens/profil-competences-scolaires.html">F3</a>
+          <a class="fiche-pill pill-10" href="C_comprehension/praticiens/triangle-tcc.html">F10</a>
+          <a class="fiche-pill pill-11" href="F_suivi/praticiens/objectifs-smart.html">F11</a>
+        </td></tr>
+        <tr><td class="situation">Crises émotionnelles</td><td class="fiches-list">
+          <a class="fiche-pill pill-8" href="D_regulation/praticiens/thermometre-emotionnel.html">F8</a>
+          <a class="fiche-pill pill-9" href="D_regulation/praticiens/roue-emotions.html">F9</a>
+          <a class="fiche-pill pill-6" href="D_regulation/praticiens/protocole-crise.html">F6</a>
+          <a class="fiche-pill pill-12" href="F_suivi/praticiens/tableau-suivi-progres.html">F12</a>
+        </td></tr>
+        <tr><td class="situation">Opposition répétée</td><td class="fiches-list">
+          <a class="fiche-pill pill-5" href="B_observation/praticiens/grille-abc.html">F5</a>
+          <a class="fiche-pill pill-10" href="C_comprehension/praticiens/triangle-tcc.html">F10</a>
+          <a class="fiche-pill pill-14" href="F0_fondations/parents/guide-consignes-efficaces.html">F14</a>
+          <a class="fiche-pill pill-7" href="B_observation/praticiens/analyse-fonctionnelle.html">F7</a>
+        </td></tr>
+        <tr><td class="situation">Comportement problématique répétitif</td><td class="fiches-list">
+          <a class="fiche-pill pill-5" href="B_observation/praticiens/grille-abc.html">F5</a>
+          <a class="fiche-pill pill-7" href="B_observation/praticiens/analyse-fonctionnelle.html">F7</a>
+          <a class="fiche-pill pill-12" href="F_suivi/praticiens/tableau-suivi-progres.html">F12</a>
+        </td></tr>
+        <tr><td class="situation">Surcharge sensorielle</td><td class="fiches-list">
+          <a class="fiche-pill pill-4" href="A_reperage/praticiens/profil-sensoriel.html">F4</a>
+          <a class="fiche-pill pill-8" href="D_regulation/praticiens/thermometre-emotionnel.html">F8</a>
+          <a class="fiche-pill pill-6" href="D_regulation/praticiens/protocole-crise.html">F6</a>
+        </td></tr>
+        <tr><td class="situation">Difficultés avec l'école</td><td class="fiches-list">
+          <a class="fiche-pill pill-3" href="A_reperage/praticiens/profil-competences-scolaires.html">F3</a>
+          <a class="fiche-pill pill-4" href="A_reperage/praticiens/profil-sensoriel.html">F4</a>
+          <a class="fiche-pill pill-11" href="F_suivi/praticiens/objectifs-smart.html">F11</a>
+          <a class="fiche-pill pill-13" href="F_suivi/praticiens/fiche-profil-eleve.html">F13</a>
+        </td></tr>
+        <tr><td class="situation">Parents épuisés</td><td class="fiches-list">
+          <a class="fiche-pill pill-14" href="F0_fondations/parents/guide-consignes-efficaces.html">F14</a>
+          <a class="fiche-pill pill-12" href="F_suivi/praticiens/tableau-suivi-progres.html">F12</a>
+        </td></tr>
+        <tr><td class="situation">Anxiété / évitement</td><td class="fiches-list">
+          <a class="fiche-pill pill-8" href="D_regulation/praticiens/thermometre-emotionnel.html">F8</a>
+          <a class="fiche-pill pill-9" href="D_regulation/praticiens/roue-emotions.html">F9</a>
+          <a class="fiche-pill pill-10" href="C_comprehension/praticiens/triangle-tcc.html">F10</a>
+          <a class="fiche-pill pill-11" href="F_suivi/praticiens/objectifs-smart.html">F11</a>
+          <a class="fiche-pill pill-12" href="F_suivi/praticiens/tableau-suivi-progres.html">F12</a>
+        </td></tr>
+        <tr><td class="situation">Difficultés sociales</td><td class="fiches-list">
+          <a class="fiche-pill pill-9" href="D_regulation/praticiens/roue-emotions.html">F9</a>
+          <a class="fiche-pill pill-10" href="C_comprehension/praticiens/triangle-tcc.html">F10</a>
+          <a class="fiche-pill pill-15" href="A_reperage/praticiens/profil-habiletes-sociales.html">F15</a>
+        </td></tr>
+        <tr><td class="situation">Harcèlement ou vulnérabilité sociale</td><td class="fiches-list">
+          <a class="fiche-pill pill-13" href="F_suivi/praticiens/fiche-profil-eleve.html">F13</a>
+          <a class="fiche-pill pill-15" href="A_reperage/praticiens/profil-habiletes-sociales.html">F15</a>
+        </td></tr>
+        <tr><td class="situation">Besoin de mesurer l'évolution</td><td class="fiches-list">
+          <a class="fiche-pill pill-11" href="F_suivi/praticiens/objectifs-smart.html">F11</a>
+          <a class="fiche-pill pill-12" href="F_suivi/praticiens/tableau-suivi-progres.html">F12</a>
+        </td></tr>
+      </tbody>
+    </table>
+
+    <div class="cle" style="margin-top:1.4rem">
+      🧠 <em>Comment lire ce tableau :</em> ligne par situation ; les badges représentent les fiches (F1 à F15) prioritaires à consulter. Toutes les pastilles sont cliquables.
+    </div>
+
+    <footer style="margin-top:2.5rem">
+      <div style="background:linear-gradient(135deg,#fff,#f5f0fa);border-radius:var(--r-lg);padding:1.4rem 1.6rem;border-top:4px solid var(--violet-titre);box-shadow:var(--shadow-sm);text-align:center">
+        <div style="font-family:var(--font-titre);font-size:1rem;color:var(--violet-titre);font-weight:800;margin-bottom:.4rem">📚 Classeur professionnel TND</div>
+        <p style="color:var(--muted);font-size:.9rem;margin:.3rem 0 .8rem">Création originale Nawel Haddouch · EducaTypique<br>
+          <span style="font-size:.82rem">15 fiches structurées · Imprimable A4 · Vue alternative à l'espace pros</span></p>
+        <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-top:.7rem">
+          <a href="index.html" style="padding:.45em 1em;background:#fff;border:1.5px solid var(--violet-titre);color:var(--violet-titre);border-radius:999px;text-decoration:none;font-weight:700;font-size:.82rem">🏠 Accueil</a>
+          <a href="professionnels.html" style="padding:.45em 1em;background:#fff;border:1.5px solid var(--pub-praticiens);color:var(--violet-titre);border-radius:999px;text-decoration:none;font-weight:700;font-size:.82rem">🎓 Espace pros (38 outils)</a>
+          <a href="aujourdhui.html" style="padding:.45em 1em;background:#fff;border:1.5px solid var(--rose-titre);color:var(--rose-titre);border-radius:999px;text-decoration:none;font-weight:700;font-size:.82rem">📍 Mode Aujourd'hui</a>
+          <a href="a-propos.html" style="padding:.45em 1em;background:var(--violet-titre);color:#fff;border-radius:999px;text-decoration:none;font-weight:700;font-size:.82rem">ℹ️ À propos</a>
+        </div>
+        <p style="margin-top:1rem;font-size:.75rem;color:#999;font-style:italic">© 2026 Nawel Haddouch · EducaTypique — Outils non-diagnostiques</p>
+      </div>
+    </footer>
+  </section>
+
+</main>
+
+<script>
+// Surlignage nav au scroll
+const navLinks = document.querySelectorAll('.nav-classeur a[href^="#"]');
+const pages = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+function majNav(){
+  let actif = pages[0];
+  pages.forEach(p=>{ if(p && p.getBoundingClientRect().top < 200) actif = p; });
+  navLinks.forEach(a=>{
+    a.classList.toggle('actif', actif && a.getAttribute('href') === '#'+actif.id);
+  });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+majNav();
+</script>
+
+</body>
+</html>

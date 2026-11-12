@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrice Urgent / Important — Maman charge mentale · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fff5f8,#fff)}
+.bandeau{background:linear-gradient(135deg,#E89BB8,#CBB6F6,#F6C9A8);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:1000px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1.1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #E89BB8;line-height:1.55}
+.intro strong{color:#a04268}
+
+.add-bar{background:#fff;padding:.9rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.add-bar input[type="text"]{flex:1;min-width:200px;padding:.5em .8em;border:1.5px solid #f0d8e0;border-radius:var(--r-md);font-family:inherit;font-size:.95rem}
+.add-bar select{padding:.5em .8em;border:1.5px solid #f0d8e0;border-radius:var(--r-md);font-family:inherit;font-size:.92rem}
+.add-bar button{padding:.55em 1.2em;background:#E89BB8;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.92rem}
+.add-bar button:hover{background:#c25a8a}
+
+.matrice{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:700px){.matrice{grid-template-columns:1fr}}
+.quadrant{background:#fff;border-radius:var(--r-lg);padding:1rem 1.1rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c);min-height:200px}
+.quadrant h3{color:var(--c);margin:0 0 .15rem;font-size:1.05rem;display:flex;align-items:center;gap:.4rem}
+.quadrant .badge{font-size:.7rem;font-weight:800;background:var(--c);color:#fff;padding:.15em .55em;border-radius:999px;margin-left:auto}
+.quadrant .action-titre{font-size:.78rem;color:var(--c);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.4rem;opacity:.85}
+.quadrant .liste{display:flex;flex-direction:column;gap:.3rem}
+.quadrant .item{background:#faf6f8;border-left:3px solid var(--c);border-radius:var(--r-sm);padding:.5rem .6rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;font-size:.9rem;line-height:1.4}
+.quadrant .item.done{opacity:.4;text-decoration:line-through}
+.quadrant .item .actions{display:flex;gap:.2rem}
+.quadrant .item button{padding:.15em .5em;font-size:.78rem;background:#fff;color:#666;border:1px solid #e0d8d0;border-radius:var(--r-sm);cursor:pointer}
+.quadrant .item button:hover{background:var(--c);color:#fff;border-color:var(--c)}
+.quadrant .item button.check{color:#5fa040;border-color:#5fa040}
+.quadrant .item button.check:hover{background:#5fa040;color:#fff}
+.quadrant .empty{color:#aaa;font-style:italic;font-size:.85rem;text-align:center;padding:1rem .5rem}
+
+.q1{--c:#c25a30} /* URGENT IMPORTANT - faire maintenant */
+.q2{--c:#5fa040} /* IMPORTANT non urgent - planifier */
+.q3{--c:#e9a73a} /* URGENT non important - déléguer */
+.q4{--c:#888}    /* ni urgent ni important - lâcher */
+
+.charge-mentale{background:linear-gradient(135deg,#fff,#fff5f8);border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-left:5px solid #CBB6F6}
+.charge-mentale h3{margin:0 0 .4rem;color:#7c5cbf}
+.charge-mentale p{margin:.2rem 0;font-size:.92rem;line-height:1.55;color:#555}
+.charge-mentale .stats{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+.charge-mentale .stat{background:#fff;border-radius:var(--r-md);padding:.4rem .8rem;font-size:.85rem;font-weight:700;border:1.5px solid var(--c)}
+.charge-mentale .stat .nb{font-size:1.3rem;color:var(--c);font-weight:800}
+
+.actions-globales{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions-globales button{padding:.55em 1.2em;border:2px solid #E89BB8;background:#fff;color:#a04268;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions-globales button:hover{background:#E89BB8;color:#fff}
+.actions-globales .danger{border-color:#c25a30;color:#c25a30}
+.actions-globales .danger:hover{background:#c25a30;color:#fff}
+
+.exemples{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm)}
+.exemples h3{margin:0 0 .5rem;color:#7c5cbf;font-size:1rem}
+.exemples-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem}
+.exemples .ex-card{background:#faf6fb;border-radius:var(--r-sm);padding:.5rem .7rem;font-size:.83rem;line-height:1.4;border-top:3px solid var(--c)}
+.exemples .ex-card strong{color:var(--c);display:block;margin-bottom:.15rem;font-size:.85rem}
+
+@media print{
+  .add-bar,.actions-globales,.exemples{display:none!important}
+  body{background:#fff}
+  .quadrant{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../parents.html">← Espace parents</a>
+  <h1>📊 Matrice Urgent / Important</h1>
+  <p class="sub">Pour mamans atypiques + charge mentale TND : trier ce qui mérite ton énergie aujourd'hui. Et surtout — <em>ce qui n'en mérite pas</em>.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    📊 <strong>Pourquoi ?</strong> Quand on est maman d'enfants TND (ou soi-même atypique), la charge mentale explose : MDPH, devoirs, RDV pédopsy, école, fratrie, ménage… <strong>Tout semble urgent ET important.</strong> Ce n'est pas vrai. Cet outil te fait trier en 4 cases, façon matrice Eisenhower adaptée maman atypique.
+  </div>
+
+  <div class="add-bar">
+    <input type="text" id="nouvelle-tache" placeholder="Ex: « Faire le dossier MDPH », « Appeler la pédopsy », « Acheter cahiers »…">
+    <select id="quadrant-select">
+      <option value="q1">🔥 Urgent ET important</option>
+      <option value="q2">🌱 Important PAS urgent</option>
+      <option value="q3">⚡ Urgent PAS important</option>
+      <option value="q4">💨 Ni urgent ni important</option>
+    </select>
+    <button id="btn-add">+ Ajouter</button>
+  </div>
+
+  <div class="matrice">
+    <div class="quadrant q1" id="q1">
+      <h3>🔥 Urgent ET Important <span class="badge" id="count-q1">0</span></h3>
+      <div class="action-titre">→ FAIRE MAINTENANT</div>
+      <div class="liste" id="liste-q1"></div>
+    </div>
+    <div class="quadrant q2" id="q2">
+      <h3>🌱 Important · Pas urgent <span class="badge" id="count-q2">0</span></h3>
+      <div class="action-titre">→ PLANIFIER (la vraie zone à investir)</div>
+      <div class="liste" id="liste-q2"></div>
+    </div>
+    <div class="quadrant q3" id="q3">
+      <h3>⚡ Urgent · Pas important <span class="badge" id="count-q3">0</span></h3>
+      <div class="action-titre">→ DÉLÉGUER · DÉLESTER</div>
+      <div class="liste" id="liste-q3"></div>
+    </div>
+    <div class="quadrant q4" id="q4">
+      <h3>💨 Ni urgent ni important <span class="badge" id="count-q4">0</span></h3>
+      <div class="action-titre">→ LÂCHER (oui, vraiment)</div>
+      <div class="liste" id="liste-q4"></div>
+    </div>
+  </div>
+
+  <div class="charge-mentale">
+    <h3>💛 Lecture de ta charge mentale</h3>
+    <div id="lecture-charge"></div>
+    <div class="stats">
+      <div class="stat" style="--c:#c25a30">🔥 <span class="nb" id="s-q1">0</span> Faire</div>
+      <div class="stat" style="--c:#5fa040">🌱 <span class="nb" id="s-q2">0</span> Planifier</div>
+      <div class="stat" style="--c:#e9a73a">⚡ <span class="nb" id="s-q3">0</span> Déléguer</div>
+      <div class="stat" style="--c:#888">💨 <span class="nb" id="s-q4">0</span> Lâcher</div>
+    </div>
+  </div>
+
+  <div class="exemples">
+    <h3>💡 Exemples pour t'aider à trier (clique pour ajouter)</h3>
+    <div class="exemples-grid">
+      <div class="ex-card" style="--c:#c25a30" data-q="q1" data-t="Rappeler médecin pour rdv urgent enfant"><strong>🔥 Urgent + Important</strong>Rappeler médecin pour rdv urgent enfant</div>
+      <div class="ex-card" style="--c:#c25a30" data-q="q1" data-t="Récupérer ordonnance ce soir"><strong>🔥 Urgent + Important</strong>Récupérer ordonnance ce soir</div>
+      <div class="ex-card" style="--c:#5fa040" data-q="q2" data-t="Remplir le dossier MDPH"><strong>🌱 Important PAS urgent</strong>Remplir le dossier MDPH (1 page par jour)</div>
+      <div class="ex-card" style="--c:#5fa040" data-q="q2" data-t="Prendre rdv kiné pour moi"><strong>🌱 Important PAS urgent</strong>Prendre rdv kiné pour MOI</div>
+      <div class="ex-card" style="--c:#5fa040" data-q="q2" data-t="Préparer la rentrée à l'avance"><strong>🌱 Important PAS urgent</strong>Préparer la rentrée à l'avance</div>
+      <div class="ex-card" style="--c:#e9a73a" data-q="q3" data-t="Répondre au mail école sur sortie"><strong>⚡ Urgent PAS important</strong>Mail école sortie (le conjoint peut)</div>
+      <div class="ex-card" style="--c:#e9a73a" data-q="q3" data-t="Refaire le linge plié comme il faut"><strong>⚡ Urgent PAS important</strong>Refaire le linge plié « comme il faut » (vraiment ?)</div>
+      <div class="ex-card" style="--c:#888" data-q="q4" data-t="Vérifier les posts insta"><strong>💨 Ni / ni</strong>Vérifier les posts insta</div>
+      <div class="ex-card" style="--c:#888" data-q="q4" data-t="Ranger le tiroir à bordel"><strong>💨 Ni / ni</strong>Ranger le tiroir à bordel (cette semaine)</div>
+    </div>
+  </div>
+
+  <div class="actions-globales">
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer</button>
+    <button class="danger" id="btn-tout-vider">🧹 Tout vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Outil d'organisation. Si la charge mentale reste écrasante malgré le tri, c'est signe qu'il faut <strong>déléguer pour de vrai</strong> et/ou <strong>consulter</strong> (médecin, psy, soutien parental).
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../parents.html" style="color:#a04268">retour espace parents</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_matrice_urg_imp_v1';
+let taches={q1:[],q2:[],q3:[],q4:[]};
+
+function load(){try{const r=localStorage.getItem(KEY);if(r)taches=JSON.parse(r)}catch(e){}}
+function save(){localStorage.setItem(KEY,JSON.stringify(taches))}
+
+function render(){
+  ['q1','q2','q3','q4'].forEach(q=>{
+    const l=document.getElementById('liste-'+q);
+    const arr=taches[q]||[];
+    if(arr.length===0){l.innerHTML='<div class="empty">Vide pour l\'instant</div>'}
+    else{
+      l.innerHTML=arr.map((t,i)=>`<div class="item ${t.done?'done':''}">
+        <span>${t.txt.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}</span>
+        <span class="actions">
+          <button class="check" data-act="check" data-q="${q}" data-i="${i}" title="Cocher">${t.done?'↩':'✓'}</button>
+          <button data-act="up" data-q="${q}" data-i="${i}" title="Déplacer">↗</button>
+          <button data-act="del" data-q="${q}" data-i="${i}" title="Supprimer">×</button>
+        </span>
+      </div>`).join('');
+    }
+    document.getElementById('count-'+q).textContent=arr.length;
+    document.getElementById('s-'+q).textContent=arr.length;
+  });
+  document.querySelectorAll('.quadrant button[data-act]').forEach(b=>{
+    b.onclick=()=>{
+      const q=b.dataset.q;const i=parseInt(b.dataset.i);
+      if(b.dataset.act==='check'){taches[q][i].done=!taches[q][i].done}
+      else if(b.dataset.act==='up'){
+        const nxt=prompt('Déplacer vers :\nq1 = Urgent+Important · q2 = Important pas urgent · q3 = Urgent pas important · q4 = Ni/ni');
+        if(['q1','q2','q3','q4'].includes(nxt) && nxt!==q){const t=taches[q].splice(i,1)[0];taches[nxt].push(t);}
+      }
+      else if(b.dataset.act==='del'){taches[q].splice(i,1)}
+      save();render();majLecture();
+    };
+  });
+  majLecture();
+}
+
+function majLecture(){
+  const total=['q1','q2','q3','q4'].reduce((s,q)=>s+(taches[q]||[]).length,0);
+  const n1=(taches.q1||[]).length, n2=(taches.q2||[]).length, n3=(taches.q3||[]).length, n4=(taches.q4||[]).length;
+  let txt='';
+  if(total===0){txt='<em style="color:#888">Aucune tâche pour le moment. Commence par ajouter ce que tu as en tête.</em>'}
+  else{
+    if(n1>=5) txt+=`<p>🔥 <strong>${n1} tâches urgentes ET importantes</strong> — c'est beaucoup, ta charge mentale est explosive en ce moment. Sécurise UN repas + UNE nuit + UN moment pour toi avant de courir.</p>`;
+    else if(n1>=1) txt+=`<p>🔥 <strong>${n1} tâche${n1>1?'s':''} urgente${n1>1?'s':''} et importante${n1>1?'s':''}</strong> : à faire en premier aujourd'hui. Pas toutes — la plus critique d'abord.</p>`;
+    if(n2>n1+1) txt+=`<p>🌱 <strong>Bonne nouvelle</strong> : tu as ${n2} choses importantes mais non urgentes — c'est la zone gagnante. <em>Planifier ces tâches AVANT qu'elles deviennent urgentes</em>, c'est ça qui te sauve.</p>`;
+    if(n3>=3) txt+=`<p>⚡ <strong>${n3} tâches urgentes pas vraiment importantes</strong> — ce sont des voleuses de temps. Demande-toi : qui d'autre peut faire ça ? (conjoint · grands enfants · automatiser · payer si possible).</p>`;
+    if(n4>=2) txt+=`<p>💨 <strong>${n4} choses ni urgentes ni importantes</strong> — autorise-toi à NE PAS les faire. Ton cerveau de maman atypique a besoin de blanc, pas de tout cocher.</p>`;
+    if(n1+n2+n3>=10) txt+=`<p style="color:#a04268;font-weight:700">💛 <strong>Rappel Nawel :</strong> tu portes beaucoup. C'est pas un signe que tu rates, c'est un signe qu'on t'a appris à TOUT porter. Tu as le droit de poser des choses.</p>`;
+  }
+  document.getElementById('lecture-charge').innerHTML=txt;
+}
+
+document.getElementById('btn-add').onclick=()=>{
+  const txt=document.getElementById('nouvelle-tache').value.trim();
+  if(!txt)return;
+  const q=document.getElementById('quadrant-select').value;
+  taches[q].push({txt,done:false,date:new Date().toISOString()});
+  save();render();
+  document.getElementById('nouvelle-tache').value='';
+};
+document.getElementById('nouvelle-tache').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('btn-add').click()});
+
+document.querySelectorAll('.exemples .ex-card').forEach(c=>{
+  c.onclick=()=>{
+    taches[c.dataset.q].push({txt:c.dataset.t,done:false,date:new Date().toISOString()});
+    save();render();
+  };
+});
+
+document.getElementById('btn-tout-vider').onclick=()=>{
+  if(confirm('Vider toute la matrice ?')){taches={q1:[],q2:[],q3:[],q4:[]};save();render();}
+};
+document.getElementById('btn-export').onclick=()=>{
+  const titres={q1:'🔥 URGENT ET IMPORTANT (faire maintenant)',q2:'🌱 IMPORTANT PAS URGENT (planifier)',q3:'⚡ URGENT PAS IMPORTANT (déléguer)',q4:'💨 NI URGENT NI IMPORTANT (lâcher)'};
+  let t=`MATRICE URGENT / IMPORTANT · Maman atypique\nEducaTypique · Création originale Nawel Haddouch\n${new Date().toLocaleDateString('fr-FR')}\n\n`;
+  ['q1','q2','q3','q4'].forEach(q=>{
+    t+=`${titres[q]}\n${'-'.repeat(60)}\n`;
+    if((taches[q]||[]).length===0) t+='(vide)\n';
+    else taches[q].forEach(x=>t+=`${x.done?'[x]':'[ ]'} ${x.txt}\n`);
+    t+='\n';
+  });
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`matrice-${new Date().toISOString().slice(0,10)}.txt`;a.click();
+};
+
+load();render();
+</script>
+
+</body>
+</html>

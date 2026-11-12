@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier ZPD 55 min — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#eef6f5,#fff)}
+.bandeau{background:linear-gradient(135deg,#2a9d8f,#5fa040);padding:1.8rem 1.5rem;text-align:center;color:#fff}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.7rem}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9}
+
+.wrap{max-width:1000px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid #2a9d8f;line-height:1.55}
+.intro strong{color:#1a6a5a}
+
+.dossier-bar{background:#fff;padding:.8rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.dossier-bar input,.dossier-bar select{padding:.4em .8em;border:1.5px solid #c5dfdb;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;flex:1;min-width:140px}
+.dossier-bar button{padding:.4em 1em;background:#2a9d8f;color:#fff;border:none;border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.85rem}
+.dossier-bar button.ghost{background:#fff;color:#1a6a5a;border:1.5px solid #c5dfdb}
+
+.timer-bloc{background:linear-gradient(135deg,#fff,#fafdf5);border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:5px solid #5fa040;text-align:center}
+.timer-display{font-size:3rem;font-weight:800;color:#3d6e25;font-family:'Courier New',monospace;letter-spacing:2px;margin:.3rem 0}
+.timer-actuelle{font-size:.92rem;color:#666;font-style:italic}
+.timer-actions{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-top:.6rem}
+.timer-actions button{padding:.5em 1.2em;background:#5fa040;color:#fff;border:none;border-radius:999px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.9rem}
+.timer-actions button.pause{background:#e9a73a}
+.timer-actions button.reset{background:#c25a30}
+
+.phase-card{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--c)}
+.phase-card h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem;display:flex;align-items:center;gap:.4rem;justify-content:space-between;flex-wrap:wrap}
+.phase-card .duree{background:var(--c);color:#fff;font-size:.78rem;font-weight:800;padding:.2em .6em;border-radius:999px;letter-spacing:.5px}
+.phase-card .objectif{background:#faf6f8;border-left:4px solid var(--c);padding:.6rem .9rem;border-radius:var(--r-sm);margin-bottom:.5rem;font-size:.92rem;line-height:1.5;color:#444;font-style:italic}
+.phase-card h3{color:var(--c);margin:.5rem 0 .3rem;font-size:.95rem}
+.phase-card ul{margin:.2rem 0;padding-left:1.3rem;font-size:.88rem;line-height:1.6}
+.phase-card .obs-box{background:#faf9e8;border-radius:var(--r-sm);padding:.6rem .9rem;border-left:3px solid #e9a73a;font-size:.85rem;color:#5a4400;margin-top:.4rem;line-height:1.5}
+.phase-card .obs-box strong{color:#7a5400}
+.phase-card textarea{width:100%;margin-top:.5rem;padding:.5em .7em;border:1.5px solid #c5dfdb;border-radius:var(--r-sm);font-family:inherit;font-size:.9rem;background:#fff;min-height:60px;resize:vertical;line-height:1.5}
+
+.p1{--c:#F39BC2} /* Entrée relation */
+.p2{--c:#7c5cbf} /* Zone autonomie */
+.p3{--c:#2a9d8f} /* ZPD */
+.p4{--c:#e9a73a} /* Verbalisation */
+
+/* Tableau résultats */
+.zpd-tableau{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:5px solid #5a3c8f}
+.zpd-tableau h2{color:#5a3c8f;margin:0 0 .4rem}
+.tableau-grid{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.5rem}
+.tableau-grid th{background:#f0e8f5;color:#5a3c8f;padding:.5em .6em;text-align:left;font-weight:700;font-size:.85rem;border:1px solid #d8c9f0}
+.tableau-grid td{padding:.5em .6em;border:1px solid #e0d0e8;vertical-align:top}
+.tableau-grid td:first-child{background:#faf6fb;font-weight:700;color:#5a3c8f}
+.tableau-grid textarea{width:100%;padding:.35em .5em;border:1px solid #e0d0e8;border-radius:var(--r-sm);font-family:inherit;font-size:.85rem;background:#fff;min-height:40px;resize:vertical;line-height:1.4}
+.tableau-grid .zpd-toggle{display:flex;gap:.4rem;justify-content:center}
+.tableau-grid .zpd-toggle label{padding:.25em .6em;border:1.5px solid #c5dfdb;border-radius:var(--r-sm);cursor:pointer;font-size:.78rem;font-weight:700;color:#666}
+.tableau-grid .zpd-toggle input{display:none}
+.tableau-grid .zpd-toggle input:checked + .v{background:#5fa040;color:#fff;border-radius:var(--r-sm);padding:.25em .6em;border:1.5px solid #5fa040}
+@media (max-width:700px){.tableau-grid,.tableau-grid thead,.tableau-grid tbody,.tableau-grid tr,.tableau-grid th,.tableau-grid td{display:block}.tableau-grid tr{margin-bottom:.7rem;border:1px solid #d8c9f0;border-radius:var(--r-md);padding:.4rem}.tableau-grid td:first-child{background:transparent;font-size:.95rem;color:#5a3c8f}.tableau-grid th{display:none}}
+
+.plan-etayage{background:linear-gradient(135deg,#fff,#fafdf5);border-radius:var(--r-md);padding:.9rem 1.1rem;border-left:5px solid #5fa040;margin-top:.6rem}
+.plan-etayage h3{color:#3d6e25;margin:0 0 .3rem}
+.plan-etayage textarea{width:100%;padding:.5em;border:1.5px solid #c5e0b5;border-radius:var(--r-sm);font-family:inherit;font-size:.92rem;background:#fff;min-height:80px;resize:vertical;line-height:1.55}
+
+.actions{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid #2a9d8f;background:#fff;color:#1a6a5a;border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:#2a9d8f;color:#fff}
+.actions .primary{background:#2a9d8f;color:#fff}
+.actions .danger{border-color:#c25a30;color:#c25a30}
+
+@media print{
+  body{background:#fff}
+  .timer-bloc,.dossier-bar,.actions,.bandeau .retour{display:none!important}
+  .phase-card,.zpd-tableau,.intro{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace pros</a>
+  <h1>⏱️ Atelier ZPD — 55 minutes</h1>
+  <p class="sub">Protocole d'évaluation chronométré en 4 phases pour repérer la Zone Proximale de Développement (Vygotski). Profil sous-réalisation / agitation classe.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    ⏱️ <strong>Objectif :</strong> Identifier précisément OÙ se situe la <strong>ZPD active</strong> de l'enfant : l'écart entre ce qu'il/elle fait SEUL(e) vs AVEC AIDE. La ZPD = la fenêtre d'apprentissage active. Connaître son type d'étayage efficace = personnaliser l'accompagnement.
+  </div>
+
+  <div class="dossier-bar">
+    <input type="text" data-k="prenom" placeholder="Prénom / initiales">
+    <input type="text" data-k="age" placeholder="Âge">
+    <input type="date" data-k="date">
+  </div>
+  <div class="dossier-bar">
+    <select id="dossier"></select>
+    <button class="ghost" id="btn-new">+ Nouvel atelier</button>
+    <button class="ghost" id="btn-rename">✎</button>
+    <button class="ghost" id="btn-delete">🗑</button>
+  </div>
+
+  <!-- TIMER -->
+  <div class="timer-bloc">
+    <div class="timer-actuelle" id="phase-en-cours">⏱ Atelier non démarré — clique sur ▶</div>
+    <div class="timer-display" id="timer">55:00</div>
+    <div class="timer-actions">
+      <button id="btn-start">▶ Démarrer</button>
+      <button class="pause" id="btn-pause">⏸ Pause</button>
+      <button class="reset" id="btn-reset">↻ Reset</button>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <section class="phase-card p1">
+    <h2>1️⃣ Entrée en relation <span class="duree">10 min</span></h2>
+    <div class="objectif">🎯 <strong>Sécuriser</strong> l'enfant avant toute évaluation. Sans alliance, pas de ZPD juste.</div>
+    <h3>Activités</h3>
+    <ul>
+      <li>Jeu libre · dessin libre · ce qu'il/elle aime</li>
+      <li>Question d'accueil : « Qu'est-ce que tu as fait ce week-end ? »</li>
+      <li>Pas de chronomètre visible, ton léger</li>
+    </ul>
+    <div class="obs-box"><strong>Observer :</strong> posture · regard · inconfort · tension corporelle · capacité de contact</div>
+    <textarea data-p="p1" placeholder="Notes phase 1 (entrée en relation) : posture, regard, ce qui sécurise, ce qui inquiète..."></textarea>
+  </section>
+
+  <!-- PHASE 2 -->
+  <section class="phase-card p2">
+    <h2>2️⃣ Zone d'autonomie <span class="duree">15 min</span></h2>
+    <div class="objectif">🎯 <strong>Mesurer ce que l'enfant fait SEUL(e)</strong> sans aide. Établir la ligne de base.</div>
+    <h3>Activités (adapter à l'âge)</h3>
+    <ul>
+      <li>Puzzle adapté (15-20 pièces pour 5-7 ans · 50 pièces pour 8-10 ans)</li>
+      <li>Dictée de sons simples / mots simples (selon âge)</li>
+      <li>1 problème math simple (selon niveau scolaire)</li>
+      <li><strong>Consigne</strong> : « Fais ce que tu peux. Si tu bloques, dis-moi. Je ne t'aide pas pour cette première phase. »</li>
+    </ul>
+    <div class="obs-box"><strong>Observer :</strong> stratégies spontanées · ce qu'il/elle réussit seul(e) · ce qu'il/elle ne tente même pas · réactions à la difficulté</div>
+    <textarea data-p="p2" placeholder="Notes phase 2 (autonomie) : ce qu'il/elle a réussi SEUL(e), ce qu'il/elle a abandonné, stratégies spontanées..."></textarea>
+  </section>
+
+  <!-- PHASE 3 -->
+  <section class="phase-card p3">
+    <h2>3️⃣ Exploration de la ZPD <span class="duree">20 min</span></h2>
+    <div class="objectif">🎯 <strong>Mesurer ce que l'enfant fait AVEC ÉTAYAGE</strong>. Identifier quel type d'aide est efficace.</div>
+    <h3>Activités étayées</h3>
+    <ul>
+      <li><strong>Lecture étayée</strong> : texte adapté niveau + ton aide selon besoin (questions, indices, modèle)</li>
+      <li><strong>Problème avec questions-guides</strong> : « Qu'est-ce qu'on cherche ? Qu'est-ce qu'on sait ? Comment on pourrait faire ? »</li>
+      <li><strong>Copie différée</strong> : montrer le modèle 10 sec, retirer, faire copier</li>
+    </ul>
+    <div class="obs-box"><strong>Observer (LE CŒUR DE L'ÉVAL) :</strong> quel type d'aide débloque ? (reformulation orale · question guide · indice visuel · modèle · découpage en étapes · etc.) Quelle aide il/elle DEMANDE spontanément ?</div>
+    <textarea data-p="p3" placeholder="Notes phase 3 (ZPD étayée) : ce qu'il/elle fait AVEC aide, quel type d'aide débloque, ce qu'il/elle demande spontanément..."></textarea>
+  </section>
+
+  <!-- PHASE 4 -->
+  <section class="phase-card p4">
+    <h2>4️⃣ Verbalisation / métacognition <span class="duree">10 min</span></h2>
+    <div class="objectif">🎯 <strong>Faire émerger les ressentis et les préférences</strong>. Transformer l'évaluation en moment positif.</div>
+    <h3>Questions guides</h3>
+    <ul>
+      <li>« Qu'est-ce que tu as aimé faire aujourd'hui ? »</li>
+      <li>« Qu'est-ce qui a été le plus dur ? »</li>
+      <li>« Qu'est-ce qui t'a aidé(e) ? »</li>
+      <li>« Qu'est-ce que tu aimerais qu'on refasse ? »</li>
+    </ul>
+    <div class="obs-box"><strong>Observer :</strong> capacité de verbalisation des ressentis · auto-conscience · qualité de la métacognition</div>
+    <textarea data-p="p4" placeholder="Notes phase 4 (verbalisation) : ce qu'il/elle dit avoir aimé, ce qu'il/elle pointe comme difficile, capacité métacognitive..."></textarea>
+  </section>
+
+  <!-- TABLEAU RÉSULTATS ZPD -->
+  <section class="zpd-tableau">
+    <h2>📊 Tableau de repérage de la ZPD</h2>
+    <table class="tableau-grid">
+      <thead><tr><th>Compétence</th><th>Seul(e)</th><th>Avec aide</th><th>ZPD active ?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>📖 Lecture</td>
+          <td><textarea data-z="l-seul" placeholder="Ce qu'il/elle fait seul(e)"></textarea></td>
+          <td><textarea data-z="l-aide" placeholder="Ce qu'il/elle réussit avec aide"></textarea></td>
+          <td><div class="zpd-toggle"><label><input type="radio" name="zpd-lect" value="O"><span class="v">Oui</span></label><label><input type="radio" name="zpd-lect" value="N"><span class="v">Non</span></label></div></td>
+        </tr>
+        <tr>
+          <td>✏️ Copie / Mémoire visuelle</td>
+          <td><textarea data-z="c-seul" placeholder="Ce qu'il/elle fait seul(e)"></textarea></td>
+          <td><textarea data-z="c-aide" placeholder="Ce qu'il/elle réussit avec aide"></textarea></td>
+          <td><div class="zpd-toggle"><label><input type="radio" name="zpd-cop" value="O"><span class="v">Oui</span></label><label><input type="radio" name="zpd-cop" value="N"><span class="v">Non</span></label></div></td>
+        </tr>
+        <tr>
+          <td>🔢 Mathématiques</td>
+          <td><textarea data-z="m-seul" placeholder="Ce qu'il/elle fait seul(e)"></textarea></td>
+          <td><textarea data-z="m-aide" placeholder="Ce qu'il/elle réussit avec aide"></textarea></td>
+          <td><div class="zpd-toggle"><label><input type="radio" name="zpd-math" value="O"><span class="v">Oui</span></label><label><input type="radio" name="zpd-math" value="N"><span class="v">Non</span></label></div></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="plan-etayage">
+      <h3>🌱 Plan d'étayage personnalisé</h3>
+      <p style="font-size:.88rem;color:#555;margin:.2rem 0">Type d'aide efficace identifiée + recommandations pour parents/enseignants.</p>
+      <textarea data-p="plan" placeholder="Ex: « L'étayage par questions-guides débloque la lecture. Le découpage en étapes débloque les maths. Recommandation : ajouter une AESH formée à l'étayage guidé. À l'école : enseignement explicite par modelage. À la maison : éviter de donner la réponse, poser des questions. »"></textarea>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="btn-save">💾 Enregistrer</button>
+    <button id="btn-export">📄 Export TXT</button>
+    <button onclick="window.print()">🖨 Imprimer A4</button>
+    <button class="danger" id="btn-vider">🧹 Vider</button>
+  </div>
+
+  <div class="disclaimer">
+    Outil d'évaluation pédagogique non-diagnostique. Croise avec Pack Fondation Pro · Profil FE · Bilan 4 Théoriciens. Le diagnostic ferme passe par bilan neuropsy/ortho/ergo selon profil.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../professionnels.html" style="color:#1a6a5a">retour espace pros</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_atelier_zpd_v1';
+let state={dossiers:{},dossier:null};
+let timer={total:55*60,restant:55*60,running:false,phase:0,interval:null};
+const PHASES_TIMING=[
+  {nom:'1️⃣ Entrée en relation',dur:10*60,c:'#F39BC2'},
+  {nom:'2️⃣ Zone d\'autonomie',dur:15*60,c:'#7c5cbf'},
+  {nom:'3️⃣ Exploration ZPD',dur:20*60,c:'#2a9d8f'},
+  {nom:'4️⃣ Verbalisation',dur:10*60,c:'#e9a73a'}
+];
+
+function fmt(s){const m=Math.floor(s/60);const sec=s%60;return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0')}
+function updPhase(){
+  let cumul=0;
+  for(let i=0;i<PHASES_TIMING.length;i++){
+    cumul+=PHASES_TIMING[i].dur;
+    if(timer.total-timer.restant<cumul){timer.phase=i;break;}
+  }
+  const p=PHASES_TIMING[timer.phase];
+  document.getElementById('phase-en-cours').innerHTML=`⏱ <strong style="color:${p.c}">${p.nom}</strong>`;
+  document.getElementById('timer').style.color=p.c;
+}
+function tick(){
+  if(timer.restant<=0){clearInterval(timer.interval);timer.running=false;document.getElementById('phase-en-cours').textContent='⏱ Atelier terminé ! 🎉';document.getElementById('timer').textContent='00:00';return}
+  timer.restant--;document.getElementById('timer').textContent=fmt(timer.restant);updPhase();
+}
+document.getElementById('btn-start').onclick=()=>{
+  if(timer.running)return;timer.running=true;timer.interval=setInterval(tick,1000);updPhase();
+};
+document.getElementById('btn-pause').onclick=()=>{
+  if(!timer.running)return;clearInterval(timer.interval);timer.running=false;
+};
+document.getElementById('btn-reset').onclick=()=>{
+  clearInterval(timer.interval);timer.running=false;timer.restant=timer.total;timer.phase=0;
+  document.getElementById('timer').textContent='55:00';document.getElementById('phase-en-cours').textContent='⏱ Atelier non démarré — clique sur ▶';document.getElementById('timer').style.color='#3d6e25';
+};
+
+function uid(){return Math.random().toString(36).slice(2,10)}
+function esc(s){return(s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function blank(){return {meta:{},phases:{},zpd:{}}}
+function load(){try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r)}catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){state.dossiers={"Atelier 1":blank()};state.dossier="Atelier 1"}
+  if(!state.dossier||!state.dossiers[state.dossier])state.dossier=Object.keys(state.dossiers)[0]}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function current(){return state.dossiers[state.dossier]}
+
+function refreshDossier(){
+  const sel=document.getElementById('dossier');sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;if(n===state.dossier)o.selected=true;sel.appendChild(o)});
+}
+
+function appliquer(){
+  const d=current();
+  document.querySelectorAll('[data-k]').forEach(el=>el.value=(d.meta&&d.meta[el.dataset.k])||'');
+  document.querySelectorAll('[data-p]').forEach(el=>el.value=(d.phases&&d.phases[el.dataset.p])||'');
+  document.querySelectorAll('[data-z]').forEach(el=>el.value=(d.zpd&&d.zpd[el.dataset.z])||'');
+  document.querySelectorAll('input[type="radio"]').forEach(r=>r.checked=(d.zpd&&d.zpd[r.name]===r.value));
+}
+
+document.addEventListener('input',e=>{
+  const el=e.target;const d=current();
+  if(el.dataset.k){d.meta=d.meta||{};d.meta[el.dataset.k]=el.value;save();}
+  else if(el.dataset.p){d.phases=d.phases||{};d.phases[el.dataset.p]=el.value;save();}
+  else if(el.dataset.z){d.zpd=d.zpd||{};d.zpd[el.dataset.z]=el.value;save();}
+});
+document.addEventListener('change',e=>{
+  const el=e.target;const d=current();
+  if(el.dataset.k){d.meta=d.meta||{};d.meta[el.dataset.k]=el.value;save();}
+  else if(el.type==='radio'){d.zpd=d.zpd||{};d.zpd[el.name]=el.value;save();}
+});
+
+document.getElementById('dossier').onchange=e=>{state.dossier=e.target.value;save();refreshDossier();appliquer();};
+document.getElementById('btn-new').onclick=()=>{
+  const n=prompt('Nom :','Atelier '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){state.dossiers[n.trim()]=blank();state.dossier=n.trim();save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-rename').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n!==state.dossier&&!state.dossiers[n]){state.dossiers[n]=state.dossiers[state.dossier];delete state.dossiers[state.dossier];state.dossier=n;save();refreshDossier();}
+};
+document.getElementById('btn-delete').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible.');return}
+  if(confirm('Supprimer ?')){delete state.dossiers[state.dossier];state.dossier=Object.keys(state.dossiers)[0];save();refreshDossier();appliquer();}
+};
+document.getElementById('btn-save').onclick=()=>{save();alert('💾 Enregistré.')};
+document.getElementById('btn-vider').onclick=()=>{if(confirm('Vider ?')){state.dossiers[state.dossier]=blank();save();refreshDossier();appliquer();}};
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  let t=`ATELIER ZPD 55 MIN\nEducaTypique · Création originale Nawel Haddouch\n\n`;
+  Object.entries(d.meta||{}).forEach(([k,v])=>{if(v) t+=`${k} : ${v}\n`});t+='\n';
+  ['p1','p2','p3','p4'].forEach((p,i)=>{
+    t+=`═══ Phase ${i+1} ═══\n${(d.phases||{})[p]||'—'}\n\n`;
+  });
+  t+=`═══ TABLEAU ZPD ═══\n`;
+  t+=`📖 Lecture\n  Seul(e) : ${(d.zpd||{})['l-seul']||'—'}\n  Avec aide : ${(d.zpd||{})['l-aide']||'—'}\n  ZPD active : ${(d.zpd||{})['zpd-lect']||'—'}\n\n`;
+  t+=`✏️ Copie\n  Seul(e) : ${(d.zpd||{})['c-seul']||'—'}\n  Avec aide : ${(d.zpd||{})['c-aide']||'—'}\n  ZPD active : ${(d.zpd||{})['zpd-cop']||'—'}\n\n`;
+  t+=`🔢 Maths\n  Seul(e) : ${(d.zpd||{})['m-seul']||'—'}\n  Avec aide : ${(d.zpd||{})['m-aide']||'—'}\n  ZPD active : ${(d.zpd||{})['zpd-math']||'—'}\n\n`;
+  t+=`═══ PLAN D'ÉTAYAGE ═══\n${(d.phases||{}).plan||'—'}\n`;
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`atelier-zpd-${(d.meta?.prenom)||'enfant'}-${(d.meta?.date)||new Date().toISOString().slice(0,10)}.txt`;a.click();
+};
+
+load();refreshDossier();
+document.querySelector('[data-k="date"]').valueAsDate=new Date();
+appliquer();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dialoguer avec son ado — Édition familles musulmanes · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  @page { margin: 1.5cm; size: A4; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    color: #3a2f1e;
+    line-height: 1.65;
+    background: #FAF6EF;
+    font-size: 11pt;
+  }
+  .nav-top {
+    position: sticky; top:0; z-index: 100;
+    background: linear-gradient(135deg, #B49058 0%, #D4B47A 50%, #E8D4A8 100%);
+    padding: .6rem 1rem; text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  }
+  .nav-top a {
+    color: #fff; text-decoration: none; font-weight: 700; font-size: .85rem;
+    margin: 0 .35rem; padding: .3rem .6rem; border-radius: 999px;
+    transition: background .2s;
+  }
+  .nav-top a:hover { background: rgba(255,255,255,.25); }
+  .nav-top button {
+    background: white; color: #8c6a30;
+    border: none; padding: .35rem 1rem; margin-left: .5rem;
+    border-radius: 999px; cursor: pointer;
+    font-weight: 700; font-size: .85rem;
+    font-family: 'Nunito', sans-serif;
+  }
+  .container { padding: 2rem 1rem; }
+  .page {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    background: #FFFEFB;
+    padding: 2.5rem 3rem;
+    box-shadow: 0 4px 20px rgba(140,106,48,.10);
+    border-radius: 8px;
+    border-top: 6px solid #B49058;
+  }
+
+  .header { text-align: center; margin-bottom: 2rem; }
+  .brand {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14pt;
+    color: #8c6a30;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .tagline {
+    font-size: 9pt;
+    color: #7a6240;
+    font-style: italic;
+    margin-top: 0.3rem;
+  }
+  .voie-chifa {
+    font-size: 9pt;
+    color: #B49058;
+    font-weight: 600;
+    margin-top: .4rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24pt;
+    color: #3a2f1e;
+    font-weight: 700;
+    margin-top: 1.2rem;
+    line-height: 1.2;
+  }
+  h1 .accent { color: #B49058; }
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14pt;
+    color: #3a2f1e;
+    font-weight: 600;
+    margin: 2rem 0 0.8rem;
+    padding-left: 0.7rem;
+    border-left: 4px solid #B49058;
+  }
+  h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12pt;
+    color: #8c6a30;
+    font-weight: 600;
+    margin: 1rem 0 0.4rem;
+  }
+  p { margin-bottom: 0.7rem; }
+  ul { padding-left: 1.4rem; margin-bottom: 0.8rem; }
+  li { margin-bottom: 0.4rem; }
+  strong { color: #3a2f1e; font-weight: 700; }
+  em { color: #6b5840; }
+
+  .opening {
+    background: linear-gradient(135deg, #FDF8EC 0%, #F4E5C2 100%);
+    padding: 1.4rem 1.7rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    text-align: center;
+    font-style: italic;
+    font-size: 11.5pt;
+    color: #3a2f1e;
+    border-left: 4px solid #B49058;
+  }
+  .ayat {
+    background: #FDF8EC;
+    border: 1px dashed #B49058;
+    border-radius: 10px;
+    padding: 1rem 1.3rem;
+    margin: 1rem 0;
+    text-align: center;
+  }
+  .ayat .arabic {
+    font-family: 'Amiri', serif;
+    font-size: 16pt;
+    color: #5a3f1e;
+    display: block;
+    margin-bottom: .5rem;
+    direction: rtl;
+    line-height: 1.8;
+  }
+  .ayat .trans {
+    font-style: italic;
+    color: #6b5840;
+    font-size: 11pt;
+  }
+  .ayat .src {
+    font-size: 9pt;
+    color: #8c6a30;
+    font-weight: 600;
+    margin-top: .4rem;
+    display: block;
+  }
+  .hadith {
+    background: #F2EDDF;
+    border-left: 4px solid #8c6a30;
+    border-radius: 8px;
+    padding: 1rem 1.3rem;
+    margin: 0.9rem 0;
+    font-style: italic;
+    color: #3a2f1e;
+  }
+  .hadith strong { color: #5a3f1e; font-style: normal; }
+  .hadith .src { font-size: 9pt; color: #8c6a30; font-style: normal; display: block; margin-top: .4rem; }
+
+  .pillar {
+    background: #FDF8EC;
+    border-radius: 10px;
+    padding: 1.1rem 1.3rem;
+    margin: 0.9rem 0;
+    border-left: 4px solid #B49058;
+  }
+  .pillar.beige { border-left-color: #E8D4A8; background: #FBF4E2; }
+  .pillar.foncé { border-left-color: #8c6a30; background: #F2EDDF; }
+
+  .pillar-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #3a2f1e;
+    margin-bottom: 0.4rem;
+    font-size: 11.5pt;
+  }
+
+  .phrase-card {
+    background: linear-gradient(135deg, #FFFEFB 0%, #FDF8EC 100%);
+    border: 1px solid #E8D4A8;
+    border-radius: 10px;
+    padding: 1rem 1.3rem;
+    margin: 0.7rem 0;
+    border-left: 4px solid #B49058;
+  }
+  .phrase-card .label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 9pt;
+    color: #8c6a30;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+  .phrase-card .quote {
+    font-style: italic;
+    color: #3a2f1e;
+  }
+
+  .closing {
+    background: linear-gradient(135deg, #F4E5C2 0%, #E8D4A8 100%);
+    padding: 1.4rem 1.7rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+    text-align: center;
+    color: #3a2f1e;
+    font-weight: 500;
+  }
+  .closing strong { color: #5a3f1e; }
+  .line {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #B49058 30%, #B49058 70%, transparent);
+    margin: 1.5rem 0;
+  }
+  .signature {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 9pt;
+    color: #7a6240;
+    font-style: italic;
+  }
+  .signature strong {
+    color: #B49058;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-style: normal;
+  }
+  .small-print {
+    font-size: 8pt;
+    color: #8c6a30;
+    text-align: center;
+    margin-top: .8rem;
+    font-style: italic;
+  }
+  .cross-ref {
+    background: #F2EDDF;
+    border: 1px dashed #8c6a30;
+    border-radius: 8px;
+    padding: .8rem 1.1rem;
+    margin: 1rem 0;
+    font-size: 10pt;
+    color: #5a3f1e;
+  }
+  .cross-ref a { color: #8c6a30; font-weight: 700; }
+
+  @media print {
+    body { background: #FFFFFF; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; max-width: none; }
+    .page-break { page-break-before: always; }
+    .nav-top { display: none !important; }
+    .container { padding: 0; }
+  }
+  @media (max-width: 700px) {
+    .page { padding: 1.5rem 1.2rem; }
+    h1 { font-size: 20pt; }
+    .nav-top a { font-size: .75rem; padding: .25rem .4rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav-top">
+  <a href="../../parents-musulmans.html">🏠 Familles musulmanes</a>
+  <a href="dialoguer-avec-son-ado.html">📘 Version universelle</a>
+  <a href="#intro">Intention</a>
+  <a href="#identite">Identité</a>
+  <a href="#filles">Adolescente</a>
+  <a href="#dialogue">Dialogue</a>
+  <button onclick="window.print()">🖨️ Imprimer / PDF</button>
+</nav>
+
+<div class="container">
+
+<!-- ═══════════════ COUVERTURE ═══════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="brand">EDUCA TYPIQUE</div>
+    <div class="voie-chifa">· Édition familles musulmanes ·</div>
+    <h1>Dialoguer <span class="accent">avec son ado</span></h1>
+    <div style="font-size:10pt; color:#7a6240; margin-top:0.6rem; font-style:italic;">
+      Livret psychoéducatif parents · Adolescents 12-18 ans
+    </div>
+  </div>
+
+  <div class="opening">
+    « Je sème dans son cœur les graines de la foi, de la patience et de l'amour d'Allah.<br>
+    Je l'accompagne avec douceur et constance, en me rappelant que chaque sourire, chaque conseil,<br>
+    chaque prière partagée est un pas vers la sérénité et les délices de la foi.<br>
+    Je confie mon éducation à Celui qui guide les cœurs, car mon but n'est pas seulement de l'élever ici-bas,<br>
+    mais de lui ouvrir la voie vers l'éternité. »
+  </div>
+
+  <div class="cross-ref" style="text-align:center;">
+    📘 <strong>Ce livret complète</strong> la version universelle de <a href="dialoguer-avec-son-ado.html">« Dialoguer avec son ado »</a> avec une dimension islamique. Les principes pédagogiques généraux (CNV, écoute active, cadre, émotions) y sont détaillés. Ici, on ajoute la perspective spirituelle et les enjeux spécifiques aux familles musulmanes.
+  </div>
+
+  <h2>Sommaire</h2>
+  <ul style="padding-left:1.4rem;">
+    <li><strong>1.</strong> Introduction — L'intention et la parentalité éclairée</li>
+    <li><strong>2.</strong> Compréhension de l'identité adolescente musulmane</li>
+    <li><strong>3.</strong> La religion et la spiritualité — un cap à transmettre</li>
+    <li><strong>4.</strong> Les enjeux socioculturels — naviguer entre deux mondes</li>
+    <li><strong>5.</strong> L'adolescente musulmane face à son image et son identité</li>
+    <li><strong>6.</strong> Le besoin d'appartenance — les amis prennent le pas sur la famille</li>
+    <li><strong>7.</strong> Les bases d'une communication saine — phrases concrètes</li>
+  </ul>
+
+  <div class="small-print">E-book psychoéducatif · Educa_typique · Usage personnel & non commercial</div>
+  <div class="signature"><strong>Educa_typique</strong> · Édition familles musulmanes</div>
+</div>
+
+<!-- ═══════════════ 1. INTRODUCTION ═══════════════ -->
+<div class="page page-break" id="intro">
+
+  <h2>1 · Introduction — L'intention</h2>
+
+  <p>L'<strong>intention</strong> (<em>niyya</em>) est une direction. Comme un point cardinal : <em>je vise le nord…</em> Elle permet de définir un objectif réalisable et atteignable, mais c'est aussi l'action que l'on accomplit, dans la recherche de l'agrément d'Allah تعالى.</p>
+
+  <h3>Importance de la parentalité éclairée</h3>
+  <p>Le rôle crucial des parents dans la vie des adolescents — particulièrement dans un environnement culturel et religieux complexe — est immense.</p>
+
+  <div class="hadith">
+    « Allah élèvera au Paradis Son serviteur pieux qui dira :<br>
+    — <em>« Seigneur ! Comment ai-je obtenu cette élévation ? »</em><br>
+    Et Allah répondra :<br>
+    — <em>« Cela te vient de la demande de pardon de ton fils en ta faveur. »</em> »
+    <span class="src">Hadith — Allah récompense celui qui éduque son enfant pour Sa cause</span>
+  </div>
+
+  <p>Ainsi, Allah alourdit la balance des parents en leur faveur grâce aux œuvres de leur descendance. L'invocation et le pardon de notre enfant deviennent une de nos plus belles récompenses dans l'au-delà.</p>
+
+  <p>L'adolescence représente une étape essentielle. Elle symbolise la transition entre l'enfance et l'âge adulte. Pour les parents, cette période peut s'avérer déconcertante, car l'enfant qu'ils ont connu semble tout à coup évolué, tant sur le plan physique qu'émotionnel.</p>
+
+  <h3>L'apport extérieur, filtré par la foi</h3>
+  <p>En lisant des œuvres d'auteurs non musulmans et en les partageant, on observe que <strong>plusieurs principes éducatifs rejoignent ceux de la Sunnah</strong>, prouvant que le Coran est un guide complet. Les éducateurs doivent utiliser avec discernement les apports extérieurs, en les <strong>adaptant à la réalité musulmane</strong>. Appliquer des méthodes sans les filtrer selon la religion et le contexte peut nuire.</p>
+
+  <p>Un bon éducateur s'inspire du Coran et de la Sunnah pour éduquer avec justesse et réussite.</p>
+
+  <h3>Bénéfices d'une éducation religieuse inspirée du Coran et de la Sunnah</h3>
+  <ul>
+    <li><strong>Éducation enracinée dans la vérité</strong> — fondée sur la parole d'Allah et l'exemple parfait du Prophète ﷺ.</li>
+    <li><strong>Transmission de valeurs solides</strong> — respect, patience, justice, bienveillance.</li>
+    <li><strong>Foi vivante</strong> — l'enfant grandit en goûtant aux délices de l'<em>iman</em>.</li>
+    <li><strong>Sérénité</strong> — il apprend à trouver le calme dans le rappel d'Allah.</li>
+    <li><strong>Capacité à traverser les épreuves</strong> — armé de <em>tawakkul</em> et de <em>sabr</em>.</li>
+    <li><strong>Vision claire de la vie</strong> — il sait que la vie d'ici-bas est temporaire et apprend à viser l'au-delà.</li>
+    <li><strong>Protection contre les dérives</strong> — l'éducation religieuse le guide loin des comportements nuisibles.</li>
+    <li><strong>Renforcement du lien parent-enfant</strong> — partager la foi crée une complicité et une confiance profondes.</li>
+    <li><strong>Épanouissement personnel</strong> — identité forte et équilibrée.</li>
+    <li><strong>Espoir en la récompense divine</strong> — chaque effort est vu et récompensé par Allah.</li>
+  </ul>
+
+  <div class="signature"><strong>Educa_typique</strong> · Dialoguer avec son ado · Édition familles musulmanes</div>
+</div>
+
+<!-- ═══════════════ 2. COMPRÉHENSION IDENTITÉ ═══════════════ -->
+<div class="page page-break" id="identite">
+
+  <h2>2 · Compréhension de l'identité adolescente musulmane</h2>
+
+  <h3>Perspective islamique sur l'adolescence</h3>
+  <p>L'Islam <strong>valorise la jeunesse</strong>, la considérant comme un atout pour la communauté. Le Prophète ﷺ a toujours manifesté une grande affection et une confiance envers les jeunes. Un exemple significatif : <strong>Usama ibn Zayd</strong>, nommé commandant d'une armée à seulement 17 ans durant le règne du Prophète ﷺ.</p>
+
+  <p>Cet acte illustre la confiance que l'Islam accorde aux jeunes, en reconnaissant leur potentiel et leur aptitude à prendre des responsabilités.</p>
+
+  <div class="opening">
+    En tant que parent musulman, l'adolescence représente un moment clé pour accompagner ton enfant dans sa croissance spirituelle et morale. Au lieu d'un défi insurmontable, c'est une <strong>occasion de renforcer le lien parent-enfant</strong> et de favoriser le dialogue autour des valeurs islamiques.
+  </div>
+
+  <h3>La puberté : début d'un engagement vis-à-vis d'Allah</h3>
+  <p>La puberté est le point de départ de la vie d'adultes — elle sonne <strong>l'engagement, la responsabilité vis-à-vis du Créateur</strong>. L'adolescence marque un tournant décisif dans la vie d'un jeune musulman. Ce passage ne se limite pas à des changements biologiques ; il est aussi le début d'une nouvelle ère de responsabilité et d'engagement vis-à-vis d'Allah.</p>
+
+  <p>Il est donc important d'accompagner cette transition avec sagesse et amour. Le rôle des parents et éducateurs est essentiel. Il ne s'agit pas d'imposer, mais d'<strong>expliquer avec bienveillance</strong> que cette période est une opportunité de grandir, de se rapprocher d'Allah et d'apprendre à gérer ses émotions, ses impulsions et ses comportements.</p>
+
+  <p>La patience, l'écoute et la transmission de valeurs comme la modestie, la maîtrise de soi, la satisfaction et l'humilité sont cruciales.</p>
+
+  <h3>Étapes de développement</h3>
+
+  <div class="pillar">
+    <div class="pillar-title">📍 Phase 6-12 ans — Le pourquoi existentiel</div>
+    <p style="margin-bottom:.3rem;">L'enfant commence à poser des questions profondes sur l'existence, Dieu, la mort, le bien et le mal. <strong>Lier la foi et la raison</strong>.</p>
+    <p style="margin-bottom:0;"><strong>Comprendre sa place :</strong> d'un point de vue islamique, c'est le moment de l'aider à comprendre sa valeur en tant qu'être humain, serviteur d'Allah, et membre actif de la communauté. <em>Moi et les autres :</em> inculquer humilité, bienveillance et respect.</p>
+  </div>
+
+  <div class="pillar beige">
+    <div class="pillar-title">📍 Phase 12-15 ans — Découverte et questionnement</div>
+    <ul style="margin-bottom:0;">
+      <li>Développement d'une conscience de soi marquée</li>
+      <li>Questionnement sur le sens de la vie, sa place dans la société</li>
+      <li>Importance du regard des autres et de l'appartenance à un groupe</li>
+      <li>Difficulté à faire des choix (peu d'autonomie dans l'enfance)</li>
+      <li>Besoin d'être écouté et accompagné avec bienveillance</li>
+    </ul>
+  </div>
+
+  <div class="pillar foncé">
+    <div class="pillar-title">📍 Phase 15-18 ans — Affirmation et prise de décision</div>
+    <ul style="margin-bottom:0;">
+      <li>L'adolescent se définit par ses choix et actions</li>
+      <li>Capacité à collaborer de manière plus sereine</li>
+      <li>Importance de comprendre son propre fonctionnement et celui des autres</li>
+      <li>Développement de la responsabilité et de l'autonomie</li>
+    </ul>
+  </div>
+
+  <h3>Résumé des transformations chez le jeune</h3>
+  <ul>
+    <li><strong>Corps :</strong> caractères sexuels secondaires, croissance, hormones — métamorphose qui peut générer des troubles de l'estime de soi.</li>
+    <li><strong>Cerveau :</strong> développement du cortex préfrontal (encore immature) — essentiel pour la prise de décision et la régulation émotionnelle.</li>
+    <li><strong>Psychologie :</strong> affirmation de soi, critique des figures d'autorité, curiosité pour des idées nouvelles.</li>
+    <li><strong>Relations :</strong> redéfinition des relations avec les parents et basculement vers une plus grande influence des pairs.</li>
+  </ul>
+
+  <div class="signature"><strong>Educa_typique</strong> · Édition familles musulmanes</div>
+</div>
+
+<!-- ═══════════════ 3. ENJEUX SOCIOCULTURELS ═══════════════ -->
+<div class="page page-break">
+
+  <h2>4 · Les enjeux socioculturels</h2>
+
+  <p>Les adolescents sont influencés par la culture occidentale, entraînant parfois un manque de spiritualité et de valeurs éducatives inspirées par l'islam. Cela se traduit parfois par un <strong>manque de respect envers l'autorité</strong> et une tendance à l'individualisme et au matérialisme, aggravant la consommation et les dettes familiales.</p>
+
+  <p>La société occidentale valorise les apparences et la superficialité, notamment à travers les réseaux sociaux, ce qui peut mener certains jeunes à se sentir <strong>perdus et décalés</strong>.</p>
+
+  <p>Les médias présentent les adolescents comme rebelles, créant un fossé avec la société et un sentiment de guerre contre la famille. Pourtant, l'adolescent fait partie intégrante de la société, avec <strong>une grande part de bien et d'innocence</strong>.</p>
+
+  <p>Les messages subliminaux qui assaillent nos enfants, nous devons les contredire constamment à leur retour. La propagande des médias, la désinformation…</p>
+
+  <div class="hadith">
+    L'imam Ibn Baz, qu'Allah lui fasse miséricorde, a dit :<br>
+    « Toi, tu es dans l'époque de l'étrangeté, du peu de science, de l'abondance d'ignorance et des prêcheurs à l'innovation, à la corruption et à la perdition. Affaire-toi donc à <strong>t'attacher à la vérité et à la compagnie des gens de la vérité</strong>, et méfie-toi de la compagnie des mauvais. Attache-toi à la science et à l'étude de la science, attache-toi au Livre d'Allah l'Immense, car c'est <strong>la base de tout bien</strong>. »
+    <span class="src">Imam Ibn Baz, raḥimahu Allah</span>
+  </div>
+
+  <h3>Conséquences observées</h3>
+  <ul>
+    <li>Perte de repères et de valeurs, éducation fondée sur des valeurs occidentales</li>
+    <li>Promotion de l'individualisme et de l'égoïsme en opposition aux valeurs islamiques de solidarité et d'amour fraternel</li>
+    <li>Poussée vers une société de consommation et imitation des autres</li>
+    <li>Recherche de plaisir et de liberté sans respect des règles</li>
+    <li>Influence des médias sur une sexualité libre, déstabilisant les jeunes qui ont besoin de guidance</li>
+  </ul>
+
+  <p>Les parents et éducateurs doivent être <strong>à l'écoute, impartiaux et pédagogiques</strong>. Les jeunes ont souvent une vision à court terme de la vie, se concentrant sur le plaisir immédiat, contrairement à l'islam qui prône une vie axée sur la satisfaction du Créateur et une vision à long terme.</p>
+
+  <h3>Remise en question chez l'adolescent musulman</h3>
+  <p>Chez l'adolescent musulman, cette phase de transition est également marquée par des <strong>questionnements identitaires</strong> liés à sa foi, à son environnement culturel et cultuel. Il peut osciller entre l'adhésion aux valeurs religieuses transmises par sa famille et le désir d'intégration dans un groupe d'amis, parfois porteur de normes différentes.</p>
+
+  <p>Cela peut générer un <strong>conflit intérieur</strong> entre le respect des obligations religieuses (prière, jeûne, tenue vestimentaire conforme, interdits alimentaires) et la pression sociale qui pousse à la conformité avec ses pairs.</p>
+
+  <div class="signature"><strong>Educa_typique</strong> · Édition familles musulmanes</div>
+</div>
+
+<!-- ═══════════════ 4. ADOLESCENTE MUSULMANE ═══════════════ -->
+<div class="page page-break" id="filles">
+
+  <h2>5 · L'adolescente musulmane face à son image et son identité</h2>
+
+  <p>L'adolescence est une période de transformation physique et émotionnelle, souvent accompagnée de doutes et d'interrogations sur soi. Chez l'adolescente musulmane, ces défis sont parfois <strong>amplifiés par les attentes familiales, religieuses et sociales</strong>.</p>
+
+  <h3>Les défis liés à l'apparence</h3>
+  <ul>
+    <li><strong>Son corps en mutation :</strong> la croissance, la prise de poids, l'acné, les formes qui apparaissent… Ces changements peuvent être source de malaise et d'une comparaison constante avec les autres.</li>
+    <li><strong>Son envie de correspondre aux standards actuels :</strong> maquillage, mode, réseaux sociaux. Tension entre ses désirs et les valeurs qu'on lui inculque.</li>
+    <li><strong>La pression du hijab ou de la modestie vestimentaire :</strong> certaines jeunes filles peuvent se sentir tiraillées entre l'envie de se conformer aux tendances et leur engagement religieux ou familial.</li>
+  </ul>
+
+  <div class="hadith">
+    L'Islam rappelle que <strong>la beauté n'est pas une norme extérieure, mais une lumière intérieure</strong>.
+    <div class="ayat" style="margin-top:.7rem;">
+      <span class="trans">« Certes Allah ne regarde pas votre physique ou vos biens, mais Il regarde vos cœurs et vos actes. »</span>
+      <span class="src">Hadith authentique</span>
+    </div>
+  </div>
+
+  <h3>Humeur instable et besoin d'affirmation</h3>
+  <p>Les variations hormonales, les incertitudes identitaires et la pression sociale tissent une toile d'humeurs changeantes :</p>
+  <ul>
+    <li><strong>Moments d'euphorie :</strong> sensation de liberté, confiance rayonnante.</li>
+    <li><strong>Moments de doute :</strong> sentiment de solitude, besoin pressant de reconnaissance.</li>
+  </ul>
+  <p>Elle peut éprouver un besoin ardent de s'affirmer, parfois en défiant les règles familiales ou religieuses.</p>
+
+  <div class="hadith">
+    L'Islam, dans sa sagesse, prône une approche équilibrée :<br>
+    « <strong>Le meilleur chemin est celui du juste milieu.</strong> »
+    <span class="src">Hadith</span>
+  </div>
+
+  <p>Il est primordial de l'encourager à dévoiler ses pensées et de l'accompagner avec bienveillance, sans jamais minimiser ses émotions.</p>
+
+  <h3>Être une jeune fille, c'est vivre des cycles créés par Allah</h3>
+
+  <div class="pillar">
+    <div class="pillar-title">1. 🌙 Comprendre — Le corps suit un cycle naturel voulu par Allah</div>
+    <p style="margin-bottom:.3rem;"><strong>Message clé :</strong> Ton corps change parce qu'Allah t'a créée ainsi, avec beauté et sagesse. L'alternance entre force et fragilité fait partie de ton chemin de vie.</p>
+    <div class="hadith" style="margin-top:.5rem;">
+      « Certes, la femme a été créée d'une côte, et la partie la plus courbée de la côte est sa partie supérieure. Si tu t'efforces de la redresser, tu la casseras ; et si tu la laisses telle quelle, elle restera courbée. <strong>Faites donc preuve de douceur envers les femmes.</strong> »
+      <span class="src">Sahih al-Bukhari 3331 · Sahih Muslim 1468</span>
+    </div>
+    <p style="margin-bottom:0;"><strong>Conseil pratique :</strong> enseigner que la douceur envers soi-même est nécessaire durant les périodes émotionnelles fortes. Ne pas se juger durement dans les moments de vulnérabilité.</p>
+  </div>
+
+  <div class="pillar beige">
+    <div class="pillar-title">2. 🌸 Accepter — Les variations d'humeur sont naturelles</div>
+    <p style="margin-bottom:.3rem;"><strong>Message clé :</strong> Ce n'est pas un défaut d'avoir des hauts et des bas. C'est une épreuve temporaire mais aussi une miséricorde, car cela rapproche du souvenir d'Allah.</p>
+    <div class="ayat" style="margin-top:.5rem;">
+      <span class="trans">« Allah n'impose à aucune âme une charge supérieure à sa capacité. »</span>
+      <span class="src">Sourate Al-Baqara 2:286</span>
+    </div>
+    <p style="margin-bottom:0;"><strong>Conseil :</strong> accueillir l'émotion, faire du <em>dhikr</em> dans le calme, sans se forcer à cacher ou refouler ses sentiments.</p>
+  </div>
+
+  <div class="pillar foncé">
+    <div class="pillar-title">3. 🤲 Se souvenir — La patience dans l'épreuve est récompensée</div>
+    <div class="hadith" style="margin-top:.3rem;">
+      « Nulle fatigue, maladie, tristesse, chagrin, préjudice ou affliction n'atteint un musulman, même l'épine qui le pique, sans qu'Allah n'efface par cela certains de ses péchés. »
+      <span class="src">Sahih al-Bukhari 5641 · Sahih Muslim 2573</span>
+    </div>
+    <p style="margin-bottom:0;"><strong>Conseil :</strong> Transformer les sautes d'humeur en invocations simples — <em>« Ô Allah, apaise mon cœur et éclaire mon chemin. »</em></p>
+  </div>
+
+  <div class="pillar">
+    <div class="pillar-title">4. ⚖️ Trouver l'équilibre — Savoir se poser et revenir à l'essentiel</div>
+    <p style="margin-bottom:.3rem;"><strong>Message clé :</strong> Dans l'islam, la recherche de l'équilibre (ni excès, ni négligence) est un objectif noble.</p>
+    <div class="hadith" style="margin-top:.5rem;">
+      Le Prophète ﷺ a dit : « <strong>Ceux qui vont à l'extrême périront.</strong> » <em>(répété trois fois)</em>
+      <span class="src">Sahih Muslim 2670</span>
+    </div>
+    <p style="margin-bottom:0;"><strong>Conseil :</strong> ralentir, prier doucement, dormir suffisamment, parler à une personne de confiance.</p>
+  </div>
+
+  <div class="opening">
+    <strong>Résumé express pour les jeunes filles :</strong><br>
+    🌙 Mon corps change ? Allah m'a créée parfaite comme je suis.<br>
+    🌸 Mon humeur varie ? C'est normal, je peux m'apaiser par le dhikr.<br>
+    💛 Je vis un moment difficile ? Allah me récompense pour ma patience.<br>
+    ⚖️ Je me sens perdue ? Le juste milieu est mon chemin.
+  </div>
+
+  <h3>Femmes inspirantes de l'histoire islamique</h3>
+
+  <div class="pillar foncé">
+    <div class="pillar-title">⭐ Asma Bint Abi Bakr — La courageuse et intelligente</div>
+    Fille d'Abu Bakr رضي الله عنه, elle a joué un rôle clé lors de l'Hégire du Prophète ﷺ, transportant secrètement de la nourriture malgré les dangers. Déterminée et persévérante, elle a montré qu'une femme pouvait être forte, courageuse et fidèle à ses principes.<br>
+    <strong>Leçon :</strong> l'intelligence, le courage et la responsabilité, même en étant jeune.
+  </div>
+
+  <div class="pillar">
+    <div class="pillar-title">⭐ Fatima Az-Zahra رضي الله عنها — Le modèle de douceur et de patience</div>
+    Fille du Prophète ﷺ, elle a grandi dans la simplicité et la piété, supportant les épreuves avec patience. Elle a prouvé que la vraie valeur d'une femme ne réside pas dans son apparence, mais dans son cœur et son comportement.<br>
+    <strong>Leçon :</strong> la beauté intérieure et la piété sont plus précieuses que les standards extérieurs.
+  </div>
+
+  <div class="signature"><strong>Educa_typique</strong> · Édition familles musulmanes</div>
+</div>
+
+<!-- ═══════════════ 5. BESOIN D'APPARTENANCE ═══════════════ -->
+<div class="page page-break">
+
+  <h2>6 · Le besoin d'appartenance — quand les amis prennent le pas</h2>
+
+  <p>L'adolescence est souvent une période où l'on est particulièrement réceptif aux influences extérieures. C'est une phase de recherche d'identité, où l'on souhaite s'intégrer à un groupe et trouver un environnement où l'on peut explorer sa véritable personnalité en toute sécurité.</p>
+
+  <div class="opening">
+    Ce phénomène <strong>ne doit pas être considéré comme une rébellion</strong>. Toutefois, cela nécessite une grande énergie, ce qui peut expliquer pourquoi les adolescents sont souvent moins disponibles pour leurs relations familiales.<br>
+    <em>Voyons cela positivement : ce lien renforcé avec les pairs facilite le processus de séparation qui, qu'on le veuille ou non, est déjà en cours.</em>
+  </div>
+
+  <h3>6 conseils pratiques</h3>
+
+  <div class="pillar">
+    <div class="pillar-title">1. Valoriser son besoin d'appartenance sans le culpabiliser</div>
+    Reconnaître que c'est <strong>normal et sain</strong> qu'il cherche à se rapprocher de ses amis. Lui dire que construire des liens d'amitié solides est une force, pas une trahison envers la famille.
+  </div>
+
+  <div class="pillar beige">
+    <div class="pillar-title">2. L'aider à choisir des cercles d'amis positifs</div>
+    Encourager les fréquentations qui partagent ses valeurs (respect, solidarité, foi). Proposer des activités communautaires musulmanes (groupes de jeunes à la mosquée, ateliers, camps).
+  </div>
+
+  <div class="pillar foncé">
+    <div class="pillar-title">3. Créer des ponts entre la famille et ses amis</div>
+    L'inviter à présenter ses amis à la famille pour créer du lien et éviter la coupure. Organiser de petits moments conviviaux où il peut être lui-même devant tout le monde.
+  </div>
+
+  <div class="pillar">
+    <div class="pillar-title">4. Continuer à nourrir son identité musulmane sans pression</div>
+    Parler avec lui de l'islam de manière ouverte et encourageante, <strong>pas comme une injonction</strong>. Lui montrer que la foi peut être vécue de façon vivante, adaptée à ses défis d'adolescent.
+  </div>
+
+  <div class="pillar beige">
+    <div class="pillar-title">5. Respecter son autonomie en gardant un lien discret</div>
+    Laisser de la liberté, mais rester présent : montrer qu'on est toujours disponible <strong>sans être envahissant</strong>. Utiliser l'écoute active : reformuler ce qu'il partage au lieu de donner tout de suite des conseils.
+  </div>
+
+  <div class="pillar foncé">
+    <div class="pillar-title">6. Le rassurer sur sa place dans la famille</div>
+    Lui rappeler qu'il est <strong>aimé inconditionnellement</strong>, qu'il fasse des choix différents ou non. Valoriser ce qu'il apporte au groupe familial, même s'il est moins disponible qu'avant.
+  </div>
+
+  <div class="signature"><strong>Educa_typique</strong> · Édition familles musulmanes</div>
+</div>
+
+<!-- ═══════════════ 6. COMMUNICATION SAINE — PHRASES CONCRÈTES ═══════════════ -->
+<div class="page page-break" id="dialogue">
+
+  <h2>7 · Phrases concrètes pour la discussion</h2>
+
+  <p>Voici des formulations concrètes ancrées dans une posture islamique, à adapter à ta situation.</p>
+
+  <h3>Pour reconnaître son besoin d'appartenance</h3>
+  <div class="phrase-card">
+    <div class="label">À dire</div>
+    <div class="quote">« Je comprends que tu as besoin d'avoir des amis qui te ressemblent, c'est une belle manière de découvrir qui tu es. Même le Prophète ﷺ a eu des compagnons très proches. »</div>
+  </div>
+
+  <h3>Pour l'accompagner dans ses choix de fréquentations</h3>
+  <div class="phrase-card">
+    <div class="label">À dire</div>
+    <div class="quote">« L'islam nous enseigne que de bonnes amitiés sont comme un parfum : elles laissent une belle trace en nous. Comment te sens-tu avec tes amis ? Est-ce qu'ils t'aident à devenir la meilleure version de toi-même ? »</div>
+  </div>
+
+  <h3>Pour lui laisser de l'autonomie sans couper le lien</h3>
+  <div class="phrase-card">
+    <div class="label">À dire</div>
+    <div class="quote">« Je te fais confiance dans tes choix. Sache que je suis là si un jour tu as besoin de parler, sans jugement. Ton chemin est important pour moi. »</div>
+  </div>
+
+  <h3>Pour nourrir son identité musulmane de façon positive</h3>
+  <div class="phrase-card">
+    <div class="label">À dire</div>
+    <div class="quote">« Ton identité musulmane est une lumière intérieure. Elle n'est pas là pour t'enfermer, mais pour t'accompagner où que tu ailles, avec tes rêves et tes amitiés. »</div>
+  </div>
+
+  <h3>Pour rassurer sur l'amour inconditionnel</h3>
+  <div class="phrase-card">
+    <div class="label">À dire</div>
+    <div class="quote">« Tu n'as pas besoin d'être parfait pour être aimé ici. Allah regarde l'intention de notre cœur, pas seulement nos réussites ou nos erreurs. »</div>
+  </div>
+
+  <h3>Accompagner une jeune aux humeurs changeantes</h3>
+
+  <div class="phrase-card">
+    <div class="label">Accueillir chaque émotion sans la minimiser</div>
+    <div class="quote">« Ce que tu ressens est important. Je suis là pour écouter, sans juger. »</div>
+  </div>
+
+  <div class="phrase-card">
+    <div class="label">Encourager l'expression libre des pensées</div>
+    <div class="quote">« Tu peux tout me dire. Même si je ne comprends pas tout de suite, je veux comprendre ton monde. »</div>
+  </div>
+
+  <div class="phrase-card">
+    <div class="label">Valoriser la recherche de l'équilibre intérieur</div>
+    <div class="quote">« Dans l'islam, on n'attend pas que tu sois parfaite, mais que tu cherches l'équilibre et que tu avances pas à pas. »</div>
+  </div>
+
+  <div class="phrase-card">
+    <div class="label">Dédramatiser les besoins d'affirmation</div>
+    <div class="quote">« C'est normal que tu ressentes le besoin de t'affirmer. Le plus beau courage est de rester toi-même tout en respectant ce qui est juste. »</div>
+  </div>
+
+  <div class="phrase-card">
+    <div class="label">Proposer l'ancrage spirituel sans pression</div>
+    <div class="quote">« Quand ton cœur est agité, Allah est toujours là, plus proche de toi que ta propre respiration. »</div>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="opening">
+    <strong>En résumé :</strong><br>
+    Beaucoup de <strong>chaleur, de confiance et de spiritualité</strong> vécue comme un soutien intérieur,<br>
+    <em>jamais comme une pression extérieure.</em>
+  </div>
+
+  <div class="cross-ref">
+    📘 Pour les principes de communication non violente, écoute active, gestion des émotions et boîte à outils ados, voir la version universelle : <a href="dialoguer-avec-son-ado.html">« Dialoguer avec son ado »</a> — partie 1 (Le Dialogue) et partie 2 (Les Émotions).
+  </div>
+
+  <div class="closing">
+    🌙 <strong>L'essentiel à retenir</strong> 🌙<br>
+    <span style="font-size:10.5pt;">
+    Notre ado a toujours besoin de nous, <strong>peut-être plus que jamais, mais autrement</strong>.<br>
+    Et au-dessus de tout, il a besoin que nous lui transmettions, par l'exemple,<br>
+    <em>la lumière de la foi et la douceur de la miséricorde.</em>
+    </span>
+  </div>
+
+  <div class="ayat" style="margin-top:1.2rem;">
+    <span class="arabic">رَّبِّ زِدْنِي عِلْمًا</span>
+    <span class="trans">« Seigneur, augmente-moi en science. »</span>
+    <span class="src">Sourate Tâ-Hâ 20:114</span>
+  </div>
+
+  <div class="signature" style="margin-top:1.5rem;">
+    <strong>Educa_typique</strong> · Édition familles musulmanes · Merci !
+  </div>
+
+  <div class="small-print">E-book psychoéducatif · Educa_typique · Usage personnel & non commercial</div>
+</div>
+
+</div>
+
+</body>
+</html>

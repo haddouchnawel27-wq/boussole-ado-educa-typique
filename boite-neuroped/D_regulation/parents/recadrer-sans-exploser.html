@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recadrer mon ado sans exploser · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { margin: 1.5cm; size: A4; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    color: #2E2A5C;
+    line-height: 1.6;
+    background: #F7F2EC;
+    font-size: 11pt;
+  }
+  .topbar {
+    position: sticky; top:0; z-index: 100;
+    background: linear-gradient(135deg, #7c5cbf 0%, #9B85B8 100%);
+    color: #fff; padding: .6rem 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    display: flex; gap: .5rem; flex-wrap: wrap; justify-content: center; align-items: center;
+  }
+  .topbar a, .topbar button {
+    color: #fff; background: rgba(255,255,255,.15); text-decoration: none;
+    border: none; padding: .4rem .9rem; border-radius: 999px;
+    font-family: 'Nunito', sans-serif; font-weight: 600; font-size: .85rem;
+    cursor: pointer;
+  }
+  .topbar a:hover, .topbar button:hover { background: rgba(255,255,255,.3); }
+  .topbar select {
+    background: #fff; color: #6b4daa; border: none;
+    padding: .4rem .8rem; border-radius: 999px;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .85rem;
+  }
+
+  .container { padding: 1.5rem 1rem; max-width: 950px; margin: 0 auto; }
+
+  .header {
+    background: linear-gradient(135deg, #7c5cbf 0%, #CBB6F6 100%);
+    color: #fff; padding: 2rem 2.2rem;
+    border-radius: 12px; margin-bottom: 1rem;
+    text-align: center;
+  }
+  .brand-tag {
+    background: rgba(255,255,255,.2);
+    display: inline-block; padding: .25rem .9rem;
+    border-radius: 999px; font-size: 8.5pt; font-weight: 700;
+    letter-spacing: 1px; margin-bottom: .8rem;
+  }
+  .header h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22pt; font-weight: 700; margin-bottom: .3rem;
+  }
+  .header .tagline { font-size: 10pt; opacity: .9; font-style: italic; }
+
+  .opening {
+    background: linear-gradient(135deg, #F2EAFC 0%, #FBEFE6 100%);
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.2rem;
+    text-align: center;
+    font-style: italic;
+    color: #6b4daa;
+    border-left: 4px solid #7c5cbf;
+  }
+  .opening strong { color: #6b4daa; font-style: normal; }
+
+  .tabs {
+    display: flex; gap: .4rem; margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .tab {
+    flex: 1; min-width: 140px;
+    background: #fff; border: 2px solid #ddd;
+    padding: .8rem .8rem; border-radius: 12px;
+    cursor: pointer; text-align: center;
+    font-family: 'Poppins', sans-serif; font-weight: 600;
+    color: #888; transition: all .15s;
+    font-size: 9.5pt;
+  }
+  .tab:hover { background: #f5f0fa; }
+  .tab.active {
+    background: linear-gradient(135deg, #7c5cbf, #9B85B8);
+    color: #fff; border-color: transparent;
+    box-shadow: 0 4px 12px rgba(124,92,191,.25);
+  }
+  .tab .num {
+    background: rgba(255,255,255,.25);
+    width: 28px; height: 28px;
+    border-radius: 50%; display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 11pt; margin-bottom: .3rem;
+  }
+  .tab.active .num { background: rgba(255,255,255,.35); }
+
+  .panel {
+    background: #fff; padding: 2rem 2.2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.06);
+  }
+  .panel.hidden { display: none; }
+
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16pt; color: #6b4daa;
+    font-weight: 700; margin-bottom: .3rem;
+  }
+  h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12pt; color: #9B85B8;
+    font-weight: 600;
+    margin: 1.3rem 0 .5rem;
+    padding-left: .7rem;
+    border-left: 4px solid #CBB6F6;
+  }
+  .section-meta {
+    color: #888; font-style: italic;
+    font-size: 10pt; margin-bottom: 1rem;
+  }
+
+  .pillar {
+    background: #F2EAFC; border-radius: 10px;
+    padding: 1.1rem 1.3rem; margin: 0.9rem 0;
+    border-left: 4px solid #CBB6F6;
+  }
+  .pillar.dark { background: #ebe2f8; border-left-color: #9B85B8; }
+  .pillar.green { background: #E4F4F2; border-left-color: #4DB3A1; }
+  .pillar.peach { background: #FFF1EA; border-left-color: #F4A261; }
+  .pillar-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; color: #6b4daa;
+    margin-bottom: 0.4rem; font-size: 11.5pt;
+  }
+
+  .phrase-pivot {
+    background: linear-gradient(135deg, #fff 0%, #F2EAFC 100%);
+    border: 2px dashed #7c5cbf;
+    padding: 1.5rem 1.8rem;
+    border-radius: 12px;
+    margin: 1.2rem 0;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13pt;
+    color: #6b4daa;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .phrase-pivot .ic { font-size: 2rem; display: block; margin-bottom: .5rem; }
+
+  .ancrage {
+    background: #FFF7E0;
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    margin: 1rem 0;
+    border-left: 4px solid #E9C46A;
+  }
+  .ancrage .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .7rem; margin-top: .7rem;
+  }
+  .ancrage .step {
+    background: #fff; padding: .8rem .6rem;
+    border-radius: 8px; text-align: center;
+    font-size: 10pt;
+  }
+  .ancrage .step .n {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; color: #c89400;
+    font-size: 18pt; display: block; line-height: 1;
+  }
+
+  input[type="text"], textarea {
+    width: 100%; padding: .7rem .9rem;
+    border: 1.5px solid #d0d0d0;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 10.5pt;
+    color: #2E2A5C;
+    background: #fff;
+    margin-top: .4rem;
+  }
+  input[type="text"]:focus, textarea:focus {
+    outline: none; border-color: #7c5cbf;
+  }
+  textarea { min-height: 70px; resize: vertical; }
+
+  .question {
+    background: #fff; padding: 1.1rem 1.3rem;
+    border-radius: 10px; margin-bottom: .8rem;
+    border-left: 4px solid #CBB6F6;
+    box-shadow: 0 2px 6px rgba(0,0,0,.04);
+  }
+  .question .num {
+    font-family: 'Poppins', sans-serif;
+    background: #CBB6F6; color: #fff;
+    padding: .15rem .6rem;
+    border-radius: 999px;
+    font-size: 10pt; font-weight: 700;
+    margin-right: .5rem;
+  }
+  .question .label {
+    font-weight: 700; color: #6b4daa;
+    margin-bottom: .3rem;
+  }
+  .question .hint {
+    font-style: italic; color: #888;
+    font-size: 9.5pt; margin-bottom: .3rem;
+  }
+
+  .mantra {
+    background: linear-gradient(135deg, #F2EAFC 0%, #ebe2f8 100%);
+    border-radius: 10px;
+    padding: 1.3rem 1.5rem;
+    margin: 1rem 0;
+    border-left: 5px solid #7c5cbf;
+  }
+  .mantra .titre {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; color: #6b4daa;
+    font-size: 11pt; margin-bottom: .5rem;
+  }
+  .mantra .phrase {
+    font-style: italic; color: #6b4daa;
+    font-size: 12pt; line-height: 1.5;
+    text-align: center;
+  }
+
+  .trame {
+    counter-reset: tr;
+  }
+  .trame-step {
+    background: #fff; padding: 1.1rem 1.3rem;
+    border-radius: 10px; margin-bottom: .8rem;
+    border-left: 4px solid #7c5cbf;
+    position: relative;
+    padding-left: 3.5rem;
+    counter-increment: tr;
+  }
+  .trame-step::before {
+    content: counter(tr);
+    position: absolute;
+    left: 1rem; top: 1.1rem;
+    background: #7c5cbf; color: #fff;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; font-size: 11pt;
+  }
+  .trame-step .titre {
+    font-weight: 700; color: #6b4daa;
+    margin-bottom: .3rem;
+  }
+  .trame-step .phrase {
+    font-style: italic; color: #6b4daa;
+    font-size: 10.5pt; background: #F2EAFC;
+    padding: .6rem .8rem; border-radius: 6px;
+    margin: .4rem 0;
+  }
+
+  .observ-grid {
+    display: grid; gap: .5rem;
+    margin: 1rem 0;
+  }
+  .observ-row {
+    background: #fff; padding: .8rem 1rem;
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: 1fr 80px 80px 80px;
+    gap: .7rem; align-items: center;
+    border-left: 3px solid #CBB6F6;
+  }
+  .observ-row .question {
+    background: transparent; padding: 0; box-shadow: none;
+    border: none; margin: 0;
+    font-size: 10pt; color: #2E2A5C;
+  }
+  .observ-row .opt {
+    text-align: center; padding: .4rem;
+    border: 1.5px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer; font-size: 9.5pt;
+    transition: all .15s;
+  }
+  .observ-row .opt.yes { color: #2A8E7C; }
+  .observ-row .opt.mid { color: #c89400; }
+  .observ-row .opt.no { color: #b13c20; }
+  .observ-row .opt input[type="radio"] { display: none; }
+  .observ-row .opt:has(input:checked) {
+    background: #f5f0fa; border-color: #7c5cbf;
+    font-weight: 700;
+  }
+
+  .actions {
+    display: flex; gap: .5rem; flex-wrap: wrap;
+    margin-top: 1.5rem; padding-top: 1.2rem;
+    border-top: 1px dashed #d0d0d0;
+  }
+  .actions button {
+    background: #7c5cbf; color: #fff;
+    border: none; padding: .65rem 1.3rem;
+    border-radius: 999px; font-weight: 700;
+    cursor: pointer; font-family: 'Nunito', sans-serif;
+    font-size: 10pt;
+  }
+  .actions button:hover { background: #6b4daa; }
+  .actions button.secondary { background: #fff; color: #7c5cbf; border: 1.5px solid #7c5cbf; }
+  .actions button.danger { background: #fff; color: #b13c20; border: 1.5px solid #b13c20; }
+
+  .signature {
+    text-align: center;
+    margin-top: 2rem; padding-top: 1rem;
+    border-top: 1px dashed #d0d0d0;
+    font-size: 9pt; color: #7A6E94; font-style: italic;
+  }
+  .signature strong { color: #6b4daa; font-style: normal; font-family: 'Poppins', sans-serif; }
+
+  .warn {
+    background: #FFE0E0; border-left: 4px solid #b13c20;
+    padding: .9rem 1.1rem; border-radius: 8px;
+    margin: 1rem 0; font-size: 10pt;
+  }
+  .warn strong { color: #b13c20; }
+
+  .source {
+    background: #f5f0fa; border: 1px dashed #CBB6F6;
+    border-radius: 8px; padding: .8rem 1.1rem;
+    font-size: 9.5pt; color: #6b4daa; font-style: italic;
+    margin: 1rem 0;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .topbar, .tabs, .actions { display: none !important; }
+    .panel.hidden { display: block !important; page-break-before: always; }
+    .panel { box-shadow: none; padding: 1rem; }
+    .header { box-shadow: none; }
+  }
+  @media (max-width: 700px) {
+    .ancrage .steps { grid-template-columns: 1fr; }
+    .observ-row { grid-template-columns: 1fr; }
+    .panel { padding: 1.2rem; }
+    .header { padding: 1.5rem 1.2rem; }
+    .header h1 { font-size: 18pt; }
+    .tab { min-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="../../parents.html">🏠 Parents</a>
+  <select id="fiche-select" onchange="loadFiche()">
+    <option value="">— Choisir une situation —</option>
+  </select>
+  <button onclick="nouvelleFiche()">+ Nouvelle</button>
+  <button onclick="sauverFiche()">💾 Sauver</button>
+  <button onclick="exporterTxt()">📄 Export TXT</button>
+  <button onclick="window.print()">🖨 Imprimer</button>
+  <button onclick="supprimerFiche()" style="background:rgba(255,200,200,.2)">🗑</button>
+</nav>
+
+<div class="container">
+
+<div class="header">
+  <div class="brand-tag">EDUCA TYPIQUE · CRÉATION ORIGINALE NAWEL</div>
+  <h1>🛡 Recadrer mon ado sans exploser</h1>
+  <div class="tagline">Une trame en 5 étapes pour poser le cadre avec autorité calme</div>
+</div>
+
+<div class="opening">
+  <strong>« Je ne suis pas cette émotion. Je suis le cadre, pas la tempête. »</strong><br>
+  5 étapes pour transformer ta réaction à chaud en <em>leadership relationnel</em>.
+</div>
+
+<input type="text" id="meta-titre" placeholder="Titre de la situation (ex: « 14 avril · mensonge sortie »)" style="background:#fff; max-width:500px; margin-bottom:1rem;">
+
+<div class="tabs">
+  <div class="tab active" data-tab="situ" onclick="showTab('situ')" style="background:linear-gradient(135deg,#F4A261,#E9C46A); color:#fff; border-color:transparent;">
+    <span class="num">📚</span><br>Situations
+  </div>
+  <div class="tab" data-tab="e1" onclick="showTab('e1')">
+    <span class="num">1</span><br>À chaud
+  </div>
+  <div class="tab" data-tab="e2" onclick="showTab('e2')">
+    <span class="num">2</span><br>Tri intérieur
+  </div>
+  <div class="tab" data-tab="e3" onclick="showTab('e3')">
+    <span class="num">3</span><br>Renforcement
+  </div>
+  <div class="tab" data-tab="e4" onclick="showTab('e4')">
+    <span class="num">4</span><br>Entretien
+  </div>
+  <div class="tab" data-tab="e5" onclick="showTab('e5')">
+    <span class="num">5</span><br>Observation
+  </div>
+</div>
+
+<!-- ═══════════════ BIBLIOTHÈQUE SITUATIONS ═══════════════ -->
+<div class="panel" id="tab-situ">
+  <h2 style="color:#c89400;">📚 Choisir une situation fréquente</h2>
+  <div class="section-meta">Clique sur une situation : les 5 étapes seront <strong>pré-remplies avec des suggestions adaptées</strong>. Tu pourras tout modifier ensuite pour ta situation précise.</div>
+
+  <div class="opening" style="background:linear-gradient(135deg,#FFF7E0 0%,#FFE8D6 100%);border-left-color:#F4A261;color:#7a5a00;">
+    ⚠️ <strong>Ces suggestions sont des points de départ, pas des vérités absolues.</strong><br>
+    Adapte-les à ton enfant, à ton couple éducatif, à ton contexte. Le tri intérieur (étape 2) reste TON travail.
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:.8rem; margin:1.5rem 0;">
+    <div class="situ-card" onclick="loadSituation('mensonge')" style="background:#fff;border:2px solid #ddd;padding:1.1rem 1.3rem;border-radius:10px;cursor:pointer;transition:all .15s;">
+      <div style="font-size:1.8rem; margin-bottom:.3rem;">🗣</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#6b4daa;margin-bottom:.3rem;">Mensonge sur une sortie</div>
+      <div style="font-size:9.5pt;color:#888;">« Il/elle m'a dit qu'il/elle dormait chez un·e ami·e — c'était faux. »</div>
+    </div>
+    <div class="situ-card" onclick="loadSituation('ecrans')" style="background:#fff;border:2px solid #ddd;padding:1.1rem 1.3rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.8rem; margin-bottom:.3rem;">📵</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#6b4daa;margin-bottom:.3rem;">Règle écrans bafouée</div>
+      <div style="font-size:9.5pt;color:#888;">Joue jusqu'à 2h du matin malgré l'accord, ou refuse de rendre le tel.</div>
+    </div>
+    <div class="situ-card" onclick="loadSituation('porte')" style="background:#fff;border:2px solid #ddd;padding:1.1rem 1.3rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.8rem; margin-bottom:.3rem;">🚪</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#6b4daa;margin-bottom:.3rem;">Claquement / insultes</div>
+      <div style="font-size:9.5pt;color:#888;">A claqué la porte, m'a insulté·e ou crié des choses très blessantes.</div>
+    </div>
+    <div class="situ-card" onclick="loadSituation('note')" style="background:#fff;border:2px solid #ddd;padding:1.1rem 1.3rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.8rem; margin-bottom:.3rem;">📚</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#6b4daa;margin-bottom:.3rem;">Note catastrophique cachée</div>
+      <div style="font-size:9.5pt;color:#888;">Découverte d'un mauvais bulletin / contrôle caché depuis des semaines.</div>
+    </div>
+    <div class="situ-card" onclick="loadSituation('substance')" style="background:#fff;border:2px solid #ddd;padding:1.1rem 1.3rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.8rem; margin-bottom:.3rem;">🚬</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#6b4daa;margin-bottom:.3rem;">Substance suspecte</div>
+      <div style="font-size:9.5pt;color:#888;">Odeur de cannabis / alcool dans sa chambre · trouvé un briquet · regard rouge.</div>
+    </div>
+    <div class="situ-card" onclick="loadSituation('intime')" style="background:#fff;border:2px solid #ddd;padding:1.1rem 1.3rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.8rem; margin-bottom:.3rem;">📱</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#6b4daa;margin-bottom:.3rem;">Photo intime / sexto</div>
+      <div style="font-size:9.5pt;color:#888;">A envoyé ou reçu du contenu sexuel sur les réseaux. ⚠️ Sujet sensible.</div>
+    </div>
+    <div class="situ-card" onclick="loadSituation('fugue')" style="background:#fff;border:2px solid #ddd;padding:1.1rem 1.3rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.8rem; margin-bottom:.3rem;">🚷</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#6b4daa;margin-bottom:.3rem;">Sort en cachette / fugue</div>
+      <div style="font-size:9.5pt;color:#888;">Est sorti par la fenêtre, n'est pas rentré à l'heure, ou n'a pas dit où il était.</div>
+    </div>
+    <div class="situ-card" onclick="loadSituation('argent')" style="background:#fff;border:2px solid #ddd;padding:1.1rem 1.3rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.8rem; margin-bottom:.3rem;">💸</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#6b4daa;margin-bottom:.3rem;">Vol d'argent à la maison</div>
+      <div style="font-size:9.5pt;color:#888;">A pris de l'argent dans mon portefeuille ou utilisé ma carte sans permission.</div>
+    </div>
+    <div class="situ-card" onclick="loadSituation('silence')" style="background:#fff;border:2px solid #ddd;padding:1.1rem 1.3rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.8rem; margin-bottom:.3rem;">🤐</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#6b4daa;margin-bottom:.3rem;">Refus total de parler</div>
+      <div style="font-size:9.5pt;color:#888;">N'a pas adressé la parole depuis plusieurs jours · me « punit » par le silence.</div>
+    </div>
+    <div class="situ-card" onclick="loadSituation('violence')" style="background:#fff;border:2px solid #ddd;padding:1.1rem 1.3rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.8rem; margin-bottom:.3rem;">🥊</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#6b4daa;margin-bottom:.3rem;">Bagarre / violence physique</div>
+      <div style="font-size:9.5pt;color:#888;">S'est battu·e à l'école, à frappé un frère/une sœur, ou m'a poussé·e.</div>
+    </div>
+    <div class="situ-card" onclick="loadSituation('retour')" style="background:#fff;border:2px solid #ddd;padding:1.1rem 1.3rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.8rem; margin-bottom:.3rem;">🌙</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#6b4daa;margin-bottom:.3rem;">Heure de retour non respectée</div>
+      <div style="font-size:9.5pt;color:#888;">Devait rentrer à 22h, est rentré à 1h sans prévenir ni répondre au tel.</div>
+    </div>
+    <div class="situ-card" onclick="loadSituation('regles')" style="background:#fff;border:2px solid #ddd;padding:1.1rem 1.3rem;border-radius:10px;cursor:pointer;">
+      <div style="font-size:1.8rem; margin-bottom:.3rem;">❌</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:700;color:#6b4daa;margin-bottom:.3rem;">Refus des règles familiales</div>
+      <div style="font-size:9.5pt;color:#888;">Refuse les règles religieuses, familiales, culturelles posées à la maison.</div>
+    </div>
+  </div>
+
+  <div class="pillar green">
+    <div class="pillar-title">💡 Mode d'emploi</div>
+    Clique sur une situation. Les 5 étapes seront pré-remplies avec des suggestions <strong>indicatives</strong>. Tu pourras ensuite <strong>modifier chaque champ</strong> pour ta réalité précise. Le clic ne te fait <strong>pas</strong> écraser un travail sauvegardé — il pré-remplit seulement si les champs sont vides.
+  </div>
+
+  <div class="signature"><strong>Educa Typique</strong> · Bibliothèque de situations</div>
+</div>
+
+<!-- ═══════════════ ÉTAPE 1 ═══════════════ -->
+<div class="panel hidden" id="tab-e1">
+  <h2>Étape 1 · Gérer ma réaction à chaud</h2>
+  <div class="section-meta">Objectif : ne pas répondre sous l'émotion</div>
+
+  <h3>Ce que je fais</h3>
+  <div class="pillar">
+    <ul style="margin-bottom:0;">
+      <li><strong>Je ne réponds pas</strong> immédiatement à la provocation ou au débordement.</li>
+      <li><strong>Je dis à voix haute</strong> (si possible) une phrase-pivot</li>
+      <li><strong>Je m'éloigne physiquement</strong> sans claquer, sans punir, simplement pour me préserver.</li>
+    </ul>
+  </div>
+
+  <div class="phrase-pivot">
+    <span class="ic">🌬</span>
+    « Je suis trop en réaction, je vais prendre du recul.<br>
+    On reparlera après. »
+  </div>
+
+  <div class="ancrage">
+    <div class="pillar-title" style="margin-bottom:.5rem;">🧘 Astuce ancrage corporel (3 respirations)</div>
+    <div class="steps">
+      <div class="step">
+        <span class="n">1</span>
+        Une main sur le cœur, une sur le ventre
+      </div>
+      <div class="step">
+        <span class="n">2</span>
+        Respirer 3 fois, profondément, en allongeant l'expiration
+      </div>
+      <div class="step">
+        <span class="n">3</span>
+        Dire en soi le mantra ↓
+      </div>
+    </div>
+  </div>
+
+  <div class="mantra">
+    <div class="titre">🌟 Mon mantra à chaud</div>
+    <div class="phrase">« Je ne suis pas cette émotion.<br>Je suis le cadre, pas la tempête. »</div>
+  </div>
+
+  <div class="pillar peach">
+    <div class="pillar-title">✏️ Ma phrase-pivot personnelle</div>
+    <input type="text" id="e1-phrase" placeholder="Ex: « Je t'aime et je vais aller respirer. On en reparle dans 1h. »">
+  </div>
+
+  <div class="warn">
+    ⚠️ <strong>Important :</strong> S'éloigner ≠ punir, ≠ rejeter. C'est <strong>se préserver pour mieux revenir</strong>. Si possible, dis-lui « <em>Je reviens vers toi</em> » avant de partir — pour qu'il/elle ne se sente pas abandonné·e.
+  </div>
+
+  <div class="signature"><strong>Educa Typique</strong> · Étape 1/5 · Création originale Nawel</div>
+</div>
+
+<!-- ═══════════════ ÉTAPE 2 ═══════════════ -->
+<div class="panel hidden" id="tab-e2">
+  <h2>Étape 2 · Phase de recul et tri intérieur</h2>
+  <div class="section-meta">Objectif : transformer l'émotion en lucidité éducative · À faire seule, ou à l'écrit dans un carnet dédié</div>
+
+  <div class="trame" style="counter-reset:tr 0;">
+
+    <div class="question">
+      <span class="num">1</span><span class="label">Ce que j'ai vu / entendu</span>
+      <div class="hint">Décrire factuellement, sans jugement. Comme une caméra.</div>
+      <textarea id="e2-1" rows="3"></textarea>
+    </div>
+
+    <div class="question">
+      <span class="num">2</span><span class="label">Qu'est-ce que ça a réveillé en moi ?</span>
+      <div class="hint">Ex : injustice, peur, rejet, découragement, honte parentale…</div>
+      <textarea id="e2-2"></textarea>
+    </div>
+
+    <div class="question">
+      <span class="num">3</span><span class="label">À quelles valeurs ça touche chez moi ?</span>
+      <div class="hint">Ex : respect, pudeur, loyauté, loyauté familiale, vérité, sécurité…</div>
+      <textarea id="e2-3"></textarea>
+    </div>
+
+    <div class="question">
+      <span class="num">4</span><span class="label">Est-ce une crise ou une répétition ?</span>
+      <div class="hint">Ça m'aide à jauger la gravité. Crise isolée ≠ schéma qui s'installe.</div>
+      <textarea id="e2-4"></textarea>
+    </div>
+
+    <div class="question">
+      <span class="num">5</span><span class="label">Quelles limites ont été franchies ?</span>
+      <div class="hint">Physiques, verbales, relationnelles, spirituelles, éducatives — sois précise.</div>
+      <textarea id="e2-5"></textarea>
+    </div>
+
+    <div class="question">
+      <span class="num">6</span><span class="label">Quelle conséquence serait juste, proportionnée, éducative ?</span>
+      <div class="hint">Pas une punition à chaud. Une conséquence qui répare ou qui responsabilise : retrait de liberté, service réparateur, limitation…</div>
+      <textarea id="e2-6" rows="3"></textarea>
+    </div>
+
+  </div>
+
+  <div class="pillar green">
+    <strong>Pourquoi cette étape change tout :</strong> Sans ce tri, tu vas <strong>déverser ton émotion brute</strong> sur ton ado. Avec ce tri, tu reviens <strong>avec une décision éducative claire</strong>, ancrée dans tes valeurs et proportionnée. C'est ce qui fait la différence entre <em>punir</em> et <em>élever</em>.
+  </div>
+
+  <div class="signature"><strong>Educa Typique</strong> · Étape 2/5</div>
+</div>
+
+<!-- ═══════════════ ÉTAPE 3 ═══════════════ -->
+<div class="panel hidden" id="tab-e3">
+  <h2>Étape 3 · Renforcement avant l'entretien</h2>
+  <div class="section-meta">Objectif : entrer dans l'échange avec autorité calme et assumée</div>
+
+  <h3>🦁 Posture physique</h3>
+  <div class="pillar">
+    <ul style="margin-bottom:0;">
+      <li><strong>Je me redresse physiquement</strong> (position haute, épaules ouvertes).</li>
+      <li><strong>Respiration ancrée</strong>, lente, ventrale.</li>
+      <li>Je me regarde dans un miroir <em>(ou je me parle mentalement)</em>.</li>
+    </ul>
+  </div>
+
+  <div class="mantra">
+    <div class="titre">🌟 Mantra identitaire</div>
+    <div class="phrase">« Je suis une éducatrice.<br>
+    Je suis en train de construire une femme / un homme,<br>
+    pas de gérer une crise. »</div>
+  </div>
+
+  <h3>🏛 Mes valeurs-repères pour cette maison</h3>
+  <div class="section-meta">Trois phrases qui posent le cadre — à dire à voix haute pour s'en rappeler.</div>
+
+  <div class="pillar dark">
+    <div class="pillar-title">Modèles inspirants (à adapter)</div>
+    <p style="margin-bottom:.3rem;font-style:italic;">« Dans cette maison, on ne ment pas. »</p>
+    <p style="margin-bottom:.3rem;font-style:italic;">« Dans cette maison, on protège notre intimité. »</p>
+    <p style="margin-bottom:0;font-style:italic;">« Dans cette maison, on parle avec respect, même en désaccord. »</p>
+  </div>
+
+  <div class="pillar peach">
+    <div class="pillar-title">✏️ Mes 3 valeurs-repères pour cette maison</div>
+    <input type="text" id="e3-v1" placeholder="1. Dans cette maison, on…">
+    <input type="text" id="e3-v2" placeholder="2. Dans cette maison, on…">
+    <input type="text" id="e3-v3" placeholder="3. Dans cette maison, on…">
+  </div>
+
+  <div class="pillar green">
+    <strong>Pourquoi répéter ces phrases à voix haute :</strong> ça <strong>fait basculer ton cerveau</strong> du mode « parent contrarié » au mode « éducateur·rice posé·e ». Tu ne joues pas un rôle — tu <em>incarnes</em> ton autorité. Ton ado le sentira dès qu'il/elle te verra.
+  </div>
+
+  <div class="signature"><strong>Educa Typique</strong> · Étape 3/5</div>
+</div>
+
+<!-- ═══════════════ ÉTAPE 4 ═══════════════ -->
+<div class="panel hidden" id="tab-e4">
+  <h2>Étape 4 · Entretien solennel avec l'ado</h2>
+  <div class="section-meta">Objectif : exposer les faits, les ressentis et les conséquences <strong>sans débat</strong></div>
+
+  <div class="opening">
+    Cette étape est <strong>une lecture cadrée</strong>, pas une discussion. Tu peux la <em>préparer par écrit</em> avant et la lire si tu veux. C'est même recommandé.
+  </div>
+
+  <div class="trame" style="counter-reset:tr 0;">
+
+    <div class="trame-step">
+      <div class="titre">Ouverture solennelle</div>
+      <div class="phrase">« Je te parle calmement, mais ce que je dis est sérieux. »</div>
+      <p class="hint" style="margin-top:.4rem;">— Annonce le ton. L'ado sait qu'il faut écouter.</p>
+    </div>
+
+    <div class="trame-step">
+      <div class="titre">Les faits (neutres, factuels)</div>
+      <div class="phrase">« J'ai constaté que… »</div>
+      <textarea id="e4-faits" placeholder="Décris ce qui s'est passé, sans jugement"></textarea>
+    </div>
+
+    <div class="trame-step">
+      <div class="titre">Ce que ça a touché en moi</div>
+      <div class="phrase">« Ce comportement m'a profondément atteint·e car… »</div>
+      <textarea id="e4-touche" placeholder="Tes émotions, tes valeurs touchées"></textarea>
+    </div>
+
+    <div class="trame-step">
+      <div class="titre">Ce que je ne peux pas tolérer</div>
+      <div class="phrase">« Ce n'est pas acceptable car cela brise nos règles de… »</div>
+      <textarea id="e4-tol" placeholder="Quelle règle, quelle valeur"></textarea>
+    </div>
+
+    <div class="trame-step">
+      <div class="titre">La conséquence directe</div>
+      <div class="phrase">« Donc, à partir d'aujourd'hui, voici ce qui change… »</div>
+      <textarea id="e4-consq" placeholder="Conséquence claire, datée, mesurable" rows="3"></textarea>
+    </div>
+
+    <div class="trame-step">
+      <div class="titre">Affirmation éducative finale</div>
+      <div class="phrase">« Je ne suis pas contre toi. Je suis là pour t'élever. Et je ne céderai pas — parce que c'est ça, t'aimer vraiment. »</div>
+      <p class="hint" style="margin-top:.4rem;">Phrase-clé Nawel. Garde-la telle quelle, ou adapte avec tes mots.</p>
+    </div>
+
+    <div class="trame-step">
+      <div class="titre">Si l'ado veut répondre / discuter / contester</div>
+      <div class="phrase">« Merci pour ce que tu dis. Je vais prendre le temps d'y réfléchir. On fera un point demain si nécessaire. »</div>
+      <p class="hint" style="margin-top:.4rem;">⚠️ <strong>Pas de débat à chaud.</strong> Tu notes ce qu'il dit, mais tu ne reviens pas sur la conséquence maintenant.</p>
+    </div>
+
+  </div>
+
+  <div class="warn">
+    ⚠️ <strong>Quand tu lis cette trame, garde en tête :</strong>
+    <ul style="margin-top:.4rem;margin-bottom:0;">
+      <li>Ton calme, ferme, jamais élevé</li>
+      <li>Contact visuel maintenu (pas fixant — chaleureux)</li>
+      <li>Tu peux dire que tu as eu besoin d'écrire pour bien dire ce que tu voulais dire</li>
+      <li>Tu finis sur l'affirmation éducative — pas sur le reproche</li>
+    </ul>
+  </div>
+
+  <div class="signature"><strong>Educa Typique</strong> · Étape 4/5</div>
+</div>
+
+<!-- ═══════════════ ÉTAPE 5 ═══════════════ -->
+<div class="panel hidden" id="tab-e5">
+  <h2>Étape 5 · Phase d'observation</h2>
+  <div class="section-meta">Objectif : évaluer sur 3 à 7 jours la capacité de l'ado à intégrer la limite posée</div>
+
+  <h3>Ce que tu observes (sans commenter)</h3>
+  <div class="pillar">
+    <ul style="margin-bottom:0;">
+      <li>Est-ce qu'il <strong>respecte</strong> les nouvelles limites ?</li>
+      <li>Est-ce qu'il reste <strong>respectueux</strong> ou cherche encore la faille ?</li>
+      <li>Est-ce qu'il cherche <strong>le lien</strong> ou se replie dans la provocation ?</li>
+    </ul>
+  </div>
+
+  <div class="phrase-pivot" style="font-size:11pt;">
+    Ce que tu dis à l'ado :<br>
+    <span style="font-style:italic;">« Je t'observe. Je veux voir comment tu réagis à ce qui a été posé.<br>
+    Pas besoin de faire semblant. Sois vrai·e. Mais reste dans le cadre. <strong>Je suis là</strong>. »</span>
+  </div>
+
+  <h3>📊 Mon journal d'observation (3-7 jours)</h3>
+
+  <div class="observ-grid">
+    <div class="observ-row">
+      <div class="question"><strong>J1 ·</strong> A-t-il respecté la limite posée ?</div>
+      <label class="opt yes"><input type="radio" name="j1-resp"> ✅ Oui</label>
+      <label class="opt mid"><input type="radio" name="j1-resp"> 🟡 Partiel</label>
+      <label class="opt no"><input type="radio" name="j1-resp"> ❌ Non</label>
+    </div>
+    <div class="observ-row">
+      <div class="question"><strong>J2 ·</strong> A-t-il respecté la limite posée ?</div>
+      <label class="opt yes"><input type="radio" name="j2-resp"> ✅ Oui</label>
+      <label class="opt mid"><input type="radio" name="j2-resp"> 🟡 Partiel</label>
+      <label class="opt no"><input type="radio" name="j2-resp"> ❌ Non</label>
+    </div>
+    <div class="observ-row">
+      <div class="question"><strong>J3 ·</strong> A-t-il respecté la limite posée ?</div>
+      <label class="opt yes"><input type="radio" name="j3-resp"> ✅ Oui</label>
+      <label class="opt mid"><input type="radio" name="j3-resp"> 🟡 Partiel</label>
+      <label class="opt no"><input type="radio" name="j3-resp"> ❌ Non</label>
+    </div>
+    <div class="observ-row">
+      <div class="question"><strong>J4-J7 ·</strong> Tendance générale</div>
+      <label class="opt yes"><input type="radio" name="j47-resp"> ✅ Intègre</label>
+      <label class="opt mid"><input type="radio" name="j47-resp"> 🟡 Hésite</label>
+      <label class="opt no"><input type="radio" name="j47-resp"> ❌ Conteste</label>
+    </div>
+  </div>
+
+  <h3>🌱 Cherche-t-il le lien ou la provocation ?</h3>
+  <textarea id="e5-lien" placeholder="Note ce que tu observes : initie-t-il du contact (regard, mots, gestes) ? Ou silence/provocation/évitement ?"></textarea>
+
+  <h3>📝 Mon bilan à J7</h3>
+  <div class="pillar green">
+    <div class="pillar-title">✅ Ce qui a marché</div>
+    <textarea id="e5-marche"></textarea>
+  </div>
+  <div class="pillar peach">
+    <div class="pillar-title">🔄 Ce que je dois ajuster</div>
+    <textarea id="e5-ajuste"></textarea>
+  </div>
+  <div class="pillar dark">
+    <div class="pillar-title">💛 Ce que je veux lui dire à J7 (validation, ajustement, point d'étape)</div>
+    <textarea id="e5-dire" rows="3"></textarea>
+  </div>
+
+  <div class="warn">
+    ⚠️ <strong>Si la situation se reproduit à l'identique après J7</strong>, ne refais pas exactement la même chose. Repars à l'Étape 2 (tri intérieur) — peut-être que la conséquence n'était pas adaptée, ou qu'il y a une <strong>cause sous-jacente</strong> (anxiété, harcèlement, mal-être plus profond). N'hésite pas à consulter un·e pro.
+  </div>
+
+  <div class="signature"><strong>Educa Typique</strong> · Étape 5/5</div>
+
+  <div class="source" style="margin-top:1.5rem;">
+    📚 <strong>Adaptation EducaTypique</strong> d'une trame de recadrage en 5 étapes (leadership relationnel parent-ado), reformulée pour parents de la Boîte NeuroPed. Les principes pédagogiques sont conservés, le ton et la mise en forme sont signature Nawel.
+  </div>
+</div>
+
+<div class="actions">
+  <button onclick="sauverFiche()">💾 Sauver cette situation</button>
+  <button class="secondary" onclick="exporterTxt()">📄 Export TXT</button>
+  <button class="secondary" onclick="window.print()">🖨 Imprimer (toutes les étapes)</button>
+</div>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'educatypique_recadrer_v1';
+let currentFiche = null;
+
+function showTab(tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+  document.querySelectorAll('.panel').forEach(p => p.classList.add('hidden'));
+  document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function getAllFields() {
+  const data = { titre: document.getElementById('meta-titre').value };
+  document.querySelectorAll('input[type="text"], textarea').forEach(el => {
+    if (el.id) data[el.id] = el.value;
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(el => {
+    if (el.checked) data[el.name] = el.value || true;
+  });
+  return data;
+}
+
+function setAllFields(data) {
+  if (!data) return;
+  document.getElementById('meta-titre').value = data.titre || '';
+  document.querySelectorAll('input[type="text"], textarea').forEach(el => {
+    if (el.id) el.value = data[el.id] || '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(el => { el.checked = false; });
+  Object.keys(data).forEach(k => {
+    const r = document.querySelector(`input[type="radio"][name="${k}"]`);
+    if (r && data[k]) r.checked = true;
+  });
+}
+
+function clearAllFields() {
+  document.getElementById('meta-titre').value = '';
+  document.querySelectorAll('input[type="text"], textarea').forEach(el => {
+    if (el.id) el.value = '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+}
+
+function getStore() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function setStore(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
+
+function refreshSelect() {
+  const sel = document.getElementById('fiche-select');
+  const store = getStore();
+  sel.innerHTML = '<option value="">— Choisir une situation —</option>';
+  Object.keys(store).sort().forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name; opt.textContent = name;
+    if (name === currentFiche) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function nouvelleFiche() {
+  const name = prompt('Titre de cette situation :');
+  if (!name) return;
+  clearAllFields();
+  currentFiche = name;
+  sauverFiche();
+}
+
+function sauverFiche() {
+  if (!currentFiche) {
+    const name = prompt('Titre de cette situation :');
+    if (!name) return;
+    currentFiche = name;
+  }
+  const store = getStore();
+  store[currentFiche] = getAllFields();
+  setStore(store);
+  refreshSelect();
+  alert(`Situation « ${currentFiche} » sauvegardée ✓`);
+}
+
+function loadFiche() {
+  const sel = document.getElementById('fiche-select');
+  const name = sel.value;
+  if (!name) return;
+  currentFiche = name;
+  const store = getStore();
+  setAllFields(store[name]);
+}
+
+function supprimerFiche() {
+  if (!currentFiche) { alert('Aucune situation sélectionnée.'); return; }
+  if (!confirm(`Supprimer « ${currentFiche} » ?`)) return;
+  const store = getStore();
+  delete store[currentFiche];
+  setStore(store);
+  currentFiche = null;
+  clearAllFields();
+  refreshSelect();
+}
+
+function exporterTxt() {
+  const d = getAllFields();
+  let t = '╔══════════════════════════════════════════════╗\n';
+  t +=   '║  RECADRER MON ADO SANS EXPLOSER              ║\n';
+  t +=   '║  Educa Typique · Création originale Nawel    ║\n';
+  t +=   '╚══════════════════════════════════════════════╝\n\n';
+  if (d.titre) t += `Situation : ${d.titre}\n`;
+  t += `Date d'export : ${new Date().toLocaleString('fr-FR')}\n\n`;
+
+  t += '═══ ÉTAPE 1 · À chaud ═══\n';
+  if (d['e1-phrase']) t += `Ma phrase-pivot : « ${d['e1-phrase']} »\n`;
+
+  t += '\n═══ ÉTAPE 2 · Tri intérieur ═══\n';
+  if (d['e2-1']) t += `1. Ce que j'ai vu : ${d['e2-1']}\n`;
+  if (d['e2-2']) t += `2. Ce que ça a réveillé en moi : ${d['e2-2']}\n`;
+  if (d['e2-3']) t += `3. Valeurs touchées : ${d['e2-3']}\n`;
+  if (d['e2-4']) t += `4. Crise ou répétition : ${d['e2-4']}\n`;
+  if (d['e2-5']) t += `5. Limites franchies : ${d['e2-5']}\n`;
+  if (d['e2-6']) t += `6. Conséquence juste : ${d['e2-6']}\n`;
+
+  t += '\n═══ ÉTAPE 3 · Valeurs-repères ═══\n';
+  if (d['e3-v1']) t += `1. ${d['e3-v1']}\n`;
+  if (d['e3-v2']) t += `2. ${d['e3-v2']}\n`;
+  if (d['e3-v3']) t += `3. ${d['e3-v3']}\n`;
+
+  t += '\n═══ ÉTAPE 4 · Entretien solennel ═══\n';
+  if (d['e4-faits']) t += `Faits : ${d['e4-faits']}\n`;
+  if (d['e4-touche']) t += `Ce qui m'a touché : ${d['e4-touche']}\n`;
+  if (d['e4-tol']) t += `Ce que je ne tolère pas : ${d['e4-tol']}\n`;
+  if (d['e4-consq']) t += `Conséquence : ${d['e4-consq']}\n`;
+
+  t += '\n═══ ÉTAPE 5 · Observation ═══\n';
+  if (d['j1-resp']) t += `J1 : ${d['j1-resp']}\n`;
+  if (d['j2-resp']) t += `J2 : ${d['j2-resp']}\n`;
+  if (d['j3-resp']) t += `J3 : ${d['j3-resp']}\n`;
+  if (d['j47-resp']) t += `J4-J7 : ${d['j47-resp']}\n`;
+  if (d['e5-lien']) t += `Lien ou provocation : ${d['e5-lien']}\n`;
+  if (d['e5-marche']) t += `Ce qui a marché : ${d['e5-marche']}\n`;
+  if (d['e5-ajuste']) t += `Ce que j'ajuste : ${d['e5-ajuste']}\n`;
+  if (d['e5-dire']) t += `Ce que je veux lui dire à J7 : ${d['e5-dire']}\n`;
+
+  t += '\n──────────────────────\nEduca Typique · Boîte NeuroPed\n';
+
+  const blob = new Blob([t], {type: 'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `recadrer-${(d.titre||'situation').toLowerCase().replace(/\s+/g,'-')}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ═══════════════ BIBLIOTHÈQUE DE SITUATIONS PRÉ-REMPLIES ═══════════════
+const SITUATIONS = {
+  mensonge: {
+    titre: 'Mensonge sur une sortie',
+    'e1-phrase': 'Je vais d\'abord aller respirer. On en reparle dans 1h, calmement.',
+    'e2-1': 'Il/elle m\'a dit qu\'il/elle dormait chez X. J\'ai appris (parents de X, géoloc, autre source) qu\'il/elle était en réalité ailleurs.',
+    'e2-2': 'Trahison. Peur de ne plus savoir où il/elle est. Inquiétude pour sa sécurité. Sentiment d\'avoir été pris·e pour un·e idiot·e.',
+    'e2-3': 'Honnêteté · Sécurité · Confiance mutuelle · Respect du cadre',
+    'e2-4': 'À jauger : 1er mensonge isolé ? Ou pattern qui s\'installe depuis quelques semaines ?',
+    'e2-5': 'Honnêteté brisée + cadre de sécurité (savoir où il/elle est) bafoué + autonomie utilisée pour tromper',
+    'e2-6': 'Retrait temporaire des sorties libres (1-2 semaines). Reconstruction progressive : 1ère sortie → vérification appel parents. Si OK pendant X temps → assouplissement.',
+    'e3-v1': 'Dans cette maison, on ne ment pas — surtout sur sa sécurité.',
+    'e3-v2': 'Dans cette maison, la confiance se construit. Elle peut aussi se reconstruire.',
+    'e3-v3': 'Dans cette maison, on dit la vérité même quand c\'est difficile.',
+    'e4-faits': 'Tu m\'as dit que tu dormais chez X. En réalité tu étais à [Y]. Je l\'ai su parce que [source].',
+    'e4-touche': 'Je me suis senti·e trahi·e. Et surtout j\'ai eu très peur — parce que je ne savais pas où tu étais réellement.',
+    'e4-tol': 'Mentir sur ta localisation casse ma capacité à assurer ta sécurité. C\'est non négociable pour moi.',
+    'e4-consq': 'Pendant les 2 prochaines semaines, plus de sortie libre. Tu peux voir tes ami·e·s ici à la maison. Au bout de 2 semaines, on fera un point. Si ça se passe bien, on reconstruit progressivement.'
+  },
+  ecrans: {
+    titre: 'Règle écrans bafouée',
+    'e1-phrase': 'On va arrêter là ce soir. Je récupère le téléphone et on en reparle demain à tête reposée.',
+    'e2-1': 'L\'accord était [téléphone à 22h dans le salon / pas plus de Xh de jeu par jour]. Hier j\'ai vu qu\'il/elle a joué jusqu\'à 2h du matin / a refusé de me rendre le tel.',
+    'e2-2': 'Frustration que l\'accord ne soit pas tenu. Inquiétude pour son sommeil et son cerveau. Sentiment d\'être pris·e pour un·e fliqueur·euse.',
+    'e2-3': 'Respect des accords · Santé (sommeil, cerveau) · Cadre familial',
+    'e2-4': 'Crise isolée ou pattern qui s\'installe depuis des semaines ?',
+    'e2-5': 'Accord rompu + santé compromise (sommeil) + autorité parentale contournée',
+    'e2-6': 'Téléphone hors chambre la nuit pour 2 semaines minimum (dans la pièce des parents). Pas de jeu après [heure]. Retour progressif si respect.',
+    'e3-v1': 'Dans cette maison, on protège le sommeil — c\'est non négociable.',
+    'e3-v2': 'Dans cette maison, un accord se respecte ou se renégocie — il ne se contourne pas.',
+    'e3-v3': 'Dans cette maison, ton cerveau d\'ado vaut plus qu\'une partie en ligne.',
+    'e4-faits': 'On avait un accord : [détailler]. Cette nuit/cette semaine tu as joué jusqu\'à 2h.',
+    'e4-touche': 'Je suis inquiet·e pour ton sommeil et ta concentration. Et je suis frustré·e parce que l\'accord n\'est plus respecté.',
+    'e4-tol': 'Ta santé de cerveau et de corps passe avant tout. Je ne peux pas laisser ça filer.',
+    'e4-consq': 'Pendant 2 semaines, le téléphone dort dans notre chambre la nuit. Pas de jeu après 21h. On fait un point dans 2 semaines.'
+  },
+  porte: {
+    titre: 'Claquement de porte / insultes',
+    'e1-phrase': 'Là je vais aller respirer. Tu vas faire pareil. On se reparle dans 2h, pas avant.',
+    'e2-1': 'Suite à [déclencheur], il/elle m\'a dit [insulte exacte] et a claqué la porte de sa chambre/de la maison.',
+    'e2-2': 'Humiliation. Colère. Tristesse de me sentir parlé·e comme ça. Peut-être aussi de la culpabilité (« je l\'ai poussé·e à bout ? »).',
+    'e2-3': 'Respect mutuel · Dignité · Non-violence verbale',
+    'e2-4': 'Première fois ou pattern récurrent quand on se dispute ?',
+    'e2-5': 'Limite verbale (insultes) + limite relationnelle (parler comme ça à un parent)',
+    'e2-6': 'Pas de punition à chaud. Conversation à froid (étape 4) avec affirmation claire de la limite. Réparation : excuse verbale ou écrite. Si récurrent : envisager médiateur familial / thérapeute.',
+    'e3-v1': 'Dans cette maison, on parle avec respect — même quand on est en colère.',
+    'e3-v2': 'Dans cette maison, on peut être en désaccord. Pas insultant·e.',
+    'e3-v3': 'Dans cette maison, je reste digne face à toi. Tu restes digne face à moi.',
+    'e4-faits': 'Hier, suite à notre désaccord sur [X], tu m\'as dit [insulte]. Tu as claqué la porte.',
+    'e4-touche': 'Ce que tu as dit m\'a profondément blessé·e. Je ne suis pas ton ennemi·e — je suis ton parent.',
+    'e4-tol': 'Le désaccord est OK. Les insultes ne le sont pas. C\'est une limite que je ne déplace pas.',
+    'e4-consq': 'Je te demande une réparation : des excuses, à l\'oral ou à l\'écrit. Quand ce sera fait, on tournera la page. Si ça se reproduit, on consultera ensemble un·e médiateur·rice familial·e.'
+  },
+  note: {
+    titre: 'Note catastrophique cachée',
+    'e1-phrase': 'OK. On va en reparler ce soir au calme. Pour l\'instant on continue la journée.',
+    'e2-1': 'J\'ai découvert (par hasard / par l\'école / dans son sac) une note de [X/20] en [matière], datée de [date]. Il/elle ne m\'en avait pas parlé.',
+    'e2-2': 'Inquiétude pour sa scolarité. Tristesse qu\'il/elle ait porté ça seul·e. Sentiment d\'être tenu·e à l\'écart de sa vie.',
+    'e2-3': 'Transparence · Confiance · Accompagnement scolaire · Sécurité affective',
+    'e2-4': 'Première note cachée ou pattern ?',
+    'e2-5': 'Communication brisée. Mais ATTENTION : il/elle a caché PAR PEUR — c\'est peut-être plus un appel à l\'aide qu\'une transgression.',
+    'e2-6': 'Pas de punition pour la note elle-même. Conversation centrée sur le « pourquoi tu n\'as pas pu m\'en parler ». Plan d\'action scolaire ensemble (soutien, dialogue prof, aménagement, bilan TND si pas fait).',
+    'e3-v1': 'Dans cette maison, une mauvaise note n\'est pas une honte — c\'est une information.',
+    'e3-v2': 'Dans cette maison, on traverse les difficultés scolaires ensemble.',
+    'e3-v3': 'Dans cette maison, tu peux me dire quand ça va mal. Je préfère savoir.',
+    'e4-faits': 'J\'ai vu la note de [X] en [matière] datée du [date]. Tu ne m\'en avais pas parlé.',
+    'e4-touche': 'Je ne suis pas en colère pour la note. Je suis triste que tu aies porté ça tout·e seul·e. Et je veux comprendre ce qui se passe pour toi à l\'école.',
+    'e4-tol': 'Ce n\'est pas la note que je ne tolère pas. C\'est que tu te sentes obligé·e de me cacher tes difficultés.',
+    'e4-consq': 'On va se voir 15 min ce week-end pour faire le point ensemble sur [matière]. Pas pour te punir — pour t\'aider. Tu peux dire ce dont TU as besoin (soutien, prof, méthode…).'
+  },
+  substance: {
+    titre: 'Substance suspecte',
+    'e1-phrase': 'Je dois prendre du recul. Cette conversation aura lieu, mais pas dans cet état pour moi. Je reviens vers toi.',
+    'e2-1': 'J\'ai constaté [odeur de cannabis dans sa chambre · briquet trouvé · yeux rouges · vide d\'alcool · message inquiétant].',
+    'e2-2': 'Peur intense. Panique. Sentiment d\'urgence. Possiblement honte (« j\'ai raté quelque chose »).',
+    'e2-3': 'Sécurité · Santé physique et mentale · Honnêteté · Protection',
+    'e2-4': 'Première fois suspectée ou pattern d\'inquiétude depuis quelque temps ?',
+    'e2-5': 'Sécurité (substance illégale ou dangereuse) + cadre familial + santé en développement',
+    'e2-6': 'Pas de punition aveugle. Conversation HORS jugement : qu\'est-ce qui se passe ? Quel besoin il/elle cherche à combler ? Orientation pro (médecin, addictologue ado, MDA). Vigilance accrue mais pas surveillance étouffante.',
+    'e3-v1': 'Dans cette maison, ta santé passe avant ma colère.',
+    'e3-v2': 'Dans cette maison, on parle des substances — on ne fait pas comme si ça n\'existait pas.',
+    'e3-v3': 'Dans cette maison, je préfère savoir et t\'aider que ne pas savoir et te perdre.',
+    'e4-faits': 'J\'ai constaté [détailler factuellement, sans accuser de plus que ce qui est sûr].',
+    'e4-touche': 'J\'ai eu très peur. Pas peur de toi — peur POUR toi. Je ne veux pas te perdre.',
+    'e4-tol': 'Les substances à ton âge attaquent ton cerveau en construction. Je ne peux pas laisser ça filer en silence.',
+    'e4-consq': 'On va prendre rendez-vous avec [médecin / Maison des Ados / addictologue jeunes]. Pas pour te punir. Pour comprendre ensemble. Tu peux choisir le·la pro si tu veux.'
+  },
+  intime: {
+    titre: 'Photo intime / sexto',
+    'e1-phrase': 'Je dois absolument me poser. Cette conversation est cruciale et je veux la mener bien. Donne-moi 1-2h.',
+    'e2-1': 'J\'ai découvert qu\'il/elle [a envoyé · a reçu · a partagé] une photo intime sur [plateforme]. Contexte : [petit·e copain·ine · pression de groupe · chantage · curiosité].',
+    'e2-2': 'Onde de choc. Peur. Honte parfois. Inquiétude pour son image, sa réputation, son intégrité psychique. Colère possible contre la personne destinataire.',
+    'e2-3': 'Intimité · Protection · Dignité corporelle · Sécurité numérique',
+    'e2-4': 'Acte isolé ou indice d\'un pattern plus large (réseaux, chantage, grooming) ?',
+    'e2-5': 'Intimité corporelle + sécurité numérique + protection légale (mineur = pédopornographie potentielle)',
+    'e2-6': 'Pas de honte projetée sur l\'ado. ⚠️ Si chantage/sextorsion : signalement (3018 Net Écoute, plateforme PHAROS). Si volontaire : conversation éducative sur le consentement, la diffusion, le droit à l\'oubli. Pas de retrait punitif du téléphone — accompagnement.',
+    'e3-v1': 'Dans cette maison, ton corps t\'appartient — on ne le partage pas sous pression.',
+    'e3-v2': 'Dans cette maison, on parle de sexualité sans tabou et sans jugement.',
+    'e3-v3': 'Dans cette maison, je suis ton allié·e même quand c\'est gênant.',
+    'e4-faits': 'J\'ai eu connaissance d\'une photo/conversation [détailler factuellement, sans détails inutiles].',
+    'e4-touche': 'Je ne te juge pas. J\'ai eu peur pour toi. Pour ton image, ta sécurité, ton intégrité.',
+    'e4-tol': 'Une photo intime peut circuler à vie. Je dois m\'assurer que tu es protégé·e, et que tu comprends les enjeux.',
+    'e4-consq': 'On va : (1) tenter de supprimer ce qui peut l\'être, (2) signaler si tu as subi une pression, (3) en parler avec un·e pro (psy ado · planning familial · Net Écoute). Pas de punition. Une vraie protection.'
+  },
+  fugue: {
+    titre: 'Sort en cachette / fugue courte',
+    'e1-phrase': 'Maintenant tu rentres et tu vas dormir. On en parle demain matin. Là je ne peux pas.',
+    'e2-1': 'Il/elle est sorti·e [par la fenêtre · pendant la nuit · sans prévenir]. Est revenu·e [au bout de X heures / le lendemain]. J\'ai su qu\'il/elle était [où].',
+    'e2-2': 'Terreur. Panique pendant son absence. Soulagement à son retour. Colère qui monte après le soulagement.',
+    'e2-3': 'Sécurité physique · Confiance · Cadre familial · Vie',
+    'e2-4': 'Première fois ou pattern récurrent ?',
+    'e2-5': 'Sécurité (mineur seul la nuit) + cadre familial + autorité parentale',
+    'e2-6': 'Conversation centrée sur le « pourquoi tu as eu besoin de sortir comme ça ? ». Restriction temporaire des sorties + reconstruction. Si pattern : envisager un suivi pro (qu\'est-ce qui se joue ?).',
+    'e3-v1': 'Dans cette maison, je dois savoir où tu es — c\'est une question de sécurité, pas de contrôle.',
+    'e3-v2': 'Dans cette maison, sortir s\'organise, ne se vole pas.',
+    'e3-v3': 'Dans cette maison, tu peux me dire ce que tu veux faire. Je peux dire oui, non, ou négocier — mais on en parle.',
+    'e4-faits': 'Cette nuit/Hier, tu es sorti·e [comment]. Tu es revenu·e à [heure].',
+    'e4-touche': 'J\'ai eu une peur immense pendant ton absence. J\'ai imaginé le pire.',
+    'e4-tol': 'Sortir en cachette la nuit te met en danger. Je ne peux pas accepter ça en silence.',
+    'e4-consq': 'Pendant 2 semaines, plus de sorties libres. Mais je veux comprendre ce qui te manque. Si c\'est de l\'oxygène, des amis, de la liberté — on cherche ensemble comment t\'en donner sainement.'
+  },
+  argent: {
+    titre: 'Vol d\'argent à la maison',
+    'e1-phrase': 'OK. Je vais prendre 1h pour réfléchir. On reparle calmement après.',
+    'e2-1': 'J\'ai constaté qu\'il manquait [X €] dans [mon portefeuille · sa tirelire · le pot commun] / qu\'il/elle avait utilisé ma carte. C\'est [la 1ère / la Xième] fois.',
+    'e2-2': 'Trahison. Inquiétude sur le « pour quoi » (cadeau ami·e · addiction · pression sociale · vol à un commerçant indirectement…).',
+    'e2-3': 'Honnêteté · Propriété d\'autrui · Confiance · Communication des besoins',
+    'e2-4': 'Acte isolé ou pattern ?',
+    'e2-5': 'Propriété d\'autrui (vol) + confiance · ATTENTION : possible symptôme d\'un besoin non exprimé',
+    'e2-6': 'Remboursement obligatoire (sur argent de poche / travail à la maison). Conversation sur le « pour quoi » de l\'argent. Si lié à pression sociale / addiction → pro.',
+    'e3-v1': 'Dans cette maison, on demande — on ne prend pas.',
+    'e3-v2': 'Dans cette maison, si tu as besoin de quelque chose, tu peux me le dire. Même si ma première réponse est non.',
+    'e3-v3': 'Dans cette maison, l\'honnêteté est non négociable.',
+    'e4-faits': 'Le [date], j\'ai constaté qu\'il manquait [X €]. Tu m\'as confirmé / j\'ai compris que c\'était toi.',
+    'e4-touche': 'Je suis triste. Pas tant pour l\'argent — pour la confiance. Et je veux comprendre pourquoi tu n\'as pas pu me le demander.',
+    'e4-tol': 'Prendre sans demander, c\'est une ligne rouge.',
+    'e4-consq': 'Tu rembourses [X €] sur tes prochains argent de poche / par [travaux à la maison]. Et on s\'asseoit ensemble pour parler de ce qui t\'a poussé·e à le faire. Si besoin de la somme : on cherchera une solution honnête.'
+  },
+  silence: {
+    titre: 'Refus total de parler depuis plusieurs jours',
+    'e1-phrase': 'Je ne vais pas forcer. Mais je veux que tu saches : je suis là quand tu seras prêt·e.',
+    'e2-1': 'Depuis [X jours/semaine], il/elle ne m\'adresse plus la parole. Réponses monosyllabiques ou silence total. Évite le contact visuel.',
+    'e2-2': 'Tristesse profonde. Sentiment d\'être rejeté·e. Inquiétude (qu\'est-ce qui se passe ?). Frustration.',
+    'e2-3': 'Lien · Communication · Sécurité affective · Patience',
+    'e2-4': 'C\'est une bouderie passagère ou un signal de détresse plus large ?',
+    'e2-5': 'Lien parent-ado fragilisé. ATTENTION : peut être un signe de mal-être (déprime · harcèlement · honte) — pas juste de la mauvaise volonté.',
+    'e2-6': 'Pas de conséquence punitive. Réouverture du canal en douceur : petits gestes, présence sans pression, message écrit. Si silence prolongé (>2 semaines) + autres signes → vérifier dépression/mal-être (voir outil Premiers secours psy ado).',
+    'e3-v1': 'Dans cette maison, on peut être en colère silencieusement. On n\'est pas obligé·e de toujours expliquer.',
+    'e3-v2': 'Dans cette maison, la porte reste ouverte — toujours.',
+    'e3-v3': 'Dans cette maison, je ne renonce pas à toi.',
+    'e4-faits': 'Depuis [X jours], on ne se parle plus. Je vois bien que quelque chose ne va pas.',
+    'e4-touche': 'Ton silence me touche. Pas pour me venger — parce que je tiens à notre lien.',
+    'e4-tol': 'Je peux accepter ton silence un moment. Je ne peux pas faire comme si tout allait bien indéfiniment.',
+    'e4-consq': 'Je vais continuer à te dire bonjour, te proposer des choses simples (un thé, une balade, un film). Sans pression. Quand tu voudras parler, je serai là. Et si dans une semaine c\'est toujours pareil, on essaiera autre chose ensemble.'
+  },
+  violence: {
+    titre: 'Bagarre / violence physique',
+    'e1-phrase': 'Maintenant, stop. On respire. Personne ne touche personne. On reparle quand tout le monde sera calme.',
+    'e2-1': 'Il/elle [s\'est battu·e à l\'école · a frappé son frère/sa sœur · m\'a poussé·e · a cassé un objet]. Contexte : [détailler].',
+    'e2-2': 'Choc. Peur (physique et symbolique). Possiblement honte parentale.',
+    'e2-3': 'Intégrité physique · Non-violence · Respect du corps · Sécurité du foyer',
+    'e2-4': 'Acte isolé sous l\'effet d\'une émotion · ou pattern de violence qui s\'installe ?',
+    'e2-5': 'Limite physique (corps d\'autrui) — ligne rouge absolue, non négociable',
+    'e2-6': 'Conséquence ferme (privation activité, réparation). Si violence sur un parent ou récurrente : suivi pro obligatoire (psy ado, thérapeute familial). Si violence à l\'école : médiation établissement.',
+    'e3-v1': 'Dans cette maison, les corps sont sacrés. On ne touche pas.',
+    'e3-v2': 'Dans cette maison, la colère se dit — elle ne se frappe pas.',
+    'e3-v3': 'Dans cette maison, la violence est la seule chose qui n\'a aucune excuse.',
+    'e4-faits': 'Le [date], tu as [détailler factuellement].',
+    'e4-touche': 'Je suis choqué·e. Je n\'ai pas peur de toi en tant que personne — mais j\'ai peur de ce qui peut t\'arriver si la violence devient ta réponse.',
+    'e4-tol': 'Frapper, c\'est la ligne que je ne déplace pour rien. Pas négociable.',
+    'e4-consq': 'Réparation : excuses à la personne touchée. Privation [de…] pendant [durée]. ET : on prend RDV avec un·e psy pour comprendre ce qui s\'est passé pour toi. Pas une punition — un accompagnement.'
+  },
+  retour: {
+    titre: 'Heure de retour non respectée',
+    'e1-phrase': 'Va dormir. On parle demain. Là je suis trop énervé·e pour bien dire les choses.',
+    'e2-1': 'L\'accord était [heure de retour]. Il/elle est rentré·e à [heure]. Il/elle n\'a [pas répondu / a coupé le tel / a inventé une excuse vague].',
+    'e2-2': 'Peur intense pendant le retard. Soulagement à son arrivée. Colère qui monte. Sentiment de ne pas être respecté·e dans mes inquiétudes.',
+    'e2-3': 'Sécurité · Respect mutuel · Communication · Cadre familial',
+    'e2-4': 'Premier dépassement ou pattern ?',
+    'e2-5': 'Cadre de sécurité + respect de la parole donnée + communication minimale',
+    'e2-6': 'Restriction temporaire de l\'heure (1-2 semaines plus tôt). Réintroduction progressive si OK. Si dépassement = imprévu réel : revoir ensemble l\'accord (peut-être trop strict).',
+    'e3-v1': 'Dans cette maison, ta sécurité passe par la communication.',
+    'e3-v2': 'Dans cette maison, on tient sa parole — ou on prévient.',
+    'e3-v3': 'Dans cette maison, mes inquiétudes ne sont pas des caprices — elles méritent d\'être respectées.',
+    'e4-faits': 'On avait dit [heure]. Tu es rentré·e à [heure]. Tu n\'as pas répondu au téléphone.',
+    'e4-touche': 'J\'ai passé X heures à imaginer le pire. Ça m\'a vidé·e.',
+    'e4-tol': 'Le retard sans prévenir, c\'est non. Pas parce que je veux te fliquer — parce que je dois savoir que tu vas bien.',
+    'e4-consq': 'Pendant 2 semaines, heure de retour à [X], 1h plus tôt qu\'avant. Et tu réponds au téléphone si je sonne. Si c\'est OK pendant 2 semaines → on revient à l\'horaire d\'avant. Et on peut même discuter d\'un horaire plus tardif si tu le souhaites — calmement, avec un accord clair.'
+  },
+  regles: {
+    titre: 'Refus des règles familiales (religieuses/culturelles)',
+    'e1-phrase': 'Je t\'entends. Je vais prendre du recul pour bien te répondre. On en reparle ce soir / demain.',
+    'e2-1': 'Il/elle a refusé [la prière · le ramadan · une tenue · une obligation familiale · un rituel]. Il/elle a dit [phrase précise].',
+    'e2-2': 'Inquiétude pour sa foi / son identité. Peut-être honte vis-à-vis de la communauté. Sentiment d\'échec parental possible. Mais aussi : sa parole mérite d\'être entendue.',
+    'e2-3': 'Foi · Transmission · Liberté de conscience · Lien parent-ado · Respect',
+    'e2-4': 'Refus isolé (mauvaise journée, crise ado) ou questionnement profond et durable ?',
+    'e2-5': 'Limite : entre transmission familiale et liberté de l\'ado. ⚠️ Forcer la pratique sans le cœur risque d\'éloigner durablement.',
+    'e2-6': 'PAS de punition pour refus religieux. Conversation ouverte : qu\'est-ce qui te dérange ? Est-ce le sens, la pression, l\'apparence ? Maintenir le lien avant tout. La transmission se fait par l\'exemple et la patience, pas par la contrainte.',
+    'e3-v1': 'Dans cette maison, la foi est un cheminement personnel — pas une obligation imposée.',
+    'e3-v2': 'Dans cette maison, je transmets par l\'exemple, pas par la force.',
+    'e3-v3': 'Dans cette maison, tu peux me poser tes questions les plus difficiles. Sans peur.',
+    'e4-faits': 'Tu m\'as dit que tu ne voulais plus [pratique]. Tu as expliqué [raison].',
+    'e4-touche': 'Je t\'ai écouté·e. Ce que tu vis me touche, parce que ma foi est importante pour moi — et notre lien encore plus.',
+    'e4-tol': 'Je ne peux pas accepter le mépris ou la moquerie de notre foi. Je peux accepter ton questionnement, ton hésitation, même ton éloignement temporaire.',
+    'e4-consq': 'Pas de punition. Je te propose : on continue à parler ensemble. Tu peux aussi parler à [imam/référent·e/oncle/tante de confiance] si tu préfères. Je ne te forcerai pas à [pratique]. Mais notre lien et notre respect mutuel restent non négociables.'
+  }
+};
+
+function loadSituation(key) {
+  const s = SITUATIONS[key];
+  if (!s) return;
+  if (!confirm(`Charger les suggestions pour la situation « ${s.titre} » ?\n\n` +
+               `⚠️ Les champs VIDES seront pré-remplis avec des suggestions.\n` +
+               `Les champs déjà remplis ne seront PAS écrasés.\n\n` +
+               `Tu pourras tout modifier ensuite.`)) return;
+
+  // pré-remplir le titre si vide
+  const titreEl = document.getElementById('meta-titre');
+  if (!titreEl.value.trim()) titreEl.value = s.titre;
+
+  // pré-remplir les champs s'ils sont vides
+  Object.keys(s).forEach(k => {
+    if (k === 'titre') return;
+    const el = document.getElementById(k);
+    if (el && !el.value.trim()) el.value = s[k];
+  });
+
+  alert(`✓ Situation « ${s.titre} » chargée.\n\nNavigue dans les 5 étapes pour voir et ajuster les suggestions.`);
+  showTab('e1');
+}
+
+refreshSelect();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profil sensoriel simplifié — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,var(--peche),var(--menthe));padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:var(--teal-titre);margin:0}
+.bandeau .sub{color:var(--texte);max-width:740px;margin:.4rem auto 0}
+.retour{display:inline-block;margin:0 0 .6rem;color:var(--violet-titre);font-weight:700;text-decoration:none}
+
+.layout{max-width:1200px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:230px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start}
+.nav-sticky h3{color:var(--violet-titre);margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.9rem}
+.nav-sticky li{margin:.15rem 0}
+.nav-sticky a{display:block;padding:.4rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm)}
+.nav-sticky a:hover{background:var(--menthe);color:var(--teal-titre)}
+.nav-sticky a.actif{background:var(--teal-titre);color:#fff;font-weight:700}
+
+.contenu{display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid var(--teal-titre);border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:var(--teal-titre);font-family:var(--font-titre)}
+.apropos summary::marker{color:var(--rose-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:var(--rose-titre);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+section.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+section.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem;display:flex;align-items:center;gap:.4rem}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-explication{--c:var(--violet-titre)}
+.bloc-aud{--c:#7c5cbf}
+.bloc-vis{--c:#e05a8a}
+.bloc-tac{--c:#F39BC2}
+.bloc-gout{--c:#2a9d8f}
+.bloc-odo{--c:#8ED9D2}
+.bloc-vest{--c:#CBB6F6}
+.bloc-prop{--c:#FFD6C2}
+.bloc-intero{--c:#F8CFE0}
+.bloc-ctx{--c:#a02040}
+.bloc-strat{--c:var(--teal-titre)}
+.bloc-aggrave{--c:#c25a30}
+.bloc-syn{--c:var(--rose-titre)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ textarea{min-height:60px;resize:vertical}
+.champ.full{grid-column:1/-1}
+
+/* Tableau situations × niveaux */
+.situations{margin-top:.4rem}
+.entete-situations{display:grid;grid-template-columns:1fr repeat(4, 90px);gap:.3rem;padding:.4rem .5rem;font-size:.74rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+.entete-situations div:not(:first-child){text-align:center}
+@media (max-width:760px){.entete-situations{display:none}}
+.situation-row{display:grid;grid-template-columns:1fr repeat(4, 90px);gap:.3rem;padding:.5rem .5rem;border-bottom:1px solid var(--border);align-items:center}
+.situation-row:last-child{border-bottom:none}
+.situation-row .texte{font-size:.92rem}
+.situation-row .niveau{display:flex;justify-content:center}
+.situation-row .niveau label{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--beige);cursor:pointer;border:2px solid transparent}
+.situation-row .niveau label:hover{border-color:var(--c)}
+.situation-row .niveau input{display:none}
+.situation-row .niveau input:checked + .v{background:var(--c);color:#fff;width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem}
+.situation-row .niveau .v{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%;font-size:.75rem;color:var(--muted)}
+@media (max-width:760px){
+  .situation-row{grid-template-columns:1fr;gap:.2rem}
+  .situation-row .niveau{justify-content:flex-start;gap:.3rem}
+  .situation-row::before{content:"";display:block;height:1px;background:var(--border)}
+  .situation-row .niveaux-mobile{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.1rem}
+}
+
+/* Checklist cochables */
+.checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.3rem;margin-top:.4rem}
+.check{background:var(--beige);border-radius:var(--r-sm);padding:.4rem .6rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.88rem}
+.check:hover{background:#fff;border:1px solid var(--border)}
+.check input:checked + span{color:var(--c);font-weight:700}
+
+/* Tableau aggrave oui/non */
+.aggrave-row{display:grid;grid-template-columns:1fr 80px 1fr;gap:.4rem;padding:.4rem .5rem;align-items:center;border-bottom:1px solid var(--border)}
+.aggrave-row:last-child{border-bottom:none}
+.aggrave-row .strat{font-size:.9rem}
+.aggrave-row .choix{display:flex;gap:.3rem;justify-content:center}
+.aggrave-row .choix label{padding:.2em .6em;border-radius:var(--r-sm);background:var(--beige);cursor:pointer;font-size:.8rem;font-weight:700}
+.aggrave-row .choix input{display:none}
+.aggrave-row .choix input:checked + .v{background:var(--c);color:#fff}
+.aggrave-row textarea{padding:.3em .5em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.85rem;min-height:32px;resize:vertical}
+@media (max-width:760px){.aggrave-row{grid-template-columns:1fr;gap:.2rem}}
+
+/* Synthèse */
+.profil-resume{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.7rem;margin-top:.6rem}
+.profil-resume .col{background:var(--beige);padding:.7rem .9rem;border-radius:var(--r-md);border-left:5px solid var(--c)}
+.profil-resume .col h4{margin:0 0 .3rem;color:var(--c);font-size:.95rem}
+.profil-resume .col textarea{width:100%;min-height:60px;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.88rem;resize:vertical}
+
+/* Plan d'adaptation */
+.plan-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:.4rem}
+.plan-table th, .plan-table td{padding:.4em .5em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.plan-table th{background:var(--beige);color:var(--violet-titre);font-weight:700;font-size:.8rem}
+.plan-table td input, .plan-table td textarea{width:100%;padding:.25em;border:none;background:transparent;font-family:var(--font-body);font-size:.85rem;resize:vertical}
+.plan-table td input:focus, .plan-table td textarea:focus{outline:1px solid var(--turquoise);background:#fff}
+.plan-table tr:hover{background:#fcfafd}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:var(--teal-titre);border:2px solid var(--teal-titre)}
+.actions button:hover{background:var(--teal-titre);color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+.actions .danger:hover{background:var(--rose-titre);color:#fff}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+.legende{display:flex;flex-wrap:wrap;gap:.5rem;font-size:.78rem;color:var(--muted);margin-bottom:.3rem;justify-content:flex-end}
+.legende b{display:inline-block;width:1.5em;height:1.5em;line-height:1.5em;text-align:center;border-radius:50%;background:var(--beige);font-weight:700;margin-right:.2em}
+
+/* ======= 🪞 MIROIR CLINIQUE SENSORIEL ======= */
+.miroir-sens-vide{background:#fff;border-radius:var(--r-lg);padding:1.4rem;box-shadow:var(--shadow-sm);border-left:5px solid #d8c9f0;text-align:center;color:#666}
+.miroir-sens-vide strong{color:var(--violet-titre);display:block;margin-bottom:.4rem;font-size:1.1rem}
+
+.miroir-sens-hero{background:linear-gradient(135deg,#fff,#fff5f4);border-radius:var(--r-lg);padding:1.3rem 1.4rem 1.1rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--teal-titre);margin-top:1rem;margin-bottom:1rem}
+.miroir-sens-hero h2{color:var(--teal-titre);margin:0 0 .3rem;font-size:1.25rem;display:flex;align-items:center;gap:.5rem;justify-content:space-between;flex-wrap:wrap}
+.miroir-sens-hero .codes-pro{background:#fff;font-family:'Courier New',monospace;color:#1a6a5a;padding:.3em .8em;border-radius:var(--r-sm);font-size:.82rem;font-weight:800;letter-spacing:.5px;border:1.5px dashed #6dbdaf}
+.miroir-sens-hero .phrase-synth{font-style:italic;color:#1a6a5a;font-size:1rem;margin:.6rem 0 .3rem;padding:.6rem .9rem;background:#fff;border-radius:var(--r-sm);border-left:3px solid var(--rose-titre);line-height:1.5}
+.miroir-sens-hero .stats-canaux{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:.4rem;margin-top:.7rem}
+.miroir-sens-hero .stat-c{background:#fff;border-radius:var(--r-sm);padding:.5rem .4rem;text-align:center;border-top:3px solid var(--c)}
+.miroir-sens-hero .stat-c .ic{font-size:1.2rem}
+.miroir-sens-hero .stat-c .cd{font-family:'Courier New',monospace;font-weight:800;font-size:.78rem;color:var(--c)}
+.miroir-sens-hero .stat-c .vd{font-size:.85rem;font-weight:800;color:var(--c);margin-top:.1rem}
+
+.miroir-sens-section{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);margin-bottom:.9rem;border-top:5px solid var(--c,#2a9d8f)}
+.miroir-sens-section h3{color:var(--c,#1a6a5a);margin:0 0 .5rem;font-size:1.05rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+
+.hypothese-sens{background:#faf6f0;border-radius:var(--r-md);padding:.8rem 1rem;margin-bottom:.5rem;border-left:4px solid #e9a73a}
+.hypothese-sens .titre{font-weight:800;color:#a07000;font-size:.95rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.hypothese-sens .titre .codes{font-family:'Courier New',monospace;font-size:.75rem;background:#fff;padding:.1em .5em;border-radius:999px;border:1.5px solid #e9a73a;color:#8a5a00}
+.hypothese-sens .desc{font-size:.88rem;line-height:1.5;color:#4a3a00}
+.hypothese-sens.match{background:#fff4e0;border-left-color:#d68500;box-shadow:0 0 0 1.5px #f4cc7a}
+
+.canal-detail{background:#faf6f0;border-radius:var(--r-md);padding:.8rem 1rem;margin-bottom:.5rem;border-left:4px solid var(--c)}
+.canal-detail h4{color:var(--c);margin:0 0 .3rem;font-size:.98rem;display:flex;align-items:center;gap:.4rem;justify-content:space-between;flex-wrap:wrap}
+.canal-detail .verdict-pill{font-family:'Courier New',monospace;font-size:.75rem;padding:.15em .5em;border-radius:999px;font-weight:800;background:#fff;border:1.5px solid var(--c);color:var(--c)}
+.canal-detail .items-frag{margin:.3rem 0 .4rem;padding-left:1.2rem;font-size:.85rem;color:#555;line-height:1.45}
+.canal-detail .titre-section{font-weight:800;color:#1b6a4a;font-size:.83rem;margin:.4rem 0 .2rem}
+.canal-detail .titre-outils{font-weight:800;color:var(--violet-titre);font-size:.83rem;margin:.5rem 0 .2rem}
+.canal-detail ul.adapt{margin:.1rem 0 .3rem;padding-left:1.2rem;font-size:.85rem;line-height:1.45}
+.canal-detail .outils-row{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.2rem}
+.canal-detail .outil-chip{display:inline-block;font-size:.78rem;color:var(--c);background:#fff;padding:.2em .6em;border-radius:999px;border:1.5px solid var(--c);text-decoration:none;font-weight:700}
+.canal-detail .outil-chip:hover{background:var(--c);color:#fff}
+
+.plan-3-cibles-sens{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem;margin-top:.5rem}
+.cible-sens{background:#fff;border-radius:var(--r-md);padding:.8rem .9rem;border-top:4px solid var(--c)}
+.cible-sens .lbl{font-size:.75rem;color:#888;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.cible-sens .nom{font-weight:800;color:var(--c);margin:.15rem 0 .3rem}
+.cible-sens .action{font-size:.85rem;line-height:1.5;color:#555}
+
+.conseil-sens-parent{background:#fdf2f5;border-left:4px solid #d36699;border-radius:var(--r-md);padding:.6rem .9rem;margin-bottom:.4rem;font-size:.9rem;line-height:1.55}
+.conseil-sens-parent strong{color:#a84268}
+.conseil-sens-ecole{background:#eef6f5;border-left:4px solid #2a9d8f;border-radius:var(--r-md);padding:.6rem .9rem;margin-bottom:.4rem;font-size:.9rem;line-height:1.55}
+.conseil-sens-ecole strong{color:#1a6a5a}
+.conseil-sens-pro{background:#f0e8f5;border-left:4px solid #7c5cbf;border-radius:var(--r-md);padding:.6rem .9rem;margin-bottom:.4rem;font-size:.9rem;line-height:1.55}
+.conseil-sens-pro strong{color:#5a3c8f}
+
+.alerte-bilan-sens{background:#fff4ef;border:2px solid #e07b3a;border-radius:var(--r-md);padding:.9rem 1rem;margin-top:.6rem}
+.alerte-bilan-sens .titre{color:#a04a10;font-weight:800;display:flex;align-items:center;gap:.4rem;margin-bottom:.3rem}
+.alerte-bilan-sens ul{margin:.3rem 0;padding-left:1.2rem;font-size:.88rem;line-height:1.5}
+
+.btn-regen-miroir-sens{padding:.45em 1em;background:#fff;color:var(--teal-titre);border:1.5px solid var(--teal-titre);border-radius:999px;font-weight:700;cursor:pointer;font-size:.85rem;margin-bottom:.7rem;float:right}
+.btn-regen-miroir-sens:hover{background:var(--teal-titre);color:#fff}
+
+@media print{
+  .btn-regen-miroir-sens{display:none!important}
+  .miroir-sens-hero,.miroir-sens-section,.hypothese-sens,.canal-detail,.cible-sens,.conseil-sens-parent,.conseil-sens-ecole,.conseil-sens-pro,.alerte-bilan-sens{page-break-inside:avoid}
+}
+
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .dossiers, .retour, details.apropos {display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>🌈 Profil sensoriel simplifié</h1>
+  <p class="sub">Repérer les particularités sensorielles qui influencent le comportement, les apprentissages, les émotions et l'autonomie — pour adapter, ne pas pathologiser.</p>
+</section>
+
+<div class="layout">
+
+  <aside class="nav-sticky">
+    <h3>📑 Sections</h3>
+    <ol id="nav">
+      <li><a href="#bloc-meta">Identité &amp; cadre</a></li>
+      <li><a href="#bloc-explication">Comprendre les profils</a></li>
+      <li><a href="#bloc-aud">1. Auditif</a></li>
+      <li><a href="#bloc-vis">2. Visuel</a></li>
+      <li><a href="#bloc-tac">3. Tactile</a></li>
+      <li><a href="#bloc-gout">4. Gustatif / alim.</a></li>
+      <li><a href="#bloc-odo">5. Olfactif</a></li>
+      <li><a href="#bloc-vest">6. Vestibulaire</a></li>
+      <li><a href="#bloc-prop">7. Proprioceptif</a></li>
+      <li><a href="#bloc-intero">8. Intéroception</a></li>
+      <li><a href="#bloc-ctx">Contextes de surcharge</a></li>
+      <li><a href="#bloc-strat">Stratégies d'apaisement</a></li>
+      <li><a href="#bloc-aggrave">Ce qui aggrave</a></li>
+      <li><a href="#miroir-sens-container" style="background:#f6f0fb;color:#5a3c8f;font-weight:700;border-left:3px solid #7c5cbf;padding-left:.5rem">🪞 Miroir clinique</a></li>
+      <li><a href="#bloc-syn">Synthèse &amp; plan</a></li>
+    </ol>
+    <div class="dossiers" style="margin-top:.6rem">
+      <h4>📂 Profils enregistrés</h4>
+      <div id="liste-dossiers"></div>
+    </div>
+  </aside>
+
+  <main class="contenu">
+
+    <details class="apropos">
+      <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+      <div class="grid8">
+        <div><strong>1. Objectif</strong>Repérer les particularités sensorielles fonctionnelles pour adapter l'environnement, anticiper les surcharges, orienter si nécessaire.</div>
+        <div><strong>2. Quand l'utiliser</strong>Quand l'enfant fuit/résiste à certains environnements, ou explose après accumulation. À refaire après changement de contexte (école, déménagement…).</div>
+        <div><strong>3. Pour quel profil TND</strong>TSA en priorité, mais aussi TDAH (recherche sensorielle), TDC, anxiété, hypersensibilité émotionnelle. Pertinent pour tout enfant en surcharge.</div>
+        <div><strong>4. Mode d'emploi</strong>Cotation par parent et/ou pro. 8 modalités sensorielles + contextes. La cotation conjointe parent/enseignant donne le profil le plus juste.</div>
+        <div><strong>5. Grille à remplir</strong>8 canaux × 10 situations = <strong>80 items</strong>. 0 aucune gêne · 1 gêne légère · 2 gêne forte · 3 évitement/crise. (Pour vest/prop : 0/recherche/évitement/crise. Intéro : 0 repéré → 3 non repéré.)</div>
+        <div><strong>6. Analyse</strong>Identifier les canaux dominants. Profil hypersensible / hyposensible / recherche / évitant / mixte. Croiser avec contextes coûteux.</div>
+        <div><strong>7. Recommandations</strong>Adaptations par canal + plan partagé école/maison. Orientation ergothérapie / psychomotricité / intégration sensorielle si besoin.</div>
+        <div><strong>8. 🪞 Miroir clinique auto</strong>Code pro lisible (AUD-P · GOU-PP · INT-S…), 7 hypothèses cliniques combinées (hypersensibilité multi · oralité-ARFID · chercheur mouvement · évitant moteur · déficit intéroception · hyper aud isolée · profil mixte), plan 3 cibles, conseils parent/école/pro, alertes bilan.</div>
+      </div>
+    </details>
+
+    <div class="posture">
+      💡 <strong>Posture :</strong> un comportement qui ressemble à de l'opposition peut être une surcharge sensorielle. Mais "sensoriel" ne veut pas dire "tout passe". On adapte, on anticipe, puis on augmente progressivement l'exigence quand c'est possible.
+    </div>
+
+    <!-- META -->
+    <section id="bloc-meta" class="bloc bloc-meta">
+      <h2>Identité &amp; cadre</h2>
+      <div class="grille">
+        <div class="champ"><label>Prénom / initiales</label><input data-k="prenom" type="text"></div>
+        <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+        <div class="champ"><label>Date</label><input data-k="date" type="date"></div>
+        <div class="champ"><label>Observateur(s)</label><input data-k="observateur" type="text" placeholder="parent, enseignant, pro…"></div>
+        <div class="champ full"><label>Diagnostic / hypothèse (si connu)</label><input data-k="diagnostic" type="text" placeholder="TSA, TDAH, hypersensibilité…"></div>
+        <div class="champ full"><label>Motif de l'observation sensorielle</label><textarea data-k="motif" placeholder="Surcharge à la cantine, crises après école, refus de certains vêtements, fuite du groupe…"></textarea></div>
+      </div>
+    </section>
+
+    <!-- EXPLICATION 3 PROFILS -->
+    <section id="bloc-explication" class="bloc bloc-explication">
+      <h2>🧠 Comprendre les profils sensoriels</h2>
+      <p class="intro">Un même enfant peut être hypersensible au bruit, hyposensible à la douleur ET en recherche de mouvement. Pas de tiroir bien rangé.</p>
+      <table class="plan-table">
+        <thead><tr><th style="width:20%">Profil</th><th>Description</th><th>Exemple</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:#c25a30">Hypersensibilité</strong></td><td>Le système nerveux réagit trop fort à certains stimuli</td><td>« Le bruit me fait mal »</td></tr>
+          <tr><td><strong style="color:#7c5cbf">Hyposensibilité</strong></td><td>Le système nerveux réagit peu, il faut plus de stimulation</td><td>Ne sent pas la douleur, cherche fort</td></tr>
+          <tr><td><strong style="color:#2a9d8f">Recherche sensorielle</strong></td><td>L'enfant cherche activement certaines sensations</td><td>Saute, touche, bouge, mâche</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- BLOCS 8 MODALITES (rendus en JS) -->
+    <div id="domaines"></div>
+
+    <!-- CONTEXTES DE SURCHARGE -->
+    <section id="bloc-ctx" class="bloc bloc-ctx">
+      <h2>📍 Contextes de surcharge</h2>
+      <p class="intro">Dans quels lieux / situations l'enfant est-il particulièrement en difficulté ?</p>
+      <div class="legende">
+        <span><b>0</b> pas de difficulté</span>
+        <span><b>1</b> gêne</span>
+        <span><b>2</b> surcharge</span>
+        <span><b>3</b> crise / évitement</span>
+      </div>
+      <div id="liste-ctx" class="situations"></div>
+      <div class="champ full" style="margin-top:.6rem"><label>Signes avant surcharge (cocher)</label></div>
+      <div class="checklist" id="liste-signes-avant" style="--c:#a02040"></div>
+    </section>
+
+    <!-- STRATEGIES D'APAISEMENT -->
+    <section id="bloc-strat" class="bloc bloc-strat">
+      <h2>🌿 Stratégies d'apaisement — ce qui aide réellement</h2>
+      <p class="intro">Coter ce qui aide vraiment cet enfant en particulier. Ce qui marche pour un autre n'aide pas forcément ici.</p>
+      <div class="legende">
+        <span><b>0</b> pas aidant</span>
+        <span><b>1</b> un peu</span>
+        <span><b>2</b> aidant</span>
+        <span><b>3</b> très aidant</span>
+      </div>
+      <div id="liste-strat" class="situations"></div>
+    </section>
+
+    <!-- CE QUI AGGRAVE -->
+    <section id="bloc-aggrave" class="bloc bloc-aggrave">
+      <h2>⚠️ Ce qui aggrave — réactions adultes à éviter</h2>
+      <p class="intro">Identifier les réactions adultes qui aggravent la surcharge chez CET enfant. Faire passer dans la communication équipe.</p>
+      <div id="liste-aggrave"></div>
+    </section>
+
+    <!-- 🪞 MIROIR CLINIQUE -->
+    <div id="miroir-sens-container"></div>
+
+    <!-- SYNTHESE -->
+    <section id="bloc-syn" class="bloc bloc-syn">
+      <h2>✍️ Synthèse &amp; plan d'adaptation</h2>
+      <div class="profil-resume">
+        <div class="col"><h4>Sensibilités principales (cocher)</h4>
+          <div class="checklist" id="syn-sens" style="--c:var(--rose-titre);grid-template-columns:1fr"></div>
+        </div>
+        <div class="col"><h4>Type de profil dominant</h4>
+          <div class="checklist" id="syn-profil" style="--c:var(--rose-titre);grid-template-columns:1fr"></div>
+        </div>
+        <div class="col"><h4>3 déclencheurs principaux</h4>
+          <textarea data-k="syn-decl" placeholder="1.&#10;2.&#10;3."></textarea>
+        </div>
+        <div class="col"><h4>3 stratégies qui aident</h4>
+          <textarea data-k="syn-strat" placeholder="1.&#10;2.&#10;3."></textarea>
+        </div>
+      </div>
+
+      <h3 style="margin-top:1.2rem;color:var(--violet-titre)">Plan d'adaptation sensorielle</h3>
+      <div style="overflow-x:auto">
+      <table class="plan-table" id="plan-table">
+        <thead><tr>
+          <th>Besoin repéré</th>
+          <th>Adaptation</th>
+          <th>Lieu</th>
+          <th>Responsable</th>
+          <th>Fréquence</th>
+          <th></th>
+        </tr></thead>
+        <tbody id="plan-corps"></tbody>
+      </table>
+      </div>
+      <button id="btn-add-plan" style="margin-top:.6rem;background:#fff;color:var(--teal-titre);border:2px solid var(--teal-titre)">+ Ajouter une ligne</button>
+
+      <div class="champ full" style="margin-top:1rem"><label>Phrase de synthèse pour compte rendu</label><textarea data-k="syn-phrase" style="min-height:80px" placeholder="L'observation met en évidence des particularités sensorielles concernant ….  Les contextes les plus coûteux sont …. Il est recommandé de …."></textarea></div>
+      <div class="champ full" style="margin-top:.6rem"><label>Orientations professionnelles proposées</label><textarea data-k="syn-orient" placeholder="Ergothérapie, psychomotricité, intégration sensorielle, ORL…"></textarea></div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer</button>
+      <button id="btn-exporter">📄 Exporter (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer</button>
+      <button id="btn-vider" class="danger">🧹 Vider</button>
+    </div>
+
+    <div class="disclaimer">
+      Ce profil ne remplace pas un bilan en ergothérapie, psychomotricité ou intégration sensorielle. Il sert à repérer les besoins fonctionnels et à orienter.
+    </div>
+
+    <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+      Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+    </p>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'neuroped_profil_sensoriel_v1';
+let currentId = null;
+
+// 8 modalités sensorielles
+const DOMAINES = [
+  {
+    id:'aud', code:'AUD', nom:'1. Profil auditif', icone:'👂', couleur:'#7c5cbf',
+    type:'ext', // canal extérieur — haut score = hypersensible
+    outils:[
+      {t:'Boîte Ado TDAH (casque)',l:'../../D_regulation/ados/boite-ado-tdah.html'},
+      {t:'Routines EducaTypique',l:'../../F0_fondations/parents/routines-educatypique.html'},
+      {t:'MDPH (PAP/PPS aménagements)',l:'../../F0_fondations/parents/mdph-pas-a-pas.html'}
+    ],
+    labels:['0 — aucune gêne','1 — gêne légère','2 — gêne forte','3 — évitement / crise'],
+    situations:[
+      'Bruit de classe', 'Cantine', 'Aspirateur / sèche-main', 'Cris / pleurs',
+      'Musique forte', 'Bruits imprévus', 'Plusieurs voix en même temps',
+      'Sirène / alarme', 'Bruit constant en fond (horloge, ventilateur)', 'Téléphone qui sonne brusquement'
+    ],
+    signes:['Se bouche les oreilles','Pleure ou crie','Fuit la pièce','Devient agressif','Se fige','Demande le silence','Fatigue après bruit','Irritable après cantine/récré'],
+    adaptations:['Casque anti-bruit','Bouchons adaptés','Pause au calme','Placement éloigné des sources sonores','Anticipation des bruits forts','Réduction du bruit de fond','Espace refuge','Temps de récupération après cantine']
+  },
+  {
+    id:'vis', code:'VIS', nom:'2. Profil visuel', icone:'👁️', couleur:'#e05a8a',
+    type:'ext',
+    outils:[
+      {t:'Routines EducaTypique (supports)',l:'../../F0_fondations/parents/routines-educatypique.html'},
+      {t:'Pack Fondation Pro',l:'../../B_observation/praticiens/pack-fondation.html'},
+      {t:'MDPH (PAP supports adaptés)',l:'../../F0_fondations/parents/mdph-pas-a-pas.html'}
+    ],
+    labels:['0 — aucune gêne','1 — gêne légère','2 — gêne forte','3 — évitement / crise'],
+    situations:[
+      'Lumière forte','Néons','Écrans lumineux','Page trop chargée',
+      'Affichages nombreux','Mouvement autour de lui','Foule',
+      'Décor surchargé / motifs','Soleil dans les yeux','Tableau / écran trop éclairé'
+    ],
+    signes:['Plisse les yeux','Détourne le regard','Fatigue vite en lecture','Se disperse visuellement','Semble perdu sur une page','Évite certains lieux','Déconcentré par les affichages'],
+    adaptations:['Support aéré','Limiter les informations sur la page','Cache de lecture','Code couleur sobre','Éviter les fonds décorés','Réduire les affichages proches','Luminosité ajustée','Placement calme visuellement']
+  },
+  {
+    id:'tac', code:'TAC', nom:'3. Profil tactile', icone:'✋', couleur:'#F39BC2',
+    type:'ext',
+    outils:[
+      {t:'Kit Émotions',l:'../../D_regulation/parents/kit-emotions.html'},
+      {t:'Méthode R.A.H.M.A',l:'../../D_regulation/parents/methode-rahma.html'},
+      {t:'Routines EducaTypique (habillage)',l:'../../F0_fondations/parents/routines-educatypique.html'}
+    ],
+    labels:['0 — aucune gêne','1 — gêne légère','2 — gêne forte','3 — évitement / crise'],
+    situations:[
+      'Étiquettes vêtements','Coutures / chaussettes','Certaines matières','Contact physique imprévu',
+      'Se laver les cheveux','Se brosser les dents','Colle / peinture / sable',
+      'Vêtements mouillés ou humides','Foule où on est bousculé','Chaussures inconfortables'
+    ],
+    signes:['Retire ses vêtements','Refuse certaines matières','Évite câlins / contacts','Réagit fort si touché par surprise','Refuse activités salissantes','Crise lors de l\'habillage','Besoin de pression forte'],
+    adaptations:['Couper les étiquettes','Vêtements confortables','Prévenir avant de toucher','Respecter l\'espace corporel','Outils pour activités salissantes','Pression profonde si appréciée','Couverture lestée (validée par pro)','Routine d\'habillage anticipée']
+  },
+  {
+    id:'gout', code:'GOU', nom:'4. Profil gustatif &amp; alimentaire', icone:'🍽️', couleur:'#2a9d8f',
+    type:'ext',
+    outils:[
+      {t:'Routines EducaTypique (repas)',l:'../../F0_fondations/parents/routines-educatypique.html'},
+      {t:'Méthode R.A.H.M.A (exposition douce)',l:'../../D_regulation/parents/methode-rahma.html'},
+      {t:'MDPH (PAI cantine)',l:'../../F0_fondations/parents/mdph-pas-a-pas.html'}
+    ],
+    labels:['0 — aucune gêne','1 — gêne légère','2 — gêne forte','3 — refus / crise'],
+    situations:[
+      'Textures molles','Textures croquantes','Mélange des aliments','Odeurs alimentaires',
+      'Nouveaux aliments','Aliments qui se touchent','Cantine',
+      'Plat tiède (ni chaud ni froid)','Aliments visuellement non identifiables','Texture grumeleuse'
+    ],
+    signes:['Sélectivité alimentaire','Nausée face à certaines odeurs','Refuse les nouveautés','Mange toujours les mêmes aliments','Panique si aliments se touchent','Difficultés à la cantine','Conflits familiaux autour des repas'],
+    adaptations:['Ne pas forcer brutalement','Exposition progressive','Séparer les aliments','Introduire une nouveauté minuscule','Garder un aliment sécurisant','Réduire les commentaires à table','Travailler avec un pro si restriction importante']
+  },
+  {
+    id:'odo', code:'OLF', nom:'5. Profil olfactif', icone:'👃', couleur:'#8ED9D2',
+    type:'ext',
+    outils:[
+      {t:'Méthode R.A.H.M.A (anticipation)',l:'../../D_regulation/parents/methode-rahma.html'},
+      {t:'Routines EducaTypique',l:'../../F0_fondations/parents/routines-educatypique.html'},
+      {t:'MDPH (aménagement lieu)',l:'../../F0_fondations/parents/mdph-pas-a-pas.html'}
+    ],
+    labels:['0 — aucune gêne','1 — gêne légère','2 — gêne forte','3 — évitement / crise'],
+    situations:[
+      'Parfum','Cantine','Produits ménagers','Transpiration','Toilettes','Odeurs de cuisine',
+      'Odeur de tabac / fumée','Odeur de poisson / friture','Désodorisants synthétiques','Animaux'
+    ],
+    signes:['Refuse certains lieux à cause de l\'odeur','Pince le nez','Nausée','Quitte la pièce'],
+    adaptations:['Éviter parfums forts','Aérer','Prévenir l\'enfant','Autoriser éloignement temporaire','Repérer les lieux problématiques','Stratégie discrète à l\'école']
+  },
+  {
+    id:'vest', code:'VES', nom:'6. Profil vestibulaire (mouvement &amp; équilibre)', icone:'🤸', couleur:'#CBB6F6',
+    type:'mixte', // 0 aucune / 1 recherche / 2 évitement / 3 crise
+    outils:[
+      {t:'20 jeux maison FE (mouvement)',l:'../../E_ludotheque/parents/jeux-maison-fe.html'},
+      {t:'Chrono des Énergies',l:'../../F0_fondations/parents/chrono-energies-maman.html'},
+      {t:'Pack Fondation Pro',l:'../../B_observation/praticiens/pack-fondation.html'}
+    ],
+    labels:['0 — aucune particularité','1 — recherche','2 — évitement','3 — crise / peur'],
+    situations:[
+      'Tourner','Se balancer','Courir / sauter','Manèges','Monter / descendre escaliers',
+      'Être porté / déplacé','Rester assis longtemps',
+      'Position tête en bas','Vélo / trottinette','Sport collectif rapide'
+    ],
+    signes:['Se balance','Tourne sur lui-même','Saute souvent','Grimpe partout','Se met en danger','Cherche la vitesse','Ne tient pas assis','Peur des jeux moteurs','Évite escaliers / hauteur','Mal des transports','Refuse certains sports'],
+    adaptations:['Pauses motrices','Chaise dynamique si adaptée','Missions actives','Marcher avant tâche cognitive','Étirements courts','Parcours moteur encadré','Éviter immobilité prolongée','Sécuriser les recherches de mouvement']
+  },
+  {
+    id:'prop', code:'PRO', nom:'7. Profil proprioceptif (pression / position du corps)', icone:'💪', couleur:'#FFD6C2',
+    type:'mixte',
+    outils:[
+      {t:'20 jeux maison FE (corps)',l:'../../E_ludotheque/parents/jeux-maison-fe.html'},
+      {t:'Routines EducaTypique',l:'../../F0_fondations/parents/routines-educatypique.html'},
+      {t:'Pack Fondation Pro',l:'../../B_observation/praticiens/pack-fondation.html'}
+    ],
+    labels:['0 — aucune particularité','1 — recherche','2 — évitement','3 — crise'],
+    situations:[
+      'Se cogne souvent','Serre fort les objets','Écrit trop fort ou trop léger','Aime les câlins forts',
+      'Cherche à porter du lourd','Mâche stylos / vêtements','A besoin de s\'appuyer',
+      'Marche pieds nus sur sol dur','Coordination des deux mains','Tenir un crayon sans trop appuyer'
+    ],
+    signes:['Cherche pression / contact fort','Mâche / mordille','Insensible aux petits chocs','Pousse / appuie sur autrui','Tonus diminué / s\'avachit','Difficulté à doser sa force'],
+    adaptations:['Objets à manipuler','Balle anti-stress','Tâches de portage adaptées','Pression profonde si appréciée','Coussin lesté (avec prudence)','Gomme à mâcher selon contexte','Activités de poussée / traction','Pause corporelle avant devoirs']
+  },
+  {
+    id:'intero', code:'INT', nom:'8. Intéroception (signaux internes du corps)', icone:'❤️', couleur:'#F8CFE0',
+    type:'intero', // haut score = déficit
+    outils:[
+      {t:'Kit Émotions (lien émo-corps)',l:'../../D_regulation/parents/kit-emotions.html'},
+      {t:'Chrono des Énergies',l:'../../F0_fondations/parents/chrono-energies-maman.html'},
+      {t:'Boîte Ado TDAH (thermomètre VJOR)',l:'../../D_regulation/ados/boite-ado-tdah.html'}
+    ],
+    labels:['0 — repéré facilement','1 — repéré tardivement','2 — peu repéré','3 — non repéré'],
+    situations:[
+      'Faim','Soif','Fatigue','Douleur','Besoin toilettes','Tension corporelle','Accélération du cœur',
+      'Ressentir le froid / chaud sur soi','Savoir qu\'on est essoufflé','Repérer une larme ou des yeux qui piquent'
+    ],
+    signes:['Ne sent pas la fatigue avant explosion','Oublie de boire','Ne sait pas dire où il a mal','Confond faim, colère et fatigue','Va aux toilettes au dernier moment','Ne repère pas les signes corporels d\'anxiété'],
+    adaptations:['Pauses corporelles programmées','Check-in corporel : faim, soif, fatigue, tension','Échelle corporelle simple','Routine boisson / toilettes','Apprendre les signaux physiques des émotions','Lien avec le thermomètre émotionnel']
+  }
+];
+
+const CONTEXTES = ['Classe','Récréation','Cantine','Devoirs','Courses / magasins','Transports','Réunions familiales','Mosquée / lieu collectif','Activités sportives','Anniversaires / fêtes'];
+
+const SIGNES_AVANT_SURCHARGE = ['Agitation','Irritabilité','Fuite du regard','Se bouche les oreilles','Demande à partir','Se colle à l\'adulte','Devient opposant','Pleurs','Parle plus fort','Se fige','Se balance','Cherche à contrôler l\'environnement'];
+
+const STRATEGIES = ['Coin calme','Casque anti-bruit','Lumière douce','Objet à manipuler','Mouvement','Respiration guidée','Pression profonde','Être seul','Présence adulte calme','Boire / manger','Récitation / son apaisant','Marcher'];
+
+const AGGRAVE = [
+  'Parler beaucoup',
+  'Toucher sans prévenir',
+  'Forcer à rester dans le groupe',
+  'Dire « calme-toi »',
+  'Menacer',
+  'Mettre sous pression',
+  'Retirer brutalement l\'objet sécurisant',
+  'Exposer au bruit pour « l\'habituer »'
+];
+
+const SYN_SENSIBILITES = ['Auditives','Visuelles','Tactiles','Alimentaires / gustatives','Olfactives','Vestibulaires','Proprioceptives','Intéroceptives'];
+
+const SYN_PROFILS = ['Hypersensibilité','Hyposensibilité','Recherche sensorielle','Évitement sensoriel','Profil mixte','Surcharge contextuelle'];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ============================================================
+   ===== MOTEUR D'INTERPRÉTATION SENSORIEL — MIROIR PRO =====
+   ============================================================ */
+
+// Hypothèses cliniques combinées sensorielles
+const HYPOTHESES_SENS = [
+  {id:'hyper_multi', titre:"🌈 Hypersensibilité multi-canaux dominante",
+    type:'multi_ext', minCanaux:3, seuilMoy:1.5,
+    desc:"3 canaux extérieurs ou + en hypersensibilité (moy ≥ 1.5). Profil souvent associé TSA, anxiété, hypersensibilité émotionnelle. Cohérence avec le profil « hypersensible » de Aron / Dunn."},
+  {id:'arfid_oralite', titre:"🍽️ Profil oralité-alimentation",
+    type:'specific', cles:['gout','odo'], seuilMoy:1.5,
+    desc:"Sélectivité gustative + sensibilité olfactive : tableau d'oralité. À explorer : ARFID, néophobie alimentaire, profil TSA, traumas alimentaires précoces. Orientation orthophoniste oralité + ergothérapeute."},
+  {id:'chercheur_mvt', titre:"🤸 Profil chercheur de mouvement",
+    type:'recherche', cles:['vest','prop'], niveauCible:1,
+    desc:"Recherche active vestibulaire + proprioceptive. Très fréquent TDAH hyperactif, TSA-stéréotypies positives. Besoin de canaliser, PAS d'éteindre. Aménager le mouvement."},
+  {id:'evitant_moteur', titre:"⚠️ Profil évitant moteur",
+    type:'specific', cles:['vest','prop'], seuilMoy:1.8,
+    desc:"Évitement vestibulaire/proprioceptif marqué. Peur du mouvement, tonus faible. À explorer : TDC (dyspraxie), TSA évitant, anxiété somatique. Orientation ergo + psychomot."},
+  {id:'intero_deficit', titre:"❤️ Déficit d'intéroception",
+    type:'specific', cles:['intero'], seuilMoy:1.8,
+    desc:"Difficulté à repérer les signaux corporels (faim/soif/fatigue/douleur). Très fréquent TDAH, TSA, alexithymie. Impact direct sur la régulation émotionnelle (le corps ne signale pas avant la crise)."},
+  {id:'hyper_aud_isolee', titre:"👂 Hypersensibilité auditive isolée",
+    type:'isole', cleCible:'aud', seuilMoy:2, exclSeuil:1.5,
+    desc:"Auditif élevé alors que les autres canaux extérieurs sont relativement OK. Impact massif en classe/cantine/transports. Solutions ciblées : casque, environnements maîtrisés, anticipation."},
+  {id:'profil_mixte', titre:"🌀 Profil sensoriel mixte (hétérogène)",
+    type:'mixte_custom',
+    desc:"Hypersensible sur certains canaux + hyposensible/recherche sur d'autres. Profil hétérogène très fréquent en TND. Adaptation canal par canal, pas de stratégie unique."}
+];
+
+// Phrases signature
+const PHRASES_SIG_SENS = [
+  "Un comportement qui ressemble à de l'opposition peut être une surcharge sensorielle.",
+  "On adapte d'abord, on anticipe ensuite, puis on augmente progressivement quand c'est possible.",
+  "Sensoriel ne veut pas dire « tout passe » — c'est lire avant de réagir.",
+  "Le corps qui n'envoie pas ses signaux ne peut pas réguler ses émotions. Sécuriser l'intéroception d'abord.",
+  "Chaque canal a sa porte. Ne pas chercher LA solution, chercher LES portes ouvertes pour cet enfant.",
+  "Hypersensible n'est pas hypersensible-partout. Identifier les canaux précis = précision clinique."
+];
+
+function scoreCanal(d){
+  let total = 0, n = 0;
+  d.situations.forEach((_,i)=>{
+    const r = document.querySelector(`input[name="situ_${d.id}_${i}"]:checked`);
+    if(r){ total += parseInt(r.value,10); n++; }
+  });
+  return n > 0 ? {moy: total/n, somme: total, n, max:n*3} : null;
+}
+
+function verdictSens(d, sc){
+  // Selon le type de canal
+  if(!sc) return null;
+  if(d.type === 'mixte'){
+    // 0 aucune / 1 recherche / 2 évitement / 3 crise
+    // Si moy <= 0.5 → ✓ ; si plupart en recherche (~1) → R (recherche) ; si >=2 → P évitement
+    if(sc.moy <= 0.5) return {sigle:'✓', label:'aucune particularité', niv:0};
+    if(sc.moy <= 1.4) return {sigle:'R', label:'recherche sensorielle', niv:1};
+    if(sc.moy <= 2.2) return {sigle:'É', label:'évitement', niv:2};
+    return {sigle:'C', label:'crise', niv:3};
+  }
+  // Canaux ext et intéroception : haut score = plus de fragilité
+  if(sc.moy <= 0.5) return {sigle:'✓', label:d.type==='intero'?'repère bien':'aucune particularité', niv:0};
+  if(sc.moy <= 1.3) return {sigle:'S', label:d.type==='intero'?'repérage tardif':'sensibilité légère', niv:1};
+  if(sc.moy <= 2.1) return {sigle:'P', label:d.type==='intero'?'repérage difficile':'sensibilité marquée', niv:2};
+  return {sigle:'PP', label:d.type==='intero'?'non repéré':'évitement/crise', niv:3};
+}
+
+function itemsCotesHaut(d, seuil=2){
+  const out = [];
+  d.situations.forEach((it,i)=>{
+    const r = document.querySelector(`input[name="situ_${d.id}_${i}"]:checked`);
+    if(r && parseInt(r.value,10) >= seuil){
+      out.push({texte:it, score:parseInt(r.value,10), n:i+1});
+    }
+  });
+  return out;
+}
+
+function buildProfilSens(){
+  const data = DOMAINES.map(d=>{
+    const sc = scoreCanal(d);
+    const v = verdictSens(d, sc);
+    return {d, sc, v};
+  }).filter(x=>x.sc !== null);
+  if(data.length === 0) return null;
+  // Codes pros (uniquement niv ≥ 1)
+  const codes = data.filter(x=>x.v.niv >= 1).sort((a,b)=>b.v.niv - a.v.niv).map(x=>`${x.d.code}-${x.v.sigle}`);
+  const codesPro = codes.length ? codes.join(' · ') : 'Profil sensoriel équilibré ✓';
+  // Fragiles : niv ≥ 2 OU recherche marquée
+  const fragiles = data.filter(x=>x.v.niv >= 2).sort((a,b)=>b.sc.moy - a.sc.moy);
+  const recherches = data.filter(x=>x.v.niv === 1 && x.d.type === 'mixte');
+  // Type profil
+  const nbExtFort = data.filter(x=>(x.d.type==='ext') && x.v.niv>=2).length;
+  let typeProfil, phraseSynth;
+  if(fragiles.length === 0 && recherches.length === 0){
+    typeProfil = "✓ Profil sensoriel globalement équilibré";
+    phraseSynth = "Aucun canal en alerte. Maintenir les conditions actuelles, surveiller en cas de changement de contexte.";
+  } else if(fragiles.length >= 4){
+    typeProfil = "🚨 Profil sensoriel sévèrement déséquilibré";
+    phraseSynth = `${fragiles.length} canaux en zone fragile. Tableau de surcharge sensorielle globale. Sécuriser l'environnement avant tout travail cognitif/émotionnel.`;
+  } else if(fragiles.length >= 2){
+    typeProfil = "⚠️ Profil sensoriel multi-fragile";
+    phraseSynth = `${fragiles.length} canaux fragiles. Adaptation multicanal nécessaire — pas un seul ajustement.`;
+  } else if(fragiles.length === 1){
+    typeProfil = `🎯 Profil sensoriel ciblé sur ${fragiles[0].d.code}`;
+    phraseSynth = `Fragilité focale sur ${fragiles[0].d.nom.split('. ')[1]}. Levier : adaptation ciblée + anticipation contextuelle.`;
+  } else {
+    typeProfil = "🤸 Profil chercheur sensoriel";
+    phraseSynth = "Recherche sensorielle marquée (mouvement/pression). Aménager des opportunités structurées plutôt que tenter de freiner.";
+  }
+  return {data, fragiles, recherches, codesPro, typeProfil, phraseSynth};
+}
+
+function matchHypothesesSens(profil){
+  if(!profil) return [];
+  const out = [];
+  HYPOTHESES_SENS.forEach(h=>{
+    if(h.type === 'multi_ext'){
+      const ext = profil.data.filter(x=>x.d.type==='ext' && x.sc.moy >= h.seuilMoy);
+      if(ext.length >= h.minCanaux){
+        const codes = ext.map(x=>x.d.code).join(' + ');
+        out.push({...h, codes});
+      }
+    } else if(h.type === 'specific'){
+      const ok = h.cles.every(idC=>{
+        const c = profil.data.find(x=>x.d.id===idC);
+        return c && c.sc.moy >= h.seuilMoy;
+      });
+      if(ok){
+        const codes = h.cles.map(id=>{const d=DOMAINES.find(x=>x.id===id);return d?d.code:'?';}).join(' + ');
+        out.push({...h, codes});
+      }
+    } else if(h.type === 'recherche'){
+      const ok = h.cles.every(idC=>{
+        const c = profil.data.find(x=>x.d.id===idC);
+        return c && c.sc.moy >= 0.6 && c.sc.moy <= 1.4 && c.d.type==='mixte';
+      });
+      if(ok){
+        const codes = h.cles.map(id=>{const d=DOMAINES.find(x=>x.id===id);return d?d.code:'?';}).join(' + ');
+        out.push({...h, codes});
+      }
+    } else if(h.type === 'isole'){
+      const c = profil.data.find(x=>x.d.id===h.cleCible);
+      if(c && c.sc.moy >= h.seuilMoy){
+        const autres = profil.data.filter(x=>x.d.id !== h.cleCible && x.d.type==='ext' && x.sc.moy >= h.exclSeuil);
+        if(autres.length === 0){
+          out.push({...h, codes:c.d.code});
+        }
+      }
+    } else if(h.type === 'mixte_custom'){
+      // au moins 1 canal ext hyper (≥1.5) + au moins 1 canal mixte en recherche
+      const ext = profil.data.find(x=>x.d.type==='ext' && x.sc.moy >= 1.5);
+      const rech = profil.data.find(x=>x.d.type==='mixte' && x.sc.moy >= 0.6 && x.sc.moy <= 1.4);
+      if(ext && rech){
+        out.push({...h, codes:ext.d.code+' (hyper) + '+rech.d.code+' (recherche)'});
+      }
+    }
+  });
+  return out;
+}
+
+function renderMiroirSens(){
+  const c = document.getElementById('miroir-sens-container');
+  if(!c) return;
+  const profil = buildProfilSens();
+  if(!profil){
+    c.innerHTML = `<div class="miroir-sens-vide">
+      <strong>🪞 Miroir clinique sensoriel</strong>
+      Commence à coter quelques situations. Dès qu'un canal est rempli, le miroir s'active automatiquement.
+    </div>`;
+    return;
+  }
+  const phraseSig = PHRASES_SIG_SENS[Math.floor(Math.random()*PHRASES_SIG_SENS.length)];
+
+  let html = '';
+  html += `<button class="btn-regen-miroir-sens" onclick="renderMiroirSens()">🔄 Régénérer le miroir</button>`;
+
+  // ===== HERO =====
+  html += `<div class="miroir-sens-hero">
+    <h2>🪞 ${esc(profil.typeProfil)}
+      <span class="codes-pro" title="Code pro sensoriel">${esc(profil.codesPro)}</span>
+    </h2>
+    <div class="phrase-synth">${esc(profil.phraseSynth)}</div>
+    <div class="phrase-synth" style="border-left-color:var(--teal-titre);background:#eef6f5;font-style:italic"><em>💡 ${esc(phraseSig)}</em> <small style="color:#888">— Nawel</small></div>
+    <div class="stats-canaux">
+      ${profil.data.map(x=>`<div class="stat-c" style="--c:${x.d.couleur}">
+        <div class="ic">${x.d.icone}</div>
+        <div class="cd">${x.d.code}-${x.v.sigle}</div>
+        <div class="vd">${x.sc.moy.toFixed(1)}/3</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+
+  // ===== HYPOTHÈSES =====
+  const matches = matchHypothesesSens(profil);
+  if(matches.length > 0){
+    html += `<section class="miroir-sens-section" style="--c:#e9a73a">
+      <h3>🔬 Hypothèses cliniques possibles <span style="font-size:.78rem;font-weight:400;color:#888;font-style:italic">(croiser avec anamnèse + bilan ergo/orthophonie)</span></h3>
+      <p style="font-size:.85rem;color:#888;margin:0 0 .5rem;font-style:italic">Indices, jamais diagnostic. Combinaisons typiques détectées automatiquement.</p>
+      ${matches.map(h=>`
+        <div class="hypothese-sens match">
+          <div class="titre">${esc(h.titre)} <span class="codes">${esc(h.codes)}</span></div>
+          <div class="desc">${esc(h.desc)}</div>
+        </div>
+      `).join('')}
+    </section>`;
+  }
+
+  // ===== CANAUX FRAGILES DÉTAIL =====
+  const tousFragiles = [...profil.fragiles, ...profil.recherches];
+  if(tousFragiles.length > 0){
+    html += `<section class="miroir-sens-section" style="--c:#c25a30">
+      <h3>🎯 Canaux à adapter — lecture détaillée</h3>
+      ${tousFragiles.map(x=>{
+        const itemsHaut = itemsCotesHaut(x.d, x.d.type==='mixte' && x.v.niv===1 ? 1 : 2);
+        return `<div class="canal-detail" style="--c:${x.d.couleur}">
+          <h4>${x.d.icone} ${esc(x.d.nom)} <span class="verdict-pill">${x.d.code}-${x.v.sigle} · moy ${x.sc.moy.toFixed(1)} · ${esc(x.v.label)}</span></h4>
+          ${itemsHaut.length>0 ? `
+            <div class="titre-section" style="color:#a04a10">📌 Situations cotées ${x.d.type==='mixte' && x.v.niv===1 ? 'en recherche' : 'fortement'} :</div>
+            <ul class="items-frag">
+              ${itemsHaut.map(it=>`<li>(${it.score}) ${esc(it.texte)}</li>`).join('')}
+            </ul>
+          ` : ''}
+          <div class="titre-section">🌱 Adaptations à mettre en place :</div>
+          <ul class="adapt">${x.d.adaptations.slice(0,5).map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
+          ${x.d.outils ? `
+            <div class="titre-outils">🔗 Outils EducaTypique :</div>
+            <div class="outils-row">
+              ${x.d.outils.map(o=>`<a class="outil-chip" href="${o.l}" target="_blank">${esc(o.t)}</a>`).join('')}
+            </div>
+          ` : ''}
+        </div>`;
+      }).join('')}
+    </section>`;
+  }
+
+  // ===== PLAN 3 CIBLES =====
+  if(tousFragiles.length > 0){
+    const ordre = [...profil.fragiles, ...profil.recherches];
+    html += `<section class="miroir-sens-section" style="--c:#2a9d8f">
+      <h3>📋 Plan d'adaptation — 3 cibles prioritaires</h3>
+      <p style="font-size:.85rem;color:#888;margin:0 0 .5rem;font-style:italic">Hiérarchisation suggérée pour les 4-6 prochaines semaines.</p>
+      <div class="plan-3-cibles-sens">
+        <div class="cible-sens" style="--c:#c25a30">
+          <div class="lbl">🥇 Priorité 1 · Canal critique</div>
+          <div class="nom">${ordre[0].d.icone} ${esc(ordre[0].d.nom.split('. ')[1])}</div>
+          <div class="action">${esc(ordre[0].d.adaptations[0]||'Aménager l\'environnement et anticiper.')}</div>
+        </div>
+        ${ordre[1] ? `
+        <div class="cible-sens" style="--c:#e9a73a">
+          <div class="lbl">🥈 Priorité 2 · Canal secondaire</div>
+          <div class="nom">${ordre[1].d.icone} ${esc(ordre[1].d.nom.split('. ')[1])}</div>
+          <div class="action">${esc(ordre[1].d.adaptations[0]||'Adapter l\'environnement.')}</div>
+        </div>` : ''}
+        <div class="cible-sens" style="--c:#1b7a4a">
+          <div class="lbl">🌟 Routine corporelle quotidienne</div>
+          <div class="nom">❤️ Check-in corporel</div>
+          <div class="action">2-3 fois par jour : faim ? soif ? fatigue ? tension ? Surtout avec déficit d'intéroception. Pose les bases du repérage avant la crise.</div>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  // ===== CONSEILS CONTEXTUALISÉS =====
+  if(tousFragiles.length > 0){
+    const parent = [];
+    const ecole = [];
+    const pro = [];
+    tousFragiles.forEach(x=>{
+      if(x.d.id==='aud'){
+        parent.push("<strong>Auditif :</strong> casque anti-bruit accessible librement. Anticiper les bruits forts (aspirateur, sirène, courses) et prévenir 1 min avant.");
+        ecole.push("<strong>En classe :</strong> placement éloigné des sources sonores, autorisation casque, sortir 2 min avant la sonnerie cantine.");
+      }
+      if(x.d.id==='vis'){
+        parent.push("<strong>Visuel :</strong> supports aérés à la maison (un seul exercice par feuille). Éviter les fonds décorés et les murs surchargés près du bureau.");
+        ecole.push("<strong>En classe :</strong> place loin des affichages, photocopies aérées, cache de lecture, lumière naturelle si possible.");
+      }
+      if(x.d.id==='tac'){
+        parent.push("<strong>Tactile :</strong> couper les étiquettes, choisir matières douces, prévenir avant tout contact physique. Respecter le « non » au câlin.");
+        ecole.push("<strong>En classe :</strong> pas de matières « salissantes » imposées, place avec espace personnel, alerter avant de toucher pour aider.");
+      }
+      if(x.d.id==='gout'){
+        parent.push("<strong>Alimentation :</strong> ne pas forcer. Exposition progressive (regarder → toucher → sentir → toucher avec la langue → goûter). Garder un aliment sécurisant à chaque repas.");
+        ecole.push("<strong>Cantine :</strong> PAI alimentaire si sélectivité majeure, repas adapté, accompagnement sans pression. Pas d'obligation de finir.");
+      }
+      if(x.d.id==='odo'){
+        parent.push("<strong>Olfactif :</strong> aérer, éviter parfums/désodorisants forts, prévenir avant entrée dans un lieu odorant.");
+        ecole.push("<strong>En classe :</strong> repérer les lieux problématiques (toilettes, cantine), autoriser stratégie discrète (mouchoir, sortie brève).");
+      }
+      if(x.d.id==='vest'){
+        if(x.v.niv === 1){ // recherche
+          parent.push("<strong>Vestibulaire (recherche) :</strong> canaliser le besoin de mouvement. Trampoline, balançoire, tourner en sécurité. Mouvement AVANT tâche cognitive.");
+          ecole.push("<strong>En classe :</strong> ballon ou chaise dynamique, missions de déplacement (distribuer, effacer), pauses motrices toutes les 20 min.");
+        } else {
+          parent.push("<strong>Vestibulaire (évitement) :</strong> sécuriser les passages d'escalier, anticiper les transports, accepter le refus de manèges.");
+          ecole.push("<strong>En classe :</strong> placement stable, éviter sport collectif rapide imposé, alternatives en EPS.");
+        }
+      }
+      if(x.d.id==='prop'){
+        if(x.v.niv === 1){
+          parent.push("<strong>Proprioceptif (recherche) :</strong> activités de portage (sacs lestés, courses), pression profonde, gomme à mâcher, balle anti-stress.");
+          ecole.push("<strong>En classe :</strong> objet à manipuler discret, missions de portage, pause physique avant tâches d'écriture.");
+        } else {
+          parent.push("<strong>Proprioceptif (faible/évitement) :</strong> bilan psychomotricité/ergo à envisager. Tonus à travailler. Éviter d'imposer des situations corporelles inconfortables.");
+          ecole.push("<strong>En classe :</strong> coussin lombaire, alternative à l'écriture si dysgraphie associée, ne pas chronométrer l'écrit.");
+        }
+      }
+      if(x.d.id==='intero'){
+        parent.push("<strong>Intéroception :</strong> check-in corporel routine (« comment va ton ventre ? tes pieds ? ta gorge ? »). Routine boisson/toilettes/repas programmée — pas attendre la demande.");
+        ecole.push("<strong>En classe :</strong> autoriser sortie WC sans demande verbale (carte), rappels boisson/snack, vigilance signaux corporels.");
+      }
+    });
+    pro.push("<strong>Restituer aux parents :</strong> commencer par les forces (canaux solides) AVANT les fragilités. Pas restituer tous les canaux d'un coup.");
+    pro.push("<strong>Orientation à envisager :</strong> ergothérapie spécialisée intégration sensorielle (méthode Ayres) si 2+ canaux ext en P/PP. Psychomotricité si VES+PRO en évitement. Orthophonie oralité si GOU+OLF en P/PP.");
+    pro.push("<strong>Réévaluation :</strong> 2-3 mois après mise en place des adaptations. Le profil évolue.");
+
+    html += `<section class="miroir-sens-section" style="--c:#7c5cbf">
+      <h3>💼 Conseils contextualisés</h3>
+      ${parent.length>0 ? `<h4 style="color:#a84268;margin:.5rem 0 .3rem;font-size:.95rem">🏡 Pour le parent / la maison</h4>
+      ${parent.map(p=>`<div class="conseil-sens-parent">${p}</div>`).join('')}` : ''}
+      ${ecole.length>0 ? `<h4 style="color:#1a6a5a;margin:.6rem 0 .3rem;font-size:.95rem">🏫 Pour l'école / AESH</h4>
+      ${ecole.map(p=>`<div class="conseil-sens-ecole">${p}</div>`).join('')}` : ''}
+      <h4 style="color:#5a3c8f;margin:.6rem 0 .3rem;font-size:.95rem">📋 Pour le pro</h4>
+      ${pro.map(p=>`<div class="conseil-sens-pro">${p}</div>`).join('')}
+    </section>`;
+  }
+
+  // ===== ALERTES =====
+  const alertes = [];
+  if(profil.fragiles.length >= 4) alertes.push("4 canaux ou + en zone fragile → bilan ergothérapeute spécialisé intégration sensorielle prioritaire.");
+  const intero = profil.data.find(x=>x.d.id==='intero');
+  if(intero && intero.v.niv >= 3) alertes.push("Intéroception non repérée → vigilance régulation émotionnelle (le corps ne signale pas avant la crise). Risque somatisations.");
+  const gou = profil.data.find(x=>x.d.id==='gout');
+  if(gou && gou.v.niv === 3) alertes.push("Sélectivité alimentaire en crise → consultation pédiatre/orthophoniste oralité, écarter ARFID.");
+  const vest = profil.data.find(x=>x.d.id==='vest');
+  const prop = profil.data.find(x=>x.d.id==='prop');
+  if(vest && prop && vest.v.niv >= 2 && prop.v.niv >= 2) alertes.push("VES + PRO en évitement → bilan psychomotricité + écarter TDC (dyspraxie).");
+  if(alertes.length > 0){
+    html += `<div class="alerte-bilan-sens">
+      <div class="titre">⚠️ Indicateurs appelant un bilan complémentaire</div>
+      <ul>${alertes.map(a=>`<li>${esc(a)}</li>`).join('')}</ul>
+      <p style="font-size:.82rem;color:#7a3a10;margin:.4rem 0 0;font-style:italic">Ce miroir n'est PAS un diagnostic. Il oriente vers les bilans à programmer.</p>
+    </div>`;
+  }
+
+  c.innerHTML = html;
+}
+
+function renderSituationRows(items, idPrefix, couleur, labels){
+  return items.map((it,i)=>`
+    <div class="situation-row" style="--c:${couleur}">
+      <div class="texte">${esc(it)}</div>
+      ${[0,1,2,3].map(v=>`
+        <div class="niveau" title="${esc(labels[v])}">
+          <label>
+            <input type="radio" name="${idPrefix}_${i}" value="${v}">
+            <span class="v">${v}</span>
+          </label>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+function renderDomaines(){
+  const cont = document.getElementById('domaines');
+  cont.innerHTML = DOMAINES.map(d=>`
+    <section class="bloc bloc-${d.id}" id="bloc-${d.id}" style="--c:${d.couleur}">
+      <h2>${d.icone} ${d.nom}</h2>
+      <div class="legende">
+        ${d.labels.map((l,i)=>`<span><b>${i}</b> ${esc(l.replace(/^[0-9] — /,''))}</span>`).join('')}
+      </div>
+      <div class="entete-situations">
+        <div>Situation</div>
+        ${d.labels.map(l=>`<div>${esc(l.split(' — ')[1]||l)}</div>`).join('')}
+      </div>
+      <div class="situations">
+        ${renderSituationRows(d.situations, 'situ_'+d.id, d.couleur, d.labels)}
+      </div>
+      <h4 style="margin-top:.8rem;color:${d.couleur};font-size:.95rem">Signes possibles observés</h4>
+      <div class="checklist" style="--c:${d.couleur}">
+        ${d.signes.map((s,i)=>`
+          <label class="check"><input type="checkbox" data-k="signe_${d.id}_${i}"><span>${esc(s)}</span></label>
+        `).join('')}
+      </div>
+      <h4 style="margin-top:.8rem;color:${d.couleur};font-size:.95rem">Adaptations possibles</h4>
+      <div class="checklist" style="--c:${d.couleur}">
+        ${d.adaptations.map((s,i)=>`
+          <label class="check"><input type="checkbox" data-k="adapt_${d.id}_${i}"><span>${esc(s)}</span></label>
+        `).join('')}
+      </div>
+    </section>
+  `).join('');
+}
+
+function renderContextes(){
+  const cont = document.getElementById('liste-ctx');
+  const labels = ['pas de difficulté','gêne','surcharge','crise / évitement'];
+  cont.innerHTML = `
+    <div class="entete-situations">
+      <div>Contexte</div><div>0</div><div>1</div><div>2</div><div>3</div>
+    </div>
+    ${CONTEXTES.map((it,i)=>`
+      <div class="situation-row" style="--c:#a02040">
+        <div class="texte">${esc(it)}</div>
+        ${[0,1,2,3].map(v=>`
+          <div class="niveau" title="${esc(labels[v])}">
+            <label><input type="radio" name="ctx_${i}" value="${v}"><span class="v">${v}</span></label>
+          </div>
+        `).join('')}
+      </div>
+    `).join('')}
+  `;
+}
+
+function renderChecklist(elId, items, prefix, couleur){
+  const cont = document.getElementById(elId);
+  cont.style.setProperty('--c', couleur);
+  cont.innerHTML = items.map((s,i)=>`
+    <label class="check"><input type="checkbox" data-k="${prefix}_${i}"><span>${esc(s)}</span></label>
+  `).join('');
+}
+
+function renderStrategies(){
+  const cont = document.getElementById('liste-strat');
+  const labels = ['pas aidant','un peu','aidant','très aidant'];
+  cont.innerHTML = `
+    <div class="entete-situations">
+      <div>Stratégie</div><div>0</div><div>1</div><div>2</div><div>3</div>
+    </div>
+    ${STRATEGIES.map((it,i)=>`
+      <div class="situation-row" style="--c:#2a9d8f">
+        <div class="texte">${esc(it)}</div>
+        ${[0,1,2,3].map(v=>`
+          <div class="niveau" title="${esc(labels[v])}">
+            <label><input type="radio" name="strat_${i}" value="${v}"><span class="v">${v}</span></label>
+          </div>
+        `).join('')}
+      </div>
+    `).join('')}
+  `;
+}
+
+function renderAggrave(){
+  const cont = document.getElementById('liste-aggrave');
+  cont.innerHTML = `
+    <div class="entete-situations" style="grid-template-columns:1fr 80px 1fr">
+      <div>Réaction adulte</div><div>Aggrave ?</div><div>Notes</div>
+    </div>
+  ` + AGGRAVE.map((s,i)=>`
+    <div class="aggrave-row" style="--c:#c25a30">
+      <div class="strat">${esc(s)}</div>
+      <div class="choix">
+        <label title="Oui"><input type="radio" name="agg_${i}" value="oui"><span class="v">oui</span></label>
+        <label title="Non"><input type="radio" name="agg_${i}" value="non"><span class="v">non</span></label>
+      </div>
+      <textarea data-k="agg_notes_${i}" placeholder="Notes…"></textarea>
+    </div>
+  `).join('');
+}
+
+function renderSynChecklists(){
+  const sens = document.getElementById('syn-sens');
+  sens.innerHTML = SYN_SENSIBILITES.map((s,i)=>`
+    <label class="check"><input type="checkbox" data-k="syn-sens-${i}"><span>${esc(s)}</span></label>
+  `).join('');
+  const prof = document.getElementById('syn-profil');
+  prof.innerHTML = SYN_PROFILS.map((s,i)=>`
+    <label class="check"><input type="checkbox" data-k="syn-prof-${i}"><span>${esc(s)}</span></label>
+  `).join('');
+}
+
+// Plan d'adaptation table
+function ajouterLignePlan(donnees){
+  const tbody = document.getElementById('plan-corps');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="text" data-plan="besoin" value="${esc(donnees?.besoin||'')}"></td>
+    <td><input type="text" data-plan="adapt" value="${esc(donnees?.adapt||'')}"></td>
+    <td><input type="text" data-plan="lieu" value="${esc(donnees?.lieu||'')}"></td>
+    <td><input type="text" data-plan="resp" value="${esc(donnees?.resp||'')}"></td>
+    <td><input type="text" data-plan="freq" value="${esc(donnees?.freq||'')}"></td>
+    <td><button type="button" class="supp" style="background:transparent;color:var(--muted);border:none;cursor:pointer;font-size:1.1rem;box-shadow:none">×</button></td>
+  `;
+  tr.querySelector('.supp').addEventListener('click', ()=> tr.remove());
+  tbody.appendChild(tr);
+}
+
+document.getElementById('btn-add-plan').addEventListener('click', ()=> ajouterLignePlan());
+
+function collecterPlan(){
+  return Array.from(document.querySelectorAll('#plan-corps tr')).map(tr=>({
+    besoin: tr.querySelector('[data-plan="besoin"]').value,
+    adapt: tr.querySelector('[data-plan="adapt"]').value,
+    lieu: tr.querySelector('[data-plan="lieu"]').value,
+    resp: tr.querySelector('[data-plan="resp"]').value,
+    freq: tr.querySelector('[data-plan="freq"]').value
+  }));
+}
+
+function appliquerPlan(arr){
+  const tbody = document.getElementById('plan-corps');
+  tbody.innerHTML = '';
+  if(arr && arr.length){
+    arr.forEach(d=> ajouterLignePlan(d));
+  } else {
+    for(let i=0;i<3;i++) ajouterLignePlan();
+  }
+}
+
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts: new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type === 'checkbox' ? el.checked : el.value;
+  });
+  document.querySelectorAll('input[type="radio"]:checked').forEach(r=>{
+    o['radio_'+r.name] = r.value;
+  });
+  o._plan = collecterPlan();
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type === 'checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=>{
+    r.checked = (o['radio_'+r.name] === r.value);
+  });
+  appliquerPlan(o._plan || []);
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type === 'checkbox') el.checked = false;
+    else el.value = '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r=> r.checked = false);
+  appliquerPlan([]);
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucun profil.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · ${esc((o.date||o._ts||'').slice(0,10))}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire();
+      const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer ce profil ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom (ou initiales).'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr);
+  rendreDossiers();
+  alert('Profil sensoriel enregistré.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const lignes = ['Profil sensoriel simplifié — Boîte NeuroPed','EducaTypique · Création originale Nawel Haddouch',''];
+  lignes.push('Enfant : '+(o.prenom||'—')+' · '+(o.age||'—')+' · Date : '+(o.date||'—'));
+  lignes.push('Observateur : '+(o.observateur||'—'));
+  lignes.push('Diagnostic / hypothèse : '+(o.diagnostic||'—'));
+  lignes.push('Motif : '+(o.motif||'—'));
+  lignes.push('');
+  // ===== MIROIR CLINIQUE =====
+  const prof = buildProfilSens();
+  if(prof){
+    lignes.push('======= 🪞 MIROIR CLINIQUE SENSORIEL =======');
+    lignes.push('');
+    lignes.push('TYPE DE PROFIL : '+prof.typeProfil);
+    lignes.push('CODE PRO : '+prof.codesPro);
+    lignes.push('SYNTHÈSE : '+prof.phraseSynth);
+    lignes.push('');
+    const matches = matchHypothesesSens(prof);
+    if(matches.length>0){
+      lignes.push('-- Hypothèses cliniques (à croiser) --');
+      matches.forEach(h=>{ lignes.push('  • '+h.titre+' ['+h.codes+']'); lignes.push('    '+h.desc); });
+      lignes.push('');
+    }
+    const tousFrag = [...prof.fragiles, ...prof.recherches];
+    if(tousFrag.length>0){
+      lignes.push('-- Canaux à adapter --');
+      tousFrag.forEach(x=>{
+        lignes.push('  '+x.d.code+'-'+x.v.sigle+' · '+x.d.nom+' (moy '+x.sc.moy.toFixed(1)+' · '+x.v.label+')');
+        const it = itemsCotesHaut(x.d, x.d.type==='mixte' && x.v.niv===1 ? 1 : 2);
+        if(it.length>0){
+          lignes.push('    Situations cotées '+(x.d.type==='mixte' && x.v.niv===1 ? 'recherche' : 'fortement')+' :');
+          it.forEach(s=>lignes.push('      · ('+s.score+') '+s.texte));
+        }
+        if(x.d.outils){
+          lignes.push('    Outils : '+x.d.outils.map(o=>o.t).join(' · '));
+        }
+        lignes.push('');
+      });
+      lignes.push('-- Plan 3 cibles --');
+      lignes.push('  🥇 P1 : '+tousFrag[0].d.nom+' → '+(tousFrag[0].d.adaptations[0]||''));
+      if(tousFrag[1]) lignes.push('  🥈 P2 : '+tousFrag[1].d.nom+' → '+(tousFrag[1].d.adaptations[0]||''));
+      lignes.push('  🌟 Routine corporelle : check-in faim/soif/fatigue/tension 2-3×/j');
+      lignes.push('');
+    }
+    lignes.push('================================================');
+    lignes.push('');
+  }
+  DOMAINES.forEach(d=>{
+    lignes.push('== '+d.nom+' ==');
+    d.situations.forEach((it,i)=>{
+      const v = o['radio_situ_'+d.id+'_'+i];
+      lignes.push('  · ('+(v||'?')+') '+it);
+    });
+    const signes = d.signes.filter((_,i)=> o['signe_'+d.id+'_'+i]);
+    if(signes.length) lignes.push('  Signes observés : '+signes.join(', '));
+    const adapt = d.adaptations.filter((_,i)=> o['adapt_'+d.id+'_'+i]);
+    if(adapt.length) lignes.push('  Adaptations retenues : '+adapt.join(', '));
+    lignes.push('');
+  });
+  lignes.push('== Contextes de surcharge ==');
+  CONTEXTES.forEach((c,i)=> lignes.push('  · ('+(o['radio_ctx_'+i]||'?')+') '+c));
+  const sa = SIGNES_AVANT_SURCHARGE.filter((_,i)=> o['signe_avant_'+i]);
+  if(sa.length) lignes.push('Signes avant surcharge : '+sa.join(', '));
+  lignes.push('');
+  lignes.push('== Stratégies d\'apaisement ==');
+  STRATEGIES.forEach((s,i)=> lignes.push('  · ('+(o['radio_strat_'+i]||'?')+') '+s));
+  lignes.push('');
+  lignes.push('== Ce qui aggrave ==');
+  AGGRAVE.forEach((s,i)=>{
+    const v = o['radio_agg_'+i];
+    if(v) lignes.push('  · '+s+' : '+v+(o['agg_notes_'+i] ? ' — '+o['agg_notes_'+i] : ''));
+  });
+  lignes.push('');
+  lignes.push('== Synthèse ==');
+  const sens = SYN_SENSIBILITES.filter((_,i)=> o['syn-sens-'+i]);
+  if(sens.length) lignes.push('Sensibilités : '+sens.join(', '));
+  const prof = SYN_PROFILS.filter((_,i)=> o['syn-prof-'+i]);
+  if(prof.length) lignes.push('Profil dominant : '+prof.join(', '));
+  lignes.push('Déclencheurs : '+(o['syn-decl']||'—'));
+  lignes.push('Stratégies : '+(o['syn-strat']||'—'));
+  lignes.push('');
+  lignes.push('== Plan d\'adaptation ==');
+  (o._plan||[]).forEach(p=>{
+    if(p.besoin||p.adapt) lignes.push('  · '+(p.besoin||'—')+' → '+(p.adapt||'—')+' · '+(p.lieu||'—')+' · '+(p.resp||'—')+' · '+(p.freq||'—'));
+  });
+  lignes.push('');
+  lignes.push('== Phrase de synthèse ==');
+  lignes.push(o['syn-phrase']||'—');
+  lignes.push('');
+  lignes.push('Orientations : '+(o['syn-orient']||'—'));
+  const blob = new Blob([lignes.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'profil-sensoriel-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(confirm('Vider le formulaire ? (les profils enregistrés ne seront pas touchés)')) vider();
+});
+
+// Surlignage nav au scroll
+const navLinks = document.querySelectorAll('#nav a');
+function majNav(){
+  const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 120) actif = c; });
+  navLinks.forEach(a=>{
+    a.classList.toggle('actif', actif && a.getAttribute('href') === '#'+actif.id);
+  });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+// Init
+renderDomaines();
+renderContextes();
+renderChecklist('liste-signes-avant', SIGNES_AVANT_SURCHARGE, 'signe_avant', '#a02040');
+renderStrategies();
+renderAggrave();
+renderSynChecklists();
+appliquerPlan([]);
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+majNav();
+renderMiroirSens();
+
+// Synchro temps réel du miroir : écouter les changes des radios des canaux sensoriels
+document.addEventListener('change', e=>{
+  if(e.target && e.target.name && e.target.name.startsWith('situ_')){
+    renderMiroirSens();
+  }
+});
+
+// Refresh miroir aussi après application d'un dossier chargé
+const _origAppliquer = appliquer;
+appliquer = function(o){ _origAppliquer(o); renderMiroirSens(); };
+</script>
+
+</body>
+</html>

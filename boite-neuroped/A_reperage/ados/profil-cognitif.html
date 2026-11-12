@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Profil Cognitif — Boussol Ados</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:linear-gradient(180deg,#F0F7F5 0%,#F5F0F7 50%,#FEF6EF 100%);
+  font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;
+  color:#2D3E3A;line-height:1.5;padding:24px 16px 48px;min-height:100vh;
+}
+.serif{font-family:Georgia,'Times New Roman',serif}
+.wrap{max-width:680px;margin:0 auto}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(108,168,158,0.3)}50%{box-shadow:0 0 0 8px rgba(108,168,158,0.05)}}
+
+.hdr{text-align:center;padding:40px 24px 32px;margin-bottom:24px;background:linear-gradient(160deg,#FFF8F2,#F0F0F8 50%,#E8F2EE);border-radius:24px;border:1px solid rgba(108,168,158,0.25);box-shadow:0 6px 24px rgba(108,168,158,0.08)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#6CA89E,#9B85B8);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+.hdr h1{font-family:Georgia,serif;font-size:34px;font-weight:400;color:#2D3E3A;margin-bottom:6px}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A6B66}
+.orn{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px}
+.oln{width:50px;height:1px;background:#6CA89E;opacity:0.5}
+.ogm{width:10px;height:10px;background:linear-gradient(135deg,#6CA89E,#9B85B8);border-radius:50%}
+
+.card{background:#fff;border:1px solid rgba(108,168,158,0.18);border-radius:20px;padding:28px 24px;margin-bottom:16px;box-shadow:0 6px 18px rgba(108,168,158,0.06);animation:fadeIn .4s ease}
+.card h2{font-family:Georgia,serif;font-size:24px;font-weight:500;color:#2D3E3A;margin-bottom:8px}
+.sub{font-family:Georgia,serif;font-style:italic;font-size:14px;color:#5A6B66;margin-bottom:20px;line-height:1.5}
+
+.welcome-text{font-size:14.5px;color:#2D3E3A;line-height:1.7;margin-bottom:16px}
+.welcome-text strong{color:#6CA89E;font-weight:600}
+.box-info{background:linear-gradient(135deg,#F0F7F5,#F5F0F7);border-radius:14px;padding:16px 18px;margin:16px 0;font-size:13.5px;color:#2D3E3A;line-height:1.6;border-left:4px solid #6CA89E}
+.box-info strong{color:#6CA89E}
+
+.progress-bar{height:8px;background:#F0F0F8;border-radius:8px;overflow:hidden;margin:16px 0 8px}
+.progress-fill{height:100%;background:linear-gradient(90deg,#6CA89E,#9B85B8);border-radius:8px;transition:width 0.4s ease}
+.progress-info{display:flex;justify-content:space-between;font-size:12px;color:#5A6B66;margin-bottom:24px}
+
+.section-title{font-family:Georgia,serif;font-size:20px;color:#9B85B8;font-weight:500;margin:24px 0 8px;display:flex;align-items:center;gap:10px}
+.section-icon{font-size:26px}
+.section-desc{font-size:13px;color:#5A6B66;margin-bottom:18px;font-style:italic;line-height:1.5}
+
+.q{margin-bottom:22px;padding:14px 0;border-bottom:1px dashed #E0EEEA}
+.q:last-child{border-bottom:none}
+.q-text{font-size:14.5px;color:#2D3E3A;margin-bottom:12px;line-height:1.6}
+.q-num{display:inline-block;font-size:11px;color:#6CA89E;font-weight:700;margin-right:6px;background:#E8F2EE;padding:2px 8px;border-radius:10px}
+
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px}
+.sc-btn{padding:14px 4px;background:#F8F5FA;border:1.5px solid #E8E0EE;border-radius:12px;text-align:center;cursor:pointer;font-size:12px;font-weight:500;color:#5A6B66;transition:all 0.2s;user-select:none;display:flex;flex-direction:column;align-items:center;gap:4px}
+.sc-btn .emoji{font-size:20px}
+.sc-btn:hover{background:#fff;border-color:#9B85B8;transform:translateY(-2px)}
+.sc-btn.selected{background:linear-gradient(135deg,#6CA89E,#9B85B8);color:#fff;border-color:#6CA89E;box-shadow:0 4px 10px rgba(108,168,158,0.3)}
+.scale-labels{display:flex;justify-content:space-between;font-size:10px;color:#8A9994;margin-top:6px;font-style:italic;padding:0 4px}
+
+.btn-main{width:100%;padding:16px 22px;background:linear-gradient(135deg,#6CA89E,#9B85B8);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;margin-top:20px;box-shadow:0 6px 16px rgba(108,168,158,0.3);transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(108,168,158,0.4)}
+.btn-main:disabled{background:#D4D4DC;cursor:not-allowed;transform:none;box-shadow:none}
+
+.warning{background:#FFF8F2;border:1px solid #F5C9A0;border-radius:12px;padding:12px 14px;margin-top:12px;font-size:13px;color:#A8632A;display:none;align-items:center;gap:8px}
+.warning.show{display:flex}
+
+/* RESULTS */
+.results-hdr{text-align:center;padding:8px 0 16px;margin-bottom:8px}
+.badge{display:inline-block;padding:6px 16px;background:linear-gradient(135deg,#FFE8D6,#F5DCE8);color:#9B85B8;border-radius:20px;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+.results-hdr h2{font-family:Georgia,serif;font-size:30px;font-weight:500;color:#2D3E3A;margin-bottom:6px}
+.results-hdr p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#5A6B66}
+
+.profile-summary{background:linear-gradient(135deg,#F0F7F5,#F5F0F7,#FEF6EF);border-radius:18px;padding:20px 22px;margin:18px 0;border:1px solid rgba(108,168,158,0.2)}
+.profile-summary p{font-family:Georgia,serif;font-size:16px;color:#2D3E3A;line-height:1.65;font-style:italic}
+
+.fn-card{background:#fff;border-radius:16px;padding:18px 20px;margin-bottom:12px;border:1px solid rgba(108,168,158,0.15)}
+.fn-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.fn-emoji{font-size:32px;flex-shrink:0}
+.fn-info{flex:1}
+.fn-name{font-family:Georgia,serif;font-size:18px;color:#2D3E3A;font-weight:500;margin-bottom:2px}
+.fn-status{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.fn-bar{height:10px;background:#F0F0F8;border-radius:6px;overflow:hidden;margin:6px 0 10px}
+.fn-fill{height:100%;border-radius:6px;transition:width 1s ease}
+.fn-fill.fort{background:linear-gradient(90deg,#6CA89E,#85C4B8)}
+.fn-fill.moyen{background:linear-gradient(90deg,#F5C480,#E5A55C)}
+.fn-fill.fragile{background:linear-gradient(90deg,#E8A5A0,#D48F88)}
+.fn-status.fort{color:#5A8F87}
+.fn-status.moyen{color:#A88040}
+.fn-status.fragile{color:#A86560}
+.fn-content{font-size:13px;color:#3D4E48;line-height:1.6;margin-top:8px}
+.fn-tools{background:#F8F5FA;border-radius:10px;padding:10px 14px;margin-top:10px}
+.fn-tools-title{font-size:11px;font-weight:700;color:#9B85B8;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.fn-tool{font-size:12.5px;color:#3D4E48;line-height:1.55;padding:3px 0;display:flex;gap:6px}
+.fn-tool::before{content:'→';color:#9B85B8;font-weight:bold;flex-shrink:0}
+
+.super-card{background:linear-gradient(135deg,#E8F2EE,#F0F7F5);border-radius:16px;padding:18px 20px;margin:14px 0;border-left:4px solid #6CA89E}
+.super-title{font-family:Georgia,serif;font-size:18px;color:#5A8F87;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.super-item{font-size:13px;color:#2D3E3A;line-height:1.6;padding:4px 0;display:flex;gap:8px}
+.super-item::before{content:'⭐';flex-shrink:0}
+
+.defi-card{background:linear-gradient(135deg,#FFF8F2,#F5DCE8);border-radius:16px;padding:18px 20px;margin:14px 0;border-left:4px solid #E5A55C}
+.defi-title{font-family:Georgia,serif;font-size:18px;color:#A88040;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.defi-item{font-size:13px;color:#2D3E3A;line-height:1.6;padding:4px 0;display:flex;gap:8px}
+.defi-item::before{content:'💡';flex-shrink:0}
+
+.message-card{background:linear-gradient(135deg,#FEF6EF,#F0F7F5);border-radius:16px;padding:20px 22px;margin:16px 0;border:1px dashed rgba(108,168,158,0.4);text-align:center}
+.message-card p{font-family:Georgia,serif;font-style:italic;font-size:15px;color:#3D4E48;line-height:1.65}
+
+.actions{background:#fff;border-radius:18px;padding:20px;margin-top:20px;border:1px solid rgba(108,168,158,0.15)}
+.btn-copy{width:100%;padding:14px 20px;background:linear-gradient(135deg,#6CA89E,#9B85B8);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(108,168,158,0.3);margin-bottom:10px;transition:all 0.2s}
+.btn-copy:hover{transform:translateY(-1px)}
+.btn-copy.copied{background:linear-gradient(135deg,#85C4B8,#6CA89E)}
+.actions-row{display:flex;gap:8px}
+.btn-sec{flex:1;padding:12px 14px;background:transparent;border:1.5px solid #D4D4DC;color:#5A6B66;border-radius:11px;font-size:12.5px;font-weight:500;cursor:pointer;transition:all 0.2s}
+.btn-sec:hover{border-color:#9B85B8;color:#9B85B8;background:#F8F5FA}
+
+.foot{text-align:center;padding:24px 16px 0;font-size:11px;color:#8A9994;margin-top:8px}
+.foot .signature{color:#6CA89E;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;font-size:10px;margin-top:6px}
+
+.hidden{display:none}
+
+@media (max-width:540px){
+  .hdr h1{font-size:28px}
+  .card{padding:22px 18px}
+  .card h2{font-size:21px}
+  .scale{gap:4px}
+  .sc-btn{font-size:11px;padding:10px 2px}
+  .sc-btn .emoji{font-size:18px}
+}
+</style>
+</head>
+<body>
+<a href="../../ados.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#7c5cbf;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,0.12);backdrop-filter:blur(4px);border:1px solid rgba(124,92,191,0.2)">← Boîte NeuroPed</a><!--data-back-link-injected-->
+<div class="wrap">
+
+<!-- ====== HEADER ====== -->
+<div class="hdr">
+  <div class="brand">🌿 Boussol Ados · Educa Typique</div>
+  <h1>Mon Profil Cognitif</h1>
+  <p>Comprendre comment fonctionne mon cerveau ✨</p>
+  <div class="orn"><span class="oln"></span><span class="ogm"></span><span class="oln"></span></div>
+</div>
+
+<!-- ====== INTRO ====== -->
+<div class="card" id="introCard">
+  <h2>Salut toi 🌸</h2>
+  <div class="welcome-text">
+    Tu vas répondre à un petit questionnaire pour mieux comprendre <strong>comment fonctionne ton cerveau</strong>. Pas pour te juger, pas pour te coller une étiquette. Juste pour <strong>te connaître mieux</strong>.
+    <br><br>
+    Tous les cerveaux sont différents. Le tien a probablement des <strong>super-pouvoirs</strong> que tu ne soupçonnes pas, et quelques <strong>défis</strong> qu'on peut apprendre à apprivoiser. Le but c'est de découvrir tout ça ensemble.
+  </div>
+
+  <div class="box-info">
+    <strong>⏱ Durée :</strong> 8-10 minutes<br>
+    <strong>📋 Comment :</strong> 25 phrases à évaluer<br>
+    <strong>🌿 Sois sincère :</strong> il n'y a pas de bonne ou mauvaise réponse — juste ta vérité du moment
+  </div>
+
+  <div class="box-info" style="border-left-color:#9B85B8">
+    <strong>🔒 Confidentiel :</strong> tes réponses restent entre toi et ta praticienne. Tu pourras choisir ce que tu veux partager.
+  </div>
+
+  <button class="btn-main" onclick="start()">Je suis prête, c'est parti ! ✨</button>
+</div>
+
+<!-- ====== QUESTIONNAIRE ====== -->
+<div class="card hidden" id="quizCard">
+  <div class="progress-info">
+    <span id="progressLabel">Section 1 sur 5</span>
+    <span id="progressCount">0 / 25 réponses</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+  <!-- ATTENTION -->
+  <div class="section-title"><span class="section-icon">🎯</span><span>Attention & Concentration</span></div>
+  <div class="section-desc">Ta capacité à te concentrer, à rester focus sur ce que tu fais</div>
+
+  <div class="q"><div class="q-text"><span class="q-num">Q1</span>Quand je dois lire ou travailler, j'arrive à rester concentrée longtemps sans décrocher.</div><div class="scale" data-q="1"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q2</span>Je termine ce que je commence (devoirs, lectures, projets), même si c'est long.</div><div class="scale" data-q="2"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q3</span>Mon esprit ne s'évade pas trop souvent quand je dois écouter quelqu'un parler.</div><div class="scale" data-q="3"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q4</span>Le bruit ou les distractions autour de moi ne me dérangent pas trop pour travailler.</div><div class="scale" data-q="4"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q5</span>J'arrive à reprendre facilement une activité après une interruption.</div><div class="scale" data-q="5"></div></div>
+
+  <!-- MEMOIRE -->
+  <div class="section-title"><span class="section-icon">🧠</span><span>Mémoire</span></div>
+  <div class="section-desc">Ta capacité à retenir et à te souvenir des choses</div>
+
+  <div class="q"><div class="q-text"><span class="q-num">Q6</span>Je me souviens facilement des consignes qu'on me donne à l'oral.</div><div class="scale" data-q="6"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q7</span>J'arrive à apprendre mes leçons et à m'en souvenir le jour du contrôle.</div><div class="scale" data-q="7"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q8</span>Je n'oublie pas trop souvent des choses importantes (RDV, affaires, devoirs).</div><div class="scale" data-q="8"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q9</span>Quand on me dit plusieurs choses à faire d'un coup, je m'en souviens toutes.</div><div class="scale" data-q="9"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q10</span>J'arrive à retenir des numéros ou suites de chiffres pendant quelques minutes.</div><div class="scale" data-q="10"></div></div>
+
+  <!-- ORGANISATION -->
+  <div class="section-title"><span class="section-icon">📋</span><span>Organisation & Planification</span></div>
+  <div class="section-desc">Ta capacité à planifier, à t'organiser, à gérer ton temps</div>
+
+  <div class="q"><div class="q-text"><span class="q-num">Q11</span>J'arrive à m'organiser pour préparer mes affaires à l'avance.</div><div class="scale" data-q="11"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q12</span>Je sais estimer le temps que va prendre une tâche (devoirs, douche, trajet).</div><div class="scale" data-q="12"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q13</span>Je suis souvent à l'heure (école, RDV, rencontres).</div><div class="scale" data-q="13"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q14</span>Quand j'ai un gros projet, je sais le découper en étapes.</div><div class="scale" data-q="14"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q15</span>Ma chambre / mon sac / mon bureau sont rangés et je retrouve facilement mes affaires.</div><div class="scale" data-q="15"></div></div>
+
+  <!-- REGULATION -->
+  <div class="section-title"><span class="section-icon">🌊</span><span>Régulation</span></div>
+  <div class="section-desc">Ta capacité à te calmer, à attendre, à gérer tes impulsions</div>
+
+  <div class="q"><div class="q-text"><span class="q-num">Q16</span>Quand quelque chose m'énerve, j'arrive à me calmer rapidement.</div><div class="scale" data-q="16"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q17</span>Je réfléchis avant d'agir ou de parler (je ne dis pas tout ce qui me passe par la tête).</div><div class="scale" data-q="17"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q18</span>J'arrive à attendre mon tour, à patienter sans m'énerver.</div><div class="scale" data-q="18"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q19</span>Je peux résister à l'envie de faire autre chose (téléphone, jeu) quand je dois bosser.</div><div class="scale" data-q="19"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q20</span>Mes émotions ne montent pas trop vite, je ne pleure / explose pas pour un rien.</div><div class="scale" data-q="20"></div></div>
+
+  <!-- FLEXIBILITE -->
+  <div class="section-title"><span class="section-icon">🌀</span><span>Flexibilité mentale</span></div>
+  <div class="section-desc">Ta capacité à t'adapter, à changer, à voir les choses différemment</div>
+
+  <div class="q"><div class="q-text"><span class="q-num">Q21</span>Quand un plan change à la dernière minute, je m'adapte facilement.</div><div class="scale" data-q="21"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q22</span>J'arrive à voir un problème sous différents angles.</div><div class="scale" data-q="22"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q23</span>Je peux passer d'une activité à une autre sans difficulté.</div><div class="scale" data-q="23"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q24</span>J'accepte les imprévus et les changements sans trop de stress.</div><div class="scale" data-q="24"></div></div>
+  <div class="q"><div class="q-text"><span class="q-num">Q25</span>Quand une méthode ne marche pas, j'en essaie une autre facilement.</div><div class="scale" data-q="25"></div></div>
+
+  <div class="warning" id="warn">
+    <span>⚠</span><span>Tu as encore <strong id="missing">25</strong> réponse(s) à donner !</span>
+  </div>
+
+  <button class="btn-main" id="submitBtn" onclick="submit()">Voir mon profil ✨</button>
+</div>
+
+<!-- ====== RESULTS ====== -->
+<div class="card hidden" id="resultsCard">
+  <div class="results-hdr">
+    <div class="badge">✨ Ton profil cognitif</div>
+    <h2 id="profileTitle">Ton cerveau unique</h2>
+    <p>Ce qui te rend toi 🌸</p>
+  </div>
+
+  <div class="profile-summary"><p id="profileSummary"></p></div>
+
+  <div id="functionsList"></div>
+
+  <div class="super-card">
+    <div class="super-title">🌟 Tes super-pouvoirs</div>
+    <div id="superpowers"></div>
+  </div>
+
+  <div class="defi-card">
+    <div class="defi-title">💡 Tes défis à apprivoiser</div>
+    <div id="defis"></div>
+  </div>
+
+  <div class="message-card">
+    <p id="finalMessage"></p>
+  </div>
+
+  <div class="actions">
+    <button class="btn-copy" id="copyBtn" onclick="copyProfile()">📋 Copier mon profil pour Nawel</button>
+    <div class="actions-row">
+      <button class="btn-sec" onclick="downloadTxt()">💾 Télécharger</button>
+      <button class="btn-sec" onclick="location.reload()">↻ Refaire</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== FOOTER ====== -->
+<div class="foot">
+  <div>Educa Typique · Boussol Ados</div>
+  <div class="signature">🌿 Pour mieux te connaître, pour mieux te soutenir</div>
+</div>
+
+</div>
+
+<script>
+// =========== ÉCHELLE INTERACTIVE ===========
+var scaleData = [
+  { v: 1, emoji: '😕', label: 'Jamais' },
+  { v: 2, emoji: '🤔', label: 'Rarement' },
+  { v: 3, emoji: '😊', label: 'Parfois' },
+  { v: 4, emoji: '😃', label: 'Souvent' },
+  { v: 5, emoji: '🌟', label: 'Toujours' }
+];
+
+document.addEventListener('DOMContentLoaded', function () {
+  var scales = document.querySelectorAll('.scale');
+  for (var i = 0; i < scales.length; i++) {
+    var qn = scales[i].getAttribute('data-q');
+    var html = '';
+    for (var j = 0; j < scaleData.length; j++) {
+      html += '<div class="sc-btn" data-q="' + qn + '" data-v="' + scaleData[j].v + '">';
+      html += '<span class="emoji">' + scaleData[j].emoji + '</span>';
+      html += '<span>' + scaleData[j].label + '</span>';
+      html += '</div>';
+    }
+    scales[i].innerHTML = html;
+  }
+  var btns = document.querySelectorAll('.sc-btn');
+  for (var k = 0; k < btns.length; k++) {
+    btns[k].addEventListener('click', function () {
+      var q = this.getAttribute('data-q');
+      var siblings = document.querySelectorAll('.sc-btn[data-q="' + q + '"]');
+      for (var m = 0; m < siblings.length; m++) siblings[m].classList.remove('selected');
+      this.classList.add('selected');
+      updateProgress();
+    });
+  }
+});
+
+function updateProgress() {
+  var total = 25;
+  var answered = document.querySelectorAll('.sc-btn.selected').length;
+  var pct = (answered / total) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = answered + ' / ' + total + ' réponses';
+  var section = Math.min(5, Math.ceil(answered / 5) || 1);
+  document.getElementById('progressLabel').textContent = 'Section ' + section + ' sur 5';
+}
+
+function start() {
+  document.getElementById('introCard').classList.add('hidden');
+  document.getElementById('quizCard').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// =========== FONCTIONS COGNITIVES ===========
+var functions = {
+  attention: { name: 'Attention & Concentration', emoji: '🎯', qs: [1, 2, 3, 4, 5] },
+  memoire: { name: 'Mémoire', emoji: '🧠', qs: [6, 7, 8, 9, 10] },
+  organisation: { name: 'Organisation & Planification', emoji: '📋', qs: [11, 12, 13, 14, 15] },
+  regulation: { name: 'Régulation', emoji: '🌊', qs: [16, 17, 18, 19, 20] },
+  flexibilite: { name: 'Flexibilité mentale', emoji: '🌀', qs: [21, 22, 23, 24, 25] }
+};
+
+var fnDescriptions = {
+  attention: {
+    fort: "Tu as une belle capacité de concentration ! Ton cerveau arrive à rester focus sur ce qu'il fait, à ne pas trop se laisser distraire. C'est une super force pour apprendre, créer, accomplir.",
+    moyen: "Ta concentration est variable selon les contextes. Tu peux être très focus sur ce qui te passionne, mais ton attention décroche plus vite sur ce qui t'ennuie. C'est normal — on peut travailler là-dessus.",
+    fragile: "Ton cerveau a du mal à se concentrer longtemps. Il s'évade vite, capte plein de choses autour. Ce n'est pas un défaut — c'est juste un cerveau qui fonctionne autrement. On va trouver des stratégies adaptées."
+  },
+  memoire: {
+    fort: "Ta mémoire est une vraie ressource ! Tu retiens facilement les consignes, les leçons, les détails. C'est un super atout pour la scolarité et au quotidien.",
+    moyen: "Ta mémoire fonctionne bien dans certaines situations mais moins dans d'autres. Tu peux oublier des choses dites à l'oral mais bien retenir ce qui t'intéresse. On peut t'aider à mieux mémoriser.",
+    fragile: "Tu oublies souvent des informations importantes ou des consignes. Ce n'est pas de la mauvaise volonté, c'est que ton cerveau a besoin de stratégies extérieures pour bien encoder. On en parlera."
+  },
+  organisation: {
+    fort: "Tu es plutôt organisée ! Tu sais planifier, anticiper, gérer ton temps. C'est un superpouvoir qui te servira toute ta vie.",
+    moyen: "Ton organisation est inégale. Parfois tu y arrives très bien, parfois tout part en vrille. C'est typique d'un cerveau qui fonctionne par vagues — on peut t'aider à stabiliser.",
+    fragile: "L'organisation est un vrai défi pour toi. Tu sous-estimes le temps des choses, tu remets à plus tard, ton espace est en désordre. Ce n'est pas de la flemme — c'est un fonctionnement neuro spécifique qui a besoin d'outils dédiés."
+  },
+  regulation: {
+    fort: "Tu sais bien gérer tes émotions et tes impulsions ! Tu réfléchis avant d'agir, tu te calmes facilement. C'est précieux dans les relations et au quotidien.",
+    moyen: "Ta régulation est correcte mais peut craquer sous pression. Quand tu es fatiguée ou stressée, tu réagis plus fort, tu pleures plus vite. C'est humain — on peut travailler à renforcer ce muscle.",
+    fragile: "Tes émotions montent vite et fort. Tu réagis avant de penser, tu n'arrives pas toujours à te calmer. Ce n'est pas que tu es 'trop sensible' — ton cerveau réagit intensément, et ça peut s'apprivoiser."
+  },
+  flexibilite: {
+    fort: "Tu es flexible et adaptable ! Tu acceptes les changements, tu vois les choses sous différents angles. Cette agilité mentale est précieuse.",
+    moyen: "Tu t'adaptes plutôt bien, mais certains changements imprévus te déstabilisent. C'est normal — on peut renforcer cette capacité.",
+    fragile: "Les changements t'angoissent. Tu as besoin de routines, de prévoir. C'est une caractéristique d'un cerveau qui aime la stabilité — on peut t'aider à élargir ta zone de confort en douceur."
+  }
+};
+
+var fnTools = {
+  attention: {
+    fragile: [
+      "Technique Pomodoro adaptée : 15 min de travail / 3 min de pause",
+      "Casque anti-bruit ou musique sans paroles pour étudier",
+      "Bouger en travaillant (debout, balle anti-stress, équilibre)",
+      "Décomposer une tâche en mini-étapes très courtes",
+      "Routine matinale prophétique : adhkâr du matin = ancrage du focus"
+    ],
+    moyen: [
+      "Identifier tes heures de meilleure concentration (matin ? soir ?)",
+      "Pomodoro standard : 25 min de travail / 5 min de pause",
+      "Environnement calme et rangé pour bosser",
+      "Méditation/cohérence cardiaque 5 min avant de travailler"
+    ],
+    fort: [
+      "Tu peux te lancer des défis de concentration prolongée",
+      "Hyperfocus à équilibrer : pense à faire des pauses régulières aussi"
+    ]
+  },
+  memoire: {
+    fragile: [
+      "Tout écrire : un carnet UNIQUE qui te suit partout",
+      "Photos / notes vocales sur ton téléphone pour les consignes",
+      "Répétition espacée : revoir une leçon J+1, J+3, J+7",
+      "Apprendre en bougeant (marcher en répétant à voix haute)",
+      "Cartes mentales colorées plutôt que listes linéaires"
+    ],
+    moyen: [
+      "Cartes Anki pour mémoriser efficacement",
+      "Résumés en cartes mentales",
+      "Coloriage des notes par thème",
+      "Sommeil de qualité : la mémoire se consolide la nuit"
+    ],
+    fort: [
+      "Aide tes ami(e)s à réviser : enseigner = mémoriser",
+      "Utilise ta mémoire pour apprendre du Coran régulièrement"
+    ]
+  },
+  organisation: {
+    fragile: [
+      "Un seul carnet, un seul agenda — pas 10 supports différents",
+      "Visuel sur le mur : tâches de la semaine en vue",
+      "Préparer le sac et les affaires la veille au soir",
+      "Timer pour chaque tâche (estimer + comparer avec le réel)",
+      "Système de checklists simples pour les routines",
+      "Demander de l'aide pour démarrer (le plus dur)"
+    ],
+    moyen: [
+      "Planning visuel hebdomadaire",
+      "Lister 3 priorités max par jour",
+      "Apprendre à estimer le temps de chaque tâche",
+      "Routine de fin de journée : préparer le lendemain"
+    ],
+    fort: [
+      "Aide d'autres à s'organiser, c'est une vraie compétence",
+      "Attention au perfectionnisme organisationnel quand même"
+    ]
+  },
+  regulation: {
+    fragile: [
+      "Cohérence cardiaque : 5 sec inspire / 5 sec expire, 5 minutes",
+      "Identifier les signaux corporels AVANT l'explosion",
+      "Code couleur des émotions (vert calme, jaune monte, rouge explosion)",
+      "Espace refuge : un coin où tu peux te retirer 10 min",
+      "Adhkâr courts en moment de tension (subḥān Allāh ×33)",
+      "Bouger ton corps (marcher, courir, sauter) pour évacuer"
+    ],
+    moyen: [
+      "Cohérence cardiaque quotidienne en prévention",
+      "Pleine conscience pendant la salât",
+      "Journal émotionnel court"
+    ],
+    fort: [
+      "Tu peux apprendre à d'autres à se réguler",
+      "Continue à pratiquer pour maintenir cette force"
+    ]
+  },
+  flexibilite: {
+    fragile: [
+      "Prévenir des changements à l'avance quand c'est possible",
+      "Créer une 'routine flexible' (mêmes ancres, contenu variable)",
+      "Visualiser les changements avant qu'ils arrivent",
+      "Tafakkur sur al-Qādir (Allah Tout-Puissant qui change les choses)",
+      "Réduire les sources de changement non essentielles"
+    ],
+    moyen: [
+      "Petits défis flexibilité (changer de trajet, de routine)",
+      "Brainstorming : trouver 3 solutions à un problème"
+    ],
+    fort: [
+      "Aide les autres à voir les choses sous différents angles",
+      "Cette flexibilité est précieuse, cultive-la"
+    ]
+  }
+};
+
+function getScore(key) {
+  var qs = functions[key].qs;
+  var sum = 0, count = 0;
+  for (var i = 0; i < qs.length; i++) {
+    var sel = document.querySelector('.sc-btn.selected[data-q="' + qs[i] + '"]');
+    if (sel) { sum += parseInt(sel.getAttribute('data-v')); count++; }
+  }
+  return count ? (sum / count) : 0;
+}
+
+function getLevel(score) {
+  if (score >= 3.7) return 'fort';
+  if (score >= 2.7) return 'moyen';
+  return 'fragile';
+}
+function getLevelLabel(level) {
+  if (level === 'fort') return '🌟 Point fort';
+  if (level === 'moyen') return '⚖️ Variable';
+  return '🌱 À renforcer';
+}
+function getScorePct(score) { return Math.round((score / 5) * 100); }
+
+function submit() {
+  var total = 25;
+  var answered = document.querySelectorAll('.sc-btn.selected').length;
+  if (answered < total) {
+    document.getElementById('missing').textContent = total - answered;
+    document.getElementById('warn').classList.add('show');
+    document.getElementById('warn').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  var scores = {};
+  var levels = {};
+  for (var key in functions) {
+    scores[key] = getScore(key);
+    levels[key] = getLevel(scores[key]);
+  }
+
+  // Profil global
+  var fortsCount = 0, fragilesCount = 0;
+  for (var k in levels) {
+    if (levels[k] === 'fort') fortsCount++;
+    if (levels[k] === 'fragile') fragilesCount++;
+  }
+
+  var profileText = '';
+  if (fortsCount >= 3 && fragilesCount === 0) {
+    profileText = "Ton cerveau a un fonctionnement plutôt équilibré, avec de belles forces dans plusieurs domaines. Tu as les ressources cognitives pour relever les défis de l'adolescence. Continue à te connaître, à expérimenter, à apprendre.";
+  } else if (fragilesCount >= 3) {
+    profileText = "Ton cerveau a un fonctionnement particulier, avec plusieurs domaines qui demandent un soutien spécifique. Ce n'est pas un défaut — c'est juste un cerveau qui a besoin d'outils et de stratégies adaptés. Avec les bons appuis, tu vas révéler tes vraies capacités.";
+  } else if (fragilesCount >= 1 && fortsCount >= 1) {
+    profileText = "Ton cerveau a un fonctionnement atypique riche : de vraies forces qui te rendent unique, et quelques zones qui demandent du soutien. C'est exactement le profil qui, bien accompagné, peut devenir formidable. On va valoriser tes forces ET soutenir tes défis.";
+  } else {
+    profileText = "Ton cerveau a un fonctionnement plutôt moyen dans la plupart des domaines. Tu as des bases solides sur lesquelles construire. On va identifier les zones où tu peux progresser et celles où tu peux briller.";
+  }
+  document.getElementById('profileSummary').textContent = profileText;
+
+  // Liste des fonctions
+  var fnHtml = '';
+  for (var k in functions) {
+    var f = functions[k];
+    var lvl = levels[k];
+    var sc = scores[k];
+    var pct = getScorePct(sc);
+
+    fnHtml += '<div class="fn-card"><div class="fn-header">';
+    fnHtml += '<div class="fn-emoji">' + f.emoji + '</div>';
+    fnHtml += '<div class="fn-info"><div class="fn-name">' + f.name + '</div>';
+    fnHtml += '<div class="fn-status ' + lvl + '">' + getLevelLabel(lvl) + ' · ' + sc.toFixed(1) + '/5</div></div></div>';
+    fnHtml += '<div class="fn-bar"><div class="fn-fill ' + lvl + '" style="width:' + pct + '%"></div></div>';
+    fnHtml += '<div class="fn-content">' + fnDescriptions[k][lvl] + '</div>';
+
+    // Tools
+    var tools = fnTools[k][lvl];
+    if (tools && tools.length) {
+      var toolsTitle = lvl === 'fragile' ? '🛠 Outils pour t\'aider' : (lvl === 'moyen' ? '🌿 Pistes pour renforcer' : '✨ Pour aller plus loin');
+      fnHtml += '<div class="fn-tools"><div class="fn-tools-title">' + toolsTitle + '</div>';
+      for (var t = 0; t < tools.length; t++) {
+        fnHtml += '<div class="fn-tool">' + tools[t] + '</div>';
+      }
+      fnHtml += '</div>';
+    }
+    fnHtml += '</div>';
+  }
+  document.getElementById('functionsList').innerHTML = fnHtml;
+
+  // Superpowers
+  var superHtml = '';
+  var hasSuper = false;
+  for (var k in levels) {
+    if (levels[k] === 'fort') {
+      superHtml += '<div class="super-item">' + functions[k].name + ' — c\'est une vraie force chez toi !</div>';
+      hasSuper = true;
+    }
+  }
+  if (!hasSuper) {
+    superHtml += '<div class="super-item">Tu as participé à ce test avec sincérité — c\'est déjà une force !</div>';
+    superHtml += '<div class="super-item">Tu cherches à mieux te connaître — ça demande du courage</div>';
+    superHtml += '<div class="super-item">Tu es au début de ton chemin de connaissance de toi — toutes les forces sont à découvrir</div>';
+  }
+  document.getElementById('superpowers').innerHTML = superHtml;
+
+  // Défis
+  var defisHtml = '';
+  var hasDefi = false;
+  for (var k in levels) {
+    if (levels[k] === 'fragile' || levels[k] === 'moyen') {
+      defisHtml += '<div class="defi-item">' + functions[k].name + ' — un domaine où des outils peuvent vraiment t\'aider</div>';
+      hasDefi = true;
+    }
+  }
+  if (!hasDefi) {
+    defisHtml += '<div class="defi-item">Tu as un profil équilibré — continue à te connaître pour identifier les nuances</div>';
+  }
+  document.getElementById('defis').innerHTML = defisHtml;
+
+  // Message final
+  var finalMessages = [
+    "Rappelle-toi : ton cerveau n'est ni mieux ni moins bien qu'un autre — il est unique. Et c'est exactement ça qui te rend toi.",
+    "Connaître son cerveau, c'est le premier pas pour apprendre à s'aimer telle qu'on est. Tu viens de faire ce pas. ✨",
+    "Allah a créé chacun de nous avec une fiṭra unique. Ton cerveau a sa propre lumière — apprends à la voir et à la cultiver.",
+    "Tu n'es pas fainéante, tu n'es pas folle, tu n'es pas en retard. Tu as un cerveau qui fonctionne d'une certaine manière, et maintenant on a des cartes pour l'aider à briller."
+  ];
+  var idx = Math.floor(Math.random() * finalMessages.length);
+  document.getElementById('finalMessage').textContent = finalMessages[idx];
+
+  document.getElementById('quizCard').classList.add('hidden');
+  document.getElementById('resultsCard').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function buildProfileText() {
+  var dt = new Date().toLocaleDateString('fr-FR');
+  var p = [];
+  p.push('MON PROFIL COGNITIF - BOUSSOL ADOS');
+  p.push('Educa Typique - Test du ' + dt);
+  p.push('');
+  p.push('--- PROFIL GLOBAL ---');
+  p.push(document.getElementById('profileSummary').textContent);
+  p.push('');
+  p.push('--- SCORES PAR FONCTION COGNITIVE ---');
+  for (var key in functions) {
+    var sc = getScore(key);
+    var lvl = getLevel(sc);
+    p.push(functions[key].emoji + ' ' + functions[key].name + ' : ' + sc.toFixed(1) + '/5 - ' + getLevelLabel(lvl));
+    p.push('  ' + fnDescriptions[key][lvl]);
+    p.push('');
+  }
+  p.push('--- TES SUPER-POUVOIRS ---');
+  var superItems = document.querySelectorAll('#superpowers .super-item');
+  for (var i = 0; i < superItems.length; i++) p.push('* ' + superItems[i].textContent);
+  p.push('');
+  p.push('--- TES DEFIS A APPRIVOISER ---');
+  var defiItems = document.querySelectorAll('#defis .defi-item');
+  for (var i = 0; i < defiItems.length; i++) p.push('* ' + defiItems[i].textContent);
+  p.push('');
+  p.push('--- MESSAGE PERSONNEL ---');
+  p.push(document.getElementById('finalMessage').textContent);
+  p.push('');
+  p.push('---');
+  p.push('Educa Typique - Boussol Ados');
+  p.push('Test confidentiel - A discuter avec ta praticienne Nawel');
+  return p.join('\n');
+}
+
+function copyProfile() {
+  var txt = buildProfileText();
+  var btn = document.getElementById('copyBtn');
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(txt).then(function () {
+      btn.className = 'btn-copy copied';
+      btn.textContent = '✓ Copié ! Tu peux coller (Ctrl+V) où tu veux';
+      setTimeout(function () {
+        btn.className = 'btn-copy';
+        btn.textContent = '📋 Copier mon profil pour Nawel';
+      }, 4000);
+    }).catch(function () { fallbackCopy(txt, btn); });
+  } else { fallbackCopy(txt, btn); }
+}
+
+function fallbackCopy(txt, btn) {
+  try {
+    var ta = document.createElement('textarea');
+    ta.value = txt;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (ok) {
+      btn.className = 'btn-copy copied';
+      btn.textContent = '✓ Copié !';
+      setTimeout(function () {
+        btn.className = 'btn-copy';
+        btn.textContent = '📋 Copier mon profil pour Nawel';
+      }, 4000);
+      return;
+    }
+  } catch (e) {}
+  window.prompt('Copie ce texte (Ctrl+A puis Ctrl+C) :', txt);
+}
+
+function downloadTxt() {
+  var txt = buildProfileText();
+  var blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  var dt = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = 'mon-profil-cognitif-' + dt + '.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>

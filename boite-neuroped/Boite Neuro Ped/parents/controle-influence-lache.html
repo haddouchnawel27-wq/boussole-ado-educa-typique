@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ce que je contrôle / j'influence / je lâche — Boîte NeuroPed · EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+body{background:#fbf5ef}
+
+.bandeau{
+  background:linear-gradient(135deg,#F39BC2,#FFD6C2);
+  padding:1.8rem 1.5rem;text-align:center;position:relative;
+}
+.bandeau h1{color:#fff;margin:.3rem 0 .2rem;font-size:1.7rem;text-shadow:0 2px 6px rgba(0,0,0,.1)}
+.bandeau .sub{color:#fff;opacity:.95;max-width:640px;margin:0 auto;font-size:1rem}
+.bandeau .retour{display:inline-block;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.22);padding:.35em 1em;border-radius:999px;font-size:.9rem}
+.bandeau .retour:hover{background:rgba(255,255,255,.35)}
+
+.container{max-width:1000px;margin:1.5rem auto;padding:0 1.2rem}
+
+/* À propos */
+details.apropos{
+  background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);
+  margin-bottom:1.4rem;border-left:5px solid #F39BC2;
+}
+details.apropos summary{
+  padding:1rem 1.2rem;cursor:pointer;font-weight:800;color:#d36699;
+  font-family:var(--font-titre);font-size:1.05rem;list-style:none;
+}
+details.apropos summary::after{content:"▾";float:right;transition:transform .2s}
+details.apropos[open] summary::after{transform:rotate(180deg)}
+details.apropos .corps{padding:0 1.4rem 1.2rem}
+details.apropos h3{color:#d36699;margin:1rem 0 .3rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+details.apropos p{margin:.3rem 0;font-size:.93rem;line-height:1.55}
+
+/* Dossier */
+.dossier-bar{
+  background:#fff;padding:.9rem 1.1rem;border-radius:var(--r-md);
+  box-shadow:var(--shadow-sm);margin-bottom:1.3rem;
+  display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;
+}
+.dossier-bar label{font-weight:700;color:#d36699;font-size:.9rem}
+.dossier-bar input,.dossier-bar select{
+  padding:.45em .8em;border:1.5px solid #f3c8d9;border-radius:var(--r-md);
+  font-family:inherit;font-size:.92rem;flex:1;min-width:140px;
+}
+.dossier-bar button{
+  padding:.45em 1em;background:#F39BC2;color:#fff;border:none;
+  border-radius:var(--r-md);font-weight:700;cursor:pointer;font-size:.88rem;
+}
+.dossier-bar button:hover{background:#d36699}
+.dossier-bar button.ghost{background:#fff;color:#d36699;border:1.5px solid #f3c8d9}
+
+/* Ajout préoccupation */
+.ajout-zone{
+  background:#fff;padding:1.2rem;border-radius:var(--r-lg);
+  box-shadow:var(--shadow-sm);margin-bottom:1.2rem;
+}
+.ajout-zone h2{color:#d36699;margin:0 0 .6rem;font-size:1.1rem}
+.ajout-zone p.help{color:var(--muted);font-size:.88rem;margin:0 0 .8rem}
+.ajout-row{display:flex;gap:.5rem;flex-wrap:wrap}
+.ajout-row input{
+  flex:1;min-width:200px;padding:.6em 1em;border:1.5px solid #f3c8d9;
+  border-radius:var(--r-md);font-family:inherit;font-size:.95rem;
+}
+.ajout-row button{
+  padding:.6em 1.2em;background:#F39BC2;color:#fff;border:none;
+  border-radius:var(--r-md);font-weight:700;cursor:pointer;
+}
+.ajout-row button:hover{background:#d36699}
+
+.suggest{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.4rem}
+.suggest-chip{
+  background:#fff5f9;border:1.5px solid #f3c8d9;color:#d36699;
+  padding:.35em .8em;border-radius:999px;font-size:.83rem;cursor:pointer;
+  transition:all .15s;
+}
+.suggest-chip:hover{background:#F39BC2;color:#fff;transform:translateY(-1px)}
+.suggest-chip.used{opacity:.4;pointer-events:none;text-decoration:line-through}
+
+/* 3 colonnes */
+.tri{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:1.3rem;
+}
+@media(max-width:768px){.tri{grid-template-columns:1fr}}
+.col{
+  background:#fff;border-radius:var(--r-lg);padding:1rem;
+  box-shadow:var(--shadow-sm);border-top:5px solid var(--col-c);
+  min-height:280px;display:flex;flex-direction:column;
+}
+.col h3{color:var(--col-c);margin:0 0 .2rem;font-size:1rem;display:flex;align-items:center;gap:.4rem}
+.col .col-help{font-size:.78rem;color:var(--muted);margin:0 0 .8rem;line-height:1.4}
+.col.controle{--col-c:#2a9d8f}
+.col.influence{--col-c:#e9a73a}
+.col.lache{--col-c:#7c5cbf}
+
+.dropzone{
+  flex:1;background:#fafafa;border:2px dashed #e8e0d8;border-radius:var(--r-md);
+  padding:.5rem;min-height:160px;transition:all .2s;
+}
+.dropzone.over{background:#fff5f9;border-color:#F39BC2;border-style:solid}
+
+.item{
+  background:#fff;border:1.5px solid var(--col-c, #ccc);border-left:4px solid var(--col-c, #ccc);
+  padding:.5em .7em;border-radius:var(--r-md);margin-bottom:.4rem;
+  font-size:.88rem;line-height:1.4;cursor:grab;
+  display:flex;justify-content:space-between;align-items:center;gap:.4rem;
+}
+.item:active{cursor:grabbing}
+.item.dragging{opacity:.4}
+.item .del{
+  background:none;border:none;color:#bbb;cursor:pointer;font-size:1rem;
+  padding:0 .2em;line-height:1;
+}
+.item .del:hover{color:#e05a5a}
+.item .move{display:flex;gap:.15rem;flex-shrink:0}
+.item .move button{
+  background:#f5f5f5;border:none;color:#999;cursor:pointer;
+  font-size:.7rem;padding:.15em .35em;border-radius:4px;
+}
+.item .move button:hover{background:var(--col-c);color:#fff}
+
+/* Pile en attente */
+.pile{
+  background:#fff;border-radius:var(--r-lg);padding:1rem;
+  box-shadow:var(--shadow-sm);margin-bottom:1.2rem;border-left:5px solid #999;
+}
+.pile h3{color:#666;margin:0 0 .3rem;font-size:1rem}
+.pile .col-help{font-size:.78rem;color:var(--muted);margin:0 0 .6rem}
+.pile .dropzone{min-height:80px;border-color:#ddd}
+
+/* Ancre */
+.ancre{
+  background:linear-gradient(135deg,#fff5f9,#fef1e8);
+  padding:1.2rem;border-radius:var(--r-lg);
+  box-shadow:var(--shadow-sm);margin-bottom:1.2rem;
+  border-left:5px solid #F39BC2;text-align:center;
+}
+.ancre h3{color:#d36699;margin:0 0 .6rem;font-family:var(--font-titre)}
+.ancre .phrase{
+  font-size:1.15rem;line-height:1.5;color:#5a3850;font-weight:700;
+  font-style:italic;margin:.4rem 0;
+}
+.ancre .stats{font-size:.85rem;color:var(--muted);margin-top:.6rem}
+
+/* Notes */
+.notes{
+  background:#fff;padding:1.1rem;border-radius:var(--r-lg);
+  box-shadow:var(--shadow-sm);margin-bottom:1.2rem;
+}
+.notes h3{color:#d36699;margin:0 0 .5rem;font-size:1rem}
+.notes textarea{
+  width:100%;min-height:90px;padding:.7em;border:1.5px solid #f3c8d9;
+  border-radius:var(--r-md);font-family:inherit;font-size:.93rem;
+  resize:vertical;box-sizing:border-box;
+}
+
+/* Actions */
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.5rem 0}
+.actions button{
+  padding:.65em 1.3em;border:none;border-radius:var(--r-md);
+  font-weight:700;cursor:pointer;font-size:.92rem;font-family:inherit;
+}
+.btn-export{background:#F39BC2;color:#fff}
+.btn-export:hover{background:#d36699}
+.btn-print{background:#fff;color:#d36699;border:1.5px solid #f3c8d9}
+.btn-print:hover{background:#fff5f9}
+.btn-reset{background:#fff;color:#999;border:1.5px solid #ddd}
+.btn-reset:hover{background:#fef0f0;color:#e05a5a;border-color:#e05a5a}
+
+@media print{
+  .bandeau,.dossier-bar,.ajout-zone,.actions,details.apropos,.suggest{display:none!important}
+  body{background:#fff}
+  .container{max-width:100%;padding:0}
+  .tri{display:block}
+  .col,.pile,.ancre,.notes{
+    page-break-inside:avoid;box-shadow:none;border:1px solid #ddd;margin-bottom:.5rem;
+  }
+  .dropzone{border:none;background:transparent}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../parents.html">← Espace Parents</a>
+  <h1>🌿 Ce que je contrôle · J'influence · Je lâche</h1>
+  <p class="sub">Trier ce qui m'épuise. Voir ce qui dépend (ou pas) de moi. Reposer la charge mentale au bon endroit.</p>
+</section>
+
+<div class="container">
+
+  <details class="apropos">
+    <summary>📖 À propos de cet outil</summary>
+    <div class="corps">
+      <h3>Pour qui</h3>
+      <p>Pour toi, parent d'enfant TND (ou pas), qui te réveilles la nuit avec la to-do qui tourne, qui as l'impression de tout porter, qui ne sais plus par où commencer.</p>
+
+      <h3>Pour quoi</h3>
+      <p>Pour <strong>poser visuellement</strong> ce qui occupe ta tête. Pour voir clairement ce qui dépend vraiment de toi, ce que tu peux influencer, et ce qu'il faut accepter de lâcher.</p>
+
+      <h3>Comment ça marche</h3>
+      <p>1. Tu listes tout ce qui te préoccupe (ou tu cliques dans les suggestions). 2. Tu glisses chaque item dans une des 3 colonnes. 3. L'outil te renvoie une <strong>phrase d'ancrage</strong> du jour.</p>
+
+      <h3>Quand l'utiliser</h3>
+      <p>Le matin avant la journée. Le dimanche soir avant la semaine. Ou un soir où ça déborde et où tu ne sais plus quoi faire.</p>
+
+      <h3>Combien de temps</h3>
+      <p>5 à 15 minutes. Pas plus.</p>
+
+      <h3>Ce que ça change</h3>
+      <p>La charge mentale ne disparaît pas — mais elle se redistribue. Le cerveau lâche ce qu'il avait identifié comme "à régler" alors que ce n'était même pas de ton ressort.</p>
+
+      <h3>Ce que ça ne remplace pas</h3>
+      <p>Un accompagnement thérapeutique (TCC, EMDR, etc.) si l'angoisse est chronique. Cet outil est un soulagement quotidien, pas un soin de fond.</p>
+
+      <h3>Inspiration</h3>
+      <p>Outil canonique des TCC (thérapies cognitivo-comportementales), revisité par EducaTypique pour les parents d'enfants TND. La nuance <strong>"j'influence"</strong> (zone grise) est centrale : la vie n'est pas binaire.</p>
+    </div>
+  </details>
+
+  <div class="dossier-bar">
+    <label for="dossier">📁 Dossier :</label>
+    <select id="dossier"></select>
+    <button id="btn-new-dossier" class="ghost">+ Nouveau</button>
+    <button id="btn-rename-dossier" class="ghost">✎ Renommer</button>
+    <button id="btn-delete-dossier" class="ghost">🗑</button>
+  </div>
+
+  <div class="ajout-zone">
+    <h2>📝 Qu'est-ce qui te préoccupe en ce moment ?</h2>
+    <p class="help">Note ce qui tourne dans ta tête. Tu trieras après — pas la peine de réfléchir maintenant.</p>
+    <div class="ajout-row">
+      <input id="input-souci" type="text" placeholder="Ex : Le bulletin de mon enfant la semaine prochaine…" maxlength="180">
+      <button id="btn-add">+ Ajouter</button>
+    </div>
+    <div class="suggest" id="suggest"></div>
+  </div>
+
+  <div class="pile">
+    <h3>📥 À trier (glisse vers une colonne ou clique les flèches)</h3>
+    <p class="col-help">Tout ce que tu as noté arrive ici. Range chaque item dans une des 3 colonnes en dessous.</p>
+    <div class="dropzone" id="zone-pile" data-zone="pile"></div>
+  </div>
+
+  <div class="tri">
+    <div class="col controle">
+      <h3>💪 Je contrôle</h3>
+      <p class="col-help">Ça dépend <strong>vraiment</strong> de moi. Je peux agir <strong>maintenant</strong> ou prévoir une action concrète.</p>
+      <div class="dropzone" id="zone-controle" data-zone="controle"></div>
+    </div>
+    <div class="col influence">
+      <h3>🌱 J'influence</h3>
+      <p class="col-help">Ça ne dépend pas <strong>que</strong> de moi, mais je peux peser sur le résultat. Je fais ma part, sans m'épuiser.</p>
+      <div class="dropzone" id="zone-influence" data-zone="influence"></div>
+    </div>
+    <div class="col lache">
+      <h3>🍃 Je lâche</h3>
+      <p class="col-help">Ça ne dépend <strong>pas</strong> de moi. M'en occuper, c'est me vider pour rien. Je dépose.</p>
+      <div class="dropzone" id="zone-lache" data-zone="lache"></div>
+    </div>
+  </div>
+
+  <div class="ancre" id="ancre-box" style="display:none">
+    <h3>🌟 Mon ancre du jour</h3>
+    <div class="phrase" id="ancre-phrase"></div>
+    <div class="stats" id="ancre-stats"></div>
+  </div>
+
+  <div class="notes">
+    <h3>🪞 Note libre (facultatif)</h3>
+    <textarea id="notes" placeholder="Une pensée, une décision, un mot pour moi-même…"></textarea>
+  </div>
+
+  <div class="actions">
+    <button class="btn-export" id="btn-export">📄 Exporter en .txt</button>
+    <button class="btn-print" onclick="window.print()">🖨 Imprimer</button>
+    <button class="btn-reset" id="btn-reset">🔄 Vider ce dossier</button>
+  </div>
+
+</div>
+
+<script>
+const KEY='educatypique_controle_influence_lache_v1';
+const SUGGESTIONS=[
+  "Le bulletin / les notes",
+  "Une convocation à l'école",
+  "Le diagnostic en attente",
+  "Le regard des autres parents",
+  "Ce que pense la maîtresse",
+  "Les crises du matin",
+  "Les devoirs du soir",
+  "Mon propre épuisement",
+  "La chambre en bazar",
+  "Les écrans / les jeux vidéo",
+  "Ce que mangera mon enfant demain",
+  "Le rendez-vous médical à prendre",
+  "Le comportement de mon enfant en public",
+  "Mon couple qui souffre",
+  "Mon temps pour moi",
+  "Le tri des papiers MDPH",
+  "Les remarques de la famille",
+  "Mon sommeil"
+];
+
+let state={dossier:null,dossiers:{}};
+
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){state=JSON.parse(raw);}
+  }catch(e){}
+  if(!state.dossiers||Object.keys(state.dossiers).length===0){
+    state.dossiers={"Aujourd'hui":blank()};
+    state.dossier="Aujourd'hui";
+  }
+  if(!state.dossier||!state.dossiers[state.dossier]){
+    state.dossier=Object.keys(state.dossiers)[0];
+  }
+}
+function blank(){return{items:[],notes:""};}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function current(){return state.dossiers[state.dossier];}
+
+function refreshDossierSelect(){
+  const sel=document.getElementById('dossier');
+  sel.innerHTML='';
+  Object.keys(state.dossiers).forEach(n=>{
+    const o=document.createElement('option');
+    o.value=n;o.textContent=n;
+    if(n===state.dossier)o.selected=true;
+    sel.appendChild(o);
+  });
+}
+
+function render(){
+  const d=current();
+  ['pile','controle','influence','lache'].forEach(z=>{
+    const el=document.getElementById('zone-'+z);
+    el.innerHTML='';
+    d.items.filter(it=>it.zone===z).forEach(it=>{
+      el.appendChild(buildItem(it));
+    });
+  });
+  document.getElementById('notes').value=d.notes||'';
+  refreshSuggest();
+  renderAncre();
+}
+
+function buildItem(it){
+  const div=document.createElement('div');
+  div.className='item';
+  div.draggable=true;
+  div.dataset.id=it.id;
+
+  const txt=document.createElement('span');
+  txt.textContent=it.text;
+  txt.style.flex='1';
+  div.appendChild(txt);
+
+  const move=document.createElement('div');
+  move.className='move';
+  const zones=['pile','controle','influence','lache'];
+  const labels={pile:'↩',controle:'💪',influence:'🌱',lache:'🍃'};
+  zones.filter(z=>z!==it.zone).forEach(z=>{
+    const b=document.createElement('button');
+    b.textContent=labels[z];
+    b.title='Déplacer vers '+z;
+    b.onclick=(e)=>{e.stopPropagation();moveItem(it.id,z);};
+    move.appendChild(b);
+  });
+  div.appendChild(move);
+
+  const del=document.createElement('button');
+  del.className='del';del.textContent='✕';del.title='Supprimer';
+  del.onclick=(e)=>{e.stopPropagation();removeItem(it.id);};
+  div.appendChild(del);
+
+  div.addEventListener('dragstart',e=>{
+    div.classList.add('dragging');
+    e.dataTransfer.setData('text/plain',it.id);
+  });
+  div.addEventListener('dragend',()=>div.classList.remove('dragging'));
+
+  return div;
+}
+
+function addItem(text){
+  if(!text||!text.trim())return;
+  const d=current();
+  d.items.push({id:Date.now()+'-'+Math.random().toString(36).slice(2,7),text:text.trim(),zone:'pile'});
+  save();render();
+}
+function moveItem(id,zone){
+  const d=current();
+  const it=d.items.find(x=>x.id===id);
+  if(it){it.zone=zone;save();render();}
+}
+function removeItem(id){
+  const d=current();
+  d.items=d.items.filter(x=>x.id!==id);
+  save();render();
+}
+
+function refreshSuggest(){
+  const c=document.getElementById('suggest');
+  c.innerHTML='';
+  const used=new Set(current().items.map(i=>i.text));
+  SUGGESTIONS.forEach(s=>{
+    const chip=document.createElement('span');
+    chip.className='suggest-chip'+(used.has(s)?' used':'');
+    chip.textContent='+ '+s;
+    chip.onclick=()=>{if(!used.has(s))addItem(s);};
+    c.appendChild(chip);
+  });
+}
+
+function renderAncre(){
+  const d=current();
+  const counts={controle:0,influence:0,lache:0,pile:0};
+  d.items.forEach(i=>counts[i.zone]++);
+  const triés=counts.controle+counts.influence+counts.lache;
+  const box=document.getElementById('ancre-box');
+  if(triés===0){box.style.display='none';return;}
+  box.style.display='block';
+
+  let phrase;
+  if(counts.controle>=counts.influence+counts.lache){
+    phrase="« Aujourd'hui, j'ai du pouvoir d'agir. Je choisis UNE chose, et je commence par là. »";
+  }else if(counts.lache>counts.controle+counts.influence){
+    phrase="« Beaucoup de choses échappent à mon contrôle. Je dépose. Je respire. Ce n'est pas ma charge. »";
+  }else if(counts.influence>=counts.controle&&counts.influence>=counts.lache){
+    phrase="« Je fais ma part, sans porter celle des autres. Je sème, je n'oblige pas la pluie. »";
+  }else{
+    phrase="« Ce que je contrôle, je l'agis. Ce que j'influence, je le tente. Ce que je lâche, je le pose. »";
+  }
+  document.getElementById('ancre-phrase').textContent=phrase;
+  document.getElementById('ancre-stats').textContent=
+    `💪 ${counts.controle} · 🌱 ${counts.influence} · 🍃 ${counts.lache}` +
+    (counts.pile>0?` · 📥 ${counts.pile} encore à trier`:'');
+}
+
+/* Drag & drop sur zones */
+document.querySelectorAll('.dropzone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('over');
+    const id=e.dataTransfer.getData('text/plain');
+    moveItem(id,zone.dataset.zone);
+  });
+});
+
+/* Input */
+document.getElementById('btn-add').onclick=()=>{
+  const inp=document.getElementById('input-souci');
+  addItem(inp.value);
+  inp.value='';inp.focus();
+};
+document.getElementById('input-souci').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){document.getElementById('btn-add').click();}
+});
+
+/* Notes */
+document.getElementById('notes').addEventListener('input',e=>{
+  current().notes=e.target.value;save();
+});
+
+/* Dossiers */
+document.getElementById('dossier').onchange=e=>{
+  state.dossier=e.target.value;save();render();
+};
+document.getElementById('btn-new-dossier').onclick=()=>{
+  const n=prompt('Nom du nouveau dossier :','Dossier '+(Object.keys(state.dossiers).length+1));
+  if(n&&n.trim()&&!state.dossiers[n.trim()]){
+    state.dossiers[n.trim()]=blank();state.dossier=n.trim();
+    save();refreshDossierSelect();render();
+  }
+};
+document.getElementById('btn-rename-dossier').onclick=()=>{
+  const n=prompt('Nouveau nom :',state.dossier);
+  if(n&&n.trim()&&n.trim()!==state.dossier&&!state.dossiers[n.trim()]){
+    state.dossiers[n.trim()]=state.dossiers[state.dossier];
+    delete state.dossiers[state.dossier];state.dossier=n.trim();
+    save();refreshDossierSelect();render();
+  }
+};
+document.getElementById('btn-delete-dossier').onclick=()=>{
+  if(Object.keys(state.dossiers).length<=1){alert('Impossible de supprimer le seul dossier.');return;}
+  if(confirm('Supprimer le dossier « '+state.dossier+' » ?')){
+    delete state.dossiers[state.dossier];
+    state.dossier=Object.keys(state.dossiers)[0];
+    save();refreshDossierSelect();render();
+  }
+};
+
+/* Reset */
+document.getElementById('btn-reset').onclick=()=>{
+  if(confirm('Vider entièrement ce dossier ?')){
+    state.dossiers[state.dossier]=blank();save();render();
+  }
+};
+
+/* Export */
+document.getElementById('btn-export').onclick=()=>{
+  const d=current();
+  const groups={controle:[],influence:[],lache:[],pile:[]};
+  d.items.forEach(i=>groups[i.zone].push(i.text));
+  const date=new Date().toLocaleDateString('fr-FR');
+  let txt=`CE QUE JE CONTRÔLE / J'INFLUENCE / JE LÂCHE — EducaTypique\n`;
+  txt+=`Dossier : ${state.dossier} · Date : ${date}\n`;
+  txt+=`${'='.repeat(60)}\n\n`;
+  txt+=`💪 JE CONTRÔLE (${groups.controle.length})\n`;
+  groups.controle.forEach(t=>txt+=`  • ${t}\n`);
+  txt+=`\n🌱 J'INFLUENCE (${groups.influence.length})\n`;
+  groups.influence.forEach(t=>txt+=`  • ${t}\n`);
+  txt+=`\n🍃 JE LÂCHE (${groups.lache.length})\n`;
+  groups.lache.forEach(t=>txt+=`  • ${t}\n`);
+  if(groups.pile.length){
+    txt+=`\n📥 ENCORE À TRIER (${groups.pile.length})\n`;
+    groups.pile.forEach(t=>txt+=`  • ${t}\n`);
+  }
+  const ancre=document.getElementById('ancre-phrase').textContent;
+  if(ancre){txt+=`\n🌟 ANCRE DU JOUR\n${ancre}\n`;}
+  if(d.notes){txt+=`\n🪞 NOTE LIBRE\n${d.notes}\n`;}
+  const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`controle-influence-lache_${state.dossier.replace(/[^a-z0-9]/gi,'_')}_${date.replace(/\//g,'-')}.txt`;
+  a.click();URL.revokeObjectURL(url);
+};
+
+load();refreshDossierSelect();render();
+</script>
+
+</body>
+</html>

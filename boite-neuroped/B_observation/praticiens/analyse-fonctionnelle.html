@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analyse fonctionnelle + plan d'intervention — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,var(--peche),var(--rose-clair));padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:var(--rose-titre);margin:0}
+.bandeau .sub{color:var(--texte);max-width:760px;margin:.4rem auto 0}
+.retour{display:inline-block;margin:0 0 .6rem;color:var(--violet-titre);font-weight:700;text-decoration:none}
+
+.layout{max-width:1200px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:240px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start}
+.nav-sticky h3{color:var(--violet-titre);margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.9rem}
+.nav-sticky li{margin:.15rem 0}
+.nav-sticky a{display:block;padding:.4rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm);transition:background .15s}
+.nav-sticky a:hover{background:var(--rose-clair);color:var(--rose-titre)}
+.nav-sticky a.actif{background:var(--rose-titre);color:#fff;font-weight:700}
+
+.contenu{display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid var(--rose-soutenu);border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:var(--rose-titre);font-family:var(--font-titre)}
+.apropos summary::marker{color:var(--rose-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:var(--rose-titre);font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+section.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+section.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem;display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap}
+section.bloc h2 .marker{background:var(--c);color:#fff;font-size:.85rem;padding:.15em .55em;border-radius:50%;font-family:var(--font-body);font-weight:800}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-A{--c:#7c5cbf}
+.bloc-B{--c:#e05a8a}
+.bloc-C{--c:#F39BC2}
+.bloc-D{--c:#2a9d8f}
+.bloc-E{--c:#8ED9D2}
+.bloc-F{--c:#CBB6F6}
+.bloc-G{--c:#FFD6C2}
+.bloc-H{--c:#a02040}
+.bloc-syn{--c:var(--rose-titre)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem;color:var(--texte)}
+.champ textarea{min-height:70px;resize:vertical}
+.champ input:focus, .champ select:focus, .champ textarea:focus{outline:2px solid var(--turquoise);background:#fff}
+.champ.full{grid-column:1/-1}
+
+/* Checklist déclencheurs / hypothèses */
+.checklist{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .8rem;margin-top:.3rem}
+@media (max-width:680px){.checklist{grid-template-columns:1fr}}
+.check-item{background:var(--beige);border-radius:var(--r-sm);padding:.5rem .6rem;display:grid;grid-template-columns:auto 1fr;gap:.4rem;align-items:start}
+.check-item input{margin-top:.25rem}
+.check-item .lbl{font-size:.92rem;font-weight:700;color:var(--texte)}
+.check-item textarea{width:100%;font-size:.85rem;margin-top:.2rem;background:#fff;border:1px solid var(--border);border-radius:var(--r-sm);padding:.3em .5em;min-height:36px;resize:vertical;font-family:var(--font-body);display:none}
+.check-item input:checked ~ div textarea{display:block}
+.check-item input:checked ~ div .lbl{color:var(--rose-titre)}
+
+/* Tableau remplacement */
+.tableau-remplacement{display:flex;flex-direction:column;gap:.4rem;margin-top:.4rem}
+.ligne-rempl{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:.4rem;align-items:start}
+@media (max-width:760px){.ligne-rempl{grid-template-columns:1fr}}
+.ligne-rempl textarea{min-height:50px;padding:.4em .5em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.88rem;resize:vertical}
+.ligne-rempl .supp{background:transparent;color:var(--muted);border:none;font-size:1.2rem;cursor:pointer;padding:.2rem .5rem;box-shadow:none;align-self:center}
+.ligne-rempl .supp:hover{color:var(--rose-titre);background:none;transform:none}
+.entete-rempl{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:.4rem;padding:.3rem 0;font-size:.8rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+@media (max-width:760px){.entete-rempl{display:none}}
+.exemples-rempl{margin-top:.5rem;font-size:.85rem;color:var(--muted)}
+.ex-btn{background:#fff;border:1px solid var(--border);border-radius:999px;padding:.25em .7em;margin:.15em .2em 0 0;font-size:.8rem;color:var(--violet-titre);cursor:pointer;font-family:var(--font-body);box-shadow:none;font-weight:600}
+.ex-btn:hover{background:var(--lavande);color:#fff;transform:none}
+
+/* Plan 3 colonnes */
+.plan-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem}
+@media (max-width:880px){.plan-3{grid-template-columns:1fr}}
+.plan-col{background:var(--beige);border-radius:var(--r-md);padding:.8rem;border-top:5px solid var(--c-col)}
+.plan-col h3{margin:0 0 .3rem;color:var(--c-col);font-size:1rem}
+.plan-col .desc{font-size:.82rem;color:var(--muted);margin-bottom:.4rem}
+.plan-col textarea{width:100%;min-height:110px;padding:.5em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.9rem;resize:vertical}
+.plan-avant{--c-col:#7c5cbf}
+.plan-pendant{--c-col:#e05a8a}
+.plan-apres{--c-col:#2a9d8f}
+
+/* Script crise */
+.scripts-pretes{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.3rem}
+.script-btn{background:#fff;border:1px solid var(--border);border-radius:var(--r-sm);padding:.4em .6em;font-size:.85rem;color:var(--violet-titre);cursor:pointer;font-family:var(--font-body);box-shadow:none;text-align:left;flex:1 1 280px;font-weight:600}
+.script-btn:hover{background:var(--lavande);color:#fff;transform:none}
+
+/* Suivi 4 semaines */
+.tableau-suivi{overflow-x:auto;margin-top:.4rem}
+.tableau-suivi table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:560px}
+.tableau-suivi th, .tableau-suivi td{padding:.45em .5em;border:1px solid var(--border);text-align:left}
+.tableau-suivi th{background:var(--beige);color:var(--violet-titre);font-weight:700}
+.tableau-suivi td input{width:100%;padding:.2em .35em;border:none;background:transparent;font-family:var(--font-body);font-size:.88rem;color:var(--texte)}
+.tableau-suivi td input:focus{outline:1px solid var(--turquoise);background:#fff}
+.tableau-suivi td.indicateur{font-weight:700;background:#fcfafd}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:var(--rose-titre);border:2px solid var(--rose-titre)}
+.actions button:hover{background:var(--rose-titre);color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+.actions .danger:hover{background:var(--rose-titre);color:#fff}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem;margin-top:.6rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;margin-bottom:1rem;font-weight:600}
+
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .dossiers, .retour, details.apropos, .exemples-rempl, .ex-btn, .scripts-pretes {display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .check-item textarea{display:block !important}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../professionnels.html">← Espace professionnels</a>
+  <h1>🔬 Analyse fonctionnelle + plan d'intervention</h1>
+  <p class="sub">Comprendre la fonction d'un comportement problématique pour enseigner une compétence de remplacement, et construire une réponse éducative cohérente.</p>
+</section>
+
+<div class="layout">
+
+  <aside class="nav-sticky">
+    <h3>📑 Sections</h3>
+    <ol id="nav">
+      <li><a href="#bloc-meta">Identité &amp; cadre</a></li>
+      <li><a href="#bloc-distinction">📚 ABC ↔ Analyse fonctionnelle</a></li>
+      <li><a href="#bloc-A">A. Comportement précis</a></li>
+      <li><a href="#bloc-B">B. Déclencheurs</a></li>
+      <li><a href="#bloc-C">C. Fonction probable</a></li>
+      <li><a href="#bloc-maintien">📚 Maintien involontaire</a></li>
+      <li><a href="#bloc-D">D. Comportement de remplacement</a></li>
+      <li><a href="#bloc-E">E. Plan avant / pendant / après</a></li>
+      <li><a href="#bloc-arreter">📚 Ce que les adultes doivent arrêter</a></li>
+      <li><a href="#bloc-F">F. Script de crise</a></li>
+      <li><a href="#bloc-G">G. Réparation</a></li>
+      <li><a href="#bloc-contrat">📝 Mini-contrat comportemental</a></li>
+      <li><a href="#bloc-H">H. Suivi sur 4 semaines</a></li>
+      <li><a href="#bloc-syn">Synthèse</a></li>
+    </ol>
+    <div class="dossiers">
+      <h4>📂 Analyses enregistrées</h4>
+      <div id="liste-dossiers"></div>
+    </div>
+  </aside>
+
+  <main class="contenu">
+
+    <details class="apropos">
+      <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+      <div class="grid8">
+        <div><strong>1. Objectif</strong>Comprendre à quoi sert un comportement problématique, puis enseigner une compétence de remplacement plus acceptable qui répond au même besoin.</div>
+        <div><strong>2. Quand l'utiliser</strong>Après plusieurs grilles ABC sur un même comportement récurrent. À froid, jamais pendant la crise. À refaire toutes les 4 semaines pour suivre.</div>
+        <div><strong>3. Pour quel profil TND</strong>TDAH (impulsivité, opposition), TSA (rigidité, surcharge), TDC, TDI, troubles dys (refus / évitement scolaire), troubles émotionnels associés.</div>
+        <div><strong>4. Mode d'emploi</strong>Remplir avec parents et / ou enseignants. Croiser plusieurs points de vue. Tout est descriptif, jamais interprétatif à la volée.</div>
+        <div><strong>5. Grille à remplir</strong>8 sections A→H + synthèse. Tu peux enregistrer l'analyse et la mettre à jour chaque semaine.</div>
+        <div><strong>6. Analyse</strong>Identifier 1 ou 2 hypothèses fonctionnelles principales. Une fois la fonction repérée, le comportement n'est plus absurde — il a une logique.</div>
+        <div><strong>7. Recommandations</strong>Plan en 3 temps : avant (prévenir, adapter) · pendant (sécuriser, peu parler) · après (réparer, enseigner alternative).</div>
+        <div><strong>8. Phrase de synthèse</strong>"L'analyse fonctionnelle suggère que ce comportement sert à …. On enseigne … en remplacement. Plan d'intervention sur 4 semaines, indicateurs : …."</div>
+      </div>
+    </details>
+
+    <div class="posture">
+      💡 <strong>Posture :</strong> un comportement inadapté n'est pas absurde — il a une logique. Il ne disparaît pas parce qu'on le punit. Il diminue quand l'enfant apprend une autre façon d'obtenir la même chose.
+    </div>
+
+    <!-- DISTINCTION ABC vs Analyse fonctionnelle -->
+    <section id="bloc-distinction" class="bloc" style="--c:#7c5cbf">
+      <h2>📚 Différence grille ABC ↔ analyse fonctionnelle</h2>
+      <p class="intro">La grille ABC est la photo. L'analyse fonctionnelle est la lecture du film.</p>
+      <table style="width:100%;border-collapse:collapse;font-size:.88rem">
+        <thead><tr style="background:var(--beige)">
+          <th style="padding:.5em .7em;border:1px solid var(--border);color:#7c5cbf;text-transform:uppercase;font-size:.78rem;letter-spacing:.5px;text-align:left">Grille ABC</th>
+          <th style="padding:.5em .7em;border:1px solid var(--border);color:#7c5cbf;text-transform:uppercase;font-size:.78rem;letter-spacing:.5px;text-align:left">Analyse fonctionnelle</th>
+        </tr></thead>
+        <tbody>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Observe ce qui se passe avant, pendant, après</td><td style="padding:.5em .7em;border:1px solid var(--border)">Cherche la <strong>fonction</strong> du comportement</td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Décrit les faits</td><td style="padding:.5em .7em;border:1px solid var(--border)">Formule une <strong>hypothèse</strong></td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Sert à repérer les déclencheurs</td><td style="padding:.5em .7em;border:1px solid var(--border)">Sert à construire un <strong>plan d'intervention</strong></td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Répond à « que s'est-il passé ? »</td><td style="padding:.5em .7em;border:1px solid var(--border)">Répond à « à quoi ça sert ? »</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:.6rem;padding:.5rem .8rem;background:#e8e0f5;border-radius:var(--r-sm);font-size:.88rem;color:#7c5cbf;font-weight:700">
+        🎯 Utiliser cette fiche <strong>APRÈS</strong> plusieurs grilles ABC sur le même comportement. Sans données ABC préalables, on émet des hypothèses dans le vide.
+      </p>
+    </section>
+
+    <!-- META -->
+    <section id="bloc-meta" class="bloc bloc-meta">
+      <h2>Identité &amp; cadre</h2>
+      <div class="grille">
+        <div class="champ"><label>Prénom / initiales</label><input data-k="prenom" type="text"></div>
+        <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+        <div class="champ"><label>Date de l'analyse</label><input data-k="date" type="date"></div>
+        <div class="champ"><label>Auteur de l'analyse</label><input data-k="auteur" type="text" placeholder="pro, parent, équipe…"></div>
+        <div class="champ full"><label>Comportement ciblé (en 1 ligne, descriptif)</label><input data-k="comp-cible" type="text" placeholder="ex : crises de cris + jets d'objets quand on demande de ranger"></div>
+      </div>
+    </section>
+
+    <!-- A : Description précise -->
+    <section id="bloc-A" class="bloc bloc-A">
+      <h2><span class="marker">A</span> Décrire le comportement précisément</h2>
+      <p class="intro">Descriptif, observable, mesurable. Pas « il fait une crise » : « il crie, jette son cahier, sort de la pièce ».</p>
+      <div class="grille">
+        <div class="champ full"><label>Que fait-il exactement ?</label><textarea data-k="A-quoi" placeholder="Geste, parole, posture, durée moyenne…"></textarea></div>
+        <div class="champ"><label>Combien de temps cela dure (moyenne)</label><input data-k="A-duree" type="text" placeholder="ex : 15 à 25 min"></div>
+        <div class="champ"><label>À quelle fréquence</label><input data-k="A-freq" type="text" placeholder="ex : 3 à 5 fois / semaine"></div>
+        <div class="champ"><label>Dans quels lieux</label><input data-k="A-lieux" type="text"></div>
+        <div class="champ"><label>Avec quelles personnes</label><input data-k="A-personnes" type="text"></div>
+        <div class="champ"><label>À quels moments de la journée</label><input data-k="A-moments" type="text"></div>
+        <div class="champ"><label>Intensité moyenne (1-5)</label>
+          <select data-k="A-intensite"><option value="">—</option><option>1 — très léger</option><option>2 — léger</option><option>3 — modéré</option><option>4 — fort</option><option>5 — extrême / dangerosité</option></select>
+        </div>
+        <div class="champ"><label>Risque (lui-même / autrui / matériel)</label>
+          <select data-k="A-risque"><option value="">—</option><option>Aucun</option><option>Matériel</option><option>Pour lui-même</option><option>Pour autrui</option><option>Multiple</option></select>
+        </div>
+      </div>
+    </section>
+
+    <!-- B : Déclencheurs -->
+    <section id="bloc-B" class="bloc bloc-B">
+      <h2><span class="marker">B</span> Déclencheurs possibles</h2>
+      <p class="intro">Coche les déclencheurs observés. Détaille dans la zone qui apparaît quand tu coches.</p>
+      <div class="checklist" id="liste-decl">
+        <!-- rempli en JS -->
+      </div>
+    </section>
+
+    <!-- C : Hypothèse fonctionnelle -->
+    <section id="bloc-C" class="bloc bloc-C">
+      <h2><span class="marker">C</span> Fonction probable du comportement</h2>
+      <p class="intro">Hypothèses. Coche celle(s) qui paraissent les plus probables et note les indices qui te le font penser.</p>
+      <div class="checklist" id="liste-fct">
+        <!-- rempli en JS -->
+      </div>
+      <p style="margin-top:.6rem;font-size:.88rem;color:var(--rose-titre);font-weight:700">
+        « Ce comportement est inadapté, mais il n'est pas absurde. Il a une logique. »
+      </p>
+    </section>
+
+    <!-- MAINTIEN INVOLONTAIRE -->
+    <section id="bloc-maintien" class="bloc" style="--c:#a02040">
+      <h2>📚 Maintien involontaire — pourquoi ça continue</h2>
+      <p class="intro">Un comportement se maintient parce qu'il « fonctionne ». Si l'adulte renforce sans le vouloir, le comportement revient. Ce n'est pas de la magie noire — c'est de l'apprentissage.</p>
+      <table style="width:100%;border-collapse:collapse;font-size:.88rem">
+        <thead><tr style="background:var(--beige)">
+          <th style="padding:.5em .7em;border:1px solid var(--border);color:#a02040;text-transform:uppercase;font-size:.78rem;letter-spacing:.5px;text-align:left">Ce que l'enfant fait</th>
+          <th style="padding:.5em .7em;border:1px solid var(--border);color:#a02040;text-transform:uppercase;font-size:.78rem;letter-spacing:.5px;text-align:left">Ce qui se passe après</th>
+          <th style="padding:.5em .7em;border:1px solid var(--border);color:#a02040;text-transform:uppercase;font-size:.78rem;letter-spacing:.5px;text-align:left">Renforcement involontaire</th>
+        </tr></thead>
+        <tbody>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Crise</td><td style="padding:.5em .7em;border:1px solid var(--border)">Devoir arrêté</td><td style="padding:.5em .7em;border:1px solid var(--border);color:#a02040;font-weight:700">Évitement renforcé</td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Insulte</td><td style="padding:.5em .7em;border:1px solid var(--border)">Adulte débat longtemps</td><td style="padding:.5em .7em;border:1px solid var(--border);color:#a02040;font-weight:700">Attention renforcée</td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Fuite</td><td style="padding:.5em .7em;border:1px solid var(--border)">Tâche supprimée</td><td style="padding:.5em .7em;border:1px solid var(--border);color:#a02040;font-weight:700">Fuite renforcée</td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Provocation</td><td style="padding:.5em .7em;border:1px solid var(--border)">Pairs rient</td><td style="padding:.5em .7em;border:1px solid var(--border);color:#a02040;font-weight:700">Stimulation sociale renforcée</td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Refus</td><td style="padding:.5em .7em;border:1px solid var(--border)">Parent fait à sa place</td><td style="padding:.5em .7em;border:1px solid var(--border);color:#a02040;font-weight:700">Dépendance renforcée</td></tr>
+        </tbody>
+      </table>
+      <div class="champ full" style="margin-top:.6rem">
+        <label style="font-weight:700;color:#a02040;font-size:.88rem">Renforcement involontaire identifié dans CE cas (notre réponse qui maintient le comportement) :</label>
+        <textarea data-k="maintien-perso" style="width:100%;min-height:70px;padding:.5em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.9rem;margin-top:.3rem;resize:vertical" placeholder="Question honnête : qu'est-ce que NOUS faisons qui fait revenir le comportement ?"></textarea>
+      </div>
+      <p style="margin-top:.5rem;padding:.5rem .7rem;background:#fdeaea;border-radius:var(--r-sm);font-size:.88rem;color:#a02040;font-weight:700">
+        ⚠️ Si un comportement donne régulièrement un bénéfice — même involontaire — il va revenir. Ce n'est pas de la mauvaise volonté de l'enfant. C'est de l'apprentissage qui fonctionne.
+      </p>
+    </section>
+
+    <!-- D : Remplacement -->
+    <section id="bloc-D" class="bloc bloc-D">
+      <h2><span class="marker">D</span> Compétences de remplacement à enseigner</h2>
+      <p class="intro">Pour chaque comportement problème, identifie le besoin, puis la compétence à enseigner pour répondre à ce même besoin de manière acceptable.</p>
+      <div class="entete-rempl">
+        <div>Comportement problème</div>
+        <div>Besoin probable</div>
+        <div>Compétence de remplacement</div>
+        <div></div>
+      </div>
+      <div class="tableau-remplacement" id="tableau-rempl"></div>
+      <button id="btn-add-rempl" style="margin-top:.6rem;background:#fff;color:var(--teal-titre);border:2px solid var(--teal-titre)">+ Ajouter une ligne</button>
+      <div class="exemples-rempl">
+        <strong>Exemples à insérer en un clic :</strong><br>
+        <button class="ex-btn" data-ex="crie|exprimer une colère ou une surcharge|dire 'j'ai besoin d'une pause' ou montrer une carte pause">Crie → carte pause</button>
+        <button class="ex-btn" data-ex="fuit / sort de la pièce|éviter une surcharge sensorielle ou émotionnelle|utiliser un coin calme défini à l'avance">Fuit → coin calme</button>
+        <button class="ex-btn" data-ex="insulte|reprendre du contrôle, exprimer la colère|formuler 'je suis trop énervé pour parler maintenant'">Insulte → formulation</button>
+        <button class="ex-btn" data-ex="refuse le devoir|peur de l'échec, sentiment d'incompétence|demander 'montre-moi le début'">Refuse devoir → demande aide</button>
+        <button class="ex-btn" data-ex="tape|décharger la tension corporelle|geste alternatif : pousser un mur, serrer une balle">Tape → décharge alternative</button>
+        <button class="ex-btn" data-ex="ment|éviter une sanction ou la honte|apprendre la réparation sans humiliation">Ment → réparation</button>
+      </div>
+    </section>
+
+    <!-- E : Plan 3 colonnes -->
+    <section id="bloc-E" class="bloc bloc-E">
+      <h2><span class="marker">E</span> Plan d'intervention</h2>
+      <p class="intro">Trois temps. L'essentiel se joue avant la crise — pas pendant.</p>
+      <div class="plan-3">
+        <div class="plan-col plan-avant">
+          <h3>🟣 Avant</h3>
+          <div class="desc">Prévenir, clarifier, adapter l'environnement. Réduire les déclencheurs.</div>
+          <textarea data-k="E-avant" placeholder="ex : annoncer la transition 5 min avant, timer visuel, fractionner la consigne, anticiper la surcharge…"></textarea>
+        </div>
+        <div class="plan-col plan-pendant">
+          <h3>🔴 Pendant</h3>
+          <div class="desc">Sécuriser, peu parler, rester ferme. Éviter l'escalade.</div>
+          <textarea data-k="E-pendant" placeholder="ex : voix basse, réduction stimulations, distance, pas de discours moral, deux choix maximum…"></textarea>
+        </div>
+        <div class="plan-col plan-apres">
+          <h3>🟢 Après</h3>
+          <div class="desc">Réparer, comprendre, entraîner la compétence alternative.</div>
+          <textarea data-k="E-apres" placeholder="ex : retour au calme, réparation, rejouer la situation avec la compétence cible, renforcement…"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- CE QUE LES ADULTES DOIVENT ARRETER -->
+    <section id="bloc-arreter" class="bloc" style="--c:#c25a30">
+      <h2>📚 Ce que les adultes doivent arrêter</h2>
+      <p class="intro">Question brutale mais nécessaire : notre réponse actuelle apprend-elle à l'enfant une compétence — ou lui apprend-elle que son comportement fonctionne ?</p>
+      <table style="width:100%;border-collapse:collapse;font-size:.88rem">
+        <thead><tr style="background:var(--beige)">
+          <th style="padding:.5em .7em;border:1px solid var(--border);color:#c25a30;text-transform:uppercase;font-size:.78rem;letter-spacing:.5px;text-align:left">Réponse adulte à ARRÊTER</th>
+          <th style="padding:.5em .7em;border:1px solid var(--border);color:#c25a30;text-transform:uppercase;font-size:.78rem;letter-spacing:.5px;text-align:left">Pourquoi</th>
+          <th style="padding:.5em .7em;border:1px solid var(--border);color:#c25a30;text-transform:uppercase;font-size:.78rem;letter-spacing:.5px;text-align:center;width:90px">À arrêter ici ?</th>
+        </tr></thead>
+        <tbody id="arreter-corps">
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Longs sermons pendant la crise</td><td style="padding:.5em .7em;border:1px solid var(--border)">Augmente la surcharge cognitive et émotionnelle</td><td style="padding:.5em .7em;border:1px solid var(--border);text-align:center"><input type="checkbox" data-k="arr-1"></td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Répéter la consigne 15 fois</td><td style="padding:.5em .7em;border:1px solid var(--border)">Transforme la consigne en bruit de fond</td><td style="padding:.5em .7em;border:1px solid var(--border);text-align:center"><input type="checkbox" data-k="arr-2"></td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Retirer TOUTE exigence après la crise</td><td style="padding:.5em .7em;border:1px solid var(--border)">Renforce l'évitement comme stratégie payante</td><td style="padding:.5em .7em;border:1px solid var(--border);text-align:center"><input type="checkbox" data-k="arr-3"></td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Céder aux cris</td><td style="padding:.5em .7em;border:1px solid var(--border)">Apprend que crier obtient ce qu'on veut</td><td style="padding:.5em .7em;border:1px solid var(--border);text-align:center"><input type="checkbox" data-k="arr-4"></td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Humilier (« tu es pénible »)</td><td style="padding:.5em .7em;border:1px solid var(--border)">Augmente la honte → augmente la défense agressive</td><td style="padding:.5em .7em;border:1px solid var(--border);text-align:center"><input type="checkbox" data-k="arr-5"></td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Punir sans enseigner d'alternative</td><td style="padding:.5em .7em;border:1px solid var(--border)">Ne crée pas de compétence — le comportement reviendra</td><td style="padding:.5em .7em;border:1px solid var(--border);text-align:center"><input type="checkbox" data-k="arr-6"></td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Changer de règle selon la fatigue adulte</td><td style="padding:.5em .7em;border:1px solid var(--border)">Rend le cadre instable, illisible</td><td style="padding:.5em .7em;border:1px solid var(--border);text-align:center"><input type="checkbox" data-k="arr-7"></td></tr>
+          <tr><td style="padding:.5em .7em;border:1px solid var(--border)">Débattre avec un ado en escalade</td><td style="padding:.5em .7em;border:1px solid var(--border)">Nourrit le conflit, jamais ne le résout</td><td style="padding:.5em .7em;border:1px solid var(--border);text-align:center"><input type="checkbox" data-k="arr-8"></td></tr>
+        </tbody>
+      </table>
+      <div class="champ full" style="margin-top:.6rem">
+        <label style="font-weight:700;color:#c25a30;font-size:.88rem">Autres réponses adultes à arrêter dans ce contexte précis :</label>
+        <textarea data-k="arreter-autres" style="width:100%;min-height:60px;padding:.5em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.9rem;margin-top:.3rem;resize:vertical"></textarea>
+      </div>
+    </section>
+
+    <!-- F : Script crise -->
+    <section id="bloc-F" class="bloc bloc-F">
+      <h2><span class="marker">F</span> Script adulte pendant la crise</h2>
+      <p class="intro">À utiliser avec voix basse et stable. L'émotion est autorisée — le comportement destructeur ne l'est pas.</p>
+      <div class="champ full"><label>Phrase(s) à utiliser</label><textarea data-k="F-script" style="min-height:90px" placeholder="Compose ton script personnalisé…"></textarea></div>
+      <div class="scripts-pretes" id="scripts-pretes"></div>
+    </section>
+
+    <!-- G : Réparation -->
+    <section id="bloc-G" class="bloc bloc-G">
+      <h2><span class="marker">G</span> Réparation après crise</h2>
+      <p class="intro">À froid, pas pendant. Réparer n'est pas humilier : "tu as abîmé le lien/le matériel — maintenant tu répares."</p>
+      <div class="grille">
+        <div class="champ"><label>Qu'est-ce qui s'est passé ?</label><textarea data-k="G-q1"></textarea></div>
+        <div class="champ"><label>Qu'est-ce que tu ressentais ?</label><textarea data-k="G-q2"></textarea></div>
+        <div class="champ"><label>Qu'est-ce que tu voulais obtenir ou éviter ?</label><textarea data-k="G-q3"></textarea></div>
+        <div class="champ"><label>Qu'est-ce que ton comportement a provoqué ?</label><textarea data-k="G-q4"></textarea></div>
+        <div class="champ"><label>Qu'est-ce que tu peux faire pour réparer ?</label><textarea data-k="G-q5"></textarea></div>
+        <div class="champ"><label>Qu'est-ce qu'on essaie la prochaine fois ?</label><textarea data-k="G-q6"></textarea></div>
+      </div>
+    </section>
+
+    <!-- MINI-CONTRAT COMPORTEMENTAL -->
+    <section id="bloc-contrat" class="bloc" style="--c:#2a9d8f">
+      <h2>📝 Mini-contrat comportemental</h2>
+      <p class="intro">À remplir <strong>avec</strong> l'enfant / l'ado. Pas une menace, pas une obligation imposée — un engagement réciproque. Imprimable, à signer.</p>
+
+      <div class="champ full" style="background:var(--beige);padding:.8rem 1rem;border-radius:var(--r-md);border-left:5px solid #2a9d8f;margin-bottom:.5rem">
+        <label style="font-weight:700;color:#2a9d8f;font-size:.9rem">🎯 Comportement ciblé</label>
+        <textarea data-k="contrat-cible" style="width:100%;min-height:55px;padding:.5em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.9rem;margin-top:.3rem;resize:vertical" placeholder="ex : crier quand on me dit non aux écrans"></textarea>
+      </div>
+
+      <div class="champ full" style="background:var(--beige);padding:.8rem 1rem;border-radius:var(--r-md);border-left:5px solid #2a9d8f;margin-bottom:.5rem">
+        <label style="font-weight:700;color:#2a9d8f;font-size:.9rem">🌱 Ce que JE peux faire à la place</label>
+        <textarea data-k="contrat-alternative" style="width:100%;min-height:55px;padding:.5em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.9rem;margin-top:.3rem;resize:vertical" placeholder="ex : dire « je suis à 3, j'ai besoin de 5 minutes »"></textarea>
+      </div>
+
+      <div class="champ full" style="background:var(--beige);padding:.8rem 1rem;border-radius:var(--r-md);border-left:5px solid #2a9d8f;margin-bottom:.5rem">
+        <label style="font-weight:700;color:#2a9d8f;font-size:.9rem">🤝 Ce que l'ADULTE fera pour m'aider</label>
+        <textarea data-k="contrat-adulte" style="width:100%;min-height:55px;padding:.5em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.9rem;margin-top:.3rem;resize:vertical" placeholder="ex : annoncer 5 min avant l'arrêt de l'écran, garder son calme, accepter la pause"></textarea>
+      </div>
+
+      <div class="champ full" style="background:#e8f5ec;padding:.8rem 1rem;border-radius:var(--r-md);border-left:5px solid #1b7a4a;margin-bottom:.5rem">
+        <label style="font-weight:700;color:#1b7a4a;font-size:.9rem">✅ Ce qui se passera si j'utilise la stratégie</label>
+        <textarea data-k="contrat-positif" style="width:100%;min-height:55px;padding:.5em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.9rem;margin-top:.3rem;resize:vertical" placeholder="ex : reconnaissance, temps privilégié, choix d'une activité…"></textarea>
+      </div>
+
+      <div class="champ full" style="background:#fdeaea;padding:.8rem 1rem;border-radius:var(--r-md);border-left:5px solid #a02040;margin-bottom:.5rem">
+        <label style="font-weight:700;color:#a02040;font-size:.9rem">⚠️ Ce qui se passera si je dépasse la limite</label>
+        <textarea data-k="contrat-limite" style="width:100%;min-height:55px;padding:.5em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.9rem;margin-top:.3rem;resize:vertical" placeholder="ex : conséquence définie à froid, applicable, proportionnée — pas une sanction criée"></textarea>
+      </div>
+
+      <div class="grille" style="margin-top:.5rem">
+        <div class="champ"><label>📅 Date de réévaluation</label><input data-k="contrat-reeval" type="date"></div>
+        <div class="champ"><label>✍️ Signatures</label><input data-k="contrat-signatures" type="text" placeholder="enfant + adulte(s)"></div>
+      </div>
+
+      <p style="margin-top:.5rem;padding:.5rem .7rem;background:#e0f4f1;border-radius:var(--r-sm);font-size:.88rem;color:#2a9d8f;font-weight:700">
+        💡 Lu à voix haute avec l'enfant. Imprimé. Affiché. Pas un piège « tu as signé » — un repère partagé. Réévaluation prévue dans 2 à 4 semaines.
+      </p>
+    </section>
+
+    <!-- H : Suivi 4 semaines -->
+    <section id="bloc-H" class="bloc bloc-H">
+      <h2><span class="marker">H</span> Indicateurs de progrès — suivi 4 semaines</h2>
+      <p class="intro">Le progrès n'est pas « plus aucune crise ». Au début : crise plus courte, moins intense, avec réparation plus rapide.</p>
+      <div class="tableau-suivi">
+        <table>
+          <thead>
+            <tr><th>Indicateur</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="indicateur">Fréquence du comportement (nb / semaine)</td>
+              <td><input data-k="H-freq-1" type="text"></td><td><input data-k="H-freq-2" type="text"></td><td><input data-k="H-freq-3" type="text"></td><td><input data-k="H-freq-4" type="text"></td></tr>
+            <tr><td class="indicateur">Intensité moyenne (1-5)</td>
+              <td><input data-k="H-int-1" type="text"></td><td><input data-k="H-int-2" type="text"></td><td><input data-k="H-int-3" type="text"></td><td><input data-k="H-int-4" type="text"></td></tr>
+            <tr><td class="indicateur">Durée moyenne (min)</td>
+              <td><input data-k="H-dur-1" type="text"></td><td><input data-k="H-dur-2" type="text"></td><td><input data-k="H-dur-3" type="text"></td><td><input data-k="H-dur-4" type="text"></td></tr>
+            <tr><td class="indicateur">Capacité à demander une pause (0-3)</td>
+              <td><input data-k="H-pause-1" type="text"></td><td><input data-k="H-pause-2" type="text"></td><td><input data-k="H-pause-3" type="text"></td><td><input data-k="H-pause-4" type="text"></td></tr>
+            <tr><td class="indicateur">Capacité à réparer (0-3)</td>
+              <td><input data-k="H-rep-1" type="text"></td><td><input data-k="H-rep-2" type="text"></td><td><input data-k="H-rep-3" type="text"></td><td><input data-k="H-rep-4" type="text"></td></tr>
+            <tr><td class="indicateur">Temps de retour au calme (min)</td>
+              <td><input data-k="H-calme-1" type="text"></td><td><input data-k="H-calme-2" type="text"></td><td><input data-k="H-calme-3" type="text"></td><td><input data-k="H-calme-4" type="text"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="champ full" style="margin-top:.6rem"><label>Observations qualitatives du suivi</label><textarea data-k="H-obs"></textarea></div>
+    </section>
+
+    <!-- Synthèse -->
+    <section id="bloc-syn" class="bloc bloc-syn">
+      <h2>✍️ Synthèse</h2>
+      <div class="grille">
+        <div class="champ full"><label>Phrase de synthèse pour bilan / compte rendu</label><textarea data-k="syn-phrase" placeholder="L'analyse fonctionnelle suggère que ce comportement sert à …. On enseigne … en remplacement. Plan d'intervention sur 4 semaines. Indicateurs principaux : …."></textarea></div>
+        <div class="champ full"><label>Ajustements à apporter au plan d'intervention</label><textarea data-k="syn-ajust"></textarea></div>
+        <div class="champ full"><label>Orientations / relais professionnels</label><textarea data-k="syn-orient" placeholder="médecin, pédopsy, ergothérapie, psychomotricité, école…"></textarea></div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer</button>
+      <button id="btn-exporter">📄 Exporter (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer</button>
+      <button id="btn-vider" class="danger">🧹 Vider</button>
+    </div>
+
+    <div class="disclaimer">
+      L'analyse fonctionnelle est un outil de compréhension et d'intervention éducative. Pour les comportements à risque (auto / hétéro-agressivité forte), une orientation vers un médecin ou pédopsychiatre est nécessaire.
+    </div>
+
+    <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+      Neuroo · Educa Typique — <a href="../../professionnels.html">retour espace professionnels</a>
+    </p>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'neuroped_analyse_fct_v1';
+let currentId = null;
+
+const DECLENCHEURS = [
+  ['decl-consigne', 'Consigne trop longue ou floue'],
+  ['decl-imprevu', 'Changement imprévu / transition'],
+  ['decl-fatigue', 'Fatigue'],
+  ['decl-faim', 'Faim / soif'],
+  ['decl-bruit', 'Bruit / surcharge sensorielle'],
+  ['decl-echec', 'Échec scolaire ou difficulté'],
+  ['decl-frustration', 'Frustration'],
+  ['decl-attente', 'Attente prolongée'],
+  ['decl-moquerie', 'Moquerie / injustice perçue'],
+  ['decl-autonomie', "Demande d'autonomie trop élevée"],
+  ['decl-ecran', 'Écran arrêté brutalement'],
+  ['decl-conflit-adulte', 'Conflit avec adulte'],
+  ['decl-conflit-pair', 'Conflit avec pair'],
+  ['decl-anticip', "Anticipation négative (anxiété montante)"]
+];
+
+const FONCTIONS = [
+  ['fct-eviter-tache', "Éviter une tâche perçue comme trop coûteuse"],
+  ['fct-eviter-emo', "Éviter une émotion désagréable (peur, honte, frustration)"],
+  ['fct-attention', "Obtenir de l'attention (positive ou négative)"],
+  ['fct-objet', "Obtenir un objet, un écran, un privilège"],
+  ['fct-controle', "Reprendre du contrôle"],
+  ['fct-surcharge', "Exprimer / réguler une surcharge sensorielle"],
+  ['fct-comm-besoin', "Demander de l'aide sans savoir le formuler"],
+  ['fct-honte', "Se protéger de la honte"],
+  ['fct-stim', "Rechercher une stimulation (mouvement, sensation, intensité)"],
+  ['fct-inhib', "Difficulté d'inhibition / impulsivité (TDAH)"],
+  ['fct-flex', "Difficulté de flexibilité face à un imprévu (TSA)"]
+];
+
+const SCRIPTS = [
+  "« Je vois que c'est trop difficile maintenant. Je ne vais pas discuter pendant la crise. Tu as deux choix : pause de 5 minutes ou aide pour commencer. »",
+  "« Je ne te laisse pas insulter / taper. Tu peux être en colère, mais tu dois utiliser une autre manière. »",
+  "« On reprendra plus tard. Pour l'instant, je reste calme à côté de toi. »",
+  "« Je vois que tu es submergé(e). Respire. Je suis là, je ne pars pas. »"
+];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// Rendre listes B et C
+function rendreChecklist(elId, items, prefixe){
+  const cont = document.getElementById(elId);
+  cont.innerHTML = items.map(([id, label])=>`
+    <label class="check-item">
+      <input type="checkbox" data-k="${id}-on">
+      <div>
+        <span class="lbl">${esc(label)}</span>
+        <textarea data-k="${id}-note" placeholder="Notes, exemples concrets…"></textarea>
+      </div>
+    </label>
+  `).join('');
+}
+
+// Rendre scripts pré-écrits
+function rendreScriptsPretes(){
+  const cont = document.getElementById('scripts-pretes');
+  cont.innerHTML = SCRIPTS.map(s=>`<button type="button" class="script-btn">${esc(s)}</button>`).join('');
+  cont.querySelectorAll('.script-btn').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const ta = document.querySelector('[data-k="F-script"]');
+      ta.value = ta.value ? ta.value + '\n' + b.textContent : b.textContent;
+      ta.focus();
+    });
+  });
+}
+
+// Tableau remplacement
+function nouvelleLigneRempl(comp='', besoin='', repl=''){
+  const cont = document.getElementById('tableau-rempl');
+  const row = document.createElement('div');
+  row.className = 'ligne-rempl';
+  row.innerHTML = `
+    <textarea data-rempl="comp" placeholder="ex : crie quand on demande de ranger">${esc(comp)}</textarea>
+    <textarea data-rempl="besoin" placeholder="ex : décharger la tension">${esc(besoin)}</textarea>
+    <textarea data-rempl="repl" placeholder="ex : 'j'ai besoin d'une pause' + carte pause">${esc(repl)}</textarea>
+    <button class="supp" type="button" title="Supprimer">×</button>
+  `;
+  row.querySelector('.supp').addEventListener('click', ()=> row.remove());
+  cont.appendChild(row);
+}
+
+function collecterRempl(){
+  return Array.from(document.querySelectorAll('#tableau-rempl .ligne-rempl')).map(r=>{
+    return {
+      comp: r.querySelector('[data-rempl="comp"]').value,
+      besoin: r.querySelector('[data-rempl="besoin"]').value,
+      repl: r.querySelector('[data-rempl="repl"]').value
+    };
+  });
+}
+
+function appliquerRempl(arr){
+  const cont = document.getElementById('tableau-rempl');
+  cont.innerHTML = '';
+  (arr && arr.length ? arr : [{comp:'',besoin:'',repl:''}]).forEach(l=> nouvelleLigneRempl(l.comp, l.besoin, l.repl));
+}
+
+document.getElementById('btn-add-rempl').addEventListener('click', ()=> nouvelleLigneRempl());
+document.querySelectorAll('.ex-btn').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    const [comp, besoin, repl] = b.dataset.ex.split('|');
+    nouvelleLigneRempl(comp, besoin, repl);
+  });
+});
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type === 'checkbox' ? el.checked : el.value;
+  });
+  o._rempl = collecterRempl();
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  // Affichage des textareas des checklists selon état
+  document.querySelectorAll('.check-item').forEach(it=>{
+    const cb = it.querySelector('input[type="checkbox"]');
+    const ta = it.querySelector('textarea');
+    if(ta) ta.style.display = cb.checked ? 'block' : '';
+  });
+  appliquerRempl(o._rempl || []);
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else el.value = '';
+  });
+  appliquerRempl([{comp:'',besoin:'',repl:''}]);
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+}
+
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucune analyse.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · ${esc((o.date||o._ts||'').slice(0,10))}<br><em style="font-size:.78rem">${esc((o['comp-cible']||'').slice(0,40))}</em></span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire();
+      const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer cette analyse ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom (ou initiales).'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr);
+  rendreDossiers();
+  alert('Analyse enregistrée.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const lignes = ["Analyse fonctionnelle + plan d'intervention — Boîte NeuroPed", ''];
+  lignes.push('Prénom : '+(o.prenom||'—')+' · Âge : '+(o.age||'—')+' · Date : '+(o.date||'—'));
+  lignes.push('Auteur : '+(o.auteur||'—'));
+  lignes.push('Comportement ciblé : '+(o['comp-cible']||'—'));
+  lignes.push('');
+  lignes.push('== A · Description ==');
+  ['A-quoi','A-duree','A-freq','A-lieux','A-personnes','A-moments','A-intensite','A-risque'].forEach(k=> lignes.push('· '+k+' : '+(o[k]||'—')));
+  lignes.push('');
+  lignes.push('== B · Déclencheurs cochés ==');
+  DECLENCHEURS.forEach(([id, label])=>{
+    if(o[id+'-on']) lignes.push('  · '+label+(o[id+'-note'] ? ' — '+o[id+'-note'] : ''));
+  });
+  lignes.push('');
+  lignes.push('== C · Fonctions probables ==');
+  FONCTIONS.forEach(([id, label])=>{
+    if(o[id+'-on']) lignes.push('  · '+label+(o[id+'-note'] ? ' — '+o[id+'-note'] : ''));
+  });
+  lignes.push('');
+  lignes.push('== D · Compétences de remplacement ==');
+  (o._rempl||[]).forEach(l=>{
+    if(l.comp||l.besoin||l.repl) lignes.push('  · '+(l.comp||'—')+' → besoin : '+(l.besoin||'—')+' → remplacer par : '+(l.repl||'—'));
+  });
+  lignes.push('');
+  lignes.push('== E · Plan d\'intervention ==');
+  lignes.push('AVANT : '+(o['E-avant']||'—'));
+  lignes.push('PENDANT : '+(o['E-pendant']||'—'));
+  lignes.push('APRÈS : '+(o['E-apres']||'—'));
+  lignes.push('');
+  lignes.push('== F · Script de crise ==');
+  lignes.push(o['F-script']||'—');
+  lignes.push('');
+  lignes.push('== G · Réparation ==');
+  ['G-q1','G-q2','G-q3','G-q4','G-q5','G-q6'].forEach((k,i)=> lignes.push('Q'+(i+1)+' : '+(o[k]||'—')));
+  lignes.push('');
+  lignes.push('== H · Suivi 4 semaines ==');
+  ['freq','int','dur','pause','rep','calme'].forEach(ind=>{
+    lignes.push('· '+ind+' : S1='+(o['H-'+ind+'-1']||'—')+' · S2='+(o['H-'+ind+'-2']||'—')+' · S3='+(o['H-'+ind+'-3']||'—')+' · S4='+(o['H-'+ind+'-4']||'—'));
+  });
+  lignes.push('Observations : '+(o['H-obs']||'—'));
+  lignes.push('');
+  lignes.push('== Synthèse ==');
+  lignes.push(o['syn-phrase']||'—');
+  lignes.push('Ajustements : '+(o['syn-ajust']||'—'));
+  lignes.push('Orientations : '+(o['syn-orient']||'—'));
+  const blob = new Blob([lignes.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'analyse-fct-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{
+  if(confirm('Vider le formulaire ? (les analyses enregistrées seront conservées)')) vider();
+});
+
+// Surlignage nav au scroll
+const navLinks = document.querySelectorAll('#nav a');
+const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href')));
+function majNav(){
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 120) actif = c; });
+  navLinks.forEach(a=>{
+    a.classList.toggle('actif', a.getAttribute('href') === '#'+actif.id);
+  });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+// Init
+rendreChecklist('liste-decl', DECLENCHEURS, 'decl');
+rendreChecklist('liste-fct', FONCTIONS, 'fct');
+rendreScriptsPretes();
+appliquerRempl([{comp:'',besoin:'',repl:''}]);
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+
+// Toggle des textareas dans checklists
+document.addEventListener('change', e=>{
+  if(e.target.matches('.check-item input[type="checkbox"]')){
+    const ta = e.target.closest('.check-item').querySelector('textarea');
+    if(ta) ta.style.display = e.target.checked ? 'block' : '';
+  }
+});
+
+rendreDossiers();
+majNav();
+</script>
+
+</body>
+</html>
