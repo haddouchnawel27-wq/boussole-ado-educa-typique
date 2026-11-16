@@ -215,7 +215,7 @@ Exports/brouillons HTML, souvent **dépassés** par les versions en ligne :
 
 ## 🖥️ 9. NOUVEL OUTIL — « Mon Cockpit » (bureau)
 **Mission :** un seul fichier posé sur le Bureau qui regroupe **agenda du jour + semaine + mois**, en **grands caractères** (lunettes), 100 % local et hors-ligne ; gestion douce des imprévus, marge intégrée, priorité du jour, spirituel en option.
-**État : ✅ livré (artifact, à tester)** — à décider : intégrer au dépôt (`cockpit/`) ou le brancher dans *Le point du jour* / le hub *Les Deux Jardins* (qui a déjà une route `/cockpit`).
+**État : ✅ intégré au dépôt** — dossier `mon-cockpit/` (page autonome + manifeste + service worker + icônes, PWA installable, hors-ligne). Reste à brancher, si souhaité, dans *Le point du jour* / le hub *Les Deux Jardins* (route `/cockpit`).
 
 ---
 
