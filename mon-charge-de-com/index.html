@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#D4628C" />
-<meta name="description" content="Assistant réseaux sociaux anti-blocage, personnel et 100% hors-ligne." />
+<meta name="description" content="Assistant éditorial local pour créer, mettre en forme, planifier et publier ses contenus." />
 <title>Mon Chargé de Com</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E" />
 <link rel="manifest" href="manifest.webmanifest" />
@@ -30,6 +30,7 @@
     --font-display: "Fraunces","Georgia",serif;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  [hidden]{display:none!important}
   html{font-size:calc(16px * var(--scale))}
   body{
     margin:0; font-family:var(--font); color:var(--text);
@@ -139,6 +140,105 @@
     background:var(--text);color:#fff;padding:11px 18px;border-radius:999px;font-weight:700;font-size:.9rem;
     transition:all .25s ease;z-index:40;pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.25)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* Fabrique de publications */
+  .visual-builder-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+  .visual-builder-head .badge{flex:0 0 auto;padding:7px 11px;border-radius:999px;background:#EEF4F1;
+    color:#2F5B50;font-size:.75rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+  .choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:8px 0 2px}
+  .choice-card{position:relative;text-align:left;padding:14px;border-radius:14px;border:2px solid var(--border);
+    background:var(--card);color:var(--text);box-shadow:none;min-height:92px;transition:border-color .15s ease,transform .15s ease}
+  .choice-card:active{transform:translateY(1px)}
+  .choice-card.on{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+  .choice-card .choice-kicker{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-mute);margin-bottom:5px}
+  .choice-card .choice-name{display:block;font-family:var(--font-display);font-size:1.04rem;line-height:1.2}
+  .choice-card .choice-desc{display:block;margin-top:5px;color:var(--text-soft);font-size:.76rem;line-height:1.35}
+  .choice-card.educa{border-top:5px solid #155E5C}
+  .choice-card.jannat{border-top:5px solid #59654A;background:#FBF8F0}
+  .template-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+  .template-choice{padding:8px;border-radius:12px;border:2px solid var(--border);background:#fff;color:var(--text);box-shadow:none}
+  .template-choice.on{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+  .template-mini{display:block;aspect-ratio:4/5;border-radius:7px;margin-bottom:7px;overflow:hidden;position:relative;background:#F2EEE5}
+  .template-mini:before,.template-mini:after{content:"";position:absolute;left:10%;right:10%;border-radius:4px;background:currentColor;opacity:.18}
+  .template-mini:before{top:18%;height:10%}.template-mini:after{top:36%;height:35%}
+  .template-mini.educa{color:#155E5C;border-top:10px solid #12293D}
+  .template-mini.jannat{color:#4C5A3A;border:1px solid #D6CDB8;background:#F5F0E4}
+  .template-choice strong{display:block;font-size:.73rem;line-height:1.25}
+  .canvas-shell{margin:14px auto;background:#E8E4DC;border:1px solid #D6D0C4;border-radius:16px;padding:10px;
+    box-shadow:0 12px 30px rgba(35,43,48,.13);overflow:hidden}
+  #visual-canvas{display:block;width:100%;height:auto;background:#fff;border-radius:10px}
+  .image-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .image-tools .thumb{width:62px;height:62px;border-radius:12px;border:1px solid var(--border);object-fit:cover;background:var(--input)}
+  .publish-checklist{display:grid;gap:8px;margin:10px 0}
+  .check-row{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:12px;background:var(--input);font-size:.86rem}
+  .check-row input{margin-top:3px;accent-color:var(--primary)}
+  .status-chip{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;background:#F2EEE7;color:#685F52;
+    font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+  .status-chip.ready{background:#E4F3EA;color:#276044}.status-chip.published{background:#E7EAF6;color:#344B83}
+  .library-section{margin:18px 0 26px}
+  .library-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+  .library-section-head h3{font-size:1.22rem}
+  .topic-filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+  .topic-filters .wide{grid-column:1/-1}
+  .topic-card{border-left:5px solid var(--primary);background:#fff}
+  .topic-card.jannat{background:#FBF8F0;border-left-color:#59654A}
+  .topic-card .topic-brand{font-size:.7rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text-mute)}
+  .topic-card .topic-prompt{font-size:.84rem;color:var(--text-soft);margin-top:6px;line-height:1.45}
+  .topic-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .topic-tags span{padding:3px 8px;border-radius:999px;background:var(--input);font-size:.7rem;color:var(--text-soft)}
+  .resource-card{background:#F7F8F6;border-color:#DDE5DF}
+  .resource-card.just-imported{border:2px solid #68AE8D;background:#EEF9F3;box-shadow:0 0 0 4px rgba(104,174,141,.12)}
+  .resource-count{font-size:.76rem;color:var(--text-mute)}
+  .resource-import-box{margin:12px 0;padding:14px;border:1px solid #C9DBD1;border-radius:14px;background:linear-gradient(145deg,#F1F8F4,#FFF)}
+  .resource-import-box h4{margin:0 0 5px;font-size:.98rem;color:#315849}
+  .resource-import-box .btn{margin-top:8px}
+  .import-status{margin-top:10px;padding:10px 12px;border:1px solid #D7DED9;border-radius:10px;background:#fff;color:var(--text-soft);font-size:.8rem;line-height:1.45;white-space:pre-line}
+  .import-status strong{display:block;color:var(--text);font-size:.84rem}
+  .import-status.progress{border-color:#9DBFAF;background:#F4FAF7}
+  .import-status.success{border-color:#9BC5AA;background:#EFF9F2;color:#315849}
+  .import-status.warning{border-color:#E2BE72;background:#FFF8E8;color:#725821}
+  .import-status.error{border-color:#DA9CA7;background:#FFF1F3;color:#8A3343}
+  .folder-link{margin:12px 0;border:1px solid #D7DED9;border-radius:14px;background:#fff;overflow:hidden}
+  .folder-link summary{cursor:pointer;padding:13px 14px;font-size:.88rem;font-weight:800;color:#496256}
+  .folder-link[open] summary{border-bottom:1px solid #E3E8E5}
+  .folder-link-body{padding:12px 14px 14px}
+  .folder-link .folder-status{font-size:.8rem;line-height:1.45}
+  .resource-divider{display:flex;align-items:center;gap:10px;margin:18px 0 4px;color:var(--text-mute);font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+  .resource-divider:before,.resource-divider:after{content:"";height:1px;background:var(--border);flex:1}
+  .editorial-lab{border:2px solid #D8E4DD;background:linear-gradient(145deg,#F8FBF9,#FFF9F2)}
+  .editorial-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .editorial-roles{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}
+  .editorial-roles span{font-size:.68rem;font-weight:800;padding:5px 8px;border-radius:999px;background:#E8F1EC;color:#315849}
+  .resource-picker{display:grid;gap:6px;margin:8px 0 12px}
+  .resource-pick{display:flex;align-items:flex-start;gap:8px;padding:9px;border-radius:10px;background:#fff;border:1px solid var(--border);font-size:.8rem}
+  .resource-pick input{width:auto;margin-top:2px}
+  .proposal-card{border-left:5px solid var(--primary);background:#fff;margin:12px 0}
+  .proposal-card .proposal-copy{white-space:pre-wrap;font-size:.88rem;line-height:1.58;color:var(--text);margin:10px 0}
+  .proposal-audit{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+  .proposal-audit span{font-size:.66rem;padding:4px 7px;border-radius:999px;background:#F0F4F1;color:#486054}
+  .source-report{margin-top:12px;padding:12px;border-radius:12px;background:#FFF8E8;border:1px solid #E9D6A7;font-size:.78rem;line-height:1.5}
+  .ai-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+  .ai-choice{display:flex;align-items:flex-start;gap:8px;padding:10px;border:1px solid #C9DBD1;border-radius:11px;background:#fff;font-size:.78rem;line-height:1.4}
+  .ai-choice input{width:auto;margin-top:2px}
+  .ai-status{margin:12px 0;padding:11px 12px;border-radius:11px;background:#F4F7F5;border:1px solid #D8E4DD;font-size:.8rem;line-height:1.45}
+  .ai-status.loading{background:#EEF7F2;border-color:#9DBFAF;color:#315849}
+  .ai-status.error{background:#FFF1F3;border-color:#DA9CA7;color:#8A3343}
+  .ai-status.success{background:#EFF9F2;border-color:#9BC5AA;color:#315849}
+  .ai-result-section{margin-top:14px}
+  .ai-result-section h4{margin:0 0 7px;color:#315849}
+  .ai-list{margin:0;padding-left:20px;font-size:.84rem;line-height:1.55}
+  .ai-angle{padding:9px 10px;margin:6px 0;border-radius:10px;background:#fff;border:1px solid var(--border);font-size:.82rem;line-height:1.45}
+  .ai-source{padding:9px 10px;margin:6px 0;border-radius:10px;background:#fff;border-left:4px solid #9DBFAF;font-size:.78rem;line-height:1.45;word-break:break-word}
+  .ai-source a{color:#315849;font-weight:800}
+  .ai-meter{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:10px;padding:9px 11px;border-radius:10px;background:#F7F2FF;color:#5A4380;font-size:.74rem;font-weight:700}
+  .canva-kit{border:2px solid #7D57C2;background:#F7F2FF;margin-top:14px}
+  .canva-steps{counter-reset:canva;display:grid;gap:8px;margin:10px 0}
+  .canva-step{position:relative;padding:10px 10px 10px 42px;background:#fff;border-radius:11px;border:1px solid #DDD1F1;font-size:.82rem}
+  .canva-step:before{counter-increment:canva;content:counter(canva);position:absolute;left:10px;top:9px;width:23px;height:23px;border-radius:50%;display:grid;place-items:center;background:#7D57C2;color:#fff;font-weight:800}
+  .file-badge{display:block;margin:8px 0;padding:8px 10px;background:#fff;border:1px dashed #7D57C2;border-radius:9px;font-family:monospace;font-size:.74rem;word-break:break-all}
+  .hidden{display:none!important}
+  @media (max-width:520px){.editorial-grid,.ai-controls{grid-template-columns:1fr}}
+  @media (max-width:420px){.template-grid{grid-template-columns:repeat(3,1fr)}.template-choice{padding:6px}.choice-grid{grid-template-columns:1fr}}
   @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -147,23 +247,24 @@
   <header class="app">
     <div class="mascot">🧭</div>
     <h1>Mon Chargé de Com</h1>
-    <p class="tagline">On respire, on se recentre, on publie — à ton rythme.</p>
+    <p class="tagline">De l'idée au visuel prêt à publier — à ton rythme.</p>
   </header>
 
   <!-- ════════════ ACCUEIL ════════════ -->
   <section id="s-accueil" class="screen on">
     <div class="card soft center">
       <h2 style="margin-top:0">Bonjour 🌸</h2>
-      <p class="muted">Ni jugement, ni pression. Un seul objectif : t'aider à passer à l'action, doucement.</p>
+      <p class="muted">Ton atelier éditorial pour trouver l'angle, écrire, créer le visuel et préparer la publication.</p>
     </div>
-    <button class="btn" style="font-size:1.1rem;padding:20px" onclick="go('checkin')">🫧 Je veux publier… mais ça bloque</button>
+    <button class="btn" style="font-size:1.1rem;padding:20px" onclick="startAtelier()">✨ Créer une publication</button>
     <div class="btn-row">
-      <button class="btn secondary" onclick="startAtelier()">✍️ Je suis prête à écrire</button>
+      <button class="btn secondary" onclick="go('checkin')">🫧 J'ai envie de publier… mais ça bloque</button>
       <button class="btn ghost" onclick="go('calendrier')">📅 Mon calendrier</button>
     </div>
+    <button class="btn ghost" style="margin-top:8px" onclick="go('biblio')">💡 Trouver un sujet ou utiliser une ressource</button>
     <div class="card">
-      <h3>💡 Le principe</h3>
-      <p class="muted tiny" style="line-height:1.6">Quand on est bloquée, ce n'est pas de la paresse — c'est trop de charge mentale d'un coup. Alors on fait dans l'ordre : <b>on nomme ce qu'on ressent → on s'apaise → une seule mini-action</b>. Pas « tout publier ». Juste le prochain petit pas.</p>
+      <h3>💡 Comment ça marche</h3>
+      <p class="muted tiny" style="line-height:1.6"><b>Sujet → angle → accroche → texte → visuel → validation → publication.</b> Et si ça bloque, l'application t'aide d'abord à retrouver assez de calme et de clarté pour faire un seul petit pas.</p>
     </div>
   </section>
 
@@ -220,11 +321,50 @@
       <button class="btn ghost small" onclick="shuffleHooks()">🎲 D'autres accroches</button>
     </div>
 
+    <div class="card editorial-lab">
+      <h3 style="margin-top:0">🧠 Studio de rédaction pédagogique</h3>
+      <p class="muted tiny">Il transforme tes éléments en propositions complètes. Tu gardes la décision et tu modifies tout.</p>
+      <div class="editorial-roles">
+        <span>Ingénierie pédagogique</span><span>Neuropédagogie</span><span>Social media</span><span>Community management</span><span>Rédaction</span><span>Copyright</span>
+      </div>
+      <div class="editorial-grid">
+        <div><label class="field" for="editorial-audience" style="margin-top:0">Public</label>
+          <select id="editorial-audience"><option>Parents d'enfants</option><option>Parents d'adolescents</option><option>Adolescents</option><option>Praticiennes</option><option>Femmes / entrepreneuses</option><option>Grand public</option></select></div>
+        <div><label class="field" for="editorial-objective" style="margin-top:0">Objectif</label>
+          <select id="editorial-objective"><option>Faire comprendre</option><option>Donner des repères</option><option>Rassurer sans minimiser</option><option>Faire réfléchir</option><option>Donner envie d'agir</option><option>Présenter une offre</option></select></div>
+      </div>
+      <label class="field" for="editorial-hook">Accroche retenue</label>
+      <textarea id="editorial-hook" rows="2" style="min-height:64px" placeholder="Clique sur une accroche ci-dessus ou écris la tienne."></textarea>
+      <label class="field" for="editorial-message">Ton idée essentielle</label>
+      <textarea id="editorial-message" rows="4" placeholder="Ce que tu veux vraiment que la personne comprenne, ressente ou fasse…"></textarea>
+      <label class="field" for="editorial-closing">Mot de fin / appel à l'action</label>
+      <textarea id="editorial-closing" rows="2" style="min-height:64px" placeholder="ex : Enregistre ce post, partage-le ou écris-moi…"></textarea>
+      <p class="muted tiny">Ces trois éléments guident réellement le texte final : l’IA conserve ton accroche, développe ton idée essentielle et respecte ton mot de fin.</p>
+      <label class="field">Ressources à mobiliser</label>
+      <div id="atelier-resource-picker" class="resource-picker"></div>
+      <button class="btn ghost small" onclick="suggestResourcesForBrief()">🔎 Trouver les ressources liées à mon sujet</button>
+      <div class="ai-controls">
+        <label class="ai-choice"><input type="checkbox" id="editorial-web" /><span><b>Compléter par le Web</b><br><span class="muted">Seulement avec des sources fiables et des liens à vérifier.</span></span></label>
+        <div><label class="field" for="editorial-depth" style="margin-top:0">Niveau de rédaction</label>
+          <select id="editorial-depth"><option value="standard">Terra · quotidien et économique</option><option value="deep">Sol · approfondi, plus coûteux</option></select></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="ai-generate-button" onclick="generateSourcedEditorialPackage()">✨ Rédiger avec l’IA sourcée</button>
+        <button class="btn ghost" onclick="generateEditorialProposals()">📝 Brouillon local sans IA</button>
+      </div>
+      <div class="btn-row"><button class="btn ghost small" onclick="copySourcedAIBrief()">📋 Copier le brief pour une autre IA</button></div>
+      <div class="note"><b>Avant l’envoi :</b> seules les informations saisies ici et les ressources cochées sont transmises à l’IA. Tes autres dossiers, brouillons et fichiers restent sur ton appareil.</div>
+      <div id="ai-editorial-status" class="ai-status" role="status" aria-live="polite">Prête. Une rédaction Terra fondée sur tes ressources coûte généralement quelques centimes. La recherche Web consomme davantage et reste facultative.</div>
+      <div id="ai-budget-meter" class="ai-meter"><span>Budget API : recharge automatique désactivée</span><span>Estimation des jetons dans l’app : 0,00 $</span></div>
+      <div id="ai-editorial-results" aria-live="polite"></div>
+      <div id="editorial-proposals"></div>
+    </div>
+
     <label class="field">✏️ Ton brouillon</label>
     <textarea id="atelier-draft" placeholder="Ton accroche apparaîtra ici, puis tu continues avec tes mots…"></textarea>
 
     <div class="btn-row">
-      <button class="btn menthe small" onclick="assembleDraft()">🧱 Squelette prêt-à-remplir</button>
+      <button class="btn menthe small" onclick="assembleDraft()">🧱 Créer un plan guidé</button>
       <button class="btn ghost small" onclick="copyText(document.getElementById('atelier-draft').value)">📋 Copier</button>
     </div>
 
@@ -233,11 +373,108 @@
     <div class="btn-row">
       <button class="btn ghost small" onclick="addHashtags()"># Suggérer des hashtags</button>
     </div>
+    <div class="card soft">
+      <h3>🎨 Transformer ce contenu en publication</h3>
+      <p class="muted tiny">Ton texte remplira automatiquement un gabarit Educa Typique ou Jannat al Qouloub. Tu pourras tout modifier avant l'export.</p>
+      <button class="btn" onclick="openVisualBuilder()">Créer mon visuel →</button>
+    </div>
     <div class="btn-row">
       <button class="btn secondary" onclick="saveDraftToLibrary()">💾 Garder dans ma bibliothèque</button>
       <button class="btn" onclick="planDraft()">📅 Planifier</button>
     </div>
     <div class="note">💡 Astuce anti-freeze : ne vise pas « le post parfait ». Vise « un post publiable ». Tu peux enregistrer et revenir plus tard sans culpabiliser.</div>
+  </section>
+
+  <!-- ════════════ FABRIQUE DE PUBLICATIONS ════════════ -->
+  <section id="s-fabrique" class="screen">
+    <button class="backlink" onclick="go('atelier')">‹ Revenir au texte</button>
+    <div class="visual-builder-head">
+      <div>
+        <h2 style="margin-top:0">Fabrique de publications</h2>
+        <p class="muted tiny">Le texte et le visuel restent modifiables jusqu'à ta validation.</p>
+      </div>
+      <span class="badge">100 % local</span>
+    </div>
+
+    <label class="field">1 · Choisis ton univers</label>
+    <div class="choice-grid" id="visual-brand"></div>
+
+    <label class="field" for="visual-rubric">2 · Rubrique</label>
+    <select id="visual-rubric" onchange="setVisualRubric(this.value)"></select>
+
+    <label class="field">3 · Format</label>
+    <div class="pill-row" id="visual-format"></div>
+
+    <label class="field">4 · Gabarit</label>
+    <div class="template-grid" id="visual-template"></div>
+
+    <div class="card">
+      <label class="field" for="visual-title" style="margin-top:0">Titre du visuel</label>
+      <textarea id="visual-title" rows="2" style="min-height:72px" placeholder="Une phrase forte et courte"></textarea>
+
+      <label class="field" for="visual-body">Texte court</label>
+      <textarea id="visual-body" rows="5" placeholder="Le cœur du message, trois repères ou une réponse…"></textarea>
+      <p class="muted tiny" style="margin-top:8px">Le visuel présente une synthèse lisible. Ta légende complète reste conservée dans l’atelier d’écriture.</p>
+
+      <label class="field" for="visual-signature">Signature ou source</label>
+      <input type="text" id="visual-signature" placeholder="Educa Typique" />
+
+      <label class="field">Photo facultative</label>
+      <div class="image-tools">
+        <img id="visual-image-thumb" class="thumb" alt="Aperçu de la photo choisie" hidden />
+        <button class="btn ghost small" onclick="document.getElementById('visual-image-file').click()">🖼️ Choisir une photo</button>
+        <button class="btn ghost small" id="visual-image-remove" onclick="removeVisualImage()" hidden>Retirer</button>
+        <input type="file" id="visual-image-file" accept="image/png,image/jpeg,image/webp" hidden onchange="loadVisualImage(event)" />
+      </div>
+    </div>
+
+    <div class="canvas-shell">
+      <canvas id="visual-canvas" width="1080" height="1350" aria-label="Aperçu du visuel prêt à publier"></canvas>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn secondary" onclick="autofillVisual()">✨ Remplir depuis mon texte</button>
+      <button class="btn" onclick="exportVisualPng()">⬇️ Télécharger le PNG</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn ghost small" onclick="copyText(document.getElementById('atelier-draft').value)">📋 Copier la légende</button>
+      <button class="btn ghost small" onclick="sharePublication()">📤 Partager</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn secondary small" onclick="shareToChannel('telegram')">✈️ Envoyer sur Telegram</button>
+      <button class="btn secondary small" onclick="shareToChannel('whatsapp')">💬 Envoyer sur WhatsApp</button>
+    </div>
+    <button class="btn ghost" style="margin-top:8px" onclick="prepareCanvaKit()">🎨 Préparer mon kit Canva</button>
+    <div class="note">Sur téléphone, le bouton <b>Partager</b> peut transmettre directement le visuel et la légende à Telegram ou WhatsApp. Les deux boutons dédiés préparent le texte ; le PNG reste disponible séparément.</div>
+
+    <div id="canva-kit" class="card canva-kit hidden">
+      <h3 style="margin-top:0">🎨 Ton kit Canva est prêt</h3>
+      <p class="muted tiny">La publication est aussi enregistrée dans <b>Ma bibliothèque</b>, pour que tu puisses toujours la retrouver.</p>
+      <span class="file-badge" id="canva-file-name"></span>
+      <div class="canva-steps">
+        <div class="canva-step">Le PNG vient d'être téléchargé dans le dossier <b>Téléchargements</b> de ton appareil.</div>
+        <div class="canva-step">Copie la légende avec le bouton ci-dessous.</div>
+        <div class="canva-step">Ouvre Canva, choisis <b>Importer / Upload</b>, puis sélectionne exactement le fichier indiqué ci-dessus.</div>
+      </div>
+      <div class="btn-row"><button class="btn secondary" onclick="copyText(document.getElementById('atelier-draft').value)">📋 Copier la légende</button><button class="btn" onclick="openCanvaUploader()">Ouvrir l'import Canva →</button></div>
+      <button class="btn ghost small" onclick="go('biblio')">Retrouver ma publication dans la bibliothèque</button>
+    </div>
+
+    <div class="card">
+      <h3>Avant de publier</h3>
+      <div class="publish-checklist">
+        <label class="check-row"><input type="checkbox" class="publish-check" /> <span>J'ai relu le texte et vérifié qu'il correspond à mon intention.</span></label>
+        <label class="check-row"><input type="checkbox" class="publish-check" /> <span>Les sources, précautions ou limites nécessaires sont présentes.</span></label>
+        <label class="check-row"><input type="checkbox" class="publish-check" /> <span>L'image m'appartient ou j'ai le droit de l'utiliser.</span></label>
+      </div>
+      <label class="field" for="visual-date">Date prévue</label>
+      <input type="date" id="visual-date" />
+      <div class="btn-row">
+        <button class="btn secondary" onclick="savePublication('brouillon')">💾 Garder comme brouillon</button>
+        <button class="btn menthe" onclick="savePublication('prêt')">✓ Marquer prêt</button>
+        <button class="btn" onclick="planPublication()">📅 Planifier</button>
+      </div>
+    </div>
   </section>
 
   <!-- ════════════ CALENDRIER ════════════ -->
@@ -253,8 +490,65 @@
   <section id="s-biblio" class="screen">
     <button class="backlink" onclick="go('accueil')">‹ Accueil</button>
     <h2>Ma bibliothèque</h2>
-    <p class="muted tiny">Tes brouillons, accroches et idées gardés au chaud.</p>
-    <div id="library-list"></div>
+    <p class="muted tiny">Des sujets prêts à explorer, tes propres ressources et toutes tes créations.</p>
+
+    <div class="library-section">
+      <div class="library-section-head"><h3>💡 Bibliothèque de sujets</h3><span class="resource-count" id="topic-count"></span></div>
+      <div class="topic-filters">
+        <input class="wide" type="text" id="topic-search" placeholder="Rechercher : ados, honte, TDAH, sommeil…" oninput="renderTopicLibrary()" />
+        <select id="topic-brand-filter" onchange="renderTopicLibrary()">
+          <option value="all">Tous les univers</option>
+          <option value="educa">Educa Typique</option>
+          <option value="jannat">Jannat al Qouloub</option>
+        </select>
+        <select id="topic-rubric-filter" onchange="renderTopicLibrary()">
+          <option value="all">Toutes les rubriques</option>
+          <option value="enfants">Enfants</option>
+          <option value="ados">Adolescents</option>
+          <option value="tnd">TND</option>
+          <option value="psycho">Psycho-émotion</option>
+          <option value="medecine">Médecine prophétique</option>
+        </select>
+      </div>
+      <div id="topic-list"></div>
+    </div>
+
+    <div class="library-section card soft">
+      <div class="library-section-head"><h3>📚 Mes ressources</h3><span class="resource-count" id="resource-count"></span></div>
+      <p class="muted tiny">Ajoute les documents qui serviront à écrire tes publications. Tout reste sur cet appareil.</p>
+      <div class="resource-import-box">
+        <h4>Choisir mes fichiers — recommandé</h4>
+        <p class="muted tiny">Tu verras les fichiers dans la fenêtre avant de les choisir.</p>
+        <button class="btn menthe small" onclick="openResourceFilePicker()">＋ Importer PDF, Word ou texte</button>
+        <input type="file" id="resource-files" accept=".txt,.md,.markdown,.csv,.json,.html,.htm,.pdf,.docx" multiple hidden onchange="importResourceFiles(event)" oncancel="cancelResourceFilePicker()" />
+        <div class="import-status neutral" id="resource-import-status" role="status" aria-live="polite"><strong>Aucun fichier choisi.</strong>Formats lus : PDF, DOCX, TXT, Markdown, HTML, CSV et JSON.</div>
+      </div>
+
+      <details class="folder-link">
+        <summary>J’ai beaucoup de fichiers : choisir un dossier (facultatif)</summary>
+        <div class="folder-link-body">
+          <p class="muted tiny">La fenêtre Windows montre seulement les dossiers. Les fichiers peuvent sembler absents : sélectionne le dossier lui-même, puis clique sur « Sélectionner le dossier ».</p>
+          <button class="btn secondary small" onclick="connectResourceFolder()">📁 Choisir ce dossier</button>
+          <input type="file" id="resource-folder-files" webkitdirectory directory multiple hidden onchange="importResourceFolderFallback(event)" oncancel="cancelResourceFolderPicker()" />
+          <div class="import-status neutral folder-status" id="resource-folder-status" role="status" aria-live="polite"><strong>Aucun dossier importé.</strong>Cette étape est facultative.</div>
+        </div>
+      </details>
+
+      <div class="resource-divider">ou coller du texte</div>
+      <label class="field" for="resource-title" style="margin-top:12px">Nom de la ressource</label>
+      <input type="text" id="resource-title" placeholder="ex : Livret Parents — comprendre mon ado" />
+      <label class="field" for="resource-paste">Texte ou notes à conserver</label>
+      <textarea id="resource-paste" rows="5" placeholder="Colle ici un extrait, des idées, une transcription ou tes notes…"></textarea>
+      <p class="muted tiny">Le texte collé est conservé tel quel comme source. Il ne devient pas automatiquement une publication.</p>
+      <button class="btn menthe" onclick="savePastedResource()">＋ Ajouter à mes ressources</button>
+      <div id="resource-list"></div>
+      <div class="note"><b>Formats lus maintenant :</b> PDF jusqu’à 15 Mo, DOCX jusqu’à 8 Mo ; TXT, Markdown, HTML, CSV et JSON jusqu’à 1 Mo.<br><b>PDF scanné :</b> s’il ne contient que des images, une reconnaissance OCR sera nécessaire.<br><b>Anciens fichiers Word .DOC, ODT et RTF :</b> enregistre-les en DOCX, PDF ou TXT avant de les importer.</div>
+    </div>
+
+    <div class="library-section">
+      <div class="library-section-head"><h3>🗂️ Mes créations</h3></div>
+      <div id="library-list"></div>
+    </div>
   </section>
 
   <!-- ════════════ RÉGLAGES ════════════ -->
@@ -300,21 +594,33 @@
 <div class="toast" id="toast"></div>
 
 <script>
+/* Les pages Vercel sans barre finale résolvent autrement les chemins relatifs.
+   Ce chargeur garde aussi le fonctionnement local file:// et localhost. */
+window.MCC_VENDOR_BASE=location.protocol==='file:'
+  ? 'vendor/'
+  : (location.pathname.startsWith('/mon-charge-de-com')?'/mon-charge-de-com/vendor/':'vendor/');
+document.write('<script src="'+window.MCC_VENDOR_BASE+'pdf.min.js"><\/script>');
+document.write('<script src="'+window.MCC_VENDOR_BASE+'mammoth.browser.min.js"><\/script>');
+</script>
+<script>
 /* ═══════════════════════════════════════════════════════════════════
    STORE — persistance locale (localStorage). Aucun réseau.
    ═══════════════════════════════════════════════════════════════════ */
 const KEY='mcc:v1';
-const DEFAULT={ checkins:[], drafts:[], library:[], calendar:[],
+const DEFAULT={ checkins:[], drafts:[], library:[], calendar:[], resources:[], folderMeta:null,
   prefs:{spiritual:true, dys:false, scale:1} };
 let db = load();
 function load(){ try{ return Object.assign(structuredClone(DEFAULT), JSON.parse(localStorage.getItem(KEY)||'{}')); }catch(e){ return structuredClone(DEFAULT); } }
-function save(){ localStorage.setItem(KEY, JSON.stringify(db)); }
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(db)); return true; }
+  catch(e){ toast("L'espace local est plein. Exporte ta sauvegarde puis retire d'anciennes ressources ou images."); return false; }
+}
 function uid(){ return Date.now().toString(36)+Math.floor(performance.now()*1000%1e6).toString(36); }
 
 /* ═══════════════════════════════════════════════════════════════════
    NAVIGATION
    ═══════════════════════════════════════════════════════════════════ */
-const SCREENS=['accueil','checkin','orient','regul','atelier','calendrier','biblio','reglages'];
+const SCREENS=['accueil','checkin','orient','regul','atelier','fabrique','calendrier','biblio','reglages'];
 const NAVMAP={accueil:'nav-accueil',atelier:'nav-atelier',calendrier:'nav-calendrier',biblio:'nav-biblio',reglages:'nav-reglages'};
 function go(name){
   SCREENS.forEach(s=>document.getElementById('s-'+s).classList.toggle('on', s===name));
@@ -326,7 +632,11 @@ function go(name){
   if(name==='reglages') renderSettings();
 }
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),1800); }
-async function copyText(txt){ if(!txt){toast('Rien à copier');return;} try{ await navigator.clipboard.writeText(txt); toast('Copié ✓'); }catch(e){ toast('Copie impossible'); } }
+async function copyText(txt){
+  const clean=String(txt||'').replace(/\*+/g,'').trim();
+  if(!clean){toast('Rien à copier');return;}
+  try{ await navigator.clipboard.writeText(clean); toast('Copié sans astérisques ✓'); }catch(e){ toast('Copie impossible'); }
+}
 
 /* ═══════════════════════════════════════════════════════════════════
    CHECK-IN — 5 dimensions + temps dispo
@@ -542,7 +852,7 @@ let regulData={};
 /* ═══════════════════════════════════════════════════════════════════
    ATELIER — templates (aucune IA, marche hors-ligne)
    ═══════════════════════════════════════════════════════════════════ */
-const PLATFORMS=['Instagram','Facebook','LinkedIn','TikTok'];
+const PLATFORMS=['Telegram','WhatsApp','Instagram','Facebook','LinkedIn','TikTok'];
 const ANGLES=[
   {name:'Histoire perso', hint:"Un moment vécu → ce que ça t'a appris"},
   {name:'Conseil pratique', hint:'1 problème → 3 pistes concrètes'},
@@ -551,26 +861,26 @@ const ANGLES=[
   {name:'Mythe à casser', hint:'« On croit que… en vrai… »'},
 ];
 const HOOKS=[
-  "Tu n'as pas besoin d'être parfaite pour publier.",
-  "Personne ne t'a dit ça sur [SUJET], et pourtant…",
-  "Si tu te sens dépassée par [SUJET], lis ça jusqu'au bout.",
-  "J'ai longtemps cru que [SUJET] devait être compliqué. J'avais tort.",
-  "3 choses que j'aurais aimé savoir sur [SUJET].",
-  "Arrête de culpabiliser avec [SUJET]. Voici pourquoi.",
-  "La vérité que personne n'ose dire sur [SUJET].",
-  "Petit rappel doux pour aujourd'hui : tu fais déjà de ton mieux.",
-  "On m'a souvent demandé comment je gère [SUJET]. Voici ma vraie réponse.",
-  "[SUJET] : ce qui a tout changé pour moi (et personne n'en parle).",
-  "Si tu ne devais retenir qu'une chose sur [SUJET], ce serait ça.",
-  "Le conseil sur [SUJET] que j'aurais aimé recevoir plus tôt.",
-  "Spoiler : [SUJET], ce n'est pas une question de motivation.",
-  "Tu n'es pas seule à galérer avec [SUJET]. Vraiment.",
-  "J'ai testé pendant des mois pour [SUJET]. Voici ce qui marche.",
-  "Ce petit détail sur [SUJET] change tout, et il est gratuit.",
-  "Avant, [SUJET] me stressait. Aujourd'hui, voilà comment je fais.",
-  "Et si [SUJET] était plus simple qu'on te l'a fait croire ?",
-  "Ce que j'aurais dit à la moi d'il y a 5 ans sur [SUJET].",
-  "Un rappel pour celle qui doute ce soir à propos de [SUJET].",
+  "« [SUJET] » : trois repères pour y voir plus clair.",
+  "Avant d'agir, prenons le temps de comprendre ce qui se joue.",
+  "Et si on regardait « [SUJET] » autrement ?",
+  "Ce qu'on oublie souvent quand on parle de « [SUJET] ».",
+  "Un repère simple pour avancer sans culpabiliser.",
+  "Derrière cette difficulté, il y a peut-être un besoin à entendre.",
+  "« [SUJET] » : par où commencer concrètement ?",
+  "Comprendre d'abord, ajuster ensuite.",
+  "Trois erreurs fréquentes — et des pistes plus aidantes.",
+  "Ce n'est pas un manque de volonté : regardons ce qui freine vraiment.",
+  "Une autre lecture de « [SUJET] » peut tout changer.",
+  "Ce que cette situation essaie peut-être de nous dire.",
+  "Un petit changement peut déjà alléger le quotidien.",
+  "Entre théorie et quotidien, voici ce qui aide réellement.",
+  "Quand les solutions habituelles ne fonctionnent plus, que peut-on ajuster ?",
+  "Cinq minutes pour mieux comprendre « [SUJET] ».",
+  "Avant de conclure, observons les besoins et le contexte.",
+  "Des repères concrets, sans recette magique ni culpabilisation.",
+  "Ce sujet mérite mieux qu'une réponse toute faite.",
+  "Une question utile à se poser aujourd'hui.",
 ];
 const CTAS=[
   "📌 Enregistre ce post pour le relire quand tu en auras besoin.",
@@ -582,7 +892,14 @@ const CTAS=[
   "🔖 Abonne-toi pour ne pas rater la suite.",
   "🌸 Prends soin de toi, et reviens quand tu veux.",
 ];
-let atelier={platform:'Instagram',angle:null};
+let atelier={platform:'Telegram',angle:null,selectedHook:'',closing:'',resourceIds:[]};
+let editorialProposals=[];
+const AI_ACCESS_STORAGE='mcc:ai-access-code';
+const AI_SPEND_STORAGE='mcc:ai-estimated-spend';
+const AI_ENDPOINT_STORAGE='mcc:ai-endpoint';
+let aiEditorialPackage=null;
+let aiEditorialTexts=[];
+let aiEditorialSelectedIndex=null;
 function startAtelier(){ renderAtelier(); go('atelier'); }
 function renderAtelier(){
   const pf=document.getElementById('atelier-platform'); pf.innerHTML='';
@@ -597,16 +914,15 @@ function renderAtelier(){
   const hl=document.getElementById('hooks-list'); hl.innerHTML='';
   atelier._hooks.forEach(h0=>{ const h=fill(h0); const d=document.createElement('div'); d.className='item'; d.style.cursor='pointer';
     d.innerHTML=`<div class="body" style="margin:0">${escapeHtml(h)}</div>`;
-    d.onclick=()=>{ const ta=document.getElementById('atelier-draft');
-      ta.value = h + (ta.value?'\n\n'+ta.value:'\n\n'); toast('Accroche ajoutée ✓'); ta.focus(); };
+    d.onclick=()=>{ atelier.selectedHook=h;document.getElementById('editorial-hook').value=h;toast('Accroche retenue ✓');document.getElementById('editorial-message').focus(); };
     hl.appendChild(d); });
   const cta=document.getElementById('atelier-cta');
   if(cta){ cta.innerHTML='';
     CTAS.forEach(c=>{ const b=document.createElement('button'); b.className='pill'; b.textContent=c;
-      b.onclick=()=>{ const ta=document.getElementById('atelier-draft');
-        ta.value=(ta.value?ta.value.replace(/\s+$/,'')+'\n\n':'')+c; toast('CTA ajouté ✓'); ta.focus(); };
+      b.onclick=()=>{ atelier.closing=c;document.getElementById('editorial-closing').value=c;toast('Mot de fin retenu ✓'); };
       cta.appendChild(b); });
   }
+  renderEditorialResourcePicker();
 }
 function shuffleHooks(){
   const pool=HOOKS.slice();
@@ -629,6 +945,11 @@ function assembleDraft(){
   const ta=document.getElementById('atelier-draft');
   let skeleton='';
   const base=ta.value.trim();
+  const completeSentences=(base.match(/[.!?](?=\s|$)/g)||[]).length;
+  if(base.length>120 || completeSentences>=2){
+    toast('Ton texte est déjà rédigé : je le conserve sans ajouter de phrases incomplètes ✓');
+    return;
+  }
   skeleton += (base?base+'\n\n':'🪝 ACCROCHE : \n\n');
   if(angle){
     if(angle.name==='Histoire perso') skeleton+=`📖 L'HISTOIRE\nUn jour, à propos de ${topic}, il s'est passé…\n\n💡 CE QUE J'EN RETIENS\n…\n`;
@@ -642,10 +963,219 @@ function assembleDraft(){
   skeleton+=`\n📣 CTA : Enregistre ce post si ça te parle 🌸`;
   ta.value=skeleton; toast('Squelette prêt ✏️');
 }
+
+function renderEditorialResourcePicker(){
+  const box=document.getElementById('atelier-resource-picker');if(!box)return;box.innerHTML='';
+  const rows=db.resources||[];
+  if(!rows.length){box.innerHTML='<div class="empty">Aucune ressource ajoutée. Tu peux en coller ou en importer depuis la bibliothèque.</div>';return;}
+  rows.forEach(r=>{const label=document.createElement('label');label.className='resource-pick';
+    label.innerHTML=`<input type="checkbox" ${atelier.resourceIds.includes(r.id)?'checked':''} onchange="toggleEditorialResource('${r.id}',this.checked)" /><span><b>${escapeHtml(r.title)}</b><br><span class="muted tiny">${escapeHtml(r.content).slice(0,110)}${r.content.length>110?'…':''}</span></span>`;box.appendChild(label);});
+}
+function toggleEditorialResource(id,checked){
+  atelier.resourceIds=checked?[...new Set([...atelier.resourceIds,id])]:atelier.resourceIds.filter(x=>x!==id);
+}
+function searchTerms(text){
+  const ignored=new Set(['avec','dans','pour','sans','mais','plus','moins','faire','avoir','être','cette','comme','comment','quel','quelle','leurs','notre','votre','tout','tous','elle','elles','nous','vous','des','les','une','aux','sur','par','mon','mes','son','ses']);
+  return [...new Set(String(text||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/[a-z0-9]{3,}/g)||[])].filter(w=>!ignored.has(w));
+}
+function suggestResourcesForBrief(){
+  const topic=document.getElementById('atelier-topic').value;
+  const message=document.getElementById('editorial-message').value;
+  const terms=searchTerms(topic+' '+message);
+  if(!terms.length){toast('Écris d’abord ton sujet ou ton idée essentielle');return;}
+  const ranked=(db.resources||[]).map(r=>{
+    const title=String(r.title||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    const body=String(r.content||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').slice(0,50000);
+    const score=terms.reduce((n,t)=>n+(title.includes(t)?7:0)+(body.includes(t)?1:0),0);
+    return {id:r.id,score};
+  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,5);
+  if(!ranked.length){toast('Aucune ressource proche trouvée dans le dossier');return;}
+  atelier.resourceIds=ranked.map(x=>x.id);renderEditorialResourcePicker();
+  toast(ranked.length+' ressource'+(ranked.length>1?'s':'')+' pertinente'+(ranked.length>1?'s':'')+' sélectionnée'+(ranked.length>1?'s':''));
+}
+function normalizeEditorialText(value){return String(value||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();}
+function findEditorialTopic(topic){
+  const wanted=normalizeEditorialText(topic);if(!wanted)return null;let best=null,bestScore=0;
+  TOPIC_LIBRARY.forEach(t=>{const words=[...new Set(normalizeEditorialText(t.title+' '+t.tags.join(' ')).split(' ').filter(w=>w.length>3))];const score=words.reduce((n,w)=>n+(wanted.includes(w)?1:0),0)+(normalizeEditorialText(t.title)===wanted?20:0);if(score>bestScore){best=t;bestScore=score;}});
+  return bestScore?best:null;
+}
+function ensureSentence(value){const s=String(value||'').trim();if(!s)return '';return /[.!?…]$/.test(s)?s:s+'.';}
+function firstResourceInsight(resources){
+  const stop=new Set(['avec','sans','dans','pour','plus','moins','cette','comme','mais','donc','alors','elle','elles','ils','leur','leurs','nous','vous','être','avoir','faire','fait','tout','tous','toute','toutes','une','des','les','aux','sur','par','qui','que','quoi','dont','est','sont','peut','aussi','très','entre','vers','afin','ainsi','cela','ceci','son','ses','mes','notre','votre']);
+  for(const r of resources){
+    const counts={};normalizeEditorialText(r.content).split(' ').filter(w=>w.length>4&&!stop.has(w)).forEach(w=>counts[w]=(counts[w]||0)+1);
+    const concepts=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]);
+    if(concepts.length>=2){const list=concepts.length===2?concepts.join(' et '):concepts.slice(0,-1).join(', ')+' et '+concepts.at(-1);return {text:`La ressource sélectionnée invite notamment à relier ${list}, sans isoler un seul facteur`,title:r.title};}
+  }
+  return null;
+}
+function promptToEditorialSentence(prompt){
+  const p=String(prompt||'').trim();if(!p)return '';
+  const rules=[[/^Aider\s+/i,'Un enjeu important consiste à aider '],[/^Expliquer\s+/i,'Il est utile d’expliquer '],[/^Présenter\s+/i,'Il est utile de présenter '],[/^Montrer\s+/i,'Un repère essentiel est de montrer '],[/^Utiliser\s+/i,'Une piste concrète consiste à utiliser '],[/^Clarifier\s+/i,'Il est important de clarifier '],[/^Décrire\s+/i,'Il est utile de décrire '],[/^Mettre en lumière\s+/i,'Il est important de mettre en lumière '],[/^Parler\s+/i,'On peut parler '],[/^Distinguer\s+/i,'Il est essentiel de distinguer '],[/^Relier\s+/i,'Il est utile de relier '],[/^Poser\s+/i,'Le cadre consiste à poser '],[/^Proposer\s+/i,'Une piste consiste à proposer '],[/^Explorer\s+/i,'Il peut être utile d’explorer ']];
+  for(const [rx,start] of rules)if(rx.test(p))return ensureSentence(p.replace(rx,start));
+  return ensureSentence(p);
+}
+function collectEditorialBrief(){
+  const topic=document.getElementById('atelier-topic').value.trim();
+  const hook=document.getElementById('editorial-hook').value.trim()||atelier.selectedHook;
+  const message=document.getElementById('editorial-message').value.trim();
+  const closing=document.getElementById('editorial-closing').value.trim()||atelier.closing||CTAS[0];
+  const audience=document.getElementById('editorial-audience').value,objective=document.getElementById('editorial-objective').value;
+  const resources=(db.resources||[]).filter(r=>atelier.resourceIds.includes(r.id));
+  const current=document.getElementById('atelier-draft').value.trim();
+  const topicCard=findEditorialTopic(topic);
+  return {topic,hook,message,closing,audience,objective,resources,current,topicCard};
+}
+function buildEditorialPoints(brief){
+  const context=brief.topicCard?promptToEditorialSentence(brief.topicCard.prompt):'';
+  const resourceInsight=firstResourceInsight(brief.resources);
+  const central=ensureSentence(brief.message)||context||ensureSentence(`Le sujet « ${brief.topic} » mérite d’être expliqué avec nuance et sans jugement`);
+  const observe=`Commencer par observer la situation concrète, son contexte et ses effets, sans réduire la personne à une étiquette.`;
+  const understand=resourceInsight?resourceInsight.text:(context||`Mettre des mots simples sur ce qui se joue afin de rendre le sujet plus compréhensible et moins culpabilisant.`);
+  const act=brief.objective.includes('agir')
+    ? `Choisir une seule action réaliste à tester, puis observer ce qu’elle change.`
+    : `Proposer un repère ou un ajustement réaliste, puis laisser chacun l’adapter à sa situation.`;
+  return {central,observe,understand,act,resourceTitle:resourceInsight?.title||''};
+}
+function makeEditorialProposals(brief){
+  const p=buildEditorialPoints(brief);const topic=brief.topic;const hook=brief.hook||`Et si nous prenions un moment pour mieux comprendre ${topic} ?`;const close=brief.closing;
+  const sourceLine=p.resourceTitle?`\n\n📚 Source de travail mobilisée : ${p.resourceTitle}.`:'';
+  const pedagogic=`${hook}\n\nQuand on aborde « ${topic} », on cherche souvent une réponse immédiate. Pourtant, comprendre vient avant la recette toute faite.\n\n${p.central}\n\nTrois repères peuvent aider :\n\n1️⃣ ${p.observe}\n\n2️⃣ ${p.understand}\n\n3️⃣ ${p.act}\n\nL’objectif n’est pas d’imposer une seule manière de faire, mais d’offrir un point d’appui clair, progressif et adaptable.${sourceLine}\n\n${close}`;
+  const relational=`${hook}\n\nDerrière le sujet « ${topic} », il y a parfois de la fatigue, de l’incompréhension ou l’impression de ne pas faire assez bien.\n\n${p.central}\n\nAvant de chercher à tout résoudre, on peut commencer par une question simple : qu’est-ce qui est le plus difficile, ici et maintenant ?\n\nNommer ce qui se passe, diminuer la pression et choisir un seul petit pas peut déjà rendre la situation plus respirable.\n\nCe contenu ouvre une piste de réflexion ; il ne remplace pas une évaluation adaptée à chaque situation.${sourceLine}\n\n${close}`;
+  const carousel=`CARROUSEL — ${topic}\n\nSLIDE 1 · ${hook}\n\nSLIDE 2 · CE QUE L’ON VOIT\nUne situation qui peut sembler simple de l’extérieur, mais qui mérite d’être replacée dans son contexte.\n\nSLIDE 3 · CE QU’IL FAUT COMPRENDRE\n${p.central}\n\nSLIDE 4 · PREMIER REPÈRE\n${p.observe}\n\nSLIDE 5 · UNE PISTE CONCRÈTE\n${p.act}\n\nSLIDE 6 · À RETENIR\nComprendre, adapter, observer : un pas à la fois.\n\nSLIDE 7 · MOT DE FIN\n${close}`;
+  return [
+    {title:'Version 1 · Post pédagogique',subtitle:'Clair, progressif et actionnable',text:pedagogic,audit:['1 idée centrale','3 repères','charge cognitive maîtrisée','limite explicite']},
+    {title:'Version 2 · Post relationnel',subtitle:'Chaleureux, incarné et engageant',text:relational,audit:['validation émotionnelle','question d’ouverture','micro-action','non culpabilisant']},
+    {title:'Version 3 · Carrousel pédagogique',subtitle:'Une progression en 7 écrans',text:carousel,audit:['séquençage','une idée par écran','mémorisation','CTA final']}
+  ];
+}
+function generateEditorialProposals(){
+  const brief=collectEditorialBrief();
+  if(!brief.topic){toast('Indique d’abord ton sujet');document.getElementById('atelier-topic').focus();return;}
+  if(!brief.message&&!brief.topicCard&&!brief.resources.length){toast('Ajoute ton idée essentielle ou une ressource');document.getElementById('editorial-message').focus();return;}
+  editorialProposals=makeEditorialProposals(brief);renderEditorialProposals(brief);document.getElementById('editorial-proposals').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function renderEditorialProposals(brief){
+  const box=document.getElementById('editorial-proposals');box.innerHTML='<h3>Trois propositions prêtes à retravailler</h3>';
+  editorialProposals.forEach((p,i)=>{const d=document.createElement('div');d.className='card proposal-card';d.innerHTML=`<div class="meta">${escapeHtml(p.subtitle)}</div><h3>${escapeHtml(p.title)}</h3><div class="proposal-audit">${p.audit.map(x=>`<span>${escapeHtml(x)}</span>`).join('')}</div><div class="proposal-copy">${escapeHtml(p.text)}</div><div class="btn-row"><button class="btn secondary small" onclick="useEditorialProposal(${i})">✓ Utiliser ce post</button><button class="btn ghost small" onclick="copyText(editorialProposals[${i}].text)">📋 Copier</button></div>`;box.appendChild(d);});
+  const sources=brief.resources.length?brief.resources.map(r=>`<b>${escapeHtml(r.title)}</b>${r.sourcePath?' <span class="muted">('+escapeHtml(r.sourcePath)+')</span>':''}`).join(' · '):'aucune ressource personnelle sélectionnée';
+  const base=brief.topicCard?`base éditoriale interne : <b>${escapeHtml(brief.topicCard.title)}</b>`:'aucune base éditoriale interne correspondante';
+  const report=document.createElement('div');report.className='source-report';report.innerHTML=`<b>Traçabilité & copyright</b><br>${base}<br>Ressources mobilisées : ${sources}.<br><b>Apport externe :</b> aucun dans le moteur local. Les affirmations factuelles, médicales, scientifiques ou juridiques doivent être complétées avec des sources vérifiables avant publication. Le texte proposé est une rédaction nouvelle ; aucun long extrait de ressource n’est recopié automatiquement.`;box.appendChild(report);
+}
+function aiEndpoint(){
+  if(location.protocol!=='file:')return new URL('/api/mcc-rediger',location.origin).href;
+  return localStorage.getItem(AI_ENDPOINT_STORAGE)||'';
+}
+function readAiAccessCode(){
+  let code=localStorage.getItem(AI_ACCESS_STORAGE)||'';
+  if(code)return code;
+  code=(prompt('Entre le code privé de Mon Chargé de Com. Ce n’est pas ta clé OpenAI et tu ne le feras qu’une fois.')||'').trim();
+  if(code)localStorage.setItem(AI_ACCESS_STORAGE,code);
+  return code;
+}
+function setAiEditorialStatus(kind,message){
+  const box=document.getElementById('ai-editorial-status');if(!box)return;
+  box.className='ai-status'+(kind?' '+kind:'');box.textContent=message;
+}
+function safeAiUrl(value){
+  try{const url=new URL(String(value||''));return ['http:','https:'].includes(url.protocol)?url.href:'';}catch(e){return '';}
+}
+function formatEstimatedCost(value){
+  const amount=Number(value||0);if(amount>0&&amount<0.01)return '< 0,01 $';
+  return amount.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:4})+' $';
+}
+function updateAiBudgetMeter(meta){
+  const current=Number(localStorage.getItem(AI_SPEND_STORAGE)||0);
+  const next=current+Number(meta?.estimatedCostUsd||0);localStorage.setItem(AI_SPEND_STORAGE,String(next));
+  const box=document.getElementById('ai-budget-meter');if(!box)return;
+  box.innerHTML=`<span>Jetons de la dernière rédaction : ${escapeHtml(formatEstimatedCost(meta?.estimatedCostUsd))}</span><span>Total de jetons estimé dans l’app : ${escapeHtml(formatEstimatedCost(next))}</span>`;
+}
+function aiTextCard(title,subtitle,text,index){
+  return `<div class="card proposal-card"><div class="meta">${escapeHtml(subtitle)}</div><h3>${escapeHtml(title)}</h3><div class="proposal-copy">${escapeHtml(text)}</div><div class="btn-row"><button class="btn secondary small" onclick="useAiEditorialText(${index})">✓ Utiliser</button><button class="btn ghost small" onclick="copyText(aiEditorialTexts[${index}])">📋 Copier</button></div></div>`;
+}
+function removeFormattingStars(value){
+  if(Array.isArray(value)) return value.map(removeFormattingStars);
+  if(value && typeof value==='object') return Object.fromEntries(Object.entries(value).map(([key,item])=>[key,removeFormattingStars(item)]));
+  return typeof value==='string'?value.replace(/\*+/g,'').trim():value;
+}
+function draftMatchesPreviousAiText(value){
+  const key=String(value||'').replace(/\s+/g,' ').trim();
+  return Boolean(key)&&aiEditorialTexts.some(text=>String(text||'').replace(/\s+/g,' ').trim()===key);
+}
+function renderAiEditorialPackage(data){
+  const result=removeFormattingStars(data.result||{});aiEditorialPackage=result;
+  const post=[result.post?.text,result.post?.cta].filter(Boolean).join('\n\n');
+  const carousel=(result.carousel?.slides||[]).map((slide,i)=>`SLIDE ${i+1} · ${slide.title}\n${slide.text}`).join('\n\n');
+  aiEditorialTexts=[post,result.whatsapp||'',result.telegram||'',carousel];
+  const draft=document.getElementById('atelier-draft');
+  if(draft&&post&&!draftHasSubstantiveContent(draft.value)){
+    draft.value=post;
+    aiEditorialSelectedIndex=0;
+  }
+  const hooks=(result.hooks||[]).map(h=>`<li>${escapeHtml(h)}</li>`).join('');
+  const angles=(result.angles||[]).map(a=>`<div class="ai-angle"><b>${escapeHtml(a.title)}</b><br>${escapeHtml(a.rationale)}</div>`).join('');
+  const internal=(result.sources?.internal||[]).map(s=>`<div class="ai-source"><b>${escapeHtml(s.title)}</b><br>${escapeHtml(s.usage)}</div>`).join('')||'<div class="muted tiny">Aucune ressource personnelle mobilisée.</div>';
+  const external=(result.sources?.external||[]).map(s=>{const url=safeAiUrl(s.url);return url?`<div class="ai-source"><a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(s.title)}</a><br>${escapeHtml(s.usage)}</div>`:'';}).join('')||'<div class="muted tiny">Aucune source Web utilisée pour cette rédaction.</div>';
+  const verification=(result.sources?.verification||[]).map(v=>`<li>${escapeHtml(v)}</li>`).join('')||'<li>Aucun point supplémentaire signalé ; la validation éditoriale finale reste nécessaire.</li>';
+  const controls=result.controls||{};
+  const box=document.getElementById('ai-editorial-results');
+  box.innerHTML=`<div class="ai-result-section"><h3>Propositions de l’IA sourcée</h3><h4>3 accroches</h4><ol class="ai-list">${hooks}</ol><h4 style="margin-top:12px">3 angles éditoriaux</h4>${angles}</div>
+    ${aiTextCard('Post complet',result.post?.title||'Version principale',post,0)}
+    ${aiTextCard('Version WhatsApp','Directe, chaleureuse et facile à transférer',result.whatsapp||'',1)}
+    ${aiTextCard('Version Telegram','Structurée pour une lecture dans le fil',result.telegram||'',2)}
+    ${aiTextCard(result.carousel?.title||'Carrousel Canva','Une idée par écran',carousel,3)}
+    <div class="card"><h3>🎨 Proposition visuelle</h3><p><b>${escapeHtml(result.visual?.headline||'')}</b></p><p class="muted tiny">Format : ${escapeHtml(result.visual?.format||'')}<br>${escapeHtml(result.visual?.direction||'')}</p></div>
+    <div class="source-report"><b>Traçabilité</b><div class="ai-result-section"><h4>Ressources personnelles utilisées</h4>${internal}</div><div class="ai-result-section"><h4>Sources Web consultées</h4>${external}</div><div class="ai-result-section"><h4>À vérifier avant publication</h4><ul class="ai-list">${verification}</ul></div></div>
+    <div class="card"><h3>✅ Contrôles éditoriaux</h3><p class="tiny"><b>Copyright :</b> ${escapeHtml(controls.copyright||'Non renseigné')}<br><br><b>Pédagogie :</b> ${escapeHtml(controls.pedagogy||'Non renseigné')}<br><br><b>Neuropédagogie :</b> ${escapeHtml(controls.neuropedagogy||'Non renseigné')}<br><br><b>Fiabilité :</b> ${escapeHtml(controls.accuracy||'Non renseigné')}</p></div>`;
+  box.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function useAiEditorialText(index){
+  const text=removeFormattingStars(aiEditorialTexts[index]);if(!text)return;
+  document.getElementById('atelier-draft').value=text;aiEditorialSelectedIndex=index;
+  autofillVisual(false);toast('Texte placé dans ton brouillon et transmis au visuel ✓');
+  document.getElementById('atelier-draft').scrollIntoView({behavior:'smooth',block:'center'});
+}
+async function generateSourcedEditorialPackage(){
+  const brief=collectEditorialBrief();
+  if(!brief.topic){toast('Indique d’abord ton sujet');document.getElementById('atelier-topic').focus();return;}
+  if(!brief.message&&!brief.current&&!brief.resources.length){toast('Ajoute ton idée essentielle, un brouillon ou une ressource');document.getElementById('editorial-message').focus();return;}
+  const endpoint=aiEndpoint();
+  if(!endpoint){setAiEditorialStatus('error','L’IA connectée s’utilise dans la version en ligne. Le brouillon local reste disponible ici.');return;}
+  const accessCode=readAiAccessCode();if(!accessCode){setAiEditorialStatus('error','Le code privé est nécessaire pour protéger ton crédit OpenAI.');return;}
+  const depth=document.getElementById('editorial-depth').value;
+  if(depth==='deep'&&!confirm('Le mode Sol approfondi utilise davantage de crédit. Continuer ?'))return;
+  const button=document.getElementById('ai-generate-button');button.disabled=true;button.textContent='Rédaction en cours…';
+  document.getElementById('editorial-proposals').innerHTML='';document.getElementById('ai-editorial-results').innerHTML='';
+  setAiEditorialStatus('loading','L’IA lit uniquement les éléments choisis, rédige les versions et prépare la traçabilité…');
+  try{
+    const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','X-MCC-Access-Code':accessCode},body:JSON.stringify({
+      topic:brief.topic,audience:brief.audience,objective:brief.objective,platform:atelier.platform,hook:brief.hook,
+      message:brief.message,closing:brief.closing,currentDraft:draftMatchesPreviousAiText(brief.current)?'':brief.current,useWeb:document.getElementById('editorial-web').checked,depth,
+      resources:brief.resources.map(r=>({title:r.title,content:r.content,sourceFormat:r.sourceFormat||''}))
+    })});
+    let data={};try{data=await response.json();}catch(e){}
+    if(!response.ok){
+      if(response.status===401)localStorage.removeItem(AI_ACCESS_STORAGE);
+      throw new Error(data.error||'La rédaction n’a pas abouti.');
+    }
+    renderAiEditorialPackage(data);updateAiBudgetMeter(data.meta);
+    setAiEditorialStatus('success',`Rédaction terminée avec ${data.meta?.model||'le moteur IA'}. Tu gardes la décision : relis, nuance ou modifie avant publication.`);
+  }catch(error){setAiEditorialStatus('error',error.message||'La rédaction IA a échoué. Réessaie dans un instant.');}
+  finally{button.disabled=false;button.textContent='✨ Rédiger avec l’IA sourcée';}
+}
+function useEditorialProposal(index){
+  const p=editorialProposals[index];if(!p)return;document.getElementById('atelier-draft').value=p.text;toast('Proposition placée dans ton brouillon ✓');document.getElementById('atelier-draft').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function copySourcedAIBrief(){
+  const b=collectEditorialBrief();if(!b.topic){toast('Indique d’abord ton sujet');return;}
+  const resourceBlock=b.resources.length?b.resources.map((r,i)=>`RESSOURCE ${i+1} — ${r.title}${r.sourcePath?'\nORIGINE LOCALE : '+r.sourcePath:''}\n${r.content.slice(0,3500)}`).join('\n\n'):'Aucune ressource personnelle jointe.';
+  const prompt=`Tu travailles comme une équipe réunissant un ingénieur pédagogique, un neuropédagogue, un social media manager, un community manager et un rédacteur social media.\n\nSUJET : ${b.topic}\nPUBLIC : ${b.audience}\nOBJECTIF : ${b.objective}\nACCROCHE SOUHAITÉE : ${b.hook||'à proposer'}\nMESSAGE ESSENTIEL : ${b.message||'à dégager des ressources'}\nMOT DE FIN : ${b.closing}\nPLATEFORME : ${atelier.platform}\n\n${resourceBlock}\n\nRédige 3 propositions originales : un post pédagogique, un post relationnel et un carrousel. Travaille d’abord à partir des ressources fournies, sans long copier-coller. Complète uniquement avec des informations issues de sources primaires ou institutionnelles fiables. Pour chaque apport externe, fournis le lien exact, distingue clairement faits et conseils, indique les points à vérifier et n’invente jamais de référence. Ajoute enfin un contrôle copyright, un contrôle de charge cognitive et les précautions nécessaires.`;
+  copyText(prompt);toast('Brief IA sourcée copié ✓');
+}
 function saveDraftToLibrary(){
   const txt=document.getElementById('atelier-draft').value.trim();
   if(!txt){ toast("Écris quelque chose d'abord"); return; }
-  db.library.unshift({id:uid(), type:'brouillon', platform:atelier.platform, angle:atelier.angle||'', content:txt, date:new Date().toISOString()});
+  db.library.unshift({id:uid(), type:'brouillon', platform:atelier.platform, angle:atelier.angle||'',topic:document.getElementById('atelier-topic').value.trim(), content:txt, date:new Date().toISOString()});
   save(); toast('Gardé dans ta bibliothèque 💾');
 }
 function planDraft(){
@@ -654,10 +1184,680 @@ function planDraft(){
   const when=prompt("Pour quel jour ? (AAAA-MM-JJ, ou laisse vide pour aujourd'hui)", new Date().toISOString().slice(0,10)) ;
   if(when===null) return;
   const date=(when.trim()||new Date().toISOString().slice(0,10));
-  db.calendar.push({id:uid(), date, platform:atelier.platform, content:txt, status:'prévu'});
+  db.calendar.push({id:uid(), date, platform:atelier.platform,topic:document.getElementById('atelier-topic').value.trim(), content:txt, status:'prévu'});
   db.calendar.sort((a,b)=>a.date.localeCompare(b.date));
   save(); toast('Planifié 📅'); go('calendrier');
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   FABRIQUE DE PUBLICATIONS — 6 gabarits natifs, export Canvas hors-ligne
+   ═══════════════════════════════════════════════════════════════════ */
+const VISUAL_BRANDS={
+  educa:{name:'Educa Typique',short:'ET',description:'Clair, vivant et neuro-pédagogique',signature:'Educa Typique'},
+  jannat:{name:'Jannat al Qouloub',short:'JQ',description:'Élégant, apaisant et chaleureux',signature:'Jannat al Qouloub'}
+};
+const VISUAL_RUBRICS=[
+  {key:'enfants',name:'Enfants',educa:'#155E5C',jannat:'#4C5A3A'},
+  {key:'ados',name:'Adolescents',educa:'#B24523',jannat:'#6B7A5C'},
+  {key:'tnd',name:'Troubles du neurodéveloppement',educa:'#2F4C9B',jannat:'#5C6B52'},
+  {key:'psycho',name:'Psycho-émotion',educa:'#6E3B6B',jannat:'#3F4A34'},
+  {key:'medecine',name:'Médecine prophétique',educa:'#8A5A1E',jannat:'#4A5233'}
+];
+const VISUAL_TEMPLATES={
+  educa:[
+    {key:'et-1',name:'01 · Accroche',description:'Une idée forte qui arrête le regard'},
+    {key:'et-2',name:'02 · Trois repères',description:'Une mini-liste claire et pratique'},
+    {key:'et-3',name:'03 · Question / réponse',description:'Une question fréquente expliquée'}
+  ],
+  jannat:[
+    {key:'jq-1',name:'01 · Couverture',description:'Un message incarné avec une photo'},
+    {key:'jq-2',name:'02 · Parole',description:'Une phrase à laisser résonner'},
+    {key:'jq-3',name:'03 · Atelier',description:'Une invitation et ses informations'}
+  ]
+};
+let visualDraft={brand:'educa',rubric:'enfants',format:'portrait',template:'et-1',title:'',body:'',signature:'Educa Typique',image:'',editingId:null};
+let visualImageObject=null;
+let visualRenderToken=0;
+
+function openVisualBuilder(){
+  visualDraft.editingId=null;
+  autofillVisual(false);
+  resetPublishChecklist();
+  document.getElementById('visual-date').value=new Date().toISOString().slice(0,10);
+  renderVisualBuilder();
+  go('fabrique');
+}
+function renderVisualBuilder(){
+  const brands=document.getElementById('visual-brand'); brands.innerHTML='';
+  Object.entries(VISUAL_BRANDS).forEach(([key,b])=>{
+    const btn=document.createElement('button');
+    btn.className='choice-card '+key+(visualDraft.brand===key?' on':'');
+    btn.innerHTML=`<span class="choice-kicker">${b.short}</span><span class="choice-name">${b.name}</span><span class="choice-desc">${b.description}</span>`;
+    btn.onclick=()=>setVisualBrand(key); brands.appendChild(btn);
+  });
+
+  const rubric=document.getElementById('visual-rubric'); rubric.innerHTML='';
+  VISUAL_RUBRICS.forEach(r=>{ const o=document.createElement('option'); o.value=r.key; o.textContent=r.name; o.selected=r.key===visualDraft.rubric; rubric.appendChild(o); });
+
+  const formats=document.getElementById('visual-format'); formats.innerHTML='';
+  [['portrait','Portrait · 1080 × 1350'],['square','Carré · 1080 × 1080']].forEach(([key,label])=>{
+    const btn=document.createElement('button'); btn.className='pill'+(visualDraft.format===key?' on':''); btn.textContent=label;
+    btn.onclick=()=>{visualDraft.format=key;renderVisualBuilder();}; formats.appendChild(btn);
+  });
+
+  const templates=document.getElementById('visual-template'); templates.innerHTML='';
+  VISUAL_TEMPLATES[visualDraft.brand].forEach(t=>{
+    const btn=document.createElement('button'); btn.className='template-choice'+(visualDraft.template===t.key?' on':'');
+    btn.title=t.description; btn.innerHTML=`<span class="template-mini ${visualDraft.brand}"></span><strong>${t.name}</strong>`;
+    btn.onclick=()=>{visualDraft.template=t.key;renderVisualBuilder();}; templates.appendChild(btn);
+  });
+
+  document.getElementById('visual-title').value=visualDraft.title;
+  document.getElementById('visual-body').value=visualDraft.body;
+  document.getElementById('visual-signature').value=visualDraft.signature;
+  updateVisualImageUi();
+  drawVisual();
+}
+function setVisualBrand(brand){
+  visualDraft.brand=brand;
+  visualDraft.template=VISUAL_TEMPLATES[brand][0].key;
+  visualDraft.signature=VISUAL_BRANDS[brand].signature;
+  renderVisualBuilder();
+}
+function setVisualRubric(key){ visualDraft.rubric=key; drawVisual(); }
+function syncVisualFields(){
+  visualDraft.title=document.getElementById('visual-title').value.trim();
+  visualDraft.body=document.getElementById('visual-body').value.trim();
+  visualDraft.signature=document.getElementById('visual-signature').value.trim()||VISUAL_BRANDS[visualDraft.brand].signature;
+}
+function stripMarkdownForVisual(value){
+  return String(value||'')
+    .replace(/\*\*([^*]+)\*\*/g,'$1')
+    .replace(/__([^_]+)__/g,'$1')
+    .replace(/`([^`]+)`/g,'$1')
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g,'$1')
+    .replace(/\*+/g,'');
+}
+function isCallToActionLine(value){
+  const line=cleanPostLine(value).replace(/\s+/g,' ').trim();
+  if(!line)return false;
+  if(/^(?:CTA|Appel à l.action|Mot de fin|Conclusion)\s*:/i.test(line))return true;
+  return /^(?:Enregistre|Partage|Commente|Dis-moi|Écris-moi|Ecris-moi|Contacte-moi|Réponds|Reponds|Abonne-toi|Un petit like|Like|Fais suivre|Transmets)\b/i.test(line);
+}
+function withoutCallToAction(value){
+  const rows=String(value||'').split(/\n+/).map(row=>row.trim()).filter(Boolean);
+  while(rows.length&&isCallToActionLine(rows[rows.length-1]))rows.pop();
+  return rows.filter(row=>!/^\s*(?:CTA|Appel à l.action)\s*:/i.test(cleanPostLine(row))).join('\n').trim();
+}
+function draftHasSubstantiveContent(value){
+  const clean=withoutCallToAction(removeIncompletePlanEnding(value))
+    .replace(/(?:…|\.\.\.)/g,'')
+    .replace(/\s+/g,' ')
+    .trim();
+  return clean.length>=120&&(clean.match(/[.!?](?=\s|$)/g)||[]).length>=2;
+}
+function cleanPostLine(line){
+  return stripMarkdownForVisual(line).replace(/^[\s#>*_`\-–—\d.)]+/,'').replace(/^[^\p{L}\p{N}«“]+/u,'').trim();
+}
+function removeIncompletePlanEnding(value){
+  return String(value||'')
+    .replace(/\s+(?:Sur|À propos de)\s+[^\n]{1,160}?(?:voici\s+3\s+(?:pistes|repères)|:)\s*(?:\n?\s*[1-3][.)]\s*(?:…|\.\.\.)?\s*)*$/i,'')
+    .replace(/\s+📣\s*CTA\s*:\s*$/i,'')
+    .trim();
+}
+function cleanVisualTitle(value){
+  const clean=stripMarkdownForVisual(value).replace(/\s*(?:\.{3}|…)\s*$/,'').trim();
+  return clean?clean.charAt(0).toLocaleUpperCase('fr-FR')+clean.slice(1):clean;
+}
+function firstCompleteSentence(value){
+  const clean=String(value||'').replace(/\s+/g,' ').trim();
+  const match=clean.match(/^.*?[.!?](?=\s|$)/);
+  return (match?match[0]:clean).trim();
+}
+function extractThreeReperes(value){
+  const text=withoutCallToAction(removeIncompletePlanEnding(stripMarkdownForVisual(value))).replace(/\s+/g,' ').trim();
+  const markerPattern=/([A-ZÀ-ÖØ-Þ][^.!?\n:]{2,80})\s*:\s*/gu;
+  const markers=[]; let match;
+  while((match=markerPattern.exec(text))!==null){
+    const label=cleanPostLine(match[1]);
+    if(!/^(?:trois|3)\s+(?:repères|pistes)|^voici\b|^(?:CTA|Appel à l.action|Mot de fin|Conclusion|Sources?)\b/i.test(label)) markers.push({label,start:match.index,bodyStart:markerPattern.lastIndex});
+  }
+  const points=markers.map((marker,index)=>{
+    const end=index+1<markers.length?markers[index+1].start:text.length;
+    const sentence=firstCompleteSentence(text.slice(marker.bodyStart,end));
+    return sentence?`${marker.label} : ${sentence}`:'';
+  }).filter(Boolean);
+  if(points.length>=3) return points.slice(0,3);
+
+  const numbered=[...text.matchAll(/(?:^|\s)(?:[1-3])[.)]\s*([^\n]+?)(?=(?:\s[1-3][.)]\s)|$)/g)]
+    .map(item=>firstCompleteSentence(item[1])).filter(Boolean);
+  return numbered.length>=3?numbered.slice(0,3):[];
+}
+function completeVisualExcerpt(value,maxChars=260){
+  const clean=withoutCallToAction(removeIncompletePlanEnding(stripMarkdownForVisual(value))).replace(/\s+/g,' ').trim();
+  const sentences=clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[];
+  let excerpt='';
+  for(const sentence0 of sentences){
+    const sentence=sentence0.trim();
+    const candidate=(excerpt+' '+sentence).trim();
+    if(excerpt && candidate.length>maxChars) break;
+    excerpt=candidate;
+    if(excerpt.length>=Math.round(maxChars*.55)) break;
+  }
+  return excerpt||clean;
+}
+function inferVisualRubric(topic,audience){
+  const context=`${topic||''} ${audience||''}`.toLocaleLowerCase('fr-FR');
+  if(/\b(?:ado|ados|adolescent|adolescente|adolescence)\b/.test(context))return 'ados';
+  if(/\b(?:tnd|tdah|dys|autisme|tsa|neurodéveloppement|neurodeveloppement)\b/.test(context))return 'tnd';
+  if(/\b(?:émotion|emotion|psych|anxiété|anxiete|estime|trauma|charge mentale|entrepreneuse|praticienne)\b/.test(context))return 'psycho';
+  return 'enfants';
+}
+function autofillVisual(showToast=true){
+  const topic=(document.getElementById('atelier-topic').value||'').trim();
+  const audience=(document.getElementById('editorial-audience')?.value||'').trim();
+  const post=withoutCallToAction(removeIncompletePlanEnding((document.getElementById('atelier-draft').value||'').trim()));
+  const lines=post.split(/\n+/).map(cleanPostLine).filter(l=>l && !l.startsWith('#') && !isCallToActionLine(l));
+  visualDraft.rubric=inferVisualRubric(topic,audience);
+  visualDraft.title=cleanVisualTitle(topic||lines[0]||'Une idée à partager');
+  const rest=(topic?lines:lines.slice(1)).join(' ').replace(/\s+/g,' ').trim();
+  const points=extractThreeReperes(post);
+  if(visualDraft.brand==='educa' && points.length===3){
+    visualDraft.template='et-2';
+    visualDraft.body=points.join('\n');
+  } else {
+    if(visualDraft.brand==='educa'&&visualDraft.template==='et-2')visualDraft.template='et-1';
+    visualDraft.body=completeVisualExcerpt(rest||post||'Ajoute ici ton message essentiel.');
+  }
+  if(!visualDraft.signature) visualDraft.signature=VISUAL_BRANDS[visualDraft.brand].signature;
+  if(document.getElementById('visual-title')){
+    document.getElementById('visual-title').value=visualDraft.title;
+    document.getElementById('visual-body').value=visualDraft.body;
+    document.getElementById('visual-signature').value=visualDraft.signature;
+    drawVisual();
+  }
+  if(showToast) toast(points.length===3?'Tes 3 repères sont présentés en entier ; la légende complète est conservée ✓':'Visuel rempli sans couper de phrase ✨');
+}
+
+function updateVisualImageUi(){
+  const thumb=document.getElementById('visual-image-thumb'), remove=document.getElementById('visual-image-remove');
+  thumb.hidden=!visualDraft.image; remove.hidden=!visualDraft.image;
+  if(visualDraft.image) thumb.src=visualDraft.image; else thumb.removeAttribute('src');
+}
+function loadVisualImage(ev){
+  const file=ev.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const img=new Image(); img.onload=()=>{
+      const max=900, scale=Math.min(1,max/Math.max(img.width,img.height));
+      const c=document.createElement('canvas'); c.width=Math.max(1,Math.round(img.width*scale)); c.height=Math.max(1,Math.round(img.height*scale));
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      visualDraft.image=c.toDataURL('image/jpeg',.78); visualImageObject=null; updateVisualImageUi(); drawVisual(); toast('Photo ajoutée ✓');
+    }; img.src=reader.result;
+  }; reader.readAsDataURL(file); ev.target.value='';
+}
+function removeVisualImage(){ visualDraft.image=''; visualImageObject=null; updateVisualImageUi(); drawVisual(); }
+
+function roundedPath(ctx,x,y,w,h,r){
+  const rr=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+rr,y); ctx.arcTo(x+w,y,x+w,y+h,rr); ctx.arcTo(x+w,y+h,x,y+h,rr);
+  ctx.arcTo(x,y+h,x,y,rr); ctx.arcTo(x,y,x+w,y,rr); ctx.closePath();
+}
+function fillRound(ctx,x,y,w,h,r,color){ roundedPath(ctx,x,y,w,h,r); ctx.fillStyle=color; ctx.fill(); }
+function wrapCanvasLines(ctx,text,maxWidth,maxLines){
+  const paragraphs=(text||'').split(/\n+/).filter(Boolean); const lines=[];
+  for(const paragraph of paragraphs){
+    const words=paragraph.split(/\s+/); let line='';
+    for(const word of words){ const test=line?line+' '+word:word;
+      if(ctx.measureText(test).width>maxWidth && line){ lines.push(line); line=word; if(lines.length>=maxLines) break; }
+      else line=test;
+    }
+    if(lines.length>=maxLines) break; if(line) lines.push(line); if(lines.length>=maxLines) break;
+  }
+  if(lines.length===maxLines){ const original=(text||'').replace(/\s+/g,' ').trim(); const joined=lines.join(' '); if(joined.length<original.length){
+    let last=lines[maxLines-1]; while(last && ctx.measureText(last+'…').width>maxWidth) last=last.slice(0,-1); lines[maxLines-1]=last.replace(/[ ,;:.!?-]+$/,'')+'…';
+  }}
+  return lines;
+}
+function drawWrapped(ctx,text,x,y,maxWidth,fontSize,lineHeight,maxLines,color,font='"Segoe UI", Arial, sans-serif',weight=400,align='left'){
+  ctx.save(); ctx.font=`${weight} ${fontSize}px ${font}`; ctx.fillStyle=color; ctx.textAlign=align; ctx.textBaseline='top';
+  const lines=wrapCanvasLines(ctx,text,maxWidth,maxLines); lines.forEach((line,i)=>ctx.fillText(line,x,y+i*lineHeight)); ctx.restore();
+  return y+lines.length*lineHeight;
+}
+function drawWrappedFit(ctx,text,x,y,maxWidth,maxFont,minFont,maxLines,color,font='"Segoe UI", Arial, sans-serif',weight=400,align='left'){
+  for(let size=maxFont;size>=minFont;size-=2){
+    ctx.save(); ctx.font=`${weight} ${size}px ${font}`;
+    const lines=wrapCanvasLines(ctx,text,maxWidth,99); ctx.restore();
+    if(lines.length<=maxLines){
+      return drawWrapped(ctx,text,x,y,maxWidth,size,size+8,maxLines,color,font,weight,align);
+    }
+  }
+  return drawWrapped(ctx,completeVisualExcerpt(text,220),x,y,maxWidth,minFont,minFont+8,maxLines,color,font,weight,align);
+}
+function drawImageCover(ctx,img,x,y,w,h){
+  const scale=Math.max(w/img.width,h/img.height), sw=w/scale, sh=h/scale, sx=(img.width-sw)/2, sy=(img.height-sh)/2;
+  ctx.drawImage(img,sx,sy,sw,sh,x,y,w,h);
+}
+function drawAbstract(ctx,x,y,w,h,accent,soft){
+  ctx.save(); ctx.fillStyle=soft; ctx.fillRect(x,y,w,h);
+  ctx.globalAlpha=.16; ctx.fillStyle=accent; ctx.beginPath(); ctx.arc(x+w*.22,y+h*.28,Math.min(w,h)*.32,0,Math.PI*2); ctx.fill();
+  ctx.globalAlpha=.1; ctx.beginPath(); ctx.arc(x+w*.82,y+h*.7,Math.min(w,h)*.42,0,Math.PI*2); ctx.fill(); ctx.restore();
+}
+function drawBrandFooter(ctx,W,H,brand,signature,dark){
+  ctx.save(); ctx.fillStyle=dark; ctx.font='500 24px "Segoe UI", Arial, sans-serif'; ctx.textBaseline='alphabetic';
+  ctx.textAlign='left'; ctx.fillText(brand==='educa'?'EDUCA TYPIQUE':'LES DEUX JARDINS',64,H-46);
+  ctx.textAlign='right'; ctx.font='400 25px Georgia, serif'; ctx.fillText(signature, W-64,H-46); ctx.restore();
+}
+function contentPoints(text){
+  const lines=withoutCallToAction(text).split(/\n+/).map(cleanPostLine).filter(line=>line&&!isCallToActionLine(line));
+  if(lines.length>=3) return lines.slice(0,3);
+  const extracted=extractThreeReperes(text);
+  if(extracted.length===3) return extracted;
+  let parts=(text||'').split(/(?<=[.!?])\s+/).map(cleanPostLine).filter(Boolean);
+  if(parts.length<3) parts=(text||'').split(/[,;]+/).map(cleanPostLine).filter(Boolean);
+  return parts.filter(part=>!isCallToActionLine(part)).slice(0,3);
+}
+function drawVisual(){
+  syncVisualFields(); const token=++visualRenderToken;
+  const canvas=document.getElementById('visual-canvas'); if(!canvas) return;
+  const W=1080,H=visualDraft.format==='square'?1080:1350; canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d'); const rubric=VISUAL_RUBRICS.find(r=>r.key===visualDraft.rubric)||VISUAL_RUBRICS[0];
+  const accent=rubric[visualDraft.brand];
+  const render=(img)=>{ if(token!==visualRenderToken) return;
+    if(visualDraft.template==='et-1') drawEtAccroche(ctx,W,H,accent,img);
+    else if(visualDraft.template==='et-2') drawEtRepères(ctx,W,H,accent);
+    else if(visualDraft.template==='et-3') drawEtQuestion(ctx,W,H,accent);
+    else if(visualDraft.template==='jq-1') drawJqCover(ctx,W,H,accent,img);
+    else if(visualDraft.template==='jq-2') drawJqParole(ctx,W,H,accent);
+    else drawJqAtelier(ctx,W,H,accent,img);
+  };
+  if(visualDraft.image){
+    const img=new Image(); img.onload=()=>{visualImageObject=img;render(img);}; img.onerror=()=>render(null); img.src=visualDraft.image;
+  } else render(null);
+}
+function drawEtAccroche(ctx,W,H,accent,img){
+  ctx.fillStyle='#F7F4EC';ctx.fillRect(0,0,W,H);ctx.fillStyle='#12293D';ctx.fillRect(0,0,W,84);ctx.fillStyle=accent;ctx.fillRect(0,84,24,H-84);
+  drawWrapped(ctx,(VISUAL_RUBRICS.find(r=>r.key===visualDraft.rubric)||{}).name||'',64,130,W-128,23,30,2,accent,'"Segoe UI", Arial, sans-serif',700);
+  drawWrapped(ctx,visualDraft.title,64,205,W-128,72,80,H<1200?5:6,'#12293D','"Segoe UI", Arial, sans-serif',800);
+  const imageY=Math.round(H*.62), imageH=H-imageY-96;
+  if(img) drawImageCover(ctx,img,64,imageY,W-128,imageH); else drawAbstract(ctx,64,imageY,W-128,imageH,accent,'#E8EEE9');
+  fillRound(ctx,64,imageY-192,W-128,170,18,'#FFFFFF'); drawWrappedFit(ctx,visualDraft.body,94,imageY-168,W-188,28,18,4,'#3E4851','"Segoe UI", Arial, sans-serif',400);
+  drawBrandFooter(ctx,W,H,'educa',visualDraft.signature,'#12293D');
+}
+function drawEtRepères(ctx,W,H,accent){
+  ctx.fillStyle='#F7F4EC';ctx.fillRect(0,0,W,H);ctx.fillStyle=accent;ctx.fillRect(0,0,W,30);
+  drawWrapped(ctx,'TROIS REPÈRES · '+(VISUAL_RUBRICS.find(r=>r.key===visualDraft.rubric)||{}).name,64,82,W-128,22,28,2,accent,'"Segoe UI", Arial, sans-serif',700);
+  drawWrapped(ctx,visualDraft.title,64,145,W-128,56,64,4,'#12293D','"Segoe UI", Arial, sans-serif',800);
+  const points=contentPoints(visualDraft.body), start=H<1200?390:420, gap=H<1200?170:220;
+  points.forEach((p,i)=>{ const y=start+i*gap; fillRound(ctx,64,y,W-128,gap-24,20,'#FFFFFF'); fillRound(ctx,86,y+28,66,66,33,accent);
+    ctx.fillStyle='#fff';ctx.font='800 32px "Segoe UI", Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(i+1),119,y+61);
+    drawWrappedFit(ctx,p,180,y+24,W-278,H<1200?24:28,18,4,'#2F3942','"Segoe UI", Arial, sans-serif',500);
+  }); drawBrandFooter(ctx,W,H,'educa',visualDraft.signature,'#12293D');
+}
+function drawEtQuestion(ctx,W,H,accent){
+  ctx.fillStyle='#F4F0E7';ctx.fillRect(0,0,W,H);ctx.fillStyle='#12293D';ctx.fillRect(0,0,W,120);
+  drawWrapped(ctx,'QUESTION FRÉQUENTE',64,172,W-128,24,30,1,accent,'"Segoe UI", Arial, sans-serif',800);
+  drawWrapped(ctx,visualDraft.title,64,235,W-128,H<1200?54:64,H<1200?62:72,5,'#12293D','"Segoe UI", Arial, sans-serif',800);
+  const y=Math.round(H*.52); fillRound(ctx,64,y,W-128,H-y-125,24,'#FFFFFF'); ctx.fillStyle=accent;ctx.fillRect(64,y,14,H-y-125);
+  drawWrapped(ctx,'NOTRE RÉPONSE',104,y+46,W-208,22,28,1,accent,'"Segoe UI", Arial, sans-serif',800);
+  drawWrapped(ctx,visualDraft.body,104,y+105,W-208,H<1200?29:32,H<1200?40:44,H<1200?8:10,'#35404A','"Segoe UI", Arial, sans-serif',400);
+  drawBrandFooter(ctx,W,H,'educa',visualDraft.signature,'#12293D');
+}
+function drawJqCover(ctx,W,H,accent,img){
+  ctx.fillStyle='#F5F0E4';ctx.fillRect(0,0,W,H); const imageH=Math.round(H*.47);
+  if(img) drawImageCover(ctx,img,0,0,W,imageH); else drawAbstract(ctx,0,0,W,imageH,accent,'#DDE2D5');
+  ctx.fillStyle='rgba(35,42,32,.16)';ctx.fillRect(0,0,W,imageH);
+  drawWrapped(ctx,'LE JARDIN DU CŒUR',70,imageH+58,W-140,22,28,1,accent,'"Segoe UI", Arial, sans-serif',700);
+  drawWrapped(ctx,visualDraft.title,70,imageH+120,W-140,H<1200?58:66,H<1200?66:75,4,'#2E332A','Georgia, serif',600);
+  drawWrapped(ctx,visualDraft.body,70,imageH+(H<1200?380:430),W-140,29,40,H<1200?5:7,'#5C6258','"Segoe UI", Arial, sans-serif',400);
+  drawBrandFooter(ctx,W,H,'jannat',visualDraft.signature,'#2E332A');
+}
+function drawJqParole(ctx,W,H,accent){
+  ctx.fillStyle='#F5F0E4';ctx.fillRect(0,0,W,H);ctx.strokeStyle='#D6CDB8';ctx.lineWidth=2;ctx.strokeRect(42,42,W-84,H-84);
+  ctx.fillStyle=accent;ctx.fillRect(W/2-42,118,84,3);
+  drawWrapped(ctx,'UNE PAROLE À LAISSER RÉSONNER',W/2,160,W-160,20,27,2,accent,'"Segoe UI", Arial, sans-serif',700,'center');
+  drawWrapped(ctx,'“',W/2,260,W-160,100,100,1,'#B49B68','Georgia, serif',400,'center');
+  drawWrapped(ctx,visualDraft.title,W/2,H<1200?365:420,W-210,H<1200?55:64,H<1200?66:76,6,'#2E332A','Georgia, serif',500,'center');
+  drawWrapped(ctx,visualDraft.body,W/2,H<1200?760:870,W-250,27,38,H<1200?4:5,'#65695F','"Segoe UI", Arial, sans-serif',400,'center');
+  drawBrandFooter(ctx,W,H,'jannat',visualDraft.signature,'#2E332A');
+}
+function drawJqAtelier(ctx,W,H,accent,img){
+  ctx.fillStyle='#F5F0E4';ctx.fillRect(0,0,W,H);const imageH=Math.round(H*.42);
+  if(img) drawImageCover(ctx,img,54,54,W-108,imageH-54); else drawAbstract(ctx,54,54,W-108,imageH-54,accent,'#DDE2D5');
+  const y=imageH+24;fillRound(ctx,54,y,W-108,H-y-110,8,'#FBF8F0');ctx.strokeStyle='#D6CDB8';ctx.lineWidth=2;roundedPath(ctx,54,y,W-108,H-y-110,8);ctx.stroke();
+  drawWrapped(ctx,'ATELIER · '+(VISUAL_RUBRICS.find(r=>r.key===visualDraft.rubric)||{}).name,94,y+48,W-188,22,28,2,accent,'"Segoe UI", Arial, sans-serif',700);
+  drawWrapped(ctx,visualDraft.title,94,y+112,W-188,H<1200?52:60,H<1200?60:68,4,'#2E332A','Georgia, serif',600);
+  drawWrapped(ctx,visualDraft.body,94,y+(H<1200?350:390),W-188,27,38,H<1200?5:7,'#5D6259','"Segoe UI", Arial, sans-serif',400);
+  fillRound(ctx,94,H-205,270,74,37,accent);ctx.fillStyle='#F5F0E4';ctx.font='700 24px "Segoe UI", Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('EN SAVOIR PLUS',229,H-168);
+  drawBrandFooter(ctx,W,H,'jannat',visualDraft.signature,'#2E332A');
+}
+
+function canvasBlob(){ return new Promise(resolve=>document.getElementById('visual-canvas').toBlob(resolve,'image/png')); }
+function visualFileName(){
+  const base=(visualDraft.title||'publication').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').toLowerCase().slice(0,55);
+  return `${visualDraft.brand}-${base||'publication'}-${visualDraft.format}.png`;
+}
+async function exportVisualPng(){
+  syncVisualFields();drawVisual();await new Promise(r=>setTimeout(r,60));const blob=await canvasBlob();if(!blob){toast('Export impossible');return;}
+  const filename=visualFileName();const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('PNG téléchargé ✓');return filename;
+}
+async function sharePublication(){
+  syncVisualFields();drawVisual();await new Promise(r=>setTimeout(r,60));const blob=await canvasBlob();const caption=document.getElementById('atelier-draft').value.trim();
+  const file=new File([blob],visualFileName(),{type:'image/png'});
+  try{
+    if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){ await navigator.share({title:visualDraft.title,text:caption,files:[file]}); toast('Publication partagée ✓'); }
+    else{ await exportVisualPng(); await copyText(caption); toast('PNG téléchargé et légende copiée'); }
+  }catch(e){ if(e.name!=='AbortError') toast('Partage annulé : le PNG reste exportable'); }
+}
+function shareToChannel(channel){
+  const caption=document.getElementById('atelier-draft').value.trim();
+  if(!caption){toast("Ajoute d'abord une légende");return;}
+  const isTelegram=channel==='telegram'; atelier.platform=isTelegram?'Telegram':'WhatsApp';
+  const url=isTelegram
+    ? 'https://t.me/share/url?url=&text='+encodeURIComponent(caption)
+    : 'https://wa.me/?text='+encodeURIComponent(caption);
+  window.open(url,'_blank','noopener');
+  copyText(caption);
+  toast((isTelegram?'Telegram':'WhatsApp')+' ouvert · légende copiée');
+}
+async function prepareCanvaKit(){
+  if(!savePublication('brouillon'))return;
+  const filename=await exportVisualPng();if(!filename)return;
+  document.getElementById('canva-file-name').textContent=filename;
+  const kit=document.getElementById('canva-kit');kit.classList.remove('hidden');kit.scrollIntoView({behavior:'smooth',block:'start'});
+  toast('Kit Canva préparé et publication sauvegardée ✓');
+}
+function openCanvaUploader(){
+  window.open('https://www.canva.com/features/image-upload/','_blank','noopener');
+  toast('Canva ouvert · choisis le fichier indiqué');
+}
+function visualSnapshot(){ syncVisualFields();return JSON.parse(JSON.stringify(visualDraft)); }
+function resetPublishChecklist(){document.querySelectorAll('.publish-check').forEach(box=>{box.checked=false;});}
+function publishChecklistIsComplete(){
+  const boxes=[...document.querySelectorAll('.publish-check')];
+  if(boxes.length&&boxes.some(box=>!box.checked)){
+    toast('Vérifie les 3 points avant de marquer la publication prête');
+    boxes.find(box=>!box.checked)?.focus();
+    return false;
+  }
+  return true;
+}
+function savePublication(status){
+  const caption=document.getElementById('atelier-draft').value.trim(); if(!caption && !visualDraft.title){toast('Ajoute au moins un titre ou une légende');return false;}
+  if(status==='prêt'&&!publishChecklistIsComplete())return false;
+  const item={id:visualDraft.editingId||uid(),type:'publication',platform:atelier.platform,angle:atelier.angle||'',topic:(document.getElementById('atelier-topic').value||'').trim(),content:caption,
+    date:new Date().toISOString(),status,visual:visualSnapshot()};
+  const old=JSON.stringify(db.library);
+  const idx=db.library.findIndex(x=>x.id===item.id); if(idx>=0) db.library[idx]=item; else db.library.unshift(item);
+  if(!save()){db.library=JSON.parse(old);return false;} visualDraft.editingId=item.id;toast(status==='prêt'?'Publication prête ✓':'Brouillon visuel enregistré 💾');return true;
+}
+function planPublication(){
+  if(!savePublication('prêt')) return; const date=document.getElementById('visual-date').value||new Date().toISOString().slice(0,10);
+  const caption=document.getElementById('atelier-draft').value.trim(); const old=JSON.stringify(db.calendar);
+  const existing=db.calendar.find(x=>x.libraryId===visualDraft.editingId);
+  const entry={id:existing?existing.id:uid(),libraryId:visualDraft.editingId,date,platform:atelier.platform,content:caption,status:'prévu',visual:visualSnapshot()};
+  if(existing) Object.assign(existing,entry); else db.calendar.push(entry); db.calendar.sort((a,b)=>a.date.localeCompare(b.date));
+  if(!save()){db.calendar=JSON.parse(old);return;}toast('Publication planifiée 📅');go('calendrier');
+}
+function reuseVisual(id){
+  const it=db.library.find(x=>x.id===id);if(!it||!it.visual)return;
+  atelier.platform=it.platform||'Telegram';atelier.angle=it.angle||null;renderAtelier();
+  document.getElementById('atelier-topic').value=it.topic||'';document.getElementById('atelier-draft').value=it.content||'';
+  visualDraft=JSON.parse(JSON.stringify(it.visual));visualDraft.editingId=id;visualImageObject=null;
+  document.getElementById('visual-date').value=new Date().toISOString().slice(0,10);renderVisualBuilder();go('fabrique');toast('Publication rouverte 🎨');
+}
+function cycleLibraryStatus(id){
+  const it=db.library.find(x=>x.id===id);if(!it)return;const states=['brouillon','prêt','publié'];const idx=Math.max(0,states.indexOf(it.status||'brouillon'));
+  it.status=states[(idx+1)%states.length];save();renderLibrary();
+}
+
+const TOPIC_LIBRARY=[
+  {id:'et-enf-1',brand:'educa',rubric:'enfants',title:'Un comportement est aussi une manière de communiquer',angle:'Conseil pratique',prompt:'Aider les parents à observer le besoin, la fatigue ou la compétence manquante avant de conclure à la provocation.',tags:['comportement','besoins','parentalité']},
+  {id:'et-enf-2',brand:'educa',rubric:'enfants',title:'Donner une consigne que l’enfant peut réellement suivre',angle:'Conseil pratique',prompt:'Présenter une consigne courte, concrète, donnée une étape à la fois, puis laisser un temps de traitement.',tags:['consignes','coopération','quotidien']},
+  {id:'et-enf-3',brand:'educa',rubric:'enfants',title:'Pourquoi les transitions déclenchent-elles des crises ?',angle:'Question / réflexion',prompt:'Expliquer la difficulté à quitter une activité, anticiper le changement et mobiliser les fonctions exécutives.',tags:['transitions','crises','fonctions exécutives']},
+  {id:'et-enf-4',brand:'educa',rubric:'enfants',title:'Co-réguler avant de demander l’autonomie',angle:'Mythe à casser',prompt:'Montrer que l’enfant apprend à se calmer à travers des expériences répétées de sécurité avec l’adulte.',tags:['émotions','co-régulation','autonomie']},
+  {id:'et-ado-1',brand:'educa',rubric:'ados',title:'Dialoguer avec son adolescent sans le forcer à parler',angle:'Conseil pratique',prompt:'Proposer des phrases qui laissent la porte ouverte, respectent le rythme et maintiennent la disponibilité parentale.',tags:['dialogue','silence','lien']},
+  {id:'et-ado-2',brand:'educa',rubric:'ados',title:'La honte : l’émotion qui pousse à se cacher',angle:'Question / réflexion',prompt:'Aider à différencier honte, culpabilité et peur du jugement, puis proposer une réponse relationnelle non humiliante.',tags:['honte','estime de soi','émotions']},
+  {id:'et-ado-3',brand:'educa',rubric:'ados',title:'Ce que les valeurs révèlent des choix d’un adolescent',angle:'Conseil pratique',prompt:'Utiliser les valeurs, les modèles admirés et les moments de fierté pour soutenir l’orientation et la motivation.',tags:['valeurs','orientation','motivation']},
+  {id:'et-ado-4',brand:'educa',rubric:'ados',title:'Contre-dépendance : quand refuser l’aide protège l’autonomie',angle:'Mythe à casser',prompt:'Expliquer pourquoi certains adolescents ou jeunes adultes rejettent l’aide tout en ayant encore besoin d’un lien fiable.',tags:['autonomie','opposition','jeune adulte']},
+  {id:'et-ado-5',brand:'educa',rubric:'ados',title:'Harcèlement ou conflit : les repères qui aident à distinguer',angle:'Conseil pratique',prompt:'Présenter la répétition, le déséquilibre de pouvoir, l’intention et les impacts, sans banaliser ni surinterpréter.',tags:['harcèlement','conflit','prévention']},
+  {id:'et-tnd-1',brand:'educa',rubric:'tnd',title:'Le HPI n’est pas un trouble du neurodéveloppement',angle:'Mythe à casser',prompt:'Clarifier la distinction entre haut potentiel intellectuel et TND, tout en rappelant que des cooccurrences sont possibles.',tags:['HPI','TND','repères']},
+  {id:'et-tnd-2',brand:'educa',rubric:'tnd',title:'Il comprend, mais il n’arrive pas à démarrer',angle:'Question / réflexion',prompt:'Expliquer le rôle de l’initiation, de la mémoire de travail et de la planification dans les tâches ordinaires.',tags:['TDAH','fonctions exécutives','démarrage']},
+  {id:'et-tnd-3',brand:'educa',rubric:'tnd',title:'Aménager n’est pas diminuer les exigences',angle:'Mythe à casser',prompt:'Montrer qu’un aménagement retire un obstacle inutile afin de permettre l’accès à la compétence attendue.',tags:['aménagements','école','accessibilité']},
+  {id:'et-tnd-4',brand:'educa',rubric:'tnd',title:'Le coût invisible de la surcharge sensorielle',angle:'Conseil pratique',prompt:'Décrire les signes observables, les facteurs environnementaux et quelques adaptations simples sans poser de diagnostic.',tags:['sensoriel','surcharge','adaptations']},
+  {id:'et-tnd-5',brand:'educa',rubric:'tnd',title:'Parents TND : quand toute l’organisation repose sur la compensation',angle:'Histoire perso',prompt:'Mettre en mots la charge de planification, d’anticipation et de récupération portée par les parents.',tags:['charge mentale','parents','TND']},
+  {id:'jq-psy-1',brand:'jannat',rubric:'psycho',title:'Perfectionnisme : l’exigence qui finit par empêcher d’avancer',angle:'Question / réflexion',prompt:'Explorer le lien entre peur de l’erreur, contrôle, valeur personnelle et évitement, puis proposer un pas suffisamment bon.',tags:['perfectionnisme','blocage','culpabilité']},
+  {id:'jq-psy-2',brand:'jannat',rubric:'psycho',title:'Fonctionnement sacrificiel : quand prendre soin de tous efface ses propres besoins',angle:'Conseil pratique',prompt:'Mettre en lumière le surinvestissement, la culpabilité à recevoir et la difficulté à poser des limites.',tags:['sacrifice','limites','besoins']},
+  {id:'jq-psy-3',brand:'jannat',rubric:'psycho',title:'Dépendance affective : chercher la sécurité dans la réponse de l’autre',angle:'Question / réflexion',prompt:'Distinguer attachement, besoin de réassurance et perte de soi, sans étiqueter ni juger.',tags:['attachement','dépendance affective','sécurité']},
+  {id:'jq-psy-4',brand:'jannat',rubric:'psycho',title:'Quand un événement de vie déséquilibre une organisation déjà fragile',angle:'Histoire perso',prompt:'Parler des arrêts maladie, changements familiaux, crises adolescentes ou imprévus qui font basculer un quotidien à flux tendu.',tags:['événement de vie','équilibre','stress']},
+  {id:'jq-psy-5',brand:'jannat',rubric:'psycho',title:'Mandat culturel, injonction sociale ou repère religieux ?',angle:'Question / réflexion',prompt:'Aider à distinguer prescriptions religieuses, usages culturels, loyautés familiales et pressions sociales dans une lecture transculturelle.',tags:['transculturel','culture','religion']},
+  {id:'jq-psy-6',brand:'jannat',rubric:'psycho',title:'La pratique religieuse comme ressource à évaluer sans juger',angle:'Conseil pratique',prompt:'Montrer comment explorer les attentes, les besoins, les difficultés et les ressources spirituelles avec respect.',tags:['psychologie islamique','spiritualité','accompagnement']},
+  {id:'jq-med-1',brand:'jannat',rubric:'medecine',title:'Le sommeil : premier soutien de la régulation émotionnelle',angle:'Conseil pratique',prompt:'Relier rythme de sommeil, irritabilité, attention et récupération, sans promettre de guérison.',tags:['sommeil','émotions','hygiène de vie']},
+  {id:'jq-med-2',brand:'jannat',rubric:'medecine',title:'La mesure dans l’alimentation : un cadre, pas une culpabilisation',angle:'Mythe à casser',prompt:'Parler de régularité, satiété et équilibre en évitant les prescriptions rigides et la honte corporelle.',tags:['alimentation','mesure','bien-être']},
+  {id:'jq-med-3',brand:'jannat',rubric:'medecine',title:'Bouger pour soutenir le corps, pas pour le punir',angle:'Conseil pratique',prompt:'Proposer un mouvement accessible, progressif et réaliste comme soutien du bien-être global.',tags:['mouvement','corps','douceur']},
+  {id:'jq-med-4',brand:'jannat',rubric:'medecine',title:'Médecine prophétique : accompagner sans remplacer le suivi médical',angle:'Mythe à casser',prompt:'Poser clairement la complémentarité, les précautions, les limites et la nécessité d’un avis médical lorsque requis.',tags:['médecine prophétique','précautions','santé']}
+];
+
+function renderTopicLibrary(){
+  const box=document.getElementById('topic-list');if(!box)return;
+  const q=(document.getElementById('topic-search').value||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const brand=document.getElementById('topic-brand-filter').value, rubric=document.getElementById('topic-rubric-filter').value;
+  const rows=TOPIC_LIBRARY.filter(t=>{
+    const hay=(t.title+' '+t.prompt+' '+t.tags.join(' ')).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+    return (brand==='all'||t.brand===brand)&&(rubric==='all'||t.rubric===rubric)&&(!q||hay.includes(q));
+  });
+  document.getElementById('topic-count').textContent=rows.length+' sujet'+(rows.length>1?'s':'');box.innerHTML='';
+  if(!rows.length){box.innerHTML='<div class="empty">Aucun sujet ne correspond à cette recherche.</div>';return;}
+  rows.forEach(t=>{const d=document.createElement('div');d.className='item topic-card '+t.brand;
+    const rubricName=(VISUAL_RUBRICS.find(r=>r.key===t.rubric)||{}).name||t.rubric;
+    d.innerHTML=`<div class="topic-brand">${VISUAL_BRANDS[t.brand].name} · ${rubricName}</div><h3>${escapeHtml(t.title)}</h3><div class="topic-prompt">${escapeHtml(t.prompt)}</div>
+      <div class="topic-tags">${t.tags.map(tag=>`<span>${escapeHtml(tag)}</span>`).join('')}</div><div class="acts"><button onclick="useTopic('${t.id}')">✍️ Créer à partir de ce sujet</button><button onclick="saveTopicIdea('${t.id}')">＋ Garder l'idée</button></div>`;
+    box.appendChild(d);
+  });
+}
+function useTopic(id){
+  const t=TOPIC_LIBRARY.find(x=>x.id===id);if(!t)return;visualDraft.brand=t.brand;visualDraft.rubric=t.rubric;visualDraft.template=VISUAL_TEMPLATES[t.brand][0].key;visualDraft.signature=VISUAL_BRANDS[t.brand].signature;
+  atelier.angle=t.angle;startAtelier();document.getElementById('atelier-topic').value=t.title;
+  document.getElementById('editorial-message').value=t.prompt;document.getElementById('editorial-hook').value='';document.getElementById('atelier-draft').value='';
+  renderAtelier();toast('Sujet prêt dans le studio de rédaction ✍️');
+}
+function saveTopicIdea(id){
+  const t=TOPIC_LIBRARY.find(x=>x.id===id);if(!t)return;db.library.unshift({id:uid(),type:'idée',platform:'Telegram',angle:t.angle,topic:t.title,content:t.prompt,date:new Date().toISOString(),status:'brouillon'});save();renderLibrary();toast('Idée gardée ✓');
+}
+const RESOURCE_EXTENSIONS=new Set(['txt','md','markdown','csv','json','html','htm','pdf','docx']);
+const DETECTED_EXTENSIONS=new Set(['pdf','doc','docx','odt','rtf','txt','md','markdown','csv','json','html','htm']);
+const TEXT_RESOURCE_MAX_BYTES=1000000;
+const PDF_RESOURCE_MAX_BYTES=15000000;
+const DOCX_RESOURCE_MAX_BYTES=8000000;
+const EXTRACTED_RESOURCE_MAX_CHARS=60000;
+if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc=window.MCC_VENDOR_BASE+'pdf.worker.min.js';
+let lastImportedResourceIds=[];
+function fileExt(name){const m=String(name||'').toLowerCase().match(/\.([a-z0-9]+)$/);return m?m[1]:'';}
+function cleanResourceText(raw,name){
+  const text=/\.html?$/i.test(name)?new DOMParser().parseFromString(raw,'text/html').body.textContent:raw;
+  return String(text||'').replace(/\r/g,'').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
+}
+function setImportStatus(id,kind,title,details=[]){
+  const box=document.getElementById(id);if(!box)return;
+  box.className='import-status '+kind;box.replaceChildren();
+  const heading=document.createElement('strong');heading.textContent=title;box.appendChild(heading);
+  if(details.length)box.appendChild(document.createTextNode(details.join('\n')));
+}
+function emptyImportStats(){return {added:0,updated:0,same:0,unsupported:0,large:0,noText:0,protected:0,reader:0,error:0,ignored:0};}
+function countImportResult(stats,status){if(Object.prototype.hasOwnProperty.call(stats,status))stats[status]++;else stats.error++;}
+function importProblemCount(stats){return stats.unsupported+stats.large+stats.noText+stats.protected+stats.reader+stats.error+stats.ignored;}
+function fileCount(n,label='fichier'){return `${n} ${label}${n>1?'s':''}`;}
+function unreadableFormatCount(n){return `${n} ${n>1?'fichiers':'fichier'} DOC, ODT ou RTF non ajouté${n>1?'s':''} : enregistre-le en DOCX, PDF ou TXT.`;}
+function importResultDetails(stats){
+  const details=[];
+  if(stats.added)details.push(`${fileCount(stats.added)} ajouté${stats.added>1?'s':''}.`);
+  if(stats.updated)details.push(`${fileCount(stats.updated)} mis à jour.`);
+  if(stats.same)details.push(`${fileCount(stats.same)} déjà présent${stats.same>1?'s':''}.`);
+  if(stats.unsupported)details.push(unreadableFormatCount(stats.unsupported));
+  if(stats.large)details.push(`${fileCount(stats.large)} non ajouté${stats.large>1?'s':''} : limite de 1 Mo pour le texte, 8 Mo pour DOCX ou 15 Mo pour PDF.`);
+  if(stats.noText)details.push(`${fileCount(stats.noText)} non ajouté${stats.noText>1?'s':''} : aucun texte détecté. Un PDF scanné nécessite une reconnaissance OCR.`);
+  if(stats.protected)details.push(`${fileCount(stats.protected)} non ajouté${stats.protected>1?'s':''} : document protégé par mot de passe.`);
+  if(stats.reader)details.push(`${fileCount(stats.reader)} non ajouté${stats.reader>1?'s':''} : lecteur local indisponible. Actualise l’application puis réessaie.`);
+  if(stats.error)details.push(`${fileCount(stats.error)} non ajouté${stats.error>1?'s':''} : lecture impossible.`);
+  if(stats.ignored)details.push(`${fileCount(stats.ignored)} ignoré${stats.ignored>1?'s':''} : format non compatible.`);
+  return details;
+}
+function openResourceFilePicker(){
+  if(resourceImportBusy){toast('Une lecture est déjà en cours');return;}
+  const input=document.getElementById('resource-files');input.value='';
+  setImportStatus('resource-import-status','progress','Fenêtre ouverte…',['Choisis un ou plusieurs fichiers, puis clique sur Ouvrir.']);input.click();
+}
+function cancelResourceFilePicker(){setImportStatus('resource-import-status','neutral','Choix annulé.',['Rien n’a été modifié.']);}
+function cancelResourceFolderPicker(){setImportStatus('resource-folder-status','neutral','Choix annulé.',['Rien n’a été modifié.']);}
+let resourceImportBusy=false;
+async function ingestResourceFile(file,sourcePath,sourceType='fichier local'){
+  const ext=fileExt(file.name);if(!RESOURCE_EXTENSIONS.has(ext))return {status:'unsupported'};
+  const maxBytes=ext==='pdf'?PDF_RESOURCE_MAX_BYTES:ext==='docx'?DOCX_RESOURCE_MAX_BYTES:TEXT_RESOURCE_MAX_BYTES;
+  if(file.size>maxBytes)return {status:'large'};
+  const fingerprint=(sourcePath||file.name)+'|'+file.lastModified+'|'+file.size;
+  const identical=(db.resources||[]).find(r=>r.fingerprint===fingerprint||r.sourceFingerprint===fingerprint);
+  if(identical)return {status:'same',id:identical.id,fileName:file.name};
+  try{
+    const common={date:new Date().toISOString(),sourcePath:sourcePath||file.name,fileName:file.name,fingerprint,sourceFingerprint:fingerprint,sourceType};
+    const previous=(db.resources||[]).find(r=>r.sourcePath===common.sourcePath);
+    const created=[];
+    if(ext==='pdf'||ext==='docx'){
+      const extracted=ext==='pdf'?await extractPdfText(file):await extractDocxText(file);
+      if(!extracted.text.trim())return {status:'noText'};
+      const truncated=extracted.text.length>EXTRACTED_RESOURCE_MAX_CHARS||!!extracted.pagesUnread;
+      created.push({...common,id:uid(),title:file.name.replace(/\.[^.]+$/,''),content:extracted.text.slice(0,EXTRACTED_RESOURCE_MAX_CHARS),sourceFormat:ext.toUpperCase(),originalCharCount:extracted.text.length,contentTruncated:truncated,pagesRead:extracted.pagesRead||null,totalPages:extracted.totalPages||null});
+    }else if(ext==='json'){
+      const raw=await file.text();
+      const parsed=JSON.parse(raw);const items=Array.isArray(parsed)?parsed:(parsed.items||parsed.resources||[parsed]);
+      items.slice(0,5).forEach((item,i)=>{const content=typeof item==='string'?item:(item&&(item.content||item.text||item.body))||JSON.stringify(item,null,2);
+        created.push({...common,id:uid(),fingerprint:fingerprint+'|'+i,title:(item&&(item.title||item.name))||file.name.replace(/\.json$/i,'')+(items.length>1?' · '+(i+1):''),content:String(content).slice(0,4000)});});
+    }else{
+      const raw=await file.text();
+      created.push({...common,id:uid(),title:file.name.replace(/\.[^.]+$/,''),content:cleanResourceText(raw,file.name).slice(0,20000)});
+    }
+    if(previous)db.resources=db.resources.filter(r=>r.sourcePath!==common.sourcePath);
+    db.resources.unshift(...created);
+    return {status:previous?'updated':'added',id:created[0]?.id,fileName:file.name};
+  }catch(e){
+    if(e&&e.code==='NO_TEXT')return {status:'noText'};
+    if(e&&e.code==='READER_UNAVAILABLE')return {status:'reader'};
+    if(e&&(e.name==='PasswordException'||e.code==='PASSWORD'))return {status:'protected'};
+    if(e&&/worker/i.test(String(e.message||'')))return {status:'reader'};
+    return {status:'error'};
+  }
+}
+async function extractPdfText(file){
+  if(!window.pdfjsLib){const error=new Error('Lecteur PDF indisponible');error.code='READER_UNAVAILABLE';throw error;}
+  let pdf=null;
+  try{
+    const task=pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer()),isEvalSupported:false});
+    pdf=await task.promise;const parts=[],pagesRead=Math.min(pdf.numPages,150);
+    for(let pageNumber=1;pageNumber<=pagesRead;pageNumber++){
+      const page=await pdf.getPage(pageNumber);const content=await page.getTextContent();
+      const text=content.items.map(item=>item.str||'').join(' ').replace(/\s+/g,' ').trim();
+      if(text)parts.push(`[Page ${pageNumber}]\n${text}`);page.cleanup();
+    }
+    const text=parts.join('\n\n');
+    if(!text.trim()){const error=new Error('Aucun texte détecté');error.code='NO_TEXT';throw error;}
+    return {text,pagesRead,totalPages:pdf.numPages,pagesUnread:Math.max(0,pdf.numPages-pagesRead)};
+  }finally{if(pdf)await pdf.destroy();}
+}
+async function extractDocxText(file){
+  if(!window.mammoth){const error=new Error('Lecteur DOCX indisponible');error.code='READER_UNAVAILABLE';throw error;}
+  const result=await mammoth.extractRawText({arrayBuffer:await file.arrayBuffer()});
+  const text=String(result.value||'').replace(/\r/g,'').replace(/\n{3,}/g,'\n\n').trim();
+  if(!text){const error=new Error('Aucun texte détecté');error.code='NO_TEXT';throw error;}
+  return {text};
+}
+async function importResourceFiles(ev){
+  const files=[...ev.target.files];if(!files.length){cancelResourceFilePicker();return;}
+  if(resourceImportBusy){toast('Une lecture est déjà en cours');return;}
+  resourceImportBusy=true;const previousResources=structuredClone(db.resources||[]);
+  setImportStatus('resource-import-status','progress',`${fileCount(files.length)} sélectionné${files.length>1?'s':''}.`,['Lecture en cours…']);
+  const stats=emptyImportStats(),successfulNames=[];lastImportedResourceIds=[];
+  try{
+    for(const file of files){
+      const result=await ingestResourceFile(file,file.name);countImportResult(stats,result.status);
+      if(['added','updated','same'].includes(result.status)){
+        successfulNames.push(result.fileName||file.name);
+        if(result.id)lastImportedResourceIds.push(result.id);
+      }
+    }
+    if((stats.added||stats.updated)&&!save()){
+      db.resources=previousResources;setImportStatus('resource-import-status','error','Import non enregistré.',['L’espace local est plein. Exporte une sauvegarde puis retire d’anciennes ressources ou images.']);return;
+    }
+    if(stats.added||stats.updated)renderLibrary();
+    const problemCount=importProblemCount(stats),usable=stats.added+stats.updated+stats.same;
+    const kind=problemCount?(usable?'warning':'error'):'success';
+    const title=usable?`${fileCount(usable)} utilisable${usable>1?'s':''}.`:'Aucun fichier ajouté.';
+    const details=importResultDetails(stats);
+    if(successfulNames.length)details.unshift('Prêt : '+successfulNames.join(' · ')+'.');
+    setImportStatus('resource-import-status',kind,title,details);
+    if(lastImportedResourceIds.length){
+      requestAnimationFrame(()=>{
+        const card=document.querySelector(`[data-resource-id="${lastImportedResourceIds[0]}"]`);
+        if(card){card.classList.add('just-imported');card.scrollIntoView({behavior:'smooth',block:'center'});}
+      });
+    }
+    toast(usable?`${fileCount(usable)} prêt${usable>1?'s':''} à utiliser`:'Aucun fichier ajouté');
+  }finally{resourceImportBusy=false;ev.target.value='';}
+}
+async function connectResourceFolder(){
+  if(resourceImportBusy){toast('Une lecture est déjà en cours');return;}
+  const input=document.getElementById('resource-folder-files');input.value='';
+  setImportStatus('resource-folder-status','progress','Fenêtre ouverte…',['Choisis le dossier lui-même, puis valide.']);input.click();
+}
+async function importResourceFolderFallback(ev){
+  const files=[...ev.target.files];if(!files.length){setImportStatus('resource-folder-status','error','Aucun fichier trouvé.',['Ce dossier est vide ou ses fichiers ne sont pas accessibles.']);return;}
+  if(resourceImportBusy){toast('Une lecture est déjà en cours');return;}
+  resourceImportBusy=true;const previousResources=structuredClone(db.resources||[]),previousFolder=db.folderMeta?structuredClone(db.folderMeta):null;
+  const root=(files[0].webkitRelativePath||'Dossier').split('/')[0];
+  setImportStatus('resource-folder-status','progress',`Dossier « ${root} » choisi.`,[`${fileCount(files.length)} à examiner…`]);
+  const stats=emptyImportStats();
+  try{
+    for(const file of files){
+      const ext=fileExt(file.name);if(!DETECTED_EXTENSIONS.has(ext)){stats.ignored++;continue;}
+      const result=await ingestResourceFile(file,file.webkitRelativePath||file.name,'dossier importé');countImportResult(stats,result.status);
+    }
+    const usable=stats.added+stats.updated+stats.same,detected=files.length-stats.ignored;
+    db.folderMeta={name:root,selected:files.length,detected,readable:usable,waiting:stats.unsupported,stats,lastScan:new Date().toISOString(),fallback:true};
+    if(!save()){
+      db.resources=previousResources;db.folderMeta=previousFolder;setImportStatus('resource-folder-status','error','Import non enregistré.',['L’espace local est plein. Exporte une sauvegarde puis retire d’anciennes ressources ou images.']);return;
+    }
+    renderLibrary();const problems=importProblemCount(stats);
+    setImportStatus('resource-folder-status',problems?(usable?'warning':'error'):'success',`Dossier « ${root} » examiné : ${fileCount(usable,'document')} utilisable${usable>1?'s':''}.`,importResultDetails(stats));
+    toast(usable?`${fileCount(usable,'document')} prêt${usable>1?'s':''} à utiliser`:'Aucun document ajouté');
+  }finally{resourceImportBusy=false;ev.target.value='';}
+}
+function renderResourceFolder(){
+  const m=db.folderMeta;if(!m){setImportStatus('resource-folder-status','neutral','Aucun dossier importé.',['Cette étape est facultative.']);return;}
+  const stats=Object.assign(emptyImportStats(),m.stats||{same:m.readable||0,unsupported:m.waiting||0});
+  const problems=importProblemCount(stats);
+  const details=importResultDetails(stats);details.push(`Dernier import : ${frDate(m.lastScan)}.`);
+  setImportStatus('resource-folder-status',problems?'warning':'success',`Dossier « ${m.name} » : ${fileCount(m.readable||0,'document')} utilisable${m.readable>1?'s':''}.`,details);
+}
+function savePastedResource(){
+  const title=document.getElementById('resource-title').value.trim();
+  const content=document.getElementById('resource-paste').value.trim();
+  if(!content){toast('Colle d’abord le texte de ta ressource');return;}
+  const previousResources=structuredClone(db.resources||[]);
+  db.resources.unshift({id:uid(),title:title||'Ressource sans titre',content:content.slice(0,120000),date:new Date().toISOString()});
+  if(!save()){db.resources=previousResources;return;}
+  document.getElementById('resource-title').value='';document.getElementById('resource-paste').value='';renderLibrary();toast('Ressource ajoutée ✓');
+}
+function renderResources(){
+  renderResourceFolder();
+  const box=document.getElementById('resource-list');if(!box)return;const rows=db.resources||[];document.getElementById('resource-count').textContent=rows.length?rows.length+' importée'+(rows.length>1?'s':''):'';box.innerHTML='';
+  if(!rows.length){box.innerHTML='<div class="empty">Aucune ressource importée pour le moment.</div>';return;}
+  rows.forEach(r=>{const d=document.createElement('div');d.className='item resource-card';d.dataset.resourceId=r.id;d.innerHTML=`<div class="meta">Ressource locale · ${frDate(r.date)}${r.sourcePath?' · '+escapeHtml(r.sourcePath):''}</div><h3>${escapeHtml(r.title)}</h3>
+    ${r.contentTruncated?`<div class="note">Extrait limité à ${EXTRACTED_RESOURCE_MAX_CHARS.toLocaleString('fr-FR')} caractères${r.totalPages&&r.pagesRead<r.totalPages?` · ${r.pagesRead} pages lues sur ${r.totalPages}`:''}. La source originale reste inchangée.</div>`:''}
+    <div class="body">${escapeHtml(r.content).slice(0,180)}${r.content.length>180?'…':''}</div><div class="acts"><button onclick="useResource('${r.id}')">✍️ Utiliser comme matière</button><button onclick="deleteResource('${r.id}')">🗑️</button></div>`;box.appendChild(d);});
+}
+function useResource(id){
+  const r=(db.resources||[]).find(x=>x.id===id);if(!r)return;atelier.resourceIds=[id];startAtelier();document.getElementById('atelier-topic').value=r.title;
+  document.getElementById('editorial-message').value='';document.getElementById('editorial-hook').value='';document.getElementById('atelier-draft').value='';
+  renderAtelier();toast('Ressource sélectionnée dans le studio de rédaction');
+}
+function deleteResource(id){db.resources=(db.resources||[]).filter(x=>x.id!==id);save();renderLibrary();toast('Ressource retirée');}
 
 /* ═══════════════════════════════════════════════════════════════════
    CALENDRIER & BIBLIOTHÈQUE
@@ -668,10 +1868,11 @@ function renderCalendar(){
   if(!db.calendar.length){ box.innerHTML="<div class=\"empty\">Rien de prévu pour l'instant — et c'est OK 🌱</div>"; return; }
   db.calendar.forEach(c=>{
     const d=document.createElement('div'); d.className='item';
-    d.innerHTML=`<div class="meta">📅 ${frDate(c.date)} · ${c.platform} · ${c.status}</div>
+    d.innerHTML=`<div class="meta">📅 ${frDate(c.date)} · ${c.platform} · ${c.status}${c.visual?' · 🎨 visuel prêt':''}</div>
       <div class="body">${escapeHtml(c.content).slice(0,240)}${c.content.length>240?'…':''}</div>
       <div class="acts">
         <button onclick="copyText(${jsq(c.content)})">📋 Copier</button>
+        ${c.libraryId?`<button onclick="reuseVisual('${c.libraryId}')">🎨 Ouvrir</button>`:''}
         <button onclick="markDone('${c.id}')">${c.status==='publié'?'↩︎ À faire':'✓ Publié'}</button>
         <button onclick="delCalendar('${c.id}')">🗑️</button>
       </div>`;
@@ -682,23 +1883,26 @@ function markDone(id){ const c=db.calendar.find(x=>x.id===id); if(c){ c.status=c
 function delCalendar(id){ db.calendar=db.calendar.filter(x=>x.id!==id); save(); renderCalendar(); toast('Supprimé'); }
 
 function renderLibrary(){
+  renderTopicLibrary();
+  renderResources();
   const box=document.getElementById('library-list'); box.innerHTML='';
-  if(!db.library.length){ box.innerHTML="<div class=\"empty\">Ta bibliothèque est vide. Enregistre un brouillon depuis l'atelier ✍️</div>"; return; }
+  if(!db.library.length){ box.innerHTML="<div class=\"empty\">Aucune création enregistrée. Choisis un sujet ci-dessus ou commence dans l'atelier ✍️</div>"; return; }
   db.library.forEach(it=>{
     const d=document.createElement('div'); d.className='item';
-    d.innerHTML=`<div class="meta">💾 ${it.platform||''} ${it.angle?'· '+it.angle:''} · ${frDate(it.date)}</div>
+    const status=it.status||'brouillon';
+    d.innerHTML=`<div class="meta">💾 ${it.platform||''} ${it.angle?'· '+it.angle:''} · ${frDate(it.date)} ${it.type==='publication'?`<span class="status-chip ${status==='prêt'?'ready':status==='publié'?'published':''}">${status}</span>`:''}</div>
       <div class="body">${escapeHtml(it.content).slice(0,240)}${it.content.length>240?'…':''}</div>
       <div class="acts">
         <button onclick="copyText(${jsq(it.content)})">📋 Copier</button>
-        <button onclick="reuseDraft('${it.id}')">✍️ Reprendre</button>
+        ${it.visual?`<button onclick="reuseVisual('${it.id}')">🎨 Visuel</button><button onclick="cycleLibraryStatus('${it.id}')">Changer le statut</button>`:`<button onclick="reuseDraft('${it.id}')">✍️ Reprendre</button>`}
         <button onclick="delLibrary('${it.id}')">🗑️</button>
       </div>`;
     box.appendChild(d);
   });
 }
 function reuseDraft(id){ const it=db.library.find(x=>x.id===id); if(!it) return; startAtelier();
-  if(it.platform) atelier.platform=it.platform; renderAtelier();
-  document.getElementById('atelier-draft').value=it.content; toast('Repris ✏️'); }
+  if(it.platform) atelier.platform=it.platform; if(it.angle) atelier.angle=it.angle;
+  document.getElementById('atelier-topic').value=it.topic||'';document.getElementById('atelier-draft').value=it.content;renderAtelier();toast('Repris ✏️'); }
 function delLibrary(id){ db.library=db.library.filter(x=>x.id!==id); save(); renderLibrary(); toast('Supprimé'); }
 
 function escapeHtml(s){ return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
@@ -744,12 +1948,21 @@ function eraseAll(){
    ═══════════════════════════════════════════════════════════════════ */
 applyPrefs();
 renderSliders();
+['visual-title','visual-body','visual-signature'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{syncVisualFields();drawVisual();}));
+resetPublishChecklist();
 go('accueil');
 
 /* PWA — enregistrement du service worker (ignoré sur file://, actif en https) */
 if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(sessionStorage.getItem('mcc:sw-reloaded-v11')!=='1'){
+      sessionStorage.setItem('mcc:sw-reloaded-v11','1');
+      location.reload();
+    }
+  });
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+    const swPath=location.pathname.startsWith('/mon-charge-de-com')?'/mon-charge-de-com/sw.js':'sw.js';
+    navigator.serviceWorker.register(swPath).catch(() => {});
   });
 }
 </script>
