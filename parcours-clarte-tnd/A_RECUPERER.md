@@ -1,6 +1,6 @@
 # 🔎 À RÉCUPÉRER — outils connus, sources non encore reçues
 
-_Liste construite avec Nawel à partir du site déployé `boite-neuro-ped-univ.netlify.app`._
+_Liste construite avec Nawel à partir du site déployé `boite-neuro-ped-univers.netlify.app`._
 _Structure réelle du site : `/f0_fondations/<espace>/<outil>/`_
 
 > ⚠️ Je ne peux pas télécharger ces pages moi-même (Netlify bloque l'accès automatisé).

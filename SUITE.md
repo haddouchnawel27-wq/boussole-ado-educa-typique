@@ -34,7 +34,7 @@ Collection Educa Typique de Nawel — **118 fichiers**, assemblée en site navig
 4. (option) Développer les **6 modules** de la Boîte de Neuroo.
 
 ## 🔑 Point clé pour récupérer le reste
-Le vrai site est déployé sur `boite-neuro-ped-univ.netlify.app`, structuré en
+Le vrai site est déployé sur `boite-neuro-ped-univers.netlify.app`, structuré en
 `/f0_fondations/<espace>/<outil>/`. Je ne peux pas le télécharger (403).
 ➡️ **Solution la plus rapide : Nawel zippe le dossier source du site (celui
 glissé sur Netlify, contenant `f0_fondations`) et l'envoie.** Un seul ZIP =
