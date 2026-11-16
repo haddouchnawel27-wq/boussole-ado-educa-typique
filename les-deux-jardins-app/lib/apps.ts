@@ -34,6 +34,7 @@ export const APPS: AppEntry[] = [
   { nom: "Boussole ado × Souffle & Lumière", url: "https://boussoleado-souffle-lumiere-voiechifa.netlify.app/", univers: "jannat", cat: "Boîte à outils", status: "externe" },
   { nom: "Boîte émotions 6-12 (ISL)", url: "https://boite-outil-emotions-6-12ans-isl.netlify.app/", univers: "jannat", cat: "Enfants", status: "externe" },
   { nom: "Référentiel intégré Jannat al Qulûb", url: "https://referentielshifa-complet-voiechifa.netlify.app/", univers: "jannat", cat: "Référentiel", status: "externe" },
+  { nom: "Le Jardin des Trésors", url: "https://jardin-des-remedes.haddouchnawel27.chatgpt.site", univers: "jannat", cat: "Thérapie des Noms", status: "externe", note: "5 volumes — les Noms, les 24 protocoles, carnet ados, parents & enfants, espace praticienne" },
   { nom: "Schémas & traumas", url: "https://schemas-traumas-voiechifa.netlify.app/", univers: "jannat", cat: "Clinique", status: "externe" },
   { nom: "Anamnèses + comptes-rendus", url: "https://anamneses-cr-voiechifa.netlify.app/", univers: "jannat", cat: "Anamnèse / CR", status: "externe", questionnaire: true, praticienne: true },
   { nom: "Décodeur clinique + CR", url: "https://shifa-decodeur-voie-chifa-cr.netlify.app/", univers: "jannat", cat: "Décodeur / CR", status: "externe", questionnaire: true, praticienne: true },

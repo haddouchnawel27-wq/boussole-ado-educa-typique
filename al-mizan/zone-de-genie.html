@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zone de génie · Al Mizan</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Nunito+Sans:wght@400;600;700;900&family=Amiri&display=swap');
+:root{
+  --cream:#F1EADD; --ivory:#FBF8F2; --sage:#8B9A80; --sage-deep:#74856A; --sage-soft:#E7EDE1;
+  --forest:#3E4A3A; --terra:#C07A61; --terra-deep:#A9664F; --terra-soft:#F3E3DC;
+  --gold:#C39A4B; --gold-deep:#B0863A; --gold-soft:#EFE6CE;
+  --ink:#4A443C; --ink-soft:#8A8275;
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Nunito Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+html,body{margin:0;padding:0;}
+body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:640px;margin:0 auto;padding:20px 18px 60px;}
+button{font-family:inherit;cursor:pointer;}
+.hidden{display:none !important;}
+.subhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.closeb{background:none;border:none;color:var(--forest);font-weight:700;font-size:15px;padding:6px 2px;}
+.eyebrow{font-weight:900;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-deep);}
+h1{font-family:var(--serif);font-weight:700;color:var(--forest);font-size:36px;line-height:1.06;margin:2px 0 4px;}
+.subtitle{font-family:var(--serif);font-style:italic;font-weight:500;font-size:18px;color:var(--sage-deep);margin:0 0 20px;}
+h2{font-family:var(--serif);font-weight:700;color:var(--forest);font-size:24px;margin:0 0 2px;}
+.rule{width:48px;height:2px;background:var(--gold);margin:16px auto;border:0;border-radius:2px;}
+.card{background:var(--ivory);border-radius:20px;padding:20px 20px;margin:14px 0;box-shadow:0 2px 10px rgba(120,100,70,.05);}
+.card.tint-sage{background:var(--sage-soft);}
+.card.tint-gold{background:var(--gold-soft);}
+.card.tint-terra{background:var(--terra-soft);}
+.intro-lead{font-size:15.5px;}
+.pill-list{list-style:none;margin:12px 0 0;padding:0;}
+.pill-list li{display:flex;gap:10px;align-items:flex-start;margin:8px 0;font-size:14.5px;}
+.pill-list li::before{content:"✿";color:var(--gold);font-size:13px;margin-top:2px;}
+.disclaimer{background:var(--terra-soft);border-radius:16px;padding:14px 16px;font-size:12.5px;color:var(--ink);}
+.disclaimer b{color:var(--terra-deep);}
+.field label{display:block;font-weight:700;font-size:13px;margin:0 0 7px;color:var(--ink);}
+.field input,.field textarea{width:100%;padding:13px 15px;border:1.5px solid #e3d7c4;border-radius:14px;font-family:var(--sans);font-size:14.5px;color:var(--ink);background:var(--cream);}
+.field textarea{min-height:80px;resize:vertical;}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--sage);}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--terra);color:#fff;border:none;border-radius:16px;padding:15px 26px;font-weight:700;font-size:15px;transition:background .15s,transform .05s;box-shadow:0 3px 10px rgba(192,122,97,.25);}
+.btn:hover{background:var(--terra-deep);}
+.btn:active{transform:translateY(1px);}
+.btn-sage{background:var(--sage);box-shadow:0 3px 10px rgba(139,154,128,.25);}
+.btn-sage:hover{background:var(--sage-deep);}
+.btn-ghost{background:transparent;color:var(--sage-deep);border:1.5px solid #d8cdbb;box-shadow:none;}
+.btn-ghost:hover{background:var(--sage-soft);}
+.btn-row{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:22px;}
+.btn-block{width:100%;}
+.center{text-align:center;}
+.progress-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.progress-head .step-label{font-weight:900;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-deep);}
+.progress-head .count{font-family:var(--serif);font-size:18px;color:var(--forest);font-weight:600;}
+.bar{height:6px;background:#e4d9c6;border-radius:99px;overflow:hidden;}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-deep));width:0;transition:width .35s ease;}
+.block-title{font-family:var(--serif);font-weight:700;font-size:23px;color:var(--forest);margin:16px 0 2px;}
+.block-sub{font-size:13.5px;color:var(--ink-soft);margin:0 0 6px;}
+.prompt{font-size:14.5px;font-weight:700;margin:14px 0 8px;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px;}
+.chip{border:1.5px solid #e3d7c4;background:var(--cream);border-radius:999px;padding:8px 14px;font-size:13px;color:var(--ink-soft);}
+.chip.on{background:var(--sage);border-color:var(--sage);color:#fff;}
+.scaleRow{display:flex;align-items:center;gap:12px;margin:8px 0 4px;}
+.scaleRow input[type=range]{flex:1;accent-color:var(--terra);}
+.scaleRow .val{font-family:var(--serif);font-weight:700;font-size:22px;color:var(--terra);min-width:30px;text-align:center;}
+.scale-legend{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-soft);margin:2px 2px 10px;}
+.mission-out{background:var(--ivory);border-left:4px solid var(--gold);border-radius:10px;padding:10px 14px;margin:8px 0;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--forest);}
+.result-hero{text-align:center;padding:6px 0 2px;}
+.global-score{font-family:var(--serif);font-weight:700;font-size:54px;line-height:1;color:var(--terra);}
+.global-score small{font-size:20px;color:var(--ink-soft);font-weight:500;}
+.axis-card{border-top:1px solid #efe6d6;padding:16px 0;}
+.axis-card:first-of-type{border-top:none;}
+.axis-card .head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+.axis-card .name{font-family:var(--serif);font-weight:700;font-size:19px;color:var(--forest);}
+.axis-card .sc{font-family:var(--serif);font-weight:700;font-size:20px;color:var(--terra);white-space:nowrap;}
+.axis-card .mini{height:7px;background:#eaded0;border-radius:99px;overflow:hidden;margin:8px 0 10px;}
+.axis-card .mini>i{display:block;height:100%;border-radius:99px;background:var(--terra);}
+.taglist{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.tagpill{background:var(--gold-soft);color:var(--gold-deep);border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700;}
+.align-band{display:inline-block;font-weight:900;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:99px;margin-top:6px;}
+.align-faible{background:var(--terra-soft);color:var(--terra-deep);}
+.align-moyen{background:var(--gold-soft);color:var(--gold-deep);}
+.align-fort{background:var(--sage-soft);color:var(--sage-deep);}
+.spirit-note{background:var(--sage-soft);border-radius:16px;padding:13px 16px;font-size:13px;font-style:italic;color:var(--ink);margin-top:16px;}
+.foot{text-align:center;font-size:11px;color:var(--ink-soft);margin-top:30px;}
+.privacy{text-align:center;font-size:12px;color:var(--ink-soft);margin-top:14px;}
+.privacy::before{content:"🔒 ";}
+@media (max-width:480px){h1{font-size:31px;}.global-score{font-size:46px;}.wrap{padding:18px 15px 52px;}}
+@media print{.no-print{display:none!important;}body{background:#fff;}.card{box-shadow:none;border:1px solid #e0d6c4;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- INTRO -->
+  <section id="screen-intro">
+    <div class="subhead">
+      <button class="closeb" onclick="history.length>1?history.back():location.href='index.html'">‹ Espace</button>
+      <span class="eyebrow">Bilan · 3 volets</span>
+    </div>
+    <h1>Zone de génie</h1>
+    <p class="subtitle">Ce qu'Allah t'a confié, et que tu es la seule à pouvoir donner ainsi</p>
+
+    <div class="card">
+      <p class="intro-lead">Ce bilan explore <strong>trois niveaux</strong> : ta zone de génie (ce qui t'est naturel et énergisant), ton domaine d'excellence (où ce talent rencontre un vrai terrain), et ta mission de vie (la contribution que tu choisis d'offrir).</p>
+      <ul class="pill-list">
+        <li>Environ <strong>20 minutes</strong>, à ton rythme — tu peux t'arrêter et revenir.</li>
+        <li>Pas de bonne ou mauvaise réponse, juste ce qui est vrai pour toi aujourd'hui.</li>
+        <li>Chaque talent est lu comme une <strong>amâna</strong> — un dépôt confié, pas une performance à prouver.</li>
+      </ul>
+    </div>
+
+    <div class="card field">
+      <label for="prenom">Ton prénom <span style="font-weight:400;color:var(--ink-soft)">(facultatif)</span></label>
+      <input id="prenom" type="text" placeholder="Pour personnaliser ta restitution" autocomplete="off">
+    </div>
+
+    <div class="disclaimer">
+      <b>À lire avant de commencer.</b> Ce bilan n'est pas un test scientifique de personnalité. Il t'offre un miroir structuré, à croiser avec ton propre discernement et, si besoin, avec l'avis de personnes qui te connaissent bien.
+    </div>
+
+    <div class="center" style="margin-top:22px">
+      <button class="btn btn-block" onclick="start()">Commencer ✦</button>
+    </div>
+    <p class="privacy">Rien n'est enregistré ni envoyé. Tout reste sur cet appareil.</p>
+  </section>
+
+  <!-- QUESTIONNAIRE -->
+  <section id="screen-quiz" class="hidden">
+    <div class="progress-head">
+      <span class="step-label" id="q-section"></span>
+      <span class="count" id="q-count"></span>
+    </div>
+    <div class="bar no-print"><i id="q-bar"></i></div>
+    <div class="block-title" id="q-title"></div>
+    <p class="block-sub" id="q-sub"></p>
+    <div class="card" id="q-body"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="q-back" onclick="prevBlock()">← Retour</button>
+      <button class="btn" id="q-next" onclick="nextBlock()">Suivant →</button>
+    </div>
+  </section>
+
+  <!-- RÉSULTATS -->
+  <section id="screen-results" class="hidden">
+    <div class="subhead">
+      <span class="eyebrow">Ta restitution</span>
+    </div>
+    <div class="result-hero">
+      <div style="font-family:'Amiri',serif;color:var(--gold-deep);font-size:19px;margin-bottom:6px;">بِسْمِ اللَّهِ</div>
+      <h2 id="r-title">Ta zone de génie</h2>
+    </div>
+
+    <div class="axis-card">
+      <div class="head"><span class="name">🌿 Zone de génie</span><span class="sc" id="r-genius-score">/100</span></div>
+      <div class="mini"><i id="r-genius-bar" style="width:0%"></i></div>
+      <p>Tes talents naturels dominants :</p>
+      <div class="taglist" id="r-genius-tags"></div>
+    </div>
+
+    <div class="axis-card">
+      <div class="head"><span class="name">🌱 Domaine d'excellence</span><span class="sc" id="r-excellence-score">/100</span></div>
+      <div class="mini"><i id="r-excellence-bar" style="width:0%"></i></div>
+      <p>Là où ce talent rencontre un terrain concret :</p>
+      <div class="taglist" id="r-excellence-tags"></div>
+      <div class="mission-out" id="r-excellence-draft"></div>
+    </div>
+
+    <div class="axis-card">
+      <div class="head"><span class="name">🤲 Mission de vie</span><span class="sc" id="r-mission-score">/100</span></div>
+      <div class="mini"><i id="r-mission-bar" style="width:0%"></i></div>
+      <div class="mission-out" id="r-mission-draft1"></div>
+      <div class="mission-out" id="r-mission-draft2"></div>
+    </div>
+
+    <div class="card tint-gold">
+      <p style="font-weight:700;margin:0 0 4px;">Cohérence entre ta zone de génie et ta mission</p>
+      <span class="align-band" id="r-alignment">—</span>
+      <p style="font-size:13px;color:var(--ink-soft);margin-top:8px;" id="r-alignment-note"></p>
+    </div>
+
+    <div class="spirit-note">
+      Un score n'est jamais une vérité figée — c'est une photo d'aujourd'hui. Reviens le refaire dans quelques mois : ta zone de génie ne change pas beaucoup, mais ta clarté sur elle, si.
+    </div>
+
+    <div class="btn-row" style="margin-top:20px;">
+      <button class="btn btn-ghost" onclick="location.reload()">↺ Recommencer</button>
+      <button class="btn" onclick="window.print()">🖨️ Imprimer / PDF</button>
+    </div>
+    <p class="foot">Al Mizan · Zone de génie · document personnel</p>
+  </section>
+
+</div>
+
+<script>
+// ---------- MODÈLE DE DONNÉES (structure fournie par Nawel, adaptée en moteur client) ----------
+const SECTIONS = [
+  { id:'genius_zone', label:'Zone de génie', weightKey:true, blocks:[
+    { id:'ease_and_flow', title:'Ce qui est facile et fluide', weight:1.2,
+      prompt:'Qu\'est-ce que tu fais naturellement, sans effort, et qui te semble « évident » ?',
+      tags:['organisation','écoute','analyse','créativité','pédagogie','médiation','structuration','métaphores','protocoles','vision'],
+      scalePrompt:'Dans ces moments, à quel point es-tu « dans le flow » (tu ne vois pas le temps passer) ?' },
+    { id:'feedback_others', title:'Ce que les autres voient en toi', weight:1.0,
+      prompt:'Quels compliments ou remarques reviennent souvent chez toi (« tu devrais faire… », « tu es doué·e pour… ») ?',
+      tags:['aide','clarté','organisation','calme','créativité','fiabilité','leadership','écoute','rigueur','intuition'],
+      scalePrompt:'À quel point ces compliments te semblent justes et importants pour toi ?' },
+    { id:'childhood_passions', title:'Passions d\'enfance', weight:0.9,
+      prompt:'Enfant ou ado, qu\'est-ce que tu aimais faire au point de le faire « gratuitement », sans te lasser ?',
+      tags:['écrire','aider','organiser','dessiner','construire','comprendre','soigner','enseigner','créer','réparer'],
+      scalePrompt:'À quel point ces activités résonnent encore avec toi aujourd\'hui ?' },
+    { id:'pride_moments', title:'Moments de fierté', weight:1.1,
+      prompt:'Décris un moment où tu t\'es dit·e « là, j\'étais vraiment moi-même ». Qu\'as-tu fait exactement ?',
+      tags:['aider','créer','organiser','comprendre','transmettre','médier','structurer','innover','accompagner','guider'],
+      scalePrompt:'À quel point ce moment reflète ce que tu voudrais vivre plus souvent ?' }
+  ]},
+  { id:'domain_of_excellence', label:'Domaine d\'excellence', blocks:[
+    { id:'paths_review', title:'Revue de tes parcours', text:true,
+      prompt:'Liste 3 à 5 périodes ou projets importants (scolaires, pro, associatifs, apps créées). Pour chacun : contexte, rôle, ce que tu as fait de mieux.',
+      scalePrompt:'À quel point ces projets t\'ont permis d\'utiliser tes talents naturels ?' },
+    { id:'patterns_problems_people', title:'Patterns : problèmes, personnes, outils', multi:[
+        { key:'problems', label:'Quels problèmes aimes-tu résoudre ?', options:['Aider à se comprendre','Aider à s\'organiser','Créer des outils / méthodes','Médier / apaiser les tensions','Structurer des processus','Expliquer des concepts complexes','Accompagner des transitions'] },
+        { key:'people', label:'Quelles personnes aimes-tu aider en priorité ?', options:['Adolescents','Parents','Professionnels / praticiens','Personnes neurodiverses','Personnes en transition','Couples / familles','Équipes'] },
+        { key:'tools', label:'Quels outils aimes-tu concevoir ?', options:['Questionnaires / quiz','Protocoles pas à pas','Métaphores / récits','Tableaux / visuels','Applications numériques','Exercices pratiques'] }
+      ], scalePrompt:'À quel point ces choix sont alignés avec ce que tu veux faire plus souvent ?' },
+    { id:'draft_formulations', title:'Première formulation', text:true, single:true,
+      prompt:'« Mon domaine d\'excellence, c\'est d\'aider [qui] à [quoi] grâce à [mes forces / outils]. »',
+      scalePrompt:'À quel point cette formulation te semble juste et inspirante ?' }
+  ]},
+  { id:'life_mission', label:'Mission de vie', blocks:[
+    { id:'core_values', title:'Valeurs fondamentales', multi:[
+        { key:'values', label:'Choisis 5 à 7 valeurs essentielles pour toi', options:['Clarté','Justesse','Bienveillance','Autonomie','Créativité','Transmission','Fiabilité','Liberté','Impact','Simplicité','Profondeur'] }
+      ], text2:'Parmi elles, lesquelles sont absolument non négociables pour toi (1 à 3) ?',
+      scalePrompt:'À quel point ta vie actuelle respecte ces valeurs ?' },
+    { id:'wounds_and_strengths', title:'Épreuves transformées', text:true,
+      prompt:'Décris une épreuve importante que tu as traversée, ce que tu en as appris, et comment elle t\'a rendu·e plus utile aux autres.',
+      scalePrompt:'À quel point sens-tu que cette épreuve a nourri ta mission ?' },
+    { id:'contribution_vision', title:'Contribution et vision', text:true,
+      prompt:'Si tu ne devais accomplir qu\'une seule chose dans le temps qu\'il te reste à vivre, que serait cette chose ? Quelle marque, même petite, aimerais-tu laisser ?',
+      scalePrompt:'À quel point as-tu déjà commencé à agir dans ce sens ?' },
+    { id:'mission_formulations', title:'Formulations de mission', text:true, twoFields:true,
+      prompt:'« Ma mission de vie, c\'est de [verbe d\'action] pour [qui] afin que [impact]. » Essaie une première version, puis une deuxième avec d\'autres mots si tu le sens.',
+      scalePrompt:'À quel point ces formulations te semblent justes et inspirantes ?' }
+  ]}
+];
+
+// à plat, pour la navigation
+let FLAT = [];
+SECTIONS.forEach(sec => sec.blocks.forEach(b => FLAT.push({sec, b})));
+let cur = -1;
+let answers = {}; // blockId -> {tags:[], scale:0, text:'', text2:'', multi:{key:[...]}, ...}
+
+function start(){
+  document.getElementById('screen-intro').classList.add('hidden');
+  document.getElementById('screen-quiz').classList.remove('hidden');
+  cur = 0;
+  render();
+}
+
+function render(){
+  const {sec, b} = FLAT[cur];
+  document.getElementById('q-section').textContent = sec.label;
+  document.getElementById('q-count').textContent = (cur+1) + ' / ' + FLAT.length;
+  document.getElementById('q-bar').style.width = Math.round(((cur+1)/FLAT.length)*100) + '%';
+  document.getElementById('q-title').textContent = b.title;
+  document.getElementById('q-sub').textContent = '';
+
+  const st = answers[b.id] = answers[b.id] || { tags:[], scale:5, multi:{}, text:'', text2:'' };
+  let html = '';
+
+  if (b.prompt) {
+    html += `<p class="prompt">${b.prompt}</p>`;
+  }
+  if (b.tags) {
+    html += `<div class="chips" id="chips-${b.id}">` + b.tags.map(t =>
+      `<button type="button" class="chip ${st.tags.includes(t)?'on':''}" data-tag="${t}" onclick="toggleTag('${b.id}','${t}')">${t}</button>`
+    ).join('') + `</div>`;
+    html += `<textarea placeholder="Écris librement ici, si tu veux détailler…" oninput="setText('${b.id}','text',this.value)">${st.text||''}</textarea>`;
+  } else if (b.multi) {
+    b.multi.forEach(group => {
+      html += `<p class="prompt">${group.label}</p><div class="chips">` + group.options.map(o => {
+        const on = (st.multi[group.key]||[]).includes(o);
+        return `<button type="button" class="chip ${on?'on':''}" onclick="toggleMulti('${b.id}','${group.key}','${o.replace(/'/g,"\\'")}')">${o}</button>`;
+      }).join('') + `</div>`;
+    });
+    if (b.text2) {
+      html += `<p class="prompt">${b.text2}</p><textarea oninput="setText('${b.id}','text2',this.value)">${st.text2||''}</textarea>`;
+    }
+  } else if (b.text) {
+    if (b.twoFields) {
+      html += `<textarea placeholder="Première version…" oninput="setText('${b.id}','text',this.value)">${st.text||''}</textarea>`;
+      html += `<p class="prompt" style="margin-top:14px">Deuxième version, si tu le sens</p>`;
+      html += `<textarea placeholder="Deuxième version…" oninput="setText('${b.id}','text2',this.value)">${st.text2||''}</textarea>`;
+    } else {
+      html += `<textarea oninput="setText('${b.id}','text',this.value)">${st.text||''}</textarea>`;
+    }
+  }
+
+  if (b.scalePrompt) {
+    html += `<p class="prompt" style="margin-top:16px">${b.scalePrompt}</p>`;
+    html += `<div class="scaleRow"><input type="range" min="0" max="10" value="${st.scale}" oninput="setScale('${b.id}',this.value,this)"><span class="val" id="val-${b.id}">${st.scale}</span></div>`;
+    html += `<div class="scale-legend"><span>0 · Pas du tout</span><span>10 · Tout à fait</span></div>`;
+  }
+
+  document.getElementById('q-body').innerHTML = html;
+  document.getElementById('q-back').style.visibility = cur===0 ? 'hidden' : 'visible';
+  document.getElementById('q-next').textContent = (cur === FLAT.length-1) ? 'Voir ma restitution ✦' : 'Suivant →';
+}
+
+function toggleTag(bid, tag){
+  const st = answers[bid];
+  const i = st.tags.indexOf(tag);
+  if (i>-1) st.tags.splice(i,1); else st.tags.push(tag);
+  render();
+}
+function toggleMulti(bid, key, opt){
+  const st = answers[bid];
+  st.multi[key] = st.multi[key] || [];
+  const i = st.multi[key].indexOf(opt);
+  if (i>-1) st.multi[key].splice(i,1); else st.multi[key].push(opt);
+  render();
+}
+function setText(bid, field, val){ answers[bid][field] = val; }
+function setScale(bid, val, el){ answers[bid].scale = Number(val); document.getElementById('val-'+bid).textContent = val; }
+
+function nextBlock(){
+  if (cur < FLAT.length-1) { cur++; render(); window.scrollTo(0,0); }
+  else showResults();
+}
+function prevBlock(){
+  if (cur > 0) { cur--; render(); window.scrollTo(0,0); }
+}
+
+function scaleAvg(sectionId){
+  const blocks = SECTIONS.find(s=>s.id===sectionId).blocks;
+  let sum=0, n=0;
+  blocks.forEach(b => { const st = answers[b.id]; if (st) { sum += st.scale; n++; } });
+  return n ? (sum/n) : 0;
+}
+
+function weightedTags(){
+  const scores = {};
+  const genius = SECTIONS.find(s=>s.id==='genius_zone');
+  genius.blocks.forEach(b=>{
+    const st = answers[b.id];
+    if (!st) return;
+    st.tags.forEach(t => { scores[t] = (scores[t]||0) + b.weight; });
+  });
+  return Object.entries(scores).sort((a,b)=>b[1]-a[1]).slice(0,7).map(e=>e[0]);
+}
+
+function excellenceClusters(){
+  const b = answers['patterns_problems_people'];
+  if (!b) return [];
+  const all = [].concat(b.multi.problems||[], b.multi.people||[], b.multi.tools||[]);
+  return all.slice(0,8);
+}
+
+function computeAlignment(geniusTags, exTags, missionText){
+  const hay = (missionText||'').toLowerCase();
+  let overlap = 0;
+  geniusTags.forEach(t => { if (hay.includes(t.toLowerCase())) overlap++; });
+  exTags.forEach(t => { if (hay.includes(t.toLowerCase())) overlap++; });
+  // recoupement direct genius <-> excellence, indépendamment du texte de mission
+  const setEx = new Set(exTags.map(x=>x.toLowerCase()));
+  geniusTags.forEach(t => { if (setEx.has(t.toLowerCase())) overlap++; });
+  if (overlap >= 3) return 'fort';
+  if (overlap >= 1) return 'moyen';
+  return 'faible';
+}
+
+function showResults(){
+  document.getElementById('screen-quiz').classList.add('hidden');
+  document.getElementById('screen-results').classList.remove('hidden');
+  window.scrollTo(0,0);
+
+  const prenom = document.getElementById('prenom').value.trim();
+  document.getElementById('r-title').textContent = prenom ? `La zone de génie de ${prenom}` : 'Ta zone de génie';
+
+  const geniusScore = Math.round(scaleAvg('genius_zone')*10);
+  const exScore = Math.round(scaleAvg('domain_of_excellence')*10);
+  const missionScore = Math.round(scaleAvg('life_mission')*10);
+
+  document.getElementById('r-genius-score').textContent = geniusScore + '/100';
+  document.getElementById('r-genius-bar').style.width = geniusScore + '%';
+  document.getElementById('r-excellence-score').textContent = exScore + '/100';
+  document.getElementById('r-excellence-bar').style.width = exScore + '%';
+  document.getElementById('r-mission-score').textContent = missionScore + '/100';
+  document.getElementById('r-mission-bar').style.width = missionScore + '%';
+
+  const gTags = weightedTags();
+  document.getElementById('r-genius-tags').innerHTML = gTags.length
+    ? gTags.map(t=>`<span class="tagpill">${t}</span>`).join('')
+    : '<span style="font-size:13px;color:var(--ink-soft)">Ajoute quelques mots-clés dans le questionnaire pour voir apparaître tes tendances ici.</span>';
+
+  const exTags = excellenceClusters();
+  document.getElementById('r-excellence-tags').innerHTML = exTags.length
+    ? exTags.map(t=>`<span class="tagpill">${t}</span>`).join('')
+    : '';
+  const draft = (answers['draft_formulations']||{}).text || '';
+  document.getElementById('r-excellence-draft').textContent = draft || 'Tu n\'as pas encore écrit de formulation — reviens la compléter quand elle te viendra.';
+
+  const m1 = (answers['mission_formulations']||{}).text || '';
+  const m2 = (answers['mission_formulations']||{}).text2 || '';
+  document.getElementById('r-mission-draft1').textContent = m1 || 'Première formulation à venir.';
+  document.getElementById('r-mission-draft2').textContent = m2 || '';
+  if (!m2) document.getElementById('r-mission-draft2').style.display='none';
+
+  const missionText = [m1, m2, (answers['contribution_vision']||{}).text||''].join(' ');
+  const align = computeAlignment(gTags, exTags, missionText);
+  const band = document.getElementById('r-alignment');
+  band.textContent = align === 'fort' ? 'Cohérence forte' : align === 'moyen' ? 'Cohérence moyenne' : 'Cohérence à approfondir';
+  band.className = 'align-band align-' + align;
+  const notes = {
+    fort: 'Ta zone de génie, ton domaine d\'excellence et ta mission racontent déjà la même histoire. Le travail, maintenant, c\'est de leur donner plus de place au quotidien.',
+    moyen: 'Il y a un vrai fil entre ce qui t\'est naturel et ce que tu veux offrir — mais il n\'est pas encore complètement formulé. Reviens affiner tes formulations dans quelques jours.',
+    faible: 'Ce n\'est pas un problème — c\'est fréquent en première passe. Regarde si tes formulations de mission reprennent vraiment les mots de ta zone de génie, ou si elles partent dans une direction plus « idéale » que réelle.'
+  };
+  document.getElementById('r-alignment-note').textContent = notes[align];
+}
+</script>
+</body>
+</html>
