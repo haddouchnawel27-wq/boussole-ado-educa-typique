@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Séance 1 — Comprendre avant d'agir · Support d'animation · Educa Typique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{--sarcelle:#3C6478;--sarcelle-fonce:#2C4D5E;--rose:#F050C8;--rose-fonce:#C0369C;--menthe:#6FBF9A;--jaune:#E6B800;--charbon:#4A4540;--taupe:#7D7269;--beige:#F0E4D3;--blanc-casse:#FAF7F2;--liseret:#E6DCCB;--vert:#2f8f5b;--rouge:#B4504A;}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+body{margin:0;background:var(--blanc-casse);font-family:'Lato',Arial,sans-serif;color:var(--charbon);line-height:1.66;font-size:15px;padding-bottom:50px;}
+.wrap{max-width:820px;margin:0 auto;padding:0 18px;}
+.bar{position:sticky;top:0;z-index:50;display:flex;gap:12px;align-items:center;background:rgba(246,242,234,.96);backdrop-filter:blur(4px);padding:10px 18px;border-bottom:1px solid var(--liseret);}
+.bar .t{font-weight:700;color:var(--sarcelle-fonce);font-size:12.5px;}
+.bar .sp{margin-left:auto;}
+.bar button{border:none;border-radius:999px;padding:8px 15px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Lato';background:var(--sarcelle);color:#fff;}
+.cover{margin:16px 0 0;background:linear-gradient(135deg,var(--sarcelle-fonce),var(--rose-fonce) 125%);color:#fff;padding:40px 34px 32px;border-radius:24px;text-align:center;box-shadow:0 12px 34px rgba(44,77,94,.3);}
+.cover .marque{font-family:'Quicksand';font-weight:700;font-size:12px;letter-spacing:5px;text-transform:uppercase;opacity:.95;}
+.cover .chip{display:inline-block;margin-top:14px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:5px 16px;font-family:'Quicksand';font-weight:700;font-size:12px;letter-spacing:1px;}
+.cover h1{font-family:'Quicksand';font-size:28px;margin:14px 0 8px;line-height:1.14;}
+.cover .sous{font-style:italic;font-size:14px;opacity:.96;max-width:620px;margin:0 auto;}
+.cover .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size:12.5px;opacity:.95;}
+.phasehd{background:linear-gradient(135deg,var(--rose-fonce),var(--rose) 80%);color:#fff;border-radius:16px;padding:14px 22px;margin:26px 0 8px;box-shadow:0 8px 22px rgba(192,54,156,.2);display:flex;align-items:center;gap:14px;}
+.phasehd .tm{flex:none;font-family:'Quicksand';font-weight:700;font-size:13px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:4px 12px;}
+.phasehd h2{font-family:'Quicksand';font-size:19px;margin:0;}
+.phasehd .ph{font-size:11.5px;opacity:.9;font-family:'Quicksand';font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.card{background:#fff;border-radius:16px;box-shadow:0 5px 16px rgba(75,75,75,.07);padding:4px 24px 18px;margin:12px 0;border-top:4px solid var(--sarcelle);}
+.card.r{border-top-color:var(--rose);}
+h3{font-family:'Quicksand';font-size:16.5px;color:var(--sarcelle-fonce);margin:16px 0 6px;}
+h3 .cn{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:7px;background:var(--sarcelle);color:#fff;font-size:12px;margin-right:8px;padding:0 6px;}
+h4{font-family:'Quicksand';font-size:14px;color:var(--rose-fonce);margin:13px 0 4px;}
+p{margin:0 0 10px;} ul,ol{margin:7px 0;padding-left:20px;} li{margin:5px 0;}
+.obj{background:#eef4f6;border-left:4px solid var(--sarcelle);border-radius:8px;padding:8px 14px;margin:9px 0;font-size:13.5px;}
+.obj b{color:var(--sarcelle-fonce);}
+.say{font-family:'Quicksand';font-style:italic;font-weight:600;color:var(--sarcelle-fonce);background:#fbf2fa;border-left:4px solid var(--rose);padding:10px 15px;border-radius:8px;margin:9px 0;position:relative;}
+.say::before{content:'🗣️ ce que je dis';position:absolute;top:-9px;left:12px;background:var(--rose);color:#fff;font-family:'Lato';font-style:normal;font-weight:700;font-size:9.5px;letter-spacing:.5px;text-transform:uppercase;padding:1px 8px;border-radius:999px;}
+.say p{margin:3px 0;}
+.anim{background:#f3f8f5;border-left:4px solid var(--menthe);border-radius:8px;padding:9px 14px;margin:9px 0;font-size:13.5px;}
+.anim .lab{font-family:'Quicksand';font-weight:700;font-size:11px;color:var(--vert);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px;}
+.ex{background:var(--beige);border-radius:9px;padding:9px 14px;margin:9px 0;font-size:13.5px;}
+.ex .lab{font-family:'Quicksand';font-weight:700;color:var(--sarcelle-fonce);}
+.note{background:#fffaf0;border:1px dashed var(--jaune);border-radius:9px;padding:9px 14px;margin:9px 0;font-size:13px;}
+.deux{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:9px 0;}
+.deux .b{border-radius:10px;padding:9px 14px;font-size:13px;}
+.deux .ferme{background:#fbeeee;border:1px solid #e3bcbc;}
+.deux .ouvre{background:#eafaf1;border:1px solid #bfe3cd;}
+.deux .b .lab{font-family:'Quicksand';font-weight:700;font-size:12px;display:block;margin-bottom:4px;}
+.deux .ferme .lab{color:var(--rouge);} .deux .ouvre .lab{color:var(--vert);}
+table{width:100%;border-collapse:collapse;margin:9px 0;font-size:13px;}
+th{background:var(--sarcelle);color:#fff;font-family:'Quicksand';padding:8px 9px;text-align:left;}
+td{border:1px solid var(--liseret);padding:7px 9px;vertical-align:top;background:#fff;}
+.mat{background:#f7faf8;border:1px solid var(--liseret);border-radius:12px;padding:4px 20px 12px;margin:10px 0;}
+.garde{background:#fff7ef;border:1px solid var(--jaune);border-left:4px solid var(--jaune);border-radius:12px;padding:12px 18px;margin:14px 0;font-size:13.5px;}
+.maison{background:linear-gradient(135deg,#fbf2fa,var(--blanc-casse));border:1.5px dashed var(--rose);border-radius:12px;padding:10px 16px;margin:12px 0 2px;font-size:13.5px;}
+.maison .lab{font-family:'Quicksand';font-weight:700;font-size:12px;color:var(--rose-fonce);text-transform:uppercase;letter-spacing:.5px;}
+.foot{text-align:center;font-size:10.5px;color:var(--taupe);margin:26px 0 0;padding-top:12px;border-top:1px solid var(--liseret);}
+@media(max-width:560px){.deux{grid-template-columns:1fr;}}
+@media print{.bar{display:none!important;}body{background:#fff;}.card,.mat{box-shadow:none;break-inside:avoid;}.phasehd{break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="bar"><span class="t">🎓 Séance 1 · support d'animation · Educa Typique</span><span class="sp"></span><button onclick="window.print()">🖨️ Imprimer / PDF</button></div>
+<div class="wrap">
+
+<div class="cover">
+  <div class="marque">✦ Educa Typique · Nawel ✦</div>
+  <div class="chip">SÉANCE 1 · SUPPORT D'ANIMATION</div>
+  <h1>Comprendre avant d'agir</h1>
+  <div class="sous">Sortir des étiquettes, lire le besoin derrière le comportement, sécuriser avant de corriger, et découvrir les compétences invisibles du quotidien.</div>
+  <div class="meta"><span>⏱️ 1h30</span><span>📚 chapitres 1 → 4</span><span>👥 atelier parents</span></div>
+</div>
+
+<div class="card">
+  <div class="obj"><b>Fil rouge de la séance :</b> aider les parents à passer de « il est paresseux / il le fait exprès » à « qu'est-ce que ce comportement essaie de me dire, et quelle compétence est encore en construction ? ». On ne corrige rien aujourd'hui : on apprend à <b>regarder autrement</b>.</div>
+  <h4>🎒 Matériel à prévoir</h4>
+  <ul style="font-size:13.5px;margin:4px 0;">
+    <li>fiches imprimées : Carte des changements · Observation ABC · Cartes « étiquette ou observation ? » · Roue des phrases utiles ;</li>
+    <li>un stylo par parent, un paperboard ou un mur pour afficher ;</li>
+    <li>les cartons couleur (vert / orange / rouge) pour la séance suivante (optionnel ici).</li>
+  </ul>
+  <div class="note">🧭 <b>Comment lire ce support :</b> les encadrés roses <b>🗣️ « ce que je dis »</b> sont des formulations prêtes à dire (à adapter à ta voix). Les encadrés verts <b>« animation »</b> indiquent comment guider concrètement.</div>
+</div>
+
+<!-- ===== PHASE 1 ===== -->
+<div class="phasehd"><span class="tm">10 min</span><div><div class="ph">Phase 1 · Ouverture</div><h2>Accueil &amp; météo du groupe</h2></div></div>
+<div class="card r">
+  <h3>Poser le cadre et accueillir</h3>
+  <div class="say">
+    <p>Bienvenue. Pendant ces séances, on ne va pas chercher à devenir des parents parfaits — ça n'existe pas. On va apprendre à <b>mieux comprendre</b> ce qui se passe, pour réagir plus juste, et sans s'épuiser.</p>
+    <p>Ici, personne n'est jugé. Ce qui se dit dans ce groupe reste dans ce groupe. Vous partagez ce que vous voulez, et vous gardez pour vous ce que vous préférez garder.</p>
+  </div>
+  <div class="anim"><span class="lab">Animation — tour de météo</span>Chaque parent se présente en une phrase et répond à : <b>« Avec quelle difficulté de mon enfant je suis venu·e aujourd'hui ? »</b> Tu notes les mots-clés au paperboard (tu y reviendras en fin de parcours).</div>
+  <div class="say"><p>Vous verrez : beaucoup de vos situations se ressemblent. Vous n'êtes pas seul·e·s avec ça.</p></div>
+</div>
+
+<!-- ===== PHASE 2 ===== -->
+<div class="phasehd"><span class="tm">20 min</span><div><div class="ph">Phase 2 · Comprendre (1/2)</div><h2>La rentrée est une transition · Observer sans juger</h2></div></div>
+
+<div class="card">
+  <h3><span class="cn">1</span>La rentrée est une transition, pas seulement une date</h3>
+  <div class="say"><p>Pour nous adultes, la rentrée, c'est une date sur le calendrier. Pour l'enfant, c'est beaucoup de choses qui changent <b>en même temps</b> : un nouveau rythme, un nouveau trajet, une nouvelle maîtresse, de nouveaux copains, un nouveau niveau d'exigence… et parfois un nouveau « qui je suis » dans la classe.</p></div>
+  <p>On appelle ça des <b>transitions invisibles</b> : on ne les voit pas, mais elles demandent beaucoup d'énergie à l'enfant. Un enfant volontaire peut être fatigué, irritable ou désorganisé <i>simplement</i> parce qu'il s'adapte à tout ça.</p>
+  <div class="ex"><span class="lab">Exemple à raconter —</span> Une famille qui déménage, ou qui rentre au Sénégal après avoir vécu ailleurs : l'enfant doit parfois apprendre dans une langue, et comprendre la vie de la maison dans une autre. Ce n'est pas qu'il « ne suit pas » — son cerveau fait un travail énorme de traduction permanente.</div>
+  <div class="anim"><span class="lab">Animation</span>Demande : « Qu'est-ce qui a changé pour votre enfant à cette rentrée ? » Note 4-5 réponses. Fais apparaître qu'un seul enfant vit souvent <b>plusieurs</b> changements à la fois.</div>
+</div>
+
+<div class="card">
+  <h3><span class="cn">2</span>Observer sans juger : derrière un comportement, un besoin</h3>
+  <div class="say"><p>Quand un enfant oublie ses affaires, traîne, refuse les devoirs ou pleure le matin, la première phrase qui sort, c'est souvent : « il est paresseux », « elle le fait exprès », « il est capricieux ». Ce sont des <b>étiquettes</b>. Et une étiquette, ça ferme la porte : si c'est « sa nature », on ne peut rien faire.</p></div>
+  <p>Un comportement, c'est presque toujours un <b>message</b>. Derrière « il ne veut pas », il y a souvent un « il ne sait pas comment commencer », « c'est trop d'un coup », « j'ai peur de me tromper » ou « je suis déjà épuisé ».</p>
+  <h4>Les 5 questions pour comprendre une difficulté</h4>
+  <ol>
+    <li><b>Quand</b> est-ce que ça arrive ? (le soir, aux devoirs, le matin…)</li>
+    <li>Qu'est-ce qui se passe <b>juste avant</b> ?</li>
+    <li>Qu'est-ce que l'enfant <b>fait exactement</b> ? (le fait, pas l'étiquette)</li>
+    <li>Qu'est-ce qui se passe <b>juste après</b> ?</li>
+    <li>Qu'est-ce que ça pourrait <b>vouloir dire</b> ? (quel besoin ?)</li>
+  </ol>
+  <div class="deux">
+    <div class="b ferme"><span class="lab">Étiquette (ferme)</span>« Il est désordonné. »</div>
+    <div class="b ouvre"><span class="lab">Observation (ouvre)</span>« Hier, après l'école, il n'a pas rangé son cartable et a cherché son cahier 10 minutes. »</div>
+  </div>
+  <div class="anim"><span class="lab">Animation — mini-exercice oral</span>Avec les <b>cartes « étiquette ou observation ? »</b>, tu lis une carte, le groupe dit « étiquette » ou « observation », puis on transforme ensemble l'étiquette en fait observable.</div>
+</div>
+
+<!-- ===== PHASE 3 ===== -->
+<div class="phasehd"><span class="tm">20 min</span><div><div class="ph">Phase 3 · Comprendre (2/2)</div><h2>Sécuriser avant de corriger · Les fonctions exécutives</h2></div></div>
+
+<div class="card">
+  <h3><span class="cn">3</span>Sécuriser avant de corriger</h3>
+  <div class="say"><p>Un enfant inquiet, humilié ou tendu n'apprend pas et ne se corrige pas — il se défend. Avant de corriger un comportement, on a besoin de le ramener dans un état où il peut réfléchir. C'est ça, <b>sécuriser avant de corriger</b>.</p></div>
+  <p>Sécurité affective et limites ne s'opposent pas : on peut <b>accueillir l'émotion</b> (« je vois que tu es en colère ») sans <b>accepter tous les comportements</b> (« et taper n'est pas permis »). Les deux tiennent ensemble.</p>
+  <h4>Les mots qui ferment · les mots qui ouvrent</h4>
+  <div class="deux">
+    <div class="b ferme"><span class="lab">Ferment</span>« Arrête de pleurer. » · « Ce n'est rien. » · « Tu exagères. » · « Combien de fois je t'ai dit ! »</div>
+    <div class="b ouvre"><span class="lab">Ouvrent</span>« Je vois que c'est dur. » · « Dis-moi ce qui se passe. » · « On respire, et on regarde ensemble. » · « Qu'est-ce qui t'aiderait, là ? »</div>
+  </div>
+  <p><b>La co-régulation :</b> c'est l'adulte calme qui aide l'enfant à retrouver son calme — par la voix, le rythme, la présence — avant toute explication. Et si on a eu une parole trop dure, on peut <b>réparer</b> : « Tout à l'heure j'ai crié, je m'excuse. Je recommence autrement. » Réparer n'affaiblit pas l'autorité, ça la rend solide.</p>
+  <div class="note">🌱 Soutenir la confiance ≠ fausses louanges. Plutôt que « tu es le plus intelligent », on décrit l'effort réel : « tu as recommencé trois fois sans abandonner, ça c'est fort. »</div>
+</div>
+
+<div class="card">
+  <h3><span class="cn">4</span>Les fonctions exécutives : les compétences invisibles</h3>
+  <div class="say"><p>Parfois un enfant <b>sait</b> sa leçon, <b>veut</b> bien faire… et n'y arrive pas quand même. Ce n'est ni de la mauvaise volonté ni de la bêtise : ce sont des petites compétences du cerveau, encore en construction, qu'on appelle les <b>fonctions exécutives</b>. Ce sont elles qui permettent de commencer, de s'organiser et de finir.</p></div>
+  <table>
+    <tr><th>La compétence</th><th>Ce que ça donne quand elle est fragile</th></tr>
+    <tr><td><b>Commencer</b> une tâche</td><td>« Il tourne autour, il ne se lance pas. »</td></tr>
+    <tr><td><b>Retenir</b> une consigne</td><td>« Je dis 3 choses, il en fait une. »</td></tr>
+    <tr><td><b>Planifier / organiser</b></td><td>« Il ne sait pas par quoi commencer. »</td></tr>
+    <tr><td><b>Percevoir le temps</b></td><td>« Pour lui, 5 minutes et 30 minutes, c'est pareil. »</td></tr>
+    <tr><td><b>Contrôler l'impulsion</b></td><td>« Il répond / bouge avant de réfléchir. »</td></tr>
+    <tr><td><b>Vérifier</b> son travail</td><td>« Il rend sans se relire. »</td></tr>
+  </table>
+  <div class="say"><p>La bonne nouvelle : ces compétences se <b>soutiennent</b>. Notre rôle, ce n'est pas de faire à sa place — c'est de poser un cadre qui aide, le temps que ça grandisse.</p></div>
+</div>
+
+<!-- ===== PHASE 4 ===== -->
+<div class="phasehd"><span class="tm">30 min</span><div><div class="ph">Phase 4 · Atelier pratique</div><h2>On fabrique nos premiers outils</h2></div></div>
+<div class="card r">
+  <div class="obj"><b>Objectif :</b> repartir avec deux fiches commencées sur SON enfant — pas une théorie, un outil concret.</div>
+
+  <h4>① La Carte des changements (10 min)</h4>
+  <div class="anim"><span class="lab">Animation</span>Chaque parent liste ce qui a changé pour son enfant cette rentrée (rythme, trajet, niveau, relations…), puis entoure <b>ce qui rassure déjà</b> son enfant (une personne, un objet, un moment). On termine sur du positif.</div>
+
+  <h4>② La Fiche d'observation ABC (15 min)</h4>
+  <div class="anim"><span class="lab">Animation</span>On choisit UNE situation difficile récente et on la passe au filtre : <b>A</b> = ce qui se passe avant · <b>B</b> = le comportement (le fait, pas l'étiquette) · <b>C</b> = ce qui se passe après. Tu accompagnes 1 ou 2 exemples à voix haute pour le groupe.</div>
+  <div class="ex"><span class="lab">Exemple guidé —</span> « Paresseux aux devoirs » devient : <b>A</b> tout de suite en rentrant, fatigué, télé allumée · <b>B</b> il reste 20 min sur son cahier sans écrire · <b>C</b> je m'énerve, il pleure, on arrête. → Hypothèse : besoin d'un sas avant les devoirs, et consigne trop large.</div>
+
+  <h4>③ Transformer une phrase (5 min)</h4>
+  <div class="anim"><span class="lab">Animation</span>Chacun écrit une phrase de jugement qu'il dit souvent, puis la réécrit en observation + besoin, avec la <b>Roue des phrases utiles</b>. Quelques-uns partagent.</div>
+</div>
+
+<!-- ===== PHASE 5 ===== -->
+<div class="phasehd"><span class="tm">10 min</span><div><div class="ph">Phase 5 · Clôture</div><h2>Synthèse &amp; une seule action</h2></div></div>
+<div class="card">
+  <div class="say">
+    <p>Aujourd'hui, on n'a rien corrigé. On a appris à <b>regarder</b> : la rentrée est une transition, un comportement est un message, on sécurise avant de corriger, et beaucoup de « il ne veut pas » sont en réalité des « il ne sait pas encore ».</p>
+    <p>Pour cette semaine, je ne vous demande pas de tout changer. Juste <b>une</b> chose.</p>
+  </div>
+  <div class="maison"><span class="lab">À tester à la maison</span>
+    <p style="margin:5px 0 0;">Observer <b>une seule</b> situation difficile avec la fiche ABC (avant / comportement / après), <b>sans chercher à corriger</b> — juste regarder. Et essayer <b>une phrase qui ouvre</b> à la place d'une phrase qui ferme.</p>
+  </div>
+  <div class="anim"><span class="lab">Animation — tour de clôture</span>Chaque parent dit à voix haute SA phrase qui ouvre choisie pour la semaine. On se quitte là-dessus.</div>
+  <div class="garde">
+    <p style="margin:0 0 6px;"><b>⚖️ Rappel posture</b></p>
+    <p style="margin:0;">Aucun diagnostic, aucune promesse de résultat. On distingue toujours le fait observé de l'interprétation. Si un parent décrit une souffrance importante, un refus scolaire durable, des symptômes physiques répétés ou une mise en danger → on l'oriente vers le professionnel adapté, en dehors du groupe.</p>
+  </div>
+</div>
+
+<div class="foot">Educa Typique · Nawel · Atelier « Grandir, apprendre et s'organiser avec sérénité » · Séance 1 — support d'animation · aucun diagnostic · ne remplace pas un avis professionnel.</div>
+</div>
+</body>
+</html>

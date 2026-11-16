@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide parents : consignes efficaces — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/charte.css">
+<style>
+.bandeau{background:linear-gradient(135deg,#F39BC2,#FFD6C2);padding:1.6rem 1.5rem;text-align:center}
+.bandeau h1{color:#fff;margin:0;text-shadow:0 2px 4px rgba(0,0,0,.15)}
+.bandeau .sub{color:#fff;max-width:740px;margin:.4rem auto 0;opacity:.95}
+.retour{display:inline-block;margin:0 0 .6rem;color:#fff;font-weight:700;text-decoration:none;background:rgba(255,255,255,.2);padding:.3em .9em;border-radius:999px}
+
+.layout{max-width:1100px;margin:1.4rem auto;padding:0 1.5rem;display:grid;grid-template-columns:230px 1fr;gap:1.5rem}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.nav-sticky{position:static !important}}
+
+.nav-sticky{position:sticky;top:1rem;align-self:start}
+.nav-sticky h3{color:#F39BC2;margin:0 0 .5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.5px}
+.nav-sticky ol{list-style:none;padding:0;margin:0;font-size:.9rem}
+.nav-sticky li{margin:.15rem 0}
+.nav-sticky a{display:block;padding:.4rem .6rem;color:var(--texte);text-decoration:none;border-radius:var(--r-sm)}
+.nav-sticky a:hover{background:#fde6ef;color:#F39BC2}
+.nav-sticky a.actif{background:#F39BC2;color:#fff;font-weight:700}
+
+.contenu{display:flex;flex-direction:column;gap:1.2rem}
+
+.apropos{background:#fff;border-left:6px solid #F39BC2;border-radius:var(--r-md);padding:1rem 1.2rem;box-shadow:var(--shadow-sm)}
+.apropos summary{cursor:pointer;font-weight:800;color:#F39BC2;font-family:var(--font-titre)}
+.apropos .grid8{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;font-size:.9rem;margin-top:.7rem}
+@media (max-width:760px){.apropos .grid8{grid-template-columns:1fr}}
+.apropos .grid8 > div{background:var(--beige);padding:.6rem .8rem;border-radius:var(--r-sm)}
+.apropos .grid8 strong{display:block;color:#F39BC2;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem}
+
+.posture{background:#F0E8F5;border-left:5px solid #9B85B8;padding:.7em 1em;border-radius:var(--r-sm);font-size:.9rem;color:#5A4D6B;font-weight:600}
+
+section.bloc{background:#fff;border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border-top:6px solid var(--c);scroll-margin-top:1rem}
+section.bloc h2{color:var(--c);margin:0 0 .3rem;font-size:1.2rem}
+section.bloc .intro{color:var(--muted);font-size:.9rem;margin-bottom:.8rem;font-style:italic}
+
+.bloc-meta{--c:var(--rose-soutenu)}
+.bloc-regles{--c:#7c5cbf}
+.bloc-comp{--c:#a02040}
+.bloc-atelier{--c:#e05a8a}
+.bloc-renfo{--c:#2a9d8f}
+.bloc-situations{--c:#8ED9D2}
+.bloc-erreurs{--c:#c25a30}
+.bloc-engagement{--c:#CBB6F6}
+.bloc-syn{--c:var(--rose-soutenu)}
+
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media (max-width:760px){.grille{grid-template-columns:1fr}}
+.champ{display:flex;flex-direction:column;gap:.25rem}
+.champ label{font-weight:700;color:var(--texte);font-size:.88rem}
+.champ input, .champ select, .champ textarea{padding:.5em .65em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.92rem}
+.champ textarea{min-height:60px;resize:vertical}
+.champ.full{grid-column:1/-1}
+
+/* 5 règles */
+.regles-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem;margin-top:.4rem}
+.regle-card{background:#fff;border-radius:var(--r-md);padding:.9rem 1rem;border-top:5px solid var(--c-r);box-shadow:var(--shadow-sm);text-align:center;position:relative}
+.regle-card::before{content:attr(data-n);position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--c-r);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800}
+.regle-card h3{margin:.4rem 0 .2rem;color:var(--c-r);font-size:1rem}
+.regle-card .desc{font-size:.85rem;color:var(--muted)}
+
+/* Comparatif */
+.comparatif{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.4rem}
+@media (max-width:760px){.comparatif{grid-template-columns:1fr}}
+.comp-bad{background:#fdeaea;border-radius:var(--r-md);padding:.7rem .9rem;border-left:5px solid #a02040}
+.comp-good{background:#e8f5ec;border-radius:var(--r-md);padding:.7rem .9rem;border-left:5px solid #1b7a4a}
+.comp-bad h4{margin:0 0 .3rem;color:#a02040;font-size:.95rem}
+.comp-good h4{margin:0 0 .3rem;color:#1b7a4a;font-size:.95rem}
+.comp-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.comp-table td{padding:.4em .5em;border-bottom:1px solid var(--border);vertical-align:top}
+.comp-table .bad{color:#a02040;font-style:italic}
+.comp-table .good{color:#1b7a4a;font-weight:600}
+
+/* Atelier transformation */
+.atelier-row{display:grid;grid-template-columns:1fr 1fr 30px;gap:.4rem;padding:.4rem 0;border-bottom:1px solid var(--border);align-items:start}
+.atelier-row textarea{padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.88rem;min-height:50px;resize:vertical}
+.atelier-row .supp{background:transparent;color:var(--muted);border:none;cursor:pointer;font-size:1.2rem;box-shadow:none}
+.atelier-entete{display:grid;grid-template-columns:1fr 1fr 30px;gap:.4rem;padding:.3rem 0;font-size:.76rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+@media (max-width:760px){.atelier-row, .atelier-entete{grid-template-columns:1fr}}
+
+/* Renforcement */
+.renfo-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:560px}
+.renfo-table th, .renfo-table td{padding:.4em .5em;border:1px solid var(--border);text-align:left;vertical-align:top}
+.renfo-table th{background:var(--beige);color:#2a9d8f;font-weight:700;font-size:.78rem}
+.renfo-table td input, .renfo-table td textarea{width:100%;padding:.2em;border:none;background:transparent;font-family:var(--font-body);font-size:.85rem;resize:vertical}
+.renfo-wrap{overflow-x:auto;margin-top:.4rem}
+
+/* Situations */
+.situation-card{background:var(--beige);border-radius:var(--r-md);padding:.7rem .9rem;margin-bottom:.5rem;border-left:5px solid #8ED9D2}
+.situation-card h4{margin:0 0 .3rem;color:#2a9d8f;font-size:.95rem}
+.situation-card .conseil{font-size:.85rem;font-style:italic;background:#fff;padding:.4em .6em;border-radius:var(--r-sm);margin:.3rem 0}
+.situation-card .perso-label{font-size:.78rem;color:var(--muted);font-weight:700;margin-top:.4rem;display:block}
+.situation-card textarea{width:100%;min-height:50px;padding:.4em;border:1px solid var(--border);border-radius:var(--r-sm);background:#fff;font-family:var(--font-body);font-size:.85rem;resize:vertical;margin-top:.2rem}
+
+/* Erreurs */
+.erreurs-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.4rem;margin-top:.4rem}
+.erreur-card{background:#fdeaea;border-radius:var(--r-sm);padding:.6rem .8rem;border-left:4px solid #c25a30;font-size:.88rem}
+.erreur-card strong{color:#c25a30}
+.erreur-card .meilleur{display:block;margin-top:.3rem;color:#1b7a4a;font-weight:700;font-size:.83rem}
+
+/* Engagement parental */
+.engag-row{display:grid;grid-template-columns:60px 2fr 1.5fr 80px;gap:.4rem;padding:.4rem .5rem;border-bottom:1px solid var(--border);align-items:center}
+.engag-row .jour{background:#CBB6F6;color:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem}
+.engag-row textarea, .engag-row select{padding:.3em .4em;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--beige);font-family:var(--font-body);font-size:.85rem;width:100%;min-height:40px;resize:vertical}
+@media (max-width:760px){.engag-row{grid-template-columns:1fr}}
+
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1rem 0 2rem}
+.actions button{background:#fff;color:#F39BC2;border:2px solid #F39BC2}
+.actions button:hover{background:#F39BC2;color:#fff}
+.actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+
+.dossiers{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:1rem}
+.dossiers h4{margin:0 0 .5rem;color:var(--violet-titre)}
+.dossier-item{display:flex;justify-content:space-between;align-items:center;padding:.4rem .6rem;border-radius:var(--r-sm);font-size:.9rem}
+.dossier-item:hover{background:var(--beige)}
+.dossier-item button{padding:.25em .6em;font-size:.78rem;margin-left:.3rem;box-shadow:none}
+
+@media print{
+  .layout{grid-template-columns:1fr}
+  .nav-sticky, .actions, .dossiers, .retour, details.apropos {display:none !important}
+  body{background:#fff}
+  .bloc{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .bandeau{background:#fff;border-bottom:2px solid #ccc}
+  .bandeau h1, .bandeau .sub{color:#F39BC2 !important;text-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../index.html">← Retour au parcours</a>
+  <h1>📣 Guide parents — consignes efficaces</h1>
+  <p class="sub">Mauvaise consigne : « Arrête de faire n'importe quoi, tu sais très bien que tu dois te préparer. » Bonne consigne : « Va mettre tes chaussures. Je reviens dans deux minutes. »</p>
+</section>
+
+<div class="layout">
+
+  <aside class="nav-sticky">
+    <h3>📑 Sections</h3>
+    <ol id="nav">
+      <li><a href="#bloc-meta">Identité &amp; cadre</a></li>
+      <li><a href="#bloc-regles">Les 5 règles</a></li>
+      <li><a href="#bloc-comp">Mauvais / bon (exemples)</a></li>
+      <li><a href="#bloc-atelier">Atelier : tes consignes</a></li>
+      <li><a href="#bloc-renfo">Tableau de renforcement</a></li>
+      <li><a href="#bloc-situations">Consignes par situation</a></li>
+      <li><a href="#bloc-erreurs">Erreurs fréquentes</a></li>
+      <li><a href="#bloc-engagement">Engagement 7 jours</a></li>
+      <li><a href="#bloc-syn">Synthèse</a></li>
+    </ol>
+    <div class="dossiers" style="margin-top:.6rem">
+      <h4>📂 Guides enregistrés</h4>
+      <div id="liste-dossiers"></div>
+    </div>
+  </aside>
+
+  <main class="contenu">
+
+    <details class="apropos">
+      <summary>ℹ️ À propos de cet outil — clique pour déplier</summary>
+      <div class="grid8">
+        <div><strong>1. Objectif</strong>Outiller les parents pour que leurs consignes soient suivies — sans crier, sans répéter 12 fois, sans bras de fer quotidien.</div>
+        <div><strong>2. Quand l'utiliser</strong>Quand les consignes du matin / devoirs / coucher virent au combat, quand l'enfant ne « comprend pas » 8 fois sur 10, quand le parent est épuisé.</div>
+        <div><strong>3. Pour quel profil TND</strong>TDAH (charge cognitive), TSA (consignes implicites), troubles dys (lourdeur de la double tâche), tout enfant avec opposition.</div>
+        <div><strong>4. Mode d'emploi</strong>Apprendre les 5 règles. Reformuler 2-3 consignes habituelles. Mettre en place un renforcement positif précis. Suivi 7 jours.</div>
+        <div><strong>5. Grille à remplir</strong>Atelier de reformulation + tableau de renforcement par comportement cible + engagement 7 jours.</div>
+        <div><strong>6. Analyse</strong>Pas de baguette magique. Mais une consigne mieux formulée = 80% de chances en plus qu'elle soit suivie. Sur la durée, ça change tout.</div>
+        <div><strong>7. Recommandations</strong>Cohérence entre les deux parents (sinon ça ne marche pas). Pas plus de 2-3 comportements cibles à la fois. Renforcement précis, pas vague.</div>
+        <div><strong>8. Phrase de synthèse</strong>"Un travail sur les consignes parentales a été initié, basé sur 5 règles : courte, positive, concrète, donnée une seule fois, vérifiée."</div>
+      </div>
+    </details>
+
+    <div class="posture">
+      💡 <strong>Posture :</strong> ce n'est pas une mauvaise volonté de ton enfant. C'est souvent une consigne trop longue, trop floue, trop implicite, donnée 4 fois de suite sans vérification. Reformuler ne veut pas dire « être laxiste ». Ça veut dire « être lisible ».
+    </div>
+
+    <!-- META -->
+    <section id="bloc-meta" class="bloc bloc-meta">
+      <h2>Identité &amp; cadre</h2>
+      <div class="grille">
+        <div class="champ"><label>Prénom de l'enfant</label><input data-k="prenom" type="text"></div>
+        <div class="champ"><label>Âge</label><input data-k="age" type="text"></div>
+        <div class="champ"><label>Date de l'engagement</label><input data-k="date" type="date"></div>
+        <div class="champ"><label>Parent(s) qui s'engage(nt)</label><input data-k="parents" type="text" placeholder="parent 1, parent 2…"></div>
+        <div class="champ full"><label>3 situations où les consignes ne passent pas</label><textarea data-k="situations-pb" placeholder="ex : matin, devoirs, arrêt écran…" style="min-height:60px"></textarea></div>
+      </div>
+    </section>
+
+    <!-- 5 REGLES -->
+    <section id="bloc-regles" class="bloc bloc-regles">
+      <h2>🎯 Les 5 règles d'une consigne efficace</h2>
+      <p class="intro">À mémoriser, à appliquer toutes ensemble. Une seule manquante = consigne souvent ignorée.</p>
+      <div class="regles-grille">
+        <div class="regle-card" data-n="1" style="--c-r:#7c5cbf"><h3>Courte</h3><div class="desc">Une phrase, pas un paragraphe.</div></div>
+        <div class="regle-card" data-n="2" style="--c-r:#e05a8a"><h3>Positive</h3><div class="desc">Ce qu'il doit FAIRE, pas ne pas faire.</div></div>
+        <div class="regle-card" data-n="3" style="--c-r:#2a9d8f"><h3>Concrète</h3><div class="desc">Geste précis, observable.</div></div>
+        <div class="regle-card" data-n="4" style="--c-r:#a87800"><h3>Donnée une fois</h3><div class="desc">Pas de répétition. Verifier.</div></div>
+        <div class="regle-card" data-n="5" style="--c-r:#c25a30"><h3>Vérifiée</h3><div class="desc">« Tu peux me répéter ce que tu dois faire ? »</div></div>
+      </div>
+    </section>
+
+    <!-- COMPARATIF -->
+    <section id="bloc-comp" class="bloc bloc-comp">
+      <h2>⚖️ Mauvais / bon : exemples</h2>
+      <div class="comparatif">
+        <div class="comp-bad">
+          <h4>❌ Mauvaise consigne</h4>
+          <table class="comp-table">
+            <tr><td class="bad">« Arrête de faire n'importe quoi, tu sais très bien que tu dois te préparer. »</td></tr>
+            <tr><td class="bad">« Range ta chambre. »</td></tr>
+            <tr><td class="bad">« Sois sage. »</td></tr>
+            <tr><td class="bad">« Ne crie pas. »</td></tr>
+            <tr><td class="bad">« Je t'ai dit dix fois… »</td></tr>
+            <tr><td class="bad">« Tu pourrais pas faire un effort ? »</td></tr>
+          </table>
+        </div>
+        <div class="comp-good">
+          <h4>✅ Bonne consigne</h4>
+          <table class="comp-table">
+            <tr><td class="good">« Va mettre tes chaussures. Je reviens dans deux minutes. »</td></tr>
+            <tr><td class="good">« Mets les vêtements dans le panier, puis viens me voir. »</td></tr>
+            <tr><td class="good">« Pendant que je passe l'appel, tu lis. »</td></tr>
+            <tr><td class="good">« Tu peux me parler doucement. »</td></tr>
+            <tr><td class="good">« Maintenant, va aux toilettes. »</td></tr>
+            <tr><td class="good">« Pose ton manteau sur la chaise, puis viens manger. »</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ATELIER -->
+    <section id="bloc-atelier" class="bloc bloc-atelier">
+      <h2>✏️ Atelier — reformule TES consignes</h2>
+      <p class="intro">Note les consignes que tu donnes habituellement et qui ne passent pas. Reformule selon les 5 règles.</p>
+      <div class="atelier-entete">
+        <div>❌ Ma consigne habituelle</div>
+        <div>✅ Reformulation (5 règles)</div>
+        <div></div>
+      </div>
+      <div id="atelier-corps"></div>
+      <button id="btn-add-atelier" style="margin-top:.4rem;background:#fff;color:#e05a8a;border:2px solid #e05a8a">+ Ajouter une consigne</button>
+    </section>
+
+    <!-- RENFORCEMENT -->
+    <section id="bloc-renfo" class="bloc bloc-renfo">
+      <h2>🌱 Tableau de renforcement positif</h2>
+      <p class="intro"><strong>Pas un tableau de chantage.</strong> Un outil d'apprentissage : on rend visible le comportement attendu, on renforce les essais, on célèbre les progrès.</p>
+      <div class="renfo-wrap">
+        <table class="renfo-table">
+          <thead>
+            <tr><th>Comportement cible</th><th>Fréquence visée</th><th>Renforcement convenu</th></tr>
+          </thead>
+          <tbody id="renfo-corps"></tbody>
+        </table>
+      </div>
+      <button id="btn-add-renfo" style="margin-top:.4rem;background:#fff;color:#2a9d8f;border:2px solid #2a9d8f">+ Ajouter un comportement</button>
+      <p style="margin-top:.6rem;padding:.5rem .7rem;background:#e0f4f1;border-radius:var(--r-sm);font-size:.88rem;color:#2a9d8f">
+        <strong>Renforcements possibles (pas matériels) :</strong> choix d'activité familiale, temps privilégié, sortie au parc, jeu de société choisi, histoire en plus, complice avec l'autre parent, jeu vidéo encadré, etc.
+      </p>
+    </section>
+
+    <!-- SITUATIONS -->
+    <section id="bloc-situations" class="bloc bloc-situations">
+      <h2>🕒 Consignes par situation typique</h2>
+      <p class="intro">6 moments classiques. Conseil-type + ta version pour ton enfant.</p>
+      <div id="liste-situations"></div>
+    </section>
+
+    <!-- ERREURS -->
+    <section id="bloc-erreurs" class="bloc bloc-erreurs">
+      <h2>🚫 Erreurs fréquentes à éviter</h2>
+      <div class="erreurs-grille">
+        <div class="erreur-card">
+          <strong>Répéter 8 fois la même consigne</strong>
+          <em>… en espérant qu'à la 9e elle soit entendue.</em>
+          <span class="meilleur">→ Donner une fois, vérifier la compréhension, agir.</span>
+        </div>
+        <div class="erreur-card">
+          <strong>Empiler les consignes</strong>
+          <em>« Range, brosse-toi les dents, prépare ton sac, mets ton pyjama. »</em>
+          <span class="meilleur">→ Une étape à la fois.</span>
+        </div>
+        <div class="erreur-card">
+          <strong>Crier la consigne</strong>
+          <em>Le cri active le cerveau de menace, pas celui de la coopération.</em>
+          <span class="meilleur">→ Voix posée, proximité physique, contact visuel.</span>
+        </div>
+        <div class="erreur-card">
+          <strong>Consignes implicites</strong>
+          <em>« On va bientôt manger » au lieu de « Mets la table. »</em>
+          <span class="meilleur">→ Dire explicitement ce qu'on attend.</span>
+        </div>
+        <div class="erreur-card">
+          <strong>Consigne en mode interrogatif</strong>
+          <em>« Tu veux pas mettre tes chaussures ? » → réponse possible : « Non. »</em>
+          <span class="meilleur">→ Affirmer : « Va mettre tes chaussures. »</span>
+        </div>
+        <div class="erreur-card">
+          <strong>Sanction à chaud</strong>
+          <em>« 1 mois sans écran ! » impossible à tenir → perte d'autorité.</em>
+          <span class="meilleur">→ Conséquences décidées à froid, proportionnées, applicables.</span>
+        </div>
+        <div class="erreur-card">
+          <strong>Incohérence entre les deux parents</strong>
+          <em>Une consigne d'un parent annulée par l'autre = enfant qui apprend à diviser.</em>
+          <span class="meilleur">→ Aligner avant, ajuster après, jamais contredire devant.</span>
+        </div>
+        <div class="erreur-card">
+          <strong>Pas de vérification</strong>
+          <em>On suppose que la consigne a été entendue / comprise.</em>
+          <span class="meilleur">→ « Tu peux me redire ce que je viens de te demander ? »</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENGAGEMENT 7 JOURS -->
+    <section id="bloc-engagement" class="bloc bloc-engagement">
+      <h2>📅 Engagement parental sur 7 jours</h2>
+      <p class="intro">Une ligne par jour. Ce qu'on a essayé, ce qui a marché, ce qui n'a pas marché. À discuter en couple parental.</p>
+      <div id="liste-engagement"></div>
+
+      <div class="grille" style="margin-top:.7rem">
+        <div class="champ"><label>Score de progrès global (0-10)</label>
+          <select data-k="score-global">
+            <option value="">—</option>
+            <option>0 - aucun</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5 - moyen</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10 - excellent</option>
+          </select>
+        </div>
+        <div class="champ"><label>Date du prochain point</label><input data-k="prochain-point" type="date"></div>
+      </div>
+    </section>
+
+    <!-- SYNTHESE -->
+    <section id="bloc-syn" class="bloc bloc-syn">
+      <h2>✍️ Synthèse</h2>
+      <div class="champ full"><label>2-3 règles que je vais appliquer en priorité cette semaine</label><textarea data-k="syn-prio" style="min-height:70px"></textarea></div>
+      <div class="champ full" style="margin-top:.5rem"><label>Ce que je veux célébrer chez mon enfant</label><textarea data-k="syn-celeb"></textarea></div>
+      <div class="champ full" style="margin-top:.5rem"><label>Ce que je veux dire à l'autre parent / coparent</label><textarea data-k="syn-coparent"></textarea></div>
+    </section>
+
+    <div class="actions">
+      <button id="btn-enregistrer">💾 Enregistrer</button>
+      <button id="btn-exporter">📄 Exporter (TXT)</button>
+      <button id="btn-imprimer">🖨️ Imprimer</button>
+      <button id="btn-vider" class="danger">🧹 Vider</button>
+    </div>
+
+    <div class="disclaimer">
+      Ce guide est un outil éducatif. Il ne remplace pas un accompagnement de soutien à la parentalité ou un suivi spécialisé en cas de difficultés importantes (épuisement parental, troubles relationnels, violences).
+    </div>
+
+    <p style="text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem">
+      Neuroo · Educa Typique — <a href="../index.html">retour au parcours</a>
+    </p>
+
+  </main>
+</div>
+
+<script>
+const STORAGE = 'clarte_educa_consignes_v1';
+try{ if(!localStorage.getItem('clarte_educa_consignes_v1') && localStorage.getItem('neuroped_guide_parents_consignes_v1')){ localStorage.setItem('clarte_educa_consignes_v1', localStorage.getItem('neuroped_guide_parents_consignes_v1')); } }catch(e){}
+let currentId = null;
+
+const SITUATIONS_TYPES = [
+  { id:'matin', titre:'☀️ Le matin', conseil:'Routine visuelle affichée. Une étape à la fois. Timer doux. Pas de réveil par négociation.' },
+  { id:'devoirs', titre:'📚 Les devoirs', conseil:'Lieu calme, durée annoncée, première étape ultra-précise, présence à proximité sans surveillance pesante.' },
+  { id:'ecrans', titre:'📱 L\'arrêt des écrans', conseil:'Timer prévenu 5 min avant. Activité de transition prévue après. « Quand le timer sonne, tu poses le téléphone sur la table. »' },
+  { id:'coucher', titre:'🌙 Le coucher', conseil:'Heure fixe, rituel court et stable, baisse de la lumière, pas d\'écrans 30 min avant. « Pyjama, brosse à dents, livre. »' },
+  { id:'fratrie', titre:'👫 Les conflits de fratrie', conseil:'Pas d\'arbitre devant les enfants. « Chacun reformule. » Ne pas chercher le coupable, séparer si nécessaire, retour à froid.' },
+  { id:'sortie', titre:'🛒 La sortie magasin / public', conseil:'Annoncer le cadre AVANT. « On entre, on achète X, on sort. Si tu réclames, on ne prend pas. » Tenir.' }
+];
+
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function esc(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// === Atelier rows ===
+function ajouterAtelier(d){
+  const cont = document.getElementById('atelier-corps');
+  const row = document.createElement('div');
+  row.className = 'atelier-row';
+  row.innerHTML = `
+    <textarea data-atelier="mauvaise" placeholder="Ce que je dis habituellement…">${esc(d?.mauvaise||'')}</textarea>
+    <textarea data-atelier="bonne" placeholder="Reformulation : courte · positive · concrète · une fois · vérifiée">${esc(d?.bonne||'')}</textarea>
+    <button type="button" class="supp">×</button>
+  `;
+  row.querySelector('.supp').addEventListener('click', ()=> row.remove());
+  cont.appendChild(row);
+}
+document.getElementById('btn-add-atelier').addEventListener('click', ()=> ajouterAtelier());
+
+function collecterAtelier(){
+  return Array.from(document.querySelectorAll('#atelier-corps .atelier-row')).map(r=>({
+    mauvaise: r.querySelector('[data-atelier="mauvaise"]').value,
+    bonne: r.querySelector('[data-atelier="bonne"]').value
+  }));
+}
+
+// === Renforcement rows ===
+function ajouterRenfo(d){
+  const tbody = document.getElementById('renfo-corps');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><textarea data-renfo="cible" rows="2">${esc(d?.cible||'')}</textarea></td>
+    <td><input type="text" data-renfo="freq" value="${esc(d?.freq||'')}" placeholder="ex : 4 jours / semaine"></td>
+    <td><textarea data-renfo="renfo" rows="2">${esc(d?.renfo||'')}</textarea></td>
+  `;
+  tbody.appendChild(tr);
+}
+document.getElementById('btn-add-renfo').addEventListener('click', ()=> ajouterRenfo());
+
+function collecterRenfo(){
+  return Array.from(document.querySelectorAll('#renfo-corps tr')).map(tr=>({
+    cible: tr.querySelector('[data-renfo="cible"]').value,
+    freq: tr.querySelector('[data-renfo="freq"]').value,
+    renfo: tr.querySelector('[data-renfo="renfo"]').value
+  }));
+}
+
+// === Situations ===
+function renderSituations(){
+  document.getElementById('liste-situations').innerHTML = SITUATIONS_TYPES.map(s=>`
+    <div class="situation-card">
+      <h4>${esc(s.titre)}</h4>
+      <div class="conseil">💡 ${esc(s.conseil)}</div>
+      <span class="perso-label">Ma version pour mon enfant :</span>
+      <textarea data-k="situ-${s.id}"></textarea>
+    </div>
+  `).join('');
+}
+
+// === Engagement 7 jours ===
+function renderEngagement(){
+  const cont = document.getElementById('liste-engagement');
+  const jours = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+  cont.innerHTML = jours.map((j,i)=>`
+    <div class="engag-row">
+      <div class="jour">${j}</div>
+      <div>
+        <label style="font-size:.78rem;color:var(--muted);font-weight:700">Ce que j'ai essayé</label>
+        <textarea data-k="engag-essai-${i}"></textarea>
+      </div>
+      <div>
+        <label style="font-size:.78rem;color:var(--muted);font-weight:700">Résultat / observation</label>
+        <textarea data-k="engag-res-${i}"></textarea>
+      </div>
+      <div>
+        <label style="font-size:.78rem;color:var(--muted);font-weight:700">Note</label>
+        <select data-k="engag-note-${i}">
+          <option value="">—</option><option>😊</option><option>😐</option><option>😟</option>
+        </select>
+      </div>
+    </div>
+  `).join('');
+}
+
+// === Save / Load ===
+function lire(){ try{ return JSON.parse(localStorage.getItem(STORAGE)) || []; } catch(e){ return []; } }
+function ecrire(arr){ localStorage.setItem(STORAGE, JSON.stringify(arr)); }
+
+function collecter(){
+  const o = { _ts:new Date().toISOString() };
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    o[el.dataset.k] = el.type==='checkbox' ? el.checked : el.value;
+  });
+  o._atelier = collecterAtelier();
+  o._renfo = collecterRenfo();
+  return o;
+}
+
+function appliquer(o){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = !!o[el.dataset.k];
+    else el.value = o[el.dataset.k] || '';
+  });
+  document.getElementById('atelier-corps').innerHTML = '';
+  if(o._atelier && o._atelier.length) o._atelier.forEach(d=> ajouterAtelier(d));
+  else for(let i=0;i<3;i++) ajouterAtelier();
+  document.getElementById('renfo-corps').innerHTML = '';
+  if(o._renfo && o._renfo.length) o._renfo.forEach(d=> ajouterRenfo(d));
+  else for(let i=0;i<3;i++) ajouterRenfo();
+}
+
+function vider(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(el.type==='checkbox') el.checked = false;
+    else el.value = '';
+  });
+  document.getElementById('atelier-corps').innerHTML = '';
+  for(let i=0;i<3;i++) ajouterAtelier();
+  document.getElementById('renfo-corps').innerHTML = '';
+  for(let i=0;i<3;i++) ajouterRenfo();
+  document.querySelector('[data-k="date"]').valueAsDate = new Date();
+  currentId = null;
+}
+
+function rendreDossiers(){
+  const arr = lire().sort((a,b)=>(b._ts||'').localeCompare(a._ts||''));
+  const cont = document.getElementById('liste-dossiers');
+  if(arr.length===0){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;font-style:italic">Aucun guide.</p>'; return; }
+  cont.innerHTML = arr.map(o=>`
+    <div class="dossier-item">
+      <span><strong>${esc(o.prenom||'?')}</strong> · ${esc((o.date||o._ts||'').slice(0,10))}</span>
+      <span>
+        <button data-action="charger" data-id="${o._id}">ouvrir</button>
+        <button data-action="supprimer" data-id="${o._id}">×</button>
+      </span>
+    </div>
+  `).join('');
+  cont.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const arr = lire(); const id = b.dataset.id;
+      if(b.dataset.action==='charger'){
+        const o = arr.find(x=>x._id===id);
+        if(o){ appliquer(o); currentId = id; window.scrollTo({top:0,behavior:'smooth'}); }
+      } else if(confirm('Supprimer ?')){
+        ecrire(arr.filter(x=>x._id!==id));
+        rendreDossiers();
+        if(currentId===id) vider();
+      }
+    });
+  });
+}
+
+document.getElementById('btn-enregistrer').addEventListener('click', ()=>{
+  const o = collecter();
+  if(!o.prenom){ alert('Renseigne au moins le prénom.'); return; }
+  const arr = lire();
+  if(currentId){
+    const i = arr.findIndex(x=>x._id===currentId);
+    if(i>=0){ o._id = currentId; arr[i] = o; } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  } else { o._id = uid(); arr.push(o); currentId = o._id; }
+  ecrire(arr); rendreDossiers(); alert('Guide enregistré.');
+});
+
+document.getElementById('btn-exporter').addEventListener('click', ()=>{
+  const o = collecter();
+  const l = ['Guide parents — Consignes efficaces — Boîte NeuroPed',''];
+  l.push('Enfant : '+(o.prenom||'—')+' · '+(o.age||'—')+' · Date : '+(o.date||'—'));
+  l.push('Parent(s) : '+(o.parents||'—'));
+  l.push('Situations problématiques : '+(o['situations-pb']||'—'));
+  l.push('');
+  l.push('== Atelier de reformulation ==');
+  (o._atelier||[]).forEach(a=>{ if(a.mauvaise||a.bonne) l.push('  ❌ '+a.mauvaise+'\n  ✅ '+a.bonne); });
+  l.push('');
+  l.push('== Tableau de renforcement ==');
+  (o._renfo||[]).forEach(r=>{ if(r.cible) l.push('  · cible : '+r.cible+' | fréq : '+r.freq+' | renfo : '+r.renfo); });
+  l.push('');
+  l.push('== Consignes par situation ==');
+  SITUATIONS_TYPES.forEach(s=>{ if(o['situ-'+s.id]) l.push('  '+s.titre+' : '+o['situ-'+s.id]); });
+  l.push('');
+  l.push('== Engagement 7 jours ==');
+  ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'].forEach((j,i)=>{
+    if(o['engag-essai-'+i] || o['engag-res-'+i]) l.push('  '+j+' '+(o['engag-note-'+i]||'')+' : essai = '+o['engag-essai-'+i]+' / résultat = '+o['engag-res-'+i]);
+  });
+  l.push('Score global : '+(o['score-global']||'—'));
+  l.push('Prochain point : '+(o['prochain-point']||'—'));
+  l.push('');
+  l.push('== Synthèse ==');
+  l.push('Priorités : '+(o['syn-prio']||'—'));
+  l.push('À célébrer : '+(o['syn-celeb']||'—'));
+  l.push('À dire au coparent : '+(o['syn-coparent']||'—'));
+  const blob = new Blob([l.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'guide-parents-'+(o.prenom||'enfant')+'-'+(o.date||new Date().toISOString().slice(0,10))+'.txt';
+  a.click();
+});
+
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-vider').addEventListener('click', ()=>{ if(confirm('Vider le formulaire ?')) vider(); });
+
+// Nav scroll
+const navLinks = document.querySelectorAll('#nav a');
+function majNav(){
+  const cibles = Array.from(navLinks).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  let actif = cibles[0];
+  cibles.forEach(c=>{ if(c && c.getBoundingClientRect().top < 120) actif = c; });
+  navLinks.forEach(a=>{ a.classList.toggle('actif', actif && a.getAttribute('href') === '#'+actif.id); });
+}
+window.addEventListener('scroll', majNav, {passive:true});
+
+// Init
+renderSituations();
+renderEngagement();
+for(let i=0;i<3;i++) ajouterAtelier();
+for(let i=0;i<3;i++) ajouterRenfo();
+document.querySelector('[data-k="date"]').valueAsDate = new Date();
+rendreDossiers();
+majNav();
+</script>
+
+</body>
+</html>
