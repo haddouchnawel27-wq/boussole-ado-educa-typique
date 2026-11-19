@@ -4,7 +4,7 @@
    - la page (index.html) : réseau d'abord, pour recevoir chaque nouvelle version,
      puis le cache si on est hors-ligne ;
    - le reste (icônes, manifeste) : cache d'abord. */
-const CACHE = 'lpj-v7';
+const CACHE = 'lpj-v8';
 const ASSETS = [
   './',
   './index.html',

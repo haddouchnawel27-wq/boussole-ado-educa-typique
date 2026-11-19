@@ -464,7 +464,7 @@ function renderSummary(){
   let focusSid=null, focusV=-1; scored.forEach(sid=>{ if(scores[sid]>focusV){ focusV=scores[sid]; focusSid=sid; } });
   const needsReg = (gl==="surcharge"||gl==="crise"||scores.surcharge_emotionnelle>=9||scores.dysregulation_emotionnelle>=9||scores.anxiete>=9);
   const focusLabel = (focusV>=5 && focusSid)? SECTIONS[focusSid].label : null;
-  const TOOL_FOR={ blocages:"decoupe", charge_travail:"priorite", anxiete:"breath", dysregulation_emotionnelle:"breath", surcharge_emotionnelle:"breath" };
+  const TOOL_FOR={ blocages:"decoupe", charge_travail:"priorite", anxiete:"breath", dysregulation_emotionnelle:"breath", surcharge_emotionnelle:"mini" };
   const focusTool = (focusV>=5 && focusSid)? (TOOL_FOR[focusSid]||null) : null;
 
   // mode conseillé
@@ -801,7 +801,7 @@ const PROFILS=[
   {id:"tdah", label:"TDAH", hint:"démarrer, ne pas se disperser", tools:["decoupe","timer","dump","checklist"]},
   {id:"tda", label:"Attention fragile (TDA)", hint:"organiser, se souvenir", tools:["decoupe","priorite","checklist"]},
   {id:"dys", label:"Dys", hint:"texte court, repères visuels", tools:["checklist","decoupe"], setDys:true},
-  {id:"sensoriel", label:"Sensible au bruit / à l'agitation", hint:"moins de stimuli", tools:["breath","priorite"], setLowSensory:true},
+  {id:"sensoriel", label:"Sensible au bruit / à l'agitation", hint:"moins de stimuli", tools:["mini","breath","priorite"], setLowSensory:true},
   {id:"hpi", label:"Tête qui sur-réfléchit", hint:"trier, décider, alléger", tools:["priorite","dump"]}
 ];
 function recoTools(){
@@ -866,6 +866,7 @@ function wireToolHead(){
   const h=document.getElementById("tkhome"); if(h) h.onclick=()=>{ stopBreath(); stopToolTimer(); renderIntro(); };
 }
 const TOOLS=[
+  {id:"mini", icon:"🔋", title:"Une seule petite chose", desc:"Batterie à plat ? Une micro-action de moins de 2 minutes, rien à réussir."},
   {id:"dump", icon:"🎒", title:"Vide-tête", desc:"Déposer tout ce qui tourne, pour alléger la tête."},
   {id:"decoupe", icon:"🪜", title:"Découper une tâche", desc:"Casser une grosse tâche en micro-pas faisables."},
   {id:"priorite", icon:"🛟", title:"Choisir UNE priorité", desc:"Quand tout semble urgent : n'en garder qu'une."},
@@ -898,7 +899,7 @@ function renderTools(focusTool){
   document.getElementById("home").onclick=renderIntro;
   app().querySelectorAll("[data-t]").forEach(b=> b.onclick=()=>openTool(b.getAttribute("data-t")));
 }
-function openTool(id){ ({ dump:toolDump, decoupe:toolDecoupe, priorite:toolPriorite, timer:toolTimer, checklist:toolChecklist, breath:toolBreath, atelier:openAtelier }[id]||renderTools)(); }
+function openTool(id){ ({ mini:toolMini, dump:toolDump, decoupe:toolDecoupe, priorite:toolPriorite, timer:toolTimer, checklist:toolChecklist, breath:toolBreath, atelier:openAtelier }[id]||renderTools)(); }
 
 /* 🎒 Vide-tête */
 function toolDump(){
@@ -1104,6 +1105,141 @@ function toolBreath(){
     </div></section>`));
   wireToolHead();
   document.getElementById("bbtn").onclick=toggleBreath;
+}
+
+/* 🔋 Une seule petite chose — mode basse énergie.
+   Une seule proposition à la fois, moins de 2 minutes, aucune décision difficile.
+   Après : « C'est fait » · « Pas maintenant » · « Une autre ». */
+const MINI_MOODS=[
+  {id:"sens", icon:"🔊", label:"Trop de bruit, de lumière ou de monde"},
+  {id:"plat", icon:"🪫", label:"Je suis à plat"},
+  {id:"tete", icon:"🌀", label:"Ma tête déborde"},
+  {id:"corps", icon:"🪨", label:"Mon corps est tendu"},
+  {id:"seule", icon:"🫂", label:"Je me sens seule"},
+  {id:"any", icon:"🎲", label:"Je ne sais pas, propose-moi"}
+];
+const MINI={
+  sens:[
+    {t:"Baisse la lumière de ton écran, ou passe-le en sombre.", d:"10 secondes"},
+    {t:"Coupe les notifications pendant une heure.", d:"10 secondes"},
+    {t:"Mets un casque ou des bouchons, même sans musique.", d:"30 secondes"},
+    {t:"Ferme les yeux. Juste une minute.", d:"1 minute"},
+    {t:"Va dans une pièce plus calme, même deux minutes.", d:"2 minutes"},
+    {t:"Prends dans ta main un objet doux ou lisse : tissu, pierre, peluche.", d:"1 minute"},
+    {t:"Enlève une couche qui gêne : chaussures, bijou, pull qui gratte.", d:"1 minute"}
+  ],
+  plat:[
+    {t:"Bois trois gorgées d'eau. Juste trois.", d:"20 secondes"},
+    {t:"Mange une chose facile, sans rien préparer : un fruit, un yaourt, un biscuit.", d:"2 minutes"},
+    {t:"Allonge-toi deux minutes, le téléphone posé loin de toi.", d:"2 minutes"},
+    {t:"Couvre-toi d'un plaid ou d'une couverture.", d:"30 secondes"},
+    {t:"Tiens une tasse chaude, ou un verre bien frais, entre tes mains.", d:"1 minute"},
+    {t:"Regarde par la fenêtre une minute. Sans but.", d:"1 minute"}
+  ],
+  tete:[
+    {t:"Écris trois mots sur ce qui prend de la place. Pas de phrase.", d:"30 secondes", act:"dump"},
+    {t:"Dis à voix haute, ou en note vocale : « Ce qui prend de la place dans ma tête, c'est… »", d:"20 secondes"},
+    {t:"Choisis une seule chose que tu ne feras pas aujourd'hui. Et laisse-la.", d:"30 secondes"},
+    {t:"Mets ton téléphone en mode avion dix minutes, ou pose-le dans une autre pièce.", d:"10 secondes"},
+    {t:"Range un seul objet qui traîne. Un seul.", d:"30 secondes"},
+    {t:"Envoie ce message à qui attend une réponse : « Je suis à plat, je reviens vers toi plus tard. »", d:"30 secondes", copy:"Je suis à plat, je reviens vers toi plus tard."}
+  ],
+  corps:[
+    {t:"Secoue tes mains, fort, quinze secondes.", d:"15 secondes"},
+    {t:"Roule tes épaules cinq fois vers l'arrière.", d:"20 secondes"},
+    {t:"Serre les poings fort, puis relâche. Cinq fois.", d:"30 secondes"},
+    {t:"Pose tes deux pieds au sol et appuie doucement. Sens l'appui.", d:"20 secondes"},
+    {t:"Souffle longuement, trois fois, comme dans une paille. Sans compter.", d:"30 secondes", act:"breath"},
+    {t:"Pose une main sur ton cœur ou ton ventre. Sens juste la chaleur.", d:"30 secondes"},
+    {t:"Marche jusqu'à une autre pièce, et reviens.", d:"1 minute"}
+  ],
+  seule:[
+    {t:"Envoie à quelqu'un de confiance : « J'ai besoin d'un petit message gentil. »", d:"30 secondes", copy:"J'ai besoin d'un petit message gentil."},
+    {t:"Demande une aide toute précise : « Tu peux me rappeler de boire à 18 h ? »", d:"30 secondes", copy:"Tu peux me rappeler de boire à 18 h ?"},
+    {t:"Regarde une photo qui te fait du bien : un lieu, une personne, un animal.", d:"1 minute"},
+    {t:"Écoute une seule chanson que tu connais par cœur.", d:"3 minutes"},
+    {t:"Réécoute un message vocal d'une voix que tu aimes.", d:"1 minute"},
+    {t:"Écris une phrase à la toi de demain : « Ce que je veux me rappeler, c'est… »", d:"1 minute"}
+  ]
+};
+const MINI_SPI={
+  sens:[{t:"Récite doucement, pour toi, la sourate que tu connais le mieux.", d:"1 minute"}],
+  plat:[{t:"Dis une fois, lentement : « Hasbiyallâhu wa ni'mal wakîl ».", d:"20 secondes"}],
+  tete:[{t:"Dépose ce qui déborde en une phrase à Allah, avec tes mots à toi.", d:"1 minute"}],
+  corps:[{t:"Fais tes ablutions lentement, en sentant l'eau sur chaque partie.", d:"3 minutes"}],
+  seule:[{t:"Dis « Yâ Latîf » trois fois, la main sur le cœur.", d:"20 secondes"}]
+};
+const MINI_WORDS=["Une seule chose suffit.","Tu n'as pas besoin de finir.","Ce n'est pas de la paresse, c'est de la régulation.","Fais la version minimale.","Tu as le droit de ne rien faire.","Tu n'as rien à prouver aujourd'hui.","Tu peux juste traverser cette heure-ci."];
+let miniState={ mood:null, seen:[] };
+function miniPool(mood){
+  const ids = mood==="any" ? Object.keys(MINI) : [mood];
+  let pool=[]; ids.forEach(k=>{ pool=pool.concat(MINI[k]); if(db.prefs.spirit&&MINI_SPI[k]) pool=pool.concat(MINI_SPI[k]); });
+  return pool;
+}
+function miniNext(){
+  const pool=miniPool(miniState.mood);
+  let left=pool.filter(a=>!miniState.seen.includes(a.t));
+  if(!left.length){ miniState.seen=[]; left=pool; }
+  const a=left[Math.floor(Math.random()*left.length)];
+  miniState.seen.push(a.t);
+  return a;
+}
+const miniWord=()=>MINI_WORDS[Math.floor(Math.random()*MINI_WORDS.length)];
+function toolMini(){
+  miniState={ mood:null, seen:[] };
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Une seule petite chose")}
+    <div class="card" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">Une seule petite chose 🔋</h2>
+      <p class="muted">Pour les moments où tu n'as presque plus d'énergie. Je te propose <b>une</b> chose, moins de deux minutes. Rien à réussir.</p>
+      <p class="tiny" style="margin:12px 0 6px"><b>Là, maintenant, c'est plutôt…</b></p>
+      <div class="opts">${MINI_MOODS.map(m=>`<button class="opt" data-mood="${m.id}"><span style="font-size:1.3rem">${m.icon}</span><span>${esc(m.label)}</span></button>`).join("")}</div>
+    </div>
+    <div class="discl">🤍 Ce n'est pas de la paresse, c'est de la régulation.</div></section>`));
+  wireToolHead();
+  app().querySelectorAll("[data-mood]").forEach(b=>b.onclick=()=>{ miniState.mood=b.dataset.mood; renderMini(miniNext()); });
+}
+function renderMini(a){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Une seule petite chose")}
+    <div class="card center" style="border-left:5px solid var(--c-teal)">
+      <p class="tiny" style="margin:0">Juste ça, si tu peux · ${esc(a.d)}</p>
+      <h2 style="margin:.4em 0;line-height:1.35">${esc(a.t)}</h2>
+      ${a.copy?`<button class="btn secondary small" id="mcopy">📋 Copier le message</button>`:""}
+      ${a.act==="breath"?`<button class="btn secondary small" id="mact">🫧 Respirer avec la bulle</button>`:""}
+      ${a.act==="dump"?`<button class="btn secondary small" id="mact">🎒 Ouvrir le vide-tête</button>`:""}
+      <p class="muted" style="margin:14px 0 4px">${esc(miniWord())}</p>
+      <div class="opts" style="margin-top:12px">
+        <button class="btn" id="mdone">✓ C'est fait</button>
+        <button class="btn ghost" id="mlater">Pas maintenant</button>
+        <button class="btn ghost" id="mother">↻ Donne-m'en une autre</button>
+      </div>
+    </div></section>`));
+  wireToolHead();
+  const c=document.getElementById("mcopy"); if(c) c.onclick=()=>copyText(a.copy);
+  const ac=document.getElementById("mact"); if(ac) ac.onclick=()=> a.act==="breath"?toolBreath():toolDump();
+  document.getElementById("mother").onclick=()=>renderMini(miniNext());
+  document.getElementById("mlater").onclick=()=>renderMiniEnd(false);
+  document.getElementById("mdone").onclick=()=>{
+    if(!Array.isArray(db.wins)) db.wins=[];
+    db.wins.unshift({date:new Date().toISOString(), text:a.t}); if(db.wins.length>200) db.wins.pop(); save();
+    renderMiniEnd(true);
+  };
+}
+function renderMiniEnd(done){
+  app().innerHTML="";
+  app().appendChild(el(`<section class="screen">${toolHead("Une seule petite chose")}
+    <div class="card center" style="border-left:5px solid var(--c-teal)">
+      <h2 style="margin-top:0">${done?"C'est fait 🌿":"D'accord 🌿"}</h2>
+      <p class="muted">${done?"Tu as pris soin de toi. Ça compte, et c'est noté dans tes réussites.":"Tu as le droit de ne rien faire. Tu pourras revenir quand tu veux."}</p>
+      <div class="opts" style="margin-top:12px">
+        <button class="btn ghost" id="magain">Une autre petite chose</button>
+        <button class="btn ghost" id="mstop">Ça suffit pour l'instant</button>
+      </div>
+    </div></section>`));
+  wireToolHead();
+  document.getElementById("magain").onclick=()=>renderMini(miniNext());
+  document.getElementById("mstop").onclick=renderIntro;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
