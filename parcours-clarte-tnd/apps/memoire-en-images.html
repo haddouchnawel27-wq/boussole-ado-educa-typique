@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mémoire en images — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#f5f0fa,#fff);min-height:100vh}
+.bandeau{background:linear-gradient(135deg,#7c5cbf,#CBB6F6,#F39BC2);padding:1.6rem 1.5rem;text-align:center;color:#fff;position:relative;overflow:hidden}
+.bandeau::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 30%,rgba(255,255,255,.18),transparent 60%);pointer-events:none}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem;position:relative;z-index:1}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.8rem;text-shadow:0 2px 8px rgba(0,0,0,.15);position:relative;z-index:1}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto;position:relative;z-index:1}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9;position:relative;z-index:1}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1rem 1.2rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid var(--violet-titre);line-height:1.55}
+.intro strong{color:var(--violet-fonce)}
+
+.config-bar{background:#fff;padding:.7rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.config-bar label{font-weight:700;color:var(--violet-fonce);font-size:.88rem}
+.config-bar select{padding:.4em .8em;border:1.5px solid #d8c9f0;border-radius:var(--r-md);font-family:inherit;font-size:.92rem;background:#faf6fb}
+
+.jeu{background:#fff;border-radius:var(--r-lg);padding:1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--violet-titre);min-height:300px;display:flex;flex-direction:column;gap:.8rem}
+
+.phase-titre{font-family:var(--font-titre);color:var(--violet-fonce);font-size:1.1rem;text-align:center;margin:0}
+.phase-instruction{color:#666;font-size:.92rem;text-align:center;font-style:italic;line-height:1.5}
+
+.timer-display{font-size:2.5rem;font-weight:800;color:var(--violet-titre);text-align:center;font-family:'Courier New',monospace}
+
+.images-zone{display:grid;gap:.5rem;justify-content:center;margin:.5rem auto;max-width:480px}
+.image-cell{aspect-ratio:1;background:linear-gradient(135deg,#fff,#faf6fb);border:2px solid #d8c9f0;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:3rem;line-height:1;transition:all .2s;position:relative}
+.image-cell.cible{border-color:var(--violet-titre);box-shadow:0 0 0 3px rgba(124,92,191,.15)}
+.image-cell.clickable{cursor:pointer}
+.image-cell.clickable:hover{transform:scale(1.05);background:#f0e8f5}
+.image-cell.selected{background:linear-gradient(135deg,#7c5cbf,#9B85B8);color:#fff;border-color:#5a3c8f;animation:bounce .3s ease}
+.image-cell.correct{background:linear-gradient(135deg,#a3c98f,#5fa040);color:#fff;border-color:#3d6e25}
+.image-cell.faux{background:linear-gradient(135deg,#f0c8b8,#c25a30);color:#fff;border-color:#8a3010}
+@keyframes bounce{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1.05)}}
+
+.controls{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-top:.6rem}
+.controls button{padding:.6em 1.3em;background:var(--violet-titre);color:#fff;border:none;border-radius:999px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.95rem;transition:all .15s}
+.controls button:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.controls button.ghost{background:#fff;color:var(--violet-fonce);border:2px solid var(--violet-titre)}
+
+.feedback-bloc{background:linear-gradient(135deg,#fff,#faf6fb);border-radius:var(--r-md);padding:.9rem 1.1rem;text-align:center;border:2px solid var(--violet-titre);display:none}
+.feedback-bloc.visible{display:block;animation:fade-in .4s}
+@keyframes fade-in{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+.feedback-bloc h3{color:var(--violet-fonce);margin:0 0 .3rem}
+.feedback-bloc.success{border-color:#5fa040}
+.feedback-bloc.success h3{color:#3d6e25}
+.feedback-bloc.partiel{border-color:#e9a73a}
+.feedback-bloc.partiel h3{color:#a07000}
+
+.stats-bar{background:#fff;padding:.7rem 1rem;border-radius:var(--r-md);box-shadow:var(--shadow-sm);display:flex;justify-content:space-around;flex-wrap:wrap;gap:.5rem;text-align:center}
+.stat{padding:.4rem}
+.stat .lbl{font-size:.72rem;color:#888;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.stat .val{font-size:1.4rem;font-weight:800;color:var(--violet-titre)}
+
+.parent-tip{background:#F0E8F5;border-left:4px solid #9B85B8;padding:.8rem 1.1rem;border-radius:var(--r-md);font-size:.9rem;line-height:1.55;color:#5A4D6B}
+.parent-tip strong{color:var(--violet-fonce)}
+
+@media (max-width:600px){
+  .image-cell{font-size:2.2rem}
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../casa-familles/index.html">← La Casa des Familles</a>
+  <h1>🧠 Mémoire en images</h1>
+  <p class="sub">Jeu de mémoire pour enfants 5-10 ans. Mémoriser, retrouver, observer son cerveau qui s'améliore.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🧠 <strong>Comment jouer ?</strong> Des images apparaissent pendant quelques secondes. Quand elles disparaissent, l'enfant doit <strong>retrouver lesquelles</strong> il/elle a vues parmi une grille plus grande. La difficulté augmente progressivement. <em>5-10 minutes maximum par session.</em>
+  </div>
+
+  <div class="config-bar">
+    <label>🎨 Thème :</label>
+    <select id="theme-select">
+      <option value="animaux">🐶 Animaux</option>
+      <option value="fruits">🍎 Fruits</option>
+      <option value="objets">🎈 Objets du quotidien</option>
+      <option value="vehicules">🚗 Véhicules</option>
+      <option value="emotions">😊 Émotions</option>
+      <option value="mix">🌈 Mix de tout</option>
+    </select>
+    <label style="margin-left:1rem">📊 Niveau :</label>
+    <select id="niveau-select">
+      <option value="1">⭐ Facile (3 images)</option>
+      <option value="2" selected>⭐⭐ Moyen (5 images)</option>
+      <option value="3">⭐⭐⭐ Difficile (7 images)</option>
+      <option value="4">🔥 Expert (9 images)</option>
+    </select>
+  </div>
+
+  <section class="jeu">
+    <h2 class="phase-titre" id="phase-titre">Prêt ?</h2>
+    <p class="phase-instruction" id="phase-instruction">Choisis un thème et un niveau, puis clique sur « Démarrer ».</p>
+    <div class="timer-display" id="timer" style="display:none">--</div>
+    <div class="images-zone" id="images-zone"></div>
+    <div class="controls">
+      <button id="btn-start">▶ Démarrer</button>
+      <button id="btn-valider" class="ghost" style="display:none">✓ Valider mes choix</button>
+      <button id="btn-rejouer" class="ghost" style="display:none">↻ Rejouer</button>
+    </div>
+  </section>
+
+  <div class="feedback-bloc" id="feedback"></div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="lbl">🎯 Parties</div><div class="val" id="stat-parties">0</div></div>
+    <div class="stat"><div class="lbl">✅ Parfait</div><div class="val" id="stat-parfait">0</div></div>
+    <div class="stat"><div class="lbl">📊 Réussite</div><div class="val" id="stat-reussite">0%</div></div>
+  </div>
+
+  <div class="parent-tip">
+    <strong>💡 Astuce parent :</strong> Pour un enfant TDAH ou anxieux, commence par <em>Facile (3 images)</em> et augmente progressivement seulement quand il/elle réussit 3 fois de suite. <strong>Le but n'est PAS d'être parfait — c'est de progresser.</strong> Félicite chaque effort, pas le résultat.
+  </div>
+
+  <div class="disclaimer">
+    Jeu psychoéducatif simple. Si l'enfant a des difficultés MAJEURES de mémoire visuelle (au-delà de ce jeu), parler à un orthophoniste ou neuropsy pour évaluation.
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../casa-familles/index.html" style="color:var(--violet-titre)">← La Casa des Familles</a>
+  </p>
+</div>
+
+<script>
+const KEY='educatypique_memoire_images_v1';
+let stats={parties:0,parfaits:0,corrects:0,total:0};
+try{const r=localStorage.getItem(KEY);if(r)stats=JSON.parse(r)}catch(e){}
+function saveStats(){localStorage.setItem(KEY,JSON.stringify(stats))}
+
+const THEMES = {
+  animaux:['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🐔','🐧','🐦','🦆','🦅','🦉','🐝','🐛','🦋'],
+  fruits:['🍎','🍐','🍊','🍋','🍌','🍉','🍇','🍓','🍒','🍑','🥭','🍍','🥝','🥑','🍅','🥕','🌽','🥒','🍆','🌶','🥔','🍠','🥥','🥦'],
+  objets:['🎈','🎁','🎀','📚','✏️','🖍','📝','📦','🔑','🔔','💡','📷','⏰','🪑','🪟','🚪','🛋','🛏','🪞','🪥','🧸','🎨','🎭','🎲'],
+  vehicules:['🚗','🚙','🚕','🚌','🚐','🚓','🚑','🚒','🚚','🚛','🚜','🚲','🛵','🏍','🛴','⛵','🚤','🚢','✈️','🚀','🚁','🚂','🚆','🚊'],
+  emotions:['😊','😄','😢','😡','😨','😳','🤩','😴','😕','😎','🥰','😖','🤔','😬','😌','🙄','😤','😭','🤗','😶','🤐','😏','😯','🥺'],
+  mix:[]
+};
+THEMES.mix=[...THEMES.animaux.slice(0,4),...THEMES.fruits.slice(0,4),...THEMES.objets.slice(0,4),...THEMES.vehicules.slice(0,4),...THEMES.emotions.slice(0,4)];
+
+const NIVEAUX = {1:{nbCibles:3,nbDistract:5,tempsAffich:5},2:{nbCibles:5,nbDistract:7,tempsAffich:6},3:{nbCibles:7,nbDistract:9,tempsAffich:7},4:{nbCibles:9,nbDistract:11,tempsAffich:8}};
+
+let etat={phase:'init',cibles:[],propositions:[],selections:new Set(),timer:null};
+
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function demarrer(){
+  const theme=document.getElementById('theme-select').value;
+  const niv=parseInt(document.getElementById('niveau-select').value);
+  const conf=NIVEAUX[niv];
+  const pool=THEMES[theme].slice();
+  etat.cibles=shuffle(pool).slice(0,conf.nbCibles);
+  // Propositions = cibles + distracteurs
+  const reste=pool.filter(x=>!etat.cibles.includes(x));
+  const distracteurs=shuffle(reste).slice(0,conf.nbDistract);
+  etat.propositions=shuffle([...etat.cibles,...distracteurs]);
+  etat.selections=new Set();
+  etat.phase='show';
+  document.getElementById('btn-start').style.display='none';
+  document.getElementById('btn-valider').style.display='none';
+  document.getElementById('btn-rejouer').style.display='none';
+  document.getElementById('feedback').classList.remove('visible');
+  // Phase 1 : afficher les cibles
+  document.getElementById('phase-titre').textContent='👀 Mémorise ces images !';
+  document.getElementById('phase-instruction').textContent=`Tu as ${conf.tempsAffich} secondes pour les retenir.`;
+  const z=document.getElementById('images-zone');
+  z.style.gridTemplateColumns=`repeat(${Math.min(conf.nbCibles,5)},1fr)`;
+  z.innerHTML=etat.cibles.map(ic=>`<div class="image-cell cible">${ic}</div>`).join('');
+  // Timer décompte
+  let restant=conf.tempsAffich;
+  document.getElementById('timer').style.display='block';
+  document.getElementById('timer').textContent=restant;
+  etat.timer=setInterval(()=>{
+    restant--;
+    document.getElementById('timer').textContent=restant;
+    if(restant<=0){clearInterval(etat.timer);phaseRappel()}
+  },1000);
+}
+
+function phaseRappel(){
+  etat.phase='rappel';
+  document.getElementById('timer').style.display='none';
+  document.getElementById('phase-titre').textContent='🔍 À toi !';
+  document.getElementById('phase-instruction').textContent=`Clique sur les ${etat.cibles.length} images que tu as vues, puis valide.`;
+  const z=document.getElementById('images-zone');
+  const cols=Math.min(etat.propositions.length,6);
+  z.style.gridTemplateColumns=`repeat(${cols},1fr)`;
+  z.innerHTML=etat.propositions.map((ic,i)=>`<div class="image-cell clickable" data-i="${i}">${ic}</div>`).join('');
+  z.querySelectorAll('.image-cell').forEach(cell=>cell.onclick=()=>{
+    const i=parseInt(cell.dataset.i);
+    if(etat.selections.has(i)){etat.selections.delete(i);cell.classList.remove('selected')}
+    else{etat.selections.add(i);cell.classList.add('selected')}
+    document.getElementById('btn-valider').disabled=(etat.selections.size===0);
+  });
+  document.getElementById('btn-valider').style.display='inline-block';
+  document.getElementById('btn-valider').disabled=true;
+}
+
+function valider(){
+  etat.phase='resultat';
+  document.getElementById('btn-valider').style.display='none';
+  const cellsArr=document.querySelectorAll('#images-zone .image-cell');
+  let corrects=0,faux=0;
+  etat.propositions.forEach((ic,i)=>{
+    const estCible=etat.cibles.includes(ic);
+    const estSelectionne=etat.selections.has(i);
+    cellsArr[i].classList.remove('selected','clickable');
+    cellsArr[i].onclick=null;
+    if(estSelectionne && estCible){cellsArr[i].classList.add('correct');corrects++}
+    else if(estSelectionne && !estCible){cellsArr[i].classList.add('faux');faux++}
+    else if(!estSelectionne && estCible){cellsArr[i].classList.add('faux');faux++}
+  });
+  const total=etat.cibles.length;
+  stats.parties++;stats.corrects+=corrects;stats.total+=total;
+  const parfait=(corrects===total && faux===0);
+  if(parfait) stats.parfaits++;
+  saveStats();
+  // Feedback
+  const fb=document.getElementById('feedback');
+  fb.classList.remove('success','partiel');
+  let msg='';
+  if(parfait){fb.classList.add('success');msg=`<h3>🎉 Parfait !</h3><p>Tu as retrouvé toutes les ${total} images sans erreur.<br><strong>Bravo, ton cerveau est en forme !</strong></p>`}
+  else if(corrects>=total/2){fb.classList.add('partiel');msg=`<h3>👍 Bien joué !</h3><p>${corrects}/${total} images retrouvées${faux>0?' · '+faux+' erreur(s)':''}.<br><em>Tu progresses — continue !</em></p>`}
+  else{msg=`<h3>💪 On rejoue ?</h3><p>${corrects}/${total} retrouvées.<br><em>La mémoire visuelle s'entraîne. Rejoue plus tard ou essaie un niveau plus facile.</em></p>`}
+  fb.innerHTML=msg;fb.classList.add('visible');
+  document.getElementById('btn-rejouer').style.display='inline-block';
+  document.getElementById('phase-titre').textContent='📊 Résultat';
+  document.getElementById('phase-instruction').textContent='';
+  majStats();
+}
+
+function majStats(){
+  document.getElementById('stat-parties').textContent=stats.parties;
+  document.getElementById('stat-parfait').textContent=stats.parfaits;
+  const r=stats.total>0?Math.round(stats.corrects/stats.total*100):0;
+  document.getElementById('stat-reussite').textContent=r+'%';
+}
+
+document.getElementById('btn-start').onclick=demarrer;
+document.getElementById('btn-valider').onclick=valider;
+document.getElementById('btn-rejouer').onclick=()=>{
+  document.getElementById('images-zone').innerHTML='';
+  document.getElementById('feedback').classList.remove('visible');
+  document.getElementById('btn-rejouer').style.display='none';
+  document.getElementById('btn-start').style.display='inline-block';
+  document.getElementById('phase-titre').textContent='Prêt ?';
+  document.getElementById('phase-instruction').textContent='Choisis un thème et un niveau, puis clique sur « Démarrer ».';
+};
+
+majStats();
+</script>
+
+</body>
+</html>

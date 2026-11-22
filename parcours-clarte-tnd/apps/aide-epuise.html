@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ce qui m'aide / ce qui m'épuise — Boîte NeuroPed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/charte.css">
+<style>
+.bandeau{
+  background:linear-gradient(135deg,var(--rose-clair),var(--lavande));
+  padding:1.6rem 1.5rem;
+  text-align:center;
+}
+.bandeau h1{color:var(--rose-titre);margin:0}
+.bandeau .sub{color:var(--texte);max-width:680px;margin:.4rem auto 0}
+.retour{display:inline-block;margin:0 0 .6rem;color:var(--violet-titre);font-weight:700;text-decoration:none}
+
+.intro{max-width:880px;margin:1.4rem auto;padding:0 1.5rem;color:var(--muted)}
+
+.ajout-zone{
+  max-width:880px;
+  margin:1rem auto;
+  padding:0 1.5rem;
+  display:flex;
+  gap:.6rem;
+  flex-wrap:wrap;
+}
+.ajout-zone input{
+  flex:1 1 280px;
+  padding:.8em 1em;
+  font-size:1rem;
+  font-family:var(--font-body);
+  border:2px solid var(--border);
+  border-radius:999px;
+  background:#fff;
+  color:var(--texte);
+}
+.ajout-zone input:focus{outline:none;border-color:var(--rose-soutenu)}
+.ajout-zone .suggestions{flex-basis:100%;font-size:.85rem;color:var(--muted);margin-top:.3rem}
+.ajout-zone .sug{
+  display:inline-block;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:.25em .8em;
+  margin:.2em .2em 0 0;
+  cursor:pointer;
+  font-size:.85rem;
+  color:var(--violet-titre);
+  transition:background .15s;
+}
+.ajout-zone .sug:hover{background:var(--beige)}
+
+.colonnes{
+  max-width:1100px;
+  margin:1.5rem auto;
+  padding:0 1.5rem;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:1rem;
+}
+@media (max-width:760px){.colonnes{grid-template-columns:1fr}}
+
+.colonne{
+  background:#fff;
+  border-radius:var(--r-lg);
+  padding:1.2rem 1rem;
+  min-height:280px;
+  border-top:6px solid var(--c);
+  box-shadow:var(--shadow-sm);
+  display:flex;
+  flex-direction:column;
+}
+.colonne h2{color:var(--c);margin:0 0 .3rem;font-size:1.1rem}
+.colonne .compteur{color:var(--muted);font-size:.85rem;margin-bottom:.6rem}
+.colonne .liste{flex:1;min-height:140px;padding:.4rem;border-radius:var(--r-md);border:2px dashed transparent;transition:border-color .15s, background .15s}
+.colonne .liste.drag-over{border-color:var(--c);background:rgba(0,0,0,.02)}
+
+.col-tri{--c:var(--muted)}
+.col-aide{--c:var(--teal-titre)}
+.col-epuise{--c:var(--rose-titre)}
+
+.carte{
+  background:var(--beige);
+  border:1px solid var(--border);
+  border-radius:var(--r-md);
+  padding:.6rem .8rem;
+  margin-bottom:.5rem;
+  cursor:grab;
+  font-size:.95rem;
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  user-select:none;
+  transition:transform .15s, box-shadow .15s;
+}
+.carte:hover{box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.carte.dragging{opacity:.4}
+.carte .poignee{color:var(--muted);font-size:1.1rem;line-height:1;cursor:grab}
+.carte .txt{flex:1}
+.carte .supp{
+  background:transparent;
+  border:none;
+  color:var(--muted);
+  cursor:pointer;
+  padding:0 .2rem;
+  font-size:1rem;
+  border-radius:50%;
+  width:24px;height:24px;
+  display:inline-flex;align-items:center;justify-content:center;
+  box-shadow:none;
+}
+.carte .supp:hover{background:var(--rose-clair);color:var(--rose-titre);transform:none}
+
+.barre-actions{
+  max-width:1100px;
+  margin:1rem auto 3rem;
+  padding:0 1.5rem;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.6rem;
+  justify-content:center;
+}
+.barre-actions button{background:#fff;color:var(--violet-titre);border:2px solid var(--violet-titre)}
+.barre-actions button:hover{background:var(--violet-titre);color:#fff}
+.barre-actions .danger{color:var(--rose-titre);border-color:var(--rose-titre)}
+.barre-actions .danger:hover{background:var(--rose-titre);color:#fff}
+
+.message-vide{color:var(--muted);font-style:italic;font-size:.9rem;padding:.6rem;text-align:center}
+
+.bilan{
+  max-width:880px;
+  margin:1rem auto 3rem;
+  padding:1.4rem 1.5rem;
+  background:var(--beige);
+  border-radius:var(--r-lg);
+  border-left:6px solid var(--teal-titre);
+  display:none;
+}
+.bilan.visible{display:block}
+.bilan h3{color:var(--teal-titre);margin-top:0}
+.bilan textarea{
+  width:100%;
+  min-height:90px;
+  font-family:var(--font-body);
+  font-size:1rem;
+  padding:.6em;
+  border-radius:var(--r-md);
+  border:1px solid var(--border);
+  resize:vertical;
+}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../casa-familles/index.html">← La Casa des Familles</a>
+  <h1>💗 Ce qui m'aide · ce qui m'épuise</h1>
+  <p class="sub">Pose tes idées, tes habitudes, tes situations — puis glisse-les dans la bonne colonne. Pour y voir clair sur ce qui te porte, et ce qui te vide.</p>
+</section>
+
+<div class="intro container">
+  <p><strong>Comment ça marche ?</strong> Tape une situation, une pensée ou une habitude dans le champ ci-dessous (ou clique sur une suggestion). Elle apparaît dans la colonne <em>"à trier"</em>. Ensuite, attrape-la et fais-la glisser vers la colonne qui correspond. Tu peux changer d'avis à tout moment.</p>
+</div>
+
+<div class="ajout-zone">
+  <input id="nouvelle-carte" type="text" placeholder="Ex : prendre 10 min pour moi le matin…" maxlength="120">
+  <button id="btn-ajouter">+ Ajouter</button>
+  <div class="suggestions">
+    <span style="color:var(--muted)">Suggestions à cliquer :</span><br>
+    <span class="sug">Prendre du temps seule</span>
+    <span class="sug">Crier sur les enfants</span>
+    <span class="sug">Marcher dehors</span>
+    <span class="sug">Faire défiler les écrans le soir</span>
+    <span class="sug">Parler à une amie qui m'écoute</span>
+    <span class="sug">Comparer mon enfant aux autres</span>
+    <span class="sug">Méditer / respirer</span>
+    <span class="sug">Aller chez le médecin</span>
+    <span class="sug">Lire avant de dormir</span>
+    <span class="sug">Garder tout pour moi</span>
+    <span class="sug">Cuisiner doucement</span>
+    <span class="sug">Dire oui à tout</span>
+  </div>
+</div>
+
+<section class="colonnes">
+
+  <div class="colonne col-tri">
+    <h2>📋 À trier</h2>
+    <div class="compteur"><span id="c-tri">0</span> carte(s)</div>
+    <div class="liste" id="liste-tri" data-zone="tri"></div>
+  </div>
+
+  <div class="colonne col-aide">
+    <h2>🌿 Ce qui m'aide</h2>
+    <div class="compteur"><span id="c-aide">0</span> carte(s)</div>
+    <div class="liste" id="liste-aide" data-zone="aide"></div>
+  </div>
+
+  <div class="colonne col-epuise">
+    <h2>🍂 Ce qui m'épuise</h2>
+    <div class="compteur"><span id="c-epuise">0</span> carte(s)</div>
+    <div class="liste" id="liste-epuise" data-zone="epuise"></div>
+  </div>
+
+</section>
+
+<div class="barre-actions">
+  <button id="btn-bilan">📝 Faire le bilan</button>
+  <button id="btn-imprimer">🖨️ Imprimer</button>
+  <button id="btn-export">💾 Exporter (TXT)</button>
+  <button id="btn-reset" class="danger">♻️ Tout effacer</button>
+</div>
+
+<section class="bilan" id="bilan">
+  <h3>🌱 Mon bilan</h3>
+  <p>Ce que je veux <strong>garder ou faire plus souvent</strong> :</p>
+  <ul id="bilan-aide"></ul>
+  <p>Ce que je veux <strong>réduire ou éviter</strong> :</p>
+  <ul id="bilan-epuise"></ul>
+  <p><strong>Une petite action concrète que je peux faire cette semaine :</strong></p>
+  <textarea id="bilan-action" placeholder="Ex : appeler ma sœur demain pour parler 10 minutes."></textarea>
+</section>
+
+<div class="disclaimer container">
+  Cet outil aide à clarifier ce que tu ressens. Il ne pose pas de diagnostic et ne remplace pas un professionnel.
+</div>
+
+<p style="text-align:center;color:var(--muted);padding:2rem;font-size:.85rem">
+  Neuroo · Educa Typique — <a href="../../casa-familles/index.html">← La Casa des Familles</a>
+</p>
+
+<script>
+const STORAGE_KEY = 'neuroped_aide_epuise_v1';
+
+const state = { tri:[], aide:[], epuise:[], action:'' };
+
+function uid(){ return Math.random().toString(36).slice(2,9); }
+
+function charger(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const d = JSON.parse(raw);
+      state.tri = d.tri || [];
+      state.aide = d.aide || [];
+      state.epuise = d.epuise || [];
+      state.action = d.action || '';
+    }
+  }catch(e){}
+}
+
+function sauver(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function render(){
+  ['tri','aide','epuise'].forEach(z=>{
+    const liste = document.getElementById('liste-'+z);
+    liste.innerHTML = '';
+    if(state[z].length===0){
+      const vide = document.createElement('div');
+      vide.className='message-vide';
+      vide.textContent = z==='tri' ? 'Ajoute des cartes ci-dessus.' : 'Glisse une carte ici.';
+      liste.appendChild(vide);
+    } else {
+      state[z].forEach(c=>{
+        const el = document.createElement('div');
+        el.className='carte';
+        el.draggable=true;
+        el.dataset.id=c.id;
+        el.dataset.zone=z;
+        el.innerHTML = `<span class="poignee">⋮⋮</span><span class="txt"></span><button class="supp" title="Supprimer">×</button>`;
+        el.querySelector('.txt').textContent = c.txt;
+        el.querySelector('.supp').addEventListener('click', e=>{ e.stopPropagation(); supprimer(c.id, z); });
+        attacherDrag(el);
+        liste.appendChild(el);
+      });
+    }
+    document.getElementById('c-'+z).textContent = state[z].length;
+  });
+  document.getElementById('bilan-action').value = state.action;
+}
+
+function ajouter(txt){
+  txt = txt.trim();
+  if(!txt) return;
+  state.tri.push({ id: uid(), txt });
+  sauver(); render();
+}
+
+function supprimer(id, zone){
+  state[zone] = state[zone].filter(c=>c.id!==id);
+  sauver(); render();
+}
+
+function deplacer(id, sourceZone, targetZone){
+  if(sourceZone===targetZone) return;
+  const idx = state[sourceZone].findIndex(c=>c.id===id);
+  if(idx<0) return;
+  const [carte] = state[sourceZone].splice(idx,1);
+  state[targetZone].push(carte);
+  sauver(); render();
+}
+
+let dragId=null, dragZone=null;
+
+function attacherDrag(el){
+  el.addEventListener('dragstart', e=>{
+    dragId = el.dataset.id;
+    dragZone = el.dataset.zone;
+    el.classList.add('dragging');
+    e.dataTransfer.effectAllowed='move';
+    e.dataTransfer.setData('text/plain', dragId);
+  });
+  el.addEventListener('dragend', ()=> el.classList.remove('dragging'));
+
+  // Support tactile basique
+  let touchTarget=null;
+  el.addEventListener('touchstart', e=>{
+    dragId = el.dataset.id; dragZone = el.dataset.zone;
+    el.classList.add('dragging');
+  }, {passive:true});
+  el.addEventListener('touchmove', e=>{
+    const t = e.touches[0];
+    const under = document.elementFromPoint(t.clientX, t.clientY);
+    const liste = under && under.closest('.liste');
+    document.querySelectorAll('.liste').forEach(l=>l.classList.remove('drag-over'));
+    if(liste){ liste.classList.add('drag-over'); touchTarget = liste.dataset.zone; }
+  }, {passive:true});
+  el.addEventListener('touchend', ()=>{
+    el.classList.remove('dragging');
+    document.querySelectorAll('.liste').forEach(l=>l.classList.remove('drag-over'));
+    if(touchTarget && dragId) deplacer(dragId, dragZone, touchTarget);
+    dragId=null; dragZone=null; touchTarget=null;
+  });
+}
+
+document.querySelectorAll('.liste').forEach(liste=>{
+  liste.addEventListener('dragover', e=>{ e.preventDefault(); liste.classList.add('drag-over'); });
+  liste.addEventListener('dragleave', ()=> liste.classList.remove('drag-over'));
+  liste.addEventListener('drop', e=>{
+    e.preventDefault();
+    liste.classList.remove('drag-over');
+    if(dragId && dragZone) deplacer(dragId, dragZone, liste.dataset.zone);
+    dragId=null; dragZone=null;
+  });
+});
+
+document.getElementById('btn-ajouter').addEventListener('click', ()=>{
+  const inp = document.getElementById('nouvelle-carte');
+  ajouter(inp.value); inp.value=''; inp.focus();
+});
+document.getElementById('nouvelle-carte').addEventListener('keydown', e=>{
+  if(e.key==='Enter'){ document.getElementById('btn-ajouter').click(); }
+});
+document.querySelectorAll('.sug').forEach(s=>{
+  s.addEventListener('click', ()=> ajouter(s.textContent));
+});
+document.getElementById('btn-bilan').addEventListener('click', ()=>{
+  const bilan = document.getElementById('bilan');
+  bilan.classList.toggle('visible');
+  if(bilan.classList.contains('visible')){
+    document.getElementById('bilan-aide').innerHTML = state.aide.map(c=>`<li>${escapeHTML(c.txt)}</li>`).join('') || '<li><em>(rien dans cette colonne)</em></li>';
+    document.getElementById('bilan-epuise').innerHTML = state.epuise.map(c=>`<li>${escapeHTML(c.txt)}</li>`).join('') || '<li><em>(rien dans cette colonne)</em></li>';
+    bilan.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+});
+document.getElementById('bilan-action').addEventListener('input', e=>{
+  state.action = e.target.value; sauver();
+});
+document.getElementById('btn-imprimer').addEventListener('click', ()=> window.print());
+document.getElementById('btn-export').addEventListener('click', ()=>{
+  const lignes = [
+    'Ce qui m’aide / ce qui m’épuise — Boîte NeuroPed',
+    'Date : ' + new Date().toLocaleDateString('fr-FR'),
+    '',
+    '== À trier ==',
+    ...state.tri.map(c=>'- '+c.txt),
+    '',
+    '== Ce qui m’aide ==',
+    ...state.aide.map(c=>'- '+c.txt),
+    '',
+    '== Ce qui m’épuise ==',
+    ...state.epuise.map(c=>'- '+c.txt),
+    '',
+    '== Mon action concrète de la semaine ==',
+    state.action || '(à définir)',
+  ];
+  const blob = new Blob([lignes.join('\n')], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'aide-epuise-' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+});
+document.getElementById('btn-reset').addEventListener('click', ()=>{
+  if(confirm('Effacer toutes les cartes et le bilan ?')){
+    state.tri=[]; state.aide=[]; state.epuise=[]; state.action='';
+    localStorage.removeItem(STORAGE_KEY);
+    document.getElementById('bilan').classList.remove('visible');
+    render();
+  }
+});
+
+function escapeHTML(s){
+  return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+charger();
+render();
+</script>
+
+</body>
+</html>

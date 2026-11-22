@@ -65,7 +65,7 @@ Boite_NeuroPed/
 
 **Axe E — Ludothèque cognitive (11 outils, 0 en ligne)**
 `des-emotions` · `cartes-scenarios-parent-enfant` · `apprivoise-tes-emotions` ·
-`memoire-en-images` · `jeux-maison-fe` · `jeu-chitane` · `jeux-adaptes-rahma-tech` ·
+`memoire-en-images` · `jeux-maison-fe` · `tri-des-pensees` · `jeux-adaptes-rahma-tech` ·
 `roue-conversation` · `choisis-une-reponse` · `jeux-cognitifs-ados` · `catalogue-jeux-fe`
 
 **Axe F — Suivi & traçabilité (13 outils, 0 en ligne)**

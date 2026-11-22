@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planificateur — Coup d'œil · Al Mizan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700&family=Nunito+Sans:wght@300;400;600;700;900&family=Amiri&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Charte Al Mizan (crème · sauge · terracotta · or) — variables héritées remappées */
+    --dore:#C39A4B; --dore-fonce:#B0863A; --dore-clair:#D4A050;
+    --beige:#e3d7c4; --rose-poudre:#F1EADD; --rose-dragee:#A9664F; --anthracite:#4A443C;
+    --vert:#8B9A80; --vert-fonce:#74856A;
+    --serif:'Cormorant Garamond',Georgia,serif; --sans:'Nunito Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  body{margin:0; padding:0; background:var(--rose-poudre); font-family:var(--sans); color:var(--anthracite);}
+  .wrap{max-width:1180px; margin:0 auto; padding:26px 20px 60px;}
+  header{text-align:center; margin-bottom:18px;}
+  header h1{font-family:'Cormorant Garamond',Georgia,serif; font-size:30px; margin:0 0 4px;
+    background:linear-gradient(90deg,var(--dore-fonce),var(--dore),var(--dore-clair));
+    -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:0.5px;}
+  header p{margin:0; font-size:13.5px; color:var(--rose-dragee); font-style:italic;}
+
+  .topfields{display:flex; gap:14px; flex-wrap:wrap; margin:18px 0; background:#fff; border-radius:12px;
+    padding:14px 18px; box-shadow:0 2px 6px rgba(75,75,75,0.08); border-left:5px solid var(--dore);}
+  .topfields .champ{flex:1 1 220px;}
+  .topfields label{display:block; font-weight:bold; font-size:12.5px; margin-bottom:4px; color:var(--dore-fonce);}
+  .topfields input[type=text], .topfields textarea{width:100%; border:1px solid var(--beige); border-radius:8px;
+    padding:7px 9px; font-family:Georgia,serif; font-size:13.5px; color:var(--anthracite); background:#FDF9F6; resize:vertical;}
+  .topfields textarea{min-height:38px;}
+
+  nav.tabs{display:flex; gap:8px; margin-bottom:16px;}
+  nav.tabs button{flex:1; background:#fff; border:2px solid var(--beige); color:var(--anthracite);
+    padding:11px 14px; border-radius:12px; font-family:Georgia,serif; font-size:14.5px; cursor:pointer;
+    transition:all .15s;}
+  nav.tabs button.active{background:var(--dore); border-color:var(--dore-fonce); color:#fff; font-weight:bold;}
+
+  .page{display:none;}
+  .page.active{display:block;}
+
+  h2.section-title{font-family:'Cormorant Garamond',Georgia,serif; font-size:20px; color:var(--rose-dragee);
+    border-bottom:2px solid var(--dore); padding-bottom:6px; margin:26px 0 14px;}
+  h2.section-title:first-child{margin-top:0;}
+
+  /* --- Vue Aujourd'hui --- */
+  .jour-select-row{display:flex; align-items:center; gap:10px; margin-bottom:16px;}
+  .jour-select-row label{font-weight:bold; font-size:13.5px;}
+  .jour-select-row select{font-family:Georgia,serif; font-size:14px; padding:6px 10px; border-radius:8px; border:1px solid var(--beige); background:#fff;}
+  .badge-aujourdhui{background:var(--vert); color:#fff; font-size:11px; padding:2px 9px; border-radius:20px;}
+
+  .urgence-list, .rdv-list{list-style:none; margin:0; padding:0;}
+  .urgence-list li, .rdv-list li{display:flex; gap:8px; align-items:flex-start; background:#fff; border-radius:10px;
+    padding:9px 12px; margin-bottom:8px; box-shadow:0 1px 4px rgba(75,75,75,0.07); border-left:4px solid var(--rose-dragee);}
+  .rdv-list li{border-left-color:var(--dore);}
+  .urgence-list li input[type=text], .rdv-list li input[type=text]{flex:1; border:none; background:transparent;
+    font-family:Georgia,serif; font-size:13.5px; color:var(--anthracite);}
+  .rdv-list li select{font-family:Georgia,serif; font-size:12.5px; border:1px solid var(--beige); border-radius:6px; padding:2px 4px;}
+  .del-btn{background:none; border:none; color:var(--rose-dragee); cursor:pointer; font-size:15px; line-height:1; padding:2px 4px;}
+  .add-btn{background:#fff; border:1px dashed var(--dore); color:var(--dore-fonce); border-radius:8px;
+    padding:6px 12px; font-size:12.5px; cursor:pointer; font-family:Georgia,serif;}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-top:6px;}
+  .card{background:#fff; border-radius:12px; padding:14px 16px; box-shadow:0 2px 6px rgba(75,75,75,0.08); border-top:4px solid var(--dore);}
+  .card.protege{border-top-color:var(--vert);}
+  .card h3{margin:0 0 8px; font-size:14.5px; color:var(--anthracite);}
+  .card textarea{width:100%; min-height:70px; border:1px solid var(--beige); border-radius:8px; padding:7px 9px;
+    font-family:Georgia,serif; font-size:13px; color:var(--anthracite); background:#FDF9F6; resize:vertical;}
+
+  /* --- Vue semaine --- */
+  table.grille{width:100%; border-collapse:collapse; margin-top:6px; background:#fff; border-radius:10px; overflow:hidden;
+    box-shadow:0 2px 8px rgba(75,75,75,0.07);}
+  table.grille th{background:var(--anthracite); color:#fff; font-size:12px; padding:8px 6px; text-align:left; font-weight:normal;}
+  table.grille td{border-top:1px solid var(--rose-poudre); padding:6px; vertical-align:top;}
+  table.grille td textarea{width:100%; min-height:50px; font-size:12px; border:1px solid var(--beige); border-radius:6px;
+    padding:5px 7px; font-family:Georgia,serif; color:var(--anthracite); background:#FDF9F6; resize:vertical;}
+  table.grille tr.protege{background:#FBF3EA;}
+  .cat-label{font-size:11.5px; font-weight:bold; color:var(--dore-fonce); white-space:nowrap;}
+
+  .boutons{display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; align-items:center;}
+  button.action{background:var(--dore); color:#fff; border:none; padding:9px 18px; border-radius:20px; font-size:13px; cursor:pointer; font-family:inherit;}
+  button.action.secondaire{background:#fff; color:var(--dore-fonce); border:1px solid var(--dore);}
+  button.action.danger{background:#fff; color:var(--rose-dragee); border:1px solid var(--rose-dragee);}
+  .save-status{font-size:11.5px; color:var(--vert-fonce); font-style:italic; margin-left:auto;}
+
+  footer{text-align:center; margin-top:30px; font-size:12px; color:var(--rose-dragee); font-style:italic;}
+
+  @media print{
+    nav.tabs, .boutons{display:none;}
+    .page{display:block !important;}
+    .page + .page{margin-top:30px; page-break-before:always;}
+    section.bloc, .card, table.grille{box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div style="text-align:left;margin-bottom:10px;"><a href="index.html" style="color:var(--vert-fonce);font-weight:700;text-decoration:none;font-family:var(--sans);font-size:14px;">‹ Espace Al Mizan</a></div>
+  <h1>🌿 Planificateur — Coup d'œil</h1>
+  <p>Un seul outil, deux vues — se sauvegarde tout seul sur cet appareil</p>
+</header>
+
+<div class="topfields">
+  <div class="champ">
+    <label>Semaine du … au …</label>
+    <input type="text" id="champ-semaine" placeholder="Ex : jeudi 6 au mercredi 12 août 2026">
+  </div>
+  <div class="champ" style="flex:2 1 320px;">
+    <label>Intention posée pour cette semaine</label>
+    <textarea id="champ-intention" placeholder="Ex : cette semaine, je me protège autant que je protège mes consultantes."></textarea>
+  </div>
+</div>
+
+<nav class="tabs">
+  <button id="tab-jour" class="active" onclick="switchTab('jour')">🔭 Aujourd'hui &amp; Urgences</button>
+  <button id="tab-semaine" onclick="switchTab('semaine')">🗓️ Vue de la semaine</button>
+</nav>
+
+<!-- PAGE 1 : AUJOURD'HUI & URGENCES -->
+<div class="page active" id="page-jour">
+
+  <div class="jour-select-row">
+    <label for="select-jour">Jour affiché :</label>
+    <select id="select-jour" onchange="onChangeJourAffiche()"></select>
+    <span class="badge-aujourdhui" id="badge-today" style="display:none;">aujourd'hui</span>
+  </div>
+
+  <h2 class="section-title">🚨 À ne pas oublier / urgent</h2>
+  <ul class="urgence-list" id="liste-urgences"></ul>
+  <button class="add-btn" onclick="ajouterUrgence()">+ ajouter un point urgent</button>
+
+  <h2 class="section-title">📌 Rendez-vous fixes cette semaine</h2>
+  <ul class="rdv-list" id="liste-rdv"></ul>
+  <button class="add-btn" onclick="ajouterRdv()">+ ajouter un rendez-vous</button>
+
+  <h2 class="section-title">Le jour sélectionné, catégorie par catégorie</h2>
+  <div class="cards" id="cards-jour"></div>
+
+</div>
+
+<!-- PAGE 2 : VUE DE LA SEMAINE -->
+<div class="page" id="page-semaine">
+  <h2 class="section-title">🗓️ Vue de la semaine (7 jours × catégories)</h2>
+  <table class="grille" id="table-semaine"></table>
+
+  <h2 class="section-title">📝 Bilan de fin de semaine</h2>
+  <p style="font-size:12.5px; opacity:.7; margin:-8px 0 8px;">Est-ce que l'équilibre a tenu ? Qu'est-ce qui a débordé sur quoi ?</p>
+  <textarea id="champ-bilan" style="width:100%; min-height:70px; border:1px solid var(--beige); border-radius:8px; padding:9px 11px; font-family:Georgia,serif; font-size:13.5px; background:#fff;"></textarea>
+</div>
+
+<div class="boutons">
+  <button class="action" onclick="window.print()">🖨️ Imprimer</button>
+  <button class="action secondaire" onclick="viderSemaine()">↺ Vider la semaine</button>
+  <span class="save-status" id="save-status">—</span>
+</div>
+
+<footer>🌱 Une planification vivante — à ajuster à chaque check-in. Tout reste enregistré sur cet appareil (rien n'est envoyé). Al Mizan Al Qalb · Rahma-Tech.</footer>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'almizan_planificateur_coupdoeil_v1';
+
+const CATEGORIES = [
+  {key:'spirituel',     label:'🕌 Spirituel',            protege:true},
+  {key:'famille',       label:'👨‍👩‍👧 Famille',              protege:true},
+  {key:'repos',         label:'🌿 Repos / soin de soi',   protege:true},
+  {key:'accompagnement',label:'💛 Accompagnement',        protege:false},
+  {key:'formations',    label:'🎓 Formations',            protege:false},
+  {key:'admin',         label:'📋 Admin',                 protege:false},
+  {key:'creations',     label:'🎨 Créations',             protege:false},
+  {key:'com',           label:'📣 Com',                   protege:false}
+];
+
+const JOURS = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
+const JOURS_LABEL = {lundi:'Lundi',mardi:'Mardi',mercredi:'Mercredi',jeudi:'Jeudi',vendredi:'Vendredi',samedi:'Samedi',dimanche:'Dimanche'};
+
+function dataParDefaut(){
+  const jours = {};
+  JOURS.forEach(j=>{
+    jours[j] = {};
+    CATEGORIES.forEach(c=>{ jours[j][c.key] = ''; });
+  });
+  return {
+    semaine: '',
+    intention: '',
+    bilan: '',
+    jourAffiche: jourDuJourFR(),
+    urgences: [],
+    rdv: [],
+    jours: jours
+  };
+}
+
+function jourDuJourFR(){
+  // getDay(): 0=dimanche...6=samedi -> on remappe vers notre liste lundi->dimanche
+  const map = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+  return map[new Date().getDay()];
+}
+
+let data = charger();
+
+function charger(){
+  try{
+    const brut = localStorage.getItem(STORAGE_KEY);
+    if(!brut) return dataParDefaut();
+    const parsed = JSON.parse(brut);
+    // fusion douce avec les valeurs par défaut (au cas où des catégories ont été ajoutées depuis)
+    const def = dataParDefaut();
+    def.semaine = parsed.semaine || '';
+    def.intention = parsed.intention || '';
+    def.bilan = parsed.bilan || '';
+    def.jourAffiche = parsed.jourAffiche || jourDuJourFR();
+    def.urgences = Array.isArray(parsed.urgences) ? parsed.urgences : [];
+    def.rdv = Array.isArray(parsed.rdv) ? parsed.rdv : [];
+    if(parsed.jours){
+      JOURS.forEach(j=>{
+        if(parsed.jours[j]){
+          CATEGORIES.forEach(c=>{
+            if(typeof parsed.jours[j][c.key] === 'string') def.jours[j][c.key] = parsed.jours[j][c.key];
+          });
+        }
+      });
+    }
+    return def;
+  }catch(e){
+    return dataParDefaut();
+  }
+}
+
+let saveTimer = null;
+function sauvegarder(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    const el = document.getElementById('save-status');
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    el.textContent = '✓ enregistré à ' + hh + ':' + mm;
+  }, 300);
+}
+
+function switchTab(nom){
+  document.getElementById('page-jour').classList.toggle('active', nom==='jour');
+  document.getElementById('page-semaine').classList.toggle('active', nom==='semaine');
+  document.getElementById('tab-jour').classList.toggle('active', nom==='jour');
+  document.getElementById('tab-semaine').classList.toggle('active', nom==='semaine');
+}
+
+function onChangeJourAffiche(){
+  data.jourAffiche = document.getElementById('select-jour').value;
+  sauvegarder();
+  renderCardsJour();
+  majBadgeAujourdhui();
+}
+
+function majBadgeAujourdhui(){
+  const badge = document.getElementById('badge-today');
+  badge.style.display = (data.jourAffiche === jourDuJourFR()) ? 'inline-block' : 'none';
+}
+
+function renderSelectJour(){
+  const sel = document.getElementById('select-jour');
+  sel.innerHTML = '';
+  JOURS.forEach(j=>{
+    const opt = document.createElement('option');
+    opt.value = j;
+    opt.textContent = JOURS_LABEL[j] + (j===jourDuJourFR() ? ' (aujourd\'hui)' : '');
+    if(j===data.jourAffiche) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function renderCardsJour(){
+  const cont = document.getElementById('cards-jour');
+  cont.innerHTML = '';
+  const j = data.jourAffiche;
+  CATEGORIES.forEach(c=>{
+    const card = document.createElement('div');
+    card.className = 'card' + (c.protege ? ' protege' : '');
+    const h3 = document.createElement('h3');
+    h3.textContent = c.label;
+    const ta = document.createElement('textarea');
+    ta.value = data.jours[j][c.key] || '';
+    ta.placeholder = 'Rien de noté pour ' + JOURS_LABEL[j].toLowerCase() + '…';
+    ta.addEventListener('input', ()=>{
+      data.jours[j][c.key] = ta.value;
+      sauvegarder();
+      syncGrilleCell(j, c.key, ta.value);
+    });
+    card.appendChild(h3);
+    card.appendChild(ta);
+    cont.appendChild(card);
+  });
+}
+
+function renderUrgences(){
+  const ul = document.getElementById('liste-urgences');
+  ul.innerHTML = '';
+  data.urgences.forEach((texte, idx)=>{
+    const li = document.createElement('li');
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = texte;
+    input.placeholder = 'Point urgent…';
+    input.addEventListener('input', ()=>{ data.urgences[idx] = input.value; sauvegarder(); });
+    const del = document.createElement('button');
+    del.className = 'del-btn'; del.textContent = '✕'; del.title = 'Supprimer';
+    del.addEventListener('click', ()=>{ data.urgences.splice(idx,1); sauvegarder(); renderUrgences(); });
+    li.appendChild(input); li.appendChild(del);
+    ul.appendChild(li);
+  });
+}
+function ajouterUrgence(){ data.urgences.push(''); sauvegarder(); renderUrgences(); }
+
+function renderRdv(){
+  const ul = document.getElementById('liste-rdv');
+  ul.innerHTML = '';
+  data.rdv.forEach((item, idx)=>{
+    const li = document.createElement('li');
+    const sel = document.createElement('select');
+    JOURS.forEach(j=>{
+      const opt = document.createElement('option');
+      opt.value = j; opt.textContent = JOURS_LABEL[j];
+      if(item.jour===j) opt.selected = true;
+      sel.appendChild(opt);
+    });
+    sel.addEventListener('change', ()=>{ item.jour = sel.value; sauvegarder(); });
+    const input = document.createElement('input');
+    input.type = 'text'; input.value = item.texte || ''; input.placeholder = 'Ex : 10h — Séance / rendez-vous';
+    input.addEventListener('input', ()=>{ item.texte = input.value; sauvegarder(); });
+    const del = document.createElement('button');
+    del.className = 'del-btn'; del.textContent = '✕'; del.title = 'Supprimer';
+    del.addEventListener('click', ()=>{ data.rdv.splice(idx,1); sauvegarder(); renderRdv(); });
+    li.appendChild(sel); li.appendChild(input); li.appendChild(del);
+    ul.appendChild(li);
+  });
+}
+function ajouterRdv(){ data.rdv.push({jour: jourDuJourFR(), texte:''}); sauvegarder(); renderRdv(); }
+
+function renderGrilleSemaine(){
+  const table = document.getElementById('table-semaine');
+  table.innerHTML = '';
+  const trHead = document.createElement('tr');
+  trHead.appendChild(document.createElement('th'));
+  JOURS.forEach(j=>{
+    const th = document.createElement('th');
+    th.textContent = JOURS_LABEL[j].slice(0,3) + '.';
+    trHead.appendChild(th);
+  });
+  table.appendChild(trHead);
+
+  CATEGORIES.forEach(c=>{
+    const tr = document.createElement('tr');
+    if(c.protege) tr.className = 'protege';
+    const tdLabel = document.createElement('td');
+    tdLabel.className = 'cat-label';
+    tdLabel.textContent = c.label;
+    tr.appendChild(tdLabel);
+    JOURS.forEach(j=>{
+      const td = document.createElement('td');
+      const ta = document.createElement('textarea');
+      ta.id = 'grille-' + j + '-' + c.key;
+      ta.value = data.jours[j][c.key] || '';
+      ta.addEventListener('input', ()=>{
+        data.jours[j][c.key] = ta.value;
+        sauvegarder();
+        if(j===data.jourAffiche) syncCardCell(c.key, ta.value);
+      });
+      td.appendChild(ta);
+      tr.appendChild(td);
+    });
+    table.appendChild(tr);
+  });
+}
+
+function syncGrilleCell(jour, catKey, valeur){
+  const ta = document.getElementById('grille-' + jour + '-' + catKey);
+  if(ta && ta.value !== valeur) ta.value = valeur;
+}
+function syncCardCell(catKey, valeur){
+  const cont = document.getElementById('cards-jour');
+  const cards = cont.querySelectorAll('.card');
+  const idx = CATEGORIES.findIndex(c=>c.key===catKey);
+  if(idx>-1 && cards[idx]){
+    const ta = cards[idx].querySelector('textarea');
+    if(ta && ta.value !== valeur) ta.value = valeur;
+  }
+}
+
+function viderSemaine(){
+  if(!confirm('Vider tous les champs de la semaine (jours, urgences, rendez-vous, bilan) ? Cette action ne peut pas être annulée.')) return;
+  data = dataParDefaut();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  document.getElementById('champ-semaine').value = '';
+  document.getElementById('champ-intention').value = '';
+  document.getElementById('champ-bilan').value = '';
+  renderTout();
+}
+
+function renderTout(){
+  document.getElementById('champ-semaine').value = data.semaine || '';
+  document.getElementById('champ-intention').value = data.intention || '';
+  document.getElementById('champ-bilan').value = data.bilan || '';
+  renderSelectJour();
+  majBadgeAujourdhui();
+  renderCardsJour();
+  renderUrgences();
+  renderRdv();
+  renderGrilleSemaine();
+}
+
+document.getElementById('champ-semaine').addEventListener('input', (e)=>{ data.semaine = e.target.value; sauvegarder(); });
+document.getElementById('champ-intention').addEventListener('input', (e)=>{ data.intention = e.target.value; sauvegarder(); });
+document.getElementById('champ-bilan').addEventListener('input', (e)=>{ data.bilan = e.target.value; sauvegarder(); });
+
+renderTout();
+</script>
+</body>
+</html>

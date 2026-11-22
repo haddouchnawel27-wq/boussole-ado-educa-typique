@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dés des émotions — EducaTypique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/charte.css">
+<style>
+body{background:linear-gradient(180deg,#fff5e8,#fff);min-height:100vh}
+.bandeau{background:linear-gradient(135deg,#e9a73a,#F39BC2,#CBB6F6);padding:1.8rem 1.5rem;text-align:center;color:#fff;position:relative;overflow:hidden}
+.bandeau::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.2),transparent 60%);pointer-events:none}
+.bandeau .retour{display:inline-block;background:rgba(255,255,255,.25);color:#fff;text-decoration:none;padding:.35em 1em;border-radius:999px;font-weight:700;font-size:.9rem;position:relative;z-index:1}
+.bandeau h1{color:#fff;margin:.6rem 0 .3rem;font-size:1.9rem;text-shadow:0 2px 8px rgba(0,0,0,.15);position:relative;z-index:1}
+.bandeau .sub{opacity:.95;font-size:1rem;max-width:680px;margin:0 auto;position:relative;z-index:1}
+.bandeau .signature{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem;opacity:.9;position:relative;z-index:1}
+
+.wrap{max-width:900px;margin:1.5rem auto;padding:0 1.2rem;display:flex;flex-direction:column;gap:1rem}
+
+.intro{background:#fff;padding:1.1rem 1.3rem;border-radius:var(--r-lg);box-shadow:var(--shadow-sm);border-left:5px solid var(--orange-warning);line-height:1.55}
+.intro strong{color:var(--orange-warning-fonce)}
+
+/* DÉS ZONE */
+.des-zone{background:#fff;border-radius:var(--r-lg);padding:1.4rem 1.2rem;box-shadow:var(--shadow-sm);text-align:center}
+.des-container{display:flex;justify-content:center;align-items:center;gap:1.5rem;flex-wrap:wrap;margin:.8rem 0 1rem}
+.de{position:relative;width:140px;height:140px;perspective:1000px}
+.de-cube{width:100%;height:100%;border-radius:var(--r-md);background:linear-gradient(135deg,#fff,var(--c-de));border:3px solid var(--c-de);box-shadow:0 8px 16px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;flex-direction:column;transition:transform .6s cubic-bezier(.4,2,.6,1);transform-style:preserve-3d}
+.de-cube.rolling{animation:roll 1.2s cubic-bezier(.4,1.5,.6,1)}
+@keyframes roll{
+  0%{transform:rotateX(0) rotateY(0) scale(1)}
+  25%{transform:rotateX(360deg) rotateY(180deg) scale(1.1)}
+  50%{transform:rotateX(720deg) rotateY(360deg) scale(.95)}
+  75%{transform:rotateX(900deg) rotateY(540deg) scale(1.05)}
+  100%{transform:rotateX(1080deg) rotateY(720deg) scale(1)}
+}
+.de-ic{font-size:3.5rem;line-height:1;margin-bottom:.2rem}
+.de-label{font-size:.78rem;font-weight:800;color:var(--c-de);text-transform:uppercase;letter-spacing:.5px;padding:0 .5rem}
+.de.emo{--c-de:#F39BC2}
+.de.situ{--c-de:#e9a73a}
+.de-titre{font-size:.78rem;color:#888;text-transform:uppercase;letter-spacing:1px;font-weight:800;margin-top:.3rem}
+
+.btn-lancer{padding:.9em 2rem;background:linear-gradient(135deg,var(--orange-warning),#F39BC2);color:#fff;border:none;border-radius:999px;font-weight:800;font-family:inherit;cursor:pointer;font-size:1.05rem;box-shadow:var(--shadow-md);transition:all .2s;margin-top:.5rem}
+.btn-lancer:hover{transform:translateY(-3px) scale(1.02);box-shadow:var(--shadow-lg)}
+.btn-lancer:active{transform:translateY(-1px)}
+.btn-lancer:disabled{opacity:.6;cursor:not-allowed}
+
+.histoire-zone{background:linear-gradient(135deg,#fff,#fff5f8);border-radius:var(--r-lg);padding:1.2rem 1.4rem;box-shadow:var(--shadow-sm);border:2px solid #f0c8d8;margin-top:.8rem;display:none}
+.histoire-zone.visible{display:block;animation:fade-in .4s ease}
+@keyframes fade-in{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.histoire-zone h2{color:#a04268;margin:0 0 .4rem;font-size:1.2rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.histoire-zone .combo{background:#fff5f8;padding:.7rem .9rem;border-radius:var(--r-md);font-size:1rem;line-height:1.6;margin:.5rem 0;border-left:4px solid #F39BC2}
+.histoire-zone .combo strong{color:#a04268}
+.histoire-zone .pistes{background:#fff;padding:.7rem .9rem;border-radius:var(--r-md);font-size:.92rem;line-height:1.6;margin-top:.4rem;border-left:4px solid var(--violet-titre)}
+.histoire-zone .pistes h3{color:var(--violet-fonce);margin:0 0 .3rem;font-size:.95rem}
+.histoire-zone .pistes ul{margin:.2rem 0;padding-left:1.3rem}
+.histoire-zone .pistes li{margin-bottom:.2rem;color:#444}
+
+.regles{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid var(--violet-titre)}
+.regles h3{color:var(--violet-fonce);margin:0 0 .5rem}
+.regles ol{padding-left:1.3rem;margin:0;line-height:1.7;font-size:.93rem}
+.regles ol li strong{color:var(--violet-fonce)}
+
+.contenu-des{background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.3rem;box-shadow:var(--shadow-sm);border-top:5px solid #e9a73a}
+.contenu-des h3{color:#a07000;margin:0 0 .5rem;font-size:1rem}
+.contenu-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+@media (max-width:600px){.contenu-grid{grid-template-columns:1fr}}
+.contenu-col h4{margin:.3rem 0 .3rem;font-size:.9rem;color:#a07000}
+.contenu-col h4.emo{color:#a04268}
+.contenu-col .chips{display:flex;flex-wrap:wrap;gap:.25rem}
+.contenu-col .chip{padding:.25em .55em;background:#faf6fb;border:1px solid #e0d4ec;color:#5a4d6b;border-radius:999px;font-size:.78rem}
+
+.mot-final{background:linear-gradient(135deg,#fff,#f5f0fa);border-left:4px solid #9B85B8;padding:.9rem 1.2rem;border-radius:var(--r-md);font-size:.93rem;line-height:1.6;color:#5A4D6B;margin-top:.6rem}
+.mot-final strong{color:var(--violet-fonce)}
+
+.actions{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:1rem 0 2rem}
+.actions button{padding:.55em 1.2em;border:2px solid var(--orange-warning);background:#fff;color:var(--orange-warning-fonce);border-radius:999px;font-weight:700;font-family:inherit;cursor:pointer;font-size:.9rem}
+.actions button:hover{background:var(--orange-warning);color:#fff}
+.actions .primary{background:var(--orange-warning);color:#fff}
+
+@media print{body{background:#fff}.actions,.bandeau .retour,.btn-lancer{display:none!important}.des-zone,.histoire-zone,.regles{box-shadow:none;border:1px solid #ccc}}
+</style>
+</head>
+<body>
+
+<section class="bandeau">
+  <a class="retour" href="../../casa-familles/index.html">← La Casa des Familles</a>
+  <h1>🎲 Dés des émotions</h1>
+  <p class="sub">Un jeu parent-enfant pour apprendre à nommer les émotions sans pression. 2 dés tirés → on raconte ensemble.</p>
+  <div class="signature">Création originale Nawel Haddouch · EducaTypique</div>
+</section>
+
+<div class="wrap">
+
+  <div class="intro">
+    🎲 <strong>Comment ça marche ?</strong> On lance les 2 dés ensemble. L'un donne une <strong>émotion</strong>, l'autre une <strong>situation</strong>. Puis vous racontez ensemble : <em>« Quand est-ce qu'on s'est senti comme ça ? »</em> · <em>« Qu'est-ce qui aide quand on se sent comme ça ? »</em>. Aucun jugement, juste partager. 🌿 Idéal 5-12 ans · au moment du goûter, du repas, ou à la place d'une histoire du soir.
+  </div>
+
+  <!-- ZONE DES DÉS -->
+  <section class="des-zone">
+    <div class="des-container">
+      <div>
+        <div class="de emo">
+          <div class="de-cube" id="de-emo">
+            <div class="de-ic" id="de-emo-ic">🎲</div>
+            <div class="de-label" id="de-emo-label">Émotion</div>
+          </div>
+        </div>
+        <div class="de-titre">Dé Émotion</div>
+      </div>
+      <div>
+        <div class="de situ">
+          <div class="de-cube" id="de-situ">
+            <div class="de-ic" id="de-situ-ic">🎲</div>
+            <div class="de-label" id="de-situ-label">Situation</div>
+          </div>
+        </div>
+        <div class="de-titre">Dé Situation</div>
+      </div>
+    </div>
+    <button class="btn-lancer" id="btn-lancer">🎲 Lancer les dés !</button>
+  </section>
+
+  <!-- HISTOIRE ZONE -->
+  <section class="histoire-zone" id="histoire-zone">
+    <h2 id="histoire-titre">🌟 Vous avez tiré...</h2>
+    <div class="combo" id="combo-txt"></div>
+    <div class="pistes" id="pistes-txt"></div>
+  </section>
+
+  <!-- RÈGLES DU JEU -->
+  <section class="regles">
+    <h3>📜 5 règles du jeu</h3>
+    <ol>
+      <li><strong>Pas de bonne ou mauvaise réponse.</strong> Toutes les émotions sont OK. Toutes les histoires sont valables.</li>
+      <li><strong>L'enfant a le choix.</strong> Il/elle peut répondre, ou « passer son tour ». Pas de pression.</li>
+      <li><strong>L'adulte raconte aussi.</strong> Pas que l'enfant. C'est en racontant tes propres émotions que l'enfant apprend à nommer les siennes.</li>
+      <li><strong>Pas de leçon.</strong> Si l'enfant raconte un truc dur, on accueille (« je comprends que ça t'ait fait sentir comme ça »). On n'enchaîne pas avec un conseil.</li>
+      <li><strong>5 à 10 min suffisent.</strong> Inutile de jouer 1h. La régularité (1-2× par semaine) vaut mieux qu'une grosse séance ponctuelle.</li>
+    </ol>
+  </section>
+
+  <!-- CONTENU DES DÉS -->
+  <section class="contenu-des">
+    <h3>📋 Ce qu'il y a dans les dés (pour info)</h3>
+    <div class="contenu-grid">
+      <div class="contenu-col">
+        <h4 class="emo">🎭 Dé Émotion (12 émotions)</h4>
+        <div class="chips" id="liste-emotions"></div>
+      </div>
+      <div class="contenu-col">
+        <h4>🎬 Dé Situation (12 situations)</h4>
+        <div class="chips" id="liste-situations"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mot-final">
+    <strong>💛 Astuce Nawel :</strong> Pour les enfants TSA ou anxieux qui ont du mal à nommer leurs émotions à l'oral, autorise-les à <strong>dessiner</strong> au lieu de parler. Ou à montrer sur une carte des émotions. Le but n'est pas la performance verbale — c'est de mettre des mots ou des images sur ce qui bouillonne à l'intérieur.
+  </div>
+
+  <div class="actions">
+    <button class="primary" onclick="document.getElementById('btn-lancer').click()">🎲 Relancer</button>
+    <button onclick="window.print()">🖨 Imprimer les règles</button>
+    <a href="../../casa-familles/index.html" style="padding:.55em 1.2em;background:#fff;color:var(--orange-warning-fonce);border:2px solid var(--orange-warning);border-radius:999px;text-decoration:none;font-weight:700;font-family:inherit;font-size:.9rem">← La Casa des Familles</a>
+  </div>
+
+  <div class="disclaimer">
+    Jeu psychoéducatif simple pour familles. Pas un substitut à un suivi pro si l'enfant exprime des émotions qui inquiètent (idées noires, tristesse constante, peur récurrente). 💛 <strong>119</strong> (Enfance en danger) · <strong>3114</strong> (prévention suicide)
+  </div>
+
+  <p style="text-align:center;color:#888;font-size:.85rem;padding:1rem 0">
+    Neuroo · EducaTypique — <a href="../../casa-familles/index.html" style="color:var(--orange-warning-fonce)">← La Casa des Familles</a>
+  </p>
+</div>
+
+<script>
+const EMOTIONS = [
+  {ic:'😊', nom:'Joie'},
+  {ic:'😢', nom:'Tristesse'},
+  {ic:'😠', nom:'Colère'},
+  {ic:'😨', nom:'Peur'},
+  {ic:'😳', nom:'Honte'},
+  {ic:'🤩', nom:'Excitation'},
+  {ic:'😴', nom:'Fatigue'},
+  {ic:'😕', nom:'Confusion'},
+  {ic:'😎', nom:'Fierté'},
+  {ic:'🥰', nom:'Tendresse'},
+  {ic:'😖', nom:'Jalousie'},
+  {ic:'🤔', nom:'Curiosité'}
+];
+
+const SITUATIONS = [
+  {ic:'🏫', nom:"À l'école"},
+  {ic:'🏠', nom:'À la maison'},
+  {ic:'🍽', nom:'Pendant un repas'},
+  {ic:'🛏', nom:'Au coucher'},
+  {ic:'🛒', nom:'Aux courses ou en sortie'},
+  {ic:'👫', nom:'Avec un·e ami·e'},
+  {ic:'🏡', nom:'Avec un parent'},
+  {ic:'👶', nom:'Avec un frère/sœur'},
+  {ic:'🎂', nom:'À une fête'},
+  {ic:'🎮', nom:'En jouant'},
+  {ic:'📚', nom:'Pendant les devoirs'},
+  {ic:'🌧', nom:"Quand il y a un imprévu"}
+];
+
+const PISTES = {
+  'Joie':["Qu'est-ce qui te rend le plus joyeux/se en ce moment ?","On peut s'inventer un moment joie cette semaine ?"],
+  'Tristesse':["C'est OK d'être triste — c'est une émotion utile.","Tu as besoin qu'on parle, qu'on te console, ou juste qu'on reste avec toi ?"],
+  'Colère':["La colère cache souvent un besoin pas écouté. Qu'est-ce qui t'aurait fait du bien ?","On peut crier dans un oreiller, ou marcher fort pour la faire sortir."],
+  'Peur':["Les peurs sont normales. Tu veux qu'on en parle ?","Qu'est-ce qui pourrait t'aider à avoir un peu moins peur ?"],
+  'Honte':["La honte fait mal et elle est invisible. Merci de la nommer.","Qu'est-ce qui t'aurait soulagé(e) à ce moment-là ?"],
+  'Excitation':["Yes ! Raconte-moi ce qui te fait vibrer.","Comment ton corps réagit quand tu es comme ça ?"],
+  'Fatigue':["Ton corps te demande quelque chose. Du repos, du calme, ou autre chose ?","Comment on peut s'organiser pour que tu sois moins fatigué(e) ?"],
+  'Confusion':["Pas grave si tu ne sais pas. C'est OK d'être perdu(e) parfois.","On peut chercher ensemble ce qui te perd ?"],
+  'Fierté':["Bravo ! Qu'est-ce que tu as fait dont tu es fier(e) ?","C'est important de célébrer aussi les petites victoires."],
+  'Tendresse':["C'est doux d'aimer. Avec qui tu te sens comme ça ?","Comment tu montres aux autres que tu les aimes ?"],
+  'Jalousie':["La jalousie est une émotion difficile mais très humaine. Tu n'es pas méchant(e) de la ressentir.","Qu'est-ce qui te ferait te sentir mieux ?"],
+  'Curiosité':["Super, raconte ! Qu'est-ce qui t'intrigue ?","On peut chercher ensemble ?"]
+};
+
+let isRolling=false;
+let dernierTirage=null;
+
+function lancerDes(){
+  if(isRolling)return;
+  isRolling=true;
+  document.getElementById('btn-lancer').disabled=true;
+  document.getElementById('de-emo').classList.add('rolling');
+  document.getElementById('de-situ').classList.add('rolling');
+  // Pendant l'animation, on change rapidement les emojis pour effet aléatoire
+  let count=0;
+  const interval=setInterval(()=>{
+    const eAlea=EMOTIONS[Math.floor(Math.random()*EMOTIONS.length)];
+    const sAlea=SITUATIONS[Math.floor(Math.random()*SITUATIONS.length)];
+    document.getElementById('de-emo-ic').textContent=eAlea.ic;
+    document.getElementById('de-situ-ic').textContent=sAlea.ic;
+    count++;
+  },80);
+  setTimeout(()=>{
+    clearInterval(interval);
+    const emo=EMOTIONS[Math.floor(Math.random()*EMOTIONS.length)];
+    const situ=SITUATIONS[Math.floor(Math.random()*SITUATIONS.length)];
+    document.getElementById('de-emo-ic').textContent=emo.ic;
+    document.getElementById('de-emo-label').textContent=emo.nom;
+    document.getElementById('de-situ-ic').textContent=situ.ic;
+    document.getElementById('de-situ-label').textContent=situ.nom;
+    document.getElementById('de-emo').classList.remove('rolling');
+    document.getElementById('de-situ').classList.remove('rolling');
+    afficherHistoire(emo, situ);
+    dernierTirage={emo, situ};
+    isRolling=false;
+    document.getElementById('btn-lancer').disabled=false;
+  }, 1200);
+}
+
+function afficherHistoire(emo, situ){
+  const z=document.getElementById('histoire-zone');
+  document.getElementById('histoire-titre').innerHTML=`🌟 ${emo.ic} <strong>${emo.nom}</strong> · ${situ.ic} <strong>${situ.nom}</strong>`;
+  document.getElementById('combo-txt').innerHTML=`<strong>🏡 À raconter ensemble :</strong> « Une fois où je me suis senti(e) <strong>${emo.nom.toLowerCase()}</strong> ${situ.nom.toLowerCase()}... »<br><br>Chacun à votre tour. L'enfant raconte, puis l'adulte raconte. Si vous bloquez, c'est OK — on peut juste imaginer une situation.`;
+  const pistes=PISTES[emo.nom]||[];
+  let pistesHtml='<h3>💬 Questions pour aller plus loin</h3><ul>';
+  pistes.forEach(p=>pistesHtml+=`<li>${p}</li>`);
+  pistesHtml+='</ul>';
+  document.getElementById('pistes-txt').innerHTML=pistesHtml;
+  z.classList.add('visible');
+  setTimeout(()=>z.scrollIntoView({behavior:'smooth',block:'nearest'}), 200);
+}
+
+function renderListes(){
+  document.getElementById('liste-emotions').innerHTML=EMOTIONS.map(e=>`<span class="chip">${e.ic} ${e.nom}</span>`).join('');
+  document.getElementById('liste-situations').innerHTML=SITUATIONS.map(s=>`<span class="chip">${s.ic} ${s.nom}</span>`).join('');
+}
+
+document.getElementById('btn-lancer').onclick=lancerDes;
+renderListes();
+</script>
+
+</body>
+</html>

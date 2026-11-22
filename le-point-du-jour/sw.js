@@ -1,7 +1,10 @@
 /* Service worker — Le point du jour
    Cache l'app pour un usage 100% hors-ligne (installable en PWA).
-   Stratégie : cache-first, avec mise en cache au vol des requêtes GET. */
-const CACHE = 'lpj-v6';
+   Stratégie :
+   - la page (index.html) : réseau d'abord, pour recevoir chaque nouvelle version,
+     puis le cache si on est hors-ligne ;
+   - le reste (icônes, manifeste) : cache d'abord. */
+const CACHE = 'lpj-v7';
 const ASSETS = [
   './',
   './index.html',
@@ -25,8 +28,22 @@ self.addEventListener('activate', e => {
   );
 });
 
+function isPage(req){
+  return req.mode === 'navigate' || /\/(index\.html)?$/.test(new URL(req.url).pathname);
+}
+
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  if (isPage(e.request)) {
+    e.respondWith(
+      fetch(e.request).then(resp => {
+        const copy = resp.clone();
+        caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
+        return resp;
+      }).catch(() => caches.match(e.request).then(c => c || caches.match('./index.html')))
+    );
+    return;
+  }
   e.respondWith(
     caches.match(e.request).then(cached =>
       cached || fetch(e.request).then(resp => {

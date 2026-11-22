@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App émotions ados — Vocabulaire émotionnel · EducaTypique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#FFF8F5 0%,#F5F0F7 50%,#F0F7F5 100%);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2D3E3A;line-height:1.6;padding:24px 16px 64px;min-height:100vh}
+.wrap{max-width:880px;margin:0 auto}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+
+.hdr{text-align:center;padding:36px 24px 26px;margin-bottom:22px;background:linear-gradient(135deg,#FFF6EE 0%,#F5E8E2 50%,#F0E8F0 100%);border-radius:24px;border:1px solid rgba(217,140,140,0.22);box-shadow:0 8px 28px rgba(217,140,140,0.08)}
+.brand{display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#F39BC2,#CBB6F6);color:#fff;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:12px}
+.hdr h1{font-family:Georgia,serif;font-size:30px;font-weight:400;color:#2D3E3A;margin-bottom:8px}
+.hdr p{font-family:Georgia,serif;font-style:italic;font-size:14.5px;color:#5A6B66;max-width:620px;margin:0 auto}
+
+.intro{background:#fff;border-radius:18px;padding:22px 24px;margin-bottom:20px;border:1px solid rgba(243,155,194,0.22);box-shadow:0 4px 14px rgba(243,155,194,0.06)}
+.intro p{font-size:14.5px;color:#3D4E4A;line-height:1.65;margin-bottom:8px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:#D98C8C}
+
+.nav{display:flex;gap:6px;background:#fff;padding:8px;border-radius:14px;margin-bottom:20px;box-shadow:0 4px 12px rgba(243,155,194,0.08);overflow-x:auto;border:1px solid rgba(243,155,194,0.15)}
+.nav button{background:transparent;color:#5A6B66;border:none;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .25s}
+.nav button:hover{background:#F8F0F0}
+.nav button.active{background:linear-gradient(135deg,#F39BC2,#CBB6F6);color:#fff;box-shadow:0 4px 10px rgba(243,155,194,0.3)}
+
+.panel{display:none;animation:fadeIn .4s ease-out}
+.panel.active{display:block}
+.section{background:#fff;border-radius:20px;padding:24px;margin-bottom:18px;border:1px solid rgba(243,155,194,0.18);box-shadow:0 4px 14px rgba(243,155,194,0.05)}
+.section h2{font-family:Georgia,serif;font-size:21px;font-weight:500;color:#2D3E3A;margin-bottom:6px}
+.section .sub{font-size:13.5px;color:#7A8782;font-style:italic;margin-bottom:18px}
+
+.categories{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin:18px 0}
+.cat-card{padding:18px 14px;border-radius:14px;cursor:pointer;text-align:center;transition:all .3s;border:2px solid transparent;animation:pop .4s}
+.cat-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.cat-card.active{transform:scale(1.04);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cat-card .emoji{font-size:38px;display:block;margin-bottom:6px}
+.cat-card .nom{font-family:Georgia,serif;font-size:15px;font-weight:600;color:#2D3E3A}
+.cat-card .count{font-size:11px;color:#7A8782;margin-top:4px;display:block}
+.cat-joie{background:linear-gradient(160deg,#FFF9E8,#FCF3D8);border-color:#E0B83E}
+.cat-tristesse{background:linear-gradient(160deg,#E8F0FA,#D5E5F5);border-color:#6A8FB8}
+.cat-colere{background:linear-gradient(160deg,#FCE2E2,#F5C9C9);border-color:#C9573A}
+.cat-peur{background:linear-gradient(160deg,#F0E8F0,#E8D5E8);border-color:#9B85B8}
+.cat-degout{background:linear-gradient(160deg,#E8F5EC,#DFF0E2);border-color:#6CA89E}
+.cat-surprise{background:linear-gradient(160deg,#FFEEDC,#FCDBBE);border-color:#E89556}
+
+.emotions-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:18px}
+.emo-pill{background:#FBF8F4;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13px;text-align:center;transition:all .25s;border:1px solid rgba(243,155,194,0.2);font-weight:600;color:#3D4E4A}
+.emo-pill:hover{background:#FFF6EE;transform:translateY(-2px);box-shadow:0 4px 10px rgba(243,155,194,.15)}
+.emo-pill .intensity{display:block;font-size:10px;color:#7A8782;font-weight:400;margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+
+.emo-detail{display:none;background:linear-gradient(135deg,#FFFBF6,#FFF6EE);border-radius:18px;padding:22px;margin-top:14px;border:1px solid rgba(243,155,194,0.22);animation:fadeIn .4s}
+.emo-detail.show{display:block}
+.emo-detail h3{font-family:Georgia,serif;font-size:22px;color:#2D3E3A;margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.emo-detail .emo-cat{display:inline-block;font-size:11px;padding:3px 10px;border-radius:8px;background:#F0E8F5;color:#7c5cbf;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.emo-block{background:#fff;padding:14px 16px;border-radius:12px;margin:10px 0;border-left:4px solid #F39BC2}
+.emo-block strong{display:block;color:#D98C8C;font-size:11.5px;text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px}
+.emo-block p{font-size:14px;color:#3D4E4A;line-height:1.6;margin:0}
+
+.journal-form{background:#FBF8F4;border-radius:14px;padding:18px;margin-top:14px}
+.journal-form label{display:block;font-size:13px;font-weight:600;color:#5A6B66;margin:10px 0 6px}
+.journal-form input,.journal-form textarea,.journal-form select{width:100%;padding:10px 14px;border:1px solid rgba(243,155,194,0.25);border-radius:10px;font-size:14px;color:#2D3E3A;background:#fff;font-family:inherit}
+.journal-form textarea{min-height:60px;resize:vertical;line-height:1.55}
+.intensity-slider{display:flex;align-items:center;gap:12px;margin:6px 0}
+.intensity-slider input[type=range]{flex:1;padding:0}
+.intensity-val{font-weight:700;color:#D98C8C;min-width:30px;text-align:center}
+
+.btn{background:linear-gradient(135deg,#F39BC2,#CBB6F6);color:#fff;border:none;padding:11px 22px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;margin-top:12px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(243,155,194,.3)}
+.btn-sec{background:#F8F0F0;color:#7A5C5C;border:1px solid rgba(217,140,140,.25);margin-left:8px}
+
+.entries{margin-top:18px}
+.entry{background:#FBF8F4;border-radius:12px;padding:14px 16px;margin-bottom:10px;border-left:3px solid #CBB6F6;position:relative}
+.entry .e-date{font-size:11.5px;color:#7A6B66;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.entry .e-emo{font-family:Georgia,serif;font-size:15px;color:#2D3E3A;font-weight:600;margin-bottom:4px}
+.entry .e-note{font-size:13px;color:#5A6B66;line-height:1.55;margin-top:4px}
+.entry .e-note strong{color:#3D4E4A}
+.entry-del{position:absolute;top:10px;right:10px;background:transparent;border:none;color:#C9573A;cursor:pointer;font-size:15px}
+
+.footer{text-align:center;padding:30px 16px 8px;color:#7A8782;font-size:12.5px;font-style:italic;font-family:Georgia,serif}
+.footer .brand-foot{color:#D98C8C;font-style:normal;font-weight:600;margin-top:12px;display:block;letter-spacing:1.2px;font-size:10.5px;text-transform:uppercase}
+
+@media (max-width:600px){.hdr h1{font-size:23px}.categories{grid-template-columns:repeat(2,1fr)}.emotions-list{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<a href="../ados.html" style="position:fixed;top:14px;right:14px;z-index:99999;background:rgba(255,255,255,0.92);padding:.45em .95em;border-radius:999px;text-decoration:none;color:#F39BC2;font-family:'Nunito',system-ui,sans-serif;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,.12);border:1px solid rgba(243,155,194,.2)">← Ados</a>
+
+<div class="wrap">
+
+<div class="hdr">
+<span class="brand">App émotions · EducaTypique</span>
+<h1>🎨 Mon vocabulaire émotionnel</h1>
+<p>Plus tu mets de mots précis sur ce que tu ressens, plus tu apprivoises tes émotions. 6 familles · 50+ nuances · ton journal perso.</p>
+</div>
+
+<div class="intro">
+<p>💡 <strong>Pourquoi cette app ?</strong> Quand tu dis « ça va pas », ton cerveau ne sait pas quoi faire. Quand tu dis « je me sens trahi » ou « je suis épuisé », ton cerveau peut agir. C'est ça, l'<strong>intelligence émotionnelle</strong>.</p>
+<p>👉 <strong>Comment ça marche :</strong> choisis une famille → explore les nuances → clique sur celle qui te parle → lis ce qu'elle veut dire → si tu veux, écris dans ton journal pour garder une trace.</p>
+</div>
+
+<div class="nav">
+<button class="active" data-tab="explorer" onclick="switchTab('explorer')">🎨 Explorer les émotions</button>
+<button data-tab="journal" onclick="switchTab('journal')">📔 Mon journal</button>
+</div>
+
+<div class="panel active" id="panel-explorer">
+<div class="section">
+<h2>🎨 Les 6 familles d'émotions</h2>
+<div class="sub">Clique sur une famille pour voir toutes ses nuances. Chaque famille a sa fonction utile — aucune émotion n'est « mauvaise ».</div>
+<div class="categories" id="categoriesGrid"></div>
+<div class="emotions-list" id="emotionsList" style="display:none"></div>
+<div class="emo-detail" id="emoDetail"></div>
+</div>
+</div>
+
+<div class="panel" id="panel-journal">
+<div class="section">
+<h2>📔 Mon journal d'émotions</h2>
+<div class="sub">Note une émotion forte que tu as ressentie. Pas besoin d'écrire un roman — quelques mots suffisent.</div>
+<div class="journal-form">
+<label>📅 Quand (optionnel)</label>
+<input type="text" id="j-quand" placeholder="Ex : ce matin · hier soir · vendredi en cours">
+<label>🎨 L'émotion (un mot précis)</label>
+<input type="text" id="j-emo" placeholder="Ex : trahi · frustré · soulagé · fier">
+<label>📊 Intensité (1 = léger · 10 = très fort)</label>
+<div class="intensity-slider">
+<input type="range" id="j-int" min="1" max="10" value="5" oninput="document.getElementById('j-int-val').textContent=this.value">
+<span class="intensity-val" id="j-int-val">5</span>
+</div>
+<label>💭 Le déclencheur (ce qui s'est passé)</label>
+<textarea id="j-decl" placeholder="Ex : Mon pote n'est pas venu au RDV, sans prévenir."></textarea>
+<label>🧭 Ce que ça m'a fait faire / penser</label>
+<textarea id="j-react" placeholder="Ex : J'ai eu envie de pas lui répondre pendant 2 jours."></textarea>
+<button class="btn" onclick="saveEntry()">💾 Ajouter au journal</button>
+<button class="btn btn-sec" onclick="clearForm()">🧹 Effacer</button>
+</div>
+<div class="entries" id="entriesList"></div>
+</div>
+</div>
+
+<div class="footer">
+« Mettre un mot précis sur ce qu'on ressent, c'est déjà commencer à le maîtriser. »
+<span class="brand-foot">App émotions ados · Création originale Nawel Haddouch · EducaTypique</span>
+<span style="font-size:11px;display:block;margin-top:4px;color:#8A9892">Mémoire locale · rien n'est envoyé en ligne</span>
+</div>
+
+</div>
+
+<script>
+var CATEGORIES = [
+  {id:'joie',nom:'Joie',emoji:'😊',cls:'cat-joie',fonction:"Signale que ce que tu vis nourrit ton bien-être. À savourer et à reproduire."},
+  {id:'tristesse',nom:'Tristesse',emoji:'😢',cls:'cat-tristesse',fonction:"Signale une perte ou un manque. Demande à être reconnue et accompagnée."},
+  {id:'colere',nom:'Colère',emoji:'😠',cls:'cat-colere',fonction:"Signale une limite franchie ou une injustice. Donne de l'énergie pour agir, pas pour détruire."},
+  {id:'peur',nom:'Peur',emoji:'😨',cls:'cat-peur',fonction:"Signale un danger réel ou imaginé. À écouter pour évaluer, pas pour fuir tout le temps."},
+  {id:'degout',nom:'Dégoût',emoji:'🤢',cls:'cat-degout',fonction:"Signale ce qui ne te respecte pas (valeurs, corps, relations). Protège ton intégrité."},
+  {id:'surprise',nom:'Surprise',emoji:'😮',cls:'cat-surprise',fonction:"Signale un imprévu. Demande au cerveau de s'adapter à du nouveau."}
+];
+
+var EMOTIONS = {
+  joie:[
+    {nom:'Content',int:'légère',sens:"Tout va bien là, maintenant.",besoin:"Le savourer pleinement.",ex:"Quand tu rentres chez toi après une bonne journée."},
+    {nom:'Heureux',int:'moyenne',sens:"Un bonheur qui dure un moment.",besoin:"Le partager avec quelqu'un.",ex:"Une fin de semaine où tout colle."},
+    {nom:'Fier',int:'moyenne',sens:"Tu as réussi quelque chose qui te paraissait dur.",besoin:"Le reconnaître pour toi-même.",ex:"Une note ou un défi que tu n'aurais pas cru possible."},
+    {nom:'Soulagé',int:'moyenne',sens:"Une menace s'éloigne, une tension tombe.",besoin:"Respirer, ne pas enchaîner trop vite.",ex:"Fin d'un examen redouté."},
+    {nom:'Touché',int:'profonde',sens:"Quelque chose t'a atteint au cœur.",besoin:"Le dire à la personne concernée si tu peux.",ex:"Un message bienveillant d'un proche."},
+    {nom:'Émerveillé',int:'profonde',sens:"Tu vois la beauté de quelque chose.",besoin:"Prendre 30 secondes pour t'arrêter.",ex:"Un coucher de soleil, une musique."},
+    {nom:'Euphorique',int:'intense',sens:"Joie débordante.",besoin:"L'ancrer avant qu'elle ne s'évapore.",ex:"Une victoire collective, une grande nouvelle."},
+    {nom:'Reconnaissant',int:'profonde',sens:"Tu réalises que tu as de la chance.",besoin:"Le dire ou l'écrire.",ex:"Penser à quelqu'un qui t'a aidé sans rien demander."}
+  ],
+  tristesse:[
+    {nom:'Nostalgique',int:'légère',sens:"Tu repenses à quelque chose qui n'est plus.",besoin:"Accepter que c'est passé, garder ce que ça t'a appris.",ex:"Revoir des photos d'avant."},
+    {nom:'Découragé',int:'moyenne',sens:"Tu n'y crois plus.",besoin:"Découper le but en plus petit, ou demander de l'aide.",ex:"Devoirs trop nombreux."},
+    {nom:'Mélancolique',int:'moyenne',sens:"Une tristesse douce, sans raison précise.",besoin:"Respecter ce moment, ne pas se forcer.",ex:"Un dimanche pluvieux."},
+    {nom:'Déçu',int:'moyenne',sens:"La réalité ne correspond pas à ce que tu espérais.",besoin:"Ajuster l'attente, pas s'en vouloir d'avoir espéré.",ex:"Un projet qui n'aboutit pas."},
+    {nom:'Abandonné',int:'profonde',sens:"Tu sens que personne n'est là pour toi.",besoin:"En parler à 1 personne de confiance.",ex:"Après un conflit, isolement long."},
+    {nom:'Vide',int:'profonde',sens:"Plus d'envie, plus de couleur.",besoin:"Ralentir, demander aide pro si ça dure 2 semaines+.",ex:"Après une perte importante."},
+    {nom:'Désespéré',int:'intense',sens:"Tu ne vois plus d'issue.",besoin:"Parler maintenant à un adulte de confiance ou au 3114 (24h/24, gratuit).",ex:"Quand l'horizon paraît bouché."},
+    {nom:'Touché injustement',int:'profonde',sens:"Tristesse + sentiment d'injustice.",besoin:"Reconnaître que c'est légitime, sans se figer dans la victime.",ex:"Une accusation fausse."}
+  ],
+  colere:[
+    {nom:'Agacé',int:'légère',sens:"Quelque chose te dérange, sans plus.",besoin:"Le nommer pour que ça n'enfle pas.",ex:"Quelqu'un parle fort dans le bus."},
+    {nom:'Irrité',int:'légère',sens:"Ton fil mental se tend.",besoin:"S'éloigner 2 min.",ex:"On t'interrompt sans cesse."},
+    {nom:'Frustré',int:'moyenne',sens:"Tu veux faire/avoir une chose et c'est bloqué.",besoin:"Comprendre ce qui bloque, demander un coup de main.",ex:"Tu n'y arrives pas à un exercice."},
+    {nom:'En colère',int:'moyenne',sens:"Une limite a été franchie.",besoin:"L'exprimer en mots, pas en gestes.",ex:"Quelqu'un fouille tes affaires."},
+    {nom:'Trahi',int:'profonde',sens:"Quelqu'un de proche a brisé ta confiance.",besoin:"Du temps avant de réagir. Ne pas couper trop vite.",ex:"Un secret raconté."},
+    {nom:'Indigné',int:'profonde',sens:"Tu vois une injustice claire.",besoin:"Canaliser l'énergie pour AGIR sans détruire.",ex:"Du harcèlement dont tu es témoin."},
+    {nom:'Furieux',int:'intense',sens:"Tu sens que tu vas exploser.",besoin:"STOP. Sortir, respirer, parler après.",ex:"Plusieurs frustrations cumulées."},
+    {nom:'Rancunier',int:'profonde',sens:"Une colère figée qui dure.",besoin:"Comprendre ce qui n'a pas été réparé.",ex:"Une dispute qui n'a jamais été reprise."}
+  ],
+  peur:[
+    {nom:'Inquiet',int:'légère',sens:"Une petite alerte dans ta tête.",besoin:"Vérifier si c'est réel ou pas.",ex:"Avant un contrôle."},
+    {nom:'Stressé',int:'moyenne',sens:"Trop de pression, pas assez de ressources.",besoin:"Décomposer en + petites tâches, dormir.",ex:"Période de bac/brevet."},
+    {nom:'Anxieux',int:'profonde',sens:"Peur diffuse, sans déclencheur clair.",besoin:"Respiration, écrire ce qui tourne en tête.",ex:"Anxiété du soir."},
+    {nom:'Apeuré',int:'moyenne',sens:"Tu as peur d'une chose précise.",besoin:"Évaluer le danger réel.",ex:"Peur du noir, d'un chien."},
+    {nom:'Paniqué',int:'intense',sens:"Le corps prend le dessus (souffle court, tremblements).",besoin:"Respirer 4-6 (inspire 4s, expire 6s) plusieurs fois.",ex:"Crise de panique."},
+    {nom:'Angoissé',int:'profonde',sens:"Boule au ventre, ça serre.",besoin:"Bouger, parler, ne pas rester seul.",ex:"Conflit non résolu."},
+    {nom:'Insécure',int:'moyenne',sens:"Tu ne te sens pas à ta place.",besoin:"Identifier 1 personne ressource ici.",ex:"Premier jour quelque part."},
+    {nom:'Méfiant',int:'moyenne',sens:"Tu sens qu'on te cache un truc.",besoin:"Vérifier sans accuser tout de suite.",ex:"Quelqu'un évite tes questions."}
+  ],
+  degout:[
+    {nom:'Gêné',int:'légère',sens:"Quelque chose te met mal à l'aise.",besoin:"Reconnaître ce que ta valeur dit.",ex:"Une blague déplacée."},
+    {nom:'Choqué',int:'moyenne',sens:"Tu n'en reviens pas qu'on puisse faire ça.",besoin:"Du temps pour digérer.",ex:"Tu vois quelqu'un humilié."},
+    {nom:'Dégoûté',int:'moyenne',sens:"Ça heurte ton corps ou tes valeurs.",besoin:"S'éloigner physiquement si tu peux.",ex:"Une odeur, un comportement violent."},
+    {nom:'Méprisant',int:'profonde',sens:"Tu trouves l'autre indigne.",besoin:"Attention : ça peut être un masque sur la peur.",ex:"Vis-à-vis de qqn qui ne te ressemble pas."},
+    {nom:'Honte',int:'profonde',sens:"Tu te sens jugé sur QUI tu es (pas sur ce que tu as fait).",besoin:"En parler à 1 personne sûre. La honte tombe quand on la dit.",ex:"Moqueries reçues."},
+    {nom:'Culpabilité',int:'moyenne',sens:"Tu te sens coupable de CE QUE tu as fait.",besoin:"Réparer si possible, sinon apprendre.",ex:"Tu as menti."},
+    {nom:'Écœuré',int:'profonde',sens:"Dégoût + tristesse mélangés.",besoin:"S'extraire de la situation.",ex:"Trop d'injustice dans la même semaine."}
+  ],
+  surprise:[
+    {nom:'Étonné',int:'légère',sens:"C'est différent de ce que tu pensais.",besoin:"Observer avant de juger.",ex:"Un prof réagit autrement."},
+    {nom:'Curieux',int:'moyenne',sens:"Ton cerveau a envie d'en savoir plus.",besoin:"Te donner l'autorisation d'explorer.",ex:"Un nouveau sujet en cours."},
+    {nom:'Ébahi',int:'moyenne',sens:"Tu n'en reviens pas (positif).",besoin:"Le savourer.",ex:"Une démo de magie réussie."},
+    {nom:'Confus',int:'moyenne',sens:"Tu ne comprends pas ce qui se passe.",besoin:"Poser une question simple.",ex:"Quelqu'un change de comportement sans explication."},
+    {nom:'Déstabilisé',int:'profonde',sens:"Ton équilibre intérieur est secoué.",besoin:"Revenir à un repère fixe (lieu sûr, personne ressource).",ex:"Annonce inattendue."},
+    {nom:'Bouleversé',int:'profonde',sens:"Quelque chose change tout à l'intérieur.",besoin:"Du temps, ne pas décider à chaud.",ex:"Une révélation familiale."}
+  ]
+};
+
+var STORAGE_KEY = 'educatypique_appemo_v1';
+
+function loadEntries(){ try{ var r = localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):[]; }catch(e){return [];} }
+function saveEntries(e){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(e)); }catch(e){} }
+
+function switchTab(tab){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  if(tab==='journal') renderEntries();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderCategories(){
+  document.getElementById('categoriesGrid').innerHTML = CATEGORIES.map(function(c){
+    return '<div class="cat-card '+c.cls+'" data-cat="'+c.id+'" onclick="openCat(\''+c.id+'\')">'+
+      '<span class="emoji">'+c.emoji+'</span>'+
+      '<div class="nom">'+c.nom+'</div>'+
+      '<span class="count">'+EMOTIONS[c.id].length+' nuances</span>'+
+    '</div>';
+  }).join('');
+}
+
+function openCat(id){
+  document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('active'));
+  document.querySelector('[data-cat="'+id+'"]').classList.add('active');
+  var c = CATEGORIES.find(function(x){return x.id===id;});
+  var list = document.getElementById('emotionsList');
+  list.style.display = 'grid';
+  list.innerHTML = '<div style="grid-column:1/-1;background:linear-gradient(135deg,#FFFBF6,#FFF6EE);padding:12px 16px;border-radius:12px;font-size:13.5px;color:#5A6B66;font-style:italic;border-left:4px solid #F39BC2"><strong style="color:#D98C8C;font-style:normal">🧭 Fonction de cette émotion : </strong>'+c.fonction+'</div>';
+  list.innerHTML += EMOTIONS[id].map(function(e,i){
+    return '<div class="emo-pill" onclick="openEmo(\''+id+'\','+i+')">'+e.nom+'<span class="intensity">'+e.int+'</span></div>';
+  }).join('');
+  document.getElementById('emoDetail').classList.remove('show');
+  setTimeout(function(){ list.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 80);
+}
+
+function openEmo(catId, idx){
+  var c = CATEGORIES.find(function(x){return x.id===catId;});
+  var e = EMOTIONS[catId][idx];
+  var d = document.getElementById('emoDetail');
+  d.innerHTML = '<h3>'+c.emoji+' '+e.nom+' <span class="emo-cat">'+c.nom+' · '+e.int+'</span></h3>'+
+    '<div class="emo-block"><strong>🎯 Ce que ça veut dire</strong><p>'+e.sens+'</p></div>'+
+    '<div class="emo-block"><strong>💡 Ce dont ça a besoin</strong><p>'+e.besoin+'</p></div>'+
+    '<div class="emo-block"><strong>📚 Exemple</strong><p>'+e.ex+'</p></div>'+
+    '<button class="btn" onclick="addToJournal(\''+e.nom+'\')">📔 L\'ajouter à mon journal</button>';
+  d.classList.add('show');
+  setTimeout(function(){ d.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 80);
+}
+
+function addToJournal(nom){
+  document.getElementById('j-emo').value = nom;
+  switchTab('journal');
+}
+
+function saveEntry(){
+  var quand = document.getElementById('j-quand').value.trim();
+  var emo = document.getElementById('j-emo').value.trim();
+  var int = document.getElementById('j-int').value;
+  var decl = document.getElementById('j-decl').value.trim();
+  var react = document.getElementById('j-react').value.trim();
+  if(!emo && !decl){ alert('Note au moins une émotion ou un déclencheur.'); return; }
+  var entries = loadEntries();
+  entries.unshift({
+    ts: Date.now(),
+    date: new Date().toLocaleDateString('fr-FR'),
+    quand: quand, emo: emo, int: int, decl: decl, react: react
+  });
+  saveEntries(entries);
+  clearForm();
+  renderEntries();
+  alert('✓ Ajouté à ton journal.');
+}
+
+function clearForm(){
+  document.getElementById('j-quand').value = '';
+  document.getElementById('j-emo').value = '';
+  document.getElementById('j-decl').value = '';
+  document.getElementById('j-react').value = '';
+  document.getElementById('j-int').value = 5;
+  document.getElementById('j-int-val').textContent = 5;
+}
+
+function renderEntries(){
+  var entries = loadEntries();
+  var c = document.getElementById('entriesList');
+  if(entries.length === 0){
+    c.innerHTML = '<p style="text-align:center;color:#7A8782;font-style:italic;padding:24px">Aucune entrée pour le moment. Note ta première émotion ci-dessus.</p>';
+    return;
+  }
+  c.innerHTML = '<h3 style="font-family:Georgia,serif;font-size:16px;color:#2D3E3A;margin:20px 0 10px">📚 Mes émotions notées ('+entries.length+')</h3>' +
+    entries.map(function(e,i){
+      return '<div class="entry"><button class="entry-del" onclick="delEntry('+i+')">🗑</button>'+
+        '<div class="e-date">'+e.date+(e.quand?' · '+e.quand:'')+(e.int?' · intensité '+e.int+'/10':'')+'</div>'+
+        '<div class="e-emo">'+(e.emo||'(sans émotion nommée)')+'</div>'+
+        (e.decl?'<div class="e-note"><strong>Déclencheur :</strong> '+e.decl+'</div>':'')+
+        (e.react?'<div class="e-note"><strong>Réaction :</strong> '+e.react+'</div>':'')+
+      '</div>';
+    }).join('');
+}
+
+function delEntry(i){
+  if(!confirm('Supprimer cette entrée ?')) return;
+  var entries = loadEntries();
+  entries.splice(i,1);
+  saveEntries(entries);
+  renderEntries();
+}
+
+renderCategories();
+</script>
+</body>
+</html>
