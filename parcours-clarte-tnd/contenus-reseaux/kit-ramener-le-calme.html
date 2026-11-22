@@ -599,6 +599,85 @@ section { margin-bottom: 96px; }
   margin: 24px 0;
   border: 0;
 }
+
+/* ── Plaques dessinées (remplacent les visuels absents) ───────────────── */
+.plq {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6% 6.4%;
+  background: var(--plq-wash);
+  border: 1px solid rgba(42,36,56,.10);
+  overflow: hidden;
+  container-type: inline-size;
+}
+.plq::before {
+  content: "";
+  position: absolute; inset: 3.2% 3.4%;
+  border: 1px solid var(--plq-accent);
+  opacity: .28;
+  pointer-events: none;
+}
+.plq--carre { aspect-ratio: 1 / 1; }
+.plq--vertical { aspect-ratio: 9 / 16; }
+.plq-sur {
+  font-family: var(--mono);
+  font-size: 5.9cqw;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--plq-accent);
+  line-height: 1.3;
+}
+.plq--vertical .plq-sur { font-size: 4.6cqw; }
+.plq-corps { display: flex; flex-direction: column; gap: .5em; }
+.plq-phrase {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 10.8cqw;
+  line-height: 1.14;
+  letter-spacing: -.015em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.plq--vertical .plq-phrase { font-size: 9.2cqw; }
+.plq-appui {
+  font-family: var(--body);
+  font-size: 5.3cqw;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+.plq--vertical .plq-appui { font-size: 4.4cqw; }
+.plq-pied {
+  display: flex; align-items: center; gap: .6em;
+  font-family: var(--mono);
+  font-size: 5.3cqw;
+  letter-spacing: .12em;
+  color: var(--ink-faint);
+}
+.plq--vertical .plq-pied { font-size: 4cqw; }
+.plq-pied::before {
+  content: ""; flex: 0 0 18%; height: 1px; background: var(--plq-accent); opacity: .5;
+}
+.plq-sticker {
+  align-self: flex-start;
+  border: 1.5px dashed var(--plq-accent);
+  border-radius: 999px;
+  padding: .5em 1.1em;
+  font-family: var(--body);
+  font-size: 4.2cqw;
+  color: var(--plq-accent);
+  background: rgba(255,255,255,.55);
+}
+.plq-note {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: 6px;
+}
+@media print { .plq { break-inside: avoid; } }
 </style>
 </head>
 <body>
@@ -637,43 +716,43 @@ section { margin-bottom: 96px; }
   <div class="carousel-grid">
 
     <div class="plate">
-      <div class="plate-img"><img src="carrousel_neuroo_01.png" alt="Plaque I — observation initiale"></div>
+      <div class="plate-img"><div class="plq plq--carre" style="--plq-accent:var(--rose-deep);--plq-wash:linear-gradient(160deg,#fdf3f5,#f7e6ea)" role="img" aria-label="Plaque I — Il a hurlé au supermarché. Tu as cru qu&#x27;il te testait."><span class="plq-sur">Plaque I</span><div class="plq-corps"><p class="plq-phrase">Il a hurlé au supermarché.<br>Tu as cru qu'il te testait.</p></div><span class="plq-pied">01 / 07</span></div></div>
       <div class="plate-marker">Pl. I · 01 / 07</div>
       <div class="plate-caption">Hook — « Il a hurlé au supermarché. Tu as cru qu'il te testait. »</div>
     </div>
 
     <div class="plate">
-      <div class="plate-img"><img src="carrousel_neuroo_02.png" alt="Plaque II — l'effort qui ne se voit pas"></div>
+      <div class="plate-img"><div class="plq plq--carre" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="Erreur I — « Fais un effort. »"><span class="plq-sur">Erreur I</span><div class="plq-corps"><p class="plq-phrase">« Fais un effort. »</p><p class="plq-appui">Un marathon n'est pas une promenade.</p></div><span class="plq-pied">02 / 07</span></div></div>
       <div class="plate-marker">Pl. II · 02 / 07</div>
       <div class="plate-caption">Erreur 1 — « Fais un effort. » Marathon vs promenade.</div>
     </div>
 
     <div class="plate">
-      <div class="plate-img"><img src="carrousel_neuroo_03.png" alt="Plaque III — deux systèmes, deux rythmes"></div>
+      <div class="plate-img"><div class="plq plq--carre" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="Erreur II — « Regarde ta sœur. »"><span class="plq-sur">Erreur II</span><div class="plq-corps"><p class="plq-phrase">« Regarde ta sœur. »</p><p class="plq-appui">Deux constellations distinctes.</p></div><span class="plq-pied">03 / 07</span></div></div>
       <div class="plate-marker">Pl. III · 03 / 07</div>
       <div class="plate-caption">Erreur 2 — « Regarde ta sœur. » Deux constellations distinctes.</div>
     </div>
 
     <div class="plate">
-      <div class="plate-img"><img src="carrousel_neuroo_04.png" alt="Plaque IV — point de saturation"></div>
+      <div class="plate-img"><div class="plq plq--carre" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="Erreur III — Quatre ordres en trois secondes."><span class="plq-sur">Erreur III</span><div class="plq-corps"><p class="plq-phrase">Quatre ordres<br>en trois secondes.</p><p class="plq-appui">Une seule consigne à la fois.</p></div><span class="plq-pied">04 / 07</span></div></div>
       <div class="plate-marker">Pl. IV · 04 / 07</div>
       <div class="plate-caption">Erreur 3 — Quatre ordres en trois secondes.</div>
     </div>
 
     <div class="plate">
-      <div class="plate-img"><img src="carrousel_neuroo_05.png" alt="Plaque V — court-circuit sensoriel"></div>
+      <div class="plate-img"><div class="plq plq--carre" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="Erreur IV — Ce n&#x27;est pas un caprice."><span class="plq-sur">Erreur IV</span><div class="plq-corps"><p class="plq-phrase">Ce n'est pas un caprice.</p><p class="plq-appui">C'est un court-circuit sensoriel.</p></div><span class="plq-pied">05 / 07</span></div></div>
       <div class="plate-marker">Pl. V · 05 / 07</div>
       <div class="plate-caption">Erreur 4 — Ce n'est pas un caprice. C'est un court-circuit sensoriel.</div>
     </div>
 
     <div class="plate">
-      <div class="plate-img"><img src="carrousel_neuroo_06.png" alt="Plaque VI — vases communicants"></div>
+      <div class="plate-img"><div class="plq plq--carre" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="Erreur V — T&#x27;oublier."><span class="plq-sur">Erreur V</span><div class="plq-corps"><p class="plq-phrase">T'oublier.</p><p class="plq-appui">Un parent vidé ne peut pas remplir.</p></div><span class="plq-pied">06 / 07</span></div></div>
       <div class="plate-marker">Pl. VI · 06 / 07</div>
       <div class="plate-caption">Erreur 5 — T'oublier. Un parent vidé ne peut pas remplir.</div>
     </div>
 
     <div class="plate">
-      <div class="plate-img"><img src="carrousel_neuroo_07.png" alt="Plaque VII — trajectoire de clarté"></div>
+      <div class="plate-img"><div class="plq plq--carre" style="--plq-accent:var(--menthe-deep);--plq-wash:linear-gradient(160deg,#eef8f4,#dcefe7)" role="img" aria-label="Pour aller plus loin — Parcours Clarté TND"><span class="plq-sur">Pour aller plus loin</span><div class="plq-corps"><p class="plq-phrase">Parcours Clarté TND</p><p class="plq-appui">Lien en bio.</p></div><span class="plq-pied">07 / 07</span></div></div>
       <div class="plate-marker">Pl. VII · 07 / 07</div>
       <div class="plate-caption">CTA — Parcours Clarté TND. Lien en bio.</div>
     </div>
@@ -694,7 +773,7 @@ section { margin-bottom: 96px; }
   <div class="stories-strip">
 
     <div class="story">
-      <div class="story-img"><img src="story_neuroo_01_hook.png" alt="Story 1 — le constat"></div>
+      <div class="story-img"><div class="plq plq--vertical" style="--plq-accent:var(--rose-deep);--plq-wash:linear-gradient(160deg,#fdf3f5,#f7e6ea)" role="img" aria-label="Story 01 — « Calme-toi » ne marche pas."><span class="plq-sur">Story 01</span><div class="plq-corps"><p class="plq-phrase">« Calme-toi »<br>ne marche pas.</p></div><span class="plq-pied">Le constat</span></div></div>
       <div class="story-meta">
         <span class="story-num">01 / 05</span>
         <span class="story-tag">Le constat</span>
@@ -705,7 +784,7 @@ section { margin-bottom: 96px; }
     </div>
 
     <div class="story">
-      <div class="story-img"><img src="story_neuroo_02_sondage.png" alt="Story 2 — le sondage"></div>
+      <div class="story-img"><div class="plq plq--vertical" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="Story 02 — Tu fais quoi, toi ?"><span class="plq-sur">Story 02</span><div class="plq-corps"><p class="plq-phrase">Tu fais quoi,<br>toi ?</p><span class="plq-sticker">Hausser la voix / Baisser la voix</span></div><span class="plq-pied">Le sondage</span></div></div>
       <div class="story-meta">
         <span class="story-num">02 / 05</span>
         <span class="story-tag">Le sondage</span>
@@ -716,7 +795,7 @@ section { margin-bottom: 96px; }
     </div>
 
     <div class="story">
-      <div class="story-img"><img src="story_neuroo_03_geste.png" alt="Story 3 — les 3 gestes"></div>
+      <div class="story-img"><div class="plq plq--vertical" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="Story 03 — Tu t&#x27;accroupis. Tu te tais. Tu respires."><span class="plq-sur">Story 03</span><div class="plq-corps"><p class="plq-phrase">Tu t'accroupis.<br>Tu te tais.<br>Tu respires.</p></div><span class="plq-pied">Les 3 gestes</span></div></div>
       <div class="story-meta">
         <span class="story-num">03 / 05</span>
         <span class="story-tag">Les 3 gestes</span>
@@ -727,7 +806,7 @@ section { margin-bottom: 96px; }
     </div>
 
     <div class="story">
-      <div class="story-img"><img src="story_neuroo_04_dm.png" alt="Story 4 — l'écoute"></div>
+      <div class="story-img"><div class="plq plq--vertical" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="Story 04 — Raconte-moi."><span class="plq-sur">Story 04</span><div class="plq-corps"><p class="plq-phrase">Raconte-moi.</p><span class="plq-sticker">Envoyer un message</span></div><span class="plq-pied">L'écoute</span></div></div>
       <div class="story-meta">
         <span class="story-num">04 / 05</span>
         <span class="story-tag">L'écoute</span>
@@ -738,7 +817,7 @@ section { margin-bottom: 96px; }
     </div>
 
     <div class="story">
-      <div class="story-img"><img src="story_neuroo_05_teaser.png" alt="Story 5 — le teaser"></div>
+      <div class="story-img"><div class="plq plq--vertical" style="--plq-accent:var(--menthe-deep);--plq-wash:linear-gradient(160deg,#eef8f4,#dcefe7)" role="img" aria-label="Story 05 — Mercredi."><span class="plq-sur">Story 05</span><div class="plq-corps"><p class="plq-phrase">Mercredi.</p><span class="plq-sticker">Rappel · les 3 phrases</span></div><span class="plq-pied">Le teaser</span></div></div>
       <div class="story-meta">
         <span class="story-num">05 / 05</span>
         <span class="story-tag">Le teaser</span>
@@ -930,32 +1009,32 @@ section { margin-bottom: 96px; }
   <div class="storyboard-grid">
 
     <div class="shot">
-      <div class="shot-img"><img src="reel_storyboard_01_hook.png" alt="Cadre I — Hook"></div>
+      <div class="shot-img"><div class="plq plq--vertical" style="--plq-accent:var(--rose-deep);--plq-wash:linear-gradient(160deg,#fdf3f5,#f7e6ea)" role="img" aria-label="0 – 3 s · Hook — « Pendant qu&#x27;il hurle, tu lui dis : calme-toi. »"><span class="plq-sur">0 – 3 s · Hook</span><div class="plq-corps"><p class="plq-phrase">« Pendant qu'il hurle,<br>tu lui dis : calme-toi. »</p><p class="plq-appui">Mains à plat sur la table. Son coupé.</p></div><span class="plq-pied">Cadre I</span></div></div>
       <div class="shot-meta"><span class="shot-time">0–3 s</span><span class="shot-tag">Hook</span></div>
     </div>
 
     <div class="shot">
-      <div class="shot-img"><img src="reel_storyboard_02_promesse.png" alt="Cadre II — Promesse"></div>
+      <div class="shot-img"><div class="plq plq--vertical" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="3 – 10 s · Promesse — Trois gestes qui apaisent vraiment."><span class="plq-sur">3 – 10 s · Promesse</span><div class="plq-corps"><p class="plq-phrase">Trois gestes<br>qui apaisent vraiment.</p><p class="plq-appui">Carnet ouvert, « 3 gestes » au crayon.</p></div><span class="plq-pied">Cadre II</span></div></div>
       <div class="shot-meta"><span class="shot-time">3–10 s</span><span class="shot-tag">Promesse</span></div>
     </div>
 
     <div class="shot">
-      <div class="shot-img"><img src="reel_storyboard_03_geste1.png" alt="Cadre III — Geste I"></div>
+      <div class="shot-img"><div class="plq plq--vertical" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="10 – 15 s · Geste I — I. Tu t&#x27;accroupis."><span class="plq-sur">10 – 15 s · Geste I</span><div class="plq-corps"><p class="plq-phrase">I. Tu t'accroupis.</p><p class="plq-appui">La caméra descend à hauteur d'enfant.</p></div><span class="plq-pied">Cadre III</span></div></div>
       <div class="shot-meta"><span class="shot-time">10–15 s</span><span class="shot-tag">Tu t'accroupis</span></div>
     </div>
 
     <div class="shot">
-      <div class="shot-img"><img src="reel_storyboard_04_geste2.png" alt="Cadre IV — Geste II"></div>
+      <div class="shot-img"><div class="plq plq--vertical" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="15 – 20 s · Geste II — II. Tu te tais."><span class="plq-sur">15 – 20 s · Geste II</span><div class="plq-corps"><p class="plq-phrase">II. Tu te tais.</p><p class="plq-appui">Macro : trois points au crayon.</p></div><span class="plq-pied">Cadre IV</span></div></div>
       <div class="shot-meta"><span class="shot-time">15–20 s</span><span class="shot-tag">Tu te tais</span></div>
     </div>
 
     <div class="shot">
-      <div class="shot-img"><img src="reel_storyboard_05_geste3.png" alt="Cadre V — Geste III"></div>
+      <div class="shot-img"><div class="plq plq--vertical" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="20 – 25 s · Geste III — III. Tu respires lentement."><span class="plq-sur">20 – 25 s · Geste III</span><div class="plq-corps"><p class="plq-phrase">III. Tu respires<br>lentement.</p><p class="plq-appui">Vapeur au ralenti : 4 s / 6 s.</p></div><span class="plq-pied">Cadre V</span></div></div>
       <div class="shot-meta"><span class="shot-time">20–25 s</span><span class="shot-tag">Tu respires</span></div>
     </div>
 
     <div class="shot">
-      <div class="shot-img"><img src="reel_storyboard_06_cta.png" alt="Cadre VI — CTA"></div>
+      <div class="shot-img"><div class="plq plq--vertical" style="--plq-accent:var(--menthe-deep);--plq-wash:linear-gradient(160deg,#eef8f4,#dcefe7)" role="img" aria-label="25 – 30 s · CTA — Enregistre ce Reel. Pour la prochaine crise."><span class="plq-sur">25 – 30 s · CTA</span><div class="plq-corps"><p class="plq-phrase">Enregistre ce Reel.<br>Pour la prochaine crise.</p><p class="plq-appui">@neuroo · mercredi 🔔</p></div><span class="plq-pied">Cadre VI</span></div></div>
       <div class="shot-meta"><span class="shot-time">25–30 s</span><span class="shot-tag">CTA</span></div>
     </div>
 
@@ -1103,31 +1182,31 @@ Mercredi, je publie la suite — les 3 phrases qui apaisent vraiment, à dire à
   <div class="carousel-grid">
 
     <div class="plate">
-      <div class="plate-img"><img src="carrousel_3phrases_01.png" alt="Plaque I — la phrase qui n'aide pas"></div>
+      <div class="plate-img"><div class="plq plq--carre" style="--plq-accent:var(--rose-deep);--plq-wash:linear-gradient(160deg,#fdf3f5,#f7e6ea)" role="img" aria-label="Plaque I — « Calme-toi »"><span class="plq-sur">Plaque I</span><div class="plq-corps"><p class="plq-phrase">« Calme-toi »</p><p class="plq-appui">retiré du vocabulaire.</p></div><span class="plq-pied">01 / 05</span></div></div>
       <div class="plate-marker">Pl. I · 01 / 05</div>
       <div class="plate-caption">Hook — « calme-toi » retiré du vocabulaire.</div>
     </div>
 
     <div class="plate">
-      <div class="plate-img"><img src="carrousel_3phrases_02.png" alt="Plaque II — la validation"></div>
+      <div class="plate-img"><div class="plq plq--carre" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="Phrase I — « Je vois que c&#x27;est dur. »"><span class="plq-sur">Phrase I</span><div class="plq-corps"><p class="plq-phrase">« Je vois que c'est dur. »</p><p class="plq-appui">La validation.</p></div><span class="plq-pied">02 / 05</span></div></div>
       <div class="plate-marker">Pl. II · 02 / 05</div>
       <div class="plate-caption">Phrase I — « Je vois que c'est dur. » <em>La validation.</em></div>
     </div>
 
     <div class="plate">
-      <div class="plate-img"><img src="carrousel_3phrases_03.png" alt="Plaque III — la présence"></div>
+      <div class="plate-img"><div class="plq plq--carre" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="Phrase II — « Je reste avec toi. »"><span class="plq-sur">Phrase II</span><div class="plq-corps"><p class="plq-phrase">« Je reste avec toi. »</p><p class="plq-appui">La présence.</p></div><span class="plq-pied">03 / 05</span></div></div>
       <div class="plate-marker">Pl. III · 03 / 05</div>
       <div class="plate-caption">Phrase II — « Je reste avec toi. » <em>La présence.</em></div>
     </div>
 
     <div class="plate">
-      <div class="plate-img"><img src="carrousel_3phrases_04.png" alt="Plaque IV — la co-régulation"></div>
+      <div class="plate-img"><div class="plq plq--carre" style="--plq-accent:var(--lav-deep);--plq-wash:linear-gradient(160deg,#f6f2fc,#e9e1f7)" role="img" aria-label="Phrase III — « On respire ensemble. »"><span class="plq-sur">Phrase III</span><div class="plq-corps"><p class="plq-phrase">« On respire ensemble. »</p><p class="plq-appui">La co-régulation.</p></div><span class="plq-pied">04 / 05</span></div></div>
       <div class="plate-marker">Pl. IV · 04 / 05</div>
       <div class="plate-caption">Phrase III — « On respire ensemble. » <em>La co-régulation.</em></div>
     </div>
 
     <div class="plate">
-      <div class="plate-img"><img src="carrousel_3phrases_05.png" alt="Plaque V — récapitulatif"></div>
+      <div class="plate-img"><div class="plq plq--carre" style="--plq-accent:var(--menthe-deep);--plq-wash:linear-gradient(160deg,#eef8f4,#dcefe7)" role="img" aria-label="Récapitulatif — Nommer · Rester · Respirer"><span class="plq-sur">Récapitulatif</span><div class="plq-corps"><p class="plq-phrase">Nommer · Rester · Respirer</p><p class="plq-appui">Parcours Clarté TND</p></div><span class="plq-pied">05 / 05</span></div></div>
       <div class="plate-marker">Pl. V · 05 / 05</div>
       <div class="plate-caption">Récap + CTA Parcours Clarté.</div>
     </div>
